@@ -43,7 +43,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 		/// <param name="who">The current player.</param>
 		public void SpreadResourceToolEffect(Tool tool, Vector2 origin, int[] radii, GameLocation location, Farmer who)
 		{
-			int radius = radii[who.toolPower - 1];
+			int radius = radii[Math.Min(who.toolPower - 1, 4)];
 
 			DelayedAction shockwave = new DelayedAction(220, () =>
 			{

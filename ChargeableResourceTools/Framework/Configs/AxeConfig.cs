@@ -7,7 +7,7 @@
 		public bool EnableAxeCharging { get; set; } = true;
 
 		/// <summary>The radius of affected tiles at each upgrade level.</summary>
-		public int[] RadiusAtEachLevel { get; set; } = new int[] { 1, 2, 3, 4 };
+		public int[] RadiusAtEachLevel { get; set; } = new int[] { 1, 2, 3, 4, 5 };
 
 		/// <summary>Whether to clear fruit tree seeds.</summary>
 		public bool ClearFruitTreeSeeds { get; set; } = false;

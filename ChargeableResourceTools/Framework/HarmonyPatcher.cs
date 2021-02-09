@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -123,7 +124,7 @@ namespace TheLion.AwesomeTools.Framework
 				{
 					__result.Clear();
 
-					int radius = __instance is Axe ? _axeAffectedTilesRadii[power - 2] : _pickaxeAffectedTilesRadii[power - 2];
+					int radius = __instance is Axe ? _axeAffectedTilesRadii[Math.Min(power - 2, 4)] : _pickaxeAffectedTilesRadii[Math.Min(power - 2, 4)];
 					if (radius == 0)
 						return;
 
@@ -137,7 +138,7 @@ namespace TheLion.AwesomeTools.Framework
 
 		//// Hide affected tiles overlay of Axe and Pickaxe
 		//[HarmonyPatch(typeof(Tool), "draw")]
-		//internal class Before_Tool_Draw_HideTileOverlayPatch
+		//internal class Before_Tool_Draw
 		//{
 		//	protected static bool Prefix(ref Tool __instance)
 		//	{

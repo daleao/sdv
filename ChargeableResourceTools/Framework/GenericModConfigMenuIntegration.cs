@@ -94,6 +94,14 @@ namespace TheLion.AwesomeTools.Framework
 					min: 0,
 					max: 10
 				)
+				.AddNumberField(
+					label: "Level-5 Radius",
+					description: "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
+					get: config => config.AxeConfig.RadiusAtEachLevel[3],
+					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[3] = (int)value,
+					min: 0,
+					max: 10
+				)
 				.AddCheckbox(
 					label: "Clear Fruit Tree Seeds",
 					description: "Whether to clear fruit tree seeds.",
@@ -204,6 +212,14 @@ namespace TheLion.AwesomeTools.Framework
 					description: "The radius of affected tiles for the Iridium Pickaxe.",
 					get: config => config.PickaxeConfig.RadiusAtEachLevel[3],
 					set: (config, value) => config.PickaxeConfig.RadiusAtEachLevel[3] = (int)value,
+					min: 0,
+					max: 10
+				)
+				.AddNumberField(
+					label: "Level-5 Radius",
+					description: "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
+					get: config => config.AxeConfig.RadiusAtEachLevel[3],
+					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[3] = (int)value,
 					min: 0,
 					max: 10
 				)
