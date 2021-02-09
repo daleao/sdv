@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace AwesomeTools.Framework
+namespace TheLion.Common.Extensions
 {
 	public static class Extensions
 	{
