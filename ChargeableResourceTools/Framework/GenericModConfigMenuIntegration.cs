@@ -1,0 +1,287 @@
+﻿using System;
+using System.Linq;
+
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+
+using TheLion.Common.Integrations.GenericModConfigMenu;
+
+namespace TheLion.AwesomeTools.Framework
+{
+	internal class GenericModConfigMenuIntegrationForAwesomeTools
+	{
+		/// <summary>The Generic Mod Config Menu integration.</summary>
+		private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;
+
+		/// <summary>API for fetching metadata about loaded mods.</summary>
+		private readonly IModRegistry _modRegistry;
+
+		/// <summary>Construct an instance.</summary>
+		/// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
+		/// <param name="monitor">Encapsulates monitoring and logging.</param>
+		/// <param name="manifest">The mod manifest.</param>
+		/// <param name="getConfig">Get the current config model.</param>
+		/// <param name="reset">Reset the config model to the default values.</param>
+		/// <param name="saveAndApply">Save and apply the current config model.</param>
+		public GenericModConfigMenuIntegrationForAwesomeTools(IModRegistry modRegistry, IMonitor monitor, IManifest manifest, Func<ModConfig> getConfig, Action reset, Action saveAndApply)
+		{
+			_modRegistry = modRegistry;
+			_configMenu = new GenericModConfigMenuIntegration<ModConfig>(modRegistry, monitor, manifest, getConfig, reset, saveAndApply);
+		}
+
+		/// <summary>Register the config menu if available.</summary>
+		public void Register()
+		{
+			// get config menu
+			var menu = _configMenu;
+			if (!menu.IsLoaded)
+				return;
+
+			// register
+			menu
+				.RegisterConfig()
+
+				// keybinds
+				.AddLabel("Controls")
+				.AddCheckbox(
+					label: "Require Hotkey",
+					description: "Whether to require an additional hotkey to start charging.",
+					get: config => config.RequireHotkey,
+					set: (config, value) => config.RequireHotkey = value
+				)
+				.AddKeyBinding(
+					label: "Charging Hotkey",
+					description: "If 'RequireHotkey' is enabled, press this hotkey to allow charging.",
+					get: config => GetSingleButton(config.Hotkey),
+					set: (config, value) => config.Hotkey = KeybindList.ForSingle(value)
+				)
+
+				// axe options
+				.AddLabel("Axe Options")
+				.AddCheckbox(
+					label: "Enable Axe Charging",
+					description: "Enables charging the Axe.",
+					get: config => config.AxeConfig.EnableAxeCharging,
+					set: (config, value) => config.AxeConfig.EnableAxeCharging = value
+				)
+				.AddNumberField(
+					label: "Copper Radius",
+					description: "The radius of affected tiles for the Copper Axe.",
+					get: config => config.AxeConfig.RadiusAtEachLevel[0],
+					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[0] = (int)value,
+					min: 0,
+					max: 10
+				)
+				.AddNumberField(
+					label: "Steel Radius",
+					description: "The radius of affected tiles for the Steel Axe.",
+					get: config => config.AxeConfig.RadiusAtEachLevel[1],
+					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[1] = (int)value,
+					min: 0,
+					max: 10
+				)
+				.AddNumberField(
+					label: "Gold Radius",
+					description: "The radius of affected tiles for the Gold Axe.",
+					get: config => config.AxeConfig.RadiusAtEachLevel[2],
+					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[2] = (int)value,
+					min: 0,
+					max: 10
+				)
+				.AddNumberField(
+					label: "Iridium Radius",
+					description: "The radius of affected tiles for the Iridium Axe.",
+					get: config => config.AxeConfig.RadiusAtEachLevel[3],
+					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[3] = (int)value,
+					min: 0,
+					max: 10
+				)
+				.AddCheckbox(
+					label: "Clear Fruit Tree Seeds",
+					description: "Whether to clear fruit tree seeds.",
+					get: config => config.AxeConfig.ClearFruitTreeSeeds,
+					set: (config, value) => config.AxeConfig.ClearFruitTreeSeeds = value
+				)
+				.AddCheckbox(
+					label: "Clear Fruit Tree Saplings",
+					description: "Whether to clear fruit trees that aren't fully grown.",
+					get: config => config.AxeConfig.ClearFruitTreeSaplings,
+					set: (config, value) => config.AxeConfig.ClearFruitTreeSaplings = value
+				)
+				.AddCheckbox(
+					label: "Cut Grown Fruit Trees",
+					description: "Whether to cut down fully-grown fruit trees.",
+					get: config => config.AxeConfig.CutGrownFruitTrees,
+					set: (config, value) => config.AxeConfig.CutGrownFruitTrees = value
+				)
+				.AddCheckbox(
+					label: "Clear Tree Seeds",
+					description: "Whether to clear non-fruit tree seeds.",
+					get: config => config.AxeConfig.ClearTreeSeeds,
+					set: (config, value) => config.AxeConfig.ClearTreeSeeds = value
+				)
+				.AddCheckbox(
+					label: "Clear Tree Saplings",
+					description: "Whether to clear non-fruit trees that aren't fully grown.",
+					get: config => config.AxeConfig.ClearTreeSaplings,
+					set: (config, value) => config.AxeConfig.ClearTreeSaplings = value
+				)
+				.AddCheckbox(
+					label: "Cut Grown Fruit Trees",
+					description: "Whether to cut down fully-grown non-fruit trees.",
+					get: config => config.AxeConfig.CutGrownTrees,
+					set: (config, value) => config.AxeConfig.CutGrownTrees = value
+				)
+				.AddCheckbox(
+					label: "Cut Tapped Trees",
+					description: "Whether to cut down non-fruit trees that have a tapper.",
+					get: config => config.AxeConfig.CutTappedTrees,
+					set: (config, value) => config.AxeConfig.CutTappedTrees = value
+				)
+				.AddCheckbox(
+					label: "Cut Giant Crops",
+					description: "Whether to harvest giant crops.",
+					get: config => config.AxeConfig.CutGiantCrops,
+					set: (config, value) => config.AxeConfig.CutGiantCrops = value
+				)
+				.AddCheckbox(
+					label: "Clear Bushes",
+					description: "Whether to clear bushes.",
+					get: config => config.AxeConfig.ClearBushes,
+					set: (config, value) => config.AxeConfig.ClearBushes = value
+				)
+				.AddCheckbox(
+					label: "Clear Live Crops",
+					description: "Whether to clear live crops.",
+					get: config => config.AxeConfig.ClearLiveCrops,
+					set: (config, value) => config.AxeConfig.ClearLiveCrops = value
+				)
+				.AddCheckbox(
+					label: "Clear Dead Crops",
+					description: "Whether to clear dead crops.",
+					get: config => config.AxeConfig.ClearDeadCrops,
+					set: (config, value) => config.AxeConfig.ClearDeadCrops = value
+				)
+				.AddCheckbox(
+					label: "Clear Debris",
+					description: "Whether to clear debris like twigs, giant stumps, fallen logs and weeds.",
+					get: config => config.AxeConfig.ClearDebris,
+					set: (config, value) => config.AxeConfig.ClearDebris = value
+				)
+
+				// pickaxe options
+				.AddLabel("Pickaxe Options")
+				.AddCheckbox(
+					label: "Enable Pickaxe Charging",
+					description: "Enables charging the Pickxe.",
+					get: config => config.PickaxeConfig.EnablePickaxeCharging,
+					set: (config, value) => config.PickaxeConfig.EnablePickaxeCharging = value
+				)
+				.AddNumberField(
+					label: "Copper Radius",
+					description: "The radius of affected tiles for the Copper Pickaxe.",
+					get: config => config.PickaxeConfig.RadiusAtEachLevel[0],
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachLevel[0] = (int)value,
+					min: 0,
+					max: 10
+				)
+				.AddNumberField(
+					label: "Steel Radius",
+					description: "The radius of affected tiles for the Steel Pickaxe.",
+					get: config => config.PickaxeConfig.RadiusAtEachLevel[1],
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachLevel[1] = (int)value,
+					min: 0,
+					max: 10
+				)
+				.AddNumberField(
+					label: "Gold Radius",
+					description: "The radius of affected tiles for the Gold Pickaxe.",
+					get: config => config.PickaxeConfig.RadiusAtEachLevel[2],
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachLevel[2] = (int)value,
+					min: 0,
+					max: 10
+				)
+				.AddNumberField(
+					label: "Iridium Radius",
+					description: "The radius of affected tiles for the Iridium Pickaxe.",
+					get: config => config.PickaxeConfig.RadiusAtEachLevel[3],
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachLevel[3] = (int)value,
+					min: 0,
+					max: 10
+				)
+				.AddCheckbox(
+					label: "Break Boulders and Meteorites",
+					description: "Whether to break boulders and meteorites.",
+					get: config => config.PickaxeConfig.BreakBouldersAndMeteorites,
+					set: (config, value) => config.PickaxeConfig.BreakBouldersAndMeteorites = value
+				)
+				.AddCheckbox(
+					label: "Harvest Mine Spawns",
+					description: "Whether to harvest spawned items in the mines.",
+					get: config => config.PickaxeConfig.HarvestMineSpawns,
+					set: (config, value) => config.PickaxeConfig.HarvestMineSpawns = value
+				)
+				.AddCheckbox(
+					label: "Break Mine Containers",
+					description: "Whether to break containers in the mine.",
+					get: config => config.PickaxeConfig.BreakMineContainers,
+					set: (config, value) => config.PickaxeConfig.BreakMineContainers = value
+				)
+				.AddCheckbox(
+					label: "Clear Objects",
+					description: "Whether to clear placed objects.",
+					get: config => config.PickaxeConfig.ClearObjects,
+					set: (config, value) => config.PickaxeConfig.ClearObjects = value
+				)
+				.AddCheckbox(
+					label: "Clear Flooring",
+					description: "Whether to clear placed paths & flooring.",
+					get: config => config.PickaxeConfig.ClearFlooring,
+					set: (config, value) => config.PickaxeConfig.ClearFlooring = value
+				)
+				.AddCheckbox(
+					label: "Clear Dirt",
+					description: "Whether to clear tilled dirt.",
+					get: config => config.PickaxeConfig.ClearDirt,
+					set: (config, value) => config.PickaxeConfig.ClearDirt = value
+				)
+				.AddCheckbox(
+					label: "Clear Bushes",
+					description: "Whether to clear bushes.",
+					get: config => config.PickaxeConfig.ClearBushes,
+					set: (config, value) => config.PickaxeConfig.ClearBushes = value
+				)
+				.AddCheckbox(
+					label: "Clear Live Crops",
+					description: "Whether to clear live crops.",
+					get: config => config.PickaxeConfig.ClearLiveCrops,
+					set: (config, value) => config.PickaxeConfig.ClearLiveCrops = value
+				)
+				.AddCheckbox(
+					label: "Clear Dead Crops",
+					description: "Whether to clear dead crops.",
+					get: config => config.PickaxeConfig.ClearDeadCrops,
+					set: (config, value) => config.PickaxeConfig.ClearDeadCrops = value
+				)
+				.AddCheckbox(
+					label: "Clear Debris",
+					description: "Whether to clear debris like stones, boulders and weeds.",
+					get: config => config.PickaxeConfig.ClearDebris,
+					set: (config, value) => config.PickaxeConfig.ClearDebris = value
+				);
+		}
+
+		/// <summary>Get the first button in a keybind, if any.</summary>
+		/// <param name="keybindList">The keybind list.</param>
+		private SButton GetSingleButton(KeybindList keybindList)
+		{
+			foreach (var keybind in keybindList.Keybinds)
+			{
+				if (keybind.IsBound)
+					return keybind.Buttons.First();
+			}
+
+			return SButton.None;
+		}
+	}
+}
