@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
-
-using StardewModdingAPI;
+﻿using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-
+using System;
+using System.Linq;
 using TheLion.Common.Integrations.GenericModConfigMenu;
 
 namespace TheLion.AwesomeTools.Framework

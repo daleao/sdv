@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
+﻿using Harmony;
 using Microsoft.Xna.Framework;
-
-using Harmony;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
 
 namespace TheLion.AwesomeTools.Framework
 {
@@ -127,7 +126,7 @@ namespace TheLion.AwesomeTools.Framework
 					int radius = __instance is Axe ? _axeAffectedTilesRadii[power - 2] : _pickaxeAffectedTilesRadii[power - 2];
 					if (radius == 0)
 						return;
-						
+
 					foreach (Vector2 tile in Utils.GetTilesAround(tileLocation, radius))
 					{
 						__result.Add(tile);

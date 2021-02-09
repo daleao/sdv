@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
-
+﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
-using SObject = StardewValley.Object;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using xTile.Dimensions;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeTools.Framework.ToolEffects
 {
@@ -58,7 +56,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 						GetRadialAdjacentTile(origin, tile, out Vector2 adjacentTile, out int facingDirection);
 						who.Position = adjacentTile * Game1.tileSize;
 						who.FacingDirection = facingDirection;
-		
+
 						// apply tool effects
 						location.objects.TryGetValue(tile, out SObject tileObj);
 						location.terrainFeatures.TryGetValue(tile, out TerrainFeature tileFeature);

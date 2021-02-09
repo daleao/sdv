@@ -1,12 +1,10 @@
-﻿using System.Reflection;
+﻿using Harmony;
 using Microsoft.Xna.Framework;
-
-using Harmony;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Tools;
-
+using System.Reflection;
 using TheLion.AwesomeTools.Framework;
 
 namespace TheLion.AwesomeTools

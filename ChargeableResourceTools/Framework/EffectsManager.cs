@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-
 using TheLion.AwesomeTools.Framework.ToolEffects;
 
 namespace TheLion.AwesomeTools.Framework

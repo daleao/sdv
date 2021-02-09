@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
 using StardewValley;
+using System.Collections.Generic;
 
 namespace TheLion.AwesomeTools.Framework
 {

@@ -1,13 +1,11 @@
-﻿using System.Linq;
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using SObject = StardewValley.Object;
-
-using TheLion.Common.Extensions;
+using System.Linq;
 using TheLion.AwesomeTools.Framework.Configs;
+using TheLion.Common.Extensions;
+using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeTools.Framework.ToolEffects
 {

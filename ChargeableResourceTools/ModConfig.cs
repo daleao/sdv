@@ -1,6 +1,5 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-
 using TheLion.AwesomeTools.Framework.Configs;
 
 namespace TheLion.AwesomeTools

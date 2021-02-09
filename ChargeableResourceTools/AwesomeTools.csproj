@@ -28,4 +28,12 @@
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Compile Include="../Common/Extensions/Extensions.cs" Link="Extensions.cs"/>
+		<Compile Include="../Common/Integrations/IModIntegration.cs" Link="IModIntegration.cs"/>
+		<Compile Include="../Common/Integrations/BaseIntegration.cs" Link="BaseIntegration.cs"/>
+		<Compile Include="../Common/Integrations/GenericModConfigMenu/IGenericModConfigMenuApi.cs" Link="IGenericModConfigMenuApi.cs"/>
+		<Compile Include="../Common/Integrations/GenericModConfigMenu/GenericModConfigMenuIntegration.cs" Link="GenericModConfigMenuIntegration.cs"/>
+	</ItemGroup>
+
 </Project>
