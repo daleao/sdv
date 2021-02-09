@@ -4,6 +4,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Tools;
+using System.Linq;
 using System.Reflection;
 using TheLion.AwesomeTools.Framework;
 
@@ -12,6 +13,7 @@ namespace TheLion.AwesomeTools
 	/// <summary>The mod entry point.</summary>
 	public class ModEntry : Mod
 	{
+		public static IModRegistry ModRegistry { get; set; }
 		public static IReflectionHelper Reflection { get; set; }
 		public static ModConfig Config { get; set; }
 		public static bool IsDoingShockwave { get; set; } = false;
@@ -22,15 +24,19 @@ namespace TheLion.AwesomeTools
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper)
 		{
-			// get configs.json
+			// get and verify configs.json
 			Config = Helper.ReadConfig<ModConfig>();
+			VerifyModConfig();
+
+			// get mod registry
+			ModRegistry = Helper.ModRegistry;
 
 			// get reflection interface
 			Reflection = Helper.Reflection;
 
 			// hook events
 			Helper.Events.GameLoop.GameLaunched += OnGameLaunched;
-			Helper.Events.Input.ButtonReleased += OnInputButtonReleased;
+			Helper.Events.Input.ButtonReleased += OnButtonReleased;
 
 			// create and patch Harmony instance
 			var harmony = HarmonyInstance.Create("thelion.AwesomeTools");
@@ -46,7 +52,7 @@ namespace TheLion.AwesomeTools
 		private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
 		{
 			// instantiate awesome tool effects
-			_manager = new EffectsManager(Config, Helper.ModRegistry);
+			_manager = new EffectsManager(Config, ModRegistry);
 
 			// add Generic Mod Config Menu integration
 			new GenericModConfigMenuIntegrationForAwesomeTools(
@@ -60,7 +66,7 @@ namespace TheLion.AwesomeTools
 				{
 					Helper.WriteConfig(Config);
 				},
-				modRegistry: Helper.ModRegistry,
+				modRegistry: ModRegistry,
 				monitor: Monitor,
 				manifest: ModManifest
 			).Register();
@@ -69,7 +75,7 @@ namespace TheLion.AwesomeTools
 		/// <summary>Raised after the player pressed/released a keyboard, mouse, or controller button.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event data.</param>
-		private void OnInputButtonReleased(object sender, ButtonReleasedEventArgs e)
+		private void OnButtonReleased(object sender, ButtonReleasedEventArgs e)
 		{
 			if (Game1.activeClickableMenu != null || !e.Button.IsUseToolButton())
 			{
@@ -83,6 +89,35 @@ namespace TheLion.AwesomeTools
 				GameLocation location = Game1.currentLocation;
 				Vector2 actionTile = new Vector2((int)(who.GetToolLocation().X / Game1.tileSize), (int)(who.GetToolLocation().Y / Game1.tileSize));
 				_manager.DoShockwaveEffect(actionTile, tool, location, who);
+			}
+		}
+
+		private void VerifyModConfig()
+		{
+			if (Config.AxeConfig.RadiusAtEachLevel.Any(i => i < 0))
+			{
+				Monitor.Log("Found illegal negative value for shockwave radius in configs.json AxeConfig.RadiusAtEachLevel. Default values will be restored.", LogLevel.Warn);
+				Config.AxeConfig.RadiusAtEachLevel = new int[] { 1, 2, 3, 4, 5 };
+				Helper.WriteConfig(Config);
+			}
+			else if (Config.AxeConfig.RadiusAtEachLevel.Length > 5)
+			{
+				Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachLevel. Default values will be restored.", LogLevel.Warn);
+				Config.AxeConfig.RadiusAtEachLevel = new int[] { 1, 2, 3, 4, 5 };
+				Helper.WriteConfig(Config);
+			}
+			
+			if (Config.PickaxeConfig.RadiusAtEachLevel.Any(i => i < 0))
+			{
+				Monitor.Log("Found illegal negative value for shockwave radius in configs.json PickaxeConfig.RadiusAtEachLevel. Default values will be restored.", LogLevel.Warn);
+				Config.PickaxeConfig.RadiusAtEachLevel = new int[] { 1, 2, 3, 4, 5 };
+				Helper.WriteConfig(Config);
+			}
+			else if (Config.PickaxeConfig.RadiusAtEachLevel.Length > 5)
+			{
+				Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachLevel. Default values will be restored.", LogLevel.Warn);
+				Config.PickaxeConfig.RadiusAtEachLevel = new int[] { 1, 2, 3, 4, 5 };
+				Helper.WriteConfig(Config);
 			}
 		}
 
@@ -103,12 +138,14 @@ namespace TheLion.AwesomeTools
 				"steel" => 2,
 				"gold" => 3,
 				"iridium" => 4,
+				"prismatic" => 5,
+				"radioactive" => 5,
 				_ => -1
 			};
 
 			if (upgradeLevel < 0)
 			{
-				if (int.TryParse(args[0], out int i) && i <= 4)
+				if (int.TryParse(args[0], out int i) && i <= 5)
 				{
 					upgradeLevel = i;
 				}
@@ -117,6 +154,12 @@ namespace TheLion.AwesomeTools
 					Monitor.Log("Invalid argument." + PrintCommandUsage(), LogLevel.Info);
 					return;
 				}
+			}
+
+			if (upgradeLevel == 5 && !(ModRegistry.IsLoaded("stokastic.PrismaticTools") || ModRegistry.IsLoaded("kakashigr.RadioactiveTools")))
+			{
+				Monitor.Log("Could not find 'Prismatic Tools' or 'Radioactive Tools' in the current mod registry.", LogLevel.Info);
+				return;
 			}
 
 			foreach (Item item in Game1.player.Items)
@@ -130,8 +173,17 @@ namespace TheLion.AwesomeTools
 
 		private string PrintCommandUsage()
 		{
-			return "\n\nUsage: player_upgradetools < level >\n - level: one of 'copper', 'steel', 'gold', 'iridium'";
+			string result = "\n\nUsage: player_upgradetools < level >\n - level: one of 'copper', 'steel', 'gold', 'iridium'";
+			if (ModRegistry.IsLoaded("stokastic.PrismaticTools"))
+			{
+				result += ", 'prismatic'";
+			}
+			else if (ModRegistry.IsLoaded("kakashigr.RadioactiveTools"))
+			{
+				result += ", 'radioactive'";
+			}
+			
+			return result;
 		}
-
 	}
 }

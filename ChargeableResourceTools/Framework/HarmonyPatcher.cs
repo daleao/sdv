@@ -21,7 +21,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if ((ModEntry.Config.RequireHotkey && !ModEntry.Config.Hotkey.IsDown()))
+				if (ModEntry.Config.RequireHotkey && !ModEntry.Config.Hotkey.IsDown())
 					return true; // run original logic
 
 				who.Halt();
@@ -94,16 +94,10 @@ namespace TheLion.AwesomeTools.Framework
 				{
 					if (l[i].opcode == OpCodes.Isinst && l[i].operand.ToString().Equals("StardewValley.Tools.Pickaxe"))
 					{
-						// inject logic: if (!this.CurrentTool.UpgradeLevel < 5) then don't run toolPower += 2
-						//l.InsertRange(i + 2, l.GetRange(i - 2, 2)										// copy push this.CurrentTool to the stack
-						//	.Concat(new[] { new CodeInstruction(OpCodes.Callvirt, AccessTools.Property(typeof(Tool), nameof(Tool.UpgradeLevel)).GetGetMethod()),	// call CurrentTool.UpgradeLevel_get
-						//					new CodeInstruction(OpCodes.Ldc_I4_5),						// push the integer 5 onto the stack
-						//					new CodeInstruction(OpCodes.Bge_Un_S, l[i + 1].operand) }	// if greater than or equal to, branch to next segment (skip toolPower += 2)
-						//	)
-						//);
-
-						// inject logic: branch over toolPower += 2
-						l.InsertRange(i - 2, new List<CodeInstruction> { new CodeInstruction(OpCodes.Br_S, l[i + 1].operand) });
+						// inject logic: if player is charging tool then branch over toolPower += 2
+						l.InsertRange(i - 2, new List<CodeInstruction>
+							{ new CodeInstruction(OpCodes.Brtrue_S, l[i + 1].operand) }
+						);
 						break;
 					}
 				}
@@ -150,7 +144,7 @@ namespace TheLion.AwesomeTools.Framework
 		//	}
 		//}
 
-		// Prevent shockwave from triggering the "tool isn't strong enough"
+		// Prevent shockwave from triggering the "tool isn't strong enough" dialogue
 		[HarmonyPatch(typeof(ResourceClump), "performToolAction")]
 		internal class Before_ResourceClump_PerformToolAction
 		{
