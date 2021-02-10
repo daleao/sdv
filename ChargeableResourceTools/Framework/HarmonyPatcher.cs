@@ -94,9 +94,9 @@ namespace TheLion.AwesomeTools.Framework
 				{
 					if (l[i].opcode == OpCodes.Isinst && l[i].operand.ToString().Equals("StardewValley.Tools.Pickaxe"))
 					{
-						// inject logic: if player is charging tool then branch over toolPower += 2
+						// inject logic: branch over toolPower += 2
 						l.InsertRange(i - 2, new List<CodeInstruction>
-							{ new CodeInstruction(OpCodes.Brtrue_S, l[i + 1].operand) }
+							{ new CodeInstruction(OpCodes.Br_S, l[i + 1].operand) }
 						);
 						break;
 					}

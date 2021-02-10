@@ -14,5 +14,8 @@ namespace TheLion.AwesomeTools
 		/// <summary>Whether the mod requires an additional hotkey to activate.</summary>
 		public bool RequireHotkey { get; set; } = true;
 		public KeybindList Hotkey { get; set; } = KeybindList.ForSingle(SButton.LeftShift);
+
+		/// <summary>How much stamina the shockwave should consume.</summary>
+		public int StaminaCostMultiplier { get; set; } = 1;
 	}
 }

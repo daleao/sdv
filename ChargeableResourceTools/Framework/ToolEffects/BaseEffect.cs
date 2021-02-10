@@ -41,31 +41,25 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 		/// <param name="tool">The tool select by the player.</param>
 		/// <param name="location">The current location.</param>
 		/// <param name="who">The current player.</param>
-		public void SpreadResourceToolEffect(Tool tool, Vector2 origin, int[] radii, GameLocation location, Farmer who)
+		public void SpreadToolEffect(Tool tool, Vector2 origin, int[] radii, GameLocation location, Farmer who)
 		{
 			int radius = radii[Math.Min(who.toolPower - 1, 4)];
 
-			DelayedAction shockwave = new DelayedAction(220, () =>
+			foreach (Vector2 tile in Utils.GetTilesAround(origin, radius))
 			{
-				ModEntry.IsDoingShockwave = true;
-				foreach (Vector2 tile in Utils.GetTilesAround(origin, radius))
+				TemporarilyFakeInteraction(() =>
 				{
-					TemporarilyFakeInteraction(() =>
-					{
-						// face tile to avoid game skipping interaction
-						GetRadialAdjacentTile(origin, tile, out Vector2 adjacentTile, out int facingDirection);
-						who.Position = adjacentTile * Game1.tileSize;
-						who.FacingDirection = facingDirection;
+					// face tile to avoid game skipping interaction
+					GetRadialAdjacentTile(origin, tile, out Vector2 adjacentTile, out int facingDirection);
+					who.Position = adjacentTile * Game1.tileSize;
+					who.FacingDirection = facingDirection;
 
-						// apply tool effects
-						location.objects.TryGetValue(tile, out SObject tileObj);
-						location.terrainFeatures.TryGetValue(tile, out TerrainFeature tileFeature);
-						Apply(tile, tileObj, tileFeature, tool, location, who);
-					});
-				}
-				ModEntry.IsDoingShockwave = false;
-			});
-			Game1.delayedActions.Add(shockwave);
+					// apply tool effects
+					location.objects.TryGetValue(tile, out SObject tileObj);
+					location.terrainFeatures.TryGetValue(tile, out TerrainFeature tileFeature);
+					Apply(tile, tileObj, tileFeature, tool, location, who);
+				});
+			}
 		}
 
 		/// <summary>Temporarily set up the player to interact with a tile, then return it to the original state.</summary>

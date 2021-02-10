@@ -10,6 +10,7 @@ namespace TheLion.AwesomeTools.Framework
 	{
 		private readonly AxeEffect _axe;
 		private readonly PickaxeEffect _pickaxe;
+		private readonly int _multiplier;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The overal mod settings.</param>
@@ -18,25 +19,26 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			_axe = new AxeEffect(config.AxeConfig, modRegistry);
 			_pickaxe = new PickaxeEffect(config.PickaxeConfig, modRegistry);
+			_multiplier = config.StaminaCostMultiplier;
 		}
 
 		/// <summary>Do awesome shit with your tools.</summary>
-		public void DoShockwaveEffect(Vector2 actionTile, Tool tool, GameLocation location, Farmer who)
+		public void DoShockwave(Vector2 actionTile, Tool tool, GameLocation location, Farmer who)
 		{
 			switch (tool)
 			{
 				case Axe:
 					if (_axe.Config.EnableAxeCharging)
 					{
-						who.stamina -= (float)(2 * who.toolPower - who.ForagingLevel * 0.1f) * (who.toolPower - 1);
-						_axe.SpreadResourceToolEffect(tool, actionTile, _axe.Config.RadiusAtEachLevel, location, who);
+						who.stamina -= (who.toolPower - who.ForagingLevel * 0.1f) * (who.toolPower - 1) * _multiplier;
+						_axe.SpreadToolEffect(tool, actionTile, _axe.Config.RadiusAtEachLevel, location, who);
 					}
 					break;
 				case Pickaxe:
 					if (_pickaxe.Config.EnablePickaxeCharging)
 					{
-						who.stamina -= (float)(2 * who.toolPower - who.MiningLevel * 0.1f) * (who.toolPower - 1);
-						_pickaxe.SpreadResourceToolEffect(tool, actionTile, _pickaxe.Config.RadiusAtEachLevel, location, who);
+						who.stamina -= (who.toolPower - who.MiningLevel * 0.1f) * (who.toolPower - 1) * _multiplier;
+						_pickaxe.SpreadToolEffect(tool, actionTile, _pickaxe.Config.RadiusAtEachLevel, location, who);
 					}
 					break;
 				default:
