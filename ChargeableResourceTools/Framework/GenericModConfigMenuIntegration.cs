@@ -1,4 +1,4 @@
-﻿using StardewModdingAPI;
+using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using System;
 using System.Linq;
@@ -133,7 +133,7 @@ namespace TheLion.AwesomeTools.Framework
 					set: (config, value) => config.AxeConfig.ClearTreeSaplings = value
 				)
 				.AddCheckbox(
-					label: "Cut Grown Fruit Trees",
+					label: "Cut Grown Trees",
 					description: "Whether to cut down fully-grown non-fruit trees.",
 					get: config => config.AxeConfig.CutGrownTrees,
 					set: (config, value) => config.AxeConfig.CutGrownTrees = value
