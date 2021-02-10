@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Chargeable Axe and Pickaxe",
   "Author": "theLion",
-  "Version": "1.0.4",
+  "Version": "1.0.5",
   "Description": "Charge your Axe and Pickaxe to unleash a powerful shockwave!",
   "UniqueID": "theLion.AwesomeTools",
   "EntryDll": "AwesomeTools.dll",

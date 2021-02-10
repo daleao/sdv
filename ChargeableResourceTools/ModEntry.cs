@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Tools;
 using System.Linq;
@@ -88,7 +89,7 @@ namespace TheLion.AwesomeTools
 			{
 				GameLocation location = Game1.currentLocation;
 				Vector2 actionTile = new Vector2((int)(who.GetToolLocation().X / Game1.tileSize), (int)(who.GetToolLocation().Y / Game1.tileSize));
-				DelayedAction shockwave = new DelayedAction(220, () =>
+				DelayedAction shockwave = new DelayedAction(Config.ShockwaveDelay, () =>
 				{
 					IsDoingShockwave = true;
 					_manager.DoShockwave(actionTile, tool, location, who);
@@ -123,6 +124,26 @@ namespace TheLion.AwesomeTools
 			{
 				Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachLevel. Default values will be restored.", LogLevel.Warn);
 				Config.PickaxeConfig.RadiusAtEachLevel = new int[] { 1, 2, 3, 4, 5 };
+				Helper.WriteConfig(Config);
+			}
+
+
+			if (Config.RequireHotkey && !Config.Hotkey.IsBound)
+			{
+				Monitor.Log("'RequireHotkey' setting is set to true, but no hotkey is bound. Default keybind will be restored. To disable the hotkey, set this value to false.", LogLevel.Warn);
+				Config.Hotkey = KeybindList.ForSingle(SButton.LeftShift);
+				Helper.WriteConfig(Config);
+			}
+
+			if (Config.StaminaCostMultiplier < 0)
+			{
+				Monitor.Log("'StaminaCostMultiplier' is set to a negative value in configs.json. Please be aware that this may cause game-breaking bugs.", LogLevel.Warn);
+			}
+
+			if (Config.ShockwaveDelay < 0)
+			{
+				Monitor.Log("Found illegal negative value for 'ShockwaveDelay' in configs.json. Default value will be restored.", LogLevel.Warn);
+				Config.ShockwaveDelay = 200;
 				Helper.WriteConfig(Config);
 			}
 		}

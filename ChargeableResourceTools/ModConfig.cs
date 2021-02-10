@@ -16,6 +16,8 @@ namespace TheLion.AwesomeTools
 		public KeybindList Hotkey { get; set; } = KeybindList.ForSingle(SButton.LeftShift);
 
 		/// <summary>How much stamina the shockwave should consume.</summary>
-		public int StaminaCostMultiplier { get; set; } = 1;
+		public float StaminaCostMultiplier { get; set; } = 1.0f;
+		/// <summary>The delay in milliseconds between releasing the tool button and triggering the shockwave.</summary>
+		public int ShockwaveDelay { get; set; } = 200;
 	}
 }

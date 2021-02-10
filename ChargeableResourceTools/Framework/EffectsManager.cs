@@ -2,6 +2,7 @@
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
+using System;
 using TheLion.AwesomeTools.Framework.ToolEffects;
 
 namespace TheLion.AwesomeTools.Framework
@@ -10,7 +11,7 @@ namespace TheLion.AwesomeTools.Framework
 	{
 		private readonly AxeEffect _axe;
 		private readonly PickaxeEffect _pickaxe;
-		private readonly int _multiplier;
+		private readonly float _multiplier;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The overal mod settings.</param>
@@ -30,15 +31,13 @@ namespace TheLion.AwesomeTools.Framework
 				case Axe:
 					if (_axe.Config.EnableAxeCharging)
 					{
-						who.stamina -= (who.toolPower - who.ForagingLevel * 0.1f) * (who.toolPower - 1) * _multiplier;
-						_axe.SpreadToolEffect(tool, actionTile, _axe.Config.RadiusAtEachLevel, location, who);
+						_axe.SpreadToolEffect(tool, actionTile, _axe.Config.RadiusAtEachLevel, _multiplier, location, who);
 					}
 					break;
 				case Pickaxe:
 					if (_pickaxe.Config.EnablePickaxeCharging)
 					{
-						who.stamina -= (who.toolPower - who.MiningLevel * 0.1f) * (who.toolPower - 1) * _multiplier;
-						_pickaxe.SpreadToolEffect(tool, actionTile, _pickaxe.Config.RadiusAtEachLevel, location, who);
+						_pickaxe.SpreadToolEffect(tool, actionTile, _pickaxe.Config.RadiusAtEachLevel, _multiplier, location, who);
 					}
 					break;
 				default:

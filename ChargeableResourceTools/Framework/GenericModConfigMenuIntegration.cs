@@ -39,6 +39,25 @@ namespace TheLion.AwesomeTools.Framework
 			menu
 				.RegisterConfig()
 
+				// main
+				.AddLabel("Main")
+				.AddNumberField(
+					label: "Stamina Consumption Multiplier",
+					description: "Adjusts the stamina cost of charging.",
+					get: config => config.StaminaCostMultiplier,
+					set: (config, value) => config.StaminaCostMultiplier = (float)value,
+					min: 0,
+					max: 10
+				)
+				.AddNumberField(
+					label: "Shockwave Delay",
+					description: "The delay between releasing the tool button and triggering the shockwave. Adjust this if you find that the shockwave happens to soon or too late.",
+					get: config => config.ShockwaveDelay,
+					set: (config, value) => config.ShockwaveDelay = (int)value,
+					min: 0,
+					max: 300
+				)
+
 				// keybinds
 				.AddLabel("Controls")
 				.AddCheckbox(
