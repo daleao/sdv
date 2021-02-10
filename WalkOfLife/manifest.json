@@ -1,0 +1,10 @@
+﻿{
+	"Name": "Walk Of Life",
+	"Author": "theLion",
+	"Version": "1.0.0",
+	"Description": "An overhaul of Stardew professions.",
+	"UniqueID": "theLion.AwesomeProfessions",
+	"EntryDll": "AwesomeProfessions.dll",
+	"MinimumApiVersion": "3.8.0",
+	"UpdateKeys": [ "" ]
+}

@@ -1,0 +1,76 @@
+﻿{
+	// Farming
+	"harvesterName": "Harvester",
+	"harvesterDesc": "Chance for extra yield when harvesting crops.",
+	"agriculturistName": "Agriculturist",
+	"agriculturistDesc": "All crops grow 10% faster. Fertilizers are cheaper to craft.",
+	"oenologistName": "Oenologist",
+	"oenologistDesc": "Wines are worth 40% more and age twice as fast when placed in a cask.",
+
+	"rancherName": "Rancher",
+	"rancherDesc": "Animal produce and derived products are worth 25% more.",
+	"breederName": "Breeder",
+	"breederDesc": "Befriend all animals quicker. Increased pregnancy chance and reduced incubation time. Animals at maximum happiness are worth significantly more.",
+	"apiologistName": "Apiologist",
+	"apiologistDesc": "Bee houses produce honey 25% faster. All flowers within range of a Bee house mature twice as fast.",
+
+	// Foraging
+	"foragerName": "Forager",
+	"foragerDesc": "Chance for double harvest of items foraged off the ground.",
+	"botanistName": "Botanist",
+	"botanistDesc": "Find more berries in bushes. Berries restore 50% more health and energy. Can stack foraged plants by reducing their quality.",
+	"mycologistName": "Mycologist",
+	"mycologistDesc": "Foraged mushrooms are always highest quality.",
+
+	"lumberjackName": "Lumberjack",
+	"lumberjackDesc": "Gain 25% more wood when chopping.",
+	"foresterName": "Forester",
+	"foresterDesc": "All trees have a chance to drop hardwood. Trees grow 25% faster. Wood and Hardwood are worth 50% more.",
+	"tapperName": "Tapper",
+	"tapperDesc": "Chance for double yield from tappers. Tapped trees give syrup 25% faster.",
+
+	// Mining
+	"minerName": "Miner",
+	"minerDesc": "Chance to find coal doubled.",
+	"spelunkerName": "Spelunker",
+	"spelunkerDesc": "Chance to find ladder and shafts doubled. Staircases are cheaper to craft.",
+	"metallurgistName": "Metallurgist",
+	"metallurgistDesc": "Furnaces smelt 25% faster. Smelting requires 1 less ore per bar. All metal bars are worth 50% more.",
+
+	"blasterName": "Blaster",
+	"blasterDesc": "Bombs are cheaper to craft.",
+	"demolitionistName": "Demolitionist",
+	"demolitionistDesc": "Bomb radius +1. Bombs are harmless to the player.",
+	"gemologistName": "Gemologist",
+	"gemologistDesc": "Identify gems and minerals of higher quality. Can break open geodes by yourself.",
+
+	// Fishing
+	"fisherName": "Fisher",
+	"fisherDesc": "Fish are worth 25% more.",
+	"anglerName": "Angler",
+	"anglerDesc": "Automatically reel-in certain fish. Tackles are cheaper to craft.",
+	"piscatorName": "Aquarist",
+	"piscatorDesc": "Increased spawning rate in fish ponds. Roes are worth 50% more and age twice as fast in a preserves jar.",
+
+	"trapperName": "Trapper",
+	"trapperDesc": "Crab pots are cheaper to craft.",
+	"marinerName": "Mariner",
+	"marinerDesc": "Crab pots no longer produce junk items. Trapped shellfish are always highest quality.",
+	"conservationistName": "Conservationist",
+	"conservationistDesc": "Crab pots will only produce junk, but each junk item collected increases your favor with the local villagers and lowers your tax bracket for the following season. Recycling machines work twice as fast.",
+
+	// Combat
+	"fighterName": "Fighter",
+	"fighterDesc": "All attacks deal 10% more damage. +15 health.",
+	"bruteName": "Brute",
+	"bruteDesc": "All attacks deal additional 15% more damage. +25 health.",
+	"gambitName": "Gambit",
+	"gambitDesc": "Critical strike chance increases as you take damage. Critical strikes are deadly.",
+
+	"scoutName": "Scout",
+	"scoutDesc": "Slingshots deal more damage from farther away. Chance to recover spent ammo.",
+	"marksmanName": "Marksman",
+	"marksmanDesc": "Shots fired within 0.5 seconds deal triple damage.",
+	"venturerName": "Venturer",
+	"venturerDesc": "Chance of getting rare loot from monsters doubled. Monster drops are worth 50% more."
+}
