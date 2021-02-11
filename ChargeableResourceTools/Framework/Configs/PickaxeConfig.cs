@@ -5,11 +5,14 @@ namespace TheLion.AwesomeTools.Framework.Configs
 	/// <summary>Configuration for the pickaxe shockwave.</summary>
 	public class PickaxeConfig
 	{
-		/// <summary>Enables charging the Axe.</summary>
+		/// <summary>Enables charging the Pickaxe.</summary>
 		public bool EnablePickaxeCharging { get; set; } = true;
 
+		/// <summary>Pickaxe must be at least this level to charge.</summary>
+		public int RequiredUpgradeForCharging { get; set; } = 1;
+
 		/// <summary>The radius of affected tiles at each upgrade level.</summary>
-		public List<int> RadiusAtEachLevel { get; set; } = new List<int>() { 1, 2, 3, 4 };
+		public List<int> RadiusAtEachPowerLevel { get; set; } = new List<int>() { 1, 2, 3, 4 };
 
 		/// <summary>Whether to break boulders and meteorites.</summary>
 		public bool BreakBouldersAndMeteorites { get; set; } = true;

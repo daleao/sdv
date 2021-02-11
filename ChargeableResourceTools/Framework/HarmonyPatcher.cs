@@ -12,8 +12,8 @@ namespace TheLion.AwesomeTools.Framework
 {
 	internal static class HarmonyPatcher
 	{
-		private static readonly List<int> _axeAffectedTilesRadii = ModEntry.Config.AxeConfig.RadiusAtEachLevel;
-		private static readonly List<int> _pickaxeAffectedTilesRadii = ModEntry.Config.PickaxeConfig.RadiusAtEachLevel;
+		private static readonly List<int> _axeAffectedTilesRadii = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel;
+		private static readonly List<int> _pickaxeAffectedTilesRadii = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel;
 
 		// Enable Axe power level increase
 		[HarmonyPatch(typeof(Axe), "beginUsing")]
@@ -21,7 +21,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if (!ModEntry.Config.AxeConfig.EnableAxeCharging || (ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown()))
+				if (!Utils.ShouldCharge(__instance))
 					return true; // run original logic
 
 				who.Halt();
@@ -45,6 +45,7 @@ namespace TheLion.AwesomeTools.Framework
 						__instance.Update(3, 0, who);
 						break;
 				}
+
 				return false; // don't run original logic
 			}
 		}
@@ -55,7 +56,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if (!ModEntry.Config.PickaxeConfig.EnablePickaxeCharging || (ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown()))
+				if (!Utils.ShouldCharge(__instance))
 					return true; // run original logic
 
 				who.Halt();
@@ -79,6 +80,7 @@ namespace TheLion.AwesomeTools.Framework
 						__instance.Update(3, 0, who);
 						break;
 				}
+
 				return false; // don't run original logic
 			}
 		}
@@ -101,6 +103,7 @@ namespace TheLion.AwesomeTools.Framework
 						break;
 					}
 				}
+
 				return l.AsEnumerable();
 			}
 		}
@@ -179,6 +182,7 @@ namespace TheLion.AwesomeTools.Framework
 					default:
 						return true; // run original logic
 				}
+
 				return true; // run original logic
 			}
 		}

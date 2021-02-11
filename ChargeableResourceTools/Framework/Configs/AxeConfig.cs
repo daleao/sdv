@@ -8,8 +8,11 @@ namespace TheLion.AwesomeTools.Framework.Configs
 		/// <summary>Enables charging the Axe.</summary>
 		public bool EnableAxeCharging { get; set; } = true;
 
+		/// <summary>Enables charging the Axe.</summary>
+		public int RequiredUpgradeForCharging { get; set; } = 1;
+
 		/// <summary>The radius of affected tiles at each upgrade level.</summary>
-		public List<int> RadiusAtEachLevel { get; set; } = new List<int>() { 1, 2, 3, 4 };
+		public List<int> RadiusAtEachPowerLevel { get; set; } = new List<int>() { 1, 2, 3, 4 };
 
 		/// <summary>Whether to clear fruit tree seeds.</summary>
 		public bool ClearFruitTreeSeeds { get; set; } = false;

@@ -82,45 +82,59 @@ namespace TheLion.AwesomeTools.Framework
 					set: (config, value) => config.AxeConfig.EnableAxeCharging = value
 				)
 				.AddNumberField(
+					label: "Required Upgrade For Charging",
+					description: "Your Axe must be at least this level in order to charge.",
+					get: config => config.AxeConfig.RequiredUpgradeForCharging,
+					set: (config, value) => config.AxeConfig.RequiredUpgradeForCharging = (int)value,
+					min: 0,
+					max: 5
+				)
+				.AddNumberField(
 					label: "Copper Radius",
 					description: "The radius of affected tiles for the Copper Axe.",
-					get: config => config.AxeConfig.RadiusAtEachLevel[0],
-					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[0] = (int)value,
+					get: config => config.AxeConfig.RadiusAtEachPowerLevel[0],
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[0] = (int)value,
 					min: 0,
 					max: 10
 				)
 				.AddNumberField(
 					label: "Steel Radius",
 					description: "The radius of affected tiles for the Steel Axe.",
-					get: config => config.AxeConfig.RadiusAtEachLevel[1],
-					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[1] = (int)value,
+					get: config => config.AxeConfig.RadiusAtEachPowerLevel[1],
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[1] = (int)value,
 					min: 0,
 					max: 10
 				)
 				.AddNumberField(
 					label: "Gold Radius",
 					description: "The radius of affected tiles for the Gold Axe.",
-					get: config => config.AxeConfig.RadiusAtEachLevel[2],
-					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[2] = (int)value,
+					get: config => config.AxeConfig.RadiusAtEachPowerLevel[2],
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[2] = (int)value,
 					min: 0,
 					max: 10
 				)
 				.AddNumberField(
 					label: "Iridium Radius",
 					description: "The radius of affected tiles for the Iridium Axe.",
-					get: config => config.AxeConfig.RadiusAtEachLevel[3],
-					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[3] = (int)value,
+					get: config => config.AxeConfig.RadiusAtEachPowerLevel[3],
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = (int)value,
 					min: 0,
 					max: 10
-				)
-				.AddNumberField(
+				);
+
+			if (Utils.HasHigherLevelToolMod(_modRegistry))
+			{
+				menu.AddNumberField(
 					label: "Level-5 Radius",
 					description: "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
-					get: config => config.AxeConfig.RadiusAtEachLevel[3],
-					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[3] = (int)value,
+					get: config => config.AxeConfig.RadiusAtEachPowerLevel[3],
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = (int)value,
 					min: 0,
 					max: 10
-				)
+				);
+			}
+
+			menu
 				.AddCheckbox(
 					label: "Clear Fruit Tree Seeds",
 					description: "Whether to clear fruit tree seeds.",
@@ -203,45 +217,59 @@ namespace TheLion.AwesomeTools.Framework
 					set: (config, value) => config.PickaxeConfig.EnablePickaxeCharging = value
 				)
 				.AddNumberField(
+					label: "Required Upgrade For Charging",
+					description: "Your Pickaxe must be at least this level in order to charge.",
+					get: config => config.PickaxeConfig.RequiredUpgradeForCharging,
+					set: (config, value) => config.PickaxeConfig.RequiredUpgradeForCharging = (int)value,
+					min: 0,
+					max: 5
+				)
+				.AddNumberField(
 					label: "Copper Radius",
 					description: "The radius of affected tiles for the Copper Pickaxe.",
-					get: config => config.PickaxeConfig.RadiusAtEachLevel[0],
-					set: (config, value) => config.PickaxeConfig.RadiusAtEachLevel[0] = (int)value,
+					get: config => config.PickaxeConfig.RadiusAtEachPowerLevel[0],
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[0] = (int)value,
 					min: 0,
 					max: 10
 				)
 				.AddNumberField(
 					label: "Steel Radius",
 					description: "The radius of affected tiles for the Steel Pickaxe.",
-					get: config => config.PickaxeConfig.RadiusAtEachLevel[1],
-					set: (config, value) => config.PickaxeConfig.RadiusAtEachLevel[1] = (int)value,
+					get: config => config.PickaxeConfig.RadiusAtEachPowerLevel[1],
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[1] = (int)value,
 					min: 0,
 					max: 10
 				)
 				.AddNumberField(
 					label: "Gold Radius",
 					description: "The radius of affected tiles for the Gold Pickaxe.",
-					get: config => config.PickaxeConfig.RadiusAtEachLevel[2],
-					set: (config, value) => config.PickaxeConfig.RadiusAtEachLevel[2] = (int)value,
+					get: config => config.PickaxeConfig.RadiusAtEachPowerLevel[2],
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[2] = (int)value,
 					min: 0,
 					max: 10
 				)
 				.AddNumberField(
 					label: "Iridium Radius",
 					description: "The radius of affected tiles for the Iridium Pickaxe.",
-					get: config => config.PickaxeConfig.RadiusAtEachLevel[3],
-					set: (config, value) => config.PickaxeConfig.RadiusAtEachLevel[3] = (int)value,
+					get: config => config.PickaxeConfig.RadiusAtEachPowerLevel[3],
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[3] = (int)value,
 					min: 0,
 					max: 10
-				)
-				.AddNumberField(
+				);
+
+			if (Utils.HasHigherLevelToolMod(_modRegistry))
+			{
+				menu.AddNumberField(
 					label: "Level-5 Radius",
 					description: "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
-					get: config => config.AxeConfig.RadiusAtEachLevel[3],
-					set: (config, value) => config.AxeConfig.RadiusAtEachLevel[3] = (int)value,
+					get: config => config.AxeConfig.RadiusAtEachPowerLevel[3],
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = (int)value,
 					min: 0,
 					max: 10
-				)
+				);
+			}
+
+			menu
 				.AddCheckbox(
 					label: "Break Boulders and Meteorites",
 					description: "Whether to break boulders and meteorites.",

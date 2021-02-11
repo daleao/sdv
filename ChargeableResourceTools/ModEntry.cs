@@ -102,26 +102,26 @@ namespace TheLion.AwesomeTools
 
 		private void VerifyModConfig()
 		{
-			if (Config.AxeConfig.RadiusAtEachLevel.Count() < 4)
+			if (Config.AxeConfig.RadiusAtEachPowerLevel.Count() < 4)
 			{
-				Monitor.Log("Missing values in configs.json AxeConfig.RadiusAtEachLevel. The default values will be restored.", LogLevel.Warn);
-				Config.AxeConfig.RadiusAtEachLevel = new List<int>() { 1, 2, 3, 4 };
+				Monitor.Log("Missing values in configs.json AxeConfig.RadiusAtEachPowerLevel. The default values will be restored.", LogLevel.Warn);
+				Config.AxeConfig.RadiusAtEachPowerLevel = new List<int>() { 1, 2, 3, 4 };
 			}
-			else if (Config.AxeConfig.RadiusAtEachLevel.Any(i => i < 0))
+			else if (Config.AxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
 			{
-				Monitor.Log("Found illegal negative value for shockwave radius in configs.json AxeConfig.RadiusAtEachLevel. Those values will be replaced with zero.", LogLevel.Warn);
-				Config.AxeConfig.RadiusAtEachLevel = Config.AxeConfig.RadiusAtEachLevel.Select(x => x < 0 ? 0 : x).ToList();
+				Monitor.Log("Found illegal negative value for shockwave radius in configs.json AxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with zero.", LogLevel.Warn);
+				Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Select(x => x < 0 ? 0 : x).ToList();
 			}
 
-			if (Config.PickaxeConfig.RadiusAtEachLevel.Count() < 4)
+			if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count() < 4)
 			{
-				Monitor.Log("Missing values in configs.json PickaxeConfig.RadiusAtEachLevel. The default values will be restored.", LogLevel.Warn);
-				Config.PickaxeConfig.RadiusAtEachLevel = new List<int>() { 1, 2, 3, 4 };
+				Monitor.Log("Missing values in configs.json PickaxeConfig.RadiusAtEachPowerLevel. The default values will be restored.", LogLevel.Warn);
+				Config.PickaxeConfig.RadiusAtEachPowerLevel = new List<int>() { 1, 2, 3, 4 };
 			}
-			else if (Config.PickaxeConfig.RadiusAtEachLevel.Any(i => i < 0))
+			else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
 			{
-				Monitor.Log("Found illegal negative value for shockwave radius in configs.json PickaxeConfig.RadiusAtEachLevel. Those values will be replaced with zero.", LogLevel.Warn);
-				Config.PickaxeConfig.RadiusAtEachLevel = Config.PickaxeConfig.RadiusAtEachLevel.Select(x => x < 0 ? 0 : x).ToList();
+				Monitor.Log("Found illegal negative value for shockwave radius in configs.json PickaxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with zero.", LogLevel.Warn);
+				Config.PickaxeConfig.RadiusAtEachPowerLevel = Config.PickaxeConfig.RadiusAtEachPowerLevel.Select(x => x < 0 ? 0 : x).ToList();
 			}
 
 			if (Config.RequireModkey && !Config.Modkey.IsBound)
@@ -145,40 +145,40 @@ namespace TheLion.AwesomeTools
 			{
 				Monitor.Log("Prismatic or Radioactive Tools detected.", LogLevel.Info);
 
-				if (Config.AxeConfig.RadiusAtEachLevel.Count() < 5)
+				if (Config.AxeConfig.RadiusAtEachPowerLevel.Count() < 5)
 				{
 					Monitor.Log("Adding default fifth radius value to Axe configurations.", LogLevel.Info);
-					Config.AxeConfig.RadiusAtEachLevel.Add(5);
+					Config.AxeConfig.RadiusAtEachPowerLevel.Add(5);
 				}
-				else if (Config.AxeConfig.RadiusAtEachLevel.Count() > 5)
+				else if (Config.AxeConfig.RadiusAtEachPowerLevel.Count() > 5)
 				{
-					Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachLevel. Additional values will be removed.", LogLevel.Warn);
-					Config.AxeConfig.RadiusAtEachLevel = Config.AxeConfig.RadiusAtEachLevel.Take(5).ToList();
+					Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
+					Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
 				}
 
-				if (Config.PickaxeConfig.RadiusAtEachLevel.Count() < 5)
+				if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count() < 5)
 				{
 					Monitor.Log("Adding default fifth radius value to Pickaxe configurations.", LogLevel.Info);
-					Config.PickaxeConfig.RadiusAtEachLevel.Add(5);
+					Config.PickaxeConfig.RadiusAtEachPowerLevel.Add(5);
 				}
-				else if (Config.PickaxeConfig.RadiusAtEachLevel.Count() > 5)
+				else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count() > 5)
 				{
-					Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachLevel. Additional values will be removed.", LogLevel.Warn);
-					Config.PickaxeConfig.RadiusAtEachLevel = Config.PickaxeConfig.RadiusAtEachLevel.Take(5).ToList();
+					Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
+					Config.PickaxeConfig.RadiusAtEachPowerLevel = Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
 				}
 			}
 			else
 			{
-				if (Config.AxeConfig.RadiusAtEachLevel.Count() > 4)
+				if (Config.AxeConfig.RadiusAtEachPowerLevel.Count() > 4)
 				{
-					Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachLevel. Additional values will be removed.", LogLevel.Warn);
-					Config.AxeConfig.RadiusAtEachLevel = Config.AxeConfig.RadiusAtEachLevel.Take(4).ToList();
+					Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
+					Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(4).ToList();
 				}
 
-				if (Config.PickaxeConfig.RadiusAtEachLevel.Count() > 4)
+				if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count() > 4)
 				{
-					Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachLevel. Additional values will be removed.", LogLevel.Warn);
-					Config.PickaxeConfig.RadiusAtEachLevel = Config.PickaxeConfig.RadiusAtEachLevel.Take(4).ToList();
+					Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
+					Config.PickaxeConfig.RadiusAtEachPowerLevel = Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(4).ToList();
 				}
 			}
 
@@ -220,7 +220,7 @@ namespace TheLion.AwesomeTools
 				}
 			}
 
-			if (upgradeLevel == 5 && !(ModRegistry.IsLoaded("stokastic.PrismaticTools") || ModRegistry.IsLoaded("kakashigr.RadioactiveTools")))
+			if (upgradeLevel == 5 && !Utils.HasHigherLevelToolMod(ModRegistry))
 			{
 				Monitor.Log("Could not find 'Prismatic Tools' or 'Radioactive Tools' in the current mod registry.", LogLevel.Info);
 				return;

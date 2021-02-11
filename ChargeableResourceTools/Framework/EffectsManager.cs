@@ -31,13 +31,13 @@ namespace TheLion.AwesomeTools.Framework
 				case Axe:
 					if (_axe.Config.EnableAxeCharging)
 					{
-						_axe.SpreadToolEffect(tool, actionTile, _axe.Config.RadiusAtEachLevel, _multiplier, location, who);
+						_axe.SpreadToolEffect(tool, actionTile, _axe.Config.RadiusAtEachPowerLevel, _multiplier, location, who);
 					}
 					break;
 				case Pickaxe:
 					if (_pickaxe.Config.EnablePickaxeCharging)
 					{
-						_pickaxe.SpreadToolEffect(tool, actionTile, _pickaxe.Config.RadiusAtEachLevel, _multiplier, location, who);
+						_pickaxe.SpreadToolEffect(tool, actionTile, _pickaxe.Config.RadiusAtEachPowerLevel, _multiplier, location, who);
 					}
 					break;
 				default:
