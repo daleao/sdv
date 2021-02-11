@@ -21,7 +21,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if (ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown())
+				if (!ModEntry.Config.AxeConfig.EnableAxeCharging || (ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown()))
 					return true; // run original logic
 
 				who.Halt();
@@ -55,7 +55,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if (ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown())
+				if (!ModEntry.Config.PickaxeConfig.EnablePickaxeCharging || (ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown()))
 					return true; // run original logic
 
 				who.Halt();
