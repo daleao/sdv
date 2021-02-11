@@ -1,4 +1,6 @@
-﻿namespace TheLion.AwesomeTools.Framework.Configs
+﻿using System.Collections.Generic;
+
+namespace TheLion.AwesomeTools.Framework.Configs
 {
 	/// <summary>Configuration for the pickaxe shockwave.</summary>
 	public class PickaxeConfig
@@ -7,7 +9,7 @@
 		public bool EnablePickaxeCharging { get; set; } = true;
 
 		/// <summary>The radius of affected tiles at each upgrade level.</summary>
-		public int[] RadiusAtEachLevel { get; set; } = new int[] { 1, 2, 3, 4, 5 };
+		public List<int> RadiusAtEachLevel { get; set; } = new List<int>() { 1, 2, 3, 4 };
 
 		/// <summary>Whether to break boulders and meteorites.</summary>
 		public bool BreakBouldersAndMeteorites { get; set; } = true;

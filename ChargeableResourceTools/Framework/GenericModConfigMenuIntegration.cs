@@ -61,16 +61,16 @@ namespace TheLion.AwesomeTools.Framework
 				// keybinds
 				.AddLabel("Controls")
 				.AddCheckbox(
-					label: "Require Hotkey",
-					description: "Whether to require an additional hotkey to start charging.",
-					get: config => config.RequireHotkey,
-					set: (config, value) => config.RequireHotkey = value
+					label: "Require Modkey",
+					description: "Whether to require an additional Modkey to start charging.",
+					get: config => config.RequireModkey,
+					set: (config, value) => config.RequireModkey = value
 				)
 				.AddKeyBinding(
-					label: "Charging Hotkey",
-					description: "If 'RequireHotkey' is enabled, press this hotkey to allow charging.",
-					get: config => GetSingleButton(config.Hotkey),
-					set: (config, value) => config.Hotkey = KeybindList.ForSingle(value)
+					label: "Charging Modkey",
+					description: "If 'RequireModkey' is enabled, press this Modkey to allow charging.",
+					get: config => GetSingleButton(config.Modkey),
+					set: (config, value) => config.Modkey = KeybindList.ForSingle(value)
 				)
 
 				// axe options

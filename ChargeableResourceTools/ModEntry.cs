@@ -5,6 +5,7 @@ using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Tools;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using TheLion.AwesomeTools.Framework;
@@ -25,12 +26,12 @@ namespace TheLion.AwesomeTools
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper)
 		{
+			// get mod registry
+			ModRegistry = Helper.ModRegistry;
+
 			// get and verify configs.json
 			Config = Helper.ReadConfig<ModConfig>();
 			VerifyModConfig();
-
-			// get mod registry
-			ModRegistry = Helper.ModRegistry;
 
 			// get reflection interface
 			Reflection = Helper.Reflection;
@@ -101,51 +102,87 @@ namespace TheLion.AwesomeTools
 
 		private void VerifyModConfig()
 		{
-			if (Config.AxeConfig.RadiusAtEachLevel.Any(i => i < 0))
+			if (Config.AxeConfig.RadiusAtEachLevel.Count() < 4)
 			{
-				Monitor.Log("Found illegal negative value for shockwave radius in configs.json AxeConfig.RadiusAtEachLevel. Default values will be restored.", LogLevel.Warn);
-				Config.AxeConfig.RadiusAtEachLevel = new int[] { 1, 2, 3, 4, 5 };
-				Helper.WriteConfig(Config);
+				Monitor.Log("Missing values in configs.json AxeConfig.RadiusAtEachLevel. The default values will be restored.", LogLevel.Warn);
+				Config.AxeConfig.RadiusAtEachLevel = new List<int>() { 1, 2, 3, 4 };
 			}
-			else if (Config.AxeConfig.RadiusAtEachLevel.Length > 5)
+			else if (Config.AxeConfig.RadiusAtEachLevel.Any(i => i < 0))
 			{
-				Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachLevel. Default values will be restored.", LogLevel.Warn);
-				Config.AxeConfig.RadiusAtEachLevel = new int[] { 1, 2, 3, 4, 5 };
-				Helper.WriteConfig(Config);
-			}
-			
-			if (Config.PickaxeConfig.RadiusAtEachLevel.Any(i => i < 0))
-			{
-				Monitor.Log("Found illegal negative value for shockwave radius in configs.json PickaxeConfig.RadiusAtEachLevel. Default values will be restored.", LogLevel.Warn);
-				Config.PickaxeConfig.RadiusAtEachLevel = new int[] { 1, 2, 3, 4, 5 };
-				Helper.WriteConfig(Config);
-			}
-			else if (Config.PickaxeConfig.RadiusAtEachLevel.Length > 5)
-			{
-				Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachLevel. Default values will be restored.", LogLevel.Warn);
-				Config.PickaxeConfig.RadiusAtEachLevel = new int[] { 1, 2, 3, 4, 5 };
-				Helper.WriteConfig(Config);
+				Monitor.Log("Found illegal negative value for shockwave radius in configs.json AxeConfig.RadiusAtEachLevel. Those values will be replaced with zero.", LogLevel.Warn);
+				Config.AxeConfig.RadiusAtEachLevel = Config.AxeConfig.RadiusAtEachLevel.Select(x => x < 0 ? 0 : x).ToList();
 			}
 
-
-			if (Config.RequireHotkey && !Config.Hotkey.IsBound)
+			if (Config.PickaxeConfig.RadiusAtEachLevel.Count() < 4)
 			{
-				Monitor.Log("'RequireHotkey' setting is set to true, but no hotkey is bound. Default keybind will be restored. To disable the hotkey, set this value to false.", LogLevel.Warn);
-				Config.Hotkey = KeybindList.ForSingle(SButton.LeftShift);
-				Helper.WriteConfig(Config);
+				Monitor.Log("Missing values in configs.json PickaxeConfig.RadiusAtEachLevel. The default values will be restored.", LogLevel.Warn);
+				Config.PickaxeConfig.RadiusAtEachLevel = new List<int>() { 1, 2, 3, 4 };
+			}
+			else if (Config.PickaxeConfig.RadiusAtEachLevel.Any(i => i < 0))
+			{
+				Monitor.Log("Found illegal negative value for shockwave radius in configs.json PickaxeConfig.RadiusAtEachLevel. Those values will be replaced with zero.", LogLevel.Warn);
+				Config.PickaxeConfig.RadiusAtEachLevel = Config.PickaxeConfig.RadiusAtEachLevel.Select(x => x < 0 ? 0 : x).ToList();
+			}
+
+			if (Config.RequireModkey && !Config.Modkey.IsBound)
+			{
+				Monitor.Log("'RequireModkey' setting is set to true, but no Modkey is bound. Default keybind will be restored. To disable the Modkey, set this value to false.", LogLevel.Warn);
+				Config.Modkey = KeybindList.ForSingle(SButton.LeftShift);
 			}
 
 			if (Config.StaminaCostMultiplier < 0)
 			{
-				Monitor.Log("'StaminaCostMultiplier' is set to a negative value in configs.json. Please be aware that this may cause game-breaking bugs.", LogLevel.Warn);
+				Monitor.Log("'StaminaCostMultiplier' is set to a negative value in configs.json. This may cause game-breaking bugs.", LogLevel.Warn);
 			}
 
 			if (Config.ShockwaveDelay < 0)
 			{
-				Monitor.Log("Found illegal negative value for 'ShockwaveDelay' in configs.json. Default value will be restored.", LogLevel.Warn);
+				Monitor.Log("Found illegal negative value for 'ShockwaveDelay' in configs.json. The default value will be restored.", LogLevel.Warn);
 				Config.ShockwaveDelay = 200;
-				Helper.WriteConfig(Config);
 			}
+
+			if (ModRegistry.IsLoaded("stokastic.PrismaticTools") || ModRegistry.IsLoaded("kakashigr.RadioactiveTools"))
+			{
+				Monitor.Log("Prismatic or Radioactive Tools detected.", LogLevel.Info);
+
+				if (Config.AxeConfig.RadiusAtEachLevel.Count() < 5)
+				{
+					Monitor.Log("Adding default fifth radius value to Axe configurations.", LogLevel.Info);
+					Config.AxeConfig.RadiusAtEachLevel.Add(5);
+				}
+				else if (Config.AxeConfig.RadiusAtEachLevel.Count() > 5)
+				{
+					Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachLevel. Additional values will be removed.", LogLevel.Warn);
+					Config.AxeConfig.RadiusAtEachLevel = Config.AxeConfig.RadiusAtEachLevel.Take(5).ToList();
+				}
+
+				if (Config.PickaxeConfig.RadiusAtEachLevel.Count() < 5)
+				{
+					Monitor.Log("Adding default fifth radius value to Pickaxe configurations.", LogLevel.Info);
+					Config.PickaxeConfig.RadiusAtEachLevel.Add(5);
+				}
+				else if (Config.PickaxeConfig.RadiusAtEachLevel.Count() > 5)
+				{
+					Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachLevel. Additional values will be removed.", LogLevel.Warn);
+					Config.PickaxeConfig.RadiusAtEachLevel = Config.PickaxeConfig.RadiusAtEachLevel.Take(5).ToList();
+				}
+			}
+			else
+			{
+				if (Config.AxeConfig.RadiusAtEachLevel.Count() > 4)
+				{
+					Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachLevel. Additional values will be removed.", LogLevel.Warn);
+					Config.AxeConfig.RadiusAtEachLevel = Config.AxeConfig.RadiusAtEachLevel.Take(4).ToList();
+				}
+
+				if (Config.PickaxeConfig.RadiusAtEachLevel.Count() > 4)
+				{
+					Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachLevel. Additional values will be removed.", LogLevel.Warn);
+					Config.PickaxeConfig.RadiusAtEachLevel = Config.PickaxeConfig.RadiusAtEachLevel.Take(4).ToList();
+				}
+			}
+
+			Helper.WriteConfig(Config);
 		}
 
 		/// <summary>Set the upgrade level of all upgradeable tools in the player's inventory.</summary>

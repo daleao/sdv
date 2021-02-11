@@ -12,8 +12,8 @@ namespace TheLion.AwesomeTools
 		public PickaxeConfig PickaxeConfig { get; set; } = new();
 
 		/// <summary>Whether the mod requires an additional hotkey to activate.</summary>
-		public bool RequireHotkey { get; set; } = true;
-		public KeybindList Hotkey { get; set; } = KeybindList.ForSingle(SButton.LeftShift);
+		public bool RequireModkey { get; set; } = true;
+		public KeybindList Modkey { get; set; } = KeybindList.ForSingle(SButton.LeftShift);
 
 		/// <summary>How much stamina the shockwave should consume.</summary>
 		public float StaminaCostMultiplier { get; set; } = 1.0f;

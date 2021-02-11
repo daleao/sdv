@@ -12,8 +12,8 @@ namespace TheLion.AwesomeTools.Framework
 {
 	internal static class HarmonyPatcher
 	{
-		private static readonly int[] _axeAffectedTilesRadii = ModEntry.Config.AxeConfig.RadiusAtEachLevel;
-		private static readonly int[] _pickaxeAffectedTilesRadii = ModEntry.Config.PickaxeConfig.RadiusAtEachLevel;
+		private static readonly List<int> _axeAffectedTilesRadii = ModEntry.Config.AxeConfig.RadiusAtEachLevel;
+		private static readonly List<int> _pickaxeAffectedTilesRadii = ModEntry.Config.PickaxeConfig.RadiusAtEachLevel;
 
 		// Enable Axe power level increase
 		[HarmonyPatch(typeof(Axe), "beginUsing")]
@@ -21,7 +21,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if (ModEntry.Config.RequireHotkey && !ModEntry.Config.Hotkey.IsDown())
+				if (ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown())
 					return true; // run original logic
 
 				who.Halt();
@@ -55,7 +55,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if (ModEntry.Config.RequireHotkey && !ModEntry.Config.Hotkey.IsDown())
+				if (ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown())
 					return true; // run original logic
 
 				who.Halt();

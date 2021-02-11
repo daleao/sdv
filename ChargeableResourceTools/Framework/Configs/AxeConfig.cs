@@ -1,4 +1,6 @@
-﻿namespace TheLion.AwesomeTools.Framework.Configs
+﻿using System.Collections.Generic;
+
+namespace TheLion.AwesomeTools.Framework.Configs
 {
 	/// <summary>Configuration for the axe shockwave.</summary>
 	public class AxeConfig
@@ -7,7 +9,7 @@
 		public bool EnableAxeCharging { get; set; } = true;
 
 		/// <summary>The radius of affected tiles at each upgrade level.</summary>
-		public int[] RadiusAtEachLevel { get; set; } = new int[] { 1, 2, 3, 4, 5 };
+		public List<int> RadiusAtEachLevel { get; set; } = new List<int>() { 1, 2, 3, 4 };
 
 		/// <summary>Whether to clear fruit tree seeds.</summary>
 		public bool ClearFruitTreeSeeds { get; set; } = false;
