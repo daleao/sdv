@@ -43,7 +43,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 		/// <param name="who">The current player.</param>
 		public void SpreadToolEffect(Tool tool, Vector2 origin, List<int> radii, float multiplier, GameLocation location, Farmer who)
 		{
-			int radius = radii[Math.Min(who.toolPower - 1, 4)];
+			int radius = radii[Math.Min(who.toolPower - 1, radii.Count() - 1)];
 			who.stamina -= (who.toolPower - who.ForagingLevel * 0.1f) * radius * multiplier;
 
 			foreach (Vector2 tile in Utils.GetTilesAround(origin, radius))
