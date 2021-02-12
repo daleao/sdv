@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheLion.AwesomeProfessions.Framework.Farming
 {
-	class Rancher
+	internal class Harvester
 	{
 	}
 }

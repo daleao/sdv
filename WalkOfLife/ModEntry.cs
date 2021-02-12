@@ -33,49 +33,49 @@ namespace TheLion.AwesomeProfessions
 		public void InitializeProfessionIds()
 		{
 			// farming
-			ProfessionIds["harvester"] = Farmer.tiller;
-			ProfessionIds["agriculturist"] = Farmer.agriculturist;
-			ProfessionIds["oenologist"] = Farmer.artisan;
+			ProfessionIds["harvester"] = Farmer.tiller;				// 1
+			ProfessionIds["agriculturist"] = Farmer.agriculturist;	// 5
+			ProfessionIds["oenologist"] = Farmer.artisan;			// 4
 			
-			ProfessionIds["rancher"] = Farmer.rancher;
-			ProfessionIds["breeder"] = Farmer.shepherd;
-			ProfessionIds["apiologist"] = Farmer.butcher;
+			ProfessionIds["rancher"] = Farmer.rancher;				// 0
+			ProfessionIds["breeder"] = Farmer.shepherd;				// 3
+			ProfessionIds["apiologist"] = Farmer.butcher;			// 2 (coopmaster)
 
 			// foraging
-			ProfessionIds["forager"] = Farmer.gatherer;
-			ProfessionIds["botanist"] = Farmer.botanist;
-			ProfessionIds["mycologist"] = Farmer.tracker;
+			ProfessionIds["forager"] = Farmer.gatherer;				// 13
+			ProfessionIds["botanist"] = Farmer.botanist;			// 16
+			ProfessionIds["mycologist"] = Farmer.tracker;			// 17
 
-			ProfessionIds["lumberjack"] = Farmer.forester;
-			ProfessionIds["forester"] = Farmer.lumberjack;
-			ProfessionIds["tapper"] = Farmer.tapper;
+			ProfessionIds["lumberjack"] = Farmer.forester;			// 12
+			ProfessionIds["forester"] = Farmer.lumberjack;			// 14
+			ProfessionIds["tapper"] = Farmer.tapper;				// 15
 
 			// mining
-			ProfessionIds["miner"] = Farmer.miner;
-			ProfessionIds["spelunker"] = Farmer.burrower;
-			ProfessionIds["metallurgist"] = Farmer.blacksmith;
+			ProfessionIds["miner"] = Farmer.miner;					// 18
+			ProfessionIds["spelunker"] = Farmer.burrower;			// 21 (prospector)
+			ProfessionIds["metallurgist"] = Farmer.blacksmith;		// 20
 
-			ProfessionIds["blaster"] = Farmer.geologist;
-			ProfessionIds["demolitionist"] = Farmer.excavator;
-			ProfessionIds["gemologist"] = Farmer.gemologist;
+			ProfessionIds["blaster"] = Farmer.geologist;			// 19
+			ProfessionIds["demolitionist"] = Farmer.excavator;		// 22
+			ProfessionIds["gemologist"] = Farmer.gemologist;		// 23
 
 			// fishing
-			ProfessionIds["fisher"] = Farmer.fisher;
-			ProfessionIds["angler"] = Farmer.angler;
-			ProfessionIds["aquarist"] = Farmer.pirate;
+			ProfessionIds["fisher"] = Farmer.fisher;				// 6
+			ProfessionIds["angler"] = Farmer.angler;				// 8
+			ProfessionIds["aquarist"] = Farmer.pirate;				// 9
 
-			ProfessionIds["trapper"] = Farmer.trapper;
-			ProfessionIds["mariner"] = Farmer.mariner;
-			ProfessionIds["conservationist"] = Farmer.baitmaster;
+			ProfessionIds["trapper"] = Farmer.trapper;				// 7
+			ProfessionIds["mariner"] = Farmer.mariner;				// 11
+			ProfessionIds["conservationist"] = Farmer.baitmaster;	// 10
 
 			// combat
-			ProfessionIds["fighter"] = Farmer.fighter;
-			ProfessionIds["brute"] = Farmer.brute;
-			ProfessionIds["gambit"] = Farmer.defender;
+			ProfessionIds["fighter"] = Farmer.fighter;				// 24
+			ProfessionIds["brute"] = Farmer.brute;					// 26
+			ProfessionIds["gambit"] = Farmer.defender;				// 27
 
-			ProfessionIds["scout"] = Farmer.scout;
-			ProfessionIds["marksman"] = Farmer.acrobat;
-			ProfessionIds["venturer"] = Farmer.desperado;
+			ProfessionIds["scout"] = Farmer.scout;					// 25
+			ProfessionIds["marksman"] = Farmer.acrobat;				// 28
+			ProfessionIds["venturer"] = Farmer.desperado;			// 29
 		}
 	}
 }
