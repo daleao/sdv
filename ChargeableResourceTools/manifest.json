@@ -6,5 +6,5 @@
   "UniqueID": "thelion.AwesomeTools",
   "EntryDll": "AwesomeTools.dll",
   "MinimumApiVersion": "3.8.0",
-  "UpdateKeys": [ "Nexus: 7965" ]
+  "UpdateKeys": [ "Nexus:7965" ]
 }
