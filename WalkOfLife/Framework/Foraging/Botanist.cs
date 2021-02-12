@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AwesomeProfessions.Framework.Foraging
+namespace TheLion.AwesomeProfessions.Framework.Foraging
 {
 	internal class Botanist
 	{
@@ -31,7 +31,7 @@ namespace AwesomeProfessions.Framework.Foraging
 			412,	// winter root
 			416,	// snow yam
 			418,	// crocus
-			0,		// ginger ?
+			0		// ginger ?
 		};
 	}
 }

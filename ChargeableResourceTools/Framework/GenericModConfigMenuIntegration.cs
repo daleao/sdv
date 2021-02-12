@@ -136,6 +136,12 @@ namespace TheLion.AwesomeTools.Framework
 
 			menu
 				.AddCheckbox(
+					label: "Show Axe Affected Tiles",
+					description: "Whether to show affected tiles overlay while charging.",
+					get: config => config.AxeConfig.ShowAxeAffectedTiles,
+					set: (config, value) => config.AxeConfig.ShowAxeAffectedTiles = value
+				)
+				.AddCheckbox(
 					label: "Clear Fruit Tree Seeds",
 					description: "Whether to clear fruit tree seeds.",
 					get: config => config.AxeConfig.ClearFruitTreeSeeds,
@@ -270,6 +276,12 @@ namespace TheLion.AwesomeTools.Framework
 			}
 
 			menu
+				.AddCheckbox(
+					label: "Show Pickaxe Affected Tiles",
+					description: "Whether to show affected tiles overlay while charging.",
+					get: config => config.PickaxeConfig.ShowPickaxeAffectedTiles,
+					set: (config, value) => config.PickaxeConfig.ShowPickaxeAffectedTiles = value
+				)
 				.AddCheckbox(
 					label: "Break Boulders and Meteorites",
 					description: "Whether to break boulders and meteorites.",

@@ -4,6 +4,7 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
+using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 		public void SpreadToolEffect(Tool tool, Vector2 origin, List<int> radii, float multiplier, GameLocation location, Farmer who)
 		{
 			int radius = radii[Math.Min(who.toolPower - 1, radii.Count() - 1)];
-			who.stamina -= (who.toolPower - who.ForagingLevel * 0.1f) * (who.toolPower - 1) * multiplier;
+			who.stamina -= (who.toolPower - (tool is Axe ? who.ForagingLevel : who.MiningLevel) * 0.1f) * (who.toolPower - 1) * multiplier;
 
 			foreach (Vector2 tile in Utils.GetTilesAround(origin, radius))
 			{

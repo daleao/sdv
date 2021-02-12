@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AwesomeProfessions.Framework.Farming
+namespace TheLion.AwesomeProfessions.Framework.Farming
 {
 	internal class Apiologist
 	{

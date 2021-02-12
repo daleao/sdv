@@ -222,7 +222,7 @@ namespace TheLion.AwesomeTools
 
 			if (upgradeLevel == 5 && !Utils.HasHigherLevelToolMod(ModRegistry))
 			{
-				Monitor.Log("Could not find 'Prismatic Tools' or 'Radioactive Tools' in the current mod registry.", LogLevel.Info);
+				Monitor.Log("You must have either 'Prismatic Tools' or 'Radioactive Tools' installed to set this upgrade level.", LogLevel.Info);
 				return;
 			}
 

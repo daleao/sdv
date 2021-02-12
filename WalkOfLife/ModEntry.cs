@@ -14,7 +14,7 @@ namespace TheLion.AwesomeProfessions
 	public class ModEntry : Mod
 	{
 		public static ModConfig Config { get; set; }
-		public Dictionary<string, int> ProfessionIds { get; set; } = new();
+		public static Dictionary<string, int> ProfessionIds { get; set; } = new();
 
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>

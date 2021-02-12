@@ -14,6 +14,9 @@ namespace TheLion.AwesomeTools.Framework.Configs
 		/// <summary>The radius of affected tiles at each upgrade level.</summary>
 		public List<int> RadiusAtEachPowerLevel { get; set; } = new List<int>() { 1, 2, 3, 4 };
 
+		/// <summary>Whether to show affected tiles overlay while charging.</summary>
+		public bool ShowAxeAffectedTiles { get; set; } = true;
+
 		/// <summary>Whether to clear fruit tree seeds.</summary>
 		public bool ClearFruitTreeSeeds { get; set; } = false;
 

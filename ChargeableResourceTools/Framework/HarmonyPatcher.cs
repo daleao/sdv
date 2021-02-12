@@ -97,9 +97,7 @@ namespace TheLion.AwesomeTools.Framework
 					if (l[i].opcode == OpCodes.Isinst && l[i].operand.ToString().Equals("StardewValley.Tools.Pickaxe"))
 					{
 						// inject logic: branch over toolPower += 2
-						l.InsertRange(i - 2, new List<CodeInstruction>
-							{ new CodeInstruction(OpCodes.Br_S, l[i + 1].operand) }
-						);
+						l.Insert(i - 2, new CodeInstruction(OpCodes.Br_S, l[i + 1].operand));
 						break;
 					}
 				}
@@ -133,19 +131,19 @@ namespace TheLion.AwesomeTools.Framework
 			}
 		}
 
-		//// Hide affected tiles overlay of Axe and Pickaxe
-		//[HarmonyPatch(typeof(Tool), "draw")]
-		//internal class Before_Tool_Draw
-		//{
-		//	protected static bool Prefix(ref Tool __instance)
-		//	{
-		//		if (__instance is Axe || __instance is Pickaxe)
-		//		{
-		//			return false;
-		//		}
-		//		return true;
-		//	}
-		//}
+		// Hide affected tiles overlay for Axe or Pickaxe
+		[HarmonyPatch(typeof(Tool), "draw")]
+		internal class Before_Tool_Draw
+		{
+			protected static bool Prefix(ref Tool __instance)
+			{
+				if (__instance is Axe && !ModEntry.Config.AxeConfig.ShowAxeAffectedTiles || __instance is Pickaxe && !ModEntry.Config.PickaxeConfig.ShowPickaxeAffectedTiles)
+				{
+					return false;
+				}
+				return true;
+			}
+		}
 
 		// Prevent shockwave from triggering the "tool isn't strong enough" dialogue
 		[HarmonyPatch(typeof(ResourceClump), "performToolAction")]
