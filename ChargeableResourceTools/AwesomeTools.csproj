@@ -1,39 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <AssemblyName>AwesomeTools</AssemblyName>
-    <RootNamespace>AwesomeTools</RootNamespace>
-    <Version>1.0.0</Version>
-    <TargetFramework>net452</TargetFramework>
-    <Platforms>x86</Platforms>
-    <PlatformTarget>x86</PlatformTarget>
+	<PropertyGroup>
+		<AssemblyName>AwesomeTools</AssemblyName>
+		<RootNamespace>TheLion.AwesomeTools</RootNamespace>
+		<Version>1.0.9</Version>
+		<TargetFramework>net452</TargetFramework>
+		<Platforms>x86</Platforms>
+		<PlatformTarget>x86</PlatformTarget>
 
-    <EnableHarmony>true</EnableHarmony>
-  </PropertyGroup>
-  
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <NoWarn>1701;1702</NoWarn>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <NoWarn>1701;1702;CS8509</NoWarn>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.2.2" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-  </ItemGroup>
+		<EnableHarmony>true</EnableHarmony>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+		<NoWarn>1701;1702</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+		<NoWarn>1701;1702;CS8509</NoWarn>
+	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Include="../Common/Extensions/Extensions.cs" Link="Extensions.cs"/>
-		<Compile Include="../Common/Integrations/IModIntegration.cs" Link="IModIntegration.cs"/>
-		<Compile Include="../Common/Integrations/BaseIntegration.cs" Link="BaseIntegration.cs"/>
-		<Compile Include="../Common/Integrations/GenericModConfigMenu/IGenericModConfigMenuApi.cs" Link="IGenericModConfigMenuApi.cs"/>
-		<Compile Include="../Common/Integrations/GenericModConfigMenu/GenericModConfigMenuIntegration.cs" Link="GenericModConfigMenuIntegration.cs"/>
+		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.2.2" />
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
 	</ItemGroup>
-
+  
+	<Import Project="..\Common\Common.projitems" Label="Shared" Condition="Exists('..\Common\Common.projitems')" />
 </Project>

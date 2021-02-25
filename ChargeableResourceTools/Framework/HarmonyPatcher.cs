@@ -8,8 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 
+using static TheLion.AwesomeTools.Framework.Utils;
+
 namespace TheLion.AwesomeTools.Framework
 {
+	/// <summary>Patches the game code to implement modded tool behavior.</summary>
 	internal static class HarmonyPatcher
 	{
 		private static readonly List<int> _axeAffectedTilesRadii = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel;
@@ -21,7 +24,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if (!Utils.ShouldCharge(__instance))
+				if (!ShouldCharge(__instance))
 					return true; // run original logic
 
 				who.Halt();
@@ -56,7 +59,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if (!Utils.ShouldCharge(__instance))
+				if (!ShouldCharge(__instance))
 					return true; // run original logic
 
 				who.Halt();
@@ -123,7 +126,7 @@ namespace TheLion.AwesomeTools.Framework
 					if (radius == 0)
 						return;
 
-					foreach (Vector2 tile in Utils.GetTilesAround(tileLocation, radius))
+					foreach (Vector2 tile in GetTilesAround(tileLocation, radius))
 					{
 						__result.Add(tile);
 					}

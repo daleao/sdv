@@ -6,6 +6,7 @@ using TheLion.Common.Integrations.GenericModConfigMenu;
 
 namespace TheLion.AwesomeTools.Framework
 {
+	/// <summary>Constructs the GenericModConfigMenu integration for Awesome Tools.</summary>
 	internal class GenericModConfigMenuIntegrationForAwesomeTools
 	{
 		/// <summary>The Generic Mod Config Menu integration.</summary>

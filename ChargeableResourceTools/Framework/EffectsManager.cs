@@ -2,11 +2,11 @@
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-using System;
 using TheLion.AwesomeTools.Framework.ToolEffects;
 
 namespace TheLion.AwesomeTools.Framework
 {
+	/// <summary>Manages control between each tool.</summary>
 	public class EffectsManager
 	{
 		private readonly AxeEffect _axe;

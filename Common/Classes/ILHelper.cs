@@ -1,0 +1,420 @@
+﻿using Harmony;
+using Netcode;
+using StardewModdingAPI;
+using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
+
+namespace TheLion.Common.Classes.Harmony
+{
+	/// <summary>Provides an interface to abstract common transpiler operations.</summary>
+	public class ILHelper
+	{
+		private List<CodeInstruction> _instructionList;
+		private List<CodeInstruction> _instructionListBackup;
+		private List<CodeInstruction> _buffer;
+		private readonly Stack<int> _indexStack;
+		private readonly IMonitor _monitor;
+
+		/// <summary>The index currently at the top of the index stack.</summary>
+		private int _CurrentIndex
+		{
+			get
+			{
+				if (_indexStack == null || _indexStack.Count() < 1)
+					throw new IndexOutOfRangeException("The index stack is either null or empty.");
+				
+				return _indexStack.Peek();
+			}
+		}
+
+		/// <summary>Construct an instance.</summary>
+		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
+		public ILHelper(IMonitor monitor)
+		{
+			_indexStack = new();
+			_monitor = monitor;
+		}
+
+		/// <summary>Construct an instance.</summary>
+		/// <param name="instructions">A list of IL code instructions.</param>
+		/// <param name="monitor">Writes messages to the console and log file.</param>
+		public ILHelper(IEnumerable<CodeInstruction> instructions, IMonitor monitor)
+		{
+			_instructionList = instructions.ToList();
+			_instructionListBackup = _instructionList.Clone();
+			_indexStack = new();
+			_monitor = monitor;
+		}
+
+		/// <summary>Attach a new list of code instructions to this instance.</summary>
+		/// <param name="instructions">A list of IL code instructions.</param>
+		public ILHelper Attach(IEnumerable<CodeInstruction> instructions)
+		{
+			_instructionList = instructions.ToList();
+			_instructionListBackup = _instructionList.Clone();
+			_indexStack.Clear();
+			return this;
+		}
+
+		/// <summary>Create an internal copy of the active code instruction list.</summary>
+		public ILHelper Backup()
+		{
+			_instructionListBackup = _instructionList.Clone();
+			return this;
+		}
+
+		/// <summary>Find the first occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
+		/// <param name="pattern">A sequence of code instructions to match.</param>
+		public ILHelper Find(params CodeInstruction[] pattern)
+		{
+			int index = _instructionList.IndexOf(pattern);
+			if (index < 0)
+				throw new IndexOutOfRangeException("The instruction pattern was not found.");
+
+			_indexStack.Push(index);
+			return this;
+		}
+
+		/// <summary>Find the first or next occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
+		/// <param name="fromCurrentIndex">Whether to begin search from currently pointed index.</param>
+		/// <param name="pattern">A sequence of code instructions to match.</param>
+		public ILHelper Find(bool fromCurrentIndex, params CodeInstruction[] pattern)
+		{
+			int index = _instructionList.IndexOf(pattern, start: fromCurrentIndex ? _CurrentIndex + 1 : 0);
+			if (index < 0)
+				throw new IndexOutOfRangeException("The instruction pattern was not found.");
+
+			_indexStack.Push(index);
+			return this;
+		}
+
+		/// <summary>Find the first or next occurrence of the pattern corresponding to `player.professions.Contains()` in the active code instruction list and move the index pointer to it.</summary>
+		/// <param name="whichProfession">The profession id.</param>
+		/// <param name="fromCurrentIndex">Whether to begin search from currently pointed index.</param>
+		public ILHelper FindProfessionCheck(int whichProfession, bool fromCurrentIndex = false)
+		{
+			return Find(
+				fromCurrentIndex,
+				new CodeInstruction(OpCodes.Ldfld, operand: AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
+				_LoadProfessionIdIL(whichProfession),
+				new CodeInstruction(OpCodes.Callvirt, operand: AccessTools.Method(typeof(NetList<Int32, NetInt>), nameof(NetList<Int32, NetInt>.Contains)))
+			);
+		}
+
+		/// <summary>Move the index pointer forward by an integer amount.</summary>
+		/// <param name="steps">Number of steps by which to move the index pointer.</param>
+		public ILHelper Advance(int steps = 1)
+		{
+			if (_CurrentIndex + steps < 0 || _CurrentIndex + steps + 1 > _instructionList.Count())
+				throw new IndexOutOfRangeException("New index is out of range.");
+
+			_indexStack.Push(_CurrentIndex + steps);
+			return this;
+		}
+
+		/// <summary>Move the index pointer forward until a specific pattern is found.</summary>
+		/// <param name="pattern">A sequence of code instructions to match.</param>
+		public ILHelper AdvanceUntil(params CodeInstruction[] pattern)
+		{
+			return Find(fromCurrentIndex: true, pattern);
+		}
+
+		/// <summary>Move the index pointer backward by an integer amount.</summary>
+		/// <param name="steps">Number of steps by which to move the index pointer.</param>
+		public ILHelper Retreat(int steps = 1)
+		{
+			return Advance(-steps);
+		}
+
+		/// <summary>Return the index pointer to a previous state.</summary>
+		/// <param name="count">Number of index changes to discard.</param>
+		public ILHelper Return(int count = 1)
+		{
+			for (int i = 0; i < count; ++i)
+			{
+				_indexStack.Pop();
+			}
+			return this;
+		}
+
+		/// <summary>Move the index pointer to a specific index.</summary>
+		/// <param name="index">The index to move to.</param>
+		public ILHelper GoTo(int index)
+		{
+			if (index < 0)
+				throw new IndexOutOfRangeException("Cannot go to a negative index.");
+
+			if (index > _instructionList.Count() - 1)
+				throw new IndexOutOfRangeException("New index is out of range.");
+
+			_indexStack.Push(index);
+			return this;
+		}
+
+		/// <summary>Replace the code instruction at the currently pointed index.</summary>
+		/// <param name="instruction">The instruction to replace with.</param>
+		public ILHelper ReplaceWith(CodeInstruction instruction)
+		{
+			_instructionList[_CurrentIndex] = instruction;
+			return this;
+		}
+
+		/// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
+		/// <param name="instructions">A sequence of code instructions to insert.</param>
+		public ILHelper Insert(params CodeInstruction[] instructions)
+		{
+			_instructionList.InsertRange(_CurrentIndex, instructions);
+			_indexStack.Push(_CurrentIndex + instructions.Count());
+			return this;
+		}
+
+		/// <summary>Insert any code instructions in the buffer at the currently pointed index.</summary>
+		public ILHelper InsertBuffer()
+		{
+			_instructionList.InsertRange(_CurrentIndex, _buffer);
+			_indexStack.Push(_CurrentIndex + _buffer.Count());
+			return this;
+		}
+
+		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the player has a given profession.</summary>
+		/// <param name="whichProfession">The profession id.</param>
+		/// <param name="destination">The destination to branch to when the check returns false.</param>
+		public ILHelper InsertProfessionCheck(int whichProfession, Label branchDestination, bool branchIfTrue = false)
+		{
+			return Insert(
+				new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Game1), nameof(Game1.player)).GetGetMethod()),
+				new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
+				_LoadProfessionIdIL(whichProfession),
+				new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(NetList<Int32, NetInt>), nameof(NetList<Int32, NetInt>.Contains))),
+				new CodeInstruction(branchIfTrue ? OpCodes.Brtrue_S : OpCodes.Brfalse_S, operand: branchDestination)
+			);
+		}
+
+		/// <summary>Remove any number of code instructions staritng at the currently pointed index.</summary>
+		/// <param name="count">Number of code instructions to remove.</param>
+		public ILHelper Remove(int count = 1)
+		{
+			if (_CurrentIndex + count + 1 > _instructionList.Count())
+				throw new IndexOutOfRangeException("Cannot remove item out of range.");
+
+			_instructionList.RemoveRange(_CurrentIndex, count);
+			return this;
+		}
+
+		/// <summary>Copy any number of code instructions starting at the currently pointed index to the buffer.</summary>
+		/// <param name="count">Number of code instructions to copy.</param>
+		/// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
+		/// <param name="advance">Whether to advance the index pointer.</param>
+		public ILHelper ToBuffer(int count = 1, bool stripLabels = false, bool advance = false)
+		{
+			_buffer = _instructionList.GetRange(_CurrentIndex, count).Clone();
+			
+			if (stripLabels)
+				_StripLabelsFromBuffer();
+
+			if (advance)
+				_indexStack.Push(_CurrentIndex + count);
+
+			return this;
+		}
+
+		/// <summary>Copy all the code instructions starting at the currently pointed index until a specific pattern is found to the buffer.</summary>
+		/// <param name="pattern">A sequence of code instructions to match.</param>
+		public ILHelper ToBufferUntil(params CodeInstruction[] pattern)
+		{
+			AdvanceUntil(pattern);
+
+			int endIndex = _indexStack.Pop();
+			int count = endIndex - _CurrentIndex;
+			_buffer = _instructionList.GetRange(_CurrentIndex, count + 1).Clone();
+
+			return this;
+		}
+
+		/// <summary>Copy all the code instructions starting at the currently pointed index until a specific pattern is found to the buffer.</summary>
+		/// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
+		/// <param name="pattern">A sequence of code instructions to match.</param>
+		public ILHelper ToBufferUntil(bool stripLabels, params CodeInstruction[] pattern)
+		{
+			AdvanceUntil(pattern);
+
+			int endIndex = _indexStack.Pop() + 1;
+			int count = endIndex - _CurrentIndex;
+			_buffer = _instructionList.GetRange(_CurrentIndex, count).Clone();
+
+			if (stripLabels)
+				_StripLabelsFromBuffer();
+
+			return this;
+		}
+
+		/// <summary>Copy all the code instructions starting at the currently pointed index until a specific pattern is found to the buffer.</summary>
+		/// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
+		/// <param name="advance">Whether to advance the index pointer.</param>
+		/// <param name="pattern">A sequence of code instructions to match.</param>
+		public ILHelper ToBufferUntil(bool stripLabels, bool advance, params CodeInstruction[] pattern)
+		{
+			AdvanceUntil(pattern);
+
+			int endIndex = _indexStack.Pop() + 1;
+			int count = endIndex - _CurrentIndex;
+			_buffer = _instructionList.GetRange(_CurrentIndex, count).Clone();
+
+			if (stripLabels)
+				_StripLabelsFromBuffer();
+
+			if (advance)
+				_indexStack.Push(endIndex);
+
+			return this;
+		}
+
+		/// <summary>Add a label to the code instruction at the currently pointed index.</summary>
+		/// <param name="label">The label to add.</param>
+		public ILHelper AddLabel(Label label)
+		{
+			_instructionList[_CurrentIndex].labels.Add(label);
+			return this;
+		}
+
+		/// <summary>Return the opcode of the code instruction at the currently pointed index.</summary>
+		/// <param name="opcode">The returned opcode.</param>
+		public ILHelper GetOpCode(out OpCode opcode)
+		{
+			opcode = _instructionList[_CurrentIndex].opcode;
+			return this;
+		}
+
+		/// <summary>Change the opcode of the code instruction at the currently pointed index.</summary>
+		/// <param name="opcode">The new opcode.</param>
+		public ILHelper SetOpCode(OpCode opcode)
+		{
+			_instructionList[_CurrentIndex].opcode = opcode;
+			return this;
+		}
+
+		/// <summary>Return the operand of the code instruction at the currently pointed index.</summary>
+		/// <param name="operand">The returned operand.</param>
+		public ILHelper GetOperand(out object operand)
+		{
+			operand = _instructionList[_CurrentIndex].operand;
+			return this;
+		}
+
+		/// <summary>Change the operand of the code instruction at the currently pointed index.</summary>
+		/// <param name="operand">The new operand.</param>
+		public ILHelper SetOperand(object operand)
+		{
+			_instructionList[_CurrentIndex].operand = operand;
+			return this;
+		}
+
+		/// <summary>Log information to the SMAPI console.</summary>
+		/// <param name="text">The message to log.</param>
+		public ILHelper Log(string text)
+		{
+			_monitor.Log(text, LogLevel.Info);
+			return this;
+		}
+
+		/// <summary>Log a warning to the SMAPI console.</summary>
+		/// <param name="text">The warning message.</param>
+		public ILHelper Warn(string text)
+		{
+			_monitor.Log(text, LogLevel.Warn);
+			return this;
+		}
+
+		/// <summary>Log an error to the SMAPI console.</summary>
+		/// <param name="text">The error message.</param>
+		public ILHelper Error(string text)
+		{
+			_monitor.Log(text, LogLevel.Error);
+			return this;
+		}
+
+		/// <summary>Reset the current instance.</summary>
+		public ILHelper Clear()
+		{
+			_indexStack.Clear();
+			_instructionList.Clear();
+			return this;
+		}
+
+		/// <summary>Restore the active code instruction list to the backed-up state.</summary>
+		public ILHelper Restore()
+		{
+			_indexStack.Clear();
+			_instructionList = _instructionListBackup;
+			return this;
+		}
+
+		/// <summary>Return the active code instruction list as enumerable.</summary>
+		public IEnumerable<CodeInstruction> Flush()
+		{
+			return _instructionList.AsEnumerable();
+		}
+
+		/// <summary>Remove any labels from the code instructions currently in the buffer.</summary>
+		private void _StripLabelsFromBuffer()
+		{
+			for (int i = 0; i < _buffer.Count(); ++i)
+			{
+				_buffer[i].labels.Clear();
+			}
+		}
+
+		/// <summary>Get the corresponding IL code instruction which loads a given profession id.</summary>
+		/// <param name="whichProfession">The profession id.</param>
+		private CodeInstruction _LoadProfessionIdIL(int whichProfession)
+		{
+			return whichProfession switch
+			{
+				0 => new CodeInstruction(OpCodes.Ldc_I4_0),
+				1 => new CodeInstruction(OpCodes.Ldc_I4_1),
+				2 => new CodeInstruction(OpCodes.Ldc_I4_2),
+				3 => new CodeInstruction(OpCodes.Ldc_I4_3),
+				4 => new CodeInstruction(OpCodes.Ldc_I4_4),
+				5 => new CodeInstruction(OpCodes.Ldc_I4_5),
+				6 => new CodeInstruction(OpCodes.Ldc_I4_6),
+				7 => new CodeInstruction(OpCodes.Ldc_I4_7),
+				8 => new CodeInstruction(OpCodes.Ldc_I4_8),
+				_ => new CodeInstruction(OpCodes.Ldc_I4_S, operand: (sbyte)whichProfession)
+			};
+		}
+	}
+
+	public static class ListExtensions
+	{
+		/// <summary>Determine the index of a code instruction in a list of instructions.</summary>
+		/// <param name="list">The list to be searched.</param>
+		/// <param name="pattern">The pattern to search for.</param>
+		/// <param name="start">The starting index.</param>
+		public static int IndexOf(this IList<CodeInstruction> list, CodeInstruction[] pattern, int start = 0)
+		{
+			for (int i = start; i < list.Count() - pattern.Count() + 1; ++i)
+			{
+				int j = 0;
+				while (j < pattern.Count() && list[i + j].opcode.Equals(pattern[j].opcode)
+					&& (pattern[j].operand == null || list[i + j].operand.ToString().Equals(pattern[j].operand.ToString())))
+				{
+					++j;
+				}
+				if (j == pattern.Count())
+				{
+					return i;
+				}
+			}
+
+			return -1;
+		}
+
+		public static List<CodeInstruction> Clone(this IList<CodeInstruction> list)
+		{
+			return list.Select(instruction => new CodeInstruction(instruction)).ToList();
+		}
+	}
+}

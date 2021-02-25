@@ -3,7 +3,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
-using TheLion.AwesomeTools.Framework.Configs;
+using TheLion.AwesomeTools.Configs;
 using TheLion.Common.Extensions;
 using SObject = StardewValley.Object;
 

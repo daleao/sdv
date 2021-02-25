@@ -18,6 +18,7 @@ namespace TheLion.AwesomeTools
 		public static IModRegistry ModRegistry { get; set; }
 		public static IReflectionHelper Reflection { get; set; }
 		public static ModConfig Config { get; set; }
+
 		public static bool IsDoingShockwave { get; set; } = false;
 
 		private EffectsManager _manager;

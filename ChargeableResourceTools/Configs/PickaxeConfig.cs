@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TheLion.AwesomeTools.Framework.Configs
+namespace TheLion.AwesomeTools.Configs
 {
 	/// <summary>Configuration for the pickaxe shockwave.</summary>
 	public class PickaxeConfig
