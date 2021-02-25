@@ -58,14 +58,16 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldarg_0)
 					)
 					.AddLabel(isNotTapper)							// branch here if player is not tapper
-					.InsertProfessionCheck(ProfessionsMap.Forward["tapper"], branchDestination: isNotTapper, label: tapperCheck)
+					.InsertProfessionCheck(ProfessionsMap.Forward["tapper"], branchDestination: isNotTapper)
 					.Insert(
 						// multiply local 0 by 0.75
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 0.75f),
 						new CodeInstruction(OpCodes.Ldloc_0),		// local 0 = time_multiplier
 						new CodeInstruction(OpCodes.Mul),
 						new CodeInstruction(OpCodes.Stloc_0)
-					);
+					)
+					.Return(2)
+					.AddLabel(tapperCheck);
 			}
 			catch (Exception ex)
 			{

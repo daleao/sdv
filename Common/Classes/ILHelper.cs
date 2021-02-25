@@ -164,30 +164,26 @@ namespace TheLion.Common.Harmony
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
 		/// <param name="instructions">A sequence of code instructions to insert.</param>
-		public ILHelper Insert(object label = null, params CodeInstruction[] instructions)
+		public ILHelper Insert(params CodeInstruction[] instructions)
 		{
 			_instructionList.InsertRange(_CurrentIndex, instructions);
-			if (label != null)
-				_instructionList[_CurrentIndex].labels.Add((Label)label);
-
 			_indexStack.Push(_CurrentIndex + instructions.Count());
 			return this;
 		}
 
 		/// <summary>Insert any code instructions in the buffer at the currently pointed index.</summary>
-		public ILHelper InsertBuffer(object label = null)
+		public ILHelper InsertBuffer()
 		{
-			Insert(label, _buffer.ToArray());
+			Insert(_buffer.ToArray());
 			return this;
 		}
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the player has a given profession.</summary>
 		/// <param name="whichProfession">The profession id.</param>
 		/// <param name="destination">The destination to branch to when the check returns false.</param>
-		public ILHelper InsertProfessionCheck(int whichProfession, Label branchDestination, object label = null, bool branchIfTrue = false)
+		public ILHelper InsertProfessionCheck(int whichProfession, Label branchDestination, bool branchIfTrue = false)
 		{
 			return Insert(
-				label,
 				new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Game1), nameof(Game1.player)).GetGetMethod()),
 				new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
 				_LoadProfessionIdIL(whichProfession),
