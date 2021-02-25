@@ -5,7 +5,7 @@ using StardewValley;
 using StardewValley.Characters;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using TheLion.Common.Classes.Harmony;
+using TheLion.Common.Harmony;
 
 using static TheLion.AwesomeProfessions.Framework.Utils;
 
@@ -100,7 +100,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			{
 				_helper.
 					AdvanceUntil(																// find the index of Crop.fertilizerQualityLevel >= 3
-						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(Int32)} (8)"),  // local 8 = Crop.fertilizerQualityLevel
+						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(Int32)} (8)"),	// local 8 = Crop.fertilizerQualityLevel
 						new CodeInstruction(OpCodes.Ldc_I4_3),
 						new CodeInstruction(OpCodes.Blt)
 					)
@@ -115,7 +115,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper.Restore().Error($"Failed while patching Agriculturist crop harvest quality.\nHelper returned {ex}");
 			}
 
-			return _helper.Log("Successful").Flush();
+			return _helper.Flush();
 		}
 	}
 }

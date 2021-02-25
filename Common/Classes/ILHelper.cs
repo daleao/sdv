@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 
-namespace TheLion.Common.Classes.Harmony
+namespace TheLion.Common.Harmony
 {
 	/// <summary>Provides an interface to abstract common transpiler operations.</summary>
 	public class ILHelper
@@ -104,7 +104,7 @@ namespace TheLion.Common.Classes.Harmony
 			);
 		}
 
-		/// <summary>Move the index pointer forward by an integer amount.</summary>
+		/// <summary>Move the index pointer forward an integer number of steps.</summary>
 		/// <param name="steps">Number of steps by which to move the index pointer.</param>
 		public ILHelper Advance(int steps = 1)
 		{
@@ -122,7 +122,7 @@ namespace TheLion.Common.Classes.Harmony
 			return Find(fromCurrentIndex: true, pattern);
 		}
 
-		/// <summary>Move the index pointer backward by an integer amount.</summary>
+		/// <summary>Move the index pointer backward an integer number of steps.</summary>
 		/// <param name="steps">Number of steps by which to move the index pointer.</param>
 		public ILHelper Retreat(int steps = 1)
 		{
@@ -164,27 +164,30 @@ namespace TheLion.Common.Classes.Harmony
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
 		/// <param name="instructions">A sequence of code instructions to insert.</param>
-		public ILHelper Insert(params CodeInstruction[] instructions)
+		public ILHelper Insert(object label = null, params CodeInstruction[] instructions)
 		{
 			_instructionList.InsertRange(_CurrentIndex, instructions);
+			if (label != null)
+				_instructionList[_CurrentIndex].labels.Add((Label)label);
+
 			_indexStack.Push(_CurrentIndex + instructions.Count());
 			return this;
 		}
 
 		/// <summary>Insert any code instructions in the buffer at the currently pointed index.</summary>
-		public ILHelper InsertBuffer()
+		public ILHelper InsertBuffer(object label = null)
 		{
-			_instructionList.InsertRange(_CurrentIndex, _buffer);
-			_indexStack.Push(_CurrentIndex + _buffer.Count());
+			Insert(label, _buffer.ToArray());
 			return this;
 		}
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the player has a given profession.</summary>
 		/// <param name="whichProfession">The profession id.</param>
 		/// <param name="destination">The destination to branch to when the check returns false.</param>
-		public ILHelper InsertProfessionCheck(int whichProfession, Label branchDestination, bool branchIfTrue = false)
+		public ILHelper InsertProfessionCheck(int whichProfession, Label branchDestination, object label = null, bool branchIfTrue = false)
 		{
 			return Insert(
+				label,
 				new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Game1), nameof(Game1.player)).GetGetMethod()),
 				new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
 				_LoadProfessionIdIL(whichProfession),
@@ -193,7 +196,7 @@ namespace TheLion.Common.Classes.Harmony
 			);
 		}
 
-		/// <summary>Remove any number of code instructions staritng at the currently pointed index.</summary>
+		/// <summary>Remove code instructions starting from the currently pointed index.</summary>
 		/// <param name="count">Number of code instructions to remove.</param>
 		public ILHelper Remove(int count = 1)
 		{
@@ -204,7 +207,7 @@ namespace TheLion.Common.Classes.Harmony
 			return this;
 		}
 
-		/// <summary>Copy any number of code instructions starting at the currently pointed index to the buffer.</summary>
+		/// <summary>Copy code instructions starting from the currently pointed index to the buffer.</summary>
 		/// <param name="count">Number of code instructions to copy.</param>
 		/// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
 		/// <param name="advance">Whether to advance the index pointer.</param>
@@ -221,7 +224,7 @@ namespace TheLion.Common.Classes.Harmony
 			return this;
 		}
 
-		/// <summary>Copy all the code instructions starting at the currently pointed index until a specific pattern is found to the buffer.</summary>
+		/// <summary>Copy code instructions starting from the currently pointed index until a specific pattern is found to the buffer.</summary>
 		/// <param name="pattern">A sequence of code instructions to match.</param>
 		public ILHelper ToBufferUntil(params CodeInstruction[] pattern)
 		{
@@ -234,7 +237,7 @@ namespace TheLion.Common.Classes.Harmony
 			return this;
 		}
 
-		/// <summary>Copy all the code instructions starting at the currently pointed index until a specific pattern is found to the buffer.</summary>
+		/// <summary>Copy code instructions starting from the currently pointed index until a specific pattern is found to the buffer.</summary>
 		/// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
 		/// <param name="pattern">A sequence of code instructions to match.</param>
 		public ILHelper ToBufferUntil(bool stripLabels, params CodeInstruction[] pattern)
@@ -251,7 +254,7 @@ namespace TheLion.Common.Classes.Harmony
 			return this;
 		}
 
-		/// <summary>Copy all the code instructions starting at the currently pointed index until a specific pattern is found to the buffer.</summary>
+		/// <summary>Copy code instructions starting from the currently pointed index until a specific pattern is found to the buffer.</summary>
 		/// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
 		/// <param name="advance">Whether to advance the index pointer.</param>
 		/// <param name="pattern">A sequence of code instructions to match.</param>
@@ -384,37 +387,6 @@ namespace TheLion.Common.Classes.Harmony
 				8 => new CodeInstruction(OpCodes.Ldc_I4_8),
 				_ => new CodeInstruction(OpCodes.Ldc_I4_S, operand: (sbyte)whichProfession)
 			};
-		}
-	}
-
-	public static class ListExtensions
-	{
-		/// <summary>Determine the index of a code instruction in a list of instructions.</summary>
-		/// <param name="list">The list to be searched.</param>
-		/// <param name="pattern">The pattern to search for.</param>
-		/// <param name="start">The starting index.</param>
-		public static int IndexOf(this IList<CodeInstruction> list, CodeInstruction[] pattern, int start = 0)
-		{
-			for (int i = start; i < list.Count() - pattern.Count() + 1; ++i)
-			{
-				int j = 0;
-				while (j < pattern.Count() && list[i + j].opcode.Equals(pattern[j].opcode)
-					&& (pattern[j].operand == null || list[i + j].operand.ToString().Equals(pattern[j].operand.ToString())))
-				{
-					++j;
-				}
-				if (j == pattern.Count())
-				{
-					return i;
-				}
-			}
-
-			return -1;
-		}
-
-		public static List<CodeInstruction> Clone(this IList<CodeInstruction> list)
-		{
-			return list.Select(instruction => new CodeInstruction(instruction)).ToList();
 		}
 	}
 }

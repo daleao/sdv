@@ -4,7 +4,7 @@ using StardewValley.Events;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using TheLion.Common.Classes.Harmony;
+using TheLion.Common.Harmony;
 
 using static TheLion.AwesomeProfessions.Framework.Utils;
 
@@ -64,7 +64,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper.Restore().Error($"Failed while patching Breeder animal pregnancy chance.\nHelper returned {ex}");
 			}
 
-			return _helper.Log("Successful").Flush();
+			return _helper.Flush();
 		}
 	}
 }

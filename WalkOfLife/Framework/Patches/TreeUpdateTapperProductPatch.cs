@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using TheLion.Common.Classes.Harmony;
+using TheLion.Common.Harmony;
 
 using static TheLion.AwesomeProfessions.Framework.Utils;
 
@@ -41,20 +41,28 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			/// Injected: if (Game1.player.professions.Contains(<tapper_id>) time_multiplier *= 0.75
 			
+			Label tapperCheck = iLGenerator.DefineLabel();
 			Label isNotTapper = iLGenerator.DefineLabel();
 			try
 			{
 				_helper
-					.Find(											// find the index of loading base multiplier for heavy tapper
-						new CodeInstruction(OpCodes.Ldc_R4, operand: 0.5)
+					.Find(
+						new CodeInstruction(OpCodes.Brfalse)
 					)
-					.Advance(2)
+					.SetOperand(tapperCheck)						// set branch destination to tapper check
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Bne_Un)
+					)
+					.SetOperand(tapperCheck)						// set branch destination to tapper check
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Ldarg_0)
+					)
 					.AddLabel(isNotTapper)							// branch here if player is not tapper
-					.InsertProfessionCheck(ProfessionsMap.Forward["tapper"], branchDestination: isNotTapper)
+					.InsertProfessionCheck(ProfessionsMap.Forward["tapper"], branchDestination: isNotTapper, label: tapperCheck)
 					.Insert(
 						// multiply local 0 by 0.75
+						new CodeInstruction(OpCodes.Ldc_R4, operand: 0.75f),
 						new CodeInstruction(OpCodes.Ldloc_0),		// local 0 = time_multiplier
-						new CodeInstruction(OpCodes.Ldc_R4, 0.75),
 						new CodeInstruction(OpCodes.Mul),
 						new CodeInstruction(OpCodes.Stloc_0)
 					);
@@ -64,7 +72,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper.Restore().Error($"Failed while patching Tapper syrup production.\nHelper returned {ex}");
 			}
 
-			return _helper.Log("Successful").Flush();
+			return _helper.Flush();
 		}
 	}
 }

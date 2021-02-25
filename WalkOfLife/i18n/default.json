@@ -10,11 +10,9 @@
 	"rancher.name": "Rancher",
 	"rancher.description": "Befriend animals quicker.",
 	"breeder.name": "Breeder",
-	"breeder.description": "Animals breed more frequently. Newborn animals are friendlier. Friendly animals worth significantly more.",
+	"breeder.description": "Animals breed more frequently. Bred animals are friendly. Friendly animals worth significantly more.",
 	"producer.name": "Producer",
-	"producer.description": "Increased produce quality. Friendly animals produce more frequently. Produce worth 10% more for every full barn or coop.",
-	"apiculturist.name": "Apiculturist",
-	"apiculturist.description": "Bee houses produce honey 25% faster. Flowers mature faster near a bee house.",
+	"producer.description": "Improve produce quality. Happy animals produce more frequently. Produce worth 10% more for every full barn or coop.",
 
 	// Foraging
 	"forager.name": "Forager",
@@ -29,7 +27,7 @@
 	"arborist.name": "Arborist",
 	"arborist.description": "Trees grow faster. All trees have a chance to drop hardwood. Charcoal kiln consumes half as much wood.",
 	"tapper.name": "Tapper",
-	"tapper.description": "Tappers are cheaper to craft. Tapped trees give syrup 25% faster. 20% chance for double yield.",
+	"tapper.description": "Tappers are cheaper to craft. Tapped trees give syrup 25% faster with a chance for double yield.",
 
 	// Mining
 	"miner.name": "Miner",
@@ -38,8 +36,6 @@
 	"spelunker.description": "Chance to find ladders and shafts increases as you reach deeper levels. +1 speed while mining.",
 	"prospector.name": "Prospector",
 	"prospector.description": "Locations of mining nodes revealed. Occasionally track buried treasures.",
-	"metallurgist.name": "Metallurgist",
-	"metallurgist.description": "Furnaces smelt twice as fast. Smelting requires 1 less ore per bar.",
 
 	"blaster.name": "Blaster",
 	"blaster.description": "Bombs are cheaper to craft. 10% chance for extra resources from exploded nodes.",

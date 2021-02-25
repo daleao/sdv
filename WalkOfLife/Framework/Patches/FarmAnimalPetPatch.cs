@@ -4,7 +4,7 @@ using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using TheLion.Common.Classes.Harmony;
+using TheLion.Common.Harmony;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
@@ -68,7 +68,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper.Restore().Error($"Failed while patching Rancher friendship bonus.\nHelper returned {ex}");
 			}
 
-			return _helper.Log("Successful").Flush();
+			return _helper.Flush();
 		}
 	}
 }

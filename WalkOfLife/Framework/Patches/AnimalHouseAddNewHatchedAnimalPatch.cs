@@ -5,7 +5,7 @@ using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using TheLion.Common.Classes.Harmony;
+using TheLion.Common.Harmony;
 
 using static TheLion.AwesomeProfessions.Framework.Utils;
 
@@ -81,7 +81,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			if (++i < 2)
 				goto repeat;
 
-			return _helper.Log("Successful").Flush();
+			return _helper.Flush();
 		}
 	}
 }
