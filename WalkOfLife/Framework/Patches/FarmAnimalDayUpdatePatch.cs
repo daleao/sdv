@@ -96,7 +96,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Advance()								// the branch to resume execution
 					.GetOperand(out object isNotProducer)	// copy destination
 					.Retreat(2)
-					.Insert(                                // branch to skip this check if player is not producer
+					.Insert(								// branch to skip this check if player is not producer
 						new CodeInstruction(OpCodes.Br_S, operand: (Label)isNotProducer)
 					);
 			}

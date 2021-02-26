@@ -33,7 +33,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch for Miner double coal chance.</summary>
+		/// <summary>Patch for Miner double coal chance + remove Geologist extra gem chance.</summary>
 		protected static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::breakStone.");
@@ -51,6 +51,30 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			catch (Exception ex)
 			{
 				_helper.Error($"Failed while patching Miner remove extra ore.\nHelper returned {ex}").Restore();
+			}
+
+			_helper.Backup();
+
+			/// From: if (who.professions.Contains(19) && r.NextDouble() < 0.5)
+			/// To: if (false)
+			
+			try
+			{
+				_helper
+					.FindProfessionCheck(ProfessionsMap.Forward["blaster"])	// find index of geologist check
+					.Retreat()
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Brfalse)				// the branch to resume execution
+					)
+					.GetOperand(out object resumeExecution)					// copy destination
+					.Return()
+					.Insert(												// insert uncoditional branch to skip section and resume execution
+						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution)
+					);
+			}
+			catch (Exception ex)
+			{
+				_helper.Error($"Failed while patching Geologist remove extra gems.\nHelper returned {ex}").Restore();
 			}
 
 			_helper.Backup();

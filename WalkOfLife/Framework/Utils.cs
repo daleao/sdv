@@ -75,6 +75,47 @@ namespace TheLion.AwesomeProfessions.Framework
 			{ "slimemaster", Farmer.desperado }			// 28
 		};
 
+		/// <summary>The index of the resource that should be dropped by each stone.</summary>
+		private static readonly Dictionary<int, int> _resourceFromStoneId = new()
+		{
+			{ 95, 909 },
+			{ 843, 909 },
+			{ 844, 848 },
+			{ 25, 719 },
+
+			// geodes
+			{ 75, 535 },
+			{ 76, 536 },
+			{ 77, 537 },
+
+			{ 816, 881 },
+			{ 817, 881 },
+			{ 818, 330 },
+			{ 819, 749 },
+
+			// gems
+			{ 8, 66 },
+			{ 10, 68 },
+			{ 12, 60 },
+			{ 14, 62 },
+			{ 6, 70 },
+			{ 4, 64 },
+			{ 2, 72 },
+
+
+			{ 668, 390 },
+			{ 845, 390 },
+			{ 670, 390 },
+			{ 846, 390 },
+			{ 847, 390 },
+			{ 751, 378 },
+			{ 849, 378 },
+			{ 290, 380 },
+			{ 850, 380 },
+			{ 764, 384 },
+			{ 765, 386 }
+		};
+
 		/// <summary>Set of item id's corresponding to animal produce or derived artisan goods.</summary>
 		private static readonly IEnumerable<int> _animalProductIds = new HashSet<int>
 		{
@@ -144,6 +185,13 @@ namespace TheLion.AwesomeProfessions.Framework
 		public static bool IsReeledFish(SObject obj)
 		{
 			return obj.Category == SObject.FishCategory && !IsShellfish(obj);
+		}
+
+		/// <summary>Get the corresponding resource that should be dropped for a given stone.</summary>
+		/// <param name="stoneIndex">The index of the stone.</param>
+		public static bool TryGetResourceForStone(int stoneIndex, out int resourceIndex)
+		{
+			return _resourceFromStoneId.TryGetValue(stoneIndex, out resourceIndex);
 		}
 	}
 }

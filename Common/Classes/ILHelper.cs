@@ -239,6 +239,19 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
+		/// <summary>Remove code instructions starting from the currently pointed index until a specific pattern is found.</summary>
+		/// <param name="pattern">A sequence of code instructions to match.</param>
+		public ILHelper RemoveUntil(params CodeInstruction[] pattern)
+		{
+			AdvanceUntil(pattern);
+
+			int endIndex = _indexStack.Pop();
+			int count = endIndex - _CurrentIndex;
+			_instructionList.RemoveRange(_CurrentIndex, count);
+
+			return this;
+		}
+
 		/// <summary>Copy code instructions starting from the currently pointed index to the buffer.</summary>
 		/// <param name="count">Number of code instructions to copy.</param>
 		/// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
