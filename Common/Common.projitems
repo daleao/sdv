@@ -6,10 +6,11 @@
     <SharedGUID>0c5f1531-281e-468c-b47f-1e78e3b9c02e</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Common</Import_RootNamespace>
+    <Import_RootNamespace>TheLion.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BidirectionalMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Geometry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CodeInstructionListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\ILHelper.cs" />

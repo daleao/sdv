@@ -56,25 +56,19 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.AddLabel(i == 0 ? isNotBreeder1 : isNotBreeder2)	// the destination if player is not breeder
 					.Retreat()
 					.InsertProfessionCheck(ProfessionsMap.Forward["breeder"], branchDestination: i == 0 ? isNotBreeder1 : isNotBreeder2)
-					.Insert(
-						// load the field FarmAnimal.friendshipTowardFarmer
+					.Insert(											// load the field FarmAnimal.friendshipTowardFarmer
 						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(FarmAnimal)} (5)"),	// local 5 = FarmAnimal a
-						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(FarmAnimal), nameof(FarmAnimal.friendshipTowardFarmer))),
-
-						// load the field Game1.random and roll a random int between 0 and 500
-						new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Game1), nameof(Game1.random))),
-						new CodeInstruction(OpCodes.Ldc_I4_0),
-						new CodeInstruction(OpCodes.Ldc_I4_S, operand: 500),
-						new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(Random), nameof(Random.Next))),
-
-						// set it to FarmerAnimal.friendshipTowardFarmer
-						new CodeInstruction(OpCodes.Callvirt, AccessTools.Property(typeof(NetFieldBase<Int32, NetInt>), nameof(NetFieldBase<Int32, NetInt>.Value)).GetSetMethod())
+						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(FarmAnimal), nameof(FarmAnimal.friendshipTowardFarmer)))
+					)
+					.InsertDiceRoll(0, 500)
+					.Insert(											// set it to FarmerAnimal.friendshipTowardFarmer
+						new CodeInstruction(OpCodes.Callvirt, AccessTools.Property(typeof(NetFieldBase<int, NetInt>), nameof(NetFieldBase<Int32, NetInt>.Value)).GetSetMethod())
 					);
 					
 			}
 			catch (Exception ex)
 			{
-				_helper.Restore().Error($"Failed while patching Breeder animal pregnancy chance.\nHelper returned {ex}");
+				_helper.Error($"Failed while patching Breeder animal pregnancy chance.\nHelper returned {ex}").Restore();
 			}
 
 			// repeat injection (first iteration for coop animals, second for barn animals)

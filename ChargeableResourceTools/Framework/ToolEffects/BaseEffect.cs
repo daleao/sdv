@@ -8,6 +8,7 @@ using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TheLion.Common.Classes.Geometry;
 using xTile.Dimensions;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SObject = StardewValley.Object;
@@ -47,7 +48,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 			int radius = radii[Math.Min(who.toolPower - 1, radii.Count() - 1)];
 			who.stamina -= (who.toolPower - (tool is Axe ? who.ForagingLevel : who.MiningLevel) * 0.1f) * (who.toolPower - 1) * multiplier;
 
-			foreach (Vector2 tile in Utils.GetTilesAround(origin, radius))
+			foreach (Vector2 tile in Geometry.GetTilesAround(origin, radius))
 			{
 				TemporarilyFakeInteraction(() =>
 				{

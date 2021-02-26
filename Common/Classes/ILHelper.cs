@@ -30,11 +30,24 @@ namespace TheLion.Common.Harmony
 			}
 		}
 
+		/// <summary>The index currently at the top of the index stack.</summary>
+		private int _LastIndex
+		{
+			get
+			{
+				if (_instructionList == null || _instructionList.Count() < 1)
+					throw new IndexOutOfRangeException("The active instruction list is either null of empty.");
+				
+				return _instructionList.Count();
+			}
+		}
+
 		/// <summary>Construct an instance.</summary>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
 		public ILHelper(IMonitor monitor)
 		{
 			_indexStack = new();
+			_indexStack.Push(0);
 			_monitor = monitor;
 		}
 
@@ -46,6 +59,7 @@ namespace TheLion.Common.Harmony
 			_instructionList = instructions.ToList();
 			_instructionListBackup = _instructionList.Clone();
 			_indexStack = new();
+			_indexStack.Push(0);
 			_monitor = monitor;
 		}
 
@@ -99,7 +113,7 @@ namespace TheLion.Common.Harmony
 			return Find(
 				fromCurrentIndex,
 				new CodeInstruction(OpCodes.Ldfld, operand: AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
-				_LoadProfessionIdIL(whichProfession),
+				_LoadConstantIntIL(whichProfession),
 				new CodeInstruction(OpCodes.Callvirt, operand: AccessTools.Method(typeof(NetList<Int32, NetInt>), nameof(NetList<Int32, NetInt>.Contains)))
 			);
 		}
@@ -108,7 +122,7 @@ namespace TheLion.Common.Harmony
 		/// <param name="steps">Number of steps by which to move the index pointer.</param>
 		public ILHelper Advance(int steps = 1)
 		{
-			if (_CurrentIndex + steps < 0 || _CurrentIndex + steps + 1 > _instructionList.Count())
+			if (_CurrentIndex + steps < 0 || _CurrentIndex + steps + 1 > _LastIndex)
 				throw new IndexOutOfRangeException("New index is out of range.");
 
 			_indexStack.Push(_CurrentIndex + steps);
@@ -147,7 +161,7 @@ namespace TheLion.Common.Harmony
 			if (index < 0)
 				throw new IndexOutOfRangeException("Cannot go to a negative index.");
 
-			if (index > _instructionList.Count() - 1)
+			if (index > _LastIndex - 1)
 				throw new IndexOutOfRangeException("New index is out of range.");
 
 			_indexStack.Push(index);
@@ -180,15 +194,37 @@ namespace TheLion.Common.Harmony
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the player has a given profession.</summary>
 		/// <param name="whichProfession">The profession id.</param>
-		/// <param name="destination">The destination to branch to when the check returns false.</param>
+		/// <param name="branchDestination">The destination to branch to when the check returns false.</param>
 		public ILHelper InsertProfessionCheck(int whichProfession, Label branchDestination, bool branchIfTrue = false)
 		{
 			return Insert(
 				new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Game1), nameof(Game1.player)).GetGetMethod()),
 				new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
-				_LoadProfessionIdIL(whichProfession),
+				_LoadConstantIntIL(whichProfession),
 				new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(NetList<Int32, NetInt>), nameof(NetList<Int32, NetInt>.Contains))),
 				new CodeInstruction(branchIfTrue ? OpCodes.Brtrue_S : OpCodes.Brfalse_S, operand: branchDestination)
+			);
+		}
+
+		/// <summary>Insert a sequence of code instructions at the currently pointed index to roll a random integer.</summary>
+		/// <param name="minValue">The profession id.</param>
+		/// <param name="maxValue">The destination to branch to when the check returns false.</param>
+		public ILHelper InsertDiceRoll(int minValue, int maxValue)
+		{
+			return Insert(
+				new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Game1), nameof(Game1.random))),
+				_LoadConstantIntIL(minValue),
+				_LoadConstantIntIL(maxValue),
+				new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(Random), nameof(Random.Next)))
+			);
+		}
+
+		/// <summary>Insert a sequence of code instructions at the currently pointed index to roll a random double.</summary>
+		public ILHelper InsertDiceRoll()
+		{
+			return Insert(
+				new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Game1), nameof(Game1.random))),
+				new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(Random), nameof(Random.NextDouble)))
 			);
 		}
 
@@ -196,7 +232,7 @@ namespace TheLion.Common.Harmony
 		/// <param name="count">Number of code instructions to remove.</param>
 		public ILHelper Remove(int count = 1)
 		{
-			if (_CurrentIndex + count + 1 > _instructionList.Count())
+			if (_CurrentIndex + count + 1 > _LastIndex)
 				throw new IndexOutOfRangeException("Cannot remove item out of range.");
 
 			_instructionList.RemoveRange(_CurrentIndex, count);
@@ -366,11 +402,11 @@ namespace TheLion.Common.Harmony
 			}
 		}
 
-		/// <summary>Get the corresponding IL code instruction which loads a given profession id.</summary>
-		/// <param name="whichProfession">The profession id.</param>
-		private CodeInstruction _LoadProfessionIdIL(int whichProfession)
+		/// <summary>Get the corresponding IL code instruction which loads a given integer.</summary>
+		/// <param name="number">An integer.</param>
+		private CodeInstruction _LoadConstantIntIL(int number)
 		{
-			return whichProfession switch
+			return number switch
 			{
 				0 => new CodeInstruction(OpCodes.Ldc_I4_0),
 				1 => new CodeInstruction(OpCodes.Ldc_I4_1),
@@ -381,7 +417,7 @@ namespace TheLion.Common.Harmony
 				6 => new CodeInstruction(OpCodes.Ldc_I4_6),
 				7 => new CodeInstruction(OpCodes.Ldc_I4_7),
 				8 => new CodeInstruction(OpCodes.Ldc_I4_8),
-				_ => new CodeInstruction(OpCodes.Ldc_I4_S, operand: (sbyte)whichProfession)
+				_ => new CodeInstruction(OpCodes.Ldc_I4_S, operand: number)
 			};
 		}
 	}

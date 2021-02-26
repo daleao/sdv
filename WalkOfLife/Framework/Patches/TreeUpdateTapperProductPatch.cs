@@ -3,9 +3,9 @@ using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
+using SObject = StardewValley.Object;
 
 using static TheLion.AwesomeProfessions.Framework.Utils;
 
@@ -30,7 +30,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(Tree), nameof(Tree.UpdateTapperProduct)),
-				transpiler: new HarmonyMethod(GetType(), nameof(TreeUpdateTapperProductTranspiler))
+				transpiler: new HarmonyMethod(GetType(), nameof(TreeUpdateTapperProductTranspiler)),
+				postfix: new HarmonyMethod(GetType(), nameof(TreeUpdateTapperProductPostfix))
 			);
 		}
 
@@ -71,10 +72,23 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Restore().Error($"Failed while patching Tapper syrup production.\nHelper returned {ex}");
+				_helper.Error($"Failed while patching Tapper syrup production.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();
+		}
+
+		/// <summary>Patch for Tapper to double syrup yield.</summary>
+		protected static void TreeUpdateTapperProductPostfix(SObject tapper_instance)
+		{
+			if (tapper_instance.heldObject.Value != null)
+			{
+				Random r = new Random();
+				if (r.NextDouble() < 0.2)
+				{
+					tapper_instance.heldObject.Value.Stack *= 2;
+				}
+			}
 		}
 	}
 }

@@ -18,7 +18,7 @@
 	"forager.name": "Forager",
 	"forager.description": "20% chance for double yield of foraged items.",
 	"ecologist.name": "Ecologist",
-	"ecologist.description": "+2 wild berry harvest. Wild berries restore 50% more health and energy. Foraged items are higher quality.",
+	"ecologist.description": "Wild berries restore 50% more health and energy. Foraged items are higher quality.",
 	"scavenger.name": "Scavenger",
 	"scavenger.description": "Location of forageable items revealed. Occasionally track hidden treasures.",
 

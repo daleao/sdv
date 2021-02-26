@@ -46,7 +46,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(															// find the index of loading base pregnancy chance
+					.Find(															// find index of loading base pregnancy chance
 						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055)
 					)
 					.AddLabel(isNotBreeder)											// the destination if player is not breeder
@@ -61,7 +61,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Restore().Error($"Failed while patching Breeder animal pregnancy chance.\nHelper returned {ex}");
+				_helper.Error($"Failed while patching Breeder animal pregnancy chance.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

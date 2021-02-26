@@ -28,10 +28,14 @@ namespace TheLion.AwesomeProfessions
 				new FarmAnimalDayUpdatePatch(Config, Monitor),
 				new FarmAnimalGetSellPricePatch(Config, Monitor),
 				new FarmAnimalPetPatch(Config, Monitor),
+				new GameLocationBreakStonePatch(Config, Monitor),
+				new GameLocationExplodePatch(Config, Monitor),
+				new GameLocationOnStoneDestroyedPatch(Config, Monitor),
 				new LevelUpMenuAddProfessionDescriptionsPatch(Config, Monitor, I18n),
 				new LevelUpMenuGetProfessionNamePatch(Config, Monitor),
 				new ObjectGetPriceAfterMultipliersPatch(Config, Monitor),
 				new QuestionEventSetUpPatch(Config, Monitor),
+				new TreeDayUpdatePatch(Config, Monitor),
 				new TreeUpdateTapperProductPatch(Config, Monitor)
 			);
 		}

@@ -73,7 +73,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Restore().Error($"Failed while patching Producer produce frequency.\nHelper returned {ex}");
+				_helper.Error($"Failed while patching Producer produce frequency.\nHelper returned {ex}").Restore();
 			}
 
 			_helper.Backup();
@@ -84,7 +84,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(									// find the index of first FarmAnimal.isCoopDweller check
+					.Find(									// find index of first FarmAnimal.isCoopDweller check
 						fromCurrentIndex: true,
 						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))
 					)
@@ -102,7 +102,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Restore().Error($"Failed while patching Producer produce quality.\nHelper returned {ex}");
+				_helper.Error($"Failed while patching Producer produce quality.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

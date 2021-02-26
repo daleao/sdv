@@ -58,7 +58,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindProfessionCheck(Farmer.botanist)							// find the index of botanist check
+					.FindProfessionCheck(Farmer.botanist)							// find index of botanist check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldloc_1)						// start of @object.Quality = 4
 					)
@@ -87,7 +87,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch(Exception ex)
 			{
-				_helper.Restore().Error($"Failed while patching Ecologist forage quality.\nHelper returned {ex}");
+				_helper.Error($"Failed while patching Ecologist forage quality.\nHelper returned {ex}").Restore();
 			}
 
 			_helper.Backup();
@@ -99,8 +99,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper.
-					AdvanceUntil(																// find the index of Crop.fertilizerQualityLevel >= 3
-						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(Int32)} (8)"),	// local 8 = Crop.fertilizerQualityLevel
+					AdvanceUntil(																// find index of Crop.fertilizerQualityLevel >= 3
+						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(int)} (8)"),	// local 8 = Crop.fertilizerQualityLevel
 						new CodeInstruction(OpCodes.Ldc_I4_3),
 						new CodeInstruction(OpCodes.Blt)
 					)
@@ -112,7 +112,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Restore().Error($"Failed while patching Agriculturist crop harvest quality.\nHelper returned {ex}");
+				_helper.Error($"Failed while patching Agriculturist crop harvest quality.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

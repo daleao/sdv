@@ -42,7 +42,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindProfessionCheck(Farmer.shepherd)									// find the index of shepherd check
+					.FindProfessionCheck(Farmer.shepherd)									// find index of shepherd check
 					.Advance()
 					.SetOpCode(OpCodes.Ldc_I4_0)											// replace with rancher check
 					.Advance(2)																// the false case branch instruction
@@ -65,7 +65,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Restore().Error($"Failed while patching Rancher friendship bonus.\nHelper returned {ex}");
+				_helper.Error($"Failed while patching Rancher friendship bonus.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

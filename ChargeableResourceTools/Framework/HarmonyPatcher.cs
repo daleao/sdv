@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using TheLion.Common.Classes.Geometry;
 
 using static TheLion.AwesomeTools.Framework.Utils;
 
@@ -126,7 +127,7 @@ namespace TheLion.AwesomeTools.Framework
 					if (radius == 0)
 						return;
 
-					foreach (Vector2 tile in GetTilesAround(tileLocation, radius))
+					foreach (Vector2 tile in Geometry.GetTilesAround(tileLocation, radius))
 					{
 						__result.Add(tile);
 					}
