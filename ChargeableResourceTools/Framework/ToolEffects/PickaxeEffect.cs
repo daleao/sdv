@@ -3,8 +3,8 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
+using System.Collections.Generic;
 using TheLion.AwesomeTools.Configs;
-using TheLion.Common.Extensions;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeTools.Framework.ToolEffects
@@ -13,6 +13,14 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 	internal class PickaxeEffect : BaseEffect
 	{
 		public PickaxeConfig Config { get; }
+
+		/// <summary>The Pickaxe upgrade levels needed to break supported resource clumps.</summary>
+		/// <remarks>Derived from <see cref="ResourceClump.performToolAction"/>.</remarks>
+		private readonly IDictionary<int, int> _UpgradeLevelsNeededForResource = new Dictionary<int, int>
+		{
+			[ResourceClump.meteoriteIndex] = Tool.gold,
+			[ResourceClump.boulderIndex] = Tool.steel
+		};
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The effect settings.</param>
@@ -57,7 +65,9 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 
 			// clear bushes
 			if (Config.ClearBushes && tileFeature is Bush bush)
+			{
 				return UseToolOnTile(tool, tile, who, location);
+			}
 
 			// handle dirt
 			if (tileFeature is HoeDirt dirt)
@@ -85,7 +95,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 			if (Config.BreakBouldersAndMeteorites)
 			{
 				ResourceClump clump = GetResourceClumpCoveringTile(location, tile, who, out var applyTool);
-				if (clump != null && clump.parentSheetIndex.Value.IsIn(ResourceClump.boulderIndex, ResourceClump.meteoriteIndex))
+				if (clump != null && (!_UpgradeLevelsNeededForResource.TryGetValue(clump.parentSheetIndex.Value, out int requiredUpgradeLevel) || tool.UpgradeLevel >= requiredUpgradeLevel))
 				{
 					return applyTool(tool);
 				}

@@ -116,7 +116,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static void Postfix(ref Tool __instance, ref List<Vector2> __result, Vector2 tileLocation, int power, Farmer who)
 			{
-				if (__instance.UpgradeLevel < 1)
+				if (__instance.UpgradeLevel < Tool.copper)
 					return;
 
 				if (__instance is Axe || __instance is Pickaxe)
@@ -146,46 +146,6 @@ namespace TheLion.AwesomeTools.Framework
 					return false;
 				}
 				return true;
-			}
-		}
-
-		// Prevent shockwave from triggering the "tool isn't strong enough" dialogue
-		[HarmonyPatch(typeof(ResourceClump), "performToolAction")]
-		internal class Before_ResourceClump_PerformToolAction
-		{
-			protected static bool Prefix(ref ResourceClump __instance, ref bool __result, Tool t, int damage, Vector2 tileLocation, GameLocation location)
-			{
-				if (!ModEntry.IsDoingShockwave)
-					return true; // run original logic
-
-				switch (__instance.parentSheetIndex.Value)
-				{
-					case ResourceClump.hollowLogIndex:
-						if (t is Axe && t.UpgradeLevel < 2)
-						{
-							__result = false;
-							return false; // don't run original logic
-						}
-						break;
-					case ResourceClump.meteoriteIndex:
-						if (t is Pickaxe && t.UpgradeLevel < 3)
-						{
-							__result = false;
-							return false; // don't run original logic
-						}
-						break;
-					case ResourceClump.boulderIndex:
-						if (t is Pickaxe && t.UpgradeLevel < 2)
-						{
-							__result = false;
-							return false; // don't run original logic
-						}
-						break;
-					default:
-						return true; // run original logic
-				}
-
-				return true; // run original logic
 			}
 		}
 	}

@@ -19,8 +19,6 @@ namespace TheLion.AwesomeTools
 		public static IReflectionHelper Reflection { get; set; }
 		public static ModConfig Config { get; set; }
 
-		public static bool IsDoingShockwave { get; set; } = false;
-
 		private EffectsManager _manager;
 
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
@@ -93,9 +91,7 @@ namespace TheLion.AwesomeTools
 				Vector2 actionTile = new Vector2((int)(who.GetToolLocation().X / Game1.tileSize), (int)(who.GetToolLocation().Y / Game1.tileSize));
 				DelayedAction shockwave = new DelayedAction(Config.ShockwaveDelay, () =>
 				{
-					IsDoingShockwave = true;
 					_manager.DoShockwave(actionTile, tool, location, who);
-					IsDoingShockwave = false;
 				});
 				Game1.delayedActions.Add(shockwave);
 			}

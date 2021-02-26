@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Netcode;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
@@ -39,7 +40,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 
 		/// <summary>Spreads the effects of Axe and Pickaxe to an area around the player.</summary>
 		/// <param name="origin">The center of the shockwave (i.e. the tool's tile location).</param>
-		/// <param name="radius">The radius of the shockwave area.</param>
+		/// <param name="radii">Array of radii values at each charge level.</param>
 		/// <param name="tool">The tool select by the player.</param>
 		/// <param name="location">The current location.</param>
 		/// <param name="who">The current player.</param>
@@ -176,14 +177,6 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 		/// <summary>Get the resource clump which covers a given tile, if any.</summary>
 		/// <param name="location">The location to check.</param>
 		/// <param name="tile">The tile to check.</param>
-		protected bool HasResourceClumpCoveringTile(GameLocation location, Vector2 tile)
-		{
-			return GetResourceClumpCoveringTile(location, tile, null, out _) != null;
-		}
-
-		/// <summary>Get the resource clump which covers a given tile, if any.</summary>
-		/// <param name="location">The location to check.</param>
-		/// <param name="tile">The tile to check.</param>
 		/// <param name="who">The current player.</param>
 		/// <param name="applyTool">Applies a tool to the resource clump.</param>
 		protected ResourceClump GetResourceClumpCoveringTile(GameLocation location, Vector2 tile, Farmer who, out Func<Tool, bool> applyTool)
@@ -207,7 +200,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 				{
 					if (feature.GetType().FullName == "FarmTypeManager.LargeResourceClump" && feature.getBoundingBox(feature.tilePosition.Value).Intersects(tileArea))
 					{
-						ResourceClump clump = ModEntry.Reflection.GetField<Netcode.NetRef<ResourceClump>>(feature, "Clump").GetValue().Value;
+						ResourceClump clump = ModEntry.Reflection.GetField<NetRef<ResourceClump>>(feature, "Clump").GetValue().Value;
 						applyTool = tool => feature.performToolAction(tool, 0, tile, location);
 						return clump;
 					}

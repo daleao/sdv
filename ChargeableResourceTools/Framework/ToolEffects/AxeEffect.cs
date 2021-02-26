@@ -2,9 +2,9 @@
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
+using System.Collections.Generic;
 using System.Linq;
 using TheLion.AwesomeTools.Configs;
-using TheLion.Common.Extensions;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeTools.Framework.ToolEffects
@@ -13,6 +13,14 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 	internal class AxeEffect : BaseEffect
 	{
 		public AxeConfig Config { get; }
+
+		/// <summary>The Axe upgrade levels needed to break supported resource clumps.</summary>
+		/// <remarks>Derived from <see cref="ResourceClump.performToolAction"/>.</remarks>
+		private readonly IDictionary<int, int> _UpgradeLevelsNeededForResource = new Dictionary<int, int>
+		{
+			[ResourceClump.stumpIndex] = Tool.copper,
+			[ResourceClump.hollowLogIndex] = Tool.steel
+		};
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The effect settings.</param>
@@ -75,7 +83,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 				}
 
 				// big stumps and fallen logs
-				if (Config.ClearDebris && clump != null && clump.parentSheetIndex.Value.IsIn(ResourceClump.stumpIndex, ResourceClump.hollowLogIndex))
+				if (Config.ClearDebris && clump != null && _UpgradeLevelsNeededForResource.ContainsKey(clump.parentSheetIndex.Value) && tool.UpgradeLevel >= _UpgradeLevelsNeededForResource[clump.parentSheetIndex.Value])
 				{
 					return applyTool(tool);
 				}
