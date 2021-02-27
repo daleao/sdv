@@ -81,7 +81,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Tapper to double syrup yield.</summary>
 		protected static void TreeUpdateTapperProductPostfix(SObject tapper_instance)
 		{
-			if (tapper_instance.heldObject.Value != null)
+			if (tapper_instance.heldObject.Value != null && PlayerHasProfession("tapper"))
 			{
 				Random r = new Random();
 				if (r.NextDouble() < 0.2)

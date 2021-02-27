@@ -1,4 +1,5 @@
 ﻿using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TheLion.Common.Classes.BidirectionalMap;
@@ -10,20 +11,11 @@ namespace TheLion.AwesomeProfessions.Framework
 	/// <summary>Some generally useful methods.</summary>
 	public static class Utils
 	{
-		/// <summary>Whether the player has a specific profession.</summary>
-		/// <param name="professionName">The name of the profession.</param>
-		public static bool PlayerHasProfession(string professionName)
-		{
-			return Game1.player.professions.Contains(ProfessionsMap.Forward[professionName]);
-		}
+		public static int DemolitionistBuffUniqueID { get; } = _IdFromHashCode("demolitionist", 4);
+		public static int SpelunkerBuffUniqueID { get; } = _IdFromHashCode("spelunker", 4);
+		public static int BruteBuffUniqueID { get; } = _IdFromHashCode("brute", 4);
+		public static int GambitBuffUniqueID { get; } = _IdFromHashCode("gambit", 4);
 
-		/// <summary>Whether the player has a specific profession.</summary>
-		/// <param name="professionName">The name of the profession.</param>
-		/// <param name="who">The player.</param>
-		public static bool PlayerHasProfession(string professionName, Farmer who)
-		{
-			return who.professions.Contains(ProfessionsMap.Forward[professionName]);
-		}
 
 		/// <summary>Bi-directional dictionary for looking-up profession id's by name or name's by id.</summary>
 		public static BiMap<string, int> ProfessionsMap { get; set; } = new BiMap<string, int>
@@ -144,6 +136,21 @@ namespace TheLion.AwesomeProfessions.Framework
 			928		// golden egg
 		};
 
+		/// <summary>Whether the player has a specific profession.</summary>
+		/// <param name="professionName">The name of the profession.</param>
+		public static bool PlayerHasProfession(string professionName)
+		{
+			return Game1.player.professions.Contains(ProfessionsMap.Forward[professionName]);
+		}
+
+		/// <summary>Whether the player has a specific profession.</summary>
+		/// <param name="professionName">The name of the profession.</param>
+		/// <param name="who">The player.</param>
+		public static bool PlayerHasProfession(string professionName, Farmer who)
+		{
+			return who.professions.Contains(ProfessionsMap.Forward[professionName]);
+		}
+
 		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
 		/// <param name="obj">The given object.</param>
 		public static bool IsAnimalProduct(SObject obj)
@@ -192,6 +199,11 @@ namespace TheLion.AwesomeProfessions.Framework
 		public static bool TryGetResourceForStone(int stoneIndex, out int resourceIndex)
 		{
 			return _resourceFromStoneId.TryGetValue(stoneIndex, out resourceIndex);
+		}
+
+		private static int _IdFromHashCode(string text, int digits)
+		{
+			return (int)(Math.Abs(text.GetHashCode()) / Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(text.GetHashCode()))) - digits + 1));
 		}
 	}
 }

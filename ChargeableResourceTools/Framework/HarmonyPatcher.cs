@@ -1,13 +1,12 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using TheLion.Common.Classes.Geometry;
+using TheLion.Common.TileGeometry;
 
 using static TheLion.AwesomeTools.Framework.Utils;
 
@@ -127,7 +126,8 @@ namespace TheLion.AwesomeTools.Framework
 					if (radius == 0)
 						return;
 
-					foreach (Vector2 tile in Geometry.GetTilesAround(tileLocation, radius))
+					CircleTileGrid grid = new CircleTileGrid(tileLocation, radius);
+					foreach (Vector2 tile in grid)
 					{
 						__result.Add(tile);
 					}

@@ -3,7 +3,8 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using System;
-using TheLion.Common.Classes.Geometry;
+using System.Linq;
+using TheLion.Common.TileGeometry;
 using SObject = StardewValley.Object;
 
 using static TheLion.AwesomeProfessions.Framework.Utils;
@@ -12,11 +13,17 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class GameLocationExplodePatch : BasePatch
 	{
+		private static ITranslationHelper _i18n;
+
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationExplodePatch(ModConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		/// <param name="i18n">Provides localized text.</param>
+		internal GameLocationExplodePatch(ModConfig config, IMonitor monitor, ITranslationHelper i18n)
+		: base(config, monitor)
+		{
+			_i18n = i18n;
+	}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -30,11 +37,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		}
 
 		/// <summary>Patch for Blaster extra resource chance.</summary>
-		protected static void GameLocationExplodePrefix(ref GameLocation __instance, bool __state, Vector2 tileLocation, int radius, Farmer who, bool damageFarmers = true, int damage_amount = -1)
+		protected static void GameLocationExplodePrefix(ref GameLocation __instance, Vector2 tileLocation, int radius, Farmer who)
 		{
-			foreach (Vector2 tile in Geometry.GetTilesAround(tileLocation, radius))
+			CircleTileGrid grid = new CircleTileGrid(tileLocation, radius);
+			foreach (Vector2 tile in grid)
 			{
-				if (__instance.objects.TryGetValue(tile, out SObject tileObj) && TryGetResourceForStone(tileObj.ParentSheetIndex, out int resourceIndex)  && PlayerHasProfession("blaster"))
+				if (__instance.objects.TryGetValue(tile, out SObject tileObj) && TryGetResourceForStone(tileObj.ParentSheetIndex, out int resourceIndex)  && PlayerHasProfession("blaster", who))
 				{
 					Random r = new Random(tile.GetHashCode());
 					if (r.NextDouble() < 0.1)
@@ -46,22 +54,19 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		}
 
 		/// <summary>Patch for Demolitionist speed burst.</summary>
-		protected static void GameLocationExplodePostfix(ref GameLocation __instance, Vector2 tileLocation, int radius, Farmer who, bool damageFarmers = true, int damage_amount = -1)
+		protected static void GameLocationExplodePostfix(Vector2 tileLocation, int radius, Farmer who, bool damageFarmers = true)
 		{
-			foreach (Vector2 tile in Geometry.GetTilesAround(tileLocation, radius))
+			if (!PlayerHasProfession("demolitionist") || !damageFarmers)
 			{
-				if (tile.Equals(who.getTileLocation()) && PlayerHasProfession("demolitionist") && damageFarmers)
-				{
-					// implement
-				}
+				return;
 			}
-		}
 
-		/// <summary>Get whether a given object is a stone.</summary>
-		/// <param name="obj">The world object.</param>
-		private static bool IsStone(SObject obj)
-		{
-			return obj?.Name == "Stone";
+			int distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
+			if (distanceFromEpicenter < radius * 2)
+			{
+				ModEntry.DemolitionistBuffMagnitude = radius;
+			}
+			
 		}
 	}
 }

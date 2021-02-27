@@ -34,6 +34,7 @@
 	"miner.description": "Double chance of finding coal.",
 	"spelunker.name": "Spelunker",
 	"spelunker.description": "Chance to find ladders and shafts increases as you reach deeper levels. +1 speed while mining.",
+	"spelunker.buff": "Spelunker",
 	"prospector.name": "Prospector",
 	"prospector.description": "Locations of mining nodes revealed. Occasionally track buried treasures.",
 
@@ -41,6 +42,7 @@
 	"blaster.description": "Bombs are cheaper to craft. 10% chance for extra resources from exploded nodes.",
 	"demolitionist.name": "Demolitionist",
 	"demolitionist.description": "Bomb radius +1. Gain a short speed burst when hit by an explosion.",
+	"demolitionist.buff": "Demolitionist",
 	"gemologist.name": "Gemologist",
 	"gemologist.description": "Identify gems and minerals of higher quality. Crystalariums work twice as fast.",
 
@@ -64,8 +66,10 @@
 	"fighter.description": "Deal 10% more damage. +15 HP.",
 	"brute.name": "Brute",
 	"brute.description": "Deal 0.5% more damage for every monster slain. Resets when you leave a dungeon. +25 HP.",
+	"brute.buff": "Brute",
 	"gambit.name": "Gambit",
 	"gambit.description": "Critical strike chance increases as you take damage. Critical strikes are deadly.",
+	"gambit.buff": "Gambit",
 
 	"rascal.name": "Rascal",
 	"rascal.description": "Slingshots deal more damage from farther away. Chance to recover spent ammo.",
