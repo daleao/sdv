@@ -47,6 +47,7 @@ namespace TheLion.AwesomeProfessions
 				new GameLocationOnStoneDestroyedPatch(Config, Monitor),
 				new LevelUpMenuAddProfessionDescriptionsPatch(Config, Monitor, I18n),
 				new LevelUpMenuGetProfessionNamePatch(Config, Monitor),
+				new MineShaftCheckStoneForItemsPatch(Config, Monitor),
 				new ObjectGetPriceAfterMultipliersPatch(Config, Monitor),
 				new QuestionEventSetUpPatch(Config, Monitor),
 				new TemporaryAnimatedSpriteCtorPatch(Config, Monitor),
@@ -64,7 +65,8 @@ namespace TheLion.AwesomeProfessions
 			{
 				if (e.Ticks % 30 == 0)
 				{
-					DemolitionistBuffMagnitude = Math.Max(0, --DemolitionistBuffMagnitude);
+					int buffDecay = DemolitionistBuffMagnitude > 4 ? 2 : 1;
+					DemolitionistBuffMagnitude = Math.Max(0, DemolitionistBuffMagnitude - buffDecay);
 				}
 				AddOrUpdateBuff(DemolitionistBuffUniqueID, DemolitionistBuffMagnitude, "demolitionist");
 			}

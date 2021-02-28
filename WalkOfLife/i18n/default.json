@@ -36,7 +36,7 @@
 	"spelunker.description": "Chance to find ladders and shafts increases as you reach deeper levels. +1 speed while mining.",
 	"spelunker.buff": "Spelunker",
 	"prospector.name": "Prospector",
-	"prospector.description": "Locations of mining nodes revealed. Occasionally track buried treasures.",
+	"prospector.description": "Locations of mining nodes and ladders revealed. Occasionally track buried treasures.",
 
 	"blaster.name": "Blaster",
 	"blaster.description": "Bombs are cheaper to craft. 10% chance for extra resources from exploded nodes.",

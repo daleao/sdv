@@ -62,11 +62,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 
 			int distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
-			if (distanceFromEpicenter < radius * 2)
+			if (distanceFromEpicenter < radius * 2 + 1)
 			{
-				ModEntry.DemolitionistBuffMagnitude = radius;
+				ModEntry.DemolitionistBuffMagnitude = 4;
 			}
-			
+			if (distanceFromEpicenter < radius + 1)
+			{
+				ModEntry.DemolitionistBuffMagnitude += 2;
+			}
 		}
 	}
 }
