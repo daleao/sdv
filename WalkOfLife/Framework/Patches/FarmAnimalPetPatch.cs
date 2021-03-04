@@ -56,7 +56,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					)
 					.Advance()
 					.FindProfessionCheck(Farmer.butcher, fromCurrentIndex: true)			// find coopmaster check
-					.Advance(3)																// the branch to resume execution
+					.Advance(3)																// branch here to resume execution
 					.GetOperand(out object resumeExecution)									// copy destination
 					.Return(2)
 					.Insert(

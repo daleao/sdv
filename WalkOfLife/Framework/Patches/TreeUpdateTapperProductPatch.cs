@@ -7,8 +7,6 @@ using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 using SObject = StardewValley.Object;
 
-using static TheLion.AwesomeProfessions.Framework.Utils;
-
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class TreeUpdateTapperProductPatch : BasePatch
@@ -30,8 +28,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(Tree), nameof(Tree.UpdateTapperProduct)),
-				transpiler: new HarmonyMethod(GetType(), nameof(TreeUpdateTapperProductTranspiler)),
-				postfix: new HarmonyMethod(GetType(), nameof(TreeUpdateTapperProductPostfix))
+				transpiler: new HarmonyMethod(GetType(), nameof(TreeUpdateTapperProductTranspiler))
+				//postfix: new HarmonyMethod(GetType(), nameof(TreeUpdateTapperProductPostfix))
 			);
 		}
 
@@ -59,7 +57,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldarg_0)
 					)
 					.AddLabel(isNotTapper)							// branch here if player is not tapper
-					.InsertProfessionCheck(ProfessionsMap.Forward["tapper"], branchDestination: isNotTapper)
+					.InsertProfessionCheck(Utils.ProfessionsMap.Forward["tapper"], branchDestination: isNotTapper)
 					.Insert(
 						// multiply local 0 by 0.75
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 0.75f),
@@ -78,17 +76,17 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return _helper.Flush();
 		}
 
-		/// <summary>Patch for Tapper to double syrup yield.</summary>
-		protected static void TreeUpdateTapperProductPostfix(SObject tapper_instance)
-		{
-			if (tapper_instance.heldObject.Value != null && PlayerHasProfession("tapper"))
-			{
-				Random r = new Random();
-				if (r.NextDouble() < 0.2)
-				{
-					tapper_instance.heldObject.Value.Stack *= 2;
-				}
-			}
-		}
+		///// <summary>Patch for Tapper to double syrup yield.</summary>
+		//protected static void TreeUpdateTapperProductPostfix(SObject tapper_instance)
+		//{
+		//	if (tapper_instance.heldObject.Value != null && Utils.PlayerHasProfession("tapper"))
+		//	{
+		//		Random r = new Random(tapper_instance.GetHashCode());
+		//		if (r.NextDouble() < 0.2)
+		//		{
+		//			tapper_instance.heldObject.Value.Stack *= 2;
+		//		}
+		//	}
+		//}
 	}
 }

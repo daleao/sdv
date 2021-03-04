@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-using static TheLion.AwesomeProfessions.Framework.Utils;
-
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class GameLocationOnStoneDestroyedPatch : BasePatch
@@ -33,20 +31,21 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch for Miner double coal chance.</summary>
+		/// <summary>Patch for remove Prospector double coal chance.</summary>
 		protected static IEnumerable<CodeInstruction> GameLocationOnStoneDestroyedTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.OnStoneDestroyed)}.");
 
-			/// From: who.professions.Contains(<prospector_id>)
-			/// To: who.professions.Contains(<miner_id>)
+			/// Removed: who.professions.Contains(<prospector_id>)...
 
 			try
 			{
 				_helper
-					.FindProfessionCheck(ProfessionsMap.Forward["prospector"])	// find index of miner check
-					.Advance()
-					.SetOperand(ProfessionsMap.Forward["miner"]);				// remove miner check
+					.FindProfessionCheck(Farmer.burrower)	// find index of prospector check
+					.Retreat()
+					.RemoveUntil(
+						new CodeInstruction(OpCodes.Bge_Un)	// remove section
+					);
 			}
 			catch (Exception ex)
 			{

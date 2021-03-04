@@ -3,8 +3,6 @@ using StardewValley;
 using StardewModdingAPI;
 using System;
 
-using static TheLion.AwesomeProfessions.Framework.Utils;
-
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class FarmAnimalGetSellPricePatch : BasePatch
@@ -28,7 +26,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to adjust Breeder animal sell price.</summary>
 		protected static bool FarmAnimalGetSellPricePrefix(ref FarmAnimal __instance, ref int __result)
 		{
-			if (PlayerHasProfession("breeder"))
+			if (Utils.PlayerHasProfession("breeder"))
 			{
 				double adjustedFriendship = Math.Pow(Math.Sqrt(2) * __instance.friendshipTowardFarmer.Value / 1000, 2) + 0.5;
 				__result = (int)(__instance.price.Value * adjustedFriendship);

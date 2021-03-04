@@ -32,7 +32,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch for Producer to double produce frequency at max animal friendship + combine shepherd and coopmaster product quality boosts.</summary>
+		/// <summary>Patch for Producer to double produce frequency at max animal happiness + combine shepherd and coopmaster product quality boosts.</summary>
 		protected static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(FarmAnimal)}::{nameof(FarmAnimal.dayUpdate)}.");
@@ -78,7 +78,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			_helper.Backup();
 
-			/// From: if ((!isCoopDweller() && Game1.getFarmer(ownerID).professions.Contains(Farmer.shepherd)) || (isCoopDweller() && Game1.getFarmer(ownerID).professions.Contains(Farmer.butcher)))
+			/// From: if ((!isCoopDweller() && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<shepherd_id>)) || (isCoopDweller() && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<coopmaster_id>)))
 			/// To: if (Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<producer_id>)
 
 			try
@@ -93,7 +93,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))	// second FarmAnimal.isCoopDweller
 					)
-					.Advance()								// the branch to resume execution
+					.Advance()								// branch here to resume execution
 					.GetOperand(out object isNotProducer)	// copy destination
 					.Retreat(2)
 					.Insert(								// branch to skip this check if player is not producer

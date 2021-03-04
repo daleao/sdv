@@ -1,14 +1,9 @@
 ﻿using StardewValley;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using TheLion.Common.Classes.BidirectionalMap;
-using TheLion.Common.Extensions;
-using SObject = StardewValley.Object;
+using TheLion.Common.Classes;
 
 namespace TheLion.AwesomeProfessions.Framework
 {
-	/// <summary>Some generally useful methods.</summary>
 	public static class Utils
 	{
 		public static int DemolitionistBuffUniqueID { get; } = _IdFromHashCode("demolitionist", 4);
@@ -16,9 +11,23 @@ namespace TheLion.AwesomeProfessions.Framework
 		public static int BruteBuffUniqueID { get; } = _IdFromHashCode("brute", 4);
 		public static int GambitBuffUniqueID { get; } = _IdFromHashCode("gambit", 4);
 
+		/// <summary>Whether the player has a specific profession.</summary>
+		/// <param name="professionName">The name of the profession.</param>
+		public static bool PlayerHasProfession(string professionName)
+		{
+			return Game1.player.professions.Contains(ProfessionsMap.Forward[professionName]);
+		}
+
+		/// <summary>Whether the player has a specific profession.</summary>
+		/// <param name="professionName">The name of the profession.</param>
+		/// <param name="who">The player.</param>
+		public static bool PlayerHasProfession(string professionName, Farmer who)
+		{
+			return who.professions.Contains(ProfessionsMap.Forward[professionName]);
+		}
 
 		/// <summary>Bi-directional dictionary for looking-up profession id's by name or name's by id.</summary>
-		public static BiMap<string, int> ProfessionsMap { get; set; } = new BiMap<string, int>
+		public static BiMap<string, int> ProfessionsMap { get; } = new BiMap<string, int>
 		{
 			// farming
 			{ "rancher", Farmer.rancher },				// 0
@@ -66,140 +75,6 @@ namespace TheLion.AwesomeProfessions.Framework
 			{ "marksman", Farmer.acrobat },				// 29
 			{ "slimemaster", Farmer.desperado }			// 28
 		};
-
-		/// <summary>The index of the resource that should be dropped by each stone.</summary>
-		private static readonly Dictionary<int, int> _resourceFromStoneId = new()
-		{
-			{ 95, 909 },
-			{ 843, 909 },
-			{ 844, 848 },
-			{ 25, 719 },
-
-			// geodes
-			{ 75, 535 },
-			{ 76, 536 },
-			{ 77, 537 },
-
-			{ 816, 881 },
-			{ 817, 881 },
-			{ 818, 330 },
-			{ 819, 749 },
-
-			// gems
-			{ 8, 66 },
-			{ 10, 68 },
-			{ 12, 60 },
-			{ 14, 62 },
-			{ 6, 70 },
-			{ 4, 64 },
-			{ 2, 72 },
-
-
-			{ 668, 390 },
-			{ 845, 390 },
-			{ 670, 390 },
-			{ 846, 390 },
-			{ 847, 390 },
-			{ 751, 378 },
-			{ 849, 378 },
-			{ 290, 380 },
-			{ 850, 380 },
-			{ 764, 384 },
-			{ 765, 386 }
-		};
-
-		/// <summary>Set of item id's corresponding to animal produce or derived artisan goods.</summary>
-		private static readonly IEnumerable<int> _animalProductIds = new HashSet<int>
-		{
-			107,	// dinosaur egg
-			174,	// large egg
-			176,	// egg
-			180,	// brown egg
-			182,	// large brown egg
-			184,	// milk
-			186,	// large milk
-			289,	// ostrich egg
-			305,	// void egg
-			306,	// mayonnaise
-			307,	// duck mayonnaise
-			308,	// void mayonnaise
-			424,	// cheese
-			426,	// goat cheese
-			428,	// cloth
-			436,	// goat milk
-			438,	// large goat milk
-			440,	// wool
-			442,	// duck egg
-			444,	// duck feather
-			446,	// rabbit's foot
-			807,	// dinosaur mayonnaise
-			928		// golden egg
-		};
-
-		/// <summary>Whether the player has a specific profession.</summary>
-		/// <param name="professionName">The name of the profession.</param>
-		public static bool PlayerHasProfession(string professionName)
-		{
-			return Game1.player.professions.Contains(ProfessionsMap.Forward[professionName]);
-		}
-
-		/// <summary>Whether the player has a specific profession.</summary>
-		/// <param name="professionName">The name of the profession.</param>
-		/// <param name="who">The player.</param>
-		public static bool PlayerHasProfession(string professionName, Farmer who)
-		{
-			return who.professions.Contains(ProfessionsMap.Forward[professionName]);
-		}
-
-		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsAnimalProduct(SObject obj)
-		{
-			return _animalProductIds.Contains(obj.ParentSheetIndex);
-		}
-
-		/// <summary>Whether a given object is wine.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsWine(SObject obj)
-		{
-			return obj.ParentSheetIndex == 348;
-		}
-
-		/// <summary>Whether a given object is one of wine, juice, beer, mead or pale ale.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsWineOrBeverage(SObject obj)
-		{
-			int pale_ale = 303, beer = 346, juice = 350, mead = 459;
-			return IsWine(obj) || obj.ParentSheetIndex.IsIn(pale_ale, beer, juice, mead);
-		}
-
-		/// <summary>Whether a given object is a gem or mineral.</summary>
-		/// <param name="obj">The given object.</param>
-		private static bool IsGemOrMineral(SObject obj)
-		{
-			return obj.Category == SObject.GemCategory || obj.Category == SObject.mineralsCategory;
-		}
-
-		/// <summary>Whether a given object is a fish trapped by a crab pot.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsShellfish(SObject obj)
-		{
-			return obj.ParentSheetIndex > 714 && obj.ParentSheetIndex < 724;
-		}
-
-		/// <summary>Whether a given object is a fish caught with a fishing rod.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsReeledFish(SObject obj)
-		{
-			return obj.Category == SObject.FishCategory && !IsShellfish(obj);
-		}
-
-		/// <summary>Get the corresponding resource that should be dropped for a given stone.</summary>
-		/// <param name="stoneIndex">The index of the stone.</param>
-		public static bool TryGetResourceForStone(int stoneIndex, out int resourceIndex)
-		{
-			return _resourceFromStoneId.TryGetValue(stoneIndex, out resourceIndex);
-		}
 
 		private static int _IdFromHashCode(string text, int digits)
 		{

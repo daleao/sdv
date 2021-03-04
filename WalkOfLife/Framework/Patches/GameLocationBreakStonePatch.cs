@@ -6,13 +6,54 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-using static TheLion.AwesomeProfessions.Framework.Utils;
-
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class GameLocationBreakStonePatch : BasePatch
 	{
 		private static ILHelper _helper;
+
+		/// <summary>Look-up table for what resource should spawn from a given stone.</summary>
+		private static readonly Dictionary<int, int> _resourceFromStoneId = new Dictionary<int, int>
+		{
+			// stone
+			{ 668, 390 },
+			{ 670, 390 },
+			{ 845, 390 },
+			{ 846, 390 },
+			{ 847, 390 },
+
+			// ores
+			{ 751, 378 },
+			{ 849, 378 },
+			{ 290, 380 },
+			{ 850, 380 },
+			{ 764, 384 },
+			{ 765, 386 },
+
+			// geodes
+			{ 75, 535 },
+			{ 76, 536 },
+			{ 77, 537 },
+
+			// gems
+			{ 8, 66 },
+			{ 10, 68 },
+			{ 12, 60 },
+			{ 14, 62 },
+			{ 6, 70 },
+			{ 4, 64 },
+			{ 2, 72 },
+
+			// other
+			{ 95, 909 },
+			{ 843, 848 },
+			{ 844, 848 },
+			{ 25, 719 },
+			{ 816, 881 },
+			{ 817, 881 },
+			{ 818, 330 },
+			{ 819, 749 }
+		};
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
@@ -29,11 +70,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(GameLocation), name: "breakStone"),
-				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationBreakStoneTranspiler))
+				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationBreakStoneTranspiler)),
+				postfix: new HarmonyMethod(GetType(), nameof(GameLocationBreakStonePostfix))
 			);
 		}
 
-		/// <summary>Patch for Miner double coal chance + remove Geologist extra gem chance.</summary>
+		/// <summary>Patch to remove Miner extra ore + remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
 		protected static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::breakStone.");
@@ -44,9 +86,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindProfessionCheck(ProfessionsMap.Forward["miner"])	// find index of miner check
+					.FindProfessionCheck(Utils.ProfessionsMap.Forward["miner"]) // find index of miner check
 					.Retreat()
-					.Remove(5);												// remove miner check
+					.RemoveUntil(
+						new CodeInstruction(OpCodes.Ldc_I4_0)					// remove miner check
+					);
 			}
 			catch (Exception ex)
 			{
@@ -55,46 +99,63 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			_helper.Backup();
 
-			/// From: if (who.professions.Contains(19) && r.NextDouble() < 0.5)
-			/// To: if (false)
-			
+			/// Skipped: if (who.professions.Contains(<geologist_id>) && r.NextDouble() < 0.5)
+
 			try
 			{
 				_helper
-					.FindProfessionCheck(ProfessionsMap.Forward["blaster"])	// find index of geologist check
+					.FindProfessionCheck(Farmer.geologist)		// find index of geologist check
 					.Retreat()
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)				// the branch to resume execution
+						new CodeInstruction(OpCodes.Brfalse)	// branch here to resume execution
 					)
-					.GetOperand(out object resumeExecution)					// copy destination
+					.GetOperand(out object resumeExecution)		// copy destination
 					.Return()
-					.Insert(												// insert uncoditional branch to skip section and resume execution
+					.Insert(									// insert uncoditional branch to skip this check and resume execution
 						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution)
 					);
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Geologist remove extra gems.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while patching Blaster remove vanilla extra gems.\nHelper returned {ex}").Restore();
 			}
 
 			_helper.Backup();
 
-			/// From: who.professions.Contains(<prospector_id>)
-			/// To: who.professions.Contains(<miner_id>)
+			/// Skipped: if (who.professions.Contains(<prospector_id>))...
 
 			try
 			{
 				_helper
-					.FindProfessionCheck(ProfessionsMap.Forward["prospector"])	// find index of miner check
-					.Advance()
-					.SetOperand(ProfessionsMap.Forward["miner"]);				// remove miner check
+					.FindProfessionCheck(Farmer.burrower)		// find index of prospector check
+					.Retreat()
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Brfalse)	// branch here to resume execution
+					)
+					.GetOperand(out object resumeExecution)		// copy destination
+					.Return()
+					.Insert(									// insert uncoditional branch to skip this check and resume execution
+						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution)
+					);
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Miner double coal chance.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while patching Prospector remove vanilla double coal chance.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();
+		}
+
+		/// <summary>Patch for Miner extra resources.</summary>
+		protected static void GameLocationBreakStonePostfix(ref GameLocation __instance, int indexOfStone, int x, int y, Farmer who, Random r)
+		{
+			if (Utils.PlayerHasProfession("miner") && r.NextDouble() < 0.10)
+			{
+				if (_resourceFromStoneId.TryGetValue(indexOfStone, out int indexOfResource))
+				{
+					Game1.createObjectDebris(indexOfResource, x, y, who.UniqueMultiplayerID, __instance);
+				}
+			}
 		}
 	}
 }

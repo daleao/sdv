@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-using static TheLion.AwesomeProfessions.Framework.Utils;
-
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class QuestionEventSetUpPatch : BasePatch
@@ -53,7 +51,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Advance()
 					.AddLabel(resumeExecution)										// the destination to resume execution
 					.Retreat()
-					.InsertProfessionCheck(ProfessionsMap.Forward["breeder"], branchDestination: isNotBreeder)
+					.InsertProfessionCheck(Utils.ProfessionsMap.Forward["breeder"], branchDestination: isNotBreeder)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.011),		// load double base pregancy chance
 						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)	// branch to resume execution

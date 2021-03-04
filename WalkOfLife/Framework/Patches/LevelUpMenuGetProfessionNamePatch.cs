@@ -2,8 +2,6 @@
 using StardewModdingAPI;
 using StardewValley.Menus;
 
-using static TheLion.AwesomeProfessions.Framework.Utils;
-
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class LevelUpMenuGetProfessionNamePatch : BasePatch
@@ -27,10 +25,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to apply modded profession names.</summary>
 		protected static bool LevelUpMenuGetProfessionNamePrefix(ref string __result, int whichProfession)
 		{
-			if (!ProfessionsMap.Contains(whichProfession))
+			if (!Utils.ProfessionsMap.Contains(whichProfession))
 				return true; // run original logic
 
-			__result = ProfessionsMap.Reverse[whichProfession];
+			__result = Utils.ProfessionsMap.Reverse[whichProfession];
 			return false; // don't run original logic
 		}
 	}

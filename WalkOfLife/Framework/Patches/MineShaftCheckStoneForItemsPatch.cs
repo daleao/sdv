@@ -1,13 +1,10 @@
 ﻿using Harmony;
 using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Locations;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
-
-using static TheLion.AwesomeProfessions.Framework.Utils;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
@@ -55,7 +52,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Insert(													// add bonus
 						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4)	// arg 4 = Farmer who
 					)
-					.InsertProfessionCheckForWho(ProfessionsMap.Forward["spelunker"], resumeExecution)
+					.InsertProfessionCheckForWho(Utils.ProfessionsMap.Forward["spelunker"], resumeExecution)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_3),					// local 3 = chanceForLadderDown
 						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(MineShaftCheckStoneForItemsPatch), nameof(MineShaftCheckStoneForItemsPatch.GetBonusLadderDownChance))),
@@ -73,9 +70,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return _helper.Flush();
 		}
 
-		private static double GetBonusLadderDownChance()
+		/// <summary>Get the bonus ladder spawn chance for Spelunker.</summary>
+		protected static double GetBonusLadderDownChance()
 		{
-			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * MineShaft.lowestLevelReached)) - 0.5;
+			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * ModEntry.Data.LowestLevelReached)) - 0.5;
 		}
 	}
 }

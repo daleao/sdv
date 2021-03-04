@@ -1,15 +1,45 @@
 ﻿using Harmony;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Buildings;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using TheLion.Common.Extensions;
 using SObject = StardewValley.Object;
-
-using static TheLion.AwesomeProfessions.Framework.Utils;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
 	{
+		/// <summary>Set of item id's corresponding to animal produce or derived artisan goods.</summary>
+		private static readonly IEnumerable<int> _animalProductIds = new HashSet<int>
+		{
+			107,	// dinosaur egg
+			174,	// large egg
+			176,	// egg
+			180,	// brown egg
+			182,	// large brown egg
+			184,	// milk
+			186,	// large milk
+			289,	// ostrich egg
+			305,	// void egg
+			306,	// mayonnaise
+			307,	// duck mayonnaise
+			308,	// void mayonnaise
+			424,	// cheese
+			426,	// goat cheese
+			428,	// cloth
+			436,	// goat milk
+			438,	// large goat milk
+			440,	// wool
+			442,	// duck egg
+			444,	// duck feather
+			446,	// rabbit's foot
+			807,	// dinosaur mayonnaise
+			928		// golden egg
+		};
+
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
@@ -55,21 +85,21 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				float multiplier = 1f;
 
 				// professions
-				if (PlayerHasProfession("producer", player) && IsAnimalProduct(__instance))
+				if (Utils.PlayerHasProfession("producer", player) && IsAnimalProduct(__instance))
 				{
-					// implement
+					multiplier *= GetMultiplierForProducer();
 				}
-				if (PlayerHasProfession("oenologist", player) && IsWineOrBeverage(__instance))
+				if (Utils.PlayerHasProfession("oenologist", player) && IsWineOrBeverage(__instance))
 				{
-					// implement
+					multiplier *= GetMultiplierForProducer();
 				}
-				if (PlayerHasProfession("angler", player) && IsReeledFish(__instance))
+				if (Utils.PlayerHasProfession("angler", player) && IsReeledFish(__instance))
 				{
-					// implement
+					multiplier *= GetMultiplierForProducer();
 				}
-				if (PlayerHasProfession("conservationist", player))
+				if (Utils.PlayerHasProfession("conservationist", player))
 				{
-					// implement
+					multiplier *= GetMultiplierForProducer();
 				}
 
 				// events
@@ -87,6 +117,83 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			__result = startPrice * saleMultiplier;
 			return false; // don't run original logic
+		}
+
+		protected static float GetMultiplierForProducer()
+		{
+			float multiplier = 1;
+			foreach (Building b in Game1.getFarm().buildings)
+			{
+				if ((b.owner.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b.buildingType.Contains("Deluxe") && (b.indoors.Value as AnimalHouse).isFull())
+				{
+					multiplier += 0.05f;
+				}
+			}
+
+			return multiplier;
+		}
+
+		protected static float GetMultiplierForOenologist()
+		{
+			float multiplier = 1;
+			if (ModEntry.Data.WineFameAccrued >= 1000)
+			{
+				multiplier *= 1.5f;
+			}
+			else if (ModEntry.Data.WineFameAccrued >= 800)
+			{
+				multiplier *= 1.3f;
+			}
+			else if (ModEntry.Data.WineFameAccrued >= 600)
+			{
+				multiplier *= 1.2f;
+			}
+			else if (ModEntry.Data.WineFameAccrued >= 400)
+			{
+				multiplier *= 1.15f;
+			}
+			else if (ModEntry.Data.WineFameAccrued >= 200)
+			{
+				multiplier *= 1.1f;
+			}
+			return multiplier;
+		}
+
+		protected static float GetMultiplierForAngler()
+		{
+			float multiplier = 1;
+
+			return multiplier;
+		}
+
+		protected static float GetMultiplierForConservationist()
+		{
+			float multiplier = 1;
+
+			return multiplier;
+		}
+
+
+		/// <summary>Whether a given object is wine.</summary>
+		/// <param name="obj">The given object.</param>
+		protected static bool IsWine(SObject obj)
+		{
+			return obj.ParentSheetIndex == 348;
+		}
+
+		/// <summary>Whether a given object is one of wine, juice, beer, mead or pale ale.</summary>
+		/// <param name="obj">The given object.</param>
+		protected static bool IsWineOrBeverage(SObject obj)
+		{
+			int wine = 348, pale_ale = 303, beer = 346, juice = 350, mead = 459;
+			return obj.ParentSheetIndex.AnyOf(wine, pale_ale, beer, juice, mead);
+		}
+
+		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
+		/// <param name="obj">The given object.</param>
+		protected static bool IsAnimalProduct(SObject obj)
+		{
+			return _animalProductIds.Contains(obj.ParentSheetIndex);
 		}
 	}
 }

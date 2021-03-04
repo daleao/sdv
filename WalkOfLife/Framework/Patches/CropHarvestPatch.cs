@@ -6,8 +6,7 @@ using StardewValley.Characters;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
-
-using static TheLion.AwesomeProfessions.Framework.Utils;
+using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
@@ -35,10 +34,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch to add extra crop yield chance to Harvester.</summary>
+		/// <summary>Patch for Harvester extra crop yield.</summary>
 		private static bool CropHarvestPrefix(ref Crop __instance, JunimoHarvester junimoHarvester = null)
 		{
-			if (junimoHarvester == null && PlayerHasProfession("harvester"))
+			if (junimoHarvester == null && Utils.PlayerHasProfession("harvester"))
 			{
 				__instance.chanceForExtraCrops.Value += 0.10;
 			}
@@ -46,13 +45,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return true; // run original logic
 		}
 
-		/// <summary>Patch to add dice roll to Ecologist forage quality + always allow iridum-quality crops for Agriculturist.</summary>
+		/// <summary>Patch to nerf Ecologist forage quality + always allow iridum-quality crops for Agriculturist.</summary>
 		private static IEnumerable<CodeInstruction> CropHarvestTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(Crop)}::{nameof(Crop.harvest)}.");
 
 			/// From: @object.Quality = 4
-			/// To: if (random.NextDouble() < (double)((float)Game1.player.ForagingLevel / 30f) @object.Quality = 4 else @object.Quality = 2
+			/// To: @object.Quality = GetForageQuality()
 
 			Label rollFailed = iLGenerator.DefineLabel();
 			try
@@ -60,30 +59,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.FindProfessionCheck(Farmer.botanist)							// find index of botanist check
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Ldloc_1)						// start of @object.Quality = 4
+						new CodeInstruction(OpCodes.Ldc_I4_4)						// start of @object.Quality = 4
 					)
-					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Ldloc_3)						// start of dice roll
-					)
-					.ToBufferUntil(
-						stripLabels: true,
-						new CodeInstruction(OpCodes.Bge_Un)							// finish dice roll
-					)
-					.Return()
-					.InsertBuffer()													// copy dice roll
-					.Retreat()
-					.SetOperand(rollFailed)											// set branch destination for failed roll
-					.Advance()
-					.ToBufferUntil(
-						stripLabels: false,
-						advance: true,
-						new CodeInstruction(OpCodes.Br)								// finish setting quality level
-					)
-					.InsertBuffer()													// copy settings quality level
-					.Return()
-					.AddLabel(rollFailed)											// the destination for failed roll
-					.Advance()
-					.SetOpCode(OpCodes.Ldc_I4_2);									// change quality level to 2
+					.ReplaceWith(													// replace with custom quality
+						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(CropHarvestPatch), nameof(CropHarvestPatch.GetForageQualityForEcologist)))
+					);
 			}
 			catch(Exception ex)
 			{
@@ -104,11 +84,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_3),
 						new CodeInstruction(OpCodes.Blt)
 					)
-					.InsertProfessionCheck(ProfessionsMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
+					.InsertProfessionCheck(Utils.ProfessionsMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
 					.AdvanceUntil(																// find start of dice roll
 						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(Random)} (9)")	// local 9 = System.Random random2
 					)
-					.AddLabel(isAgriculturist);													// the destination if player is agriculturist
+					.AddLabel(isAgriculturist);													// branch here if player is agriculturist
 			}
 			catch (Exception ex)
 			{
@@ -116,6 +96,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 
 			return _helper.Flush();
+		}
+
+		/// <summary>Get the quality of forage for Ecologist.</summary>
+		protected static int GetForageQualityForEcologist()
+		{
+			return ModEntry.Data.MineralsCollected < _config.EcologistConfig.ForagesNeededForBestQuality ? (ModEntry.Data.ItemsForaged < _config.EcologistConfig.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 	}
 }

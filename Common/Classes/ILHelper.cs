@@ -105,6 +105,18 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
+		/// <summary>Find the a specific label in the active code instruction list and move the index pointer to it.</summary>
+		/// <param name="label">The label to match.</param>
+		public ILHelper FindLabel(Label label, bool fromCurrentIndex = false)
+		{
+			int index = _instructionList.IndexOf(label, start: fromCurrentIndex ? _CurrentIndex + 1 : 0);
+			if (index < 0)
+				throw new IndexOutOfRangeException("The label was not found.");
+
+			_indexStack.Push(index);
+			return this;
+		}
+
 		/// <summary>Find the first or next occurrence of the pattern corresponding to `player.professions.Contains()` in the active code instruction list and move the index pointer to it.</summary>
 		/// <param name="whichProfession">The profession id.</param>
 		/// <param name="fromCurrentIndex">Whether to begin search from currently pointed index.</param>
@@ -134,6 +146,13 @@ namespace TheLion.Common.Harmony
 		public ILHelper AdvanceUntil(params CodeInstruction[] pattern)
 		{
 			return Find(fromCurrentIndex: true, pattern);
+		}
+
+		/// <summary>Move the index pointer forward until a specific label is found.</summary>
+		/// <param name="label">The label to match.</param>
+		public ILHelper AdvanceUntilLabel(Label label)
+		{
+			return FindLabel(label, fromCurrentIndex: true);
 		}
 
 		/// <summary>Move the index pointer backward an integer number of steps.</summary>
@@ -257,6 +276,19 @@ namespace TheLion.Common.Harmony
 		public ILHelper RemoveUntil(params CodeInstruction[] pattern)
 		{
 			AdvanceUntil(pattern);
+
+			int endIndex = _indexStack.Pop();
+			int count = endIndex - _CurrentIndex;
+			_instructionList.RemoveRange(_CurrentIndex, count);
+
+			return this;
+		}
+
+		/// <summary>Remove code instructions starting from the currently pointed index until a specific label is found.</summary>
+		/// <param name="label">The label to match.</param>
+		public ILHelper RemoveUntilLabel(Label label)
+		{
+			AdvanceUntilLabel(label);
 
 			int endIndex = _indexStack.Pop();
 			int count = endIndex - _CurrentIndex;

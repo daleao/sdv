@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-using static TheLion.AwesomeProfessions.Framework.Utils;
-
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class AnimalHouseAddNewHatchedAnimalPatch : BasePatch
@@ -53,18 +51,17 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Callvirt, operand: AccessTools.Property(typeof(FarmAnimal), nameof(FarmAnimal.displayName)).GetSetMethod())
 					)
 					.Advance()
-					.AddLabel(i == 0 ? isNotBreeder1 : isNotBreeder2)	// the destination if player is not breeder
+					.AddLabel(i == 0 ? isNotBreeder1 : isNotBreeder2)	// branch here if player is not breeder
 					.Retreat()
-					.InsertProfessionCheck(ProfessionsMap.Forward["breeder"], branchDestination: i == 0 ? isNotBreeder1 : isNotBreeder2)
+					.InsertProfessionCheck(Utils.ProfessionsMap.Forward["breeder"], branchDestination: i == 0 ? isNotBreeder1 : isNotBreeder2)
 					.Insert(											// load the field FarmAnimal.friendshipTowardFarmer
 						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(FarmAnimal)} (5)"),	// local 5 = FarmAnimal a
 						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(FarmAnimal), nameof(FarmAnimal.friendshipTowardFarmer)))
 					)
-					.InsertDiceRoll(0, 500)
+					.InsertDiceRoll(0, ModEntry.Config.BreederConfig.NewbornAnimalMaxFriendship)
 					.Insert(											// set it to FarmerAnimal.friendshipTowardFarmer
 						new CodeInstruction(OpCodes.Callvirt, AccessTools.Property(typeof(NetFieldBase<int, NetInt>), nameof(NetFieldBase<Int32, NetInt>.Value)).GetSetMethod())
 					);
-					
 			}
 			catch (Exception ex)
 			{

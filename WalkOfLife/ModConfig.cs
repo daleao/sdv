@@ -1,4 +1,6 @@
-﻿namespace TheLion.AwesomeProfessions
+﻿using TheLion.AwesomeProfessions.Configs;
+
+namespace TheLion.AwesomeProfessions
 {
 	/// <summary>The mod user-defined settings.</summary>
 	public class ModConfig
@@ -48,5 +50,8 @@
 		public bool EnableMarksman { get; set; } = true;
 		public bool EnableSlimemaster { get; set; } = true;
 
+		public BreederConfig BreederConfig { get; set; } = new();
+		public EcologistConfig EcologistConfig { get; set; } = new();
+		public GemologistConfig GemologistConfig { get; set; } = new();
 	}
 }

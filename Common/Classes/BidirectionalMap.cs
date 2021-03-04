@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace TheLion.Common.Classes.BidirectionalMap
+namespace TheLion.Common.Classes
 {
 	public class BiMap<TForwardKey, TReverseKey> : IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>
 	{

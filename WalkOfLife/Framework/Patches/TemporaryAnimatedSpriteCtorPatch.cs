@@ -4,8 +4,6 @@ using StardewModdingAPI;
 using StardewValley;
 using System;
 
-using static TheLion.AwesomeProfessions.Framework.Utils;
-
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class TemporaryAnimatedSpriteCtorPatch : BasePatch
@@ -29,7 +27,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Demolitionist to increase bomb radius.</summary>
 		protected static void TemporaryAnimatedSpriteCtorPostfix(ref TemporaryAnimatedSprite __instance, Farmer owner)
 		{
-			if (PlayerHasProfession("demolitionist", owner))
+			if (Utils.PlayerHasProfession("demolitionist", owner))
 			{
 				__instance.bombRadius++;
 			}

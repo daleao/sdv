@@ -9,7 +9,7 @@ namespace TheLion.Common.Extensions
 		/// <summary>Determine if an instance is contained in a sequence.</summary>
 		/// <param name="obj">The instance to search for.</param>
 		/// <param name="collection">The collection to be searched.</param>
-		public static bool IsIn<T>(this T obj, params T[] collection)
+		public static bool AnyOf<T>(this T obj, params T[] collection)
 		{
 			return collection.Contains(obj);
 		}

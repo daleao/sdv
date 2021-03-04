@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-using static TheLion.AwesomeProfessions.Framework.Utils;
-
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class TreeDayUpdatePatch : BasePatch
@@ -49,11 +47,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper.Find(				// find index of loading tree growth chance
 					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.15)
 				)
-				.AddLabel(isNotArborist)	// the destination if player is not arborist
+				.AddLabel(isNotArborist)	// branch here if player is not arborist
 				.Advance()
-				.AddLabel(resumeExecution)	// the destination to resume execution
+				.AddLabel(resumeExecution)	// branch here to resume execution
 				.Retreat()
-				.InsertProfessionCheck(ProfessionsMap.Forward["arborist"], branchDestination: isNotArborist)
+				.InsertProfessionCheck(Utils.ProfessionsMap.Forward["arborist"], branchDestination: isNotArborist)
 				.Insert(					// if player is arborist load adjusted constant
 					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.1875),
 					new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
@@ -77,11 +75,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper.AdvanceUntil(		// find index of loading tree growth chance
 					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.6)
 				)
-				.AddLabel(isNotArborist)	// the destination if player is not arborist
+				.AddLabel(isNotArborist)	// branch here if player is not arborist
 				.Advance()
-				.AddLabel(resumeExecution)	// the destination to resume execution
+				.AddLabel(resumeExecution)	// branch here to resume execution
 				.Retreat()
-				.InsertProfessionCheck(ProfessionsMap.Forward["arborist"], branchDestination: isNotArborist)
+				.InsertProfessionCheck(Utils.ProfessionsMap.Forward["arborist"], branchDestination: isNotArborist)
 				.Insert(					// if player is arborist load adjusted constant
 					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.9),
 					new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
@@ -105,11 +103,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper.AdvanceUntil(		// find index of loading tree growth chance
 					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.2)
 				)
-				.AddLabel(isNotArborist)	// the destination if player is not arborist
+				.AddLabel(isNotArborist)	// branch here if player is not arborist
 				.Advance()
-				.AddLabel(resumeExecution)	// the destination to resume execution
+				.AddLabel(resumeExecution)	// branch here to resume execution
 				.Retreat()
-				.InsertProfessionCheck(ProfessionsMap.Forward["arborist"], branchDestination: isNotArborist)
+				.InsertProfessionCheck(Utils.ProfessionsMap.Forward["arborist"], branchDestination: isNotArborist)
 				.Insert(					// if player is arborist load adjusted constant
 					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.25),
 					new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
