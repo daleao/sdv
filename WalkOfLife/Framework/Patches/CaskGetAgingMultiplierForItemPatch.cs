@@ -25,7 +25,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		}
 
 		/// <summary>Patch for Oenologist faster wine aging.</summary>
-		protected static void CaskGetAgingMultiplierForItemPostfix(ref float __result, Item item)
+		protected static void CaskGetAgingMultiplierForItemPostfix(ref Cask __instance, ref float __result, Item item)
 		{
 			if (Utils.PlayerHasProfession("oenologist") && _IsWine(item as SObject))
 			{

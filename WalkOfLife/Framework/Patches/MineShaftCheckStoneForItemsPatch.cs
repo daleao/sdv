@@ -37,14 +37,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(MineShaft)}::{nameof(MineShaft.checkStoneForItems)}.");
 
-			/// Injected: if (Game1.player.professions.Contains(<spelunker_id>) chanceForLadderDown += GetBonusLadderDownChance()
+			/// Injected: if (who.professions.Contains(<spelunker_id>) chanceForLadderDown += GetBonusLadderDownChance()
 
 			Label resumeExecution1 = iLGenerator.DefineLabel();
 			try
 			{
 				_helper
 					.Find(														// find ladder spawn segment
-						new CodeInstruction(OpCodes.Ldfld, operand: AccessTools.Field(typeof(MineShaft), name: "ladderHasSpawned"))
+						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(MineShaft), name: "ladderHasSpawned"))
 					)
 					.Retreat()
 					.GetLabel(out Label previousBranchLabel)
@@ -56,7 +56,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.InsertProfessionCheckForWho(Utils.ProfessionsMap.Forward["spelunker"], resumeExecution1)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_3),					// local 3 = chanceForLadderDown
-						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(MineShaftCheckStoneForItemsPatch), nameof(MineShaftCheckStoneForItemsPatch._GetBonusLadderDownChance))),
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MineShaftCheckStoneForItemsPatch), nameof(MineShaftCheckStoneForItemsPatch._GetBonusLadderDownChance))),
 						new CodeInstruction(OpCodes.Add),
 						new CodeInstruction(OpCodes.Stloc_3)
 					)

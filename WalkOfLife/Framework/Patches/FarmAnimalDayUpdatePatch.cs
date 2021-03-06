@@ -45,7 +45,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.Find(													// find index of FarmAnimal.type.Value.Equals("Sheep")
 						new CodeInstruction(OpCodes.Ldstr, operand: "Sheep"),
-						new CodeInstruction(OpCodes.Callvirt, operand: AccessTools.Method(typeof(string), nameof(string.Equals), new Type[] { typeof(string) }))
+						new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(string), nameof(string.Equals), new Type[] { typeof(string) }))
 					)
 					.Retreat(2)
 					.SetOperand(AccessTools.Field(typeof(FarmAnimal), nameof(FarmAnimal.happiness)))													// was FarmAnimal.type
@@ -86,12 +86,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.Find(									// find index of first FarmAnimal.isCoopDweller check
 						fromCurrentIndex: true,
-						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))
 					)
 					.Retreat()
 					.Remove(3)								// remove this check
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))	// second FarmAnimal.isCoopDweller
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))	// second FarmAnimal.isCoopDweller
 					)
 					.Advance()								// the branch to resume execution
 					.GetOperand(out object isNotProducer)	// copy destination

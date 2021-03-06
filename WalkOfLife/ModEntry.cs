@@ -14,8 +14,9 @@ namespace TheLion.AwesomeProfessions
 	{
 		public static ModConfig Config { get; set; }
 		public static ModData Data { get; set; }
-		public static ITranslationHelper I18n { get; set; }
+		public static IModRegistry Registry { get; set; }
 		public static IReflectionHelper Reflection { get; set; }
+		public static ITranslationHelper I18n { get; set; }
 
 		public static int DemolitionistBuffMagnitude { get; set; } = 0;
 		public static int BruteBuffMagnitude { get; set; } = 0;
@@ -27,12 +28,15 @@ namespace TheLion.AwesomeProfessions
 		{
 			// get configs.json
 			Config = helper.ReadConfig<ModConfig>();
-
-			// get localized content
-			I18n = helper.Translation;
+			
+			// get mod registry
+			Registry = Helper.ModRegistry;
 
 			// get reflection interface
 			Reflection = helper.Reflection;
+
+			// get localized content
+			I18n = helper.Translation;
 
 			// add event hooks
 			helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
@@ -91,6 +95,17 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
+			GameLocation location = Game1.currentLocation;
+			if (Utils.PlayerHasProfession("spelunker") && location is MineShaft)
+			{
+				AddOrUpdateBuff(Utils.SpelunkerBuffUniqueID, 1, "spelunker");
+
+				if ((location as MineShaft).mineLevel > Data.LowestLevelReached)
+				{
+					Data.LowestLevelReached = (location as MineShaft).mineLevel;
+				}
+			}
+
 			if (DemolitionistBuffMagnitude > 0)
 			{
 				if (e.Ticks % 30 == 0)
@@ -101,9 +116,12 @@ namespace TheLion.AwesomeProfessions
 				AddOrUpdateBuff(Utils.DemolitionistBuffUniqueID, DemolitionistBuffMagnitude, "demolitionist");
 			}
 
-			if (Utils.PlayerHasProfession("spelunker") && Game1.currentLocation is MineShaft)
+			if (Utils.PlayerHasProfession("conservationist"))
 			{
-				AddOrUpdateBuff(Utils.SpelunkerBuffUniqueID, 1, "spelunker");
+				if (Data.TrashCollectedAsConservationist % 10 == 0)
+				{
+					Utility.improveFriendshipWithEveryoneInRegion(Game1.player, 1, 2);
+				}
 			}
 		}
 

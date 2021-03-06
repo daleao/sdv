@@ -37,7 +37,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			_helper.Attach(instructions).Log($"Patching method {typeof(Tree)}::{nameof(Tree.dayUpdate)}.");
 
 			/// From: Game1.random.NextDouble() < <value>
-			/// To: Game1.random.NextDouble() < Game1.player.professions.Contains(<arborist_id>) ? <value * multiplier> : <value>
+			/// To: Game1.random.NextDouble() < Game1.player.professions.Contains(<arborist_id>) ? <value * 1.25f> : <value>
 
 			Label isNotArborist = iLGenerator.DefineLabel();
 			Label resumeExecution = iLGenerator.DefineLabel();
@@ -57,7 +57,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				.Retreat()
 				.InsertProfessionCheck(Utils.ProfessionsMap.Forward["arborist"], branchDestination: isNotArborist)
 				.Insert(					// if player is arborist load adjusted constant
-					new CodeInstruction(OpCodes.Ldc_R8, operand: baseValues[i] * _config.Arborist.TreeGrowthMultiplier),
+					new CodeInstruction(OpCodes.Ldc_R8, operand: baseValues[i] * 1.25f),
 					new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
 				);
 			}

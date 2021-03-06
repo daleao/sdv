@@ -246,7 +246,7 @@ namespace TheLion.Common.Harmony
 			return Insert(
 				new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Game1), nameof(Game1.random))),
 				_LoadConstantIntIL(minValue),
-				_LoadConstantIntIL(maxValue),
+				_LoadConstantIntIL(maxValue + 1),
 				new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(Random), nameof(Random.Next)))
 			);
 		}

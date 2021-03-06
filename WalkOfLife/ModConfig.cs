@@ -50,8 +50,6 @@ namespace TheLion.AwesomeProfessions
 		public bool EnableMarksman { get; set; } = true;
 		public bool EnableSlimemaster { get; set; } = true;
 
-		public ArboristConfig Arborist { get; set; } = new();
-		public BreederConfig Breeder { get; set; } = new();
 		public ConservationistConfig Conservationist { get; set; } = new();
 		public EcologistConfig Ecologist { get; set; } = new();
 		public GemologistConfig Gemologist { get; set; } = new();

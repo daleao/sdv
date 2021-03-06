@@ -1,5 +1,6 @@
 ﻿using Harmony;
 using StardewModdingAPI;
+using StardewValley;
 using StardewValley.Events;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			_helper.Attach(instructions).Log($"Patching method {typeof(QuestionEvent)}::{nameof(QuestionEvent.setUp)}.");
 
 			/// From: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * 0.0055
-			/// To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (Game1.player.professions.Contains(<breeder_id>) ? <0.0055 * multiplier> : 0.0055)
+			/// To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (Game1.player.professions.Contains(<breeder_id>) ? <0.0055 * 2.0> : 0.0055)
 
 			Label isNotBreeder = iLGenerator.DefineLabel();
 			Label resumeExecution = iLGenerator.DefineLabel();
@@ -53,7 +54,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Retreat()
 					.InsertProfessionCheck(Utils.ProfessionsMap.Forward["breeder"], branchDestination: isNotBreeder)
 					.Insert(					// if player is breeder load adjusted pregancy chance
-						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055 * _config.Breeder.PregnancyChanceMultiplier),
+						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055 * 2.0),
 						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
 					);
 			}

@@ -1,5 +1,6 @@
 ﻿using Harmony;
 using StardewModdingAPI;
+using StardewValley;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
@@ -23,7 +24,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		}
 
 		/// <summary>Patch to speed up Gemologist crystalarium processing time.</summary>
-		protected static void ObjectGetMinutesForCrystalariumPostfix(ref int __result)
+		protected static void ObjectGetMinutesForCrystalariumPostfix(ref SObject __instance, ref int __result)
 		{
 			if (Utils.PlayerHasProfession("gemologist"))
 			{

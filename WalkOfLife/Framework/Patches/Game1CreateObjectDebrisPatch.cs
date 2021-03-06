@@ -43,9 +43,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Gemologist mineral quality.</summary>
 		protected static bool Game1CreateObjectDebrisPrefix(int objectIndex, int xTile, int yTile, long whichPlayer, GameLocation location)
 		{
-			if (Utils.PlayerHasProfession("gemologist", Game1.getFarmer(whichPlayer)) && _IsMineral(objectIndex))
+			Farmer who = Game1.getFarmer(whichPlayer);
+			if (Utils.PlayerHasProfession("gemologist", who) && _IsMineral(objectIndex))
 			{
-				location.debris.Add(new Debris(objectIndex, new Vector2(xTile * 64 + 32, yTile * 64 + 32), Game1.getFarmer(whichPlayer).getStandingPosition())
+				location.debris.Add(new Debris(objectIndex, new Vector2(xTile * 64 + 32, yTile * 64 + 32), who.getStandingPosition())
 				{
 					itemQuality = _GetMineralQualityForGemologist()
 				});

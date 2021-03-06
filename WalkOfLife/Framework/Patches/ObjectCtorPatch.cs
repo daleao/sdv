@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using System;
-using System.Collections.Generic;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
@@ -29,7 +28,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for cheaper tapper recipe for Tapper.</summary>
 		protected static void ObjectCtorPostfix(ref SObject __instance)
 		{
-			if (_IsWildBerry(__instance) && Utils.PlayerHasProfession("ecologist"))
+			Farmer who = Game1.getFarmer(__instance.owner.Value);
+			if (_IsWildBerry(__instance) && Utils.PlayerHasProfession("ecologist", who))
 			{
 				__instance.Edibility = (int)(__instance.Edibility * 1.5f);
 			}

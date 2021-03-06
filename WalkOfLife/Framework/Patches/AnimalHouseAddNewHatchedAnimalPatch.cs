@@ -37,7 +37,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(AnimalHouse)}::{nameof(AnimalHouse.addNewHatchedAnimal)}.");
 
-			/// Injected (twice): if (Game1.player.professions.Contains(<breeder_id>) a.friendshipTowardFarmer = Game1.random.Next(0, 500)
+			/// Injected (twice): if (Game1.getFarmer(a.ownerID).professions.Contains(<breeder_id>) a.friendshipTowardFarmer = Game1.random.Next(0, 500)
 
 			Label isNotBreeder1 = iLGenerator.DefineLabel();
 			Label isNotBreeder2 = iLGenerator.DefineLabel();
@@ -49,17 +49,22 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.Find(												// find index of setting newborn display name
 						fromCurrentIndex: i != 0,
-						new CodeInstruction(OpCodes.Callvirt, operand: AccessTools.Property(typeof(FarmAnimal), nameof(FarmAnimal.displayName)).GetSetMethod())
+						new CodeInstruction(OpCodes.Callvirt, AccessTools.Property(typeof(FarmAnimal), nameof(FarmAnimal.displayName)).GetSetMethod())
 					)
 					.Advance()
-					.AddLabel(i == 0 ? isNotBreeder1 : isNotBreeder2)	// branch here if player is not breeder
+					.AddLabel(i == 0 ? isNotBreeder1 : isNotBreeder2)   // branch here if player is not breeder
 					.Retreat()
-					.InsertProfessionCheck(Utils.ProfessionsMap.Forward["breeder"], branchDestination: i == 0 ? isNotBreeder1 : isNotBreeder2)
+					.Insert(
+						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(FarmAnimal)} (5)"), // local 5 = FarmAnimal a
+						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(FarmAnimal), nameof(FarmAnimal.ownerID))),
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Game1), nameof(Game1.getFarmer)))
+					)
+					.InsertProfessionCheckForWho(Utils.ProfessionsMap.Forward["breeder"], branchDestination: i == 0 ? isNotBreeder1 : isNotBreeder2)
 					.Insert(											// load the field FarmAnimal.friendshipTowardFarmer
-						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(FarmAnimal)} (5)"),	// local 5 = FarmAnimal a
+						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(FarmAnimal)} (5)"),
 						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(FarmAnimal), nameof(FarmAnimal.friendshipTowardFarmer)))
 					)
-					.InsertDiceRoll(0, ModEntry.Config.Breeder.NewbornAnimalMaxFriendship)
+					.InsertDiceRoll(0, 200)
 					.Insert(											// set it to FarmerAnimal.friendshipTowardFarmer
 						new CodeInstruction(OpCodes.Callvirt, AccessTools.Property(typeof(NetFieldBase<int, NetInt>), nameof(NetFieldBase<Int32, NetInt>.Value)).GetSetMethod())
 					);

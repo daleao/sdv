@@ -76,7 +76,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		}
 
 		/// <summary>Patch to remove Miner extra ore + remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
-		protected static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		protected static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::breakStone.");
 
@@ -149,7 +149,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Miner extra resources.</summary>
 		protected static void GameLocationBreakStonePostfix(ref GameLocation __instance, int indexOfStone, int x, int y, Farmer who, Random r)
 		{
-			if (Utils.PlayerHasProfession("miner") && r.NextDouble() < 0.10)
+			if (Utils.PlayerHasProfession("miner", who) && r.NextDouble() < 0.10)
 			{
 				if (_resourceFromStoneId.TryGetValue(indexOfStone, out int indexOfResource))
 				{

@@ -43,7 +43,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Trapper fish quality + Luremaster bait mechanics.</summary>
 		protected static bool CrabPotDayUpdatePrefix(ref CrabPot __instance, GameLocation location)
 		{
-			if (__instance.bait.Value == null || __instance.heldObject.Value != null)
+			Farmer who = Game1.getFarmer(__instance.owner.Value);
+			if (__instance.bait.Value == null && !Utils.PlayerHasProfession("conservationist") || __instance.heldObject.Value != null)
 			{
 				return false; // don't run original logic
 			}
@@ -54,7 +55,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			Random r = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int)__instance.TileLocation.X * 1000 + (int)__instance.TileLocation.Y);
 			Dictionary<string, string> locationData = Game1.content.Load<Dictionary<string, string>>("Data\\Locations");
 			Dictionary<int, string> fishData = Game1.content.Load<Dictionary<int, string>>("Data\\Fish");
-			Farmer who = Game1.getFarmer(__instance.owner.Value);
 			int whichFish = -1;
 			if (Utils.PlayerHasProfession("luremaster", who))
 			{
@@ -73,7 +73,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					whichFish = _treasureId;
 				}
 			}
-			else
+			else if (__instance.bait.Value != null)
 			{
 				whichFish = _ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
 			}
@@ -82,6 +82,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			if (whichFish < 0)
 			{
 				whichFish = _GetTrash(r);
+				if (Utils.PlayerHasProfession("conservationist"))
+				{
+					++ModEntry.Data.TrashCollectedAsConservationist;
+				}
 			}
 			else
 			{

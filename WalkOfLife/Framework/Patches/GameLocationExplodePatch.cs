@@ -48,6 +48,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			Label isNotDemolitionist = iLGenerator.DefineLabel();
 			Label resumeExecution = iLGenerator.DefineLabel();
+
+			int i = 0;
+			repeat:
 			try
 			{
 				_helper
@@ -55,14 +58,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(GameLocation), name: "damagePlayers"))
 					)
 					.AddLabel(resumeExecution)					// branch here to resume execution
-					.Retreat()
+					.Retreat(i == 0 ? 1 : 3)
 					.AddLabel(isNotDemolitionist)				// branch here if player is not demolitionist
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_3)	// arg 3 = Farmer who
 					)
 					.InsertProfessionCheckForWho(Utils.ProfessionsMap.Forward["demolitionist"], isNotDemolitionist)
 					.Insert(
-						new CodeInstruction(OpCodes.Ldc_I4_1),	// replace damage_amount with 1
+						new CodeInstruction(OpCodes.Ldc_I4_1),	// replace damage amount with 1
 						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
 					);
 			}
@@ -71,34 +74,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper.Error($"Failed while patching Demolitionist explosion resistance.\nHelper returned {ex}").Restore();
 			}
 
-			_helper.Backup();
-
-			/// From: damagePlayers(areaOfEffect, radius * 3)
-			/// To: damagePlayers(areaOfEffect, who.professions.Contains(<demolitionist_id>) ? 1 : radius * 3)
-
-			isNotDemolitionist = iLGenerator.DefineLabel();
-			resumeExecution = iLGenerator.DefineLabel();
-			try
+			// repeat injection (first iteration for damage_amount, second for radius * 3)
+			if (++i < 2)
 			{
-				_helper
-					.Find(										// find index of damagePlayers
-						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(GameLocation), name: "damagePlayers"))
-					)
-					.AddLabel(resumeExecution)					// branch here to resume execution
-					.Retreat(3)
-					.AddLabel(isNotDemolitionist)				// branch here if player is not demolitionist
-					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_3)	// arg 3 = Farmer who
-					)
-					.InsertProfessionCheckForWho(Utils.ProfessionsMap.Forward["demolitionist"], isNotDemolitionist)
-					.Insert(
-						new CodeInstruction(OpCodes.Ldc_I4_1),	// replace radius * 3 with 1
-						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
-					);
-			}
-			catch (Exception ex)
-			{
-				_helper.Error($"Failed while patching Demolitionist explosion resistance.\nHelper returned {ex}").Restore();
+				_helper.Backup();
+				isNotDemolitionist = iLGenerator.DefineLabel();
+				resumeExecution = iLGenerator.DefineLabel();
+				goto repeat;
 			}
 
 			return _helper.Flush();
