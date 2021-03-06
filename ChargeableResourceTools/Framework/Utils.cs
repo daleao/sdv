@@ -13,25 +13,11 @@ namespace TheLion.AwesomeTools.Framework
 		/// <param name="tool">The tool.</param>
 		public static bool ShouldCharge(Tool tool)
 		{
-			if (!ModEntry.Config.PickaxeConfig.EnablePickaxeCharging || (ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown()))
+			if ((ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown())
+				|| (tool is Axe && (!ModEntry.Config.AxeConfig.EnableAxeCharging || tool.UpgradeLevel < ModEntry.Config.AxeConfig.RequiredUpgradeForCharging))
+				|| (tool is Pickaxe && (!ModEntry.Config.PickaxeConfig.EnablePickaxeCharging || tool.UpgradeLevel < ModEntry.Config.PickaxeConfig.RequiredUpgradeForCharging)))
 			{
 				return false;
-			}
-
-			switch (tool)
-			{
-				case Axe:
-					if (tool.UpgradeLevel < ModEntry.Config.AxeConfig.RequiredUpgradeForCharging)
-					{
-						return false;
-					}
-					break;
-				case Pickaxe:
-					if (tool.UpgradeLevel < ModEntry.Config.PickaxeConfig.RequiredUpgradeForCharging)
-					{
-						return false;
-					}
-					break;
 			}
 
 			return true;
