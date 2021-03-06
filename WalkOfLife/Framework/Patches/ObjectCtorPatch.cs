@@ -29,7 +29,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for cheaper tapper recipe for Tapper.</summary>
 		protected static void ObjectCtorPostfix(ref SObject __instance)
 		{
-			if (IsWildBerry(__instance) && Utils.PlayerHasProfession("ecologist"))
+			if (_IsWildBerry(__instance) && Utils.PlayerHasProfession("ecologist"))
 			{
 				__instance.Edibility = (int)(__instance.Edibility * 1.5f);
 			}
@@ -37,7 +37,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
 		/// <param name="obj">The given object.</param>
-		protected static bool IsWildBerry(SObject obj)
+		private static bool _IsWildBerry(SObject obj)
 		{
 			return obj.ParentSheetIndex == 296 || obj.ParentSheetIndex == 410;
 		}

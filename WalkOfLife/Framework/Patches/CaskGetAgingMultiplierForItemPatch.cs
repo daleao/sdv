@@ -24,10 +24,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch to speed up Oenologist wine aging.</summary>
+		/// <summary>Patch for Oenologist faster wine aging.</summary>
 		protected static void CaskGetAgingMultiplierForItemPostfix(ref float __result, Item item)
 		{
-			if (Utils.PlayerHasProfession("oenologist") && IsWine(item as SObject))
+			if (Utils.PlayerHasProfession("oenologist") && _IsWine(item as SObject))
 			{
 				__result *= 2;
 			}
@@ -35,7 +35,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 		/// <summary>Whether a given object is wine.</summary>
 		/// <param name="obj">The given object.</param>
-		protected static bool IsWine(SObject obj)
+		private static bool _IsWine(SObject obj)
 		{
 			return obj.ParentSheetIndex == 348;
 		}

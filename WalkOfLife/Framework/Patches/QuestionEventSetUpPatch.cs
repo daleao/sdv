@@ -47,14 +47,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Find(															// find index of loading base pregnancy chance
 						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055)
 					)
-					.AddLabel(isNotBreeder)											// the destination if player is not breeder
+					.AddLabel(isNotBreeder)											// branch here if player is not breeder
 					.Advance()
-					.AddLabel(resumeExecution)										// the destination to resume execution
+					.AddLabel(resumeExecution)										// branch here to resume execution
 					.Retreat()
 					.InsertProfessionCheck(Utils.ProfessionsMap.Forward["breeder"], branchDestination: isNotBreeder)
 					.Insert(
-						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.011),		// load double base pregancy chance
-						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)	// branch to resume execution
+						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.011),		// if player is breeder load double base pregancy chance
+						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
 					);
 			}
 			catch (Exception ex)

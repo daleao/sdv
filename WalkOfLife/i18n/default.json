@@ -10,7 +10,7 @@
 	"rancher.name": "Rancher",
 	"rancher.description": "Befriend animals quicker.",
 	"breeder.name": "Breeder",
-	"breeder.description": "Animals breed more frequently. Increase animal sell price at high friendship.",
+	"breeder.description": "Animals breed more frequently. Increase value of animals at high friendship.",
 	"producer.name": "Producer",
 	"producer.description": "Happy animals produce more frequently. Produce worth 5% more for every full barn or coop.",
 
@@ -44,7 +44,7 @@
 	"demolitionist.description": "Bomb radius +1. Gain a speed burst when hit by an explosion.",
 	"demolitionist.buff": "Demolitionist",
 	"gemologist.name": "Gemologist",
-	"gemologist.description": "Identify minerals of higher quality over time. Crystalariums work 50% faster.",
+	"gemologist.description": "Identify minerals of higher quality over time. Crystalariums work 25% faster.",
 
 	// Fishing
 	"fisher.name": "Fisher",
@@ -55,9 +55,9 @@
 	"aquarist.description": "Every fish pond at max capacity increases the size of your fishing bar. Spawning rate increased.",
 
 	"trapper.name": "Trapper",
-	"trapper.description": "Crab pots are cheaper to craft. Can trap higher quality haul.",
-	"mariner.name": "Mariner",
-	"mariner.description": "Crab pots can trap fish. No longer produce junk items.",
+	"trapper.description": "Crab pots are cheaper to craft. Can trap fish of higher quality.",
+	"luremaster.name": "Luremaster",
+	"luremaster.description": "Crab pots no longer produce junk items. Use different baits to attract different catch.",
 	"conservationist.name": "Conservationist",
 	"conservationist.description": "Collect junk to gain village favor. Gain tax deductions each season.",
 

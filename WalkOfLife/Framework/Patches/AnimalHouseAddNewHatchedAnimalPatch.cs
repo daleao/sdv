@@ -46,8 +46,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(												// find the index of setting newborn display name
-						fromCurrentIndex: i == 0 ? false : true,
+					.Find(												// find index of setting newborn display name
+						fromCurrentIndex: i != 0,
 						new CodeInstruction(OpCodes.Callvirt, operand: AccessTools.Property(typeof(FarmAnimal), nameof(FarmAnimal.displayName)).GetSetMethod())
 					)
 					.Advance()
@@ -58,7 +58,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(FarmAnimal)} (5)"),	// local 5 = FarmAnimal a
 						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(FarmAnimal), nameof(FarmAnimal.friendshipTowardFarmer)))
 					)
-					.InsertDiceRoll(0, ModEntry.Config.BreederConfig.NewbornAnimalMaxFriendship)
+					.InsertDiceRoll(0, ModEntry.Config.Breeder.NewbornAnimalMaxFriendship)
 					.Insert(											// set it to FarmerAnimal.friendshipTowardFarmer
 						new CodeInstruction(OpCodes.Callvirt, AccessTools.Property(typeof(NetFieldBase<int, NetInt>), nameof(NetFieldBase<Int32, NetInt>.Value)).GetSetMethod())
 					);

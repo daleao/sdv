@@ -51,14 +51,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(                                      // find index of damagePlayers
+					.Find(										// find index of damagePlayers
 						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(GameLocation), name: "damagePlayers"))
 					)
 					.AddLabel(resumeExecution)					// branch here to resume execution
 					.Retreat()
 					.AddLabel(isNotDemolitionist)				// branch here if player is not demolitionist
 					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_3)	// arg 3 = Farmer
+						new CodeInstruction(OpCodes.Ldarg_3)	// arg 3 = Farmer who
 					)
 					.InsertProfessionCheckForWho(Utils.ProfessionsMap.Forward["demolitionist"], isNotDemolitionist)
 					.Insert(
@@ -81,7 +81,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(                                      // find index of damagePlayers
+					.Find(										// find index of damagePlayers
 						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(GameLocation), name: "damagePlayers"))
 					)
 					.AddLabel(resumeExecution)					// branch here to resume execution
@@ -113,7 +113,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				CircleTileGrid grid = new CircleTileGrid(tileLocation, radius);
 				foreach (Vector2 tile in grid)
 				{
-					if (__instance.objects.TryGetValue(tile, out SObject tileObj) && IsStone(tileObj))
+					if (__instance.objects.TryGetValue(tile, out SObject tileObj) && _IsStone(tileObj))
 					{
 						Random r = new Random(tile.GetHashCode());
 						if (tileObj.ParentSheetIndex == 343 || tileObj.ParentSheetIndex == 450)
@@ -147,7 +147,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 		/// <summary>Whether a given object is a stone.</summary>
 		/// <param name="obj">The world object.</param>
-		protected static bool IsStone(SObject obj)
+		private static bool _IsStone(SObject obj)
 		{
 			return obj?.Name == "Stone";
 		}

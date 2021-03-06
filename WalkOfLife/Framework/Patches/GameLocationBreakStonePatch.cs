@@ -86,10 +86,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindProfessionCheck(Utils.ProfessionsMap.Forward["miner"]) // find index of miner check
+					.FindProfessionCheck(Farmer.miner)			// find index of miner check
 					.Retreat()
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Ldc_I4_0)					// remove miner check
+						new CodeInstruction(OpCodes.Ldc_I4_0)	// remove this check
 					);
 			}
 			catch (Exception ex)
@@ -99,7 +99,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			_helper.Backup();
 
-			/// Skipped: if (who.professions.Contains(<geologist_id>) && r.NextDouble() < 0.5)
+			/// Skipped: if (who.professions.Contains(<geologist_id>)...
 
 			try
 			{
@@ -107,7 +107,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.FindProfessionCheck(Farmer.geologist)		// find index of geologist check
 					.Retreat()
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)	// branch here to resume execution
+						new CodeInstruction(OpCodes.Brfalse)	// the branch to resume execution
 					)
 					.GetOperand(out object resumeExecution)		// copy destination
 					.Return()
@@ -130,7 +130,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.FindProfessionCheck(Farmer.burrower)		// find index of prospector check
 					.Retreat()
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)	// branch here to resume execution
+						new CodeInstruction(OpCodes.Brfalse)	// the branch to resume execution
 					)
 					.GetOperand(out object resumeExecution)		// copy destination
 					.Return()

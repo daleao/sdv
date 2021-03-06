@@ -22,12 +22,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected internal override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(GameLocation), name: "breakStone"),
+				AccessTools.Method(typeof(GameLocation), nameof(GameLocation.checkAction)),
 				prefix: new HarmonyMethod(GetType(), nameof(GameLocationCheckActionPrefix))
 			);
 		}
 
-		/// <summary>Patch for Miner extra resources.</summary>
 		protected static bool GameLocationCheckActionPrefix()
 		{
 			return true; // run original logic;

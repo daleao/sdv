@@ -31,7 +31,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch for remove Prospector double coal chance.</summary>
+		/// <summary>Patch to remove Prospector double coal chance.</summary>
 		protected static IEnumerable<CodeInstruction> GameLocationOnStoneDestroyedTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.OnStoneDestroyed)}.");
@@ -44,7 +44,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.FindProfessionCheck(Farmer.burrower)	// find index of prospector check
 					.Retreat()
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Bge_Un)	// remove section
+						new CodeInstruction(OpCodes.Bge_Un)	// remove this check
 					);
 			}
 			catch (Exception ex)

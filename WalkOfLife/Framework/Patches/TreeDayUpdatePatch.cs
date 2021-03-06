@@ -44,7 +44,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			try
 			{
-				_helper.Find(				// find index of loading tree growth chance
+				_helper.Find(				// find index of base tree growth chance
 					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.15)
 				)
 				.AddLabel(isNotArborist)	// branch here if player is not arborist
@@ -72,7 +72,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			try
 			{
-				_helper.AdvanceUntil(		// find index of loading tree growth chance
+				_helper.AdvanceUntil(		// find index of base tree growth chance
 					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.6)
 				)
 				.AddLabel(isNotArborist)	// branch here if player is not arborist
@@ -100,7 +100,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			try
 			{
-				_helper.AdvanceUntil(		// find index of loading tree growth chance
+				_helper.AdvanceUntil(		// find index of base tree growth chance
 					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.2)
 				)
 				.AddLabel(isNotArborist)	// branch here if player is not arborist

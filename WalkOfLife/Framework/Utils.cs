@@ -44,8 +44,9 @@ namespace TheLion.AwesomeProfessions.Framework
 			{ "aquarist", Farmer.pirate },				// 9
 
 			{ "trapper", Farmer.trapper },				// 7
-			{ "conservationist", Farmer.baitmaster },	// 10
-			{ "mariner", Farmer.mariner },				// 11
+			{ "luremaster", Farmer.baitmaster },		// 10
+			{ "conservationist", Farmer.mariner },		// 11
+			// Note: the game code incorrectly labels mariner and baitmaster ids
 
 			// foraging
 			{ "lumberjack", Farmer.forester },			// 12

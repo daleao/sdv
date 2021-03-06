@@ -43,7 +43,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(														// find the index of FarmAnimal.type.Value.Equals("Sheep")
+					.Find(													// find index of FarmAnimal.type.Value.Equals("Sheep")
 						new CodeInstruction(OpCodes.Ldstr, operand: "Sheep"),
 						new CodeInstruction(OpCodes.Callvirt, operand: AccessTools.Method(typeof(string), nameof(string.Equals), new Type[] { typeof(string) }))
 					)
@@ -53,19 +53,19 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.SetOperand(AccessTools.Property(typeof(NetFieldBase<byte, NetByte>), nameof(NetFieldBase<byte, NetByte>.Value)).GetGetMethod())	// was <string, NetString>
 					.Advance()
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Ldc_I4_S, operand: 200)		// was Ldstr "Sheep"
+						new CodeInstruction(OpCodes.Ldc_I4_S, operand: 200)	// was Ldstr "Sheep"
 					)
 					.Advance()
 					.Remove()
-					.SetOpCode(OpCodes.Blt_S)									// was Brfalse
+					.SetOpCode(OpCodes.Blt_S)								// was Brfalse
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_0)
 					)
-					.SetOpCode(OpCodes.Ldc_I4_1)								// was Ldc_I4_0
+					.SetOpCode(OpCodes.Ldc_I4_1)							// was Ldc_I4_0
 					.Advance(2)
-					.SetOpCode(OpCodes.Ldc_I4_2)								// was Ldc_I4_1
+					.SetOpCode(OpCodes.Ldc_I4_2)							// was Ldc_I4_1
 					.Advance()
-					.SetOpCode(OpCodes.Div)										// was Sub
+					.SetOpCode(OpCodes.Div)									// was Sub
 					.Advance()
 					.Insert(
 						new CodeInstruction(OpCodes.Conv_U1)
@@ -93,7 +93,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))	// second FarmAnimal.isCoopDweller
 					)
-					.Advance()								// branch here to resume execution
+					.Advance()								// the branch to resume execution
 					.GetOperand(out object isNotProducer)	// copy destination
 					.Retreat(2)
 					.Insert(								// branch to skip this check if player is not producer

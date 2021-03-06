@@ -38,7 +38,7 @@ namespace TheLion.AwesomeProfessions
 		public bool EnableAquarist { get; set; } = true;
 
 		public bool EnableTrapper { get; set; } = true;
-		public bool EnableMariner { get; set; } = true;
+		public bool EnableLuremaster { get; set; } = true;
 		public bool EnableConservationist { get; set; } = true;
 
 		// combat
@@ -50,8 +50,10 @@ namespace TheLion.AwesomeProfessions
 		public bool EnableMarksman { get; set; } = true;
 		public bool EnableSlimemaster { get; set; } = true;
 
-		public BreederConfig BreederConfig { get; set; } = new();
-		public EcologistConfig EcologistConfig { get; set; } = new();
-		public GemologistConfig GemologistConfig { get; set; } = new();
+		public BreederConfig Breeder { get; set; } = new();
+		public ConservationistConfig Conservationist { get; set; } = new();
+		public EcologistConfig Ecologist { get; set; } = new();
+		public GemologistConfig Gemologist { get; set; } = new();
+		public LuremasterConfig Luremaster { get; set; } = new();
 	}
 }

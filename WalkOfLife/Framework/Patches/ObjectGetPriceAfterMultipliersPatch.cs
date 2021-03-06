@@ -85,21 +85,21 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				float multiplier = 1f;
 
 				// professions
-				if (Utils.PlayerHasProfession("producer", player) && IsAnimalProduct(__instance))
+				if (Utils.PlayerHasProfession("producer", player) && _IsAnimalProduct(__instance))
 				{
-					multiplier *= GetMultiplierForProducer();
+					multiplier *= _GetMultiplierForProducer();
 				}
-				if (Utils.PlayerHasProfession("oenologist", player) && IsWineOrBeverage(__instance))
+				if (Utils.PlayerHasProfession("oenologist", player) && _IsWineOrBeverage(__instance))
 				{
-					multiplier *= GetMultiplierForProducer();
+					multiplier *= _GetMultiplierForProducer();
 				}
 				if (Utils.PlayerHasProfession("angler", player) && IsReeledFish(__instance))
 				{
-					multiplier *= GetMultiplierForProducer();
+					multiplier *= _GetMultiplierForProducer();
 				}
 				if (Utils.PlayerHasProfession("conservationist", player))
 				{
-					multiplier *= GetMultiplierForProducer();
+					multiplier *= _GetMultiplierForProducer();
 				}
 
 				// events
@@ -119,7 +119,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return false; // don't run original logic
 		}
 
-		protected static float GetMultiplierForProducer()
+		private static float _GetMultiplierForProducer()
 		{
 			float multiplier = 1;
 			foreach (Building b in Game1.getFarm().buildings)
@@ -133,7 +133,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return multiplier;
 		}
 
-		protected static float GetMultiplierForOenologist()
+		private static float _GetMultiplierForOenologist()
 		{
 			float multiplier = 1;
 			if (ModEntry.Data.WineFameAccrued >= 1000)
@@ -159,31 +159,23 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return multiplier;
 		}
 
-		protected static float GetMultiplierForAngler()
+		private static float _GetMultiplierForAngler()
 		{
 			float multiplier = 1;
 
 			return multiplier;
 		}
 
-		protected static float GetMultiplierForConservationist()
+		private static float _GetMultiplierForConservationist()
 		{
 			float multiplier = 1;
 
 			return multiplier;
-		}
-
-
-		/// <summary>Whether a given object is wine.</summary>
-		/// <param name="obj">The given object.</param>
-		protected static bool IsWine(SObject obj)
-		{
-			return obj.ParentSheetIndex == 348;
 		}
 
 		/// <summary>Whether a given object is one of wine, juice, beer, mead or pale ale.</summary>
 		/// <param name="obj">The given object.</param>
-		protected static bool IsWineOrBeverage(SObject obj)
+		private static bool _IsWineOrBeverage(SObject obj)
 		{
 			int wine = 348, pale_ale = 303, beer = 346, juice = 350, mead = 459;
 			return obj.ParentSheetIndex.AnyOf(wine, pale_ale, beer, juice, mead);
@@ -191,7 +183,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
 		/// <param name="obj">The given object.</param>
-		protected static bool IsAnimalProduct(SObject obj)
+		private static bool _IsAnimalProduct(SObject obj)
 		{
 			return _animalProductIds.Contains(obj.ParentSheetIndex);
 		}

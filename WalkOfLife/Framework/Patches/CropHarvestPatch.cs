@@ -57,12 +57,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindProfessionCheck(Farmer.botanist)							// find index of botanist check
+					.FindProfessionCheck(Farmer.botanist)		// find index of botanist check
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Ldc_I4_4)						// start of @object.Quality = 4
+						new CodeInstruction(OpCodes.Ldc_I4_4)	// start of @object.Quality = 4
 					)
-					.ReplaceWith(													// replace with custom quality
-						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(CropHarvestPatch), nameof(CropHarvestPatch.GetForageQualityForEcologist)))
+					.ReplaceWith(								// replace with custom quality
+						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(CropHarvestPatch), nameof(CropHarvestPatch._GetForageQualityForEcologist)))
 					);
 			}
 			catch(Exception ex)
@@ -99,9 +99,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		}
 
 		/// <summary>Get the quality of forage for Ecologist.</summary>
-		protected static int GetForageQualityForEcologist()
+		private static int _GetForageQualityForEcologist()
 		{
-			return ModEntry.Data.MineralsCollected < _config.EcologistConfig.ForagesNeededForBestQuality ? (ModEntry.Data.ItemsForaged < _config.EcologistConfig.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			return ModEntry.Data.MineralsCollected < _config.Ecologist.ForagesNeededForBestQuality ? (ModEntry.Data.ItemsForaged < _config.Ecologist.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 	}
 }
