@@ -32,7 +32,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// Patch for Spelunker ladder down chance bonus
+		/// <summary>Patch for Spelunker ladder down chance bonus + remove Geologist paired gem chance + remove Excavator double geode chance + remove Prospetor double coal chance.</summary>
 		protected static IEnumerable<CodeInstruction> MineShaftCheckStoneForItemsTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(MineShaft)}::{nameof(MineShaft.checkStoneForItems)}.");
@@ -96,7 +96,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			// repeat injection
 			if (++i < 2)
+			{
+				_helper.Backup();
 				goto repeat1;
+			}
 
 			_helper.Backup();
 
@@ -120,7 +123,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			// repeat injection
 			if (++i < 2)
+			{
+				_helper.Backup();
 				goto repeat2;
+			}
 
 			_helper.Backup();
 

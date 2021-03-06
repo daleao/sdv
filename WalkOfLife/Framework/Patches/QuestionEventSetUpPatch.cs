@@ -37,23 +37,23 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			_helper.Attach(instructions).Log($"Patching method {typeof(QuestionEvent)}::{nameof(QuestionEvent.setUp)}.");
 
 			/// From: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * 0.0055
-			/// To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (Game1.player.professions.Contains(<breeder_id>) ? 0.011 : 0.0055)
+			/// To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (Game1.player.professions.Contains(<breeder_id>) ? <0.0055 * multiplier> : 0.0055)
 
 			Label isNotBreeder = iLGenerator.DefineLabel();
 			Label resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
 				_helper
-					.Find(															// find index of loading base pregnancy chance
+					.Find(						// find index of loading base pregnancy chance
 						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055)
 					)
-					.AddLabel(isNotBreeder)											// branch here if player is not breeder
+					.AddLabel(isNotBreeder)		// branch here if player is not breeder
 					.Advance()
-					.AddLabel(resumeExecution)										// branch here to resume execution
+					.AddLabel(resumeExecution)	// branch here to resume execution
 					.Retreat()
 					.InsertProfessionCheck(Utils.ProfessionsMap.Forward["breeder"], branchDestination: isNotBreeder)
-					.Insert(
-						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.011),		// if player is breeder load double base pregancy chance
+					.Insert(					// if player is breeder load adjusted pregancy chance
+						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055 * _config.Breeder.PregnancyChanceMultiplier),
 						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
 					);
 			}

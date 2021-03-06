@@ -36,16 +36,20 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(Tree)}::{nameof(Tree.dayUpdate)}.");
 
-			/// From: Game1.random.NextDouble() < 0.15
-			/// To: Game1.random.NextDouble() < Game1.player.professions.Contains(<arborist_id>) ? 0.1875 : 0.15
+			/// From: Game1.random.NextDouble() < <value>
+			/// To: Game1.random.NextDouble() < Game1.player.professions.Contains(<arborist_id>) ? <value * multiplier> : <value>
 
 			Label isNotArborist = iLGenerator.DefineLabel();
 			Label resumeExecution = iLGenerator.DefineLabel();
 
+			double[] baseValues = new double[] {0.15, 0.6, 0.2};
+			int i = 0;
+			repeat:
 			try
 			{
 				_helper.Find(				// find index of base tree growth chance
-					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.15)
+					fromCurrentIndex: i != 0,
+					new CodeInstruction(OpCodes.Ldc_R8, operand: baseValues[i])
 				)
 				.AddLabel(isNotArborist)	// branch here if player is not arborist
 				.Advance()
@@ -53,7 +57,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				.Retreat()
 				.InsertProfessionCheck(Utils.ProfessionsMap.Forward["arborist"], branchDestination: isNotArborist)
 				.Insert(					// if player is arborist load adjusted constant
-					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.1875),
+					new CodeInstruction(OpCodes.Ldc_R8, operand: baseValues[i] * _config.Arborist.TreeGrowthMultiplier),
 					new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
 				);
 			}
@@ -62,60 +66,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper.Error($"Failed while patching Arborist tree growth speed.\nHelper returned {ex}").Restore();
 			}
 
-			_helper.Backup();
-
-			/// From: fertilized.Value && Game1.random.NextDouble() < 0.6)
-			/// To: fertilized.Value && Game1.random.NextDouble() < Game1.player.professions.Contains(< arborist_id >) ? 0.9 : 0.6 
-
-			isNotArborist = iLGenerator.DefineLabel();
-			resumeExecution = iLGenerator.DefineLabel();
-
-			try
+			// repeat injection
+			if (++i < 3)
 			{
-				_helper.AdvanceUntil(		// find index of base tree growth chance
-					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.6)
-				)
-				.AddLabel(isNotArborist)	// branch here if player is not arborist
-				.Advance()
-				.AddLabel(resumeExecution)	// branch here to resume execution
-				.Retreat()
-				.InsertProfessionCheck(Utils.ProfessionsMap.Forward["arborist"], branchDestination: isNotArborist)
-				.Insert(					// if player is arborist load adjusted constant
-					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.9),
-					new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
-				);
-			}
-			catch (Exception ex)
-			{
-				_helper.Error($"Failed while patching Arborist tree growth speed.\nHelper returned {ex}").Restore();
-			}
-
-			_helper.Backup();
-
-			/// From: Game1.random.NextDouble() < 0.2
-			/// To: Game1.random.NextDouble() < Game1.player.professions.Contains(<arborist_id>) ? 0.25 : 0.2
-
-			isNotArborist = iLGenerator.DefineLabel();
-			resumeExecution = iLGenerator.DefineLabel();
-
-			try
-			{
-				_helper.AdvanceUntil(		// find index of base tree growth chance
-					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.2)
-				)
-				.AddLabel(isNotArborist)	// branch here if player is not arborist
-				.Advance()
-				.AddLabel(resumeExecution)	// branch here to resume execution
-				.Retreat()
-				.InsertProfessionCheck(Utils.ProfessionsMap.Forward["arborist"], branchDestination: isNotArborist)
-				.Insert(					// if player is arborist load adjusted constant
-					new CodeInstruction(OpCodes.Ldc_R8, operand: 0.25),
-					new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
-				);
-			}
-			catch (Exception ex)
-			{
-				_helper.Error($"Failed while patching Arborist tree growth speed.\nHelper returned {ex}").Restore();
+				_helper.Backup();
+				isNotArborist = iLGenerator.DefineLabel();
+				resumeExecution = iLGenerator.DefineLabel();
+				goto repeat;
 			}
 
 			return _helper.Flush();

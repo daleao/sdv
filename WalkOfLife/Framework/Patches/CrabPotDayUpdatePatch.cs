@@ -65,7 +65,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					whichFish = _ChooseFish(__instance, fishData, rawFishDataWithLocation, location, r);
 					if (whichFish < 0)
 					{
-						whichFish = _ChooseTrapFish(__instance, fishData, location, r, true);
+						whichFish = _ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
 					}
 				}
 				else if(r.NextDouble() < 0.3)
@@ -75,7 +75,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			else
 			{
-				whichFish = _ChooseTrapFish(__instance, fishData, location, r, false);
+				whichFish = _ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
 			}
 
 			int fishQuality = 0;
@@ -148,7 +148,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		}
 
 		/// <summary>Convert raw fish data into a look-up dictionary for fishing locations from fish indices.</summary>
-		/// <param name="rawFishData">String array of cathable fish indices and fishing locations.</param>
+		/// <param name="rawFishData">String array of catchable fish indices and fishing locations.</param>
 		private static Dictionary<string, string> _GetRawFishDataWithLocation(string[] rawFishData)
 		{
 			Dictionary<string, string> rawFishDataWithLocation = new();
@@ -166,7 +166,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Choose amongst a pre-select list of fish.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		/// <param name="fishData">Raw fish data from the game files.</param>
-		/// <param name="rawFishDataWithLocation">Dictionary of pre-selected fish and their fishing locations.</param>
+		/// <param name="rawFishDataWithLocation">Dictionary of pre-select fish and their fishing locations.</param>
 		/// <param name="location">The location of the crab pot.</param>
 		/// <param name="r">Random number generator.</param>
 		private static int _ChooseFish(CrabPot crabpot, Dictionary<int, string> fishData, Dictionary<string, string> rawFishDataWithLocation, GameLocation location, Random r)
@@ -351,12 +351,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				return 0;
 			}
 
-			if (r.NextDouble() < who.FishingLevel / 30)
+			if (r.NextDouble() < who.FishingLevel / 30.0)
 			{
 				return 2;
 			}
 			
-			if (r.NextDouble() < who.FishingLevel / 15)
+			if (r.NextDouble() < who.FishingLevel / 15.0)
 			{
 				return 1;
 			}

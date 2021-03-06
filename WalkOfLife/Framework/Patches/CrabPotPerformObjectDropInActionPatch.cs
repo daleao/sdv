@@ -32,7 +32,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch to nerf Ecologist forage quality + always allow iridum-quality crops for Agriculturist.</summary>
+		/// <summary></summary>
 		private static IEnumerable<CodeInstruction> CrabPotPerformObjectDropInActionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(CrabPot)}::{nameof(CrabPot.performObjectDropInAction)}.");

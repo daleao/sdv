@@ -43,6 +43,7 @@ namespace TheLion.AwesomeProfessions
 			new Patcher(ModManifest.UniqueID).ApplyAll(
 				new AnimalHouseAddNewHatchedAnimalPatch(Config, Monitor),
 				new CaskGetAgingMultiplierForItemPatch(Config, Monitor),
+				new CrabPotCheckForActionPatch(Config, Monitor, Reflection),
 				new CrabPotDayUpdatePatch(Config, Monitor),
 				//new CrabPotPerformObjectDropInActionPatch(Config, Monitor),
 				new CraftingRecipeCtorPatch(Config, Monitor),

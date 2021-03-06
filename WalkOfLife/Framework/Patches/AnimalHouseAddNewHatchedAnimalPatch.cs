@@ -41,6 +41,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			Label isNotBreeder1 = iLGenerator.DefineLabel();
 			Label isNotBreeder2 = iLGenerator.DefineLabel();
+
 			int i = 0;
 			repeat:
 			try
@@ -70,7 +71,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			// repeat injection (first iteration for coop animals, second for barn animals)
 			if (++i < 2)
+			{
+				_helper.Backup();
 				goto repeat;
+			}
 
 			return _helper.Flush();
 		}
