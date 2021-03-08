@@ -30,7 +30,7 @@ namespace TheLion.AwesomeProfessions
 			Config = helper.ReadConfig<ModConfig>();
 			
 			// get mod registry
-			Registry = Helper.ModRegistry;
+			Registry = helper.ModRegistry;
 
 			// get reflection interface
 			Reflection = helper.Reflection;
@@ -46,19 +46,23 @@ namespace TheLion.AwesomeProfessions
 			// apply patches
 			new Patcher(ModManifest.UniqueID).ApplyAll(
 				new AnimalHouseAddNewHatchedAnimalPatch(Config, Monitor),
-				new CaskGetAgingMultiplierForItemPatch(Config, Monitor),
-				new CrabPotCheckForActionPatch(Config, Monitor, Reflection),
+				new BobberBarCtorPatch(Config, Monitor),
+				new BushShakePatch(Config, Monitor),
+				new CaskPerformObjectDropInActionPatch(Config, Monitor),
+				new CrabPotCheckForActionPatch(Config, Monitor),
 				new CrabPotDayUpdatePatch(Config, Monitor),
-				//new CrabPotPerformObjectDropInActionPatch(Config, Monitor),
 				new CraftingRecipeCtorPatch(Config, Monitor),
 				new CropHarvestPatch(Config, Monitor),
 				new FarmAnimalDayUpdatePatch(Config, Monitor),
 				new FarmAnimalGetSellPricePatch(Config, Monitor),
 				new FarmAnimalPetPatch(Config, Monitor),
+				new FishingRodStartMinigameEndFunctionPatch(Config, Monitor),
+				new FruitTreeDayUpdatePatch(Config, Monitor),
 				new Game1CreateObjectDebrisPatch(Config, Monitor),
 				new GameLocationBreakStonePatch(Config, Monitor),
 				new GameLocationExplodePatch(Config, Monitor, I18n),
 				new GameLocationOnStoneDestroyedPatch(Config, Monitor),
+				new HoeDirtApplySpeedIncreasesPatch(Config, Monitor),
 				new LevelUpMenuAddProfessionDescriptionsPatch(Config, Monitor, I18n),
 				new LevelUpMenuGetProfessionNamePatch(Config, Monitor),
 				new LevelUpMenuRevalidateHealthPatch(Config, Monitor),
@@ -66,7 +70,6 @@ namespace TheLion.AwesomeProfessions
 				new ObjectCtorPatch(Config, Monitor),
 				new ObjectGetMinutesForCrystalariumPatch(Config, Monitor),
 				new ObjectGetPriceAfterMultipliersPatch(Config, Monitor),
-				new ObjectPerformObjectDropInActionPatch(Config, Monitor, Reflection),
 				new QuestionEventSetUpPatch(Config, Monitor),
 				new TemporaryAnimatedSpriteCtorPatch(Config, Monitor),
 				new TreeDayUpdatePatch(Config, Monitor),
@@ -96,7 +99,7 @@ namespace TheLion.AwesomeProfessions
 		private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
 			GameLocation location = Game1.currentLocation;
-			if (Utils.PlayerHasProfession("spelunker") && location is MineShaft)
+			if (Utils.LocalPlayerHasProfession("spelunker") && location is MineShaft)
 			{
 				AddOrUpdateBuff(Utils.SpelunkerBuffUniqueID, 1, "spelunker");
 
@@ -114,14 +117,6 @@ namespace TheLion.AwesomeProfessions
 					DemolitionistBuffMagnitude = Math.Max(0, DemolitionistBuffMagnitude - buffDecay);
 				}
 				AddOrUpdateBuff(Utils.DemolitionistBuffUniqueID, DemolitionistBuffMagnitude, "demolitionist");
-			}
-
-			if (Utils.PlayerHasProfession("conservationist"))
-			{
-				if (Data.TrashCollectedAsConservationist % 10 == 0)
-				{
-					Utility.improveFriendshipWithEveryoneInRegion(Game1.player, 1, 2);
-				}
 			}
 		}
 

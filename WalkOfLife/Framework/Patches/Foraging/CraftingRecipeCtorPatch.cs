@@ -20,14 +20,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			harmony.Patch(
 				AccessTools.Constructor(typeof(CraftingRecipe), new Type[] { typeof(string), typeof(bool) }),
-				postfix: new HarmonyMethod(GetType(), nameof(CrafingRecipeCtorPostfix))
+				postfix: new HarmonyMethod(GetType(), nameof(CraftingRecipeCtorPostfix))
 			);
 		}
 
 		/// <summary>Patch for cheaper tapper recipe for Tapper.</summary>
-		protected static void CrafingRecipeCtorPostfix(ref CraftingRecipe __instance)
+		protected static void CraftingRecipeCtorPostfix(ref CraftingRecipe __instance)
 		{
-			if (__instance.name.Equals("Tapper") && Utils.PlayerHasProfession("tapper"))
+			if (__instance.name.Equals("Tapper") && Utils.LocalPlayerHasProfession("tapper"))
 			{
 				__instance.recipeList = new Dictionary<int, int>
 				{

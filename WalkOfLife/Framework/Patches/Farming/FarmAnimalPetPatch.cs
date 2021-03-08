@@ -65,7 +65,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Rancher friendship bonus.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

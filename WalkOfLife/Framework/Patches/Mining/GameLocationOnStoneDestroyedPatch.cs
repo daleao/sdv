@@ -36,7 +36,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.OnStoneDestroyed)}.");
 
-			/// Removed: who.professions.Contains(<prospector_id>)...
+			/// Removed: who.professions.Contains(<prospector_id>) ? ...
 
 			try
 			{
@@ -49,7 +49,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Miner double coal chance.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

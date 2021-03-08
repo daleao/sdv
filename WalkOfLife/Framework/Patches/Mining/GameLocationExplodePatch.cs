@@ -63,7 +63,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_3)	// arg 3 = Farmer who
 					)
-					.InsertProfessionCheckForWho(Utils.ProfessionsMap.Forward["demolitionist"], isNotDemolitionist)
+					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionsMap.Forward["demolitionist"], isNotDemolitionist)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldc_I4_1),	// replace damage amount with 1
 						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
@@ -71,7 +71,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Demolitionist explosion resistance.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while adding Demolitionist explosion resistance.\nHelper returned {ex}").Restore();
 			}
 
 			// repeat injection (first iteration for damage_amount, second for radius * 3)
@@ -89,7 +89,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Blaster double coal chance + Demolitionist speed burst.</summary>
 		protected static void GameLocationExplodePostfix(ref GameLocation __instance, Vector2 tileLocation, int radius, Farmer who, bool damageFarmers = true)
 		{
-			if (Utils.PlayerHasProfession("blaster", who))
+			if (Utils.SpecificPlayerHasProfession("blaster", who))
 			{
 				double chanceModifier = who.DailyLuck / 2.0 + who.LuckLevel * 0.001 + who.MiningLevel * 0.005;
 				CircleTileGrid grid = new CircleTileGrid(tileLocation, radius);
@@ -113,7 +113,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				}
 			}
 
-			if (Utils.PlayerHasProfession("demolitionist") && damageFarmers)
+			if (Utils.LocalPlayerHasProfession("demolitionist") && damageFarmers)
 			{
 				int distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
 				if (distanceFromEpicenter < radius * 2 + 1)

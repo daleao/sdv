@@ -3,14 +3,15 @@
 	"harvester.name": "Harvester",
 	"harvester.description": "10% chance for extra yield from harvested crops.",
 	"agriculturist.name": "Agriculturist",
-	"agriculturist.description": "Crops grow 10% faster. Grow best-quality crops without fertilizer.",
+	"agriculturist.description": "Crops grow 10% faster. Can harvest best-quality crops without fertilizer.",
 	"oenologist.name": "Enologist",
 	"oenologist.description": "Wines age twice as fast. Ship high-quality wine to improve your brand value.",
+	"oenologist.letter": "Dear {0},\nWe are pleased and honored to inform you with respect that your product has been recognized by the Stardew Winemaker's Association and has been awarded {1}. I would like to personally congratulate you on behalf of our Association, and expect that you will continue to impress us in your winemaking endeavours.\nSincerely,\nMr. William Wouters\nPresident of the Stardew Winemaker's Association",
 
 	"rancher.name": "Rancher",
 	"rancher.description": "Befriend animals quicker.",
 	"breeder.name": "Breeder",
-	"breeder.description": "Animals breed more frequently. Increase value of animals at high friendship.",
+	"breeder.description": "Halved incubation time and doubled pregnancy chance. Increase value of animals at high friendship.",
 	"producer.name": "Producer",
 	"producer.description": "Happy animals produce more frequently. Produce worth 5% more for every full barn or coop.",
 
@@ -18,14 +19,14 @@
 	"forager.name": "Forager",
 	"forager.description": "20% chance for double yield of foraged items.",
 	"ecologist.name": "Ecologist",
-	"ecologist.description": "Wild berries restore 50% more health and energy. Identify forage of higher quality over time.",
+	"ecologist.description": "Wild berries restore 50% more health and energy. Learn to identify forage of higher quality over time.",
 	"scavenger.name": "Scavenger",
 	"scavenger.description": "Location of forageable items revealed. Occasionally track hidden treasures.",
 
 	"lumberjack.name": "Lumberjack",
 	"lumberjack.description": "Felling trees yields 25% more wood.",
 	"arborist.name": "Arborist",
-	"arborist.description": "All trees have a chance to drop hardwood. Charcoal kilns consume half as much wood.",
+	"arborist.description": "Trees grow faster. All trees have a chance to drop hardwood.",
 	"tapper.name": "Tapper",
 	"tapper.description": "Tappers are cheaper to craft. Tapped trees give syrup 25% faster.",
 
@@ -60,6 +61,8 @@
 	"luremaster.description": "Crab pots no longer produce junk items. Use different baits to attract different catch.",
 	"conservationist.name": "Conservationist",
 	"conservationist.description": "Collect junk to gain village favor. Gain tax deductions each season.",
+	"conservationist.letter": "Dear {0},\nWe are pleased to inform you that upon review of your environmentalist activities we have determined that you qualify for an income tax deduction of {1}% as per section 501(c)(3) of the Ferngill Revenue Code. Because this letter could help resolve any question regarding your fiscal status, you should keep it in your permanent records.\nSincerely,\nGovernor",
+
 
 	// Combat
 	"fighter.name": "Fighter",

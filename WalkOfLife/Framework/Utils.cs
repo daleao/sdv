@@ -11,9 +11,9 @@ namespace TheLion.AwesomeProfessions.Framework
 		public static int BruteBuffUniqueID { get; } = _IdFromHashCode("brute", 4);
 		public static int GambitBuffUniqueID { get; } = _IdFromHashCode("gambit", 4);
 
-		/// <summary>Whether the player has a specific profession.</summary>
+		/// <summary>Whether the local player has a specific profession.</summary>
 		/// <param name="professionName">The name of the profession.</param>
-		public static bool PlayerHasProfession(string professionName)
+		public static bool LocalPlayerHasProfession(string professionName)
 		{
 			return Game1.player.professions.Contains(ProfessionsMap.Forward[professionName]);
 		}
@@ -21,9 +21,35 @@ namespace TheLion.AwesomeProfessions.Framework
 		/// <summary>Whether the player has a specific profession.</summary>
 		/// <param name="professionName">The name of the profession.</param>
 		/// <param name="who">The player.</param>
-		public static bool PlayerHasProfession(string professionName, Farmer who)
+		public static bool SpecificPlayerHasProfession(string professionName, Farmer who)
 		{
 			return who.professions.Contains(ProfessionsMap.Forward[professionName]);
+		}
+
+		/// <summary>Whether any player has a specific profession.</summary>
+		/// <param name="professionName">The name of the profession.</param>
+		/// <param name="numberOfPlayersWithThisProfession">How many players have this profession.</param>
+		public static bool AnyPlayerHasProfession(string professionName, out int numberOfPlayersWithThisProfession)
+		{
+			if (!Game1.IsMultiplayer)
+			{
+				if (LocalPlayerHasProfession(professionName))
+				{
+					numberOfPlayersWithThisProfession = 1;
+					return true;
+				}
+			}
+
+			numberOfPlayersWithThisProfession = 0;
+			foreach (Farmer player in Game1.getAllFarmers())
+			{
+				if (player.isActive() && SpecificPlayerHasProfession(professionName, player))
+				{
+					++numberOfPlayersWithThisProfession;
+				}
+			}
+
+			return numberOfPlayersWithThisProfession > 0;
 		}
 
 		/// <summary>Bi-directional dictionary for looking-up profession id's by name or name's by id.</summary>

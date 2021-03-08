@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Demolitionist to increase bomb radius.</summary>
 		protected static void TemporaryAnimatedSpriteCtorPostfix(ref TemporaryAnimatedSprite __instance, Farmer owner)
 		{
-			if (Utils.PlayerHasProfession("demolitionist", owner))
+			if (Utils.SpecificPlayerHasProfession("demolitionist", owner))
 			{
 				__instance.bombRadius++;
 			}

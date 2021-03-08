@@ -52,7 +52,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Advance()
 					.AddLabel(resumeExecution)	// branch here to resume execution
 					.Retreat()
-					.InsertProfessionCheck(Utils.ProfessionsMap.Forward["breeder"], branchDestination: isNotBreeder)
+					.InsertProfessionCheckForLocalPlayer(Utils.ProfessionsMap.Forward["breeder"], branchDestination: isNotBreeder)
 					.Insert(					// if player is breeder load adjusted pregancy chance
 						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055 * 2.0),
 						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
@@ -60,7 +60,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Breeder animal pregnancy chance.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while adding Breeder bonus animal pregnancy chance.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

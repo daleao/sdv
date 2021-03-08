@@ -45,11 +45,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper.
 					FindProfessionCheck(Farmer.defender)
 					.Advance()
-					.SetOperand(Utils.ProfessionsMap.Forward["gambit"]);
+					.SetOperand(Utils.ProfessionsMap.Forward["brute"]);
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Brute health bonus.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

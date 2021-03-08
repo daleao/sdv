@@ -40,11 +40,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch for Trapper fish quality + Luremaster bait mechanics.</summary>
+		/// <summary>Patch for Trapper fish quality + Luremaster bait mechanics + Conservationist trash collection mechanics.</summary>
 		protected static bool CrabPotDayUpdatePrefix(ref CrabPot __instance, GameLocation location)
 		{
 			Farmer who = Game1.getFarmer(__instance.owner.Value);
-			if (__instance.bait.Value == null && !Utils.PlayerHasProfession("conservationist") || __instance.heldObject.Value != null)
+			if (__instance.bait.Value == null && !Utils.SpecificPlayerHasProfession("conservationist", who) || __instance.heldObject.Value != null)
 			{
 				return false; // don't run original logic
 			}
@@ -56,7 +56,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			Dictionary<string, string> locationData = Game1.content.Load<Dictionary<string, string>>("Data\\Locations");
 			Dictionary<int, string> fishData = Game1.content.Load<Dictionary<int, string>>("Data\\Fish");
 			int whichFish = -1;
-			if (Utils.PlayerHasProfession("luremaster", who))
+			if (Utils.SpecificPlayerHasProfession("luremaster", who))
 			{
 				if (!_IsUsingMagnet(__instance))
 				{
@@ -82,9 +82,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			if (whichFish < 0)
 			{
 				whichFish = _GetTrash(r);
-				if (Utils.PlayerHasProfession("conservationist"))
+				if (Utils.SpecificPlayerHasProfession("conservationist", who) && who.IsLocalPlayer)
 				{
-					++ModEntry.Data.TrashCollectedAsConservationist;
+					if (++ModEntry.Data.TrashCollectedAsConservationist % 10 == 0)
+					{
+						Utility.improveFriendshipWithEveryoneInRegion(Game1.player, 1, 2);
+					}
 				}
 			}
 			else
@@ -350,7 +353,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <param name="r">Random number generator.</param>
 		private static int _GetFishQuality(Farmer who, Random r)
 		{
-			if (!Utils.PlayerHasProfession("trapper", who))
+			if (!Utils.SpecificPlayerHasProfession("trapper", who))
 			{
 				return 0;
 			}

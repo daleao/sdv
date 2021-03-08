@@ -25,11 +25,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch for cheaper tapper recipe for Tapper.</summary>
+		/// <summary>Patch for Ecologist wild berry recovery.</summary>
 		protected static void ObjectCtorPostfix(ref SObject __instance)
 		{
 			Farmer who = Game1.getFarmer(__instance.owner.Value);
-			if (_IsWildBerry(__instance) && Utils.PlayerHasProfession("ecologist", who))
+			if (_IsWildBerry(__instance) && Utils.SpecificPlayerHasProfession("ecologist", who))
 			{
 				__instance.Edibility = (int)(__instance.Edibility * 1.5f);
 			}
@@ -39,7 +39,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <param name="obj">The given object.</param>
 		private static bool _IsWildBerry(SObject obj)
 		{
-			return obj.ParentSheetIndex == 296 || obj.ParentSheetIndex == 410;
+			return obj?.ParentSheetIndex == 296 || obj?.ParentSheetIndex == 410;
 		}
 	}
 }

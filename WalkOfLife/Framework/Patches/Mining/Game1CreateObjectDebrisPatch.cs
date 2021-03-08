@@ -44,7 +44,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static bool Game1CreateObjectDebrisPrefix(int objectIndex, int xTile, int yTile, long whichPlayer, GameLocation location)
 		{
 			Farmer who = Game1.getFarmer(whichPlayer);
-			if (Utils.PlayerHasProfession("gemologist", who) && _IsMineral(objectIndex))
+			if (Utils.SpecificPlayerHasProfession("gemologist", who) && _IsMineral(objectIndex))
 			{
 				location.debris.Add(new Debris(objectIndex, new Vector2(xTile * 64 + 32, yTile * 64 + 32), who.getStandingPosition())
 				{

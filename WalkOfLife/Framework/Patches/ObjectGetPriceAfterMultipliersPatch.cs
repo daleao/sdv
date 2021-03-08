@@ -40,6 +40,21 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			928		// golden egg
 		};
 
+		/// <summary>Set of item id's corresponding to legendary fish.</summary>
+		private static readonly IEnumerable<int> _legendaryFishIds = new HashSet<int>
+		{
+			159,	// crimsonfish
+			160,	// angler
+			163,	// legend
+			682,	// mutant carp
+			775,	// glacierfish
+			898,	// son of crimsonfish
+			899,	// ms. angler
+			900,	// legend ii
+			901,	// radioactive carp
+			902		// glacierfish jr.
+		};
+
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
@@ -85,21 +100,21 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				float multiplier = 1f;
 
 				// professions
-				if (Utils.PlayerHasProfession("producer", player) && _IsAnimalProduct(__instance))
+				if (Utils.SpecificPlayerHasProfession("producer", player) && _IsAnimalProduct(__instance))
 				{
-					multiplier *= _GetMultiplierForProducer();
+					multiplier *= _GetMultiplierForProducer(player);
 				}
-				if (Utils.PlayerHasProfession("oenologist", player) && _IsWineOrBeverage(__instance))
+				if (Utils.SpecificPlayerHasProfession("oenologist", player) && _IsWineOrBeverage(__instance))
 				{
-					multiplier *= _GetMultiplierForProducer();
+					multiplier *= _GetMultiplierForOenologist(player);
 				}
-				if (Utils.PlayerHasProfession("angler", player) && IsReeledFish(__instance))
+				if (Utils.SpecificPlayerHasProfession("angler", player) && IsReeledFish(__instance))
 				{
-					multiplier *= _GetMultiplierForProducer();
+					multiplier *= _GetMultiplierForAngler(player);
 				}
-				if (Utils.PlayerHasProfession("conservationist", player))
+				if (Utils.SpecificPlayerHasProfession("conservationist", player))
 				{
-					multiplier *= _GetMultiplierForProducer();
+					multiplier *= _GetMultiplierForConservationist(player);
 				}
 
 				// events
@@ -119,12 +134,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return false; // don't run original logic
 		}
 
-		private static float _GetMultiplierForProducer()
+		/// <summary>Get the price multiplier for produce sold by Producer.</summary>
+		/// <param name="who">The player.</param>
+		private static float _GetMultiplierForProducer(Farmer who)
 		{
-			float multiplier = 1;
+			float multiplier = 1f;
 			foreach (Building b in Game1.getFarm().buildings)
 			{
-				if ((b.owner.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b.buildingType.Contains("Deluxe") && (b.indoors.Value as AnimalHouse).isFull())
+				if ((b.owner.Equals(who.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b.buildingType.Contains("Deluxe") && (b.indoors.Value as AnimalHouse).isFull())
 				{
 					multiplier += 0.05f;
 				}
@@ -133,44 +150,69 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return multiplier;
 		}
 
-		private static float _GetMultiplierForOenologist()
+
+		/// <summary>Get the price multiplier for wine sold by Oenologist.</summary>
+		/// <param name="who">The player.</param>
+		private static float _GetMultiplierForOenologist(Farmer who)
 		{
-			float multiplier = 1;
-			if (ModEntry.Data.WineFameAccrued >= 1000)
+			if (!who.IsLocalPlayer)
 			{
-				multiplier *= 1.5f;
+				return 1f;
 			}
-			else if (ModEntry.Data.WineFameAccrued >= 800)
+
+			float multiplier = 1f;
+			if (ModEntry.Data.WineFameAccrued >= 5000)
 			{
-				multiplier *= 1.3f;
+				multiplier += 1f;
 			}
-			else if (ModEntry.Data.WineFameAccrued >= 600)
+			else if (ModEntry.Data.WineFameAccrued >= 3125)
 			{
-				multiplier *= 1.2f;
+				multiplier += 0.5f;
 			}
-			else if (ModEntry.Data.WineFameAccrued >= 400)
+			else if (ModEntry.Data.WineFameAccrued >= 1250)
 			{
-				multiplier *= 1.15f;
+				multiplier += 0.25f;
+			}
+			else if (ModEntry.Data.WineFameAccrued >= 500)
+			{
+				multiplier += 0.1f;
 			}
 			else if (ModEntry.Data.WineFameAccrued >= 200)
 			{
-				multiplier *= 1.1f;
+				multiplier += 0.05f;
 			}
-			return multiplier;
-		}
-
-		private static float _GetMultiplierForAngler()
-		{
-			float multiplier = 1;
 
 			return multiplier;
 		}
 
-		private static float _GetMultiplierForConservationist()
+
+		/// <summary>Get the price multiplier for fish sold by Angler.</summary>
+		/// <param name="who">The player.</param>
+		private static float _GetMultiplierForAngler(Farmer who)
 		{
-			float multiplier = 1;
+			float multiplier = 1f;
+			foreach (int id in _legendaryFishIds)
+			{
+				if (who.fishCaught.ContainsKey(id))
+				{
+					multiplier += 0.05f;
+				}
+			}
 
 			return multiplier;
+		}
+
+
+		/// <summary>Get the price multiplier for items sold by Conservationist.</summary>
+		/// <param name="who">The player.</param>
+		private static float _GetMultiplierForConservationist(Farmer who)
+		{
+			if (!who.IsLocalPlayer)
+			{
+				return 1f;
+			}
+
+			return 1f + (ModEntry.Data.TrashCollectedAsConservationist % _config.Conservationist.TrashNeededForNextTaxLevel) / 100f;
 		}
 
 		/// <summary>Whether a given object is one of wine, juice, beer, mead or pale ale.</summary>
@@ -178,14 +220,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static bool _IsWineOrBeverage(SObject obj)
 		{
 			int wine = 348, pale_ale = 303, beer = 346, juice = 350, mead = 459;
-			return obj.ParentSheetIndex.AnyOf(wine, pale_ale, beer, juice, mead);
+			return obj != null && obj.ParentSheetIndex.AnyOf(wine, pale_ale, beer, juice, mead);
 		}
 
 		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
 		/// <param name="obj">The given object.</param>
 		private static bool _IsAnimalProduct(SObject obj)
 		{
-			return _animalProductIds.Contains(obj.ParentSheetIndex);
+			return obj != null && _animalProductIds.Contains(obj.ParentSheetIndex);
 		}
 	}
 }

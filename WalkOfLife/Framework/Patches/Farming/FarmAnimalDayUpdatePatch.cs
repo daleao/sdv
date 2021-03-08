@@ -73,36 +73,33 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Producer produce frequency.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while patching modded Producer produce frequency.\nHelper returned {ex}").Restore();
 			}
 
 			_helper.Backup();
 
-			/// From: if ((!isCoopDweller() && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<shepherd_id>)) || (isCoopDweller() && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<coopmaster_id>)))
-			/// To: if (Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<producer_id>)
+			/// Skipped: if ((!isCoopDweller() && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<shepherd_id>)) || (isCoopDweller() && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<coopmaster_id>))) chanceForQuality += 0.33
 
 			try
 			{
 				_helper
-					.Find(									// find index of first FarmAnimal.isCoopDweller check
+					.Find(										// find index of first FarmAnimal.isCoopDweller check
 						fromCurrentIndex: true,
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))
 					)
-					.Retreat()
-					.Remove(3)								// remove this check
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))	// second FarmAnimal.isCoopDweller
+						new CodeInstruction(OpCodes.Brfalse)	// the first branch to resume execution
 					)
-					.Advance()								// the branch to resume execution
-					.GetOperand(out object isNotProducer)	// copy destination
-					.Retreat(2)
-					.Insert(								// branch to skip this check if player is not producer
-						new CodeInstruction(OpCodes.Br_S, operand: (Label)isNotProducer)
+					.GetOperand(out object resumeExecution)		// copy destination
+					.Return()
+					.Retreat()
+					.Insert(									// insert unconditional branch to skip this whole section and resume execution
+						new CodeInstruction(OpCodes.Br_S, operand: (Label)resumeExecution)
 					);
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Producer produce quality.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

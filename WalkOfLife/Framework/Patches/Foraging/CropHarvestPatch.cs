@@ -37,7 +37,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Harvester extra crop yield.</summary>
 		private static bool CropHarvestPrefix(ref Crop __instance, JunimoHarvester junimoHarvester = null)
 		{
-			if (junimoHarvester == null && Utils.PlayerHasProfession("harvester"))
+			if (junimoHarvester == null && Utils.LocalPlayerHasProfession("harvester"))
 			{
 				__instance.chanceForExtraCrops.Value += 0.10;
 			}
@@ -45,15 +45,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return true; // run original logic
 		}
 
-		/// <summary>Patch to nerf Ecologist forage quality + always allow iridum-quality crops for Agriculturist.</summary>
+		/// <summary>Patch to nerf Ecologist spring onion quality + always allow iridum-quality crops for Agriculturist.</summary>
 		private static IEnumerable<CodeInstruction> CropHarvestTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(Crop)}::{nameof(Crop.harvest)}.");
 
 			/// From: @object.Quality = 4
-			/// To: @object.Quality = GetForageQuality()
+			/// To: @object.Quality = _GetForageQualityForEcologist()
 
-			Label rollFailed = iLGenerator.DefineLabel();
 			try
 			{
 				_helper
@@ -62,12 +61,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_4)	// start of @object.Quality = 4
 					)
 					.ReplaceWith(								// replace with custom quality
-						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(CropHarvestPatch), nameof(CropHarvestPatch._GetForageQualityForEcologist)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(CropHarvestPatch), nameof(CropHarvestPatch._GetForageQualityForEcologist)))
 					);
 			}
 			catch(Exception ex)
 			{
-				_helper.Error($"Failed while patching Ecologist forage quality.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while patching modded Ecologist spring onion quality.\nHelper returned {ex}").Restore();
 			}
 
 			_helper.Backup();
@@ -84,7 +83,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_3),
 						new CodeInstruction(OpCodes.Blt)
 					)
-					.InsertProfessionCheck(Utils.ProfessionsMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
+					.InsertProfessionCheckForLocalPlayer(Utils.ProfessionsMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
 					.AdvanceUntil(																// find start of dice roll
 						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(Random)} (9)")	// local 9 = System.Random random2
 					)
@@ -92,7 +91,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Agriculturist crop harvest quality.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while adding modded Agriculturist crop harvest quality.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

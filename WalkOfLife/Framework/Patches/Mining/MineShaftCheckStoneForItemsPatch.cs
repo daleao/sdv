@@ -47,13 +47,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(MineShaft), name: "ladderHasSpawned"))
 					)
 					.Retreat()
-					.GetLabel(out Label previousBranchLabel)
+					.GetFirstLabel(out Label previousBranchLabel)
 					.StripLabels()
 					.AddLabel(resumeExecution1)									// branch here to resume execution
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4)	// arg 4 = Farmer who
 					)
-					.InsertProfessionCheckForWho(Utils.ProfessionsMap.Forward["spelunker"], resumeExecution1)
+					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionsMap.Forward["spelunker"], resumeExecution1)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_3),					// local 3 = chanceForLadderDown
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MineShaftCheckStoneForItemsPatch), nameof(MineShaftCheckStoneForItemsPatch._GetBonusLadderDownChance))),
@@ -65,7 +65,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Spelunker ladder down chance.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while adding Spelunker bonus ladder down chance.\nHelper returned {ex}").Restore();
 			}
 
 			_helper.Backup();
@@ -91,7 +91,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Geologist remove paired gem chance.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while removing vanilla Geologist paired gem chance.\nHelper returned {ex}").Restore();
 			}
 
 			// repeat injection
@@ -103,7 +103,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			_helper.Backup();
 
-			/// Removed: if (who.professions.Contains(<excavator_id>)...
+			/// Removed: !who.professions.Contains(<excavator_id>) ? ...
 
 			i = 0;
 			repeat2:
@@ -118,7 +118,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Excavator remove double geode chance.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while removing Excavator double geode chance.\nHelper returned {ex}").Restore();
 			}
 
 			// repeat injection
@@ -143,7 +143,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Prospector remove double coal chance.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();

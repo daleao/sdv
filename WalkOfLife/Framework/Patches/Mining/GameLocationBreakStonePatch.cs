@@ -94,7 +94,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Miner remove extra ore.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while removing vanilla Miner extra ore.\nHelper returned {ex}").Restore();
 			}
 
 			_helper.Backup();
@@ -117,7 +117,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Blaster remove vanilla extra gems.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while removing vanilla Geologist paired gems.\nHelper returned {ex}").Restore();
 			}
 
 			_helper.Backup();
@@ -140,7 +140,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching Prospector remove vanilla double coal chance.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();
@@ -149,7 +149,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Miner extra resources.</summary>
 		protected static void GameLocationBreakStonePostfix(ref GameLocation __instance, int indexOfStone, int x, int y, Farmer who, Random r)
 		{
-			if (Utils.PlayerHasProfession("miner", who) && r.NextDouble() < 0.10)
+			if (Utils.SpecificPlayerHasProfession("miner", who) && r.NextDouble() < 0.10)
 			{
 				if (_resourceFromStoneId.TryGetValue(indexOfStone, out int indexOfResource))
 				{

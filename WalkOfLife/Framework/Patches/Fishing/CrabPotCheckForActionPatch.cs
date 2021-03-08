@@ -11,16 +11,16 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class CrabPotCheckForActionPatch : BasePatch
 	{
-		private static IReflectionHelper _reflection;
+		//private static IReflectionHelper _reflection;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
 		/// <param name="reflection">Interface for accessing inaccessible code.</param>
-		internal CrabPotCheckForActionPatch(ModConfig config, IMonitor monitor, IReflectionHelper reflection)
+		internal CrabPotCheckForActionPatch(ModConfig config, IMonitor monitor)
 		: base(config, monitor)
 		{
-			_reflection = reflection;
+			//_reflection = reflection;
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -34,7 +34,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		}
 
 		/// <summary>Patch to handle Luremaster-caught non-trap fish.</summary>
-		protected static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result, Farmer who, bool justCheckingForActivity = false)
+		protected static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result, ref bool ___lidFlapping, ref float ___lidFlapTimer, ref Vector2 ___shake, ref float ___shakeTimer, Farmer who, bool justCheckingForActivity = false)
 		{
 			if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !_IsFishButNotTrapFish(__instance.heldObject.Value))
 			{
@@ -61,15 +61,20 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			__instance.readyForHarvest.Value = false;
 			__instance.tileIndexToShow = 710;
-			_reflection.GetField<bool>(__instance, name: "lidFlapping").SetValue(true);
-			_reflection.GetField<float>(__instance, name: "lidFlapTimer").SetValue(60f);
+			//_reflection.GetField<bool>(__instance, name: "lidFlapping").SetValue(true);
+			//_reflection.GetField<float>(__instance, name: "lidFlapTimer").SetValue(60f);
+			___lidFlapping = true;
+			___lidFlapTimer = 60f;
 			__instance.bait.Value = null;
 			who.animateOnce(279 + who.FacingDirection);
 			who.currentLocation.playSound("fishingRodBend");
 			DelayedAction.playSoundAfterDelay("coin", 500);
 			who.gainExperience(1, 5);
-			_reflection.GetField<Vector2>(__instance, name: "shake").SetValue(Vector2.Zero);
-			_reflection.GetField<float>(__instance, name: "shakeTimer").SetValue(0f);
+			//_reflection.GetField<Vector2>(__instance, name: "shake").SetValue(Vector2.Zero);
+			//_reflection.GetField<float>(__instance, name: "shakeTimer").SetValue(0f);
+			___shake = Vector2.Zero;
+			___shakeTimer = 0f;
+			
 			__result = true;
 			return false; // don't run original logic
 		}

@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static bool FarmAnimalGetSellPricePrefix(ref FarmAnimal __instance, ref int __result)
 		{
 			Farmer who = Game1.getFarmer(__instance.ownerID.Value);
-			if (Utils.PlayerHasProfession("breeder", who))
+			if (Utils.SpecificPlayerHasProfession("breeder", who))
 			{
 				double adjustedFriendship = Math.Pow(Math.Sqrt(2) * __instance.friendshipTowardFarmer.Value / 1000, 2) + 0.5;
 				__result = (int)(__instance.price.Value * adjustedFriendship);

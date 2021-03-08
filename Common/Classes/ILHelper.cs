@@ -211,10 +211,10 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
-		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the player has a given profession.</summary>
+		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the local player has a given profession.</summary>
 		/// <param name="whichProfession">The profession id.</param>
 		/// <param name="branchDestination">The destination to branch to when the check returns false.</param>
-		public ILHelper InsertProfessionCheck(int whichProfession, Label branchDestination, bool branchIfTrue = false)
+		public ILHelper InsertProfessionCheckForLocalPlayer(int whichProfession, Label branchDestination, bool branchIfTrue = false)
 		{
 			return Insert(
 				new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Game1), nameof(Game1.player)).GetGetMethod()),
@@ -225,10 +225,10 @@ namespace TheLion.Common.Harmony
 			);
 		}
 
-		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the player has a given profession.</summary>
+		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the player at the top of the stack has a given profession.</summary>
 		/// <param name="whichProfession">The profession id.</param>
 		/// <param name="branchDestination">The destination to branch to when the check returns false.</param>
-		public ILHelper InsertProfessionCheckForWho(int whichProfession, Label branchDestination, bool branchIfTrue = false)
+		public ILHelper InsertProfessionCheckForSpecificPlayer(int whichProfession, Label branchDestination, bool branchIfTrue = false)
 		{
 			return Insert(
 				new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
@@ -365,6 +365,26 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
+		/// <summary>Get the first label from the code instruction at the currently pointed index.</summary>
+		public ILHelper GetFirstLabel(out Label label)
+		{
+			label = _instructionList[_CurrentIndex].labels.FirstOrDefault();
+			if (label == null)
+				throw new ArgumentNullException("Instruction does not have labels.");
+
+			return this;
+		}
+
+		/// <summary>Get all labels from the code instruction at the currently pointed index.</summary>
+		public ILHelper GetAllLabels(out List<Label> labels)
+		{
+			labels = _instructionList[_CurrentIndex].labels;
+			if (labels.Count == 0)
+				throw new ArgumentNullException("Instruction does not have labels.");
+
+			return this;
+		}
+
 		/// <summary>Add a label to the code instruction at the currently pointed index.</summary>
 		/// <param name="label">The label to add.</param>
 		public ILHelper AddLabel(Label label)
@@ -373,13 +393,11 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
-		/// <summary>Get the label from the code instruction at the currently pointed index.</summary>
-		public ILHelper GetLabel(out Label label)
+		/// <summary>Set the labels of the code instruction at the currently pointed index.</summary>
+		/// <param name="labels">A list of labels.</param>
+		public ILHelper SetLabels(List<Label> labels)
 		{
-			label = _instructionList[_CurrentIndex].labels.FirstOrDefault();
-			if (label == null)
-				throw new ArgumentNullException("Instruction does not have a label.");
-
+			_instructionList[_CurrentIndex].labels = labels;
 			return this;
 		}
 
