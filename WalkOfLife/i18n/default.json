@@ -49,11 +49,11 @@
 
 	// Fishing
 	"fisher.name": "Fisher",
-	"fisher.description": "Chance to fish junk items cut in half.",
+	"fisher.description": "Chance to fish junk items greatly reduced.",
 	"angler.name": "Angler",
 	"angler.description": "Fish worth 5% more for every legendary fish caught. Tackles last twice as long.",
 	"aquarist.name": "Aquarist",
-	"aquarist.description": "Every fish pond at max capacity increases the size of your fishing bar. Spawning rate increased.",
+	"aquarist.description": "Increase the size of your fishing bar for every fish pond at max capacity. Roes age twice as fast.",
 
 	"trapper.name": "Trapper",
 	"trapper.description": "Crab pots are cheaper to craft. Can trap fish of higher quality.",

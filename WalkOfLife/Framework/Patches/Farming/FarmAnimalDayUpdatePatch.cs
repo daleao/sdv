@@ -32,7 +32,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch for Producer to double produce frequency at max animal happiness + combine shepherd and coopmaster product quality boosts.</summary>
+		/// <summary>Patch for Producer to double produce frequency at max animal happiness + remove Shepherd and Coopmaster hidden produce quality boosts.</summary>
 		protected static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(FarmAnimal)}::{nameof(FarmAnimal.dayUpdate)}.");
@@ -43,7 +43,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(													// find index of FarmAnimal.type.Value.Equals("Sheep")
+					.FindFirst(													// find index of FarmAnimal.type.Value.Equals("Sheep")
 						new CodeInstruction(OpCodes.Ldstr, operand: "Sheep"),
 						new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(string), nameof(string.Equals), new Type[] { typeof(string) }))
 					)
@@ -83,8 +83,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(										// find index of first FarmAnimal.isCoopDweller check
-						fromCurrentIndex: true,
+					.FindNext(									// find index of first FarmAnimal.isCoopDweller check
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))
 					)
 					.AdvanceUntil(

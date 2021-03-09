@@ -60,6 +60,7 @@ namespace TheLion.AwesomeProfessions
 				new FruitTreeDayUpdatePatch(Config, Monitor),
 				new Game1CreateObjectDebrisPatch(Config, Monitor),
 				new GameLocationBreakStonePatch(Config, Monitor),
+				//new GameLocationGetFishPatch(Config, Monitor),
 				new GameLocationExplodePatch(Config, Monitor, I18n),
 				new GameLocationOnStoneDestroyedPatch(Config, Monitor),
 				new HoeDirtApplySpeedIncreasesPatch(Config, Monitor),

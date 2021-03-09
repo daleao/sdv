@@ -54,8 +54,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(										// find index of damagePlayers
-						new CodeInstruction(OpCodes.Call, operand: AccessTools.Method(typeof(GameLocation), name: "damagePlayers"))
+					.FindFirst(									// find index of damagePlayers
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocation), name: "damagePlayers"))
 					)
 					.AddLabel(resumeExecution)					// branch here to resume execution
 					.Retreat(i == 0 ? 1 : 3)

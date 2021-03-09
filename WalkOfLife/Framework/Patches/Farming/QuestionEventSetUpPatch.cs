@@ -45,7 +45,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(						// find index of loading base pregnancy chance
+					.FindFirst(					// find index of loading base pregnancy chance
 						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055)
 					)
 					.AddLabel(isNotBreeder)		// branch here if player is not breeder

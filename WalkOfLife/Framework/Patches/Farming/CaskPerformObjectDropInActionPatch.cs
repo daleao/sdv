@@ -29,7 +29,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			if (Utils.SpecificPlayerHasProfession("oenologist", who) && _IsWine(dropIn as SObject))
 			{
-				__instance.agingRate.Value *= 2;
+				__instance.agingRate.Value *= 2f;
 			}
 		}
 

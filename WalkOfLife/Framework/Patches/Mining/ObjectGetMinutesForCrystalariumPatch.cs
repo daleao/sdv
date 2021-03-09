@@ -28,7 +28,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			if (Utils.AnyPlayerHasProfession("gemologist", out int n))
 			{
-				__result = (int)(__result * Math.Pow(0.75f, n));
+				__result = (int)(__result * Math.Pow(0.75, n));
 			}
 		}
 	}

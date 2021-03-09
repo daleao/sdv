@@ -29,7 +29,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			if (Utils.SpecificPlayerHasProfession("demolitionist", owner))
 			{
-				__instance.bombRadius++;
+				++__instance.bombRadius;
 			}
 		}
 	}

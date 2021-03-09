@@ -47,7 +47,6 @@ namespace TheLion.Common.Harmony
 		public ILHelper(IMonitor monitor)
 		{
 			_indexStack = new();
-			_indexStack.Push(0);
 			_monitor = monitor;
 		}
 
@@ -69,7 +68,13 @@ namespace TheLion.Common.Harmony
 		{
 			_instructionList = instructions.ToList();
 			_instructionListBackup = _instructionList.Clone();
-			_indexStack.Clear();
+
+			if (_indexStack.Count > 0)
+			{
+				_indexStack.Clear();
+			}
+			_indexStack.Push(0);
+
 			return this;
 		}
 
@@ -82,7 +87,7 @@ namespace TheLion.Common.Harmony
 
 		/// <summary>Find the first occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
 		/// <param name="pattern">A sequence of code instructions to match.</param>
-		public ILHelper Find(params CodeInstruction[] pattern)
+		public ILHelper FindFirst(params CodeInstruction[] pattern)
 		{
 			int index = _instructionList.IndexOf(pattern);
 			if (index < 0)
@@ -92,12 +97,14 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
-		/// <summary>Find the first or next occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
-		/// <param name="fromCurrentIndex">Whether to begin search from currently pointed index.</param>
+		/// <summary>Find the last occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
 		/// <param name="pattern">A sequence of code instructions to match.</param>
-		public ILHelper Find(bool fromCurrentIndex, params CodeInstruction[] pattern)
+		public ILHelper FindLast(params CodeInstruction[] pattern)
 		{
-			int index = _instructionList.IndexOf(pattern, start: fromCurrentIndex ? _CurrentIndex + 1 : 0);
+			var reversedInstructions = _instructionList.Clone();
+			reversedInstructions.Reverse();
+
+			int index = _instructionList.Count() - reversedInstructions.IndexOf(pattern) - 1;
 			if (index < 0)
 				throw new IndexOutOfRangeException("The instruction pattern was not found.");
 
@@ -105,7 +112,34 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
-		/// <summary>Find the a specific label in the active code instruction list and move the index pointer to it.</summary>
+		/// <summary>Find the next occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
+		/// <param name="pattern">A sequence of code instructions to match.</param>
+		public ILHelper FindNext(params CodeInstruction[] pattern)
+		{
+			int index = _instructionList.IndexOf(pattern, start: _CurrentIndex + 1);
+			if (index < 0)
+				throw new IndexOutOfRangeException("The instruction pattern was not found.");
+
+			_indexStack.Push(index);
+			return this;
+		}
+
+		/// <summary>Find the previous occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
+		/// <param name="pattern">A sequence of code instructions to match.</param>
+		public ILHelper FindPrevious(params CodeInstruction[] pattern)
+		{
+			var reversedInstructions = _instructionList.Clone();
+			reversedInstructions.Reverse();
+
+			int index = _instructionList.Count() - reversedInstructions.IndexOf(pattern, start: _instructionList.Count() - _CurrentIndex - 1) - 1;
+			if (index < 0)
+				throw new IndexOutOfRangeException("The instruction pattern was not found.");
+
+			_indexStack.Push(index);
+			return this;
+		}
+
+		/// <summary>Find a specific label in the active code instruction list and move the index pointer to it.</summary>
 		/// <param name="label">The label to match.</param>
 		public ILHelper FindLabel(Label label, bool fromCurrentIndex = false)
 		{
@@ -122,8 +156,16 @@ namespace TheLion.Common.Harmony
 		/// <param name="fromCurrentIndex">Whether to begin search from currently pointed index.</param>
 		public ILHelper FindProfessionCheck(int whichProfession, bool fromCurrentIndex = false)
 		{
-			return Find(
-				fromCurrentIndex,
+			if (fromCurrentIndex)
+			{
+				return FindNext(
+					new CodeInstruction(OpCodes.Ldfld, operand: AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
+					_LoadConstantIntIL(whichProfession),
+					new CodeInstruction(OpCodes.Callvirt, operand: AccessTools.Method(typeof(NetList<Int32, NetInt>), nameof(NetList<Int32, NetInt>.Contains)))
+				);
+			}
+			
+			return FindFirst(
 				new CodeInstruction(OpCodes.Ldfld, operand: AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
 				_LoadConstantIntIL(whichProfession),
 				new CodeInstruction(OpCodes.Callvirt, operand: AccessTools.Method(typeof(NetList<Int32, NetInt>), nameof(NetList<Int32, NetInt>.Contains)))
@@ -141,14 +183,14 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
-		/// <summary>Move the index pointer forward until a specific pattern is found.</summary>
+		/// <summary>Alias for <c>FindNext(pattern)</c>.</summary>
 		/// <param name="pattern">A sequence of code instructions to match.</param>
 		public ILHelper AdvanceUntil(params CodeInstruction[] pattern)
 		{
-			return Find(fromCurrentIndex: true, pattern);
+			return FindNext(pattern);
 		}
 
-		/// <summary>Move the index pointer forward until a specific label is found.</summary>
+		/// <summary>Alias for <c>FindLabel(label, fromCurrentIndex: true)</c>.</summary>
 		/// <param name="label">The label to match.</param>
 		public ILHelper AdvanceUntilLabel(Label label)
 		{
@@ -160,6 +202,13 @@ namespace TheLion.Common.Harmony
 		public ILHelper Retreat(int steps = 1)
 		{
 			return Advance(-steps);
+		}
+
+		/// <summary>Alias for <c>FindPrevious(pattern)</c>.</summary>
+		/// <param name="pattern">A sequence of code instructions to match.</param>
+		public ILHelper RetreatUntil(params CodeInstruction[] pattern)
+		{
+			return FindPrevious(pattern);
 		}
 
 		/// <summary>Return the index pointer to a previous state.</summary>
@@ -365,31 +414,30 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
-		/// <summary>Get the first label from the code instruction at the currently pointed index.</summary>
-		public ILHelper GetFirstLabel(out Label label)
+		/// <summary>Get the labels from the code instruction at the currently pointed index.</summary>
+		/// <param name="labels">The returned list of label objects.</param>
+		public ILHelper GetLabels(out List<Label> labels)
 		{
-			label = _instructionList[_CurrentIndex].labels.FirstOrDefault();
-			if (label == null)
-				throw new ArgumentNullException("Instruction does not have labels.");
-
-			return this;
-		}
-
-		/// <summary>Get all labels from the code instruction at the currently pointed index.</summary>
-		public ILHelper GetAllLabels(out List<Label> labels)
-		{
-			labels = _instructionList[_CurrentIndex].labels;
+			labels = _instructionList[_CurrentIndex].labels.Clone();
 			if (labels.Count == 0)
 				throw new ArgumentNullException("Instruction does not have labels.");
 
 			return this;
 		}
 
-		/// <summary>Add a label to the code instruction at the currently pointed index.</summary>
+		/// <summary>Add a single label to the code instruction at the currently pointed index.</summary>
 		/// <param name="label">The label to add.</param>
 		public ILHelper AddLabel(Label label)
 		{
 			_instructionList[_CurrentIndex].labels.Add(label);
+			return this;
+		}
+
+		/// <summary>Add one or more labels to the code instruction at the currently pointed index.</summary>
+		/// <param name="labels">A list of labels to add.</param>
+		public ILHelper AddLabels(List<Label> labels)
+		{
+			_instructionList[_CurrentIndex].labels.AddRange(labels);
 			return this;
 		}
 

@@ -48,7 +48,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_4)
 					)
-					.GetAllLabels(out List<Label> labels)
+					.GetLabels(out List<Label> labels)
 					.ReplaceWith(								// replace with custom quality
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(BushShakePatch), nameof(BushShakePatch._GetForageQualityForEcologist)))
 					)

@@ -43,11 +43,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Find(														// find ladder spawn segment
+					.FindFirst(													// find ladder spawn segment
 						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(MineShaft), name: "ladderHasSpawned"))
 					)
 					.Retreat()
-					.GetFirstLabel(out Label previousBranchLabel)
+					.GetLabels(out var labels)
 					.StripLabels()
 					.AddLabel(resumeExecution1)									// branch here to resume execution
 					.Insert(
@@ -61,7 +61,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Stloc_3)
 					)
 					.Return(3)
-					.AddLabel(previousBranchLabel);
+					.AddLabels(labels);
 			}
 			catch (Exception ex)
 			{

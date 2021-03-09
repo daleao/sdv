@@ -3,6 +3,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Locations;
+using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +14,41 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class CrabPotDayUpdatePatch : BasePatch
 	{
-		private static readonly int _treasureId = 166;
-
 		/// <summary>Look-up table for different types of bait by id.</summary>
-		private static readonly Dictionary<int, string> _baitIds = new Dictionary<int, string>
+		private static readonly Dictionary<int, string> _baitById = new()
 		{
 			{ 685, "Bait" },
 			{ 703, "Magnet" },
 			{ 774, "Wild Bait" },
 			{ 908, "Magic Bait" }
+		};
+
+		private static readonly Dictionary<int, string[]> _pirateTreasureTable = new()
+		{
+			{ 14, new string[] { "0.7", "1", "1" } },		// neptune's glaive
+			{ 51, new string[] { "0.7", "1", "1" } },		// broken trident
+			{ 166, new string[] {"3.0", "1", "1" } },		// treasure chest
+			{ 109, new string[] {"0.9", "1", "1" } },		// ancient sword
+			{ 110, new string[] {"0.9", "1", "1" } },		// rusty spoon
+			{ 111, new string[] {"0.9", "1", "1" } },		// rusty spur
+			{ 112, new string[] {"0.9", "1", "1" } },		// rusty cog
+			{ 117, new string[] {"0.9", "1", "1" } },		// anchor
+			{ 378, new string[] { "39.0", "1", "24" } },	// copper ore
+			{ 380, new string[] { "24.0", "1", "24" } },	// iron ore
+			{ 384, new string[] { "12.0", "1", "24" } },	// gold ore
+			{ 386, new string[] {"6.5", "1", "2" } },		// iridium ore
+			{ 516, new string[] {"2.4", "1", "1" } },		// small glow ring
+			{ 517, new string[] {"0.9", "1", "1" } },		// glow ring
+			{ 518, new string[] {"2.4", "1", "1" } },		// small magnet ring
+			{ 519, new string[] {"0.9", "1", "1" } },		// magnet ring
+			{ 527, new string[] {"0.3", "1", "1" } },		// iridum band
+			{ 529, new string[] {"0.5", "1", "1" } },		// amethyst ring
+			{ 530, new string[] {"0.5", "1", "1" } },		// topaz ring
+			{ 531, new string[] {"0.5", "1", "1" } },		// aquamarine ring
+			{ 532, new string[] {"0.5", "1", "1" } },		// jade ring
+			{ 533, new string[] {"0.5", "1", "1" } },		// emerald ring
+			{ 534, new string[] {"0.5", "1", "1" } },		// ruby ring
+			{ 890, new string[] { "0.3", "1", "3" } }		// qi bean
 		};
 
 		/// <summary>Construct an instance.</summary>
@@ -68,14 +95,27 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						whichFish = _ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
 					}
 				}
-				else if(r.NextDouble() < 0.3)
+				else
 				{
-					whichFish = _treasureId;
+					whichFish = _ChoosePirateTreasure(r, who);
 				}
 			}
 			else if (__instance.bait.Value != null)
 			{
 				whichFish = _ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
+			}
+
+			if (whichFish.AnyOf(14, 51))
+			{
+				MeleeWeapon weapon = new MeleeWeapon(whichFish) { specialItem = true };
+				__instance.heldObject.Value = (SObject)(weapon as Item);
+				return false; // don't run original logic
+			}
+			else if (whichFish.AnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
+			{
+				Ring ring = new Ring(whichFish);
+				__instance.heldObject.Value = (SObject)(ring as Item);
+				return false; // don't run original logic
 			}
 
 			int fishQuality = 0;
@@ -95,8 +135,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				fishQuality = _GetFishQuality(who, r);
 			}
 
-			bool shouldCatchDouble = _ShouldCatchDoubleFish(__instance, who, r);
-			__instance.heldObject.Value = new SObject(whichFish, initialStack: shouldCatchDouble ? 2 : 1, quality: fishQuality);
+			int fishQuantity = _GetFishQuantity(__instance, whichFish, who, r);
+			__instance.heldObject.Value = new SObject(whichFish, initialStack: fishQuantity, quality: fishQuality);
 			return false; // don't run original logic
 		}
 
@@ -104,28 +144,28 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <param name="crabpot">The crab pot instance.</param>
 		private static bool _IsUsingRegularBait(CrabPot crabpot)
 		{
-			return _baitIds.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Bait");
+			return _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Bait");
 		}
 
 		/// <summary>Whether the crab pot instance is using magnet as bait.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		private static bool _IsUsingMagnet(CrabPot crabpot)
 		{
-			return _baitIds.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Magnet");
+			return _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Magnet");
 		}
 
 		/// <summary>Whether the crab pot instance is using wild bait.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		private static bool _IsUsingWildBait(CrabPot crabpot)
 		{
-			return _baitIds.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Wild Bait");
+			return _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Wild Bait");
 		}
 
 		/// <summary>Whether the crab pot instance is using magic bait.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		private static bool _IsUsingMagicBait(CrabPot crabpot)
 		{
-			return _baitIds.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Magic Bait");
+			return _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Magic Bait");
 		}
 
 		/// <summary>Get the raw fish data for the current game season.</summary>
@@ -188,7 +228,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					continue;
 				}
 
-				if (_config.Luremaster.CatchOnlyLowLevelFish && !_IsLowLevelFish(specificFishData))
+				if (!_IsUsingMagicBait(crabpot) && !_IsLowLevelFish(specificFishData))
 				{
 					continue;
 				}
@@ -283,6 +323,35 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return Convert.ToDouble(specificFishData[10]);
 		}
 
+		/// <summary>Choose a treasure from the pirate treasure loot table.</summary>
+		/// <param name="r">Random number generator.</param>
+		private static int _ChoosePirateTreasure(Random r, Farmer who)
+		{
+			int[] keys = _pirateTreasureTable.Keys.ToArray();
+			Utility.Shuffle(r, keys);
+			for (int i = 0; i < keys.Length; ++i)
+			{
+				if (keys[i] == 890 && !who.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
+				{
+					continue;
+				}
+
+				if (r.NextDouble() < _GetChanceForThisTreasure(keys[i]))
+				{
+					return keys[i];
+				}
+			}
+			
+			return  -1;
+		}
+
+		/// <summary>Get the chance of selecting a specific pirate treasure from the pirate treasure table.</summary>
+		/// <param name="index">The treasure item index.</param>
+		private static double _GetChanceForThisTreasure(int index)
+		{
+			return Convert.ToDouble(_pirateTreasureTable[index][2]);
+		}
+
 		/// <summary>Choose amongst a pre-select list of shellfish.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		/// <param name="fishData">Raw fish data from the game files.</param>
@@ -348,7 +417,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return r.Next(168, 173);
 		}
 
-		/// <summary>Determine the quality of the catch.</summary>
+		/// <summary>Get the quality for the chosen catch.</summary>
 		/// <param name="who">The owner of the crab pot.</param>
 		/// <param name="r">Random number generator.</param>
 		private static int _GetFishQuality(Farmer who, Random r)
@@ -371,18 +440,24 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return 0;
 		}
 
-		/// <summary>Whether the crab pot catch should be doubled.</summary>
+		/// <summary>Get initial stack for the chosen stack.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
+		/// <param name="whichFish">The chosen fish</param>
 		/// <param name="who">The owner of the crab pot.</param>
 		/// <param name="r">Random number generator.</param>
-		private static bool _ShouldCatchDoubleFish(CrabPot crabpot, Farmer who, Random r)
+		private static int _GetFishQuantity(CrabPot crabpot, int whichFish, Farmer who, Random r)
 		{
 			if (_IsUsingWildBait(crabpot) && r.NextDouble() < 0.25 + who.DailyLuck / 2.0)
 			{
-				return true;
+				return 2;
+			}
+			
+			if (_pirateTreasureTable.TryGetValue(whichFish, out string[] treasureData))
+			{
+				return r.Next(Convert.ToInt32(treasureData[0]), Convert.ToInt32(treasureData[1]) + 1);
 			}
 
-			return false;
+			return 1;
 		}
 	}
 }

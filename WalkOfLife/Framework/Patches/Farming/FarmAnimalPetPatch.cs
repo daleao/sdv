@@ -31,7 +31,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch for Rancher to combine shepherd and coopmaster friendship bonus.</summary>
+		/// <summary>Patch for Rancher to combine Shepherd and Coopmaster friendship bonus.</summary>
 		protected static IEnumerable<CodeInstruction> FarmAnimalPetTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(FarmAnimal)}::{nameof(FarmAnimal.pet)}.");

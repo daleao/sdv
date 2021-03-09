@@ -55,5 +55,14 @@ namespace TheLion.Common.Harmony
 		{
 			return list.Select(instruction => new CodeInstruction(instruction)).ToList();
 		}
+
+		/// <summary>Deep copy a list of labels.</summary>
+		/// <param name="list">The list to be copied.</param>
+		public static List<Label> Clone(this IList<Label> list)
+		{
+			List<Label> clone = new();
+			foreach (Label label in list) clone.Add(label);
+			return clone;
+		}
 	}
 }

@@ -32,8 +32,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary></summary>
-		private static IEnumerable<CodeInstruction> FishingRodStartMinigameEndFunctionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		/// <summary>Patch to remove Pirate bonus treasure chance.</summary>
+		protected static IEnumerable<CodeInstruction> FishingRodStartMinigameEndFunctionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(FishingRod)}::{nameof(FishingRod.startMinigameEndFunction)}.");
 
@@ -45,7 +45,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.FindProfessionCheck(Farmer.pirate)
 					.Retreat(2)
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Brtrue)		// end of profession check
+						new CodeInstruction(OpCodes.Clt)		// end of profession check
 					);
 			}
 			catch (Exception ex)

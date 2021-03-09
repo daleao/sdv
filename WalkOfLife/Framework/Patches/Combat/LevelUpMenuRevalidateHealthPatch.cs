@@ -32,7 +32,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch to move +25 HP from Defender to Brute.</summary>
+		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
 		protected static IEnumerable<CodeInstruction> LevelUpMenuRevalidateHealthTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.RevalidateHealth)}.");
@@ -42,8 +42,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			try
 			{
-				_helper.
-					FindProfessionCheck(Farmer.defender)
+				_helper
+					.FindProfessionCheck(Farmer.defender)
 					.Advance()
 					.SetOperand(Utils.ProfessionsMap.Forward["brute"]);
 			}
