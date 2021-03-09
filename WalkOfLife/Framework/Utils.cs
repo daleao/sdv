@@ -15,7 +15,7 @@ namespace TheLion.AwesomeProfessions.Framework
 		/// <param name="professionName">The name of the profession.</param>
 		public static bool LocalPlayerHasProfession(string professionName)
 		{
-			return Game1.player.professions.Contains(ProfessionsMap.Forward[professionName]);
+			return Game1.player.professions.Contains(ProfessionMap.Forward[professionName]);
 		}
 
 		/// <summary>Whether the player has a specific profession.</summary>
@@ -23,7 +23,7 @@ namespace TheLion.AwesomeProfessions.Framework
 		/// <param name="who">The player.</param>
 		public static bool SpecificPlayerHasProfession(string professionName, Farmer who)
 		{
-			return who.professions.Contains(ProfessionsMap.Forward[professionName]);
+			return who.professions.Contains(ProfessionMap.Forward[professionName]);
 		}
 
 		/// <summary>Whether any player has a specific profession.</summary>
@@ -53,7 +53,7 @@ namespace TheLion.AwesomeProfessions.Framework
 		}
 
 		/// <summary>Bi-directional dictionary for looking-up profession id's by name or name's by id.</summary>
-		public static BiMap<string, int> ProfessionsMap { get; } = new BiMap<string, int>
+		public static BiMap<string, int> ProfessionMap { get; } = new BiMap<string, int>
 		{
 			// farming
 			{ "rancher", Farmer.rancher },				// 0

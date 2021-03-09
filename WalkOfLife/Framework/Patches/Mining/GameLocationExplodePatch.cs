@@ -63,7 +63,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_3)	// arg 3 = Farmer who
 					)
-					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionsMap.Forward["demolitionist"], isNotDemolitionist)
+					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionMap.Forward["demolitionist"], isNotDemolitionist)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldc_I4_1),	// replace damage amount with 1
 						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)

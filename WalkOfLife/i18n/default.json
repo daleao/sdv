@@ -53,7 +53,7 @@
 	"angler.name": "Angler",
 	"angler.description": "Fish worth 5% more for every legendary fish caught. Tackles last twice as long.",
 	"aquarist.name": "Aquarist",
-	"aquarist.description": "Increase the size of your fishing bar for every fish pond at max capacity. Roes age twice as fast.",
+	"aquarist.description": "Fish pond max capacity +2. Fishing bar height increases for every fish pond at max capacity.",
 
 	"trapper.name": "Trapper",
 	"trapper.description": "Crab pots are cheaper to craft. Can trap fish of higher quality.",

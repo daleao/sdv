@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Events;
 using System;
 using System.Collections.Generic;
@@ -52,7 +51,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Advance()
 					.AddLabel(resumeExecution)	// branch here to resume execution
 					.Retreat()
-					.InsertProfessionCheckForLocalPlayer(Utils.ProfessionsMap.Forward["breeder"], branchDestination: isNotBreeder)
+					.InsertProfessionCheckForLocalPlayer(Utils.ProfessionMap.Forward["breeder"], branchDestination: isNotBreeder)
 					.Insert(					// if player is breeder load adjusted pregancy chance
 						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055 * 2.0),
 						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)

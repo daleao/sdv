@@ -53,7 +53,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4)	// arg 4 = Farmer who
 					)
-					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionsMap.Forward["spelunker"], resumeExecution1)
+					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionMap.Forward["spelunker"], resumeExecution1)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_3),					// local 3 = chanceForLadderDown
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MineShaftCheckStoneForItemsPatch), nameof(MineShaftCheckStoneForItemsPatch._GetBonusLadderDownChance))),

@@ -83,7 +83,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_3),
 						new CodeInstruction(OpCodes.Blt)
 					)
-					.InsertProfessionCheckForLocalPlayer(Utils.ProfessionsMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
+					.InsertProfessionCheckForLocalPlayer(Utils.ProfessionMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
 					.AdvanceUntil(																// find start of dice roll
 						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(Random)} (9)")	// local 9 = System.Random random2
 					)

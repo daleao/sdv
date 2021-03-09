@@ -1,10 +1,11 @@
 ﻿using Harmony;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Buildings;
 using StardewValley.Menus;
+using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
@@ -28,7 +29,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.RevalidateHealth)),
-				transpiler: new HarmonyMethod(GetType(), nameof(LevelUpMenuRevalidateHealthTranspiler))
+				transpiler: new HarmonyMethod(GetType(), nameof(LevelUpMenuRevalidateHealthTranspiler)),
+				postfix: new HarmonyMethod(GetType(), nameof(LevelUpMenuRevalidateHealthPostfix))
 			);
 		}
 
@@ -45,7 +47,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.FindProfessionCheck(Farmer.defender)
 					.Advance()
-					.SetOperand(Utils.ProfessionsMap.Forward["brute"]);
+					.SetOperand(Utils.ProfessionMap.Forward["brute"]);
 			}
 			catch (Exception ex)
 			{
@@ -53,6 +55,28 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 
 			return _helper.Flush();
+		}
+
+		/// <summary>Patch revalidate modded immediate profession perks.</summary>
+		protected static void LevelUpMenuRevalidateHealthPostfix(Farmer farmer)
+		{
+			// revalidate Angler tackle health
+			if (FishingRod.maxTackleUses == 20 && Utils.SpecificPlayerHasProfession("angler", farmer))
+			{
+				FishingRod.maxTackleUses = 20 * 2;
+			}
+
+			// revalidate Aquarist max fish pond capacity
+			if (Utils.SpecificPlayerHasProfession("aquarist", farmer))
+			{
+				foreach (Building b in Game1.getFarm().buildings)
+				{
+					if ((b.owner.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && b.maxOccupants.Value < 12)
+					{
+						(b as FishPond).UpdateMaximumOccupancy();
+					}
+				}
+			}
 		}
 	}
 }

@@ -16,12 +16,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		/// <param name="reflection">Interface for accessing inaccessible code.</param>
 		internal CrabPotCheckForActionPatch(ModConfig config, IMonitor monitor)
-		: base(config, monitor)
-		{
-			//_reflection = reflection;
-		}
+		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -59,10 +55,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				int maxFishSize = Convert.ToInt32(rawData[4]);
 				who.caughtFish(item.ParentSheetIndex, Game1.random.Next(minFishSize, maxFishSize + 1));
 			}
+
 			__instance.readyForHarvest.Value = false;
 			__instance.tileIndexToShow = 710;
-			//_reflection.GetField<bool>(__instance, name: "lidFlapping").SetValue(true);
-			//_reflection.GetField<float>(__instance, name: "lidFlapTimer").SetValue(60f);
 			___lidFlapping = true;
 			___lidFlapTimer = 60f;
 			__instance.bait.Value = null;
@@ -70,8 +65,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			who.currentLocation.playSound("fishingRodBend");
 			DelayedAction.playSoundAfterDelay("coin", 500);
 			who.gainExperience(1, 5);
-			//_reflection.GetField<Vector2>(__instance, name: "shake").SetValue(Vector2.Zero);
-			//_reflection.GetField<float>(__instance, name: "shakeTimer").SetValue(0f);
 			___shake = Vector2.Zero;
 			___shakeTimer = 0f;
 			

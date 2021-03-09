@@ -3,9 +3,6 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using System;
-using System.Collections.Generic;
-using TheLion.Common.Extensions;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {

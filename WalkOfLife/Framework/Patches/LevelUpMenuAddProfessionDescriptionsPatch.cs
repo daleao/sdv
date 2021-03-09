@@ -32,7 +32,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to apply modded profession descriptions.</summary>
 		protected static bool LevelUpMenuAddProfessionDescriptionsPrefix(List<string> descriptions, string professionName)
 		{
-			if (!Utils.ProfessionsMap.Contains(professionName))
+			if (!Utils.ProfessionMap.Contains(professionName))
 				return true; // run original logic
 
 			descriptions.Add(_i18n.Get(professionName + ".name"));

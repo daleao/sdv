@@ -4,13 +4,18 @@ using StardewValley.Menus;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
-	internal class LevelUpMenuGetProfessionNamePatch : BasePatch
+	internal class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
 	{
+		private static ITranslationHelper _i18n;
+
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuGetProfessionNamePatch(ModConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		internal LevelUpMenuGetProfessionTitleFromNumberPatch(ModConfig config, IMonitor monitor, ITranslationHelper i18n)
+		: base(config, monitor)
+		{
+			_i18n = i18n;
+		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -28,7 +33,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			if (!Utils.ProfessionMap.Contains(whichProfession))
 				return true; // run original logic
 
-			__result = Utils.ProfessionMap.Reverse[whichProfession];
+			__result = _i18n.Get(Utils.ProfessionMap.Reverse[whichProfession] + ".name");
 			return false; // don't run original logic
 		}
 	}
