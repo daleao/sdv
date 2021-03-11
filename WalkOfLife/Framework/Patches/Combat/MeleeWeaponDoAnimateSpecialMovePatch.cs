@@ -33,13 +33,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		}
 
 		/// <summary>Patch remove Acrobat cooldown reduction.</summary>
-		protected static IEnumerable<CodeInstruction> MeleeWeaponDoAnimateSpecialMoveTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		protected static IEnumerable<CodeInstruction> MeleeWeaponDoAnimateSpecialMoveTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(MeleeWeapon)}::doAnimateSpecialMove.");
 
 			/// Skipped: if (lastUser.professions.Contains(<acrobat_id>) cooldown /= 2
 
-			object isNotAcrobat;
 			int i = 0;
 			repeat:
 			try
@@ -47,14 +46,19 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper											// find index of acrobat check
 					.FindProfessionCheck(Farmer.acrobat, fromCurrentIndex: i != 0)
 					.Retreat(2)
+					.GetLabels(out var labels)
+					.StripLabels()
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)	// the branch to resume execution
+						new CodeInstruction(OpCodes.Brfalse)	// the false case branch
 					)
-					.GetOperand(out isNotAcrobat)				// copy destination
+					.GetOperand(out object isNotAcrobat)				// copy destination
 					.Return()
-					.Insert(									// insert unconditional branch to skip this check and resume execution
+					.Insert(									// insert unconditional branch to skip this check
 						new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)
-					);
+					)
+					.Retreat()
+					.AddLabels(labels)							// restore labels to inserted branch
+					.Advance(3);
 			}
 			catch (Exception ex)
 			{

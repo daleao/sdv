@@ -402,8 +402,8 @@ namespace TheLion.Common.Harmony
 		public ILHelper GetLabels(out List<Label> labels)
 		{
 			labels = _instructionList[_CurrentIndex].labels.Clone();
-			if (labels.Count == 0)
-				throw new ArgumentNullException("Instruction does not have labels.");
+			//if (labels.Count == 0)
+			//	throw new ArgumentNullException("Instruction does not have labels.");
 
 			return this;
 		}

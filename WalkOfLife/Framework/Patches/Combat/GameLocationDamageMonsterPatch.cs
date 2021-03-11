@@ -42,7 +42,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		}
 
 		/// <summary>Patch to move crit chance bonus from Scout to Gambit + patch Brute damage bonus + move crit damage bonus from Desperado to Gambit.</summary>
-		protected static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		protected static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.damageMonster)}.");
 

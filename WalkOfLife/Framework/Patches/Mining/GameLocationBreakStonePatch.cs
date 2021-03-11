@@ -90,7 +90,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Retreat()
 					.RemoveUntil(
 						new CodeInstruction(OpCodes.Brtrue)	// remove this check
-					);
+					)
+					.Advance()
+					.Remove(2)								// remove true case
+					.StripLabels();
 			}
 			catch (Exception ex)
 			{
@@ -106,14 +109,18 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.FindProfessionCheck(Farmer.geologist)		// find index of geologist check
 					.Retreat()
+					.GetLabels(out var labels)					// copy labels
+					.StripLabels()								// remove labels from here
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)	// the branch to resume execution
+						new CodeInstruction(OpCodes.Brfalse)	// the false case branch
 					)
-					.GetOperand(out object resumeExecution)		// copy destination
+					.GetOperand(out object isNotGeologist)		// copy destination
 					.Return()
-					.Insert(									// insert uncoditional branch to skip this check and resume execution
-						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution)
-					);
+					.Insert(									// insert uncoditional branch to skip this check
+						new CodeInstruction(OpCodes.Br, (Label)isNotGeologist)
+					)
+					.Retreat()
+					.AddLabels(labels);							// restore labels to inserted branch
 			}
 			catch (Exception ex)
 			{
@@ -130,12 +137,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.FindProfessionCheck(Farmer.burrower)		// find index of prospector check
 					.Retreat()
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)	// the branch to resume execution
+						new CodeInstruction(OpCodes.Brfalse)	// the false case branch
 					)
-					.GetOperand(out object resumeExecution)		// copy destination
+					.GetOperand(out object isNotProspector)		// copy destination
 					.Return()
-					.Insert(									// insert uncoditional branch to skip this check and resume execution
-						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution)
+					.Insert(									// insert uncoditional branch to skip this check
+						new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector)
 					);
 			}
 			catch (Exception ex)

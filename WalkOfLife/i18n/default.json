@@ -26,7 +26,7 @@
 	"lumberjack.name": "Lumberjack",
 	"lumberjack.description": "Felling trees yields 25% more wood.",
 	"arborist.name": "Arborist",
-	"arborist.description": "Trees grow faster. All trees have a chance to drop hardwood.",
+	"arborist.description": "Trees grow faster. All trees can drop hardwood.",
 	"tapper.name": "Tapper",
 	"tapper.description": "Tappers are cheaper to craft. Tapped trees give syrup 25% faster.",
 
@@ -45,7 +45,7 @@
 	"demolitionist.description": "Bomb radius +1. Gain a speed burst when hit by an explosion.",
 	"demolitionist.buff": "Demolitionist",
 	"gemologist.name": "Gemologist",
-	"gemologist.description": "Identify minerals of higher quality over time. Crystalariums work 25% faster.",
+	"gemologist.description": "Learn to identify minerals of higher quality over time. Crystalariums produce 25% faster.",
 
 	// Fishing
 	"fisher.name": "Fisher",

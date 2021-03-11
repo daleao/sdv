@@ -60,7 +60,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.GetOperand(out object resumeExecution)									// copy destination
 					.Return(2)
 					.Insert(
-						new CodeInstruction(OpCodes.Br_S, operand: (Label)resumeExecution)	// insert new false case branch instruction
+						new CodeInstruction(OpCodes.Br_S, operand: (Label)resumeExecution)	// insert new false case branch
 					);
 			}
 			catch (Exception ex)

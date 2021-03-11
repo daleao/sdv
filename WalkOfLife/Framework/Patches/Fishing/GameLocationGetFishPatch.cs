@@ -39,6 +39,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.getFish)}");
 
+			/// Injected: if (_CanReroll(whichFish, who) && !hasRerolled) goto <choose_fish>
+
 			Label reroll = iLGenerator.DefineLabel();
 			Label resumeExecution = iLGenerator.DefineLabel();
 			var hasRerolled = iLGenerator.DeclareLocal(typeof(bool));
@@ -46,20 +48,20 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.Insert(
+					.Insert(									// set hasRerolled to false
 						new CodeInstruction(OpCodes.Ldc_I4_0),
 						new CodeInstruction(OpCodes.Stloc_S, operand: hasRerolled)
 					)
-					.FindLast(
+					.FindLast(									// find index of caught = new Object(whichFish, 1)
 						new CodeInstruction(OpCodes.Newobj, AccessTools.Constructor(typeof(SObject), new Type[] { typeof(int), typeof(int), typeof(bool), typeof(int), typeof(int) }))
 					)
 					.RetreatUntil(
 						new CodeInstruction(OpCodes.Ldloc_1)
 					)
-					.AddLabel(resumeExecution)
-					.Insert(
-						new CodeInstruction(OpCodes.Ldloc_1),
-						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4),				// arg 4 = Farmer who
+					.AddLabel(resumeExecution)					// branch here if has rerolled
+					.Insert(									// insert check if should reroll
+						new CodeInstruction(OpCodes.Ldloc_1),					// local 1 = whichFish
+						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4),	// arg 4 = Farmer who
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationGetFishPatch), nameof(GameLocationGetFishPatch._CanReroll))),
 						new CodeInstruction(OpCodes.Brfalse_S, operand: resumeExecution),
 						new CodeInstruction(OpCodes.Ldloc_S, operand: hasRerolled),
@@ -68,11 +70,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Stloc_S, operand: hasRerolled),
 						new CodeInstruction(OpCodes.Br, operand: reroll)
 					)
-					.RetreatUntil(
+					.RetreatUntil(								// start of choose fish
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utility), nameof(Utility.Shuffle)))
 					)
 					.Retreat(2)
-					.AddLabel(reroll);
+					.AddLabel(reroll);							// add goto label
 			}
 			catch (Exception ex)
 			{

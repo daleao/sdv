@@ -47,7 +47,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(MineShaft), name: "ladderHasSpawned"))
 					)
 					.Retreat()
-					.GetLabels(out var labels)
+					.GetLabels(out var labels)									// copy labels
 					.StripLabels()
 					.AddLabel(resumeExecution)									// branch here to resume execution
 					.Insert(
@@ -61,7 +61,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Stloc_3)
 					)
 					.Return(3)
-					.AddLabels(labels);
+					.AddLabels(labels);											// restore labels to inserted spelunker check
 			}
 			catch (Exception ex)
 			{
@@ -70,9 +70,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			_helper.Backup();
 
-			/// Skipped: if (who.professions.Contains(<geologist_id>)...
+			/// Skipped: if (who.professions.Contains(<geologist_id>)) ...
 
-			object isNotGeologist;
 			int i = 0;
 			repeat1:
 			try
@@ -80,14 +79,19 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper											// find index of geologist check
 					.FindProfessionCheck(Farmer.geologist, fromCurrentIndex: i != 0)
 					.Retreat()
+					.GetLabels(out var labels)					// copy labels
+					.StripLabels()								// remove labels from here
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)	// the branch to resume execution
+						new CodeInstruction(OpCodes.Brfalse)	// the false case branch
 					)
-					.GetOperand(out isNotGeologist)				// copy destination
+					.GetOperand(out object isNotGeologist)		// copy destination
 					.Return()
-					.Insert(									// insert uncoditional branch to skip this check and resume execution
+					.Insert(									// insert uncoditional branch to skip this check
 						new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist)
-					);
+					)
+					.Retreat()
+					.AddLabels(labels)
+					.Advance(2);								// restore labels to inserted branch
 			}
 			catch (Exception ex)
 			{
@@ -103,8 +107,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			_helper.Backup();
 
-			/// From: r.NextDouble() < <value> * (1.0 + chanceModifier) * (double)(!who.professions.Contains(<excavator_id>) ? 1 : 2)
-			/// To: r.NextDouble() < <value> * (1.0 + chanceModifier)
+			/// From: random.NextDouble() < <value> * (1.0 + chanceModifier) * (double)(!who.professions.Contains(<excavator_id>) ? 1 : 2)
+			/// To: random.NextDouble() < <value> * (1.0 + chanceModifier)
 
 			i = 0;
 			repeat2:
@@ -131,15 +135,16 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			_helper.Backup();
 
-			/// Removed: who.professions.Contains(<prospector_id>)...
+			/// From: if (random.NextDouble() < 0.25 * (double)(!who.professions.Contains(<prospector_id>) ? 1 : 2))
+			/// To: if (random.NextDouble() < 0.25)
 
 			try
 			{
 				_helper
-					.FindProfessionCheck(Farmer.burrower)	// find index of prospector check
+					.FindProfessionCheck(Farmer.burrower, fromCurrentIndex: true)	// find index of prospector check
 					.Retreat()
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Mul)	// remove this check
+						new CodeInstruction(OpCodes.Mul)							// remove this check
 					);
 			}
 			catch (Exception ex)

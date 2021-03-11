@@ -87,12 +87,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))
 					)
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)	// the first branch to resume execution
+						new CodeInstruction(OpCodes.Brfalse)	// the all cases false branch
 					)
 					.GetOperand(out object resumeExecution)		// copy destination
 					.Return()
 					.Retreat()
-					.Insert(									// insert unconditional branch to skip this whole section and resume execution
+					.Insert(									// insert unconditional branch to skip this whole section
 						new CodeInstruction(OpCodes.Br_S, operand: (Label)resumeExecution)
 					);
 			}
