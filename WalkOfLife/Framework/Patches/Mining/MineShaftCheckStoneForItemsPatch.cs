@@ -39,7 +39,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			/// Injected: if (who.professions.Contains(<spelunker_id>) chanceForLadderDown += GetBonusLadderDownChance()
 
-			Label resumeExecution1 = iLGenerator.DefineLabel();
+			Label resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
 				_helper
@@ -49,11 +49,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Retreat()
 					.GetLabels(out var labels)
 					.StripLabels()
-					.AddLabel(resumeExecution1)									// branch here to resume execution
+					.AddLabel(resumeExecution)									// branch here to resume execution
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4)	// arg 4 = Farmer who
 					)
-					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionMap.Forward["spelunker"], resumeExecution1)
+					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionMap.Forward["spelunker"], resumeExecution)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_3),					// local 3 = chanceForLadderDown
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MineShaftCheckStoneForItemsPatch), nameof(MineShaftCheckStoneForItemsPatch._GetBonusLadderDownChance))),
@@ -72,7 +72,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			/// Skipped: if (who.professions.Contains(<geologist_id>)...
 
-			object resumeExecution2;
+			object isNotGeologist;
 			int i = 0;
 			repeat1:
 			try
@@ -83,10 +83,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse)	// the branch to resume execution
 					)
-					.GetOperand(out resumeExecution2)			// copy destination
+					.GetOperand(out isNotGeologist)				// copy destination
 					.Return()
 					.Insert(									// insert uncoditional branch to skip this check and resume execution
-						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution2)
+						new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist)
 					);
 			}
 			catch (Exception ex)

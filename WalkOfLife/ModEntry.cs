@@ -73,6 +73,7 @@ namespace TheLion.AwesomeProfessions
 				new LevelUpMenuGetProfessionTitleFromNumberPatch(Config, Monitor, I18n),
 				new LevelUpMenuRemoveImmediateProfessionPerkPatch(Config, Monitor),
 				new LevelUpMenuRevalidateHealthPatch(Config, Monitor),
+				new MeleeWeaponDoAnimateSpecialMovePatch(Config, Monitor),
 				new MineShaftCheckStoneForItemsPatch(Config, Monitor),
 				new ObjectCtorPatch(Config, Monitor),
 				new ObjectGetMinutesForCrystalariumPatch(Config, Monitor),
@@ -109,7 +110,7 @@ namespace TheLion.AwesomeProfessions
 			GameLocation location = Game1.currentLocation;
 			if (Utils.LocalPlayerHasProfession("spelunker") && location is MineShaft)
 			{
-				AddOrUpdateBuff(Utils.SpelunkerBuffUniqueID, 1, "spelunker");
+				AddOrUpdateSpeedBuff(Utils.SpelunkerBuffUniqueID, 1, "spelunker");
 
 				int currentMineLevel = (location as MineShaft).mineLevel;
 				if (currentMineLevel > Data.LowestMineLevelReached)
@@ -125,7 +126,7 @@ namespace TheLion.AwesomeProfessions
 					int buffDecay = DemolitionistBuffMagnitude > 4 ? 2 : 1;
 					DemolitionistBuffMagnitude = Math.Max(0, DemolitionistBuffMagnitude - buffDecay);
 				}
-				AddOrUpdateBuff(Utils.DemolitionistBuffUniqueID, DemolitionistBuffMagnitude, "demolitionist");
+				AddOrUpdateSpeedBuff(Utils.DemolitionistBuffUniqueID, DemolitionistBuffMagnitude, "demolitionist");
 			}
 		}
 
@@ -134,7 +135,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		private void OnWarped(object sender, WarpedEventArgs e)
 		{
-			if (e.OldLocation.NameOrUniqueName != e.NewLocation.NameOrUniqueName)
+			if (e.NewLocation.GetType() != e.OldLocation.GetType())
 			{
 				BruteKillStreak = 0;
 			}
@@ -144,7 +145,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="buffId">The unique id for the buff.</param>
 		/// <param name="magnitude">The magnitude of the buff.</param>
 		/// <param name="source">The source of the buff.</param>
-		private void AddOrUpdateBuff(int buffId, int magnitude, string source)
+		private void AddOrUpdateSpeedBuff(int buffId, int magnitude, string source)
 		{
 			buffId += magnitude;
 			Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
