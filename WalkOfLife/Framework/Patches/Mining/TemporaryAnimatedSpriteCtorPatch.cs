@@ -11,7 +11,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal TemporaryAnimatedSpriteCtorPatch(ModConfig config, IMonitor monitor)
+		internal TemporaryAnimatedSpriteCtorPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>

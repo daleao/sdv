@@ -14,7 +14,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal Game1CreateItemDebrisPatch(ModConfig config, IMonitor monitor)
+		internal Game1CreateItemDebrisPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -31,9 +31,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static void Game1CreateItemDebrisPostfix(Item item)
 		{
 			if (_IsWildBerry(item) && Utils.LocalPlayerHasProfession("ecologist"))
-			{
-				++ModEntry.Data.ForageablesCollectedAsEcologist;
-			}
+				++AwesomeProfessions.Data.ForageablesCollectedAsEcologist;
 		}
 
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>

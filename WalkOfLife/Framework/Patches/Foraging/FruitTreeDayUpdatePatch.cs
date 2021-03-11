@@ -11,7 +11,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal FruitTreeDayUpdatePatch(ModConfig config, IMonitor monitor)
+		internal FruitTreeDayUpdatePatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -29,9 +29,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			bool isThereAnyArborist = Utils.AnyPlayerHasProfession("arborist", out int n);
 			if (isThereAnyArborist && __instance.daysUntilMature.Value % 7 == 0)
-			{
 				__instance.daysUntilMature.Value -= n;
-			}
 		}
 	}
 }

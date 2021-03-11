@@ -16,7 +16,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal MeleeWeaponDoAnimateSpecialMovePatch(ModConfig config, IMonitor monitor)
+		internal MeleeWeaponDoAnimateSpecialMovePatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor)
 		{
 			_helper = new ILHelper(monitor);

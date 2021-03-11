@@ -12,7 +12,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal ObjectCtorPatch(ModConfig config, IMonitor monitor)
+		internal ObjectCtorPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -30,9 +30,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			Farmer who = Game1.getFarmer(__instance.owner.Value);
 			if (_IsWildBerry(__instance) && Utils.SpecificPlayerHasProfession("ecologist", who))
-			{
 				__instance.Edibility = (int)(__instance.Edibility * 1.5f);
-			}
 		}
 
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>

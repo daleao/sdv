@@ -16,7 +16,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal CrabPotCheckForActionPatch(ModConfig config, IMonitor monitor)
+		internal CrabPotCheckForActionPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -33,9 +33,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result, ref bool ___lidFlapping, ref float ___lidFlapTimer, ref Vector2 ___shake, ref float ___shakeTimer, Farmer who, bool justCheckingForActivity = false)
 		{
 			if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !_IsFishButNotTrapFish(__instance.heldObject.Value))
-			{
 				return true; // run original logic
-			}
 
 			SObject item = __instance.heldObject.Value;
 			__instance.heldObject.Value = null;

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using System;
-using TheLion.Common.TileGeometry;
+using TheLion.Common.Classes;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationExplodePatch(ModConfig config, IMonitor monitor)
+		internal GameLocationExplodePatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -71,11 +71,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				int distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
 				if (distanceFromEpicenter < radius * 2 + 1)
 				{
-					ModEntry.DemolitionistBuffMagnitude = 4;
+					AwesomeProfessions.DemolitionistBuffMagnitude = 4;
 				}
 				if (distanceFromEpicenter < radius + 1)
 				{
-					ModEntry.DemolitionistBuffMagnitude += 2;
+					AwesomeProfessions.DemolitionistBuffMagnitude += 2;
 				}
 			}
 		}

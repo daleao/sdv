@@ -54,7 +54,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal CrabPotDayUpdatePatch(ModConfig config, IMonitor monitor)
+		internal CrabPotDayUpdatePatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -72,9 +72,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			Farmer who = Game1.getFarmer(__instance.owner.Value);
 			if (__instance.bait.Value == null && !Utils.SpecificPlayerHasProfession("conservationist", who) || __instance.heldObject.Value != null)
-			{
 				return false; // don't run original logic
-			}
 
 			__instance.tileIndexToShow = 714;
 			__instance.readyForHarvest.Value = true;
@@ -91,19 +89,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					var rawFishDataWithLocation = _GetRawFishDataWithLocation(rawFishData);
 					whichFish = _ChooseFish(__instance, fishData, rawFishDataWithLocation, location, r);
 					if (whichFish < 0)
-					{
 						whichFish = _ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
-					}
 				}
 				else
-				{
 					whichFish = _ChoosePirateTreasure(r, who);
-				}
 			}
 			else if (__instance.bait.Value != null)
-			{
 				whichFish = _ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
-			}
 
 			if (whichFish.AnyOf(14, 51))
 			{
@@ -124,16 +116,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				whichFish = _GetTrash(r);
 				if (Utils.SpecificPlayerHasProfession("conservationist", who) && who.IsLocalPlayer)
 				{
-					if (++ModEntry.Data.TrashCollectedAsConservationist % 10 == 0)
-					{
+					if (++AwesomeProfessions.Data.TrashCollectedAsConservationist % 10 == 0)
 						Utility.improveFriendshipWithEveryoneInRegion(Game1.player, 1, 2);
-					}
 				}
 			}
 			else
-			{
 				fishQuality = _GetFishQuality(who, r);
-			}
 
 			int fishQuantity = _GetFishQuantity(__instance, whichFish, who, r);
 			__instance.heldObject.Value = new SObject(whichFish, initialStack: fishQuantity, quality: fishQuality);
@@ -186,9 +174,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			{
 				var seasonalFishData = locationData[location.NameOrUniqueName].Split('/')[4 + i].Split(' ');
 				if (seasonalFishData.Length > 1)
-				{
 					allSeasonFish.AddRange(seasonalFishData);
-				}
 			}
 			
 			return allSeasonFish.ToArray();
@@ -202,9 +188,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			if (rawFishData.Length > 1)
 			{
 				for (int i = 0; i < rawFishData.Length; i += 2)
-				{
 					rawFishDataWithLocation[rawFishData[i]] = rawFishData[i + 1];
-				}
 			}
 
 			return rawFishDataWithLocation;
@@ -223,26 +207,16 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			for (int i = 0; i < keys.Length; ++i)
 			{
 				string[] specificFishData = fishData[Convert.ToInt32(keys[i])].Split('/');
-				if (_IsLegendaryFish(specificFishData))
-				{
-					continue;
-				}
+				if (_IsLegendaryFish(specificFishData)) continue;
 
-				if (!_IsUsingMagicBait(crabpot) && !_IsLowLevelFish(specificFishData))
-				{
-					continue;
-				}
+				if (!_IsUsingMagicBait(crabpot) && !_IsLowLevelFish(specificFishData)) continue;
 
 				int specificFishLocation = Convert.ToInt32(rawFishDataWithLocation[keys[i]]);
 				if (!_IsUsingMagicBait(crabpot) && (!_IsCorrectLocationAndTimeForThisFish(specificFishData, specificFishLocation, crabpot, location) || !_IsCorrectWeatherForThisFish(specificFishData, location)))
-				{
 					continue;
-				}
 
 				if (r.NextDouble() < _GetChanceForThisFish(specificFishData))
-				{
 					return Convert.ToInt32(keys[i]);
-				}
 			}
 
 			return -1;
@@ -253,9 +227,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static bool _IsLegendaryFish(string[] specificFishData)
 		{
 			if (specificFishData[0].AnyOf("Crimsonfish", "Angler", "Legend", "Glacierfish", "Mutant Carp", "Son of Crimsonfish", "Ms. Angler", "Legend II", "Glacierfish Jr.", "Radioactive Carp"))
-			{
 				return true;
-			}
 
 			return false;
 		}
@@ -265,9 +237,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static bool _IsLowLevelFish(string[] specificFishData)
 		{
 			if (Convert.ToInt32(specificFishData[1]) < 50)
-			{
 				return true;
-			}
 
 			return false;
 		}
@@ -285,9 +255,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				for (int t = 0; t < specificFishSpawnTimes.Length; t += 2)
 				{
 					if (Game1.timeOfDay >= Convert.ToInt32(specificFishSpawnTimes[t]) && Game1.timeOfDay < Convert.ToInt32(specificFishSpawnTimes[t + 1]))
-					{
 						return true;
-					}
 				}
 			}
 
@@ -299,19 +267,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <param name="location">The location of the crab pot.</param>
 		private static bool _IsCorrectWeatherForThisFish(string[] specificFishData, GameLocation location)
 		{
-			if (specificFishData[7].Equals("both"))
-			{
-				return true;
-			}
+			if (specificFishData[7].Equals("both")) return true;
 
 			if (specificFishData[7].Equals("rainy") && !Game1.IsRainingHere(location))
-			{
 				return false;
-			}
 			else if (specificFishData[7].Equals("sunny") && Game1.IsRainingHere(location))
-			{
 				return false;
-			}
 
 			return true;
 		}
@@ -332,14 +293,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			for (int i = 0; i < keys.Length; ++i)
 			{
 				if (keys[i] == 890 && !who.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
-				{
 					continue;
-				}
 
 				if (r.NextDouble() < _GetChanceForThisTreasure(keys[i]))
-				{
 					return keys[i];
-				}
 			}
 			
 			return  -1;
@@ -363,17 +320,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			List<int> keys = new();
 			foreach (KeyValuePair<int, string> kvp in fishData)
 			{
-				if (!kvp.Value.Contains("trap"))
-				{
-					continue;
-				}
+				if (!kvp.Value.Contains("trap")) continue;
 
 				bool shouldCatchOceanFish = _ShouldCatchOceanFish(crabpot, location);
 				string[] rawSplit = kvp.Value.Split('/');
 				if ((rawSplit[4].Equals("ocean") && !shouldCatchOceanFish) || (rawSplit[4].Equals("freshwater") && shouldCatchOceanFish))
-				{
 					continue;
-				}
 
 				if (isLuremaster)
 				{
@@ -382,9 +334,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				}
 
 				if (r.NextDouble() < _GetChanceForThisTrapFish(rawSplit))
-				{
 					return kvp.Key;
-				}
 			}
 
 			if (isLuremaster && keys.Count > 0)
@@ -423,19 +373,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static int _GetFishQuality(Farmer who, Random r)
 		{
 			if (!Utils.SpecificPlayerHasProfession("trapper", who))
-			{
 				return 0;
-			}
 
 			if (r.NextDouble() < who.FishingLevel / 30.0)
-			{
 				return 2;
-			}
 			
 			if (r.NextDouble() < who.FishingLevel / 15.0)
-			{
 				return 1;
-			}
 
 			return 0;
 		}
@@ -448,14 +392,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static int _GetFishQuantity(CrabPot crabpot, int whichFish, Farmer who, Random r)
 		{
 			if (_IsUsingWildBait(crabpot) && r.NextDouble() < 0.25 + who.DailyLuck / 2.0)
-			{
 				return 2;
-			}
 			
 			if (_pirateTreasureTable.TryGetValue(whichFish, out string[] treasureData))
-			{
 				return r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1);
-			}
 
 			return 1;
 		}

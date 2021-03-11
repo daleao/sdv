@@ -17,7 +17,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuRevalidateHealthPatch(ModConfig config, IMonitor monitor)
+		internal LevelUpMenuRevalidateHealthPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor)
 		{
 			_helper = new ILHelper(monitor);
@@ -63,9 +63,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			// revalidate Angler tackle health
 			int expectedMaxTackleUses = 20;
 			if (Utils.SpecificPlayerHasProfession("angler", farmer))
-			{
 				expectedMaxTackleUses *= 2;
-			}
+
 			FishingRod.maxTackleUses = expectedMaxTackleUses;
 
 			// revalidate Aquarist max fish pond capacity
@@ -74,9 +73,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				foreach (Building b in Game1.getFarm().buildings)
 				{
 					if ((b.owner.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && b.maxOccupants.Value < 12)
-					{
 						(b as FishPond).UpdateMaximumOccupancy();
-					}
 				}
 			}
 		}

@@ -1,6 +1,5 @@
 using StardewModdingAPI;
 using System;
-using TheLion.Common.Integrations;
 
 namespace TheLion.Common.Integrations.GenericModConfigMenu
 {
@@ -10,7 +9,7 @@ namespace TheLion.Common.Integrations.GenericModConfigMenu
 		where TConfig : new()
 	{
 		/// <summary>The mod's public API.</summary>
-		private readonly IGenericModConfigMenuApi ModApi;
+		private readonly IGenericModConfigMenuAPI ModApi;
 
 		/// <summary>The manifest for the mod consuming the API.</summary>
 		private readonly IManifest ConsumerManifest;
@@ -44,7 +43,7 @@ namespace TheLion.Common.Integrations.GenericModConfigMenu
 			// get mod API
 			if (IsLoaded)
 			{
-				ModApi = GetValidatedApi<IGenericModConfigMenuApi>();
+				ModApi = GetValidatedApi<IGenericModConfigMenuAPI>();
 				IsLoaded = ModApi != null;
 			}
 		}

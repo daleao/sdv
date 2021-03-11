@@ -9,7 +9,7 @@ using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TheLion.Common.TileGeometry;
+using TheLion.Common.Classes;
 using xTile.Dimensions;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SObject = StardewValley.Object;
@@ -201,7 +201,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 				{
 					if (feature.GetType().FullName == "FarmTypeManager.LargeResourceClump" && feature.getBoundingBox(feature.tilePosition.Value).Intersects(tileArea))
 					{
-						ResourceClump clump = ModEntry.Reflection.GetField<NetRef<ResourceClump>>(feature, "Clump").GetValue().Value;
+						ResourceClump clump = AwesomeTools.Reflection.GetField<NetRef<ResourceClump>>(feature, "Clump").GetValue().Value;
 						applyTool = tool => feature.performToolAction(tool, 0, tile, location);
 						return clump;
 					}
@@ -270,7 +270,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 		/// <param name="animationIds">The animation IDs to detect.</param>
 		protected void CancelAnimation(Farmer who, params int[] animationIds)
 		{
-			int animationId = ModEntry.Reflection.GetField<int>(who.FarmerSprite, "currentSingleAnimation").GetValue();
+			int animationId = AwesomeTools.Reflection.GetField<int>(who.FarmerSprite, "currentSingleAnimation").GetValue();
 			foreach (int id in animationIds)
 			{
 				if (id == animationId)

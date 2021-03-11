@@ -6,11 +6,6 @@ namespace TheLion.AwesomeProfessions.Framework
 {
 	public static class Utils
 	{
-		public static int DemolitionistBuffUniqueID { get; } = _IdFromHashCode("demolitionist", 4);
-		public static int SpelunkerBuffUniqueID { get; } = _IdFromHashCode("spelunker", 4);
-		public static int BruteBuffUniqueID { get; } = _IdFromHashCode("brute", 4);
-		public static int GambitBuffUniqueID { get; } = _IdFromHashCode("gambit", 4);
-
 		/// <summary>Whether the local player has a specific profession.</summary>
 		/// <param name="professionName">The name of the profession.</param>
 		public static bool LocalPlayerHasProfession(string professionName)
@@ -44,9 +39,7 @@ namespace TheLion.AwesomeProfessions.Framework
 			foreach (Farmer player in Game1.getAllFarmers())
 			{
 				if (player.isActive() && SpecificPlayerHasProfession(professionName, player))
-				{
 					++numberOfPlayersWithThisProfession;
-				}
 			}
 
 			return numberOfPlayersWithThisProfession > 0;
@@ -102,10 +95,5 @@ namespace TheLion.AwesomeProfessions.Framework
 			{ "marksman", Farmer.acrobat },				// 28
 			{ "slimemaster", Farmer.desperado }			// 29
 		};
-
-		private static int _IdFromHashCode(string text, int digits)
-		{
-			return (int)(Math.Abs(text.GetHashCode()) / Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(text.GetHashCode()))) - digits + 1));
-		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace TheLion.AwesomeProfessions
 {
-	public class ModData
+	public class ProfessionsData
 	{
 		internal int FameAccruedAsOenologist { get; set; } = 0;
 		internal int LowestMineLevelReached { get; set; } = 0;

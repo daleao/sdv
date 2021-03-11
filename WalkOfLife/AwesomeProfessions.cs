@@ -10,13 +10,16 @@ using TheLion.AwesomeProfessions.Framework.Patches;
 namespace TheLion.AwesomeProfessions
 {
 	/// <summary>The mod entry point.</summary>
-	public class ModEntry : Mod
+	public class AwesomeProfessions : Mod
 	{
-		public static ModConfig Config { get; set; }
-		public static ModData Data { get; set; }
-		public static IModRegistry Registry { get; set; }
-		public static IReflectionHelper Reflection { get; set; }
-		public static ITranslationHelper I18n { get; set; }
+		public static ProfessionsConfig Config { get; set; }
+		public static ProfessionsData Data { get; set; }
+
+		public static int UniqueBuffID { get; } = Common.Utils.GetDigitsFromHash("thelion.AwesomeProfessions", 8);
+		public static int SpelunkerBuffID { get; } = UniqueBuffID + Utils.ProfessionMap.Forward["spelunker"];
+		public static int DemolitionistBuffID { get; } = UniqueBuffID + Utils.ProfessionMap.Forward["demolitionist"];
+		public static int BruteBuffID { get; } = UniqueBuffID + Utils.ProfessionMap.Forward["brute"];
+		public static int GambitBuffID { get; } = UniqueBuffID + Utils.ProfessionMap.Forward["gambit"];
 
 		public static int DemolitionistBuffMagnitude { get; set; } = 0;
 		public static uint BruteKillStreak { get; set; } = 0;
@@ -26,16 +29,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Entry(IModHelper helper)
 		{
 			// get configs.json
-			Config = helper.ReadConfig<ModConfig>();
-			
-			// get mod registry
-			Registry = helper.ModRegistry;
-
-			// get reflection interface
-			Reflection = helper.Reflection;
-
-			// get localized content
-			I18n = helper.Translation;
+			Config = helper.ReadConfig<ProfessionsConfig>();
 
 			// add event hooks
 			helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
@@ -43,8 +37,11 @@ namespace TheLion.AwesomeProfessions
 			helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
 			helper.Events.Player.Warped += OnWarped;
 
+			// edit game assets
+			helper.Content.AssetEditors.Add(new AssetEditor(Config, helper.Content));
+
 			// apply patches
-			new Patcher(ModManifest.UniqueID).ApplyAll(
+			new HarmonyPatcher(ModManifest.UniqueID).ApplyAll(
 				new AnimalHouseAddNewHatchedAnimalPatch(Config, Monitor),
 				new BobberBarCtorPatch(Config, Monitor),
 				new BushShakePatch(Config, Monitor),
@@ -67,10 +64,10 @@ namespace TheLion.AwesomeProfessions
 				new GameLocationExplodePatch(Config, Monitor),
 				new GameLocationOnStoneDestroyedPatch(Config, Monitor),
 				new HoeDirtApplySpeedIncreasesPatch(Config, Monitor),
-				new LevelUpMenuAddProfessionDescriptionsPatch(Config, Monitor, I18n),
+				new LevelUpMenuAddProfessionDescriptionsPatch(Config, Monitor, helper.Translation),
 				new LevelUpMenuGetImmediateProfessionPerkPatch(Config, Monitor),
 				new LevelUpMenuGetProfessionNamePatch(Config, Monitor),
-				new LevelUpMenuGetProfessionTitleFromNumberPatch(Config, Monitor, I18n),
+				new LevelUpMenuGetProfessionTitleFromNumberPatch(Config, Monitor, helper.Translation),
 				new LevelUpMenuRemoveImmediateProfessionPerkPatch(Config, Monitor),
 				new LevelUpMenuRevalidateHealthPatch(Config, Monitor),
 				new MeleeWeaponDoAnimateSpecialMovePatch(Config, Monitor),
@@ -78,7 +75,7 @@ namespace TheLion.AwesomeProfessions
 				new ObjectCtorPatch(Config, Monitor),
 				new ObjectGetMinutesForCrystalariumPatch(Config, Monitor),
 				new ObjectGetPriceAfterMultipliersPatch(Config, Monitor),
-				new PondQueryMenuDrawPatch(Config, Monitor, Reflection),
+				new PondQueryMenuDrawPatch(Config, Monitor, helper.Reflection),
 				new QuestionEventSetUpPatch(Config, Monitor),
 				new TemporaryAnimatedSpriteCtorPatch(Config, Monitor),
 				new TreeDayUpdatePatch(Config, Monitor),
@@ -91,7 +88,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event data.</param>
 		private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
 		{
-			Data = Helper.Data.ReadSaveData<ModData>("thelion.AwesomeProfessions") ?? new ModData();
+			Data = Helper.Data.ReadSaveData<ProfessionsData>("thelion.AwesomeProfessions") ?? new ProfessionsData();
 		}
 
 		/// <summary>Raised after the game writes data to save file (except the initial save creation).</summary>
@@ -107,18 +104,6 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
-			GameLocation location = Game1.currentLocation;
-			if (Utils.LocalPlayerHasProfession("spelunker") && location is MineShaft)
-			{
-				AddOrUpdateSpeedBuff(Utils.SpelunkerBuffUniqueID, 1, "spelunker");
-
-				int currentMineLevel = (location as MineShaft).mineLevel;
-				if (currentMineLevel > Data.LowestMineLevelReached)
-				{
-					Data.LowestMineLevelReached = currentMineLevel;
-				}
-			}
-
 			if (DemolitionistBuffMagnitude > 0)
 			{
 				if (e.Ticks % 30 == 0)
@@ -126,7 +111,19 @@ namespace TheLion.AwesomeProfessions
 					int buffDecay = DemolitionistBuffMagnitude > 4 ? 2 : 1;
 					DemolitionistBuffMagnitude = Math.Max(0, DemolitionistBuffMagnitude - buffDecay);
 				}
-				AddOrUpdateSpeedBuff(Utils.DemolitionistBuffUniqueID, DemolitionistBuffMagnitude, "demolitionist");
+
+				int buffId = DemolitionistBuffID + DemolitionistBuffMagnitude;
+				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffId);
+				if (buff == null)
+				{
+					Game1.buffsDisplay.addOtherBuff(
+						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: DemolitionistBuffMagnitude, 0, 0, minutesDuration: 1, source: "demolitionist", displaySource: Helper.Translation.Get("demolitionist.buff"))
+						{
+							which = buffId
+						}
+					);
+					buff.millisecondsDuration = 50;
+				}
 			}
 		}
 
@@ -135,27 +132,33 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		private void OnWarped(object sender, WarpedEventArgs e)
 		{
-			if (e.NewLocation.GetType() != e.OldLocation.GetType())
+			if (e.NewLocation is MineShaft && Utils.LocalPlayerHasProfession("spelunker"))
 			{
-				BruteKillStreak = 0;
-			}
-		}
+				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == SpelunkerBuffID);
+				if (buff == null)
+				{
+					Game1.buffsDisplay.addOtherBuff(
+						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: 1, 0, 0, minutesDuration: 1, source: "spelunker", displaySource: Helper.Translation.Get("spelunker.buff"))
+						{
+							which = SpelunkerBuffID
+						}
+					);
+					buff.millisecondsDuration = 0;
+				}
 
-		/// <summary>Add or update a buff.</summary>
-		/// <param name="buffId">The unique id for the buff.</param>
-		/// <param name="magnitude">The magnitude of the buff.</param>
-		/// <param name="source">The source of the buff.</param>
-		private void AddOrUpdateSpeedBuff(int buffId, int magnitude, string source)
-		{
-			buffId += magnitude;
-			Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
-			if (buff == null)
-			{
-				Game1.buffsDisplay.addOtherBuff(
-					buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: magnitude, 0, 0, minutesDuration: 1, source: source, displaySource: I18n.Get(source + ".buff")) { which = buffId }
-				);
-				buff.millisecondsDuration = 50;
+				int currentMineLevel = (e.NewLocation as MineShaft).mineLevel;
+				if (currentMineLevel > Data.LowestMineLevelReached)
+					Data.LowestMineLevelReached = currentMineLevel;
 			}
+			else
+			{
+				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == SpelunkerBuffID);
+				if (buff != null)
+					Game1.buffsDisplay.removeOtherBuff(SpelunkerBuffID);
+			}
+
+			if (e.NewLocation.GetType() != e.OldLocation.GetType())
+				BruteKillStreak = 0;
 		}
 	}
 }

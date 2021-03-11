@@ -12,7 +12,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal BobberBarCtorPatch(ModConfig config, IMonitor monitor)
+		internal BobberBarCtorPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -37,17 +37,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static int _GetBonusBobberBarHeight()
 		{
 			if (!Utils.LocalPlayerHasProfession("aquarist"))
-			{
 				return 0;
-			}
 
 			int bonusBobberHeight = 0;
 			foreach(Building b in Game1.getFarm().buildings)
 			{
 				if ((b.owner.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && (b as FishPond).FishCount == 10)
-				{
 					bonusBobberHeight += 7;
-				}
 			}
 
 			return bonusBobberHeight;

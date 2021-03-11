@@ -16,7 +16,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationDamageMonsterPatch(ModConfig config, IMonitor monitor)
+		internal GameLocationDamageMonsterPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor)
 		{
 			_helper = new ILHelper(monitor);
@@ -124,14 +124,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			if (Game1.stats.MonstersKilled > __state && Utils.SpecificPlayerHasProfession("brute", who))
 			{
-				ModEntry.BruteKillStreak += Game1.stats.MonstersKilled - __state;
+				AwesomeProfessions.BruteKillStreak += Game1.stats.MonstersKilled - __state;
 			}
 		}
 
 		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>
 		public static float _GetBonusDamageMultiplierForBrute()
 		{
-			return (float)(1.0 + ModEntry.BruteKillStreak * 0.005);
+			return (float)(1.0 + AwesomeProfessions.BruteKillStreak * 0.005);
 		}
 
 		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>

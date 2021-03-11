@@ -6,13 +6,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal abstract class BasePatch
 	{
-		private protected static ModConfig _config;
+		private protected static ProfessionsConfig _config;
 		private protected static IMonitor _monitor;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal BasePatch(ModConfig config, IMonitor monitor)
+		internal BasePatch(ProfessionsConfig config, IMonitor monitor)
 		{
 			_config = config;
 			_monitor = monitor;

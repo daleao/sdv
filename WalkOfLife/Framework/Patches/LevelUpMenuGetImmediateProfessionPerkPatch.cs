@@ -18,7 +18,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuGetImmediateProfessionPerkPatch(ModConfig config, IMonitor monitor)
+		internal LevelUpMenuGetImmediateProfessionPerkPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor)
 		{
 			_helper = new ILHelper(monitor);
@@ -63,18 +63,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
 		{
 			if (whichProfession == Utils.ProfessionMap.Forward["angler"])
-			{
 				FishingRod.maxTackleUses *= 2;
-			}
 
 			if (whichProfession == Utils.ProfessionMap.Forward["aquarist"])
 			{
 				foreach (Building b in Game1.getFarm().buildings)
 				{
 					if ((b.owner.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond)
-					{
 						(b as FishPond).UpdateMaximumOccupancy();
-					}
 				}
 			}
 		}

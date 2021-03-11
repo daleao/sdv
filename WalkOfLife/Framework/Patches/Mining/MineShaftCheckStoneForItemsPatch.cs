@@ -16,7 +16,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal MineShaftCheckStoneForItemsPatch(ModConfig config, IMonitor monitor)
+		internal MineShaftCheckStoneForItemsPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor)
 		{
 			_helper = new ILHelper(monitor);
@@ -158,7 +158,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Get the bonus ladder spawn chance for Spelunker.</summary>
 		private static double _GetBonusLadderDownChance()
 		{
-			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * ModEntry.Data.LowestMineLevelReached)) - 0.5;
+			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * AwesomeProfessions.Data.LowestMineLevelReached)) - 0.5;
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
 		/// <param name="i18n">Provides localized text.</param>
-		internal LevelUpMenuAddProfessionDescriptionsPatch(ModConfig config, IMonitor monitor, ITranslationHelper i18n)
+		internal LevelUpMenuAddProfessionDescriptionsPatch(ProfessionsConfig config, IMonitor monitor, ITranslationHelper i18n)
 		: base(config, monitor)
 		{
 			_i18n = i18n;

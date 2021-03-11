@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace TheLion.Common.TileGeometry
+namespace TheLion.Common.Classes
 {
 	public class CircleTileGrid : IEnumerable<Vector2>
 	{
@@ -11,7 +11,6 @@ namespace TheLion.Common.TileGeometry
 		private readonly int _radius;
 		private readonly bool[,] _outlineGrid;
 		private readonly List<Vector2> _tiles = new List<Vector2>();
-
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="origin">The center tile of the circle in the world reference.</param>

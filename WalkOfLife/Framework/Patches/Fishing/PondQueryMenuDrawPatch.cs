@@ -17,7 +17,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal PondQueryMenuDrawPatch(ModConfig config, IMonitor monitor, IReflectionHelper reflection)
+		/// <param name="reflection">Interface for accessing otherwise inaccessible code.</param>
+		internal PondQueryMenuDrawPatch(ProfessionsConfig config, IMonitor monitor, IReflectionHelper reflection)
 		: base(config, monitor)
 		{
 			_reflection = reflection;
@@ -37,9 +38,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static bool PondQueryMenuDrawPrefix(ref PondQueryMenu __instance, ref float ____age, ref Rectangle ____confirmationBoxRectangle, ref string ____confirmationText, ref SObject ____fishItem, ref FishPond ____pond, ref bool ___confirmingEmpty, ref string ___hoverText, SpriteBatch b)
 		{
 			if (____pond.FishCount <= 10)
-			{
 				return true; // run original logic;
-			}
 
 			if (!Game1.globalFade)
 			{
@@ -52,9 +51,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				string displayed_text = _reflection.GetMethod(__instance, "getDisplayedText").Invoke<string>();
 				int extraHeight = 0;
 				if (has_unresolved_needs)
-				{
 					extraHeight += 116;
-				}
 
 				int extraTextHeight = _reflection.GetMethod(__instance, "measureExtraTextHeight").Invoke<int>(displayed_text);
 				Game1.drawDialogueBox(__instance.xPositionOnScreen, __instance.yPositionOnScreen + 128, PondQueryMenu.width, PondQueryMenu.height - 128 + extraHeight + extraTextHeight, speaker: false, drawOnlyBox: true);
@@ -65,22 +62,19 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				float slot_spacing = 11f;
 				int x = 0;
 				int y = 0;
-				for (int i = 0; i < slots_to_draw; i++)
+				for (int i = 0; i < slots_to_draw; ++i)
 				{
 					float y_offset = (float)Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
 					if (i < ____pond.FishCount)
-					{
 						____fishItem.drawInMenu(b, new Vector2((__instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2) - slot_spacing * Math.Min(slots_to_draw, 5) * 4f * 0.5f + slot_spacing * 4f * x - 12f, (__instance.yPositionOnScreen + (int)(y_offset * 4f)) + (y * 4) * slot_spacing + 275.2f), 0.75f, 1f, 0f, StackDrawType.Hide, Color.White, drawShadow: false);
-					}
 					else
-					{
 						____fishItem.drawInMenu(b, new Vector2((__instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2) - slot_spacing * Math.Min(slots_to_draw, 5) * 4f * 0.5f + slot_spacing * 4f * x - 12f, (__instance.yPositionOnScreen + (int)(y_offset * 4f)) + (y * 4) * slot_spacing + 275.2f), 0.75f, 0.35f, 0f, StackDrawType.Hide, Color.Black, drawShadow: false);
-					}
-					x++;
+					
+					++x;
 					if (x == 6)
 					{
 						x = 0;
-						y++;
+						++y;
 					}
 				}
 
@@ -100,13 +94,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						icon_x = left_x - 8;
 						text_x = left_x + 76;
 					}
+
 					Utility.drawTextWithShadow(b, bring_text, Game1.smallFont, new Vector2(text_x, __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 24), Game1.textColor);
 					b.Draw(Game1.objectSpriteSheet, new Vector2(icon_x, __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 4), Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, ____pond.neededItem.Value.ParentSheetIndex, 16, 16), Color.Black * 0.4f, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
 					b.Draw(Game1.objectSpriteSheet, new Vector2(icon_x + 4f, __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight), Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, ____pond.neededItem.Value.ParentSheetIndex, 16, 16), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
-					if ((int)____pond.neededItemCount.Value > 1)
-					{
+					if (____pond.neededItemCount.Value > 1)
 						Utility.drawTinyDigits(____pond.neededItemCount.Value, b, new Vector2(icon_x + 48f, __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 48), 3f, 1f, Color.White);
-					}
 				}
 
 				__instance.okButton.draw(b);
@@ -130,9 +123,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					__instance.noButton.draw(b);
 				}
 				else if (___hoverText != null && ___hoverText.Length > 0)
-				{
 					IClickableMenu.drawHoverText(b, ___hoverText, Game1.smallFont);
-				}
 			}
 			__instance.drawMouse(b);
 

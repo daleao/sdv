@@ -18,7 +18,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuRemoveImmediateProfessionPerkPatch(ModConfig config, IMonitor monitor)
+		internal LevelUpMenuRemoveImmediateProfessionPerkPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor)
 		{
 			_helper = new ILHelper(monitor);
@@ -63,9 +63,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
 		{
 			if (whichProfession == Utils.ProfessionMap.Forward["angler"])
-			{
 				FishingRod.maxTackleUses /= 2;
-			}
 
 			if (whichProfession == Utils.ProfessionMap.Forward["aquarist"])
 			{
@@ -75,9 +73,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					{
 						b.maxOccupants.Value = 10;
 						if (b.currentOccupants.Value > b.maxOccupants.Value)
-						{
 							b.currentOccupants.Value = b.maxOccupants.Value;
-						}
 					}
 				}
 			}

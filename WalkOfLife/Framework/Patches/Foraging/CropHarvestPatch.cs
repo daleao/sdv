@@ -17,7 +17,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal CropHarvestPatch(ModConfig config, IMonitor monitor)
+		internal CropHarvestPatch(ProfessionsConfig config, IMonitor monitor)
 			: base(config, monitor)
 		{
 			_helper = new ILHelper(monitor);
@@ -39,9 +39,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static bool CropHarvestPrefix(ref Crop __instance, JunimoHarvester junimoHarvester = null)
 		{
 			if (junimoHarvester == null && Utils.LocalPlayerHasProfession("harvester"))
-			{
 				__instance.chanceForExtraCrops.Value += 0.10;
-			}
 
 			return true; // run original logic
 		}
@@ -102,15 +100,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static void CropHarvestPostfix(ref Crop __instance)
 		{
 			if (__instance.forageCrop.Value && Utils.LocalPlayerHasProfession("ecologist"))
-			{
-				++ModEntry.Data.ForageablesCollectedAsEcologist;
-			}
+				++AwesomeProfessions.Data.ForageablesCollectedAsEcologist;
 		}
 
 		/// <summary>Get the quality of forage for Ecologist.</summary>
 		private static int _GetForageQualityForEcologist()
 		{
-			return ModEntry.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality ? (ModEntry.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			return AwesomeProfessions.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality ? (AwesomeProfessions.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 	}
 }

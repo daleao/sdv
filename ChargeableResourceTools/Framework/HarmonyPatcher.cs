@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using TheLion.Common.TileGeometry;
+using TheLion.Common.Classes;
 
 using static TheLion.AwesomeTools.Framework.Utils;
 
@@ -15,8 +15,8 @@ namespace TheLion.AwesomeTools.Framework
 	/// <summary>Patches the game code to implement modded tool behavior.</summary>
 	internal static class HarmonyPatcher
 	{
-		private static readonly List<int> _axeAffectedTilesRadii = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel;
-		private static readonly List<int> _pickaxeAffectedTilesRadii = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel;
+		private static readonly List<int> _axeAffectedTilesRadii = AwesomeTools.Config.AxeConfig.RadiusAtEachPowerLevel;
+		private static readonly List<int> _pickaxeAffectedTilesRadii = AwesomeTools.Config.PickaxeConfig.RadiusAtEachPowerLevel;
 
 		// Enable Axe power level increase
 		[HarmonyPatch(typeof(Axe), "beginUsing")]
@@ -141,7 +141,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance)
 			{
-				if (__instance is Axe && !ModEntry.Config.AxeConfig.ShowAxeAffectedTiles || __instance is Pickaxe && !ModEntry.Config.PickaxeConfig.ShowPickaxeAffectedTiles)
+				if (__instance is Axe && !AwesomeTools.Config.AxeConfig.ShowAxeAffectedTiles || __instance is Pickaxe && !AwesomeTools.Config.PickaxeConfig.ShowPickaxeAffectedTiles)
 				{
 					return false;
 				}

@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal Game1CreateObjectDebrisPatch(ModConfig config, IMonitor monitor)
+		internal Game1CreateObjectDebrisPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -51,7 +51,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					itemQuality = _GetMineralQualityForGemologist()
 				});
 
-				++ModEntry.Data.MineralsCollectedAsGemologist;
+				++AwesomeProfessions.Data.MineralsCollectedAsGemologist;
 				return false; // don't run original logic
 			}
 
@@ -68,7 +68,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Get the quality of mineral for Gemologist.</summary>
 		private static int _GetMineralQualityForGemologist()
 		{
-			return ModEntry.Data.MineralsCollectedAsGemologist < _config.Gemologist.MineralsNeededForBestQuality ? (ModEntry.Data.MineralsCollectedAsGemologist < _config.Gemologist.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			return AwesomeProfessions.Data.MineralsCollectedAsGemologist < _config.Gemologist.MineralsNeededForBestQuality ? (AwesomeProfessions.Data.MineralsCollectedAsGemologist < _config.Gemologist.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 	}
 }

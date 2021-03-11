@@ -8,16 +8,18 @@ using StardewValley.Tools;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TheLion.AwesomeTools.Configs;
 using TheLion.AwesomeTools.Framework;
+using TheLion.AwesomeTools.Integrations;
 
 namespace TheLion.AwesomeTools
 {
 	/// <summary>The mod entry point.</summary>
-	public class ModEntry : Mod
+	public class AwesomeTools : Mod
 	{
 		public static IModRegistry ModRegistry { get; set; }
 		public static IReflectionHelper Reflection { get; set; }
-		public static ModConfig Config { get; set; }
+		public static ToolConfig Config { get; set; }
 
 		private EffectsManager _manager;
 
@@ -29,7 +31,7 @@ namespace TheLion.AwesomeTools
 			ModRegistry = Helper.ModRegistry;
 
 			// get and verify configs.json
-			Config = Helper.ReadConfig<ModConfig>();
+			Config = Helper.ReadConfig<ToolConfig>();
 			VerifyModConfig();
 
 			// get reflection interface
@@ -60,7 +62,7 @@ namespace TheLion.AwesomeTools
 				getConfig: () => Config,
 				reset: () =>
 				{
-					Config = new ModConfig();
+					Config = new ToolConfig();
 					Helper.WriteConfig(Config);
 				},
 				saveAndApply: () =>

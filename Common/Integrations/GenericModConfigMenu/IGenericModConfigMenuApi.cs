@@ -4,7 +4,7 @@ using System;
 namespace TheLion.Common.Integrations.GenericModConfigMenu
 {
 	/// <summary>The API provided by the Generic Mod Config Menu mod.</summary>
-	public interface IGenericModConfigMenuApi
+	public interface IGenericModConfigMenuAPI
 	{
 		void RegisterModConfig(IManifest mod, Action revertToDefault, Action saveToFile);
 		void RegisterLabel(IManifest mod, string labelName, string labelDesc);

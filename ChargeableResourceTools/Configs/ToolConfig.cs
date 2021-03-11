@@ -1,11 +1,10 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-using TheLion.AwesomeTools.Configs;
 
-namespace TheLion.AwesomeTools
+namespace TheLion.AwesomeTools.Configs
 {
 	/// <summary>The mod user-defined settings.</summary>
-	public class ModConfig
+	public class ToolConfig
 	{
 		/// <summary>The Axe features to enable.</summary>
 		public AxeConfig AxeConfig { get; set; } = new();

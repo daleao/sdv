@@ -11,7 +11,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal AnimalHouseAddNewHatchedAnimalPatch(ModConfig config, IMonitor monitor)
+		internal AnimalHouseAddNewHatchedAnimalPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -28,10 +28,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static void AnimalHouseAddNewHatchedAnimalPostfix(ref AnimalHouse __instance)
 		{
 			Farmer who = Game1.getFarmer(__instance.getBuilding().owner.Value);
-			if (!Utils.SpecificPlayerHasProfession("breeder", who))
-			{
-				return;
-			}
+			if (!Utils.SpecificPlayerHasProfession("breeder", who)) return;
 
 			FarmAnimal a = __instance.Animals[__instance.animalsThatLiveHere.Last()];
 			if (a.age.Value == 0 && a.friendshipTowardFarmer.Value == 0)

@@ -11,7 +11,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal TreeUpdateTapperProductPatch(ModConfig config, IMonitor monitor)
+		internal TreeUpdateTapperProductPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -30,9 +30,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			if (tapper_instance.heldObject.Value != null && Utils.AnyPlayerHasProfession("tapper", out int n))
 			{
 				if (tapper_instance.MinutesUntilReady > 0)
-				{
 					tapper_instance.MinutesUntilReady = (int)(tapper_instance.MinutesUntilReady * Math.Pow(0.75, n));
-				}
 			}
 		}
 	}

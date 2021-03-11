@@ -11,7 +11,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuGetProfessionTitleFromNumberPatch(ModConfig config, IMonitor monitor, ITranslationHelper i18n)
+		internal LevelUpMenuGetProfessionTitleFromNumberPatch(ProfessionsConfig config, IMonitor monitor, ITranslationHelper i18n)
 		: base(config, monitor)
 		{
 			_i18n = i18n;

@@ -2,6 +2,7 @@
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
+using TheLion.AwesomeTools.Configs;
 using TheLion.AwesomeTools.Framework.ToolEffects;
 
 namespace TheLion.AwesomeTools.Framework
@@ -16,7 +17,7 @@ namespace TheLion.AwesomeTools.Framework
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The overal mod settings.</param>
 		/// <param name="modRegistry"
-		public EffectsManager(ModConfig config, IModRegistry modRegistry)
+		public EffectsManager(ToolConfig config, IModRegistry modRegistry)
 		{
 			_axe = new AxeEffect(config.AxeConfig, modRegistry);
 			_pickaxe = new PickaxeEffect(config.PickaxeConfig, modRegistry);

@@ -12,7 +12,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal FishPondUpdateMaximumOccupancyPatch(ModConfig config, IMonitor monitor)
+		internal FishPondUpdateMaximumOccupancyPatch(ProfessionsConfig config, IMonitor monitor)
 		: base(config, monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -30,9 +30,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			Farmer who = Game1.getFarmer(__instance.owner.Value);
 			if (__instance.lastUnlockedPopulationGate.Value >= ____fishPondData.PopulationGates.Keys.Max() && Utils.SpecificPlayerHasProfession("aquarist", who))
-			{
 				__instance.maxOccupants.Set(12);
-			}
 		}
 	}
 }

@@ -4,13 +4,13 @@ using TheLion.AwesomeProfessions.Framework.Patches;
 namespace TheLion.AwesomeProfessions.Framework
 {
 	/// <summary>Unified entry point for applying multiple patches.</summary>
-	internal class Patcher
+	internal class HarmonyPatcher
 	{
 		private readonly string _uniqueId;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="uniqueId">The unique id for this mod.</param>
-		internal Patcher(string uniqueId)
+		internal HarmonyPatcher(string uniqueId)
 		{
 			_uniqueId = uniqueId;
 		}

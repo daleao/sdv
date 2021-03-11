@@ -2,15 +2,18 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using System;
 using System.Linq;
+using TheLion.AwesomeTools.Configs;
 using TheLion.Common.Integrations.GenericModConfigMenu;
 
-namespace TheLion.AwesomeTools.Framework
+using static TheLion.AwesomeTools.Framework.Utils;
+
+namespace TheLion.AwesomeTools.Integrations
 {
 	/// <summary>Constructs the GenericModConfigMenu integration for Awesome Tools.</summary>
 	internal class GenericModConfigMenuIntegrationForAwesomeTools
 	{
 		/// <summary>The Generic Mod Config Menu integration.</summary>
-		private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;
+		private readonly GenericModConfigMenuIntegration<ToolConfig> _configMenu;
 
 		/// <summary>API for fetching metadata about loaded mods.</summary>
 		private readonly IModRegistry _modRegistry;
@@ -22,10 +25,10 @@ namespace TheLion.AwesomeTools.Framework
 		/// <param name="getConfig">Get the current config model.</param>
 		/// <param name="reset">Reset the config model to the default values.</param>
 		/// <param name="saveAndApply">Save and apply the current config model.</param>
-		public GenericModConfigMenuIntegrationForAwesomeTools(IModRegistry modRegistry, IMonitor monitor, IManifest manifest, Func<ModConfig> getConfig, Action reset, Action saveAndApply)
+		public GenericModConfigMenuIntegrationForAwesomeTools(IModRegistry modRegistry, IMonitor monitor, IManifest manifest, Func<ToolConfig> getConfig, Action reset, Action saveAndApply)
 		{
 			_modRegistry = modRegistry;
-			_configMenu = new GenericModConfigMenuIntegration<ModConfig>(modRegistry, monitor, manifest, getConfig, reset, saveAndApply);
+			_configMenu = new GenericModConfigMenuIntegration<ToolConfig>(modRegistry, monitor, manifest, getConfig, reset, saveAndApply);
 		}
 
 		/// <summary>Register the config menu if available.</summary>
@@ -123,7 +126,7 @@ namespace TheLion.AwesomeTools.Framework
 					max: 10
 				);
 
-			if (Utils.HasHigherLevelToolMod(_modRegistry))
+			if (HasHigherLevelToolMod(_modRegistry))
 			{
 				menu.AddNumberField(
 					label: "Level-5 Radius",
@@ -264,7 +267,7 @@ namespace TheLion.AwesomeTools.Framework
 					max: 10
 				);
 
-			if (Utils.HasHigherLevelToolMod(_modRegistry))
+			if (HasHigherLevelToolMod(_modRegistry))
 			{
 				menu.AddNumberField(
 					label: "Level-5 Radius",
