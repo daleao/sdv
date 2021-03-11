@@ -36,7 +36,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.OnStoneDestroyed)}.");
 
-			/// Removed: who.professions.Contains(<prospector_id>) ? ...
+			/// From: r.NextDouble() < 0.035 * (double)(!who.professions.Contains(<prospector_id>) ? 1 : 2)
+			/// To: r.NextDouble() < 0.035
 
 			try
 			{
@@ -44,7 +45,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.FindProfessionCheck(Farmer.burrower)	// find index of prospector check
 					.Retreat()
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Bge_Un)	// remove this check
+						new CodeInstruction(OpCodes.Mul)	// remove this check
 					);
 			}
 			catch (Exception ex)

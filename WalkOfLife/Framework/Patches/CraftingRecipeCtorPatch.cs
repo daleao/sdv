@@ -24,7 +24,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch for cheaper tapper recipe for Tapper.</summary>
+		/// <summary>Patch for cheaper crafting recipes for Blaster and Tapper.</summary>
 		protected static void CraftingRecipeCtorPostfix(ref CraftingRecipe __instance)
 		{
 			if (__instance.name.Equals("Tapper") && Utils.LocalPlayerHasProfession("tapper"))
@@ -33,6 +33,27 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				{
 					{ 388, 25 },
 					{ 334, 1 }
+				};
+			}
+			else if (__instance.name.Contains("Bomb") && Utils.LocalPlayerHasProfession("blaster"))
+			{
+				__instance.recipeList = __instance.name switch
+				{
+					"Cherry Bomb" => new Dictionary<int, int>
+					{
+						{ 378, 2 },
+						{ 382, 1 }
+					},
+					"Bomb" => new Dictionary<int, int>
+					{
+						{ 380, 2 },
+						{ 382, 1 }
+					},
+					"Mega Bomb" => new Dictionary<int, int>
+					{
+						{ 384, 2 },
+						{ 382, 1 }
+					}
 				};
 			}
 		}

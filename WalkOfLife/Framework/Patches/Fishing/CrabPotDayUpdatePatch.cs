@@ -349,7 +349,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <param name="index">The treasure item index.</param>
 		private static double _GetChanceForThisTreasure(int index)
 		{
-			return Convert.ToDouble(_pirateTreasureTable[index][2]);
+			return Convert.ToDouble(_pirateTreasureTable[index][0]);
 		}
 
 		/// <summary>Choose amongst a pre-select list of shellfish.</summary>
@@ -454,7 +454,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			
 			if (_pirateTreasureTable.TryGetValue(whichFish, out string[] treasureData))
 			{
-				return r.Next(Convert.ToInt32(treasureData[0]), Convert.ToInt32(treasureData[1]) + 1);
+				return r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1);
 			}
 
 			return 1;

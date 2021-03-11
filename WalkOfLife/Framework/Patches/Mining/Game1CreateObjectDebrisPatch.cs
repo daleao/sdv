@@ -50,7 +50,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				{
 					itemQuality = _GetMineralQualityForGemologist()
 				});
-				
+
+				++ModEntry.Data.MineralsCollectedAsGemologist;
 				return false; // don't run original logic
 			}
 
@@ -67,7 +68,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Get the quality of mineral for Gemologist.</summary>
 		private static int _GetMineralQualityForGemologist()
 		{
-			return ModEntry.Data.MineralsCollected < _config.Gemologist.MineralsNeededForBestQuality ? (ModEntry.Data.ItemsForaged < _config.Gemologist.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			return ModEntry.Data.MineralsCollectedAsGemologist < _config.Gemologist.MineralsNeededForBestQuality ? (ModEntry.Data.MineralsCollectedAsGemologist < _config.Gemologist.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 	}
 }

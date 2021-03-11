@@ -41,11 +41,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			try
 			{
-				_helper											// find index of pirate check
+				_helper										// find index of pirate check
 					.FindProfessionCheck(Farmer.pirate)
 					.Retreat(2)
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Clt)		// end of profession check
+						new CodeInstruction(OpCodes.Add)	// remove this check
 					);
 			}
 			catch (Exception ex)

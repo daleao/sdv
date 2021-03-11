@@ -61,10 +61,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static void LevelUpMenuRevalidateHealthPostfix(Farmer farmer)
 		{
 			// revalidate Angler tackle health
-			if (FishingRod.maxTackleUses == 20 && Utils.SpecificPlayerHasProfession("angler", farmer))
+			int expectedMaxTackleUses = 20;
+			if (Utils.SpecificPlayerHasProfession("angler", farmer))
 			{
-				FishingRod.maxTackleUses = 20 * 2;
+				expectedMaxTackleUses *= 2;
 			}
+			FishingRod.maxTackleUses = expectedMaxTackleUses;
 
 			// revalidate Aquarist max fish pond capacity
 			if (Utils.SpecificPlayerHasProfession("aquarist", farmer))

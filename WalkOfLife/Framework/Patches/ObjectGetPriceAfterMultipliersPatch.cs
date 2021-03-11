@@ -161,23 +161,23 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 
 			float multiplier = 1f;
-			if (ModEntry.Data.WineFameAccrued >= 5000)
+			if (ModEntry.Data.FameAccruedAsOenologist >= 5000)
 			{
 				multiplier += 1f;
 			}
-			else if (ModEntry.Data.WineFameAccrued >= 3125)
+			else if (ModEntry.Data.FameAccruedAsOenologist >= 3125)
 			{
 				multiplier += 0.5f;
 			}
-			else if (ModEntry.Data.WineFameAccrued >= 1250)
+			else if (ModEntry.Data.FameAccruedAsOenologist >= 1250)
 			{
 				multiplier += 0.25f;
 			}
-			else if (ModEntry.Data.WineFameAccrued >= 500)
+			else if (ModEntry.Data.FameAccruedAsOenologist >= 500)
 			{
 				multiplier += 0.1f;
 			}
-			else if (ModEntry.Data.WineFameAccrued >= 200)
+			else if (ModEntry.Data.FameAccruedAsOenologist >= 200)
 			{
 				multiplier += 0.05f;
 			}

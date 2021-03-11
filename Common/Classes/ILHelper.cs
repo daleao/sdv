@@ -326,7 +326,7 @@ namespace TheLion.Common.Harmony
 		{
 			AdvanceUntil(pattern);
 
-			int endIndex = _indexStack.Pop();
+			int endIndex = _indexStack.Pop() + 1;
 			int count = endIndex - _CurrentIndex;
 			_instructionList.RemoveRange(_CurrentIndex, count);
 
@@ -339,7 +339,7 @@ namespace TheLion.Common.Harmony
 		{
 			AdvanceUntilLabel(label);
 
-			int endIndex = _indexStack.Pop();
+			int endIndex = _indexStack.Pop() + 1;
 			int count = endIndex - _CurrentIndex;
 			_instructionList.RemoveRange(_CurrentIndex, count);
 
@@ -369,26 +369,9 @@ namespace TheLion.Common.Harmony
 		{
 			AdvanceUntil(pattern);
 
-			int endIndex = _indexStack.Pop();
-			int count = endIndex - _CurrentIndex;
-			_buffer = _instructionList.GetRange(_CurrentIndex, count + 1).Clone();
-
-			return this;
-		}
-
-		/// <summary>Copy code instructions starting from the currently pointed index until a specific pattern is found to the buffer.</summary>
-		/// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
-		/// <param name="pattern">A sequence of code instructions to match.</param>
-		public ILHelper ToBufferUntil(bool stripLabels, params CodeInstruction[] pattern)
-		{
-			AdvanceUntil(pattern);
-
 			int endIndex = _indexStack.Pop() + 1;
 			int count = endIndex - _CurrentIndex;
-			_buffer = _instructionList.GetRange(_CurrentIndex, count).Clone();
-
-			if (stripLabels)
-				_StripLabelsFromBuffer();
+			_buffer = _instructionList.GetRange(_CurrentIndex, count + 1).Clone();
 
 			return this;
 		}
@@ -409,7 +392,7 @@ namespace TheLion.Common.Harmony
 				_StripLabelsFromBuffer();
 
 			if (advance)
-				_indexStack.Push(endIndex);
+				_indexStack.Push(endIndex - 1);
 
 			return this;
 		}

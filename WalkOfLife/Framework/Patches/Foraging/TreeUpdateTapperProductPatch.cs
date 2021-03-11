@@ -24,7 +24,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch for Tapper syrup production time.</summary>
+		/// <summary>Patch to decrease syrup production time for Tapper.</summary>
 		protected static void TreeUpdateTapperProductPostfix(SObject tapper_instance)
 		{
 			if (tapper_instance.heldObject.Value != null && Utils.AnyPlayerHasProfession("tapper", out int n))

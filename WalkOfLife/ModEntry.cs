@@ -19,8 +19,7 @@ namespace TheLion.AwesomeProfessions
 		public static ITranslationHelper I18n { get; set; }
 
 		public static int DemolitionistBuffMagnitude { get; set; } = 0;
-		public static int BruteBuffMagnitude { get; set; } = 0;
-		public static int GambitBuffMagnitude { get; set; } = 0;
+		public static uint BruteKillStreak { get; set; } = 0;
 
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -42,6 +41,7 @@ namespace TheLion.AwesomeProfessions
 			helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
 			helper.Events.GameLoop.Saved += OnSaved;
 			helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
+			helper.Events.Player.Warped += OnWarped;
 
 			// apply patches
 			new Patcher(ModManifest.UniqueID).ApplyAll(
@@ -59,10 +59,12 @@ namespace TheLion.AwesomeProfessions
 				new FishingRodStartMinigameEndFunctionPatch(Config, Monitor),
 				new FishPondUpdateMaximumOccupancyPatch(Config, Monitor),
 				new FruitTreeDayUpdatePatch(Config, Monitor),
+				new Game1CreateItemDebrisPatch(Config, Monitor),
 				new Game1CreateObjectDebrisPatch(Config, Monitor),
 				new GameLocationBreakStonePatch(Config, Monitor),
-				//new GameLocationGetFishPatch(Config, Monitor),
-				new GameLocationExplodePatch(Config, Monitor, I18n),
+				new GameLocationDamageMonsterPatch(Config, Monitor),
+				new GameLocationGetFishPatch(Config, Monitor),
+				new GameLocationExplodePatch(Config, Monitor),
 				new GameLocationOnStoneDestroyedPatch(Config, Monitor),
 				new HoeDirtApplySpeedIncreasesPatch(Config, Monitor),
 				new LevelUpMenuAddProfessionDescriptionsPatch(Config, Monitor, I18n),
@@ -75,7 +77,7 @@ namespace TheLion.AwesomeProfessions
 				new ObjectCtorPatch(Config, Monitor),
 				new ObjectGetMinutesForCrystalariumPatch(Config, Monitor),
 				new ObjectGetPriceAfterMultipliersPatch(Config, Monitor),
-				new PondQueryMenuDrawPatch(Config, Monitor),
+				new PondQueryMenuDrawPatch(Config, Monitor, Reflection),
 				new QuestionEventSetUpPatch(Config, Monitor),
 				new TemporaryAnimatedSpriteCtorPatch(Config, Monitor),
 				new TreeDayUpdatePatch(Config, Monitor),
@@ -109,9 +111,10 @@ namespace TheLion.AwesomeProfessions
 			{
 				AddOrUpdateBuff(Utils.SpelunkerBuffUniqueID, 1, "spelunker");
 
-				if ((location as MineShaft).mineLevel > Data.LowestLevelReached)
+				int currentMineLevel = (location as MineShaft).mineLevel;
+				if (currentMineLevel > Data.LowestMineLevelReached)
 				{
-					Data.LowestLevelReached = (location as MineShaft).mineLevel;
+					Data.LowestMineLevelReached = currentMineLevel;
 				}
 			}
 
@@ -123,6 +126,17 @@ namespace TheLion.AwesomeProfessions
 					DemolitionistBuffMagnitude = Math.Max(0, DemolitionistBuffMagnitude - buffDecay);
 				}
 				AddOrUpdateBuff(Utils.DemolitionistBuffUniqueID, DemolitionistBuffMagnitude, "demolitionist");
+			}
+		}
+
+		/// <summary>Raised after the current player moves to a new location.</summary>
+		/// <param name="sender">The event sender.</param>
+		/// <param name="e">The event arguments.</param>
+		private void OnWarped(object sender, WarpedEventArgs e)
+		{
+			if (e.OldLocation.NameOrUniqueName != e.NewLocation.NameOrUniqueName)
+			{
+				BruteKillStreak = 0;
 			}
 		}
 

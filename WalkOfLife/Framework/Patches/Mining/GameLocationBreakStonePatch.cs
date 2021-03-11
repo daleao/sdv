@@ -86,10 +86,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindProfessionCheck(Farmer.miner)			// find index of miner check
+					.FindProfessionCheck(Farmer.miner)		// find index of miner check
 					.Retreat()
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Ldc_I4_0)	// remove this check
+						new CodeInstruction(OpCodes.Brtrue)	// remove this check
 					);
 			}
 			catch (Exception ex)

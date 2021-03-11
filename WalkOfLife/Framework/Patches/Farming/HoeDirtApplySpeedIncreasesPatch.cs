@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch globalize Agriculturist crop growth speed bonus.</summary>
+		/// <summary>Patch to globalize Agriculturist crop growth speed bonus.</summary>
 		protected static bool HoeDirtApplySpeedIncreasesPrefix(ref HoeDirt __instance, Farmer who)
 		{
 			if (__instance.crop == null)

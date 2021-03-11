@@ -72,7 +72,7 @@ namespace TheLion.AwesomeProfessions.Framework
 			{ "trapper", Farmer.trapper },				// 7
 			{ "luremaster", Farmer.baitmaster },		// 10
 			{ "conservationist", Farmer.mariner },		// 11
-			// Note: the game code incorrectly labels mariner and baitmaster ids
+			// Note: the game code has mariner and baitmaster ids mixed up
 
 			// foraging
 			{ "lumberjack", Farmer.forester },			// 12
@@ -99,8 +99,8 @@ namespace TheLion.AwesomeProfessions.Framework
 			{ "gambit", Farmer.defender },				// 27
 
 			{ "rascal", Farmer.scout },					// 25
-			{ "marksman", Farmer.acrobat },				// 29
-			{ "slimemaster", Farmer.desperado }			// 28
+			{ "marksman", Farmer.acrobat },				// 28
+			{ "slimemaster", Farmer.desperado }			// 29
 		};
 
 		private static int _IdFromHashCode(string text, int digits)

@@ -67,7 +67,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Get the quality of forage for Ecologist.</summary>
 		private static int _GetForageQualityForEcologist()
 		{
-			return ModEntry.Data.MineralsCollected < _config.Ecologist.ForagesNeededForBestQuality ? (ModEntry.Data.ItemsForaged < _config.Ecologist.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			return ModEntry.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality ? (ModEntry.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 	}
 }

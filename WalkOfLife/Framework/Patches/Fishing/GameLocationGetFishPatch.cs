@@ -41,14 +41,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			Label reroll = iLGenerator.DefineLabel();
 			Label resumeExecution = iLGenerator.DefineLabel();
-			var hasRerolled = iLGenerator.DeclareLocal(typeof(int));
+			var hasRerolled = iLGenerator.DeclareLocal(typeof(bool));
 
 			try
 			{
 				_helper
 					.Insert(
 						new CodeInstruction(OpCodes.Ldc_I4_0),
-						new CodeInstruction(OpCodes.Stloc_S, operand: $"{typeof(bool)} (26)")
+						new CodeInstruction(OpCodes.Stloc_S, operand: hasRerolled)
 					)
 					.FindLast(
 						new CodeInstruction(OpCodes.Newobj, AccessTools.Constructor(typeof(SObject), new Type[] { typeof(int), typeof(int), typeof(bool), typeof(int), typeof(int) }))
@@ -59,13 +59,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.AddLabel(resumeExecution)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_1),
-						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4),	// arg 4 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4),				// arg 4 = Farmer who
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationGetFishPatch), nameof(GameLocationGetFishPatch._CanReroll))),
 						new CodeInstruction(OpCodes.Brfalse_S, operand: resumeExecution),
-						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(bool)} (26)"),	// local 26 = hasRerolled (injected)
+						new CodeInstruction(OpCodes.Ldloc_S, operand: hasRerolled),
 						new CodeInstruction(OpCodes.Brtrue_S, operand: resumeExecution),
 						new CodeInstruction(OpCodes.Ldc_I4_1),
-						new CodeInstruction(OpCodes.Stloc_S, operand: $"{typeof(bool)} (26)"),
+						new CodeInstruction(OpCodes.Stloc_S, operand: hasRerolled),
 						new CodeInstruction(OpCodes.Br, operand: reroll)
 					)
 					.RetreatUntil(

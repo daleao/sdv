@@ -103,22 +103,23 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			_helper.Backup();
 
-			/// Removed: !who.professions.Contains(<excavator_id>) ? ...
+			/// From: r.NextDouble() < <value> * (1.0 + chanceModifier) * (double)(!who.professions.Contains(<excavator_id>) ? 1 : 2)
+			/// To: r.NextDouble() < <value> * (1.0 + chanceModifier)
 
 			i = 0;
 			repeat2:
 			try
 			{
-				_helper											// find index of excavator check
+				_helper										// find index of excavator check
 					.FindProfessionCheck(Farmer.excavator, fromCurrentIndex: i != 0)
 					.Retreat()
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Ldc_I4_1)	// remove this check
+						new CodeInstruction(OpCodes.Mul)	// remove this check
 					);
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while removing Excavator double geode chance.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while removing vanilla Excavator double geode chance.\nHelper returned {ex}").Restore();
 			}
 
 			// repeat injection
@@ -135,10 +136,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindProfessionCheck(Farmer.burrower)		// find index of prospector check
+					.FindProfessionCheck(Farmer.burrower)	// find index of prospector check
 					.Retreat()
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Ldc_I4_1)	// remove this check
+						new CodeInstruction(OpCodes.Mul)	// remove this check
 					);
 			}
 			catch (Exception ex)
@@ -152,7 +153,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Get the bonus ladder spawn chance for Spelunker.</summary>
 		private static double _GetBonusLadderDownChance()
 		{
-			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * ModEntry.Data.LowestLevelReached)) - 0.5;
+			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * ModEntry.Data.LowestMineLevelReached)) - 0.5;
 		}
 	}
 }

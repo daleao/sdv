@@ -30,7 +30,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			harmony.Patch(
 				AccessTools.Method(typeof(Crop), nameof(Crop.harvest)),
 				prefix: new HarmonyMethod(GetType(), nameof(CropHarvestPrefix)),
-				transpiler: new HarmonyMethod(GetType(), nameof(CropHarvestTranspiler))
+				transpiler: new HarmonyMethod(GetType(), nameof(CropHarvestTranspiler)),
+				postfix: new HarmonyMethod(GetType(), nameof(CropHarvestPostfix))
 			);
 		}
 
@@ -97,10 +98,19 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return _helper.Flush();
 		}
 
+		/// <summary>Patch to count foraged spring onions as Ecologist.</summary>
+		private static void CropHarvestPostfix(ref Crop __instance)
+		{
+			if (__instance.forageCrop.Value && Utils.LocalPlayerHasProfession("ecologist"))
+			{
+				++ModEntry.Data.ForageablesCollectedAsEcologist;
+			}
+		}
+
 		/// <summary>Get the quality of forage for Ecologist.</summary>
 		private static int _GetForageQualityForEcologist()
 		{
-			return ModEntry.Data.MineralsCollected < _config.Ecologist.ForagesNeededForBestQuality ? (ModEntry.Data.ItemsForaged < _config.Ecologist.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			return ModEntry.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality ? (ModEntry.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 	}
 }
