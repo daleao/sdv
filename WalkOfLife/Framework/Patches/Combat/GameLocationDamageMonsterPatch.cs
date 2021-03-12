@@ -4,6 +4,7 @@ using StardewModdingAPI;
 using StardewValley;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
@@ -11,14 +12,16 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class GameLocationDamageMonsterPatch : BasePatch
 	{
+		private static ITranslationHelper _i18n;
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationDamageMonsterPatch(ProfessionsConfig config, IMonitor monitor)
+		internal GameLocationDamageMonsterPatch(ProfessionsConfig config, IMonitor monitor, ITranslationHelper i18n)
 		: base(config, monitor)
 		{
+			_i18n = i18n;
 			_helper = new ILHelper(monitor);
 		}
 
@@ -122,23 +125,22 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to count Brute kill streak.</summary>
 		protected static void GameLocationDamageMonsterPostfix(ref uint __state, Farmer who)
 		{
-			if (Game1.stats.MonstersKilled > __state && Utils.SpecificPlayerHasProfession("brute", who))
-			{
+			if (who.IsLocalPlayer && Utils.LocalPlayerHasProfession("brute") && Game1.stats.MonstersKilled > __state)
 				AwesomeProfessions.BruteKillStreak += Game1.stats.MonstersKilled - __state;
-			}
 		}
 
 		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>
-		public static float _GetBonusDamageMultiplierForBrute()
+		private static float _GetBonusDamageMultiplierForBrute()
 		{
 			return (float)(1.0 + AwesomeProfessions.BruteKillStreak * 0.005);
 		}
 
 		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>
+		/// <param name="who">The player.</param>
 		private static float _GetBonusCritChanceForGambit(Farmer who)
 		{
 			double healthPercent = (double)who.health / who.maxHealth;
-			return (float)(0.1 / (healthPercent + 0.1) - 0.1 / 1.1);
+			return (float)(0.2 / (healthPercent + 0.2) - 0.2 / 1.2);
 		}
 	}
 }

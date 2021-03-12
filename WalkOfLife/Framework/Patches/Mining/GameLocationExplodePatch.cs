@@ -70,13 +70,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			{
 				int distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
 				if (distanceFromEpicenter < radius * 2 + 1)
-				{
 					AwesomeProfessions.DemolitionistBuffMagnitude = 4;
-				}
 				if (distanceFromEpicenter < radius + 1)
-				{
 					AwesomeProfessions.DemolitionistBuffMagnitude += 2;
-				}
 			}
 		}
 

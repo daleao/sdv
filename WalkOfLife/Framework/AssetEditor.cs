@@ -6,14 +6,12 @@ namespace TheLion.AwesomeProfessions.Framework
 {
 	internal class AssetEditor : IAssetEditor
 	{
-		private ProfessionsConfig _config;
 		private IContentHelper _content;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="content">Interface for accessing game assets.</param>
-		public AssetEditor(ProfessionsConfig config, IContentHelper content)
+		public AssetEditor(IContentHelper content)
 		{
-			_config = config;
 			_content = content;
 		}
 
@@ -36,6 +34,7 @@ namespace TheLion.AwesomeProfessions.Framework
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\blaster.png"), targetArea: new Rectangle(16, 672, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\demolitionist.png"), targetArea: new Rectangle(64, 672, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\ecologist.png"), targetArea: new Rectangle(64, 656, 16, 16));
+			editor.PatchImage(_content.Load<Texture2D>("Assets\\gambit.png"), targetArea: new Rectangle(48, 688, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\gemologist.png"), targetArea: new Rectangle(80, 672, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\harvester.png"), targetArea: new Rectangle(80, 624, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\lumberjack.png"), targetArea: new Rectangle(0, 656, 16, 16));
@@ -50,8 +49,6 @@ namespace TheLion.AwesomeProfessions.Framework
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\scavenger.png"), targetArea: new Rectangle(80, 656, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\tapper.png"), targetArea: new Rectangle(48, 656, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\trapper.png"), targetArea: new Rectangle(16, 640, 16, 16));
-
-
 		}
 	}
 }

@@ -18,8 +18,8 @@ namespace TheLion.AwesomeProfessions
 		public static int UniqueBuffID { get; } = Common.Utils.GetDigitsFromHash("thelion.AwesomeProfessions", 8);
 		public static int SpelunkerBuffID { get; } = UniqueBuffID + Utils.ProfessionMap.Forward["spelunker"];
 		public static int DemolitionistBuffID { get; } = UniqueBuffID + Utils.ProfessionMap.Forward["demolitionist"];
-		public static int BruteBuffID { get; } = UniqueBuffID + Utils.ProfessionMap.Forward["brute"];
-		public static int GambitBuffID { get; } = UniqueBuffID + Utils.ProfessionMap.Forward["gambit"];
+		public static int BruteBuffID { get; } = UniqueBuffID - Utils.ProfessionMap.Forward["brute"];
+		public static int GambitBuffID { get; } = UniqueBuffID - Utils.ProfessionMap.Forward["gambit"];
 
 		public static int DemolitionistBuffMagnitude { get; set; } = 0;
 		public static uint BruteKillStreak { get; set; } = 0;
@@ -38,7 +38,7 @@ namespace TheLion.AwesomeProfessions
 			helper.Events.Player.Warped += OnWarped;
 
 			// edit game assets
-			helper.Content.AssetEditors.Add(new AssetEditor(Config, helper.Content));
+			helper.Content.AssetEditors.Add(new AssetEditor(helper.Content));
 
 			// apply patches
 			new HarmonyPatcher(ModManifest.UniqueID).ApplyAll(
@@ -59,7 +59,7 @@ namespace TheLion.AwesomeProfessions
 				new Game1CreateItemDebrisPatch(Config, Monitor),
 				new Game1CreateObjectDebrisPatch(Config, Monitor),
 				new GameLocationBreakStonePatch(Config, Monitor),
-				new GameLocationDamageMonsterPatch(Config, Monitor),
+				new GameLocationDamageMonsterPatch(Config, Monitor, helper.Translation),
 				new GameLocationGetFishPatch(Config, Monitor),
 				new GameLocationExplodePatch(Config, Monitor),
 				new GameLocationOnStoneDestroyedPatch(Config, Monitor),
@@ -104,6 +104,20 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
+			if (Utils.LocalPlayerHasProfession("spelunker") && Game1.currentLocation is MineShaft)
+			{
+				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == SpelunkerBuffID);
+				if (buff == null)
+				{
+					Game1.buffsDisplay.addOtherBuff(
+						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: 1, 0, 0, minutesDuration: 1, source: "spelunker", displaySource: Helper.Translation.Get("spelunker.name"))
+						{
+							which = SpelunkerBuffID,
+						}
+					);
+				}
+			}
+
 			if (DemolitionistBuffMagnitude > 0)
 			{
 				if (e.Ticks % 30 == 0)
@@ -117,12 +131,53 @@ namespace TheLion.AwesomeProfessions
 				if (buff == null)
 				{
 					Game1.buffsDisplay.addOtherBuff(
-						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: DemolitionistBuffMagnitude, 0, 0, minutesDuration: 1, source: "demolitionist", displaySource: Helper.Translation.Get("demolitionist.buff"))
+						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: DemolitionistBuffMagnitude, 0, 0, minutesDuration: 1, source: "demolitionist", displaySource: Helper.Translation.Get("demolitionist.name"))
 						{
-							which = buffId
+							which = buffId,
+							millisecondsDuration = 50,
+							description = Helper.Translation.Get("demolitionist.buffdescription")
 						}
 					);
-					buff.millisecondsDuration = 50;
+				}
+			}
+
+			if (BruteKillStreak > 0)
+			{
+				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == BruteBuffID);
+				if (buff != null)
+					Game1.buffsDisplay.removeOtherBuff(BruteBuffID);
+
+				Game1.buffsDisplay.addOtherBuff(
+					buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, minutesDuration: 1, source: "brute", displaySource: Helper.Translation.Get("brute.name"))
+					{
+						which = BruteBuffID,
+						sheetIndex = 20,
+						millisecondsDuration = 50,
+						description = Helper.Translation.Get("brute.buffdescription", new { buffMagnitude = Math.Truncate(BruteKillStreak * 5.0) / 10 })
+					}
+				);
+			}
+
+			double healthPercent;
+			if (Utils.LocalPlayerHasProfession("gambit") && (healthPercent = (double)Game1.player.health / Game1.player.maxHealth) < 1)
+			{
+				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == GambitBuffID);
+				if (buff != null)
+					Game1.buffsDisplay.removeOtherBuff(GambitBuffID);
+
+				Game1.buffsDisplay.addOtherBuff(
+					buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, minutesDuration: 1, source: "gambit", displaySource: Helper.Translation.Get("gambit.name"))
+					{
+						which = GambitBuffID,
+						sheetIndex = 20,
+						millisecondsDuration = 50,
+						description = Helper.Translation.Get("gambit.buffdescription", new { buffMagnitude = Math.Truncate(200.0 / (healthPercent + 0.2) - 200.0 / 1.2) / 10 })
+					}
+				);
+
+				if (e.IsOneSecond)
+				{
+					Monitor.Log($"{healthPercent}", LogLevel.Info);
 				}
 			}
 		}
@@ -132,29 +187,11 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		private void OnWarped(object sender, WarpedEventArgs e)
 		{
-			if (e.NewLocation is MineShaft && Utils.LocalPlayerHasProfession("spelunker"))
+			if (e.NewLocation is MineShaft)
 			{
-				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == SpelunkerBuffID);
-				if (buff == null)
-				{
-					Game1.buffsDisplay.addOtherBuff(
-						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: 1, 0, 0, minutesDuration: 1, source: "spelunker", displaySource: Helper.Translation.Get("spelunker.buff"))
-						{
-							which = SpelunkerBuffID
-						}
-					);
-					buff.millisecondsDuration = 0;
-				}
-
 				int currentMineLevel = (e.NewLocation as MineShaft).mineLevel;
 				if (currentMineLevel > Data.LowestMineLevelReached)
 					Data.LowestMineLevelReached = currentMineLevel;
-			}
-			else
-			{
-				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == SpelunkerBuffID);
-				if (buff != null)
-					Game1.buffsDisplay.removeOtherBuff(SpelunkerBuffID);
 			}
 
 			if (e.NewLocation.GetType() != e.OldLocation.GetType())
