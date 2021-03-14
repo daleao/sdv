@@ -4,7 +4,6 @@ using StardewModdingAPI;
 using StardewValley;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
@@ -67,7 +66,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					)
 					.Advance()
 					.ReplaceWith(												// was Ldc_R4 0.5
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationDamageMonsterPatch), nameof(GameLocationDamageMonsterPatch._GetBonusCritChanceForGambit)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationDamageMonsterPatch), nameof(_GetBonusCritChanceForGambit)))
 					)
 					.Advance()
 					.Remove();													// was Mul
@@ -90,7 +89,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 1.15f)
 					)
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationDamageMonsterPatch), nameof(GameLocationDamageMonsterPatch._GetBonusDamageMultiplierForBrute)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationDamageMonsterPatch), nameof(_GetBonusDamageMultiplierForBrute)))
 					);
 			}
 			catch (Exception ex)

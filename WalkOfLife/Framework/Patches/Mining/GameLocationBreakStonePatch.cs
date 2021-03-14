@@ -29,11 +29,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			{ 850, 380 },
 			{ 764, 384 },
 			{ 765, 386 },
+			{ 95, 909 },
 
 			// geodes
 			{ 75, 535 },
 			{ 76, 536 },
 			{ 77, 537 },
+			{ 819, 749 },
 
 			// gems
 			{ 8, 66 },
@@ -45,14 +47,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			{ 2, 72 },
 
 			// other
-			{ 95, 909 },
 			{ 843, 848 },
 			{ 844, 848 },
 			{ 25, 719 },
 			{ 816, 881 },
 			{ 817, 881 },
-			{ 818, 330 },
-			{ 819, 749 }
+			{ 818, 330 }
 		};
 
 		/// <summary>Construct an instance.</summary>
@@ -159,8 +159,18 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			if (Utils.SpecificPlayerHasProfession("miner", who) && r.NextDouble() < 0.10)
 			{
 				if (_resourceFromStoneId.TryGetValue(indexOfStone, out int indexOfResource))
-				{
 					Game1.createObjectDebris(indexOfResource, x, y, who.UniqueMultiplayerID, __instance);
+				else if (indexOfStone == 44)    // gem node
+					Game1.createObjectDebris(Game1.random.Next(1, 8) * 2, x, y, who.UniqueMultiplayerID, __instance);
+				else if (indexOfStone == 46)	// mystic stone
+				{
+					double rolled = r.NextDouble();
+					if (rolled < 0.25)
+						Game1.createMultipleObjectDebris(74, x, y, 1, who.UniqueMultiplayerID, __instance);
+					else if (rolled < 0.6)
+						Game1.createObjectDebris(765, x, y, who.UniqueMultiplayerID, __instance);
+					else
+						Game1.createObjectDebris(764, x, y, who.UniqueMultiplayerID, __instance);
 				}
 			}
 		}

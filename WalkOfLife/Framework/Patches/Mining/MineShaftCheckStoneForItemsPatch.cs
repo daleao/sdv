@@ -56,7 +56,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionMap.Forward["spelunker"], resumeExecution)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_3),					// local 3 = chanceForLadderDown
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MineShaftCheckStoneForItemsPatch), nameof(MineShaftCheckStoneForItemsPatch._GetBonusLadderDownChance))),
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MineShaftCheckStoneForItemsPatch), nameof(_GetBonusLadderDownChance))),
 						new CodeInstruction(OpCodes.Add),
 						new CodeInstruction(OpCodes.Stloc_3)
 					)

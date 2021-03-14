@@ -371,7 +371,7 @@ namespace TheLion.Common.Harmony
 
 			int endIndex = _indexStack.Pop() + 1;
 			int count = endIndex - _CurrentIndex;
-			_buffer = _instructionList.GetRange(_CurrentIndex, count + 1).Clone();
+			_buffer = _instructionList.GetRange(_CurrentIndex, count).Clone();
 
 			return this;
 		}

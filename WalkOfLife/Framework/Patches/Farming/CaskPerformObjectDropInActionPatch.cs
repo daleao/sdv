@@ -28,9 +28,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static void CaskPerformObjectDropInActionPostfix(ref Cask __instance, Item dropIn, Farmer who)
 		{
 			if (Utils.SpecificPlayerHasProfession("oenologist", who) && _IsWine(dropIn as SObject))
-			{
 				__instance.agingRate.Value *= 2f;
-			}
 		}
 
 		/// <summary>Whether a given object is wine.</summary>

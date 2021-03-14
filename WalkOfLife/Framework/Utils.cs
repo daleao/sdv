@@ -92,8 +92,8 @@ namespace TheLion.AwesomeProfessions.Framework
 			{ "gambit", Farmer.defender },				// 27
 
 			{ "rascal", Farmer.scout },					// 25
-			{ "marksman", Farmer.acrobat },				// 28
-			{ "slimemaster", Farmer.desperado }			// 29
+			{ "slimetamer", Farmer.acrobat },			// 28
+			{ "desperado", Farmer.desperado }			// 29
 		};
 	}
 }

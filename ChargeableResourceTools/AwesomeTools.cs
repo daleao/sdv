@@ -99,6 +99,7 @@ namespace TheLion.AwesomeTools
 			}
 		}
 
+		/// <summary>Check for and fix invalid tool settings.</summary>
 		private void VerifyModConfig()
 		{
 			if (Config.AxeConfig.RadiusAtEachPowerLevel.Count() < 4)

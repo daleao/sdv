@@ -86,7 +86,7 @@ namespace TheLion.AwesomeTools.Integrations
 					set: (config, value) => config.AxeConfig.EnableAxeCharging = value
 				)
 				.AddNumberField(
-					label: "Required Upgrade For Charging",
+					label: "Required Upgrade Level",
 					description: "Your Axe must be at least this level in order to charge.",
 					get: config => config.AxeConfig.RequiredUpgradeForCharging,
 					set: (config, value) => config.AxeConfig.RequiredUpgradeForCharging = (int)value,
@@ -126,10 +126,10 @@ namespace TheLion.AwesomeTools.Integrations
 					max: 10
 				);
 
-			if (HasHigherLevelToolMod(_modRegistry))
+			if (HasHigherLevelToolMod(_modRegistry, out string whichMod))
 			{
 				menu.AddNumberField(
-					label: "Level-5 Radius",
+					label: whichMod + " Radius",
 					description: "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
 					get: config => config.AxeConfig.RadiusAtEachPowerLevel[3],
 					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = (int)value,
@@ -227,7 +227,7 @@ namespace TheLion.AwesomeTools.Integrations
 					set: (config, value) => config.PickaxeConfig.EnablePickaxeCharging = value
 				)
 				.AddNumberField(
-					label: "Required Upgrade For Charging",
+					label: "Required Upgrade Level",
 					description: "Your Pickaxe must be at least this level in order to charge.",
 					get: config => config.PickaxeConfig.RequiredUpgradeForCharging,
 					set: (config, value) => config.PickaxeConfig.RequiredUpgradeForCharging = (int)value,
@@ -267,10 +267,10 @@ namespace TheLion.AwesomeTools.Integrations
 					max: 10
 				);
 
-			if (HasHigherLevelToolMod(_modRegistry))
+			if (HasHigherLevelToolMod(_modRegistry, out whichMod))
 			{
 				menu.AddNumberField(
-					label: "Level-5 Radius",
+					label: whichMod + " Radius",
 					description: "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
 					get: config => config.AxeConfig.RadiusAtEachPowerLevel[3],
 					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = (int)value,

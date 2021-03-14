@@ -32,9 +32,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static bool GameLocationExplodePrefix(Farmer who, ref bool damageFarmers)
 		{
 			if (damageFarmers && Utils.SpecificPlayerHasProfession("demolitionist", who))
-			{
 				damageFarmers = false;
-			}
 
 			return true; // run original logic
 		}
@@ -54,14 +52,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						if (tileObj.ParentSheetIndex == 343 || tileObj.ParentSheetIndex == 450)
 						{
 							if (r.NextDouble() < 0.035 && Game1.stats.DaysPlayed > 1)
-							{
 								Game1.createObjectDebris(SObject.coal, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID, __instance);
-							}
 						}
 						else if (r.NextDouble() < 0.05 * chanceModifier)
-						{
 							Game1.createObjectDebris(SObject.coal, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID, __instance);
-						}
 					}
 				}
 			}

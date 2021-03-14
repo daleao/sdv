@@ -42,7 +42,9 @@ namespace TheLion.AwesomeProfessions
 
 			// apply patches
 			new HarmonyPatcher(ModManifest.UniqueID).ApplyAll(
+				new TestPatch(Config, Monitor),
 				new AnimalHouseAddNewHatchedAnimalPatch(Config, Monitor),
+				new BasicProjectileBehaviorOnCollisionWithMonsterPatch(Config, Monitor, helper.Reflection),
 				new BobberBarCtorPatch(Config, Monitor),
 				new BushShakePatch(Config, Monitor),
 				new CaskPerformObjectDropInActionPatch(Config, Monitor),
@@ -58,7 +60,9 @@ namespace TheLion.AwesomeProfessions
 				new FruitTreeDayUpdatePatch(Config, Monitor),
 				new Game1CreateItemDebrisPatch(Config, Monitor),
 				new Game1CreateObjectDebrisPatch(Config, Monitor),
+				new Game1DrawHUDPatch(Config, Monitor),
 				new GameLocationBreakStonePatch(Config, Monitor),
+				new GameLocationCheckActionPatch(Config, Monitor),
 				new GameLocationDamageMonsterPatch(Config, Monitor, helper.Translation),
 				new GameLocationGetFishPatch(Config, Monitor),
 				new GameLocationExplodePatch(Config, Monitor),
@@ -76,7 +80,9 @@ namespace TheLion.AwesomeProfessions
 				new ObjectGetMinutesForCrystalariumPatch(Config, Monitor),
 				new ObjectGetPriceAfterMultipliersPatch(Config, Monitor),
 				new PondQueryMenuDrawPatch(Config, Monitor, helper.Reflection),
+				new ProjectileBehaviorOnCollisionPatch(Config, Monitor),
 				new QuestionEventSetUpPatch(Config, Monitor),
+				new SlingshotPerformFirePatch(Config, Monitor),
 				new TemporaryAnimatedSpriteCtorPatch(Config, Monitor),
 				new TreeDayUpdatePatch(Config, Monitor),
 				new TreeUpdateTapperProductPatch(Config, Monitor)

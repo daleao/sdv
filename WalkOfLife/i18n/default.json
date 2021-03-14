@@ -75,8 +75,8 @@
 
 	"rascal.name": "Rascal",
 	"rascal.description": "Slingshots deal more damage from afar. Chance to recover spent ammo.",
-	"marksman.name": "Marksman",
-	"marksman.description": "Shots fired within 0.5 seconds deal triple damage.",
+	"desperado.name": "Desperado",
+	"desperado.description": "Shots fired within 0.5 seconds deal triple damage.",
 	"slimemaster.name": "Slimemaster",
 	"slimemaster.description": "Summon slimes in dungeons. Slime balls drop special items."
 }

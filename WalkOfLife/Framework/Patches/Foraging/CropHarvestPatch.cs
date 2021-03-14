@@ -60,7 +60,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_4)	// start of @object.Quality = 4
 					)
 					.ReplaceWith(								// replace with custom quality
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(CropHarvestPatch), nameof(CropHarvestPatch._GetForageQualityForEcologist)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(CropHarvestPatch), nameof(_GetForageQualityForEcologist)))
 					);
 			}
 			catch(Exception ex)

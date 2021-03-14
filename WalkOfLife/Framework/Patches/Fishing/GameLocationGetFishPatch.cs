@@ -1,8 +1,6 @@
 ﻿using Harmony;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -62,7 +60,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Insert(									// insert check if should reroll
 						new CodeInstruction(OpCodes.Ldloc_1),					// local 1 = whichFish
 						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4),	// arg 4 = Farmer who
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationGetFishPatch), nameof(GameLocationGetFishPatch._CanReroll))),
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationGetFishPatch), nameof(_CanReroll))),
 						new CodeInstruction(OpCodes.Brfalse_S, operand: resumeExecution),
 						new CodeInstruction(OpCodes.Ldloc_S, operand: hasRerolled),
 						new CodeInstruction(OpCodes.Brtrue_S, operand: resumeExecution),

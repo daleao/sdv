@@ -1,5 +1,4 @@
-﻿using Harmony;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace TheLion.Common.Extensions

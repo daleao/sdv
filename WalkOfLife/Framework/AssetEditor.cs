@@ -39,7 +39,6 @@ namespace TheLion.AwesomeProfessions.Framework
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\harvester.png"), targetArea: new Rectangle(80, 624, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\lumberjack.png"), targetArea: new Rectangle(0, 656, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\luremaster.png"), targetArea: new Rectangle(64, 640, 16, 16));
-			editor.PatchImage(_content.Load<Texture2D>("Assets\\marksman.png"), targetArea: new Rectangle(64, 688, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\miner.png"), targetArea: new Rectangle(0, 672, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\oenologist.png"), targetArea: new Rectangle(64, 624, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\producer2.png"), targetArea: new Rectangle(48, 624, 16, 16));

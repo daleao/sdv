@@ -50,16 +50,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					)
 					.GetLabels(out List<Label> labels)
 					.ReplaceWith(								// replace with custom quality
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(BushShakePatch), nameof(BushShakePatch._GetForageQualityForEcologist)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(BushShakePatch), nameof(_GetForageQualityForEcologist)))
 					)
 					.SetLabels(labels);
 			}
 			catch(Exception ex)
 			{
-				_helper.Error($"Failed while patching modded Ecologist berry quality.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while patching modded Ecologist wild berry quality.\nHelper returned {ex}").Restore();
 			}
-
-			_helper.Backup();
 
 			return _helper.Flush();
 		}

@@ -29,5 +29,24 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			return modRegistry.IsLoaded("stokastic.PrismaticTools") || modRegistry.IsLoaded("kakashigr.RadioactiveTools");
 		}
+
+		/// <summary>Whether Prismatic or Radioactive Tools mod is installed.</summary>
+		/// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
+		public static bool HasHigherLevelToolMod(IModRegistry modRegistry, out string whichMod)
+		{
+			if (modRegistry.IsLoaded("stokastic.PrismaticTools"))
+			{
+				whichMod = "Prismatic";
+				return true;
+			}
+			else if (modRegistry.IsLoaded("kakashigr.RadioactiveTools"))
+			{
+				whichMod = "Radioactive";
+				return true;
+			}
+
+			whichMod = "None";
+			return false;
+		}
 	}
 }

@@ -12,12 +12,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BidirectionalMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Utils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CodeInstructionListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\ILHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\SafeReflections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BaseIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\GenericModConfigMenuIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Harmony\" />
   </ItemGroup>
 </Project>

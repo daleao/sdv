@@ -51,7 +51,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse)	// the false case branch
 					)
-					.GetOperand(out object isNotAcrobat)				// copy destination
+					.GetOperand(out object isNotAcrobat)		// copy destination
 					.Return()
 					.Insert(									// insert unconditional branch to skip this check
 						new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)
