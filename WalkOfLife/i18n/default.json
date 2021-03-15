@@ -6,7 +6,7 @@
 	"agriculturist.description": "Crops grow 10% faster. Can harvest best-quality crops without fertilizer.",
 	"oenologist.name": "Enologist",
 	"oenologist.description": "Wines age twice as fast. Ship high-quality wine to improve your brand value.",
-	"oenologist.letter": "Dear {0},\nWe are pleased and honored to inform you with respect that your product has been recognized by the Stardew Winemaker's Association and has been awarded {1}. I would like to personally congratulate you on behalf of our Association, and expect that you will continue to impress us in your winemaking endeavours.\nSincerely,\nMr. William Wouters\nPresident of the Stardew Winemaker's Association",
+	"oenologist.letter": "Dear {{farmerName}},\nWe are pleased and honored to inform you with respect that your product has been recognized by the Stardew Winemaker's Association and has been awarded {{awardLevel}}. I would like to personally congratulate you on behalf of our Association, and expect that you will continue to impress us in your winemaking endeavours.\nSincerely,\nMr. William Wouters\nPresident of the Stardew Winemaker's Association",
 
 	"rancher.name": "Rancher",
 	"rancher.description": "Befriend animals quicker.",
@@ -36,7 +36,7 @@
 	"spelunker.name": "Spelunker",
 	"spelunker.description": "Chance to find ladders and shafts increases as you reach deeper levels. +1 speed in the mines.",
 	"prospector.name": "Prospector",
-	"prospector.description": "Locations of mining nodes and ladders revealed. Occasionally track buried treasures.",
+	"prospector.description": "Locations of mining nodes. Occasionally track buried treasures.",
 
 	"blaster.name": "Blaster",
 	"blaster.description": "Bombs are cheaper to craft. Gain more coal from exploded rocks.",
@@ -60,7 +60,7 @@
 	"luremaster.description": "Crab pots no longer produce junk items. Use different baits to attract different catch.",
 	"conservationist.name": "Conservationist",
 	"conservationist.description": "Collect junk to gain village favor. Gain tax deductions each season.",
-	"conservationist.letter": "Dear {0},\nWe are pleased to inform you that upon review of your environmentalist activities we have determined that you qualify for an income tax deduction of {1}% as per section 501(c)(3) of the Ferngill Revenue Code. Because this letter could help resolve any question regarding your fiscal status, you should keep it in your permanent records.\nSincerely,\nGovernor",
+	"conservationist.letter": "Dear {{farmerName]},\nWe are pleased to inform you that upon review of your environmentalist activities we have determined that you qualify for an income tax deduction of {{taxDeduction}}% as per section 501(c)(3) of the Ferngill Revenue Code. Because this letter could help resolve any question regarding your fiscal status, you should keep it in your permanent records.\nSincerely,\nGovernor",
 
 
 	// Combat
@@ -78,5 +78,5 @@
 	"desperado.name": "Desperado",
 	"desperado.description": "Shots fired within 0.5 seconds deal triple damage.",
 	"slimemaster.name": "Slimemaster",
-	"slimemaster.description": "Summon slimes in dungeons. Slime balls drop special items."
+	"slimemaster.description": "Slimes are your allies. Slime balls drop special items."
 }

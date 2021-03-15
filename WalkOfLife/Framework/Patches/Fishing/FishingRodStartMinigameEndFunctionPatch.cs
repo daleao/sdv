@@ -14,10 +14,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal FishingRodStartMinigameEndFunctionPatch(ProfessionsConfig config, IMonitor monitor)
-			: base(config, monitor)
+		internal FishingRodStartMinigameEndFunctionPatch(IMonitor monitor)
+			: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -32,6 +31,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to remove Pirate bonus treasure chance.</summary>
 		protected static IEnumerable<CodeInstruction> FishingRodStartMinigameEndFunctionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
@@ -55,5 +55,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			return _helper.Flush();
 		}
+		#endregion harmony patches
 	}
 }

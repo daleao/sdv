@@ -10,11 +10,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ITranslationHelper _i18n;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
 		/// <param name="i18n">Provides localized text.</param>
-		internal LevelUpMenuAddProfessionDescriptionsPatch(ProfessionsConfig config, IMonitor monitor, ITranslationHelper i18n)
-		: base(config, monitor)
+		internal LevelUpMenuAddProfessionDescriptionsPatch(IMonitor monitor, ITranslationHelper i18n)
+		: base(monitor)
 		{
 			_i18n = i18n;
 		}
@@ -29,15 +28,16 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to apply modded profession descriptions.</summary>
 		protected static bool LevelUpMenuAddProfessionDescriptionsPrefix(List<string> descriptions, string professionName)
 		{
-			if (!Utils.ProfessionMap.Contains(professionName))
-				return true; // run original logic
+			if (!Globals.ProfessionMap.Contains(professionName)) return true; // run original logic
 
 			descriptions.Add(_i18n.Get(professionName + ".name"));
 			descriptions.AddRange(_i18n.Get(professionName + ".description").ToString().Split('\n'));
 			return false; // don't run original logic
 		}
+		#endregion harmony patches
 	}
 }

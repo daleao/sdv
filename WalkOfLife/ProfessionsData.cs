@@ -2,10 +2,10 @@
 {
 	public class ProfessionsData
 	{
-		internal int FameAccruedAsOenologist { get; set; } = 0;
-		internal int LowestMineLevelReached { get; set; } = 0;
-		internal int ForageablesCollectedAsEcologist { get; set; } = 0;
-		internal int MineralsCollectedAsGemologist { get; set; } = 0;
-		internal int TrashCollectedAsConservationist { get; set; } = 0;
+		internal uint WineFameAccrued { get; set; } = 0;
+		internal uint LowestMineLevelReached { get; set; } = 0;
+		internal uint ItemsForaged { get; set; } = 0;
+		internal uint MineralsCollected { get; set; } = 0;
+		internal uint OceanTrashCollectedThisSeason { get; set; } = 0;
 	}
 }

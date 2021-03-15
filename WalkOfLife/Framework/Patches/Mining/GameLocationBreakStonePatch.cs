@@ -12,6 +12,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 	{
 		private static ILHelper _helper;
 
+		#region private fields
 		/// <summary>Look-up table for what resource should spawn from a given stone.</summary>
 		private static readonly Dictionary<int, int> _resourceFromStoneId = new Dictionary<int, int>
 		{
@@ -54,12 +55,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			{ 817, 881 },
 			{ 818, 330 }
 		};
+		#endregion private fields
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationBreakStonePatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor)
+		internal GameLocationBreakStonePatch(IMonitor monitor)
+		: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -75,6 +76,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to remove Miner extra ore + remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
 		protected static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
@@ -156,23 +158,24 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Miner extra resources.</summary>
 		protected static void GameLocationBreakStonePostfix(ref GameLocation __instance, int indexOfStone, int x, int y, Farmer who, Random r)
 		{
-			if (Utils.SpecificPlayerHasProfession("miner", who) && r.NextDouble() < 0.10)
+			if (Globals.SpecificPlayerHasProfession("miner", who) && r.NextDouble() < 0.10)
 			{
 				if (_resourceFromStoneId.TryGetValue(indexOfStone, out int indexOfResource))
 					Game1.createObjectDebris(indexOfResource, x, y, who.UniqueMultiplayerID, __instance);
-				else if (indexOfStone == 44)    // gem node
+				else if (indexOfStone == 44)	// gem node
 					Game1.createObjectDebris(Game1.random.Next(1, 8) * 2, x, y, who.UniqueMultiplayerID, __instance);
 				else if (indexOfStone == 46)	// mystic stone
 				{
 					double rolled = r.NextDouble();
 					if (rolled < 0.25)
-						Game1.createMultipleObjectDebris(74, x, y, 1, who.UniqueMultiplayerID, __instance);
+						Game1.createMultipleObjectDebris(74, x, y, 1, who.UniqueMultiplayerID, __instance);	// drop prismatic shard
 					else if (rolled < 0.6)
-						Game1.createObjectDebris(765, x, y, who.UniqueMultiplayerID, __instance);
+						Game1.createObjectDebris(765, x, y, who.UniqueMultiplayerID, __instance);			// drop iridium ore
 					else
-						Game1.createObjectDebris(764, x, y, who.UniqueMultiplayerID, __instance);
+						Game1.createObjectDebris(764, x, y, who.UniqueMultiplayerID, __instance);			// drop gold ore
 				}
 			}
 		}
+		#endregion harmony patches
 	}
 }

@@ -9,10 +9,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ITranslationHelper _i18n;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuGetProfessionTitleFromNumberPatch(ProfessionsConfig config, IMonitor monitor, ITranslationHelper i18n)
-		: base(config, monitor)
+		/// <param name="i18n">Provides localized text.</param>
+		internal LevelUpMenuGetProfessionTitleFromNumberPatch(IMonitor monitor, ITranslationHelper i18n)
+		: base(monitor)
 		{
 			_i18n = i18n;
 		}
@@ -22,20 +22,21 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected internal override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(LevelUpMenu), name: "getProfessionName"),
-				prefix: new HarmonyMethod(GetType(), nameof(LevelUpMenuGetProfessionNamePrefix))
+				AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.getProfessionTitleFromNumber)),
+				prefix: new HarmonyMethod(GetType(), nameof(LevelUpMenuGetProfessionTitleFromNumberPrefix))
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to apply modded profession names.</summary>
-		protected static bool LevelUpMenuGetProfessionNamePrefix(ref string __result, int whichProfession)
+		protected static bool LevelUpMenuGetProfessionTitleFromNumberPrefix(ref string __result, int whichProfession)
 		{
-			if (!Utils.ProfessionMap.Contains(whichProfession))
-				return true; // run original logic
+			if (!Globals.ProfessionMap.Contains(whichProfession)) return true; // run original logic
 
-			__result = _i18n.Get(Utils.ProfessionMap.Reverse[whichProfession] + ".name");
+			__result = _i18n.Get(Globals.ProfessionMap.Reverse[whichProfession] + ".name");
 			return false; // don't run original logic
 		}
+		#endregion harmony patches
 	}
 
 }

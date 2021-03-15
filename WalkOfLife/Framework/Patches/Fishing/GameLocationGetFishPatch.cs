@@ -14,10 +14,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationGetFishPatch(ProfessionsConfig config, IMonitor monitor)
-			: base(config, monitor)
+		internal GameLocationGetFishPatch(IMonitor monitor)
+			: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -32,6 +31,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch for Fisher to reroll reeled fish if first roll resulted in trash.</summary>
 		protected static IEnumerable<CodeInstruction> GameLocationGetFishTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
@@ -81,13 +81,15 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			return _helper.Flush();
 		}
+		#endregion harmony patches
 
+		#region private methods
 		/// <summary>Whether a given player is eligible for a fish reroll.</summary>
 		/// <param name="index">An item index.</param>
 		/// <param name="who">The player.</param>
 		private static bool _CanReroll(int index, Farmer who)
 		{
-			return _IsTrash(index) && Utils.SpecificPlayerHasProfession("fisher", who);
+			return _IsTrash(index) && Globals.SpecificPlayerHasProfession("fisher", who);
 		}
 
 		/// <summary>Whether a given item index corresponds to trash.</summary>
@@ -96,5 +98,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			return index > 166 && index < 173;
 		}
+		#endregion private methods
 	}
 }

@@ -11,16 +11,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class GameLocationDamageMonsterPatch : BasePatch
 	{
-		private static ITranslationHelper _i18n;
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationDamageMonsterPatch(ProfessionsConfig config, IMonitor monitor, ITranslationHelper i18n)
-		: base(config, monitor)
+		internal GameLocationDamageMonsterPatch(IMonitor monitor)
+		: base(monitor)
 		{
-			_i18n = i18n;
 			_helper = new ILHelper(monitor);
 		}
 
@@ -36,6 +33,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to count Brute kill streak.</summary>
 		protected static bool GameLocationDamageMonsterPrefix(ref uint __state)
 		{
@@ -56,7 +54,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.FindProfessionCheck(Farmer.scout)							// find index of scout check
 					.Advance()
-					.SetOperand(Utils.ProfessionMap.Forward["gambit"])			// replace with gambit check
+					.SetOperand(Globals.ProfessionMap.Forward["gambit"])			// replace with gambit check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldarg_S)					// start of critChance += critChance * 0.5f
 					)
@@ -84,7 +82,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindProfessionCheck(Utils.ProfessionMap.Forward["brute"], fromCurrentIndex: true)
+					.FindProfessionCheck(Globals.ProfessionMap.Forward["brute"], fromCurrentIndex: true)
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 1.15f)
 					)
@@ -107,7 +105,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.FindProfessionCheck(Farmer.desperado, fromCurrentIndex: true)
 					.Advance()
-					.SetOperand(Utils.ProfessionMap.Forward["gambit"])
+					.SetOperand(Globals.ProfessionMap.Forward["gambit"])
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 2f)
 					)
@@ -124,14 +122,16 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to count Brute kill streak.</summary>
 		protected static void GameLocationDamageMonsterPostfix(ref uint __state, Farmer who)
 		{
-			if (who.IsLocalPlayer && Utils.LocalPlayerHasProfession("brute") && Game1.stats.MonstersKilled > __state)
-				AwesomeProfessions.BruteKillStreak += Game1.stats.MonstersKilled - __state;
+			if (who.IsLocalPlayer && Globals.LocalPlayerHasProfession("brute") && Game1.stats.MonstersKilled > __state)
+				Globals.BruteKillStreak += Game1.stats.MonstersKilled - __state;
 		}
+		#endregion harmony patches
 
+		#region private methods
 		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>
 		private static float _GetBonusDamageMultiplierForBrute()
 		{
-			return (float)(1.0 + AwesomeProfessions.BruteKillStreak * 0.005);
+			return (float)(1.0 + Globals.BruteKillStreak * 0.005);
 		}
 
 		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>
@@ -141,5 +141,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			double healthPercent = (double)who.health / who.maxHealth;
 			return (float)(0.2 / (healthPercent + 0.2) - 0.2 / 1.2);
 		}
+		#endregion private methods
 	}
 }

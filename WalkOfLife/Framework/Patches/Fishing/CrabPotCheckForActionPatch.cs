@@ -14,10 +14,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		//private static IReflectionHelper _reflection;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal CrabPotCheckForActionPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		internal CrabPotCheckForActionPatch(IMonitor monitor)
+		: base(monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -29,6 +28,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to handle Luremaster-caught non-trap fish.</summary>
 		protected static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result, ref bool ___lidFlapping, ref float ___lidFlapTimer, ref Vector2 ___shake, ref float ___shakeTimer, Farmer who, bool justCheckingForActivity = false)
 		{
@@ -69,7 +69,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			__result = true;
 			return false; // don't run original logic
 		}
+		#endregion harmony patches
 
+		#region private methods
 		/// <summary>Whether a given object is a fish that's not a regular crab pot fish.</summary>
 		/// <param name="obj">The given object.</param>
 		private static bool _IsFishButNotTrapFish(SObject obj)
@@ -90,5 +92,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			return obj?.ParentSheetIndex > 166 && obj?.ParentSheetIndex < 173;
 		}
+		#endregion private methods
 	}
 }

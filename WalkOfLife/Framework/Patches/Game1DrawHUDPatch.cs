@@ -1,4 +1,6 @@
 ﻿using Harmony;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using System;
@@ -15,6 +17,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 	{
 		private static ILHelper _helper;
 
+		#region private fields
+		/// <summary>Set of id's corresponding to stones that should be trackable.</summary>
 		private static readonly IEnumerable<int> _resourceNodeIds = new HashSet<int>
 		{
 			// ores
@@ -33,7 +37,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			819,	// omni geode node
 
 			// gems
-			44,		// gem node
 			8,		// amethyst node
 			10,		// topaz node
 			12,		// emerald node
@@ -41,6 +44,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			6,		// jade node
 			4,		// ruby node
 			2,		// diamond node
+			44,		// gem node
 
 			// other
 			843,	// cinder shard node
@@ -51,12 +55,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			818,	// clay node
 			46		// mystic stone
 		};
-		
+		#endregion private fields
+
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal Game1DrawHUDPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor)
+		internal Game1DrawHUDPatch(IMonitor monitor)
+		: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -67,11 +71,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(Game1), name: "drawHUD"),
-				transpiler: new HarmonyMethod(GetType(), nameof(Game1DrawHUDTranspiler))
+				transpiler: new HarmonyMethod(GetType(), nameof(Game1DrawHUDTranspiler)),
+				postfix: new HarmonyMethod(GetType(), nameof(Game1DrawHUDPostfix))
 			);
 		}
 
-		/// <summary>Patch for Scavenger to track forageables indoors.</summary>
+		#region harmony patches
+		/// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>
 		protected static IEnumerable<CodeInstruction> Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(Game1)}::drawHUD.");
@@ -93,7 +99,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_S)
 					)
-					.SetOperand(Utils.ProfessionMap.Forward["prospector"])				// change to prospector check
+					.SetOperand(Globals.ProfessionMap.Forward["prospector"])				// change to prospector check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse)
 					)
@@ -108,10 +114,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Remove(3)															// remove currentLocation.IsOutdoors check
 					.AddLabel(isProspector);											// branch here is first profession check was true
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				_helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}").Restore();
 			}
+
+			_helper.Backup();
 
 			/// From: if ((bool)pair.Value.isSpawnedObject || pair.Value.ParentSheetIndex == 590) ...
 			/// To: if (_ShouldDraw(pair.Value)) ...
@@ -144,12 +152,86 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return _helper.Flush();
 		}
 
+		/// <summary>Patch for Prospector to track initial ladder down + draw ticks over trackable objects in view.</summary>
+		protected static void Game1DrawHUDPostfix()
+		{
+			// track initial ladder down
+			if (Globals.InitialLadderTiles.Count() > 0)
+			{
+				foreach (var tile in Globals.InitialLadderTiles)
+				{
+					if (Utility.isOnScreen(tile * 64f + new Vector2(32f, 32f), 64)) continue;
+
+					Rectangle vpbounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
+					Vector2 onScreenPosition = default;
+					float rotation = 0f;
+					if (tile.X * 64f > Game1.viewport.MaxCorner.X - 64)
+					{
+						onScreenPosition.X = vpbounds.Right - 8;
+						rotation = (float)Math.PI / 2f;
+					}
+					else if (tile.X * 64f < Game1.viewport.X)
+					{
+						onScreenPosition.X = 8f;
+						rotation = -(float)Math.PI / 2f;
+					}
+					else
+						onScreenPosition.X = tile.X * 64f - Game1.viewport.X;
+
+					if (tile.Y * 64f > Game1.viewport.MaxCorner.Y - 64)
+					{
+						onScreenPosition.Y = vpbounds.Bottom - 8;
+						rotation = (float)Math.PI;
+					}
+					else if (tile.Y * 64f < Game1.viewport.Y)
+						onScreenPosition.Y = 8f;
+					else
+						onScreenPosition.Y = tile.Y * 64f - Game1.viewport.Y;
+
+					if (onScreenPosition.X == 8f && onScreenPosition.Y == 8f)
+						rotation += (float)Math.PI / 4f;
+
+					if (onScreenPosition.X == 8f && onScreenPosition.Y == vpbounds.Bottom - 8)
+						rotation += (float)Math.PI / 4f;
+
+					if (onScreenPosition.X == vpbounds.Right - 8 && onScreenPosition.Y == 8f)
+						rotation -= (float)Math.PI / 4f;
+
+					if (onScreenPosition.X == vpbounds.Right - 8 && onScreenPosition.Y == vpbounds.Bottom - 8)
+						rotation -= (float)Math.PI / 4f;
+
+					Rectangle srcRect = new Rectangle(412, 495, 5, 4);
+					float renderScale = 4f;
+					Vector2 safePos = Utility.makeSafe(renderSize: new Vector2(srcRect.Width * renderScale, srcRect.Height * renderScale), renderPos: onScreenPosition);
+					Game1.spriteBatch.Draw(Game1.mouseCursors, safePos, srcRect, Color.Cyan, rotation, new Vector2(2f, 2f), renderScale, SpriteEffects.None, 1f);
+				}
+			}
+
+			if (!AwesomeProfessions.Config.Modkey.IsDown()) return;
+
+			// draw ticks over trackable objects in view
+			Vector2 offset = new Vector2(0f, -33f);
+			foreach (var kvp in Game1.currentLocation.Objects.Pairs)
+			{
+				if (!_ShouldDraw(kvp.Value) || !Utility.isOnScreen(kvp.Key * 64f + new Vector2(32f, 32f), 64)) continue;
+
+				Rectangle srcRect = new Rectangle(412, 495, 5, 4);
+				float renderScale = 5f;
+				Vector2 targetPixel = new Vector2((kvp.Key.X * 64f) + 32f, (kvp.Key.Y * 64f) + 32f) + offset;
+				Vector2 adjustedPixel = Game1.GlobalToLocal(Game1.viewport, targetPixel);
+				adjustedPixel = Utility.ModifyCoordinatesForUIScale(adjustedPixel);
+				Game1.spriteBatch.Draw(Game1.mouseCursors, adjustedPixel, srcRect, Color.White, (float)Math.PI, new Vector2(2f, 2f), renderScale, SpriteEffects.None, 1f);
+			}
+		}
+		#endregion harmony patches
+
+		#region private methods
 		/// <summary>Whether the game should draw an arrow over a given object.</summary>
 		/// <param name="obj">The given object.</param>
 		private static bool _ShouldDraw(SObject obj)
 		{
-			return (Utils.LocalPlayerHasProfession("scavenger") && ((obj.IsSpawnedObject && !_IsForagedMineral(obj)) || obj.ParentSheetIndex == 590))
-				|| (Utils.LocalPlayerHasProfession("prospector") && (_IsResourceNode(obj) || _IsForagedMineral(obj)));
+			return (Globals.LocalPlayerHasProfession("scavenger") && ((obj.IsSpawnedObject && !_IsForagedMineral(obj)) || obj.ParentSheetIndex == 590))
+				|| (Globals.LocalPlayerHasProfession("prospector") && (_IsResourceNode(obj) || _IsForagedMineral(obj)));
 		}
 
 		/// <summary>Whether a given object is a resource node or foraged mineral.</summary>
@@ -165,5 +247,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			return obj.Name.AnyOf("Quartz", "Earth Crystal", "Frozen Tear", "Fire Quartz");
 		}
+		#endregion private methods
 	}
 }

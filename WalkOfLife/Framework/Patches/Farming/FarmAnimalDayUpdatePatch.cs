@@ -14,10 +14,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal FarmAnimalDayUpdatePatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor)
+		internal FarmAnimalDayUpdatePatch(IMonitor monitor)
+		: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -32,6 +31,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch for Producer to double produce frequency at max animal happiness + remove Shepherd and Coopmaster hidden produce quality boosts.</summary>
 		protected static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
@@ -43,7 +43,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindFirst(													// find index of FarmAnimal.type.Value.Equals("Sheep")
+					.FindFirst(												// find index of FarmAnimal.type.Value.Equals("Sheep")
 						new CodeInstruction(OpCodes.Ldstr, operand: "Sheep"),
 						new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(string), nameof(string.Equals), new Type[] { typeof(string) }))
 					)
@@ -103,5 +103,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			return _helper.Flush();
 		}
+		#endregion harmony patches
 	}
 }

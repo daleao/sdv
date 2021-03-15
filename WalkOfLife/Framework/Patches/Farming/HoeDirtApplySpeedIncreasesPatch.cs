@@ -12,10 +12,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private const int _speedGroId = 465, _deluxeSpeedGroId = 466, _hyperSpeedGroId = 918;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal HoeDirtApplySpeedIncreasesPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		internal HoeDirtApplySpeedIncreasesPatch(IMonitor monitor)
+		: base(monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -27,13 +26,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to globalize Agriculturist crop growth speed bonus.</summary>
 		protected static bool HoeDirtApplySpeedIncreasesPrefix(ref HoeDirt __instance, Farmer who)
 		{
 			if (__instance.crop == null)
 				return false; // don't run original logic
 
-			bool isThereAnyAgriculturist = Utils.AnyPlayerHasProfession("agriculturist", out int n);
+			bool isThereAnyAgriculturist = Globals.AnyPlayerHasProfession("agriculturist", out int n);
 			bool shouldApplyPaddyBonus = __instance.currentLocation != null && __instance.paddyWaterCheck(__instance.currentLocation, __instance.currentTileLocation);
 			
 			if (!(__instance.fertilizer.Value.AnyOf(_speedGroId, _deluxeSpeedGroId, _hyperSpeedGroId) || isThereAnyAgriculturist || shouldApplyPaddyBonus))
@@ -77,5 +77,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			return false; // don't run original logic
 		}
+		#endregion harmony patches
 	}
 }

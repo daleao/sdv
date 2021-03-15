@@ -1,4 +1,5 @@
-﻿using TheLion.AwesomeProfessions.Configs;
+﻿using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -6,12 +7,6 @@ namespace TheLion.AwesomeProfessions
 	public class ProfessionsConfig
 	{
 		public bool UseModdedProfessionIcons { get; set; } = true;
-
-		public OenologistConfig Oenologist { get; set; } = new();
-		public EcologistConfig Ecologist { get; set; } = new();
-		public ScavengerConfig Scavenger { get; set; } = new();
-		public GemologistConfig Gemologist { get; set; } = new();
-		public ProspectorConfig Prospector { get; set; } = new();
-		public ConservationistConfig Conservationist { get; set; } = new();
+		public KeybindList Modkey { get; set; } = KeybindList.ForSingle(SButton.LeftShift);
 	}
 }

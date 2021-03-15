@@ -1,7 +1,5 @@
 ﻿using Harmony;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI;
-using StardewValley;
 using StardewValley.TerrainFeatures;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
@@ -9,10 +7,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 	internal class FruitTreeDayUpdatePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal FruitTreeDayUpdatePatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		internal FruitTreeDayUpdatePatch(IMonitor monitor)
+		: base(monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -24,12 +21,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to increase Abrorist fruit tree growth speed.</summary>
-		protected static void FruitTreeDayUpdatePostfix(ref FruitTree __instance, GameLocation environment, Vector2 tileLocation)
+		protected static void FruitTreeDayUpdatePostfix(ref FruitTree __instance)
 		{
-			bool isThereAnyArborist = Utils.AnyPlayerHasProfession("arborist", out int n);
-			if (isThereAnyArborist && __instance.daysUntilMature.Value % 7 == 0)
+			if (Globals.AnyPlayerHasProfession("arborist", out int n) && __instance.daysUntilMature.Value % 7 == 0)
 				__instance.daysUntilMature.Value -= n;
 		}
+		#endregion harmony patches
 	}
 }

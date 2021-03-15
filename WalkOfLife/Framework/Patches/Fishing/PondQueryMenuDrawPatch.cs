@@ -4,8 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
+using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using System;
+using System.Linq;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
@@ -15,11 +17,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static IReflectionHelper _reflection;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
 		/// <param name="reflection">Interface for accessing otherwise inaccessible code.</param>
-		internal PondQueryMenuDrawPatch(ProfessionsConfig config, IMonitor monitor, IReflectionHelper reflection)
-		: base(config, monitor)
+		internal PondQueryMenuDrawPatch(IMonitor monitor, IReflectionHelper reflection)
+		: base(monitor)
 		{
 			_reflection = reflection;
 		}
@@ -34,11 +35,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to adjust fish pond UI for Aquarist increased max capacity.</summary>
 		protected static bool PondQueryMenuDrawPrefix(ref PondQueryMenu __instance, ref float ____age, ref Rectangle ____confirmationBoxRectangle, ref string ____confirmationText, ref SObject ____fishItem, ref FishPond ____pond, ref bool ___confirmingEmpty, ref string ___hoverText, SpriteBatch b)
 		{
-			if (____pond.FishCount <= 10)
-				return true; // run original logic;
+			Farmer who = Game1.getFarmer(____pond.owner.Value);
+			if (!Globals.SpecificPlayerHasProfession("aquarist", who) || ____pond.lastUnlockedPopulationGate.Value < _reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
 
 			if (!Game1.globalFade)
 			{
@@ -125,9 +127,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				else if (___hoverText != null && ___hoverText.Length > 0)
 					IClickableMenu.drawHoverText(b, ___hoverText, Game1.smallFont);
 			}
-			__instance.drawMouse(b);
 
+			__instance.drawMouse(b);
 			return false; // don't run original logic
 		}
+		#endregion harmony patches
 	}
 }

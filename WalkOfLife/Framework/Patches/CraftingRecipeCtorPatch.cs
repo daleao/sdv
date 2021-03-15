@@ -9,10 +9,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 	internal class CraftingRecipeCtorPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal CraftingRecipeCtorPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		internal CraftingRecipeCtorPatch(IMonitor monitor)
+		: base(monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -24,10 +23,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch for cheaper crafting recipes for Blaster and Tapper.</summary>
 		protected static void CraftingRecipeCtorPostfix(ref CraftingRecipe __instance)
 		{
-			if (__instance.name.Equals("Tapper") && Utils.LocalPlayerHasProfession("tapper"))
+			if (__instance.name.Equals("Tapper") && Globals.LocalPlayerHasProfession("tapper"))
 			{
 				__instance.recipeList = new Dictionary<int, int>
 				{
@@ -35,7 +35,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					{ 334, 1 }
 				};
 			}
-			else if (__instance.name.Contains("Bomb") && Utils.LocalPlayerHasProfession("blaster"))
+			else if (__instance.name.Contains("Bomb") && Globals.LocalPlayerHasProfession("blaster"))
 			{
 				__instance.recipeList = __instance.name switch
 				{
@@ -57,5 +57,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				};
 			}
 		}
+		#endregion harmony patches
 	}
 }

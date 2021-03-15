@@ -9,10 +9,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 	internal class TemporaryAnimatedSpriteCtorPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal TemporaryAnimatedSpriteCtorPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		internal TemporaryAnimatedSpriteCtorPatch(IMonitor monitor)
+		: base(monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -24,13 +23,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to increase Demolitionist bomb radius.</summary>
 		protected static void TemporaryAnimatedSpriteCtorPostfix(ref TemporaryAnimatedSprite __instance, Farmer owner)
 		{
-			if (Utils.SpecificPlayerHasProfession("demolitionist", owner))
-			{
-				++__instance.bombRadius;
-			}
+			if (Globals.SpecificPlayerHasProfession("demolitionist", owner)) ++__instance.bombRadius;
 		}
+		#endregion harmony patches
 	}
 }

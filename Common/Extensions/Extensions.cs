@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TheLion.Common.Extensions
@@ -45,6 +46,11 @@ namespace TheLion.Common.Extensions
 			}
 
 			return -1;
+		}
+
+		public static Vector2 ToVector2(this Point p)
+		{
+			return new Vector2(p.X, p.Y);
 		}
 	}
 }

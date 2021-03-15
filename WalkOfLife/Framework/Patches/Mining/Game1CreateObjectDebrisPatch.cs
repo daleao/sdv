@@ -11,6 +11,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class Game1CreateObjectDebrisPatch : BasePatch
 	{
+		#region private fields
 		/// <summary>Set of item id's corresponding to gems or minerals.</summary>
 		private static readonly IEnumerable<int> _gemIds = new HashSet<int>
 		{
@@ -23,12 +24,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			SObject.diamondIndex,
 			SObject.prismaticShardIndex
 		};
+		#endregion private fields
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal Game1CreateObjectDebrisPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		internal Game1CreateObjectDebrisPatch(IMonitor monitor)
+		: base(monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -40,35 +41,33 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch for Gemologist mineral quality.</summary>
 		protected static bool Game1CreateObjectDebrisPrefix(int objectIndex, int xTile, int yTile, long whichPlayer, GameLocation location)
 		{
 			Farmer who = Game1.getFarmer(whichPlayer);
-			if (Utils.SpecificPlayerHasProfession("gemologist", who) && _IsMineral(objectIndex))
+			if (Globals.SpecificPlayerHasProfession("gemologist", who) && _IsMineral(objectIndex))
 			{
 				location.debris.Add(new Debris(objectIndex, new Vector2(xTile * 64 + 32, yTile * 64 + 32), who.getStandingPosition())
 				{
-					itemQuality = _GetMineralQualityForGemologist()
+					itemQuality = Globals.GetMineralQualityForGemologist()
 				});
 
-				++AwesomeProfessions.Data.MineralsCollectedAsGemologist;
+				++AwesomeProfessions.Data.MineralsCollected;
 				return false; // don't run original logic
 			}
 
 			return true; // run original logic
 		}
+		#endregion harmony patches
 
+		#region private methods
 		/// <summary>Whether a given object is a gem or mineral.</summary>
 		/// <param name="objectIndex">The given object.</param>
 		private static bool _IsMineral(int objectIndex)
 		{
 			return _gemIds.Contains(objectIndex) || (objectIndex > 537 && objectIndex < 579);
 		}
-
-		/// <summary>Get the quality of mineral for Gemologist.</summary>
-		private static int _GetMineralQualityForGemologist()
-		{
-			return AwesomeProfessions.Data.MineralsCollectedAsGemologist < _config.Gemologist.MineralsNeededForBestQuality ? (AwesomeProfessions.Data.MineralsCollectedAsGemologist < _config.Gemologist.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
-		}
+		#endregion private methods
 	}
 }

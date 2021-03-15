@@ -14,10 +14,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal MineShaftCheckStoneForItemsPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor)
+		internal MineShaftCheckStoneForItemsPatch(IMonitor monitor)
+		: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -32,6 +31,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch for Spelunker ladder down chance bonus + remove Geologist paired gem chance + remove Excavator double geode chance + remove Prospetor double coal chance.</summary>
 		protected static IEnumerable<CodeInstruction> MineShaftCheckStoneForItemsTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
@@ -53,10 +53,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4)	// arg 4 = Farmer who
 					)
-					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionMap.Forward["spelunker"], resumeExecution)
+					.InsertProfessionCheckForSpecificPlayer(Globals.ProfessionMap.Forward["spelunker"], resumeExecution)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_3),					// local 3 = chanceForLadderDown
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MineShaftCheckStoneForItemsPatch), nameof(_GetBonusLadderDownChance))),
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Globals), nameof(Globals.GetBonusLadderDownChanceForSpelunker))),
 						new CodeInstruction(OpCodes.Add),
 						new CodeInstruction(OpCodes.Stloc_3)
 					)
@@ -154,11 +154,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			return _helper.Flush();
 		}
-
-		/// <summary>Get the bonus ladder spawn chance for Spelunker.</summary>
-		private static double _GetBonusLadderDownChance()
-		{
-			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * AwesomeProfessions.Data.LowestMineLevelReached)) - 0.5;
-		}
+		#endregion harmony patches
 	}
 }

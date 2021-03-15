@@ -15,10 +15,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuRevalidateHealthPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor)
+		internal LevelUpMenuRevalidateHealthPatch(IMonitor monitor)
+		: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -34,6 +33,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
 		protected static IEnumerable<CodeInstruction> LevelUpMenuRevalidateHealthTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
@@ -47,7 +47,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.FindProfessionCheck(Farmer.defender)
 					.Advance()
-					.SetOperand(Utils.ProfessionMap.Forward["brute"]);
+					.SetOperand(Globals.ProfessionMap.Forward["brute"]);
 			}
 			catch (Exception ex)
 			{
@@ -62,20 +62,20 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			// revalidate Angler tackle health
 			int expectedMaxTackleUses = 20;
-			if (Utils.SpecificPlayerHasProfession("angler", farmer))
-				expectedMaxTackleUses *= 2;
+			if (Globals.SpecificPlayerHasProfession("angler", farmer)) expectedMaxTackleUses *= 2;
 
 			FishingRod.maxTackleUses = expectedMaxTackleUses;
 
 			// revalidate Aquarist max fish pond capacity
-			if (Utils.SpecificPlayerHasProfession("aquarist", farmer))
+			if (Globals.SpecificPlayerHasProfession("aquarist", farmer))
 			{
 				foreach (Building b in Game1.getFarm().buildings)
 				{
-					if ((b.owner.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && b.maxOccupants.Value < 12)
+					if ((b.owner.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond)
 						(b as FishPond).UpdateMaximumOccupancy();
 				}
 			}
 		}
+		#endregion harmony patches
 	}
 }

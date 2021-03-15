@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
-using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
@@ -16,10 +15,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationCheckActionPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor)
+		internal GameLocationCheckActionPatch(IMonitor monitor)
+		: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -29,9 +27,23 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected internal override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
+				AccessTools.Method(typeof(GameLocation), nameof(GameLocation.checkAction)),
+				prefix: new HarmonyMethod(GetType(), nameof(GameLocationcheckActionPrefix)),
+				postfix: new HarmonyMethod(GetType(), nameof(GameLocationcheckActionPostfix))
+			);
+
+			harmony.Patch(
 				_TargetMethod(),
 				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationCheckActionTranspiler))
 			);
+		}
+
+		#region harmony patches
+		/// <summary>Patch to count items foraged for Ecologist.</summary>
+		protected static bool GameLocationcheckActionPrefix(ref uint __state)
+		{
+			__state = Game1.stats.ItemsForaged;
+			return true; // run original logic
 		}
 
 		/// <summary>Patch to nerf Ecologist forage quality.</summary>
@@ -51,7 +63,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_4)	// start of objects[vector].Quality = 4
 					)
 					.ReplaceWith(								// replace with custom quality
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationCheckActionPatch), nameof(_GetForageQualityForEcologist)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Globals), nameof(Globals.GetForageQualityForEcologist)))
 					);
 			}
 			catch(Exception ex)
@@ -62,10 +74,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return _helper.Flush();
 		}
 
-		/// <summary>Get the quality of forage for Ecologist.</summary>
-		private static int _GetForageQualityForEcologist()
+		/// <summary>Patch to count items foraged for Ecologist.</summary>
+		protected static void GameLocationcheckActionPostfix(ref uint __state, Farmer who)
 		{
-			return AwesomeProfessions.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality ? (AwesomeProfessions.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			if (who.IsLocalPlayer && Game1.stats.ItemsForaged > __state) ++AwesomeProfessions.Data.ItemsForaged;
 		}
 
 		/// <summary>Get the inner method to patch.</summary>
@@ -77,5 +89,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			return targetMethod;
 		}
+		#endregion harmony patches
 	}
 }

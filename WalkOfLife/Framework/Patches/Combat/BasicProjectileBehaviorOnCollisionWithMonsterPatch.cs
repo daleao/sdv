@@ -13,10 +13,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static IReflectionHelper _reflection;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal BasicProjectileBehaviorOnCollisionWithMonsterPatch(ProfessionsConfig config, IMonitor monitor, IReflectionHelper reflection)
-		: base(config, monitor)
+		/// <param name="reflection">Interface for accessing otherwise inaccessible code.</param>
+		internal BasicProjectileBehaviorOnCollisionWithMonsterPatch(IMonitor monitor, IReflectionHelper reflection)
+		: base(monitor)
 		{
 			_reflection = reflection;
 		}
@@ -31,11 +31,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch for Rascal slingshot damage increase with travel time.</summary>
 		protected static bool BasicProjectileBehaviorOnCollisionWithMonsterPrefix(ref BasicProjectile __instance, ref NetBool ___damagesMonsters, ref NetCharacterRef ___theOneWhoFiredMe, ref int ___travelTime, NPC n, GameLocation location)
 		{
 			Farmer who = ___theOneWhoFiredMe.Get(location) is Farmer ? ___theOneWhoFiredMe.Get(location) as Farmer : Game1.player;
-			if (!Utils.SpecificPlayerHasProfession("rascal", who)) return true; // run original logic
+			if (!Globals.SpecificPlayerHasProfession("rascal", who)) return true; // run original logic
 
 			if (!___damagesMonsters) return false; // don't run original logic
 
@@ -48,7 +49,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			
 			return false; // don't run original logic
 		}
+		#endregion
 
+		#region private methods
 		/// <summary>Get bonus slingshot damage as function of projectile travel distance.</summary>
 		/// <param name="travelDistance">Distance travelled by the projectile.</param>
 		private static float _GetBonusDamageForTravelTime(int travelDistance)
@@ -57,5 +60,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			if (travelDistance > maxDistance) return 1.5f;
 			return 0.5f / maxDistance * travelDistance + 1f;
 		}
+		#endregion private methods
 	}
 }

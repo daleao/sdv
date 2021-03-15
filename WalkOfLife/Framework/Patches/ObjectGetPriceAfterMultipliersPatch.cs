@@ -12,7 +12,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
 	{
-		/// <summary>Set of item id's corresponding to animal produce or derived artisan goods.</summary>
+		#region private fields
+		/// <summary>Set of id's corresponding to animal produce or derived artisan goods.</summary>
 		private static readonly IEnumerable<int> _animalProductIds = new HashSet<int>
 		{
 			107,	// dinosaur egg
@@ -40,7 +41,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			928		// golden egg
 		};
 
-		/// <summary>Set of item id's corresponding to legendary fish.</summary>
+		/// <summary>Set of id's corresponding to legendary fish.</summary>
 		private static readonly IEnumerable<int> _legendaryFishIds = new HashSet<int>
 		{
 			159,	// crimsonfish
@@ -54,12 +55,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			901,	// radioactive carp
 			902		// glacierfish jr.
 		};
+		#endregion  private fields
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal ObjectGetPriceAfterMultipliersPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		internal ObjectGetPriceAfterMultipliersPatch(IMonitor monitor)
+		: base(monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -71,6 +72,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to modify price multipliers for various modded professions.</summary>
 		protected static bool ObjectGetPriceAfterMultipliersPrefix(ref SObject __instance, ref float __result, float startPrice, long specificPlayerID)
 		{
@@ -82,24 +84,21 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				{
 					if (specificPlayerID == -1)
 					{
-						if (player.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !player.isActive())
-							continue;
+						if (player.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !player.isActive()) continue;
 					}
-					else if (player.UniqueMultiplayerID != specificPlayerID)
-						continue;
+					else if (player.UniqueMultiplayerID != specificPlayerID) continue;
 				}
-				else if (!player.isActive())
-					continue;
+				else if (!player.isActive()) continue;
 
 				float multiplier = 1f;
 
 				// professions
-				if (Utils.SpecificPlayerHasProfession("producer", player) && _IsAnimalProduct(__instance))
-					multiplier *= _GetMultiplierForProducer(player);
-				else if (Utils.SpecificPlayerHasProfession("oenologist", player) && _IsWineOrBeverage(__instance))
-					multiplier *= _GetMultiplierForOenologist(player);
-				else if (Utils.SpecificPlayerHasProfession("angler", player) && IsReeledFish(__instance))
-					multiplier *= _GetMultiplierForAngler(player);
+				if (Globals.SpecificPlayerHasProfession("oenologist", player) && _IsWineOrBeverage(__instance))
+					multiplier *= _GetPriceMultiplierForOenologist(player);
+				else if (Globals.SpecificPlayerHasProfession("producer", player) && _IsAnimalProduct(__instance))
+					multiplier *= _GetPriceMultiplierForProducer(player);
+				else if (Globals.SpecificPlayerHasProfession("angler", player) && _IsReeledFish(__instance))
+					multiplier *= _GetPriceMultiplierForAngler(player);
 
 				// events
 				else if (player.eventsSeen.Contains(2120303) && _IsWildBerry(__instance))
@@ -107,8 +106,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				else if (player.eventsSeen.Contains(3910979) && __instance.ParentSheetIndex == 399) // spring onion
 					multiplier *= 5f;
 
-				if (Utils.SpecificPlayerHasProfession("conservationist", player))
-					multiplier *= _GetMultiplierForConservationist(player);
+				if (Globals.SpecificPlayerHasProfession("conservationist", player))
+					multiplier *= _GetPriceMultiplierForConservationist(player);
 
 				saleMultiplier = Math.Max(saleMultiplier, multiplier);
 			}
@@ -116,10 +115,28 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			__result = startPrice * saleMultiplier;
 			return false; // don't run original logic
 		}
+		#endregion harmony patches
+
+		#region private methods
+		/// <summary>Get the price multiplier for wine sold by Oenologist.</summary>
+		/// <param name="who">The player.</param>
+		private static float _GetPriceMultiplierForOenologist(Farmer who)
+		{
+			if (!who.IsLocalPlayer) return 1f;
+
+			float multiplier = 1f;
+			if (AwesomeProfessions.Data.WineFameAccrued >= 5000) multiplier += 1f;
+			else if (AwesomeProfessions.Data.WineFameAccrued >= 3125) multiplier += 0.5f;
+			else if (AwesomeProfessions.Data.WineFameAccrued >= 1250) multiplier += 0.25f;
+			else if (AwesomeProfessions.Data.WineFameAccrued >= 500) multiplier += 0.1f;
+			else if (AwesomeProfessions.Data.WineFameAccrued >= 200) multiplier += 0.05f;
+
+			return multiplier;
+		}
 
 		/// <summary>Get the price multiplier for produce sold by Producer.</summary>
 		/// <param name="who">The player.</param>
-		private static float _GetMultiplierForProducer(Farmer who)
+		private static float _GetPriceMultiplierForProducer(Farmer who)
 		{
 			float multiplier = 1f;
 			foreach (Building b in Game1.getFarm().buildings)
@@ -131,33 +148,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return multiplier;
 		}
 
-
-		/// <summary>Get the price multiplier for wine sold by Oenologist.</summary>
-		/// <param name="who">The player.</param>
-		private static float _GetMultiplierForOenologist(Farmer who)
-		{
-			if (!who.IsLocalPlayer)
-				return 1f;
-
-			float multiplier = 1f;
-			if (AwesomeProfessions.Data.FameAccruedAsOenologist >= 5000)
-				multiplier += 1f;
-			else if (AwesomeProfessions.Data.FameAccruedAsOenologist >= 3125)
-				multiplier += 0.5f;
-			else if (AwesomeProfessions.Data.FameAccruedAsOenologist >= 1250)
-				multiplier += 0.25f;
-			else if (AwesomeProfessions.Data.FameAccruedAsOenologist >= 500)
-				multiplier += 0.1f;
-			else if (AwesomeProfessions.Data.FameAccruedAsOenologist >= 200)
-				multiplier += 0.05f;
-
-			return multiplier;
-		}
-
-
 		/// <summary>Get the price multiplier for fish sold by Angler.</summary>
 		/// <param name="who">The player.</param>
-		private static float _GetMultiplierForAngler(Farmer who)
+		private static float _GetPriceMultiplierForAngler(Farmer who)
 		{
 			float multiplier = 1f;
 			foreach (int id in _legendaryFishIds)
@@ -169,15 +162,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return multiplier;
 		}
 
-
 		/// <summary>Get the price multiplier for items sold by Conservationist.</summary>
 		/// <param name="who">The player.</param>
-		private static float _GetMultiplierForConservationist(Farmer who)
+		private static float _GetPriceMultiplierForConservationist(Farmer who)
 		{
-			if (!who.IsLocalPlayer)
-				return 1f;
+			if (!who.IsLocalPlayer) return 1f;
 
-			return 1f + (AwesomeProfessions.Data.TrashCollectedAsConservationist % _config.Conservationist.TrashNeededForNextTaxLevel) / 100f;
+			return 1f + AwesomeProfessions.Data.OceanTrashCollectedThisSeason % Globals.TrashNeededForNextTaxLevel / 100f;
 		}
 
 		/// <summary>Whether a given object is one of wine, juice, beer, mead or pale ale.</summary>
@@ -195,11 +186,26 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return obj != null && _animalProductIds.Contains(obj.ParentSheetIndex);
 		}
 
+		/// <summary>Whether a given object is a fish trapped by a crab pot.</summary>
+		/// <param name="obj">The given object.</param>
+		private static bool _IsTrapFish(SObject obj)
+		{
+			return obj.ParentSheetIndex > 714 && obj.ParentSheetIndex < 724;
+		}
+
+		/// <summary>Whether a given object is a fish caught with a fishing rod.</summary>
+		/// <param name="obj">The given object.</param>
+		private static bool _IsReeledFish(SObject obj)
+		{
+			return obj.Category == SObject.FishCategory && !_IsTrapFish(obj);
+		}
+
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
 		/// <param name="obj">The given object.</param>
 		private static bool _IsWildBerry(SObject obj)
 		{
 			return obj?.ParentSheetIndex == 296 || obj?.ParentSheetIndex == 410;
 		}
+		#endregion private methods
 	}
 }

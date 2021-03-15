@@ -14,10 +14,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal SlingshotPerformFirePatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor)
+		internal SlingshotPerformFirePatch(IMonitor monitor)
+		: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -32,7 +31,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
-		/// <summary>Patch to add Marksman quick fire damage bonus.</summary>
+		#region harmony patches
+		/// <summary>Patch to add Desperado quick fire damage bonus.</summary>
 		protected static IEnumerable<CodeInstruction> SlingshotPerformFireTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(Slingshot)}::{nameof(Slingshot.PerformFire)}.");
@@ -56,7 +56,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_2)						// arg 2 = Farmer who
 					)
-					.InsertProfessionCheckForSpecificPlayer(Utils.ProfessionMap.Forward["desperado"], resumeExecution)
+					.InsertProfessionCheckForSpecificPlayer(Globals.ProfessionMap.Forward["desperado"], resumeExecution)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 0.5f),
 						new CodeInstruction(OpCodes.Ldarg_0),
@@ -73,10 +73,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while adding Marksman quick fire damage.\nHelper returned {ex}").Restore();
+				_helper.Error($"Failed while adding Desperado quick fire damage.\nHelper returned {ex}").Restore();
 			}
 
 			return _helper.Flush();
 		}
+		#endregion harmony patches
 	}
 }

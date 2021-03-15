@@ -13,10 +13,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal QuestionEventSetUpPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor)
+		internal QuestionEventSetUpPatch(IMonitor monitor)
+		: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -31,13 +30,14 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch for Breeder to increase barn animal pregnancy chance.</summary>
 		protected static IEnumerable<CodeInstruction> QuestionEventSetUpTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			_helper.Attach(instructions).Log($"Patching method {typeof(QuestionEvent)}::{nameof(QuestionEvent.setUp)}.");
 
 			/// From: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * 0.0055
-			/// To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (Game1.player.professions.Contains(<breeder_id>) ? <0.0055 * 2.0> : 0.0055)
+			/// To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (Game1.player.professions.Contains(<breeder_id>) ? 0.011 : 0.0055)
 
 			Label isNotBreeder = iLGenerator.DefineLabel();
 			Label resumeExecution = iLGenerator.DefineLabel();
@@ -51,9 +51,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Advance()
 					.AddLabel(resumeExecution)	// branch here to resume execution
 					.Retreat()
-					.InsertProfessionCheckForLocalPlayer(Utils.ProfessionMap.Forward["breeder"], branchDestination: isNotBreeder)
+					.InsertProfessionCheckForLocalPlayer(Globals.ProfessionMap.Forward["breeder"], branchDestination: isNotBreeder)
 					.Insert(					// if player is breeder load adjusted pregancy chance
-						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055 * 2.0),
+						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.011),
 						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)
 					);
 			}
@@ -64,5 +64,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 			return _helper.Flush();
 		}
+		#endregion harmony patches
 	}
 }

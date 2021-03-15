@@ -16,10 +16,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuGetImmediateProfessionPerkPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor)
+		internal LevelUpMenuGetImmediateProfessionPerkPatch(IMonitor monitor)
+		: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -35,6 +34,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
 		protected static IEnumerable<CodeInstruction> LevelUpMenuGetImmediateProfessionPerkTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
@@ -47,9 +47,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			{
 				_helper
 					.FindFirst(
-						new CodeInstruction(OpCodes.Ldc_I4_S, operand: 27)
+						new CodeInstruction(OpCodes.Ldc_I4_S, operand: Farmer.defender)
 					)
-					.SetOperand(Utils.ProfessionMap.Forward["brute"]);
+					.SetOperand(Globals.ProfessionMap.Forward["brute"]);
 			}
 			catch (Exception ex)
 			{
@@ -62,10 +62,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to add modded immediate profession perks.</summary>
 		protected static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			if (whichProfession == Utils.ProfessionMap.Forward["angler"])
-				FishingRod.maxTackleUses *= 2;
+			if (whichProfession == Globals.ProfessionMap.Forward["angler"]) FishingRod.maxTackleUses *= 2;
 
-			if (whichProfession == Utils.ProfessionMap.Forward["aquarist"])
+			if (whichProfession == Globals.ProfessionMap.Forward["aquarist"])
 			{
 				foreach (Building b in Game1.getFarm().buildings)
 				{
@@ -74,5 +73,6 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				}
 			}
 		}
+		#endregion harmony patches
 	}
 }

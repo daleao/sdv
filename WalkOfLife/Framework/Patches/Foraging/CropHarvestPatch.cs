@@ -6,7 +6,6 @@ using StardewValley.Characters;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
-using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
@@ -15,10 +14,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal CropHarvestPatch(ProfessionsConfig config, IMonitor monitor)
-			: base(config, monitor)
+		internal CropHarvestPatch(IMonitor monitor)
+			: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -35,10 +33,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch for Harvester extra crop yield.</summary>
 		private static bool CropHarvestPrefix(ref Crop __instance, JunimoHarvester junimoHarvester = null)
 		{
-			if (junimoHarvester == null && Utils.LocalPlayerHasProfession("harvester"))
+			if (junimoHarvester == null && Globals.LocalPlayerHasProfession("harvester"))
 				__instance.chanceForExtraCrops.Value += 0.10;
 
 			return true; // run original logic
@@ -60,7 +59,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_4)	// start of @object.Quality = 4
 					)
 					.ReplaceWith(								// replace with custom quality
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(CropHarvestPatch), nameof(_GetForageQualityForEcologist)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Globals), nameof(Globals.GetForageQualityForEcologist)))
 					);
 			}
 			catch(Exception ex)
@@ -82,7 +81,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_3),
 						new CodeInstruction(OpCodes.Blt)
 					)
-					.InsertProfessionCheckForLocalPlayer(Utils.ProfessionMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
+					.InsertProfessionCheckForLocalPlayer(Globals.ProfessionMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
 					.AdvanceUntil(																// find start of dice roll
 						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(Random)} (9)")	// local 9 = System.Random random2
 					)
@@ -96,17 +95,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return _helper.Flush();
 		}
 
-		/// <summary>Patch to count foraged spring onions as Ecologist.</summary>
+		/// <summary>Patch to count foraged spring onions for Ecologist.</summary>
 		private static void CropHarvestPostfix(ref Crop __instance)
 		{
-			if (__instance.forageCrop.Value && Utils.LocalPlayerHasProfession("ecologist"))
-				++AwesomeProfessions.Data.ForageablesCollectedAsEcologist;
+			if (__instance.forageCrop.Value) ++AwesomeProfessions.Data.ItemsForaged;
 		}
-
-		/// <summary>Get the quality of forage for Ecologist.</summary>
-		private static int _GetForageQualityForEcologist()
-		{
-			return AwesomeProfessions.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality ? (AwesomeProfessions.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
-		}
+		#endregion harmony patches
 	}
 }

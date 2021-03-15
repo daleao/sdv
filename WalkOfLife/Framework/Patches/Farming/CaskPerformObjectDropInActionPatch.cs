@@ -2,17 +2,15 @@
 using StardewModdingAPI;
 using StardewValley.Objects;
 using StardewValley;
-using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class CaskPerformObjectDropInActionPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal CaskPerformObjectDropInActionPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		internal CaskPerformObjectDropInActionPatch(IMonitor monitor)
+		: base(monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -24,18 +22,22 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch for Oenologist faster wine aging.</summary>
 		protected static void CaskPerformObjectDropInActionPostfix(ref Cask __instance, Item dropIn, Farmer who)
 		{
-			if (Utils.SpecificPlayerHasProfession("oenologist", who) && _IsWine(dropIn as SObject))
+			if (Globals.SpecificPlayerHasProfession("oenologist", who) && _IsWine(dropIn))
 				__instance.agingRate.Value *= 2f;
 		}
+		#endregion harmony patches
 
+		#region private methods
 		/// <summary>Whether a given object is wine.</summary>
 		/// <param name="obj">The given object.</param>
-		private static bool _IsWine(SObject obj)
+		private static bool _IsWine(Item item)
 		{
-			return obj?.ParentSheetIndex == 348;
+			return item?.ParentSheetIndex == 348;
 		}
+		#endregion private methods
 	}
 }

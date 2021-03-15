@@ -6,7 +6,6 @@ using StardewValley.TerrainFeatures;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
-using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
@@ -15,10 +14,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal BushShakePatch(ProfessionsConfig config, IMonitor monitor)
-			: base(config, monitor)
+		internal BushShakePatch(IMonitor monitor)
+			: base(monitor)
 		{
 			_helper = new ILHelper(monitor);
 		}
@@ -29,8 +27,18 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(Bush), name: "shake"),
-				transpiler: new HarmonyMethod(GetType(), nameof(BushShakeTranspiler))
+				prefix: new HarmonyMethod(GetType(), nameof(BushShakePrefix)),
+				transpiler: new HarmonyMethod(GetType(), nameof(BushShakeTranspiler)),
+				postfix: new HarmonyMethod(GetType(), nameof(BushShakePostfix))
 			);
+		}
+
+		#region harmony patches
+		/// <summary>Patch to count foraged berries for Ecologist.</summary>
+		protected static bool BushShakePrefix(ref Bush __instance, ref int __state)
+		{
+			__state = __instance.tileSheetOffset.Value;
+			return true; // run original logic
 		}
 
 		/// <summary>Patch to nerf Ecologist berry quality.</summary>
@@ -50,7 +58,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					)
 					.GetLabels(out List<Label> labels)
 					.ReplaceWith(								// replace with custom quality
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(BushShakePatch), nameof(_GetForageQualityForEcologist)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Globals), nameof(Globals.GetForageQualityForEcologist)))
 					)
 					.SetLabels(labels);
 			}
@@ -62,10 +70,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return _helper.Flush();
 		}
 
-		/// <summary>Get the quality of forage for Ecologist.</summary>
-		private static int _GetForageQualityForEcologist()
+		/// <summary>Patch to count foraged berries for Ecologist.</summary>
+		protected static void BushShakePostfix(ref Bush __instance, ref int __state)
 		{
-			return AwesomeProfessions.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality ? (AwesomeProfessions.Data.ForageablesCollectedAsEcologist < _config.Ecologist.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			if (__state - __instance.tileSheetOffset.Value == 1) ++AwesomeProfessions.Data.ItemsForaged;
 		}
+		#endregion harmony patches
 	}
 }

@@ -1,21 +1,15 @@
 ﻿using Harmony;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions.Framework.Patches
 {
 	internal class Game1CreateItemDebrisPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The mod settings.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal Game1CreateItemDebrisPatch(ProfessionsConfig config, IMonitor monitor)
-		: base(config, monitor) { }
+		internal Game1CreateItemDebrisPatch(IMonitor monitor)
+		: base(monitor) { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -27,18 +21,22 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			);
 		}
 
+		#region harmony patches
 		/// <summary>Patch to count foraged berries as Ecologist.</summary>
 		protected static void Game1CreateItemDebrisPostfix(Item item)
 		{
-			if (_IsWildBerry(item) && Utils.LocalPlayerHasProfession("ecologist"))
-				++AwesomeProfessions.Data.ForageablesCollectedAsEcologist;
+			if (_IsWildBerry(item) && Globals.LocalPlayerHasProfession("ecologist"))
+				++AwesomeProfessions.Data.ItemsForaged;
 		}
+		#endregion harmony patches
 
-		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
-		/// <param name="obj">The given object.</param>
+		#region private methods
+		/// <summary>Whether a given item is salmonberry or blackberry.</summary>
+		/// <param name="item'>The given item.</param>
 		private static bool _IsWildBerry(Item item)
 		{
 			return item?.ParentSheetIndex == 296 || item?.ParentSheetIndex == 410;
 		}
+		#endregion private methods
 	}
 }
