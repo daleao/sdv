@@ -166,20 +166,14 @@ namespace TheLion.AwesomeProfessions
 				}
 			}
 
-			if (!AwesomeProfessions.Config.Modkey.IsDown()) return;
+			if (!AwesomeProfessions.ShouldDrawPointers) return;
 
 			// draw ticks over trackable objects in view
 			Vector2 offset = new Vector2(0f, -33f);
 			foreach (var kvp in Game1.currentLocation.Objects.Pairs)
 			{
-				if (!_ShouldDraw(kvp.Value) || !StardewValley.Utility.isOnScreen(kvp.Key * 64f + new Vector2(32f, 32f), 64)) continue;
-
-				Rectangle srcRect = new Rectangle(412, 495, 5, 4);
-				float renderScale = 5f;
-				Vector2 targetPixel = new Vector2((kvp.Key.X * 64f) + 32f, (kvp.Key.Y * 64f) + 32f) + offset;
-				Vector2 adjustedPixel = Game1.GlobalToLocal(Game1.viewport, targetPixel);
-				adjustedPixel = StardewValley.Utility.ModifyCoordinatesForUIScale(adjustedPixel);
-				Game1.spriteBatch.Draw(Game1.mouseCursors, adjustedPixel, srcRect, Color.White, (float)Math.PI, new Vector2(2f, 2f), renderScale, SpriteEffects.None, 1f);
+				if (_ShouldDraw(kvp.Value) && StardewValley.Utility.isOnScreen(kvp.Key * 64f + new Vector2(32f, 32f), 64))
+					Utility.DrawPointerOverTile(kvp.Key, Color.White);
 			}
 		}
 		#endregion harmony patches

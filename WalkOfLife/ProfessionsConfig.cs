@@ -14,7 +14,6 @@ namespace TheLion.AwesomeProfessions
 		public int MaxStartingFriendshipForNewbornAnimals { get; } = 200;
 		public int ForagesNeededForBestQuality { get; } = 500;
 		public int MineralsNeededForBestQuality { get; } = 500;
-		public float ChanceToStartTreasureHunt { get; } = 0.2f;
 		public int TreasureHuntDurationMinutes { get; } = 30;
 		public int TrashNeededForNextTaxLevel { get; } = 50;
 	}

@@ -8,10 +8,10 @@ namespace TheLion.AwesomeProfessions
 {
 	public static partial class Utility
 	{
-		public static int SpelunkerBuffID { get; } = AwesomeProfessions.UniqueHash + ProfessionMap.Forward["spelunker"];
-		public static int DemolitionistBuffID { get; } = AwesomeProfessions.UniqueHash + ProfessionMap.Forward["demolitionist"];
-		public static int BruteBuffID { get; } = AwesomeProfessions.UniqueHash - ProfessionMap.Forward["brute"];
-		public static int GambitBuffID { get; } = AwesomeProfessions.UniqueHash - ProfessionMap.Forward["gambit"];
+		public static int SpelunkerBuffID { get; private set; }
+		public static int DemolitionistBuffID { get; private set; }
+		public static int BruteBuffID { get; private set; }
+		public static int GambitBuffID { get; private set; }
 
 		/// <summary>Bi-directional dictionary for looking-up profession id's by name or name's by id.</summary>
 		public static BiMap<string, int> ProfessionMap { get; } = new BiMap<string, int>
@@ -62,6 +62,16 @@ namespace TheLion.AwesomeProfessions
 			{ "slimetamer", Farmer.acrobat },			// 28
 			{ "desperado", Farmer.desperado }			// 29
 		};
+
+		/// <summary>Generate unique buff ids from a hash seed.</summary>
+		/// <param name="hash">Unique instance hash.</param>
+		public static void SetProfessionBuffIDs(int hash)
+		{
+			SpelunkerBuffID = hash + ProfessionMap.Forward["spelunker"];
+			DemolitionistBuffID = hash + ProfessionMap.Forward["demolitionist"];
+			BruteBuffID = hash - ProfessionMap.Forward["brute"];
+			GambitBuffID = hash - ProfessionMap.Forward["gambit"];
+		}
 
 		/// <summary>Whether the local farmer has a specific profession.</summary>
 		/// <param name="professionName">The name of the profession.</param>

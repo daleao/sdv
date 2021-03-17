@@ -15,8 +15,9 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper)
 		{
-			// get a unique 8-digit hash
+			// generate unique buff ids
 			UniqueHash = (int)(Math.Abs(ModManifest.UniqueID.GetHashCode()) / Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(ModManifest.UniqueID.GetHashCode()))) - 8 + 1));
+			Utility.SetProfessionBuffIDs(UniqueHash);
 
 			// get configs.json
 			Config = helper.ReadConfig<ProfessionsConfig>();

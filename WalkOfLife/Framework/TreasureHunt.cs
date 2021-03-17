@@ -15,14 +15,22 @@ namespace TheLion.AwesomeProfessions
 	internal class TreasureHunt
 	{
 		public static bool TheHuntIsOn { get; set; } = false;
-		public static int ScavengedStreak { get; set; } = 0;
-		public static int ProspectedStreak { get; set; } = 0;
-		public Vector2? TreasureTile { get; set; } = null;
+		public static int ScavengerStreak { get; set; } = 0;
+		public static int ProspectorStreak { get; set; } = 0;
+		public static Vector2? TreasureTile { get; private set; } = null;
 
-		private readonly GameLocation _location;
-		private readonly Farmer _farmer;
-		private readonly string _type;
-		private uint _timer;
+		public static void StartAt(Vector2? tile)
+		{
+			TreasureTile = tile;
+
+			// choose reward
+			// start monitoring distance
+		}
+
+		public static int ChooseReward()
+		{
+			return 0;
+		}
 
 		private static IEnumerable<int> _scavengerTreasureTable = new HashSet<int>
 		{
@@ -33,10 +41,5 @@ namespace TheLion.AwesomeProfessions
 		{
 
 		};
-
-		public void TryStartTreasureHuntFor(string profession, Farmer who, GameLocation where)
-		{
-			Random r = new Random(where.GetHashCode() + (int)Game1.stats.DaysPlayed + Game1.timeOfDay);
-		}
 	}
 }

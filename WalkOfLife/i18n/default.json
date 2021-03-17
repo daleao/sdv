@@ -77,5 +77,8 @@
 	"desperado.name": "Desperado",
 	"desperado.description": "Shots fired within 0.5 seconds deal triple damage.",
 	"slimemaster.name": "Slimemaster",
-	"slimemaster.description": "Slimes are your allies. Slime balls drop special items."
+	"slimemaster.description": "Slimes are your allies. Slime balls drop special items.",
+
+	//other
+	"scavenger.hudmessage": "You sense nearby treasure..."
 }

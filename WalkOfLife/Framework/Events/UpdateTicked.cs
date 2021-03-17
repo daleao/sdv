@@ -1,4 +1,5 @@
-﻿using StardewModdingAPI.Events;
+﻿using Microsoft.Xna.Framework;
+using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 using System;
@@ -10,12 +11,21 @@ namespace TheLion.AwesomeProfessions
 	{
 		public static int DemolitionistBuffMagnitude { get; set; } = 0;
 		public static uint BruteKillStreak { get; set; } = 0;
+		public static bool ShouldDrawPointers { get; set; } = false;
 
 		/// <summary>Raised after the game state is updated.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event arguments.</param>
 		private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
+			if (Config.Modkey.IsDown() && (Utility.LocalPlayerHasProfession("scavenger") || Utility.LocalPlayerHasProfession("prospector")) && e.Ticks % 20 == 0)
+				ShouldDrawPointers = !ShouldDrawPointers;
+			else if (!Config.Modkey.IsDown())
+				ShouldDrawPointers = false;
+
+			if (TreasureHunt.TreasureTile != null && (Game1.player.getTileLocation() - (Vector2)TreasureHunt.TreasureTile).LengthSquared() <= 5)
+				Utility.DrawPointerOverTile((Vector2)TreasureHunt.TreasureTile, Color.Purple);
+
 			// handle Spelunker buff
 			if (Utility.LocalPlayerHasProfession("spelunker") && Game1.currentLocation is MineShaft)
 			{

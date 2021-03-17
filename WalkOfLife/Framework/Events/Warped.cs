@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
+using StardewValley;
 using StardewValley.Locations;
 using System.Collections.Generic;
 
@@ -31,10 +32,17 @@ namespace TheLion.AwesomeProfessions
 			// reset Brute buff
 			if (BruteKillStreak > 0 && e.NewLocation.GetType() != e.OldLocation.GetType()) BruteKillStreak = 0;
 
-			if (Utility.SpecificPlayerHasProfession("scavenger", e.Player) && e.NewLocation.IsOutdoors)
-			{ }
-			else if (Utility.SpecificPlayerHasProfession("prospector", e.Player) && e.NewLocation is MineShaft)
-			{ }
+			// try start treasure hunt
+			if ((Utility.SpecificPlayerHasProfession("scavenger", e.Player) && e.NewLocation.IsOutdoors) ||
+				(Utility.SpecificPlayerHasProfession("prospector", e.Player) && e.NewLocation is MineShaft))
+			{
+				Vector2? tile = Utility.ChooseTile(e.NewLocation);
+				if (tile != null)
+				{
+					TreasureHunt.StartAt(tile);
+					Game1.addHUDMessage(new HUDMessage(Helper.Translation.Get("treasurehunt.hudmessage")));
+				}
+			}
 		}
 	}
 }
