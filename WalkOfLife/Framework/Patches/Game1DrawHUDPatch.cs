@@ -7,55 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Linq;
-using TheLion.Common.Extensions;
 using TheLion.Common.Harmony;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class Game1DrawHUDPatch : BasePatch
 	{
 		private static ILHelper _helper;
-
-		#region private fields
-		/// <summary>Set of id's corresponding to stones that should be trackable.</summary>
-		private static readonly IEnumerable<int> _resourceNodeIds = new HashSet<int>
-		{
-			// ores
-			751,	// copper node
-			849,	// copper ?
-			290,	// silver node
-			850,	// silver ?
-			764,	// gold node
-			765,	// iridium node
-			95,		// radioactive node
-
-			// geodes
-			75,		// geode node
-			76,		// frozen geode node
-			77,		// magma geode node
-			819,	// omni geode node
-
-			// gems
-			8,		// amethyst node
-			10,		// topaz node
-			12,		// emerald node
-			14,		// aquamarine node
-			6,		// jade node
-			4,		// ruby node
-			2,		// diamond node
-			44,		// gem node
-
-			// other
-			843,	// cinder shard node
-			844,	// cinder shard node
-			25,		// mussel node
-			816,	// bone node
-			817,	// bone node
-			818,	// clay node
-			46		// mystic stone
-		};
-		#endregion private fields
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
@@ -99,7 +58,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_S)
 					)
-					.SetOperand(Globals.ProfessionMap.Forward["prospector"])				// change to prospector check
+					.SetOperand(Utility.ProfessionMap.Forward["prospector"])			// change to prospector check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse)
 					)
@@ -156,11 +115,11 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static void Game1DrawHUDPostfix()
 		{
 			// track initial ladder down
-			if (Globals.InitialLadderTiles.Count() > 0)
+			if (AwesomeProfessions.InitialLadderTiles.Count() > 0)
 			{
-				foreach (var tile in Globals.InitialLadderTiles)
+				foreach (var tile in AwesomeProfessions.InitialLadderTiles)
 				{
-					if (Utility.isOnScreen(tile * 64f + new Vector2(32f, 32f), 64)) continue;
+					if (StardewValley.Utility.isOnScreen(tile * 64f + new Vector2(32f, 32f), 64)) continue;
 
 					Rectangle vpbounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
 					Vector2 onScreenPosition = default;
@@ -202,7 +161,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 
 					Rectangle srcRect = new Rectangle(412, 495, 5, 4);
 					float renderScale = 4f;
-					Vector2 safePos = Utility.makeSafe(renderSize: new Vector2(srcRect.Width * renderScale, srcRect.Height * renderScale), renderPos: onScreenPosition);
+					Vector2 safePos = StardewValley.Utility.makeSafe(renderSize: new Vector2(srcRect.Width * renderScale, srcRect.Height * renderScale), renderPos: onScreenPosition);
 					Game1.spriteBatch.Draw(Game1.mouseCursors, safePos, srcRect, Color.Cyan, rotation, new Vector2(2f, 2f), renderScale, SpriteEffects.None, 1f);
 				}
 			}
@@ -213,13 +172,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			Vector2 offset = new Vector2(0f, -33f);
 			foreach (var kvp in Game1.currentLocation.Objects.Pairs)
 			{
-				if (!_ShouldDraw(kvp.Value) || !Utility.isOnScreen(kvp.Key * 64f + new Vector2(32f, 32f), 64)) continue;
+				if (!_ShouldDraw(kvp.Value) || !StardewValley.Utility.isOnScreen(kvp.Key * 64f + new Vector2(32f, 32f), 64)) continue;
 
 				Rectangle srcRect = new Rectangle(412, 495, 5, 4);
 				float renderScale = 5f;
 				Vector2 targetPixel = new Vector2((kvp.Key.X * 64f) + 32f, (kvp.Key.Y * 64f) + 32f) + offset;
 				Vector2 adjustedPixel = Game1.GlobalToLocal(Game1.viewport, targetPixel);
-				adjustedPixel = Utility.ModifyCoordinatesForUIScale(adjustedPixel);
+				adjustedPixel = StardewValley.Utility.ModifyCoordinatesForUIScale(adjustedPixel);
 				Game1.spriteBatch.Draw(Game1.mouseCursors, adjustedPixel, srcRect, Color.White, (float)Math.PI, new Vector2(2f, 2f), renderScale, SpriteEffects.None, 1f);
 			}
 		}
@@ -230,22 +189,8 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <param name="obj">The given object.</param>
 		private static bool _ShouldDraw(SObject obj)
 		{
-			return (Globals.LocalPlayerHasProfession("scavenger") && ((obj.IsSpawnedObject && !_IsForagedMineral(obj)) || obj.ParentSheetIndex == 590))
-				|| (Globals.LocalPlayerHasProfession("prospector") && (_IsResourceNode(obj) || _IsForagedMineral(obj)));
-		}
-
-		/// <summary>Whether a given object is a resource node or foraged mineral.</summary>
-		/// <param name="obj">The given object.</param>
-		private static bool _IsResourceNode(SObject obj)
-		{
-			return _resourceNodeIds.Contains(obj.ParentSheetIndex);
-		}
-
-		/// <summary>Whether a given object is a foraged mineral.</summary>
-		/// <param name="obj">The given object.</param>
-		private static bool _IsForagedMineral(SObject obj)
-		{
-			return obj.Name.AnyOf("Quartz", "Earth Crystal", "Frozen Tear", "Fire Quartz");
+			return (Utility.LocalPlayerHasProfession("scavenger") && ((obj.IsSpawnedObject && !Utility.IsForagedMineral(obj)) || obj.ParentSheetIndex == 590))
+				|| (Utility.LocalPlayerHasProfession("prospector") && (Utility.IsResourceNode(obj) || Utility.IsForagedMineral(obj)));
 		}
 		#endregion private methods
 	}

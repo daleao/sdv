@@ -3,7 +3,7 @@ using StardewValley.Menus;
 using StardewModdingAPI;
 using System.Collections.Generic;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
 	{
@@ -32,7 +32,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to apply modded profession descriptions.</summary>
 		protected static bool LevelUpMenuAddProfessionDescriptionsPrefix(List<string> descriptions, string professionName)
 		{
-			if (!Globals.ProfessionMap.Contains(professionName)) return true; // run original logic
+			if (!Utility.ProfessionMap.Contains(professionName)) return true; // run original logic
 
 			descriptions.Add(_i18n.Get(professionName + ".name"));
 			descriptions.AddRange(_i18n.Get(professionName + ".description").ToString().Split('\n'));

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class GameLocationDamageMonsterPatch : BasePatch
 	{
@@ -54,7 +54,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.FindProfessionCheck(Farmer.scout)							// find index of scout check
 					.Advance()
-					.SetOperand(Globals.ProfessionMap.Forward["gambit"])			// replace with gambit check
+					.SetOperand(Utility.ProfessionMap.Forward["gambit"])		// replace with gambit check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldarg_S)					// start of critChance += critChance * 0.5f
 					)
@@ -64,7 +64,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					)
 					.Advance()
 					.ReplaceWith(												// was Ldc_R4 0.5
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationDamageMonsterPatch), nameof(_GetBonusCritChanceForGambit)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utility), nameof(Utility.GetGambitBonusCritChance)))
 					)
 					.Advance()
 					.Remove();													// was Mul
@@ -82,12 +82,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindProfessionCheck(Globals.ProfessionMap.Forward["brute"], fromCurrentIndex: true)
+					.FindProfessionCheck(Utility.ProfessionMap.Forward["brute"], fromCurrentIndex: true)	// find index of brute check
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Ldc_R4, operand: 1.15f)
+						new CodeInstruction(OpCodes.Ldc_R4, operand: 1.15f)									// brute damage multiplier
 					)
-					.ReplaceWith(
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationDamageMonsterPatch), nameof(_GetBonusDamageMultiplierForBrute)))
+					.ReplaceWith(																			// replace with custom multiplier
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utility), nameof(Utility.GetBruteBonusDamageMultiplier)))
 					);
 			}
 			catch (Exception ex)
@@ -103,13 +103,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			try
 			{
 				_helper
-					.FindProfessionCheck(Farmer.desperado, fromCurrentIndex: true)
+					.FindProfessionCheck(Farmer.desperado, fromCurrentIndex: true)	// find index of desperado check
 					.Advance()
-					.SetOperand(Globals.ProfessionMap.Forward["gambit"])
+					.SetOperand(Utility.ProfessionMap.Forward["gambit"])			// change to gambit check
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Ldc_R4, operand: 2f)
+						new CodeInstruction(OpCodes.Ldc_R4, operand: 2f)			// desperado crit damage multiplier
 					)
-					.SetOperand(10f);
+					.SetOperand(10f);												// replace with custom multiplier
 			}
 			catch (Exception ex)
 			{
@@ -122,25 +122,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to count Brute kill streak.</summary>
 		protected static void GameLocationDamageMonsterPostfix(ref uint __state, Farmer who)
 		{
-			if (who.IsLocalPlayer && Globals.LocalPlayerHasProfession("brute") && Game1.stats.MonstersKilled > __state)
-				Globals.BruteKillStreak += Game1.stats.MonstersKilled - __state;
+			if (who.IsLocalPlayer && Utility.LocalPlayerHasProfession("brute") && Game1.stats.MonstersKilled > __state)
+				AwesomeProfessions.BruteKillStreak += Game1.stats.MonstersKilled - __state;
 		}
 		#endregion harmony patches
-
-		#region private methods
-		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>
-		private static float _GetBonusDamageMultiplierForBrute()
-		{
-			return (float)(1.0 + Globals.BruteKillStreak * 0.005);
-		}
-
-		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>
-		/// <param name="who">The player.</param>
-		private static float _GetBonusCritChanceForGambit(Farmer who)
-		{
-			double healthPercent = (double)who.health / who.maxHealth;
-			return (float)(0.2 / (healthPercent + 0.2) - 0.2 / 1.2);
-		}
-		#endregion private methods
 	}
 }

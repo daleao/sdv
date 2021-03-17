@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class BushShakePatch : BasePatch
 	{
@@ -58,7 +58,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					)
 					.GetLabels(out List<Label> labels)
 					.ReplaceWith(								// replace with custom quality
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Globals), nameof(Globals.GetForageQualityForEcologist)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utility), nameof(Utility.GetEcologistForageQuality)))
 					)
 					.SetLabels(labels);
 			}

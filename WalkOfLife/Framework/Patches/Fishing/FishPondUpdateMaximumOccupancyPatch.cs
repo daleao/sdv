@@ -5,7 +5,7 @@ using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using System.Linq;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class FishPondUpdateMaximumOccupancyPatch : BasePatch
 	{
@@ -29,7 +29,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static void FishPondUpdateMaximumOccupancyPostfix(ref FishPond __instance, ref FishPondData ____fishPondData)
 		{
 			Farmer who = Game1.getFarmer(__instance.owner.Value);
-			if (Globals.SpecificPlayerHasProfession("aquarist", who) && __instance.lastUnlockedPopulationGate.Value >= ____fishPondData.PopulationGates.Keys.Max())
+			if (Utility.SpecificPlayerHasProfession("aquarist", who) && __instance.lastUnlockedPopulationGate.Value >= ____fishPondData.PopulationGates.Keys.Max())
 				__instance.maxOccupants.Set(12);
 		}
 		#endregion harmony patches

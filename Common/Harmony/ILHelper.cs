@@ -392,7 +392,7 @@ namespace TheLion.Common.Harmony
 				_StripLabelsFromBuffer();
 
 			if (advance)
-				_indexStack.Push(endIndex - 1);
+				_indexStack.Push(endIndex);
 
 			return this;
 		}

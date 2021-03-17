@@ -5,7 +5,7 @@ using StardewValley.TerrainFeatures;
 using System;
 using TheLion.Common.Extensions;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class HoeDirtApplySpeedIncreasesPatch : BasePatch
 	{
@@ -33,7 +33,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			if (__instance.crop == null)
 				return false; // don't run original logic
 
-			bool isThereAnyAgriculturist = Globals.AnyPlayerHasProfession("agriculturist", out int n);
+			bool isThereAnyAgriculturist = Utility.AnyPlayerHasProfession("agriculturist", out int n);
 			bool shouldApplyPaddyBonus = __instance.currentLocation != null && __instance.paddyWaterCheck(__instance.currentLocation, __instance.currentTileLocation);
 			
 			if (!(__instance.fertilizer.Value.AnyOf(_speedGroId, _deluxeSpeedGroId, _hyperSpeedGroId) || isThereAnyAgriculturist || shouldApplyPaddyBonus))

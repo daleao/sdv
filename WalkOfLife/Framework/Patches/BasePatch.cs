@@ -1,7 +1,7 @@
 ﻿using Harmony;
 using StardewModdingAPI;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal abstract class BasePatch
 	{

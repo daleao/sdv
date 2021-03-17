@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 
-namespace TheLion.AwesomeProfessions.Framework
+namespace TheLion.AwesomeProfessions
 {
 	internal class AssetEditor : IAssetEditor
 	{
@@ -41,7 +41,7 @@ namespace TheLion.AwesomeProfessions.Framework
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\luremaster.png"), targetArea: new Rectangle(64, 640, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\miner.png"), targetArea: new Rectangle(0, 672, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\oenologist.png"), targetArea: new Rectangle(64, 624, 16, 16));
-			editor.PatchImage(_content.Load<Texture2D>("Assets\\producer2.png"), targetArea: new Rectangle(48, 624, 16, 16));
+			editor.PatchImage(_content.Load<Texture2D>("Assets\\" + (AwesomeProfessions.Config.UseAltProducerIcon ? "producer2.png" : "producer.png")), targetArea: new Rectangle(48, 624, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\prospector.png"), targetArea: new Rectangle(48, 672, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\rancher.png"), targetArea: new Rectangle(0, 624, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>("Assets\\rascal.png"), targetArea: new Rectangle(16, 688, 16, 16));

@@ -4,7 +4,7 @@ using StardewValley.TerrainFeatures;
 using System;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class TreeUpdateTapperProductPatch : BasePatch
 	{
@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to decrease syrup production time for Tapper.</summary>
 		protected static void TreeUpdateTapperProductPostfix(SObject tapper_instance)
 		{
-			if (tapper_instance.heldObject.Value != null && Globals.AnyPlayerHasProfession("tapper", out int n))
+			if (tapper_instance.heldObject.Value != null && Utility.AnyPlayerHasProfession("tapper", out int n))
 			{
 				if (tapper_instance.MinutesUntilReady > 0)
 					tapper_instance.MinutesUntilReady = (int)(tapper_instance.MinutesUntilReady * Math.Pow(0.75, n));

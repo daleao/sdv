@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
 	{
@@ -49,7 +49,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.FindFirst(
 						new CodeInstruction(OpCodes.Ldc_I4_S, operand: 27)
 					)
-					.SetOperand(Globals.ProfessionMap.Forward["brute"]);
+					.SetOperand(Utility.ProfessionMap.Forward["brute"]);
 			}
 			catch (Exception ex)
 			{
@@ -62,9 +62,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to remove modded immediate profession perks.</summary>
 		protected static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			if (whichProfession == Globals.ProfessionMap.Forward["angler"]) FishingRod.maxTackleUses /= 2;
+			if (whichProfession == Utility.ProfessionMap.Forward["angler"]) FishingRod.maxTackleUses /= 2;
 
-			if (whichProfession == Globals.ProfessionMap.Forward["aquarist"])
+			if (whichProfession == Utility.ProfessionMap.Forward["aquarist"])
 			{
 				foreach (Building b in Game1.getFarm().buildings)
 				{

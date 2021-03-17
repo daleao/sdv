@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class SlingshotPerformFirePatch : BasePatch
 	{
@@ -56,7 +56,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_2)						// arg 2 = Farmer who
 					)
-					.InsertProfessionCheckForSpecificPlayer(Globals.ProfessionMap.Forward["desperado"], resumeExecution)
+					.InsertProfessionCheckForSpecificPlayer(Utility.ProfessionMap.Forward["desperado"], resumeExecution)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 0.5f),
 						new CodeInstruction(OpCodes.Ldarg_0),

@@ -3,10 +3,8 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using System.Collections.Generic;
-using TheLion.Common.Extensions;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class TreeDayUpdatePatch : BasePatch
 	{
@@ -37,10 +35,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to increase Abrorist non-fruit tree growth odds.</summary>
 		protected static void TreeDayUpdatePostfix(ref Tree __instance, int __state, GameLocation environment, Vector2 tileLocation)
 		{
-			bool isThereAnyArborist = Globals.AnyPlayerHasProfession("arborist", out int n);
+			bool isThereAnyArborist = Utility.AnyPlayerHasProfession("arborist", out int n);
 			if (__instance.growthStage.Value > __state || !isThereAnyArborist) return;
 
-			if (_CanGrow(__instance, environment, tileLocation))
+			if (Utility.Tree.CanGrow(__instance, environment, tileLocation))
 			{
 				if (__instance.treeType.Value == Tree.mahoganyTree)
 				{
@@ -51,33 +49,5 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			}
 		}
 		#endregion harmony patches
-
-		#region private methods
-		/// <summary>Whether a given common tree satisfies all conditions to advance a stage.</summary>
-		/// <param name="tree">The given tree.</param>
-		/// <param name="environment">The tree's game location.</param>
-		/// <param name="tileLocation">The tree's tile location.</param>
-		private static bool _CanGrow(Tree tree, GameLocation environment, Vector2 tileLocation)
-		{
-			if (Game1.GetSeasonForLocation(tree.currentLocation).Equals("winter") && !tree.treeType.Value.AnyOf(Tree.palmTree, Tree.palmTree2) && !environment.CanPlantTreesHere(-1, (int)tileLocation.X, (int)tileLocation.Y) && !tree.fertilized.Value)
-				return false;
-
-			string s = environment.doesTileHaveProperty((int)tileLocation.X, (int)tileLocation.Y, "NoSpawn", "Back");
-			if (s != null && s.AnyOf("All", "Tree", "True")) return false;
-
-			Rectangle growthRect = new Rectangle((int)((tileLocation.X - 1f) * 64f), (int)((tileLocation.Y - 1f) * 64f), 192, 192);
-			if (tree.growthStage.Value == 4)
-			{
-				foreach (KeyValuePair<Vector2, TerrainFeature> kvp in environment.terrainFeatures.Pairs)
-				{
-					if (kvp.Value is Tree && !kvp.Value.Equals(tree) && (kvp.Value as Tree).growthStage.Value >= 5 && kvp.Value.getBoundingBox(kvp.Key).Intersects(growthRect))
-						return false;
-				}
-			}
-			else if (tree.growthStage.Value == 0 && environment.objects.ContainsKey(tileLocation)) return false;
-
-			return true;
-		}
-		#endregion private methods
 	}
 }

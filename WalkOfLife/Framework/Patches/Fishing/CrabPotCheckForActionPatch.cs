@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class CrabPotCheckForActionPatch : BasePatch
 	{
@@ -32,7 +32,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to handle Luremaster-caught non-trap fish.</summary>
 		protected static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result, ref bool ___lidFlapping, ref float ___lidFlapTimer, ref Vector2 ___shake, ref float ___shakeTimer, Farmer who, bool justCheckingForActivity = false)
 		{
-			if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !_IsFishButNotTrapFish(__instance.heldObject.Value))
+			if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !Utility.IsFishButNotTrapFish(__instance.heldObject.Value))
 				return true; // run original logic
 
 			SObject item = __instance.heldObject.Value;
@@ -70,28 +70,5 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 			return false; // don't run original logic
 		}
 		#endregion harmony patches
-
-		#region private methods
-		/// <summary>Whether a given object is a fish that's not a regular crab pot fish.</summary>
-		/// <param name="obj">The given object.</param>
-		private static bool _IsFishButNotTrapFish(SObject obj)
-		{
-			return obj?.Type == "Fish" && !(_IsTrapFish(obj) || _IsTrash(obj));
-		}
-
-		/// <summary>Whether a given object is a crab pot fish.</summary>
-		/// <param name="obj">The given object.</param>
-		private static bool _IsTrapFish(SObject obj)
-		{
-			return obj?.ParentSheetIndex > 714 && obj?.ParentSheetIndex < 724;
-		}
-
-		/// <summary>Whether a given object is a trash.</summary>
-		/// <param name="obj">The given object.</param>
-		private static bool _IsTrash(SObject obj)
-		{
-			return obj?.ParentSheetIndex > 166 && obj?.ParentSheetIndex < 173;
-		}
-		#endregion private methods
 	}
 }

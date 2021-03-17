@@ -1,7 +1,7 @@
 ﻿using Harmony;
-using TheLion.AwesomeProfessions.Framework.Patches;
+using StardewModdingAPI;
 
-namespace TheLion.AwesomeProfessions.Framework
+namespace TheLion.AwesomeProfessions
 {
 	/// <summary>Unified entry point for applying multiple patches.</summary>
 	internal class HarmonyPatcher

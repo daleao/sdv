@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class GameLocationBreakStonePatch : BasePatch
 	{
@@ -158,7 +158,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Miner extra resources.</summary>
 		protected static void GameLocationBreakStonePostfix(ref GameLocation __instance, int indexOfStone, int x, int y, Farmer who, Random r)
 		{
-			if (Globals.SpecificPlayerHasProfession("miner", who) && r.NextDouble() < 0.10)
+			if (Utility.SpecificPlayerHasProfession("miner", who) && r.NextDouble() < 0.10)
 			{
 				if (_resourceFromStoneId.TryGetValue(indexOfStone, out int indexOfResource))
 					Game1.createObjectDebris(indexOfResource, x, y, who.UniqueMultiplayerID, __instance);

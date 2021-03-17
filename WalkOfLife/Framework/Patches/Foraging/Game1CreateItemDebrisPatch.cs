@@ -1,8 +1,9 @@
 ﻿using Harmony;
 using StardewModdingAPI;
 using StardewValley;
+using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class Game1CreateItemDebrisPatch : BasePatch
 	{
@@ -25,18 +26,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to count foraged berries as Ecologist.</summary>
 		protected static void Game1CreateItemDebrisPostfix(Item item)
 		{
-			if (_IsWildBerry(item) && Globals.LocalPlayerHasProfession("ecologist"))
+			if (Utility.IsWildBerry(item as SObject) && Utility.LocalPlayerHasProfession("ecologist"))
 				++AwesomeProfessions.Data.ItemsForaged;
 		}
 		#endregion harmony patches
-
-		#region private methods
-		/// <summary>Whether a given item is salmonberry or blackberry.</summary>
-		/// <param name="item'>The given item.</param>
-		private static bool _IsWildBerry(Item item)
-		{
-			return item?.ParentSheetIndex == 296 || item?.ParentSheetIndex == 410;
-		}
-		#endregion private methods
 	}
 }

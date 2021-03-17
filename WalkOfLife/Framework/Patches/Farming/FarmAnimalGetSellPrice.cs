@@ -1,9 +1,8 @@
 ﻿using Harmony;
 using StardewModdingAPI;
 using StardewValley;
-using System;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class FarmAnimalGetSellPricePatch : BasePatch
 	{
@@ -27,9 +26,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static bool FarmAnimalGetSellPricePrefix(ref FarmAnimal __instance, ref int __result)
 		{
 			Farmer who = Game1.getFarmer(__instance.ownerID.Value);
-			if (Globals.SpecificPlayerHasProfession("breeder", who))
+			if (Utility.SpecificPlayerHasProfession("breeder", who))
 			{
-				double adjustedFriendship = Math.Pow(Math.Sqrt(2) * __instance.friendshipTowardFarmer.Value / 1000, 2) + 0.5;
+				double adjustedFriendship = Utility.GetProducerAdjustedFriendship(__instance);
 				__result = (int)(__instance.price.Value * adjustedFriendship);
 				return false; // don't run original logic
 			}

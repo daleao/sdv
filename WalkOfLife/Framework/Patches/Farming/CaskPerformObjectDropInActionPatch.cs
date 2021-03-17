@@ -3,7 +3,7 @@ using StardewModdingAPI;
 using StardewValley.Objects;
 using StardewValley;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class CaskPerformObjectDropInActionPatch : BasePatch
 	{
@@ -26,18 +26,9 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Oenologist faster wine aging.</summary>
 		protected static void CaskPerformObjectDropInActionPostfix(ref Cask __instance, Item dropIn, Farmer who)
 		{
-			if (Globals.SpecificPlayerHasProfession("oenologist", who) && _IsWine(dropIn))
+			if (Utility.SpecificPlayerHasProfession("oenologist", who) && Utility.IsWine(dropIn))
 				__instance.agingRate.Value *= 2f;
 		}
 		#endregion harmony patches
-
-		#region private methods
-		/// <summary>Whether a given object is wine.</summary>
-		/// <param name="obj">The given object.</param>
-		private static bool _IsWine(Item item)
-		{
-			return item?.ParentSheetIndex == 348;
-		}
-		#endregion private methods
 	}
 }

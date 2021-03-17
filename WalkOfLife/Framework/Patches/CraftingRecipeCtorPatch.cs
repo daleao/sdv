@@ -4,7 +4,7 @@ using StardewValley;
 using System;
 using System.Collections.Generic;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class CraftingRecipeCtorPatch : BasePatch
 	{
@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for cheaper crafting recipes for Blaster and Tapper.</summary>
 		protected static void CraftingRecipeCtorPostfix(ref CraftingRecipe __instance)
 		{
-			if (__instance.name.Equals("Tapper") && Globals.LocalPlayerHasProfession("tapper"))
+			if (__instance.name.Equals("Tapper") && Utility.LocalPlayerHasProfession("tapper"))
 			{
 				__instance.recipeList = new Dictionary<int, int>
 				{
@@ -35,7 +35,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 					{ 334, 1 }
 				};
 			}
-			else if (__instance.name.Contains("Bomb") && Globals.LocalPlayerHasProfession("blaster"))
+			else if (__instance.name.Contains("Bomb") && Utility.LocalPlayerHasProfession("blaster"))
 			{
 				__instance.recipeList = __instance.name switch
 				{

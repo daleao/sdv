@@ -3,7 +3,7 @@ using StardewModdingAPI;
 using System;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class ObjectGetMinutesForCrystalariumPatch : BasePatch
 	{
@@ -26,7 +26,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to speed up Gemologist crystalarium processing time.</summary>
 		protected static void ObjectGetMinutesForCrystalariumPostfix(ref int __result)
 		{
-			if (Globals.AnyPlayerHasProfession("gemologist", out int n)) __result = (int)(__result * Math.Pow(0.75, n));
+			if (Utility.AnyPlayerHasProfession("gemologist", out int n)) __result = (int)(__result * Math.Pow(0.75, n));
 		}
 		#endregion harmony patches
 	}

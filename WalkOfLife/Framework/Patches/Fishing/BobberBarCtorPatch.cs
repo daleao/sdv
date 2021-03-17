@@ -1,11 +1,9 @@
 ﻿using Harmony;
 using StardewModdingAPI;
-using StardewValley;
-using StardewValley.Buildings;
 using StardewValley.Menus;
 using System;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class BobberBarCtorPatch : BasePatch
 	{
@@ -28,27 +26,10 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Aquarist bonus bobber height.</summary>
 		protected static void BobberBarCtorPostfix(ref BobberBar __instance, ref int ___bobberBarHeight, ref float ___bobberBarPos)
 		{
-			int bonusBobberHeight = _GetBonusBobberBarHeight();
+			int bonusBobberHeight = Utility.GetAquaristBonusBobberBarHeight();
 			___bobberBarHeight += bonusBobberHeight;
 			___bobberBarPos -= bonusBobberHeight;
 		}
 		#endregion harmony patches
-
-		#region private methods
-		/// <summary>Get the bonus bobber bar height for Aquarist.</summary>
-		private static int _GetBonusBobberBarHeight()
-		{
-			if (!Globals.LocalPlayerHasProfession("aquarist")) return 0;
-
-			int bonusBobberHeight = 0;
-			foreach(Building b in Game1.getFarm().buildings)
-			{
-				if ((b.owner.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && (b as FishPond).FishCount >= 10)
-					bonusBobberHeight += 7;
-			}
-
-			return bonusBobberHeight;
-		}
-		#endregion private methods
 	}
 }

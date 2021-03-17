@@ -2,7 +2,7 @@
 using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class FruitTreeDayUpdatePatch : BasePatch
 	{
@@ -25,7 +25,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch to increase Abrorist fruit tree growth speed.</summary>
 		protected static void FruitTreeDayUpdatePostfix(ref FruitTree __instance)
 		{
-			if (Globals.AnyPlayerHasProfession("arborist", out int n) && __instance.daysUntilMature.Value % 7 == 0)
+			if (Utility.AnyPlayerHasProfession("arborist", out int n) && __instance.daysUntilMature.Value % 7 == 0)
 				__instance.daysUntilMature.Value -= n;
 		}
 		#endregion harmony patches

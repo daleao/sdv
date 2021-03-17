@@ -62,7 +62,6 @@
 	"conservationist.description": "Collect junk to gain village favor. Gain tax deductions each season.",
 	"conservationist.letter": "Dear {{farmerName]},\nWe are pleased to inform you that upon review of your environmentalist activities we have determined that you qualify for an income tax deduction of {{taxDeduction}}% as per section 501(c)(3) of the Ferngill Revenue Code. Because this letter could help resolve any question regarding your fiscal status, you should keep it in your permanent records.\nSincerely,\nGovernor",
 
-
 	// Combat
 	"fighter.name": "Fighter",
 	"fighter.description": "Deal 10% more damage. +15 HP.",

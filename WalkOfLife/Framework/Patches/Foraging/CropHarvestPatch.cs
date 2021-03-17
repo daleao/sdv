@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class CropHarvestPatch : BasePatch
 	{
@@ -37,7 +37,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Harvester extra crop yield.</summary>
 		private static bool CropHarvestPrefix(ref Crop __instance, JunimoHarvester junimoHarvester = null)
 		{
-			if (junimoHarvester == null && Globals.LocalPlayerHasProfession("harvester"))
+			if (junimoHarvester == null && Utility.LocalPlayerHasProfession("harvester"))
 				__instance.chanceForExtraCrops.Value += 0.10;
 
 			return true; // run original logic
@@ -59,7 +59,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_4)	// start of @object.Quality = 4
 					)
 					.ReplaceWith(								// replace with custom quality
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Globals), nameof(Globals.GetForageQualityForEcologist)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utility), nameof(Utility.GetEcologistForageQuality)))
 					);
 			}
 			catch(Exception ex)
@@ -81,7 +81,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_3),
 						new CodeInstruction(OpCodes.Blt)
 					)
-					.InsertProfessionCheckForLocalPlayer(Globals.ProfessionMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
+					.InsertProfessionCheckForLocalPlayer(Utility.ProfessionMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
 					.AdvanceUntil(																// find start of dice roll
 						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(Random)} (9)")	// local 9 = System.Random random2
 					)

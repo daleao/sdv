@@ -6,7 +6,7 @@ using StardewValley.Monsters;
 using StardewValley.Projectiles;
 using StardewValley.Network;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
 	{
@@ -36,30 +36,19 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static bool BasicProjectileBehaviorOnCollisionWithMonsterPrefix(ref BasicProjectile __instance, ref NetBool ___damagesMonsters, ref NetCharacterRef ___theOneWhoFiredMe, ref int ___travelTime, NPC n, GameLocation location)
 		{
 			Farmer who = ___theOneWhoFiredMe.Get(location) is Farmer ? ___theOneWhoFiredMe.Get(location) as Farmer : Game1.player;
-			if (!Globals.SpecificPlayerHasProfession("rascal", who)) return true; // run original logic
+			if (!Utility.SpecificPlayerHasProfession("rascal", who)) return true; // run original logic
 
 			if (!___damagesMonsters) return false; // don't run original logic
 
 			_reflection.GetMethod(__instance, name: "explosionAnimation").Invoke(location);
 			if (n is Monster)
 			{
-				int damageToMonster = (int)(__instance.damageToFarmer.Value * _GetBonusDamageForTravelTime(___travelTime));
+				int damageToMonster = (int)(__instance.damageToFarmer.Value * Utility.GetRascalBonusDamageForTravelTime(___travelTime));
 				location.damageMonster(n.GetBoundingBox(), damageToMonster, damageToMonster + 1, isBomb: false, who);
 			}
 			
 			return false; // don't run original logic
 		}
 		#endregion
-
-		#region private methods
-		/// <summary>Get bonus slingshot damage as function of projectile travel distance.</summary>
-		/// <param name="travelDistance">Distance travelled by the projectile.</param>
-		private static float _GetBonusDamageForTravelTime(int travelDistance)
-		{
-			int maxDistance = 800;
-			if (travelDistance > maxDistance) return 1.5f;
-			return 0.5f / maxDistance * travelDistance + 1f;
-		}
-		#endregion private methods
 	}
 }

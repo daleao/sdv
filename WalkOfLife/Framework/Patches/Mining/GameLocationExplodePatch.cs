@@ -6,7 +6,7 @@ using System;
 using TheLion.Common.Classes;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class GameLocationExplodePatch : BasePatch
 	{
@@ -30,7 +30,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Demolitionist explosion resistance.</summary>
 		protected static bool GameLocationExplodePrefix(Farmer who, ref bool damageFarmers)
 		{
-			if (damageFarmers && Globals.SpecificPlayerHasProfession("demolitionist", who)) damageFarmers = false;
+			if (damageFarmers && Utility.SpecificPlayerHasProfession("demolitionist", who)) damageFarmers = false;
 
 			return true; // run original logic
 		}
@@ -38,13 +38,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		/// <summary>Patch for Blaster double coal chance + Demolitionist speed burst.</summary>
 		protected static void GameLocationExplodePostfix(ref GameLocation __instance, Vector2 tileLocation, int radius, Farmer who)
 		{
-			if (Globals.SpecificPlayerHasProfession("blaster", who))
+			if (Utility.SpecificPlayerHasProfession("blaster", who))
 			{
 				double chanceModifier = who.DailyLuck / 2.0 + who.LuckLevel * 0.001 + who.MiningLevel * 0.005;
 				CircleTileGrid grid = new CircleTileGrid(tileLocation, radius);
 				foreach (Vector2 tile in grid)
 				{
-					if (__instance.objects.TryGetValue(tile, out SObject tileObj) && _IsStone(tileObj))
+					if (__instance.objects.TryGetValue(tile, out SObject tileObj) && Utility.IsStone(tileObj))
 					{
 						Random r = new Random(tile.GetHashCode());
 						if (tileObj.ParentSheetIndex == 343 || tileObj.ParentSheetIndex == 450)
@@ -58,24 +58,15 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				}
 			}
 
-			if (Globals.LocalPlayerHasProfession("demolitionist"))
+			if (Utility.LocalPlayerHasProfession("demolitionist"))
 			{
 				int distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
 				if (distanceFromEpicenter < radius * 2 + 1)
-					Globals.DemolitionistBuffMagnitude = 4;
+					AwesomeProfessions.DemolitionistBuffMagnitude = 4;
 				if (distanceFromEpicenter < radius + 1)
-					Globals.DemolitionistBuffMagnitude += 2;
+					AwesomeProfessions.DemolitionistBuffMagnitude += 2;
 			}
 		}
 		#endregion harmony patches
-
-		#region private methods
-		/// <summary>Whether a given object is a stone.</summary>
-		/// <param name="obj">The world object.</param>
-		private static bool _IsStone(SObject obj)
-		{
-			return obj?.Name == "Stone";
-		}
-		#endregion private methods
 	}
 }

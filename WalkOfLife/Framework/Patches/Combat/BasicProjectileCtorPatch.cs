@@ -6,7 +6,7 @@ using StardewValley;
 using StardewValley.Projectiles;
 using System;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class BasicProjectileCtorPatch : BasePatch
 	{
@@ -28,7 +28,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		#region harmony patches
 		protected static void BasicProjectileCtorPostfix(ref NetInt ___bouncesLeft, Character firer)
 		{
-			if (AwesomeProfessions.Config.Modkey.IsDown() && Globals.SpecificPlayerHasProfession("rascal", firer as Farmer))
+			if (AwesomeProfessions.Config.Modkey.IsDown() && Utility.SpecificPlayerHasProfession("rascal", firer as Farmer))
 				++___bouncesLeft.Value;
 		}
 		#endregion harmony patches

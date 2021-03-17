@@ -4,7 +4,7 @@ using StardewValley;
 using System;
 using TheLion.Common.Extensions;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class AnimalHouseAddNewHatchedAnimalPatch : BasePatch
 	{
@@ -28,13 +28,13 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		protected static void AnimalHouseAddNewHatchedAnimalPostfix(ref AnimalHouse __instance)
 		{
 			Farmer who = Game1.getFarmer(__instance.getBuilding().owner.Value);
-			if (!Globals.SpecificPlayerHasProfession("breeder", who)) return;
+			if (!Utility.SpecificPlayerHasProfession("breeder", who)) return;
 
 			FarmAnimal a = __instance.Animals[__instance.animalsThatLiveHere.Last()];
 			if (a.age.Value == 0 && a.friendshipTowardFarmer.Value == 0)
 			{
 				Random r = new Random(__instance.GetHashCode() + a.GetHashCode());
-				a.friendshipTowardFarmer.Value = r.Next(0, Globals.MaxStartingFriendshipForNewbornAnimals);
+				a.friendshipTowardFarmer.Value = r.Next(0, AwesomeProfessions.Config.MaxStartingFriendshipForNewbornAnimals);
 			}
 		}
 		#endregion harmony patches

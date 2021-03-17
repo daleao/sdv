@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using TheLion.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions.Framework.Patches
+namespace TheLion.AwesomeProfessions
 {
 	internal class LevelUpMenuRevalidateHealthPatch : BasePatch
 	{
@@ -47,7 +47,7 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 				_helper
 					.FindProfessionCheck(Farmer.defender)
 					.Advance()
-					.SetOperand(Globals.ProfessionMap.Forward["brute"]);
+					.SetOperand(Utility.ProfessionMap.Forward["brute"]);
 			}
 			catch (Exception ex)
 			{
@@ -62,12 +62,12 @@ namespace TheLion.AwesomeProfessions.Framework.Patches
 		{
 			// revalidate Angler tackle health
 			int expectedMaxTackleUses = 20;
-			if (Globals.SpecificPlayerHasProfession("angler", farmer)) expectedMaxTackleUses *= 2;
+			if (Utility.SpecificPlayerHasProfession("angler", farmer)) expectedMaxTackleUses *= 2;
 
 			FishingRod.maxTackleUses = expectedMaxTackleUses;
 
 			// revalidate Aquarist max fish pond capacity
-			if (Globals.SpecificPlayerHasProfession("aquarist", farmer))
+			if (Utility.SpecificPlayerHasProfession("aquarist", farmer))
 			{
 				foreach (Building b in Game1.getFarm().buildings)
 				{
