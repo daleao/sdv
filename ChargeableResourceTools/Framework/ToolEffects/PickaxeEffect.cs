@@ -4,10 +4,9 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 using System.Collections.Generic;
-using TheLion.AwesomeTools.Configs;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeTools.Framework.ToolEffects
+namespace TheLion.AwesomeTools
 {
 	/// <summary>Applies Pickaxe-specific effects.</summary>
 	internal class PickaxeEffect : BaseEffect
@@ -24,6 +23,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The effect settings.</param>
+		/// <param name="modRegistry">Metadata about loaded mods.</param>
 		public PickaxeEffect(PickaxeConfig config, IModRegistry modRegistry)
 			: base(modRegistry)
 		{

@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
 using System;
@@ -11,12 +10,8 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class CrabPotCheckForActionPatch : BasePatch
 	{
-		//private static IReflectionHelper _reflection;
-
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal CrabPotCheckForActionPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal CrabPotCheckForActionPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

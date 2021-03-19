@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
@@ -16,11 +15,9 @@ namespace TheLion.AwesomeProfessions
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuGetImmediateProfessionPerkPatch(IMonitor monitor)
-		: base(monitor)
+		internal LevelUpMenuGetImmediateProfessionPerkPatch()
 		{
-			_helper = new ILHelper(monitor);
+			_helper = new ILHelper(_monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -62,9 +59,8 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to add modded immediate profession perks.</summary>
 		protected static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			if (whichProfession == Utility.ProfessionMap.Forward["angler"]) FishingRod.maxTackleUses *= 2;
-
-			if (whichProfession == Utility.ProfessionMap.Forward["aquarist"])
+			if (Utility.ProfessionMap.Reverse[whichProfession] == "angler") FishingRod.maxTackleUses *= 2;
+			else if (Utility.ProfessionMap.Reverse[whichProfession] == "aquarist")
 			{
 				foreach (Building b in Game1.getFarm().buildings)
 				{
@@ -72,6 +68,8 @@ namespace TheLion.AwesomeProfessions
 						(b as FishPond).UpdateMaximumOccupancy();
 				}
 			}
+
+			AwesomeProfessions.EventManager.SubscribeEventsForProfession(whichProfession);
 		}
 		#endregion harmony patches
 	}

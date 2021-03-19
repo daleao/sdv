@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
 using System;
@@ -14,11 +13,9 @@ namespace TheLion.AwesomeProfessions
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal FishingRodStartMinigameEndFunctionPatch(IMonitor monitor)
-			: base(monitor)
+		internal FishingRodStartMinigameEndFunctionPatch()
 		{
-			_helper = new ILHelper(monitor);
+			_helper = new ILHelper(_monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>

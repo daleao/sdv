@@ -8,6 +8,49 @@ namespace TheLion.AwesomeProfessions
 {
 	public static partial class Utility
 	{
+		/// <summary>Look-up table for what resource should spawn from a given stone.</summary>
+		public static readonly Dictionary<int, int> ResourceFromStoneId = new Dictionary<int, int>
+		{
+			// stone
+			{ 668, 390 },
+			{ 670, 390 },
+			{ 845, 390 },
+			{ 846, 390 },
+			{ 847, 390 },
+
+			// ores
+			{ 751, 378 },
+			{ 849, 378 },
+			{ 290, 380 },
+			{ 850, 380 },
+			{ 764, 384 },
+			{ 765, 386 },
+			{ 95, 909 },
+
+			// geodes
+			{ 75, 535 },
+			{ 76, 536 },
+			{ 77, 537 },
+			{ 819, 749 },
+
+			// gems
+			{ 8, 66 },
+			{ 10, 68 },
+			{ 12, 60 },
+			{ 14, 62 },
+			{ 6, 70 },
+			{ 4, 64 },
+			{ 2, 72 },
+
+			// other
+			{ 843, 848 },
+			{ 844, 848 },
+			{ 25, 719 },
+			{ 816, 881 },
+			{ 817, 881 },
+			{ 818, 330 }
+		};
+
 		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
 		/// <param name="obj">The given object.</param>
 		public static bool IsAnimalProduct(SObject obj)

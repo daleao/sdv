@@ -4,10 +4,9 @@ using StardewValley;
 using StardewValley.TerrainFeatures;
 using System.Collections.Generic;
 using System.Linq;
-using TheLion.AwesomeTools.Configs;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeTools.Framework.ToolEffects
+namespace TheLion.AwesomeTools
 {
 	/// <summary>Applies Axe-specific effects.</summary>
 	internal class AxeEffect : BaseEffect
@@ -24,6 +23,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The effect settings.</param>
+		/// <param name="modRegistry">Metadata about loaded mods.</param>
 		public AxeEffect(AxeConfig config, IModRegistry modRegistry)
 			: base(modRegistry)
 		{

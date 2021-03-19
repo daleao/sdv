@@ -8,9 +8,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using TheLion.Common.Classes;
 
-using static TheLion.AwesomeTools.Framework.Utils;
-
-namespace TheLion.AwesomeTools.Framework
+namespace TheLion.AwesomeTools
 {
 	/// <summary>Patches the game code to implement modded tool behavior.</summary>
 	internal static class HarmonyPatcher
@@ -24,7 +22,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if (!ShouldCharge(__instance))
+				if (!Utility.ShouldCharge(__instance))
 					return true; // run original logic
 
 				who.Halt();
@@ -59,7 +57,7 @@ namespace TheLion.AwesomeTools.Framework
 		{
 			protected static bool Prefix(ref Tool __instance, Farmer who)
 			{
-				if (!ShouldCharge(__instance))
+				if (!Utility.ShouldCharge(__instance))
 					return true; // run original logic
 
 				who.Halt();

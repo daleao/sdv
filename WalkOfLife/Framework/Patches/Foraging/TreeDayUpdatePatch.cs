@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -9,9 +8,7 @@ namespace TheLion.AwesomeProfessions
 	internal class TreeDayUpdatePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal TreeDayUpdatePatch(IMonitor monitor)
-		: base(monitor) { }
+		internal TreeDayUpdatePatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -38,7 +35,7 @@ namespace TheLion.AwesomeProfessions
 			bool isThereAnyArborist = Utility.AnyPlayerHasProfession("arborist", out int n);
 			if (__instance.growthStage.Value > __state || !isThereAnyArborist) return;
 
-			if (Utility.Tree.CanGrow(__instance, environment, tileLocation))
+			if (Utility.CanThisTreeGrow(__instance, environment, tileLocation))
 			{
 				if (__instance.treeType.Value == Tree.mahoganyTree)
 				{

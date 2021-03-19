@@ -1,7 +1,6 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
 using Netcode;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Projectiles;
 using System;
@@ -11,9 +10,7 @@ namespace TheLion.AwesomeProfessions
 	internal class BasicProjectileCtorPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal BasicProjectileCtorPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal BasicProjectileCtorPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

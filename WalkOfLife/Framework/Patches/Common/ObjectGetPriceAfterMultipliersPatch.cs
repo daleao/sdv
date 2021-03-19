@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 using SObject = StardewValley.Object;
@@ -9,9 +8,7 @@ namespace TheLion.AwesomeProfessions
 	internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal ObjectGetPriceAfterMultipliersPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal ObjectGetPriceAfterMultipliersPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

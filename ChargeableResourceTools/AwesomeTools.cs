@@ -8,8 +8,6 @@ using StardewValley.Tools;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TheLion.AwesomeTools.Configs;
-using TheLion.AwesomeTools.Framework;
 using TheLion.AwesomeTools.Integrations;
 
 namespace TheLion.AwesomeTools
@@ -220,7 +218,7 @@ namespace TheLion.AwesomeTools
 				}
 			}
 
-			if (upgradeLevel == 5 && !Utils.HasHigherLevelToolMod(ModRegistry))
+			if (upgradeLevel == 5 && !Utility.HasHigherLevelToolMod(ModRegistry))
 			{
 				Monitor.Log("You must have either 'Prismatic Tools' or 'Radioactive Tools' installed to set this upgrade level.", LogLevel.Info);
 				return;

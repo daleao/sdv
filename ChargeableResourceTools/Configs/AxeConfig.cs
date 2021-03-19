@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TheLion.AwesomeTools.Configs
+namespace TheLion.AwesomeTools
 {
 	/// <summary>Configuration for the axe shockwave.</summary>
 	public class AxeConfig

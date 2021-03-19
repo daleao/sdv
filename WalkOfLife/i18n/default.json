@@ -22,6 +22,8 @@
 	"ecologist.description": "Wild berries restore 50% more health and energy. Learn to identify forage of higher quality over time.",
 	"scavenger.name": "Scavenger",
 	"scavenger.description": "Location of forageable items revealed. Occasionally track hidden treasures.",
+	"scavenger.huntstarted": "You sense nearby treasure...",
+	"scavenger.huntfailed": "The treasure fades.",
 
 	"lumberjack.name": "Lumberjack",
 	"lumberjack.description": "Felling trees yields 25% more wood.",
@@ -37,6 +39,8 @@
 	"spelunker.description": "Chance to find ladders and shafts increases as you reach deeper levels. +1 speed in the mines.",
 	"prospector.name": "Prospector",
 	"prospector.description": "Locations of mining nodes. Occasionally track buried treasures.",
+	"prospector.huntstarted": "You sense nearby treasure...",
+	"prospector.huntfailed": "The treasure fades.",
 
 	"blaster.name": "Blaster",
 	"blaster.description": "Bombs are cheaper to craft. Gain more coal from exploded rocks.",
@@ -77,8 +81,5 @@
 	"desperado.name": "Desperado",
 	"desperado.description": "Shots fired within 0.5 seconds deal triple damage.",
 	"slimemaster.name": "Slimemaster",
-	"slimemaster.description": "Slimes are your allies. Slime balls drop special items.",
-
-	//other
-	"scavenger.hudmessage": "You sense nearby treasure..."
+	"slimemaster.description": "Slimes are your allies. Slime balls drop special items."
 }

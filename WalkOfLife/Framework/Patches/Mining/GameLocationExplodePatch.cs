@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 using TheLion.Common.Classes;
@@ -11,9 +10,7 @@ namespace TheLion.AwesomeProfessions
 	internal class GameLocationExplodePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationExplodePatch(IMonitor monitor)
-		: base(monitor) { }
+		internal GameLocationExplodePatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

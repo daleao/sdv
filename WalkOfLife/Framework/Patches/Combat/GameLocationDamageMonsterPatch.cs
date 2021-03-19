@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -14,11 +13,9 @@ namespace TheLion.AwesomeProfessions
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationDamageMonsterPatch(IMonitor monitor)
-		: base(monitor)
+		internal GameLocationDamageMonsterPatch()
 		{
-			_helper = new ILHelper(monitor);
+			_helper = new ILHelper(_monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>

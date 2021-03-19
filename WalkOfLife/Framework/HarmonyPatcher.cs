@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 
 namespace TheLion.AwesomeProfessions
 {

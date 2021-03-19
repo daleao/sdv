@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 
@@ -9,9 +8,7 @@ namespace TheLion.AwesomeProfessions
 	internal class TemporaryAnimatedSpriteCtorPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal TemporaryAnimatedSpriteCtorPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal TemporaryAnimatedSpriteCtorPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

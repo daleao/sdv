@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using System;
@@ -12,9 +11,7 @@ namespace TheLion.AwesomeProfessions
 		private const int _speedGroId = 465, _deluxeSpeedGroId = 466, _hyperSpeedGroId = 918;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal HoeDirtApplySpeedIncreasesPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal HoeDirtApplySpeedIncreasesPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

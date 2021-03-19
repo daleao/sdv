@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley.Menus;
 using System;
 
@@ -8,9 +7,7 @@ namespace TheLion.AwesomeProfessions
 	internal class BobberBarCtorPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal BobberBarCtorPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal BobberBarCtorPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

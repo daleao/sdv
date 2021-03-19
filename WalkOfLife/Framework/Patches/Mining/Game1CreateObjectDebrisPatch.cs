@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 
@@ -9,9 +8,7 @@ namespace TheLion.AwesomeProfessions
 	internal class Game1CreateObjectDebrisPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal Game1CreateObjectDebrisPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal Game1CreateObjectDebrisPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -35,7 +32,7 @@ namespace TheLion.AwesomeProfessions
 					itemQuality = Utility.GetGemologistMineralQuality()
 				});
 
-				++AwesomeProfessions.Data.MineralsCollected;
+				++_data.MineralsCollected;
 				return false; // don't run original logic
 			}
 

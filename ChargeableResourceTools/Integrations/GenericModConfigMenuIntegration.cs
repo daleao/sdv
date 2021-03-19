@@ -2,10 +2,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using System;
 using System.Linq;
-using TheLion.AwesomeTools.Configs;
 using TheLion.Common.Integrations.GenericModConfigMenu;
-
-using static TheLion.AwesomeTools.Framework.Utils;
 
 namespace TheLion.AwesomeTools.Integrations
 {
@@ -126,7 +123,7 @@ namespace TheLion.AwesomeTools.Integrations
 					max: 10
 				);
 
-			if (HasHigherLevelToolMod(_modRegistry, out string whichMod))
+			if (Utility.HasHigherLevelToolMod(_modRegistry, out string whichMod))
 			{
 				menu.AddNumberField(
 					label: whichMod + " Radius",
@@ -267,7 +264,7 @@ namespace TheLion.AwesomeTools.Integrations
 					max: 10
 				);
 
-			if (HasHigherLevelToolMod(_modRegistry, out whichMod))
+			if (Utility.HasHigherLevelToolMod(_modRegistry, out whichMod))
 			{
 				menu.AddNumberField(
 					label: whichMod + " Radius",

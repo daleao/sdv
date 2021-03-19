@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
 using System;
 using SObject = StardewValley.Object;
@@ -9,9 +8,7 @@ namespace TheLion.AwesomeProfessions
 	internal class TreeUpdateTapperProductPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal TreeUpdateTapperProductPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal TreeUpdateTapperProductPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

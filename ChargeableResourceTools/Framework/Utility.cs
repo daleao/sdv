@@ -4,10 +4,10 @@ using StardewValley;
 using StardewValley.Tools;
 using System.Collections.Generic;
 
-namespace TheLion.AwesomeTools.Framework
+namespace TheLion.AwesomeTools
 {
 	/// <summary>Useful methods that don't fit anywhere specific.</summary>
-	public static class Utils
+	public static class Utility
 	{
 		/// <summary>Whether an Axe or Pickxae instance should run patched logic or original logic.</summary>
 		/// <param name="tool">The tool.</param>

@@ -1,7 +1,5 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -17,11 +15,9 @@ namespace TheLion.AwesomeProfessions
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal Game1DrawHUDPatch(IMonitor monitor)
-		: base(monitor)
+		internal Game1DrawHUDPatch()
 		{
-			_helper = new ILHelper(monitor);
+			_helper = new ILHelper(_monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -99,7 +95,7 @@ namespace TheLion.AwesomeProfessions
 						new CodeInstruction(OpCodes.Bne_Un)	// remove pair.Value.isSpawnedObject || pair.Value.ParentSheetIndex == 590
 					)
 					.Insert(								// insert call to custom condition
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Game1DrawHUDPatch), nameof(_ShouldDraw))),
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utility), nameof(Utility.ShouldPlayerTrackObject))),
 						new CodeInstruction(OpCodes.Brfalse, operand: loopHead)
 					);
 			}
@@ -118,74 +114,15 @@ namespace TheLion.AwesomeProfessions
 			if (AwesomeProfessions.InitialLadderTiles.Count() > 0)
 			{
 				foreach (var tile in AwesomeProfessions.InitialLadderTiles)
-				{
-					if (StardewValley.Utility.isOnScreen(tile * 64f + new Vector2(32f, 32f), 64)) continue;
-
-					Rectangle vpbounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
-					Vector2 onScreenPosition = default;
-					float rotation = 0f;
-					if (tile.X * 64f > Game1.viewport.MaxCorner.X - 64)
-					{
-						onScreenPosition.X = vpbounds.Right - 8;
-						rotation = (float)Math.PI / 2f;
-					}
-					else if (tile.X * 64f < Game1.viewport.X)
-					{
-						onScreenPosition.X = 8f;
-						rotation = -(float)Math.PI / 2f;
-					}
-					else
-						onScreenPosition.X = tile.X * 64f - Game1.viewport.X;
-
-					if (tile.Y * 64f > Game1.viewport.MaxCorner.Y - 64)
-					{
-						onScreenPosition.Y = vpbounds.Bottom - 8;
-						rotation = (float)Math.PI;
-					}
-					else if (tile.Y * 64f < Game1.viewport.Y)
-						onScreenPosition.Y = 8f;
-					else
-						onScreenPosition.Y = tile.Y * 64f - Game1.viewport.Y;
-
-					if (onScreenPosition.X == 8f && onScreenPosition.Y == 8f)
-						rotation += (float)Math.PI / 4f;
-
-					if (onScreenPosition.X == 8f && onScreenPosition.Y == vpbounds.Bottom - 8)
-						rotation += (float)Math.PI / 4f;
-
-					if (onScreenPosition.X == vpbounds.Right - 8 && onScreenPosition.Y == 8f)
-						rotation -= (float)Math.PI / 4f;
-
-					if (onScreenPosition.X == vpbounds.Right - 8 && onScreenPosition.Y == vpbounds.Bottom - 8)
-						rotation -= (float)Math.PI / 4f;
-
-					Rectangle srcRect = new Rectangle(412, 495, 5, 4);
-					float renderScale = 4f;
-					Vector2 safePos = StardewValley.Utility.makeSafe(renderSize: new Vector2(srcRect.Width * renderScale, srcRect.Height * renderScale), renderPos: onScreenPosition);
-					Game1.spriteBatch.Draw(Game1.mouseCursors, safePos, srcRect, Color.Cyan, rotation, new Vector2(2f, 2f), renderScale, SpriteEffects.None, 1f);
-				}
+					Utility.DrawTrackingArrowPointer(tile, Color.Lime);
 			}
 
-			if (!AwesomeProfessions.ShouldDrawPointers) return;
+			if (!AwesomeProfessions.Config.Modkey.IsDown()) return;
 
 			// draw ticks over trackable objects in view
-			Vector2 offset = new Vector2(0f, -33f);
 			foreach (var kvp in Game1.currentLocation.Objects.Pairs)
-			{
-				if (_ShouldDraw(kvp.Value) && StardewValley.Utility.isOnScreen(kvp.Key * 64f + new Vector2(32f, 32f), 64))
-					Utility.DrawPointerOverTile(kvp.Key, Color.White);
-			}
+				if (Utility.ShouldPlayerTrackObject(kvp.Value)) Utility.DrawArrowPointerOverTarget(kvp.Key, Color.Yellow);
 		}
 		#endregion harmony patches
-
-		#region private methods
-		/// <summary>Whether the game should draw an arrow over a given object.</summary>
-		/// <param name="obj">The given object.</param>
-		private static bool _ShouldDraw(SObject obj)
-		{
-			return (Utility.LocalPlayerHasProfession("scavenger") && ((obj.IsSpawnedObject && !Utility.IsForagedMineral(obj)) || obj.ParentSheetIndex == 590))
-				|| (Utility.LocalPlayerHasProfession("prospector") && (Utility.IsResourceNode(obj) || Utility.IsForagedMineral(obj)));
-		}
-		#endregion private methods
 	}
 }

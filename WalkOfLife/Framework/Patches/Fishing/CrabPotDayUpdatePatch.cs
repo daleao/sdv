@@ -1,21 +1,20 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using TheLion.Common.Extensions;
 using SObject = StardewValley.Object;
+using SUtility = StardewValley.Utility;
 
 namespace TheLion.AwesomeProfessions
 {
 	internal class CrabPotDayUpdatePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal CrabPotDayUpdatePatch(IMonitor monitor)
-		: base(monitor) { }
+		internal CrabPotDayUpdatePatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -39,24 +38,24 @@ namespace TheLion.AwesomeProfessions
 			__instance.readyForHarvest.Value = true;
 
 			Random r = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int)__instance.TileLocation.X * 1000 + (int)__instance.TileLocation.Y);
-			Dictionary<string, string> locationData = Game1.content.Load<Dictionary<string, string>>("Data\\Locations");
-			Dictionary<int, string> fishData = Game1.content.Load<Dictionary<int, string>>("Data\\Fish");
+			Dictionary<string, string> locationData = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "Locations"));
+			Dictionary<int, string> fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data","Fish"));
 			int whichFish = -1;
 			if (Utility.SpecificPlayerHasProfession("luremaster", who))
 			{
-				if (!Utility.CrabPot.IsUsingMagnet(__instance))
+				if (!Utility.IsUsingMagnet(__instance))
 				{
-					var rawFishData = Utility.CrabPot.IsUsingMagicBait(__instance) ? Utility.CrabPot.GetRawFishDataForAllSeasons(location, locationData) : Utility.CrabPot.GetRawFishDataForThisSeason(location, locationData);
-					var rawFishDataWithLocation = Utility.CrabPot.GetRawFishDataWithLocation(rawFishData);
-					whichFish = Utility.CrabPot.ChooseFish(__instance, fishData, rawFishDataWithLocation, location, r);
+					var rawFishData = Utility.IsUsingMagicBait(__instance) ? Utility.GetRawFishDataForAllSeasons(location, locationData) : Utility.GetRawFishDataForThisSeason(location, locationData);
+					var rawFishDataWithLocation = Utility.GetRawFishDataWithLocation(rawFishData);
+					whichFish = Utility.ChooseFish(__instance, fishData, rawFishDataWithLocation, location, r);
 					if (whichFish < 0)
-						whichFish = Utility.CrabPot.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
+						whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
 				}
 				else
-					whichFish = Utility.CrabPot.ChoosePirateTreasure(r, who);
+					whichFish = Utility.ChoosePirateTreasure(r, who);
 			}
 			else if (__instance.bait.Value != null)
-				whichFish = Utility.CrabPot.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
+				whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
 
 			if (whichFish.AnyOf(14, 51))
 			{
@@ -74,17 +73,17 @@ namespace TheLion.AwesomeProfessions
 			int fishQuality = 0;
 			if (whichFish < 0)
 			{
-				whichFish = Utility.CrabPot.GetTrash(r);
+				whichFish = Utility.GetTrash(r);
 				if (Utility.SpecificPlayerHasProfession("conservationist", who) && who.IsLocalPlayer)
 				{
-					if (++AwesomeProfessions.Data.OceanTrashCollectedThisSeason % 10 == 0)
-						StardewValley.Utility.improveFriendshipWithEveryoneInRegion(who, 1, 2);
+					if (++_data.OceanTrashCollectedThisSeason % 10 == 0)
+						SUtility.improveFriendshipWithEveryoneInRegion(who, 1, 2);
 				}
 			}
 			else
 				fishQuality = Utility.GetTrapperFishQuality(who, r);
 
-			int fishQuantity = Utility.CrabPot.GetFishQuantity(__instance, whichFish, who, r);
+			int fishQuantity = Utility.GetFishQuantity(__instance, whichFish, who, r);
 			__instance.heldObject.Value = new SObject(whichFish, initialStack: fishQuantity, quality: fishQuality);
 			return false; // don't run original logic
 		}

@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BidirectionalMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Colors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\RationalMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelper.cs" />

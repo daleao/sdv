@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using System;
 using SObject = StardewValley.Object;
 
@@ -8,9 +7,7 @@ namespace TheLion.AwesomeProfessions
 	internal class ObjectGetMinutesForCrystalariumPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal ObjectGetMinutesForCrystalariumPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal ObjectGetMinutesForCrystalariumPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

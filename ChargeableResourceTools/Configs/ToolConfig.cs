@@ -1,7 +1,7 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
-namespace TheLion.AwesomeTools.Configs
+namespace TheLion.AwesomeTools
 {
 	/// <summary>The mod user-defined settings.</summary>
 	public class ToolConfig

@@ -14,7 +14,7 @@ using xTile.Dimensions;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeTools.Framework.ToolEffects
+namespace TheLion.AwesomeTools
 {
 	/// <summary>Applies base effects shared by multiple tools.</summary>
 	internal abstract class BaseEffect
@@ -23,7 +23,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 		private readonly bool _hasFarmTypeManager;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The effect settings.</param>
+		/// <param name="modRegistry">Metadata about loaded mods.</param>
 		public BaseEffect(IModRegistry modRegistry)
 		{
 			_hasFarmTypeManager = modRegistry.IsLoaded("Esca.FarmTypeManager");
@@ -289,7 +289,7 @@ namespace TheLion.AwesomeTools.Framework.ToolEffects
 		/// <param name="facingDirection">The direction to face.</param>
 		protected void GetRadialAdjacentTile(Vector2 origin, Vector2 tile, out Vector2 adjacent, out int facingDirection)
 		{
-			facingDirection = Utility.getDirectionFromChange(tile, origin);
+			facingDirection = StardewValley.Utility.getDirectionFromChange(tile, origin);
 			adjacent = facingDirection switch
 			{
 				Game1.up => new Vector2(tile.X, tile.Y + 1),

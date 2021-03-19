@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 using TheLion.Common.Extensions;
@@ -9,9 +8,7 @@ namespace TheLion.AwesomeProfessions
 	internal class AnimalHouseAddNewHatchedAnimalPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal AnimalHouseAddNewHatchedAnimalPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal AnimalHouseAddNewHatchedAnimalPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -34,7 +31,7 @@ namespace TheLion.AwesomeProfessions
 			if (a.age.Value == 0 && a.friendshipTowardFarmer.Value == 0)
 			{
 				Random r = new Random(__instance.GetHashCode() + a.GetHashCode());
-				a.friendshipTowardFarmer.Value = r.Next(0, AwesomeProfessions.Config.MaxStartingFriendshipForNewbornAnimals);
+				a.friendshipTowardFarmer.Value = r.Next(0, 200);
 			}
 		}
 		#endregion harmony patches

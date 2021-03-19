@@ -1,7 +1,6 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
 using Netcode;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Projectiles;
 using StardewValley.Network;
@@ -11,9 +10,7 @@ namespace TheLion.AwesomeProfessions
 	internal class ProjectileBehaviorOnCollisionPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal ProjectileBehaviorOnCollisionPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal ProjectileBehaviorOnCollisionPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

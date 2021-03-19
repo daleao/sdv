@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 using SObject = StardewValley.Object;
@@ -10,9 +9,7 @@ namespace TheLion.AwesomeProfessions
 	internal class ObjectCtorPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal ObjectCtorPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal ObjectCtorPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

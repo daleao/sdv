@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley.Menus;
 
 namespace TheLion.AwesomeProfessions
@@ -7,9 +6,7 @@ namespace TheLion.AwesomeProfessions
 	internal class LevelUpMenuGetProfessionNamePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuGetProfessionNamePatch(IMonitor monitor)
-		: base(monitor) { }
+		internal LevelUpMenuGetProfessionNamePatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

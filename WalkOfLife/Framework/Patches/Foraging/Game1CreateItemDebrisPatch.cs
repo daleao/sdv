@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using SObject = StardewValley.Object;
 
@@ -8,9 +7,7 @@ namespace TheLion.AwesomeProfessions
 	internal class Game1CreateItemDebrisPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal Game1CreateItemDebrisPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal Game1CreateItemDebrisPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
@@ -27,7 +24,7 @@ namespace TheLion.AwesomeProfessions
 		protected static void Game1CreateItemDebrisPostfix(Item item)
 		{
 			if (Utility.IsWildBerry(item as SObject) && Utility.LocalPlayerHasProfession("ecologist"))
-				++AwesomeProfessions.Data.ItemsForaged;
+				++_data.ItemsForaged;
 		}
 		#endregion harmony patches
 	}

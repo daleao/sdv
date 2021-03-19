@@ -1,11 +1,11 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using TheLion.Common.Harmony;
 using SObject = StardewValley.Object;
+using SUtility = StardewValley.Utility;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -14,11 +14,9 @@ namespace TheLion.AwesomeProfessions
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationGetFishPatch(IMonitor monitor)
-			: base(monitor)
+		internal GameLocationGetFishPatch()
 		{
-			_helper = new ILHelper(monitor);
+			_helper = new ILHelper(_monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -75,7 +73,7 @@ namespace TheLion.AwesomeProfessions
 						new CodeInstruction(OpCodes.Br, operand: reroll)
 					)
 					.RetreatUntil(															// start of choose fish
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(StardewValley.Utility), nameof(StardewValley.Utility.Shuffle)))
+						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(SUtility), nameof(SUtility.Shuffle)))
 					)
 					.Retreat(2)
 					.AddLabel(reroll);														// add goto label

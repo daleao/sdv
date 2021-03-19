@@ -10,10 +10,8 @@ namespace TheLion.AwesomeProfessions
 		private static ITranslationHelper _i18n;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
 		/// <param name="i18n">Provides localized text.</param>
-		internal LevelUpMenuAddProfessionDescriptionsPatch(IMonitor monitor, ITranslationHelper i18n)
-		: base(monitor)
+		internal LevelUpMenuAddProfessionDescriptionsPatch(ITranslationHelper i18n)
 		{
 			_i18n = i18n;
 		}

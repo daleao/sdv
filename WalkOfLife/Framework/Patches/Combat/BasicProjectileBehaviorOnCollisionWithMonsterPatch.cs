@@ -13,10 +13,8 @@ namespace TheLion.AwesomeProfessions
 		private static IReflectionHelper _reflection;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
 		/// <param name="reflection">Interface for accessing otherwise inaccessible code.</param>
-		internal BasicProjectileBehaviorOnCollisionWithMonsterPatch(IMonitor monitor, IReflectionHelper reflection)
-		: base(monitor)
+		internal BasicProjectileBehaviorOnCollisionWithMonsterPatch(IReflectionHelper reflection)
 		{
 			_reflection = reflection;
 		}

@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using System;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using System.Collections.Generic;
@@ -14,11 +13,9 @@ namespace TheLion.AwesomeProfessions
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal BushShakePatch(IMonitor monitor)
-			: base(monitor)
+		internal BushShakePatch()
 		{
-			_helper = new ILHelper(monitor);
+			_helper = new ILHelper(_monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -73,7 +70,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to count foraged berries for Ecologist.</summary>
 		protected static void BushShakePostfix(ref Bush __instance, ref int __state)
 		{
-			if (__state - __instance.tileSheetOffset.Value == 1) ++AwesomeProfessions.Data.ItemsForaged;
+			if (__state - __instance.tileSheetOffset.Value == 1) ++_data.ItemsForaged;
 		}
 		#endregion harmony patches
 	}

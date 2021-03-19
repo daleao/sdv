@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using System;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Characters;
 using System.Collections.Generic;
@@ -14,11 +13,9 @@ namespace TheLion.AwesomeProfessions
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal CropHarvestPatch(IMonitor monitor)
-			: base(monitor)
+		internal CropHarvestPatch()
 		{
-			_helper = new ILHelper(monitor);
+			_helper = new ILHelper(_monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -98,7 +95,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to count foraged spring onions for Ecologist.</summary>
 		private static void CropHarvestPostfix(ref Crop __instance)
 		{
-			if (__instance.forageCrop.Value) ++AwesomeProfessions.Data.ItemsForaged;
+			if (__instance.forageCrop.Value) ++_data.ItemsForaged;
 		}
 		#endregion harmony patches
 	}

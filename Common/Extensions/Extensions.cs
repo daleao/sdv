@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,6 +40,7 @@ namespace TheLion.Common.Extensions
 				{
 					++j;
 				}
+
 				if (j == pattern.Count())
 				{
 					return i;
@@ -48,6 +50,32 @@ namespace TheLion.Common.Extensions
 			return -1;
 		}
 
+		/// <summary>Determine if a list contains any instance of a given type.</summary>
+		/// <param name="list">The list to be searched.</param>
+		/// <param name="type">The type to search for.</param>
+		public static bool ContainsType<T>(this IList<T> list, Type type)
+		{
+			return list.Any(item => item != null && item.GetType() == type);
+		}
+
+		/// <summary>Remove the first occurrence of a type from a list.</summary>
+		/// <param name="list">The list to be searched.</param>
+		/// <param name="type">The type to search for.</param>
+		public static bool RemoveType<T>(this IList<T> list, Type type)
+		{
+			var toRemove = list.SingleOrDefault(item => item != null && item.GetType() == type);
+			if (toRemove != null)
+			{
+				return list.Remove(toRemove);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		/// <summary>Convert Point to Vector2.</summary>
+		/// <param name="p">The point to convert.</param>
 		public static Vector2 ToVector2(this Point p)
 		{
 			return new Vector2(p.X, p.Y);

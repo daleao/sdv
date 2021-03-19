@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
@@ -10,9 +9,7 @@ namespace TheLion.AwesomeProfessions
 	internal class FishPondUpdateMaximumOccupancyPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal FishPondUpdateMaximumOccupancyPatch(IMonitor monitor)
-		: base(monitor) { }
+		internal FishPondUpdateMaximumOccupancyPatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>

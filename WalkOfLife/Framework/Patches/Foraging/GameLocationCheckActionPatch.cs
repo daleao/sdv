@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -15,11 +14,9 @@ namespace TheLion.AwesomeProfessions
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal GameLocationCheckActionPatch(IMonitor monitor)
-		: base(monitor)
+		internal GameLocationCheckActionPatch()
 		{
-			_helper = new ILHelper(monitor);
+			_helper = new ILHelper(_monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -113,7 +110,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to count items foraged for Ecologist.</summary>
 		protected static void GameLocationcheckActionPostfix(ref uint __state, Farmer who)
 		{
-			if (who.IsLocalPlayer && Game1.stats.ItemsForaged > __state) ++AwesomeProfessions.Data.ItemsForaged;
+			if (who.IsLocalPlayer && Game1.stats.ItemsForaged > __state) ++_data.ItemsForaged;
 		}
 		#endregion harmony patches
 

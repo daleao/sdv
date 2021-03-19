@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
@@ -16,11 +15,9 @@ namespace TheLion.AwesomeProfessions
 		private static ILHelper _helper;
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal LevelUpMenuRemoveImmediateProfessionPerkPatch(IMonitor monitor)
-		: base(monitor)
+		internal LevelUpMenuRemoveImmediateProfessionPerkPatch()
 		{
-			_helper = new ILHelper(monitor);
+			_helper = new ILHelper(_monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -76,6 +73,8 @@ namespace TheLion.AwesomeProfessions
 					}
 				}
 			}
+
+			AwesomeProfessions.EventManager.UnsubscribeEventsForProfession(whichProfession);
 		}
 		#endregion harmony patches
 	}

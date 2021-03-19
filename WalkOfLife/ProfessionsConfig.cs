@@ -10,11 +10,11 @@ namespace TheLion.AwesomeProfessions
 		public bool UseAltProducerIcon { get; set; } = true;
 		public KeybindList Modkey { get; set; } = KeybindList.ForSingle(SButton.LeftShift);
 
-		public int WineFameNeededForMaxValue { get; } = 5000;
-		public int MaxStartingFriendshipForNewbornAnimals { get; } = 200;
-		public int ForagesNeededForBestQuality { get; } = 500;
-		public int MineralsNeededForBestQuality { get; } = 500;
-		public int TreasureHuntDurationMinutes { get; } = 30;
-		public int TrashNeededForNextTaxLevel { get; } = 50;
+		public uint WineFameNeededForMaxValue { get; } = 5000;
+		public uint ForagesNeededForBestQuality { get; } = 500;
+		public uint MineralsNeededForBestQuality { get; } = 500;
+		public uint TreasureHuntTimeLimitSeconds { get; } = 90;
+		public float TreasureDetectionDistance { get; } = 4f;
+		public uint TrashNeededForNextTaxLevel { get; } = 50;
 	}
 }
