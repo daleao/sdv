@@ -61,18 +61,33 @@ namespace TheLion.Common.Extensions
 		/// <summary>Remove the first occurrence of a type from a list.</summary>
 		/// <param name="list">The list to be searched.</param>
 		/// <param name="type">The type to search for.</param>
-		public static bool RemoveType<T>(this IList<T> list, Type type)
+		public static bool RemoveType<T>(this IList<T> list, Type type, out T removed)
 		{
 			var toRemove = list.SingleOrDefault(item => item != null && item.GetType() == type);
 			if (toRemove != null)
 			{
+				removed = toRemove;
 				return list.Remove(toRemove);
 			}
 			else
 			{
+				removed = default;
 				return false;
 			}
 		}
+
+		/// <summary>Replace the value for a given key in the dictionary.</summary>
+		/// <param name="key">The key to replace.</param>
+		/// <param name="newValue">The new value.</param>
+		public static void Replace<K, V>(this Dictionary<K, V> dictionary, K key, V newValue)
+		{
+			if (!dictionary.TryGetValue(key, out var value))
+				throw new ArgumentException($"Key {nameof(key)} does not exist.");
+
+			dictionary.Remove(key);
+			dictionary.Add(key, newValue);
+		}
+
 
 		/// <summary>Convert Point to Vector2.</summary>
 		/// <param name="p">The point to convert.</param>

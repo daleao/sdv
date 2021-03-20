@@ -59,7 +59,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to remove modded immediate profession perks.</summary>
 		protected static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			if (whichProfession == Utility.ProfessionMap.Forward["angler"]) FishingRod.maxTackleUses /= 2;
+			if (whichProfession == Utility.ProfessionMap.Forward["angler"]) FishingRod.maxTackleUses = 20;
 
 			if (whichProfession == Utility.ProfessionMap.Forward["aquarist"])
 			{

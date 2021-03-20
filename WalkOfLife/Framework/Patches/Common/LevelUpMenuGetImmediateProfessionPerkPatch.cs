@@ -59,7 +59,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to add modded immediate profession perks.</summary>
 		protected static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			if (Utility.ProfessionMap.Reverse[whichProfession] == "angler") FishingRod.maxTackleUses *= 2;
+			if (Utility.ProfessionMap.Reverse[whichProfession] == "angler") FishingRod.maxTackleUses = 40;
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "aquarist")
 			{
 				foreach (Building b in Game1.getFarm().buildings)

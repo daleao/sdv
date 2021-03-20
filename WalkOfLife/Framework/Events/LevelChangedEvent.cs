@@ -1,4 +1,5 @@
-﻿using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Enums;
+using StardewModdingAPI.Events;
 using StardewValley.Menus;
 
 namespace TheLion.AwesomeProfessions

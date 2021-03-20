@@ -9,7 +9,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
-			if (e.IsLocalPlayer && e.NewLocation.IsOutdoors)
+			if (e.IsLocalPlayer && e.NewLocation.IsOutdoors && !e.NewLocation.IsFarm)
 				AwesomeProfessions.ScavengerHunt.TryStartNewHunt(e.NewLocation);
 		}
 	}

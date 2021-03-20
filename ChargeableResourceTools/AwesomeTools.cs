@@ -89,10 +89,7 @@ namespace TheLion.AwesomeTools
 			{
 				GameLocation location = Game1.currentLocation;
 				Vector2 actionTile = new Vector2((int)(who.GetToolLocation().X / Game1.tileSize), (int)(who.GetToolLocation().Y / Game1.tileSize));
-				DelayedAction shockwave = new DelayedAction(Config.ShockwaveDelay, () =>
-				{
-					_manager.DoShockwave(actionTile, tool, location, who);
-				});
+				DelayedAction shockwave = new DelayedAction(Config.ShockwaveDelay, () => _manager.DoShockwave(actionTile, tool, location, who));
 				Game1.delayedActions.Add(shockwave);
 			}
 		}

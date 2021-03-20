@@ -9,6 +9,7 @@ namespace TheLion.AwesomeProfessions
 		private protected static ProfessionsData _data;
 		private protected static IMonitor _monitor;
 
+		/// <summary>Construct an instance.</summary>
 		internal BasePatch() { }
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -17,13 +18,18 @@ namespace TheLion.AwesomeProfessions
 
 		/// <summary>Initialize static fields.</summary>
 		/// <param name="config">The mod settings.</param>
-		/// <param name="data">The mod persisted data.</param>
 		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		public static void Init(ProfessionsConfig config, ProfessionsData data, IMonitor monitor)
+		public static void Init(ProfessionsConfig config, IMonitor monitor)
 		{
 			_config = config;
-			_data = data;
 			_monitor = monitor;
+		}
+
+		/// <summary>Set mod data reference for patches.</summary>
+		/// <param name="data">The mod persisted data.</param>
+		public static void SetData(ProfessionsData data)
+		{
+			_data = data;
 		}
 	}
 }

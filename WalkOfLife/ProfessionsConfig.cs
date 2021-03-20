@@ -11,10 +11,11 @@ namespace TheLion.AwesomeProfessions
 		public KeybindList Modkey { get; set; } = KeybindList.ForSingle(SButton.LeftShift);
 
 		public uint WineFameNeededForMaxValue { get; } = 5000;
-		public uint ForagesNeededForBestQuality { get; } = 500;
-		public uint MineralsNeededForBestQuality { get; } = 500;
-		public uint TreasureHuntTimeLimitSeconds { get; } = 90;
-		public float TreasureDetectionDistance { get; } = 4f;
+		public uint ForagesNeededForBestQuality { get; } = 200;
+		public uint MineralsNeededForBestQuality { get; } = 200;
+		public uint TreasureHuntTimeLimitSeconds { get; } = 43;
+		public double ChanceToStartTreasureHunt { get; } = 0.1;
+		public float TreasureTileDetectionDistance { get; } = 3f;
 		public uint TrashNeededForNextTaxLevel { get; } = 50;
 	}
 }

@@ -11,6 +11,46 @@ namespace TheLion.AwesomeProfessions
 {
 	public static partial class Utility
 	{
+		#region look-up tables
+		/// <summary>Look-up table for different types of bait by id.</summary>
+		private static readonly Dictionary<int, string> _baitById = new()
+		{
+			{ 685, "Bait" },
+			{ 703, "Magnet" },
+			{ 774, "Wild Bait" },
+			{ 908, "Magic Bait" }
+		};
+
+		/// <summary>Look-up table for trappable treasure items using magnet.</summary>
+		private static readonly Dictionary<int, string[]> _pirateTreasureTable = new()
+		{
+			{ 14, new string[] { "0.7", "1", "1" } },		// neptune's glaive
+			{ 51, new string[] { "0.7", "1", "1" } },		// broken trident
+			{ 166, new string[] { "3.0", "1", "1" } },		// treasure chest
+			{ 109, new string[] { "0.9", "1", "1" } },		// ancient sword
+			{ 110, new string[] { "0.9", "1", "1" } },		// rusty spoon
+			{ 111, new string[] { "0.9", "1", "1" } },		// rusty spur
+			{ 112, new string[] { "0.9", "1", "1" } },		// rusty cog
+			{ 117, new string[] { "0.9", "1", "1" } },		// anchor
+			{ 378, new string[] { "39.0", "1", "24" } },	// copper ore
+			{ 380, new string[] { "24.0", "1", "24" } },	// iron ore
+			{ 384, new string[] { "12.0", "1", "24" } },	// gold ore
+			{ 386, new string[] { "6.5", "1", "2" } },		// iridium ore
+			{ 516, new string[] { "2.4", "1", "1" } },		// small glow ring
+			{ 517, new string[] { "0.9", "1", "1" } },		// glow ring
+			{ 518, new string[] { "2.4", "1", "1" } },		// small magnet ring
+			{ 519, new string[] { "0.9", "1", "1" } },		// magnet ring
+			{ 527, new string[] { "0.3", "1", "1" } },		// iridum band
+			{ 529, new string[] { "0.5", "1", "1" } },		// amethyst ring
+			{ 530, new string[] { "0.5", "1", "1" } },		// topaz ring
+			{ 531, new string[] { "0.5", "1", "1" } },		// aquamarine ring
+			{ 532, new string[] { "0.5", "1", "1" } },		// jade ring
+			{ 533, new string[] { "0.5", "1", "1" } },		// emerald ring
+			{ 534, new string[] { "0.5", "1", "1" } },		// ruby ring
+			{ 890, new string[] { "0.3", "1", "3" } }		// qi bean
+		};
+		#endregion look-up tables
+
 		/// <summary>Whether the crab pot instance is using regular bait.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		public static bool IsUsingRegularBait(CrabPot crabpot)
@@ -253,43 +293,5 @@ namespace TheLion.AwesomeProfessions
 		{
 			return r.Next(168, 173);
 		}
-
-		/// <summary>Look-up table for different types of bait by id.</summary>
-		private static readonly Dictionary<int, string> _baitById = new()
-		{
-			{ 685, "Bait" },
-			{ 703, "Magnet" },
-			{ 774, "Wild Bait" },
-			{ 908, "Magic Bait" }
-		};
-
-		/// <summary>Look-up table for trappable treasure items using magnet.</summary>
-		private static readonly Dictionary<int, string[]> _pirateTreasureTable = new()
-		{
-			{ 14, new string[] { "0.7", "1", "1" } },		// neptune's glaive
-			{ 51, new string[] { "0.7", "1", "1" } },		// broken trident
-			{ 166, new string[] { "3.0", "1", "1" } },		// treasure chest
-			{ 109, new string[] { "0.9", "1", "1" } },		// ancient sword
-			{ 110, new string[] { "0.9", "1", "1" } },		// rusty spoon
-			{ 111, new string[] { "0.9", "1", "1" } },		// rusty spur
-			{ 112, new string[] { "0.9", "1", "1" } },		// rusty cog
-			{ 117, new string[] { "0.9", "1", "1" } },		// anchor
-			{ 378, new string[] { "39.0", "1", "24" } },	// copper ore
-			{ 380, new string[] { "24.0", "1", "24" } },	// iron ore
-			{ 384, new string[] { "12.0", "1", "24" } },	// gold ore
-			{ 386, new string[] { "6.5", "1", "2" } },		// iridium ore
-			{ 516, new string[] { "2.4", "1", "1" } },		// small glow ring
-			{ 517, new string[] { "0.9", "1", "1" } },		// glow ring
-			{ 518, new string[] { "2.4", "1", "1" } },		// small magnet ring
-			{ 519, new string[] { "0.9", "1", "1" } },		// magnet ring
-			{ 527, new string[] { "0.3", "1", "1" } },		// iridum band
-			{ 529, new string[] { "0.5", "1", "1" } },		// amethyst ring
-			{ 530, new string[] { "0.5", "1", "1" } },		// topaz ring
-			{ 531, new string[] { "0.5", "1", "1" } },		// aquamarine ring
-			{ 532, new string[] { "0.5", "1", "1" } },		// jade ring
-			{ 533, new string[] { "0.5", "1", "1" } },		// emerald ring
-			{ 534, new string[] { "0.5", "1", "1" } },		// ruby ring
-			{ 890, new string[] { "0.3", "1", "3" } }		// qi bean
-		};
 	}
 }

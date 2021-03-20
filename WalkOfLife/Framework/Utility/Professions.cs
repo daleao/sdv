@@ -13,49 +13,6 @@ namespace TheLion.AwesomeProfessions
 		public static int BruteBuffID { get; private set; }
 		public static int GambitBuffID { get; private set; }
 
-		public enum Professions
-		{
-			Rancher = Farmer.rancher,
-			Breeder = Farmer.butcher,
-			Producer = Farmer.shepherd,
-
-			Harvester = Farmer.tiller,
-			Oenologist = Farmer.artisan,
-			Agriculturist = Farmer.agriculturist,
-
-			Fisher = Farmer.fisher,
-			Angler = Farmer.angler,
-			Aquarist = Farmer.pirate,
-
-			Trapper = Farmer.trapper,
-			Luremaster = Farmer.baitmaster,
-			Conservationist = Farmer.mariner,
-
-			Lumberjack = Farmer.forester,
-			Arborist = Farmer.lumberjack,
-			Tapper = Farmer.tapper,
-
-			Forager = Farmer.gatherer,
-			Ecologist = Farmer.botanist,
-			Scavenger = Farmer.tracker,
-
-			Miner = Farmer.miner,
-			Spelunker = Farmer.blacksmith,
-			Prospector = Farmer.burrower,
-
-			Blaster = Farmer.geologist,
-			Demolitionist = Farmer.excavator,
-			Gemologist = Farmer.gemologist,
-
-			Fighter = Farmer.fighter,
-			Brute = Farmer.brute,
-			Gambit = Farmer.defender,
-
-			Rascal = Farmer.scout,
-			Slimemaster = Farmer.acrobat,
-			Desperado = Farmer.desperado
-		};
-
 		/// <summary>Bi-directional dictionary for looking-up profession id's by name or name's by id.</summary>
 		public static BiMap<string, int> ProfessionMap { get; } = new BiMap<string, int>
 		{

@@ -24,23 +24,15 @@ namespace TheLion.AwesomeProfessions
 			}
 		}
 
-		/// <summary>Check if a tile on a map is contains a non-resource stone object.</summary>
+		/// <summary>Check if a tile on a map is valid for spawning diggable treasure.</summary>
 		/// <param name="tile">The tile to check.</param>
 		/// <param name="location">The game location.</param>
-		public static bool DoesTileContainStone(Vector2 tile, GameLocation location)
-		{
-			return location.Objects.ContainsKey(tile) && IsStone(location.Objects[tile]) && !IsResourceNode(location.Objects[tile]);
-		}
-
-		/// <summary>Check if a tile on a map is valid for object placement.</summary>
-		/// <param name="tile">The tile to check.</param>
-		/// <param name="location">The game location.</param>
-		public static bool IsTileValidForPlacement(Vector2 tile, GameLocation location)
+		public static bool IsTileValidForTreasure(Vector2 tile, GameLocation location)
 		{
 			string noSpawn = location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "NoSpawn", "Back");
-			if ((noSpawn != null && noSpawn != "") || !location.isTileLocationTotallyClearAndPlaceable(tile) || !IsTileClearOfDebris(tile, location))
+			if ((noSpawn != null && noSpawn != "") || !location.isTileLocationTotallyClearAndPlaceable(tile) || !IsTileClearOfDebris(tile, location) || location.isBehindBush(tile) || location.isBehindTree(tile))
 				return false;
-			
+
 			return true;
 		}
 
@@ -61,13 +53,18 @@ namespace TheLion.AwesomeProfessions
 			return true;
 		}
 
-		public static void MakeTileDiggable(Vector2 tile, GameLocation location)
+		/// <summary>Force a tile to be affected by the hoe.</summary>
+		/// <param name="tile">The tile to change.</param>
+		/// <param name="location">The game location.</param>
+		public static bool MakeTileDiggable(Vector2 tile, GameLocation location)
 		{
 			if (location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") == null)
 			{
 				Location digSpot = new Location((int)tile.X * Game1.tileSize, (int)tile.Y * Game1.tileSize);
 				location.Map.GetLayer("Back").PickTile(digSpot, Game1.viewport.Size).Properties["Diggable"] = true;
+				return false;
 			}
+			return true;
 		}
 	}
 }

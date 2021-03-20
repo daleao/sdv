@@ -1,4 +1,5 @@
-﻿using StardewModdingAPI.Events;
+﻿using StardewModdingAPI;
+using StardewModdingAPI.Events;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,18 @@ namespace TheLion.AwesomeProfessions
 	public class EventManager
 	{
 		private IModEvents _listener;
+		private IMonitor _monitor;
 		private List<IEvent> _subscribed = new();
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public EventManager(IModEvents listener)
+		public EventManager(IModEvents listener, IMonitor monitor)
 		{
 			_listener = listener;
+			_monitor = monitor;
 
 			// hook static events
-			Subscribe(new SaveLoadedEvent(), new SavedEvent(), new LevelChangedEvent());
+			Subscribe(new LevelChangedEvent(), new ReturnedToTitleEvent(), new SavedEvent(), new SaveLoadedEvent());
 		}
 
 		/// <summary>Subscribe new events to the event listener.</summary>
@@ -32,24 +35,27 @@ namespace TheLion.AwesomeProfessions
 				{
 					e.Hook(_listener);
 					_subscribed.Add(e);
+					_monitor.Log($"Hooked {e.GetType().Name}.", LogLevel.Info);
 				}
 			}
 		}
 
 		/// <summary>Unsubscribe events from the event listener.</summary>
-		/// <param name="events">Events to be unsubscribed.</param>
+		/// <param name="eventType">The type of events to be unsubscribed.</param>
 		public void Unsubscribe(params Type[] eventType)
 		{
 			foreach (var type in eventType)
 			{
 				if (_subscribed.RemoveType(type, out var removed))
 					removed.Unhook(_listener);
+					_monitor.Log($"Unhooked {type.Name}.", LogLevel.Info);
 			}
 		}
 
 		/// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
 		public void SubscribeProfessionEventsForLocalPlayer()
 		{
+			_monitor.Log($"Hooking all events for farmer {Game1.player.Name}.", LogLevel.Info);
 			foreach (int professionIndex in Game1.player.professions)
 			{
 				if (professionIndex.AnyOf(Utility.ProfessionMap.Forward["brute"],
@@ -61,6 +67,15 @@ namespace TheLion.AwesomeProfessions
 										  Utility.ProfessionMap.Forward["spelunker"]
 					)) SubscribeEventsForProfession(professionIndex);
 			}
+		}
+
+		/// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
+		public void UnsubscribeLocalPlayerEvents()
+		{
+			_monitor.Log($"Unhooking local player events.", LogLevel.Info);
+			List<Type> toRemove = new();
+			for (int i = 4; i < _subscribed.Count; ++i) toRemove.Add(_subscribed[i].GetType());
+			Unsubscribe(toRemove.ToArray());
 		}
 
 		/// <summary>Subscribe the event listener to all events required by a specific profession.</summary>
@@ -96,9 +111,17 @@ namespace TheLion.AwesomeProfessions
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "gambit")
 				Unsubscribe(typeof(GambitUpdateTickedEvent));
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "prospector")
-				Unsubscribe(typeof(ArrowPointerUpdateTickedEvent), typeof(ProspectorWarpedEvent), typeof(TreasureHuntRenderingHudEvent));
+			{
+				Unsubscribe(typeof(ProspectorWarpedEvent));
+				if (!Utility.LocalPlayerHasProfession("scavenger"))
+					Unsubscribe(typeof(ArrowPointerUpdateTickedEvent), typeof(TreasureHuntRenderingHudEvent));
+			}
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "scavenger")
-				Unsubscribe(typeof(ArrowPointerUpdateTickedEvent), typeof(ScavengerWarpedEvent), typeof(TreasureHuntRenderingHudEvent));
+			{
+				Unsubscribe(typeof(ScavengerWarpedEvent));
+				if (!Utility.LocalPlayerHasProfession("prospector"))
+					Unsubscribe(typeof(ArrowPointerUpdateTickedEvent), typeof(TreasureHuntRenderingHudEvent));
+			}
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "spelunker")
 				Unsubscribe(typeof(SpelunkerUpdateTickedEvent), typeof(SpelunkerWarpedEvent));
 		}

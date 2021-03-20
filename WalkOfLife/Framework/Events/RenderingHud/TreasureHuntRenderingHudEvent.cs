@@ -14,9 +14,12 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (TreasureHunt.TreasureTile != null)
 			{
+				if (Game1.currentLocation.IsOutdoors)
+					Utility.DrawTrackingArrowPointer(TreasureHunt.TreasureTile.Value, Color.Violet);
+
 				var distanceSquared = (Game1.player.getTileLocation() - TreasureHunt.TreasureTile.Value).LengthSquared();
-				if (distanceSquared <= Math.Pow(AwesomeProfessions.Config.TreasureDetectionDistance, 2))
-					Utility.DrawArrowPointerOverTarget(TreasureHunt.TreasureTile.Value, Color.Violet, e.SpriteBatch);
+				if (distanceSquared <= Math.Pow(AwesomeProfessions.Config.TreasureTileDetectionDistance, 2))
+					Utility.DrawArrowPointerOverTarget(TreasureHunt.TreasureTile.Value, Color.Violet);
 			}
 		}
 	}

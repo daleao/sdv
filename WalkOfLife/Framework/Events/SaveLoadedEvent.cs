@@ -24,6 +24,9 @@ namespace TheLion.AwesomeProfessions
 		private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
 		{
 			AwesomeProfessions.Data = AwesomeProfessions.ModHelper.Data.ReadSaveData<ProfessionsData>("thelion.AwesomeProfessions") ?? new ProfessionsData();
+			BasePatch.SetData(AwesomeProfessions.Data);
+			AwesomeProfessions.ProspectorHunt = new ProspectorHunt(AwesomeProfessions.Config, AwesomeProfessions.Data, AwesomeProfessions.I18n, AwesomeProfessions.ModHelper.Content);
+			AwesomeProfessions.ScavengerHunt = new ScavengerHunt(AwesomeProfessions.Config, AwesomeProfessions.Data, AwesomeProfessions.I18n, AwesomeProfessions.ModHelper.Content);
 			AwesomeProfessions.EventManager.SubscribeProfessionEventsForLocalPlayer();
 		}
 	}

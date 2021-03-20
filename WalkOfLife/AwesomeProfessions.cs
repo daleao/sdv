@@ -39,7 +39,7 @@ namespace TheLion.AwesomeProfessions
 			Utility.ArrowPointer.Texture = helper.Content.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(Path.Combine("Assets", "cursor.png"));
 
 			// apply patches
-			BasePatch.Init(Config, Data, Monitor);
+			BasePatch.Init(Config, Monitor);
 			new HarmonyPatcher(ModManifest.UniqueID).ApplyAll(
 				new AnimalHouseAddNewHatchedAnimalPatch(),
 				new BasicProjectileBehaviorOnCollisionWithMonsterPatch(helper.Reflection),
@@ -87,16 +87,12 @@ namespace TheLion.AwesomeProfessions
 				new TreeUpdateTapperProductPatch()
 			);
 
+			// start event manager
+			EventManager = new EventManager(helper.Events, Monitor);
+
 			// generate unique buff ids
 			int uniqueHash = (int)(Math.Abs(ModManifest.UniqueID.GetHashCode()) / Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(ModManifest.UniqueID.GetHashCode()))) - 8 + 1));
 			Utility.SetProfessionBuffIDs(uniqueHash);
-
-			// start event manager
-			EventManager = new EventManager(helper.Events);
-
-			// start treasure hunt managers
-			ProspectorHunt = new ProspectorHunt(Config, Monitor, I18n, helper.Content, uniqueHash);
-			ScavengerHunt = new ScavengerHunt(Config, Monitor, I18n, helper.Content, uniqueHash);
 		}
 	}
 }
