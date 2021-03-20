@@ -60,16 +60,14 @@ namespace TheLion.AwesomeProfessions
 		protected static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
 		{
 			if (whichProfession == Utility.ProfessionMap.Forward["angler"]) FishingRod.maxTackleUses = 20;
-
-			if (whichProfession == Utility.ProfessionMap.Forward["aquarist"])
+			else if (whichProfession == Utility.ProfessionMap.Forward["aquarist"])
 			{
 				foreach (Building b in Game1.getFarm().buildings)
 				{
 					if ((b.owner.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && b.maxOccupants.Value > 10)
 					{
-						b.maxOccupants.Value = 10;
-						if (b.currentOccupants.Value > b.maxOccupants.Value)
-							b.currentOccupants.Value = b.maxOccupants.Value;
+						b.maxOccupants.Set(10);
+						b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
 					}
 				}
 			}

@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
+using System;
 using System.IO;
 
 namespace TheLion.AwesomeProfessions
 {
-	/// <summary>Patches mod assets over vanilla assets.</summary>
+	/// <summary>Patches mod assets over vanilla assets.	</summary>
 	internal class AssetEditor : IAssetEditor
 	{
 		private IContentHelper _content;
@@ -28,8 +29,10 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="asset">A helper which encapsulates metadata about an asset and enables changes to it.</param>
 		public void Edit<T>(IAssetData asset)
 		{
-			var editor = asset.AsImage();
+			if (!asset.AssetNameEquals(Path.Combine("LooseSprites", "Cursors")))
+				throw new InvalidOperationException($"Unexpected asset {asset.AssetName}.");
 
+			var editor = asset.AsImage();
 			editor.PatchImage(_content.Load<Texture2D>(Path.Combine("Assets", "agriculturist.png")), targetArea: new Rectangle(80, 624, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>(Path.Combine("Assets", "angler.png")), targetArea: new Rectangle(32, 640, 16, 16));
 			editor.PatchImage(_content.Load<Texture2D>(Path.Combine("Assets", "arborist.png")), targetArea: new Rectangle(32, 656, 16, 16));

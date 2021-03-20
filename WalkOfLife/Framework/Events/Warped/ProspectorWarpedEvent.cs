@@ -1,4 +1,5 @@
 ﻿using StardewModdingAPI.Events;
+using StardewValley;
 using StardewValley.Locations;
 
 namespace TheLion.AwesomeProfessions
@@ -10,7 +11,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
-			if (!e.IsLocalPlayer) return;
+			if (!e.IsLocalPlayer || Game1.CurrentEvent != null) return;
 
 			AwesomeProfessions.InitialLadderTiles.Clear();
 			if (e.NewLocation is MineShaft)

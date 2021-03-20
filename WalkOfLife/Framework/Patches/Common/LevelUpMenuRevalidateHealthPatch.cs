@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
@@ -58,19 +57,19 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch revalidate modded immediate profession perks.</summary>
 		protected static void LevelUpMenuRevalidateHealthPostfix(Farmer farmer)
 		{
-			// revalidate Angler tackle health
+			// revalidate tackle health
 			int expectedMaxTackleUses = 20;
 			if (Utility.SpecificPlayerHasProfession("angler", farmer)) expectedMaxTackleUses *= 2;
 
 			FishingRod.maxTackleUses = expectedMaxTackleUses;
 
-			// revalidate Aquarist max fish pond capacity
-			if (Utility.SpecificPlayerHasProfession("aquarist", farmer))
+			// revalidate fish pond capacity
+			foreach (Building b in Game1.getFarm().buildings)
 			{
-				foreach (Building b in Game1.getFarm().buildings)
+				if ((b.owner.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond)
 				{
-					if ((b.owner.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond)
-						(b as FishPond).UpdateMaximumOccupancy();
+					(b as FishPond).UpdateMaximumOccupancy();
+					b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
 				}
 			}
 		}

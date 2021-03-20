@@ -1,4 +1,5 @@
 ﻿using StardewModdingAPI.Events;
+using StardewValley;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -9,7 +10,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
-			if (e.IsLocalPlayer && e.NewLocation.IsOutdoors && !e.NewLocation.IsFarm)
+			if (e.IsLocalPlayer && Game1.CurrentEvent == null && e.NewLocation.IsOutdoors && !e.NewLocation.IsFarm)
 				AwesomeProfessions.ScavengerHunt.TryStartNewHunt(e.NewLocation);
 		}
 	}
