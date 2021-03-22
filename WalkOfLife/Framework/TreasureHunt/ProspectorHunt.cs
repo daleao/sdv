@@ -11,7 +11,7 @@ using TheLion.Common.Extensions;
 
 namespace TheLion.AwesomeProfessions
 {
-	public class ProspectorHunt : TreasureHunt
+	internal class ProspectorHunt : TreasureHunt
 	{
 		private readonly string _newHuntMessage;
 		private readonly string _failedHuntMessage;
@@ -21,8 +21,8 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="config">The overal mod settings.</param>
 		/// <param name="i18n">Provides localized text.</param>
 		/// <param name="content">Interface for loading content assets.</param>
-		public ProspectorHunt(ProfessionsConfig config, ProfessionsData data, ITranslationHelper i18n, IContentHelper content)
-			: base(config, data)
+		internal ProspectorHunt(ProfessionsConfig config, ProfessionsData data, EventManager manager, ITranslationHelper i18n, IContentHelper content)
+			: base(config, data, manager)
 		{
 			_newHuntMessage = i18n.Get("scavenger.huntstarted");
 			_failedHuntMessage = i18n.Get("scavenger.huntfailed");
@@ -31,7 +31,7 @@ namespace TheLion.AwesomeProfessions
 
 		/// <summary>Try to start a new prospector hunt at this location.</summary>
 		/// <param name="location">The game location.</param>
-		public override void TryStartNewHunt(GameLocation location)
+		internal override void TryStartNewHunt(GameLocation location)
 		{
 			if (!TryStartNewHunt()) return;
 
@@ -42,7 +42,7 @@ namespace TheLion.AwesomeProfessions
 			{
 				TreasureTile = v;
 				elapsed = 0;
-				AwesomeProfessions.EventManager.Subscribe(new ProspectorHuntUpdateTickedEvent());
+				_manager.Subscribe(new ProspectorHuntUpdateTickedEvent());
 				Game1.addHUDMessage(new HuntNotification(_newHuntMessage, _icon));
 			}
 		}
@@ -69,7 +69,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Reset treasure tile and unsubcribe treasure hunt update event.</summary>
 		protected override void End()
 		{
-			AwesomeProfessions.EventManager.Unsubscribe(typeof(ProspectorHuntUpdateTickedEvent));
+			_manager.Unsubscribe(typeof(ProspectorHuntUpdateTickedEvent));
 			TreasureTile = null;
 		}
 

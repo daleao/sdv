@@ -8,26 +8,26 @@ using TheLion.Common.Extensions;
 namespace TheLion.AwesomeProfessions
 {
 	/// <summary>Manages dynamic subscribing and unsubscribing events for modded professions.</summary>
-	public class EventManager
+	internal class EventManager
 	{
 		private IModEvents _listener;
 		private IMonitor _monitor;
-		private List<IEvent> _subscribed = new();
+		private List<BaseEvent> _subscribed = new();
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public EventManager(IModEvents listener, IMonitor monitor)
+		internal EventManager(IModEvents listener, IMonitor monitor)
 		{
 			_listener = listener;
 			_monitor = monitor;
 
 			// hook static events
-			Subscribe(new LevelChangedEvent(), new ReturnedToTitleEvent(), new SavedEvent(), new SaveLoadedEvent());
+			Subscribe(new LevelChangedEvent(), new ReturnedToTitleEvent(), new SavedEvent(), new SaveLoadedEvent(this));
 		}
 
 		/// <summary>Subscribe new events to the event listener.</summary>
 		/// <param name="events">Events to be subscribed.</param>
-		public void Subscribe(params IEvent[] events)
+		internal void Subscribe(params BaseEvent[] events)
 		{
 			foreach (var e in events)
 			{
@@ -42,18 +42,18 @@ namespace TheLion.AwesomeProfessions
 
 		/// <summary>Unsubscribe events from the event listener.</summary>
 		/// <param name="eventType">The type of events to be unsubscribed.</param>
-		public void Unsubscribe(params Type[] eventType)
+		internal void Unsubscribe(params Type[] eventType)
 		{
 			foreach (var type in eventType)
 			{
 				if (_subscribed.RemoveType(type, out var removed))
 					removed.Unhook(_listener);
-					_monitor.Log($"Unhooked {type.Name}.", LogLevel.Info);
+				_monitor.Log($"Unhooked {type.Name}.", LogLevel.Info);
 			}
 		}
 
 		/// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
-		public void SubscribeProfessionEventsForLocalPlayer()
+		internal void SubscribeProfessionEventsForLocalPlayer()
 		{
 			_monitor.Log($"Hooking all events for farmer {Game1.player.Name}.", LogLevel.Info);
 			foreach (int professionIndex in Game1.player.professions)
@@ -62,6 +62,7 @@ namespace TheLion.AwesomeProfessions
 										  Utility.ProfessionMap.Forward["conservationist"],
 										  Utility.ProfessionMap.Forward["demolitionist"],
 										  Utility.ProfessionMap.Forward["gambit"],
+										  Utility.ProfessionMap.Forward["oenologist"],
 										  Utility.ProfessionMap.Forward["prospector"],
 										  Utility.ProfessionMap.Forward["scavenger"],
 										  Utility.ProfessionMap.Forward["spelunker"]
@@ -70,7 +71,7 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		/// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
-		public void UnsubscribeLocalPlayerEvents()
+		internal void UnsubscribeLocalPlayerEvents()
 		{
 			_monitor.Log($"Unhooking local player events.", LogLevel.Info);
 			List<Type> toRemove = new();
@@ -80,36 +81,40 @@ namespace TheLion.AwesomeProfessions
 
 		/// <summary>Subscribe the event listener to all events required by a specific profession.</summary>
 		/// <param name="whichProfession">The profession index.</param>
-		public void SubscribeEventsForProfession(int whichProfession)
+		internal void SubscribeEventsForProfession(int whichProfession)
 		{
 			if (Utility.ProfessionMap.Reverse[whichProfession] == "brute")
-				Subscribe(new BruteUpdateTickedEvent(), new BruteWarpedEvent());
+				Subscribe(new BruteUpdateTickedEvent(AwesomeProfessions.I18n), new BruteWarpedEvent());
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "conservationist")
-				Subscribe(new ConservationistDayStartedEvent());
+				Subscribe(new ConservationistDayEndingEvent(), new ConservationistDayStartedEvent());
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "demolitionist")
-				Subscribe(new DemolitionistUpdateTickedEvent());
+				Subscribe(new DemolitionistUpdateTickedEvent(AwesomeProfessions.I18n));
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "gambit")
-				Subscribe(new GambitUpdateTickedEvent());
+				Subscribe(new GambitUpdateTickedEvent(AwesomeProfessions.I18n));
+			else if (Utility.ProfessionMap.Reverse[whichProfession] == "oenologist")
+				Subscribe(new OenologistDayEndingEvent());
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "prospector")
-				Subscribe(new ArrowPointerUpdateTickedEvent(), new ProspectorWarpedEvent(), new TreasureHuntRenderingHudEvent());
+				Subscribe(new ArrowPointerUpdateTickedEvent(), new ProspectorWarpedEvent(AwesomeProfessions.ProspectorHunt), new TreasureHuntRenderingHudEvent());
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "scavenger")
-				Subscribe(new ArrowPointerUpdateTickedEvent(), new ScavengerWarpedEvent(), new TreasureHuntRenderingHudEvent());
+				Subscribe(new ArrowPointerUpdateTickedEvent(), new ScavengerWarpedEvent(AwesomeProfessions.ScavengerHunt), new TreasureHuntRenderingHudEvent());
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "spelunker")
-				Subscribe(new SpelunkerUpdateTickedEvent(), new SpelunkerWarpedEvent());
+				Subscribe(new SpelunkerUpdateTickedEvent(AwesomeProfessions.I18n), new SpelunkerWarpedEvent());
 		}
 
 		/// <summary>Unsubscribe the event listener from all events required by a specific profession.</summary>
 		/// <param name="whichProfession">The profession index.</param>
-		public void UnsubscribeEventsForProfession(int whichProfession)
+		internal void UnsubscribeEventsForProfession(int whichProfession)
 		{
 			if (Utility.ProfessionMap.Reverse[whichProfession] == "brute")
 				Unsubscribe(typeof(BruteUpdateTickedEvent), typeof(BruteWarpedEvent));
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "conservationist")
-				Unsubscribe(typeof(ConservationistDayStartedEvent));
+				Unsubscribe(typeof(ConservationistDayEndingEvent));
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "demolitionist")
 				Unsubscribe(typeof(DemolitionistUpdateTickedEvent));
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "gambit")
 				Unsubscribe(typeof(GambitUpdateTickedEvent));
+			else if (Utility.ProfessionMap.Reverse[whichProfession] == "oenologist")
+				Unsubscribe(typeof(OenologistDayEndingEvent));
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "prospector")
 			{
 				Unsubscribe(typeof(ProspectorWarpedEvent));

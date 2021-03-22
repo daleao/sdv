@@ -10,7 +10,7 @@ namespace TheLion.AwesomeProfessions
 		public bool UseAltProducerIcon { get; set; } = true;
 		public KeybindList Modkey { get; set; } = KeybindList.ForSingle(SButton.LeftShift);
 
-		public uint WineFameNeededForMaxValue { get; } = 5000;
+		public uint OenologyFameNeededForMaxValue { get; } = 5000;
 		public uint ForagesNeededForBestQuality { get; } = 200;
 		public uint MineralsNeededForBestQuality { get; } = 200;
 		public uint TreasureHuntTimeLimitSeconds { get; } = 43;

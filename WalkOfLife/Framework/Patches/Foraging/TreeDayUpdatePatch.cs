@@ -32,8 +32,8 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increase Abrorist non-fruit tree growth odds.</summary>
 		protected static void TreeDayUpdatePostfix(ref Tree __instance, int __state, GameLocation environment, Vector2 tileLocation)
 		{
-			bool isThereAnyArborist = Utility.AnyPlayerHasProfession("arborist", out int n);
-			if (__instance.growthStage.Value > __state || !isThereAnyArborist) return;
+			bool anyPlayerIsArborist = Utility.AnyPlayerHasProfession("arborist", out int n);
+			if (__instance.growthStage.Value > __state || !anyPlayerIsArborist) return;
 
 			if (Utility.CanThisTreeGrow(__instance, environment, tileLocation))
 			{

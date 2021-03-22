@@ -2,8 +2,11 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	public class BruteWarpedEvent : BaseWarpedEvent
+	internal class BruteWarpedEvent : WarpedEvent
 	{
+		/// <summary>Construct an instance.</summary>
+		internal BruteWarpedEvent() { }
+
 		/// <summary>Raised after the current player moves to a new location. Reset Brute buff.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event arguments.</param>

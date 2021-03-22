@@ -2,8 +2,11 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	public class ArrowPointerUpdateTickedEvent : BaseUpdateTickedEvent
+	internal class ArrowPointerUpdateTickedEvent : UpdateTickedEvent
 	{
+		/// <summary>Construct an instance.</summary>
+		internal ArrowPointerUpdateTickedEvent() { }
+
 		/// <summary>Raised after the game state is updated. Update tracking pointer offset for Prospector and Scavenger.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event arguments.</param>

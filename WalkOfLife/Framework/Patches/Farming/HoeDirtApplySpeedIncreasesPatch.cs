@@ -30,10 +30,10 @@ namespace TheLion.AwesomeProfessions
 			if (__instance.crop == null)
 				return false; // don't run original logic
 
-			bool isThereAnyAgriculturist = Utility.AnyPlayerHasProfession("agriculturist", out int n);
+			bool anyPlayerIsAgriculturist = Utility.AnyPlayerHasProfession("agriculturist", out int n);
 			bool shouldApplyPaddyBonus = __instance.currentLocation != null && __instance.paddyWaterCheck(__instance.currentLocation, __instance.currentTileLocation);
 			
-			if (!(__instance.fertilizer.Value.AnyOf(_speedGroId, _deluxeSpeedGroId, _hyperSpeedGroId) || isThereAnyAgriculturist || shouldApplyPaddyBonus))
+			if (!(__instance.fertilizer.Value.AnyOf(_speedGroId, _deluxeSpeedGroId, _hyperSpeedGroId) || anyPlayerIsAgriculturist || shouldApplyPaddyBonus))
 				return false; // don't run original logic
 
 			__instance.crop.ResetPhaseDays();
@@ -49,11 +49,9 @@ namespace TheLion.AwesomeProfessions
 				_ => 0f
 			};
 
-			if (shouldApplyPaddyBonus)
-				speedIncrease += 0.25f;
+			if (shouldApplyPaddyBonus) speedIncrease += 0.25f;
 
-			if (isThereAnyAgriculturist)
-				speedIncrease += 0.1f * n;
+			if (anyPlayerIsAgriculturist) speedIncrease += 0.1f * n;
 
 			int daysToRemove = (int)Math.Ceiling(totalDaysOfCropGrowth * speedIncrease);
 			int tries = 0;

@@ -2,18 +2,21 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	public abstract class BaseRenderingHudEvent : IEvent
+	internal abstract class RenderingHudEvent : BaseEvent
 	{
+		/// <summary>Construct an instance.</summary>
+		internal RenderingHudEvent() { }
+
 		/// <summary>Hook this event to an event listener.</summary>
 		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public void Hook(IModEvents listener)
+		public override void Hook(IModEvents listener)
 		{
 			listener.Display.RenderingHud += OnRenderingHud;
 		}
 
 		/// <summary>Unhook this event from an event listener.</summary>
 		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public void Unhook(IModEvents listener)
+		public override void Unhook(IModEvents listener)
 		{
 			listener.Display.RenderingHud -= OnRenderingHud;
 		}

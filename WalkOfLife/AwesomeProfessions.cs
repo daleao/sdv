@@ -13,33 +13,38 @@ namespace TheLion.AwesomeProfessions
 		public static ITranslationHelper I18n { get; set; }
 		public static ProfessionsConfig Config { get; set; }
 		public static ProfessionsData Data { get; set; }
-		public static EventManager EventManager { get; set; }
-		public static ProspectorHunt ProspectorHunt { get; set; }
-		public static ScavengerHunt ScavengerHunt { get; set; }
 
-		public static int DemolitionistBuffMagnitude { get; set; } = 0;
-		public static uint BruteKillStreak { get; set; } = 0;
+		public static int DemolitionistBuffMagnitude { get; set; }
+		public static uint BruteKillStreak { get; set; }
 		public static List<Vector2> InitialLadderTiles { get; } = new();
+
+		internal static EventManager EventManager { get; set; }
+		internal static ProspectorHunt ProspectorHunt { get; set; }
+		internal static ScavengerHunt ScavengerHunt { get; set; }
 
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper)
 		{
-			// store a reference to helper
+			// store reference to helper
 			ModHelper = helper;
 
-			// store a reference to localized text
+			// store reference to localized text
 			I18n = helper.Translation;
 
 			// get configs.json
 			Config = helper.ReadConfig<ProfessionsConfig>();
 
+			// initialize static references
+			BaseEvent.Init(Config);
+			BasePatch.Init(Config, Monitor);
+			Utility.Init(Config);
+
 			// get mod assets
-			helper.Content.AssetEditors.Add(new AssetEditor(helper.Content));
+			helper.Content.AssetEditors.Add(new AssetEditor(helper.Content, I18n));
 			Utility.ArrowPointer.Texture = helper.Content.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(Path.Combine("Assets", "cursor.png"));
 
 			// apply patches
-			BasePatch.Init(Config, Monitor);
 			new HarmonyPatcher(ModManifest.UniqueID).ApplyAll(
 				new AnimalHouseAddNewHatchedAnimalPatch(),
 				new BasicProjectileBehaviorOnCollisionWithMonsterPatch(helper.Reflection),
@@ -54,6 +59,7 @@ namespace TheLion.AwesomeProfessions
 				new FarmAnimalDayUpdatePatch(),
 				new FarmAnimalGetSellPricePatch(),
 				new FarmAnimalPetPatch(),
+				new FarmerHasOrWillReceiveMailPatch(),
 				new FishingRodStartMinigameEndFunctionPatch(),
 				new FishPondUpdateMaximumOccupancyPatch(),
 				new FruitTreeDayUpdatePatch(),

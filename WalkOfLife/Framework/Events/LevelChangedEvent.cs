@@ -1,21 +1,23 @@
-﻿using StardewModdingAPI.Enums;
-using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Events;
 using StardewValley.Menus;
 
 namespace TheLion.AwesomeProfessions
 {
-	public class LevelChangedEvent : IEvent
+	internal class LevelChangedEvent : BaseEvent
 	{
+		/// <summary>Construct an instance.</summary>
+		internal LevelChangedEvent() { }
+
 		/// <summary>Hook this event to an event listener.</summary>
 		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public void Hook(IModEvents listener)
+		public override void Hook(IModEvents listener)
 		{
 			listener.Player.LevelChanged += OnLevelChanged;
 		}
 
 		/// <summary>Unhook this event from an event listener.</summary>
 		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public void Unhook(IModEvents listener)
+		public override void Unhook(IModEvents listener)
 		{
 			listener.Player.LevelChanged -= OnLevelChanged;
 		}

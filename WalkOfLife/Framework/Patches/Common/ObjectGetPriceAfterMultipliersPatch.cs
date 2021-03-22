@@ -41,8 +41,8 @@ namespace TheLion.AwesomeProfessions
 				float multiplier = 1f;
 
 				// professions
-				if (Utility.SpecificPlayerHasProfession("oenologist", player) && Utility.IsWineOrBeverage(__instance))
-					multiplier *= Utility.GetOenologistPriceMultiplier(player);
+				if (player.IsLocalPlayer && Utility.LocalPlayerHasProfession("oenologist") && Utility.IsWineOrBeverage(__instance))
+					multiplier *= 1f + Utility.GetOenologistPriceBonus();
 				else if (Utility.SpecificPlayerHasProfession("producer", player) && Utility.IsAnimalProduct(__instance))
 					multiplier *= Utility.GetProducerPriceMultiplier(player);
 				else if (Utility.SpecificPlayerHasProfession("angler", player) && Utility.IsReeledFish(__instance))
@@ -54,8 +54,8 @@ namespace TheLion.AwesomeProfessions
 				else if (player.eventsSeen.Contains(3910979) && Utility.IsSpringOnion(__instance))
 					multiplier *= 5f;
 
-				if (Utility.SpecificPlayerHasProfession("conservationist", player))
-					multiplier *= Utility.GetConservationistPriceMultiplier(player);
+				if (Utility.LocalPlayerHasProfession("conservationist"))
+					multiplier *= 1f + _data.ConservationistTaxBonusThisSeason;
 
 				saleMultiplier = Math.Max(saleMultiplier, multiplier);
 			}

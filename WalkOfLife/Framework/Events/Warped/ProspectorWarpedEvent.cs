@@ -4,8 +4,16 @@ using StardewValley.Locations;
 
 namespace TheLion.AwesomeProfessions
 {
-	public class ProspectorWarpedEvent : BaseWarpedEvent
+	internal class ProspectorWarpedEvent : WarpedEvent
 	{
+		private readonly ProspectorHunt _hunt;
+
+		/// <summary>Construct an instance.</summary>
+		internal ProspectorWarpedEvent(ProspectorHunt hunt)
+		{
+			_hunt = hunt;
+		}
+
 		/// <summary>Raised after the current player moves to a new location. Trigger Prospector hunt events + track initial ladder down.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event arguments.</param>
@@ -18,7 +26,7 @@ namespace TheLion.AwesomeProfessions
 			{
 				foreach (var tile in Utility.GetLadderTiles(e.NewLocation as MineShaft)) AwesomeProfessions.InitialLadderTiles.Add(tile);
 
-				AwesomeProfessions.ProspectorHunt.TryStartNewHunt(e.NewLocation);
+				_hunt.TryStartNewHunt(e.NewLocation);
 			}
 		}
 	}

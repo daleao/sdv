@@ -3,8 +3,11 @@ using StardewValley.Locations;
 
 namespace TheLion.AwesomeProfessions
 {
-	public class SpelunkerWarpedEvent : BaseWarpedEvent
+	internal class SpelunkerWarpedEvent : WarpedEvent
 	{
+		/// <summary>Construct an instance.</summary>
+		internal SpelunkerWarpedEvent() { }
+
 		/// <summary>Raised after the current player moves to a new location. Record Spelunker lowest level reached.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event arguments.</param>
@@ -13,7 +16,7 @@ namespace TheLion.AwesomeProfessions
 			if (e.IsLocalPlayer && e.NewLocation is MineShaft)
 			{
 				uint currentMineLevel = (uint)(e.NewLocation as MineShaft).mineLevel;
-				if (currentMineLevel > AwesomeProfessions.Data.LowestMineLevelReached) AwesomeProfessions.Data.LowestMineLevelReached = currentMineLevel;
+				if (currentMineLevel > _data.LowestMineLevelReached)_data.LowestMineLevelReached = currentMineLevel;
 			}
 		}
 	}

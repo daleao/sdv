@@ -57,7 +57,7 @@ namespace TheLion.AwesomeProfessions
 					)
 					.Advance()
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)10)	// arg 10 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)10)	// was Ldarg_S critChance (arg 10 = Farmer who)
 					)
 					.Advance()
 					.ReplaceWith(												// was Ldc_R4 0.5

@@ -63,6 +63,16 @@ namespace TheLion.AwesomeProfessions
 			{ "desperado", Farmer.desperado }			// 29
 		};
 
+		private enum OenologyAwardLevel
+		{
+			NULL,
+			Copper,
+			Iron,
+			Gold,
+			Iridium,
+			Stardrop
+		}
+
 		/// <summary>Generate unique buff ids from a hash seed.</summary>
 		/// <param name="hash">Unique instance hash.</param>
 		public static void SetProfessionBuffIDs(int hash)
@@ -112,20 +122,46 @@ namespace TheLion.AwesomeProfessions
 			return numberOfPlayersWithThisProfession > 0;
 		}
 
-		/// <summary>Get the price multiplier for wine sold by Oenologist.</summary>
-		/// <param name="who">The player.</param>
-		public static float GetOenologistPriceMultiplier(Farmer who)
+		/// <summary>Get the oenology award level corresponding to the local player's oenology fame accrued.</summary>
+		public static uint GetLocalPlayerOenologyAwardLevel()
 		{
-			if (!who.IsLocalPlayer) return 1f;
+			OenologyAwardLevel awardLevel;
+			if (_data.OenologyFameAccrued >= _config.OenologyFameNeededForMaxValue) awardLevel = OenologyAwardLevel.Stardrop;
+			else if (_data.OenologyFameAccrued >= (uint)(0.625 * _config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Iridium;
+			else if (_data.OenologyFameAccrued >= (uint)(0.25 * _config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Gold;
+			else if (_data.OenologyFameAccrued >= (uint)(0.1 * _config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Iron;
+			else if (_data.OenologyFameAccrued >= (uint)(0.04 * _config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Copper;
+			else awardLevel = OenologyAwardLevel.NULL;
 
-			float multiplier = 1f;
-			if (AwesomeProfessions.Data.WineFameAccrued >= AwesomeProfessions.Config.WineFameNeededForMaxValue) multiplier += 1f;
-			else if (AwesomeProfessions.Data.WineFameAccrued >= (uint)(0.625 * AwesomeProfessions.Config.WineFameNeededForMaxValue)) multiplier += 0.5f;
-			else if (AwesomeProfessions.Data.WineFameAccrued >= (uint)(0.25 * AwesomeProfessions.Config.WineFameNeededForMaxValue)) multiplier += 0.25f;
-			else if (AwesomeProfessions.Data.WineFameAccrued >= (uint)(0.1 * AwesomeProfessions.Config.WineFameNeededForMaxValue)) multiplier += 0.1f;
-			else if (AwesomeProfessions.Data.WineFameAccrued >= (uint)(0.04 * AwesomeProfessions.Config.WineFameNeededForMaxValue)) multiplier += 0.05f;
+			return (uint)awardLevel;
+		}
 
-			return multiplier;
+		/// <summary>Get the price multiplier for wine and beverages sold by Oenologist.</summary>
+		public static float GetOenologistPriceBonus()
+		{
+			return (OenologyAwardLevel)_data.HighestOenologyAwardEarned switch
+			{
+				OenologyAwardLevel.Stardrop => 1f,
+				OenologyAwardLevel.Iridium => 0.5f,
+				OenologyAwardLevel.Gold => 0.2f,
+				OenologyAwardLevel.Iron => 0.1f,
+				OenologyAwardLevel.Copper => 0.05f,
+				_ => 0f
+			};
+		}
+
+		/// <summary>Get the award name for Oenologist's current award level.</summary>
+		public static string GetOenologyAwardName()
+		{
+			return (OenologyAwardLevel)_data.HighestOenologyAwardEarned switch
+			{
+				OenologyAwardLevel.Stardrop => "Best in Show",
+				OenologyAwardLevel.Iridium => "Iridium",
+				OenologyAwardLevel.Gold => "Gold",
+				OenologyAwardLevel.Iron => "Iron",
+				OenologyAwardLevel.Copper => "Copper",
+				_ => ""
+			};
 		}
 
 		/// <summary>Get the price multiplier for produce sold by Producer.</summary>
@@ -162,8 +198,9 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (!who.IsLocalPlayer) return 1f;
 
-			return 1f + AwesomeProfessions.Data.OceanTrashCollectedThisSeason % AwesomeProfessions.Config.TrashNeededForNextTaxLevel / 100f;
+			return 1f + _data.ConservationistTaxBonusThisSeason / 100f;
 		}
+
 
 		/// <summary>Get adjusted friendship for calculating the value of Breeder-owned farm animal.</summary>
 		/// <param name="a">Farm animal instance.</param>
@@ -175,19 +212,19 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Get the quality of forage for Ecologist.</summary>
 		public static int GetEcologistForageQuality()
 		{
-			return AwesomeProfessions.Data.ItemsForaged < AwesomeProfessions.Config.ForagesNeededForBestQuality ? (AwesomeProfessions.Data.ItemsForaged < AwesomeProfessions.Config.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			return _data.ItemsForaged < _config.ForagesNeededForBestQuality ? (_data.ItemsForaged < _config.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 
 		/// <summary>Get the quality of mineral for Gemologist.</summary>
 		public static int GetGemologistMineralQuality()
 		{
-			return AwesomeProfessions.Data.MineralsCollected < AwesomeProfessions.Config.MineralsNeededForBestQuality ? (AwesomeProfessions.Data.MineralsCollected < AwesomeProfessions.Config.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			return _data.MineralsCollected < _config.MineralsNeededForBestQuality ? (_data.MineralsCollected < _config.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 
 		/// <summary>Get the bonus ladder spawn chance for Spelunker.</summary>
 		public static double GetSpelunkerBonusLadderDownChance()
 		{
-			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * AwesomeProfessions.Data.LowestMineLevelReached)) - 0.5;
+			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * _data.LowestMineLevelReached)) - 0.5;
 		}
 
 		/// <summary>Get the quality for the chosen catch.</summary>

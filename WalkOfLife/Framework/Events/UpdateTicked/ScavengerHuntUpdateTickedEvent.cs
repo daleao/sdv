@@ -2,8 +2,11 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	public class ScavengerHuntUpdateTickedEvent : BaseUpdateTickedEvent
+	internal class ScavengerHuntUpdateTickedEvent : UpdateTickedEvent
 	{
+		/// <summary>Construct an instance.</summary>
+		internal ScavengerHuntUpdateTickedEvent() { }
+
 		/// <summary>Raised after the game state is updated. Handle Scavenger hunt events.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event arguments.</param>

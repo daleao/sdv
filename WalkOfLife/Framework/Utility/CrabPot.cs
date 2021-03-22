@@ -55,28 +55,28 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="crabpot">The crab pot instance.</param>
 		public static bool IsUsingRegularBait(CrabPot crabpot)
 		{
-			return _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Bait");
+			return crabpot.bait.Value != null && _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Bait");
 		}
 
 		/// <summary>Whether the crab pot instance is using magnet as bait.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		public static bool IsUsingMagnet(CrabPot crabpot)
 		{
-			return _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Magnet");
+			return crabpot.bait.Value != null && _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Magnet");
 		}
 
 		/// <summary>Whether the crab pot instance is using wild bait.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		public static bool IsUsingWildBait(CrabPot crabpot)
 		{
-			return _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Wild Bait");
+			return crabpot.bait.Value != null && _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Wild Bait");
 		}
 
 		/// <summary>Whether the crab pot instance is using magic bait.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		public static bool IsUsingMagicBait(CrabPot crabpot)
 		{
-			return _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Magic Bait");
+			return crabpot.bait.Value != null && _baitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Magic Bait");
 		}
 
 		/// <summary>Get the raw fish data for the current game season.</summary>

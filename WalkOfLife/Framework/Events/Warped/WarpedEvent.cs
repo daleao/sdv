@@ -2,18 +2,21 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	public abstract class BaseWarpedEvent : IEvent
+	internal abstract class WarpedEvent : BaseEvent
 	{
+		/// <summary>Construct an instance.</summary>
+		internal WarpedEvent() { }
+
 		/// <summary>Hook this event to an event listener.</summary>
 		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public void Hook(IModEvents listener)
+		public override void Hook(IModEvents listener)
 		{
 			listener.Player.Warped += OnWarped;
 		}
 
 		/// <summary>Unhook this event from an event listener.</summary>
 		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public void Unhook(IModEvents listener)
+		public override void Unhook(IModEvents listener)
 		{
 			listener.Player.Warped -= OnWarped;
 		}

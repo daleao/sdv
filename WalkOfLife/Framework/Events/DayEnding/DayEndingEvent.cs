@@ -2,31 +2,28 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	internal class SavedEvent : BaseEvent
+	internal abstract class DayEndingEvent : BaseEvent
 	{
 		/// <summary>Construct an instance.</summary>
-		internal SavedEvent() { }
+		internal DayEndingEvent() { }
 
 		/// <summary>Hook this event to an event listener.</summary>
 		/// <param name="listener">Interface to the SMAPI event handler.</param>
 		public override void Hook(IModEvents listener)
 		{
-			listener.GameLoop.Saved += OnSaved;
+			listener.GameLoop.DayEnding += OnDayEnding;
 		}
 
 		/// <summary>Unhook this event from an event listener.</summary>
 		/// <param name="listener">Interface to the SMAPI event handler.</param>
 		public override void Unhook(IModEvents listener)
 		{
-			listener.GameLoop.Saved -= OnSaved;
+			listener.GameLoop.DayEnding -= OnDayEnding;
 		}
 
-		/// <summary>Raised after the game writes data to save file (except the initial save creation).</summary>
+		/// <summary>Raised before the game ends the current day.</summary>
 		/// <param name="sender">The event sender.</param>
-		/// <param name="e">The event data.</param>
-		private void OnSaved(object sender, SavedEventArgs e)
-		{
-			AwesomeProfessions.ModHelper.Data.WriteSaveData("thelion.AwesomeProfessions", _data);
-		}
+		/// <param name="e">The event arguments.</param>
+		public abstract void OnDayEnding(object sender, DayEndingEventArgs e);
 	}
 }

@@ -48,14 +48,11 @@ namespace TheLion.AwesomeProfessions
 					var rawFishData = Utility.IsUsingMagicBait(__instance) ? Utility.GetRawFishDataForAllSeasons(location, locationData) : Utility.GetRawFishDataForThisSeason(location, locationData);
 					var rawFishDataWithLocation = Utility.GetRawFishDataWithLocation(rawFishData);
 					whichFish = Utility.ChooseFish(__instance, fishData, rawFishDataWithLocation, location, r);
-					if (whichFish < 0)
-						whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
+					if (whichFish < 0) whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
 				}
-				else
-					whichFish = Utility.ChoosePirateTreasure(r, who);
+				else whichFish = Utility.ChoosePirateTreasure(r, who);
 			}
-			else if (__instance.bait.Value != null)
-				whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
+			else if (__instance.bait.Value != null) whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
 
 			if (whichFish.AnyOf(14, 51))
 			{
@@ -73,15 +70,10 @@ namespace TheLion.AwesomeProfessions
 			int fishQuality = 0;
 			if (whichFish < 0)
 			{
-				whichFish = Utility.GetTrash(r);
-				if (Utility.SpecificPlayerHasProfession("conservationist", who) && who.IsLocalPlayer)
-				{
-					if (++_data.OceanTrashCollectedThisSeason % 10 == 0)
-						SUtility.improveFriendshipWithEveryoneInRegion(who, 1, 2);
-				}
+				bool playerIsConservationist = Utility.SpecificPlayerHasProfession("conservationist", who);
+				if (__instance.bait.Value != null || playerIsConservationist) whichFish = Utility.GetTrash(r);
 			}
-			else
-				fishQuality = Utility.GetTrapperFishQuality(who, r);
+			else fishQuality = Utility.GetTrapperFishQuality(who, r);
 
 			int fishQuantity = Utility.GetFishQuantity(__instance, whichFish, who, r);
 			__instance.heldObject.Value = new SObject(whichFish, initialStack: fishQuantity, quality: fishQuality);

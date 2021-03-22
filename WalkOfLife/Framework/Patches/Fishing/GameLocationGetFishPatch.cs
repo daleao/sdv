@@ -40,7 +40,6 @@ namespace TheLion.AwesomeProfessions
 			Label reroll = iLGenerator.DefineLabel();
 			Label resumeExecution = iLGenerator.DefineLabel();
 			var hasRerolled = iLGenerator.DeclareLocal(typeof(bool));
-
 			try
 			{
 				_helper
