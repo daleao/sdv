@@ -236,13 +236,6 @@ namespace TheLion.AwesomeProfessions
 			return obj.Category == SObject.FishCategory && !IsTrapFish(obj);
 		}
 
-		/// <summary>Whether a given object is a fish that's not a regular crab pot fish.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsFishButNotTrapFish(SObject obj)
-		{
-			return obj?.Type == "Fish" && !(IsTrapFish(obj) || IsTrash(obj));
-		}
-
 		/// <summary>Whether a given object is a trash.</summary>
 		/// <param name="obj">The given object.</param>
 		public static bool IsTrash(SObject obj)

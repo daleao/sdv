@@ -23,7 +23,7 @@ namespace TheLion.AwesomeProfessions
 					switch ((item as SObject).Quality)
 					{
 						case SObject.bestQuality:
-							_data.OenologyFameAccrued += 5;
+							_data.OenologyFameAccrued += 3;
 							break;
 						case SObject.highQuality:
 							_data.OenologyFameAccrued += 1;

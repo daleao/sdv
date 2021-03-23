@@ -29,6 +29,7 @@ namespace TheLion.AwesomeProfessions
 			_newHuntMessage = i18n.Get("scavenger.huntstarted");
 			_failedHuntMessage = i18n.Get("scavenger.huntfailed");
 			_icon = content.Load<Texture2D>(Path.Combine("Assets", "scavenger.png"));
+			timeLimit = config.ScavengerHuntTimeLimitSeconds;
 		}
 
 		/// <summary>Try to start a new scavenger hunt at this location.</summary>
@@ -45,7 +46,7 @@ namespace TheLion.AwesomeProfessions
 				Utility.MakeTileDiggable(v, location);
 				TreasureTile = v;
 				elapsed = 0;
-				_manager.Subscribe(new ScavengerHuntUpdateTickedEvent());
+				_manager.Subscribe(new ScavengerHuntUpdateTickedEvent(this));
 				Game1.addHUDMessage(new HuntNotification(_newHuntMessage, _icon));
 			}
 		}

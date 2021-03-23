@@ -227,20 +227,6 @@ namespace TheLion.AwesomeProfessions
 			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * _data.LowestMineLevelReached)) - 0.5;
 		}
 
-		/// <summary>Get the quality for the chosen catch.</summary>
-		/// <param name="who">The owner of the crab pot.</param>
-		/// <param name="r">Random number generator.</param>
-		public static int GetTrapperFishQuality(Farmer who, Random r)
-		{
-			if (!SpecificPlayerHasProfession("trapper", who)) return 0;
-
-			if (r.NextDouble() < who.FishingLevel / 30.0) return 2;
-
-			if (r.NextDouble() < who.FishingLevel / 15.0) return 1;
-
-			return 0;
-		}
-
 		/// <summary>Get the bonus bobber bar height for Aquarist.</summary>
 		public static int GetAquaristBonusBobberBarHeight()
 		{

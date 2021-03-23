@@ -24,8 +24,7 @@ namespace TheLion.AwesomeProfessions
 			if (AwesomeProfessions.BruteKillStreak > 0)
 			{
 				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == Utility.BruteBuffID);
-				if (buff != null)
-					Game1.buffsDisplay.removeOtherBuff(Utility.BruteBuffID);
+				if (buff != null) Game1.buffsDisplay.removeOtherBuff(Utility.BruteBuffID);
 
 				Game1.buffsDisplay.addOtherBuff(
 					buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, minutesDuration: 1, source: "brute", displaySource: _i18n.Get("brute.name"))

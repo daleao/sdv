@@ -9,11 +9,11 @@ namespace TheLion.AwesomeProfessions
 		public static Vector2? TreasureTile { get; protected set; } = null;
 		protected static uint elapsed = 0;
 		
+		protected readonly Random random = new Random(Guid.NewGuid().GetHashCode());
+		protected uint timeLimit;
 		private protected ProfessionsData _data;
 		private protected EventManager _manager;
-		protected readonly Random random = new Random(Guid.NewGuid().GetHashCode());
 
-		private readonly uint _timeLimit;
 		private readonly double _baseTriggerChance;
 		private double _accumulatedBonus = 1.0;
 
@@ -22,7 +22,6 @@ namespace TheLion.AwesomeProfessions
 		internal TreasureHunt(ProfessionsConfig config, ProfessionsData data, EventManager manager)
 		{
 			_baseTriggerChance = config.ChanceToStartTreasureHunt;
-			_timeLimit = config.TreasureHuntTimeLimitSeconds;
 			_data = data;
 			_manager = manager;
 		}
@@ -31,9 +30,15 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="ticks">The number of ticks elapsed since the game started.</param>
 		internal void Update(uint ticks)
 		{
-			if (ticks % 60 == 0 && ++elapsed > _timeLimit) Fail();
+			if (ticks % 60 == 0 && ++elapsed > timeLimit) Fail();
 
 			CheckForCompletion();
+		}
+
+		/// <summary>Reset the accumulated bonus chance to trigger a new hunt.</summary>
+		internal void ResetAccumulatedBonus()
+		{
+			_accumulatedBonus = 1.0;
 		}
 
 		/// <summary>Start a new treasure hunt or adjust the odds for the next attempt.</summary>

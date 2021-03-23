@@ -1,13 +1,11 @@
 ﻿using Harmony;
 using StardewValley;
 using StardewValley.Objects;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using TheLion.Common.Extensions;
 using SObject = StardewValley.Object;
-using SUtility = StardewValley.Utility;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -54,16 +52,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			else if (__instance.bait.Value != null) whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
 
-			if (whichFish.AnyOf(14, 51))
+			if (whichFish.AnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
 			{
-				MeleeWeapon weapon = new MeleeWeapon(whichFish) { specialItem = true };
-				__instance.heldObject.Value = (SObject)(weapon as Item);
-				return false; // don't run original logic
-			}
-			else if (whichFish.AnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
-			{
-				Ring ring = new Ring(whichFish);
-				__instance.heldObject.Value = (SObject)(ring as Item);
+				SObject equipment = new SObject(whichFish, 1);
+				__instance.heldObject.Value = equipment;
 				return false; // don't run original logic
 			}
 
@@ -73,9 +65,9 @@ namespace TheLion.AwesomeProfessions
 				bool playerIsConservationist = Utility.SpecificPlayerHasProfession("conservationist", who);
 				if (__instance.bait.Value != null || playerIsConservationist) whichFish = Utility.GetTrash(r);
 			}
-			else fishQuality = Utility.GetTrapperFishQuality(who, r);
+			else fishQuality = Utility.GetTrapFishQuality(whichFish, who, r);
 
-			int fishQuantity = Utility.GetFishQuantity(__instance, whichFish, who, r);
+			int fishQuantity = Utility.GetTrapFishQuantity(__instance, whichFish, who, r);
 			__instance.heldObject.Value = new SObject(whichFish, initialStack: fishQuantity, quality: fishQuality);
 			return false; // don't run original logic
 		}

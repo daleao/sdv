@@ -13,8 +13,9 @@ namespace TheLion.AwesomeProfessions
 		public uint OenologyFameNeededForMaxValue { get; } = 5000;
 		public uint ForagesNeededForBestQuality { get; } = 200;
 		public uint MineralsNeededForBestQuality { get; } = 200;
-		public uint TreasureHuntTimeLimitSeconds { get; } = 43;
-		public double ChanceToStartTreasureHunt { get; } = 0.1;
+		public uint ScavengerHuntTimeLimitSeconds { get; } = 43;
+		public uint ProspectorHuntTimeLimitSeconds { get; } = 22;
+		public double ChanceToStartTreasureHunt { get; } = 0.2;
 		public float TreasureTileDetectionDistance { get; } = 3f;
 		public uint TrashNeededForNextTaxLevel { get; } = 50;
 	}

@@ -25,8 +25,7 @@ namespace TheLion.AwesomeProfessions
 			if ((healthPercent = (double)Game1.player.health / Game1.player.maxHealth) < 1)
 			{
 				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == Utility.GambitBuffID);
-				if (buff != null)
-					Game1.buffsDisplay.removeOtherBuff(Utility.GambitBuffID);
+				if (buff != null) Game1.buffsDisplay.removeOtherBuff(Utility.GambitBuffID);
 
 				Game1.buffsDisplay.addOtherBuff(
 					buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, minutesDuration: 1, source: "gambit", displaySource: _i18n.Get("gambit.name"))

@@ -116,7 +116,7 @@ namespace TheLion.AwesomeProfessions
 			return _helper.Flush();
 		}
 
-		/// <summary>Patch to count Brute kill streak.</summary>
+		/// <summary>Patch to count Brute kill streak and assign Brute buff.</summary>
 		protected static void GameLocationDamageMonsterPostfix(ref uint __state, Farmer who)
 		{
 			if (who.IsLocalPlayer && Utility.LocalPlayerHasProfession("brute") && Game1.stats.MonstersKilled > __state)

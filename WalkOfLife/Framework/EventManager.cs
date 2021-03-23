@@ -94,9 +94,9 @@ namespace TheLion.AwesomeProfessions
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "oenologist")
 				Subscribe(new OenologistDayEndingEvent());
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "prospector")
-				Subscribe(new ArrowPointerUpdateTickedEvent(), new ProspectorWarpedEvent(AwesomeProfessions.ProspectorHunt), new TreasureHuntRenderingHudEvent());
+				Subscribe(new ArrowPointerUpdateTickedEvent(), new ProspectorDayStartedEvent(AwesomeProfessions.ProspectorHunt), new ProspectorWarpedEvent(AwesomeProfessions.ProspectorHunt), new TreasureHuntRenderingHudEvent());
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "scavenger")
-				Subscribe(new ArrowPointerUpdateTickedEvent(), new ScavengerWarpedEvent(AwesomeProfessions.ScavengerHunt), new TreasureHuntRenderingHudEvent());
+				Subscribe(new ArrowPointerUpdateTickedEvent(), new ScavengerDayStartedEvent(AwesomeProfessions.ScavengerHunt), new ScavengerWarpedEvent(AwesomeProfessions.ScavengerHunt), new TreasureHuntRenderingHudEvent());
 			else if (Utility.ProfessionMap.Reverse[whichProfession] == "spelunker")
 				Subscribe(new SpelunkerUpdateTickedEvent(AwesomeProfessions.I18n), new SpelunkerWarpedEvent());
 		}
