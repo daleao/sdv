@@ -2,6 +2,7 @@
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>Base class for dynamic events.</summary>
 	internal abstract class BaseEvent
 	{
 		protected static ProfessionsConfig Config { get; private set; }

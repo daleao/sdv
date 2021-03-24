@@ -6,6 +6,7 @@ using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>Holds common methods and properties related to specific professions.</summary>
 	public static partial class Utility
 	{
 		public static int SpelunkerBuffID { get; private set; }

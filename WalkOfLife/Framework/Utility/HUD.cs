@@ -6,6 +6,7 @@ using SUtility = StardewValley.Utility;
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>Holds common methods and properties related to rendering elements to the game HUD.</summary>
 	public static partial class Utility
 	{
 		public static ArrowPointer ArrowPointer { get; } = new();
@@ -79,11 +80,13 @@ namespace TheLion.AwesomeProfessions
 		}
 	}
 
+	/// <summary>Vertical arrow indicator to reveal on-screen objects of interest for tracker professions.</summary>
 	public class ArrowPointer
 	{
 		public Texture2D Texture { get; set; }
 		private float _height = -42f, _step = 0f, _maxStep = 3f, _minStep = -3f, _jerk = 1f;
 
+		/// <summary>Advance the pointer's vertical offset motion by one step, in a bobbing fashion.</summary>
 		public void Bob()
 		{
 			if (_step == _maxStep || _step == _minStep) _jerk = -_jerk;
@@ -92,6 +95,7 @@ namespace TheLion.AwesomeProfessions
 			_height += _step;
 		}
 
+		/// <summary>Get the pointer's current vertical offset.</summary>
 		public Vector2 GetOffset()
 		{
 			return new Vector2(0f, _height);

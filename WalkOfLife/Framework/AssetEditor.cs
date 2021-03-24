@@ -7,7 +7,7 @@ using System.IO;
 
 namespace TheLion.AwesomeProfessions
 {
-	/// <summary>Patches mod assets over vanilla assets.	</summary>
+	/// <summary>Patches mod assets over vanilla assets.</summary>
 	internal class AssetEditor : IAssetEditor
 	{
 		private IContentHelper _Content { get; }

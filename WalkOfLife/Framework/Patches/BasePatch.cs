@@ -3,6 +3,7 @@ using StardewModdingAPI;
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>Base class for harmony patches.</summary>
 	internal abstract class BasePatch
 	{
 		protected static ProfessionsConfig Config { get; private set; }

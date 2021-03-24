@@ -5,13 +5,14 @@ using System;
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>Base class for treasure hunts.</summary>
 	internal abstract class TreasureHunt
 	{
 		public Vector2? TreasureTile { get; protected set; } = null;
 
-		protected Random Random { get; } = new Random(Guid.NewGuid().GetHashCode());
-		protected EventManager Manager { get; }
 		protected ProfessionsData Data { get; }
+		protected EventManager Manager { get; }
+		protected Random Random { get; } = new Random(Guid.NewGuid().GetHashCode());
 		protected string NewHuntMessage { get; set; }
 		protected string FailedHuntMessage { get; set; }
 		protected Texture2D Icon { get; set; }
@@ -25,6 +26,8 @@ namespace TheLion.AwesomeProfessions
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="config">The overal mod settings.</param>
+		/// <param name="data">The mod persisted data.</param>
+		/// <param name="manager">The event manager.</param>
 		protected TreasureHunt(ProfessionsConfig config, ProfessionsData data, EventManager manager)
 		{
 			Data = data;

@@ -7,6 +7,7 @@ using STree = StardewValley.TerrainFeatures.Tree;
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>Holds methods and properties specific to modded tree behavior.</summary>
 	public static partial class Utility
 	{
 		/// <summary>Whether a given common tree satisfies all conditions to advance a stage.</summary>

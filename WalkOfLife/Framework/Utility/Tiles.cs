@@ -7,6 +7,7 @@ using xTile.Dimensions;
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>Holds common methods and properties related to map tilesheets.</summary>
 	public static partial class Utility
 	{
 		/// <summary>Find all tiles in a mine map containing either a ladder or shaft.</summary>

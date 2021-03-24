@@ -30,6 +30,7 @@ namespace TheLion.AwesomeProfessions
 						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: 1, 0, 0, minutesDuration: 1, source: "spelunker", displaySource: _I18n.Get("spelunker.name"))
 						{
 							which = Utility.SpelunkerBuffID,
+							millisecondsDuration = 50
 						}
 					);
 

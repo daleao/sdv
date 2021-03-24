@@ -9,6 +9,7 @@ using SUtility = StardewValley.Utility;
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>Holds methods and properties specific to modded crab pot behavior.</summary>
 	public static partial class Utility
 	{
 		#region look-up tables

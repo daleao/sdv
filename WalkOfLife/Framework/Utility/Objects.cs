@@ -6,6 +6,7 @@ using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>Holds common methods and properties related to objects.</summary>
 	public static partial class Utility
 	{
 		#region look-up tables
