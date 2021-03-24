@@ -16,7 +16,7 @@ namespace TheLion.AwesomeProfessions
 			if (e.IsLocalPlayer && e.NewLocation is MineShaft)
 			{
 				uint currentMineLevel = (uint)(e.NewLocation as MineShaft).mineLevel;
-				if (currentMineLevel > _data.LowestMineLevelReached) _data.LowestMineLevelReached = currentMineLevel;
+				if (currentMineLevel > Data.LowestMineLevelReached) Data.LowestMineLevelReached = currentMineLevel;
 			}
 		}
 	}

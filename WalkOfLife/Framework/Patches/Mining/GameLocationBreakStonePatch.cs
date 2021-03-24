@@ -9,12 +9,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class GameLocationBreakStonePatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal GameLocationBreakStonePatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -32,14 +32,14 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to remove Miner extra ore + remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
 		protected static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::breakStone.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::breakStone.");
 
 			/// From: addedOres = (who.professions.Contains(<miner_id>) ? 1 : 0)
 			/// To: addedOres = 0
 
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.miner)		// find index of miner check
 					.Retreat()
 					.RemoveUntil(
@@ -51,16 +51,16 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while removing vanilla Miner extra ore.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while removing vanilla Miner extra ore.\nHelper returned {ex}").Restore();
 			}
 
-			_helper.Backup();
+			_Helper.Backup();
 
 			/// Skipped: if (who.professions.Contains(<geologist_id>)...
 
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.geologist)		// find index of geologist check
 					.Retreat()
 					.GetLabels(out var labels)					// copy labels
@@ -78,16 +78,16 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while removing vanilla Geologist paired gems.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while removing vanilla Geologist paired gems.\nHelper returned {ex}").Restore();
 			}
 
-			_helper.Backup();
+			_Helper.Backup();
 
 			/// Skipped: if (who.professions.Contains(<prospector_id>))...
 
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.burrower)		// find index of prospector check
 					.Retreat()
 					.AdvanceUntil(
@@ -101,10 +101,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 
 		/// <summary>Patch for Miner extra resources.</summary>
@@ -120,12 +120,14 @@ namespace TheLion.AwesomeProfessions
 				{
 					double rolled = r.NextDouble();
 					if (rolled < 0.25)
-						Game1.createMultipleObjectDebris(74, x, y, 1, who.UniqueMultiplayerID, __instance);	// drop prismatic shard
+						Game1.createObjectDebris(74, x, y, who.UniqueMultiplayerID, __instance);	// drop prismatic shard
 					else if (rolled < 0.6)
 						Game1.createObjectDebris(765, x, y, who.UniqueMultiplayerID, __instance);			// drop iridium ore
 					else
 						Game1.createObjectDebris(764, x, y, who.UniqueMultiplayerID, __instance);			// drop gold ore
 				}
+				else if ((845 <= indexOfStone & indexOfStone <= 847) && r.NextDouble() < 0.005)
+					Game1.createObjectDebris(827, x, y, who.UniqueMultiplayerID, __instance);
 			}
 		}
 		#endregion harmony patches

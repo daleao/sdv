@@ -32,7 +32,7 @@ namespace TheLion.AwesomeProfessions
 					itemQuality = Utility.GetGemologistMineralQuality()
 				});
 
-				++_data.MineralsCollected;
+				++Data.MineralsCollected;
 				return false; // don't run original logic
 			}
 

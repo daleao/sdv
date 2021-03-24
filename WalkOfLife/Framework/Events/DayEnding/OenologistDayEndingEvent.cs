@@ -23,27 +23,27 @@ namespace TheLion.AwesomeProfessions
 					switch ((item as SObject).Quality)
 					{
 						case SObject.bestQuality:
-							_data.OenologyFameAccrued += 3;
+							Data.OenologyFameAccrued += 3;
 							break;
 						case SObject.highQuality:
-							_data.OenologyFameAccrued += 1;
+							Data.OenologyFameAccrued += 1;
 							break;
 						case SObject.medQuality:
-							_data.OenologyFameAccrued += 0;
+							Data.OenologyFameAccrued += 0;
 							break;
 						case SObject.lowQuality:
-							_data.OenologyFameAccrued = Math.Max(_data.OenologyFameAccrued - 1, 0);
+							Data.OenologyFameAccrued = Math.Max(Data.OenologyFameAccrued - 1, 0);
 							break;
 					}
 				}
 			}
 
-			if (Game1.dayOfMonth == 28 && _data.OenologyFameAccrued > 0)
+			if (Game1.dayOfMonth == 28 && Data.OenologyFameAccrued > 0)
 			{
 				uint awardLevel = Utility.GetLocalPlayerOenologyAwardLevel();
-				if (awardLevel > _data.HighestOenologyAwardEarned)
+				if (awardLevel > Data.HighestOenologyAwardEarned)
 				{
-					_data.HighestOenologyAwardEarned = awardLevel;
+					Data.HighestOenologyAwardEarned = awardLevel;
 					AwesomeProfessions.ModHelper.Content.InvalidateCache(Path.Combine("Data", "mail"));
 					Game1.addMailForTomorrow("OenologistAwardNotice");
 				}

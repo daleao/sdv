@@ -2,17 +2,17 @@
 {
 	public static partial class Utility
 	{
-		private static ProfessionsConfig _config;
-		private static ProfessionsData _data;
+		private static ProfessionsConfig Config { get; set; }
+		private static ProfessionsData Data { get; set; }
 
 		public static void Init(ProfessionsConfig config)
 		{
-			_config = config;
+			Config = config;
 		}
 
 		public static void SetData(ProfessionsData data)
 		{
-			_data = data;
+			Data = data;
 		}
 	}
 }

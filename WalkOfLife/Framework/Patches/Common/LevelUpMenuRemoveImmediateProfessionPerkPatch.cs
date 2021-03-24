@@ -12,12 +12,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal LevelUpMenuRemoveImmediateProfessionPerkPatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -35,14 +35,14 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
 		protected static IEnumerable<CodeInstruction> LevelUpMenuRemoveImmediateProfessionPerkTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.removeImmediateProfessionPerk)}.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.removeImmediateProfessionPerk)}.");
 
 			/// From: case <defender_id>:
 			/// To: case <brute_id>:
 
 			try
 			{
-				_helper
+				_Helper
 					.FindFirst(
 						new CodeInstruction(OpCodes.Ldc_I4_S, operand: 27)
 					)
@@ -50,10 +50,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 
 		/// <summary>Patch to remove modded immediate profession perks.</summary>

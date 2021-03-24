@@ -9,18 +9,17 @@ namespace TheLion.AwesomeProfessions
 	/// <summary>The mod entry point.</summary>
 	public class AwesomeProfessions : Mod
 	{
-		public static IModHelper ModHelper { get; set; }
-		public static ITranslationHelper I18n { get; set; }
-		public static ProfessionsConfig Config { get; set; }
-		public static ProfessionsData Data { get; set; }
-
-		public static int DemolitionistBuffMagnitude { get; set; }
-		public static uint BruteKillStreak { get; set; }
-		public static List<Vector2> InitialLadderTiles { get; } = new();
-
+		internal static IModHelper ModHelper { get; set; }
+		internal static ITranslationHelper I18n { get; set; }
+		internal static ProfessionsConfig Config { get; set; }
+		internal static ProfessionsData Data { get; set; }
 		internal static EventManager EventManager { get; set; }
 		internal static ProspectorHunt ProspectorHunt { get; set; }
 		internal static ScavengerHunt ScavengerHunt { get; set; }
+
+		internal static int demolitionistBuffMagnitude;
+		internal static uint bruteKillStreak;
+		internal static readonly List<Vector2> initialLadderTiles = new();
 
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>

@@ -11,12 +11,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class GameLocationGetFishPatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal GameLocationGetFishPatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -33,7 +33,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Fisher to reroll reeled fish if first roll resulted in trash.</summary>
 		protected static IEnumerable<CodeInstruction> GameLocationGetFishTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.getFish)}");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.getFish)}");
 
 			/// Injected: if (!hasRerolled && whichFish > 166 && whichFish < 173 && who.professions.Contains(<fisher_id>)) goto <choose_fish>
 
@@ -42,7 +42,7 @@ namespace TheLion.AwesomeProfessions
 			var hasRerolled = iLGenerator.DeclareLocal(typeof(bool));
 			try
 			{
-				_helper
+				_Helper
 					.Insert(																// set hasRerolled to false
 						new CodeInstruction(OpCodes.Ldc_I4_0),
 						new CodeInstruction(OpCodes.Stloc_S, operand: hasRerolled)
@@ -79,10 +79,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 		#endregion harmony patches
 	}

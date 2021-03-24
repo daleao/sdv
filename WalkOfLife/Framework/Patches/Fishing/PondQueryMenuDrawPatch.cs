@@ -15,13 +15,13 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class PondQueryMenuDrawPatch : BasePatch
 	{
-		private static IReflectionHelper _reflection;
+		private static IReflectionHelper _Reflection { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="reflection">Interface for accessing otherwise inaccessible code.</param>
 		internal PondQueryMenuDrawPatch(IReflectionHelper reflection)
 		{
-			_reflection = reflection;
+			_Reflection = reflection;
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -39,7 +39,7 @@ namespace TheLion.AwesomeProfessions
 		protected static bool PondQueryMenuDrawPrefix(ref PondQueryMenu __instance, ref float ____age, ref Rectangle ____confirmationBoxRectangle, ref string ____confirmationText, ref SObject ____fishItem, ref FishPond ____pond, ref bool ___confirmingEmpty, ref string ___hoverText, SpriteBatch b)
 		{
 			Farmer who = Game1.getFarmer(____pond.owner.Value);
-			if (!Utility.SpecificPlayerHasProfession("aquarist", who) || ____pond.lastUnlockedPopulationGate.Value < _reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
+			if (!Utility.SpecificPlayerHasProfession("aquarist", who) || ____pond.lastUnlockedPopulationGate.Value < _Reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
 
 			if (!Game1.globalFade)
 			{
@@ -49,12 +49,12 @@ namespace TheLion.AwesomeProfessions
 				Vector2 text_size = Game1.smallFont.MeasureString(pond_name_text);
 				Game1.DrawBox((int)((Game1.uiViewport.Width / 2) - (text_size.X + 64f) * 0.5f), __instance.yPositionOnScreen - 4 + 128, (int)(text_size.X + 64f), 64);
 				SUtility.drawTextWithShadow(b, pond_name_text, Game1.smallFont, new Vector2((Game1.uiViewport.Width / 2) - text_size.X * 0.5f, (float)(__instance.yPositionOnScreen - 4) + 160f - text_size.Y * 0.5f), Color.Black);
-				string displayed_text = _reflection.GetMethod(__instance, name: "getDisplayedText").Invoke<string>();
+				string displayed_text = _Reflection.GetMethod(__instance, name: "getDisplayedText").Invoke<string>();
 				int extraHeight = 0;
 				if (has_unresolved_needs)
 					extraHeight += 116;
 
-				int extraTextHeight = _reflection.GetMethod(__instance, name: "measureExtraTextHeight").Invoke<int>(displayed_text);
+				int extraTextHeight = _Reflection.GetMethod(__instance, name: "measureExtraTextHeight").Invoke<int>(displayed_text);
 				Game1.drawDialogueBox(__instance.xPositionOnScreen, __instance.yPositionOnScreen + 128, PondQueryMenu.width, PondQueryMenu.height - 128 + extraHeight + extraTextHeight, speaker: false, drawOnlyBox: true);
 				string population_text = Game1.content.LoadString("Strings\\UI:PondQuery_Population", string.Concat(____pond.FishCount), ____pond.maxOccupants.Value);
 				text_size = Game1.smallFont.MeasureString(population_text);
@@ -83,7 +83,7 @@ namespace TheLion.AwesomeProfessions
 				SUtility.drawTextWithShadow(b, displayed_text, Game1.smallFont, new Vector2((__instance.xPositionOnScreen + PondQueryMenu.width / 2) - text_size.X * 0.5f, (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - (has_unresolved_needs ? 32 : 48)) - text_size.Y), Game1.textColor);
 				if (has_unresolved_needs)
 				{
-					_reflection.GetMethod(__instance, name: "drawHorizontalPartition").Invoke(b, (int)((__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight) - 48f));
+					_Reflection.GetMethod(__instance, name: "drawHorizontalPartition").Invoke(b, (int)((__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight) - 48f));
 					SUtility.drawWithShadow(b, Game1.mouseCursors, new Vector2((__instance.xPositionOnScreen + 60) + 8f * Game1.dialogueButtonScale / 10f, __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28), new Rectangle(412, 495, 5, 4), Color.White, (float)Math.PI / 2f, Vector2.Zero);
 					string bring_text = Game1.content.LoadString("Strings\\UI:PondQuery_StatusRequest_Bring");
 					text_size = Game1.smallFont.MeasureString(bring_text);

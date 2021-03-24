@@ -7,13 +7,13 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
 	{
-		private static ITranslationHelper _i18n;
+		private static ITranslationHelper _I18n { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="i18n">Provides localized text.</param>
 		internal LevelUpMenuAddProfessionDescriptionsPatch(ITranslationHelper i18n)
 		{
-			_i18n = i18n;
+			_I18n = i18n;
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -32,8 +32,8 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (!Utility.ProfessionMap.Contains(professionName)) return true; // run original logic
 
-			descriptions.Add(_i18n.Get(professionName + ".name"));
-			descriptions.AddRange(_i18n.Get(professionName + ".description").ToString().Split('\n'));
+			descriptions.Add(_I18n.Get(professionName + ".name"));
+			descriptions.AddRange(_I18n.Get(professionName + ".description").ToString().Split('\n'));
 			return false; // don't run original logic
 		}
 		#endregion harmony patches

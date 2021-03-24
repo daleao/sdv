@@ -4,12 +4,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class ProspectorHuntUpdateTickedEvent : UpdateTickedEvent
 	{
-		private readonly ProspectorHunt _hunt;
+		private ProspectorHunt _Hunt { get; }
 
 		/// <summary>Construct an instance.</summary>
 		internal ProspectorHuntUpdateTickedEvent(ProspectorHunt hunt)
 		{
-			_hunt = hunt;
+			_Hunt = hunt;
 		}
 
 		/// <summary>Raised after the game state is updated. Handle Prospector hunt events.</summary>
@@ -17,7 +17,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
-			_hunt.Update(e.Ticks);
+			_Hunt.Update(e.Ticks);
 		}
 	}
 }

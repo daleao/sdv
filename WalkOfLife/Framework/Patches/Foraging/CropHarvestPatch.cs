@@ -10,12 +10,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class CropHarvestPatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal CropHarvestPatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -43,14 +43,14 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to nerf Ecologist spring onion quality + always allow iridum-quality crops for Agriculturist.</summary>
 		private static IEnumerable<CodeInstruction> CropHarvestTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(Crop)}::{nameof(Crop.harvest)}.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(Crop)}::{nameof(Crop.harvest)}.");
 
 			/// From: @object.Quality = 4
 			/// To: @object.Quality = _GetForageQualityForEcologist()
 
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.botanist)		// find index of botanist check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_4)	// start of @object.Quality = 4
@@ -61,10 +61,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch(Exception ex)
 			{
-				_helper.Error($"Failed while patching modded Ecologist spring onion quality.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while patching modded Ecologist spring onion quality.\nHelper returned {ex}").Restore();
 			}
 
-			_helper.Backup();
+			_Helper.Backup();
 
 			/// From: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
 			/// To: if (Game1.player.professions.Contains(<agriculturist_id>) || fertilizerQualityLevel >= 3) && random2.NextDouble() < chanceForGoldQuality / 2.0)
@@ -72,7 +72,7 @@ namespace TheLion.AwesomeProfessions
 			Label isAgriculturist = iLGenerator.DefineLabel();
 			try
 			{
-				_helper.
+				_Helper.
 					AdvanceUntil(																// find index of Crop.fertilizerQualityLevel >= 3
 						new CodeInstruction(OpCodes.Ldloc_S, operand: $"{typeof(int)} (8)"),	// local 8 = Crop.fertilizerQualityLevel
 						new CodeInstruction(OpCodes.Ldc_I4_3),
@@ -86,16 +86,16 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while adding modded Agriculturist crop harvest quality.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while adding modded Agriculturist crop harvest quality.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 
 		/// <summary>Patch to count foraged spring onions for Ecologist.</summary>
 		private static void CropHarvestPostfix(ref Crop __instance)
 		{
-			if (__instance.forageCrop.Value) ++_data.ItemsForaged;
+			if (__instance.forageCrop.Value) ++Data.ItemsForaged;
 		}
 		#endregion harmony patches
 	}

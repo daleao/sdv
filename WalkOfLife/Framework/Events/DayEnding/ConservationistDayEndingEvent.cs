@@ -14,16 +14,16 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
-			if (Game1.dayOfMonth == 28 && _data.WaterTrashCollectedThisSeason > 0)
+			if (Game1.dayOfMonth == 28 && Data.WaterTrashCollectedThisSeason > 0)
 			{
-				_data.ConservationistTaxBonusThisSeason = _data.WaterTrashCollectedThisSeason / _config.TrashNeededForNextTaxLevel / 100f;
-				if (_data.ConservationistTaxBonusThisSeason > 0)
+				Data.ConservationistTaxBonusThisSeason = Data.WaterTrashCollectedThisSeason / Config.TrashNeededForNextTaxLevel / 100f;
+				if (Data.ConservationistTaxBonusThisSeason > 0)
 				{
 					AwesomeProfessions.ModHelper.Content.InvalidateCache(Path.Combine("Data", "mail"));
 					Game1.addMailForTomorrow("ConservationistTaxNotice");
 				}
 
-				_data.WaterTrashCollectedThisSeason = 0;
+				Data.WaterTrashCollectedThisSeason = 0;
 			}
 		}
 	}

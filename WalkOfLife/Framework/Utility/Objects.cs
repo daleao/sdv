@@ -10,7 +10,7 @@ namespace TheLion.AwesomeProfessions
 	{
 		#region look-up tables
 		/// <summary>Look-up table for what resource should spawn from a given stone.</summary>
-		public static readonly Dictionary<int, int> ResourceFromStoneId = new Dictionary<int, int>
+		public static Dictionary<int, int> ResourceFromStoneId { get; } = new Dictionary<int, int>
 		{
 			// stone
 			{ 668, 390 },
@@ -44,16 +44,16 @@ namespace TheLion.AwesomeProfessions
 			{ 2, 72 },
 
 			// other
-			{ 843, 848 },
-			{ 844, 848 },
 			{ 25, 719 },
 			{ 816, 881 },
 			{ 817, 881 },
-			{ 818, 330 }
+			{ 818, 330 },
+			{ 843, 848 },
+			{ 844, 848 }
 		};
 
 		/// <summary>Set of id's corresponding to animal produce or derived artisan goods.</summary>
-		private static readonly IEnumerable<int> _animalProductIds = new HashSet<int>
+		private static IEnumerable<int> _AnimalProductIds { get; } = new HashSet<int>
 		{
 			107,	// dinosaur egg
 			174,	// large egg
@@ -81,7 +81,7 @@ namespace TheLion.AwesomeProfessions
 		};
 
 		/// <summary>Set of id's corresponding to legendary fish.</summary>
-		private static readonly IEnumerable<int> _legendaryFishIds = new HashSet<int>
+		private static IEnumerable<int> _LegendaryFishIds { get; } = new HashSet<int>
 		{
 			159,	// crimsonfish
 			160,	// angler
@@ -96,7 +96,7 @@ namespace TheLion.AwesomeProfessions
 		};
 
 		/// <summary>Set of item id's corresponding to gems or minerals.</summary>
-		private static readonly IEnumerable<int> _gemIds = new HashSet<int>
+		private static IEnumerable<int> _GemIds { get; } = new HashSet<int>
 		{
 			SObject.emeraldIndex,
 			SObject.aquamarineIndex,
@@ -109,7 +109,7 @@ namespace TheLion.AwesomeProfessions
 		};
 
 		/// <summary>Set of ammunition id's.</summary>
-		private static readonly IEnumerable<int> _mineralAmmunitionIds = new HashSet<int>
+		private static IEnumerable<int> _MineralAmmunitionIds { get; } = new HashSet<int>
 		{
 			SObject.copper + 1,
 			SObject.iron + 1,
@@ -120,7 +120,7 @@ namespace TheLion.AwesomeProfessions
 		};
 
 		/// <summary>Set of id's corresponding to stones that should be trackable.</summary>
-		private static readonly IEnumerable<int> _resourceNodeIds = new HashSet<int>
+		private static IEnumerable<int> _ResourceNodeIds { get; } = new HashSet<int>
 		{
 			// ores
 			751,	// copper node
@@ -148,12 +148,12 @@ namespace TheLion.AwesomeProfessions
 			44,		// gem node
 
 			// other
-			843,	// cinder shard node
-			844,	// cinder shard node
 			25,		// mussel node
 			816,	// bone node
 			817,	// bone node
 			818,	// clay node
+			843,	// cinder shard node
+			844,	// cinder shard node
 			46		// mystic stone
 		};
 		#endregion look-up tables
@@ -162,7 +162,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="obj">The given object.</param>
 		public static bool IsAnimalProduct(SObject obj)
 		{
-			return obj != null && _animalProductIds.Contains(obj.ParentSheetIndex);
+			return obj != null && _AnimalProductIds.Contains(obj.ParentSheetIndex);
 		}
 
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
@@ -205,7 +205,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="objectIndex">The given object.</param>
 		public static bool IsMineral(int index)
 		{
-			return _gemIds.Contains(index) || (index > 537 && index < 579);
+			return _GemIds.Contains(index) || (index > 537 && index < 579);
 		}
 
 		/// <summary>Whether a given object is a foraged mineral.</summary>
@@ -219,7 +219,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="obj">The given object.</param>
 		public static bool IsResourceNode(SObject obj)
 		{
-			return _resourceNodeIds.Contains(obj.ParentSheetIndex);
+			return _ResourceNodeIds.Contains(obj.ParentSheetIndex) && !obj.Name.Equals("Stone Owl");
 		}
 
 		/// <summary>Whether a given object is a crab pot fish.</summary>
@@ -254,7 +254,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="index">An item index.</param>
 		public static bool IsMineralAmmunition(int index)
 		{
-			return _mineralAmmunitionIds.Contains(index);
+			return _MineralAmmunitionIds.Contains(index);
 		}
 	}
 }

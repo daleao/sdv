@@ -10,12 +10,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class MeleeWeaponDoAnimateSpecialMovePatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal MeleeWeaponDoAnimateSpecialMovePatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -32,7 +32,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch remove Acrobat cooldown reduction.</summary>
 		protected static IEnumerable<CodeInstruction> MeleeWeaponDoAnimateSpecialMoveTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(MeleeWeapon)}::doAnimateSpecialMove.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(MeleeWeapon)}::doAnimateSpecialMove.");
 
 			/// Skipped: if (lastUser.professions.Contains(<acrobat_id>) cooldown /= 2
 
@@ -40,7 +40,7 @@ namespace TheLion.AwesomeProfessions
 			repeat:
 			try
 			{
-				_helper											// find index of acrobat check
+				_Helper											// find index of acrobat check
 					.FindProfessionCheck(Farmer.acrobat, fromCurrentIndex: i != 0)
 					.Retreat(2)
 					.GetLabels(out var labels)
@@ -59,17 +59,17 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while removing vanilla Acrobat cooldown reduction.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while removing vanilla Acrobat cooldown reduction.\nHelper returned {ex}").Restore();
 			}
 
 			// repeat injection
 			if (++i < 3)
 			{
-				_helper.Backup();
+				_Helper.Backup();
 				goto repeat;
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 		#endregion harmony patches
 	}

@@ -6,13 +6,13 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
 	{
-		private static ITranslationHelper _i18n;
+		private static ITranslationHelper _I18n { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="i18n">Provides localized text.</param>
 		internal LevelUpMenuGetProfessionTitleFromNumberPatch(ITranslationHelper i18n)
 		{
-			_i18n = i18n;
+			_I18n = i18n;
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -31,7 +31,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (!Utility.ProfessionMap.Contains(whichProfession)) return true; // run original logic
 
-			__result = _i18n.Get(Utility.ProfessionMap.Reverse[whichProfession] + ".name");
+			__result = _I18n.Get(Utility.ProfessionMap.Reverse[whichProfession] + ".name");
 			return false; // don't run original logic
 		}
 		#endregion harmony patches

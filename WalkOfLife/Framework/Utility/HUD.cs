@@ -8,7 +8,7 @@ namespace TheLion.AwesomeProfessions
 {
 	public static partial class Utility
 	{
-		public static ArrowPointer ArrowPointer { get; set; } = new();
+		public static ArrowPointer ArrowPointer { get; } = new();
 
 		/// <summary>Draw a tracking arrow pointer on the edge of the screen pointing to a target off-screen.</summary>
 		/// <param name="target">The target to point to.</param>

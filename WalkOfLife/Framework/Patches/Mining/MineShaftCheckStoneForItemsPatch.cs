@@ -10,12 +10,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class MineShaftCheckStoneForItemsPatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal MineShaftCheckStoneForItemsPatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -32,14 +32,14 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Spelunker ladder down chance bonus + remove Geologist paired gem chance + remove Excavator double geode chance + remove Prospetor double coal chance.</summary>
 		protected static IEnumerable<CodeInstruction> MineShaftCheckStoneForItemsTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(MineShaft)}::{nameof(MineShaft.checkStoneForItems)}.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(MineShaft)}::{nameof(MineShaft.checkStoneForItems)}.");
 
 			/// Injected: if (who.professions.Contains(<spelunker_id>) chanceForLadderDown += GetBonusLadderDownChance()
 
 			Label resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
-				_helper
+				_Helper
 					.FindFirst(													// find ladder spawn segment
 						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(MineShaft), name: "ladderHasSpawned"))
 					)
@@ -62,10 +62,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while adding Spelunker bonus ladder down chance.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while adding Spelunker bonus ladder down chance.\nHelper returned {ex}").Restore();
 			}
 
-			_helper.Backup();
+			_Helper.Backup();
 
 			/// Skipped: if (who.professions.Contains(<geologist_id>)) ...
 
@@ -73,7 +73,7 @@ namespace TheLion.AwesomeProfessions
 			repeat1:
 			try
 			{
-				_helper											// find index of geologist check
+				_Helper											// find index of geologist check
 					.FindProfessionCheck(Farmer.geologist, fromCurrentIndex: i != 0)
 					.Retreat()
 					.GetLabels(out var labels)					// copy labels
@@ -92,17 +92,17 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while removing vanilla Geologist paired gem chance.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while removing vanilla Geologist paired gem chance.\nHelper returned {ex}").Restore();
 			}
 
 			// repeat injection
 			if (++i < 2)
 			{
-				_helper.Backup();
+				_Helper.Backup();
 				goto repeat1;
 			}
 
-			_helper.Backup();
+			_Helper.Backup();
 
 			/// From: random.NextDouble() < <value> * (1.0 + chanceModifier) * (double)(!who.professions.Contains(<excavator_id>) ? 1 : 2)
 			/// To: random.NextDouble() < <value> * (1.0 + chanceModifier)
@@ -111,7 +111,7 @@ namespace TheLion.AwesomeProfessions
 			repeat2:
 			try
 			{
-				_helper										// find index of excavator check
+				_Helper										// find index of excavator check
 					.FindProfessionCheck(Farmer.excavator, fromCurrentIndex: i != 0)
 					.Retreat()
 					.RemoveUntil(
@@ -120,24 +120,24 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while removing vanilla Excavator double geode chance.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while removing vanilla Excavator double geode chance.\nHelper returned {ex}").Restore();
 			}
 
 			// repeat injection
 			if (++i < 2)
 			{
-				_helper.Backup();
+				_Helper.Backup();
 				goto repeat2;
 			}
 
-			_helper.Backup();
+			_Helper.Backup();
 
 			/// From: if (random.NextDouble() < 0.25 * (double)(!who.professions.Contains(<prospector_id>) ? 1 : 2))
 			/// To: if (random.NextDouble() < 0.25)
 
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.burrower, fromCurrentIndex: true)	// find index of prospector check
 					.Retreat()
 					.RemoveUntil(
@@ -146,10 +146,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 		#endregion harmony patches
 	}

@@ -4,8 +4,8 @@ namespace TheLion.AwesomeProfessions
 {
 	internal abstract class BaseEvent
 	{
-		private protected static ProfessionsConfig _config;
-		private protected static ProfessionsData _data;
+		protected static ProfessionsConfig Config { get; private set; }
+		protected static ProfessionsData Data { get; private set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal BaseEvent() { }
@@ -22,14 +22,14 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="config">The mod settings.</param>
 		public static void Init(ProfessionsConfig config)
 		{
-			_config = config;
+			Config = config;
 		}
 
 		/// <summary>Set mod data reference for patches.</summary>
 		/// <param name="data">The mod persisted data.</param>
 		public static void SetData(ProfessionsData data)
 		{
-			_data = data;
+			Data = data;
 		}
 	}
 }

@@ -59,9 +59,9 @@ namespace TheLion.AwesomeProfessions
 			{
 				int distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
 				if (distanceFromEpicenter < radius * 2 + 1)
-					AwesomeProfessions.DemolitionistBuffMagnitude = 4;
+					AwesomeProfessions.demolitionistBuffMagnitude = 4;
 				if (distanceFromEpicenter < radius + 1)
-					AwesomeProfessions.DemolitionistBuffMagnitude += 2;
+					AwesomeProfessions.demolitionistBuffMagnitude += 2;
 			}
 		}
 		#endregion harmony patches

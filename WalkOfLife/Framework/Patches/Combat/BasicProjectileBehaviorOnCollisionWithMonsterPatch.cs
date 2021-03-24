@@ -10,13 +10,13 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
 	{
-		private static IReflectionHelper _reflection;
+		private static IReflectionHelper _Reflection { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="reflection">Interface for accessing otherwise inaccessible code.</param>
 		internal BasicProjectileBehaviorOnCollisionWithMonsterPatch(IReflectionHelper reflection)
 		{
-			_reflection = reflection;
+			_Reflection = reflection;
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -38,7 +38,7 @@ namespace TheLion.AwesomeProfessions
 
 			if (!___damagesMonsters) return false; // don't run original logic
 
-			_reflection.GetMethod(__instance, name: "explosionAnimation").Invoke(location);
+			_Reflection.GetMethod(__instance, name: "explosionAnimation").Invoke(location);
 			if (n is Monster)
 			{
 				int damageToMonster = (int)(__instance.damageToFarmer.Value * Utility.GetRascalBonusDamageForTravelTime(___travelTime));

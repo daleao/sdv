@@ -126,11 +126,11 @@ namespace TheLion.AwesomeProfessions
 		public static uint GetLocalPlayerOenologyAwardLevel()
 		{
 			OenologyAwardLevel awardLevel;
-			if (_data.OenologyFameAccrued >= _config.OenologyFameNeededForMaxValue) awardLevel = OenologyAwardLevel.Stardrop;
-			else if (_data.OenologyFameAccrued >= (uint)(0.625 * _config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Iridium;
-			else if (_data.OenologyFameAccrued >= (uint)(0.25 * _config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Gold;
-			else if (_data.OenologyFameAccrued >= (uint)(0.1 * _config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Iron;
-			else if (_data.OenologyFameAccrued >= (uint)(0.04 * _config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Copper;
+			if (Data.OenologyFameAccrued >= Config.OenologyFameNeededForMaxValue) awardLevel = OenologyAwardLevel.Stardrop;
+			else if (Data.OenologyFameAccrued >= (uint)(0.625 * Config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Iridium;
+			else if (Data.OenologyFameAccrued >= (uint)(0.25 * Config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Gold;
+			else if (Data.OenologyFameAccrued >= (uint)(0.1 * Config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Iron;
+			else if (Data.OenologyFameAccrued >= (uint)(0.04 * Config.OenologyFameNeededForMaxValue)) awardLevel = OenologyAwardLevel.Copper;
 			else awardLevel = OenologyAwardLevel.NULL;
 
 			return (uint)awardLevel;
@@ -139,7 +139,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Get the price multiplier for wine and beverages sold by Oenologist.</summary>
 		public static float GetOenologistPriceBonus()
 		{
-			return (OenologyAwardLevel)_data.HighestOenologyAwardEarned switch
+			return (OenologyAwardLevel)Data.HighestOenologyAwardEarned switch
 			{
 				OenologyAwardLevel.Stardrop => 1f,
 				OenologyAwardLevel.Iridium => 0.5f,
@@ -153,7 +153,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Get the award name for Oenologist's current award level.</summary>
 		public static string GetOenologyAwardName()
 		{
-			return (OenologyAwardLevel)_data.HighestOenologyAwardEarned switch
+			return (OenologyAwardLevel)Data.HighestOenologyAwardEarned switch
 			{
 				OenologyAwardLevel.Stardrop => "Best in Show",
 				OenologyAwardLevel.Iridium => "Iridium",
@@ -183,7 +183,7 @@ namespace TheLion.AwesomeProfessions
 		public static float GetAnglerPriceMultiplier(Farmer who)
 		{
 			float multiplier = 1f;
-			foreach (int id in _legendaryFishIds)
+			foreach (int id in _LegendaryFishIds)
 			{
 				if (who.fishCaught.ContainsKey(id))
 					multiplier += 0.05f;
@@ -198,7 +198,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (!who.IsLocalPlayer) return 1f;
 
-			return 1f + _data.ConservationistTaxBonusThisSeason / 100f;
+			return 1f + Data.ConservationistTaxBonusThisSeason / 100f;
 		}
 
 
@@ -212,19 +212,19 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Get the quality of forage for Ecologist.</summary>
 		public static int GetEcologistForageQuality()
 		{
-			return _data.ItemsForaged < _config.ForagesNeededForBestQuality ? (_data.ItemsForaged < _config.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			return Data.ItemsForaged < Config.ForagesNeededForBestQuality ? (Data.ItemsForaged < Config.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 
 		/// <summary>Get the quality of mineral for Gemologist.</summary>
 		public static int GetGemologistMineralQuality()
 		{
-			return _data.MineralsCollected < _config.MineralsNeededForBestQuality ? (_data.MineralsCollected < _config.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
+			return Data.MineralsCollected < Config.MineralsNeededForBestQuality ? (Data.MineralsCollected < Config.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality) : SObject.bestQuality;
 		}
 
 		/// <summary>Get the bonus ladder spawn chance for Spelunker.</summary>
 		public static double GetSpelunkerBonusLadderDownChance()
 		{
-			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * _data.LowestMineLevelReached)) - 0.5;
+			return 1.0 / (1.0 + Math.Exp(Math.Log(2.0 / 3.0) / 120.0 * Data.LowestMineLevelReached)) - 0.5;
 		}
 
 		/// <summary>Get the bonus bobber bar height for Aquarist.</summary>
@@ -245,7 +245,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>
 		public static float GetBruteBonusDamageMultiplier()
 		{
-			return (float)(1.0 + AwesomeProfessions.BruteKillStreak * 0.005);
+			return (float)(1.0 + AwesomeProfessions.bruteKillStreak * 0.005);
 		}
 
 		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>

@@ -10,12 +10,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class GameLocationDamageMonsterPatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal GameLocationDamageMonsterPatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -41,14 +41,14 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to move crit chance bonus from Scout to Gambit + patch Brute damage bonus + move crit damage bonus from Desperado to Gambit.</summary>
 		protected static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.damageMonster)}.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.damageMonster)}.");
 
 			/// From: if (who.professions.Contains(<scout_id>) critChance += critChance * 0.5f
 			/// To: if (who.professions.Contains(<gambit_id>) critChance += _GetBonusCritChanceForGambit()
 
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.scout)							// find index of scout check
 					.Advance()
 					.SetOperand(Utility.ProfessionMap.Forward["gambit"])		// replace with gambit check
@@ -68,17 +68,17 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while moving modded bonus crit chance from Scout to Gambit.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while moving modded bonus crit chance from Scout to Gambit.\nHelper returned {ex}").Restore();
 			}
 
-			_helper.Backup();
+			_Helper.Backup();
 
 			/// From: if (who != null && who.professions.Contains(<brute_id>) ... *= 1.15f
 			/// To: if (who != null && who.professions.Contains(<brute_id>) ... *= _GetBonusDamageMultiplierForBrute()
 
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Utility.ProfessionMap.Forward["brute"], fromCurrentIndex: true)	// find index of brute check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 1.15f)									// brute damage multiplier
@@ -89,17 +89,17 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching modded Brute bonus damage.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while patching modded Brute bonus damage.\nHelper returned {ex}").Restore();
 			}
 
-			_helper.Backup();
+			_Helper.Backup();
 
 			/// From: if (who != null && who.professions.Contains(<desperado_id>) ... *= 2f
 			/// To: if (who != null && who.professions.Contains(<gambit_id>) ... *= 3f
 
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.desperado, fromCurrentIndex: true)	// find index of desperado check
 					.Advance()
 					.SetOperand(Utility.ProfessionMap.Forward["gambit"])			// change to gambit check
@@ -110,17 +110,17 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while moving modded bonus crit damage from Desperado to Gambit.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while moving modded bonus crit damage from Desperado to Gambit.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 
 		/// <summary>Patch to count Brute kill streak and assign Brute buff.</summary>
 		protected static void GameLocationDamageMonsterPostfix(ref uint __state, Farmer who)
 		{
 			if (who.IsLocalPlayer && Utility.LocalPlayerHasProfession("brute") && Game1.stats.MonstersKilled > __state)
-				AwesomeProfessions.BruteKillStreak += Game1.stats.MonstersKilled - __state;
+				AwesomeProfessions.bruteKillStreak += Game1.stats.MonstersKilled - __state;
 		}
 		#endregion harmony patches
 	}

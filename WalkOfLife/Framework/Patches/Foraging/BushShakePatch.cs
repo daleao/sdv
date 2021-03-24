@@ -10,12 +10,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class BushShakePatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal BushShakePatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -41,14 +41,14 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to nerf Ecologist berry quality.</summary>
 		private static IEnumerable<CodeInstruction> BushShakeTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(Bush)}::shake.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(Bush)}::shake.");
 
 			/// From: Game1.player.professions.Contains(16) ? 4 : 0
 			/// To: Game1.player.professions.Contains(16) ? _GetForageQualityForEcologist() : 0
 
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.botanist)		// find index of botanist check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_4)
@@ -61,16 +61,16 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch(Exception ex)
 			{
-				_helper.Error($"Failed while patching modded Ecologist wild berry quality.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while patching modded Ecologist wild berry quality.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 
 		/// <summary>Patch to count foraged berries for Ecologist.</summary>
 		protected static void BushShakePostfix(ref Bush __instance, ref int __state)
 		{
-			if (__state - __instance.tileSheetOffset.Value == 1) ++_data.ItemsForaged;
+			if (__state - __instance.tileSheetOffset.Value == 1) ++Data.ItemsForaged;
 		}
 		#endregion harmony patches
 	}

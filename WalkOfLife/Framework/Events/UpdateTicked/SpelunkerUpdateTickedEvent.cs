@@ -8,12 +8,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class SpelunkerUpdateTickedEvent : UpdateTickedEvent
 	{
-		private readonly ITranslationHelper _i18n;
+		private ITranslationHelper _I18n { get; }
 
 		/// <summary>Construct an instance.</summary>
 		internal SpelunkerUpdateTickedEvent(ITranslationHelper i18n)
 		{
-			_i18n = i18n;
+			_I18n = i18n;
 		}
 
 		/// <summary>Raised after the game state is updated. Add or update Spelunker buff.</summary>
@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions
 				if (buff == null)
 				{
 					Game1.buffsDisplay.addOtherBuff(
-						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: 1, 0, 0, minutesDuration: 1, source: "spelunker", displaySource: _i18n.Get("spelunker.name"))
+						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: 1, 0, 0, minutesDuration: 1, source: "spelunker", displaySource: _I18n.Get("spelunker.name"))
 						{
 							which = Utility.SpelunkerBuffID,
 						}

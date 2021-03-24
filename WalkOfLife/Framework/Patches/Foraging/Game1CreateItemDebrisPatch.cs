@@ -24,7 +24,7 @@ namespace TheLion.AwesomeProfessions
 		protected static void Game1CreateItemDebrisPostfix(Item item)
 		{
 			if (Utility.IsWildBerry(item as SObject) && Utility.LocalPlayerHasProfession("ecologist"))
-				++_data.ItemsForaged;
+				++Data.ItemsForaged;
 		}
 		#endregion harmony patches
 	}

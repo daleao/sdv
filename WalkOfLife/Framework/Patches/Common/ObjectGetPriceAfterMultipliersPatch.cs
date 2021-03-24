@@ -55,7 +55,7 @@ namespace TheLion.AwesomeProfessions
 					multiplier *= 5f;
 
 				if (Utility.LocalPlayerHasProfession("conservationist"))
-					multiplier *= 1f + _data.ConservationistTaxBonusThisSeason;
+					multiplier *= 1f + Data.ConservationistTaxBonusThisSeason;
 
 				saleMultiplier = Math.Max(saleMultiplier, multiplier);
 			}

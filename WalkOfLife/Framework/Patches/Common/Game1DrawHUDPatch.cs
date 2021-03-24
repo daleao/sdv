@@ -12,12 +12,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class Game1DrawHUDPatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal Game1DrawHUDPatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -35,7 +35,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>
 		protected static IEnumerable<CodeInstruction> Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(Game1)}::drawHUD.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(Game1)}::drawHUD.");
 
 			/// From: if (!player.professions.Contains(<scavenger_id>) || !currentLocation.IsOutdoors) return
 			/// To: if (!(player.professions.Contains(<scavenger_id>) || player.professions.Contains(<prospector_id>)) return
@@ -43,7 +43,7 @@ namespace TheLion.AwesomeProfessions
 			Label isProspector = iLGenerator.DefineLabel();
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.tracker)								// find index of tracker check
 					.Retreat()
 					.ToBufferUntil(
@@ -71,17 +71,17 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}").Restore();
+				_Helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}").Restore();
 			}
 
-			_helper.Backup();
+			_Helper.Backup();
 
 			/// From: if ((bool)pair.Value.isSpawnedObject || pair.Value.ParentSheetIndex == 590) ...
 			/// To: if (_ShouldDraw(pair.Value)) ...
 
 			try
 			{
-				_helper
+				_Helper
 					.FindNext(
 						new CodeInstruction(OpCodes.Bne_Un)	// find branch to loop head
 					)
@@ -101,27 +101,27 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}").Restore();
+				_Helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 
 		/// <summary>Patch for Prospector to track initial ladder down + draw ticks over trackable objects in view.</summary>
 		protected static void Game1DrawHUDPostfix()
 		{
 			// track initial ladder down
-			if (AwesomeProfessions.InitialLadderTiles.Count() > 0)
+			if (AwesomeProfessions.initialLadderTiles.Count() > 0)
 			{
-				foreach (var tile in AwesomeProfessions.InitialLadderTiles)
+				foreach (var tile in AwesomeProfessions.initialLadderTiles)
 					Utility.DrawTrackingArrowPointer(tile, Color.Lime);
 			}
 
-			if (!AwesomeProfessions.Config.Modkey.IsDown()) return;
+			//if (!AwesomeProfessions.Config.Modkey.IsDown()) return;
 
-			// draw ticks over trackable objects in view
-			foreach (var kvp in Game1.currentLocation.Objects.Pairs)
-				if (Utility.ShouldPlayerTrackObject(kvp.Value)) Utility.DrawArrowPointerOverTarget(kvp.Key, Color.Yellow);
+			//// draw ticks over trackable objects in view
+			//foreach (var kvp in Game1.currentLocation.Objects.Pairs)
+			//	if (Utility.ShouldPlayerTrackObject(kvp.Value)) Utility.DrawArrowPointerOverTarget(kvp.Key, Color.Yellow);
 		}
 		#endregion harmony patches
 	}

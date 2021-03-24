@@ -9,12 +9,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class FarmAnimalPetPatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal FarmAnimalPetPatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -31,14 +31,14 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Rancher to combine Shepherd and Coopmaster friendship bonus.</summary>
 		protected static IEnumerable<CodeInstruction> FarmAnimalPetTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(FarmAnimal)}::{nameof(FarmAnimal.pet)}.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(FarmAnimal)}::{nameof(FarmAnimal.pet)}.");
 
 			/// From: if ((who.professions.Contains(<shepherd_id>) && !isCoopDweller()) || (who.professions.Contains(<coopmaster_id>) && isCoopDweller()))
 			/// To: if (who.professions.Contains(<rancher_id>)
 
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.shepherd)									// find index of shepherd check
 					.Advance()
 					.SetOpCode(OpCodes.Ldc_I4_0)											// replace with rancher check
@@ -62,10 +62,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 		#endregion harmony patches
 	}

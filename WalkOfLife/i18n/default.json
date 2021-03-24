@@ -24,8 +24,8 @@
 	"ecologist.description": "Wild berries restore 50% more health and energy. Learn to identify forage of higher quality over time.",
 	"scavenger.name": "Scavenger",
 	"scavenger.description": "Location of forageable items revealed. Occasionally track hidden treasures.",
-	"scavenger.huntstarted": "Your Scavenger senses are tingling. Could there be treasure buried nearby?",
-	"scavenger.huntfailed": "The tingling stops. The treasure is lost forever...",
+	"scavenger.huntstarted": "Your Scavenger senses are tingling...",
+	"scavenger.huntfailed": "The tingling stops.",
 
 	"lumberjack.name": "Lumberjack",
 	"lumberjack.description": "Felling trees yields 25% more wood.",
@@ -41,8 +41,8 @@
 	"spelunker.description": "Chance to find ladders and shafts increases as you reach deeper levels. +1 speed in the mines.",
 	"prospector.name": "Prospector",
 	"prospector.description": "Locations of mining nodes. Occasionally track buried treasures.",
-	"prospector.huntstarted": "Your Prospector senses are tingling. Could there be treasure in one of these rocks?",
-	"prospector.huntfailed": "The tingling stops. The treasure is lost forever...",
+	"prospector.huntstarted": "Your Prospector senses are tingling...",
+	"prospector.huntfailed": "The tingling stops.",
 
 	"blaster.name": "Blaster",
 	"blaster.description": "Bombs are cheaper to craft. Gain double coal from exploded rocks.",

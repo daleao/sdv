@@ -9,12 +9,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class QuestionEventSetUpPatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal QuestionEventSetUpPatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -31,7 +31,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Breeder to increase barn animal pregnancy chance.</summary>
 		protected static IEnumerable<CodeInstruction> QuestionEventSetUpTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(QuestionEvent)}::{nameof(QuestionEvent.setUp)}.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(QuestionEvent)}::{nameof(QuestionEvent.setUp)}.");
 
 			/// From: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * 0.0055
 			/// To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (Game1.player.professions.Contains(<breeder_id>) ? 0.011 : 0.0055)
@@ -40,7 +40,7 @@ namespace TheLion.AwesomeProfessions
 			Label resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
-				_helper
+				_Helper
 					.FindFirst(					// find index of loading base pregnancy chance
 						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.0055)
 					)
@@ -56,10 +56,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while adding Breeder bonus animal pregnancy chance.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while adding Breeder bonus animal pregnancy chance.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 		#endregion harmony patches
 	}

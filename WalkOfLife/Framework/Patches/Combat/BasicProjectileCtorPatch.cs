@@ -39,7 +39,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to allow Rascal to bounce slingshot projectile.</summary>
 		protected static void BasicProjectileCtorPostfix(ref NetInt ___bouncesLeft, Character firer)
 		{
-			if (firer != null && AwesomeProfessions.Config.Modkey.IsDown() && Utility.SpecificPlayerHasProfession("rascal", firer as Farmer))
+			if (firer != null && AwesomeProfessions.Config.ModKey.IsDown() && Utility.SpecificPlayerHasProfession("rascal", firer as Farmer))
 				++___bouncesLeft.Value;
 		}
 		#endregion harmony patches

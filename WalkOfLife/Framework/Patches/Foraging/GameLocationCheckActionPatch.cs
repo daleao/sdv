@@ -11,12 +11,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class GameLocationCheckActionPatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal GameLocationCheckActionPatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -47,7 +47,7 @@ namespace TheLion.AwesomeProfessions
 		protected static IEnumerable<CodeInstruction> GameLocationCheckActionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
 			
-			_helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.checkAction)}.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.checkAction)}.");
 
 			/// From: if (who.professions.Contains(<botanist_id>) && objects[key].isForage()) objects[key].Quality = 4
 			/// To: if (who.professions.Contains(<ecologist_id>) && objects[key].isForage()) objects[key].Quality = GetForageQualityForEcologist()
@@ -56,7 +56,7 @@ namespace TheLion.AwesomeProfessions
 			Label resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
-				_helper
+				_Helper
 					.FindProfessionCheck(Farmer.botanist)									// find index of botanist check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_4)								// start of objects[key].Quality = 4
@@ -101,16 +101,16 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while patching modded Ecologist and Gemologist forage quality.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while patching modded Ecologist and Gemologist forage quality.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 
 		/// <summary>Patch to count items foraged for Ecologist.</summary>
 		protected static void GameLocationcheckActionPostfix(ref uint __state, Farmer who)
 		{
-			if (who.IsLocalPlayer && Game1.stats.ItemsForaged > __state) ++_data.ItemsForaged;
+			if (who.IsLocalPlayer && Game1.stats.ItemsForaged > __state) ++Data.ItemsForaged;
 		}
 		#endregion harmony patches
 

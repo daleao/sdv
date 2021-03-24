@@ -10,12 +10,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class FishingRodStartMinigameEndFunctionPatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal FishingRodStartMinigameEndFunctionPatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -32,13 +32,13 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to remove Pirate bonus treasure chance.</summary>
 		protected static IEnumerable<CodeInstruction> FishingRodStartMinigameEndFunctionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(FishingRod)}::{nameof(FishingRod.startMinigameEndFunction)}.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(FishingRod)}::{nameof(FishingRod.startMinigameEndFunction)}.");
 
 			/// Removed: lastUser.professions.Contains(<pirate_id>) ? baseChance ...
 
 			try
 			{
-				_helper										// find index of pirate check
+				_Helper										// find index of pirate check
 					.FindProfessionCheck(Farmer.pirate)
 					.Retreat(2)
 					.RemoveUntil(
@@ -47,10 +47,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 		#endregion harmony patches
 	}

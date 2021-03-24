@@ -14,9 +14,9 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event arguments.</param>
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
-			if (e.IsLocalPlayer && AwesomeProfessions.BruteKillStreak > 0 && e.NewLocation.GetType() != e.OldLocation.GetType())
+			if (e.IsLocalPlayer && AwesomeProfessions.bruteKillStreak > 0 && e.NewLocation.GetType() != e.OldLocation.GetType())
 			{
-				AwesomeProfessions.BruteKillStreak = 0;
+				AwesomeProfessions.bruteKillStreak = 0;
 				Buff buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == Utility.BruteBuffID);
 				if (buff != null) Game1.buffsDisplay.removeOtherBuff(Utility.BruteBuffID);
 			}

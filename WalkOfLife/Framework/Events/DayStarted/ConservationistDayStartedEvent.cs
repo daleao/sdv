@@ -21,7 +21,7 @@ namespace TheLion.AwesomeProfessions
 				{
 					if (obj is CrabPot && Game1.getFarmer(obj.owner.Value).IsLocalPlayer && Utility.IsTrash((obj as CrabPot).heldObject.Value))
 					{
-						if (++_data.WaterTrashCollectedThisSeason % 10 == 0)
+						if (++Data.WaterTrashCollectedThisSeason % 10 == 0)
 							SUtility.improveFriendshipWithEveryoneInRegion(Game1.player, 1, 2);
 					}
 				}

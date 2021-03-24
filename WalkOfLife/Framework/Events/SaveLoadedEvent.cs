@@ -4,12 +4,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class SaveLoadedEvent : BaseEvent
 	{
-		private EventManager _manager;
+		private EventManager _Manager { get; }
 
 		/// <summary>Construct an instance.</summary>
 		internal SaveLoadedEvent(EventManager manager)
 		{
-			_manager = manager;
+			_Manager = manager;
 		}
 
 		/// <summary>Hook this event to an event listener.</summary>
@@ -31,18 +31,18 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="e">The event data.</param>
 		private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
 		{
-			// get persisted mod data
+			// load persisted mod data
 			AwesomeProfessions.Data = AwesomeProfessions.ModHelper.Data.ReadSaveData<ProfessionsData>("thelion.AwesomeProfessions") ?? new ProfessionsData();
-			_data = AwesomeProfessions.Data;
-			BasePatch.SetData(_data);
-			Utility.SetData(_data);
+			BaseEvent.SetData(AwesomeProfessions.Data);
+			BasePatch.SetData(AwesomeProfessions.Data);
+			Utility.SetData(AwesomeProfessions.Data);
 
 			// start treasure hunt managers
-			AwesomeProfessions.ProspectorHunt = new ProspectorHunt(_config, _data, _manager, AwesomeProfessions.I18n, AwesomeProfessions.ModHelper.Content);
-			AwesomeProfessions.ScavengerHunt = new ScavengerHunt(_config, _data, _manager, AwesomeProfessions.I18n, AwesomeProfessions.ModHelper.Content);
+			AwesomeProfessions.ProspectorHunt = new ProspectorHunt(Config, Data, _Manager, AwesomeProfessions.I18n, AwesomeProfessions.ModHelper.Content);
+			AwesomeProfessions.ScavengerHunt = new ScavengerHunt(Config, Data, _Manager, AwesomeProfessions.I18n, AwesomeProfessions.ModHelper.Content);
 			
 			// hook events for loaded save
-			_manager.SubscribeProfessionEventsForLocalPlayer();
+			_Manager.SubscribeProfessionEventsForLocalPlayer();
 		}
 	}
 }

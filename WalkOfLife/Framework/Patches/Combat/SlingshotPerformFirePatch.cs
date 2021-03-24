@@ -10,12 +10,12 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class SlingshotPerformFirePatch : BasePatch
 	{
-		private static ILHelper _helper;
+		private static ILHelper _Helper { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		internal SlingshotPerformFirePatch()
 		{
-			_helper = new ILHelper(_monitor);
+			_Helper = new ILHelper(Monitor);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>
@@ -32,14 +32,14 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to add Desperado quick fire damage bonus.</summary>
 		protected static IEnumerable<CodeInstruction> SlingshotPerformFireTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			_helper.Attach(instructions).Log($"Patching method {typeof(Slingshot)}::{nameof(Slingshot.PerformFire)}.");
+			_Helper.Attach(instructions).Log($"Patching method {typeof(Slingshot)}::{nameof(Slingshot.PerformFire)}.");
 
 			/// Injected: if (who.professions.Contains(<desperado_id>) && this.getSlingshotChargeTime() <= 0.5f) damage *= 3
 
 			Label resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
-				_helper
+				_Helper
 					.FindFirst(
 						new CodeInstruction(OpCodes.Stloc_S, $"{typeof(int)} (5)")
 					)
@@ -70,10 +70,10 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				_helper.Error($"Failed while adding Desperado quick fire damage.\nHelper returned {ex}").Restore();
+				_Helper.Error($"Failed while adding Desperado quick fire damage.\nHelper returned {ex}").Restore();
 			}
 
-			return _helper.Flush();
+			return _Helper.Flush();
 		}
 		#endregion harmony patches
 	}
