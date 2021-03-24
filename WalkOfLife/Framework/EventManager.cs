@@ -47,8 +47,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			foreach (var type in eventTypes)
 			{
-				if (_subscribed.RemoveType(type, out var removed))
-					removed.Unhook(_Listener);
+				if (_subscribed.RemoveType(type, out var removed)) removed.Unhook(_Listener);
 				_Monitor.Log($"Unhooked {type.Name}.", LogLevel.Info);
 			}
 		}

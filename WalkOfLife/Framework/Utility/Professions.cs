@@ -60,7 +60,7 @@ namespace TheLion.AwesomeProfessions
 			{ "gambit", Farmer.defender },				// 27
 
 			{ "rascal", Farmer.scout },					// 25
-			{ "slimetamer", Farmer.acrobat },			// 28
+			{ "slimemaster", Farmer.acrobat },			// 28
 			{ "desperado", Farmer.desperado }			// 29
 		};
 
@@ -121,6 +121,19 @@ namespace TheLion.AwesomeProfessions
 			}
 
 			return numberOfPlayersWithThisProfession > 0;
+		}
+
+		/// <summary>Whether any farmer in a specific game location has a specific profession.</summary>
+		/// <param name="professionName">The name of the profession.</param>
+		/// <param name="where">The game location to check.</param>
+		public static bool AnyPlayerInLocationHasProfession(string professionName, GameLocation location)
+		{
+			if (!Game1.IsMultiplayer && location == Game1.currentLocation) return LocalPlayerHasProfession(professionName);
+
+			foreach (var farmer in location.farmers)
+				if (SpecificPlayerHasProfession(professionName, farmer)) return true;
+
+			return false;
 		}
 
 		/// <summary>Get the oenology award level corresponding to the local player's oenology fame accrued.</summary>

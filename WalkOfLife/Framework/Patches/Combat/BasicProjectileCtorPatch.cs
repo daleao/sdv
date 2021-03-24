@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increase Desperado projectile velocity.</summary>
 		protected static bool BasicProjectileCtorPrefix(ref float xVelocity, ref float yVelocity, Character firer)
 		{
-			if (firer != null && Utility.SpecificPlayerHasProfession("desperado", firer as Farmer))
+			if (firer != null && firer is Farmer && Utility.SpecificPlayerHasProfession("desperado", firer as Farmer))
 			{
 				xVelocity *= 1.5f;
 				yVelocity *= 1.5f;

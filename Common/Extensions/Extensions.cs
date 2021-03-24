@@ -7,16 +7,14 @@ namespace TheLion.Common.Extensions
 {
 	public static class Extensions
 	{
-		/// <summary>Determine if an instance is contained in a sequence.</summary>
-		/// <param name="item">The instance to search for.</param>
-		/// <param name="collection">The collection to be searched.</param>
-		public static bool AnyOf<T>(this T item, params T[] collection)
+		/// <summary>Determine if the calling object is equivalent to any of the objects in a sequence.</summary>
+		/// <param name="collection">A sequence of objects.</param>
+		public static bool AnyOf<T>(this T source, params T[] collection)
 		{
-			return collection.Contains(item);
+			return collection.Contains(source);
 		}
 
 		/// <summary>Get the last item in a list.</summary>
-		/// <param name="list">The list to be searched.</param>
 		public static T Last<T>(this IList<T> list)
 		{
 			if (list.Count() > 0)
@@ -50,17 +48,17 @@ namespace TheLion.Common.Extensions
 			return -1;
 		}
 
-		/// <summary>Determine if a list contains any instance of a given type.</summary>
-		/// <param name="list">The list to be searched.</param>
+		/// <summary>Determine if the calling list contains any instance of a given type.</summary>
 		/// <param name="type">The type to search for.</param>
 		public static bool ContainsType<T>(this IList<T> list, Type type)
 		{
 			return list.Any(item => item != null && item.GetType() == type);
 		}
 
-		/// <summary>Remove the first occurrence of a type from a list.</summary>
-		/// <param name="list">The list to be searched.</param>
+		/// <summary>Remove the first instance of a given type from the calling list.</summary>
 		/// <param name="type">The type to search for.</param>
+		/// <param name="removed">The removed instance.</param>
+		/// <returns>Returns true if an instance was successfully removed, else returns false.</returns>
 		public static bool RemoveType<T>(this IList<T> list, Type type, out T removed)
 		{
 			var toRemove = list.SingleOrDefault(item => item != null && item.GetType() == type);
@@ -76,10 +74,10 @@ namespace TheLion.Common.Extensions
 			}
 		}
 
-		/// <summary>Replace the value for a given key in the dictionary.</summary>
+		/// <summary>Replace the value for a given key in the calling dictionary.</summary>
 		/// <param name="key">The key to replace.</param>
 		/// <param name="newValue">The new value.</param>
-		public static void Replace<K, V>(this Dictionary<K, V> dictionary, K key, V newValue)
+		public static void Replace<K, V>(this IDictionary<K, V> dictionary, K key, V newValue)
 		{
 			if (!dictionary.TryGetValue(key, out var value))
 				throw new ArgumentException($"Key {nameof(key)} does not exist.");
@@ -88,9 +86,7 @@ namespace TheLion.Common.Extensions
 			dictionary.Add(key, newValue);
 		}
 
-
-		/// <summary>Convert Point to Vector2.</summary>
-		/// <param name="p">The point to convert.</param>
+		/// <summary>Convert the calling Point to a Vector2.</summary>
 		public static Vector2 ToVector2(this Point p)
 		{
 			return new Vector2(p.X, p.Y);

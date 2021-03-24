@@ -73,6 +73,7 @@ namespace TheLion.AwesomeProfessions
 				new GameLocationGetFishPatch(),
 				new GameLocationExplodePatch(),
 				new GameLocationOnStoneDestroyedPatch(),
+				new GreenSlimeUpdatePatch(),
 				new HoeDirtApplySpeedIncreasesPatch(),
 				new LevelUpMenuAddProfessionDescriptionsPatch(I18n),
 				new LevelUpMenuGetImmediateProfessionPerkPatch(),
