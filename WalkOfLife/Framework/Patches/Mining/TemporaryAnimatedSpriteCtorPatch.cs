@@ -7,12 +7,8 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class TemporaryAnimatedSpriteCtorPatch : BasePatch
 	{
-		/// <summary>Construct an instance.</summary>
-		internal TemporaryAnimatedSpriteCtorPatch() { }
-
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		/// <inheritdoc/>
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
 				AccessTools.Constructor(typeof(TemporaryAnimatedSprite), new Type[] { typeof(int), typeof(float), typeof(int), typeof(int), typeof(Vector2), typeof(bool), typeof(bool), typeof(GameLocation), typeof(Farmer) }),
@@ -21,11 +17,13 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch to increase Demolitionist bomb radius.</summary>
-		protected static void TemporaryAnimatedSpriteCtorPostfix(ref TemporaryAnimatedSprite __instance, Farmer owner)
+		private static void TemporaryAnimatedSpriteCtorPostfix(ref TemporaryAnimatedSprite __instance, Farmer owner)
 		{
-			if (Utility.SpecificPlayerHasProfession("demolitionist", owner)) ++__instance.bombRadius;
+			if (Utility.SpecificFarmerHasProfession("demolitionist", owner)) ++__instance.bombRadius;
 		}
+
 		#endregion harmony patches
 	}
 }

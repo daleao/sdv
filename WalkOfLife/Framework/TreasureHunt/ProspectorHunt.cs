@@ -1,38 +1,30 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using TheLion.Common.Extensions;
+using TheLion.Common;
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>Manages treasure hunt events for Prospector profession.</summary>
 	internal class ProspectorHunt : TreasureHunt
 	{
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The overal mod settings.</param>
-		/// <param name="data">The mod persisted data.</param>
-		/// <param name="manager">The event manager.</param>
-		/// <param name="i18n">Provides localized text.</param>
-		/// <param name="content">Interface for loading content assets.</param>
-		internal ProspectorHunt(ProfessionsConfig config, ProfessionsData data, EventManager manager, ITranslationHelper i18n, IContentHelper content)
-			: base(config, data, manager)
+		internal ProspectorHunt(string huntStartedMessage, string huntFailedMessage, Texture2D icon)
 		{
-			NewHuntMessage = i18n.Get("scavenger.huntstarted");
-			FailedHuntMessage = i18n.Get("scavenger.huntfailed");
-			Icon = content.Load<Texture2D>(Path.Combine("Assets", "scavenger.png"));
-			TimeLimit = config.ProspectorHuntTimeLimitSeconds;
+			HuntStartedMessage = huntStartedMessage;
+			HuntFailedMessage = huntFailedMessage;
+			Icon = icon;
 		}
 
 		/// <summary>Try to start a new prospector hunt at this location.</summary>
 		/// <param name="location">The game location.</param>
 		internal override void TryStartNewHunt(GameLocation location)
 		{
-			if (!TryStartNewHunt()) return;
+			if (!base.TryStartNewHunt()) return;
 
 			int i = Random.Next(location.Objects.Count());
 			Vector2 v = location.Objects.Keys.ElementAt(i);
@@ -40,16 +32,17 @@ namespace TheLion.AwesomeProfessions
 			if (Utility.IsStone(obj) && !Utility.IsResourceNode(obj))
 			{
 				TreasureTile = v;
+				_timeLimit = (uint)location.Objects.Count() / 3;
 				_elapsed = 0;
-				Manager.Subscribe(new ProspectorHuntUpdateTickedEvent(this), new ProspectorHuntRenderingHudEvent(this));
-				Game1.addHUDMessage(new HuntNotification(NewHuntMessage, Icon));
+				AwesomeProfessions.EventManager.Subscribe(new ProspectorHuntUpdateTickedEvent(), new ProspectorHuntRenderingHudEvent());
+				Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, Icon));
 			}
 		}
 
-		/// <summary>Reset treasure tile and unsubcribe treasure hunt update event.</summary>
+		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
 		internal override void End()
 		{
-			Manager.Unsubscribe(typeof(ProspectorHuntUpdateTickedEvent), typeof(ProspectorHuntRenderingHudEvent));
+			AwesomeProfessions.EventManager.Unsubscribe(typeof(ProspectorHuntUpdateTickedEvent), typeof(ProspectorHuntRenderingHudEvent));
 			TreasureTile = null;
 		}
 
@@ -60,7 +53,7 @@ namespace TheLion.AwesomeProfessions
 			{
 				_GetStoneTreasure();
 				End();
-				++Data.ProspectorHuntStreak;
+				AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak");
 			}
 		}
 
@@ -68,8 +61,8 @@ namespace TheLion.AwesomeProfessions
 		protected override void Fail()
 		{
 			End();
-			Data.ProspectorHuntStreak = 0;
-			Game1.addHUDMessage(new HuntNotification(FailedHuntMessage));
+			Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
+			AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", "0");
 		}
 
 		/// <summary>Spawn hunt spoils as debris.</summary>
@@ -102,10 +95,11 @@ namespace TheLion.AwesomeProfessions
 					if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
 					{
 						var key = treasuresAndQuantities.Keys.Last();
-						treasuresAndQuantities.Replace(key, treasuresAndQuantities[key] * 2);
+						treasuresAndQuantities[key] *= 2;
 					}
 
 					break;
+
 				case 1:
 					switch (Random.Next(3))
 					{
@@ -117,10 +111,11 @@ namespace TheLion.AwesomeProfessions
 							if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
 							{
 								var key = treasuresAndQuantities.Keys.Last();
-								treasuresAndQuantities.Replace(key, treasuresAndQuantities[key] * 2);
+								treasuresAndQuantities[key] *= 2;
 							}
 
 							break;
+
 						case 1:
 							if (mineLevel < 20)
 							{
@@ -136,11 +131,12 @@ namespace TheLion.AwesomeProfessions
 							else treasuresAndQuantities.Add(80, Random.Next(1, 3)); // quartz
 
 							break;
+
 						case 2:
 							double luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
 							if (Random.NextDouble() < 0.05 * luckModifier) treasuresAndQuantities.Add(275, 1); // artifact trove
 
-							if (Random.NextDouble() < 0.002 * (luckModifier * Data.ProspectorHuntStreak)) treasuresAndQuantities.Add(74, 1); // prismatic shard
+							if (Random.NextDouble() < 0.002 * (luckModifier * AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", uint.Parse))) treasuresAndQuantities.Add(74, 1); // prismatic shard
 
 							if (treasuresAndQuantities.Count == 1) treasuresAndQuantities.Add(72, 1); // consolation diamond
 

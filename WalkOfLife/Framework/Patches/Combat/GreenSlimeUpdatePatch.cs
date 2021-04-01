@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
 using System;
@@ -11,12 +10,9 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class GreenSlimeUpdatePatch : BasePatch
 	{
-		/// <summary>Construct an instance.</summary>
-		internal GreenSlimeUpdatePatch() { }
-
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(GreenSlime), nameof(GreenSlime.update), new Type[] { typeof(GameTime), typeof(GameLocation) }),
@@ -25,14 +21,15 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch for slimes to damage monsters around Slimemaster.</summary>
-		protected static void GreenSlimeUpdatePostfix(ref GreenSlime __instance, GameLocation location)
+		private static void GreenSlimeUpdatePostfix(ref GreenSlime __instance, GameLocation location)
 		{
-			if (!Utility.AnyPlayerInLocationHasProfession("slimemaster", location)) return;
+			if (!Utility.AnyFarmerInLocationHasProfession("slimemaster", location)) return;
 
 			foreach (Monster monster in __instance.currentLocation.characters.Where(c => c is Monster && !(c is GreenSlime)))
 			{
-				if (!monster.IsInvisible && !monster.isInvincible() && monster.GetBoundingBox().Intersects(__instance.GetBoundingBox()))
+				if (!monster.IsInvisible && !monster.isInvincible() && !monster.isGlider.Value && monster.GetBoundingBox().Intersects(__instance.GetBoundingBox()))
 				{
 					int damageToMonster = Math.Max(1, __instance.DamageToFarmer + Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4));
 					Vector2 trajectory = SUtility.getAwayFromPositionTrajectory(monster.GetBoundingBox(), __instance.Position) / 2f;
@@ -41,6 +38,7 @@ namespace TheLion.AwesomeProfessions
 				}
 			}
 		}
+
 		#endregion harmony patches
 	}
 }

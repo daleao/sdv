@@ -4,19 +4,15 @@ using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using TheLion.Common.Extensions;
+using TheLion.Common;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
 {
 	internal class CrabPotDayUpdatePatch : BasePatch
 	{
-		/// <summary>Construct an instance.</summary>
-		internal CrabPotDayUpdatePatch() { }
-
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		/// <inheritdoc/>
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(CrabPot), nameof(CrabPot.DayUpdate)),
@@ -25,11 +21,12 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch for Trapper fish quality + Luremaster bait mechanics + Conservationist trash collection mechanics.</summary>
-		protected static bool CrabPotDayUpdatePrefix(ref CrabPot __instance, GameLocation location)
+		private static bool CrabPotDayUpdatePrefix(ref CrabPot __instance, GameLocation location)
 		{
 			Farmer who = Game1.getFarmer(__instance.owner.Value);
-			if (__instance.bait.Value == null && !Utility.SpecificPlayerHasProfession("conservationist", who) || __instance.heldObject.Value != null)
+			if (__instance.bait.Value == null && !Utility.SpecificFarmerHasProfession("conservationist", who) || __instance.heldObject.Value != null)
 				return false; // don't run original logic
 
 			__instance.tileIndexToShow = 714;
@@ -37,9 +34,9 @@ namespace TheLion.AwesomeProfessions
 
 			Random r = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int)__instance.TileLocation.X * 1000 + (int)__instance.TileLocation.Y);
 			Dictionary<string, string> locationData = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "Locations"));
-			Dictionary<int, string> fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data","Fish"));
+			Dictionary<int, string> fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
 			int whichFish = -1;
-			if (Utility.SpecificPlayerHasProfession("luremaster", who))
+			if (Utility.SpecificFarmerHasProfession("luremaster", who))
 			{
 				if (!Utility.IsUsingMagnet(__instance))
 				{
@@ -62,7 +59,7 @@ namespace TheLion.AwesomeProfessions
 			int fishQuality = 0;
 			if (whichFish < 0)
 			{
-				bool playerIsConservationist = Utility.SpecificPlayerHasProfession("conservationist", who);
+				bool playerIsConservationist = Utility.SpecificFarmerHasProfession("conservationist", who);
 				if (__instance.bait.Value != null || playerIsConservationist) whichFish = Utility.GetTrash(r);
 			}
 			else fishQuality = Utility.GetTrapFishQuality(whichFish, who, r);
@@ -71,6 +68,7 @@ namespace TheLion.AwesomeProfessions
 			__instance.heldObject.Value = new SObject(whichFish, initialStack: fishQuantity, quality: fishQuality);
 			return false; // don't run original logic
 		}
+
 		#endregion harmony patches
 	}
 }

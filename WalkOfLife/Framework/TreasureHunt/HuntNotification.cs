@@ -7,10 +7,13 @@ using SUtility = StardewValley.Utility;
 
 namespace TheLion.AwesomeProfessions
 {
+	/// <summary>HUD message for treasure hunts.</summary>
 	public class HuntNotification : HUDMessage
 	{
 		private Texture2D _Icon { get; }
 
+		/// <summary>Construct an instance.</summary>
+		/// <param name="message">The message to display.</param>
 		public HuntNotification(string message)
 			: base(message)
 		{
@@ -20,6 +23,9 @@ namespace TheLion.AwesomeProfessions
 			fadeIn = false;
 		}
 
+		/// <summary>Construct an instance.</summary>
+		/// <param name="message">The message to display.</param>
+		/// <param name="icon">The icon to display.</param>
 		public HuntNotification(string message, Texture2D icon)
 			: base(message)
 		{
@@ -27,10 +33,10 @@ namespace TheLion.AwesomeProfessions
 			noIcon = false;
 			timeLeft = 5250f;
 			fadeIn = true;
-
 			_Icon = icon;
 		}
 
+		/// <summary>Draw the notification to the game sprite batch.</summary>
 		public override void draw(SpriteBatch b, int i)
 		{
 			Rectangle titleSafeArea = Game1.graphics.GraphicsDevice.Viewport.GetTitleSafeArea();

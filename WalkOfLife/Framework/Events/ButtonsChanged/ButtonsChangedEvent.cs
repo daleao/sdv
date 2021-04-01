@@ -2,23 +2,18 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	internal abstract class ButtonsChangedEvent : BaseEvent
+	internal abstract class ButtonsChangedEvent : IEvent
 	{
-		/// <summary>Construct an instance.</summary>
-		internal ButtonsChangedEvent() { }
-
-		/// <summary>Hook this event to an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Hook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Hook()
 		{
-			listener.Input.ButtonsChanged += OnButtonsChanged;
+			AwesomeProfessions.Events.Input.ButtonsChanged += OnButtonsChanged;
 		}
 
-		/// <summary>Unhook this event from an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Unhook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Unhook()
 		{
-			listener.Input.ButtonsChanged -= OnButtonsChanged;
+			AwesomeProfessions.Events.Input.ButtonsChanged -= OnButtonsChanged;
 		}
 
 		/// <summary>Raised after the player released a keyboard, mouse, or controller button.</summary>

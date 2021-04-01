@@ -1,5 +1,5 @@
-﻿using Netcode;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
@@ -9,7 +9,7 @@ using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TheLion.Common.Classes;
+using TheLion.Common;
 using xTile.Dimensions;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SObject = StardewValley.Object;

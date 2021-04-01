@@ -1,7 +1,7 @@
 ﻿using StardewValley;
 using System.Collections.Generic;
 using System.Linq;
-using TheLion.Common.Extensions;
+using TheLion.Common;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
@@ -10,6 +10,7 @@ namespace TheLion.AwesomeProfessions
 	public static partial class Utility
 	{
 		#region look-up tables
+
 		/// <summary>Look-up table for what resource should spawn from a given stone.</summary>
 		public static Dictionary<int, int> ResourceFromStoneId { get; } = new Dictionary<int, int>
 		{
@@ -157,6 +158,7 @@ namespace TheLion.AwesomeProfessions
 			844,	// cinder shard node
 			46		// mystic stone
 		};
+
 		#endregion look-up tables
 
 		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>

@@ -8,7 +8,6 @@ using StardewValley.Tools;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TheLion.AwesomeTools.Integrations;
 
 namespace TheLion.AwesomeTools
 {
@@ -241,7 +240,7 @@ namespace TheLion.AwesomeTools
 			{
 				result += ", 'radioactive'";
 			}
-			
+
 			return result;
 		}
 	}

@@ -5,28 +5,25 @@ using StardewValley;
 using StardewValley.Objects;
 using System;
 using System.IO;
-using TheLion.Common.Extensions;
+using TheLion.Common;
 
 namespace TheLion.AwesomeProfessions
 {
 	internal class CrabPotDrawPatch : BasePatch
 	{
-		/// <summary>Construct an instance.</summary>
-		internal CrabPotDrawPatch() { }
-
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		/// <inheritdoc/>
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(CrabPot), nameof(CrabPot.draw), new Type[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)}),
+				AccessTools.Method(typeof(CrabPot), nameof(CrabPot.draw), new Type[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) }),
 				prefix: new HarmonyMethod(GetType(), nameof(CrabPotDrawPrefix))
 			);
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch to draw weapons in Luremaster crabpots.</summary>
-		protected static bool CrabPotDrawPrefix(ref CrabPot __instance, ref float ___yBob, ref Vector2 ___shake, SpriteBatch spriteBatch, int x, int y)
+		private static bool CrabPotDrawPrefix(ref CrabPot __instance, ref float ___yBob, ref Vector2 ___shake, SpriteBatch spriteBatch, int x, int y)
 		{
 			if (!__instance.readyForHarvest.Value || __instance.heldObject.Value == null || !__instance.heldObject.Value.ParentSheetIndex.AnyOf(14, 51))
 				return true; // run original logic
@@ -43,6 +40,7 @@ namespace TheLion.AwesomeProfessions
 			spriteBatch.Draw(Tool.weaponsTexture, Game1.GlobalToLocal(Game1.viewport, __instance.directionOffset.Value + new Vector2(x * 64f + 32f, (y * 64f - 64f - 8f) + yOffset)), Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, __instance.heldObject.Value.ParentSheetIndex, 16, 16), Color.White * 0.75f, 0f, new Vector2(8f, 8f), 4f, SpriteEffects.None, (y + 1) * 64 / 10000f + 1E-05f + __instance.TileLocation.X / 10000f);
 			return false; // don't run original logic
 		}
+
 		#endregion harmony patches
 	}
 }

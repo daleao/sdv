@@ -3,23 +3,18 @@ using StardewValley.Menus;
 
 namespace TheLion.AwesomeProfessions
 {
-	internal class LevelChangedEvent : BaseEvent
+	internal class LevelChangedEvent : IEvent
 	{
-		/// <summary>Construct an instance.</summary>
-		internal LevelChangedEvent() { }
-
-		/// <summary>Hook this event to an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Hook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Hook()
 		{
-			listener.Player.LevelChanged += OnLevelChanged;
+			AwesomeProfessions.Events.Player.LevelChanged += OnLevelChanged;
 		}
 
-		/// <summary>Unhook this event from an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Unhook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Unhook()
 		{
-			listener.Player.LevelChanged -= OnLevelChanged;
+			AwesomeProfessions.Events.Player.LevelChanged -= OnLevelChanged;
 		}
 
 		/// <summary>Raised after a player's skill level changes.</summary>
@@ -28,7 +23,13 @@ namespace TheLion.AwesomeProfessions
 		private void OnLevelChanged(object sender, LevelChangedEventArgs e)
 		{
 			// ensure immediate perks get removed on skill reset
-			if (e.IsLocalPlayer && e.NewLevel == 0) LevelUpMenu.RevalidateHealth(e.Player);
+			if (e.IsLocalPlayer && e.NewLevel == 0)
+			{
+				int first = (int)e.Skill * 6;
+				int last = first + 5;
+				for (int profession = first; profession <= last; ++profession)
+					LevelUpMenu.removeImmediateProfessionPerk(profession);
+			}
 		}
 	}
 }

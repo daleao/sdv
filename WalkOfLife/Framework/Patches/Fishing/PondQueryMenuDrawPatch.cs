@@ -1,7 +1,6 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
@@ -15,18 +14,8 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class PondQueryMenuDrawPatch : BasePatch
 	{
-		private static IReflectionHelper _Reflection { get; set; }
-
-		/// <summary>Construct an instance.</summary>
-		/// <param name="reflection">Interface for accessing otherwise inaccessible code.</param>
-		internal PondQueryMenuDrawPatch(IReflectionHelper reflection)
-		{
-			_Reflection = reflection;
-		}
-
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		/// <inheritdoc/>
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(PondQueryMenu), nameof(PondQueryMenu.draw), new Type[] { typeof(SpriteBatch) }),
@@ -35,11 +24,12 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch to adjust fish pond UI for Aquarist increased max capacity.</summary>
-		protected static bool PondQueryMenuDrawPrefix(ref PondQueryMenu __instance, ref float ____age, ref Rectangle ____confirmationBoxRectangle, ref string ____confirmationText, ref SObject ____fishItem, ref FishPond ____pond, ref bool ___confirmingEmpty, ref string ___hoverText, SpriteBatch b)
+		private static bool PondQueryMenuDrawPrefix(ref PondQueryMenu __instance, ref float ____age, ref Rectangle ____confirmationBoxRectangle, ref string ____confirmationText, ref SObject ____fishItem, ref FishPond ____pond, ref bool ___confirmingEmpty, ref string ___hoverText, SpriteBatch b)
 		{
-			Farmer who = Game1.getFarmer(____pond.owner.Value);
-			if (!Utility.SpecificPlayerHasProfession("aquarist", who) || ____pond.lastUnlockedPopulationGate.Value < _Reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
+			Farmer owner = Game1.getFarmer(____pond.owner.Value);
+			if (!Utility.SpecificFarmerHasProfession("aquarist", owner) || ____pond.lastUnlockedPopulationGate.Value < AwesomeProfessions.Reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
 
 			if (!Game1.globalFade)
 			{
@@ -49,12 +39,12 @@ namespace TheLion.AwesomeProfessions
 				Vector2 text_size = Game1.smallFont.MeasureString(pond_name_text);
 				Game1.DrawBox((int)((Game1.uiViewport.Width / 2) - (text_size.X + 64f) * 0.5f), __instance.yPositionOnScreen - 4 + 128, (int)(text_size.X + 64f), 64);
 				SUtility.drawTextWithShadow(b, pond_name_text, Game1.smallFont, new Vector2((Game1.uiViewport.Width / 2) - text_size.X * 0.5f, (float)(__instance.yPositionOnScreen - 4) + 160f - text_size.Y * 0.5f), Color.Black);
-				string displayed_text = _Reflection.GetMethod(__instance, name: "getDisplayedText").Invoke<string>();
+				string displayed_text = AwesomeProfessions.Reflection.GetMethod(__instance, name: "getDisplayedText").Invoke<string>();
 				int extraHeight = 0;
 				if (has_unresolved_needs)
 					extraHeight += 116;
 
-				int extraTextHeight = _Reflection.GetMethod(__instance, name: "measureExtraTextHeight").Invoke<int>(displayed_text);
+				int extraTextHeight = AwesomeProfessions.Reflection.GetMethod(__instance, name: "measureExtraTextHeight").Invoke<int>(displayed_text);
 				Game1.drawDialogueBox(__instance.xPositionOnScreen, __instance.yPositionOnScreen + 128, PondQueryMenu.width, PondQueryMenu.height - 128 + extraHeight + extraTextHeight, speaker: false, drawOnlyBox: true);
 				string population_text = Game1.content.LoadString("Strings\\UI:PondQuery_Population", string.Concat(____pond.FishCount), ____pond.maxOccupants.Value);
 				text_size = Game1.smallFont.MeasureString(population_text);
@@ -70,7 +60,7 @@ namespace TheLion.AwesomeProfessions
 						____fishItem.drawInMenu(b, new Vector2((__instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2) - slot_spacing * Math.Min(slots_to_draw, 5) * 4f * 0.5f + slot_spacing * 4f * x - 12f, (__instance.yPositionOnScreen + (int)(y_offset * 4f)) + (y * 4) * slot_spacing + 275.2f), 0.75f, 1f, 0f, StackDrawType.Hide, Color.White, drawShadow: false);
 					else
 						____fishItem.drawInMenu(b, new Vector2((__instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2) - slot_spacing * Math.Min(slots_to_draw, 5) * 4f * 0.5f + slot_spacing * 4f * x - 12f, (__instance.yPositionOnScreen + (int)(y_offset * 4f)) + (y * 4) * slot_spacing + 275.2f), 0.75f, 0.35f, 0f, StackDrawType.Hide, Color.Black, drawShadow: false);
-					
+
 					++x;
 					if (x == 6)
 					{
@@ -83,7 +73,7 @@ namespace TheLion.AwesomeProfessions
 				SUtility.drawTextWithShadow(b, displayed_text, Game1.smallFont, new Vector2((__instance.xPositionOnScreen + PondQueryMenu.width / 2) - text_size.X * 0.5f, (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - (has_unresolved_needs ? 32 : 48)) - text_size.Y), Game1.textColor);
 				if (has_unresolved_needs)
 				{
-					_Reflection.GetMethod(__instance, name: "drawHorizontalPartition").Invoke(b, (int)((__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight) - 48f));
+					AwesomeProfessions.Reflection.GetMethod(__instance, name: "drawHorizontalPartition").Invoke(b, (int)((__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight) - 48f));
 					SUtility.drawWithShadow(b, Game1.mouseCursors, new Vector2((__instance.xPositionOnScreen + 60) + 8f * Game1.dialogueButtonScale / 10f, __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28), new Rectangle(412, 495, 5, 4), Color.White, (float)Math.PI / 2f, Vector2.Zero);
 					string bring_text = Game1.content.LoadString("Strings\\UI:PondQuery_StatusRequest_Bring");
 					text_size = Game1.smallFont.MeasureString(bring_text);
@@ -130,6 +120,7 @@ namespace TheLion.AwesomeProfessions
 			__instance.drawMouse(b);
 			return false; // don't run original logic
 		}
+
 		#endregion harmony patches
 	}
 }

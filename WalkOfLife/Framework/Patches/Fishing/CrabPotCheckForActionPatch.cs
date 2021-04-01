@@ -6,19 +6,15 @@ using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using TheLion.Common.Extensions;
+using TheLion.Common;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
 {
 	internal class CrabPotCheckForActionPatch : BasePatch
 	{
-		/// <summary>Construct an instance.</summary>
-		internal CrabPotCheckForActionPatch() { }
-
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		/// <inheritdoc/>
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(CrabPot), nameof(CrabPot.checkForAction)),
@@ -27,8 +23,9 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch to handle Luremaster-caught non-trap fish.</summary>
-		protected static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result, ref bool ___lidFlapping, ref float ___lidFlapTimer, ref Vector2 ___shake, ref float ___shakeTimer, Farmer who, bool justCheckingForActivity = false)
+		private static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result, ref bool ___lidFlapping, ref float ___lidFlapTimer, ref Vector2 ___shake, ref float ___shakeTimer, Farmer who, bool justCheckingForActivity = false)
 		{
 			if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !Utility.IsHoldingSpecialLuremasterCatch(__instance))
 				return true; // run original logic
@@ -78,10 +75,11 @@ namespace TheLion.AwesomeProfessions
 			who.gainExperience(1, 5);
 			___shake = Vector2.Zero;
 			___shakeTimer = 0f;
-			
+
 			__result = true;
 			return false; // don't run original logic
 		}
+
 		#endregion harmony patches
 	}
 }

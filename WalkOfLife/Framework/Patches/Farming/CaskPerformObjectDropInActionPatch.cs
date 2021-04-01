@@ -1,17 +1,14 @@
 ﻿using Harmony;
-using StardewValley.Objects;
 using StardewValley;
+using StardewValley.Objects;
 
 namespace TheLion.AwesomeProfessions
 {
 	internal class CaskPerformObjectDropInActionPatch : BasePatch
 	{
-		/// <summary>Construct an instance.</summary>
-		internal CaskPerformObjectDropInActionPatch() { }
-
 		/// <summary>Apply internally-defined Harmony patches.</summary>
 		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(Cask), nameof(Cask.performObjectDropInAction)),
@@ -20,12 +17,14 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch for Oenologist faster wine aging.</summary>
-		protected static void CaskPerformObjectDropInActionPostfix(ref Cask __instance, Item dropIn, Farmer who)
+		private static void CaskPerformObjectDropInActionPostfix(ref Cask __instance, Item dropIn, Farmer who)
 		{
-			if (Utility.SpecificPlayerHasProfession("oenologist", who) && Utility.IsWine(dropIn))
+			if (Utility.SpecificFarmerHasProfession("oenologist", who) && Utility.IsWine(dropIn))
 				__instance.agingRate.Value *= 2f;
 		}
+
 		#endregion harmony patches
 	}
 }

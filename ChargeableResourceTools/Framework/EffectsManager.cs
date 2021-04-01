@@ -33,12 +33,14 @@ namespace TheLion.AwesomeTools
 						_axe.SpreadToolEffect(tool, actionTile, _axe.Config.RadiusAtEachPowerLevel, _multiplier, location, who);
 					}
 					break;
+
 				case Pickaxe:
 					if (_pickaxe.Config.EnablePickaxeCharging)
 					{
 						_pickaxe.SpreadToolEffect(tool, actionTile, _pickaxe.Config.RadiusAtEachPowerLevel, _multiplier, location, who);
 					}
 					break;
+
 				default:
 					break;
 			}

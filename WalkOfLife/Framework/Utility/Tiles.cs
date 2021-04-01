@@ -2,7 +2,7 @@
 using StardewValley;
 using StardewValley.Locations;
 using System.Collections.Generic;
-using TheLion.Common.Extensions;
+using TheLion.Common;
 using xTile.Dimensions;
 
 namespace TheLion.AwesomeProfessions
@@ -33,7 +33,6 @@ namespace TheLion.AwesomeProfessions
 			string noSpawn = location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "NoSpawn", "Back");
 			if ((noSpawn != null && noSpawn != "") || !location.isTileLocationTotallyClearAndPlaceable(tile) || !IsTileClearOfDebris(tile, location) || location.isBehindBush(tile) || location.isBehindTree(tile))
 				return false;
-
 			return true;
 		}
 
@@ -50,7 +49,6 @@ namespace TheLion.AwesomeProfessions
 					if (debrisTile == tile) return false;
 				}
 			}
-
 			return true;
 		}
 

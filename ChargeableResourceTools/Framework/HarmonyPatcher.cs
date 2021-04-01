@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using TheLion.Common.Classes;
+using TheLion.Common;
 
 namespace TheLion.AwesomeTools
 {
@@ -33,14 +33,17 @@ namespace TheLion.AwesomeTools
 						who.FarmerSprite.setCurrentFrame(176);
 						__instance.Update(0, 0, who);
 						break;
+
 					case 1:
 						who.FarmerSprite.setCurrentFrame(168);
 						__instance.Update(1, 0, who);
 						break;
+
 					case 2:
 						who.FarmerSprite.setCurrentFrame(160);
 						__instance.Update(2, 0, who);
 						break;
+
 					case 3:
 						who.FarmerSprite.setCurrentFrame(184);
 						__instance.Update(3, 0, who);
@@ -68,14 +71,17 @@ namespace TheLion.AwesomeTools
 						who.FarmerSprite.setCurrentFrame(176);
 						__instance.Update(0, 0, who);
 						break;
+
 					case 1:
 						who.FarmerSprite.setCurrentFrame(168);
 						__instance.Update(1, 0, who);
 						break;
+
 					case 2:
 						who.FarmerSprite.setCurrentFrame(160);
 						__instance.Update(2, 0, who);
 						break;
+
 					case 3:
 						who.FarmerSprite.setCurrentFrame(184);
 						__instance.Update(3, 0, who);

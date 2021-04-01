@@ -5,26 +5,16 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
 	{
-		private EventManager _Manager { get; }
-
-		/// <summary>Construct an instance.</summary>
-		internal TrackerButtonsChangedEvent(EventManager manager)
-		{
-			_Manager = manager;
-		}
-
-		/// <summary>Raised after the player released a keyboard, mouse, or controller button. Hook tracking pointer rendering events.</summary>
-		/// <param name="sender">The event sender.</param>
-		/// <param name="e">The event arguments.</param>
+		/// <inheritdoc/>
 		public override void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
 		{
-			if (Config.ModKey.JustPressed()) _Manager.Subscribe(new ArrowPointerUpdateTickedEvent(), new TrackerRenderingHudEvent());
+			if (AwesomeProfessions.Config.ModKey.JustPressed()) AwesomeProfessions.EventManager.Subscribe(new ArrowPointerUpdateTickedEvent(), new TrackerRenderingHudEvent());
 
-			if (Config.ModKey.GetState() == SButtonState.Released)
+			if (AwesomeProfessions.Config.ModKey.GetState() == SButtonState.Released)
 			{
-				_Manager.Unsubscribe(typeof(TrackerRenderingHudEvent));
-				if (!(_Manager.IsListening(typeof(ProspectorHuntRenderingHudEvent)) || _Manager.IsListening(typeof(ScavengerHuntRenderingHudEvent))))
-					_Manager.Unsubscribe(typeof(ArrowPointerUpdateTickedEvent));
+				AwesomeProfessions.EventManager.Unsubscribe(typeof(TrackerRenderingHudEvent));
+				if (!(AwesomeProfessions.EventManager.IsListening(typeof(ProspectorHuntRenderingHudEvent)) || AwesomeProfessions.EventManager.IsListening(typeof(ScavengerHuntRenderingHudEvent))))
+					AwesomeProfessions.EventManager.Unsubscribe(typeof(ArrowPointerUpdateTickedEvent));
 			}
 		}
 	}

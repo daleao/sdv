@@ -2,23 +2,18 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	internal class ReturnedToTitleEvent : BaseEvent
+	internal class ReturnedToTitleEvent : IEvent
 	{
-		/// <summary>Construct an instance.</summary>
-		internal ReturnedToTitleEvent() { }
-
-		/// <summary>Hook this event to an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Hook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Hook()
 		{
-			listener.GameLoop.ReturnedToTitle += OnReturnedToTitle;
+			AwesomeProfessions.Events.GameLoop.ReturnedToTitle += OnReturnedToTitle;
 		}
 
-		/// <summary>Unhook this event from an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Unhook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Unhook()
 		{
-			listener.GameLoop.ReturnedToTitle -= OnReturnedToTitle;
+			AwesomeProfessions.Events.GameLoop.ReturnedToTitle -= OnReturnedToTitle;
 		}
 
 		/// <summary>Raised after the game returns to the title screen.</summary>

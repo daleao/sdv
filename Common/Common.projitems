@@ -11,18 +11,16 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BidirectionalMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\Colors.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\RationalMath.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Harmony\Extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Functionals.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\CodeInstructionListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\LabelListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\GeneralExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\SafeReflections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BaseIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\GenericModConfigMenuIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Harmony\" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ModDataDictionaryExtensions.cs" />
   </ItemGroup>
 </Project>

@@ -1,21 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI;
+using StardewModdingAPI.Events;
+using StardewValley;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace TheLion.AwesomeProfessions
 {
 	/// <summary>The mod entry point.</summary>
 	public class AwesomeProfessions : Mod
 	{
-		internal static IModHelper ModHelper { get; set; }
+		internal static IContentHelper Content { get; set; }
+		internal static IModEvents Events { get; set; }
+		internal static IReflectionHelper Reflection { get; set; }
 		internal static ITranslationHelper I18n { get; set; }
+		internal static ModDataDictionary Data { get; set; }
 		internal static ProfessionsConfig Config { get; set; }
-		internal static ProfessionsData Data { get; set; }
 		internal static EventManager EventManager { get; set; }
 		internal static ProspectorHunt ProspectorHunt { get; set; }
 		internal static ScavengerHunt ScavengerHunt { get; set; }
+		internal static string UniqueID { get; private set; }
 
 		internal static int demolitionistBuffMagnitude;
 		internal static uint bruteKillStreak;
@@ -25,8 +29,19 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper)
 		{
-			// store reference to helper
-			ModHelper = helper;
+			// get unique id and generate buff ids
+			UniqueID = ModManifest.UniqueID;
+			int uniqueHash = (int)(Math.Abs(UniqueID.GetHashCode()) / Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(UniqueID.GetHashCode()))) - 8 + 1));
+			Utility.SetProfessionBuffIDs(uniqueHash);
+
+			// store reference to content helper
+			Content = helper.Content;
+
+			// store reference to mod events
+			Events = helper.Events;
+
+			// store reference to reflection helper
+			Reflection = helper.Reflection;
 
 			// store reference to localized text
 			I18n = helper.Translation;
@@ -34,19 +49,14 @@ namespace TheLion.AwesomeProfessions
 			// get configs.json
 			Config = helper.ReadConfig<ProfessionsConfig>();
 
-			// initialize static references
-			BaseEvent.Init(Config);
-			BasePatch.Init(Config, Monitor);
-			Utility.Init(Config);
-
-			// get mod assets
-			helper.Content.AssetEditors.Add(new AssetEditor(helper.Content, I18n));
-			Utility.ArrowPointer.Texture = helper.Content.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(Path.Combine("Assets", "cursor.png"));
+			// patch profession icons
+			helper.Content.AssetEditors.Add(new IconEditor());
 
 			// apply patches
-			new HarmonyPatcher(ModManifest.UniqueID).ApplyAll(
+			BasePatch.Init(Monitor);
+			new HarmonyPatcher().ApplyAll(
 				new AnimalHouseAddNewHatchedAnimalPatch(),
-				new BasicProjectileBehaviorOnCollisionWithMonsterPatch(helper.Reflection),
+				new BasicProjectileBehaviorOnCollisionWithMonsterPatch(),
 				new BasicProjectileCtorPatch(),
 				new BobberBarCtorPatch(),
 				new BushShakePatch(),
@@ -74,11 +84,12 @@ namespace TheLion.AwesomeProfessions
 				new GameLocationExplodePatch(),
 				new GameLocationOnStoneDestroyedPatch(),
 				new GreenSlimeUpdatePatch(),
+				new GreenSlimeGetExtraDropItemsPatch(),
 				new HoeDirtApplySpeedIncreasesPatch(),
-				new LevelUpMenuAddProfessionDescriptionsPatch(I18n),
+				new LevelUpMenuAddProfessionDescriptionsPatch(),
 				new LevelUpMenuGetImmediateProfessionPerkPatch(),
 				new LevelUpMenuGetProfessionNamePatch(),
-				new LevelUpMenuGetProfessionTitleFromNumberPatch(I18n),
+				new LevelUpMenuGetProfessionTitleFromNumberPatch(),
 				new LevelUpMenuRemoveImmediateProfessionPerkPatch(),
 				new LevelUpMenuRevalidateHealthPatch(),
 				new MeleeWeaponDoAnimateSpecialMovePatch(),
@@ -86,7 +97,7 @@ namespace TheLion.AwesomeProfessions
 				new ObjectCtorPatch(),
 				new ObjectGetMinutesForCrystalariumPatch(),
 				new ObjectGetPriceAfterMultipliersPatch(),
-				new PondQueryMenuDrawPatch(helper.Reflection),
+				new PondQueryMenuDrawPatch(),
 				new ProjectileBehaviorOnCollisionPatch(),
 				new QuestionEventSetUpPatch(),
 				new SlingshotPerformFirePatch(),
@@ -96,11 +107,7 @@ namespace TheLion.AwesomeProfessions
 			);
 
 			// start event manager
-			EventManager = new EventManager(helper.Events, Monitor);
-
-			// generate unique buff ids
-			int uniqueHash = (int)(Math.Abs(ModManifest.UniqueID.GetHashCode()) / Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(ModManifest.UniqueID.GetHashCode()))) - 8 + 1));
-			Utility.SetProfessionBuffIDs(uniqueHash);
+			EventManager = new EventManager(Monitor);
 		}
 	}
 }

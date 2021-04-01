@@ -1,5 +1,4 @@
-﻿using StardewModdingAPI;
-using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Events;
 using StardewValley;
 using System;
 using System.Linq;
@@ -8,17 +7,7 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class DemolitionistUpdateTickedEvent : UpdateTickedEvent
 	{
-		private ITranslationHelper _I18n { get; }
-
-		/// <summary>Construct an instance.</summary>
-		internal DemolitionistUpdateTickedEvent(ITranslationHelper i18n)
-		{
-			_I18n = i18n;
-		}
-
-		/// <summary>Raised after the game state is updated. Add or update Demolitionist buff.</summary>
-		/// <param name="sender">The event sender.</param>
-		/// <param name="e">The event arguments.</param>
+		/// <inheritdoc/>
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
 			if (AwesomeProfessions.demolitionistBuffMagnitude > 0)
@@ -34,11 +23,11 @@ namespace TheLion.AwesomeProfessions
 				if (buff == null)
 				{
 					Game1.buffsDisplay.addOtherBuff(
-						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: AwesomeProfessions.demolitionistBuffMagnitude, 0, 0, minutesDuration: 1, source: "demolitionist", displaySource: _I18n.Get("demolitionist.name"))
+						buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: AwesomeProfessions.demolitionistBuffMagnitude, 0, 0, minutesDuration: 1, source: "demolitionist", displaySource: AwesomeProfessions.I18n.Get("demolitionist.name"))
 						{
 							which = buffId,
 							millisecondsDuration = 50,
-							description = _I18n.Get("demolitionist.buffdescription")
+							description = AwesomeProfessions.I18n.Get("demolitionist.buffdescription")
 						}
 					);
 				}

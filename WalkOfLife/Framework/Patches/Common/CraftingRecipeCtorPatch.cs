@@ -7,12 +7,8 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class CraftingRecipeCtorPatch : BasePatch
 	{
-		/// <summary>Construct an instance.</summary>
-		internal CraftingRecipeCtorPatch() { }
-
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		/// <inheritdoc/>
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
 				AccessTools.Constructor(typeof(CraftingRecipe), new Type[] { typeof(string), typeof(bool) }),
@@ -21,10 +17,11 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch for cheaper crafting recipes for Blaster and Tapper.</summary>
-		protected static void CraftingRecipeCtorPostfix(ref CraftingRecipe __instance)
+		private static void CraftingRecipeCtorPostfix(ref CraftingRecipe __instance)
 		{
-			if (__instance.name.Equals("Tapper") && Utility.LocalPlayerHasProfession("tapper"))
+			if (__instance.name.Equals("Tapper") && Utility.LocalFarmerHasProfession("tapper"))
 			{
 				__instance.recipeList = new Dictionary<int, int>
 				{
@@ -32,7 +29,7 @@ namespace TheLion.AwesomeProfessions
 					{ 334, 1 }		// copper bar
 				};
 			}
-			else if (__instance.name.Contains("Bomb") && Utility.LocalPlayerHasProfession("blaster"))
+			else if (__instance.name.Contains("Bomb") && Utility.LocalFarmerHasProfession("blaster"))
 			{
 				__instance.recipeList = __instance.name switch
 				{
@@ -50,10 +47,12 @@ namespace TheLion.AwesomeProfessions
 					{
 						{ 384, 2 },	// gold ore
 						{ 382, 1 }	// coal
-					}
+					},
+					_ => __instance.recipeList
 				};
 			}
 		}
+
 		#endregion harmony patches
 	}
 }

@@ -2,23 +2,18 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	internal abstract class DayEndingEvent : BaseEvent
+	internal abstract class DayEndingEvent : IEvent
 	{
-		/// <summary>Construct an instance.</summary>
-		internal DayEndingEvent() { }
-
-		/// <summary>Hook this event to an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Hook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Hook()
 		{
-			listener.GameLoop.DayEnding += OnDayEnding;
+			AwesomeProfessions.Events.GameLoop.DayEnding += OnDayEnding;
 		}
 
-		/// <summary>Unhook this event from an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Unhook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Unhook()
 		{
-			listener.GameLoop.DayEnding -= OnDayEnding;
+			AwesomeProfessions.Events.GameLoop.DayEnding -= OnDayEnding;
 		}
 
 		/// <summary>Raised before the game ends the current day.</summary>

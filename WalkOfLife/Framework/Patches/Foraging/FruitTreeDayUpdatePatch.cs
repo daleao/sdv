@@ -5,12 +5,8 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class FruitTreeDayUpdatePatch : BasePatch
 	{
-		/// <summary>Construct an instance.</summary>
-		internal FruitTreeDayUpdatePatch() { }
-
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		/// <inheritdoc/>
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(FruitTree), nameof(FruitTree.dayUpdate)),
@@ -19,12 +15,14 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch to increase Abrorist fruit tree growth speed.</summary>
-		protected static void FruitTreeDayUpdatePostfix(ref FruitTree __instance)
+		private static void FruitTreeDayUpdatePostfix(ref FruitTree __instance)
 		{
-			if (Utility.AnyPlayerHasProfession("arborist", out int n) && __instance.daysUntilMature.Value % 7 == 0)
+			if (Utility.AnyFarmerHasProfession("arborist", out int n) && __instance.daysUntilMature.Value % 7 == 0)
 				__instance.daysUntilMature.Value -= n;
 		}
+
 		#endregion harmony patches
 	}
 }

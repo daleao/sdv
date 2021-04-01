@@ -5,23 +5,13 @@ using StardewValley.Menus;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
-using TheLion.Common.Harmony;
 
 namespace TheLion.AwesomeProfessions
 {
 	internal class LevelUpMenuRevalidateHealthPatch : BasePatch
 	{
-		private static ILHelper _Helper { get; set; }
-
-		/// <summary>Construct an instance.</summary>
-		internal LevelUpMenuRevalidateHealthPatch()
-		{
-			_Helper = new ILHelper(Monitor);
-		}
-
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		/// <inheritdoc/>
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.RevalidateHealth)),
@@ -31,35 +21,36 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
-		protected static IEnumerable<CodeInstruction> LevelUpMenuRevalidateHealthTranspiler(IEnumerable<CodeInstruction> instructions)
+		private static IEnumerable<CodeInstruction> LevelUpMenuRevalidateHealthTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			_Helper.Attach(instructions).Log($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.RevalidateHealth)}.");
+			Helper.Attach(instructions).Log($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.RevalidateHealth)}.");
 
 			/// From: if (farmer.professions.Contains(<defender_id>))
 			/// To: if (farmer.professions.Contains(<brute_id>))
 
 			try
 			{
-				_Helper
+				Helper
 					.FindProfessionCheck(Farmer.defender)
 					.Advance()
 					.SetOperand(Utility.ProfessionMap.Forward["brute"]);
 			}
 			catch (Exception ex)
 			{
-				_Helper.Error($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}").Restore();
 			}
 
-			return _Helper.Flush();
+			return Helper.Flush();
 		}
 
 		/// <summary>Patch revalidate modded immediate profession perks.</summary>
-		protected static void LevelUpMenuRevalidateHealthPostfix(Farmer farmer)
+		private static void LevelUpMenuRevalidateHealthPostfix(Farmer farmer)
 		{
 			// revalidate tackle health
 			int expectedMaxTackleUses = 20;
-			if (Utility.SpecificPlayerHasProfession("angler", farmer)) expectedMaxTackleUses *= 2;
+			if (Utility.SpecificFarmerHasProfession("angler", farmer)) expectedMaxTackleUses *= 2;
 
 			FishingRod.maxTackleUses = expectedMaxTackleUses;
 
@@ -73,6 +64,7 @@ namespace TheLion.AwesomeProfessions
 				}
 			}
 		}
+
 		#endregion harmony patches
 	}
 }

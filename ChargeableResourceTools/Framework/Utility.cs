@@ -1,8 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using StardewModdingAPI;
+﻿using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-using System.Collections.Generic;
 
 namespace TheLion.AwesomeTools
 {

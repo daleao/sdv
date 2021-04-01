@@ -12,11 +12,12 @@ namespace TheLion.Common.Harmony
 	/// <summary>Provides an interface to abstract common transpiler operations.</summary>
 	public class ILHelper
 	{
+		private IMonitor _Monitor { get; }
+
 		private List<CodeInstruction> _instructionList;
 		private List<CodeInstruction> _instructionListBackup;
 		private List<CodeInstruction> _buffer;
 		private readonly Stack<int> _indexStack;
-		private readonly IMonitor _monitor;
 
 		/// <summary>The index currently at the top of the index stack.</summary>
 		private int _CurrentIndex
@@ -25,7 +26,7 @@ namespace TheLion.Common.Harmony
 			{
 				if (_indexStack == null || _indexStack.Count() < 1)
 					throw new IndexOutOfRangeException("The index stack is either null or empty.");
-				
+
 				return _indexStack.Peek();
 			}
 		}
@@ -37,8 +38,8 @@ namespace TheLion.Common.Harmony
 			{
 				if (_instructionList == null || _instructionList.Count() < 1)
 					throw new IndexOutOfRangeException("The active instruction list is either null of empty.");
-				
-				return _instructionList.Count();
+
+				return _instructionList.Count() - 1;
 			}
 		}
 
@@ -47,23 +48,23 @@ namespace TheLion.Common.Harmony
 		public ILHelper(IMonitor monitor)
 		{
 			_indexStack = new();
-			_monitor = monitor;
+			_Monitor = monitor;
 		}
 
 		/// <summary>Construct an instance.</summary>
-		/// <param name="instructions">A list of IL code instructions.</param>
-		/// <param name="monitor">Writes messages to the console and log file.</param>
+		/// <param name="instructions">Enumerable of <see cref="CodeInstruction"/> objects.</param>
+		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
 		public ILHelper(IEnumerable<CodeInstruction> instructions, IMonitor monitor)
 		{
 			_instructionList = instructions.ToList();
 			_instructionListBackup = _instructionList.Clone();
 			_indexStack = new();
 			_indexStack.Push(0);
-			_monitor = monitor;
+			_Monitor = monitor;
 		}
 
 		/// <summary>Attach a new list of code instructions to this instance.</summary>
-		/// <param name="instructions">A list of IL code instructions.</param>
+		/// <param name="instructions">Enumerable of <see cref="CodeInstruction"/> objects.</param>
 		public ILHelper Attach(IEnumerable<CodeInstruction> instructions)
 		{
 			_instructionList = instructions.ToList();
@@ -86,7 +87,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Find the first occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
-		/// <param name="pattern">A sequence of code instructions to match.</param>
+		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper FindFirst(params CodeInstruction[] pattern)
 		{
 			int index = _instructionList.IndexOf(pattern);
@@ -98,7 +99,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Find the last occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
-		/// <param name="pattern">A sequence of code instructions to match.</param>
+		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper FindLast(params CodeInstruction[] pattern)
 		{
 			var reversedInstructions = _instructionList.Clone();
@@ -113,7 +114,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Find the next occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
-		/// <param name="pattern">A sequence of code instructions to match.</param>
+		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper FindNext(params CodeInstruction[] pattern)
 		{
 			int index = _instructionList.IndexOf(pattern, start: _CurrentIndex + 1);
@@ -125,7 +126,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Find the previous occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
-		/// <param name="pattern">A sequence of code instructions to match.</param>
+		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper FindPrevious(params CodeInstruction[] pattern)
 		{
 			var reversedInstructions = _instructionList.Clone();
@@ -140,7 +141,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Find a specific label in the active code instruction list and move the index pointer to it.</summary>
-		/// <param name="label">The label to match.</param>
+		/// <param name="label">The <see cref="Label"/> object to match.</param>
 		public ILHelper FindLabel(Label label, bool fromCurrentIndex = false)
 		{
 			int index = _instructionList.IndexOf(label, start: fromCurrentIndex ? _CurrentIndex + 1 : 0);
@@ -164,7 +165,7 @@ namespace TheLion.Common.Harmony
 					new CodeInstruction(OpCodes.Callvirt, operand: AccessTools.Method(typeof(NetList<Int32, NetInt>), nameof(NetList<Int32, NetInt>.Contains)))
 				);
 			}
-			
+
 			return FindFirst(
 				new CodeInstruction(OpCodes.Ldfld, operand: AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
 				_LoadConstantIntIL(whichProfession),
@@ -176,22 +177,22 @@ namespace TheLion.Common.Harmony
 		/// <param name="steps">Number of steps by which to move the index pointer.</param>
 		public ILHelper Advance(int steps = 1)
 		{
-			if (_CurrentIndex + steps < 0 || _CurrentIndex + steps + 1 > _LastIndex)
+			if (_CurrentIndex + steps < 0 || _CurrentIndex + steps > _LastIndex)
 				throw new IndexOutOfRangeException("New index is out of range.");
 
 			_indexStack.Push(_CurrentIndex + steps);
 			return this;
 		}
 
-		/// <summary>Alias for <c>FindNext(pattern)</c>.</summary>
-		/// <param name="pattern">A sequence of code instructions to match.</param>
+		/// <summary>Alias for <see cref="FindNext(CodeInstruction[])"/>.</summary>
+		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper AdvanceUntil(params CodeInstruction[] pattern)
 		{
 			return FindNext(pattern);
 		}
 
-		/// <summary>Alias for <c>FindLabel(label, fromCurrentIndex: true)</c>.</summary>
-		/// <param name="label">The label to match.</param>
+		/// <summary>Alias for <see cref="FindLabel(Label, bool)"/> with parameter <c>fromCurrentIndex = true</c>.</summary>
+		/// <param name="label">The <see cref="Label"/> object to match.</param>
 		public ILHelper AdvanceUntilLabel(Label label)
 		{
 			return FindLabel(label, fromCurrentIndex: true);
@@ -204,8 +205,8 @@ namespace TheLion.Common.Harmony
 			return Advance(-steps);
 		}
 
-		/// <summary>Alias for <c>FindPrevious(pattern)</c>.</summary>
-		/// <param name="pattern">A sequence of code instructions to match.</param>
+		/// <summary>Alias for <see cref="FindPrevious(CodeInstruction[])"/>.</summary>
+		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper RetreatUntil(params CodeInstruction[] pattern)
 		{
 			return FindPrevious(pattern);
@@ -229,7 +230,7 @@ namespace TheLion.Common.Harmony
 			if (index < 0)
 				throw new IndexOutOfRangeException("Cannot go to a negative index.");
 
-			if (index > _LastIndex - 1)
+			if (index > _LastIndex)
 				throw new IndexOutOfRangeException("New index is out of range.");
 
 			_indexStack.Push(index);
@@ -237,7 +238,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Replace the code instruction at the currently pointed index.</summary>
-		/// <param name="instruction">The instruction to replace with.</param>
+		/// <param name="instruction">The <see cref="CodeInstruction"/> object to replace with.</param>
 		public ILHelper ReplaceWith(CodeInstruction instruction)
 		{
 			_instructionList[_CurrentIndex] = instruction;
@@ -245,7 +246,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
-		/// <param name="instructions">A sequence of code instructions to insert.</param>
+		/// <param name="instructions">Sequence of <see cref="CodeInstruction"/> objects to insert.</param>
 		public ILHelper Insert(params CodeInstruction[] instructions)
 		{
 			_instructionList.InsertRange(_CurrentIndex, instructions);
@@ -262,7 +263,7 @@ namespace TheLion.Common.Harmony
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the local player has a given profession.</summary>
 		/// <param name="whichProfession">The profession id.</param>
-		/// <param name="branchDestination">The destination to branch to when the check returns false.</param>
+		/// <param name="branchDestination">The destination <see cref="Label"/> to branch to when the check returns false.</param>
 		public ILHelper InsertProfessionCheckForLocalPlayer(int whichProfession, Label branchDestination, bool branchIfTrue = false)
 		{
 			return Insert(
@@ -276,7 +277,7 @@ namespace TheLion.Common.Harmony
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the player at the top of the stack has a given profession.</summary>
 		/// <param name="whichProfession">The profession id.</param>
-		/// <param name="branchDestination">The destination to branch to when the check returns false.</param>
+		/// <param name="branchDestination">The destination <see cref="Label"/> to branch to when the check returns false.</param>
 		public ILHelper InsertProfessionCheckForSpecificPlayer(int whichProfession, Label branchDestination, bool branchIfTrue = false)
 		{
 			return Insert(
@@ -313,7 +314,7 @@ namespace TheLion.Common.Harmony
 		/// <param name="count">Number of code instructions to remove.</param>
 		public ILHelper Remove(int count = 1)
 		{
-			if (_CurrentIndex + count + 1 > _LastIndex)
+			if (_CurrentIndex + count > _LastIndex)
 				throw new IndexOutOfRangeException("Cannot remove item out of range.");
 
 			_instructionList.RemoveRange(_CurrentIndex, count);
@@ -321,7 +322,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Remove code instructions starting from the currently pointed index until a specific pattern is found.</summary>
-		/// <param name="pattern">A sequence of code instructions to match.</param>
+		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper RemoveUntil(params CodeInstruction[] pattern)
 		{
 			AdvanceUntil(pattern);
@@ -334,7 +335,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Remove code instructions starting from the currently pointed index until a specific label is found.</summary>
-		/// <param name="label">The label to match.</param>
+		/// <param name="label">The <see cref="Label"/> object to match.</param>
 		public ILHelper RemoveUntilLabel(Label label)
 		{
 			AdvanceUntilLabel(label);
@@ -353,7 +354,7 @@ namespace TheLion.Common.Harmony
 		public ILHelper ToBuffer(int count = 1, bool stripLabels = false, bool advance = false)
 		{
 			_buffer = _instructionList.GetRange(_CurrentIndex, count).Clone();
-			
+
 			if (stripLabels)
 				_StripLabelsFromBuffer();
 
@@ -364,7 +365,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Copy code instructions starting from the currently pointed index until a specific pattern is found to the buffer.</summary>
-		/// <param name="pattern">A sequence of code instructions to match.</param>
+		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper ToBufferUntil(params CodeInstruction[] pattern)
 		{
 			AdvanceUntil(pattern);
@@ -379,7 +380,7 @@ namespace TheLion.Common.Harmony
 		/// <summary>Copy code instructions starting from the currently pointed index until a specific pattern is found to the buffer.</summary>
 		/// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
 		/// <param name="advance">Whether to advance the index pointer.</param>
-		/// <param name="pattern">A sequence of code instructions to match.</param>
+		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper ToBufferUntil(bool stripLabels, bool advance, params CodeInstruction[] pattern)
 		{
 			AdvanceUntil(pattern);
@@ -398,37 +399,26 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Get the labels from the code instruction at the currently pointed index.</summary>
-		/// <param name="labels">The returned list of label objects.</param>
-		public ILHelper GetLabels(out List<Label> labels)
+		/// <param name="labels">The returned list of <see cref="Label"/> objects.</param>
+		public ILHelper GetLabels(out Label[] labels)
 		{
-			labels = _instructionList[_CurrentIndex].labels.Clone();
-			//if (labels.Count == 0)
-			//	throw new ArgumentNullException("Instruction does not have labels.");
-
-			return this;
-		}
-
-		/// <summary>Add a single label to the code instruction at the currently pointed index.</summary>
-		/// <param name="label">The label to add.</param>
-		public ILHelper AddLabel(Label label)
-		{
-			_instructionList[_CurrentIndex].labels.Add(label);
+			labels = _instructionList[_CurrentIndex].labels.Clone().ToArray();
 			return this;
 		}
 
 		/// <summary>Add one or more labels to the code instruction at the currently pointed index.</summary>
-		/// <param name="labels">A list of labels to add.</param>
-		public ILHelper AddLabels(List<Label> labels)
+		/// <param name="labels">A sequence of <see cref="Label"/> objects to add.</param>
+		public ILHelper AddLabels(params Label[] labels)
 		{
 			_instructionList[_CurrentIndex].labels.AddRange(labels);
 			return this;
 		}
 
 		/// <summary>Set the labels of the code instruction at the currently pointed index.</summary>
-		/// <param name="labels">A list of labels.</param>
-		public ILHelper SetLabels(List<Label> labels)
+		/// <param name="labels">A list of <see cref="Label"/> objects.</param>
+		public ILHelper SetLabels(params Label[] labels)
 		{
-			_instructionList[_CurrentIndex].labels = labels;
+			_instructionList[_CurrentIndex].labels = labels.ToList();
 			return this;
 		}
 
@@ -440,7 +430,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Return the opcode of the code instruction at the currently pointed index.</summary>
-		/// <param name="opcode">The returned opcode.</param>
+		/// <param name="opcode">The returned <see cref="OpCode"/> object.</param>
 		public ILHelper GetOpCode(out OpCode opcode)
 		{
 			opcode = _instructionList[_CurrentIndex].opcode;
@@ -448,7 +438,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Change the opcode of the code instruction at the currently pointed index.</summary>
-		/// <param name="opcode">The new opcode.</param>
+		/// <param name="opcode">The new <see cref="OpCode"/> object.</param>
 		public ILHelper SetOpCode(OpCode opcode)
 		{
 			_instructionList[_CurrentIndex].opcode = opcode;
@@ -456,7 +446,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Return the operand of the code instruction at the currently pointed index.</summary>
-		/// <param name="operand">The returned operand.</param>
+		/// <param name="operand">The returned operand <see cref="object"/>.</param>
 		public ILHelper GetOperand(out object operand)
 		{
 			operand = _instructionList[_CurrentIndex].operand;
@@ -464,7 +454,7 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Change the operand of the code instruction at the currently pointed index.</summary>
-		/// <param name="operand">The new operand.</param>
+		/// <param name="operand">The new <see cref="object"/> operand.</param>
 		public ILHelper SetOperand(object operand)
 		{
 			_instructionList[_CurrentIndex].operand = operand;
@@ -475,7 +465,7 @@ namespace TheLion.Common.Harmony
 		/// <param name="text">The message to log.</param>
 		public ILHelper Log(string text)
 		{
-			_monitor.Log(text, LogLevel.Info);
+			_Monitor.Log(text, LogLevel.Info);
 			return this;
 		}
 
@@ -483,7 +473,7 @@ namespace TheLion.Common.Harmony
 		/// <param name="text">The warning message.</param>
 		public ILHelper Warn(string text)
 		{
-			_monitor.Log(text, LogLevel.Warn);
+			_Monitor.Log(text, LogLevel.Warn);
 			return this;
 		}
 
@@ -491,7 +481,7 @@ namespace TheLion.Common.Harmony
 		/// <param name="text">The error message.</param>
 		public ILHelper Error(string text)
 		{
-			_monitor.Log(text, LogLevel.Error);
+			_Monitor.Log(text, LogLevel.Error);
 			return this;
 		}
 
@@ -511,13 +501,15 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
-		/// <summary>Return the active code instruction list as enumerable.</summary>
+		/// <summary>Reset the instance and return the active code instruction list as enumerable.</summary>
 		public IEnumerable<CodeInstruction> Flush()
 		{
-			return _instructionList.AsEnumerable();
+			var result = _instructionList.Clone();
+			Clear();
+			return result.AsEnumerable();
 		}
 
-		/// <summary>Remove any labels from the code instructions currently in the buffer.</summary>
+		/// <summary>Remove any labels from code instructions currently in the buffer.</summary>
 		private void _StripLabelsFromBuffer()
 		{
 			for (int i = 0; i < _buffer.Count(); ++i)

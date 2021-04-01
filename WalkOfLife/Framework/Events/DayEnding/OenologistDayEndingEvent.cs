@@ -1,51 +1,50 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
-using System;
-using System.IO;
+using System.Linq;
+using TheLion.Common;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
 {
 	internal class OenologistDayEndingEvent : DayEndingEvent
 	{
-		/// <summary>Construct an instance.</summary>
-		internal OenologistDayEndingEvent() { }
+		private const uint _AwardLevelMax = 5;
 
-		/// <summary>Raised before the game ends the current day. Receive Oenologist mail from the SWA about Decanter's award.</summary>
-		/// <param name="sender">The event sender.</param>
-		/// <param name="e">The event arguments.</param>
+		/// <inheritdoc/>
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
-			foreach (var item in Game1.getFarm().getShippingBin(Game1.player))
+			// get oenology fame points for the day
+			foreach (SObject obj in Game1.getFarm().getShippingBin(Game1.player).Where(item => Utility.IsWine(item)))
 			{
-				if (Utility.IsWine(item))
+				switch (obj.Quality)
 				{
-					switch ((item as SObject).Quality)
-					{
-						case SObject.bestQuality:
-							Data.OenologyFameAccrued += 3;
-							break;
-						case SObject.highQuality:
-							Data.OenologyFameAccrued += 1;
-							break;
-						case SObject.medQuality:
-							Data.OenologyFameAccrued += 0;
-							break;
-						case SObject.lowQuality:
-							Data.OenologyFameAccrued = Math.Max(Data.OenologyFameAccrued - 1, 0);
-							break;
-					}
+					case SObject.bestQuality:
+						AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/OenologyFameAccrued", (uint)obj.Stack * 3);
+						break;
+
+					case SObject.highQuality:
+						AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/OenologyFameAccrued", (uint)obj.Stack);
+						break;
+
+					case SObject.lowQuality:
+						AwesomeProfessions.Data.DecrementField($"{AwesomeProfessions.UniqueID}/OenologyFameAccrued", (uint)obj.Stack);
+						break;
 				}
 			}
 
-			if (Game1.dayOfMonth == 28 && Data.OenologyFameAccrued > 0)
+			// check if should level up
+			uint oenologyFameAccrued;
+			if (Game1.dayOfMonth == 7 && (oenologyFameAccrued = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/OenologyFameAccrued", uint.Parse)) > 0)
 			{
-				uint awardLevel = Utility.GetLocalPlayerOenologyAwardLevel();
-				if (awardLevel > Data.HighestOenologyAwardEarned)
+				uint fameNeededForNextLevel = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/FameNeededForNextAwardLevel", uint.Parse);
+				if (oenologyFameAccrued >= fameNeededForNextLevel)
 				{
-					Data.HighestOenologyAwardEarned = awardLevel;
-					AwesomeProfessions.ModHelper.Content.InvalidateCache(Path.Combine("Data", "mail"));
-					Game1.addMailForTomorrow("OenologistAwardNotice");
+					AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/OenologyAwardLevel");
+					AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/OenologyFameAccrued", (oenologyFameAccrued - fameNeededForNextLevel).ToString());
+					uint currentLevel = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/OenologyAwardLevel", uint.Parse);
+					fameNeededForNextLevel = AwesomeProfessions.Config.OenologyLevelUpDifficulty * (10 * currentLevel * currentLevel - 20 * currentLevel + 50);
+					AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/FameNeededForNextAwardLevel", fameNeededForNextLevel.ToString());
+					Game1.addMailForTomorrow($"{AwesomeProfessions.UniqueID}/OenologistAwardNotice{currentLevel}");
 				}
 			}
 		}

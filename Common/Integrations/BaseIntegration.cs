@@ -15,13 +15,11 @@ namespace TheLion.Common.Integrations
 		/// <summary>Encapsulates monitoring and logging.</summary>
 		protected IMonitor Monitor { get; }
 
-
 		/// <summary>A human-readable name for the mod.</summary>
 		public string Label { get; }
 
 		/// <summary>Whether the mod is available.</summary>
 		public bool IsLoaded { get; protected set; }
-
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="label">A human-readable name for the mod.</param>
@@ -39,13 +37,14 @@ namespace TheLion.Common.Integrations
 
 			// validate mod
 			IManifest manifest = modRegistry.Get(ModID)?.Manifest;
-			if (manifest == null)
-				return;
+			if (manifest == null) return;
+
 			if (manifest.Version.IsOlderThan(minVersion))
 			{
 				monitor.Log($"Detected {label} {manifest.Version}, but need {minVersion} or later. Disabled integration with this mod.", LogLevel.Warn);
 				return;
 			}
+
 			IsLoaded = true;
 		}
 
@@ -59,6 +58,7 @@ namespace TheLion.Common.Integrations
 				Monitor.Log($"Detected {Label}, but couldn't fetch its API. Disabled integration with this mod.", LogLevel.Warn);
 				return null;
 			}
+
 			return api;
 		}
 
@@ -66,8 +66,7 @@ namespace TheLion.Common.Integrations
 		/// <exception cref="InvalidOperationException">The integration isn't loaded.</exception>
 		protected void AssertLoaded()
 		{
-			if (!IsLoaded)
-				throw new InvalidOperationException($"The {Label} integration isn't loaded.");
+			if (!IsLoaded) throw new InvalidOperationException($"The {Label} integration isn't loaded.");
 		}
 	}
 }

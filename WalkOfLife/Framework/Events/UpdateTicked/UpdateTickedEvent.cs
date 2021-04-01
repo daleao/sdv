@@ -2,23 +2,18 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	internal abstract class UpdateTickedEvent : BaseEvent
+	internal abstract class UpdateTickedEvent : IEvent
 	{
-		/// <summary>Construct an instance.</summary>
-		internal UpdateTickedEvent() { }
-
-		/// <summary>Hook this event to an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Hook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Hook()
 		{
-			listener.GameLoop.UpdateTicked += OnUpdateTicked;
+			AwesomeProfessions.Events.GameLoop.UpdateTicked += OnUpdateTicked;
 		}
 
-		/// <summary>Unhook this event from an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Unhook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Unhook()
 		{
-			listener.GameLoop.UpdateTicked -= OnUpdateTicked;
+			AwesomeProfessions.Events.GameLoop.UpdateTicked -= OnUpdateTicked;
 		}
 
 		/// <summary>Raised after the game state is updated.</summary>

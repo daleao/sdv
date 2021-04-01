@@ -10,38 +10,31 @@ namespace TheLion.AwesomeProfessions
 	{
 		public Vector2? TreasureTile { get; protected set; } = null;
 
-		protected ProfessionsData Data { get; }
-		protected EventManager Manager { get; }
 		protected Random Random { get; } = new Random(Guid.NewGuid().GetHashCode());
-		protected string NewHuntMessage { get; set; }
-		protected string FailedHuntMessage { get; set; }
+		protected string HuntStartedMessage { get; set; }
+		protected string HuntFailedMessage { get; set; }
 		protected Texture2D Icon { get; set; }
-		protected uint TimeLimit { private get; set; }
-		
-		private double _BaseTriggerChance { get; }
-		
+
+		protected uint _timeLimit;
 		protected uint _elapsed = 0;
+
+		private double _baseTriggerChance;
 		private double _accumulatedBonus = 1.0;
 
-
 		/// <summary>Construct an instance.</summary>
-		/// <param name="config">The overal mod settings.</param>
-		/// <param name="data">The mod persisted data.</param>
-		/// <param name="manager">The event manager.</param>
-		protected TreasureHunt(ProfessionsConfig config, ProfessionsData data, EventManager manager)
+		protected TreasureHunt()
 		{
-			Data = data;
-			Manager = manager;
-			_BaseTriggerChance = config.ChanceToStartTreasureHunt;
+			_baseTriggerChance = AwesomeProfessions.Config.ChanceToStartTreasureHunt;
 		}
 
 		/// <summary>Check for completion or failure on every update tick.</summary>
 		/// <param name="ticks">The number of ticks elapsed since the game started.</param>
 		internal void Update(uint ticks)
 		{
-			if (ticks % 60 == 0 && ++_elapsed > TimeLimit) Fail();
+			if (!Game1.shouldTimePass(ignore_multiplayer: true)) return;
 
-			CheckForCompletion();
+			if (ticks % 60 == 0 && ++_elapsed > _timeLimit) Fail();
+			else CheckForCompletion();
 		}
 
 		/// <summary>Reset the accumulated bonus chance to trigger a new hunt.</summary>
@@ -53,7 +46,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Start a new treasure hunt or adjust the odds for the next attempt.</summary>
 		protected bool TryStartNewHunt()
 		{
-			if (Random.NextDouble() > _BaseTriggerChance * _accumulatedBonus)
+			if (Random.NextDouble() > _baseTriggerChance * _accumulatedBonus)
 			{
 				_accumulatedBonus *= 1.0 + Game1.player.DailyLuck;
 				return false;

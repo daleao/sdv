@@ -2,9 +2,9 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using System;
 using System.Linq;
-using TheLion.Common.Integrations.GenericModConfigMenu;
+using TheLion.Common.Integrations;
 
-namespace TheLion.AwesomeTools.Integrations
+namespace TheLion.AwesomeTools
 {
 	/// <summary>Constructs the GenericModConfigMenu integration for Awesome Tools.</summary>
 	internal class GenericModConfigMenuIntegrationForAwesomeTools
@@ -70,12 +70,15 @@ namespace TheLion.AwesomeTools.Integrations
 				.AddKeyBinding(
 					label: "Charging Modkey",
 					description: "If 'RequireModkey' is enabled, press this Modkey to allow charging.",
-					get: config => GetSingleButton(config.Modkey),
-					set: (config, value) => config.Modkey = KeybindList.ForSingle(value)
+					get: config => config.Modkey,
+					set: (config, value) => config.Modkey = value
 				)
+				.AddPageLabel("Go to Axe options", page: "Axe Options")
+				.AddPageLabel("Go to Pickaxe options", page: "Pickaxe Options")
 
 				// axe options
-				.AddLabel("Axe Options")
+				.AddNewPage("Axe Options")
+				.AddPageLabel("Back to main page")
 				.AddCheckbox(
 					label: "Enable Axe Charging",
 					description: "Enables charging the Axe.",
@@ -216,7 +219,8 @@ namespace TheLion.AwesomeTools.Integrations
 				)
 
 				// pickaxe options
-				.AddLabel("Pickaxe Options")
+				.AddNewPage("Pickaxe Options")
+				.AddPageLabel("Back to main page")
 				.AddCheckbox(
 					label: "Enable Pickaxe Charging",
 					description: "Enables charging the Pickxe.",

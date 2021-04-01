@@ -7,12 +7,8 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class TreeUpdateTapperProductPatch : BasePatch
 	{
-		/// <summary>Construct an instance.</summary>
-		internal TreeUpdateTapperProductPatch() { }
-
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
-		protected internal override void Apply(HarmonyInstance harmony)
+		/// <inheritdoc/>
+		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(Tree), nameof(Tree.UpdateTapperProduct)),
@@ -21,15 +17,17 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		#region harmony patches
+
 		/// <summary>Patch to decrease syrup production time for Tapper.</summary>
-		protected static void TreeUpdateTapperProductPostfix(SObject tapper_instance)
+		private static void TreeUpdateTapperProductPostfix(SObject tapper_instance)
 		{
-			if (tapper_instance.heldObject.Value != null && Utility.AnyPlayerHasProfession("tapper", out int n))
+			if (tapper_instance.heldObject.Value != null && Utility.AnyFarmerHasProfession("tapper", out int n))
 			{
 				if (tapper_instance.MinutesUntilReady > 0)
 					tapper_instance.MinutesUntilReady = (int)(tapper_instance.MinutesUntilReady * Math.Pow(0.75, n));
 			}
 		}
+
 		#endregion harmony patches
 	}
 }

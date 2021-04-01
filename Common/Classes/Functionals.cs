@@ -1,4 +1,6 @@
-﻿namespace TheLion.Common.Functionals
+﻿using System;
+
+namespace TheLion.Common
 {
 	public static class Functionals
 	{

@@ -1,29 +1,26 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 using System.IO;
+using TheLion.Common;
 
 namespace TheLion.AwesomeProfessions
 {
 	internal class ConservationistDayEndingEvent : DayEndingEvent
 	{
-		/// <summary>Construct an instance.</summary>
-		internal ConservationistDayEndingEvent() { }
-
-		/// <summary>Raised before the game ends the current day. Receive Conservationist mail from the FRS about taxation bracket.</summary>
-		/// <param name="sender">The event sender.</param>
-		/// <param name="e">The event arguments.</param>
+		/// <inheritdoc/>
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
-			if (Game1.dayOfMonth == 28 && Data.WaterTrashCollectedThisSeason > 0)
+			uint trashCollectedThisSeason;
+			if (Game1.dayOfMonth == 28 && (trashCollectedThisSeason = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", uint.Parse)) > 0)
 			{
-				Data.ConservationistTaxBonusThisSeason = Data.WaterTrashCollectedThisSeason / Config.TrashNeededForNextTaxLevel / 100f;
-				if (Data.ConservationistTaxBonusThisSeason > 0)
+				float taxBonusNextSeason = trashCollectedThisSeason / AwesomeProfessions.Config.TrashNeededForNextTaxLevel / 100f;
+				AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/ActiveTaxBonus", taxBonusNextSeason.ToString());
+				if (taxBonusNextSeason > 0)
 				{
-					AwesomeProfessions.ModHelper.Content.InvalidateCache(Path.Combine("Data", "mail"));
-					Game1.addMailForTomorrow("ConservationistTaxNotice");
+					AwesomeProfessions.Content.InvalidateCache(Path.Combine("Data", "mail"));
+					Game1.addMailForTomorrow($"{AwesomeProfessions.UniqueID}/ConservationistTaxNotice");
 				}
-
-				Data.WaterTrashCollectedThisSeason = 0;
+				AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", "0");
 			}
 		}
 	}

@@ -1,29 +1,20 @@
 ﻿using StardewModdingAPI.Events;
+using StardewValley;
 
 namespace TheLion.AwesomeProfessions
 {
-	internal class SaveLoadedEvent : BaseEvent
+	internal class SaveLoadedEvent : IEvent
 	{
-		private EventManager _Manager { get; }
-
-		/// <summary>Construct an instance.</summary>
-		internal SaveLoadedEvent(EventManager manager)
+		/// <inheritdoc/>
+		public void Hook()
 		{
-			_Manager = manager;
+			AwesomeProfessions.Events.GameLoop.SaveLoaded += OnSaveLoaded;
 		}
 
-		/// <summary>Hook this event to an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Hook(IModEvents listener)
+		/// <inheritdoc/>
+		public void Unhook()
 		{
-			listener.GameLoop.SaveLoaded += OnSaveLoaded;
-		}
-
-		/// <summary>Unhook this event from an event listener.</summary>
-		/// <param name="listener">Interface to the SMAPI event handler.</param>
-		public override void Unhook(IModEvents listener)
-		{
-			listener.GameLoop.SaveLoaded -= OnSaveLoaded;
+			AwesomeProfessions.Events.GameLoop.SaveLoaded -= OnSaveLoaded;
 		}
 
 		/// <summary>Raised after loading a save (including the first day after creating a new save), or connecting to a multiplayer world.</summary>
@@ -32,17 +23,13 @@ namespace TheLion.AwesomeProfessions
 		private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
 		{
 			// load persisted mod data
-			AwesomeProfessions.Data = AwesomeProfessions.ModHelper.Data.ReadSaveData<ProfessionsData>("thelion.AwesomeProfessions") ?? new ProfessionsData();
-			BaseEvent.SetData(AwesomeProfessions.Data);
-			BasePatch.SetData(AwesomeProfessions.Data);
-			Utility.SetData(AwesomeProfessions.Data);
+			AwesomeProfessions.Data = Game1.player.modData;
 
-			// start treasure hunt managers
-			AwesomeProfessions.ProspectorHunt = new ProspectorHunt(Config, Data, _Manager, AwesomeProfessions.I18n, AwesomeProfessions.ModHelper.Content);
-			AwesomeProfessions.ScavengerHunt = new ScavengerHunt(Config, Data, _Manager, AwesomeProfessions.I18n, AwesomeProfessions.ModHelper.Content);
-			
-			// hook events for loaded save
-			_Manager.SubscribeProfessionEventsForLocalPlayer();
+			// verify mod data and initialize assets and helpers
+			foreach (int professionIndex in Game1.player.professions) Utility.InitializeProfession(professionIndex);
+
+			// subcribe events for loaded save
+			AwesomeProfessions.EventManager.SubscribeProfessionEventsForLocalPlayer();
 		}
 	}
 }

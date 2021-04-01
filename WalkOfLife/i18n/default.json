@@ -6,14 +6,18 @@
 	"agriculturist.description": "Crops grow 10% faster. Grow best-quality crops organically without fertilizer.",
 	"oenologist.name": "Enologist",
 	"oenologist.description": "Wines age twice as fast. Ship high-quality wine to improve your brand value.",
-	"oenologist.mailintro": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's {{awardLevel}} Award. With this award on your label your wine and artisan beverages are entitled to sell at a {{awardBonus}} premium.",
+	"oenologist.mailbody1": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's Copper Award. This award entitles all your wine and artisanal beverages to sell at a 5% premium.",
+	"oenologist.mailbody2": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's Iron Award. This award entitles all your wine and artisanal beverages to sell at a 10% premium.",
+	"oenologist.mailbody3": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's Gold Award. This award entitles all your wine and artisanal beverages to sell at a 20% premium.",
+	"oenologist.mailbody4": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's Iridium Award. This award entitles all your wine and artisanal beverages to sell at a 50% premium.",
+	"oenologist.mailbody5": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's Best-in-Show Award. This award entitles all your wine and artisanal beverages to sell at double market value.",
 	"oenologist.mailclose1": "^^I would like to personally congratulate you on behalf of our association, and expect that you will continue to impress in your winemaking endeavours.^^Sincerely, Mr. Matteo di Leone^President of the Stardew Winemaker's Association[#]Decanter's Award Notice",
 	"oenologist.mailclose2": "^^It brings me great joy to congratulate you on this exceptional achievement. We at the association are truly grateful for your incredible contribution to the world of winemaking.^^Sincerely, Mr. Matteo di Leone^President of the Stardew Winemaker's Association[#]Decanter's Award Notice",
 
 	"rancher.name": "Rancher",
 	"rancher.description": "Befriend animals quicker.",
 	"breeder.name": "Breeder",
-	"breeder.description": "Halved incubation time and doubled pregnancy chance. Increase value of animals at high friendship.",
+	"breeder.description": "Animals breed more frequently. Increase value of animals at high friendship.",
 	"producer.name": "Producer",
 	"producer.description": "Happy animals produce more frequently. Produce worth 5% more for every full barn or coop.",
 
@@ -40,12 +44,12 @@
 	"spelunker.name": "Spelunker",
 	"spelunker.description": "Chance to find ladders and shafts increases as you reach deeper levels. +1 speed in the mines.",
 	"prospector.name": "Prospector",
-	"prospector.description": "Locations of mining nodes. Occasionally track buried treasures.",
+	"prospector.description": "Locations of ladders and mining nodes. Occasionally track special rocks.",
 	"prospector.huntstarted": "Your Prospector senses are tingling...",
 	"prospector.huntfailed": "The tingling stops.",
 
 	"blaster.name": "Blaster",
-	"blaster.description": "Bombs are cheaper to craft. Gain double coal from exploded rocks.",
+	"blaster.description": "Bombs are cheaper to craft. Gain twice as much coal from exploded rocks.",
 	"demolitionist.name": "Demolitionist",
 	"demolitionist.description": "Bomb radius +1. Gain a speed burst when hit by an explosion.",
 	"demolitionist.buffdescription": "Get Excited!",
@@ -54,7 +58,7 @@
 
 	// Fishing
 	"fisher.name": "Fisher",
-	"fisher.description": "Chance to fish junk items greatly reduced.",
+	"fisher.description": "Reduced chance to fish junk items.",
 	"angler.name": "Angler",
 	"angler.description": "Fish worth 5% more for every legendary fish caught. Tackles last twice as long.",
 	"aquarist.name": "Aquarist",
@@ -65,7 +69,7 @@
 	"luremaster.name": "Luremaster",
 	"luremaster.description": "Crab pots no longer produce junk items. Use different baits to attract different catch.",
 	"conservationist.name": "Conservationist",
-	"conservationist.description": "Crab pots without bait will trap junk. Remove junk from the waters to gain village favor and tax deductions.",
+	"conservationist.description": "Crab pots without bait will trap junk. Remove junk from bodies of water to gain village favor and tax deductions.",
 	"conservationist.mail": "Dear @,^^We are pleased to inform you that upon review of your environmentalist activities we have determined that you qualify for an income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. Effective this season, all taxable income for {{farmName}} will be increased by the aforementioned amount.^^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^Sincerely, Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
 
 	// Combat
@@ -82,6 +86,6 @@
 	"rascal.description": "Slingshots deal more damage from afar. Chance to recover spent ammo.",
 	"desperado.name": "Desperado",
 	"desperado.description": "Shots fired within 0.5 seconds deal triple damage.",
-	"slimemaster.name": "Slimemaster",
-	"slimemaster.description": "Slimes damage other monsters. Slime balls drop special items."
+	"slimemaster.name": "Slimed Piper",
+	"slimemaster.description": "Slimes damage other monsters. Triple chance to drop slime eggs."
 }

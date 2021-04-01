@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 
-namespace TheLion.Common.Classes
+namespace TheLion.Common
 {
 	public class CircleTileGrid : IEnumerable<Vector2>
 	{
@@ -51,7 +50,7 @@ namespace TheLion.Common.Classes
 		private void _GetTiles(bool excludeOrigin = false)
 		{
 			Vector2 center = new Vector2(_radius, _radius); // the center of the circle in the grid reference
-			
+
 			// get the central axes
 			for (int i = 0; i < _radius * 2 + 1; ++i)
 			{
