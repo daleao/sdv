@@ -5,10 +5,10 @@ using System;
 
 namespace TheLion.AwesomeProfessions
 {
-	internal class ScavengerHuntRenderingHudEvent : RenderingHudEvent
+	internal class ScavengerHuntRenderedHudEvent : RenderedHudEvent
 	{
 		/// <inheritdoc/>
-		public override void OnRenderingHud(object sender, RenderingHudEventArgs e)
+		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)
 		{
 			if (AwesomeProfessions.ScavengerHunt.TreasureTile != null)
 			{

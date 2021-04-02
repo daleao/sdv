@@ -36,18 +36,27 @@ namespace TheLion.AwesomeProfessions
 			Dictionary<string, string> locationData = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "Locations"));
 			Dictionary<int, string> fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
 			int whichFish = -1;
-			if (Utility.SpecificFarmerHasProfession("luremaster", who))
+			if (__instance.bait.Value != null)
 			{
-				if (!Utility.IsUsingMagnet(__instance))
+				if (Utility.SpecificFarmerHasProfession("luremaster", who))
 				{
-					var rawFishData = Utility.IsUsingMagicBait(__instance) ? Utility.GetRawFishDataForAllSeasons(location, locationData) : Utility.GetRawFishDataForThisSeason(location, locationData);
-					var rawFishDataWithLocation = Utility.GetRawFishDataWithLocation(rawFishData);
-					whichFish = Utility.ChooseFish(__instance, fishData, rawFishDataWithLocation, location, r);
-					if (whichFish < 0) whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
+					if (!Utility.IsUsingMagnet(__instance))
+					{
+						var rawFishData = Utility.IsUsingMagicBait(__instance) ? Utility.GetRawFishDataForAllSeasons(location, locationData) : Utility.GetRawFishDataForThisSeason(location, locationData);
+						var rawFishDataWithLocation = Utility.GetRawFishDataWithLocation(rawFishData);
+						whichFish = Utility.ChooseFish(__instance, fishData, rawFishDataWithLocation, location, r);
+						if (whichFish < 0) whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
+					}
+					else
+					{
+						whichFish = Utility.ChoosePirateTreasure(r, who);
+					}
 				}
-				else whichFish = Utility.ChoosePirateTreasure(r, who);
+				else
+				{
+					whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
+				}
 			}
-			else if (__instance.bait.Value != null) whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: false);
 
 			if (whichFish.AnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
 			{

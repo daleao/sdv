@@ -22,7 +22,7 @@ namespace TheLion.AwesomeProfessions
 		#region harmony patches
 
 		/// <summary>Patch to globalize Agriculturist crop growth speed bonus.</summary>
-		private static bool HoeDirtApplySpeedIncreasesPrefix(ref HoeDirt __instance, Farmer who)
+		private static bool HoeDirtApplySpeedIncreasesPrefix(ref HoeDirt __instance)
 		{
 			if (__instance.crop == null)
 				return false; // don't run original logic

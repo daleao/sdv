@@ -26,7 +26,7 @@ namespace TheLion.AwesomeProfessions
 			Farmer who = ___theOneWhoFiredMe.Get(location) is Farmer ? ___theOneWhoFiredMe.Get(location) as Farmer : Game1.player;
 			if (!Utility.SpecificFarmerHasProfession("rascal", who)) return true; // run original logic
 
-			if (!___damagesMonsters) return false; // don't run original logic
+			if (!___damagesMonsters) return true; // run original logic
 
 			AwesomeProfessions.Reflection.GetMethod(__instance, name: "explosionAnimation").Invoke(location);
 			if (n is Monster)

@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions
 		public bool UseAltProducerIcon { get; set; } = true;
 
 		/// <summary>Mod key used by Prospector, Scavenger and Rascal professions.</summary>
-		public KeybindList ModKey { get; set; } = KeybindList.ForSingle(SButton.LeftShift, SButton.LeftShoulder);
+		public KeybindList ModKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
 		/// <summary>Affects how many fame points are needed to reach the max Oenology Award Level.</summary>
 		/// <remarks>Total fame points needed equal 500 multiplied by the difficulty level.</remarks>

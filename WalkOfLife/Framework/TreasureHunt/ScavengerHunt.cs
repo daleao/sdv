@@ -40,7 +40,7 @@ namespace TheLion.AwesomeProfessions
 				TreasureTile = v;
 				_timeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize * 9, 2) / 2);
 				_elapsed = 0;
-				AwesomeProfessions.EventManager.Subscribe(new ScavengerHuntUpdateTickedEvent(), new ScavengerHuntRenderingHudEvent());
+				AwesomeProfessions.EventManager.Subscribe(new ScavengerHuntUpdateTickedEvent(), new ScavengerHuntRenderedHudEvent());
 				Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, Icon));
 			}
 		}
@@ -48,7 +48,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
 		internal override void End()
 		{
-			AwesomeProfessions.EventManager.Unsubscribe(typeof(ScavengerHuntUpdateTickedEvent), typeof(ProspectorHuntRenderingHudEvent));
+			AwesomeProfessions.EventManager.Unsubscribe(typeof(ScavengerHuntUpdateTickedEvent), typeof(ProspectorHuntRenderedHudEvent));
 			TreasureTile = null;
 		}
 
