@@ -25,7 +25,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for slimes to damage monsters around Slimemaster.</summary>
 		private static void GreenSlimeUpdatePostfix(ref GreenSlime __instance, GameLocation location)
 		{
-			if (!Utility.AnyFarmerInLocationHasProfession("slimemaster", location)) return;
+			if (!Utility.AnyPlayerInLocationHasProfession("Slimemaster", location)) return;
 
 			foreach (Monster monster in __instance.currentLocation.characters.Where(c => c is Monster && !(c is GreenSlime)))
 			{

@@ -1,9 +1,8 @@
 ﻿using StardewModdingAPI.Events;
-using StardewValley;
 
 namespace TheLion.AwesomeProfessions
 {
-	internal class SaveLoadedEvent : IEvent
+	internal abstract class SaveLoadedEvent : IEvent
 	{
 		/// <inheritdoc/>
 		public void Hook()
@@ -20,16 +19,6 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Raised after loading a save (including the first day after creating a new save), or connecting to a multiplayer world.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event data.</param>
-		private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
-		{
-			// load persisted mod data
-			AwesomeProfessions.Data = Game1.player.modData;
-
-			// verify mod data and initialize assets and helpers
-			foreach (int professionIndex in Game1.player.professions) Utility.InitializeProfession(professionIndex);
-
-			// subcribe events for loaded save
-			AwesomeProfessions.EventManager.SubscribeProfessionEventsForLocalPlayer();
-		}
+		public abstract void OnSaveLoaded(object sender, SaveLoadedEventArgs e);
 	}
 }

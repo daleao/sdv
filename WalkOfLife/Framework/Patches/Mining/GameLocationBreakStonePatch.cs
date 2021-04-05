@@ -101,7 +101,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Miner extra resources.</summary>
 		private static void GameLocationBreakStonePostfix(ref GameLocation __instance, int indexOfStone, int x, int y, Farmer who, Random r)
 		{
-			if (Utility.SpecificFarmerHasProfession("miner", who) && r.NextDouble() < 0.10)
+			if (Utility.SpecificPlayerHasProfession("Miner", who) && r.NextDouble() < 0.10)
 			{
 				if (Utility.ResourceFromStoneId.TryGetValue(indexOfStone, out int indexOfResource))
 					Game1.createObjectDebris(indexOfResource, x, y, who.UniqueMultiplayerID, __instance);

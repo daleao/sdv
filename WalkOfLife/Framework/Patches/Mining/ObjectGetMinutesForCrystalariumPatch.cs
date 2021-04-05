@@ -20,7 +20,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to speed up crystalarium processing time for each Gemologist.</summary>
 		private static void ObjectGetMinutesForCrystalariumPostfix(ref int __result)
 		{
-			if (Utility.AnyFarmerHasProfession("gemologist", out int n)) __result = (int)(__result * Math.Pow(0.75, n));
+			if (Utility.AnyPlayerHasProfession("Gemologist", out int n)) __result = (int)(__result * Math.Pow(0.75, n));
 		}
 
 		#endregion harmony patches

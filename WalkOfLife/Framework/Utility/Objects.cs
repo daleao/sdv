@@ -1,5 +1,4 @@
-﻿using StardewValley;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TheLion.Common;
 using SObject = StardewValley.Object;
@@ -182,19 +181,12 @@ namespace TheLion.AwesomeProfessions
 			return obj?.ParentSheetIndex == 399;
 		}
 
-		/// <summary>Whether a given object is wine.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsWine(Item item)
-		{
-			return item?.ParentSheetIndex == 348;
-		}
-
 		/// <summary>Whether a given object is one of wine, juice, beer, mead or pale ale.</summary>
 		/// <param name="obj">The given object.</param>
-		public static bool IsWineOrBeverage(SObject obj)
+		public static bool IsBeverage(SObject obj)
 		{
-			int wine = 348, pale_ale = 303, beer = 346, juice = 350, mead = 459;
-			return obj != null && obj.ParentSheetIndex.AnyOf(wine, pale_ale, beer, juice, mead);
+			int pale_ale = 303, beer = 346, wine = 348, juice = 350, mead = 459, green_tea = 614;
+			return obj != null && (obj.Name.Contains("Wine") || obj.Name.Contains("Juice") || obj.Name.Contains("Mead") || obj.ParentSheetIndex.AnyOf(beer, green_tea, juice, mead, pale_ale, wine));
 		}
 
 		/// <summary>Whether a given object is a stone.</summary>
@@ -204,9 +196,9 @@ namespace TheLion.AwesomeProfessions
 			return obj?.Name == "Stone";
 		}
 
-		/// <summary>Whether a given object is a gem or mineral.</summary>
-		/// <param name="objectIndex">The given object.</param>
-		public static bool IsMineral(int index)
+		/// <summary>Whether a givenitem index corresponds to a gem or mineral.</summary>
+		/// <param name="index">The item index.</param>
+		public static bool IsMineralIndex(int index)
 		{
 			return _GemIds.Contains(index) || (index > 537 && index < 579);
 		}
@@ -222,7 +214,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="obj">The given object.</param>
 		public static bool IsResourceNode(SObject obj)
 		{
-			return _ResourceNodeIds.Contains(obj.ParentSheetIndex) && !obj.Name.Equals("Stone Owl");
+			return IsStone(obj) && _ResourceNodeIds.Contains(obj.ParentSheetIndex);
 		}
 
 		/// <summary>Whether a given object is a crab pot fish.</summary>

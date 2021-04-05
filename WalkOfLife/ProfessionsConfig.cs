@@ -1,5 +1,4 @@
-﻿using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
+﻿using StardewModdingAPI.Utilities;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -15,9 +14,9 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Mod key used by Prospector, Scavenger and Rascal professions.</summary>
 		public KeybindList ModKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-		/// <summary>Affects how many fame points are needed to reach the max Oenology Award Level.</summary>
+		/// <summary>Affects how many fame points are needed to reach the max Brewer Award Level.</summary>
 		/// <remarks>Total fame points needed equal 500 multiplied by the difficulty level.</remarks>
-		public uint OenologyLevelUpDifficulty { get; set; } = 5;
+		public uint BrewerLevelUpDifficulty { get; set; } = AwesomeProfessions.ModRegistry.IsLoaded("Wingheart.VanillaQualityPFM") ? 10 : 5;
 
 		/// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
 		public uint ForagesNeededForBestQuality { get; set; } = 200;
@@ -32,6 +31,6 @@ namespace TheLion.AwesomeProfessions
 		public float TreasureTileDetectionDistance { get; set; } = 3f;
 
 		/// <summary>You must collect this many junk items from crab pots for every 1% of tax deduction next season.</summary>
-		public uint TrashNeededForNextTaxLevel { get; set; } = 50;
+		public uint TrashNeededForNextTaxLevel { get; set; } = 100;
 	}
 }

@@ -34,7 +34,7 @@ namespace TheLion.AwesomeProfessions
 			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "lumberjack.png")), targetArea: new Rectangle(0, 656, 16, 16));
 			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "luremaster.png")), targetArea: new Rectangle(64, 640, 16, 16));
 			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "miner.png")), targetArea: new Rectangle(0, 672, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "oenologist.png")), targetArea: new Rectangle(64, 624, 16, 16));
+			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "brewer.png")), targetArea: new Rectangle(64, 624, 16, 16));
 			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", AwesomeProfessions.Config.UseAltProducerIcon ? "producer2.png" : "producer.png")), targetArea: new Rectangle(48, 624, 16, 16));
 			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "prospector.png")), targetArea: new Rectangle(48, 672, 16, 16));
 			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "rancher.png")), targetArea: new Rectangle(0, 624, 16, 16));

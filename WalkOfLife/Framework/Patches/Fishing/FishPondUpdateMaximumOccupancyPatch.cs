@@ -25,7 +25,7 @@ namespace TheLion.AwesomeProfessions
 			if (____fishPondData == null) return;
 
 			Farmer owner = Game1.getFarmer(__instance.owner.Value);
-			if (Utility.SpecificFarmerHasProfession("aquarist", owner) && __instance.lastUnlockedPopulationGate.Value >= ____fishPondData.PopulationGates.Keys.Max())
+			if (Utility.SpecificPlayerHasProfession("Aquarist", owner) && __instance.lastUnlockedPopulationGate.Value >= ____fishPondData.PopulationGates.Keys.Max())
 				__instance.maxOccupants.Set(12);
 		}
 

@@ -24,7 +24,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="location">The game location.</param>
 		internal override void TryStartNewHunt(GameLocation location)
 		{
-			if (!base.TryStartNewHunt()) return;
+			if (location.Objects.Count() < 1 || !base.TryStartNewHunt()) return;
 
 			int i = Random.Next(location.Objects.Count());
 			Vector2 v = location.Objects.Keys.ElementAt(i);
@@ -32,9 +32,9 @@ namespace TheLion.AwesomeProfessions
 			if (Utility.IsStone(obj) && !Utility.IsResourceNode(obj))
 			{
 				TreasureTile = v;
-				_timeLimit = (uint)location.Objects.Count() / 3;
+				_timeLimit = (uint)location.Objects.Count();
 				_elapsed = 0;
-				AwesomeProfessions.EventManager.Subscribe(new ProspectorHuntUpdateTickedEvent(), new ProspectorHuntRenderedHudEvent());
+				AwesomeProfessions.EventManager.Subscribe(new ArrowPointerUpdateTickedEvent(), new ProspectorHuntUpdateTickedEvent(), new ProspectorHuntRenderedHudEvent());
 				Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, Icon));
 			}
 		}
@@ -53,7 +53,7 @@ namespace TheLion.AwesomeProfessions
 			{
 				_GetStoneTreasure();
 				End();
-				AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak");
+				AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", amount: 1);
 			}
 		}
 
@@ -73,7 +73,7 @@ namespace TheLion.AwesomeProfessions
 			Dictionary<int, int> treasuresAndQuantities = new();
 
 			if (Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
-				treasuresAndQuantities.Add(890, Random.Next(1, 3) + Random.NextDouble() < 0.25 ? 2 : 0); // qi bean
+				treasuresAndQuantities.Add(890, Random.Next(1, 3) + (Random.NextDouble() < 0.25 ? 2 : 0)); // qi bean
 
 			switch (Random.Next(2))
 			{
@@ -104,8 +104,8 @@ namespace TheLion.AwesomeProfessions
 					switch (Random.Next(3))
 					{
 						case 0:
-							if (mineLevel > 80) treasuresAndQuantities.Add(537 + Random.NextDouble() < 0.4 ? Random.Next(-2, 0) : 0, Random.Next(1, 4)); // magma geode or worse
-							else if (mineLevel > 40) treasuresAndQuantities.Add(536 + Random.NextDouble() < 0.4 ? -1 : 0, Random.Next(1, 4)); // frozen geode or worse
+							if (mineLevel > 80) treasuresAndQuantities.Add(537 + (Random.NextDouble() < 0.4 ? Random.Next(-2, 0) : 0), Random.Next(1, 4)); // magma geode or worse
+							else if (mineLevel > 40) treasuresAndQuantities.Add(536 + (Random.NextDouble() < 0.4 ? -1 : 0), Random.Next(1, 4)); // frozen geode or worse
 							else treasuresAndQuantities.Add(535, Random.Next(1, 4)); // regular geode
 
 							if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
@@ -123,9 +123,9 @@ namespace TheLion.AwesomeProfessions
 								break;
 							}
 
-							if (mineLevel > 80) treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 82 : Random.NextDouble() < 0.5 ? 64 : 60, Random.Next(1, 3)); // fire quartz else ruby or emerald
-							else if (mineLevel > 40) treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 84 : Random.NextDouble() < 0.5 ? 70 : 62, Random.Next(1, 3)); // frozen tear else jade or aquamarine
-							else treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 86 : Random.NextDouble() < 0.5 ? 66 : 68, Random.Next(1, 3)); // earth crystal else amethyst or topaz
+							if (mineLevel > 80) treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 82 : (Random.NextDouble() < 0.5 ? 64 : 60), Random.Next(1, 3)); // fire quartz else ruby or emerald
+							else if (mineLevel > 40) treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 84 : (Random.NextDouble() < 0.5 ? 70 : 62), Random.Next(1, 3)); // frozen tear else jade or aquamarine
+							else treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 86 : (Random.NextDouble() < 0.5 ? 66 : 68), Random.Next(1, 3)); // earth crystal else amethyst or topaz
 
 							if (Random.NextDouble() < 0.028 * mineLevel / 12) treasuresAndQuantities.Add(72, 1); // diamond
 							else treasuresAndQuantities.Add(80, Random.Next(1, 3)); // quartz

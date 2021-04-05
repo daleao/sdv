@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using System.Linq;
+﻿using System.Linq;
 
 namespace TheLion.Common
 {
@@ -10,12 +9,6 @@ namespace TheLion.Common
 		public static bool AnyOf<T>(this T source, params T[] collection)
 		{
 			return collection.Contains(source);
-		}
-
-		/// <summary>Convert the calling Point to a Vector2.</summary>
-		public static Vector2 ToVector2(this Point p)
-		{
-			return new Vector2(p.X, p.Y);
 		}
 	}
 }

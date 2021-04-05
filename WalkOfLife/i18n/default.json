@@ -4,15 +4,15 @@
 	"harvester.description": "10% chance for extra yield from harvested crops.",
 	"agriculturist.name": "Agriculturist",
 	"agriculturist.description": "Crops grow 10% faster. Grow best-quality crops organically without fertilizer.",
-	"oenologist.name": "Enologist",
-	"oenologist.description": "Wines age twice as fast. Ship high-quality wine to improve your brand value.",
-	"oenologist.mailbody1": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's Copper Award. This award entitles all your wine and artisanal beverages to sell at a 5% premium.",
-	"oenologist.mailbody2": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's Iron Award. This award entitles all your wine and artisanal beverages to sell at a 10% premium.",
-	"oenologist.mailbody3": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's Gold Award. This award entitles all your wine and artisanal beverages to sell at a 20% premium.",
-	"oenologist.mailbody4": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's Iridium Award. This award entitles all your wine and artisanal beverages to sell at a 50% premium.",
-	"oenologist.mailbody5": "Dear @,^^It is my honor and my pleasure to announce that the wine from {{farmName}} has been recognized by the Stardew Winemaker's Association and has been awarded this season's Decanter's Best-in-Show Award. This award entitles all your wine and artisanal beverages to sell at double market value.",
-	"oenologist.mailclose1": "^^I would like to personally congratulate you on behalf of our association, and expect that you will continue to impress in your winemaking endeavours.^^Sincerely, Mr. Matteo di Leone^President of the Stardew Winemaker's Association[#]Decanter's Award Notice",
-	"oenologist.mailclose2": "^^It brings me great joy to congratulate you on this exceptional achievement. We at the association are truly grateful for your incredible contribution to the world of winemaking.^^Sincerely, Mr. Matteo di Leone^President of the Stardew Winemaker's Association[#]Decanter's Award Notice",
+	"brewer.name": "Brewer",
+	"brewer.description": "Beverages age 25% faster. Ship high-quality beverages to improve your brand value.",
+	"brewer.mailbody1": "Dear @,^^It is my honor and my pleasure to announce that the brewed products from {{farmName}} have been recognized by the Stardew Brewer's Association and has been awarded this season's Copper Award. This award entitles all your artisanal beverages to sell at a 5% premium.",
+	"brewer.mailbody2": "Dear @,^^It is my honor and my pleasure to announce that the brewed products from {{farmName}} have been recognized by the Stardew Brewer's Association and has been awarded this season's Iron Award. This award entitles all your artisanal beverages to sell at a 10% premium.",
+	"brewer.mailbody3": "Dear @,^^It is my honor and my pleasure to announce that the brewed products from {{farmName}} have been recognized by the Stardew Brewer's Association and has been awarded this season's Gold Award. This award entitles all your artisanal beverages to sell at a 20% premium.",
+	"brewer.mailbody4": "Dear @,^^It is my honor and my pleasure to announce that the brewed products from {{farmName}} have been recognized by the Stardew Brewer's Association and has been awarded this season's Iridium Award. This award entitles all your artisanal beverages to sell at a 50% premium.",
+	"brewer.mailbody5": "Dear @,^^It is my honor and my pleasure to announce that the brewed products from {{farmName}} have been recognized by the Stardew Brewer's Association and has been awarded this season's Best-in-Show Award. This award entitles all your artisanal beverages to sell at double market value.",
+	"brewer.mailclose1": "^^I would like to personally congratulate you on behalf of our association, and expect that you will continue to impress in your brewing endeavours.^^Sincerely, Mr. Matteo di Leone^President of the Stardew Brewer's Association[#]Brewer's Award Notice",
+	"brewer.mailclose2": "^^It brings me great joy to congratulate you on this exceptional achievement. We at the association are truly grateful for your incredible contribution to the world of brewing.^^Sincerely, Mr. Matteo di Leone^President of the Stardew Brewer's Association[#]Brewer's Award Notice",
 
 	"rancher.name": "Rancher",
 	"rancher.description": "Befriend animals quicker.",
@@ -87,5 +87,5 @@
 	"desperado.name": "Desperado",
 	"desperado.description": "Shots fired within 0.5 seconds deal triple damage.",
 	"slimemaster.name": "Slimed Piper",
-	"slimemaster.description": "Slimes damage other monsters. Triple chance to drop slime eggs."
+	"slimemaster.description": "Slimes damage other monsters. Extra chance to find slime eggs."
 }

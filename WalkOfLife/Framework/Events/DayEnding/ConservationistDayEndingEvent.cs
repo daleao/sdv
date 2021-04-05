@@ -10,6 +10,9 @@ namespace TheLion.AwesomeProfessions
 		/// <inheritdoc/>
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
+			if (!AwesomeProfessions.Content.AssetEditors.ContainsType(typeof(FRSMailEditor)))
+				AwesomeProfessions.Content.AssetEditors.Add(new FRSMailEditor());
+
 			uint trashCollectedThisSeason;
 			if (Game1.dayOfMonth == 28 && (trashCollectedThisSeason = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", uint.Parse)) > 0)
 			{

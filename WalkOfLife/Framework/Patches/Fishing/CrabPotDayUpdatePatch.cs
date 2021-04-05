@@ -26,7 +26,7 @@ namespace TheLion.AwesomeProfessions
 		private static bool CrabPotDayUpdatePrefix(ref CrabPot __instance, GameLocation location)
 		{
 			Farmer who = Game1.getFarmer(__instance.owner.Value);
-			if (__instance.bait.Value == null && !Utility.SpecificFarmerHasProfession("conservationist", who) || __instance.heldObject.Value != null)
+			if (__instance.bait.Value == null && !Utility.SpecificPlayerHasProfession("Conservationist", who) || __instance.heldObject.Value != null)
 				return false; // don't run original logic
 
 			__instance.tileIndexToShow = 714;
@@ -38,7 +38,7 @@ namespace TheLion.AwesomeProfessions
 			int whichFish = -1;
 			if (__instance.bait.Value != null)
 			{
-				if (Utility.SpecificFarmerHasProfession("luremaster", who))
+				if (Utility.SpecificPlayerHasProfession("Luremaster", who))
 				{
 					if (!Utility.IsUsingMagnet(__instance))
 					{
@@ -68,7 +68,7 @@ namespace TheLion.AwesomeProfessions
 			int fishQuality = 0;
 			if (whichFish < 0)
 			{
-				bool playerIsConservationist = Utility.SpecificFarmerHasProfession("conservationist", who);
+				bool playerIsConservationist = Utility.SpecificPlayerHasProfession("Conservationist", who);
 				if (__instance.bait.Value != null || playerIsConservationist) whichFish = Utility.GetTrash(r);
 			}
 			else fishQuality = Utility.GetTrapFishQuality(whichFish, who, r);

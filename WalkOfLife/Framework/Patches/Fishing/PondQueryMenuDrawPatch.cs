@@ -29,7 +29,7 @@ namespace TheLion.AwesomeProfessions
 		private static bool PondQueryMenuDrawPrefix(ref PondQueryMenu __instance, ref float ____age, ref Rectangle ____confirmationBoxRectangle, ref string ____confirmationText, ref SObject ____fishItem, ref FishPond ____pond, ref bool ___confirmingEmpty, ref string ___hoverText, SpriteBatch b)
 		{
 			Farmer owner = Game1.getFarmer(____pond.owner.Value);
-			if (!Utility.SpecificFarmerHasProfession("aquarist", owner) || ____pond.lastUnlockedPopulationGate.Value < AwesomeProfessions.Reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
+			if (!Utility.SpecificPlayerHasProfession("Aquarist", owner) || ____pond.lastUnlockedPopulationGate.Value < AwesomeProfessions.Reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
 
 			if (!Game1.globalFade)
 			{

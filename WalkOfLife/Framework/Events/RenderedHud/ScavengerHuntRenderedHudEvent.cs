@@ -10,6 +10,7 @@ namespace TheLion.AwesomeProfessions
 		/// <inheritdoc/>
 		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)
 		{
+			// track and reveal treasure hunt target
 			if (AwesomeProfessions.ScavengerHunt.TreasureTile != null)
 			{
 				Utility.DrawTrackingArrowPointer(AwesomeProfessions.ScavengerHunt.TreasureTile.Value, Color.Violet);

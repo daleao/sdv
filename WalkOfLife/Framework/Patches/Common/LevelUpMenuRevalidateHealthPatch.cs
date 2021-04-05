@@ -35,7 +35,7 @@ namespace TheLion.AwesomeProfessions
 				Helper
 					.FindProfessionCheck(Farmer.defender)
 					.Advance()
-					.SetOperand(Utility.ProfessionMap.Forward["brute"]);
+					.SetOperand(Utility.ProfessionMap.Forward["Brute"]);
 			}
 			catch (Exception ex)
 			{
@@ -50,7 +50,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			// revalidate tackle health
 			int expectedMaxTackleUses = 20;
-			if (Utility.SpecificFarmerHasProfession("angler", farmer)) expectedMaxTackleUses *= 2;
+			if (Utility.SpecificPlayerHasProfession("Angler", farmer)) expectedMaxTackleUses *= 2;
 
 			FishingRod.maxTackleUses = expectedMaxTackleUses;
 

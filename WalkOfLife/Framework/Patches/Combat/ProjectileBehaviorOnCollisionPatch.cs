@@ -26,7 +26,7 @@ namespace TheLion.AwesomeProfessions
 			if (!(__instance is BasicProjectile)) return;
 
 			Farmer who = ___theOneWhoFiredMe.Get(location) is Farmer ? ___theOneWhoFiredMe.Get(location) as Farmer : Game1.player;
-			if (!Utility.SpecificFarmerHasProfession("rascal", who)) return;
+			if (!Utility.SpecificPlayerHasProfession("Rascal", who)) return;
 
 			if (Game1.random.NextDouble() < 0.6 && Utility.IsMineralAmmunition(___currentTileSheetIndex.Value))
 				location.debris.Add(new Debris(___currentTileSheetIndex.Value - 1, new Vector2((int)___position.X, (int)___position.Y), who.getStandingPosition()));

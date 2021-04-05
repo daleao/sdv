@@ -1,6 +1,7 @@
 ﻿using Harmony;
 using StardewValley;
 using StardewValley.Objects;
+using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -18,10 +19,10 @@ namespace TheLion.AwesomeProfessions
 
 		#region harmony patches
 
-		/// <summary>Patch for Oenologist faster wine aging.</summary>
+		/// <summary>Patch for Brewer faster aging.</summary>
 		private static void CaskPerformObjectDropInActionPostfix(ref Cask __instance, Item dropIn, Farmer who)
 		{
-			if (Utility.SpecificFarmerHasProfession("oenologist", who) && Utility.IsWine(dropIn))
+			if (Utility.SpecificPlayerHasProfession("Brewer", who) && Utility.IsBeverage(dropIn as SObject))
 				__instance.agingRate.Value *= 2f;
 		}
 

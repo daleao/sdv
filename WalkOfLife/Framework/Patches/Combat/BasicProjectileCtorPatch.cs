@@ -20,30 +20,18 @@ namespace TheLion.AwesomeProfessions
 
 		#region harmony patches
 
-		/// <summary>Patch to increase Desperado projectile velocity.</summary>
-		//private static bool BasicProjectileCtorPrefix(ref float xVelocity, ref float yVelocity, Character firer)
-		//{
-		//	if (firer != null && firer is Farmer && Utility.SpecificFarmerHasProfession("desperado", firer as Farmer))
-		//	{
-		//		xVelocity *= 1.5f;
-		//		yVelocity *= 1.5f;
-		//	}
-
-		//	return true; // run original logic
-		//}
-
-		/// <summary>Patch to allow Rascal to bounce slingshot projectile.</summary>
+		/// <summary>Patch to increase Desperado projectile velocity + allow Rascal projectile bounce.</summary>
 		private static void BasicProjectileCtorPostfix(ref BasicProjectile __instance, ref NetInt ___bouncesLeft, float xVelocity, float yVelocity, Character firer)
 		{
 			if (firer == null || !(firer is Farmer)) return;
 
-			if (Utility.SpecificFarmerHasProfession("desperado", firer as Farmer))
+			if (Utility.SpecificPlayerHasProfession("Desperado", firer as Farmer))
 			{
 				AwesomeProfessions.Reflection.GetField<NetFloat>(__instance, name: "xVelocity").GetValue().Set(xVelocity * 1.5f);
 				AwesomeProfessions.Reflection.GetField<NetFloat>(__instance, name: "yVelocity").GetValue().Set(yVelocity * 1.5f);
 			}
 
-			if (AwesomeProfessions.Config.ModKey.IsDown() && Utility.SpecificFarmerHasProfession("rascal", firer as Farmer))
+			if (AwesomeProfessions.Config.ModKey.IsDown() && Utility.SpecificPlayerHasProfession("Rascal", firer as Farmer))
 				++___bouncesLeft.Value;
 		}
 

@@ -1,8 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using StardewValley;
+﻿using StardewValley;
 using StardewValley.Buildings;
 using System;
-using System.IO;
 using System.Linq;
 using TheLion.Common;
 using SObject = StardewValley.Object;
@@ -21,85 +19,87 @@ namespace TheLion.AwesomeProfessions
 		public static BiMap<string, int> ProfessionMap { get; } = new BiMap<string, int>
 		{
 			// farming
-			{ "rancher", Farmer.rancher },				// 0
-			{ "breeder", Farmer.butcher },				// 2 (coopmaster)
-			{ "producer", Farmer.shepherd },			// 3
+			{ "Rancher", Farmer.rancher },				// 0
+			{ "Breeder", Farmer.butcher },				// 2 (coopmaster)
+			{ "Producer", Farmer.shepherd },			// 3
 
-			{ "harvester", Farmer.tiller },				// 1
-			{ "oenologist", Farmer.artisan },			// 4
-			{ "agriculturist", Farmer.agriculturist },	// 5
+			{ "Harvester", Farmer.tiller },				// 1
+			{ "Brewer", Farmer.artisan },				// 4
+			{ "Agriculturist", Farmer.agriculturist },	// 5
 
 			// fishing
-			{ "fisher", Farmer.fisher },				// 6
-			{ "angler", Farmer.angler },				// 8
-			{ "aquarist", Farmer.pirate },				// 9
+			{ "Fisher", Farmer.fisher },				// 6
+			{ "Angler", Farmer.angler },				// 8
+			{ "Aquarist", Farmer.pirate },				// 9
 
-			{ "trapper", Farmer.trapper },				// 7
-			{ "luremaster", Farmer.baitmaster },		// 10
-			{ "conservationist", Farmer.mariner },		// 11
+			{ "Trapper", Farmer.trapper },				// 7
+			{ "Luremaster", Farmer.baitmaster },		// 10
+			{ "Conservationist", Farmer.mariner },		// 11
 			// Note: the game code has mariner and baitmaster ids mixed up
 
 			// foraging
-			{ "lumberjack", Farmer.forester },			// 12
-			{ "arborist", Farmer.lumberjack },			// 14
-			{ "tapper", Farmer.tapper },				// 15
+			{ "Lumberjack", Farmer.forester },			// 12
+			{ "Arborist", Farmer.lumberjack },			// 14
+			{ "Tapper", Farmer.tapper },				// 15
 
-			{ "forager", Farmer.gatherer },				// 13
-			{ "ecologist", Farmer.botanist },			// 16
-			{ "scavenger", Farmer.tracker },			// 17
+			{ "Forager", Farmer.gatherer },				// 13
+			{ "Ecologist", Farmer.botanist },			// 16
+			{ "Scavenger", Farmer.tracker },			// 17
 
 			// mining
-			{ "miner", Farmer.miner },					// 18
-			{ "spelunker", Farmer.blacksmith },			// 20
-			{ "prospector", Farmer.burrower },			// 21 (prospector)
+			{ "Miner", Farmer.miner },					// 18
+			{ "Spelunker", Farmer.blacksmith },			// 20
+			{ "Prospector", Farmer.burrower },			// 21 (prospector)
 
-			{ "blaster", Farmer.geologist },			// 19
-			{ "demolitionist", Farmer.excavator },		// 22
-			{ "gemologist", Farmer.gemologist },		// 23
+			{ "Blaster", Farmer.geologist },			// 19
+			{ "Demolitionist", Farmer.excavator },		// 22
+			{ "Gemologist", Farmer.gemologist },		// 23
 
 			// combat
-			{ "fighter", Farmer.fighter },				// 24
-			{ "brute", Farmer.brute },					// 26
-			{ "gambit", Farmer.defender },				// 27
+			{ "Fighter", Farmer.fighter },				// 24
+			{ "Brute", Farmer.brute },					// 26
+			{ "Gambit", Farmer.defender },				// 27
 
-			{ "rascal", Farmer.scout },					// 25
-			{ "slimemaster", Farmer.acrobat },			// 28
-			{ "desperado", Farmer.desperado }			// 29
+			{ "Rascal", Farmer.scout },					// 25
+			{ "Slimemaster", Farmer.acrobat },			// 28
+			{ "Desperado", Farmer.desperado }			// 29
 		};
 
 		/// <summary>Generate unique buff ids from a hash seed.</summary>
 		/// <param name="hash">Unique instance hash.</param>
 		public static void SetProfessionBuffIDs(int hash)
 		{
-			SpelunkerBuffID = hash + ProfessionMap.Forward["spelunker"];
-			DemolitionistBuffID = hash + ProfessionMap.Forward["demolitionist"];
-			BruteBuffID = hash - ProfessionMap.Forward["brute"];
-			GambitBuffID = hash - ProfessionMap.Forward["gambit"];
+			SpelunkerBuffID = hash + ProfessionMap.Forward["Spelunker"];
+			DemolitionistBuffID = hash + ProfessionMap.Forward["Demolitionist"];
+			BruteBuffID = hash - ProfessionMap.Forward["Brute"];
+			GambitBuffID = hash - ProfessionMap.Forward["Gambit"];
 		}
 
 		/// <summary>Whether the local farmer has a specific profession.</summary>
 		/// <param name="professionName">The name of the profession.</param>
-		public static bool LocalFarmerHasProfession(string professionName)
+		public static bool LocalPlayerHasProfession(string professionName)
 		{
+			if (!ProfessionMap.Contains(professionName)) return false;
 			return Game1.player.professions.Contains(ProfessionMap.Forward[professionName]);
 		}
 
 		/// <summary>Whether a farmer has a specific profession.</summary>
 		/// <param name="professionName">The name of the profession.</param>
 		/// <param name="who">The player.</param>
-		public static bool SpecificFarmerHasProfession(string professionName, Farmer who)
+		public static bool SpecificPlayerHasProfession(string professionName, Farmer who)
 		{
+			if (!ProfessionMap.Contains(professionName)) return false;
 			return who.professions.Contains(ProfessionMap.Forward[professionName]);
 		}
 
 		/// <summary>Whether any farmer in the current multiplayer session has a specific profession.</summary>
 		/// <param name="professionName">The name of the profession.</param>
 		/// <param name="numberOfPlayersWithThisProfession">How many players have this profession.</param>
-		public static bool AnyFarmerHasProfession(string professionName, out int numberOfPlayersWithThisProfession)
+		public static bool AnyPlayerHasProfession(string professionName, out int numberOfPlayersWithThisProfession)
 		{
 			if (!Game1.IsMultiplayer)
 			{
-				if (LocalFarmerHasProfession(professionName))
+				if (LocalPlayerHasProfession(professionName))
 				{
 					numberOfPlayersWithThisProfession = 1;
 					return true;
@@ -109,7 +109,7 @@ namespace TheLion.AwesomeProfessions
 			numberOfPlayersWithThisProfession = 0;
 			foreach (Farmer player in Game1.getAllFarmers())
 			{
-				if (player.isActive() && SpecificFarmerHasProfession(professionName, player))
+				if (player.isActive() && SpecificPlayerHasProfession(professionName, player))
 					++numberOfPlayersWithThisProfession;
 			}
 
@@ -119,64 +119,52 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Whether any farmer in a specific game location has a specific profession.</summary>
 		/// <param name="professionName">The name of the profession.</param>
 		/// <param name="where">The game location to check.</param>
-		public static bool AnyFarmerInLocationHasProfession(string professionName, GameLocation location)
+		public static bool AnyPlayerInLocationHasProfession(string professionName, GameLocation location)
 		{
-			if (!Game1.IsMultiplayer && location == Game1.currentLocation) return LocalFarmerHasProfession(professionName);
-			return location.farmers.Any(farmer => SpecificFarmerHasProfession(professionName, farmer));
+			if (!Game1.IsMultiplayer && location == Game1.currentLocation) return LocalPlayerHasProfession(professionName);
+			return location.farmers.Any(farmer => SpecificPlayerHasProfession(professionName, farmer));
 		}
 
 		/// <summary>Initialize mod data and instantiate asset editors and helpers for a profession.</summary>
 		/// <param name="whichProfession">The profession index.</param>
-		public static void InitializeProfession(int whichProfession)
+		public static void InitializeModData(int whichProfession)
 		{
 			if (!ProfessionMap.Reverse.TryGetValue(whichProfession, out string professionName)) return;
-			
-			if (professionName.Equals("conservationist"))
+
+			if (professionName.Equals("Conservationist"))
 			{
-				AwesomeProfessions.Content.AssetEditors.Add(new FRSMailEditor());
 				AwesomeProfessions.Data
 					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", "0")
 					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/ActiveTaxBonus", "0");
 			}
-			else if (professionName.Equals("ecologist"))
+			else if (professionName.Equals("Ecologist"))
 			{
 				AwesomeProfessions.Data
 					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/ItemsForaged", "0");
 			}
-			else if (professionName.Equals("gemologist"))
+			else if (professionName.Equals("Gemologist"))
 			{
 				AwesomeProfessions.Data
 					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/MineralsCollected", "0");
 			}
-			else if (professionName.Equals("oenologist"))
+			else if (professionName.Equals("Brewer"))
 			{
-				AwesomeProfessions.Content.AssetEditors.Add(new SWAMailEditor());
 				AwesomeProfessions.Data
-					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/OenologyFameAccrued", "0")
-					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/OenologyAwardLevel", "0")
+					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/BrewerFameAccrued", "0")
+					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/BrewerAwardLevel", "0")
 					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/FameNeededForNextAwardLevel", "");
 			}
-			else if (professionName.Equals("prospector"))
+			else if (professionName.Equals("Prospector"))
 			{
-				if (AwesomeProfessions.ProspectorHunt == null)
-					AwesomeProfessions.ProspectorHunt = new ProspectorHunt(AwesomeProfessions.I18n.Get("prospector.huntstarted"), AwesomeProfessions.I18n.Get("prospector.huntfailed"), AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "prospector.png")));
-
-				if (ArrowPointer == null) ArrowPointer = new ArrowPointer(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "cursor.png")));
-
 				AwesomeProfessions.Data
 					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", "0");
 			}
-			else if (professionName.Equals("scavenger"))
+			else if (professionName.Equals("Scavenger"))
 			{
-				if (AwesomeProfessions.ScavengerHunt == null)
-					AwesomeProfessions.ScavengerHunt = new ScavengerHunt(AwesomeProfessions.I18n.Get("scavenger.huntstarted"), AwesomeProfessions.I18n.Get("scavenger.huntfailed"), AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "scavenger.png")));
-
-				if (ArrowPointer == null) ArrowPointer = new ArrowPointer(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "cursor.png")));
-
 				AwesomeProfessions.Data
 					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/ScavengerHuntStreak", "0");
 			}
-			else if (professionName.Equals("spelunker"))
+			else if (professionName.Equals("Spelunker"))
 			{
 				AwesomeProfessions.Data
 					.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/LowestMineLevelReached", "0");
@@ -185,27 +173,27 @@ namespace TheLion.AwesomeProfessions
 
 		/// <summary>Clear unecessary mod data entries for removed profession.</summary>
 		/// <param name="whichProfession">The profession index.</param>
-		public static void CleanProfessionModData(int whichProfession)
+		public static void CleanModData(int whichProfession)
 		{
 			if (!ProfessionMap.Reverse.TryGetValue(whichProfession, out string professionName)) return;
 
-			if (professionName.Equals("oenologist"))
+			if (professionName.Equals("Brewer"))
 			{
 				AwesomeProfessions.Data
-					.WriteField($"{AwesomeProfessions.UniqueID}/OenologyFameAccrued", null)
+					.WriteField($"{AwesomeProfessions.UniqueID}/BrewerFameAccrued", null)
 					.WriteField($"{AwesomeProfessions.UniqueID}/FameNeededForNextAwardLevel", null);
 			}
-			else if (professionName.Equals("scavenger"))
+			else if (professionName.Equals("Scavenger"))
 			{
 				AwesomeProfessions.Data
 					.WriteField($"{AwesomeProfessions.UniqueID}/ScavengerHuntStreak", null);
 			}
-			else if (professionName.Equals("prospector"))
+			else if (professionName.Equals("Prospector"))
 			{
 				AwesomeProfessions.Data
 					.WriteField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", null);
 			}
-			else if (professionName.Equals("conservationist"))
+			else if (professionName.Equals("Conservationist"))
 			{
 				AwesomeProfessions.Data
 					.WriteField($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", null)
@@ -213,10 +201,10 @@ namespace TheLion.AwesomeProfessions
 			}
 		}
 
-		/// <summary>Get the price multiplier for wine and beverages sold by Oenologist.</summary>
-		public static float GetOenologistPriceBonus()
+		/// <summary>Get the price multiplier for beverages sold by Brewer.</summary>
+		public static float GetBrewerPriceBonus()
 		{
-			uint currentLevel = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/OenologyAwardLevel", uint.Parse);
+			uint currentLevel = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/BrewerAwardLevel", uint.Parse);
 			if (currentLevel > 0) return (float)(1f / Math.Pow(2, 5 - currentLevel));
 			return 1f;
 		}
@@ -239,7 +227,7 @@ namespace TheLion.AwesomeProfessions
 		public static float GetAnglerPriceMultiplier(Farmer who)
 		{
 			float multiplier = 1f;
-			foreach (int id in _LegendaryFishIds.Where(id => who.fishCaught.ContainsKey(id))) multiplier += 0.05f;
+			foreach (int id in _LegendaryFishIds.Where(id => who.fishCaught.ContainsKey(id))) multiplier += 0.1f;
 			return multiplier;
 		}
 
@@ -282,7 +270,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Get the bonus bobber bar height for Aquarist.</summary>
 		public static int GetAquaristBonusBobberBarHeight()
 		{
-			if (!LocalFarmerHasProfession("aquarist")) return 0;
+			if (!LocalPlayerHasProfession("Aquarist")) return 0;
 
 			int bonusBobberHeight = 0;
 			foreach (Building b in Game1.getFarm().buildings)
@@ -321,8 +309,8 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="obj">The given object.</param>
 		public static bool ShouldPlayerTrackObject(SObject obj)
 		{
-			return (LocalFarmerHasProfession("scavenger") && ((obj.IsSpawnedObject && !IsForagedMineral(obj)) || obj.ParentSheetIndex == 590))
-				|| (LocalFarmerHasProfession("prospector") && (IsResourceNode(obj) || IsForagedMineral(obj)));
+			return (LocalPlayerHasProfession("Scavenger") && ((obj.IsSpawnedObject && !IsForagedMineral(obj)) || obj.ParentSheetIndex == 590))
+				|| (LocalPlayerHasProfession("Prospector") && (IsResourceNode(obj) || IsForagedMineral(obj)));
 		}
 	}
 }

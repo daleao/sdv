@@ -8,10 +8,11 @@ using System.Collections.Generic;
 namespace TheLion.AwesomeProfessions
 {
 	/// <summary>The mod entry point.</summary>
-	public class AwesomeProfessions : Mod
+	public partial class AwesomeProfessions : Mod
 	{
 		internal static IContentHelper Content { get; set; }
 		internal static IModEvents Events { get; set; }
+		internal static IModRegistry ModRegistry { get; set; }
 		internal static IReflectionHelper Reflection { get; set; }
 		internal static ITranslationHelper I18n { get; set; }
 		internal static ModDataDictionary Data { get; set; }
@@ -34,23 +35,18 @@ namespace TheLion.AwesomeProfessions
 			int uniqueHash = (int)(Math.Abs(UniqueID.GetHashCode()) / Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(UniqueID.GetHashCode()))) - 8 + 1));
 			Utility.SetProfessionBuffIDs(uniqueHash);
 
-			// store reference to content helper
+			// get mod helpers
 			Content = helper.Content;
-
-			// store reference to mod events
 			Events = helper.Events;
-
-			// store reference to reflection helper
+			ModRegistry = helper.ModRegistry;
 			Reflection = helper.Reflection;
-
-			// store reference to localized text
 			I18n = helper.Translation;
 
 			// get configs.json
 			Config = helper.ReadConfig<ProfessionsConfig>();
 
 			// patch profession icons
-			helper.Content.AssetEditors.Add(new IconEditor());
+			if (Config.UseModdedProfessionIcons) helper.Content.AssetEditors.Add(new IconEditor());
 
 			// apply patches
 			BasePatch.Init(Monitor);
@@ -59,7 +55,6 @@ namespace TheLion.AwesomeProfessions
 				new BasicProjectileBehaviorOnCollisionWithMonsterPatch(),
 				new BasicProjectileCtorPatch(),
 				new BobberBarCtorPatch(),
-				new BushShakePatch(),
 				new CaskPerformObjectDropInActionPatch(),
 				new CrabPotCheckForActionPatch(),
 				new CrabPotDayUpdatePatch(),
@@ -74,11 +69,8 @@ namespace TheLion.AwesomeProfessions
 				new FishingRodStartMinigameEndFunctionPatch(),
 				new FishPondUpdateMaximumOccupancyPatch(),
 				new FruitTreeDayUpdatePatch(),
-				new Game1CreateItemDebrisPatch(),
-				new Game1CreateObjectDebrisPatch(),
 				new Game1DrawHUDPatch(),
 				new GameLocationBreakStonePatch(),
-				new GameLocationCheckActionPatch(),
 				new GameLocationDamageMonsterPatch(),
 				new GameLocationGetFishPatch(),
 				new GameLocationExplodePatch(),
@@ -108,6 +100,10 @@ namespace TheLion.AwesomeProfessions
 
 			// start event manager
 			EventManager = new EventManager(Monitor);
+
+			// add debug commands
+			Helper.ConsoleCommands.Add("wol_getprofessions", "Get specified professions." + GetCommandUsage(), AddProfessionsToLocalPlayer);
+			Helper.ConsoleCommands.Add("wol_checksubscribed", "List currently subscribed mod events.", PrintSubscribedEvents);
 		}
 	}
 }

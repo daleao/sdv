@@ -19,7 +19,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increase Abrorist fruit tree growth speed.</summary>
 		private static void FruitTreeDayUpdatePostfix(ref FruitTree __instance)
 		{
-			if (Utility.AnyFarmerHasProfession("arborist", out int n) && __instance.daysUntilMature.Value % 7 == 0)
+			if (Utility.AnyPlayerHasProfession("Arborist", out int n) && __instance.daysUntilMature.Value % 7 == 0)
 				__instance.daysUntilMature.Value -= n;
 		}
 

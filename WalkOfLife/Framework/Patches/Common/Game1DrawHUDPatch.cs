@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Emit;
 using SObject = StardewValley.Object;
 
@@ -45,7 +44,7 @@ namespace TheLion.AwesomeProfessions
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_S)
 					)
-					.SetOperand(Utility.ProfessionMap.Forward["prospector"])            // change to prospector check
+					.SetOperand(Utility.ProfessionMap.Forward["Prospector"])            // change to prospector check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse)
 					)
@@ -98,15 +97,11 @@ namespace TheLion.AwesomeProfessions
 			return Helper.Flush();
 		}
 
-		/// <summary>Patch for Prospector to track initial ladder down + draw ticks over trackable objects in view.</summary>
 		private static void Game1DrawHUDPostfix()
 		{
 			// track initial ladder down
-			if (AwesomeProfessions.initialLadderTiles.Count() > 0)
-			{
-				foreach (var tile in AwesomeProfessions.initialLadderTiles)
-					Utility.DrawTrackingArrowPointer(tile, Color.Lime);
-			}
+			if (AwesomeProfessions.initialLadderTiles.Count > 0)
+				foreach (var tile in AwesomeProfessions.initialLadderTiles) Utility.DrawTrackingArrowPointer(tile, Color.Lime);
 		}
 
 		#endregion harmony patches

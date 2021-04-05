@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using StardewValley;
-using StardewValley.Characters;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -21,42 +20,10 @@ namespace TheLion.AwesomeProfessions
 
 		#region harmony patches
 
-		/// <summary>Patch for Harvester extra crop yield.</summary>
-		private static bool CropHarvestPrefix(ref Crop __instance, ref bool __state, JunimoHarvester junimoHarvester = null)
-		{
-			if (junimoHarvester == null && Utility.LocalFarmerHasProfession("harvester"))
-			{
-				__instance.chanceForExtraCrops.Value += 0.1;
-				__state = true;
-			}
-			return true; // run original logic
-		}
-
-		/// <summary>Patch to nerf Ecologist spring onion quality + always allow iridium-quality crops for Agriculturist.</summary>
+		/// <summary>Patch to always allow iridium-quality crops for Agriculturist + Harvester bonus crop yield.</summary>
 		private static IEnumerable<CodeInstruction> CropHarvestTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(instructions).Log($"Patching method {typeof(Crop)}::{nameof(Crop.harvest)}.");
-
-			/// From: @object.Quality = 4
-			/// To: @object.Quality = _GetForageQualityForEcologist()
-
-			try
-			{
-				Helper
-					.FindProfessionCheck(Farmer.botanist)       // find index of botanist check
-					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Ldc_I4_4)   // start of @object.Quality = 4
-					)
-					.ReplaceWith(                               // replace with custom quality
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utility), nameof(Utility.GetEcologistForageQuality)))
-					);
-			}
-			catch (Exception ex)
-			{
-				Helper.Error($"Failed while patching modded Ecologist spring onion quality.\nHelper returned {ex}").Restore();
-			}
-
-			Helper.Backup();
 
 			/// From: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
 			/// To: if (Game1.player.professions.Contains(<agriculturist_id>) || fertilizerQualityLevel >= 3) && random2.NextDouble() < chanceForGoldQuality / 2.0)
@@ -72,7 +39,7 @@ namespace TheLion.AwesomeProfessions
 						new CodeInstruction(OpCodes.Ldc_I4_3),
 						new CodeInstruction(OpCodes.Blt)
 					)
-					.InsertProfessionCheckForLocalPlayer(Utility.ProfessionMap.Forward["agriculturist"], branchDestination: isAgriculturist, branchIfTrue: true)
+					.InsertProfessionCheckForLocalPlayer(Utility.ProfessionMap.Forward["Agriculturist"], branchDestination: isAgriculturist, useBrtrue: true)
 					.AdvanceUntil(                                              // find start of dice roll
 						new CodeInstruction(OpCodes.Ldloc_S, operand: random2)
 					)
@@ -114,7 +81,7 @@ namespace TheLion.AwesomeProfessions
 						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4),
 						new CodeInstruction(OpCodes.Brtrue_S, operand: dontIncreaseNumToHarvest)
 					)
-					.InsertProfessionCheckForLocalPlayer(Utility.ProfessionMap.Forward["harvester"], dontIncreaseNumToHarvest)
+					.InsertProfessionCheckForLocalPlayer(Utility.ProfessionMap.Forward["Harvester"], dontIncreaseNumToHarvest)
 					.Insert(                                                            // insert dice roll
 						new CodeInstruction(OpCodes.Ldloc_S, operand: (LocalBuilder)r2),
 						new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(Random), nameof(Random.NextDouble))),

@@ -21,7 +21,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for cheaper crafting recipes for Blaster and Tapper.</summary>
 		private static void CraftingRecipeCtorPostfix(ref CraftingRecipe __instance)
 		{
-			if (__instance.name.Equals("Tapper") && Utility.LocalFarmerHasProfession("tapper"))
+			if (__instance.name.Equals("Tapper") && Utility.LocalPlayerHasProfession("Tapper"))
 			{
 				__instance.recipeList = new Dictionary<int, int>
 				{
@@ -29,7 +29,7 @@ namespace TheLion.AwesomeProfessions
 					{ 334, 1 }		// copper bar
 				};
 			}
-			else if (__instance.name.Contains("Bomb") && Utility.LocalFarmerHasProfession("blaster"))
+			else if (__instance.name.Contains("Bomb") && Utility.LocalPlayerHasProfession("Blaster"))
 			{
 				__instance.recipeList = __instance.name switch
 				{

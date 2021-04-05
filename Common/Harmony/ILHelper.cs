@@ -264,27 +264,39 @@ namespace TheLion.Common.Harmony
 		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the local player has a given profession.</summary>
 		/// <param name="whichProfession">The profession id.</param>
 		/// <param name="branchDestination">The destination <see cref="Label"/> to branch to when the check returns false.</param>
-		public ILHelper InsertProfessionCheckForLocalPlayer(int whichProfession, Label branchDestination, bool branchIfTrue = false)
+		public ILHelper InsertProfessionCheckForLocalPlayer(int whichProfession, Label branchDestination, bool useBrtrue = false, bool useLongFormBranch = false)
 		{
+			OpCode branchOpCode;
+			if (useBrtrue && useLongFormBranch) branchOpCode = OpCodes.Brtrue;
+			else if (useBrtrue) branchOpCode = OpCodes.Brtrue_S;
+			else if (useLongFormBranch) branchOpCode = OpCodes.Brfalse;
+			else branchOpCode = OpCodes.Brfalse_S;
+
 			return Insert(
 				new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Game1), nameof(Game1.player)).GetGetMethod()),
 				new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
 				_LoadConstantIntIL(whichProfession),
 				new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(NetList<Int32, NetInt>), nameof(NetList<Int32, NetInt>.Contains))),
-				new CodeInstruction(branchIfTrue ? OpCodes.Brtrue_S : OpCodes.Brfalse_S, operand: branchDestination)
+				new CodeInstruction(branchOpCode, operand: branchDestination)
 			);
 		}
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index to test if the player at the top of the stack has a given profession.</summary>
 		/// <param name="whichProfession">The profession id.</param>
 		/// <param name="branchDestination">The destination <see cref="Label"/> to branch to when the check returns false.</param>
-		public ILHelper InsertProfessionCheckForSpecificPlayer(int whichProfession, Label branchDestination, bool branchIfTrue = false)
+		public ILHelper InsertProfessionCheckForPlayerOnStack(int whichProfession, Label branchDestination, bool useBrtrue = false, bool useLongFormBranch = false)
 		{
+			OpCode branchOpCode;
+			if (useBrtrue && useLongFormBranch) branchOpCode = OpCodes.Brtrue;
+			else if (useBrtrue) branchOpCode = OpCodes.Brtrue_S;
+			else if (useLongFormBranch) branchOpCode = OpCodes.Brfalse;
+			else branchOpCode = OpCodes.Brfalse_S;
+
 			return Insert(
 				new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Farmer), nameof(Farmer.professions))),
 				_LoadConstantIntIL(whichProfession),
 				new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(NetList<Int32, NetInt>), nameof(NetList<Int32, NetInt>.Contains))),
-				new CodeInstruction(branchIfTrue ? OpCodes.Brtrue_S : OpCodes.Brfalse_S, operand: branchDestination)
+				new CodeInstruction(branchOpCode, operand: branchDestination)
 			);
 		}
 

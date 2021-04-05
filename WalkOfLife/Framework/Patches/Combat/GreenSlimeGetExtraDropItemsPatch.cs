@@ -23,7 +23,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increase drop rate of slime eggs for Slimemaster.</summary>
 		private static void GreenSlimeGetExtraDropItemsPostfix(ref GreenSlime __instance, ref List<Item> __result)
 		{
-			if (!Utility.AnyFarmerInLocationHasProfession("slimemaster", __instance.currentLocation) || !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt") || Game1.random.NextDouble() > 0.02) return;
+			if (!Utility.AnyPlayerInLocationHasProfession("Slimemaster", __instance.currentLocation) || !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt") || Game1.random.NextDouble() > 0.05) return;
 
 			switch (__instance.Name)
 			{

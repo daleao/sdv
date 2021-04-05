@@ -1,5 +1,4 @@
 ﻿using Harmony;
-using StardewValley;
 using StardewValley.TerrainFeatures;
 using System;
 using TheLion.Common;
@@ -27,7 +26,7 @@ namespace TheLion.AwesomeProfessions
 			if (__instance.crop == null)
 				return false; // don't run original logic
 
-			bool anyPlayerIsAgriculturist = Utility.AnyFarmerHasProfession("agriculturist", out int n);
+			bool anyPlayerIsAgriculturist = Utility.AnyPlayerHasProfession("Agriculturist", out int n);
 			bool shouldApplyPaddyBonus = __instance.currentLocation != null && __instance.paddyWaterCheck(__instance.currentLocation, __instance.currentTileLocation);
 
 			if (!(__instance.fertilizer.Value.AnyOf(_SpeedGroId, _DeluxeSpeedGroId, _HyperSpeedGroId) || anyPlayerIsAgriculturist || shouldApplyPaddyBonus))

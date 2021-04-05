@@ -44,7 +44,7 @@ namespace TheLion.AwesomeProfessions
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_2)                        // arg 2 = Farmer who
 					)
-					.InsertProfessionCheckForSpecificPlayer(Utility.ProfessionMap.Forward["desperado"], resumeExecution)
+					.InsertProfessionCheckForPlayerOnStack(Utility.ProfessionMap.Forward["Desperado"], resumeExecution)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 0.5f),
 						new CodeInstruction(OpCodes.Ldarg_0),

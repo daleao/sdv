@@ -2,7 +2,7 @@
 
 namespace TheLion.AwesomeProfessions
 {
-	internal class ReturnedToTitleEvent : IEvent
+	internal abstract class ReturnedToTitleEvent : IEvent
 	{
 		/// <inheritdoc/>
 		public void Hook()
@@ -19,9 +19,6 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Raised after the game returns to the title screen.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event data.</param>
-		private void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
-		{
-			AwesomeProfessions.EventManager.UnsubscribeLocalPlayerEvents();
-		}
+		public abstract void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e);
 	}
 }

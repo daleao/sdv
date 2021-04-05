@@ -43,7 +43,7 @@ namespace TheLion.AwesomeTools
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 
 			// add commands for debugging (or cheating)
-			Helper.ConsoleCommands.Add("player_settoolsupgrade", "Set the upgrade level of all upgradeable tools in the player's inventory." + PrintCommandUsage(), SetToolsUpgrade);
+			Helper.ConsoleCommands.Add("player_settoolsupgrade", "Set the upgrade level of all upgradeable tools in the player's inventory." + GetCommandUsage(), SetToolsUpgrade);
 		}
 
 		/// <summary>The event called after the first game update, once all mods are loaded.</summary>
@@ -186,7 +186,7 @@ namespace TheLion.AwesomeTools
 		{
 			if (args.Length < 1)
 			{
-				Monitor.Log("Missing argument.", LogLevel.Info);
+				Monitor.Log("Missing argument." + GetCommandUsage(), LogLevel.Info);
 				return;
 			}
 
@@ -209,7 +209,7 @@ namespace TheLion.AwesomeTools
 				}
 				else
 				{
-					Monitor.Log("Invalid argument." + PrintCommandUsage(), LogLevel.Info);
+					Monitor.Log("Invalid argument." + GetCommandUsage(), LogLevel.Info);
 					return;
 				}
 			}
@@ -229,7 +229,8 @@ namespace TheLion.AwesomeTools
 			}
 		}
 
-		private string PrintCommandUsage()
+		/// <summary>Tell the dummies how to use the console command.</summary>
+		private string GetCommandUsage()
 		{
 			string result = "\n\nUsage: player_upgradetools < level >\n - level: one of 'copper', 'steel', 'gold', 'iridium'";
 			if (ModRegistry.IsLoaded("stokastic.PrismaticTools"))

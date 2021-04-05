@@ -274,7 +274,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="r">Random number generator.</param>
 		public static int GetTrapFishQuality(int whichFish, Farmer who, Random r)
 		{
-			if (!SpecificFarmerHasProfession("trapper", who) || PirateTreasureTable.ContainsKey(whichFish)) return 0;
+			if (!SpecificPlayerHasProfession("Trapper", who) || PirateTreasureTable.ContainsKey(whichFish)) return 0;
 
 			if (r.NextDouble() < who.FishingLevel / 30.0) return 2;
 

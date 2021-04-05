@@ -56,7 +56,7 @@ namespace TheLion.AwesomeProfessions
 						new CodeInstruction(OpCodes.Bge_S, operand: resumeExecution),
 						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4)              // arg 4 = Farmer who
 					)
-					.InsertProfessionCheckForSpecificPlayer(Utility.ProfessionMap.Forward["fisher"], resumeExecution)
+					.InsertProfessionCheckForPlayerOnStack(Utility.ProfessionMap.Forward["Fisher"], resumeExecution)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldc_I4_1),
 						new CodeInstruction(OpCodes.Stloc_S, operand: hasRerolled),         // set hasRerolled to true

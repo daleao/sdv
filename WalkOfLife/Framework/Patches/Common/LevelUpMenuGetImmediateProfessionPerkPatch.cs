@@ -37,7 +37,7 @@ namespace TheLion.AwesomeProfessions
 					.FindFirst(
 						new CodeInstruction(OpCodes.Ldc_I4_S, operand: Farmer.defender)
 					)
-					.SetOperand(Utility.ProfessionMap.Forward["brute"]);
+					.SetOperand(Utility.ProfessionMap.Forward["Brute"]);
 			}
 			catch (Exception ex)
 			{
@@ -53,8 +53,8 @@ namespace TheLion.AwesomeProfessions
 			if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out string professionName)) return;
 
 			// add immediate perks
-			if (professionName.Equals("angler")) FishingRod.maxTackleUses = 40;
-			else if (professionName.Equals("aquarist"))
+			if (professionName.Equals("Angler")) FishingRod.maxTackleUses = 40;
+			else if (professionName.Equals("Aquarist"))
 			{
 				foreach (Building b in Game1.getFarm().buildings)
 				{
@@ -64,7 +64,7 @@ namespace TheLion.AwesomeProfessions
 			}
 
 			// initialize mod data, assets and helpers
-			Utility.InitializeProfession(whichProfession);
+			Utility.InitializeModData(whichProfession);
 
 			// subscribe events
 			AwesomeProfessions.EventManager.SubscribeEventsForProfession(whichProfession);

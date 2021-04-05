@@ -40,7 +40,7 @@ namespace TheLion.AwesomeProfessions
 				TreasureTile = v;
 				_timeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize * 9, 2) / 2);
 				_elapsed = 0;
-				AwesomeProfessions.EventManager.Subscribe(new ScavengerHuntUpdateTickedEvent(), new ScavengerHuntRenderedHudEvent());
+				AwesomeProfessions.EventManager.Subscribe(new ArrowPointerUpdateTickedEvent(), new ScavengerHuntUpdateTickedEvent(), new ScavengerHuntRenderedHudEvent());
 				Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, Icon));
 			}
 		}
@@ -63,7 +63,7 @@ namespace TheLion.AwesomeProfessions
 					End();
 					DelayedAction getTreasure = new DelayedAction(200, () => _BeginFindTreasure());
 					Game1.delayedActions.Add(getTreasure);
-					AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ScavengerHuntStreak");
+					AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ScavengerHuntStreak", amount: 1);
 				}
 			}
 		}
@@ -122,10 +122,10 @@ namespace TheLion.AwesomeProfessions
 			{
 				chance *= 0.4f;
 				if (Game1.currentSeason.Equals("spring") && !(Game1.currentLocation is Beach) && Random.NextDouble() < 0.1)
-					treasures.Add(new SObject(273, Random.Next(2, 6) + Random.NextDouble() < 0.25 ? 5 : 0)); // rice shoot
+					treasures.Add(new SObject(273, Random.Next(2, 6) + (Random.NextDouble() < 0.25 ? 5 : 0))); // rice shoot
 
 				if (Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
-					treasures.Add(new SObject(890, Random.Next(1, 3) + Random.NextDouble() < 0.25 ? 2 : 0)); // qi beans
+					treasures.Add(new SObject(890, Random.Next(1, 3) + (Random.NextDouble() < 0.25 ? 2 : 0))); // qi beans
 
 				switch (Random.Next(4))
 				{
@@ -144,14 +144,14 @@ namespace TheLion.AwesomeProfessions
 						if (possibles.Count == 0 || Random.NextDouble() < 0.4) possibles.Add(390); // stone
 
 						possibles.Add(382); // coal
-						treasures.Add(new SObject(possibles.ElementAt(Random.Next(possibles.Count)), Random.Next(2, 7) * ((!(Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.015)) ? 1 : 2)));
-						if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03) treasures.Last().Stack *= 2;
+						treasures.Add(new SObject(possibles.ElementAt(Random.Next(possibles.Count)), Random.Next(2, 7) * ((!(Random.NextDouble() < (0.05 + Game1.player.LuckLevel * 0.015))) ? 1 : 2)));
+						if (Random.NextDouble() < (0.05 + Game1.player.LuckLevel * 0.03)) treasures.Last().Stack *= 2;
 
 						break;
 
 					case 1:
 						if (Random.NextDouble() < 0.25 && Game1.player.craftingRecipes.ContainsKey("Wild Bait"))
-							treasures.Add(new SObject(774, 5 + ((Random.NextDouble() < 0.25) ? 5 : 0))); // wild bait
+							treasures.Add(new SObject(774, 5 + (Random.NextDouble() < 0.25 ? 5 : 0))); // wild bait
 						else treasures.Add(new SObject(685, 10)); // bait
 
 						break;
@@ -178,8 +178,8 @@ namespace TheLion.AwesomeProfessions
 						switch (Random.Next(3))
 						{
 							case 0:
-								treasures.Add(new SObject(535 + Random.NextDouble() < 0.4 ? Random.Next(2) : 0, Random.Next(1, 4))); // geodes
-								if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03) treasures.Last().Stack *= 2;
+								treasures.Add(new SObject(535 + (Random.NextDouble() < 0.4 ? Random.Next(2) : 0), Random.Next(1, 4))); // geodes
+								if (Random.NextDouble() < (0.05 + Game1.player.LuckLevel * 0.03)) treasures.Last().Stack *= 2;
 
 								break;
 
@@ -187,15 +187,15 @@ namespace TheLion.AwesomeProfessions
 								switch (Random.Next(4))
 								{
 									case 0: // fire quartz else ruby or emerald
-										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 82 : Random.NextDouble() < 0.5 ? 64 : 60, Random.Next(1, 3)));
+										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 82 : (Random.NextDouble() < 0.5 ? 64 : 60), Random.Next(1, 3)));
 										break;
 
 									case 1: // frozen tear else jade or aquamarine
-										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 84 : Random.NextDouble() < 0.5 ? 70 : 62, Random.Next(1, 3)));
+										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 84 : (Random.NextDouble() < 0.5 ? 70 : 62), Random.Next(1, 3)));
 										break;
 
 									case 2: // earth crystal else amethyst or topaz
-										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 86 : Random.NextDouble() < 0.5 ? 66 : 68, Random.Next(1, 3)));
+										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 86 : (Random.NextDouble() < 0.5 ? 66 : 68), Random.Next(1, 3)));
 										break;
 
 									case 3:
@@ -221,11 +221,11 @@ namespace TheLion.AwesomeProfessions
 									switch (Random.Next(3))
 									{
 										case 0:
-											treasures.Add(new Ring(516 + Random.NextDouble() < Game1.player.LuckLevel / 11f ? 1 : 0)); // (small) glow ring
+											treasures.Add(new Ring(516 + (Random.NextDouble() < Game1.player.LuckLevel / 11f ? 1 : 0))); // (small) glow ring
 											break;
 
 										case 1:
-											treasures.Add(new Ring(518 + Random.NextDouble() < Game1.player.LuckLevel / 11f ? 1 : 0)); // (small) magnet ring
+											treasures.Add(new Ring(518 + (Random.NextDouble() < Game1.player.LuckLevel / 11f ? 1 : 0))); // (small) magnet ring
 											break;
 
 										case 2:

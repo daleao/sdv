@@ -54,28 +54,28 @@ namespace TheLion.Common
 		/// <summary>Increment an unsigned integer field from the mod data dictionary.</summary>
 		/// <param name="data">The mod data dictionary to update.</param>
 		/// <param name="key">The dictionary key to write.</param>
-		public static ModDataDictionary IncrementField(this ModDataDictionary data, string key, uint amount = 1)
+		/// <param name="amount">Amount to increment by.</param>
+		public static ModDataDictionary IncrementField(this ModDataDictionary data, string key, int amount)
 		{
 			if (data.TryGetValue(key, out string rawValue))
 			{
-				uint num = uint.Parse(rawValue);
-				data[key] = (num + amount).ToString();
+				int num = int.Parse(rawValue);
+				data[key] = (Math.Max(num + amount, 0)).ToString();
 			}
 
 			return data;
 		}
 
-		/// <summary>Decrement an unsigned integer field from the mod data dictionary.</summary>
+		/// <summary>Increment a float field from the mod data dictionary.</summary>
 		/// <param name="data">The mod data dictionary to update.</param>
 		/// <param name="key">The dictionary key to write.</param>
-		public static ModDataDictionary DecrementField(this ModDataDictionary data, string key, uint amount = 1)
+		/// <param name="amount">Amount to increment by.</param>
+		public static ModDataDictionary IncrementField(this ModDataDictionary data, string key, float amount)
 		{
 			if (data.TryGetValue(key, out string rawValue))
 			{
-				uint num = uint.Parse(rawValue);
-				if (amount > num) num = 0;
-				else num -= amount;
-				data[key] = num.ToString();
+				float num = float.Parse(rawValue);
+				data[key] = (num + amount).ToString();
 			}
 
 			return data;

@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions
 			if (AwesomeProfessions.Config.ModKey.GetState() == SButtonState.Released)
 			{
 				AwesomeProfessions.EventManager.Unsubscribe(typeof(TrackerRenderedHudEvent));
-				if (!(AwesomeProfessions.EventManager.IsListening(typeof(ProspectorHuntRenderedHudEvent)) || AwesomeProfessions.EventManager.IsListening(typeof(ScavengerHuntRenderedHudEvent))))
+				if (!(AwesomeProfessions.EventManager.IsSubscribed(typeof(ProspectorHuntRenderedHudEvent)) || AwesomeProfessions.EventManager.IsSubscribed(typeof(ScavengerHuntRenderedHudEvent))))
 					AwesomeProfessions.EventManager.Unsubscribe(typeof(ArrowPointerUpdateTickedEvent));
 			}
 		}

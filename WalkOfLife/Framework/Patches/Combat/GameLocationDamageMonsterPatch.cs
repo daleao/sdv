@@ -14,22 +14,13 @@ namespace TheLion.AwesomeProfessions
 		{
 			harmony.Patch(
 				AccessTools.Method(typeof(GameLocation), nameof(GameLocation.damageMonster), new Type[] { typeof(Rectangle), typeof(int), typeof(int), typeof(bool), typeof(float), typeof(int), typeof(float), typeof(float), typeof(bool), typeof(Farmer) }),
-				prefix: new HarmonyMethod(GetType(), nameof(GameLocationDamageMonsterPrefix)),
-				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationDamageMonsterTranspiler)),
-				postfix: new HarmonyMethod(GetType(), nameof(GameLocationDamageMonsterPostfix))
+				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationDamageMonsterTranspiler))
 			);
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to count Brute kill streak.</summary>
-		private static bool GameLocationDamageMonsterPrefix(ref uint __state)
-		{
-			__state = Game1.stats.MonstersKilled;
-			return true; // run original logic
-		}
-
-		/// <summary>Patch to move critical chance bonus from Scout to Gambit + patch Brute damage bonus + move critical damage bonus from Desperado to Gambit.</summary>
+		/// <summary>Patch to move critical chance bonus from Scout to Gambit + patch Brute damage bonus + move critical damage bonus from Desperado to Gambit + count Brute kill streak.</summary>
 		private static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
 			Helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.damageMonster)}.");
@@ -42,7 +33,7 @@ namespace TheLion.AwesomeProfessions
 				Helper
 					.FindProfessionCheck(Farmer.scout)                          // find index of scout check
 					.Advance()
-					.SetOperand(Utility.ProfessionMap.Forward["gambit"])        // replace with gambit check
+					.SetOperand(Utility.ProfessionMap.Forward["Gambit"])        // replace with gambit check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldarg_S)                    // start of critChance += critChance * 0.5f
 					)
@@ -70,7 +61,7 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindProfessionCheck(Utility.ProfessionMap.Forward["brute"], fromCurrentIndex: true)    // find index of brute check
+					.FindProfessionCheck(Utility.ProfessionMap.Forward["Brute"], fromCurrentIndex: true)    // find index of brute check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 1.15f)                                 // brute damage multiplier
 					)
@@ -93,7 +84,7 @@ namespace TheLion.AwesomeProfessions
 				Helper
 					.FindProfessionCheck(Farmer.desperado, fromCurrentIndex: true)  // find index of desperado check
 					.Advance()
-					.SetOperand(Utility.ProfessionMap.Forward["gambit"])            // change to gambit check
+					.SetOperand(Utility.ProfessionMap.Forward["Gambit"])            // change to gambit check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_R4, operand: 2f)            // desperado critical damage multiplier
 					)
@@ -104,14 +95,38 @@ namespace TheLion.AwesomeProfessions
 				Helper.Error($"Failed while moving modded bonus crit damage from Desperado to Gambit.\nHelper returned {ex}").Restore();
 			}
 
-			return Helper.Flush();
-		}
+			Helper.Backup();
 
-		/// <summary>Patch to count Brute kill streak and assign Brute buff.</summary>
-		private static void GameLocationDamageMonsterPostfix(uint __state, Farmer who)
-		{
-			if (who.IsLocalPlayer && Utility.LocalFarmerHasProfession("brute") && __state < Game1.stats.MonstersKilled)
-				++AwesomeProfessions.bruteKillStreak;
+			/// Injected: if (who.IsLocalPlayer && who.professions.Contains(<brute_id>) AwesomeProfessions.bruteKillStreak++
+
+			try
+			{
+				Helper
+					.FindLast(  // find end of Game1.stats.MonstersKilled++
+						new CodeInstruction(OpCodes.Callvirt, AccessTools.Property(typeof(Stats), nameof(Stats.MonstersKilled)).GetSetMethod())
+					)
+					.Advance()
+					.GetOperand(out object resumeExecution)
+					.Insert(    // check if who is local player
+						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)10),
+						new CodeInstruction(OpCodes.Callvirt, AccessTools.Property(typeof(Farmer), nameof(Farmer.IsLocalPlayer)).GetGetMethod()),
+						new CodeInstruction(OpCodes.Brfalse, operand: (Label)resumeExecution),
+						new CodeInstruction(OpCodes.Ldarga_S, operand: (byte)10)
+					)
+					.InsertProfessionCheckForPlayerOnStack(Utility.ProfessionMap.Forward["Brute"], (Label)resumeExecution, useLongFormBranch: true)
+					.Insert(    // increment brute kill counter
+						new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(AwesomeProfessions), nameof(AwesomeProfessions.bruteKillStreak))),
+						new CodeInstruction(OpCodes.Ldc_I4_1),
+						new CodeInstruction(OpCodes.Add),
+						new CodeInstruction(OpCodes.Stsfld, AccessTools.Field(typeof(AwesomeProfessions), nameof(AwesomeProfessions.bruteKillStreak)))
+					);
+			}
+			catch (Exception ex)
+			{
+				Helper.Error($"Failed while injecting modded Brute kill streak counter.\nHelper returned {ex}").Restore();
+			}
+
+			return Helper.Flush();
 		}
 
 		#endregion harmony patches

@@ -41,7 +41,7 @@ namespace TheLion.AwesomeProfessions
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4)  // arg 4 = Farmer who
 					)
-					.InsertProfessionCheckForSpecificPlayer(Utility.ProfessionMap.Forward["spelunker"], resumeExecution)
+					.InsertProfessionCheckForPlayerOnStack(Utility.ProfessionMap.Forward["Spelunker"], resumeExecution)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_3),                   // local 3 = chanceForLadderDown
 						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utility), nameof(Utility.GetSpelunkerBonusLadderDownChance))),

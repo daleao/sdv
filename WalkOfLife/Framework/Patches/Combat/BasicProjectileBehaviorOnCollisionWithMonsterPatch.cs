@@ -24,7 +24,7 @@ namespace TheLion.AwesomeProfessions
 		private static bool BasicProjectileBehaviorOnCollisionWithMonsterPrefix(ref BasicProjectile __instance, ref NetBool ___damagesMonsters, ref NetCharacterRef ___theOneWhoFiredMe, ref int ___travelTime, NPC n, GameLocation location)
 		{
 			Farmer who = ___theOneWhoFiredMe.Get(location) is Farmer ? ___theOneWhoFiredMe.Get(location) as Farmer : Game1.player;
-			if (!Utility.SpecificFarmerHasProfession("rascal", who)) return true; // run original logic
+			if (!Utility.SpecificPlayerHasProfession("Rascal", who)) return true; // run original logic
 
 			if (!___damagesMonsters) return true; // run original logic
 

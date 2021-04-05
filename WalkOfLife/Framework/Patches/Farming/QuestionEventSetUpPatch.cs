@@ -39,7 +39,7 @@ namespace TheLion.AwesomeProfessions
 					.Advance()
 					.AddLabels(resumeExecution) // branch here to resume execution
 					.Retreat()
-					.InsertProfessionCheckForLocalPlayer(Utility.ProfessionMap.Forward["breeder"], branchDestination: isNotBreeder)
+					.InsertProfessionCheckForLocalPlayer(Utility.ProfessionMap.Forward["Breeder"], branchDestination: isNotBreeder)
 					.Insert(                    // if player is breeder load adjusted pregancy chance
 						new CodeInstruction(OpCodes.Ldc_R8, operand: 0.011),
 						new CodeInstruction(OpCodes.Br_S, operand: resumeExecution)

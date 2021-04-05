@@ -37,7 +37,7 @@ namespace TheLion.AwesomeProfessions
 					.FindFirst(
 						new CodeInstruction(OpCodes.Ldc_I4_S, operand: 27)
 					)
-					.SetOperand(Utility.ProfessionMap.Forward["brute"]);
+					.SetOperand(Utility.ProfessionMap.Forward["Brute"]);
 			}
 			catch (Exception ex)
 			{
@@ -53,8 +53,8 @@ namespace TheLion.AwesomeProfessions
 			if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out string professionName)) return;
 
 			// remove immediate perks
-			if (professionName.Equals("angler")) FishingRod.maxTackleUses = 20;
-			else if (professionName.Equals("aquarist"))
+			if (professionName.Equals("Angler")) FishingRod.maxTackleUses = 20;
+			else if (professionName.Equals("Aquarist"))
 			{
 				foreach (Building b in Game1.getFarm().buildings)
 				{
@@ -67,10 +67,10 @@ namespace TheLion.AwesomeProfessions
 			}
 
 			// clean unnecessary mod data
-			Utility.CleanProfessionModData(whichProfession);
+			Utility.CleanModData(whichProfession);
 
 			// unsubscribe unnecessary events
-			AwesomeProfessions.EventManager.UnsubscribeEventsForProfession(whichProfession);
+			AwesomeProfessions.EventManager.UnsubscribeProfessionEvents(whichProfession);
 		}
 
 		#endregion harmony patches

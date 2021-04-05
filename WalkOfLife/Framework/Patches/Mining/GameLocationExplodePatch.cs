@@ -22,17 +22,16 @@ namespace TheLion.AwesomeProfessions
 		#region harmony patches
 
 		/// <summary>Patch for Demolitionist explosion resistance.</summary>
-		private static bool GameLocationExplodePrefix(Farmer who, ref bool damageFarmers)
+		private static bool GameLocationExplodePrefix(ref GameLocation __instance, ref bool damageFarmers)
 		{
-			if (damageFarmers && Utility.SpecificFarmerHasProfession("demolitionist", who)) damageFarmers = false;
-
+			if (damageFarmers && Utility.AnyPlayerInLocationHasProfession("Demolitionist", __instance)) damageFarmers = false;
 			return true; // run original logic
 		}
 
 		/// <summary>Patch for Blaster double coal chance + Demolitionist speed burst.</summary>
 		private static void GameLocationExplodePostfix(ref GameLocation __instance, Vector2 tileLocation, int radius, Farmer who)
 		{
-			if (Utility.SpecificFarmerHasProfession("blaster", who))
+			if (Utility.SpecificPlayerHasProfession("Blaster", who))
 			{
 				double chanceModifier = who.DailyLuck / 2.0 + who.LuckLevel * 0.001 + who.MiningLevel * 0.005;
 				CircleTileGrid grid = new CircleTileGrid(tileLocation, radius);
@@ -52,13 +51,11 @@ namespace TheLion.AwesomeProfessions
 				}
 			}
 
-			if (Utility.LocalFarmerHasProfession("demolitionist"))
+			if (who.IsLocalPlayer && Utility.LocalPlayerHasProfession("Demolitionist"))
 			{
 				int distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
-				if (distanceFromEpicenter < radius * 2 + 1)
-					AwesomeProfessions.demolitionistBuffMagnitude = 4;
-				if (distanceFromEpicenter < radius + 1)
-					AwesomeProfessions.demolitionistBuffMagnitude += 2;
+				if (distanceFromEpicenter < radius * 2 + 1) AwesomeProfessions.demolitionistBuffMagnitude = 4;
+				if (distanceFromEpicenter < radius + 1) AwesomeProfessions.demolitionistBuffMagnitude += 2;
 			}
 		}
 

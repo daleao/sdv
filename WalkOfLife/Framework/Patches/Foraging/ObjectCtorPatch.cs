@@ -23,7 +23,7 @@ namespace TheLion.AwesomeProfessions
 		private static void ObjectCtorPostfix(ref SObject __instance)
 		{
 			Farmer owner = Game1.getFarmer(__instance.owner.Value);
-			if (Utility.IsWildBerry(__instance) && Utility.SpecificFarmerHasProfession("ecologist", owner))
+			if (Utility.IsWildBerry(__instance) && Utility.SpecificPlayerHasProfession("Ecologist", owner))
 				__instance.Edibility = (int)(__instance.Edibility * 1.5f);
 		}
 

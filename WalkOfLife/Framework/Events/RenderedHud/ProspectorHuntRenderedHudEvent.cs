@@ -10,6 +10,7 @@ namespace TheLion.AwesomeProfessions
 		/// <inheritdoc/>
 		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)
 		{
+			// reveal treasure hunt target
 			if (AwesomeProfessions.ProspectorHunt.TreasureTile != null)
 			{
 				var distanceSquared = (Game1.player.getTileLocation() - AwesomeProfessions.ProspectorHunt.TreasureTile.Value).LengthSquared();
