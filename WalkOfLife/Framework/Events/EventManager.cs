@@ -10,7 +10,7 @@ namespace TheLion.AwesomeProfessions
 	/// <summary>Manages dynamic subscribing and unsubscribing of events for modded professions.</summary>
 	internal class EventManager
 	{
-		private List<IEvent> _subscribed = new();
+		private readonly List<IEvent> _subscribed = new();
 
 		private IMonitor _Monitor { get; }
 
