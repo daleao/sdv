@@ -34,30 +34,31 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindProfessionCheck(Farmer.tracker)                                // find index of tracker check
+					.FindProfessionCheck(Farmer.tracker) // find index of tracker check
 					.Retreat()
 					.ToBufferUntil(
-						new CodeInstruction(OpCodes.Brfalse)                            // copy profession check
+						new CodeInstruction(OpCodes.Brfalse) // copy profession check
 					)
-					.InsertBuffer()                                                     // paste
+					.InsertBuffer() // paste
 					.Return()
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_S)
 					)
-					.SetOperand(Utility.ProfessionMap.Forward["Prospector"])            // change to prospector check
+					.SetOperand(Utility.ProfessionMap.Forward["Prospector"]) // change to prospector check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse)
 					)
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Brtrue_S, operand: isProspector)    // change !(A && B) to !(A || B)
+						new CodeInstruction(OpCodes.Brtrue_S, operand: isProspector) // change !(A && B) to !(A || B)
 					)
 					.Advance()
-					.StripLabels()                                                      // strip repeated label
+					.StripLabels() // strip repeated label
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(Game1), nameof(Game1.currentLocation)).GetGetMethod())
+						new CodeInstruction(OpCodes.Call,
+							AccessTools.Property(typeof(Game1), nameof(Game1.currentLocation)).GetGetMethod())
 					)
-					.Remove(3)                                                          // remove currentLocation.IsOutdoors check
-					.AddLabels(isProspector);                                           // branch here is first profession check was true
+					.Remove(3) // remove currentLocation.IsOutdoors check
+					.AddLabels(isProspector); // branch here is first profession check was true
 			}
 			catch (Exception ex)
 			{
@@ -75,17 +76,20 @@ namespace TheLion.AwesomeProfessions
 					.FindNext(
 						new CodeInstruction(OpCodes.Bne_Un) // find branch to loop head
 					)
-					.GetOperand(out object loopHead)        // copy destination
+					.GetOperand(out object loopHead) // copy destination
 					.RetreatUntil(
 #pragma warning disable AvoidNetField // Avoid Netcode types when possible
-						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(SObject), nameof(SObject.isSpawnedObject)))
+						new CodeInstruction(OpCodes.Ldfld,
+							AccessTools.Field(typeof(SObject), nameof(SObject.isSpawnedObject)))
 #pragma warning restore AvoidNetField // Avoid Netcode types when possible
 					)
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Bne_Un) // remove pair.Value.isSpawnedObject || pair.Value.ParentSheetIndex == 590
+						new CodeInstruction(OpCodes
+							.Bne_Un) // remove pair.Value.isSpawnedObject || pair.Value.ParentSheetIndex == 590
 					)
-					.Insert(                                // insert call to custom condition
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utility), nameof(Utility.ShouldPlayerTrackObject))),
+					.Insert( // insert call to custom condition
+						new CodeInstruction(OpCodes.Call,
+							AccessTools.Method(typeof(Utility), nameof(Utility.ShouldPlayerTrackObject))),
 						new CodeInstruction(OpCodes.Brfalse, operand: loopHead)
 					);
 			}
@@ -101,7 +105,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			// track initial ladder down
 			if (AwesomeProfessions.initialLadderTiles.Count > 0)
-				foreach (var tile in AwesomeProfessions.initialLadderTiles) Utility.DrawTrackingArrowPointer(tile, Color.Lime);
+				foreach (Vector2 tile in AwesomeProfessions.initialLadderTiles) Utility.DrawTrackingArrowPointer(tile, Color.Lime);
 		}
 
 		#endregion harmony patches

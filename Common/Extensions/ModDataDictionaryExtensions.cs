@@ -19,7 +19,7 @@ namespace TheLion.Common
 				: defaultValue;
 		}
 
-		/// <summary>Read a field from the mod data dictionary.</summary>
+		/// <summary>Read a field from the mod data dictionary as string.</summary>
 		/// <param name="data">The mod data dictionary to read.</param>
 		/// <param name="key">The dictionary key to read.</param>
 		/// <param name="defaultValue">The default value to return if the data field isn't set.</param>

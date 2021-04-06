@@ -1,5 +1,4 @@
-﻿using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
+﻿using StardewModdingAPI.Utilities;
 
 namespace TheLion.AwesomeTools
 {

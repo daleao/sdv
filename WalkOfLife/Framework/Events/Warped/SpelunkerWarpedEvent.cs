@@ -9,9 +9,9 @@ namespace TheLion.AwesomeProfessions
 		/// <inheritdoc/>
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
-			if (e.IsLocalPlayer && e.NewLocation is MineShaft)
+			if (e.IsLocalPlayer && e.NewLocation is MineShaft shaft)
 			{
-				uint currentMineLevel = (uint)(e.NewLocation as MineShaft).mineLevel;
+				uint currentMineLevel = (uint)(shaft).mineLevel;
 				if (currentMineLevel > AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/LowestMineLevelReached", uint.Parse))
 					AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/LowestMineLevelReached", currentMineLevel.ToString());
 			}

@@ -10,6 +10,7 @@ namespace TheLion.AwesomeProfessions
 		public override void OnDayStarted(object sender, DayStartedEventArgs e)
 		{
 			AwesomeProfessions.EventManager.SubscribeMissingEvents();
+			AwesomeProfessions.EventManager.CleanUpRogueEvents();
 			LevelUpMenu.RevalidateHealth(Game1.player);
 		}
 	}

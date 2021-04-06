@@ -30,10 +30,10 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindProfessionCheck(Farmer.burrower)   // find index of prospector check
+					.FindProfessionCheck(Farmer.burrower) // find index of prospector check
 					.Retreat()
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Mul)    // remove this check
+						new CodeInstruction(OpCodes.Mul) // remove this check
 					);
 			}
 			catch (Exception ex)

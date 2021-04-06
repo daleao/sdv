@@ -15,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 			{
 				foreach (var obj in location.Objects.Values)
 				{
-					if (obj is CrabPot && Game1.getFarmer(obj.owner.Value).IsLocalPlayer && Utility.IsTrash((obj as CrabPot).heldObject.Value))
+					if (obj is CrabPot crabpot && Game1.getFarmer(obj.owner.Value).IsLocalPlayer && Utility.IsTrash(crabpot.heldObject.Value))
 					{
 						AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", amount: 1);
 						if (AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", uint.Parse) % 10 == 0)

@@ -31,13 +31,13 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindProfessionCheck(Farmer.miner)      // find index of miner check
+					.FindProfessionCheck(Farmer.miner) // find index of miner check
 					.Retreat()
 					.RemoveUntil(
 						new CodeInstruction(OpCodes.Brtrue) // remove this check
 					)
 					.Advance()
-					.Remove(2)                              // remove true case
+					.Remove(2) // remove true case
 					.StripLabels();
 			}
 			catch (Exception ex)
@@ -52,20 +52,20 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindProfessionCheck(Farmer.geologist)      // find index of geologist check
+					.FindProfessionCheck(Farmer.geologist) // find index of geologist check
 					.Retreat()
-					.GetLabels(out var labels)                  // copy labels
-					.StripLabels()                              // remove labels from here
+					.GetLabels(out var labels) // copy labels
+					.StripLabels() // remove labels from here
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)    // the false case branch
+						new CodeInstruction(OpCodes.Brfalse) // the false case branch
 					)
-					.GetOperand(out object isNotGeologist)      // copy destination
+					.GetOperand(out object isNotGeologist) // copy destination
 					.Return()
-					.Insert(                                    // insert uncoditional branch to skip this check
+					.Insert( // insert uncoditional branch to skip this check
 						new CodeInstruction(OpCodes.Br, (Label)isNotGeologist)
 					)
 					.Retreat()
-					.AddLabels(labels);                         // restore labels to inserted branch
+					.AddLabels(labels); // restore labels to inserted branch
 			}
 			catch (Exception ex)
 			{
@@ -79,14 +79,14 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindProfessionCheck(Farmer.burrower)       // find index of prospector check
+					.FindProfessionCheck(Farmer.burrower) // find index of prospector check
 					.Retreat()
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)    // the false case branch
+						new CodeInstruction(OpCodes.Brfalse) // the false case branch
 					)
-					.GetOperand(out object isNotProspector)     // copy destination
+					.GetOperand(out object isNotProspector) // copy destination
 					.Return()
-					.Insert(                                    // insert uncoditional branch to skip this check
+					.Insert( // insert uncoditional branch to skip this check
 						new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector)
 					);
 			}
@@ -105,20 +105,38 @@ namespace TheLion.AwesomeProfessions
 			{
 				if (Utility.ResourceFromStoneId.TryGetValue(indexOfStone, out int indexOfResource))
 					Game1.createObjectDebris(indexOfResource, x, y, who.UniqueMultiplayerID, __instance);
-				else if (indexOfStone == 44)    // gem node
-					Game1.createObjectDebris(Game1.random.Next(1, 8) * 2, x, y, who.UniqueMultiplayerID, __instance);
-				else if (indexOfStone == 46)    // mystic stone
-				{
-					double rolled = r.NextDouble();
-					if (rolled < 0.25)
-						Game1.createObjectDebris(74, x, y, who.UniqueMultiplayerID, __instance);    // drop prismatic shard
-					else if (rolled < 0.6)
-						Game1.createObjectDebris(765, x, y, who.UniqueMultiplayerID, __instance);           // drop iridium ore
-					else
-						Game1.createObjectDebris(764, x, y, who.UniqueMultiplayerID, __instance);           // drop gold ore
-				}
-				else if ((845 <= indexOfStone & indexOfStone <= 847) && r.NextDouble() < 0.005)
-					Game1.createObjectDebris(827, x, y, who.UniqueMultiplayerID, __instance);
+				else switch (indexOfStone)
+					{
+						case 44: // gem node
+							Game1.createObjectDebris(Game1.random.Next(1, 8) * 2, x, y, who.UniqueMultiplayerID, __instance);
+							break;
+
+						case 46: // mystic stone
+							{
+								double rolled = r.NextDouble();
+								switch (rolled)
+								{
+									case < 0.25:
+										Game1.createObjectDebris(74, x, y, who.UniqueMultiplayerID, __instance); // drop prismatic shard
+										break;
+
+									case < 0.6:
+										Game1.createObjectDebris(765, x, y, who.UniqueMultiplayerID, __instance); // drop iridium ore
+										break;
+
+									default:
+										Game1.createObjectDebris(764, x, y, who.UniqueMultiplayerID, __instance); // drop gold ore
+										break;
+								}
+								break;
+							}
+						default:
+							{
+								if (845 <= indexOfStone & indexOfStone <= 847 && r.NextDouble() < 0.005)
+									Game1.createObjectDebris(827, x, y, who.UniqueMultiplayerID, __instance);
+								break;
+							}
+					}
 			}
 		}
 

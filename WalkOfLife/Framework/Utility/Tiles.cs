@@ -2,6 +2,7 @@
 using StardewValley;
 using StardewValley.Locations;
 using System.Collections.Generic;
+using System.Linq;
 using TheLion.Common;
 using xTile.Dimensions;
 
@@ -31,9 +32,7 @@ namespace TheLion.AwesomeProfessions
 		public static bool IsTileValidForTreasure(Vector2 tile, GameLocation location)
 		{
 			string noSpawn = location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "NoSpawn", "Back");
-			if ((noSpawn != null && noSpawn != "") || !location.isTileLocationTotallyClearAndPlaceable(tile) || !IsTileClearOfDebris(tile, location) || location.isBehindBush(tile) || location.isBehindTree(tile))
-				return false;
-			return true;
+			return string.IsNullOrEmpty(noSpawn) && location.isTileLocationTotallyClearAndPlaceable(tile) && IsTileClearOfDebris(tile, location) && !location.isBehindBush(tile) && !location.isBehindTree(tile);
 		}
 
 		/// <summary>Check if a tile is clear of debris.</summary>
@@ -41,15 +40,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="location">The game location.</param>
 		public static bool IsTileClearOfDebris(Vector2 tile, GameLocation location)
 		{
-			foreach (Debris debris in location.debris)
-			{
-				if (debris.item != null && debris.Chunks.Count > 0)
-				{
-					Vector2 debrisTile = new Vector2((int)(debris.Chunks[0].position.X / Game1.tileSize) + 1, (int)(debris.Chunks[0].position.Y / Game1.tileSize) + 1);
-					if (debrisTile == tile) return false;
-				}
-			}
-			return true;
+			return (from debris in location.debris where debris.item != null && debris.Chunks.Count > 0 select new Vector2((int)(debris.Chunks[0].position.X / Game1.tileSize) + 1, (int)(debris.Chunks[0].position.Y / Game1.tileSize) + 1)).All(debrisTile => debrisTile != tile);
 		}
 
 		/// <summary>Force a tile to be affected by the hoe.</summary>

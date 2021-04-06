@@ -1,7 +1,5 @@
 using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
 using System;
-using System.Linq;
 using TheLion.Common.Integrations;
 
 namespace TheLion.AwesomeTools
@@ -347,19 +345,6 @@ namespace TheLion.AwesomeTools
 					get: config => config.PickaxeConfig.ClearDebris,
 					set: (config, value) => config.PickaxeConfig.ClearDebris = value
 				);
-		}
-
-		/// <summary>Get the first button in a keybind, if any.</summary>
-		/// <param name="keybindList">The keybind list.</param>
-		private SButton GetSingleButton(KeybindList keybindList)
-		{
-			foreach (var keybind in keybindList.Keybinds)
-			{
-				if (keybind.IsBound)
-					return keybind.Buttons.First();
-			}
-
-			return SButton.None;
 		}
 	}
 }

@@ -31,25 +31,27 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindFirst(                                                 // find ladder spawn segment
-						new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(MineShaft), name: "ladderHasSpawned"))
+					.FindFirst( // find ladder spawn segment
+						new CodeInstruction(OpCodes.Ldfld,
+							AccessTools.Field(typeof(MineShaft), name: "ladderHasSpawned"))
 					)
 					.Retreat()
-					.GetLabels(out var labels)                                  // copy labels
+					.GetLabels(out var labels) // copy labels
 					.StripLabels()
-					.AddLabels(resumeExecution)                                 // branch here to resume execution
+					.AddLabels(resumeExecution) // branch here to resume execution
 					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4)  // arg 4 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4) // arg 4 = Farmer who
 					)
 					.InsertProfessionCheckForPlayerOnStack(Utility.ProfessionMap.Forward["Spelunker"], resumeExecution)
 					.Insert(
-						new CodeInstruction(OpCodes.Ldloc_3),                   // local 3 = chanceForLadderDown
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utility), nameof(Utility.GetSpelunkerBonusLadderDownChance))),
+						new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
+						new CodeInstruction(OpCodes.Call,
+							AccessTools.Method(typeof(Utility), nameof(Utility.GetSpelunkerBonusLadderDownChance))),
 						new CodeInstruction(OpCodes.Add),
 						new CodeInstruction(OpCodes.Stloc_3)
 					)
 					.Return(3)
-					.AddLabels(labels);                                         // restore labels to inserted spelunker check
+					.AddLabels(labels); // restore labels to inserted spelunker check
 			}
 			catch (Exception ex)
 			{
@@ -64,22 +66,22 @@ namespace TheLion.AwesomeProfessions
 			repeat1:
 			try
 			{
-				Helper                                          // find index of geologist check
+				Helper // find index of geologist check
 					.FindProfessionCheck(Farmer.geologist, fromCurrentIndex: i != 0)
 					.Retreat()
-					.GetLabels(out var labels)                  // copy labels
-					.StripLabels()                              // remove labels from here
+					.GetLabels(out var labels) // copy labels
+					.StripLabels() // remove labels from here
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)    // the false case branch
+						new CodeInstruction(OpCodes.Brfalse) // the false case branch
 					)
-					.GetOperand(out object isNotGeologist)      // copy destination
+					.GetOperand(out object isNotGeologist) // copy destination
 					.Return()
-					.Insert(                                    // insert uncoditional branch to skip this check
+					.Insert( // insert uncoditional branch to skip this check
 						new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist)
 					)
 					.Retreat()
 					.AddLabels(labels)
-					.Advance(2);                                // restore labels to inserted branch
+					.Advance(2); // restore labels to inserted branch
 			}
 			catch (Exception ex)
 			{
@@ -102,11 +104,11 @@ namespace TheLion.AwesomeProfessions
 			repeat2:
 			try
 			{
-				Helper                                      // find index of excavator check
+				Helper // find index of excavator check
 					.FindProfessionCheck(Farmer.excavator, fromCurrentIndex: i != 0)
 					.Retreat()
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Mul)    // remove this check
+						new CodeInstruction(OpCodes.Mul) // remove this check
 					);
 			}
 			catch (Exception ex)
@@ -129,10 +131,10 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindProfessionCheck(Farmer.burrower, fromCurrentIndex: true)   // find index of prospector check
+					.FindProfessionCheck(Farmer.burrower, fromCurrentIndex: true) // find index of prospector check
 					.Retreat()
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Mul)                            // remove this check
+						new CodeInstruction(OpCodes.Mul) // remove this check
 					);
 			}
 			catch (Exception ex)

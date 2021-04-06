@@ -24,7 +24,7 @@ namespace TheLion.AwesomeTools
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="modRegistry">Metadata about loaded mods.</param>
-		public BaseEffect(IModRegistry modRegistry)
+		protected BaseEffect(IModRegistry modRegistry)
 		{
 			_hasFarmTypeManager = modRegistry.IsLoaded("Esca.FarmTypeManager");
 		}
@@ -67,35 +67,6 @@ namespace TheLion.AwesomeTools
 			}
 		}
 
-		/// <summary>Temporarily set up the player to interact with a tile, then return it to the original state.</summary>
-		/// <param name="action">The action to perform.</param>
-		private void TemporarilyFakeInteraction(Action action)
-		{
-			Farmer who = Game1.player;
-
-			// save current state
-			float stamina = who.stamina;
-			Vector2 position = who.Position;
-			int facingDirection = who.FacingDirection;
-			int currentToolIndex = who.CurrentToolIndex;
-			bool canMove = who.canMove; // fix player frozen due to animations when performing an action
-
-			// perform action
-			try
-			{
-				action();
-			}
-			finally
-			{
-				// restore previous state
-				who.stamina = stamina;
-				who.Position = position;
-				who.FacingDirection = facingDirection;
-				who.CurrentToolIndex = currentToolIndex;
-				who.canMove = canMove;
-			}
-		}
-
 		/// <summary>Use a tool on a tile.</summary>
 		/// <param name="tool">The tool to use.</param>
 		/// <param name="tile">The tile to affect.</param>
@@ -108,13 +79,6 @@ namespace TheLion.AwesomeTools
 			who.lastClick = GetToolPixelPosition(tile);
 			tool.DoFunction(location, (int)who.lastClick.X, (int)who.lastClick.Y, 0, who);
 			return true;
-		}
-
-		/// <summary>Get the pixel position relative to the top-left corner of the map at which to use a tool.</summary>
-		/// <param name="tile">The tile to affect.</param>
-		protected Vector2 GetToolPixelPosition(Vector2 tile)
-		{
-			return (tile * Game1.tileSize) + new Vector2(Game1.tileSize / 2f);
 		}
 
 		/// <summary>Trigger the player action on the given tile.</summary>
@@ -145,34 +109,6 @@ namespace TheLion.AwesomeTools
 		protected bool IsWeed(SObject obj)
 		{
 			return !(obj is Chest) && obj?.Name == "Weeds";
-		}
-
-		/// <summary>Get a rectangle representing the tile area in absolute pixels from the map origin.</summary>
-		/// <param name="tile">The tile position.</param>
-		protected Rectangle GetAbsoluteTileArea(Vector2 tile)
-		{
-			Vector2 pos = tile * Game1.tileSize;
-			return new Rectangle((int)pos.X, (int)pos.Y, Game1.tileSize, Game1.tileSize);
-		}
-
-		/// <summary>Get the resource clumps in a given location.</summary>
-		/// <param name="location">The location to search.</param>
-		private IEnumerable<ResourceClump> GetNormalResourceClumps(GameLocation location)
-		{
-			IEnumerable<ResourceClump> clumps = location.resourceClumps;
-
-			switch (location)
-			{
-				case Forest forest when forest.log != null:
-					clumps = clumps.Concat(new[] { forest.log });
-					break;
-
-				case Woods woods when woods.stumps.Any():
-					clumps = clumps.Concat(woods.stumps);
-					break;
-			}
-
-			return clumps;
 		}
 
 		/// <summary>Get the resource clump which covers a given tile, if any.</summary>
@@ -232,39 +168,6 @@ namespace TheLion.AwesomeTools
 			return false;
 		}
 
-		/// <summary>Get the tilled dirt for a tile, if any.</summary>
-		/// <param name="tileFeature">The feature on the tile.</param>
-		/// <param name="tileObj">The object on the tile.</param>
-		/// <param name="dirt">The tilled dirt found, if any.</param>
-		/// <param name="isCoveredByObj">Whether there's an object placed over the tilled dirt.</param>
-		/// <param name="pot">The indoor pot containing the dirt, if applicable.</param>
-		/// <returns>Returns whether tilled dirt was found.</returns>
-		protected bool TryGetHoeDirt(TerrainFeature tileFeature, SObject tileObj, out HoeDirt dirt, out bool isCoveredByObj, out IndoorPot pot)
-		{
-			// garden pot
-			if (tileObj is IndoorPot foundPot)
-			{
-				pot = foundPot;
-				dirt = pot.hoeDirt.Value;
-				isCoveredByObj = false;
-				return true;
-			}
-
-			// regular dirt
-			if ((dirt = tileFeature as HoeDirt) != null)
-			{
-				pot = null;
-				isCoveredByObj = tileObj != null;
-				return true;
-			}
-
-			// none found
-			pot = null;
-			dirt = null;
-			isCoveredByObj = false;
-			return false;
-		}
-
 		/// <summary>Cancel the current player animation if it matches one of the given IDs.</summary>
 		/// <param name="who">The player to change.</param>
 		/// <param name="animationIds">The animation IDs to detect.</param>
@@ -282,12 +185,76 @@ namespace TheLion.AwesomeTools
 			}
 		}
 
+		/// <summary>Temporarily set up the player to interact with a tile, then return it to the original state.</summary>
+		/// <param name="action">The action to perform.</param>
+		private void TemporarilyFakeInteraction(Action action)
+		{
+			Farmer who = Game1.player;
+
+			// save current state
+			float stamina = who.stamina;
+			Vector2 position = who.Position;
+			int facingDirection = who.FacingDirection;
+			int currentToolIndex = who.CurrentToolIndex;
+			bool canMove = who.canMove; // fix player frozen due to animations when performing an action
+
+			// perform action
+			try
+			{
+				action();
+			}
+			finally
+			{
+				// restore previous state
+				who.stamina = stamina;
+				who.Position = position;
+				who.FacingDirection = facingDirection;
+				who.CurrentToolIndex = currentToolIndex;
+				who.canMove = canMove;
+			}
+		}
+
+		/// <summary>Get the pixel position relative to the top-left corner of the map at which to use a tool.</summary>
+		/// <param name="tile">The tile to affect.</param>
+		private Vector2 GetToolPixelPosition(Vector2 tile)
+		{
+			return (tile * Game1.tileSize) + new Vector2(Game1.tileSize / 2f);
+		}
+
+		/// <summary>Get a rectangle representing the tile area in absolute pixels from the map origin.</summary>
+		/// <param name="tile">The tile position.</param>
+		private Rectangle GetAbsoluteTileArea(Vector2 tile)
+		{
+			Vector2 pos = tile * Game1.tileSize;
+			return new Rectangle((int)pos.X, (int)pos.Y, Game1.tileSize, Game1.tileSize);
+		}
+
+		/// <summary>Get the resource clumps in a given location.</summary>
+		/// <param name="location">The location to search.</param>
+		private IEnumerable<ResourceClump> GetNormalResourceClumps(GameLocation location)
+		{
+			IEnumerable<ResourceClump> clumps = location.resourceClumps;
+
+			switch (location)
+			{
+				case Forest forest when forest.log != null:
+					clumps = clumps.Concat(new[] { forest.log });
+					break;
+
+				case Woods woods when woods.stumps.Any():
+					clumps = clumps.Concat(woods.stumps);
+					break;
+			}
+
+			return clumps;
+		}
+
 		/// <summary>Get the tile coordinate which is adjacent to the given <paramref name="tile"/> along a radial line from the player.</summary>
 		/// <param name="origin">The tile containing the player.</param>
 		/// <param name="tile">The tile to face.</param>
 		/// <param name="adjacent">The tile radially adjacent to the <paramref name="tile"/>.</param>
 		/// <param name="facingDirection">The direction to face.</param>
-		protected void GetRadialAdjacentTile(Vector2 origin, Vector2 tile, out Vector2 adjacent, out int facingDirection)
+		private void GetRadialAdjacentTile(Vector2 origin, Vector2 tile, out Vector2 adjacent, out int facingDirection)
 		{
 			facingDirection = StardewValley.Utility.getDirectionFromChange(tile, origin);
 			adjacent = facingDirection switch

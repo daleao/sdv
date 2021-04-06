@@ -15,7 +15,7 @@ namespace TheLion.AwesomeTools
 
 		/// <summary>The Axe upgrade levels needed to break supported resource clumps.</summary>
 		/// <remarks>Derived from <see cref="ResourceClump.performToolAction"/>.</remarks>
-		private readonly IDictionary<int, int> _UpgradeLevelsNeededForResource = new Dictionary<int, int>
+		private IDictionary<int, int> _UpgradeLevelsNeededForResource { get; } = new Dictionary<int, int>
 		{
 			[ResourceClump.stumpIndex] = Tool.copper,
 			[ResourceClump.hollowLogIndex] = Tool.steel
@@ -92,10 +92,9 @@ namespace TheLion.AwesomeTools
 			// cut bushes in large terrain features
 			if (Config.ClearBushes)
 			{
-				foreach (Bush bush in location.largeTerrainFeatures.OfType<Bush>().Where(p => p.tilePosition.Value == tile))
+				if (location.largeTerrainFeatures.OfType<Bush>().Any(b => b.tilePosition.Value == tile))
 				{
-					if (ShouldCut(bush))
-						return UseToolOnTile(tool, tile, who, location);
+					return UseToolOnTile(tool, tile, who, location);
 				}
 			}
 
@@ -122,20 +121,16 @@ namespace TheLion.AwesomeTools
 		/// <param name="tree">The tree to check.</param>
 		private bool ShouldCut(FruitTree tree)
 		{
-			// seed
-			if (tree.growthStage.Value == Tree.seedStage)
-				return Config.ClearFruitTreeSeeds;
-
-			// sapling
-			if (tree.growthStage.Value < Tree.treeStage)
-				return Config.ClearFruitTreeSaplings;
-
-			// full-grown
-			return Config.CutGrownFruitTrees;
+			return tree.growthStage.Value switch
+			{
+				Tree.seedStage => Config.ClearFruitTreeSeeds,       // seed
+				< Tree.treeStage => Config.ClearFruitTreeSaplings,  // sapling
+				_ => Config.CutGrownFruitTrees                      // full-grown
+			};
 		}
 
-		/// <summary>Get whether a given bush should be chopped.</summary>
-		/// <param name="bush">The bush to check.</param>
+		/// <summary>Get whether bushes should be chopped.</summary>
+		/// <param name="bush">A bush.</param>
 		private bool ShouldCut(Bush bush)
 		{
 			return Config.ClearBushes;

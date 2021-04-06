@@ -8,8 +8,6 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class BrewerDayEndingEvent : DayEndingEvent
 	{
-		private const uint _AwardLevelMax = 5;
-
 		/// <inheritdoc/>
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
@@ -17,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 				AwesomeProfessions.Content.AssetEditors.Add(new SBAMailEditor());
 
 			// get Brewer fame points for the day
-			foreach (SObject obj in Game1.getFarm().getShippingBin(Game1.player).Where(item => Utility.IsBeverage(item as SObject)))
+			foreach (SObject obj in Game1.getFarm().getShippingBin(Game1.player).Where(item => item is SObject obj && Utility.IsBeverage(obj)))
 			{
 				if (obj.ParentSheetIndex.AnyOf(350, 614)) continue;
 

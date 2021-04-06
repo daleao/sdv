@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using System.Collections.Generic;
 using TheLion.Common;
 
 namespace TheLion.AwesomeProfessions
@@ -32,16 +31,16 @@ namespace TheLion.AwesomeProfessions
 		private static void TreeDayUpdatePostfix(ref Tree __instance, int __state, GameLocation environment, Vector2 tileLocation)
 		{
 			bool anyPlayerIsArborist = Utility.AnyPlayerHasProfession("Arborist", out int n);
-			if (__instance.growthStage.Value > __state || !anyPlayerIsArborist) return;
+			if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !CanThisTreeGrow(__instance, environment, tileLocation)) return;
 
-			if (CanThisTreeGrow(__instance, environment, tileLocation))
+			if (__instance.treeType.Value == Tree.mahoganyTree)
 			{
-				if (__instance.treeType.Value == Tree.mahoganyTree)
-				{
-					if (Game1.random.NextDouble() < 0.075 * n || (__instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n))
-						++__instance.growthStage.Value;
-				}
-				else if (Game1.random.NextDouble() < 0.1 * n) ++__instance.growthStage.Value;
+				if (Game1.random.NextDouble() < 0.075 * n || (__instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n))
+					++__instance.growthStage.Value;
+			}
+			else if (Game1.random.NextDouble() < 0.1 * n)
+			{
+				++__instance.growthStage.Value;
 			}
 		}
 
@@ -64,13 +63,16 @@ namespace TheLion.AwesomeProfessions
 			Rectangle growthRect = new Rectangle((int)((tileLocation.X - 1f) * 64f), (int)((tileLocation.Y - 1f) * 64f), 192, 192);
 			if (tree.growthStage.Value == 4)
 			{
-				foreach (KeyValuePair<Vector2, TerrainFeature> kvp in environment.terrainFeatures.Pairs)
+				foreach (var pair in environment.terrainFeatures.Pairs)
 				{
-					if (kvp.Value is Tree && !kvp.Value.Equals(tree) && (kvp.Value as Tree).growthStage.Value >= 5 && kvp.Value.getBoundingBox(kvp.Key).Intersects(growthRect))
+					if (pair.Value is Tree value && !value.Equals(tree) && value.growthStage.Value >= 5 && value.getBoundingBox(pair.Key).Intersects(growthRect))
 						return false;
 				}
 			}
-			else if (tree.growthStage.Value == 0 && environment.objects.ContainsKey(tileLocation)) return false;
+			else if (tree.growthStage.Value == 0 && environment.objects.ContainsKey(tileLocation))
+			{
+				return false;
+			}
 
 			return true;
 		}

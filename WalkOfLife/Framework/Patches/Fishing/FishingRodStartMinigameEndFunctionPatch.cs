@@ -29,11 +29,11 @@ namespace TheLion.AwesomeProfessions
 
 			try
 			{
-				Helper                                      // find index of pirate check
+				Helper // find index of pirate check
 					.FindProfessionCheck(Farmer.pirate)
 					.Retreat(2)
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Add)    // remove this check
+						new CodeInstruction(OpCodes.Add) // remove this check
 					);
 			}
 			catch (Exception ex)

@@ -40,9 +40,6 @@ namespace TheLion.AwesomeTools
 						_pickaxe.SpreadToolEffect(tool, actionTile, _pickaxe.Config.RadiusAtEachPowerLevel, _multiplier, location, who);
 					}
 					break;
-
-				default:
-					break;
 			}
 		}
 	}

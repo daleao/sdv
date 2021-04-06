@@ -185,8 +185,8 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="obj">The given object.</param>
 		public static bool IsBeverage(SObject obj)
 		{
-			int pale_ale = 303, beer = 346, wine = 348, juice = 350, mead = 459, green_tea = 614;
-			return obj != null && (obj.Name.Contains("Wine") || obj.Name.Contains("Juice") || obj.Name.Contains("Mead") || obj.ParentSheetIndex.AnyOf(beer, green_tea, juice, mead, pale_ale, wine));
+			const int paleAle = 303, beer = 346, wine = 348, juice = 350, mead = 459, greenTea = 614;
+			return obj != null && (obj.Name.Contains("Wine") || obj.Name.Contains("Juice") || obj.Name.Contains("Mead") || obj.ParentSheetIndex.AnyOf(beer, greenTea, juice, mead, paleAle, wine));
 		}
 
 		/// <summary>Whether a given object is a stone.</summary>
@@ -221,7 +221,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="obj">The given object.</param>
 		public static bool IsTrapFish(SObject obj)
 		{
-			return obj?.ParentSheetIndex > 714 && obj?.ParentSheetIndex < 724;
+			return obj?.ParentSheetIndex > 714 && obj.ParentSheetIndex < 724;
 		}
 
 		/// <summary>Whether a given object is a fish caught with a fishing rod.</summary>
@@ -235,14 +235,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="obj">The given object.</param>
 		public static bool IsTrash(SObject obj)
 		{
-			return obj?.ParentSheetIndex > 166 && obj?.ParentSheetIndex < 173;
-		}
-
-		/// <summary>Whether a given item index corresponds to trash.</summary>
-		/// <param name="index">An item index.</param>
-		public static bool IsTrash(int index)
-		{
-			return index > 166 && index < 173;
+			return obj?.ParentSheetIndex > 166 && obj.ParentSheetIndex < 173;
 		}
 
 		/// <summary>Whether a given item index corresponds to mineral ammunition.</summary>

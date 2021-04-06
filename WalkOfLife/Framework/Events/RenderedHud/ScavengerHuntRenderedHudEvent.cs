@@ -15,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 			{
 				Utility.DrawTrackingArrowPointer(AwesomeProfessions.ScavengerHunt.TreasureTile.Value, Color.Violet);
 
-				var distanceSquared = (Game1.player.getTileLocation() - AwesomeProfessions.ScavengerHunt.TreasureTile.Value).LengthSquared();
+				float distanceSquared = (Game1.player.getTileLocation() - AwesomeProfessions.ScavengerHunt.TreasureTile.Value).LengthSquared();
 				if (distanceSquared <= Math.Pow(AwesomeProfessions.Config.TreasureTileDetectionDistance, 2))
 					Utility.DrawArrowPointerOverTarget(AwesomeProfessions.ScavengerHunt.TreasureTile.Value, Color.Violet);
 			}

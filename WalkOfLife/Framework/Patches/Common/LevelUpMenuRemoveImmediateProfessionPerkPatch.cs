@@ -5,6 +5,7 @@ using StardewValley.Menus;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Emit;
 
 namespace TheLion.AwesomeProfessions
@@ -53,17 +54,21 @@ namespace TheLion.AwesomeProfessions
 			if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out string professionName)) return;
 
 			// remove immediate perks
-			if (professionName.Equals("Angler")) FishingRod.maxTackleUses = 20;
-			else if (professionName.Equals("Aquarist"))
+			switch (professionName)
 			{
-				foreach (Building b in Game1.getFarm().buildings)
-				{
-					if ((b.owner.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && b.maxOccupants.Value > 10)
+				case "Angler":
+					FishingRod.maxTackleUses = 20;
+					break;
+
+				case "Aquarist":
 					{
-						b.maxOccupants.Set(10);
-						b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+						foreach (Building b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && b.maxOccupants.Value > 10))
+						{
+							b.maxOccupants.Set(10);
+							b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+						}
+						break;
 					}
-				}
 			}
 
 			// clean unnecessary mod data

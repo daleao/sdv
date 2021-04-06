@@ -5,6 +5,7 @@ using StardewValley.Menus;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -55,13 +56,10 @@ namespace TheLion.AwesomeProfessions
 			FishingRod.maxTackleUses = expectedMaxTackleUses;
 
 			// revalidate fish pond capacity
-			foreach (Building b in Game1.getFarm().buildings)
+			foreach (FishPond pond in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond))
 			{
-				if ((b.owner.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond)
-				{
-					(b as FishPond).UpdateMaximumOccupancy();
-					b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
-				}
+				pond.UpdateMaximumOccupancy();
+				pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
 			}
 		}
 

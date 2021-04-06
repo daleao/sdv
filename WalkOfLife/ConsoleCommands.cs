@@ -12,7 +12,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Add specified professions to the local player.</summary>
 		/// <param name="command">The console command.</param>
 		/// <param name="args">The supplied arguments.</param>
-		private void AddProfessionsToLocalPlayer(string command, string[] args)
+		private void _AddProfessionsToLocalPlayer(string command, string[] args)
 		{
 			if (!Context.IsWorldReady)
 			{
@@ -20,9 +20,9 @@ namespace TheLion.AwesomeProfessions
 				return;
 			}
 
-			if (args.Length < 1)
+			if (!args.Any())
 			{
-				Monitor.Log("You must specify the professions to add." + GetCommandUsage(), LogLevel.Warn);
+				Monitor.Log("You must specify the professions to add." + _GetCommandUsage(), LogLevel.Warn);
 				return;
 			}
 
@@ -52,7 +52,7 @@ namespace TheLion.AwesomeProfessions
 						}
 
 						while (currentLevel < Game1.player.GetUnmodifiedSkillLevel(skill))
-							GetLevelPerk(skill, ++currentLevel);
+							_GetLevelPerk(skill, ++currentLevel);
 					}
 
 					Game1.player.newLevels.Clear();
@@ -69,7 +69,7 @@ namespace TheLion.AwesomeProfessions
 					for (int skill = 0; skill < 5; ++skill)
 					{
 						currentLevel = Game1.player.getEffectiveSkillLevel(skill);
-						while (currentLevel < 10) GetLevelPerk(skill, ++currentLevel);
+						while (currentLevel < 10) _GetLevelPerk(skill, ++currentLevel);
 					}
 
 					Game1.player.FarmingLevel = 10;
@@ -120,7 +120,7 @@ namespace TheLion.AwesomeProfessions
 							professionsToAdd.Add(professionIndex);
 
 						int currentLevel = Game1.player.getEffectiveSkillLevel(skill);
-						while (currentLevel < 10) GetLevelPerk(skill, ++currentLevel);
+						while (currentLevel < 10) _GetLevelPerk(skill, ++currentLevel);
 
 						if (Game1.player.newLevels.Count > 0)
 						{
@@ -138,7 +138,10 @@ namespace TheLion.AwesomeProfessions
 					int skill = professionIndex / 6;
 					int expectedLevel = professionIndex % 6 > 2 ? 10 : 5;
 					int currentLevel = Game1.player.getEffectiveSkillLevel(skill);
-					while (currentLevel < expectedLevel) GetLevelPerk(skill, ++currentLevel);
+					if (currentLevel < 5 && expectedLevel == 10)
+						professionsToAdd.Add(skill * 6 + (professionIndex % 6 > 3 ? 1 : 0));
+
+					while (currentLevel < expectedLevel) _GetLevelPerk(skill, ++currentLevel);
 
 					switch (skill)
 					{
@@ -186,7 +189,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Print the currently subscribed mod events to the console.</summary>
 		/// <param name="command">The console command.</param>
 		/// <param name="args">The supplied arguments (not applicable).</param>
-		private void PrintSubscribedEvents(string command, string[] args)
+		private void _PrintSubscribedEvents(string command, string[] args)
 		{
 			Monitor.Log("Currently subscribed events:");
 			foreach (string s in EventManager.GetSubscribedEvents()) Monitor.Log($"{s}", LogLevel.Info);
@@ -195,7 +198,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Give the local player immediate perks for a skill level.</summary>
 		/// <param name="skill">The skill index.</param>
 		/// <param name="level">The skill level.</param>
-		private void GetLevelPerk(int skill, int level)
+		private void _GetLevelPerk(int skill, int level)
 		{
 			switch (skill)
 			{
@@ -222,8 +225,33 @@ namespace TheLion.AwesomeProfessions
 			Game1.player.Stamina = Game1.player.maxStamina.Value;
 		}
 
+		/// <summary>Print the current value of specified mod data fields to the console.</summary>
+		/// <param name="command">The console command.</param>
+		/// <param name="args">The supplied arguments (not applicable).</param>
+		private void _PrintDataField(string command, string[] args)
+		{
+			if (!Context.IsWorldReady)
+			{
+				Monitor.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (!args.Any())
+			{
+				Monitor.Log("You must specify a data field to read." + _GetAvailableDataFields(), LogLevel.Warn);
+				return;
+			}
+
+			foreach (string arg in args)
+			{
+				string value = Data.ReadField($"{UniqueID}/{arg}");
+				if (!string.IsNullOrEmpty(value)) Monitor.Log($"{arg}: {value}", LogLevel.Info);
+				else Monitor.Log($"Mod data does not contain an entry for {arg}.", LogLevel.Warn);
+			}
+		}
+
 		/// <summary>Tell the dummies how to use the console command.</summary>
-		private string GetCommandUsage()
+		private string _GetCommandUsage()
 		{
 			string result = "\n\nUsage: wol_getprofessions <argument1> <argument2> ... <argumentN>";
 			result += "\nAvailable arguments:";
@@ -233,6 +261,23 @@ namespace TheLion.AwesomeProfessions
 			result += "\n\t'<profession>' - get the specified profession and level up the corresponding skill if necessary.";
 			result += "\n\nExample:";
 			result += "\n\twol_getprofessions farming fishing scavenger prospector slimemaster";
+			return result;
+		}
+
+		/// <summary>Tell the dummies the available mod data fields.</summary>
+		private string _GetAvailableDataFields()
+		{
+			string result = "\n\nAvailable data fields:";
+			result += "\n\tBrewerFameAccrued - Fame points accrued as Brewer.";
+			result += "\n\tBrewerAwardLevel - Highest tier of Brewer's Association's Seasonal Award won.";
+			result += "\n\tFameNeededForNextAwardLevel - You need this many points to win the next award.";
+			result += $"\n\tItemsForaged - Number of items foraged as Ecologist ({Config.ForagesNeededForBestQuality} needed for best quality).";
+			result += $"\n\tMineralsCollected - Number of minerals collected as Gemologist ({Config.MineralsNeededForBestQuality} needed for best quality).";
+			result += "\n\tScavengerStreak - Number of consecutive Scavenger Hunts completed (higher numbers improve your hunt reward).";
+			result += "\n\tProspectorStreak - Number of consecutive Prospector Hunts completed (higher numbers improve your hunt reward).";
+			result += "\n\tLowestMineLevelReached - The lowest mine level reached by the local player(higher numbers improve your chance to find ladders).";
+			result += $"\n\tWaterTrashCollectedThisSeason - Number of junk items pulled out of water bodies as Conservationist in the current season ({Config.TrashNeededForNextTaxLevel} needed per tax bonus percent).";
+			result += "\n\tActiveTaxBonusPercent - The active tax bonus this season as a result of last season's Conservationist activities.";
 			return result;
 		}
 	}

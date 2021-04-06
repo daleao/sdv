@@ -40,8 +40,9 @@ namespace TheLion.AwesomeProfessions
 					break;
 
 				case "Sludge":
-					if (__instance.color.Value.Equals(Color.BlueViolet)) __result.Add(new SObject(439, 1));
-					else __result.Add(new SObject(437, 1));
+					__result.Add(__instance.color.Value.Equals(Color.BlueViolet)
+						? new SObject(439, 1)
+						: new SObject(437, 1));
 					break;
 			}
 		}

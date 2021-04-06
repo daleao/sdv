@@ -30,25 +30,27 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindProfessionCheck(Farmer.shepherd)                                   // find index of shepherd check
+					.FindProfessionCheck(Farmer.shepherd) // find index of shepherd check
 					.Advance()
-					.SetOpCode(OpCodes.Ldc_I4_0)                                            // replace with rancher check
-					.Advance(2)                                                             // the false case branch instruction
+					.SetOpCode(OpCodes.Ldc_I4_0) // replace with rancher check
+					.Advance(2) // the false case branch instruction
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)                                // the true case branch instruction
+						new CodeInstruction(OpCodes.Brfalse) // the true case branch instruction
 					)
-					.GetOperand(out object hasRancher)                                      // copy destination
+					.GetOperand(out object hasRancher) // copy destination
 					.Return()
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Brtrue_S, operand: (Label)hasRancher)   // replace false case branch with true case branch
+						new CodeInstruction(OpCodes.Brtrue_S,
+							operand: (Label)hasRancher) // replace false case branch with true case branch
 					)
 					.Advance()
-					.FindProfessionCheck(Farmer.butcher, fromCurrentIndex: true)            // find coopmaster check
-					.Advance(3)                                                             // the branch to resume execution
-					.GetOperand(out object resumeExecution)                                 // copy destination
+					.FindProfessionCheck(Farmer.butcher, fromCurrentIndex: true) // find coopmaster check
+					.Advance(3) // the branch to resume execution
+					.GetOperand(out object resumeExecution) // copy destination
 					.Return(2)
 					.Insert(
-						new CodeInstruction(OpCodes.Br_S, operand: (Label)resumeExecution)  // insert new false case branch
+						new CodeInstruction(OpCodes.Br_S,
+							operand: (Label)resumeExecution) // insert new false case branch
 					);
 			}
 			catch (Exception ex)

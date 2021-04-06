@@ -15,8 +15,7 @@ namespace TheLion.AwesomeProfessions
 			{
 				int first = (int)e.Skill * 6;
 				int last = first + 5;
-				for (int profession = first; profession <= last; ++profession)
-					LevelUpMenu.removeImmediateProfessionPerk(profession);
+				for (int profession = first; profession <= last; ++profession) LevelUpMenu.removeImmediateProfessionPerk(profession);
 			}
 		}
 	}

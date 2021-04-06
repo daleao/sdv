@@ -131,10 +131,7 @@ namespace TheLion.AwesomeTools
 						return;
 
 					CircleTileGrid grid = new CircleTileGrid(tileLocation, radius);
-					foreach (Vector2 tile in grid)
-					{
-						__result.Add(tile);
-					}
+					__result.AddRange(grid);
 				}
 			}
 		}
@@ -145,11 +142,7 @@ namespace TheLion.AwesomeTools
 		{
 			protected static bool Prefix(ref Tool __instance)
 			{
-				if (__instance is Axe && !AwesomeTools.Config.AxeConfig.ShowAxeAffectedTiles || __instance is Pickaxe && !AwesomeTools.Config.PickaxeConfig.ShowPickaxeAffectedTiles)
-				{
-					return false;
-				}
-				return true;
+				return (__instance is not Axe || AwesomeTools.Config.AxeConfig.ShowAxeAffectedTiles) && (__instance is not Pickaxe || AwesomeTools.Config.PickaxeConfig.ShowPickaxeAffectedTiles);
 			}
 		}
 	}

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TheLion.Common;
+using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
 namespace TheLion.AwesomeProfessions
@@ -26,30 +27,30 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Look-up table for trappable treasure items using magnet.</summary>
 		private static Dictionary<int, string[]> PirateTreasureTable { get; } = new()
 		{
-			{ 14, new string[] { "1.003", "1", "1" } },     // neptune's glaive
-			{ 51, new string[] { "1.003", "1", "1" } },     // broken trident
-			{ 166, new string[] { "0.03", "1", "1" } },     // treasure chest
-			{ 109, new string[] { "0.009", "1", "1" } },    // ancient sword
-			{ 110, new string[] { "0.009", "1", "1" } },    // rusty spoon
-			{ 111, new string[] { "0.009", "1", "1" } },    // rusty spur
-			{ 112, new string[] { "0.009", "1", "1" } },    // rusty cog
-			{ 117, new string[] { "0.009", "1", "1" } },    // anchor
-			{ 378, new string[] { "0.39", "1", "24" } },    // copper ore
-			{ 380, new string[] { "0.24", "1", "24" } },    // iron ore
-			{ 384, new string[] { "0.12", "1", "24" } },    // gold ore
-			{ 386, new string[] { "0.065", "1", "2" } },    // iridium ore
-			{ 516, new string[] { "0.024", "1", "1" } },    // small glow ring
-			{ 517, new string[] { "1.009", "1", "1" } },    // glow ring
-			{ 518, new string[] { "0.024", "1", "1" } },    // small magnet ring
-			{ 519, new string[] { "1.009", "1", "1" } },    // magnet ring
-			{ 527, new string[] { "0.005", "1", "1" } },    // iridium band
-			{ 529, new string[] { "0.005", "1", "1" } },    // amethyst ring
-			{ 530, new string[] { "0.005", "1", "1" } },    // topaz ring
-			{ 531, new string[] { "0.005", "1", "1" } },    // aquamarine ring
-			{ 532, new string[] { "0.005", "1", "1" } },    // jade ring
-			{ 533, new string[] { "0.005", "1", "1" } },    // emerald ring
-			{ 534, new string[] { "0.005", "1", "1" } },    // ruby ring
-			{ 890, new string[] { "0.03", "1", "3" } }      // qi bean
+			{ 14, new[] { "1.003", "1", "1" } },     // neptune's glaive
+			{ 51, new[] { "1.003", "1", "1" } },     // broken trident
+			{ 166, new[] { "0.03", "1", "1" } },     // treasure chest
+			{ 109, new[] { "0.009", "1", "1" } },    // ancient sword
+			{ 110, new[] { "0.009", "1", "1" } },    // rusty spoon
+			{ 111, new[] { "0.009", "1", "1" } },    // rusty spur
+			{ 112, new[] { "0.009", "1", "1" } },    // rusty cog
+			{ 117, new[] { "0.009", "1", "1" } },    // anchor
+			{ 378, new[] { "0.39", "1", "24" } },    // copper ore
+			{ 380, new[] { "0.24", "1", "24" } },    // iron ore
+			{ 384, new[] { "0.12", "1", "24" } },    // gold ore
+			{ 386, new[] { "0.065", "1", "2" } },    // iridium ore
+			{ 516, new[] { "0.024", "1", "1" } },    // small glow ring
+			{ 517, new[] { "1.009", "1", "1" } },    // glow ring
+			{ 518, new[] { "0.024", "1", "1" } },    // small magnet ring
+			{ 519, new[] { "1.009", "1", "1" } },    // magnet ring
+			{ 527, new[] { "0.005", "1", "1" } },    // iridium band
+			{ 529, new[] { "0.005", "1", "1" } },    // amethyst ring
+			{ 530, new[] { "0.005", "1", "1" } },    // topaz ring
+			{ 531, new[] { "0.005", "1", "1" } },    // aquamarine ring
+			{ 532, new[] { "0.005", "1", "1" } },    // jade ring
+			{ 533, new[] { "0.005", "1", "1" } },    // emerald ring
+			{ 534, new[] { "0.005", "1", "1" } },    // ruby ring
+			{ 890, new[] { "0.03", "1", "3" } }      // qi bean
 		};
 
 		#endregion look-up tables
@@ -110,9 +111,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			Dictionary<string, string> rawFishDataWithLocation = new();
 			if (rawFishData.Length > 1)
-			{
 				for (int i = 0; i < rawFishData.Length; i += 2) rawFishDataWithLocation[rawFishData[i]] = rawFishData[i + 1];
-			}
 			return rawFishDataWithLocation;
 		}
 
@@ -126,18 +125,18 @@ namespace TheLion.AwesomeProfessions
 		{
 			string[] keys = rawFishDataWithLocation.Keys.ToArray();
 			SUtility.Shuffle(r, keys);
-			for (int i = 0; i < keys.Length; ++i)
+			foreach (string key in keys)
 			{
-				string[] specificFishData = fishData[Convert.ToInt32(keys[i])].Split('/');
+				string[] specificFishData = fishData[Convert.ToInt32(key)].Split('/');
 				if (IsLegendaryFish(specificFishData)) continue;
 
 				if (!IsUsingMagicBait(crabpot) && !IsLowLevelFish(specificFishData)) continue;
 
-				int specificFishLocation = Convert.ToInt32(rawFishDataWithLocation[keys[i]]);
+				int specificFishLocation = Convert.ToInt32(rawFishDataWithLocation[key]);
 				if (!IsUsingMagicBait(crabpot) && (!IsCorrectLocationAndTimeForThisFish(specificFishData, specificFishLocation, crabpot, location) || !IsCorrectWeatherForThisFish(specificFishData, location)))
 					continue;
 
-				if (r.NextDouble() < GetChanceForThisFish(specificFishData)) return Convert.ToInt32(keys[i]);
+				if (r.NextDouble() < GetChanceForThisFish(specificFishData)) return Convert.ToInt32(key);
 			}
 
 			return -1;
@@ -147,17 +146,14 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="specificFishData">Raw game file data for this fish.</param>
 		public static bool IsLegendaryFish(string[] specificFishData)
 		{
-			if (specificFishData[0].AnyOf("Crimsonfish", "Angler", "Legend", "Glacierfish", "Mutant Carp", "Son of Crimsonfish", "Ms. Angler", "Legend II", "Glacierfish Jr.", "Radioactive Carp"))
-				return true;
-			return false;
+			return specificFishData[0].AnyOf("Crimsonfish", "Angler", "Legend", "Glacierfish", "Mutant Carp", "Son of Crimsonfish", "Ms. Angler", "Legend II", "Glacierfish Jr.", "Radioactive Carp");
 		}
 
 		/// <summary>Whether the specific fish data corresponds to a sufficiently low level fish.</summary>
 		/// <param name="specificFishData">Raw game file data for this fish.</param>
 		public static bool IsLowLevelFish(string[] specificFishData)
 		{
-			if (Convert.ToInt32(specificFishData[1]) < 50) return true;
-			return false;
+			return Convert.ToInt32(specificFishData[1]) < 50;
 		}
 
 		/// <summary>Whether the current fishing location and game time match the specific fish data.</summary>
@@ -187,10 +183,8 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (specificFishData[7].Equals("both")) return true;
 
-			if (specificFishData[7].Equals("rainy") && !Game1.IsRainingHere(location)) return false;
-			else if (specificFishData[7].Equals("sunny") && Game1.IsRainingHere(location)) return false;
-
-			return true;
+			return specificFishData[7].Equals("rainy") && !Game1.IsRainingHere(location) ||
+				specificFishData[7].Equals("sunny") && Game1.IsRainingHere(location);
 		}
 
 		/// <summary>Get the chance of selecting a specific fish from the fish pool.</summary>
@@ -202,15 +196,16 @@ namespace TheLion.AwesomeProfessions
 
 		/// <summary>Choose a treasure from the pirate treasure loot table.</summary>
 		/// <param name="r">Random number generator.</param>
+		/// <param name="who">The player.</param>
 		public static int ChoosePirateTreasure(Random r, Farmer who)
 		{
 			int[] keys = PirateTreasureTable.Keys.ToArray();
 			SUtility.Shuffle(r, keys);
-			for (int i = 0; i < keys.Length; ++i)
+			foreach (int key in keys)
 			{
-				if (keys[i] == 890 && !who.team.SpecialOrderRuleActive("DROP_QI_BEANS")) continue;
+				if (key == 890 && !who.team.SpecialOrderRuleActive("DROP_QI_BEANS")) continue;
 
-				if (r.NextDouble() < GetChanceForThisTreasure(keys[i])) return keys[i];
+				if (r.NextDouble() < GetChanceForThisTreasure(key)) return key;
 			}
 			return -1;
 		}
@@ -231,7 +226,7 @@ namespace TheLion.AwesomeProfessions
 		public static int ChooseTrapFish(CrabPot crabpot, Dictionary<int, string> fishData, GameLocation location, Random r, bool isLuremaster)
 		{
 			List<int> keys = new();
-			foreach (KeyValuePair<int, string> kvp in fishData)
+			foreach (var kvp in fishData)
 			{
 				if (!kvp.Value.Contains("trap")) continue;
 
@@ -249,7 +244,7 @@ namespace TheLion.AwesomeProfessions
 				if (r.NextDouble() < GetChanceForThisTrapFish(rawSplit)) return kvp.Key;
 			}
 
-			if (isLuremaster && keys.Count > 0) return keys[r.Next(keys.Count())];
+			if (isLuremaster && keys.Count > 0) return keys[r.Next(keys.Count)];
 
 			return -1;
 		}
@@ -270,17 +265,13 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		/// <summary>Get the quality for the chosen catch.</summary>
+		/// <param name="whichFish">The chosen catch.</param>
 		/// <param name="who">The owner of the crab pot.</param>
 		/// <param name="r">Random number generator.</param>
 		public static int GetTrapFishQuality(int whichFish, Farmer who, Random r)
 		{
 			if (!SpecificPlayerHasProfession("Trapper", who) || PirateTreasureTable.ContainsKey(whichFish)) return 0;
-
-			if (r.NextDouble() < who.FishingLevel / 30.0) return 2;
-
-			if (r.NextDouble() < who.FishingLevel / 15.0) return 1;
-
-			return 0;
+			return (r.NextDouble() < who.FishingLevel / 30.0) ? 2 : (r.NextDouble() < who.FishingLevel / 15.0) ? 1 : 0;
 		}
 
 		/// <summary>Get initial stack for the chosen stack.</summary>
@@ -290,12 +281,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="r">Random number generator.</param>
 		public static int GetTrapFishQuantity(CrabPot crabpot, int whichFish, Farmer who, Random r)
 		{
-			if (IsUsingWildBait(crabpot) && r.NextDouble() < 0.25 + who.DailyLuck / 2.0) return 2;
-
-			if (PirateTreasureTable.TryGetValue(whichFish, out string[] treasureData))
-				return r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1);
-
-			return 1;
+			return IsUsingWildBait(crabpot) && r.NextDouble() < 0.25 + who.DailyLuck / 2.0 ? 2 : PirateTreasureTable.TryGetValue(whichFish, out string[] treasureData) ? r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1) : 1;
 		}
 
 		/// <summary>Get random trash.</summary>
@@ -309,8 +295,8 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="crabpot">The crab pot instance.</param>
 		public static bool IsHoldingSpecialLuremasterCatch(CrabPot crabpot)
 		{
-			var obj = crabpot.heldObject.Value;
-			return (obj.Type == "Fish" && !(IsTrapFish(obj) || IsTrash(obj))) || PirateTreasureTable.ContainsKey(obj.ParentSheetIndex);
+			SObject obj = crabpot.heldObject.Value;
+			return obj.Type == "Fish" && !(IsTrapFish(obj) || IsTrash(obj)) || PirateTreasureTable.ContainsKey(obj.ParentSheetIndex);
 		}
 	}
 }

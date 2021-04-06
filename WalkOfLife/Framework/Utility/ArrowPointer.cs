@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Get the pointer's current vertical offset.</summary>
 		public Vector2 GetOffset()
 		{
-			return new Vector2(0f, _height);
+			return new(0f, _height);
 		}
 	}
 }

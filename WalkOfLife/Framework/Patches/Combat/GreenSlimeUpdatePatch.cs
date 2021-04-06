@@ -15,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(GreenSlime), nameof(GreenSlime.update), new Type[] { typeof(GameTime), typeof(GameLocation) }),
+				AccessTools.Method(typeof(GreenSlime), nameof(GreenSlime.update), new[] { typeof(GameTime), typeof(GameLocation) }),
 				postfix: new HarmonyMethod(GetType(), nameof(GreenSlimeUpdatePostfix))
 			);
 		}
@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (!Utility.AnyPlayerInLocationHasProfession("Slimemaster", location)) return;
 
-			foreach (Monster monster in __instance.currentLocation.characters.Where(c => c is Monster && !(c is GreenSlime)))
+			foreach (Monster monster in __instance.currentLocation.characters.Where(npc => npc is Monster && !(npc is GreenSlime)))
 			{
 				if (!monster.IsInvisible && !monster.isInvincible() && !monster.isGlider.Value && monster.GetBoundingBox().Intersects(__instance.GetBoundingBox()))
 				{

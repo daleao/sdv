@@ -46,7 +46,9 @@ namespace TheLion.AwesomeProfessions
 								Game1.createObjectDebris(SObject.coal, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID, __instance);
 						}
 						else if (r.NextDouble() < 0.05 * chanceModifier)
+						{
 							Game1.createObjectDebris(SObject.coal, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID, __instance);
+						}
 					}
 				}
 			}

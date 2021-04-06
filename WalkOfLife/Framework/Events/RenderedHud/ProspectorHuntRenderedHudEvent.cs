@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions
 			// reveal treasure hunt target
 			if (AwesomeProfessions.ProspectorHunt.TreasureTile != null)
 			{
-				var distanceSquared = (Game1.player.getTileLocation() - AwesomeProfessions.ProspectorHunt.TreasureTile.Value).LengthSquared();
+				float distanceSquared = (Game1.player.getTileLocation() - AwesomeProfessions.ProspectorHunt.TreasureTile.Value).LengthSquared();
 				if (distanceSquared <= Math.Pow(AwesomeProfessions.Config.TreasureTileDetectionDistance, 2))
 					Utility.DrawArrowPointerOverTarget(AwesomeProfessions.ProspectorHunt.TreasureTile.Value, Color.Violet);
 			}

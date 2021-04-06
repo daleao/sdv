@@ -254,10 +254,19 @@ namespace TheLion.Common.Harmony
 			return this;
 		}
 
-		/// <summary>Insert any code instructions in the buffer at the currently pointed index.</summary>
+		/// <summary>Insert the buffer contents at the currently pointed index.</summary>
 		public ILHelper InsertBuffer()
 		{
-			Insert(_buffer.ToArray());
+			Insert(_buffer.Clone().ToArray());
+			return this;
+		}
+
+		/// <summary>Insert a subset of the buffer contents at the currently pointed index.</summary>
+		/// <param name="index">The starting index.</param>
+		/// <param name="length">The subset length.</param>
+		public ILHelper InsertBuffer(int index, int length)
+		{
+			Insert(_buffer.Clone().ToArray().SubArray(index, length));
 			return this;
 		}
 
@@ -301,8 +310,8 @@ namespace TheLion.Common.Harmony
 		}
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index to roll a random integer.</summary>
-		/// <param name="minValue">The profession id.</param>
-		/// <param name="maxValue">The destination to branch to when the check returns false.</param>
+		/// <param name="minValue">The lower limit, inclusive.</param>
+		/// <param name="maxValue">The upper limit, inclusive.</param>
 		public ILHelper InsertDiceRoll(int minValue, int maxValue)
 		{
 			return Insert(

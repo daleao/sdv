@@ -15,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(CrabPot), nameof(CrabPot.draw), new Type[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) }),
+				AccessTools.Method(typeof(CrabPot), nameof(CrabPot.draw), new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) }),
 				prefix: new HarmonyMethod(GetType(), nameof(CrabPotDrawPrefix))
 			);
 		}

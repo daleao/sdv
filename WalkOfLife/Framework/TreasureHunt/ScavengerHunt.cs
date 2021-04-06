@@ -15,7 +15,7 @@ using SObject = StardewValley.Object;
 namespace TheLion.AwesomeProfessions
 {
 	/// <summary>Manages treasure hunt events for Scavenger professions.</summary>
-	internal class ScavengerHunt : TreasureHunt
+	public class ScavengerHunt : TreasureHunt
 	{
 		/// <summary>Construct an instance.</summary>
 		internal ScavengerHunt(string huntStartedMessage, string huntFailedMessage, Texture2D icon)
@@ -61,7 +61,7 @@ namespace TheLion.AwesomeProfessions
 				if (actionTile == TreasureTile.Value)
 				{
 					End();
-					DelayedAction getTreasure = new DelayedAction(200, () => _BeginFindTreasure());
+					DelayedAction getTreasure = new DelayedAction(200, _BeginFindTreasure);
 					Game1.delayedActions.Add(getTreasure);
 					AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ScavengerHuntStreak", amount: 1);
 				}
@@ -109,7 +109,7 @@ namespace TheLion.AwesomeProfessions
 			Game1.player.completelyStopAnimatingOrDoingAction();
 			var treasures = _GetTreasureContents();
 			Game1.activeClickableMenu = new ItemGrabMenu(treasures).setEssential(essential: true);
-			(Game1.activeClickableMenu as ItemGrabMenu).source = 3;
+			((ItemGrabMenu)Game1.activeClickableMenu).source = 3;
 		}
 
 		/// <summary>Choose the contents of the treasure chest.</summary>
@@ -161,7 +161,7 @@ namespace TheLion.AwesomeProfessions
 						{
 							treasures.Add(new SObject(102, 1)); // lost book
 						}
-						else if (Game1.player.archaeologyFound.Count() > 0) // artifacts
+						else if (Game1.player.archaeologyFound.Any()) // artifacts
 						{
 							if (Random.NextDouble() < 0.25) treasures.Add(new SObject(Random.Next(579, 585), 1));
 							else if (Random.NextDouble() < 0.5) treasures.Add(new SObject(Random.NextDouble() < 0.25 ? Random.Next(100, 102) : Random.Next(120, 126), 1));
@@ -187,20 +187,21 @@ namespace TheLion.AwesomeProfessions
 								switch (Random.Next(4))
 								{
 									case 0: // fire quartz else ruby or emerald
-										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 82 : (Random.NextDouble() < 0.5 ? 64 : 60), Random.Next(1, 3)));
+										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 82 : Random.NextDouble() < 0.5 ? 64 : 60, Random.Next(1, 3)));
 										break;
 
 									case 1: // frozen tear else jade or aquamarine
-										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 84 : (Random.NextDouble() < 0.5 ? 70 : 62), Random.Next(1, 3)));
+										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 84 : Random.NextDouble() < 0.5 ? 70 : 62, Random.Next(1, 3)));
 										break;
 
 									case 2: // earth crystal else amethyst or topaz
-										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 86 : (Random.NextDouble() < 0.5 ? 66 : 68), Random.Next(1, 3)));
+										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 86 : Random.NextDouble() < 0.5 ? 66 : 68, Random.Next(1, 3)));
 										break;
 
 									case 3:
-										if (Random.NextDouble() < 0.28) treasures.Add(new SObject(72, 1)); // diamond
-										else treasures.Add(new SObject(80, Random.Next(1, 3))); // quartz
+										treasures.Add(Random.NextDouble() < 0.28
+											? new SObject(72, 1)
+											: new SObject(80, Random.Next(1, 3)));
 										break;
 								}
 

@@ -6,7 +6,7 @@ using System;
 namespace TheLion.AwesomeProfessions
 {
 	/// <summary>Base class for treasure hunts.</summary>
-	internal abstract class TreasureHunt
+	public abstract class TreasureHunt
 	{
 		public Vector2? TreasureTile { get; protected set; } = null;
 
@@ -18,7 +18,7 @@ namespace TheLion.AwesomeProfessions
 		protected uint _timeLimit;
 		protected uint _elapsed = 0;
 
-		private double _baseTriggerChance;
+		private readonly double _baseTriggerChance;
 		private double _accumulatedBonus = 1.0;
 
 		/// <summary>Construct an instance.</summary>

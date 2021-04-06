@@ -31,21 +31,21 @@ namespace TheLion.AwesomeProfessions
 			repeat:
 			try
 			{
-				Helper                                          // find index of acrobat check
+				Helper // find index of acrobat check
 					.FindProfessionCheck(Farmer.acrobat, fromCurrentIndex: i != 0)
 					.Retreat(2)
 					.GetLabels(out var labels)
 					.StripLabels()
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)    // the false case branch
+						new CodeInstruction(OpCodes.Brfalse) // the false case branch
 					)
-					.GetOperand(out object isNotAcrobat)        // copy destination
+					.GetOperand(out object isNotAcrobat) // copy destination
 					.Return()
-					.Insert(                                    // insert unconditional branch to skip this check
+					.Insert( // insert unconditional branch to skip this check
 						new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)
 					)
 					.Retreat()
-					.AddLabels(labels)                          // restore labels to inserted branch
+					.AddLabels(labels) // restore labels to inserted branch
 					.Advance(3);
 			}
 			catch (Exception ex)

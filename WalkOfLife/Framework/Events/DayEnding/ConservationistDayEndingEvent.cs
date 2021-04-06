@@ -17,7 +17,7 @@ namespace TheLion.AwesomeProfessions
 			if (Game1.dayOfMonth == 28 && (trashCollectedThisSeason = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", uint.Parse)) > 0)
 			{
 				float taxBonusNextSeason = trashCollectedThisSeason / AwesomeProfessions.Config.TrashNeededForNextTaxLevel / 100f;
-				AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/ActiveTaxBonus", taxBonusNextSeason.ToString());
+				AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/ActiveTaxBonusPercent", taxBonusNextSeason.ToString());
 				if (taxBonusNextSeason > 0)
 				{
 					AwesomeProfessions.Content.InvalidateCache(Path.Combine("Data", "mail"));

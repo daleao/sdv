@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using StardewValley.Menus;
-using System;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -10,7 +9,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Constructor(typeof(BobberBar), new Type[] { typeof(int), typeof(float), typeof(bool), typeof(int) }),
+				AccessTools.Constructor(typeof(BobberBar), new[] { typeof(int), typeof(float), typeof(bool), typeof(int) }),
 				postfix: new HarmonyMethod(GetType(), nameof(BobberBarCtorPostfix))
 			);
 		}

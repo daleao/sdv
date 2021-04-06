@@ -8,9 +8,11 @@ namespace TheLion.AwesomeProfessions
 		/// <inheritdoc/>
 		public override void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
 		{
-			if (AwesomeProfessions.Config.ModKey.JustPressed()) AwesomeProfessions.EventManager.Subscribe(new ArrowPointerUpdateTickedEvent(), new TrackerRenderedHudEvent());
-
-			if (AwesomeProfessions.Config.ModKey.GetState() == SButtonState.Released)
+			if (AwesomeProfessions.Config.ModKey.JustPressed())
+			{
+				AwesomeProfessions.EventManager.Subscribe(new ArrowPointerUpdateTickedEvent(), new TrackerRenderedHudEvent());
+			}
+			else if (AwesomeProfessions.Config.ModKey.GetState() == SButtonState.Released)
 			{
 				AwesomeProfessions.EventManager.Unsubscribe(typeof(TrackerRenderedHudEvent));
 				if (!(AwesomeProfessions.EventManager.IsSubscribed(typeof(ProspectorHuntRenderedHudEvent)) || AwesomeProfessions.EventManager.IsSubscribed(typeof(ScavengerHuntRenderedHudEvent))))

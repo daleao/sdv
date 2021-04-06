@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using StardewValley;
-using System;
 using System.Collections.Generic;
 
 namespace TheLion.AwesomeProfessions
@@ -11,7 +10,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Constructor(typeof(CraftingRecipe), new Type[] { typeof(string), typeof(bool) }),
+				AccessTools.Constructor(typeof(CraftingRecipe), new[] { typeof(string), typeof(bool) }),
 				postfix: new HarmonyMethod(GetType(), nameof(CraftingRecipeCtorPostfix))
 			);
 		}

@@ -1,7 +1,6 @@
 ﻿using Harmony;
 using StardewValley;
 using System;
-using TheLion.Common;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
@@ -54,7 +53,7 @@ namespace TheLion.AwesomeProfessions
 
 				// tax bonus
 				if (Utility.LocalPlayerHasProfession("Conservationist"))
-					multiplier *= 1f + AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ActiveTaxBonus", float.Parse);
+					multiplier *= Utility.GetConservationistPriceMultiplier(player);
 
 				saleMultiplier = Math.Max(saleMultiplier, multiplier);
 			}

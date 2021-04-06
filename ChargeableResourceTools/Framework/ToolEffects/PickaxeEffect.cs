@@ -15,7 +15,7 @@ namespace TheLion.AwesomeTools
 
 		/// <summary>The Pickaxe upgrade levels needed to break supported resource clumps.</summary>
 		/// <remarks>Derived from <see cref="ResourceClump.performToolAction"/>.</remarks>
-		private readonly IDictionary<int, int> _UpgradeLevelsNeededForResource = new Dictionary<int, int>
+		private IDictionary<int, int> _UpgradeLevelsNeededForResource { get; } = new Dictionary<int, int>
 		{
 			[ResourceClump.meteoriteIndex] = Tool.gold,
 			[ResourceClump.boulderIndex] = Tool.steel
@@ -64,7 +64,7 @@ namespace TheLion.AwesomeTools
 			}
 
 			// clear bushes
-			if (Config.ClearBushes && tileFeature is Bush bush)
+			if (Config.ClearBushes && tileFeature is Bush)
 			{
 				return UseToolOnTile(tool, tile, who, location);
 			}

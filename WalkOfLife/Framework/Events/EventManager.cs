@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 namespace TheLion.AwesomeProfessions
 {
 	/// <summary>Manages dynamic subscribing and unsubscribing of events for modded professions.</summary>
-	internal class EventManager
+	public class EventManager
 	{
 		private readonly List<IEvent> _subscribed = new();
 
@@ -18,12 +18,10 @@ namespace TheLion.AwesomeProfessions
 		{
 			{Farmer.artisan, new List<IEvent> { new BrewerDayEndingEvent() } },
 			{Farmer.mariner, new List<IEvent> { new ConservationistDayEndingEvent(), new ConservationistDayStartedEvent() } },
-			{Farmer.botanist, new List<IEvent> { new EcologistInventoryChangedEvent() } },
 			{Farmer.tracker, new List<IEvent> { new ScavengerDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent() } },
 			{Farmer.blacksmith, new List<IEvent> { new SpelunkerUpdateTickedEvent(), new SpelunkerWarpedEvent() } },
 			{Farmer.burrower, new List<IEvent> { new ProspectorDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent() } },
 			{Farmer.excavator, new List<IEvent> { new DemolitionistUpdateTickedEvent() } },
-			{Farmer.gemologist, new List<IEvent> { new GemologistInventoryChangedEvent() } },
 			{Farmer.brute, new List<IEvent> { new BruteUpdateTickedEvent(), new BruteWarpedEvent() } },
 			{Farmer.defender, new List<IEvent> { new GambitUpdateTickedEvent() } },
 		};

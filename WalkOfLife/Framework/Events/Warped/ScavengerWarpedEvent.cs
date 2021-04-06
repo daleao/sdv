@@ -12,8 +12,9 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (!e.IsLocalPlayer) return;
 
-			if (AwesomeProfessions.ScavengerHunt == null)
-				AwesomeProfessions.ScavengerHunt = new ScavengerHunt(AwesomeProfessions.I18n.Get("scavenger.huntstarted"), AwesomeProfessions.I18n.Get("scavenger.huntfailed"), AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "scavenger.png")));
+			AwesomeProfessions.ScavengerHunt ??= new ScavengerHunt(AwesomeProfessions.I18n.Get("scavenger.huntstarted"),
+				AwesomeProfessions.I18n.Get("scavenger.huntfailed"),
+				AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "scavenger.png")));
 
 			if (AwesomeProfessions.ScavengerHunt.TreasureTile != null) AwesomeProfessions.ScavengerHunt.End();
 

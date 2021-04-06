@@ -31,29 +31,33 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindFirst(                                             // find index of FarmAnimal.type.Value.Equals("Sheep")
+					.FindFirst( // find index of FarmAnimal.type.Value.Equals("Sheep")
 						new CodeInstruction(OpCodes.Ldstr, operand: "Sheep"),
-						new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(string), nameof(string.Equals), new Type[] { typeof(string) }))
+						new CodeInstruction(OpCodes.Callvirt,
+							AccessTools.Method(typeof(string), nameof(string.Equals), new[] { typeof(string) }))
 					)
 					.Retreat(2)
-					.SetOperand(AccessTools.Field(typeof(FarmAnimal), nameof(FarmAnimal.happiness)))                                                    // was FarmAnimal.type
+					.SetOperand(AccessTools.Field(typeof(FarmAnimal),
+						nameof(FarmAnimal.happiness))) // was FarmAnimal.type
 					.Advance()
-					.SetOperand(AccessTools.Property(typeof(NetFieldBase<byte, NetByte>), nameof(NetFieldBase<byte, NetByte>.Value)).GetGetMethod())    // was <string, NetString>
+					.SetOperand(AccessTools
+						.Property(typeof(NetFieldBase<byte, NetByte>), nameof(NetFieldBase<byte, NetByte>.Value))
+						.GetGetMethod()) // was <string, NetString>
 					.Advance()
 					.ReplaceWith(
 						new CodeInstruction(OpCodes.Ldc_I4_S, operand: 200) // was Ldstr "Sheep"
 					)
 					.Advance()
 					.Remove()
-					.SetOpCode(OpCodes.Blt_S)                               // was Brfalse
+					.SetOpCode(OpCodes.Blt_S) // was Brfalse
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_0)
 					)
-					.SetOpCode(OpCodes.Ldc_I4_1)                            // was Ldc_I4_0
+					.SetOpCode(OpCodes.Ldc_I4_1) // was Ldc_I4_0
 					.Advance(2)
-					.SetOpCode(OpCodes.Ldc_I4_2)                            // was Ldc_I4_1
+					.SetOpCode(OpCodes.Ldc_I4_2) // was Ldc_I4_1
 					.Advance()
-					.SetOpCode(OpCodes.Div)                                 // was Sub
+					.SetOpCode(OpCodes.Div) // was Sub
 					.Advance()
 					.Insert(
 						new CodeInstruction(OpCodes.Conv_U1)
@@ -71,16 +75,17 @@ namespace TheLion.AwesomeProfessions
 			try
 			{
 				Helper
-					.FindNext(                                  // find index of first FarmAnimal.isCoopDweller check
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))
+					.FindNext( // find index of first FarmAnimal.isCoopDweller check
+						new CodeInstruction(OpCodes.Call,
+							AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.isCoopDweller)))
 					)
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)    // the all cases false branch
+						new CodeInstruction(OpCodes.Brfalse) // the all cases false branch
 					)
-					.GetOperand(out object resumeExecution)     // copy destination
+					.GetOperand(out object resumeExecution) // copy destination
 					.Return()
 					.Retreat()
-					.Insert(                                    // insert unconditional branch to skip this whole section
+					.Insert( // insert unconditional branch to skip this whole section
 						new CodeInstruction(OpCodes.Br_S, operand: (Label)resumeExecution)
 					);
 			}

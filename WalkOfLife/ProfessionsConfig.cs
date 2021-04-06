@@ -19,10 +19,10 @@ namespace TheLion.AwesomeProfessions
 		public uint BrewerLevelUpDifficulty { get; set; } = AwesomeProfessions.ModRegistry.IsLoaded("Wingheart.VanillaQualityPFM") ? 10 : 5;
 
 		/// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
-		public uint ForagesNeededForBestQuality { get; set; } = 200;
+		public uint ForagesNeededForBestQuality { get; set; } = 500;
 
 		/// <summary>You must mine this many minerals before your mined minerals become iridium-quality.</summary>
-		public uint MineralsNeededForBestQuality { get; set; } = 200;
+		public uint MineralsNeededForBestQuality { get; set; } = 500;
 
 		/// <summary>The chance that a scavenger or prospector hunt will trigger in the right conditions.</summary>
 		public double ChanceToStartTreasureHunt { get; set; } = 0.2;

@@ -7,7 +7,7 @@ namespace TheLion.AwesomeProfessions
 		/// <inheritdoc/>
 		public override void OnDayStarted(object sender, DayStartedEventArgs e)
 		{
-			AwesomeProfessions.ScavengerHunt.ResetAccumulatedBonus();
+			if (AwesomeProfessions.ScavengerHunt != null) AwesomeProfessions.ScavengerHunt.ResetAccumulatedBonus();
 		}
 	}
 }

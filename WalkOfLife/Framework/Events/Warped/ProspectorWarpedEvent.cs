@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
@@ -13,15 +14,16 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (!e.IsLocalPlayer) return;
 
-			if (AwesomeProfessions.ProspectorHunt == null)
-				AwesomeProfessions.ProspectorHunt = new ProspectorHunt(AwesomeProfessions.I18n.Get("prospector.huntstarted"), AwesomeProfessions.I18n.Get("prospector.huntfailed"), AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "prospector.png")));
+			AwesomeProfessions.ProspectorHunt ??= new ProspectorHunt(AwesomeProfessions.I18n.Get("prospector.huntstarted"),
+				AwesomeProfessions.I18n.Get("prospector.huntfailed"),
+				AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "prospector.png")));
 
 			if (AwesomeProfessions.ProspectorHunt.TreasureTile != null) AwesomeProfessions.ProspectorHunt.End();
 
 			AwesomeProfessions.initialLadderTiles.Clear();
-			if (e.NewLocation is MineShaft)
+			if (e.NewLocation is MineShaft shaft)
 			{
-				foreach (var tile in Utility.GetLadderTiles(e.NewLocation as MineShaft)) AwesomeProfessions.initialLadderTiles.Add(tile);
+				foreach (Vector2 tile in Utility.GetLadderTiles(shaft)) AwesomeProfessions.initialLadderTiles.Add(tile);
 
 				if (Game1.CurrentEvent == null) AwesomeProfessions.ProspectorHunt.TryStartNewHunt(e.NewLocation);
 			}

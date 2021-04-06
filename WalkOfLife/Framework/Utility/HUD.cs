@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using System;
+using System.IO;
 using SUtility = StardewValley.Utility;
 
 namespace TheLion.AwesomeProfessions
@@ -18,6 +19,8 @@ namespace TheLion.AwesomeProfessions
 		public static void DrawTrackingArrowPointer(Vector2 target, Color color)
 		{
 			if (SUtility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
+
+			ArrowPointer ??= new ArrowPointer(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "cursor.png")));
 
 			Rectangle vpbounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
 			Vector2 onScreenPosition = default;
@@ -53,11 +56,11 @@ namespace TheLion.AwesomeProfessions
 
 			if (onScreenPosition.X == 8f && onScreenPosition.Y == 8f) rotation += (float)Math.PI / 4f;
 
-			if (onScreenPosition.X == 8f && onScreenPosition.Y == vpbounds.Bottom - 8) rotation += (float)Math.PI / 4f;
+			if (onScreenPosition.X == 8f && onScreenPosition.Y == vpbounds.Bottom - 8f) rotation += (float)Math.PI / 4f;
 
-			if (onScreenPosition.X == vpbounds.Right - 8 && onScreenPosition.Y == 8f) rotation -= (float)Math.PI / 4f;
+			if (onScreenPosition.X == vpbounds.Right - 8f && onScreenPosition.Y == 8f) rotation -= (float)Math.PI / 4f;
 
-			if (onScreenPosition.X == vpbounds.Right - 8 && onScreenPosition.Y == vpbounds.Bottom - 8) rotation -= (float)Math.PI / 4f;
+			if (onScreenPosition.X == vpbounds.Right - 8f && onScreenPosition.Y == vpbounds.Bottom - 8f) rotation -= (float)Math.PI / 4f;
 
 			Rectangle srcRect = new Rectangle(0, 0, 5, 4);
 			float renderScale = 4f;
@@ -72,6 +75,8 @@ namespace TheLion.AwesomeProfessions
 		public static void DrawArrowPointerOverTarget(Vector2 target, Color color)
 		{
 			if (!SUtility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
+
+			ArrowPointer ??= new ArrowPointer(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "cursor.png")));
 
 			Rectangle srcRect = new Rectangle(0, 0, 5, 4);
 			float renderScale = 4f;

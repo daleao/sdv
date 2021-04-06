@@ -30,6 +30,8 @@ namespace TheLion.AwesomeTools
 
 		/// <summary>Whether Prismatic or Radioactive Tools mod is installed.</summary>
 		/// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
+		/// <param name="whichMod">Which of the two mods is installed.</param>
+		/// <returns>Returns the name of the installed mod, if either.</returns>
 		public static bool HasHigherLevelToolMod(IModRegistry modRegistry, out string whichMod)
 		{
 			if (modRegistry.IsLoaded("stokastic.PrismaticTools"))
@@ -37,7 +39,8 @@ namespace TheLion.AwesomeTools
 				whichMod = "Prismatic";
 				return true;
 			}
-			else if (modRegistry.IsLoaded("kakashigr.RadioactiveTools"))
+
+			if (modRegistry.IsLoaded("kakashigr.RadioactiveTools"))
 			{
 				whichMod = "Radioactive";
 				return true;
