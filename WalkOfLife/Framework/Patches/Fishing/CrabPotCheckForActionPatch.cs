@@ -28,7 +28,7 @@ namespace TheLion.AwesomeProfessions
 		private static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result, ref bool ___lidFlapping, ref float ___lidFlapTimer, ref Vector2 ___shake, ref float ___shakeTimer, Farmer who, bool justCheckingForActivity = false)
 		{
 			if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !Utility.IsHoldingSpecialLuremasterCatch(__instance))
-				return false; // don't run original logic
+				return true; // run original logic
 
 			SObject item = __instance.heldObject.Value;
 			bool addedToInvetory;
