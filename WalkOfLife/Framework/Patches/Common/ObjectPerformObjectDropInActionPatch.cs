@@ -69,12 +69,14 @@ namespace TheLion.AwesomeProfessions
 		}
 
 		/// <summary>Patch to increase Gemologist mineral quality from geode crusher and crystalarium + speed up Artisan production speed.</summary>
-		private static void ObjectPerformObjectDropInActionPostfix(SObject __instance, Farmer who)
+		private static void ObjectPerformObjectDropInActionPostfix(SObject __instance, bool probe, Farmer who)
 		{
+			if (probe) return;
+
 			if ((__instance.name.Equals("Geode Crusher") || __instance.name.Equals("Crystalarium")) && __instance.heldObject.Value != null
 			&& Utility.SpecificPlayerHasProfession("Gemologist", who) && (Utility.IsForagedMineral(__instance.heldObject.Value) || Utility.IsGemOrMineral(__instance.heldObject.Value)))
 				__instance.heldObject.Value.Quality = Utility.GetGemologistMineralQuality();
-			else if (Utility.IsArtisanMachine(__instance) && __instance.owner.Value == who.UniqueMultiplayerID && Utility.SpecificPlayerHasProfession("Artisan", who))
+			else if (Utility.IsArtisanMachine(__instance) && (__instance.owner.Value == who.UniqueMultiplayerID || !Game1.IsMultiplayer) && Utility.SpecificPlayerHasProfession("Artisan", who))
 				__instance.MinutesUntilReady -= (int)(__instance.MinutesUntilReady * 0.1);
 		}
 

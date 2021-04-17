@@ -86,5 +86,5 @@
 	"desperado.name": "Desperado",
 	"desperado.description": "Shots fired within 0.5 seconds deal triple damage.",
 	"slimecharmer.name": "Slimed Piper",
-	"slimecharmer.description": "Slimes heal you and damage other monsters. Spawn extra slimes in dungeons based on the number of slimes on your farm."
+	"slimecharmer.description": "Slimes damage other monsters and heal you on contact. Spawn extra slimes in dungeons based on the number of slimes on your farm."
 }

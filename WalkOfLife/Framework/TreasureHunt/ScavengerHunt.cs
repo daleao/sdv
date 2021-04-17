@@ -253,7 +253,7 @@ namespace TheLion.AwesomeProfessions
 
 										if (Random.NextDouble() < 0.02 * luckModifier) treasures.Add(new SObject(166, 1)); // treasure chest
 
-										if (Random.NextDouble() < 0.001 * luckModifier * (streak > 0 ? 10 * streak : 1)) treasures.Add(new SObject(74, 1));  // prismatic shard
+										if (Random.NextDouble() < 0.001 * luckModifier * Math.Pow(2, streak)) treasures.Add(new SObject(74, 1));  // prismatic shard
 
 										if (Random.NextDouble() < 0.01 * luckModifier) treasures.Add(new SObject(126, 1)); // strange doll
 

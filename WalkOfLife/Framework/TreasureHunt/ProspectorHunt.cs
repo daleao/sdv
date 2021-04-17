@@ -199,7 +199,7 @@ namespace TheLion.AwesomeProfessions
 									if (Random.NextDouble() < 0.010 * luckModifier && !Game1.player.specialItems.Contains(60))
 										treasuresAndQuantities.Add(60, 1); // ossified blade
 
-									if (Random.NextDouble() < 0.002 * luckModifier * (streak > 0 ? 10 * streak : 1)) treasuresAndQuantities.Add(74, 1); // prismatic shard
+									if (Random.NextDouble() < 0.002 * luckModifier * Math.Pow(2, streak)) treasuresAndQuantities.Add(74, 1); // prismatic shard
 
 									if (treasuresAndQuantities.Count == 1) treasuresAndQuantities.Add(72, 1); // consolation diamond
 
