@@ -1,6 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using StardewModdingAPI;
+﻿using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Menus;
 using System.Collections.Generic;
 using System.Linq;
 using TheLion.Common;
@@ -27,16 +27,15 @@ namespace TheLion.AwesomeProfessions
 			}
 
 			List<int> professionsToAdd = new();
-			foreach (string arg in args)
+			foreach (var arg in args)
 			{
 				if (arg.Equals("level"))
 				{
 					Monitor.Log($"Adding all professions for farmer {Game1.player.Name}'s current skill levels.", LogLevel.Info);
 
-					int currentLevel;
-					for (int skill = 0; skill < 5; ++skill)
+					for (var skill = 0; skill < 5; ++skill)
 					{
-						currentLevel = Game1.player.getEffectiveSkillLevel(skill);
+						var currentLevel = Game1.player.getEffectiveSkillLevel(skill);
 						if (currentLevel >= 5)
 						{
 							professionsToAdd.Add(skill * 6);
@@ -63,12 +62,11 @@ namespace TheLion.AwesomeProfessions
 				{
 					Monitor.Log($"Adding all professions to farmer {Game1.player.Name}.", LogLevel.Info);
 
-					for (int professionIndex = 0; professionIndex < 30; ++professionIndex) professionsToAdd.Add(professionIndex);
+					for (var professionIndex = 0; professionIndex < 30; ++professionIndex) professionsToAdd.Add(professionIndex);
 
-					int currentLevel;
-					for (int skill = 0; skill < 5; ++skill)
+					for (var skill = 0; skill < 5; ++skill)
 					{
-						currentLevel = Game1.player.getEffectiveSkillLevel(skill);
+						var currentLevel = Game1.player.getEffectiveSkillLevel(skill);
 						while (currentLevel < 10) _GetLevelPerk(skill, ++currentLevel);
 					}
 
@@ -85,7 +83,7 @@ namespace TheLion.AwesomeProfessions
 				if (arg.AnyOf("farming", "fishing", "foraging", "mining", "combat"))
 				{
 					Monitor.Log($"Adding all {arg.FirstCharToUpper()} professions to farmer {Game1.player.Name}.", LogLevel.Info);
-					int skill = -1;
+					var skill = -1;
 					switch (arg)
 					{
 						case "farming":
@@ -114,30 +112,28 @@ namespace TheLion.AwesomeProfessions
 							break;
 					}
 
-					if (skill > 0)
-					{
-						for (int professionIndex = 6 * skill; professionIndex < 6 * (skill + 1); ++professionIndex)
-							professionsToAdd.Add(professionIndex);
+					if (skill <= 0) continue;
 
-						int currentLevel = Game1.player.getEffectiveSkillLevel(skill);
-						while (currentLevel < 10) _GetLevelPerk(skill, ++currentLevel);
+					for (var professionIndex = 6 * skill; professionIndex < 6 * (skill + 1); ++professionIndex)
+						professionsToAdd.Add(professionIndex);
 
-						if (Game1.player.newLevels.Count > 0)
-						{
-							foreach (Point level in Game1.player.newLevels.Where(level => level.X == skill))
-								Game1.player.newLevels.Remove(level);
-						}
-					}
+					var currentLevel = Game1.player.getEffectiveSkillLevel(skill);
+					while (currentLevel < 10) _GetLevelPerk(skill, ++currentLevel);
+
+					if (Game1.player.newLevels.Count <= 0) continue;
+
+					foreach (var level in Game1.player.newLevels.Where(level => level.X == skill))
+						Game1.player.newLevels.Remove(level);
 				}
-				else if (Utility.ProfessionMap.Forward.TryGetValue(arg.FirstCharToUpper(), out int professionIndex))
+				else if (Utility.ProfessionMap.Forward.TryGetValue(arg.FirstCharToUpper(), out var professionIndex) || int.TryParse(arg, out professionIndex))
 				{
-					Monitor.Log($"Adding {arg.FirstCharToUpper()} profession to farmer {Game1.player.Name}.", LogLevel.Info);
+					Monitor.Log($"Adding {Utility.ProfessionMap.Reverse[professionIndex]} profession to farmer {Game1.player.Name}.", LogLevel.Info);
 
 					professionsToAdd.Add(professionIndex);
 
-					int skill = professionIndex / 6;
-					int expectedLevel = professionIndex % 6 > 2 ? 10 : 5;
-					int currentLevel = Game1.player.getEffectiveSkillLevel(skill);
+					var skill = professionIndex / 6;
+					var expectedLevel = professionIndex % 6 > 2 ? 10 : 5;
+					var currentLevel = Game1.player.getEffectiveSkillLevel(skill);
 					if (currentLevel < 5 && expectedLevel == 10)
 						professionsToAdd.Add(skill * 6 + (professionIndex % 6 > 3 ? 1 : 0));
 
@@ -166,11 +162,9 @@ namespace TheLion.AwesomeProfessions
 							break;
 					}
 
-					if (Game1.player.newLevels.Count > 0)
-					{
-						foreach (Point level in Game1.player.newLevels.Where(level => level.X == skill && level.Y <= expectedLevel))
-							Game1.player.newLevels.Remove(level);
-					}
+					if (Game1.player.newLevels.Count <= 0) continue;
+					foreach (var level in Game1.player.newLevels.Where(level => level.X == skill && level.Y <= expectedLevel))
+						Game1.player.newLevels.Remove(level);
 				}
 				else
 				{
@@ -178,12 +172,27 @@ namespace TheLion.AwesomeProfessions
 				}
 			}
 
-			foreach (int professionIndex in professionsToAdd.Distinct().Except(Game1.player.professions))
+			foreach (var professionIndex in professionsToAdd.Distinct().Except(Game1.player.professions))
 			{
 				Game1.player.professions.Add(professionIndex);
 				Utility.InitializeModData(professionIndex);
 				EventManager.SubscribeEventsForProfession(professionIndex);
 			}
+		}
+
+		/// <summary>Reset all skills and professions for the local player.</summary>
+		/// <param name="command">The console command.</param>
+		/// <param name="args">The supplied arguments.</param>
+		private void _ResetLocalPlayerProfessions(string command, string[] args)
+		{
+			Game1.player.FarmingLevel = 0;
+			Game1.player.FishingLevel = 0;
+			Game1.player.ForagingLevel = 0;
+			Game1.player.MiningLevel = 0;
+			Game1.player.CombatLevel = 0;
+			Game1.player.newLevels.Clear();
+			Game1.player.professions.Clear();
+			LevelUpMenu.RevalidateHealth(Game1.player);
 		}
 
 		/// <summary>Print the currently subscribed mod events to the console.</summary>
@@ -192,7 +201,7 @@ namespace TheLion.AwesomeProfessions
 		private void _PrintSubscribedEvents(string command, string[] args)
 		{
 			Monitor.Log("Currently subscribed events:");
-			foreach (string s in EventManager.GetSubscribedEvents()) Monitor.Log($"{s}", LogLevel.Info);
+			foreach (var s in EventManager.GetSubscribedEvents()) Monitor.Log($"{s}", LogLevel.Info);
 		}
 
 		/// <summary>Give the local player immediate perks for a skill level.</summary>
@@ -242,9 +251,9 @@ namespace TheLion.AwesomeProfessions
 				return;
 			}
 
-			foreach (string arg in args)
+			foreach (var arg in args)
 			{
-				string value = Data.ReadField($"{UniqueID}/{arg}");
+				var value = Data.ReadField($"{UniqueID}/{arg}");
 				if (!string.IsNullOrEmpty(value)) Monitor.Log($"{arg}: {value}", LogLevel.Info);
 				else Monitor.Log($"Mod data does not contain an entry for {arg}.", LogLevel.Warn);
 			}
@@ -253,23 +262,23 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Tell the dummies how to use the console command.</summary>
 		private string _GetCommandUsage()
 		{
-			string result = "\n\nUsage: wol_getprofessions <argument1> <argument2> ... <argumentN>";
+			var result = "\n\nUsage: wol_getprofessions <argument1> <argument2> ... <argumentN>";
 			result += "\nAvailable arguments:";
 			result += "\n\t'level' - get all professions and level perks for the local player's current skill levels.";
 			result += "\n\t'all' - get all professions, level perks and max out the local player's skills.";
 			result += "\n\t'<skill>' - get all professions and perks for and max out the specified skill.";
 			result += "\n\t'<profession>' - get the specified profession and level up the corresponding skill if necessary.";
 			result += "\n\nExample:";
-			result += "\n\twol_getprofessions farming fishing scavenger prospector slimemaster";
+			result += "\n\twol_getprofessions farming fishing scavenger prospector slimecharmer";
 			return result;
 		}
 
 		/// <summary>Tell the dummies the available mod data fields.</summary>
 		private string _GetAvailableDataFields()
 		{
-			string result = "\n\nAvailable data fields:";
-			result += "\n\tBrewerFameAccrued - Fame points accrued as Brewer.";
-			result += "\n\tBrewerAwardLevel - Highest tier of Brewer's Association's Seasonal Award won.";
+			var result = "\n\nAvailable data fields:";
+			result += "\n\tArtisanFameAccrued - Fame points accrued as Artisan.";
+			result += "\n\tArtisanAwardLevel - Highest tier of Artisan's Association's Seasonal Award won.";
 			result += "\n\tFameNeededForNextAwardLevel - You need this many points to win the next award.";
 			result += $"\n\tItemsForaged - Number of items foraged as Ecologist ({Config.ForagesNeededForBestQuality} needed for best quality).";
 			result += $"\n\tMineralsCollected - Number of minerals collected as Gemologist ({Config.MineralsNeededForBestQuality} needed for best quality).";

@@ -36,7 +36,7 @@ namespace TheLion.Common.Integrations
 			Monitor = monitor;
 
 			// validate mod
-			IManifest manifest = modRegistry.Get(ModID)?.Manifest;
+			var manifest = modRegistry.Get(ModID)?.Manifest;
 			if (manifest == null) return;
 
 			if (manifest.Version.IsOlderThan(minVersion))
@@ -52,7 +52,7 @@ namespace TheLion.Common.Integrations
 		/// <typeparam name="TInterface">The API type.</typeparam>
 		protected TInterface GetValidatedApi<TInterface>() where TInterface : class
 		{
-			TInterface api = ModRegistry.GetApi<TInterface>(ModID);
+			var api = ModRegistry.GetApi<TInterface>(ModID);
 			if (api == null)
 			{
 				Monitor.Log($"Detected {Label}, but couldn't fetch its API. Disabled integration with this mod.", LogLevel.Warn);

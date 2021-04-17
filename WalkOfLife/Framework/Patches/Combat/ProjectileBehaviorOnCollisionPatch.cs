@@ -4,6 +4,7 @@ using Netcode;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
+using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -13,7 +14,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(Projectile), name: "behaviorOnCollision"),
+				original: AccessTools.Method(typeof(Projectile), name: "behaviorOnCollision"),
 				postfix: new HarmonyMethod(GetType(), nameof(ProjectileBehaviorOnCollisionPostfix))
 			);
 		}
@@ -25,11 +26,12 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (!(__instance is BasicProjectile)) return;
 
-			Farmer who = ___theOneWhoFiredMe.Get(location) is Farmer ? ___theOneWhoFiredMe.Get(location) as Farmer : Game1.player;
-			if (!Utility.SpecificPlayerHasProfession("Rascal", who)) return;
+			var firer = ___theOneWhoFiredMe.Get(location) is Farmer ? (Farmer)___theOneWhoFiredMe.Get(location) : Game1.player;
+			if (!Utility.SpecificPlayerHasProfession("Rascal", firer)) return;
 
-			if (Game1.random.NextDouble() < 0.6 && Utility.IsMineralAmmunition(___currentTileSheetIndex.Value))
-				location.debris.Add(new Debris(___currentTileSheetIndex.Value - 1, new Vector2((int)___position.X, (int)___position.Y), who.getStandingPosition()));
+			if (Utility.IsMineralAmmunition(___currentTileSheetIndex.Value) && Game1.random.NextDouble() < 0.6
+			|| ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
+				location.debris.Add(new Debris(___currentTileSheetIndex.Value - 1, new Vector2((int)___position.X, (int)___position.Y), firer.getStandingPosition()));
 		}
 
 		#endregion harmony patches

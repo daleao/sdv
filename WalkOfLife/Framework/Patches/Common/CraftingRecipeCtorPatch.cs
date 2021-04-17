@@ -10,7 +10,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Constructor(typeof(CraftingRecipe), new[] { typeof(string), typeof(bool) }),
+				original: AccessTools.Constructor(typeof(CraftingRecipe), new[] { typeof(string), typeof(bool) }),
 				postfix: new HarmonyMethod(GetType(), nameof(CraftingRecipeCtorPostfix))
 			);
 		}

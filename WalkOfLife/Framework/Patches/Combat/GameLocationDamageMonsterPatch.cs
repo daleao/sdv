@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(GameLocation), nameof(GameLocation.damageMonster), new[] { typeof(Rectangle), typeof(int), typeof(int), typeof(bool), typeof(float), typeof(int), typeof(float), typeof(float), typeof(bool), typeof(Farmer) }),
+				original: AccessTools.Method(typeof(GameLocation), nameof(GameLocation.damageMonster), new[] { typeof(Rectangle), typeof(int), typeof(int), typeof(bool), typeof(float), typeof(int), typeof(float), typeof(float), typeof(bool), typeof(Farmer) }),
 				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationDamageMonsterTranspiler))
 			);
 		}
@@ -23,7 +23,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to move critical chance bonus from Scout to Gambit + patch Brute damage bonus + move critical damage bonus from Desperado to Gambit + count Brute kill streak.</summary>
 		private static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.damageMonster)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.damageMonster)}.");
 
 			/// From: if (who.professions.Contains(<scout_id>) critChance += critChance * 0.5f
 			/// To: if (who.professions.Contains(<gambit_id>) critChance += _GetBonusCritChanceForGambit()
@@ -111,7 +111,7 @@ namespace TheLion.AwesomeProfessions
 							AccessTools.Property(typeof(Stats), nameof(Stats.MonstersKilled)).GetSetMethod())
 					)
 					.Advance()
-					.GetOperand(out object resumeExecution)
+					.GetOperand(out var resumeExecution)
 					.Insert( // check if who is local player
 						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)10),
 						new CodeInstruction(OpCodes.Callvirt,

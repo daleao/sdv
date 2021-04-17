@@ -11,7 +11,7 @@ namespace TheLion.AwesomeProfessions
 		#region look-up tables
 
 		/// <summary>Look-up table for what resource should spawn from a given stone.</summary>
-		public static Dictionary<int, int> ResourceFromStoneId { get; } = new Dictionary<int, int>
+		public static Dictionary<int, int> ResourceFromStoneId { get; } = new()
 		{
 			// stone
 			{ 668, 390 },
@@ -53,35 +53,61 @@ namespace TheLion.AwesomeProfessions
 			{ 844, 848 }
 		};
 
-		/// <summary>Set of id's corresponding to animal produce or derived artisan goods.</summary>
-		private static IEnumerable<int> _AnimalProductIds { get; } = new HashSet<int>
+		/// <summary>Look-up table for different types of bait by id.</summary>
+		public static Dictionary<int, string> BaitById { get; } = new()
+		{
+			{ 685, "Bait" },
+			{ 703, "Magnet" },
+			{ 774, "Wild Bait" },
+			{ 908, "Magic Bait" }
+		};
+
+		/// <summary>Hash list of artisan machines.</summary>
+		private static IEnumerable<string> _ArtisanMachines { get; } = new HashSet<string>
+		{
+			"Alembic",
+			"Butter Churn",
+			"Cheese Press",
+			"Dehydrator",
+			"Drying Rack",
+			"Espresso Machine",
+			"Extruder",
+			"Foreign Cask",
+			"Glass Jar",
+			"Grinder",
+			"Ice Cream Machine",
+			"Infuser",
+			"Juicer",
+			"Keg",
+			"Loom",
+			"Mayonnaise Machine",
+			"Oil Maker",
+			"Pepper Blender",
+			"Preserves Jar",
+			"Smoker",
+			"Soap Press",
+			"Sorbet Machine",
+			"Still",
+			"Vinegar Cask",
+			"Wax Barrel",
+			"Yogurt Jar",
+		};
+
+		/// <summary>Hash list of ids corresponding to animal produce or derived artisan goods.</summary>
+		private static IEnumerable<int> _AnimalDerivedProductIds { get; } = new HashSet<int>
 		{
 			107,	// dinosaur egg
-			174,	// large egg
-			176,	// egg
-			180,	// brown egg
-			182,	// large brown egg
-			184,	// milk
-			186,	// large milk
-			289,	// ostrich egg
-			305,	// void egg
 			306,	// mayonnaise
 			307,	// duck mayonnaise
 			308,	// void mayonnaise
+			340,	// honey
 			424,	// cheese
 			426,	// goat cheese
 			428,	// cloth
-			436,	// goat milk
-			438,	// large goat milk
-			440,	// wool
-			442,	// duck egg
-			444,	// duck feather
-			446,	// rabbit's foot
 			807,	// dinosaur mayonnaise
-			928		// golden egg
 		};
 
-		/// <summary>Set of id's corresponding to legendary fish.</summary>
+		/// <summary>Hash list of ids corresponding to legendary fish.</summary>
 		private static IEnumerable<int> _LegendaryFishIds { get; } = new HashSet<int>
 		{
 			159,	// crimsonfish
@@ -96,20 +122,7 @@ namespace TheLion.AwesomeProfessions
 			902		// glacierfish jr.
 		};
 
-		/// <summary>Set of item id's corresponding to gems or minerals.</summary>
-		private static IEnumerable<int> _GemIds { get; } = new HashSet<int>
-		{
-			SObject.emeraldIndex,
-			SObject.aquamarineIndex,
-			SObject.rubyIndex,
-			SObject.amethystClusterIndex,
-			SObject.topazIndex,
-			SObject.sapphireIndex,
-			SObject.diamondIndex,
-			SObject.prismaticShardIndex
-		};
-
-		/// <summary>Set of ammunition id's.</summary>
+		/// <summary>Hash list of ammunition ids.</summary>
 		private static IEnumerable<int> _MineralAmmunitionIds { get; } = new HashSet<int>
 		{
 			SObject.copper + 1,
@@ -120,7 +133,7 @@ namespace TheLion.AwesomeProfessions
 			SObject.stone + 1,
 		};
 
-		/// <summary>Set of id's corresponding to stones that should be trackable.</summary>
+		/// <summary>Hash list of stone ids corresponding to resource nodes.</summary>
 		private static IEnumerable<int> _ResourceNodeIds { get; } = new HashSet<int>
 		{
 			// ores
@@ -160,11 +173,26 @@ namespace TheLion.AwesomeProfessions
 
 		#endregion look-up tables
 
+		/// <summary>Whether a given object is an artisan good.</summary>
+		/// <param name="obj">The given object.</param>
+		public static bool IsArtisanGood(SObject obj)
+		{
+			return obj?.Category == SObject.artisanGoodsCategory;
+		}
+
+		/// <summary>Whether a given object is an artisan good.</summary>
+		/// <param name="obj">The given object.</param>
+		public static bool IsArtisanMachine(SObject obj)
+		{
+			return _ArtisanMachines.Contains(obj?.Name);
+		}
+
 		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
 		/// <param name="obj">The given object.</param>
 		public static bool IsAnimalProduct(SObject obj)
 		{
-			return obj != null && _AnimalProductIds.Contains(obj.ParentSheetIndex);
+			return obj != null && (obj.Category.AnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
+				|| _AnimalDerivedProductIds.Contains(obj.ParentSheetIndex));
 		}
 
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
@@ -181,26 +209,11 @@ namespace TheLion.AwesomeProfessions
 			return obj?.ParentSheetIndex == 399;
 		}
 
-		/// <summary>Whether a given object is one of wine, juice, beer, mead or pale ale.</summary>
+		/// <summary>Whether a given object is a gem or mineral.</summary>
 		/// <param name="obj">The given object.</param>
-		public static bool IsBeverage(SObject obj)
+		public static bool IsGemOrMineral(SObject obj)
 		{
-			const int paleAle = 303, beer = 346, wine = 348, juice = 350, mead = 459, greenTea = 614;
-			return obj != null && (obj.Name.Contains("Wine") || obj.Name.Contains("Juice") || obj.Name.Contains("Mead") || obj.ParentSheetIndex.AnyOf(beer, greenTea, juice, mead, paleAle, wine));
-		}
-
-		/// <summary>Whether a given object is a stone.</summary>
-		/// <param name="obj">The world object.</param>
-		public static bool IsStone(SObject obj)
-		{
-			return obj?.Name == "Stone";
-		}
-
-		/// <summary>Whether a givenitem index corresponds to a gem or mineral.</summary>
-		/// <param name="index">The item index.</param>
-		public static bool IsMineralIndex(int index)
-		{
-			return _GemIds.Contains(index) || (index > 537 && index < 579);
+			return obj?.Category.AnyOf(SObject.GemCategory, SObject.mineralsCategory) == true;
 		}
 
 		/// <summary>Whether a given object is a foraged mineral.</summary>
@@ -217,25 +230,39 @@ namespace TheLion.AwesomeProfessions
 			return IsStone(obj) && _ResourceNodeIds.Contains(obj.ParentSheetIndex);
 		}
 
-		/// <summary>Whether a given object is a crab pot fish.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsTrapFish(SObject obj)
+		/// <summary>Whether a given object is a stone.</summary>
+		/// <param name="obj">The world object.</param>
+		public static bool IsStone(SObject obj)
 		{
-			return obj?.ParentSheetIndex > 714 && obj.ParentSheetIndex < 724;
+			return obj?.Name == "Stone";
 		}
 
 		/// <summary>Whether a given object is a fish caught with a fishing rod.</summary>
 		/// <param name="obj">The given object.</param>
-		public static bool IsReeledFish(SObject obj)
+		public static bool IsFish(SObject obj)
 		{
-			return obj.Category == SObject.FishCategory && !IsTrapFish(obj);
+			return obj?.Category == SObject.FishCategory;
+		}
+
+		/// <summary>Whether a given object is algae or seaweed.</summary>
+		/// <param name="obj">The given object.</param>
+		public static bool IsAlgae(int whichFish)
+		{
+			return whichFish.AnyOf(152, 152, 157);
+		}
+
+		/// <summary>Whether a given object is a crab pot fish.</summary>
+		/// <param name="obj">The given object.</param>
+		public static bool IsTrapFish(SObject obj)
+		{
+			return IsFish(obj) && obj.ParentSheetIndex > 714 && obj.ParentSheetIndex < 724;
 		}
 
 		/// <summary>Whether a given object is a trash.</summary>
 		/// <param name="obj">The given object.</param>
 		public static bool IsTrash(SObject obj)
 		{
-			return obj?.ParentSheetIndex > 166 && obj.ParentSheetIndex < 173;
+			return obj?.Category == SObject.junkCategory;
 		}
 
 		/// <summary>Whether a given item index corresponds to mineral ammunition.</summary>

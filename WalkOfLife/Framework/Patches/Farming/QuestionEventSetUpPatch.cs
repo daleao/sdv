@@ -12,7 +12,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(QuestionEvent), nameof(QuestionEvent.setUp)),
+				original: AccessTools.Method(typeof(QuestionEvent), nameof(QuestionEvent.setUp)),
 				transpiler: new HarmonyMethod(GetType(), nameof(QuestionEventSetUpTranspiler))
 			);
 		}
@@ -22,13 +22,13 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Breeder to increase barn animal pregnancy chance.</summary>
 		private static IEnumerable<CodeInstruction> QuestionEventSetUpTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(QuestionEvent)}::{nameof(QuestionEvent.setUp)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(QuestionEvent)}::{nameof(QuestionEvent.setUp)}.");
 
 			/// From: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * 0.0055
 			/// To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (Game1.player.professions.Contains(<breeder_id>) ? 0.011 : 0.0055)
 
-			Label isNotBreeder = iLGenerator.DefineLabel();
-			Label resumeExecution = iLGenerator.DefineLabel();
+			var isNotBreeder = iLGenerator.DefineLabel();
+			var resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
 				Helper

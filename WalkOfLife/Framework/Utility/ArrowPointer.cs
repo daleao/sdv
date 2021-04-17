@@ -7,7 +7,8 @@ namespace TheLion.AwesomeProfessions
 	public class ArrowPointer
 	{
 		public Texture2D Texture { get; }
-		private float _height = -42f, _step = 0f, _maxStep = 3f, _minStep = -3f, _jerk = 1f;
+		private const float _MaxStep = 3f, _MinStep = -3f;
+		private float _height = -42f, _jerk = 1f, _step;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="texture">Arrow pointer texture.</param>
@@ -19,7 +20,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Advance the pointer's vertical offset motion by one step, in a bobbing fashion.</summary>
 		public void Bob()
 		{
-			if (_step == _maxStep || _step == _minStep) _jerk = -_jerk;
+			if (_step == _MaxStep || _step == _MinStep) _jerk = -_jerk;
 			_step += _jerk;
 			_height += _step;
 		}

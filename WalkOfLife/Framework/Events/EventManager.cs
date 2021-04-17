@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using TheLion.AwesomeProfessions.Framework.Events.UpdateTicked;
+using TheLion.Common;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -14,16 +16,17 @@ namespace TheLion.AwesomeProfessions
 
 		private IMonitor _Monitor { get; }
 
-		private Dictionary<int, List<IEvent>> _EventsByProfession { get; } = new Dictionary<int, List<IEvent>>
+		private Dictionary<int, List<IEvent>> _EventsByProfession { get; } = new()
 		{
-			{Farmer.artisan, new List<IEvent> { new BrewerDayEndingEvent() } },
-			{Farmer.mariner, new List<IEvent> { new ConservationistDayEndingEvent(), new ConservationistDayStartedEvent() } },
-			{Farmer.tracker, new List<IEvent> { new ScavengerDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent() } },
-			{Farmer.blacksmith, new List<IEvent> { new SpelunkerUpdateTickedEvent(), new SpelunkerWarpedEvent() } },
-			{Farmer.burrower, new List<IEvent> { new ProspectorDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent() } },
-			{Farmer.excavator, new List<IEvent> { new DemolitionistUpdateTickedEvent() } },
-			{Farmer.brute, new List<IEvent> { new BruteUpdateTickedEvent(), new BruteWarpedEvent() } },
-			{Farmer.defender, new List<IEvent> { new GambitUpdateTickedEvent() } },
+			{ Farmer.artisan, new List<IEvent> { new ArtisanDayEndingEvent() } },
+			{ Farmer.mariner, new List<IEvent> { new ConservationistDayEndingEvent(), new ConservationistDayStartedEvent() } },
+			{ Farmer.tracker, new List<IEvent> { new ScavengerDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent() } },
+			{ Farmer.blacksmith, new List<IEvent> { new SpelunkerUpdateTickedEvent(), new SpelunkerWarpedEvent() } },
+			{ Farmer.burrower, new List<IEvent> { new ProspectorDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent() } },
+			{ Farmer.excavator, new List<IEvent> { new DemolitionistUpdateTickedEvent() } },
+			{ Farmer.brute, new List<IEvent> { new BruteUpdateTickedEvent(), new BruteWarpedEvent() } },
+			{ Farmer.defender, new List<IEvent> { new GambitUpdateTickedEvent() } },
+			{ Farmer.acrobat, new List<IEvent> { new SlimecharmerUpdateTickedEvent(), new SlimecharmerWarpedEvent() } }
 		};
 
 		/// <summary>Construct an instance.</summary>
@@ -33,7 +36,7 @@ namespace TheLion.AwesomeProfessions
 			_Monitor = monitor;
 
 			// hook static events
-			_Monitor.Log("Subscribing static events...", LogLevel.Info);
+			_Monitor.Log("Subscribing static events...");
 			Subscribe(new StaticLevelChangedEvent(), new StaticReturnedToTitleEvent(), new StaticSaveLoadedEvent());
 			if (AwesomeProfessions.ModRegistry.IsLoaded("alphablackwolf.skillPrestige") || AwesomeProfessions.ModRegistry.IsLoaded("cantorsdust.AllProfessions"))
 				Subscribe(new StaticDayStartedEvent());
@@ -49,11 +52,11 @@ namespace TheLion.AwesomeProfessions
 				{
 					e.Hook();
 					_subscribed.Add(e);
-					_Monitor.Log($"Subscribed to {e.GetType().Name}.", LogLevel.Info);
+					_Monitor.Log($"Subscribed to {e.GetType().Name}.");
 				}
 				else
 				{
-					_Monitor.Log($"Farmer already subscribed to {e.GetType().Name}.", LogLevel.Trace);
+					_Monitor.Log($"Farmer already subscribed to {e.GetType().Name}.");
 				}
 			}
 		}
@@ -67,11 +70,11 @@ namespace TheLion.AwesomeProfessions
 				if (_subscribed.RemoveType(type, out var removed))
 				{
 					removed.Unhook();
-					_Monitor.Log($"Unsubscribed from {type.Name}.", LogLevel.Info);
+					_Monitor.Log($"Unsubscribed from {type.Name}.");
 				}
 				else
 				{
-					_Monitor.Log($"Farmer not subscribed to {type.Name}.", LogLevel.Trace);
+					_Monitor.Log($"Farmer not subscribed to {type.Name}.");
 				}
 			}
 		}
@@ -79,17 +82,22 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
 		internal void SubscribeEventsForLocalPlayer()
 		{
-			_Monitor.Log($"Subscribing dynamic events for farmer {Game1.player.Name}...", LogLevel.Info);
-			foreach (int professionIndex in Game1.player.professions)
-				SubscribeEventsForProfession(professionIndex);
+			_Monitor.Log($"Subscribing dynamic events for farmer {Game1.player.Name}...");
+			foreach (var professionIndex in Game1.player.professions) SubscribeEventsForProfession(professionIndex);
+
+			if (!Utility.LocalPlayerHasProfession("Artisan") || AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ArtisanAwardLevel", int.Parse) < 5)
+				return;
+
+			_Monitor.Log("Artisan perk already maxed out.");
+			Unsubscribe(typeof(ArtisanDayEndingEvent));
 		}
 
 		/// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
 		internal void UnsubscribeLocalPlayerEvents()
 		{
-			_Monitor.Log($"Unsubscribing dynamic events...", LogLevel.Info);
+			_Monitor.Log($"Unsubscribing dynamic events...");
 			List<Type> toRemove = new();
-			for (int i = 4; i < _subscribed.Count; ++i) toRemove.Add(_subscribed[i].GetType());
+			for (var i = 4; i < _subscribed.Count; ++i) toRemove.Add(_subscribed[i].GetType());
 			Unsubscribe(toRemove.ToArray());
 		}
 
@@ -98,7 +106,7 @@ namespace TheLion.AwesomeProfessions
 		internal void SubscribeEventsForProfession(int whichProfession)
 		{
 			if (!_EventsByProfession.TryGetValue(whichProfession, out var events)) return;
-			foreach (IEvent e in events) Subscribe(e);
+			foreach (var e in events) Subscribe(e);
 		}
 
 		/// <summary>Unsubscribe the event listener from all events required by a specific profession.</summary>
@@ -108,29 +116,29 @@ namespace TheLion.AwesomeProfessions
 			if (!_EventsByProfession.TryGetValue(whichProfession, out var events)) return;
 
 			List<IEvent> except = new();
-			if ((Utility.ProfessionMap.Reverse[whichProfession] == "Prospector" && Utility.LocalPlayerHasProfession("Scavenger")) ||
-			(Utility.ProfessionMap.Reverse[whichProfession] == "Scavenger" && Utility.LocalPlayerHasProfession("Prospector")))
+			if (Utility.ProfessionMap.Reverse[whichProfession] == "Prospector" && Utility.LocalPlayerHasProfession("Scavenger") ||
+			Utility.ProfessionMap.Reverse[whichProfession] == "Scavenger" && Utility.LocalPlayerHasProfession("Prospector"))
 				except.Add(new TrackerButtonsChangedEvent());
 
-			foreach (IEvent e in events.Except(except)) Unsubscribe(e.GetType());
+			foreach (var e in events.Except(except)) Unsubscribe(e.GetType());
 		}
 
 		/// <summary>Verify if any events that should be subscribed are missing and if so subscribe those events.</summary>
 		internal void SubscribeMissingEvents()
 		{
-			foreach (int professionIndex in Game1.player.professions)
+			foreach (var professionIndex in Game1.player.professions)
 			{
 				if (!_EventsByProfession.TryGetValue(professionIndex, out var events)) continue;
-				foreach (IEvent e in events.Where(e => !IsSubscribed(e.GetType()))) Subscribe(e);
+				foreach (var e in events.Where(e => !IsSubscribed(e.GetType()))) Subscribe(e);
 			}
 		}
 
 		/// <summary>Verify if there are any rogue events still subscribed and remove them.</summary>
 		internal void CleanUpRogueEvents()
 		{
-			foreach (IEvent e in _subscribed)
+			foreach (var e in _subscribed)
 			{
-				string prefix = Regex.Split(e.GetType().ToString(), @"(?<!^)(?=[A-Z])").First();
+				var prefix = Regex.Split(e.GetType().ToString(), @"(?<!^)(?=[A-Z])").First();
 				if (Utility.ProfessionMap.Contains(prefix) && !Utility.LocalPlayerHasProfession(prefix)) Unsubscribe(e.GetType());
 				else if (prefix.Equals("Tracker") && !(Utility.LocalPlayerHasProfession("Prospector") || Utility.LocalPlayerHasProfession("Scavenger"))) Unsubscribe(e.GetType());
 			}
@@ -146,7 +154,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Get an enumerable of all currently subscribed events.</summary>
 		internal IEnumerable<string> GetSubscribedEvents()
 		{
-			foreach (var e in _subscribed) yield return e.GetType().Name;
+			return _subscribed.Select(e => e.GetType().Name);
 		}
 	}
 }

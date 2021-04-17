@@ -10,7 +10,7 @@ namespace TheLion.Common.Harmony
 		public static List<Label> Clone(this IList<Label> list)
 		{
 			List<Label> clone = new();
-			foreach (Label label in list) clone.Add(label);
+			foreach (var label in list) clone.Add(label);
 			return clone;
 		}
 	}

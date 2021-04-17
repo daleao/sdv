@@ -11,7 +11,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(Game1), nameof(Game1.createItemDebris)),
+				original: AccessTools.Method(typeof(Game1), nameof(Game1.createItemDebris)),
 				postfix: new HarmonyMethod(GetType(), nameof(Game1CreateItemDebrisPostfix))
 			);
 		}

@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.dayUpdate)),
+				original: AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.dayUpdate)),
 				transpiler: new HarmonyMethod(GetType(), nameof(FarmAnimalDayUpdateTranspiler))
 			);
 		}
@@ -23,7 +23,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Producer to double produce frequency at max animal happiness + remove Shepherd and Coopmaster hidden produce quality boosts.</summary>
 		protected static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(FarmAnimal)}::{nameof(FarmAnimal.dayUpdate)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(FarmAnimal)}::{nameof(FarmAnimal.dayUpdate)}.");
 
 			/// From: FarmeAnimal.daysToLay -= (FarmAnimal.type.Value.Equals("Sheep") && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(Farmer.shepherd)) ? 1 : 0
 			/// To: FarmAnimal.daysToLay /= (FarmAnimal.happiness.Value >= 200) && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<producer_id>) ? 2 : 1
@@ -82,7 +82,7 @@ namespace TheLion.AwesomeProfessions
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse) // the all cases false branch
 					)
-					.GetOperand(out object resumeExecution) // copy destination
+					.GetOperand(out var resumeExecution) // copy destination
 					.Return()
 					.Retreat()
 					.Insert( // insert unconditional branch to skip this whole section

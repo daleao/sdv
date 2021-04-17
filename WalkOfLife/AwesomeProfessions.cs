@@ -1,9 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using StardewModdingAPI;
+﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using System;
-using System.Collections.Generic;
+using TheLion.AwesomeProfessions.Framework.Patches.Combat;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -24,7 +23,7 @@ namespace TheLion.AwesomeProfessions
 
 		internal static int demolitionistBuffMagnitude;
 		internal static uint bruteKillStreak;
-		internal static readonly List<Vector2> initialLadderTiles = new();
+		internal static uint slimeHealTimer;
 
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -32,7 +31,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			// get unique id and generate buff ids
 			UniqueID = ModManifest.UniqueID;
-			int uniqueHash = (int)(Math.Abs(UniqueID.GetHashCode()) / Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(UniqueID.GetHashCode()))) - 8 + 1));
+			var uniqueHash = (int)(Math.Abs(UniqueID.GetHashCode()) / Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(UniqueID.GetHashCode()))) - 8 + 1));
 			Utility.SetProfessionBuffIDs(uniqueHash);
 
 			// get mod helpers
@@ -56,10 +55,10 @@ namespace TheLion.AwesomeProfessions
 				new BasicProjectileCtorPatch(),
 				new BobberBarCtorPatch(),
 				new BushShakePatch(),
-				new CaskPerformObjectDropInActionPatch(),
 				new CrabPotCheckForActionPatch(),
 				new CrabPotDayUpdatePatch(),
 				new CrabPotDrawPatch(),
+				new CrabPotPerformObjectDropInActionPatch(),
 				new CraftingRecipeCtorPatch(),
 				new CropHarvestPatch(),
 				new FarmAnimalDayUpdatePatch(),
@@ -67,6 +66,7 @@ namespace TheLion.AwesomeProfessions
 				new FarmAnimalPetPatch(),
 				new FarmerHasOrWillReceiveMailPatch(),
 				new FarmerShowItemIntakePatch(),
+				new FarmerTakeDamagePatch(),
 				new FishingRodStartMinigameEndFunctionPatch(),
 				new FishPondUpdateMaximumOccupancyPatch(),
 				new FruitTreeDayUpdatePatch(),
@@ -80,9 +80,8 @@ namespace TheLion.AwesomeProfessions
 				new GameLocationExplodePatch(),
 				new GameLocationOnStoneDestroyedPatch(),
 				new GeodeMenuUpdatePatch(),
+				new GreenSlimeOnDealContactDamagePatch(),
 				new GreenSlimeUpdatePatch(),
-				new GreenSlimeGetExtraDropItemsPatch(),
-				new HoeDirtApplySpeedIncreasesPatch(),
 				new LevelUpMenuAddProfessionDescriptionsPatch(),
 				new LevelUpMenuGetImmediateProfessionPerkPatch(),
 				new LevelUpMenuGetProfessionNamePatch(),
@@ -109,9 +108,10 @@ namespace TheLion.AwesomeProfessions
 			EventManager = new EventManager(Monitor);
 
 			// add debug commands
-			Helper.ConsoleCommands.Add("wol_addprofessions", "Get specified professions." + _GetCommandUsage(), _AddProfessionsToLocalPlayer);
+			Helper.ConsoleCommands.Add("player_addprofessions", "Add the specified professions to the local player." + _GetCommandUsage(), _AddProfessionsToLocalPlayer);
+			Helper.ConsoleCommands.Add("player_resetprofessions", "Reset all skills and professions for the local player.", _ResetLocalPlayerProfessions);
+			Helper.ConsoleCommands.Add("player_checkprofessionprogress", "Check current values for profession data fields." + _GetAvailableDataFields(), _PrintDataField);
 			Helper.ConsoleCommands.Add("wol_checksubscribed", "List currently subscribed mod events.", _PrintSubscribedEvents);
-			Helper.ConsoleCommands.Add("wol_checkdatafield", "Check current values for data fields." + _GetAvailableDataFields(), _PrintDataField);
 		}
 	}
 }

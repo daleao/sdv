@@ -14,7 +14,7 @@ namespace TheLion.AwesomeProfessions
 			AwesomeProfessions.Data = Game1.player.modData;
 
 			// verify mod data and initialize assets and helpers
-			foreach (int professionIndex in Game1.player.professions) Utility.InitializeModData(professionIndex);
+			foreach (var professionIndex in Game1.player.professions) Utility.InitializeModData(professionIndex);
 
 			// subcribe events for loaded save
 			AwesomeProfessions.EventManager.SubscribeEventsForLocalPlayer();

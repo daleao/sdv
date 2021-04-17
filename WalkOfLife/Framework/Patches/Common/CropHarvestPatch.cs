@@ -15,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(Crop), nameof(Crop.harvest)),
+				original: AccessTools.Method(typeof(Crop), nameof(Crop.harvest)),
 				transpiler: new HarmonyMethod(GetType(), nameof(CropHarvestTranspiler))
 			);
 		}
@@ -25,7 +25,10 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to nerf Ecologist spring onion quality and increment forage counter + always allow iridium-quality crops for Agriculturist + Harvester bonus crop yield.</summary>
 		private static IEnumerable<CodeInstruction> CropHarvestTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(Crop)}::{nameof(Crop.harvest)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(Crop)}::{nameof(Crop.harvest)}.");
+
+			var mb = original.GetMethodBody();
+			if (mb == null) throw new ArgumentNullException($"{original.Name} method body returned null.");
 
 			/// From: @object.Quality = 4
 			/// To: @object.Quality = GetEcologistForageQuality()
@@ -52,7 +55,7 @@ namespace TheLion.AwesomeProfessions
 			/// Injected: if (Game1.player.professions.Contains(<ecologist_id>))
 			///		AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ItemsForaged", amount: @object.Stack)
 
-			Label dontIncreaseEcologistCounter = iLGenerator.DefineLabel();
+			var dontIncreaseEcologistCounter = iLGenerator.DefineLabel();
 			try
 			{
 				Helper
@@ -93,9 +96,9 @@ namespace TheLion.AwesomeProfessions
 			/// From: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
 			/// To: if (Game1.player.professions.Contains(< agriculturist_id >) || fertilizerQualityLevel >= 3) && random2.NextDouble() < chanceForGoldQuality / 2.0)
 
-			var fertilizerQualityLevel = original.GetMethodBody().LocalVariables[8];
-			var random2 = original.GetMethodBody().LocalVariables[9];
-			Label isAgriculturist = iLGenerator.DefineLabel();
+			var fertilizerQualityLevel = mb.LocalVariables[8];
+			var random2 = mb.LocalVariables[9];
+			var isAgriculturist = iLGenerator.DefineLabel();
 			try
 			{
 				Helper.AdvanceUntil( // find index of Crop.fertilizerQualityLevel >= 3
@@ -119,8 +122,8 @@ namespace TheLion.AwesomeProfessions
 
 			/// Injected: if (junimoHarvester == null && Game1.player.professions.Contains(<harvester_id>) && r.NextDouble() < 0.1) numToHarvest++
 
-			var numToHarvest = original.GetMethodBody().LocalVariables[6];
-			Label dontIncreaseNumToHarvest = iLGenerator.DefineLabel();
+			var numToHarvest = mb.LocalVariables[6];
+			var dontIncreaseNumToHarvest = iLGenerator.DefineLabel();
 			try
 			{
 				Helper
@@ -135,7 +138,7 @@ namespace TheLion.AwesomeProfessions
 					.FindNext(
 						new CodeInstruction(OpCodes.Ldloc_S, operand: random2) // find an instance of accessing the rng
 					)
-					.GetOperand(out object r2) // copy operand object
+					.GetOperand(out var r2) // copy operand object
 					.FindLast( // find end of chanceForExtraCrops while loop
 						new CodeInstruction(OpCodes.Ldfld,
 							AccessTools.Field(typeof(Crop), nameof(Crop.chanceForExtraCrops)))

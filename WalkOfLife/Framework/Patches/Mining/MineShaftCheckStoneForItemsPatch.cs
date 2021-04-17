@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(MineShaft), nameof(MineShaft.checkStoneForItems)),
+				original: AccessTools.Method(typeof(MineShaft), nameof(MineShaft.checkStoneForItems)),
 				transpiler: new HarmonyMethod(GetType(), nameof(MineShaftCheckStoneForItemsTranspiler))
 			);
 		}
@@ -23,11 +23,11 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Spelunker ladder down chance bonus + remove Geologist paired gem chance + remove Excavator double geode chance + remove Prospetor double coal chance.</summary>
 		private static IEnumerable<CodeInstruction> MineShaftCheckStoneForItemsTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(MineShaft)}::{nameof(MineShaft.checkStoneForItems)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(MineShaft)}::{nameof(MineShaft.checkStoneForItems)}.");
 
 			/// Injected: if (who.professions.Contains(<spelunker_id>) chanceForLadderDown += GetBonusLadderDownChance()
 
-			Label resumeExecution = iLGenerator.DefineLabel();
+			var resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
 				Helper
@@ -62,7 +62,7 @@ namespace TheLion.AwesomeProfessions
 
 			/// Skipped: if (who.professions.Contains(<geologist_id>)) ...
 
-			int i = 0;
+			var i = 0;
 			repeat1:
 			try
 			{
@@ -74,7 +74,7 @@ namespace TheLion.AwesomeProfessions
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse) // the false case branch
 					)
-					.GetOperand(out object isNotGeologist) // copy destination
+					.GetOperand(out var isNotGeologist) // copy destination
 					.Return()
 					.Insert( // insert uncoditional branch to skip this check
 						new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist)

@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(FishingRod), nameof(FishingRod.startMinigameEndFunction)),
+				original: AccessTools.Method(typeof(FishingRod), nameof(FishingRod.startMinigameEndFunction)),
 				transpiler: new HarmonyMethod(GetType(), nameof(FishingRodStartMinigameEndFunctionTranspiler))
 			);
 		}
@@ -21,9 +21,9 @@ namespace TheLion.AwesomeProfessions
 		#region harmony patches
 
 		/// <summary>Patch to remove Pirate bonus treasure chance.</summary>
-		private static IEnumerable<CodeInstruction> FishingRodStartMinigameEndFunctionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		private static IEnumerable<CodeInstruction> FishingRodStartMinigameEndFunctionTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(FishingRod)}::{nameof(FishingRod.startMinigameEndFunction)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(FishingRod)}::{nameof(FishingRod.startMinigameEndFunction)}.");
 
 			/// Removed: lastUser.professions.Contains(<pirate_id>) ? baseChance ...
 

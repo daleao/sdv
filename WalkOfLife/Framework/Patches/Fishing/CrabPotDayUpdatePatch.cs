@@ -15,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(CrabPot), nameof(CrabPot.DayUpdate)),
+				original: AccessTools.Method(typeof(CrabPot), nameof(CrabPot.DayUpdate)),
 				prefix: new HarmonyMethod(GetType(), nameof(CrabPotDayUpdatePrefix))
 			);
 		}
@@ -25,22 +25,26 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Trapper fish quality + Luremaster bait mechanics + Conservationist trash collection mechanics.</summary>
 		private static bool CrabPotDayUpdatePrefix(ref CrabPot __instance, GameLocation location)
 		{
-			Farmer who = Game1.getFarmer(__instance.owner.Value);
+			var who = Game1.getFarmer(__instance.owner.Value);
 			if (__instance.bait.Value == null && !Utility.SpecificPlayerHasProfession("Conservationist", who) || __instance.heldObject.Value != null)
 				return false; // don't run original logic
 
 			__instance.tileIndexToShow = 714;
 			__instance.readyForHarvest.Value = true;
 
-			Random r = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int)__instance.TileLocation.X * 1000 + (int)__instance.TileLocation.Y);
-			Dictionary<string, string> locationData = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "Locations"));
-			Dictionary<int, string> fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
-			int whichFish = -1;
+			var r = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int)__instance.TileLocation.X * 1000 + (int)__instance.TileLocation.Y);
+			var locationData = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "Locations"));
+			var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
+			var whichFish = -1;
 			if (__instance.bait.Value != null)
 			{
 				if (Utility.SpecificPlayerHasProfession("Luremaster", who))
 				{
-					if (!Utility.IsUsingMagnet(__instance))
+					if (Utility.IsUsingMagnet(__instance))
+					{
+						whichFish = Utility.ChoosePirateTreasure(r, who);
+					}
+					else if (Game1.random.NextDouble() < (Utility.IsUsingMagicBait(__instance) ? 0.25 : 0.1))
 					{
 						var rawFishData = Utility.IsUsingMagicBait(__instance) ? Utility.GetRawFishDataForAllSeasons(location, locationData) : Utility.GetRawFishDataForThisSeason(location, locationData);
 						var rawFishDataWithLocation = Utility.GetRawFishDataWithLocation(rawFishData);
@@ -49,7 +53,7 @@ namespace TheLion.AwesomeProfessions
 					}
 					else
 					{
-						whichFish = Utility.ChoosePirateTreasure(r, who);
+						whichFish = Utility.ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
 					}
 				}
 				else
@@ -60,20 +64,22 @@ namespace TheLion.AwesomeProfessions
 
 			if (whichFish.AnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
 			{
-				SObject equipment = new SObject(whichFish, 1);
+				var equipment = new SObject(whichFish, 1);
 				__instance.heldObject.Value = equipment;
 				return false; // don't run original logic
 			}
 
-			int fishQuality = 0;
+			var fishQuality = 0;
 			if (whichFish < 0)
 			{
-				bool playerIsConservationist = Utility.SpecificPlayerHasProfession("Conservationist", who);
-				if (__instance.bait.Value != null || playerIsConservationist) whichFish = Utility.GetTrash(r);
+				if (__instance.bait.Value != null || Utility.SpecificPlayerHasProfession("Conservationist", who)) whichFish = Utility.GetTrash(r);
 			}
-			else fishQuality = Utility.GetTrapFishQuality(whichFish, who, r);
+			else
+			{
+				fishQuality = Utility.GetTrapFishQuality(whichFish, who, r, __instance, Utility.SpecificPlayerHasProfession("Luremaster", who));
+			}
 
-			int fishQuantity = Utility.GetTrapFishQuantity(__instance, whichFish, who, r);
+			var fishQuantity = Utility.GetTrapFishQuantity(__instance, whichFish, who, r);
 			__instance.heldObject.Value = new SObject(whichFish, initialStack: fishQuantity, quality: fishQuality);
 			return false; // don't run original logic
 		}

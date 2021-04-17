@@ -15,9 +15,10 @@ namespace TheLion.AwesomeProfessions
 			foreach (var pair in Game1.currentLocation.Objects.Pairs.Where(p => Utility.ShouldPlayerTrackObject(p.Value)))
 				Utility.DrawArrowPointerOverTarget(pair.Key, Color.Yellow);
 
+			if (!Utility.LocalPlayerHasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
+
 			// reveal on-screen ladders and shafts
-			if (Utility.LocalPlayerHasProfession("Prospector") && Game1.currentLocation is MineShaft)
-				foreach (Vector2 tile in Utility.GetLadderTiles(Game1.currentLocation as MineShaft)) Utility.DrawTrackingArrowPointer(tile, Color.Lime);
+			foreach (var tile in Utility.GetLadderTiles(shaft)) Utility.DrawTrackingArrowPointer(tile, Color.Lime);
 		}
 	}
 }

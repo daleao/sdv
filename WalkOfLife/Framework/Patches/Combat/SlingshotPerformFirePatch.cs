@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(Slingshot), nameof(Slingshot.PerformFire)),
+				original: AccessTools.Method(typeof(Slingshot), nameof(Slingshot.PerformFire)),
 				transpiler: new HarmonyMethod(GetType(), nameof(SlingshotPerformFireTranspiler))
 			);
 		}
@@ -23,11 +23,11 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to add Desperado quick fire damage bonus.</summary>
 		private static IEnumerable<CodeInstruction> SlingshotPerformFireTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(Slingshot)}::{nameof(Slingshot.PerformFire)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(Slingshot)}::{nameof(Slingshot.PerformFire)}.");
 
 			/// Injected: if (who.professions.Contains(<desperado_id>) && this.getSlingshotChargeTime() <= 0.5f) damage *= 3
 
-			Label resumeExecution = iLGenerator.DefineLabel();
+			var resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
 				Helper

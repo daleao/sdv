@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
@@ -20,13 +19,7 @@ namespace TheLion.AwesomeProfessions
 
 			if (AwesomeProfessions.ProspectorHunt.TreasureTile != null) AwesomeProfessions.ProspectorHunt.End();
 
-			AwesomeProfessions.initialLadderTiles.Clear();
-			if (e.NewLocation is MineShaft shaft)
-			{
-				foreach (Vector2 tile in Utility.GetLadderTiles(shaft)) AwesomeProfessions.initialLadderTiles.Add(tile);
-
-				if (Game1.CurrentEvent == null) AwesomeProfessions.ProspectorHunt.TryStartNewHunt(e.NewLocation);
-			}
+			if (Game1.CurrentEvent == null && e.NewLocation is MineShaft) AwesomeProfessions.ProspectorHunt.TryStartNewHunt(e.NewLocation);
 		}
 	}
 }

@@ -8,15 +8,11 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Whether to replace vanilla profession icons with modded icons courtesy of IllogicalMoodSwing.</summary>
 		public bool UseModdedProfessionIcons { get; set; } = true;
 
-		/// <summary>Whether to use the alternative producer icon with processed animal products instead of base animal products.</summary>
-		public bool UseAltProducerIcon { get; set; } = true;
-
 		/// <summary>Mod key used by Prospector, Scavenger and Rascal professions.</summary>
 		public KeybindList ModKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-		/// <summary>Affects how many fame points are needed to reach the max Brewer Award Level.</summary>
-		/// <remarks>Total fame points needed equal 500 multiplied by the difficulty level.</remarks>
-		public uint BrewerLevelUpDifficulty { get; set; } = AwesomeProfessions.ModRegistry.IsLoaded("Wingheart.VanillaQualityPFM") ? 10 : 5;
+		/// <summary>Affects how hard it is to gain an award from the Stardew Artisans Society.</summary>
+		public int ArtisanLevelUpDifficulty { get; set; } = 0;
 
 		/// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
 		public uint ForagesNeededForBestQuality { get; set; } = 500;

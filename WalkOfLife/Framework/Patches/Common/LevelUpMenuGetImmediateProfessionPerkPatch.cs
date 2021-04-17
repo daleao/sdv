@@ -2,7 +2,6 @@
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.getImmediateProfessionPerk)),
+				original: AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.getImmediateProfessionPerk)),
 				transpiler: new HarmonyMethod(GetType(), nameof(LevelUpMenuGetImmediateProfessionPerkTranspiler)),
 				postfix: new HarmonyMethod(GetType(), nameof(LevelUpMenuGetImmediateProfessionPerkPostfix))
 			);
@@ -27,7 +26,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
 		private static IEnumerable<CodeInstruction> LevelUpMenuGetImmediateProfessionPerkTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.getImmediateProfessionPerk)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.getImmediateProfessionPerk)}.");
 
 			/// From: case <defender_id>:
 			/// To: case <brute_id>:
@@ -51,21 +50,16 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to add modded immediate profession perks.</summary>
 		private static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out string professionName)) return;
+			if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out var professionName)) return;
 
 			// add immediate perks
-			switch (professionName)
+			if (professionName.Equals("Aquarist"))
 			{
-				case "Angler":
-					FishingRod.maxTackleUses = 40;
-					break;
-
-				case "Aquarist":
-					{
-						foreach (FishPond pond in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond))
-							pond.UpdateMaximumOccupancy();
-						break;
-					}
+				foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
+				{
+					var pond = (FishPond)b;
+					pond.UpdateMaximumOccupancy();
+				}
 			}
 
 			// initialize mod data, assets and helpers

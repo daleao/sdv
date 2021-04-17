@@ -15,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(CrabPot), nameof(CrabPot.draw), new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) }),
+				original: AccessTools.Method(typeof(CrabPot), nameof(CrabPot.draw), new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) }),
 				prefix: new HarmonyMethod(GetType(), nameof(CrabPotDrawPrefix))
 			);
 		}
@@ -35,7 +35,7 @@ namespace TheLion.AwesomeProfessions
 			_ = Game1.currentLocation.Map.GetLayer("Buildings").Tiles[x, y];
 			spriteBatch.Draw(Game1.objectSpriteSheet, Game1.GlobalToLocal(Game1.viewport, __instance.directionOffset.Value + new Vector2(x * 64f, y * 64f + ___yBob)) + ___shake, Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, __instance.tileIndexToShow, 16, 16), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, (y * 64 + __instance.directionOffset.Value.Y + (x % 4)) / 10000f);
 			spriteBatch.Draw(Game1.mouseCursors, Game1.GlobalToLocal(Game1.viewport, __instance.directionOffset.Value + new Vector2(x * 64f + 4f, y * 64f + 48f)) + ___shake, new Rectangle(Game1.currentLocation.waterAnimationIndex * 64, 2112 + ((x + y) % 2 != 0 ? (!Game1.currentLocation.waterTileFlip ? 128 : 0) : (Game1.currentLocation.waterTileFlip ? 128 : 0)), 56, 16 + (int)___yBob), Game1.currentLocation.waterColor.Value, 0f, Vector2.Zero, 1f, SpriteEffects.None, (y * 64 + __instance.directionOffset.Value.Y + (x % 4)) / 9999f);
-			float yOffset = 4f * (float)Math.Round(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0), 2);
+			var yOffset = 4f * (float)Math.Round(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0), 2);
 			spriteBatch.Draw(Game1.mouseCursors, Game1.GlobalToLocal(Game1.viewport, __instance.directionOffset.Value + new Vector2(x * 64f - 8f, (y * 64f - 96f - 16f) + yOffset)), new Rectangle(141, 465, 20, 24), Color.White * 0.75f, 0f, Vector2.Zero, 4f, SpriteEffects.None, (y + 1) * 64 / 10000f + 1E-06f + __instance.TileLocation.X / 10000f);
 			spriteBatch.Draw(Tool.weaponsTexture, Game1.GlobalToLocal(Game1.viewport, __instance.directionOffset.Value + new Vector2(x * 64f + 32f, (y * 64f - 64f - 8f) + yOffset)), Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, __instance.heldObject.Value.ParentSheetIndex, 16, 16), Color.White * 0.75f, 0f, new Vector2(8f, 8f), 4f, SpriteEffects.None, (y + 1) * 64 / 10000f + 1E-05f + __instance.TileLocation.X / 10000f);
 			return false; // don't run original logic

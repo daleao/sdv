@@ -1,6 +1,7 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Locations;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -14,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(Game1), name: "drawHUD"),
+				original: AccessTools.Method(typeof(Game1), name: "drawHUD"),
 				transpiler: new HarmonyMethod(GetType(), nameof(Game1DrawHUDTranspiler)),
 				postfix: new HarmonyMethod(GetType(), nameof(Game1DrawHUDPostfix))
 			);
@@ -25,12 +26,12 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>
 		private static IEnumerable<CodeInstruction> Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(Game1)}::drawHUD.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(Game1)}::drawHUD.");
 
 			/// From: if (!player.professions.Contains(<scavenger_id>) || !currentLocation.IsOutdoors) return
 			/// To: if (!(player.professions.Contains(<scavenger_id>) || player.professions.Contains(<prospector_id>)) return
 
-			Label isProspector = iLGenerator.DefineLabel();
+			var isProspector = iLGenerator.DefineLabel();
 			try
 			{
 				Helper
@@ -76,7 +77,7 @@ namespace TheLion.AwesomeProfessions
 					.FindNext(
 						new CodeInstruction(OpCodes.Bne_Un) // find branch to loop head
 					)
-					.GetOperand(out object loopHead) // copy destination
+					.GetOperand(out var loopHead) // copy destination
 					.RetreatUntil(
 #pragma warning disable AvoidNetField // Avoid Netcode types when possible
 						new CodeInstruction(OpCodes.Ldfld,
@@ -103,9 +104,9 @@ namespace TheLion.AwesomeProfessions
 
 		private static void Game1DrawHUDPostfix()
 		{
-			// track initial ladder down
-			if (AwesomeProfessions.initialLadderTiles.Count > 0)
-				foreach (Vector2 tile in AwesomeProfessions.initialLadderTiles) Utility.DrawTrackingArrowPointer(tile, Color.Lime);
+			if (!Utility.LocalPlayerHasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
+
+			foreach (var tile in Utility.GetLadderTiles(shaft)) Utility.DrawTrackingArrowPointer(tile, Color.Lime);
 		}
 
 		#endregion harmony patches

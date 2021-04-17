@@ -9,7 +9,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(Farmer), nameof(Farmer.hasOrWillReceiveMail)),
+				original: AccessTools.Method(typeof(Farmer), nameof(Farmer.hasOrWillReceiveMail)),
 				prefix: new HarmonyMethod(GetType(), nameof(FarmerHasOrWillReceiveMailPrefix))
 			);
 		}
@@ -19,12 +19,11 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to allow receiving multiple letters from the FRS and the SWA.</summary>
 		private static bool FarmerHasOrWillReceiveMailPrefix(ref bool __result, string id)
 		{
-			if (id.Equals($"{AwesomeProfessions.UniqueID}/ConservationistTaxNotice"))
-			{
-				__result = false;
-				return false; // don't run original logic
-			}
-			return true; // run original logic
+			if (!id.Equals($"{AwesomeProfessions.UniqueID}/ConservationistTaxNotice"))
+				return true; // run original logic
+
+			__result = false;
+			return false; // don't run original logic
 		}
 
 		#endregion harmony patches

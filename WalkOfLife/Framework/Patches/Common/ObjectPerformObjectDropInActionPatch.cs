@@ -14,7 +14,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(SObject), nameof(SObject.performObjectDropInAction)),
+				original: AccessTools.Method(typeof(SObject), nameof(SObject.performObjectDropInAction)),
 				transpiler: new HarmonyMethod(GetType(), nameof(ObjectPerformObjectDropInActionTranspiler)),
 				postfix: new HarmonyMethod(GetType(), nameof(ObjectPerformObjectDropInActionPostfix))
 			);
@@ -25,12 +25,12 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increment Gemologist counter for geodes cracked by geode crusher.</summary>
 		private static IEnumerable<CodeInstruction> ObjectPerformObjectDropInActionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(SObject)}::{nameof(SObject.performObjectDropInAction)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(SObject)}::{nameof(SObject.performObjectDropInAction)}.");
 
 			/// Injected: if (Game1.player.professions.Contains(<gemologist_id>))
 			///		AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/MineralsCollected", amount: 1)
 
-			Label dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
+			var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
 			try
 			{
 				Helper
@@ -68,13 +68,14 @@ namespace TheLion.AwesomeProfessions
 			return Helper.Flush();
 		}
 
-		/// <summary>Patch to increase Gemologist mineral quality from geode crusher and crystalarium.</summary>
+		/// <summary>Patch to increase Gemologist mineral quality from geode crusher and crystalarium + speed up Artisan production speed.</summary>
 		private static void ObjectPerformObjectDropInActionPostfix(SObject __instance, Farmer who)
 		{
-			if (Utility.SpecificPlayerHasProfession("Gemologist", who) && __instance.heldObject.Value != null
-			&& (Utility.IsForagedMineral(__instance.heldObject.Value) || Utility.IsMineralIndex(__instance.heldObject.Value.ParentSheetIndex))
-			&& (__instance.name.Equals("Geode Crusher") || __instance.name.Equals("Crystalarium")))
+			if ((__instance.name.Equals("Geode Crusher") || __instance.name.Equals("Crystalarium")) && __instance.heldObject.Value != null
+			&& Utility.SpecificPlayerHasProfession("Gemologist", who) && (Utility.IsForagedMineral(__instance.heldObject.Value) || Utility.IsGemOrMineral(__instance.heldObject.Value)))
 				__instance.heldObject.Value.Quality = Utility.GetGemologistMineralQuality();
+			else if (Utility.IsArtisanMachine(__instance) && __instance.owner.Value == who.UniqueMultiplayerID && Utility.SpecificPlayerHasProfession("Artisan", who))
+				__instance.MinutesUntilReady -= (int)(__instance.MinutesUntilReady * 0.1);
 		}
 
 		#endregion harmony patches

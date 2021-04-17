@@ -11,7 +11,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(SObject), name: "getPriceAfterMultipliers"),
+				original: AccessTools.Method(typeof(SObject), name: "getPriceAfterMultipliers"),
 				prefix: new HarmonyMethod(GetType(), nameof(ObjectGetPriceAfterMultipliersPrefix))
 			);
 		}
@@ -19,11 +19,12 @@ namespace TheLion.AwesomeProfessions
 		#region harmony patches
 
 		/// <summary>Patch to modify price multipliers for various modded professions.</summary>
+		// ReSharper disable once RedundantAssignment
 		private static bool ObjectGetPriceAfterMultipliersPrefix(ref SObject __instance, ref float __result, float startPrice, long specificPlayerID)
 		{
-			float saleMultiplier = 1f;
+			var saleMultiplier = 1f;
 
-			foreach (Farmer player in Game1.getAllFarmers())
+			foreach (var player in Game1.getAllFarmers())
 			{
 				if (Game1.player.useSeparateWallets)
 				{
@@ -35,14 +36,14 @@ namespace TheLion.AwesomeProfessions
 				}
 				else if (!player.isActive()) continue;
 
-				float multiplier = 1f;
+				var multiplier = 1f;
 
 				// professions
-				if (player.IsLocalPlayer && Utility.LocalPlayerHasProfession("Brewer") && Utility.IsBeverage(__instance))
-					multiplier *= 1f + Utility.GetBrewerPriceBonus();
+				if (player.IsLocalPlayer && Utility.LocalPlayerHasProfession("Artisan") && Utility.IsArtisanGood(__instance))
+					multiplier *= Utility.GetArtisanPriceMultiplier();
 				else if (Utility.SpecificPlayerHasProfession("Producer", player) && Utility.IsAnimalProduct(__instance))
 					multiplier *= Utility.GetProducerPriceMultiplier(player);
-				else if (Utility.SpecificPlayerHasProfession("Angler", player) && Utility.IsReeledFish(__instance))
+				else if (Utility.SpecificPlayerHasProfession("Angler", player) && Utility.IsFish(__instance))
 					multiplier *= Utility.GetAnglerPriceMultiplier(player);
 
 				// events

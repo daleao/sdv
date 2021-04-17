@@ -13,10 +13,10 @@ namespace TheLion.Common.Harmony
 		/// <param name="start">The starting index.</param>
 		public static int IndexOf(this IList<CodeInstruction> list, CodeInstruction[] pattern, int start = 0)
 		{
-			int count = list.Count() - pattern.Count() + 1;
-			for (int i = start; i < count; ++i)
+			var count = list.Count() - pattern.Count() + 1;
+			for (var i = start; i < count; ++i)
 			{
-				int j = 0;
+				var j = 0;
 				while (j < pattern.Count() && list[i + j].opcode.Equals(pattern[j].opcode)
 					&& (pattern[j].operand == null || list[i + j].operand.ToString().Equals(pattern[j].operand.ToString())))
 				{
@@ -37,8 +37,8 @@ namespace TheLion.Common.Harmony
 		/// <param name="start">The starting index.</param>
 		public static int IndexOf(this IList<CodeInstruction> list, Label label, int start = 0)
 		{
-			int count = list.Count();
-			for (int i = start; i < count; ++i)
+			var count = list.Count();
+			for (var i = start; i < count; ++i)
 			{
 				if (list[i].labels.Contains(label))
 				{

@@ -9,7 +9,7 @@ namespace TheLion.Common
 		private readonly Vector2 _origin;
 		private readonly int _radius;
 		private readonly bool[,] _outlineGrid;
-		private readonly List<Vector2> _tiles = new List<Vector2>();
+		private readonly List<Vector2> _tiles = new();
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="origin">The center tile of the circle in the world reference.</param>
@@ -49,10 +49,10 @@ namespace TheLion.Common
 		/// <param name="origin">The origin of the circle in the world reference.</param>
 		private void _GetTiles(bool excludeOrigin = false)
 		{
-			Vector2 center = new Vector2(_radius, _radius); // the center of the circle in the grid reference
+			var center = new Vector2(_radius, _radius); // the center of the circle in the grid reference
 
 			// get the central axes
-			for (int i = 0; i < _radius * 2 + 1; ++i)
+			for (var i = 0; i < _radius * 2 + 1; ++i)
 			{
 				if (i != _radius)
 				{
@@ -62,9 +62,9 @@ namespace TheLion.Common
 			}
 
 			// loop over the first remaining quadrant and mirror it 3 times
-			for (int x = 0; x < _radius; ++x)
+			for (var x = 0; x < _radius; ++x)
 			{
-				for (int y = 0; y < _radius; ++y)
+				for (var y = 0; y < _radius; ++y)
 				{
 					if (_IsInsideOutlineGrid(new Point(x, y)))
 					{
@@ -86,12 +86,12 @@ namespace TheLion.Common
 		/// <param name="radius">The radius of the circle.</param>
 		private bool[,] _GetBooleanOutlineGrid(int radius)
 		{
-			bool[,] circleGrid = new bool[radius * 2 + 1, radius * 2 + 1];
-			int f = 1 - radius;
-			int ddF_x = 1;
-			int ddF_y = -2 * radius;
-			int x = 0;
-			int y = radius;
+			var circleGrid = new bool[radius * 2 + 1, radius * 2 + 1];
+			var f = 1 - radius;
+			var ddF_x = 1;
+			var ddF_y = -2 * radius;
+			var x = 0;
+			var y = radius;
 
 			circleGrid[radius, radius + radius] = true;
 			circleGrid[radius, radius - radius] = true;
@@ -163,7 +163,7 @@ namespace TheLion.Common
 			}
 
 			// cast rays
-			for (int i = point.X; i < _radius; ++i)
+			for (var i = point.X; i < _radius; ++i)
 			{
 				if (_outlineGrid[point.Y, i])
 				{

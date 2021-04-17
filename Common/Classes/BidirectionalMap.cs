@@ -9,8 +9,8 @@ namespace TheLion.Common
 	/// <typeparam name="TReverseKey">Reverse mapping key</typeparam>
 	public class BiMap<TForwardKey, TReverseKey> : IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>
 	{
-		public Indexer<TForwardKey, TReverseKey> Forward { get; private set; } = new Indexer<TForwardKey, TReverseKey>();
-		public Indexer<TReverseKey, TForwardKey> Reverse { get; private set; } = new Indexer<TReverseKey, TForwardKey>();
+		public Indexer<TForwardKey, TReverseKey> Forward { get; } = new();
+		public Indexer<TReverseKey, TForwardKey> Reverse { get; } = new();
 
 		/// <summary>Construct an instance.</summary>
 		public BiMap() { }
@@ -24,9 +24,9 @@ namespace TheLion.Common
 			//var reversedOneWayMap = oneWayMap.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 			//Reverse = new Indexer<TReverseKey, TForwardKey>(reversedOneWayMap);
 
-			foreach (TForwardKey forwardKey in oneWayMap.Keys)
+			foreach (var forwardKey in oneWayMap.Keys)
 			{
-				TReverseKey reverseKey = Forward[forwardKey];
+				var reverseKey = Forward[forwardKey];
 				if (Reverse.ContainsKey(reverseKey))
 					throw new ArgumentException("Cannot construct bidirectional map from a dictionary with non-unique values.");
 
@@ -51,7 +51,7 @@ namespace TheLion.Common
 
 		/// <summary>Remove a <see cref="KeyValuePair{TForwardKey, TReverseKey}"/> entry from the instance.</summary>
 		/// <param name="forwardKey">Forward key.</param>
-		/// <returns>Return <see cref="true"/> if the pair exists and was successfully removed, otherwise returns <see cref="false"/>.</returns>
+		/// <returns>Returns true if the pair exists and was successfully removed, otherwise returns false.</returns>
 		public bool Remove(TForwardKey forwardKey)
 		{
 			if (!Forward.ContainsKey(forwardKey) || !Reverse.ContainsKey(Forward[forwardKey]))
@@ -62,7 +62,7 @@ namespace TheLion.Common
 
 		/// <summary>Remove a <see cref="KeyValuePair{TForwardKey, TReverseKey}"/> entry from the instance.</summary>
 		/// <param name="entry"><see cref="KeyValuePair{TForwardKey, TReserveKey}"/> entry to be removed.</param>
-		/// <returns>Return <see cref="true"/> if the pair exists and was successfully removed, otherwise returns <see cref="false"/>.</returns>
+		/// <returns>Returns true if the pair exists and was successfully removed, otherwise returns false.</returns>
 		public bool Remove(KeyValuePair<TForwardKey, TReverseKey> entry)
 		{
 			return Forward.Remove(entry.Key) && Reverse.Remove(entry.Value);

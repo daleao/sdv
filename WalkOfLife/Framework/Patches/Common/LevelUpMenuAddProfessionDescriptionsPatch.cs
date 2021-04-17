@@ -10,7 +10,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(LevelUpMenu), name: "addProfessionDescriptions"),
+				original: AccessTools.Method(typeof(LevelUpMenu), name: "addProfessionDescriptions"),
 				prefix: new HarmonyMethod(GetType(), nameof(LevelUpMenuAddProfessionDescriptionsPrefix))
 			);
 		}

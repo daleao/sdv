@@ -12,7 +12,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(GameLocation), nameof(GameLocation.OnStoneDestroyed)),
+				original: AccessTools.Method(typeof(GameLocation), nameof(GameLocation.OnStoneDestroyed)),
 				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationOnStoneDestroyedTranspiler))
 			);
 		}
@@ -20,9 +20,9 @@ namespace TheLion.AwesomeProfessions
 		#region harmony patches
 
 		/// <summary>Patch to remove Prospector double coal chance.</summary>
-		private static IEnumerable<CodeInstruction> GameLocationOnStoneDestroyedTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		private static IEnumerable<CodeInstruction> GameLocationOnStoneDestroyedTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.OnStoneDestroyed)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.OnStoneDestroyed)}.");
 
 			/// From: random.NextDouble() < 0.035 * (double)(!who.professions.Contains(<prospector_id>) ? 1 : 2)
 			/// To: random.NextDouble() < 0.035

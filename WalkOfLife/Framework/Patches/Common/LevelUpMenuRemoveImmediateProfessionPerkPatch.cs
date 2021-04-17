@@ -2,7 +2,6 @@
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.removeImmediateProfessionPerk)),
+				original: AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.removeImmediateProfessionPerk)),
 				transpiler: new HarmonyMethod(GetType(), nameof(LevelUpMenuRemoveImmediateProfessionPerkTranspiler)),
 				postfix: new HarmonyMethod(GetType(), nameof(LevelUpMenuRemoveImmediateProfessionPerkPostfix))
 			);
@@ -27,7 +26,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
 		private static IEnumerable<CodeInstruction> LevelUpMenuRemoveImmediateProfessionPerkTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.removeImmediateProfessionPerk)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.removeImmediateProfessionPerk)}.");
 
 			/// From: case <defender_id>:
 			/// To: case <brute_id>:
@@ -36,7 +35,7 @@ namespace TheLion.AwesomeProfessions
 			{
 				Helper
 					.FindFirst(
-						new CodeInstruction(OpCodes.Ldc_I4_S, operand: 27)
+						new CodeInstruction(OpCodes.Ldc_I4_S, operand: Farmer.defender)
 					)
 					.SetOperand(Utility.ProfessionMap.Forward["Brute"]);
 			}
@@ -51,24 +50,16 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to remove modded immediate profession perks.</summary>
 		private static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out string professionName)) return;
+			if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out var professionName)) return;
 
 			// remove immediate perks
-			switch (professionName)
+			if (professionName.Equals("Aquarist"))
 			{
-				case "Angler":
-					FishingRod.maxTackleUses = 20;
-					break;
-
-				case "Aquarist":
-					{
-						foreach (Building b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && b.maxOccupants.Value > 10))
-						{
-							b.maxOccupants.Set(10);
-							b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
-						}
-						break;
-					}
+				foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+				{
+					b.maxOccupants.Set(10);
+					b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+				}
 			}
 
 			// clean unnecessary mod data

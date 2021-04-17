@@ -10,13 +10,12 @@ namespace TheLion.AwesomeProfessions
 		/// <inheritdoc/>
 		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)
 		{
+			if (AwesomeProfessions.ProspectorHunt.TreasureTile == null) return;
+
 			// reveal treasure hunt target
-			if (AwesomeProfessions.ProspectorHunt.TreasureTile != null)
-			{
-				float distanceSquared = (Game1.player.getTileLocation() - AwesomeProfessions.ProspectorHunt.TreasureTile.Value).LengthSquared();
-				if (distanceSquared <= Math.Pow(AwesomeProfessions.Config.TreasureTileDetectionDistance, 2))
-					Utility.DrawArrowPointerOverTarget(AwesomeProfessions.ProspectorHunt.TreasureTile.Value, Color.Violet);
-			}
+			var distanceSquared = (Game1.player.getTileLocation() - AwesomeProfessions.ProspectorHunt.TreasureTile.Value).LengthSquared();
+			if (distanceSquared <= Math.Pow(AwesomeProfessions.Config.TreasureTileDetectionDistance, 2))
+				Utility.DrawArrowPointerOverTarget(AwesomeProfessions.ProspectorHunt.TreasureTile.Value, Color.Violet);
 		}
 	}
 }

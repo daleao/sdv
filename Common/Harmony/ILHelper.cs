@@ -90,7 +90,7 @@ namespace TheLion.Common.Harmony
 		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper FindFirst(params CodeInstruction[] pattern)
 		{
-			int index = _instructionList.IndexOf(pattern);
+			var index = _instructionList.IndexOf(pattern);
 			if (index < 0)
 				throw new IndexOutOfRangeException("The instruction pattern was not found.");
 
@@ -105,7 +105,7 @@ namespace TheLion.Common.Harmony
 			var reversedInstructions = _instructionList.Clone();
 			reversedInstructions.Reverse();
 
-			int index = _instructionList.Count() - reversedInstructions.IndexOf(pattern) - 1;
+			var index = _instructionList.Count() - reversedInstructions.IndexOf(pattern) - 1;
 			if (index < 0)
 				throw new IndexOutOfRangeException("The instruction pattern was not found.");
 
@@ -117,7 +117,7 @@ namespace TheLion.Common.Harmony
 		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper FindNext(params CodeInstruction[] pattern)
 		{
-			int index = _instructionList.IndexOf(pattern, start: _CurrentIndex + 1);
+			var index = _instructionList.IndexOf(pattern, start: _CurrentIndex + 1);
 			if (index < 0)
 				throw new IndexOutOfRangeException("The instruction pattern was not found.");
 
@@ -132,7 +132,7 @@ namespace TheLion.Common.Harmony
 			var reversedInstructions = _instructionList.Clone();
 			reversedInstructions.Reverse();
 
-			int index = _instructionList.Count() - reversedInstructions.IndexOf(pattern, start: _instructionList.Count() - _CurrentIndex - 1) - 1;
+			var index = _instructionList.Count() - reversedInstructions.IndexOf(pattern, start: _instructionList.Count() - _CurrentIndex - 1) - 1;
 			if (index < 0)
 				throw new IndexOutOfRangeException("The instruction pattern was not found.");
 
@@ -144,7 +144,7 @@ namespace TheLion.Common.Harmony
 		/// <param name="label">The <see cref="Label"/> object to match.</param>
 		public ILHelper FindLabel(Label label, bool fromCurrentIndex = false)
 		{
-			int index = _instructionList.IndexOf(label, start: fromCurrentIndex ? _CurrentIndex + 1 : 0);
+			var index = _instructionList.IndexOf(label, start: fromCurrentIndex ? _CurrentIndex + 1 : 0);
 			if (index < 0)
 				throw new IndexOutOfRangeException("The label was not found.");
 
@@ -216,7 +216,7 @@ namespace TheLion.Common.Harmony
 		/// <param name="count">Number of index changes to discard.</param>
 		public ILHelper Return(int count = 1)
 		{
-			for (int i = 0; i < count; ++i)
+			for (var i = 0; i < count; ++i)
 			{
 				_indexStack.Pop();
 			}
@@ -348,8 +348,8 @@ namespace TheLion.Common.Harmony
 		{
 			AdvanceUntil(pattern);
 
-			int endIndex = _indexStack.Pop() + 1;
-			int count = endIndex - _CurrentIndex;
+			var endIndex = _indexStack.Pop() + 1;
+			var count = endIndex - _CurrentIndex;
 			_instructionList.RemoveRange(_CurrentIndex, count);
 
 			return this;
@@ -361,8 +361,8 @@ namespace TheLion.Common.Harmony
 		{
 			AdvanceUntilLabel(label);
 
-			int endIndex = _indexStack.Pop() + 1;
-			int count = endIndex - _CurrentIndex;
+			var endIndex = _indexStack.Pop() + 1;
+			var count = endIndex - _CurrentIndex;
 			_instructionList.RemoveRange(_CurrentIndex, count);
 
 			return this;
@@ -391,8 +391,8 @@ namespace TheLion.Common.Harmony
 		{
 			AdvanceUntil(pattern);
 
-			int endIndex = _indexStack.Pop() + 1;
-			int count = endIndex - _CurrentIndex;
+			var endIndex = _indexStack.Pop() + 1;
+			var count = endIndex - _CurrentIndex;
 			_buffer = _instructionList.GetRange(_CurrentIndex, count).Clone();
 
 			return this;
@@ -406,8 +406,8 @@ namespace TheLion.Common.Harmony
 		{
 			AdvanceUntil(pattern);
 
-			int endIndex = _indexStack.Pop() + 1;
-			int count = endIndex - _CurrentIndex;
+			var endIndex = _indexStack.Pop() + 1;
+			var count = endIndex - _CurrentIndex;
 			_buffer = _instructionList.GetRange(_CurrentIndex, count).Clone();
 
 			if (stripLabels)
@@ -484,9 +484,9 @@ namespace TheLion.Common.Harmony
 
 		/// <summary>Log information to the SMAPI console.</summary>
 		/// <param name="text">The message to log.</param>
-		public ILHelper Log(string text)
+		public ILHelper Trace(string text)
 		{
-			_Monitor.Log(text, LogLevel.Info);
+			_Monitor.Log(text, LogLevel.Trace);
 			return this;
 		}
 
@@ -533,7 +533,7 @@ namespace TheLion.Common.Harmony
 		/// <summary>Remove any labels from code instructions currently in the buffer.</summary>
 		private void _StripLabelsFromBuffer()
 		{
-			for (int i = 0; i < _buffer.Count(); ++i)
+			for (var i = 0; i < _buffer.Count(); ++i)
 			{
 				_buffer[i].labels.Clear();
 			}

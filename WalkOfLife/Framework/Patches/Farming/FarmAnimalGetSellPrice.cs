@@ -9,7 +9,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.getSellPrice)),
+				original: AccessTools.Method(typeof(FarmAnimal), nameof(FarmAnimal.getSellPrice)),
 				prefix: new HarmonyMethod(GetType(), nameof(FarmAnimalGetSellPricePrefix))
 			);
 		}
@@ -19,15 +19,12 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to adjust Breeder animal sell price.</summary>
 		private static bool FarmAnimalGetSellPricePrefix(ref FarmAnimal __instance, ref int __result)
 		{
-			Farmer owner = Game1.getFarmer(__instance.ownerID.Value);
-			if (Utility.SpecificPlayerHasProfession("Breeder", owner))
-			{
-				double adjustedFriendship = Utility.GetProducerAdjustedFriendship(__instance);
-				__result = (int)(__instance.price.Value * adjustedFriendship);
-				return false; // don't run original logic
-			}
+			var owner = Game1.getFarmer(__instance.ownerID.Value);
+			if (!Utility.SpecificPlayerHasProfession("Breeder", owner)) return true; // run original logic
 
-			return true; // run original logic
+			var adjustedFriendship = Utility.GetProducerAdjustedFriendship(__instance);
+			__result = (int)(__instance.price.Value * adjustedFriendship);
+			return false; // don't run original logic
 		}
 
 		#endregion harmony patches

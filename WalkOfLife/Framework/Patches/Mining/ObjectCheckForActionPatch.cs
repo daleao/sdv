@@ -14,7 +14,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(SObject), nameof(SObject.checkForAction)),
+				original: AccessTools.Method(typeof(SObject), nameof(SObject.checkForAction)),
 				transpiler: new HarmonyMethod(GetType(), nameof(ObjectCheckForActionTranspiler)),
 				postfix: new HarmonyMethod(GetType(), nameof(ObjectCheckForActionPostfix))
 			);
@@ -25,12 +25,12 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increment Gemologist counter for gems collected from crystalarium.</summary>
 		private static IEnumerable<CodeInstruction> ObjectCheckForActionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(SObject)}::{nameof(SObject.checkForAction)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(SObject)}::{nameof(SObject.checkForAction)}.");
 
 			/// Injected: if (who.professions.Contains(<gemologist_id>) && name.Equals("Crystalarium"))
 			///		AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/MineralsCollected", amount: 1)
 
-			Label dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
+			var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
 			try
 			{
 				Helper

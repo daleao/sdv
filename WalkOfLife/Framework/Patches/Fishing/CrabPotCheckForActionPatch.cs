@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using TheLion.Common;
-using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -17,7 +16,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(CrabPot), nameof(CrabPot.checkForAction)),
+				original: AccessTools.Method(typeof(CrabPot), nameof(CrabPot.checkForAction)),
 				prefix: new HarmonyMethod(GetType(), nameof(CrabPotCheckForActionPrefix))
 			);
 		}
@@ -30,21 +29,24 @@ namespace TheLion.AwesomeProfessions
 			if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !Utility.IsHoldingSpecialLuremasterCatch(__instance))
 				return true; // run original logic
 
-			SObject item = __instance.heldObject.Value;
+			var item = __instance.heldObject.Value;
 			bool addedToInvetory;
 			if (__instance.heldObject.Value.ParentSheetIndex.AnyOf(14, 51))
 			{
-				MeleeWeapon weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex) { specialItem = true };
+				var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex);
 				addedToInvetory = who.addItemToInventoryBool(weapon);
 				who.mostRecentlyGrabbedItem = item;
 			}
 			else if (__instance.heldObject.Value.ParentSheetIndex.AnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
 			{
-				Ring ring = new Ring(__instance.heldObject.Value.ParentSheetIndex);
+				var ring = new Ring(__instance.heldObject.Value.ParentSheetIndex);
 				addedToInvetory = who.addItemToInventoryBool(ring);
 				who.mostRecentlyGrabbedItem = item;
 			}
-			else addedToInvetory = who.addItemToInventoryBool(item);
+			else
+			{
+				addedToInvetory = who.addItemToInventoryBool(item);
+			}
 
 			__instance.heldObject.Value = null;
 			if (who.IsLocalPlayer && !addedToInvetory)
@@ -55,12 +57,12 @@ namespace TheLion.AwesomeProfessions
 				return false; // don't run original logic;
 			}
 
-			Dictionary<int, string> data = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
+			var data = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
 			if (data.ContainsKey(item.ParentSheetIndex))
 			{
-				string[] rawData = data[item.ParentSheetIndex].Split('/');
-				int minFishSize = Convert.ToInt32(rawData[3]);
-				int maxFishSize = Convert.ToInt32(rawData[4]);
+				var rawData = data[item.ParentSheetIndex].Split('/');
+				var minFishSize = Convert.ToInt32(rawData[3]);
+				var maxFishSize = Convert.ToInt32(rawData[4]);
 				who.caughtFish(item.ParentSheetIndex, Game1.random.Next(minFishSize, maxFishSize + 1));
 			}
 

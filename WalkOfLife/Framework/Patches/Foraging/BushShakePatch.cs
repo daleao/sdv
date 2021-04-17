@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(Bush), name: "shake"),
+				original: AccessTools.Method(typeof(Bush), name: "shake"),
 				transpiler: new HarmonyMethod(GetType(), nameof(BushShakeTranspiler))
 			);
 		}
@@ -23,7 +23,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to nerf Ecologist berry quality.</summary>
 		private static IEnumerable<CodeInstruction> BushShakeTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(Bush)}::shake.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(Bush)}::shake.");
 
 			/// From: Game1.player.professions.Contains(16) ? 4 : 0
 			/// To: Game1.player.professions.Contains(16) ? GetEcologistForageQuality() : 0

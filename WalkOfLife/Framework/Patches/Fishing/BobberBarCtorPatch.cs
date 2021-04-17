@@ -9,7 +9,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Constructor(typeof(BobberBar), new[] { typeof(int), typeof(float), typeof(bool), typeof(int) }),
+				original: AccessTools.Constructor(typeof(BobberBar), new[] { typeof(int), typeof(float), typeof(bool), typeof(int) }),
 				postfix: new HarmonyMethod(GetType(), nameof(BobberBarCtorPostfix))
 			);
 		}
@@ -17,9 +17,9 @@ namespace TheLion.AwesomeProfessions
 		#region harmony patches
 
 		/// <summary>Patch for Aquarist bonus bobber height.</summary>
-		private static void BobberBarCtorPostfix(ref BobberBar __instance, ref int ___bobberBarHeight, ref float ___bobberBarPos)
+		private static void BobberBarCtorPostfix(ref int ___bobberBarHeight, ref float ___bobberBarPos)
 		{
-			int bonusBobberHeight = Utility.GetAquaristBonusBobberBarHeight();
+			var bonusBobberHeight = Utility.GetAquaristBonusBobberBarHeight();
 			___bobberBarHeight += bonusBobberHeight;
 			___bobberBarPos -= bonusBobberHeight;
 		}

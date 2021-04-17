@@ -12,7 +12,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(FishPond), nameof(FishPond.UpdateMaximumOccupancy)),
+				original: AccessTools.Method(typeof(FishPond), nameof(FishPond.UpdateMaximumOccupancy)),
 				postfix: new HarmonyMethod(GetType(), nameof(FishPondUpdateMaximumOccupancyPostfix))
 			);
 		}
@@ -22,9 +22,9 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Aquarist increased max fish pond capacity.</summary>
 		private static void FishPondUpdateMaximumOccupancyPostfix(ref FishPond __instance, ref FishPondData ____fishPondData)
 		{
-			if (____fishPondData == null) return;
+			if (__instance == null || ____fishPondData == null) return;
 
-			Farmer owner = Game1.getFarmer(__instance.owner.Value);
+			var owner = Game1.getFarmer(__instance.owner.Value);
 			if (Utility.SpecificPlayerHasProfession("Aquarist", owner) && __instance.lastUnlockedPopulationGate.Value >= ____fishPondData.PopulationGates.Keys.Max())
 				__instance.maxOccupants.Set(12);
 		}

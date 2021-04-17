@@ -10,13 +10,13 @@ namespace TheLion.AwesomeProfessions
 	{
 		public Vector2? TreasureTile { get; protected set; } = null;
 
-		protected Random Random { get; } = new Random(Guid.NewGuid().GetHashCode());
+		protected Random Random { get; } = new(Guid.NewGuid().GetHashCode());
 		protected string HuntStartedMessage { get; set; }
 		protected string HuntFailedMessage { get; set; }
 		protected Texture2D Icon { get; set; }
 
 		protected uint _timeLimit;
-		protected uint _elapsed = 0;
+		protected uint _elapsed;
 
 		private readonly double _baseTriggerChance;
 		private double _accumulatedBonus = 1.0;

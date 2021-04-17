@@ -14,7 +14,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(GeodeMenu), nameof(GeodeMenu.update)),
+				original: AccessTools.Method(typeof(GeodeMenu), nameof(GeodeMenu.update)),
 				transpiler: new HarmonyMethod(GetType(), nameof(GeodeMenuUpdateTranspiler))
 			);
 		}
@@ -24,12 +24,12 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increment Gemologist counter for geodes cracked at Clint's.</summary>
 		private static IEnumerable<CodeInstruction> GeodeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(GeodeMenu)}::{nameof(GeodeMenu.update)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(GeodeMenu)}::{nameof(GeodeMenu.update)}.");
 
 			/// Injected: if (Game1.player.professions.Contains(<gemologist_id>))
 			///		AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/MineralsCollected", amount: 1)
 
-			Label dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
+			var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
 			try
 			{
 				Helper

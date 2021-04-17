@@ -10,32 +10,34 @@ namespace TheLion.AwesomeProfessions
 {
 	internal class GreenSlimeUpdatePatch : BasePatch
 	{
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
+		/// <inheritdoc/>
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(GreenSlime), nameof(GreenSlime.update), new[] { typeof(GameTime), typeof(GameLocation) }),
+				original: AccessTools.Method(typeof(GreenSlime), nameof(GreenSlime.update), new[] { typeof(GameTime), typeof(GameLocation) }),
 				postfix: new HarmonyMethod(GetType(), nameof(GreenSlimeUpdatePostfix))
 			);
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch for slimes to damage monsters around Slimemaster.</summary>
+		/// <summary>Patch for slimes to damage monsters around Slimecharmer.</summary>
 		private static void GreenSlimeUpdatePostfix(ref GreenSlime __instance, GameLocation location)
 		{
-			if (!Utility.AnyPlayerInLocationHasProfession("Slimemaster", location)) return;
+			if (!Utility.AnyPlayerInLocationHasProfession("Slimecharmer", location)) return;
 
-			foreach (Monster monster in __instance.currentLocation.characters.Where(npc => npc is Monster && !(npc is GreenSlime)))
+			foreach (var npc in __instance.currentLocation.characters.Where(npc => npc is Monster && !(npc is GreenSlime)))
 			{
-				if (!monster.IsInvisible && !monster.isInvincible() && !monster.isGlider.Value && monster.GetBoundingBox().Intersects(__instance.GetBoundingBox()))
-				{
-					int damageToMonster = Math.Max(1, __instance.DamageToFarmer + Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4));
-					Vector2 trajectory = SUtility.getAwayFromPositionTrajectory(monster.GetBoundingBox(), __instance.Position) / 2f;
-					monster.takeDamage(damageToMonster, (int)trajectory.X, (int)trajectory.Y, isBomb: false, 1.0, hitSound: "slime");
-					monster.setInvincibleCountdown(225);
-				}
+				var monster = (Monster)npc;
+				var monsterBox = monster.GetBoundingBox();
+				if (monster.IsInvisible || monster.isInvincible() || monster.isGlider.Value || !monsterBox.Intersects(__instance.GetBoundingBox()))
+					continue;
+
+				var damageToMonster = Math.Max(1, __instance.DamageToFarmer + Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4));
+				var trajectory = SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.Position) / 2f;
+				monster.takeDamage(damageToMonster, (int)trajectory.X, (int)trajectory.Y, isBomb: false, 1.0, hitSound: "slime");
+				monster.setInvincibleCountdown(225);
+				monster.currentLocation.debris.Add(new Debris(damageToMonster, new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y), new Color(255, 130, 0), 1f, monster));
 			}
 		}
 

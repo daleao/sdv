@@ -18,7 +18,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				_TargetMethod(),
+				original: _TargetMethod(),
 				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationCheckActionTranspiler))
 			);
 		}
@@ -28,7 +28,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to nerf Ecologist forage quality + add quality to foraged minerals for Gemologist + increment respective mod data fields.</summary>
 		private static IEnumerable<CodeInstruction> GameLocationCheckActionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.checkAction)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.checkAction)}.");
 
 			/// From: if (who.professions.Contains(<botanist_id>) && objects[key].isForage()) objects[key].Quality = 4
 			/// To: if (who.professions.Contains(<ecologist_id>) && objects[key].isForage() && !IsForagedMineral(objects[key]) objects[key].Quality = GetEcologistForageQuality()
@@ -47,7 +47,7 @@ namespace TheLion.AwesomeProfessions
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse) // end of check
 					)
-					.GetOperand(out object shouldntSetCustomQuality) // copy failed check branch destination
+					.GetOperand(out var shouldntSetCustomQuality) // copy failed check branch destination
 					.Advance()
 					.InsertBuffer() // insert objects[key]
 					.Insert( // check if is foraged mineral and branch if true
@@ -72,7 +72,7 @@ namespace TheLion.AwesomeProfessions
 
 			/// Injected: else if (who.professions.Contains(<gemologist_id>) && IsForagedMineral(objects[key])) objects[key].Quality = GetMineralQualityForGemologist()
 
-			Label gemologistCheck = iLGenerator.DefineLabel();
+			var gemologistCheck = iLGenerator.DefineLabel();
 			try
 			{
 				Helper
@@ -113,7 +113,7 @@ namespace TheLion.AwesomeProfessions
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse)
 					)
-					.GetOperand(out object shouldntSetCustomQuality) // copy next section branch destination
+					.GetOperand(out var shouldntSetCustomQuality) // copy next section branch destination
 					.RetreatUntil(
 						new CodeInstruction(OpCodes.Ldarg_0) // start of call to isForage()
 					)

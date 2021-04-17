@@ -1,6 +1,8 @@
 ﻿using StardewValley;
 using StardewValley.Buildings;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TheLion.Common;
 using SObject = StardewValley.Object;
@@ -24,7 +26,7 @@ namespace TheLion.AwesomeProfessions
 			{ "Producer", Farmer.shepherd },			// 3
 
 			{ "Harvester", Farmer.tiller },				// 1
-			{ "Brewer", Farmer.artisan },				// 4
+			{ "Artisan", Farmer.artisan },				// 4
 			{ "Agriculturist", Farmer.agriculturist },	// 5
 
 			// fishing
@@ -61,7 +63,7 @@ namespace TheLion.AwesomeProfessions
 			{ "Gambit", Farmer.defender },				// 27
 
 			{ "Rascal", Farmer.scout },					// 25
-			{ "Slimemaster", Farmer.acrobat },			// 28
+			{ "Slimecharmer", Farmer.acrobat },			// 28
 			{ "Desperado", Farmer.desperado }			// 29
 		};
 
@@ -79,8 +81,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="professionName">The name of the profession.</param>
 		public static bool LocalPlayerHasProfession(string professionName)
 		{
-			if (!ProfessionMap.Contains(professionName)) return false;
-			return Game1.player.professions.Contains(ProfessionMap.Forward[professionName]);
+			return ProfessionMap.Contains(professionName) && Game1.player.professions.Contains(ProfessionMap.Forward[professionName]);
 		}
 
 		/// <summary>Whether a farmer has a specific profession.</summary>
@@ -123,10 +124,16 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="whichProfession">The profession index.</param>
 		public static void InitializeModData(int whichProfession)
 		{
-			if (!ProfessionMap.Reverse.TryGetValue(whichProfession, out string professionName)) return;
+			if (!ProfessionMap.Reverse.TryGetValue(whichProfession, out var professionName)) return;
 
 			switch (professionName)
 			{
+				case "Artisan":
+					AwesomeProfessions.Data
+						.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/ArtisanPointsAccrued", "0")
+						.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/ArtisanAwardLevel", "0");
+					break;
+
 				case "Conservationist":
 					AwesomeProfessions.Data
 						.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", "0")
@@ -141,13 +148,6 @@ namespace TheLion.AwesomeProfessions
 				case "Gemologist":
 					AwesomeProfessions.Data
 						.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/MineralsCollected", "0");
-					break;
-
-				case "Brewer":
-					AwesomeProfessions.Data
-						.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/BrewerFameAccrued", "0")
-						.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/BrewerAwardLevel", "0")
-						.WriteFieldIfNotExists($"{AwesomeProfessions.UniqueID}/FameNeededForNextAwardLevel", "");
 					break;
 
 				case "Prospector":
@@ -171,24 +171,13 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="whichProfession">The profession index.</param>
 		public static void CleanModData(int whichProfession)
 		{
-			if (!ProfessionMap.Reverse.TryGetValue(whichProfession, out string professionName)) return;
+			if (!ProfessionMap.Reverse.TryGetValue(whichProfession, out var professionName)) return;
 
 			switch (professionName)
 			{
-				case "Brewer":
+				case "Artisan":
 					AwesomeProfessions.Data
-						.WriteField($"{AwesomeProfessions.UniqueID}/BrewerFameAccrued", null)
-						.WriteField($"{AwesomeProfessions.UniqueID}/FameNeededForNextAwardLevel", null);
-					break;
-
-				case "Scavenger":
-					AwesomeProfessions.Data
-						.WriteField($"{AwesomeProfessions.UniqueID}/ScavengerHuntStreak", null);
-					break;
-
-				case "Prospector":
-					AwesomeProfessions.Data
-						.WriteField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", null);
+						.WriteField($"{AwesomeProfessions.UniqueID}/ArtisanPointsAccrued", null);
 					break;
 
 				case "Conservationist":
@@ -196,29 +185,61 @@ namespace TheLion.AwesomeProfessions
 						.WriteField($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", null)
 						.WriteField($"{AwesomeProfessions.UniqueID}/ActiveTaxBonusPercent", null);
 					break;
+
+				case "Prospector":
+					AwesomeProfessions.Data
+						.WriteField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", null);
+					break;
+
+				case "Scavenger":
+					AwesomeProfessions.Data
+						.WriteField($"{AwesomeProfessions.UniqueID}/ScavengerHuntStreak", null);
+					break;
 			}
 		}
 
-		/// <summary>Get the price multiplier for beverages sold by Brewer.</summary>
-		public static float GetBrewerPriceBonus()
+		/// <summary>Get the price multiplier for beverages sold by Artisan.</summary>
+		public static float GetArtisanPriceMultiplier()
 		{
-			uint currentLevel = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/BrewerAwardLevel", uint.Parse);
-			if (currentLevel > 0) return (float)(1f / Math.Pow(2, 5 - currentLevel));
-			return 1f;
+			var currentLevel = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ArtisanAwardLevel", uint.Parse);
+			return 1f + currentLevel switch
+			{
+				>= 5 => 0.4f,
+				4 => 0.25f,
+				3 => 0.15f,
+				2 => 0.10f,
+				1 => 0.5f,
+				0 => 0
+			};
 		}
 
 		/// <summary>Get the price multiplier for produce sold by Producer.</summary>
 		/// <param name="who">The player.</param>
 		public static float GetProducerPriceMultiplier(Farmer who)
 		{
-			return 1f + Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(who.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b.buildingType.Contains("Deluxe") && (b.indoors.Value as AnimalHouse).isFull()).Sum(b => 0.05f);
+			return 1f + Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(who.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b.buildingType.Contains("Deluxe") && ((AnimalHouse)b.indoors.Value).isFull()).Sum(_ => 0.05f);
 		}
 
 		/// <summary>Get the price multiplier for fish sold by Angler.</summary>
 		/// <param name="who">The player.</param>
 		public static float GetAnglerPriceMultiplier(Farmer who)
 		{
-			return 1f + _LegendaryFishIds.Where(id => who.fishCaught.ContainsKey(id)).Sum(id => 0.05f);
+			var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
+			var multiplier = 1f;
+			foreach (var fish in who.fishCaught.Pairs)
+			{
+				if (!fishData.ContainsKey(fish.Key)) continue;
+
+				var specificFishData = fishData[fish.Key].Split('/');
+				if (specificFishData.Contains("trap")) continue;
+
+				if (specificFishData[0].AnyOf("Crimsonfish", "Angler", "Legend", "Glacierfish", "Mutant Carp"))
+					multiplier += 0.05f;
+				else if (fish.Value[0] > Convert.ToInt32(specificFishData[4]))
+					multiplier += 0.01f;
+			}
+
+			return multiplier;
 		}
 
 		/// <summary>Get the price multiplier for items sold by Conservationist.</summary>
@@ -240,20 +261,14 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Get the quality of forage for Ecologist.</summary>
 		public static int GetEcologistForageQuality()
 		{
-			uint itemsForaged = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ItemsForaged", uint.Parse);
+			var itemsForaged = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ItemsForaged", uint.Parse);
 			return itemsForaged < AwesomeProfessions.Config.ForagesNeededForBestQuality ? itemsForaged < AwesomeProfessions.Config.ForagesNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality : SObject.bestQuality;
-		}
-
-		/// <summary>Facilitates incrementing mod data field in transpilers.</summary>
-		public static void IncrementItemsForagedForTranspiler()
-		{
-			AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ItemsForaged", amount: 1);
 		}
 
 		/// <summary>Get the quality of mineral for Gemologist.</summary>
 		public static int GetGemologistMineralQuality()
 		{
-			uint mineralsCollected = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ItemsForaged", uint.Parse);
+			var mineralsCollected = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ItemsForaged", uint.Parse);
 			return mineralsCollected < AwesomeProfessions.Config.MineralsNeededForBestQuality ? mineralsCollected < AwesomeProfessions.Config.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality : SObject.bestQuality;
 		}
 
@@ -270,8 +285,8 @@ namespace TheLion.AwesomeProfessions
 
 			return Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond
 			{
-				FishCount: >= 10
-			}).Sum(_ => 7);
+				FishCount: >= 12
+			}).Sum(_ => 6);
 		}
 
 		/// <summary>Get the bonus critical strike chance that should be applied to Gambit.</summary>
@@ -284,7 +299,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="who">The player.</param>
 		public static float GetGambitBonusCritChance(Farmer who)
 		{
-			double healthPercent = (double)who.health / who.maxHealth;
+			var healthPercent = (double)who.health / who.maxHealth;
 			return (float)(0.2 / (healthPercent + 0.2) - 0.2 / 1.2);
 		}
 
@@ -292,7 +307,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="travelDistance">Distance travelled by the projectile.</param>
 		public static float GetRascalBonusDamageForTravelTime(int travelDistance)
 		{
-			int maxDistance = 800;
+			var maxDistance = 800;
 			if (travelDistance > maxDistance) return 1.5f;
 			return 0.5f / maxDistance * travelDistance + 1f;
 		}

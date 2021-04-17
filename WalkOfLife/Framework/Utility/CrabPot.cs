@@ -15,15 +15,6 @@ namespace TheLion.AwesomeProfessions
 	{
 		#region look-up tables
 
-		/// <summary>Look-up table for different types of bait by id.</summary>
-		private static Dictionary<int, string> BaitById { get; } = new()
-		{
-			{ 685, "Bait" },
-			{ 703, "Magnet" },
-			{ 774, "Wild Bait" },
-			{ 908, "Magic Bait" }
-		};
-
 		/// <summary>Look-up table for trappable treasure items using magnet.</summary>
 		private static Dictionary<int, string[]> PirateTreasureTable { get; } = new()
 		{
@@ -55,32 +46,25 @@ namespace TheLion.AwesomeProfessions
 
 		#endregion look-up tables
 
-		/// <summary>Whether the crab pot instance is using regular bait.</summary>
-		/// <param name="crabpot">The crab pot instance.</param>
-		public static bool IsUsingRegularBait(CrabPot crabpot)
-		{
-			return crabpot.bait.Value != null && BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Bait");
-		}
-
 		/// <summary>Whether the crab pot instance is using magnet as bait.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		public static bool IsUsingMagnet(CrabPot crabpot)
 		{
-			return crabpot.bait.Value != null && BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Magnet");
+			return crabpot.bait.Value != null && BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) && baitName.Equals("Magnet");
 		}
 
 		/// <summary>Whether the crab pot instance is using wild bait.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		public static bool IsUsingWildBait(CrabPot crabpot)
 		{
-			return crabpot.bait.Value != null && BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Wild Bait");
+			return crabpot.bait.Value != null && BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) && baitName.Equals("Wild Bait");
 		}
 
 		/// <summary>Whether the crab pot instance is using magic bait.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		public static bool IsUsingMagicBait(CrabPot crabpot)
 		{
-			return crabpot.bait.Value != null && BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out string baitName) && baitName.Equals("Magic Bait");
+			return crabpot.bait.Value != null && BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) && baitName.Equals("Magic Bait");
 		}
 
 		/// <summary>Get the raw fish data for the current game season.</summary>
@@ -97,7 +81,7 @@ namespace TheLion.AwesomeProfessions
 		public static string[] GetRawFishDataForAllSeasons(GameLocation location, Dictionary<string, string> locationData)
 		{
 			List<string> allSeasonFish = new();
-			for (int i = 0; i < 4; ++i)
+			for (var i = 0; i < 4; ++i)
 			{
 				var seasonalFishData = locationData[location.NameOrUniqueName].Split('/')[4 + i].Split(' ');
 				if (seasonalFishData.Length > 1) allSeasonFish.AddRange(seasonalFishData);
@@ -111,7 +95,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			Dictionary<string, string> rawFishDataWithLocation = new();
 			if (rawFishData.Length > 1)
-				for (int i = 0; i < rawFishData.Length; i += 2) rawFishDataWithLocation[rawFishData[i]] = rawFishData[i + 1];
+				for (var i = 0; i < rawFishData.Length; i += 2) rawFishDataWithLocation[rawFishData[i]] = rawFishData[i + 1];
 			return rawFishDataWithLocation;
 		}
 
@@ -123,20 +107,31 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="r">Random number generator.</param>
 		public static int ChooseFish(CrabPot crabpot, Dictionary<int, string> fishData, Dictionary<string, string> rawFishDataWithLocation, GameLocation location, Random r)
 		{
-			string[] keys = rawFishDataWithLocation.Keys.ToArray();
+			var keys = rawFishDataWithLocation.Keys.ToArray();
 			SUtility.Shuffle(r, keys);
-			foreach (string key in keys)
+			var counter = 0;
+			foreach (var key in keys)
 			{
-				string[] specificFishData = fishData[Convert.ToInt32(key)].Split('/');
+				var specificFishData = fishData[Convert.ToInt32(key)].Split('/');
 				if (IsLegendaryFish(specificFishData)) continue;
 
-				if (!IsUsingMagicBait(crabpot) && !IsLowLevelFish(specificFishData)) continue;
+				if (!IsUsingMagicBait(crabpot) && !IsFishLevelLowerThanNumber(specificFishData, IsUsingWildBait(crabpot) ? 90 : 70)
+				|| IsUsingMagicBait(crabpot) && IsFishLevelLowerThanNumber(specificFishData, 70)) continue;
 
-				int specificFishLocation = Convert.ToInt32(rawFishDataWithLocation[key]);
+				var specificFishLocation = Convert.ToInt32(rawFishDataWithLocation[key]);
 				if (!IsUsingMagicBait(crabpot) && (!IsCorrectLocationAndTimeForThisFish(specificFishData, specificFishLocation, crabpot, location) || !IsCorrectWeatherForThisFish(specificFishData, location)))
 					continue;
 
-				if (r.NextDouble() < GetChanceForThisFish(specificFishData)) return Convert.ToInt32(key);
+				if (r.NextDouble() > GetChanceForThisFish(specificFishData)) continue;
+
+				var whichFish = Convert.ToInt32(key);
+				if (IsAlgae(whichFish) && counter == 0)
+				{
+					++counter;
+					continue;
+				}
+
+				return whichFish;
 			}
 
 			return -1;
@@ -151,9 +146,9 @@ namespace TheLion.AwesomeProfessions
 
 		/// <summary>Whether the specific fish data corresponds to a sufficiently low level fish.</summary>
 		/// <param name="specificFishData">Raw game file data for this fish.</param>
-		public static bool IsLowLevelFish(string[] specificFishData)
+		public static bool IsFishLevelLowerThanNumber(string[] specificFishData, int num)
 		{
-			return Convert.ToInt32(specificFishData[1]) < 50;
+			return Convert.ToInt32(specificFishData[1]) < num;
 		}
 
 		/// <summary>Whether the current fishing location and game time match the specific fish data.</summary>
@@ -163,10 +158,10 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="location">The location of the crab pot.</param>
 		public static bool IsCorrectLocationAndTimeForThisFish(string[] specificFishData, int specificFishLocation, CrabPot crabpot, GameLocation location)
 		{
-			string[] specificFishSpawnTimes = specificFishData[5].Split(' ');
+			var specificFishSpawnTimes = specificFishData[5].Split(' ');
 			if (specificFishLocation == -1 || location.getFishingLocation(crabpot.TileLocation) == specificFishLocation)
 			{
-				for (int t = 0; t < specificFishSpawnTimes.Length; t += 2)
+				for (var t = 0; t < specificFishSpawnTimes.Length; t += 2)
 				{
 					if (Game1.timeOfDay >= Convert.ToInt32(specificFishSpawnTimes[t]) && Game1.timeOfDay < Convert.ToInt32(specificFishSpawnTimes[t + 1]))
 						return true;
@@ -199,9 +194,9 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="who">The player.</param>
 		public static int ChoosePirateTreasure(Random r, Farmer who)
 		{
-			int[] keys = PirateTreasureTable.Keys.ToArray();
+			var keys = PirateTreasureTable.Keys.ToArray();
 			SUtility.Shuffle(r, keys);
-			foreach (int key in keys)
+			foreach (var key in keys)
 			{
 				if (key == 890 && !who.team.SpecialOrderRuleActive("DROP_QI_BEANS")) continue;
 
@@ -230,8 +225,8 @@ namespace TheLion.AwesomeProfessions
 			{
 				if (!kvp.Value.Contains("trap")) continue;
 
-				bool shouldCatchOceanFish = ShouldCatchOceanFish(crabpot, location);
-				string[] rawSplit = kvp.Value.Split('/');
+				var shouldCatchOceanFish = ShouldCatchOceanFish(crabpot, location);
+				var rawSplit = kvp.Value.Split('/');
 				if ((rawSplit[4].Equals("ocean") && !shouldCatchOceanFish) || (rawSplit[4].Equals("freshwater") && shouldCatchOceanFish))
 					continue;
 
@@ -268,10 +263,11 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="whichFish">The chosen catch.</param>
 		/// <param name="who">The owner of the crab pot.</param>
 		/// <param name="r">Random number generator.</param>
-		public static int GetTrapFishQuality(int whichFish, Farmer who, Random r)
+		public static int GetTrapFishQuality(int whichFish, Farmer who, Random r, CrabPot crabpot, bool isLuremaster)
 		{
-			if (!SpecificPlayerHasProfession("Trapper", who) || PirateTreasureTable.ContainsKey(whichFish)) return 0;
-			return (r.NextDouble() < who.FishingLevel / 30.0) ? 2 : (r.NextDouble() < who.FishingLevel / 15.0) ? 1 : 0;
+			if (isLuremaster && IsUsingMagicBait(crabpot)) return SObject.bestQuality;
+			if (!SpecificPlayerHasProfession("Trapper", who) || PirateTreasureTable.ContainsKey(whichFish) || IsAlgae(whichFish)) return SObject.lowQuality;
+			return r.NextDouble() < who.FishingLevel / 30.0 ? SObject.highQuality : r.NextDouble() < who.FishingLevel / 15.0 ? SObject.medQuality : SObject.lowQuality;
 		}
 
 		/// <summary>Get initial stack for the chosen stack.</summary>
@@ -281,7 +277,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="r">Random number generator.</param>
 		public static int GetTrapFishQuantity(CrabPot crabpot, int whichFish, Farmer who, Random r)
 		{
-			return IsUsingWildBait(crabpot) && r.NextDouble() < 0.25 + who.DailyLuck / 2.0 ? 2 : PirateTreasureTable.TryGetValue(whichFish, out string[] treasureData) ? r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1) : 1;
+			return IsUsingWildBait(crabpot) && r.NextDouble() < 0.5 ? 2 : PirateTreasureTable.TryGetValue(whichFish, out var treasureData) ? r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1) : 1;
 		}
 
 		/// <summary>Get random trash.</summary>
@@ -295,8 +291,8 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="crabpot">The crab pot instance.</param>
 		public static bool IsHoldingSpecialLuremasterCatch(CrabPot crabpot)
 		{
-			SObject obj = crabpot.heldObject.Value;
-			return obj.Type == "Fish" && !(IsTrapFish(obj) || IsTrash(obj)) || PirateTreasureTable.ContainsKey(obj.ParentSheetIndex);
+			var obj = crabpot.heldObject.Value;
+			return obj != null && (obj.Type.Equals("Fish") && !IsTrapFish(obj) || PirateTreasureTable.ContainsKey(obj.ParentSheetIndex));
 		}
 	}
 }

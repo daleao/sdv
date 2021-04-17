@@ -1,5 +1,7 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
+using System;
+using System.Globalization;
 using System.IO;
 using TheLion.Common;
 
@@ -16,8 +18,8 @@ namespace TheLion.AwesomeProfessions
 			uint trashCollectedThisSeason;
 			if (Game1.dayOfMonth == 28 && (trashCollectedThisSeason = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/WaterTrashCollectedThisSeason", uint.Parse)) > 0)
 			{
-				float taxBonusNextSeason = trashCollectedThisSeason / AwesomeProfessions.Config.TrashNeededForNextTaxLevel / 100f;
-				AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/ActiveTaxBonusPercent", taxBonusNextSeason.ToString());
+				var taxBonusNextSeason = Math.Min(trashCollectedThisSeason / AwesomeProfessions.Config.TrashNeededForNextTaxLevel / 100f, 0.37f);
+				AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/ActiveTaxBonusPercent", taxBonusNextSeason.ToString(CultureInfo.InvariantCulture));
 				if (taxBonusNextSeason > 0)
 				{
 					AwesomeProfessions.Content.InvalidateCache(Path.Combine("Data", "mail"));

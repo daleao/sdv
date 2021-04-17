@@ -2,7 +2,6 @@
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.RevalidateHealth)),
+				original: AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.RevalidateHealth)),
 				transpiler: new HarmonyMethod(GetType(), nameof(LevelUpMenuRevalidateHealthTranspiler)),
 				postfix: new HarmonyMethod(GetType(), nameof(LevelUpMenuRevalidateHealthPostfix))
 			);
@@ -26,7 +25,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
 		private static IEnumerable<CodeInstruction> LevelUpMenuRevalidateHealthTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.RevalidateHealth)}.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.RevalidateHealth)}.");
 
 			/// From: if (farmer.professions.Contains(<defender_id>))
 			/// To: if (farmer.professions.Contains(<brute_id>))
@@ -49,15 +48,10 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch revalidate modded immediate profession perks.</summary>
 		private static void LevelUpMenuRevalidateHealthPostfix(Farmer farmer)
 		{
-			// revalidate tackle health
-			int expectedMaxTackleUses = 20;
-			if (Utility.SpecificPlayerHasProfession("Angler", farmer)) expectedMaxTackleUses *= 2;
-
-			FishingRod.maxTackleUses = expectedMaxTackleUses;
-
 			// revalidate fish pond capacity
-			foreach (FishPond pond in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond))
+			foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
 			{
+				var pond = (FishPond)b;
 				pond.UpdateMaximumOccupancy();
 				pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
 			}

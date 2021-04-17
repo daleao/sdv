@@ -11,7 +11,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Constructor(typeof(SObject), new[] { typeof(Vector2), typeof(int), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool) }),
+				original: AccessTools.Constructor(typeof(SObject), new[] { typeof(Vector2), typeof(int), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool) }),
 				postfix: new HarmonyMethod(GetType(), nameof(ObjectCtorPostfix))
 			);
 		}
@@ -21,7 +21,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Ecologist wild berry recovery.</summary>
 		private static void ObjectCtorPostfix(ref SObject __instance)
 		{
-			Farmer owner = Game1.getFarmer(__instance.owner.Value);
+			var owner = Game1.getFarmer(__instance.owner.Value);
 			if (Utility.IsWildBerry(__instance) && Utility.SpecificPlayerHasProfession("Ecologist", owner))
 				__instance.Edibility = (int)(__instance.Edibility * 1.5f);
 		}

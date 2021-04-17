@@ -22,8 +22,13 @@ namespace TheLion.AwesomeProfessions
 
 			// patch mail from the Ferngill Revenue Service
 			var editor = asset.AsDictionary<string, string>();
-			string taxBonus = string.Format("{0:p0}", AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ActiveTaxBonusPercent", float.Parse));
-			string message = AwesomeProfessions.I18n.Get("conservationist.mail", new { taxBonus, farmName = Game1.getFarm().Name });
+			var taxBonus = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ActiveTaxBonusPercent", float.Parse);
+			var key = taxBonus switch
+			{
+				>= 0.37f => "conservationist.mail2",
+				_ => "conservationist.mail1"
+			};
+			string message = AwesomeProfessions.I18n.Get(key, new { taxBonus = $"{taxBonus:p0}", farmName = Game1.getFarm().Name });
 			editor.Data[$"{AwesomeProfessions.UniqueID}/ConservationistTaxNotice"] = message;
 		}
 	}

@@ -22,9 +22,9 @@ namespace TheLion.AwesomeProfessions
 
 			ArrowPointer ??= new ArrowPointer(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "cursor.png")));
 
-			Rectangle vpbounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
+			var vpbounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
 			Vector2 onScreenPosition = default;
-			float rotation = 0f;
+			var rotation = 0f;
 			if (target.X * 64f > Game1.viewport.MaxCorner.X - 64)
 			{
 				onScreenPosition.X = vpbounds.Right - 8;
@@ -54,17 +54,17 @@ namespace TheLion.AwesomeProfessions
 				onScreenPosition.Y = target.Y * 64f - Game1.viewport.Y;
 			}
 
-			if (onScreenPosition.X == 8f && onScreenPosition.Y == 8f) rotation += (float)Math.PI / 4f;
+			if ((int)onScreenPosition.X == 8 && (int)onScreenPosition.Y == 8) rotation += (float)Math.PI / 4f;
 
-			if (onScreenPosition.X == 8f && onScreenPosition.Y == vpbounds.Bottom - 8f) rotation += (float)Math.PI / 4f;
+			if ((int)onScreenPosition.X == 8 && (int)onScreenPosition.Y == vpbounds.Bottom - 8) rotation += (float)Math.PI / 4f;
 
-			if (onScreenPosition.X == vpbounds.Right - 8f && onScreenPosition.Y == 8f) rotation -= (float)Math.PI / 4f;
+			if ((int)onScreenPosition.X == vpbounds.Right - 8 && (int)onScreenPosition.Y == 8) rotation -= (float)Math.PI / 4f;
 
-			if (onScreenPosition.X == vpbounds.Right - 8f && onScreenPosition.Y == vpbounds.Bottom - 8f) rotation -= (float)Math.PI / 4f;
+			if ((int)onScreenPosition.X == vpbounds.Right - 8 && (int)onScreenPosition.Y == vpbounds.Bottom - 8) rotation -= (float)Math.PI / 4f;
 
-			Rectangle srcRect = new Rectangle(0, 0, 5, 4);
-			float renderScale = 4f;
-			Vector2 safePos = SUtility.makeSafe(renderSize: new Vector2(srcRect.Width * renderScale, srcRect.Height * renderScale), renderPos: onScreenPosition);
+			var srcRect = new Rectangle(0, 0, 5, 4);
+			var renderScale = 4f;
+			var safePos = SUtility.makeSafe(renderSize: new Vector2(srcRect.Width * renderScale, srcRect.Height * renderScale), renderPos: onScreenPosition);
 			Game1.spriteBatch.Draw(ArrowPointer.Texture, safePos, srcRect, color, rotation, new Vector2(2f, 2f), renderScale, SpriteEffects.None, 1f);
 		}
 
@@ -78,10 +78,10 @@ namespace TheLion.AwesomeProfessions
 
 			ArrowPointer ??= new ArrowPointer(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "cursor.png")));
 
-			Rectangle srcRect = new Rectangle(0, 0, 5, 4);
-			float renderScale = 4f;
-			Vector2 targetPixel = new Vector2((target.X * 64f) + 32f, (target.Y * 64f) + 32f) + ArrowPointer.GetOffset();
-			Vector2 adjustedPixel = Game1.GlobalToLocal(Game1.viewport, targetPixel);
+			var srcRect = new Rectangle(0, 0, 5, 4);
+			const float renderScale = 4f;
+			var targetPixel = new Vector2((target.X * 64f) + 32f, (target.Y * 64f) + 32f) + ArrowPointer.GetOffset();
+			var adjustedPixel = Game1.GlobalToLocal(Game1.viewport, targetPixel);
 			adjustedPixel = SUtility.ModifyCoordinatesForUIScale(adjustedPixel);
 			Game1.spriteBatch.Draw(ArrowPointer.Texture, adjustedPixel, srcRect, color, (float)Math.PI, new Vector2(2f, 2f), renderScale, SpriteEffects.None, 1f);
 		}

@@ -13,7 +13,7 @@ namespace TheLion.AwesomeProfessions
 		public override void Apply(HarmonyInstance harmony)
 		{
 			harmony.Patch(
-				AccessTools.Method(typeof(MeleeWeapon), name: "doAnimateSpecialMove"),
+				original: AccessTools.Method(typeof(MeleeWeapon), name: "doAnimateSpecialMove"),
 				transpiler: new HarmonyMethod(GetType(), nameof(MeleeWeaponDoAnimateSpecialMoveTranspiler))
 			);
 		}
@@ -23,11 +23,11 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch remove Acrobat cooldown reduction.</summary>
 		private static IEnumerable<CodeInstruction> MeleeWeaponDoAnimateSpecialMoveTranspiler(IEnumerable<CodeInstruction> instructions)
 		{
-			Helper.Attach(instructions).Log($"Patching method {typeof(MeleeWeapon)}::doAnimateSpecialMove.");
+			Helper.Attach(instructions).Trace($"Patching method {typeof(MeleeWeapon)}::doAnimateSpecialMove.");
 
 			/// Skipped: if (lastUser.professions.Contains(<acrobat_id>) cooldown /= 2
 
-			int i = 0;
+			var i = 0;
 			repeat:
 			try
 			{
@@ -39,7 +39,7 @@ namespace TheLion.AwesomeProfessions
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse) // the false case branch
 					)
-					.GetOperand(out object isNotAcrobat) // copy destination
+					.GetOperand(out var isNotAcrobat) // copy destination
 					.Return()
 					.Insert( // insert unconditional branch to skip this check
 						new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)
