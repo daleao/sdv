@@ -22,12 +22,19 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Breeder newborn animals to have random starting friendship.</summary>
 		private static void AnimalHouseAddNewHatchedAnimalPostfix(ref AnimalHouse __instance)
 		{
-			var who = Game1.getFarmer(__instance.getBuilding().owner.Value);
-			if (!Utility.SpecificPlayerHasProfession("Rancher", who)) return;
+			try
+			{
+				var who = Game1.getFarmer(__instance.getBuilding().owner.Value);
+				if (!Utility.SpecificPlayerHasProfession("Rancher", who)) return;
 
-			var a = __instance.Animals?.Values.Last();
-			if (a == null || a.age.Value != 0 || a.friendshipTowardFarmer.Value != 0) return;
-			a.friendshipTowardFarmer.Value = new Random(__instance.GetHashCode() + a.GetHashCode()).Next(0, 200);
+				var a = __instance.Animals?.Values.Last();
+				if (a == null || a.age.Value != 0 || a.friendshipTowardFarmer.Value != 0) return;
+				a.friendshipTowardFarmer.Value = new Random(__instance.GetHashCode() + a.GetHashCode()).Next(0, 200);
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(AnimalHouseAddNewHatchedAnimalPostfix)}:\n{ex}");
+			}
 		}
 
 		#endregion harmony patches

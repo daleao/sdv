@@ -1,6 +1,7 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using System;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -20,7 +21,14 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increase Demolitionist bomb radius.</summary>
 		private static void TemporaryAnimatedSpriteCtorPostfix(ref TemporaryAnimatedSprite __instance, Farmer owner)
 		{
-			if (Utility.SpecificPlayerHasProfession("Demolitionist", owner)) ++__instance.bombRadius;
+			try
+			{
+				if (Utility.SpecificPlayerHasProfession("Demolitionist", owner)) ++__instance.bombRadius;
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(TemporaryAnimatedSpriteCtorPostfix)}:\n{ex}");
+			}
 		}
 
 		#endregion harmony patches

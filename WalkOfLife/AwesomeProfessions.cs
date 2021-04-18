@@ -70,7 +70,6 @@ namespace TheLion.AwesomeProfessions
 				new FishingRodStartMinigameEndFunctionPatch(),
 				new FishPondUpdateMaximumOccupancyPatch(),
 				new FruitTreeDayUpdatePatch(),
-				new Game1CreateItemDebrisPatch(),
 				new Game1CreateObjectDebrisPatch(),
 				new Game1DrawHUDPatch(),
 				new GameLocationBreakStonePatch(),
@@ -110,7 +109,7 @@ namespace TheLion.AwesomeProfessions
 			// add debug commands
 			Helper.ConsoleCommands.Add("player_addprofessions", "Add the specified professions to the local player." + _GetCommandUsage(), _AddProfessionsToLocalPlayer);
 			Helper.ConsoleCommands.Add("player_resetprofessions", "Reset all skills and professions for the local player.", _ResetLocalPlayerProfessions);
-			Helper.ConsoleCommands.Add("player_checkprofessionprogress", "Check current values for profession data fields." + _GetAvailableDataFields(), _PrintDataField);
+			Helper.ConsoleCommands.Add("player_checkdatafield", "Check current value for a profession data field." + _GetAvailableDataFields(), _PrintDataField);
 			Helper.ConsoleCommands.Add("wol_checksubscribed", "List currently subscribed mod events.", _PrintSubscribedEvents);
 		}
 	}

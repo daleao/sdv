@@ -1,6 +1,7 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using System;
 using TheLion.Common;
 using SObject = StardewValley.Object;
 
@@ -22,17 +23,25 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Gemologist mineral quality and increment counter for mined minerals.</summary>
 		private static bool Game1CreateObjectDebrisPrefix(int objectIndex, int xTile, int yTile, long whichPlayer, GameLocation location)
 		{
-			var who = Game1.getFarmer(whichPlayer);
-			if (!Utility.SpecificPlayerHasProfession("Gemologist", who) || !Utility.IsGemOrMineral(new SObject(objectIndex, 1)))
-				return true; // run original logic
-
-			location.debris.Add(new Debris(objectIndex, new Vector2(xTile * 64 + 32, yTile * 64 + 32), who.getStandingPosition())
+			try
 			{
-				itemQuality = Utility.GetGemologistMineralQuality()
-			});
+				var who = Game1.getFarmer(whichPlayer);
+				if (!Utility.SpecificPlayerHasProfession("Gemologist", who) || !Utility.IsGemOrMineral(new SObject(objectIndex, 1)))
+					return true; // run original logic
 
-			AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/MineralsCollected", amount: 1);
-			return false; // don't run original logic
+				location.debris.Add(new Debris(objectIndex, new Vector2(xTile * 64 + 32, yTile * 64 + 32), who.getStandingPosition())
+				{
+					itemQuality = Utility.GetGemologistMineralQuality()
+				});
+
+				AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/MineralsCollected", amount: 1);
+				return false; // don't run original logic
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(Game1CreateObjectDebrisPrefix)}:\n{ex}");
+				return true; // default to original logic
+			}
 		}
 
 		#endregion harmony patches

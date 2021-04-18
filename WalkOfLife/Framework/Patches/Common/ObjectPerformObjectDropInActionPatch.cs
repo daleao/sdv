@@ -73,11 +73,18 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (probe) return;
 
-			if ((__instance.name.Equals("Geode Crusher") || __instance.name.Equals("Crystalarium")) && __instance.heldObject.Value != null
-			&& Utility.SpecificPlayerHasProfession("Gemologist", who) && (Utility.IsForagedMineral(__instance.heldObject.Value) || Utility.IsGemOrMineral(__instance.heldObject.Value)))
-				__instance.heldObject.Value.Quality = Utility.GetGemologistMineralQuality();
-			else if (Utility.IsArtisanMachine(__instance) && (__instance.owner.Value == who.UniqueMultiplayerID || !Game1.IsMultiplayer) && Utility.SpecificPlayerHasProfession("Artisan", who))
-				__instance.MinutesUntilReady -= (int)(__instance.MinutesUntilReady * 0.1);
+			try
+			{
+				if ((__instance.name.Equals("Geode Crusher") || __instance.name.Equals("Crystalarium")) && __instance.heldObject.Value != null
+				&& Utility.SpecificPlayerHasProfession("Gemologist", who) && (Utility.IsForagedMineral(__instance.heldObject.Value) || Utility.IsGemOrMineral(__instance.heldObject.Value)))
+					__instance.heldObject.Value.Quality = Utility.GetGemologistMineralQuality();
+				else if (Utility.IsArtisanMachine(__instance) && (__instance.owner.Value == who.UniqueMultiplayerID || !Game1.IsMultiplayer) && Utility.SpecificPlayerHasProfession("Artisan", who))
+					__instance.MinutesUntilReady -= (int)(__instance.MinutesUntilReady * 0.1);
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(ObjectPerformObjectDropInActionPostfix)}:\n{ex}");
+			}
 		}
 
 		#endregion harmony patches

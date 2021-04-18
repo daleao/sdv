@@ -2,6 +2,7 @@
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
+using System;
 using System.Linq;
 
 namespace TheLion.AwesomeProfessions
@@ -24,9 +25,16 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (__instance == null || ____fishPondData == null) return;
 
-			var owner = Game1.getFarmer(__instance.owner.Value);
-			if (Utility.SpecificPlayerHasProfession("Aquarist", owner) && __instance.lastUnlockedPopulationGate.Value >= ____fishPondData.PopulationGates.Keys.Max())
-				__instance.maxOccupants.Set(12);
+			try
+			{
+				var owner = Game1.getFarmer(__instance.owner.Value);
+				if (Utility.SpecificPlayerHasProfession("Aquarist", owner) && __instance.lastUnlockedPopulationGate.Value >= ____fishPondData.PopulationGates.Keys.Max())
+					__instance.maxOccupants.Set(12);
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(FishPondUpdateMaximumOccupancyPostfix)}:\n{ex}");
+			}
 		}
 
 		#endregion harmony patches

@@ -1,5 +1,6 @@
 ﻿using Harmony;
 using StardewValley.Menus;
+using System;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -19,7 +20,17 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Aquarist bonus bobber height.</summary>
 		private static void BobberBarCtorPostfix(ref int ___bobberBarHeight, ref float ___bobberBarPos)
 		{
-			var bonusBobberHeight = Utility.GetAquaristBonusBobberBarHeight();
+			int bonusBobberHeight;
+			try
+			{
+				bonusBobberHeight = Utility.GetAquaristBonusBobberBarHeight();
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(BobberBarCtorPostfix)}:\n{ex}");
+				return;
+			}
+			
 			___bobberBarHeight += bonusBobberHeight;
 			___bobberBarPos -= bonusBobberHeight;
 		}

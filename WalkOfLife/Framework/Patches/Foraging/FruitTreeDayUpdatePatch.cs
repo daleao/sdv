@@ -1,5 +1,6 @@
 ﻿using Harmony;
 using StardewValley.TerrainFeatures;
+using System;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -19,8 +20,15 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increase Abrorist fruit tree growth speed.</summary>
 		private static void FruitTreeDayUpdatePostfix(ref FruitTree __instance)
 		{
-			if (Utility.AnyPlayerHasProfession("Arborist", out _) && __instance.daysUntilMature.Value % 4 == 0)
-				--__instance.daysUntilMature.Value;
+			try
+			{
+				if (Utility.AnyPlayerHasProfession("Arborist", out _) && __instance.daysUntilMature.Value % 4 == 0)
+					--__instance.daysUntilMature.Value;
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(FruitTreeDayUpdatePostfix)}:\n{ex}");
+			}
 		}
 
 		#endregion harmony patches

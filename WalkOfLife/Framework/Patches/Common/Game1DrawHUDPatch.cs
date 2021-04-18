@@ -104,9 +104,15 @@ namespace TheLion.AwesomeProfessions
 
 		private static void Game1DrawHUDPostfix()
 		{
-			if (!Utility.LocalPlayerHasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
-
-			foreach (var tile in Utility.GetLadderTiles(shaft)) Utility.DrawTrackingArrowPointer(tile, Color.Lime);
+			try
+			{
+				if (!Utility.LocalPlayerHasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
+				foreach (var tile in Utility.GetLadderTiles(shaft)) Utility.DrawTrackingArrowPointer(tile, Color.Lime);
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(Game1DrawHUDPostfix)}:\n{ex}");
+			}
 		}
 
 		#endregion harmony patches

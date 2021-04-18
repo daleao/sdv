@@ -48,12 +48,19 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch revalidate modded immediate profession perks.</summary>
 		private static void LevelUpMenuRevalidateHealthPostfix(Farmer farmer)
 		{
-			// revalidate fish pond capacity
-			foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
+			try
 			{
-				var pond = (FishPond)b;
-				pond.UpdateMaximumOccupancy();
-				pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
+				// revalidate fish pond capacity
+				foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
+				{
+					var pond = (FishPond)b;
+					pond.UpdateMaximumOccupancy();
+					pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
+				}
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(LevelUpMenuRevalidateHealthPostfix)}:\n{ex}");
 			}
 		}
 

@@ -269,7 +269,7 @@ namespace TheLion.AwesomeProfessions
 			result += "\n\t'<skill>' - get all professions and perks for and max out the specified skill.";
 			result += "\n\t'<profession>' - get the specified profession and level up the corresponding skill if necessary.";
 			result += "\n\nExample:";
-			result += "\n\twol_getprofessions farming fishing scavenger prospector slimecharmer";
+			result += "\n\tplayer_addprofessions farming fishing scavenger prospector slimecharmer";
 			return result;
 		}
 
@@ -277,9 +277,8 @@ namespace TheLion.AwesomeProfessions
 		private string _GetAvailableDataFields()
 		{
 			var result = "\n\nAvailable data fields:";
-			result += "\n\tArtisanFameAccrued - Fame points accrued as Artisan.";
-			result += "\n\tArtisanAwardLevel - Highest tier of Artisan's Association's Seasonal Award won.";
-			result += "\n\tFameNeededForNextAwardLevel - You need this many points to win the next award.";
+			result += "\n\tArtisanPointsAccrued - Fame points accrued as Artisan.";
+			result += "\n\tArtisanAwardLevel - Highest tier of Artisan Fair's Seasonal Award won.";
 			result += $"\n\tItemsForaged - Number of items foraged as Ecologist ({Config.ForagesNeededForBestQuality} needed for best quality).";
 			result += $"\n\tMineralsCollected - Number of minerals collected as Gemologist ({Config.MineralsNeededForBestQuality} needed for best quality).";
 			result += "\n\tScavengerStreak - Number of consecutive Scavenger Hunts completed (higher numbers improve your hunt reward).";

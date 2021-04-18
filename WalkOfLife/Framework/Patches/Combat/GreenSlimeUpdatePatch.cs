@@ -24,20 +24,27 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for slimes to damage monsters around Slimecharmer.</summary>
 		private static void GreenSlimeUpdatePostfix(ref GreenSlime __instance, GameLocation location)
 		{
-			if (!Utility.AnyPlayerInLocationHasProfession("Slimecharmer", location)) return;
-
-			foreach (var npc in __instance.currentLocation.characters.Where(npc => npc is Monster && !(npc is GreenSlime)))
+			try
 			{
-				var monster = (Monster)npc;
-				var monsterBox = monster.GetBoundingBox();
-				if (monster.IsInvisible || monster.isInvincible() || monster.isGlider.Value || !monsterBox.Intersects(__instance.GetBoundingBox()))
-					continue;
+				if (!Utility.AnyPlayerInLocationHasProfession("Slimecharmer", location)) return;
 
-				var damageToMonster = Math.Max(1, __instance.DamageToFarmer + Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4));
-				var trajectory = SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.Position) / 2f;
-				monster.takeDamage(damageToMonster, (int)trajectory.X, (int)trajectory.Y, isBomb: false, 1.0, hitSound: "slime");
-				monster.setInvincibleCountdown(225);
-				monster.currentLocation.debris.Add(new Debris(damageToMonster, new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y), new Color(255, 130, 0), 1f, monster));
+				foreach (var npc in __instance.currentLocation.characters.Where(npc => npc is Monster && !(npc is GreenSlime)))
+				{
+					var monster = (Monster)npc;
+					var monsterBox = monster.GetBoundingBox();
+					if (monster.IsInvisible || monster.isInvincible() || monster.isGlider.Value || !monsterBox.Intersects(__instance.GetBoundingBox()))
+						continue;
+
+					var damageToMonster = Math.Max(1, __instance.DamageToFarmer + Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4));
+					var trajectory = SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.Position) / 2f;
+					monster.takeDamage(damageToMonster, (int)trajectory.X, (int)trajectory.Y, isBomb: false, 1.0, hitSound: "slime");
+					monster.setInvincibleCountdown(225);
+					monster.currentLocation.debris.Add(new Debris(damageToMonster, new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y), new Color(255, 130, 0), 1f, monster));
+				}
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(GreenSlimeUpdatePostfix)}:\n{ex}");
 			}
 		}
 

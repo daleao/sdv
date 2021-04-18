@@ -80,9 +80,17 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increase Gemologist mineral quality from crystalarium.</summary>
 		private static void ObjectCheckForActionPostfix(SObject __instance, Farmer who)
 		{
-			if (!Utility.SpecificPlayerHasProfession("Gemologist", who) || __instance.heldObject.Value == null) return;
-
-			if (__instance.name.Equals("Crystalarium")) __instance.heldObject.Value.Quality = Utility.GetGemologistMineralQuality();
+			try
+			{
+				if (__instance.heldObject.Value == null || !Utility.SpecificPlayerHasProfession("Gemologist", who) || !(__instance.owner.Value == who.UniqueMultiplayerID || !Game1.IsMultiplayer))
+					return;
+				
+				if (__instance.name.Equals("Crystalarium")) __instance.heldObject.Value.Quality = Utility.GetGemologistMineralQuality();
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(ObjectCheckForActionPostfix)}:\n{ex}");
+			}
 		}
 
 		#endregion harmony patches

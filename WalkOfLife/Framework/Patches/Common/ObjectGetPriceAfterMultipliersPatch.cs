@@ -23,42 +23,49 @@ namespace TheLion.AwesomeProfessions
 		private static bool ObjectGetPriceAfterMultipliersPrefix(ref SObject __instance, ref float __result, float startPrice, long specificPlayerID)
 		{
 			var saleMultiplier = 1f;
-
-			foreach (var player in Game1.getAllFarmers())
+			try
 			{
-				if (Game1.player.useSeparateWallets)
+				foreach (var player in Game1.getAllFarmers())
 				{
-					if (specificPlayerID == -1)
+					if (Game1.player.useSeparateWallets)
 					{
-						if (player.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !player.isActive()) continue;
+						if (specificPlayerID == -1)
+						{
+							if (player.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !player.isActive()) continue;
+						}
+						else if (player.UniqueMultiplayerID != specificPlayerID) continue;
 					}
-					else if (player.UniqueMultiplayerID != specificPlayerID) continue;
+					else if (!player.isActive()) continue;
+
+					var multiplier = 1f;
+
+					// professions
+					if (player.IsLocalPlayer && Utility.LocalPlayerHasProfession("Artisan") && Utility.IsArtisanGood(__instance))
+						multiplier *= Utility.GetArtisanPriceMultiplier();
+					else if (Utility.SpecificPlayerHasProfession("Producer", player) && Utility.IsAnimalProduct(__instance))
+						multiplier *= Utility.GetProducerPriceMultiplier(player);
+					else if (Utility.SpecificPlayerHasProfession("Angler", player) && Utility.IsFish(__instance))
+						multiplier *= Utility.GetAnglerPriceMultiplier(player);
+
+					// events
+					else if (player.eventsSeen.Contains(2120303) && Utility.IsWildBerry(__instance))
+						multiplier *= 3f;
+					else if (player.eventsSeen.Contains(3910979) && Utility.IsSpringOnion(__instance))
+						multiplier *= 5f;
+
+					// tax bonus
+					if (Utility.LocalPlayerHasProfession("Conservationist"))
+						multiplier *= Utility.GetConservationistPriceMultiplier(player);
+
+					saleMultiplier = Math.Max(saleMultiplier, multiplier);
 				}
-				else if (!player.isActive()) continue;
-
-				var multiplier = 1f;
-
-				// professions
-				if (player.IsLocalPlayer && Utility.LocalPlayerHasProfession("Artisan") && Utility.IsArtisanGood(__instance))
-					multiplier *= Utility.GetArtisanPriceMultiplier();
-				else if (Utility.SpecificPlayerHasProfession("Producer", player) && Utility.IsAnimalProduct(__instance))
-					multiplier *= Utility.GetProducerPriceMultiplier(player);
-				else if (Utility.SpecificPlayerHasProfession("Angler", player) && Utility.IsFish(__instance))
-					multiplier *= Utility.GetAnglerPriceMultiplier(player);
-
-				// events
-				else if (player.eventsSeen.Contains(2120303) && Utility.IsWildBerry(__instance))
-					multiplier *= 3f;
-				else if (player.eventsSeen.Contains(3910979) && Utility.IsSpringOnion(__instance))
-					multiplier *= 5f;
-
-				// tax bonus
-				if (Utility.LocalPlayerHasProfession("Conservationist"))
-					multiplier *= Utility.GetConservationistPriceMultiplier(player);
-
-				saleMultiplier = Math.Max(saleMultiplier, multiplier);
 			}
-
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(ObjectGetPriceAfterMultipliersPrefix)}:\n{ex}");
+				return true; // default to original logic
+			}
+			
 			__result = startPrice * saleMultiplier;
 			return false; // don't run original logic
 		}

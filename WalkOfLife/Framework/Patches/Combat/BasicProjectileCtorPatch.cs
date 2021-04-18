@@ -1,8 +1,10 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
 using Netcode;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Projectiles;
+using System;
 
 namespace TheLion.AwesomeProfessions
 {
@@ -23,15 +25,22 @@ namespace TheLion.AwesomeProfessions
 		private static void BasicProjectileCtorPostfix(ref BasicProjectile __instance, ref NetInt ___bouncesLeft, float xVelocity, float yVelocity, Character firer)
 		{
 			if (!(firer is Farmer)) return;
-
-			if (Utility.SpecificPlayerHasProfession("Desperado", (Farmer)firer))
+			
+			try
 			{
-				AwesomeProfessions.Reflection.GetField<NetFloat>(__instance, name: "xVelocity").GetValue().Set(xVelocity * 1.5f);
-				AwesomeProfessions.Reflection.GetField<NetFloat>(__instance, name: "yVelocity").GetValue().Set(yVelocity * 1.5f);
-			}
+				if (Utility.SpecificPlayerHasProfession("Desperado", (Farmer)firer))
+				{
+					AwesomeProfessions.Reflection.GetField<NetFloat>(__instance, name: "xVelocity").GetValue().Set(xVelocity * 1.5f);
+					AwesomeProfessions.Reflection.GetField<NetFloat>(__instance, name: "yVelocity").GetValue().Set(yVelocity * 1.5f);
+				}
 
-			if (AwesomeProfessions.Config.ModKey.IsDown() && Utility.SpecificPlayerHasProfession("Rascal", (Farmer)firer))
-				++___bouncesLeft.Value;
+				if (AwesomeProfessions.Config.ModKey.IsDown() && Utility.SpecificPlayerHasProfession("Rascal", (Farmer)firer))
+					++___bouncesLeft.Value;
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(BasicProjectileCtorPostfix)}:\n{ex}", LogLevel.Error);
+			}
 		}
 
 		#endregion harmony patches

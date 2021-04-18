@@ -50,23 +50,30 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to remove modded immediate profession perks.</summary>
 		private static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out var professionName)) return;
-
-			// remove immediate perks
-			if (professionName.Equals("Aquarist"))
+			try
 			{
-				foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+				if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out var professionName)) return;
+
+				// remove immediate perks
+				if (professionName.Equals("Aquarist"))
 				{
-					b.maxOccupants.Set(10);
-					b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+					{
+						b.maxOccupants.Set(10);
+						b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+					}
 				}
+
+				// clean unnecessary mod data
+				Utility.CleanModData(whichProfession);
+
+				// unsubscribe unnecessary events
+				AwesomeProfessions.EventManager.UnsubscribeProfessionEvents(whichProfession);
 			}
-
-			// clean unnecessary mod data
-			Utility.CleanModData(whichProfession);
-
-			// unsubscribe unnecessary events
-			AwesomeProfessions.EventManager.UnsubscribeProfessionEvents(whichProfession);
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(LevelUpMenuRemoveImmediateProfessionPerkPostfix)}:\n{ex}");
+			}
 		}
 
 		#endregion harmony patches

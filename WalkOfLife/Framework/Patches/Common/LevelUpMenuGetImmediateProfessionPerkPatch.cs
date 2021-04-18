@@ -50,23 +50,30 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to add modded immediate profession perks.</summary>
 		private static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out var professionName)) return;
-
-			// add immediate perks
-			if (professionName.Equals("Aquarist"))
+			try
 			{
-				foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
+				if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out var professionName)) return;
+
+				// add immediate perks
+				if (professionName.Equals("Aquarist"))
 				{
-					var pond = (FishPond)b;
-					pond.UpdateMaximumOccupancy();
+					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
+					{
+						var pond = (FishPond)b;
+						pond.UpdateMaximumOccupancy();
+					}
 				}
+
+				// initialize mod data, assets and helpers
+				Utility.InitializeModData(whichProfession);
+
+				// subscribe events
+				AwesomeProfessions.EventManager.SubscribeEventsForProfession(whichProfession);
 			}
-
-			// initialize mod data, assets and helpers
-			Utility.InitializeModData(whichProfession);
-
-			// subscribe events
-			AwesomeProfessions.EventManager.SubscribeEventsForProfession(whichProfession);
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(LevelUpMenuGetImmediateProfessionPerkPostfix)}:\n{ex}");
+			}
 		}
 
 		#endregion harmony patches

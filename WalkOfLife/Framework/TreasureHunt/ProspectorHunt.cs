@@ -47,8 +47,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (!location.Objects.Any() || !base.TryStartNewHunt()) return;
 
-			var i = Random.Next(location.Objects.Keys.Count());
-			var v = location.Objects.Keys.ElementAt(i);
+			var v = location.Objects.Keys.ElementAtOrDefault(Random.Next(location.Objects.Keys.Count()));
 			var obj = location.Objects[v];
 			if (!Utility.IsStone(obj) || Utility.IsResourceNode(obj)) return;
 
@@ -99,116 +98,116 @@ namespace TheLion.AwesomeProfessions
 			switch (Random.Next(3))
 			{
 				case 0:
+				{
+					if (mineLevel > 120 && Random.NextDouble() < 0.03)
+						treasuresAndQuantities.Add(386, Random.Next(1, 3)); // iridium ore
+
+					List<int> possibles = new();
+					if (mineLevel > 80) possibles.Add(384); // gold ore
+
+					if (mineLevel > 40 && (possibles.Count == 0 || Random.NextDouble() < 0.6))
+						possibles.Add(380); // iron ore
+
+					if (possibles.Count == 0 || Random.NextDouble() < 0.6) possibles.Add(378); // copper ore
+
+					if (possibles.Count == 0 || Random.NextDouble() < 0.6) possibles.Add(390); // stone
+
+					possibles.Add(382); // coal
+					treasuresAndQuantities.Add(possibles.ElementAt(Random.Next(possibles.Count)), Random.Next(2, 7));
+					if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
 					{
-						if (mineLevel > 120 && Random.NextDouble() < 0.03)
-							treasuresAndQuantities.Add(386, Random.Next(1, 3)); // iridium ore
-
-						List<int> possibles = new();
-						if (mineLevel > 80) possibles.Add(384); // gold ore
-
-						if (mineLevel > 40 && (possibles.Count == 0 || Random.NextDouble() < 0.6))
-							possibles.Add(380); // iron ore
-
-						if (possibles.Count == 0 || Random.NextDouble() < 0.6) possibles.Add(378); // copper ore
-
-						if (possibles.Count == 0 || Random.NextDouble() < 0.6) possibles.Add(390); // stone
-
-						possibles.Add(382); // coal
-						treasuresAndQuantities.Add(possibles.ElementAt(Random.Next(possibles.Count)), Random.Next(2, 7));
-						if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
-						{
-							var key = treasuresAndQuantities.Keys.Last();
-							treasuresAndQuantities[key] *= 2;
-						}
-
-						break;
+						var key = treasuresAndQuantities.Keys.Last();
+						treasuresAndQuantities[key] *= 2;
 					}
+
+					break;
+				}
 				case 1:
-					{
-						if (Game1.player.archaeologyFound.Any()) // artifacts
-							treasuresAndQuantities.Add(Random.NextDouble() < 0.5 ? _artifactsThatCanBeFound.ElementAt(Random.Next(_artifactsThatCanBeFound.Count())) : Random.NextDouble() < 0.25 ? Random.Next(579, 586) : 535, 1);
-						else
-							treasuresAndQuantities.Add(382, Random.Next(1, 3));
+				{
+					if (Game1.player.archaeologyFound.Any()) // artifacts
+						treasuresAndQuantities.Add(Random.NextDouble() < 0.5 ? _artifactsThatCanBeFound.ElementAt(Random.Next(_artifactsThatCanBeFound.Count())) : Random.NextDouble() < 0.25 ? Random.Next(579, 586) : 535, 1);
+					else
+						treasuresAndQuantities.Add(382, Random.Next(1, 3));
 
-						break;
-					}
+					break;
+				}
 				case 2:
+				{
+					switch (Random.Next(3))
 					{
-						switch (Random.Next(3))
+						case 0:
 						{
-							case 0:
-								{
-									switch (mineLevel)
-									{
-										case > 80:
-											treasuresAndQuantities.Add(537 + (Random.NextDouble() < 0.4 ? Random.Next(-2, 0) : 0), Random.Next(1, 4)); // magma geode or worse
-											break;
-
-										case > 40:
-											treasuresAndQuantities.Add(536 + (Random.NextDouble() < 0.4 ? -1 : 0), Random.Next(1, 4)); // frozen geode or worse
-											break;
-
-										default:
-											treasuresAndQuantities.Add(535, Random.Next(1, 4)); // regular geode
-											break;
-									}
-
-									if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
-									{
-										var key = treasuresAndQuantities.Keys.Last();
-										treasuresAndQuantities[key] *= 2;
-									}
-
+							switch (mineLevel)
+							{
+								case > 80:
+									treasuresAndQuantities.Add(537 + (Random.NextDouble() < 0.4 ? Random.Next(-2, 0) : 0), Random.Next(1, 4)); // magma geode or worse
 									break;
-								}
-							case 1:
-								{
-									if (mineLevel < 20)
-									{
-										treasuresAndQuantities.Add(382, Random.Next(1, 4)); // coal
-										break;
-									}
 
-									switch (mineLevel)
-									{
-										case > 80:
-											treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 82 : Random.NextDouble() < 0.5 ? 64 : 60, Random.Next(1, 3)); // fire quartz else ruby or emerald
-											break;
-
-										case > 40:
-											treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 84 : Random.NextDouble() < 0.5 ? 70 : 62, Random.Next(1, 3)); // frozen tear else jade or aquamarine
-											break;
-
-										default:
-											treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 86 : Random.NextDouble() < 0.5 ? 66 : 68, Random.Next(1, 3)); // earth crystal else amethyst or topaz
-											break;
-									}
-
-									if (Random.NextDouble() < 0.028 * mineLevel / 12) treasuresAndQuantities.Add(72, 1); // diamond
-									else treasuresAndQuantities.Add(80, Random.Next(1, 3)); // quartz
-
+								case > 40:
+									treasuresAndQuantities.Add(536 + (Random.NextDouble() < 0.4 ? -1 : 0), Random.Next(1, 4)); // frozen geode or worse
 									break;
-								}
-							case 2:
-								{
-									var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
-									var streak = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", uint.Parse);
-									if (Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
-										treasuresAndQuantities.Add(31, 1); // femur
 
-									if (Random.NextDouble() < 0.010 * luckModifier && !Game1.player.specialItems.Contains(60))
-										treasuresAndQuantities.Add(60, 1); // ossified blade
-
-									if (Random.NextDouble() < 0.002 * luckModifier * Math.Pow(2, streak)) treasuresAndQuantities.Add(74, 1); // prismatic shard
-
-									if (treasuresAndQuantities.Count == 1) treasuresAndQuantities.Add(72, 1); // consolation diamond
-
+								default:
+									treasuresAndQuantities.Add(535, Random.Next(1, 4)); // regular geode
 									break;
-								}
+							}
+
+							if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
+							{
+								var key = treasuresAndQuantities.Keys.Last();
+								treasuresAndQuantities[key] *= 2;
+							}
+
+							break;
 						}
+						case 1:
+						{
+							if (mineLevel < 20)
+							{
+								treasuresAndQuantities.Add(382, Random.Next(1, 4)); // coal
+								break;
+							}
 
-						break;
+							switch (mineLevel)
+							{
+								case > 80:
+									treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 82 : Random.NextDouble() < 0.5 ? 64 : 60, Random.Next(1, 3)); // fire quartz else ruby or emerald
+									break;
+
+								case > 40:
+									treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 84 : Random.NextDouble() < 0.5 ? 70 : 62, Random.Next(1, 3)); // frozen tear else jade or aquamarine
+									break;
+
+								default:
+									treasuresAndQuantities.Add(Random.NextDouble() < 0.3 ? 86 : Random.NextDouble() < 0.5 ? 66 : 68, Random.Next(1, 3)); // earth crystal else amethyst or topaz
+									break;
+							}
+
+							if (Random.NextDouble() < 0.028 * mineLevel / 12) treasuresAndQuantities.Add(72, 1); // diamond
+							else treasuresAndQuantities.Add(80, Random.Next(1, 3)); // quartz
+
+							break;
+						}
+						case 2:
+						{
+							var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
+							var streak = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", uint.Parse);
+							if (Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
+								treasuresAndQuantities.Add(31, 1); // femur
+
+							if (Random.NextDouble() < 0.010 * luckModifier && !Game1.player.specialItems.Contains(60))
+								treasuresAndQuantities.Add(60, 1); // ossified blade
+
+							if (Random.NextDouble() < 0.002 * luckModifier * Math.Pow(2, streak)) treasuresAndQuantities.Add(74, 1); // prismatic shard
+
+							if (treasuresAndQuantities.Count == 1) treasuresAndQuantities.Add(72, 1); // consolation diamond
+
+							break;
+						}
 					}
+
+					break;
+				}
 			}
 
 			if (treasuresAndQuantities.Count == 0) treasuresAndQuantities.Add(390, Random.Next(1, 4));

@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using System;
+using Harmony;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
@@ -31,17 +32,24 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increase Abrorist non-fruit tree growth odds.</summary>
 		private static void TreeDayUpdatePostfix(ref Tree __instance, int __state, GameLocation environment, Vector2 tileLocation)
 		{
-			var anyPlayerIsArborist = Utility.AnyPlayerHasProfession("Arborist", out var n);
-			if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !_CanThisTreeGrow(__instance, environment, tileLocation)) return;
+			try
+			{
+				var anyPlayerIsArborist = Utility.AnyPlayerHasProfession("Arborist", out var n);
+				if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !_CanThisTreeGrow(__instance, environment, tileLocation)) return;
 
-			if (__instance.treeType.Value == Tree.mahoganyTree)
-			{
-				if (Game1.random.NextDouble() < 0.075 * n || __instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n)
+				if (__instance.treeType.Value == Tree.mahoganyTree)
+				{
+					if (Game1.random.NextDouble() < 0.075 * n || __instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n)
+						++__instance.growthStage.Value;
+				}
+				else if (Game1.random.NextDouble() < 0.1 * n)
+				{
 					++__instance.growthStage.Value;
+				}
 			}
-			else if (Game1.random.NextDouble() < 0.1 * n)
+			catch (Exception ex)
 			{
-				++__instance.growthStage.Value;
+				Monitor.Log($"Failed in {nameof(TreeDayUpdatePostfix)}:\n{ex}");
 			}
 		}
 

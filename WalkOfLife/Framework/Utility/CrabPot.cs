@@ -292,7 +292,7 @@ namespace TheLion.AwesomeProfessions
 		public static bool IsHoldingSpecialLuremasterCatch(CrabPot crabpot)
 		{
 			var obj = crabpot.heldObject.Value;
-			return obj != null && (obj.Type.Equals("Fish") && !IsTrapFish(obj) || PirateTreasureTable.ContainsKey(obj.ParentSheetIndex));
+			return obj != null && (obj.Type?.Equals("Fish") == true && !IsTrapFish(obj) || PirateTreasureTable.ContainsKey(obj.ParentSheetIndex));
 		}
 	}
 }

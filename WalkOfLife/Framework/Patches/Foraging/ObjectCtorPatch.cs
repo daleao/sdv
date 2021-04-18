@@ -1,6 +1,7 @@
 ﻿using Harmony;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using System;
 using SObject = StardewValley.Object;
 
 namespace TheLion.AwesomeProfessions
@@ -21,9 +22,16 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch for Ecologist wild berry recovery.</summary>
 		private static void ObjectCtorPostfix(ref SObject __instance)
 		{
-			var owner = Game1.getFarmer(__instance.owner.Value);
-			if (Utility.IsWildBerry(__instance) && Utility.SpecificPlayerHasProfession("Ecologist", owner))
-				__instance.Edibility = (int)(__instance.Edibility * 1.5f);
+			try
+			{
+				var owner = Game1.getFarmer(__instance.owner.Value);
+				if (Utility.IsWildBerry(__instance) && Utility.SpecificPlayerHasProfession("Ecologist", owner))
+					__instance.Edibility = (int)(__instance.Edibility * 1.5f);
+			}
+			catch (Exception ex)
+			{
+				Monitor.Log($"Failed in {nameof(ObjectCtorPostfix)}:\n{ex}");
+			}
 		}
 
 		#endregion harmony patches
