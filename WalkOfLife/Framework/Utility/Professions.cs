@@ -268,7 +268,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Get the quality of mineral for Gemologist.</summary>
 		public static int GetGemologistMineralQuality()
 		{
-			var mineralsCollected = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ItemsForaged", uint.Parse);
+			var mineralsCollected = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/MineralsCollected", uint.Parse);
 			return mineralsCollected < AwesomeProfessions.Config.MineralsNeededForBestQuality ? mineralsCollected < AwesomeProfessions.Config.MineralsNeededForBestQuality / 2 ? SObject.medQuality : SObject.highQuality : SObject.bestQuality;
 		}
 
