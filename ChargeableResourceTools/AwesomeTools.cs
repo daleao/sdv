@@ -103,7 +103,7 @@ namespace TheLion.AwesomeTools
 			}
 			else if (Config.AxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
 			{
-				Monitor.Log("Found illegal negative value for shockwave radius in configs.json AxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with zero.", LogLevel.Warn);
+				Monitor.Log("Illegal negative value for shockwave radius in configs.json AxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with zero.", LogLevel.Warn);
 				Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Select(x => x < 0 ? 0 : x).ToList();
 			}
 
@@ -114,7 +114,7 @@ namespace TheLion.AwesomeTools
 			}
 			else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
 			{
-				Monitor.Log("Found illegal negative value for shockwave radius in configs.json PickaxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with zero.", LogLevel.Warn);
+				Monitor.Log("Illegal negative value for shockwave radius in configs.json PickaxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with zero.", LogLevel.Warn);
 				Config.PickaxeConfig.RadiusAtEachPowerLevel = Config.PickaxeConfig.RadiusAtEachPowerLevel.Select(x => x < 0 ? 0 : x).ToList();
 			}
 
@@ -131,11 +131,11 @@ namespace TheLion.AwesomeTools
 
 			if (Config.ShockwaveDelay < 0)
 			{
-				Monitor.Log("Found illegal negative value for 'ShockwaveDelay' in configs.json. The default value will be restored.", LogLevel.Warn);
+				Monitor.Log("Illegal negative value for 'ShockwaveDelay' in configs.json. The default value will be restored.", LogLevel.Warn);
 				Config.ShockwaveDelay = 200;
 			}
 
-			if (ModRegistry.IsLoaded("stokastic.PrismaticTools") || ModRegistry.IsLoaded("kakashigr.RadioactiveTools"))
+			if (Utility.HasHigherLevelToolMod(ModRegistry))
 			{
 				Monitor.Log("Prismatic or Radioactive Tools detected.", LogLevel.Info);
 
@@ -216,7 +216,7 @@ namespace TheLion.AwesomeTools
 
 			if (upgradeLevel == 5 && !Utility.HasHigherLevelToolMod(ModRegistry))
 			{
-				Monitor.Log("You must have either 'Prismatic Tools' or 'Radioactive Tools' installed to set this upgrade level.", LogLevel.Info);
+				Monitor.Log("You must have either 'Prismatic Tools' or 'Radioactive Tools' installed to set this upgrade level.", LogLevel.Warn);
 				return;
 			}
 
