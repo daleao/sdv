@@ -27,7 +27,7 @@ namespace TheLion.AwesomeProfessions
 		{
 			try
 			{
-				if (!(__instance is BasicProjectile)) return;
+				if (__instance is not BasicProjectile) return;
 
 				var firer = ___theOneWhoFiredMe.Get(location) is Farmer ? (Farmer)___theOneWhoFiredMe.Get(location) : Game1.player;
 				if (!Utility.SpecificPlayerHasProfession("Rascal", firer)) return;

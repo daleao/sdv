@@ -10,7 +10,7 @@ namespace TheLion.AwesomeProfessions
 		internal void ApplyAll(params IPatch[] patches)
 		{
 			var harmony = HarmonyInstance.Create(AwesomeProfessions.UniqueID);
-			foreach (var patch in patches) patch.Apply(harmony);
+			foreach (var patch in patches) patch?.Apply(harmony);
 		}
 	}
 }

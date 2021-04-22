@@ -28,7 +28,7 @@ namespace TheLion.AwesomeProfessions
 			{
 				if (!Utility.AnyPlayerInLocationHasProfession("Slimecharmer", location)) return;
 
-				foreach (var npc in __instance.currentLocation.characters.Where(npc => npc is Monster && !(npc is GreenSlime)))
+				foreach (var npc in __instance.currentLocation.characters.Where(npc => npc.IsMonster && npc is not GreenSlime))
 				{
 					var monster = (Monster)npc;
 					var monsterBox = monster.GetBoundingBox();

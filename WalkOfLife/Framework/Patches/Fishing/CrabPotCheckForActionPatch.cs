@@ -59,12 +59,12 @@ namespace TheLion.AwesomeProfessions
 					return false; // don't run original logic;
 				}
 
-				var data = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
-				if (data.ContainsKey(item.ParentSheetIndex))
+				var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
+				if (fishData.TryGetValue(item.ParentSheetIndex, out var specificFishData))
 				{
-					var rawData = data[item.ParentSheetIndex].Split('/');
-					var minFishSize = Convert.ToInt32(rawData[3]);
-					var maxFishSize = Convert.ToInt32(rawData[4]);
+					var fields = specificFishData.Split('/');
+					var minFishSize = Convert.ToInt32(fields[3]);
+					var maxFishSize = Convert.ToInt32(fields[4]);
 					who.caughtFish(item.ParentSheetIndex, Game1.random.Next(minFishSize, maxFishSize + 1));
 				}
 

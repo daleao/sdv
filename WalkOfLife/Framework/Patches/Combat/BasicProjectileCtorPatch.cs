@@ -24,7 +24,7 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Patch to increase Desperado projectile velocity + allow Rascal projectile bounce.</summary>
 		private static void BasicProjectileCtorPostfix(ref BasicProjectile __instance, ref NetInt ___bouncesLeft, float xVelocity, float yVelocity, Character firer)
 		{
-			if (!(firer is Farmer)) return;
+			if (firer is not Farmer) return;
 			
 			try
 			{

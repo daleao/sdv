@@ -228,14 +228,12 @@ namespace TheLion.AwesomeProfessions
 			var multiplier = 1f;
 			foreach (var fish in who.fishCaught.Pairs)
 			{
-				if (!fishData.ContainsKey(fish.Key)) continue;
+				if (!fishData.TryGetValue(fish.Key, out var specificFishData) || specificFishData.Contains("trap")) continue;
 
-				var specificFishData = fishData[fish.Key].Split('/');
-				if (specificFishData.Contains("trap")) continue;
-
-				if (specificFishData[0].AnyOf("Crimsonfish", "Angler", "Legend", "Glacierfish", "Mutant Carp"))
+				var fields = specificFishData.Split('/');
+				if (fields[0].AnyOf("Crimsonfish", "Angler", "Legend", "Glacierfish", "Mutant Carp"))
 					multiplier += 0.05f;
-				else if (fish.Value[0] > Convert.ToInt32(specificFishData[4]))
+				else if (fish.Value[0] > Convert.ToInt32(fields[4]))
 					multiplier += 0.01f;
 			}
 

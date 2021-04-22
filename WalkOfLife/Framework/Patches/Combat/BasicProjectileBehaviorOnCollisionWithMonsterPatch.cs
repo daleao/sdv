@@ -27,16 +27,14 @@ namespace TheLion.AwesomeProfessions
 		{
 			try
 			{
+				if (!___damagesMonsters || n is not Monster) return true; // run original logic
+				
 				var who = ___theOneWhoFiredMe.Get(location) is Farmer
 					? ___theOneWhoFiredMe.Get(location) as Farmer
 					: Game1.player;
 				if (!Utility.SpecificPlayerHasProfession("Rascal", who)) return true; // run original logic
 
-				if (!___damagesMonsters) return true; // run original logic
-
-				AwesomeProfessions.Reflection.GetMethod(__instance, name: "explosionAnimation").Invoke(location);
-				if (n is not Monster) return false; // don't run original logic
-
+				AwesomeProfessions.Reflection.GetMethod(__instance, name: "explosionAnimation")?.Invoke(location);
 				var damageToMonster = (int) (__instance.damageToFarmer.Value * Utility.GetRascalBonusDamageForTravelTime(___travelTime));
 				location.damageMonster(n.GetBoundingBox(), damageToMonster, damageToMonster + 1, isBomb: false, who);
 

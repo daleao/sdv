@@ -100,7 +100,8 @@ namespace TheLion.AwesomeProfessions
 				new SlingshotPerformFirePatch(),
 				new TemporaryAnimatedSpriteCtorPatch(),
 				new TreeDayUpdatePatch(),
-				new TreeUpdateTapperProductPatch()
+				new TreeUpdateTapperProductPatch(),
+				ModRegistry.IsLoaded("Pathoschild.Automate") ? new CrabPotMachineGetStatePatch() : null
 			);
 
 			// start event manager

@@ -75,7 +75,7 @@
 	"fighter.name": "Fighter",
 	"fighter.description": "Deal 10% more damage. +15 HP.",
 	"brute.name": "Brute",
-	"brute.description": "Damage increases for every monster slain, resetting upon leaving a dungeon. +25 HP.",
+	"brute.description": "Damage increases by 0.5% for every monster slain, resetting upon leaving a dungeon. +25 HP.",
 	"brute.buffdescription": "Damage +{{buffMagnitude}}%.",
 	"gambit.name": "Gambit",
 	"gambit.description": "Critical strike chance increases as you take damage. Critical strikes are deadly.",

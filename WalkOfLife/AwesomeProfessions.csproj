@@ -18,6 +18,7 @@
 
 	<ItemGroup>
 	  <Folder Include="assets\" />
+	  <Folder Include="Framework\Integrations\Generic Mod Config Menu\" />
 	</ItemGroup>
 
   <Import Project="..\Common\Common.projitems" Label="Shared" Condition="Exists('..\Common\Common.projitems')" />

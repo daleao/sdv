@@ -81,7 +81,6 @@ namespace TheLion.AwesomeProfessions
 								Game1.createObjectDebris(Game1.random.Next(1, 8) * 2, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID, __instance);
 								break;
 							}
-
 							case 46: // mystic stone
 							{
 								switch (Game1.random.NextDouble())
@@ -100,7 +99,6 @@ namespace TheLion.AwesomeProfessions
 								}
 								break;
 							}
-
 							default:
 							{
 								if (845 <= tileObj.ParentSheetIndex & tileObj.ParentSheetIndex <= 847 && Game1.random.NextDouble() < 0.005)
@@ -113,6 +111,7 @@ namespace TheLion.AwesomeProfessions
 
 				if (!who.IsLocalPlayer || !isDemolitionist) return;
 
+				// get excited speed buff
 				var distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
 				if (distanceFromEpicenter < radius * 2 + 1) AwesomeProfessions.demolitionistBuffMagnitude = 4;
 				if (distanceFromEpicenter < radius + 1) AwesomeProfessions.demolitionistBuffMagnitude += 2;
