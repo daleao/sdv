@@ -43,7 +43,7 @@ Should be compatible with all tool enchants.
 
 ## Configs
 
-This section describes the settings available in configs.json:
+This section describes the configurable settings provided in configs.json:
 
 - **'RequiredUpgradeLevelForCharging':** This is the minimum upgrade level your tool must be at in order to enable charging. Accepts integer values (0 -> Base; 1 -> Copper; 2 -> Steel; 3 -> Gold; 4 -> Iridium; 5 -> Prismatic or Radioactive, if you have either of those mods installed).
 - **'RadiusAtEachLevel':** Allows you to specify a custom radius for the shockwave at each *charging* level*.*Note that your charging level is separate from your upgrade level. For instance, if 'RequiredUpgradeLevelForCharging' set to **4**, and 'RadiusAtEachLevel' set to **[ 1, 2, 3, 4 ]**, then** **you will not be able to charge until the tool is Iridium level, but once it is, then your charging progression will be similar to the gif above (starting at 1, and increase by 1 until 4). If you wanted to skip charging up and instantly get the max radius, you could set all four values to the same number (and set 'ShowAffectedTiles' to false to avoid the overlay instantly appearing). If you have Prismatic or Radioactive Tools mod installed, a fifth value will be added automatically to the list. Only natural numbers (non-negative integers) are accepted.
