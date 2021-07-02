@@ -162,4 +162,4 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [LICENSE](../LICENSE) for more information.
