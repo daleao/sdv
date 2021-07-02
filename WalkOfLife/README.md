@@ -17,9 +17,7 @@
 <details open="open" align="left">
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#features">Features</a>
-    </li>
+    <li><a href="#features">Features</a></li>
     <li>
       <a href="#professions">Professions</a>
       <ul>
@@ -35,7 +33,6 @@
     <li><a href="#installation">Installation</a></li>
     <li><a href="#special-thanks">Special Thanks</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
