@@ -75,4 +75,4 @@ To uninstall simply delete the mod from your mods folder. This mod is safe to un
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [LICENSE](../LICENSE) for more information.
