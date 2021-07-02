@@ -29,7 +29,7 @@
 This mod is inspired by the tools progression system of old Harvest Moon: FoMT, where the ultimate tool upgrades would let you instantly destroy all debris on the current screen. With this mod, you will be able to charge your Axe and Pickaxe to unleash an area of effect shockwave.
 
 <figure align="center" width="9999" id="fig1">
-  <img src="https://s2.gifyu.com/images/ezgif.com-gif-makerbedd4ee55ef2f965.gif" align="center" height="auto" width="80%" alt="Logo">
+  <img src="cover.gif" align="center" height="auto" width="80%" alt="Logo">
   <figcaption><b>Figure 1:</b> BTP Cockpit - Overview page.</figcaption>
 </figure>
 
