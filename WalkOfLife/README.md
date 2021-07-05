@@ -107,7 +107,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - **Lv5   - Trapper** - Crab pots are cheaper to craft. Can trap higher-quality haul.
     - All trapped fish can have quality up to gold. Chance depends on your fishing level.
 - **Lv10 - Luremaster** - Crab pots no longer produce junk items. Use different baits to attract different catch.
-    - Each type bait will attract different catch:[list]
+    - Each type bait will attract different catch:
         - **Regular bait:** 10% chance to catch fish up to level 70. Trappable fish are subject to the same location and season limitations as fishing.
         - **Wild bait:** 10% chance to catch fish up to level 90 (i.e. anything but legendary fish and octopus). 50% chance to double your catch.
         - **Magnet:** repel all fish, but attract metal items dragged by the currents. Traps resources, artifacts, treasure chests, rings and even weapons.
