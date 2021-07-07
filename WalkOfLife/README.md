@@ -60,39 +60,38 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ### ![](https://i.imgur.com/p9QdB6L.png) Farming
 
-- **Lv5   - Harvester** - 10% chance for extra yield from harvested crops.
+- **Lv5 - Harvester** - 10% chance for extra yield from harvested crops.
 - **Lv10 - Agriculturist** - Crops grow 10% faster. Grow best-quality crops organically without fertilizer.
-    - Chance for iridium quality is unchanged from vanilla and is equal to half the chance for gold. Fertilizers will still massively increase that chance.
-- **Lv10 - Artisan** - All artisan machines work 10% faster. Ship quality artisan goods to improve your brand value over time.
+    - Chance of iridium quality is unchanged from vanilla and is equal to half the chance of gold. Fertilizers will still massively increase that chance.
+- **Lv10 - Artisan** - All artisan machines work 10% faster. Ship quality artisan goods to increase brand value over time.
     - Every artisan good shipped is worth a number of points based on its value and quality. Accumulating enough points will have your goods be recognized in the Stardew Artisan Fair's Seasonal Awards. Their stamp on your products can be worth a premium of up to 40% extra value. You will receive a congratulatory mail from the Stardew Artisan's Society upon winning a new award.
-- **Lv5   - Rancher** - Befriend animals quicker.
+- **Lv5 - Rancher** - Befriend animals quicker.
     - Double mood and friendship from petting. Newborn animals are born with some starting friendship.
 - **Lv10 - Breeder** - Animals incubate faster and breed more frequently. Increase value of animals at high friendship.
-    - Mammals are twice as likely to give birth and oviparous (egg-laying) animals incubate twice as fast. At max friendship animals are worth 2.5x their base price instead of vanilla 1.3x.
+    - Mammals are three times as likely to give birth and oviparous (egg-laying) animals incubate twice as fast. At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x.
 - **Lv10 - Producer** - Happy animals produce twice as frequently. Produce worth 5% more for every full barn or coop.
-    - Note that happiness (mood) is not the same as friendship, and that animals cannot produce more than once per day. Bonus value applies to artisan goods derived from animal produce. There is no limit to the scaling.
+    - Note that happiness (mood) is not the same as friendship, and that animals cannot produce more than once per day. Bonus sell value also applies to artisan goods derived from animal produce. There is no limit to the scaling.
 
 ### ![](https://i.imgur.com/jf88nPt.png) Foraging
 
-
-- **Lv5   - Forager** - 20% chance for double yield of foraged items.
+- **Lv5 - Forager** - 20% chance for double yield of foraged items.
 - **Lv10 - Ecologist** - Wild berries restore 50% more health and energy. Learn to identify forage of higher-quality over time.
     - All foraged items will have the same quality for immediate inventory convenience. Quality starts off at silver and increases when enough items have been foraged.
-- **Lv10 - Scavenger** - Location of forageable items revealed. Occasionally track buried treasures.
+- **Lv10 - Scavenger** - Location of forageable items revealed. Occasionally track buried treasure.
     - On switching maps while outside you will occasionally detect hidden buried treasure. Find it and dig it up (with a hoe) within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items. Bonus: hold LeftShift (or LeftShoulder on gamepad) to reveal all forageables on-screen.
-- **Lv5   - Lumberjack** - Felling trees yields 25% more wood.
+- **Lv5 - Lumberjack** - Felled trees yield 25% more wood.
 - **Lv10 - Arborist** - All trees grow faster and can drop hardwood.
     - Bonus tree growth works as a global buff (applies to all farmhands) and stacks in multiplayer with multiple Arborists.
 - **Lv10 - Tapper** - Tappers are cheaper to craft. Tapped trees give syrup 25% faster.
 
 ### ![](https://i.imgur.com/TidtIw0.png) Mining 
 
-- **Lv5   - Miner** - +1 ore per ore vein.
-- **Lv10 - Spelunker** - Chance to find ladders and shafts increases as you reach deeper levels. +1 speed in the mines.
+- **Lv5 - Miner** - +1 ore per ore vein.
+- **Lv10 - Spelunker** - Chance to find ladder and shafts increases as you progress down the mines. +1 speed while mining.
     - Bonus is 10% after reaching the bottom of the Mines, and continues to scale indefinitely.
 - **Lv10 - Prospector** - Location of ladders and mining nodes revealed. Occasionally track special rocks.
     - Analogous to Scavenger. Will track any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items. Bonus: hold LeftShift to highlight nodes and ladders on-screen.
-- **Lv5   - Blaster** - Bombs are cheaper to craft. Exploding rocks yields twice as much coal.
+- **Lv5 - Blaster** - Bombs are cheaper to craft. Exploding rocks yields twice as much coal.
 - **Lv10 - Demolitionist** - Bomb radius +1. Exploding rocks yields 20% more resources.
     - Bonus: get excited when hit by explosions.
 - **Lv10 - Gemologist** - Identify gems and minerals of higher quality. Crystalariums work 25% faster.
@@ -100,11 +99,11 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ### ![](https://i.imgur.com/XvdVsAn.png) Fishing
 
-- **Lv5   - Fisher** - Using live bait reduces the chance to fish junk items.
+- **Lv5 - Fisher** - Live baits reduce the chance to fish junk items.
 - **Lv10 - Angler** - Fish are worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish caught.
 - **Lv10 - Aquarist** - Fish pond max capacity +2. Fishing bar height increases for every fish pond at max capacity.
     - Gain 6 pixels per Fish Pond. Every four ponds equal a permanent cork bobber.
-- **Lv5   - Trapper** - Crab pots are cheaper to craft. Can trap higher-quality haul.
+- **Lv5 - Trapper** - Crab pots are cheaper to craft. Can trap higher-quality haul.
     - All trapped fish can have quality up to gold. Chance depends on your fishing level.
 - **Lv10 - Luremaster** - Crab pots no longer produce junk items. Use different baits to attract different catch.
     - Each type bait will attract different catch:
@@ -117,34 +116,34 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
-- **Lv5   - Fighter** - Deal 10% more damage. +15 HP.
-- **Lv10 - Brute** - Deal 0.5% more damage for every monster slain, reseting upon leaving a dungeon. +25 HP.
-- **Lv10 - Gambit** - Critical strike chance increases as you take damage. Critical strikes are deadly.
-- **Lv 5  - Rascal** - Slingshots deal more damage from afar. Chance to recover spent ammo.
+- **Lv5 - Fighter** - Deal 10% more damage. +15 HP.
+- **Lv10 - Brute** - Deal 15% more damage, plus 0.2% for every monster slain. Resets upon leaving the dungeon. +25 HP.
+- **Lv10 - Gambit** - Higher critical strike chance and damage at lower HP. Double monster drops from critical strike kills.
+- **Lv 5 - Rascal** - Slingshots deal more damage from afar. Chance to recover spent ammo.
     - Bonus damage scales up to 50%. Chance to recover ammo is 60%. Bonus: hold LeftShift to bounce your shots once.
 - **Lv10 - Desperado** - Shots fired within 0.5 seconds deal triple damage.
     - This requires using pull-back charging. Bonus: projectiles travel 50% faster.
-- **Lv10 - Slimed Piper** -  Slimes damage other monsters and heal you on contact. Spawn extra slimes in dungeons based on the number of slimes on your farm.
+- **Lv10 - Slimed Piper** - Slimes damage other monsters and heal you on contact. Spawn extra slimes in dungeons based on the number of slimes on your farm.
     - Slimes cannot hit flying enemies. For every slime in a hutch or outside on your farm, the game will try to spawn an additional slime. Bonus: immune to "Slimed" debuff.
 
 ## Compatbility
 
 - Compatible with [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069).
-- Compatible with [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636).﻿﻿﻿
+- Compatible with [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636).
 - Limited compatibility with [All Professions](https://www.nexusmods.com/stardewvalley/mods/174).
 - Limited compatibility with [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#).
 - Compatible with any mod that adds SpaceCore custom skills (i.e. [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)).
         
 - Not compatible with mods that change vanilla skills.
 - Not compatible with [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767).
-- Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554).﻿﻿
+- Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554).
 
 ## Recommended Mods
 
 - Recommended use with [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413).
 - Recommended use with [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926).
 - Recommended use with [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley).
-- Recommended use with [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634)﻿.
+- Recommended use with [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634).
 
 ## Installation
 
@@ -156,7 +155,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 ## Special Thanks
 
 - [Bpendragon](https://www.nexusmods.com/stardewvalley/users/20668164) for [Forage Pointers](https://www.nexusmods.com/stardewvalley/mods/7781).
-- [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).﻿
+- [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
 - [Pathoschild](https://www.nexusmods.com/stardewvalley/users/1552317) for SMAPI support.
 - **ConcernedApe** for Stardew Valley.
 
