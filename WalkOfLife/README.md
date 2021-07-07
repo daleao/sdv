@@ -117,8 +117,8 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
 - **Lv5 - Fighter** - Deal 10% more damage. +15 HP.
-- **Lv10 - Brute** - Deal 15% more damage, plus 0.2% for every monster slain. Resets upon leaving the dungeon. +25 HP.
-- **Lv10 - Gambit** - Higher critical strike chance and damage at lower HP. Double monster drops from critical strike kills.
+- **Lv10 - Brute** - Deal 15% more damage, plus 0.25% for every monster slain if using a hammer. Resets upon leaving the dungeon. +25 HP.
+- **Lv10 - Gambit** - Higher critical strike chance and damage at lower HP. Double monster drops from critical strike kills if using a dagger.
 - **Lv 5 - Rascal** - Slingshots deal more damage from afar. Chance to recover spent ammo.
     - Bonus damage scales up to 50%. Chance to recover ammo is 60%. Bonus: hold LeftShift to bounce your shots once.
 - **Lv10 - Desperado** - Shots fired within 0.5 seconds deal triple damage.
