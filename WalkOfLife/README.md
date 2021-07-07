@@ -53,7 +53,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - Level 10 professions are more specialized and engaging, providing two bonuses which change the way you play.
 - Professions are more consistent across the board, with several analogous perks and synergies.
 - Lightweight. This mod is built with a dynamic event handling system to avoid overhead.
-- New icons for most professions, courtesy of [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) (please make sure to [endorse their original](https://www.nexusmods.com/stardewvalley/mods/4163)﻿ mod).
+- New icons for most professions, courtesy of [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) (please make sure to [endorse their original](https://www.nexusmods.com/stardewvalley/mods/4163) mod).
 
 
 ## Professions
@@ -75,7 +75,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 ### ![](https://i.imgur.com/jf88nPt.png) Foraging
 
 - **Lv5 - Forager** - 20% chance for double yield of foraged items.
-- **Lv10 - Ecologist** - Wild berries restore 50% more health and energy. Learn to identify forage of higher-quality over time.
+- **Lv10 - Ecologist** - Wild berries restore 50% more health and energy. Progressively identify forage of higher quality.
     - All foraged items will have the same quality for immediate inventory convenience. Quality starts off at silver and increases when enough items have been foraged.
 - **Lv10 - Scavenger** - Location of forageable items revealed. Occasionally track buried treasure.
     - On switching maps while outside you will occasionally detect hidden buried treasure. Find it and dig it up (with a hoe) within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items. Bonus: hold LeftShift (or LeftShoulder on gamepad) to reveal all forageables on-screen.
@@ -94,7 +94,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - **Lv5 - Blaster** - Bombs are cheaper to craft. Exploding rocks yields twice as much coal.
 - **Lv10 - Demolitionist** - Bomb radius +1. Exploding rocks yields 20% more resources.
     - Bonus: get excited when hit by explosions.
-- **Lv10 - Gemologist** - Identify gems and minerals of higher quality. Crystalariums work 25% faster.
+- **Lv10 - Gemologist** - Progressively identify gems and minerals of higher quality. Crystalariums work 25% faster.
     - Analogous to Ecologist. All gems and minerals mined from nodes have fixed quality, starting at silver and increasing once enough minerals have been collected. Applies to Crystalariums and Geode Crushers, but not to geodes broken at Clint's.
 
 ### ![](https://i.imgur.com/XvdVsAn.png) Fishing
