@@ -116,31 +116,32 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
+Level 10 combat professions each introduce a unique stackable attribute that doubles as a resource; performing a special move while holding the Mod Key will trigger an exceed state that rapidly consumes available stacks.
+
 - **Lv5 - Fighter** - Deal 10% more damage. +15 HP.
-- **Lv10 - Brute** - Deal 15% more damage, plus 0.25% for every monster slain if using a hammer. Resets upon leaving the dungeon. +25 HP.
-- **Lv10 - Gambit** - Higher critical strike chance and damage at lower HP. Double monster drops from critical strike kills if using a dagger.
-- **Lv 5 - Rascal** - Slingshots deal more damage from afar. Chance to recover spent ammo.
-    - Bonus damage scales up to 50%. Chance to recover ammo is 60%. Bonus: hold LeftShift to bounce your shots once.
-- **Lv10 - Desperado** - Shots fired within 0.5 seconds deal triple damage.
-    - This requires using pull-back charging. Bonus: projectiles travel 50% faster.
-- **Lv10 - Slimed Piper** - Slimes damage other monsters and heal you on contact. Spawn extra slimes in dungeons based on the number of slimes on your farm.
-    - Slimes cannot hit flying enemies. For every slime in a hutch or outside on your farm, the game will try to spawn an additional slime. Bonus: immune to "Slimed" debuff.
+- **Lv10 - Brute** - Deal 15% more damage. +25 HP. Hammer kills build Rage, further increasing damage by 0.5% per stack. **Exceed:** Hammer special move cooldown reduced to zero.
+- **Lv10 - Gambit** - Higher Crit. Power at high HP, higher Crit. Chance at low HP. Crit. kills build Finesse, granting 2% chance for extra enemy drops per stack. **Exceed:** Dagger special move cooldown reduced to zero.
+- **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo.
+- **Lv10 - Desperado** - Shots break into shrapnel, dealing area damage. Precisely-timed shots build Overdrive, increasing fire rate by 2% per stack. **Exceed:** Auto fire a barrage of spread shots.
+    - Shots must be fired as soon as they are charged to 
+- **Lv10 - Slimed Piper** - Attract more Slimes in dungeons. Slimes damage other monsters. Build Eubstance on contact with Slimes, increasing resistance by 2% per stack. **Exceed:** Rapidly recover health and energy over time.
+    - For each Slime in a hutch or outside on your farm, the game will try to spawn an additional Slime whenever a new dungeon floor is being prepared. Slimes will damage any grounded enemies that intersect their hitbox (i.e. bats and serpents are immune). Eubstance stacks are gained whenever the Slimed debuff would be applied. The player will be immune to this debuff.
 
 ## Compatbility
 
 - Compatible with [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069).
 - Compatible with [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636).
-- Limited compatibility with [All Professions](https://www.nexusmods.com/stardewvalley/mods/174).
-- Limited compatibility with [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#).
+- Limited compatibility with [All Professions](https://www.nexusmods.com/stardewvalley/mods/174). (Profession perks will not be applied immediately, but the following morning).
+- Limited compatibility with [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#). (Same as above. The Prestige menu also won't reflect modded profession names or descriptions).
 - Compatible with any mod that adds SpaceCore custom skills (i.e. [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)).
         
 - Not compatible with mods that change vanilla skills.
-- Not compatible with [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767).
-- Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554).
+- Not compatible with [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767). (Makes Trapper and Luremaster professions redundant).
+- Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554). (May cause bad interactions with Foraging professions).
 
 ## Recommended Mods
 
-- Recommended use with [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413).
+- Recommended use with [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413). (If you miss Eonologist profession perk).
 - Recommended use with [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926).
 - Recommended use with [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley).
 - Recommended use with [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634).
