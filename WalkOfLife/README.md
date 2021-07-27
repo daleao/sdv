@@ -116,7 +116,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
-Level 10 combat professions each introduce a unique stackable attribute that doubles as a resource; performing a special move while holding the Mod Key will trigger an exceed state that rapidly consumes available stacks.
+Level 10 combat professions each introduce a unique stackable attribute that doubles as a resource; performing a special move while holding the Mod Key will trigger an exceed state that rapidly consumes available stacks. Maximum number of stacks is 50.
 
 - **Lv5 - Fighter** - Deal 10% more damage. +15 HP.
 - **Lv10 - Brute** - Deal 15% more damage. +25 HP. Hammer kills build Rage, further increasing damage by 0.5% per stack. **Exceed:** Hammer special move cooldown reduced to zero.
