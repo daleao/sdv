@@ -140,9 +140,11 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
 - **Lv10 - Slimed Piper** - Attract more Slimes in dungeons. Slimes damage other monsters. Build Eubstance on contact with slimes, increasing immunity and damage resistance up to 50%. Consume Eubstance to cause Pandemonium.
     - Every Slime raised on the farm, either in a hutch or outside, will increase the chance to spawn an extra Slime on every dungeon floor. Slimes will damage any grounded enemies that intersect their hitbox. Flying enemies are immune. Eubstance stacks are gained even while wearing a Slime Charmer ring.
     - **Pandemonium:** All Slimes in range gain a random effect. Possible effects:
-        - Double attack speed and heal the player on contact.
+        - Upgrade to a special slime of the same color.
+        - Upgrade to a yellow slime.
+        - Enrage.
+        - Heal the player on contact.
         - Self-destruct, blowing-up everything in a 5x5 area.
-        - Upgrade to a different type of Slime (doesn't apply to Tiger Slimes).
 
 ## Compatbility
 
