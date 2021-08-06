@@ -61,71 +61,85 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 ### ![](https://i.imgur.com/p9QdB6L.png) Farming
 
 - **Lv5 - Harvester** - 10% chance for extra yield from harvested crops.
+    - This yields an equivalent 10% monetary bonus to vanilla, but also brings additional benefit to Artisans.
 - **Lv10 - Agriculturist** - Crops grow 10% faster. Grow best-quality crops organically without fertilizer.
-    - Chance of iridium quality is unchanged from vanilla and is equal to half the chance of gold. Fertilizers will still massively increase that chance.
-- **Lv10 - Artisan** - All artisan machines work 10% faster. Ship quality artisan goods to increase brand value over time.
-    - Every artisan good shipped is worth a number of points based on its value and quality. Accumulating enough points will have your goods be recognized in the Stardew Artisan Fair's Seasonal Awards. Their stamp on your products can be worth a premium of up to 40% extra value. You will receive a congratulatory mail from the Stardew Artisan's Society upon winning a new award.
+    - Allows harvesting iridium-qual)ity crops without any fertilizer. The chance is unchanged from vanilla, and is equal to half the chance of gold quality. Fertilizers will still massively increase that chance.
+- **Lv10 - Artisan** - All artisan machines work 10% faster. Machine output quality matches input ingredient quality.
+    - Essentially implements [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) (QAP), but exclusively for Artisans. Since this would conflict with QAP, this mod also implements the remaining features of that mod (ex. mead cares about honey type), essentially replacing it entirely. As such, do **not** use QAP together with this mod, as it'll override this mod's changes and make the Artisan profession redundant. This mod's implementation also does **not** require the Producer Framework Mod. In multiplayer, the **bonus production speed applies only to machines crafted by the player with this profession, and only when that player uses the machine**.
 - **Lv5 - Rancher** - Befriend animals quicker.
-    - Double mood and friendship from petting. Newborn animals are born with some starting friendship.
+    - Gain double mood and friendship points from petting. Newborn animals are born with some starting friendship between 0 and 200 (out of 1000 maximum), chosen at random.
 - **Lv10 - Breeder** - Animals incubate faster and breed more frequently. Increase value of animals at high friendship.
-    - Mammals are three times as likely to give birth and oviparous (egg-laying) animals incubate twice as fast. At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x.
+    - Makes mammals three times as likely to give birth and oviparous (egg-laying) animals incubate twice as fast. At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x.
 - **Lv10 - Producer** - Happy animals produce twice as frequently. Produce worth 5% more for every full barn or coop.
-    - Note that happiness (mood) is not the same as friendship, and that animals cannot produce more than once per day. Bonus sell value also applies to artisan goods derived from animal produce. There is no limit to the scaling.
+    - Note that happiness (mood) is **not** the same as friendship. Also note this will **not** allow certain animals (i.e. cows and chickens) to produce more than once per day. Bonus produce value also applies to artisan goods derived from animal products (i.e. cheeses, mayos and cloth). **Note that honey is also considered an animal product.** There is no limit to the scaling. In multiplayer, **the bonus applies only to barns and coops owned by the player with this profession, and only when that player sells the produce**.
 
 ### ![](https://i.imgur.com/jf88nPt.png) Foraging
 
 - **Lv5 - Forager** - 20% chance for double yield of foraged items.
+    - _Unchanged effect from vanilla. Only the name is changed._
 - **Lv10 - Ecologist** - Wild berries restore 50% more health and energy. Progressively identify forage of higher quality.
-    - All foraged items will have the same quality for immediate inventory convenience. Quality starts off at silver and increases when enough items have been foraged.
+    - All foraged items will have the same deterministic quality. This immediate gives inventory convenience. However the quality will start off at silver, and progress to iridium when enough items have been foraged.
 - **Lv10 - Scavenger** - Location of forageable items revealed. Occasionally track buried treasure.
     - On switching maps while outside you will occasionally detect hidden buried treasure. Find it and dig it up (with a hoe) within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items. Bonus: hold LeftShift (or LeftShoulder on gamepad) to reveal all forageables on-screen.
 - **Lv5 - Lumberjack** - Felled trees yield 25% more wood.
+    - _Unchanged effect from vanilla. Only the name is changed._
 - **Lv10 - Arborist** - All trees grow faster and can drop hardwood.
-    - Bonus tree growth works as a global buff (applies to all farmhands) and stacks in multiplayer with multiple Arborists.
+    - Bonus tree growth works as a global buff; i.e. in multiplayer, all trees will be affected as long as any player in the session has this profession, and the effect will stack for all additional online players that share this profession. The hardwood bonus is unchanged from vanilla.
 - **Lv10 - Tapper** - Tappers are cheaper to craft. Tapped trees give syrup 25% faster.
+    - New recipe: x25 wood and x1 copper bar.
 
 ### ![](https://i.imgur.com/TidtIw0.png) Mining 
 
 - **Lv5 - Miner** - +1 ore per ore vein.
-- **Lv10 - Spelunker** - Chance to find ladder and shafts increases as you progress down the mines. +1 speed while mining.
-    - Bonus is 10% after reaching the bottom of the Mines, and continues to scale indefinitely.
+    - _Unchanged from vanilla._
+- **Lv10 - Spelunker** - Chance to find ladder and shafts increases by 1% per mine level. +1 speed while mining.
+    - Bonus ladder chance resets every time you leave the mines. **This includes taking the stairs back to the mine entrance.**
 - **Lv10 - Prospector** - Location of ladders and mining nodes revealed. Occasionally track special rocks.
-    - Analogous to Scavenger. Will track any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items. Bonus: hold LeftShift to highlight nodes and ladders on-screen.
+    - Analogous to Scavenger. Track any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items. Bonus: hold LeftShift to highlight nodes and ladders on-screen.
 - **Lv5 - Blaster** - Bombs are cheaper to craft. Exploding rocks yields twice as much coal.
+    - New recipe: x2 ore (copper, iron, gold) and x1 coal.
 - **Lv10 - Demolitionist** - Bomb radius +1. Exploding rocks yields 20% more resources.
-    - Bonus: get excited when hit by explosions.
+    - Bonus: [Get excited](https://www.youtube.com/watch?v=0nlJuwO0GDs) when hit by an explosion.
 - **Lv10 - Gemologist** - Progressively identify gems and minerals of higher quality. Crystalariums work 25% faster.
-    - Analogous to Ecologist. All gems and minerals mined from nodes have fixed quality, starting at silver and increasing once enough minerals have been collected. Applies to Crystalariums and Geode Crushers, but not to geodes broken at Clint's.
+    - Analogous to Ecologist. All gems and minerals mined from nodes have a fixed quality, starting at silver and increasing once enough minerals have been collected. Minerals collected from Crystalariums and Geode Crushers are counted for this total, **but not those from geodes broken at Clint's**. In multiplayer, **bonus Crystalarium speed applies only to machines crafted by the player with this profession, and only when used by that player**.
 
 ### ![](https://i.imgur.com/XvdVsAn.png) Fishing
 
-- **Lv5 - Fisher** - Live baits reduce the chance to fish junk items.
-- **Lv10 - Angler** - Fish are worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish caught.
+- **Lv5 - Fisher** - Live bait reduce the chance to fish junk.
+    - Here, "junk" includes algae and seaweed.
+- **Lv10 - Angler** - Fish are worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish.
+    - "Legendary fish" includes the Extended Family Qi challenge varieties, counted only once.
 - **Lv10 - Aquarist** - Fish pond max capacity +2. Fishing bar height increases for every fish pond at max capacity.
-    - Gain 6 pixels per Fish Pond. Every four ponds equal a permanent cork bobber.
+    - Gain 6 pixels per Fish Pond. Every four ponds equal a permanent cork bobber. In multiplayer, **only counts Fish Ponds owned by the player with this profession**.
 - **Lv5 - Trapper** - Crab pots are cheaper to craft. Can trap higher-quality haul.
-    - All trapped fish can have quality up to gold. Chance depends on your fishing level.
+    - All trapped fish can have quality up to gold. Chance depends on your fishing level. Recipe is unchanged from vanilla.
 - **Lv10 - Luremaster** - Crab pots no longer produce junk items. Use different baits to attract different catch.
     - Each type bait will attract different catch:
         - **Regular bait:** 10% chance to catch fish up to level 70. Trappable fish are subject to the same location and season limitations as fishing.
-        - **Wild bait:** 10% chance to catch fish up to level 90 (i.e. anything but legendary fish and octopus). 50% chance to double your catch.
-        - **Magnet:** repel all fish, but attract metal items dragged by the currents. Traps resources, artifacts, treasure chests, rings and even weapons.
-        - **Magic bait:** 25% chance to catch fish above level 70, excluding legendary fish. Removes all location and seasonal restrictions for catching fish. Makes all catch iridium-quality.
-- **Lv10 - Conservationist** - Crab pots without bait will trap junk. Remove junk from bodies of water to gain village favor and tax deductions.
-    - Every 10 junk items collected from Crab Pots increases friendship with all villagers by 1. Every 100 junk items collected will earn you a 1% tax deduction the following season (max 37%), increasing the value of all shipped goods. You will receive a formal mail from the Ferngill Revenue Service every season informing your tax deduction.
+        - **Wild bait:** 10% chance to catch fish up to level 90 (i.e. anything but legendaries and octopus). 50% chance to double the haul.
+        - **Magnet:** repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even weapons.
+        - **Magic bait:** 25% chance to catch fish above level 70, excluding legendaries. Removes all location and seasonal restrictions for catching fish. Makes all catch iridium-quality. _This is the only way to obtain iridium-quality fish from Tappers._
+- **Lv10 - Conservationist** - Crab pots without bait will trap junk. Remove junk from waters to merit village favor and tax deductions.
+    - Every 10 (configurable) junk items collected from Crab Pots increases friendship with all villagers by 1. Every 100 (configurable) junk items collected will earn you a 1% tax deduction the following season (max 25%, also configurable), increasing the value of all shipped goods. You will receive a formal mail from the Ferngill Revenue Service each season informing your currrent tax bracket.
 
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
-Level 10 combat professions each introduce a unique stackable attribute that doubles as a resource; performing a special move while holding the Mod Key will trigger an exceed state that rapidly consumes available stacks. Maximum number of stacks is 50.
+The combat tree has received a much more extensive overhaul. Each level 10 profession introduces, in addition to a fixed primary effect, a secondary stackable attribute and a [Super Mode](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode) that may be activated by a hot key _only once the maximum number of stacks has been collected_. Activating Super Mode will consume **all** stacks, reseting the secondary attribute. A new bar added to the UI next to the health bar displays the current stack count. **If a player has multiple combat professions, only the first one will add a secondary attribute and Super Mode, and all the rest will be disabled.**
 
 - **Lv5 - Fighter** - Deal 10% more damage. +15 HP.
-- **Lv10 - Brute** - Deal 15% more damage. +25 HP. Hammer kills build Rage, further increasing damage by 0.5% per stack. **Exceed:** Hammer special move cooldown reduced to zero.
-- **Lv10 - Gambit** - Higher Crit. Power at high HP, higher Crit. Chance at low HP. Crit. kills build Finesse, granting 2% chance for extra enemy drops per stack. **Exceed:** Dagger special move cooldown reduced to zero.
+    - _Unchanged from vanilla._
+- **Lv10 - Brute** - Deal 15% more damage. +25 HP. Wielding a hammer in combat builds Fury, further increasing damage up to 40%. Unleash Fury to provoke Undying Rage.
+    - **Undying Rage:** Doubles the damage bonus and gain immunity to passing out. If using a hammer, also negates the special move cooldown.
+- **Lv10 - Duelist** - Higher Crit. Power at high HP. Higher Crit. Chance at low HP. Crit. strikes build Poise, granting up to 20% parry chance. Spend poise to enter Riposte Stance.
+    - The maximum Crit. Power bonus is x2 at max HP, and the minimum is x1 at 10% HP. The maximum Crit. Chance bonus is +50% at 10% HP, and +0 at max HP. Poise essentially negates all damage.
+    - **Riposte Stance:** Doubles the parry chance and gain the highest bonuses to Crit. Power and Crit. Chance simultaneously, regardless of the current HP. If using a dagger, counter parried hits with special move.
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo.
-- **Lv10 - Desperado** - Shots break into shrapnel, dealing area damage. Precisely-timed shots build Overdrive, increasing fire rate by 2% per stack. **Exceed:** Auto fire a barrage of spread shots.
-    - Shots must be fired as soon as they are charged to 
-- **Lv10 - Slimed Piper** - Attract more Slimes in dungeons. Slimes damage other monsters. Build Eubstance on contact with Slimes, increasing resistance by 2% per stack. **Exceed:** Rapidly recover health and energy over time.
-    - For each Slime in a hutch or outside on your farm, the game will try to spawn an additional Slime whenever a new dungeon floor is being prepared. Slimes will damage any grounded enemies that intersect their hitbox (i.e. bats and serpents are immune). Eubstance stacks are gained whenever the Slimed debuff would be applied. The player will be immune to this debuff.
+- **Lv10 - Desperado** - Timed shots build Cold Blood, adding up to 50% double strafe chance. Use Cold Blood to trigger Death Blossom.
+    - "Timed" means releasing the fire button as soon as it's charged. "Double strafe" means two shots for the price of one.
+    - **Death Blossom:** Enables autofire. Shots fire in all directions at once. 
+- **Lv10 - Slimed Piper** - Attract more Slimes in dungeons. Slimes damage other monsters. Build Eubstance on contact with slimes, increasing resistance up to 50%. Consume Eubstance to cause Pandemonium.
+    - Every Slime raised on the farm, either in a hutch or outside, will increase the chance to spawn an extra Slime on every dungeon floor. Slimes will damage any grounded enemies that intersect their hitbox. Flying enemies are immune. Eubstance stacks are gained even while wearing a Slime Charmer ring.
+    - **Pandemonium:**
 
 ## Compatbility
 
@@ -136,21 +150,21 @@ Level 10 combat professions each introduce a unique stackable attribute that dou
 - Compatible with any mod that adds SpaceCore custom skills (i.e. [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)).
         
 - Not compatible with mods that change vanilla skills.
+- Not compatible with [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley). (Makes Artisan profession redundant).
 - Not compatible with [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767). (Makes Trapper and Luremaster professions redundant).
 - Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554). (May cause bad interactions with Foraging professions).
 
 ## Recommended Mods
 
-- Recommended use with [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413). (If you miss Eonologist profession perk).
+- Recommended use with [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413). (If you miss Oenologist profession perk).
 - Recommended use with [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926).
-- Recommended use with [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley).
 - Recommended use with [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634).
 
 ## Installation
 
-- You can install this mod on an existing save; all perks will be applied on loading a saved game.
+- You can install this mod on an existing save; all perks will be tetroactively applied upon loading a saved game.
 - To install simply drop the extracted folder onto your mods folder.
-- To update make sure to delete the old version first and sthen install the new version.
+- To update make sure to delete the old version first and only then install the new version.
 - There are no dependencies outside of SMAPI.
 
 ## Special Thanks
