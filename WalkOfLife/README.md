@@ -92,7 +92,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 - **Lv5 - Miner** - +1 ore per ore vein.
     - _Unchanged from vanilla._
-- **Lv10 - Spelunker** - Chance to find ladder and shafts increases by 1% per mine level. +1 speed while mining.
+- **Lv10 - Spelunker** - Chance to find ladder and shafts increases by 1% every mine level. +1 speed every 10 levels.
     - Bonus ladder chance resets every time you leave the mines. **This includes taking the stairs back to the mine entrance.**
 - **Lv10 - Prospector** - Location of ladders and mining nodes revealed. Occasionally track special rocks.
     - Analogous to Scavenger. Track any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items. Bonus: hold LeftShift to highlight nodes and ladders on-screen.
