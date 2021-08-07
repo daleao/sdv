@@ -65,7 +65,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - **Lv10 - Agriculturist** - Crops grow 10% faster. Grow best-quality crops organically without fertilizer.
     - Allows harvesting iridium-qual)ity crops without any fertilizer. The chance is unchanged from vanilla, and is equal to half the chance of gold quality. Fertilizers will still massively increase that chance.
 - **Lv10 - Artisan** - All artisan machines work 10% faster. Machine output quality matches input ingredient quality.
-    - Essentially implements [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) (QAP), but exclusively for Artisans. Since this would conflict with QAP, this mod also implements the remaining features of that mod (ex. mead cares about honey type), essentially replacing it entirely. As such, do **not** use QAP together with this mod, as it'll override this mod's changes and make the Artisan profession redundant. This mod's implementation also does **not** require the Producer Framework Mod. In multiplayer, the **bonus production speed applies only to machines crafted by the player with this profession, and only when that player uses the machine**.
+    - Essentially implements [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) (QAP), but exclusively for Artisans. Also adds 5% chance to promote the output quality by one level. In multiplayer, the **bonus production speed applies only to machines crafted by the player with this profession, and only when that player uses the machine**.
 - **Lv5 - Rancher** - Befriend animals quicker.
     - Gain double mood and friendship points from petting. Newborn animals are born with some starting friendship between 0 and 200 (out of 1000 maximum), chosen at random.
 - **Lv10 - Breeder** - Animals incubate faster and breed more frequently. Increase value of animals at high friendship.
@@ -150,20 +150,20 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
 
 - Compatible with [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069).
 - Compatible with [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636).
-- Limited compatibility with [All Professions](https://www.nexusmods.com/stardewvalley/mods/174). (Profession perks will not be applied immediately, but the following morning).
-- Limited compatibility with [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#). (Same as above. The Prestige menu also won't reflect modded profession names or descriptions).
+- Limited compatibility with [All Professions](https://www.nexusmods.com/stardewvalley/mods/174). (Profession perks will not be applied immediately, but the following morning.)
+- Limited compatibility with [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#). (Same as above. The Prestige menu also won't reflect modded profession names or descriptions.)
 - Compatible with any mod that adds SpaceCore custom skills (i.e. [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)).
         
 - Not compatible with mods that change vanilla skills.
-- Not compatible with [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley). (Makes Artisan profession redundant).
-- Not compatible with [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767). (Makes Trapper and Luremaster professions redundant).
-- Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554). (May cause bad interactions with Foraging professions).
+- Not compatible with [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley). (Makes Artisan profession redundant. Other features of QAP are also integrated (i.e. mead cares about honey type and large milk/eggs gives double output when processed), essentially replacing that mod entirely. This mod's implementation also does **not** require the Producer Framework Mod.)
+- Not compatible with [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767). (Makes Trapper and Luremaster professions redundant.)
+- Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554). (May cause bad interactions with Foraging professions.)
 
 ## Recommended Mods
 
-- Recommended use with [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413). (If you miss Oenologist profession perk).
-- Recommended use with [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926).
-- Recommended use with [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634).
+- Recommended use with [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413). (If you miss Oenologist profession perk.)
+- Recommended use with [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926). (Add variety to Artisan products and Producer.)
+- Recommended use with [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634). (Make Slime ranching more profitable.)
 
 ## Installation
 
