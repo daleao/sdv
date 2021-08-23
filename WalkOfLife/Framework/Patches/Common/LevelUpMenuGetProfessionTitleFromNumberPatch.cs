@@ -1,35 +1,37 @@
-﻿using Harmony;
+﻿using HarmonyLib;
+using StardewModdingAPI;
 using StardewValley.Menus;
 using System;
+using System.Reflection;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal LevelUpMenuGetProfessionTitleFromNumberPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.getProfessionTitleFromNumber)),
-				prefix: new HarmonyMethod(GetType(), nameof(LevelUpMenuGetProfessionTitleFromNumberPrefix))
-			);
+			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.getProfessionTitleFromNumber));
+			Prefix = new HarmonyMethod(GetType(), nameof(LevelUpMenuGetProfessionTitleFromNumberPrefix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to apply modded profession names.</summary>
+		[HarmonyPrefix]
 		private static bool LevelUpMenuGetProfessionTitleFromNumberPrefix(ref string __result, int whichProfession)
 		{
 			try
 			{
-				if (!Utility.ProfessionMap.Contains(whichProfession)) return true; // run original logic
+				if (!Util.Professions.IndexByName.Contains(whichProfession)) return true; // run original logic
 
-				__result = AwesomeProfessions.I18n.Get(Utility.ProfessionMap.Reverse[whichProfession] + ".name");
+				__result = ModEntry.I18n.Get(Util.Professions.NameOf(whichProfession) + ".name");
 				return false; // don't run original logic
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(LevelUpMenuGetProfessionTitleFromNumberPrefix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

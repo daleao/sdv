@@ -1,31 +1,33 @@
-﻿using Harmony;
+﻿using HarmonyLib;
+using StardewModdingAPI;
 using StardewValley;
 using System;
 using System.Linq;
+using System.Reflection;
+using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class AnimalHouseAddNewHatchedAnimalPatch : BasePatch
 	{
-		/// <summary>Apply internally-defined Harmony patches.</summary>
-		/// <param name="harmony">The Harmony instance for this mod.</param>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal AnimalHouseAddNewHatchedAnimalPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(AnimalHouse), nameof(AnimalHouse.addNewHatchedAnimal)),
-				postfix: new HarmonyMethod(GetType(), nameof(AnimalHouseAddNewHatchedAnimalPostfix))
-			);
+			Original = typeof(AnimalHouse).MethodNamed(nameof(AnimalHouse.addNewHatchedAnimal));
+			Postfix = new HarmonyMethod(GetType(), nameof(AnimalHouseAddNewHatchedAnimalPostfix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch for Breeder newborn animals to have random starting friendship.</summary>
-		private static void AnimalHouseAddNewHatchedAnimalPostfix(ref AnimalHouse __instance)
+		[HarmonyPostfix]
+		private static void AnimalHouseAddNewHatchedAnimalPostfix(AnimalHouse __instance)
 		{
 			try
 			{
 				var who = Game1.getFarmer(__instance.getBuilding().owner.Value);
-				if (!Utility.SpecificPlayerHasProfession("Rancher", who)) return;
+				if (!who.HasProfession("Rancher")) return;
 
 				var a = __instance.Animals?.Values.Last();
 				if (a == null || a.age.Value != 0 || a.friendshipTowardFarmer.Value != 0) return;
@@ -33,7 +35,7 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(AnimalHouseAddNewHatchedAnimalPostfix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

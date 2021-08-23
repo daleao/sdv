@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<AssemblyName>AwesomeTools</AssemblyName>
-		<RootNamespace>TheLion.AwesomeTools</RootNamespace>
+		<RootNamespace>TheLion.Stardew.Tools</RootNamespace>
 		<Version>1.2.0</Version>
 		<TargetFramework>net452</TargetFramework>
 		<EnableHarmony>true</EnableHarmony>

@@ -1,41 +1,40 @@
 using StardewModdingAPI;
 using System;
-using TheLion.Common.Integrations;
+using TheLion.Stardew.Common.Integrations;
 
-namespace TheLion.AwesomeTools
+namespace TheLion.Stardew.Tools.Integrations
 {
 	/// <summary>Constructs the GenericModConfigMenu integration for Awesome Tools.</summary>
 	internal class GenericModConfigMenuIntegrationForAwesomeTools
 	{
 		/// <summary>The Generic Mod Config Menu integration.</summary>
-		private readonly GenericModConfigMenuIntegration<ToolConfig> _configMenu;
+		private readonly GenericModConfigMenuIntegration<Configs.ToolConfig> _configMenu;
 
 		/// <summary>API for fetching metadata about loaded mods.</summary>
 		private readonly IModRegistry _modRegistry;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
-		/// <param name="monitor">Encapsulates monitoring and logging.</param>
 		/// <param name="manifest">The mod manifest.</param>
 		/// <param name="getConfig">Get the current config model.</param>
 		/// <param name="reset">Reset the config model to the default values.</param>
 		/// <param name="saveAndApply">Save and apply the current config model.</param>
-		public GenericModConfigMenuIntegrationForAwesomeTools(IModRegistry modRegistry, IMonitor monitor, IManifest manifest, Func<ToolConfig> getConfig, Action reset, Action saveAndApply)
+		/// <param name="log">Encapsulates monitoring and logging.</param>
+		public GenericModConfigMenuIntegrationForAwesomeTools(IModRegistry modRegistry, IManifest manifest, Func<Configs.ToolConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
 		{
 			_modRegistry = modRegistry;
-			_configMenu = new GenericModConfigMenuIntegration<ToolConfig>(modRegistry, monitor, manifest, getConfig, reset, saveAndApply);
+			_configMenu = new GenericModConfigMenuIntegration<Configs.ToolConfig>(modRegistry, manifest, getConfig, reset, saveAndApply, log);
 		}
 
 		/// <summary>Register the config menu if available.</summary>
 		public void Register()
 		{
 			// get config menu
-			var menu = _configMenu;
-			if (!menu.IsLoaded)
+			if (!_configMenu.IsLoaded)
 				return;
 
 			// register
-			menu
+			_configMenu
 				.RegisterConfig()
 
 				// main
@@ -44,7 +43,7 @@ namespace TheLion.AwesomeTools
 					label: "Stamina Consumption Multiplier",
 					description: "Adjusts the stamina cost of charging.",
 					get: config => config.StaminaCostMultiplier,
-					set: (config, value) => config.StaminaCostMultiplier = (float)value,
+					set: (config, value) => config.StaminaCostMultiplier = value,
 					min: 0,
 					max: 10
 				)
@@ -52,7 +51,7 @@ namespace TheLion.AwesomeTools
 					label: "Shockwave Delay",
 					description: "The delay between releasing the tool button and triggering the shockwave. Adjust this if you find that the shockwave happens to soon or too late.",
 					get: config => config.ShockwaveDelay,
-					set: (config, value) => config.ShockwaveDelay = (int)value,
+					set: (config, value) => config.ShockwaveDelay = value,
 					min: 0,
 					max: 300
 				)
@@ -61,13 +60,13 @@ namespace TheLion.AwesomeTools
 				.AddLabel("Controls")
 				.AddCheckbox(
 					label: "Require Modkey",
-					description: "Whether to require an additional Modkey to start charging.",
+					description: "Whether charging requires holding down a mod key.",
 					get: config => config.RequireModkey,
 					set: (config, value) => config.RequireModkey = value
 				)
 				.AddKeyBinding(
 					label: "Charging Modkey",
-					description: "If 'RequireModkey' is enabled, press this Modkey to allow charging.",
+					description: "If 'RequireModkey' is enabled, you must hold this key to begin charging.",
 					get: config => config.Modkey,
 					set: (config, value) => config.Modkey = value
 				)
@@ -87,7 +86,7 @@ namespace TheLion.AwesomeTools
 					label: "Required Upgrade Level",
 					description: "Your Axe must be at least this level in order to charge.",
 					get: config => config.AxeConfig.RequiredUpgradeForCharging,
-					set: (config, value) => config.AxeConfig.RequiredUpgradeForCharging = (int)value,
+					set: (config, value) => config.AxeConfig.RequiredUpgradeForCharging = value,
 					min: 0,
 					max: 5
 				)
@@ -95,7 +94,7 @@ namespace TheLion.AwesomeTools
 					label: "Copper Radius",
 					description: "The radius of affected tiles for the Copper Axe.",
 					get: config => config.AxeConfig.RadiusAtEachPowerLevel[0],
-					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[0] = (int)value,
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[0] = value,
 					min: 0,
 					max: 10
 				)
@@ -103,7 +102,7 @@ namespace TheLion.AwesomeTools
 					label: "Steel Radius",
 					description: "The radius of affected tiles for the Steel Axe.",
 					get: config => config.AxeConfig.RadiusAtEachPowerLevel[1],
-					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[1] = (int)value,
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[1] = value,
 					min: 0,
 					max: 10
 				)
@@ -111,7 +110,7 @@ namespace TheLion.AwesomeTools
 					label: "Gold Radius",
 					description: "The radius of affected tiles for the Gold Axe.",
 					get: config => config.AxeConfig.RadiusAtEachPowerLevel[2],
-					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[2] = (int)value,
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[2] = value,
 					min: 0,
 					max: 10
 				)
@@ -119,24 +118,24 @@ namespace TheLion.AwesomeTools
 					label: "Iridium Radius",
 					description: "The radius of affected tiles for the Iridium Axe.",
 					get: config => config.AxeConfig.RadiusAtEachPowerLevel[3],
-					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = (int)value,
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = value,
 					min: 0,
 					max: 10
 				);
 
-			if (Utility.HasHigherLevelToolMod(_modRegistry, out string whichMod))
+			if (Framework.Utility.HasHigherLevelToolMod(_modRegistry, out string whichMod))
 			{
-				menu.AddNumberField(
+				_configMenu.AddNumberField(
 					label: whichMod + " Radius",
 					description: "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
 					get: config => config.AxeConfig.RadiusAtEachPowerLevel[3],
-					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = (int)value,
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = value,
 					min: 0,
 					max: 10
 				);
 			}
 
-			menu
+			_configMenu
 				.AddCheckbox(
 					label: "Show Axe Affected Tiles",
 					description: "Whether to show affected tiles overlay while charging.",
@@ -229,7 +228,7 @@ namespace TheLion.AwesomeTools
 					label: "Required Upgrade Level",
 					description: "Your Pickaxe must be at least this level in order to charge.",
 					get: config => config.PickaxeConfig.RequiredUpgradeForCharging,
-					set: (config, value) => config.PickaxeConfig.RequiredUpgradeForCharging = (int)value,
+					set: (config, value) => config.PickaxeConfig.RequiredUpgradeForCharging = value,
 					min: 0,
 					max: 5
 				)
@@ -237,7 +236,7 @@ namespace TheLion.AwesomeTools
 					label: "Copper Radius",
 					description: "The radius of affected tiles for the Copper Pickaxe.",
 					get: config => config.PickaxeConfig.RadiusAtEachPowerLevel[0],
-					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[0] = (int)value,
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[0] = value,
 					min: 0,
 					max: 10
 				)
@@ -245,7 +244,7 @@ namespace TheLion.AwesomeTools
 					label: "Steel Radius",
 					description: "The radius of affected tiles for the Steel Pickaxe.",
 					get: config => config.PickaxeConfig.RadiusAtEachPowerLevel[1],
-					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[1] = (int)value,
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[1] = value,
 					min: 0,
 					max: 10
 				)
@@ -253,7 +252,7 @@ namespace TheLion.AwesomeTools
 					label: "Gold Radius",
 					description: "The radius of affected tiles for the Gold Pickaxe.",
 					get: config => config.PickaxeConfig.RadiusAtEachPowerLevel[2],
-					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[2] = (int)value,
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[2] = value,
 					min: 0,
 					max: 10
 				)
@@ -261,24 +260,24 @@ namespace TheLion.AwesomeTools
 					label: "Iridium Radius",
 					description: "The radius of affected tiles for the Iridium Pickaxe.",
 					get: config => config.PickaxeConfig.RadiusAtEachPowerLevel[3],
-					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[3] = (int)value,
+					set: (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[3] = value,
 					min: 0,
 					max: 10
 				);
 
-			if (Utility.HasHigherLevelToolMod(_modRegistry, out whichMod))
+			if (Framework.Utility.HasHigherLevelToolMod(_modRegistry, out whichMod))
 			{
-				menu.AddNumberField(
+				_configMenu.AddNumberField(
 					label: whichMod + " Radius",
 					description: "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
 					get: config => config.AxeConfig.RadiusAtEachPowerLevel[3],
-					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = (int)value,
+					set: (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = value,
 					min: 0,
 					max: 10
 				);
 			}
 
-			menu
+			_configMenu
 				.AddCheckbox(
 					label: "Show Pickaxe Affected Tiles",
 					description: "Whether to show affected tiles overlay while charging.",

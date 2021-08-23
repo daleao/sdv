@@ -1,29 +1,30 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewValley;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class FishingRodStartMinigameEndFunctionPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal FishingRodStartMinigameEndFunctionPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(FishingRod), nameof(FishingRod.startMinigameEndFunction)),
-				transpiler: new HarmonyMethod(GetType(), nameof(FishingRodStartMinigameEndFunctionTranspiler))
-			);
+			Original = typeof(FishingRod).MethodNamed(nameof(FishingRod.startMinigameEndFunction));
+			Transpiler = new HarmonyMethod(GetType(), nameof(FishingRodStartMinigameEndFunctionTranspiler));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to remove Pirate bonus treasure chance.</summary>
-		private static IEnumerable<CodeInstruction> FishingRodStartMinigameEndFunctionTranspiler(IEnumerable<CodeInstruction> instructions)
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> FishingRodStartMinigameEndFunctionTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(instructions).Trace($"Patching method {typeof(FishingRod)}::{nameof(FishingRod.startMinigameEndFunction)}.");
+			Helper.Attach(original, instructions);
 
 			/// Removed: lastUser.professions.Contains(<pirate_id>) ? baseChance ...
 
@@ -38,7 +39,8 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}");
+				return null;
 			}
 
 			return Helper.Flush();

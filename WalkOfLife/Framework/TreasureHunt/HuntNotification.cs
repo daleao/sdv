@@ -5,12 +5,12 @@ using StardewValley.Menus;
 using System;
 using SUtility = StardewValley.Utility;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 {
 	/// <summary>HUD message for treasure hunts.</summary>
 	public class HuntNotification : HUDMessage
 	{
-		private Texture2D _Icon { get; }
+		private readonly Texture2D _icon;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="message">The message to display.</param>
@@ -33,7 +33,7 @@ namespace TheLion.AwesomeProfessions
 			noIcon = false;
 			timeLeft = 5250f;
 			fadeIn = true;
-			_Icon = icon;
+			_icon = icon;
 		}
 
 		/// <summary>Draw the notification to the game sprite batch.</summary>
@@ -60,7 +60,7 @@ namespace TheLion.AwesomeProfessions
 			b.Draw(Game1.mouseCursors, new Vector2(itemBoxPosition.X + 104f + messageWidth, itemBoxPosition.Y), new Rectangle(323, 360, 6, 24), Color.White * transparency, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
 			itemBoxPosition.X += 16f;
 			itemBoxPosition.Y += 16f;
-			b.Draw(_Icon, itemBoxPosition + new Vector2(8f, 8f) * 4f, new Rectangle(0, 0, 16, 16), Color.White * transparency, 0f, new Vector2(8f, 8f), 4f + Math.Max(0f, (timeLeft - 3000f) / 900f), SpriteEffects.None, 1f);
+			b.Draw(_icon, itemBoxPosition + new Vector2(8f, 8f) * 4f, new Rectangle(0, 0, 16, 16), Color.White * transparency, 0f, new Vector2(8f, 8f), 4f + Math.Max(0f, (timeLeft - 3000f) / 900f), SpriteEffects.None, 1f);
 			itemBoxPosition.X += 51f;
 			itemBoxPosition.Y += 51f;
 			if (number > 1) SUtility.drawTinyDigits(number, b, itemBoxPosition, 3f, 1f, Color.White * transparency);

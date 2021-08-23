@@ -3,26 +3,32 @@ using StardewValley;
 using StardewValley.Menus;
 using System.Collections.Generic;
 using System.Linq;
-using TheLion.Common;
+using TheLion.Stardew.Common.Extensions;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions
 {
-	public partial class AwesomeProfessions
+	internal static class ConsoleCommands
 	{
+		internal static void CheckLocalPlayerProfessions(string command, string[] args)
+		{
+			foreach (var professionsIndex in Game1.player.professions)
+				ModEntry.Log($"{Framework.Util.Professions.NameOf(professionsIndex)}", LogLevel.Info);
+		}
+
 		/// <summary>Add specified professions to the local player.</summary>
 		/// <param name="command">The console command.</param>
 		/// <param name="args">The supplied arguments.</param>
-		private void _AddProfessionsToLocalPlayer(string command, string[] args)
+		internal static void AddProfessionsToLocalPlayer(string command, string[] args)
 		{
 			if (!Context.IsWorldReady)
 			{
-				Monitor.Log("You must load a save first.", LogLevel.Warn);
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
 				return;
 			}
 
 			if (!args.Any())
 			{
-				Monitor.Log("You must specify the professions to add." + _GetCommandUsage(), LogLevel.Warn);
+				ModEntry.Log("You must specify the professions to add." + GetUsageForAddProfessions(), LogLevel.Warn);
 				return;
 			}
 
@@ -31,7 +37,7 @@ namespace TheLion.AwesomeProfessions
 			{
 				if (arg.Equals("level"))
 				{
-					Monitor.Log($"Adding all professions for farmer {Game1.player.Name}'s current skill levels.", LogLevel.Info);
+					ModEntry.Log($"Adding all professions for farmer {Game1.player.Name}'s current skill levels.", LogLevel.Info);
 
 					for (var skill = 0; skill < 5; ++skill)
 					{
@@ -51,7 +57,7 @@ namespace TheLion.AwesomeProfessions
 						}
 
 						while (currentLevel < Game1.player.GetUnmodifiedSkillLevel(skill))
-							_GetLevelPerk(skill, ++currentLevel);
+							GetLevelPerk(skill, ++currentLevel);
 					}
 
 					Game1.player.newLevels.Clear();
@@ -60,14 +66,14 @@ namespace TheLion.AwesomeProfessions
 
 				if (arg.Equals("all"))
 				{
-					Monitor.Log($"Adding all professions to farmer {Game1.player.Name}.", LogLevel.Info);
+					ModEntry.Log($"Adding all professions to farmer {Game1.player.Name}.", LogLevel.Info);
 
 					for (var professionIndex = 0; professionIndex < 30; ++professionIndex) professionsToAdd.Add(professionIndex);
 
 					for (var skill = 0; skill < 5; ++skill)
 					{
 						var currentLevel = Game1.player.getEffectiveSkillLevel(skill);
-						while (currentLevel < 10) _GetLevelPerk(skill, ++currentLevel);
+						while (currentLevel < 10) GetLevelPerk(skill, ++currentLevel);
 					}
 
 					Game1.player.FarmingLevel = 10;
@@ -82,7 +88,7 @@ namespace TheLion.AwesomeProfessions
 
 				if (arg.AnyOf("farming", "fishing", "foraging", "mining", "combat"))
 				{
-					Monitor.Log($"Adding all {arg.FirstCharToUpper()} professions to farmer {Game1.player.Name}.", LogLevel.Info);
+					ModEntry.Log($"Adding all {arg.FirstCharToUpper()} professions to farmer {Game1.player.Name}.", LogLevel.Info);
 					var skill = -1;
 					switch (arg)
 					{
@@ -118,26 +124,26 @@ namespace TheLion.AwesomeProfessions
 						professionsToAdd.Add(professionIndex);
 
 					var currentLevel = Game1.player.getEffectiveSkillLevel(skill);
-					while (currentLevel < 10) _GetLevelPerk(skill, ++currentLevel);
+					while (currentLevel < 10) GetLevelPerk(skill, ++currentLevel);
 
 					if (Game1.player.newLevels.Count <= 0) continue;
 
 					foreach (var level in Game1.player.newLevels.Where(level => level.X == skill))
 						Game1.player.newLevels.Remove(level);
 				}
-				else if (Utility.ProfessionMap.Forward.TryGetValue(arg.FirstCharToUpper(), out var professionIndex) || int.TryParse(arg, out professionIndex))
+				else if (Framework.Util.Professions.IndexByName.Forward.TryGetValue(arg.FirstCharToUpper(), out var professionIndex) || int.TryParse(arg, out professionIndex))
 				{
-					Monitor.Log($"Adding {Utility.ProfessionMap.Reverse[professionIndex]} profession to farmer {Game1.player.Name}.", LogLevel.Info);
+					ModEntry.Log($"Adding {Framework.Util.Professions.NameOf(professionIndex)} profession to farmer {Game1.player.Name}.", LogLevel.Info);
 
 					professionsToAdd.Add(professionIndex);
 
 					var skill = professionIndex / 6;
-					var expectedLevel = professionIndex % 6 > 2 ? 10 : 5;
+					var expectedLevel = professionIndex % 6 >= 2 ? 10 : 5;
 					var currentLevel = Game1.player.getEffectiveSkillLevel(skill);
 					if (currentLevel < 5 && expectedLevel == 10)
-						professionsToAdd.Add(skill * 6 + (professionIndex % 6 > 3 ? 1 : 0));
+						professionsToAdd.Add(skill * 6 + (professionIndex % 6 >= 4 ? 1 : 0));
 
-					while (currentLevel < expectedLevel) _GetLevelPerk(skill, ++currentLevel);
+					while (currentLevel < expectedLevel) GetLevelPerk(skill, ++currentLevel);
 
 					switch (skill)
 					{
@@ -168,53 +174,28 @@ namespace TheLion.AwesomeProfessions
 				}
 				else
 				{
-					Monitor.Log($"Ignoring unexpected argument {arg}.", LogLevel.Warn);
+					ModEntry.Log($"Ignoring unexpected argument {arg}.", LogLevel.Warn);
 				}
 			}
 
+			LevelUpMenu levelUpMenu = new();
 			foreach (var professionIndex in professionsToAdd.Distinct().Except(Game1.player.professions))
 			{
 				Game1.player.professions.Add(professionIndex);
-				Utility.InitializeModData(professionIndex);
-				EventManager.SubscribeEventsForProfession(professionIndex);
+				levelUpMenu.getImmediateProfessionPerk(professionIndex);
 			}
-		}
 
-		/// <summary>Reset all skills and professions for the local player.</summary>
-		/// <param name="command">The console command.</param>
-		/// <param name="args">The supplied arguments.</param>
-		private void _ResetLocalPlayerProfessions(string command, string[] args)
-		{
-			Game1.player.FarmingLevel = 0;
-			Game1.player.FishingLevel = 0;
-			Game1.player.ForagingLevel = 0;
-			Game1.player.MiningLevel = 0;
-			Game1.player.CombatLevel = 0;
-			Game1.player.newLevels.Clear();
-			Game1.player.professions.Clear();
 			LevelUpMenu.RevalidateHealth(Game1.player);
-		}
-
-		/// <summary>Print the currently subscribed mod events to the console.</summary>
-		/// <param name="command">The console command.</param>
-		/// <param name="args">The supplied arguments (not applicable).</param>
-		private void _PrintSubscribedEvents(string command, string[] args)
-		{
-			Monitor.Log("Currently subscribed events:");
-			foreach (var s in EventManager.GetSubscribedEvents()) Monitor.Log($"{s}", LogLevel.Info);
+			ModEntry.Subscriber.SubscribeMissingEvents();
 		}
 
 		/// <summary>Give the local player immediate perks for a skill level.</summary>
 		/// <param name="skill">The skill index.</param>
 		/// <param name="level">The skill level.</param>
-		private void _GetLevelPerk(int skill, int level)
+		private static void GetLevelPerk(int skill, int level)
 		{
 			switch (skill)
 			{
-				case 4:
-					Game1.player.maxHealth += 5;
-					break;
-
 				case 1:
 					switch (level)
 					{
@@ -229,62 +210,234 @@ namespace TheLion.AwesomeProfessions
 							break;
 					}
 					break;
+
+				case 4:
+					if (level != 5 && level != 10) Game1.player.maxHealth += 5;
+					break;
 			}
+
 			Game1.player.health = Game1.player.maxHealth;
 			Game1.player.Stamina = Game1.player.maxStamina.Value;
+		}
+
+		/// <summary>Reset all skills and professions for the local player.</summary>
+		/// <param name="command">The console command.</param>
+		/// <param name="args">The supplied arguments.</param>
+		internal static void ResetLocalPlayerProfessions(string command, string[] args)
+		{
+			Game1.player.FarmingLevel = 0;
+			Game1.player.FishingLevel = 0;
+			Game1.player.ForagingLevel = 0;
+			Game1.player.MiningLevel = 0;
+			Game1.player.CombatLevel = 0;
+			Game1.player.newLevels.Clear();
+
+			foreach (var professionIndex in Game1.player.professions) LevelUpMenu.removeImmediateProfessionPerk(professionIndex);
+			Game1.player.professions.Clear();
+
+			LevelUpMenu.RevalidateHealth(Game1.player);
+		}
+
+		/// <summary>Print the currently subscribed mod events to the console.</summary>
+		/// <param name="command">The console command.</param>
+		/// <param name="args">The supplied arguments (not applicable).</param>
+		internal static void PrintSubscribedEvents(string command, string[] args)
+		{
+			ModEntry.Log("Currently subscribed events:", LogLevel.Info);
+			foreach (var s in ModEntry.Subscriber.SubscribedEvents) ModEntry.Log($"{s}", LogLevel.Info);
 		}
 
 		/// <summary>Print the current value of specified mod data fields to the console.</summary>
 		/// <param name="command">The console command.</param>
 		/// <param name="args">The supplied arguments (not applicable).</param>
-		private void _PrintDataField(string command, string[] args)
+		internal static void PrintModDataField(string command, string[] args)
 		{
 			if (!Context.IsWorldReady)
 			{
-				Monitor.Log("You must load a save first.", LogLevel.Warn);
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
 				return;
 			}
 
 			if (!args.Any())
 			{
-				Monitor.Log("You must specify a data field to read." + _GetAvailableDataFields(), LogLevel.Warn);
+				ModEntry.Log("You must specify at least one data field to read." + GetAvailableDataFields(), LogLevel.Warn);
 				return;
 			}
 
 			foreach (var arg in args)
 			{
-				var value = Data.ReadField($"{UniqueID}/{arg}");
-				if (!string.IsNullOrEmpty(value)) Monitor.Log($"{arg}: {value}", LogLevel.Info);
-				else Monitor.Log($"Mod data does not contain an entry for {arg}.", LogLevel.Warn);
+				var value = ModEntry.Data.ReadField($"{arg}");
+				if (!string.IsNullOrEmpty(value)) ModEntry.Log($"{arg}: {value}", LogLevel.Info);
+				else ModEntry.Log($"Mod data does not contain an entry for {arg}.", LogLevel.Warn);
 			}
 		}
 
-		/// <summary>Tell the dummies how to use the console command.</summary>
-		private string _GetCommandUsage()
+		/// <summary>Set a new value to the ItemsForaged data field.</summary>
+		/// <param name="command">The console command.</param>
+		/// <param name="args">The supplied arguments (not applicable).</param>
+		internal static void SetItemsForaged(string command, string[] args)
 		{
-			var result = "\n\nUsage: wol_getprofessions <argument1> <argument2> ... <argumentN>";
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (!args.Any() || args.Count() > 1)
+			{
+				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
+				return;
+			}
+
+			if (!int.TryParse(args[0], out int value) || value < 0)
+			{
+				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
+				return;
+			}
+
+			ModEntry.Data.WriteField("ItemsForaged", args[0]);
+			ModEntry.Log($"ItemsForaged set to {args[0]}.", LogLevel.Info);
+		}
+
+		/// <summary>Set a new value to the MineralsCollected data field.</summary>
+		/// <param name="command">The console command.</param>
+		/// <param name="args">The supplied arguments (not applicable).</param>
+		internal static void SetMineralsCollected(string command, string[] args)
+		{
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (!args.Any() || args.Count() > 1)
+			{
+				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
+				return;
+			}
+
+			if (!int.TryParse(args[0], out int value) || value < 0)
+			{
+				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
+				return;
+			}
+
+			ModEntry.Data.WriteField("MineralsCollected", args[0]);
+			ModEntry.Log($"MineralsCollected set to {args[0]}.", LogLevel.Info);
+		}
+
+		/// <summary>Set a new value to the ProspectorStreak data field.</summary>
+		/// <param name="command">The console command.</param>
+		/// <param name="args">The supplied arguments (not applicable).</param>
+		internal static void SetProspectorStreak(string command, string[] args)
+		{
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (!args.Any() || args.Count() > 1)
+			{
+				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
+				return;
+			}
+
+			if (!int.TryParse(args[0], out int value) || value < 0)
+			{
+				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
+				return;
+			}
+
+			ModEntry.Data.WriteField("ProspectorStreak", args[0]);
+			ModEntry.Log($"ProspectorStreak set to {args[0]}.", LogLevel.Info);
+		}
+
+		/// <summary>Set a new value to the ScavengerStreak data field.</summary>
+		/// <param name="command">The console command.</param>
+		/// <param name="args">The supplied arguments (not applicable).</param>
+		internal static void SetScavengerStreak(string command, string[] args)
+		{
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (!args.Any() || args.Count() > 1)
+			{
+				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
+				return;
+			}
+
+			if (!int.TryParse(args[0], out int value) || value < 0)
+			{
+				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
+				return;
+			}
+
+			ModEntry.Data.WriteField("ScavengerStreak", args[0]);
+			ModEntry.Log($"ScavengerStreak set to {args[0]}.", LogLevel.Info);
+		}
+
+		/// <summary>Set a new value to the tWaterTrashCollectedThisSeason data field.</summary>
+		/// <param name="command">The console command.</param>
+		/// <param name="args">The supplied arguments (not applicable).</param>
+		internal static void SetWaterTrashCollectedThisSeason(string command, string[] args)
+		{
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (!args.Any() || args.Count() > 1)
+			{
+				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
+				return;
+			}
+
+			if (!int.TryParse(args[0], out int value) || value < 0)
+			{
+				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
+				return;
+			}
+
+			ModEntry.Data.WriteField("tWaterTrashCollectedThisSeason", args[0]);
+			ModEntry.Log($"tWaterTrashCollectedThisSeason set to {args[0]}.", LogLevel.Info);
+		}
+
+		/// <summary>Set <see cref="ModEntry.SuperModeCounter"/> to the max value.</summary>
+		internal static void ReadySuperMode(string command, string[] arg)
+		{
+			ModEntry.SuperModeCounter = ModEntry.SuperModeCounterMax;
+		}
+
+		/// <summary>Tell the dummies how to use the console command.</summary>
+		public static string GetUsageForAddProfessions()
+		{
+			var result = "\n\nUsage: player_addprofessions <argument1> <argument2> ... <argumentN>";
 			result += "\nAvailable arguments:";
 			result += "\n\t'level' - get all professions and level perks for the local player's current skill levels.";
 			result += "\n\t'all' - get all professions, level perks and max out the local player's skills.";
 			result += "\n\t'<skill>' - get all professions and perks for and max out the specified skill.";
 			result += "\n\t'<profession>' - get the specified profession and level up the corresponding skill if necessary.";
 			result += "\n\nExample:";
-			result += "\n\tplayer_addprofessions farming fishing scavenger prospector slimecharmer";
+			result += "\n\tplayer_addprofessions farming fishing scavenger prospector piper";
 			return result;
 		}
 
 		/// <summary>Tell the dummies the available mod data fields.</summary>
-		private string _GetAvailableDataFields()
+		public static string GetAvailableDataFields()
 		{
 			var result = "\n\nAvailable data fields:";
 			result += "\n\tArtisanPointsAccrued - Fame points accrued as Artisan.";
 			result += "\n\tArtisanAwardLevel - Highest tier of Artisan Fair's Seasonal Award won.";
-			result += $"\n\tItemsForaged - Number of items foraged as Ecologist ({Config.ForagesNeededForBestQuality} needed for best quality).";
-			result += $"\n\tMineralsCollected - Number of minerals collected as Gemologist ({Config.MineralsNeededForBestQuality} needed for best quality).";
-			result += "\n\tScavengerStreak - Number of consecutive Scavenger Hunts completed (higher numbers improve your hunt reward).";
-			result += "\n\tProspectorStreak - Number of consecutive Prospector Hunts completed (higher numbers improve your hunt reward).";
-			result += "\n\tLowestMineLevelReached - The lowest mine level reached by the local player(higher numbers improve your chance to find ladders).";
-			result += $"\n\tWaterTrashCollectedThisSeason - Number of junk items pulled out of water bodies as Conservationist in the current season ({Config.TrashNeededForNextTaxLevel} needed per tax bonus percent).";
+			result += $"\n\tItemsForaged - Number of items foraged as Ecologist ({ModEntry.Config.ForagesNeededForBestQuality} needed for best quality).";
+			result += $"\n\tMineralsCollected - Number of minerals collected as Gemologist ({ModEntry.Config.MineralsNeededForBestQuality} needed for best quality).";
+			result += "\n\tProspectorStreak - Number of consecutive Prospector Hunts completed (higher numbers improve odds of Prismatic Shard).";
+			result += "\n\tScavengerStreak - Number of consecutive Scavenger Hunts completed (higher numbers improve odds of Prismatic Shard).";
+			result += $"\n\tWaterTrashCollectedThisSeason - Number of junk items pulled out of water as Conservationist in the current season ({ModEntry.Config.TrashNeededForNextTaxLevel} needed per tax bonus percent).";
 			result += "\n\tActiveTaxBonusPercent - The active tax bonus this season as a result of last season's Conservationist activities.";
 			return result;
 		}

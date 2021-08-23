@@ -6,33 +6,12 @@ using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TheLion.Common;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 {
 	/// <summary>Manages treasure hunt events for Prospector profession.</summary>
 	public class ProspectorHunt : TreasureHunt
 	{
-		private readonly IEnumerable<int> _artifactsThatCanBeFound = new HashSet<int>
-		{
-			100, // chipped amphora
-			101, // arrowhead
-			102, // lost book
-			103, // ancient doll
-			109, // ancient sword
-			113, // chicken statue
-			114, // ancient seed
-			115, // prehistoric tool
-			119, // bone flute
-			120, // prehistoric handaxe
-			123, // ancient drum
-			124, // golden mask
-			125, // golden relic
-			126, // strange doll
-			127, // strange doll
-			588, // palm fossil
-		};
-
 		/// <summary>Construct an instance.</summary>
 		internal ProspectorHunt(string huntStartedMessage, string huntFailedMessage, Texture2D icon)
 		{
@@ -48,21 +27,13 @@ namespace TheLion.AwesomeProfessions
 			if (!location.Objects.Any() || !base.TryStartNewHunt()) return;
 
 			var v = location.Objects.Keys.ElementAtOrDefault(Random.Next(location.Objects.Keys.Count()));
-			var obj = location.Objects[v];
-			if (!Utility.IsStone(obj) || Utility.IsResourceNode(obj)) return;
+			if (!location.Objects.TryGetValue(v, out var obj) || !Util.Objects.IsStone(obj) || Util.Objects.IsResourceNode(obj)) return;
 
 			TreasureTile = v;
-			_timeLimit = (uint)location.Objects.Count();
-			_elapsed = 0;
-			AwesomeProfessions.EventManager.Subscribe(new ArrowPointerUpdateTickedEvent(), new ProspectorHuntUpdateTickedEvent(), new ProspectorHuntRenderedHudEvent());
+			TimeLimit = (uint)(location.Objects.Count() * ModEntry.Config.TreasureHuntHandicap);
+			Elapsed = 0;
+			ModEntry.Subscriber.Subscribe(new Events.ArrowPointerUpdateTickedEvent(), new Events.ProspectorHuntUpdateTickedEvent(), new Events.ProspectorHuntRenderedHudEvent());
 			Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, Icon));
-		}
-
-		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
-		internal override void End()
-		{
-			AwesomeProfessions.EventManager.Unsubscribe(typeof(ProspectorHuntUpdateTickedEvent), typeof(ProspectorHuntRenderedHudEvent));
-			TreasureTile = null;
 		}
 
 		/// <summary>Check if the player has found the treasure tile.</summary>
@@ -70,9 +41,9 @@ namespace TheLion.AwesomeProfessions
 		{
 			if (TreasureTile == null || Game1.currentLocation.Objects.ContainsKey(TreasureTile.Value)) return;
 
-			_GetStoneTreasure();
+			GetStoneTreasure();
 			End();
-			AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", amount: 1);
+			ModEntry.Data.IncrementField<uint>("ProspectorHuntStreak");
 		}
 
 		/// <summary>End the hunt unsuccessfully.</summary>
@@ -80,12 +51,19 @@ namespace TheLion.AwesomeProfessions
 		{
 			End();
 			Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-			AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", "0");
+			ModEntry.Data.WriteField("ProspectorHuntStreak", "0");
+		}
+
+		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
+		internal override void End()
+		{
+			ModEntry.Subscriber.Unsubscribe(typeof(Events.ProspectorHuntUpdateTickedEvent), typeof(Events.ProspectorHuntRenderedHudEvent));
+			TreasureTile = null;
 		}
 
 		/// <summary>Spawn hunt spoils as debris.</summary>
 		/// <remarks>Adapted from FishingRod.openTreasureMenuEndFunction.</remarks>
-		private void _GetStoneTreasure()
+		private void GetStoneTreasure()
 		{
 			if (TreasureTile == null) return;
 
@@ -93,13 +71,12 @@ namespace TheLion.AwesomeProfessions
 			Dictionary<int, int> treasuresAndQuantities = new();
 
 			if (Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
-				treasuresAndQuantities.Add(890, Random.Next(1, 3) + (Random.NextDouble() < 0.25 ? 2 : 0)); // qi bean
+				treasuresAndQuantities.Add(890, Random.Next(1, 3) + (Random.NextDouble() < 0.25 ? 2 : 0)); // qi beans
 
 			switch (Random.Next(3))
 			{
 				case 0:
-				{
-					if (mineLevel > 120 && Random.NextDouble() < 0.03)
+					if (mineLevel > 120 && Random.NextDouble() < 0.06)
 						treasuresAndQuantities.Add(386, Random.Next(1, 3)); // iridium ore
 
 					List<int> possibles = new();
@@ -110,10 +87,8 @@ namespace TheLion.AwesomeProfessions
 
 					if (possibles.Count == 0 || Random.NextDouble() < 0.6) possibles.Add(378); // copper ore
 
-					if (possibles.Count == 0 || Random.NextDouble() < 0.6) possibles.Add(390); // stone
-
 					possibles.Add(382); // coal
-					treasuresAndQuantities.Add(possibles.ElementAt(Random.Next(possibles.Count)), Random.Next(2, 7));
+					treasuresAndQuantities.Add(possibles.ElementAt(Random.Next(possibles.Count)), Random.Next(2, 7) * Random.NextDouble() < (0.05 + Game1.player.LuckLevel * 0.015) ? 2 : 1);
 					if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
 					{
 						var key = treasuresAndQuantities.Keys.Last();
@@ -121,22 +96,17 @@ namespace TheLion.AwesomeProfessions
 					}
 
 					break;
-				}
 				case 1:
-				{
-					if (Game1.player.archaeologyFound.Any()) // artifacts
-						treasuresAndQuantities.Add(Random.NextDouble() < 0.5 ? _artifactsThatCanBeFound.ElementAt(Random.Next(_artifactsThatCanBeFound.Count())) : Random.NextDouble() < 0.25 ? Random.Next(579, 586) : 535, 1);
+					if (Game1.player.archaeologyFound.Any() && Random.NextDouble() < 0.5) // artifacts
+						treasuresAndQuantities.Add(Random.NextDouble() < 0.5 ? Random.Next(579, 586) : 535, 1);
 					else
-						treasuresAndQuantities.Add(382, Random.Next(1, 3));
+						treasuresAndQuantities.Add(382, Random.Next(1, 4)); // coal
 
 					break;
-				}
 				case 2:
-				{
 					switch (Random.Next(3))
 					{
-						case 0:
-						{
+						case 0: // geodes
 							switch (mineLevel)
 							{
 								case > 80:
@@ -159,9 +129,7 @@ namespace TheLion.AwesomeProfessions
 							}
 
 							break;
-						}
-						case 1:
-						{
+						case 1: // minerals
 							if (mineLevel < 20)
 							{
 								treasuresAndQuantities.Add(382, Random.Next(1, 4)); // coal
@@ -187,37 +155,41 @@ namespace TheLion.AwesomeProfessions
 							else treasuresAndQuantities.Add(80, Random.Next(1, 3)); // quartz
 
 							break;
-						}
-						case 2:
-						{
+						case 2: // special items
 							var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
-							var streak = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ProspectorHuntStreak", uint.Parse);
+							var streak = ModEntry.Data.ReadField<uint>("ProspectorHuntStreak");
 							if (Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
-								treasuresAndQuantities.Add(31, 1); // femur
+								treasuresAndQuantities.Add(-1, 1); // femur
 
 							if (Random.NextDouble() < 0.010 * luckModifier && !Game1.player.specialItems.Contains(60))
-								treasuresAndQuantities.Add(60, 1); // ossified blade
+								treasuresAndQuantities.Add(-2, 1); // ossified blade
 
-							if (Random.NextDouble() < 0.002 * luckModifier * Math.Pow(2, streak)) treasuresAndQuantities.Add(74, 1); // prismatic shard
+							if (Random.NextDouble() < 0.02 * luckModifier * Math.Pow(2, streak)) treasuresAndQuantities.Add(74, 1); // prismatic shard
 
-							if (treasuresAndQuantities.Count == 1) treasuresAndQuantities.Add(72, 1); // consolation diamond
+							if (treasuresAndQuantities.Count == 0) treasuresAndQuantities.Add(72, 1); // consolation diamond
 
 							break;
-						}
 					}
 
 					break;
-				}
 			}
 
-			if (treasuresAndQuantities.Count == 0) treasuresAndQuantities.Add(390, Random.Next(1, 4));
+			//if (treasuresAndQuantities.Count == 0) treasuresAndQuantities.Add(382, Random.Next(1, 4)); // coal
 
 			foreach (var kvp in treasuresAndQuantities)
 			{
-				if (kvp.Key.AnyOf(31, 60))
-					Game1.createItemDebris(new MeleeWeapon(kvp.Key) { specialItem = true }, new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f), Random.Next(4), Game1.currentLocation);
-				else
-					Game1.createMultipleObjectDebris(kvp.Key, (int)TreasureTile.Value.X, (int)TreasureTile.Value.Y, kvp.Value, Game1.player.UniqueMultiplayerID, Game1.currentLocation);
+				switch (kvp.Key)
+				{
+					case -1:
+						Game1.createItemDebris(new MeleeWeapon(31) { specialItem = true }, new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f), Random.Next(4), Game1.currentLocation);
+						break;
+					case -2:
+						Game1.createItemDebris(new MeleeWeapon(60) { specialItem = true }, new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f), Random.Next(4), Game1.currentLocation);
+						break;
+					default:
+						Game1.createMultipleObjectDebris(kvp.Key, (int)TreasureTile.Value.X, (int)TreasureTile.Value.Y, kvp.Value, Game1.player.UniqueMultiplayerID, Game1.currentLocation);
+						break;
+				}
 			}
 		}
 	}

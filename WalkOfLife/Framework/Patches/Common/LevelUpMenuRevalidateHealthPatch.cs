@@ -1,57 +1,54 @@
-﻿using Harmony;
+﻿using HarmonyLib;
+using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class LevelUpMenuRevalidateHealthPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal LevelUpMenuRevalidateHealthPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.RevalidateHealth)),
-				transpiler: new HarmonyMethod(GetType(), nameof(LevelUpMenuRevalidateHealthTranspiler)),
-				postfix: new HarmonyMethod(GetType(), nameof(LevelUpMenuRevalidateHealthPostfix))
-			);
+			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.RevalidateHealth));
+			Prefix = new HarmonyMethod(GetType(), nameof(LevelUpMenuRevalidateHealthPrefix));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
-		private static IEnumerable<CodeInstruction> LevelUpMenuRevalidateHealthTranspiler(IEnumerable<CodeInstruction> instructions)
+		/// <summary>Patch revalidate player health after changes to the combat skill + revalidate fish pond capacity after changes to the fishing skill.</summary>
+		[HarmonyPrefix]
+		private static bool LevelUpMenuRevalidateHealthPrefix(Farmer farmer)
 		{
-			Helper.Attach(instructions).Trace($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.RevalidateHealth)}.");
+			var expectedMaxHealth = 100;
+			if (farmer.mailReceived.Contains("qiCave")) expectedMaxHealth += 25;
 
-			/// From: if (farmer.professions.Contains(<defender_id>))
-			/// To: if (farmer.professions.Contains(<brute_id>))
-
-			try
+			for (var i = 1; i <= farmer.GetUnmodifiedSkillLevel(4); ++i)
 			{
-				Helper
-					.FindProfessionCheck(Farmer.defender)
-					.Advance()
-					.SetOperand(Utility.ProfessionMap.Forward["Brute"]);
-			}
-			catch (Exception ex)
-			{
-				Helper.Error($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}").Restore();
+				if (!farmer.newLevels.Contains(new Point(4, i)) && i != 5 && i != 10) expectedMaxHealth += 5;
 			}
 
-			return Helper.Flush();
-		}
+			if (Game1.player.HasProfession("Fighter")) expectedMaxHealth += 15;
+			if (Game1.player.HasProfession("Brute")) expectedMaxHealth += 25;
 
-		/// <summary>Patch revalidate modded immediate profession perks.</summary>
-		private static void LevelUpMenuRevalidateHealthPostfix(Farmer farmer)
-		{
+			if (farmer.maxHealth != expectedMaxHealth)
+			{
+				ModEntry.Log($"Fixing max health of {farmer.Name}.\nCurrent: {farmer.maxHealth}\nExpected: {expectedMaxHealth}", LogLevel.Warn);
+				farmer.maxHealth = expectedMaxHealth;
+				farmer.health = Math.Min(farmer.maxHealth, farmer.health);
+			}
+
 			try
 			{
 				// revalidate fish pond capacity
-				foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(farmer.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
+				foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == farmer.UniqueMultiplayerID || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
 				{
 					var pond = (FishPond)b;
 					pond.UpdateMaximumOccupancy();
@@ -60,8 +57,11 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(LevelUpMenuRevalidateHealthPostfix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				return false; // don't run original logic
 			}
+
+			return false; // don't run original logic
 		}
 
 		#endregion harmony patches

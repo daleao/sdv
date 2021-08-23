@@ -1,45 +1,47 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using TheLion.Common;
+using System.Reflection;
+using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class CrabPotCheckForActionPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal CrabPotCheckForActionPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(CrabPot), nameof(CrabPot.checkForAction)),
-				prefix: new HarmonyMethod(GetType(), nameof(CrabPotCheckForActionPrefix))
-			);
+			Original = typeof(CrabPot).MethodNamed(nameof(CrabPot.checkForAction));
+			Prefix = new HarmonyMethod(GetType(), nameof(CrabPotCheckForActionPrefix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to handle Luremaster-caught non-trap fish.</summary>
+		[HarmonyPrefix]
 		private static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result, ref bool ___lidFlapping, ref float ___lidFlapTimer, ref Vector2 ___shake, ref float ___shakeTimer, Farmer who, bool justCheckingForActivity = false)
 		{
 			try
 			{
-				if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !Utility.IsHoldingSpecialLuremasterCatch(__instance))
+				if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !IsHoldingSpecialLuremasterCatch(__instance))
 					return true; // run original logic
 
 				var item = __instance.heldObject.Value;
 				bool addedToInvetory;
-				if (__instance.heldObject.Value.ParentSheetIndex.AnyOf(14, 51))
+				if (__instance.heldObject.Value.ParentSheetIndex.AnyOf(14, 51)) // caught a weapon
 				{
 					var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex);
 					addedToInvetory = who.addItemToInventoryBool(weapon);
 					who.mostRecentlyGrabbedItem = item;
 				}
-				else if (__instance.heldObject.Value.ParentSheetIndex.AnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
+				else if (__instance.heldObject.Value.ParentSheetIndex.AnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534)) // caught a ring
 				{
 					var ring = new Ring(__instance.heldObject.Value.ParentSheetIndex);
 					addedToInvetory = who.addItemToInventoryBool(ring);
@@ -85,11 +87,23 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(CrabPotCheckForActionPrefix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}
 
 		#endregion harmony patches
+
+		#region private methods
+
+		/// <summary>Whether the given crab pot instance is holding an object that can only be caught by a Luremaster.</summary>
+		/// <param name="crabpot">The crab pot instance.</param>
+		private static bool IsHoldingSpecialLuremasterCatch(CrabPot crabpot)
+		{
+			var obj = crabpot.heldObject.Value;
+			return obj != null && (obj.Type?.Equals("Fish") == true && !Util.Objects.IsTrapFish(obj) || Util.Objects.IsPirateTreasure(obj));
+		}
+
+		#endregion private methods
 	}
 }

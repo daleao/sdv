@@ -1,10 +1,10 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace TheLion.Common.Harmony
+namespace TheLion.Stardew.Common.Harmony
 {
 	public static class SafeReflections
 	{

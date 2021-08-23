@@ -1,24 +1,40 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewModdingAPI;
-using TheLion.Common.Harmony;
+using System;
+using System.Reflection;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	/// <summary>Harmony patch base class.</summary>
-	internal abstract class BasePatch : IPatch
+	internal abstract class BasePatch
 	{
-		protected static IMonitor Monitor { get; private set; }
 		protected static ILHelper Helper { get; private set; }
 
+		protected MethodBase Original { get; set; }
+		protected HarmonyMethod Prefix { get; set; }
+		protected HarmonyMethod Transpiler { get; set; }
+		protected HarmonyMethod Postfix { get; set; }
+
 		/// <summary>Initialize the ILHelper.</summary>
-		/// <param name="monitor">Interface for writing to the SMAPI console.</param>
-		internal static void Init(IMonitor monitor)
+		internal static void Init()
 		{
-			Monitor = monitor;
-			Helper = new ILHelper(monitor);
+			Helper = new ILHelper(ModEntry.Log, ModEntry.Config.EnableILCodeExport);
 		}
 
-		/// <inheritdoc/>
-		public abstract void Apply(HarmonyInstance harmony);
+		/// <summary>Apply internally-defined Harmony patches.</summary>
+		/// <param name="harmony">The Harmony instance for this mod.</param>
+		public virtual void Apply(Harmony harmony)
+		{
+			try
+			{
+				ModEntry.Log($"Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.", LogLevel.Trace);
+				harmony.Patch(Original, Prefix, Postfix, Transpiler);
+			}
+			catch (Exception ex)
+			{
+				ModEntry.Log($"Failed to patch {Original.DeclaringType}::{Original.Name}.\nHarmony returned {ex}", LogLevel.Error);
+			}
+		}
 	}
 }

@@ -1,28 +1,30 @@
-﻿using Harmony;
+﻿using HarmonyLib;
+using StardewModdingAPI;
 using StardewValley;
 using System;
+using System.Reflection;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class FarmerHasOrWillReceiveMailPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal FarmerHasOrWillReceiveMailPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(Farmer), nameof(Farmer.hasOrWillReceiveMail)),
-				prefix: new HarmonyMethod(GetType(), nameof(FarmerHasOrWillReceiveMailPrefix))
-			);
+			Original = typeof(Farmer).MethodNamed(nameof(Farmer.hasOrWillReceiveMail));
+			Prefix = new HarmonyMethod(GetType(), nameof(FarmerHasOrWillReceiveMailPrefix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to allow receiving multiple letters from the FRS and the SWA.</summary>
+		[HarmonyPrefix]
 		private static bool FarmerHasOrWillReceiveMailPrefix(ref bool __result, string id)
 		{
 			try
 			{
-				if (!id.Equals($"{AwesomeProfessions.UniqueID}/ConservationistTaxNotice"))
+				if (!id.Equals($"{ModEntry.UniqueID}/ConservationistTaxNotice"))
 					return true; // run original logic
 
 				__result = false;
@@ -30,7 +32,7 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(FarmerHasOrWillReceiveMailPrefix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

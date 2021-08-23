@@ -1,32 +1,78 @@
-﻿using Harmony;
+﻿using HarmonyLib;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
+using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Events;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal LevelUpMenuRemoveImmediateProfessionPerkPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(LevelUpMenu), nameof(LevelUpMenu.removeImmediateProfessionPerk)),
-				transpiler: new HarmonyMethod(GetType(), nameof(LevelUpMenuRemoveImmediateProfessionPerkTranspiler)),
-				postfix: new HarmonyMethod(GetType(), nameof(LevelUpMenuRemoveImmediateProfessionPerkPostfix))
-			);
+			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.removeImmediateProfessionPerk));
+			Postfix = new HarmonyMethod(GetType(), nameof(LevelUpMenuRemoveImmediateProfessionPerkPostfix));
+			Transpiler = new HarmonyMethod(GetType(), nameof(LevelUpMenuRemoveImmediateProfessionPerkTranspiler));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
-		private static IEnumerable<CodeInstruction> LevelUpMenuRemoveImmediateProfessionPerkTranspiler(IEnumerable<CodeInstruction> instructions)
+		/// <summary>Patch to remove modded immediate profession perks.</summary>
+		[HarmonyPrefix]
+		private static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			Helper.Attach(instructions).Trace($"Patching method {typeof(LevelUpMenu)}::{nameof(LevelUpMenu.removeImmediateProfessionPerk)}.");
+			try
+			{
+				if (!Util.Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
+
+				// remove immediate perks
+				if (professionName.Equals("Aquarist"))
+				{
+					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == Game1.player.UniqueMultiplayerID || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+					{
+						b.maxOccupants.Set(10);
+						b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+					}
+				}
+
+				// clean unnecessary mod data
+				ModEntry.Data.RemoveProfessionDataFields(whichProfession);
+
+				// unsubscribe unnecessary events
+				ModEntry.Subscriber.UnsubscribeProfessionEvents(whichProfession);
+
+				// unregister super mode
+				var combatProfessions = new[] { "Brute", "Hunter", "Desperado", "Piper" };
+				if (!professionName.AnyOf(combatProfessions) || ModEntry.SuperModeIndex != whichProfession) return;
+
+				if (Game1.player.HasAnyOfProfessions(combatProfessions.Except(new[] { professionName }).ToArray()))
+					ModEntry.SuperModeIndex = Util.Professions.IndexOf(combatProfessions.First());
+				else
+					ModEntry.SuperModeIndex = -1;
+
+				ModEntry.SuperModeCounter = 0;
+			}
+			catch (Exception ex)
+			{
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+			}
+		}
+
+		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> LevelUpMenuRemoveImmediateProfessionPerkTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		{
+			Helper.Attach(original, instructions);
 
 			/// From: case <defender_id>:
 			/// To: case <brute_id>:
@@ -35,45 +81,17 @@ namespace TheLion.AwesomeProfessions
 			{
 				Helper
 					.FindFirst(
-						new CodeInstruction(OpCodes.Ldc_I4_S, operand: Farmer.defender)
+						new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
 					)
-					.SetOperand(Utility.ProfessionMap.Forward["Brute"]);
+					.SetOperand(Util.Professions.IndexOf("Brute"));
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}");
+				return null;
 			}
 
 			return Helper.Flush();
-		}
-
-		/// <summary>Patch to remove modded immediate profession perks.</summary>
-		private static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
-		{
-			try
-			{
-				if (!Utility.ProfessionMap.TryGetReverseValue(whichProfession, out var professionName)) return;
-
-				// remove immediate perks
-				if (professionName.Equals("Aquarist"))
-				{
-					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value.Equals(Game1.player.UniqueMultiplayerID) || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
-					{
-						b.maxOccupants.Set(10);
-						b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
-					}
-				}
-
-				// clean unnecessary mod data
-				Utility.CleanModData(whichProfession);
-
-				// unsubscribe unnecessary events
-				AwesomeProfessions.EventManager.UnsubscribeProfessionEvents(whichProfession);
-			}
-			catch (Exception ex)
-			{
-				Monitor.Log($"Failed in {nameof(LevelUpMenuRemoveImmediateProfessionPerkPostfix)}:\n{ex}");
-			}
 		}
 
 		#endregion harmony patches

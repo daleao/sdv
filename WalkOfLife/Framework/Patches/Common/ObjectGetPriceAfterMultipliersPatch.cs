@@ -1,26 +1,29 @@
-﻿using Harmony;
+﻿using HarmonyLib;
+using StardewModdingAPI;
 using StardewValley;
 using System;
+using System.Reflection;
+using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal ObjectGetPriceAfterMultipliersPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(SObject), name: "getPriceAfterMultipliers"),
-				prefix: new HarmonyMethod(GetType(), nameof(ObjectGetPriceAfterMultipliersPrefix))
-			);
+			Original = typeof(SObject).MethodNamed(name: "getPriceAfterMultipliers");
+			Prefix = new HarmonyMethod(GetType(), nameof(ObjectGetPriceAfterMultipliersPrefix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to modify price multipliers for various modded professions.</summary>
 		// ReSharper disable once RedundantAssignment
-		private static bool ObjectGetPriceAfterMultipliersPrefix(ref SObject __instance, ref float __result, float startPrice, long specificPlayerID)
+		[HarmonyPrefix]
+		private static bool ObjectGetPriceAfterMultipliersPrefix(SObject __instance, ref float __result, float startPrice, long specificPlayerID)
 		{
 			var saleMultiplier = 1f;
 			try
@@ -40,32 +43,32 @@ namespace TheLion.AwesomeProfessions
 					var multiplier = 1f;
 
 					// professions
-					if (player.IsLocalPlayer && Utility.LocalPlayerHasProfession("Artisan") && Utility.IsArtisanGood(__instance))
-						multiplier *= Utility.GetArtisanPriceMultiplier();
-					else if (Utility.SpecificPlayerHasProfession("Producer", player) && Utility.IsAnimalProduct(__instance))
-						multiplier *= Utility.GetProducerPriceMultiplier(player);
-					else if (Utility.SpecificPlayerHasProfession("Angler", player) && Utility.IsFish(__instance))
-						multiplier *= Utility.GetAnglerPriceMultiplier(player);
+					if (player.IsLocalPlayer && Game1.player.HasProfession("Artisan") && Util.Objects.IsArtisanGood(__instance))
+						multiplier *= Util.Professions.GetArtisanPriceMultiplier();
+					else if (player.HasProfession("Producer") && Util.Objects.IsAnimalProduct(__instance))
+						multiplier *= Util.Professions.GetProducerPriceMultiplier(player);
+					else if (player.HasProfession("Angler") && Util.Objects.IsFish(__instance))
+						multiplier *= Util.Professions.GetAnglerPriceMultiplier(player);
 
 					// events
-					else if (player.eventsSeen.Contains(2120303) && Utility.IsWildBerry(__instance))
+					else if (player.eventsSeen.Contains(2120303) && Util.Objects.IsWildBerry(__instance))
 						multiplier *= 3f;
-					else if (player.eventsSeen.Contains(3910979) && Utility.IsSpringOnion(__instance))
+					else if (player.eventsSeen.Contains(3910979) && Util.Objects.IsSpringOnion(__instance))
 						multiplier *= 5f;
 
 					// tax bonus
-					if (Utility.LocalPlayerHasProfession("Conservationist"))
-						multiplier *= Utility.GetConservationistPriceMultiplier(player);
+					if (Game1.player.HasProfession("Conservationist"))
+						multiplier *= Util.Professions.GetConservationistPriceMultiplier(player);
 
 					saleMultiplier = Math.Max(saleMultiplier, multiplier);
 				}
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(ObjectGetPriceAfterMultipliersPrefix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
-			
+
 			__result = startPrice * saleMultiplier;
 			return false; // don't run original logic
 		}

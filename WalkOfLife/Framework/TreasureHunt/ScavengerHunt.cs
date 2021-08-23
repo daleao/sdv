@@ -9,10 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using TheLion.Common;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 {
 	/// <summary>Manages treasure hunt events for Scavenger professions.</summary>
 	public class ScavengerHunt : TreasureHunt
@@ -21,7 +20,6 @@ namespace TheLion.AwesomeProfessions
 		{
 			100, // chipped amphora
 			101, // arrowhead
-			102, // lost book
 			103, // ancient doll
 			109, // ancient sword
 			113, // chicken statue
@@ -32,6 +30,8 @@ namespace TheLion.AwesomeProfessions
 			123, // ancient drum
 			124, // golden mask
 			125, // golden relic
+			126, // strange doll
+			127, // strange doll
 			588, // palm fossil
 		};
 
@@ -52,21 +52,14 @@ namespace TheLion.AwesomeProfessions
 			var x = Random.Next(location.Map.DisplayWidth / Game1.tileSize);
 			var y = Random.Next(location.Map.DisplayHeight / Game1.tileSize);
 			var v = new Vector2(x, y);
-			if (!Utility.IsTileValidForTreasure(v, location)) return;
+			if (!Util.Tiles.IsTileValidForTreasure(v, location)) return;
 
-			Utility.MakeTileDiggable(v, location);
+			Util.Tiles.MakeTileDiggable(v, location);
 			TreasureTile = v;
-			_timeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize * 9, 2) / 2);
-			_elapsed = 0;
-			AwesomeProfessions.EventManager.Subscribe(new ArrowPointerUpdateTickedEvent(), new ScavengerHuntUpdateTickedEvent(), new ScavengerHuntRenderedHudEvent());
+			TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize * 10, 2) / 2 * ModEntry.Config.TreasureHuntHandicap);
+			Elapsed = 0;
+			ModEntry.Subscriber.Subscribe(new Events.ArrowPointerUpdateTickedEvent(), new Events.ScavengerHuntUpdateTickedEvent(), new Events.ScavengerHuntRenderedHudEvent());
 			Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, Icon));
-		}
-
-		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
-		internal override void End()
-		{
-			AwesomeProfessions.EventManager.Unsubscribe(typeof(ScavengerHuntUpdateTickedEvent), typeof(ProspectorHuntRenderedHudEvent));
-			TreasureTile = null;
 		}
 
 		/// <summary>Check if the player has found the treasure tile.</summary>
@@ -78,9 +71,9 @@ namespace TheLion.AwesomeProfessions
 			if (TreasureTile == null || actionTile != TreasureTile.Value) return;
 
 			End();
-			var getTreasure = new DelayedAction(200, _BeginFindTreasure);
+			var getTreasure = new DelayedAction(200, BeginFindTreasure);
 			Game1.delayedActions.Add(getTreasure);
-			AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ScavengerHuntStreak", amount: 1);
+			ModEntry.Data.IncrementField<uint>("ScavengerHuntStreak");
 		}
 
 		/// <summary>End the hunt unsuccessfully.</summary>
@@ -88,17 +81,24 @@ namespace TheLion.AwesomeProfessions
 		{
 			End();
 			Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-			AwesomeProfessions.Data.WriteField($"{AwesomeProfessions.UniqueID}/ScavengerHuntStreak", "0");
+			ModEntry.Data.WriteField("ScavengerHuntStreak", "0");
+		}
+
+		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
+		internal override void End()
+		{
+			ModEntry.Subscriber.Unsubscribe(typeof(Events.ScavengerHuntUpdateTickedEvent), typeof(Events.ProspectorHuntRenderedHudEvent));
+			TreasureTile = null;
 		}
 
 		/// <summary>Play treasure chest found animation.</summary>
-		private void _BeginFindTreasure()
+		private void BeginFindTreasure()
 		{
 			Game1.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(Path.Combine("LooseSprites", "Cursors"), new Rectangle(64, 1920, 32, 32), 500f, 1, 0, Game1.player.Position + new Vector2(-32f, -160f), flicker: false, flipped: false, Game1.player.getStandingY() / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
 			{
 				motion = new Vector2(0f, -0.128f),
 				timeBasedMotion = true,
-				endFunction = _OpenChestEndFunction,
+				endFunction = OpenChestEndFunction,
 				extraInfoForEndBehavior = 0,
 				alpha = 0f,
 				alphaFade = -0.002f
@@ -107,29 +107,29 @@ namespace TheLion.AwesomeProfessions
 
 		/// <summary>Play open treasure chest animation.</summary>
 		/// <param name="extra">Not applicable.</param>
-		private void _OpenChestEndFunction(int extra)
+		private void OpenChestEndFunction(int extra)
 		{
 			Game1.currentLocation.localSound("openChest");
 			Game1.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(Path.Combine("LooseSprites", "Cursors"), new Rectangle(64, 1920, 32, 32), 200f, 4, 0, Game1.player.Position + new Vector2(-32f, -228f), flicker: false, flipped: false, Game1.player.getStandingY() / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
 			{
-				endFunction = _OpenTreasureMenuEndFunction,
+				endFunction = OpenTreasureMenuEndFunction,
 				extraInfoForEndBehavior = 0
 			});
 		}
 
 		/// <summary>Open the treasure chest menu.</summary>
 		/// <param name="extra">Not applicable.</param>
-		private void _OpenTreasureMenuEndFunction(int extra)
+		private void OpenTreasureMenuEndFunction(int extra)
 		{
 			Game1.player.completelyStopAnimatingOrDoingAction();
-			var treasures = _GetTreasureContents();
+			var treasures = GetTreasureContents();
 			Game1.activeClickableMenu = new ItemGrabMenu(treasures).setEssential(essential: true);
 			((ItemGrabMenu)Game1.activeClickableMenu).source = 3;
 		}
 
 		/// <summary>Choose the contents of the treasure chest.</summary>
 		/// <remarks>Adapted from FishingRod.openTreasureMenuEndFunction.</remarks>
-		private List<Item> _GetTreasureContents()
+		private List<Item> GetTreasureContents()
 		{
 			List<Item> treasures = new();
 			var chance = 1.0;
@@ -145,7 +145,6 @@ namespace TheLion.AwesomeProfessions
 				switch (Random.Next(4))
 				{
 					case 0:
-					{
 						List<int> possibles = new();
 						if (Random.NextDouble() < 0.4) possibles.Add(386); // iridium ore
 
@@ -164,18 +163,14 @@ namespace TheLion.AwesomeProfessions
 						if (Random.NextDouble() < (0.05 + Game1.player.LuckLevel * 0.03)) treasures.Last().Stack *= 2;
 
 						break;
-					}
 					case 1:
-					{
 						if (Random.NextDouble() < 0.25 && Game1.player.craftingRecipes.ContainsKey("Wild Bait"))
 							treasures.Add(new SObject(774, 5 + (Random.NextDouble() < 0.25 ? 5 : 0))); // wild bait
 						else
 							treasures.Add(new SObject(685, 10)); // bait
 
 						break;
-					}
 					case 2:
-					{
 						if (Random.NextDouble() < 0.1 && Game1.netWorldState.Value.LostBooksFound.Value < 21 && Game1.player.hasOrWillReceiveMail("lostBookFound"))
 							treasures.Add(new SObject(102, 1)); // lost book
 						else if (Game1.player.archaeologyFound.Any()) // artifacts
@@ -184,20 +179,15 @@ namespace TheLion.AwesomeProfessions
 							treasures.Add(new SObject(382, Random.Next(1, 3))); // coal
 
 						break;
-					}
 					case 3:
-					{
 						switch (Random.Next(3))
 						{
 							case 0:
-							{
-								treasures.Add(new SObject(535 + (Random.NextDouble() < 0.4 ? Random.Next(2) : 0), Random.Next(1, 4))); // geodes
+								treasures.Add(new SObject(Random.Next(535, 538), Random.Next(1, 4))); // geodes
 								if (Random.NextDouble() < (0.05 + Game1.player.LuckLevel * 0.03)) treasures.Last().Stack *= 2;
 
 								break;
-							}
 							case 1:
-							{
 								switch (Random.Next(4))
 								{
 									case 0: // fire quartz else ruby or emerald
@@ -214,19 +204,17 @@ namespace TheLion.AwesomeProfessions
 
 									case 3:
 										treasures.Add(Random.NextDouble() < 0.28
-											? new SObject(72, 1)
-											: new SObject(80, Random.Next(1, 3)));
+											? new SObject(72, 1) // diamond
+											: new SObject(80, Random.Next(1, 3))); // quartz
 										break;
 								}
 
 								if (Random.NextDouble() < 0.05) treasures.Last().Stack *= 2;
 
 								break;
-							}
 							case 2:
-							{
 								var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
-								var streak = AwesomeProfessions.Data.ReadField($"{AwesomeProfessions.UniqueID}/ScavengerHuntStreak", uint.Parse);
+								var streak = ModEntry.Data.ReadField<uint>("ScavengerHuntStreak");
 								if (Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(60))
 									treasures.Add(new MeleeWeapon(15) { specialItem = true }); // forest sword
 
@@ -253,7 +241,7 @@ namespace TheLion.AwesomeProfessions
 
 								if (Random.NextDouble() < 0.02 * luckModifier) treasures.Add(new SObject(166, 1)); // treasure chest
 
-								if (Random.NextDouble() < 0.001 * luckModifier * Math.Pow(2, streak)) treasures.Add(new SObject(74, 1));  // prismatic shard
+								if (Random.NextDouble() < 0.01 * luckModifier * Math.Pow(2, streak)) treasures.Add(new SObject(74, 1));  // prismatic shard
 
 								if (Random.NextDouble() < 0.01 * luckModifier) treasures.Add(new SObject(126, 1)); // strange doll
 
@@ -268,41 +256,36 @@ namespace TheLion.AwesomeProfessions
 								if (treasures.Count == 1) treasures.Add(new SObject(72, 1)); // consolation diamond
 
 								break;
-							}
 						}
 
 						break;
-					}
 				}
 			}
 
-			if (treasures.Count == 0)
+			if (Random.NextDouble() < 0.4)
 			{
-				if (Random.NextDouble() < 0.5)
+				switch (Game1.currentSeason) // forage seeds
 				{
-					switch (Game1.currentSeason) // forage seeds
-					{
-						case "spring":
-							treasures.Add(new SObject(495, 1));
-							break;
+					case "spring":
+						treasures.Add(new SObject(495, 1));
+						break;
 
-						case "summer":
-							treasures.Add(new SObject(496, 1));
-							break;
+					case "summer":
+						treasures.Add(new SObject(496, 1));
+						break;
 
-						case "fall":
-							treasures.Add(new SObject(496, 1));
-							break;
+					case "fall":
+						treasures.Add(new SObject(496, 1));
+						break;
 
-						case "winter":
-							treasures.Add(new SObject(496, 1));
-							break;
-					}
+					case "winter":
+						treasures.Add(new SObject(496, 1));
+						break;
 				}
-				else
-				{
-					treasures.Add(new SObject(770, Random.Next(1, 4) * 5)); // wild seeds
-				}
+			}
+			else
+			{
+				treasures.Add(new SObject(770, Random.Next(1, 4) * 5)); // wild seeds
 			}
 
 			return treasures;

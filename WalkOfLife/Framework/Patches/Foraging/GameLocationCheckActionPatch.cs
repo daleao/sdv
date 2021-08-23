@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewValley;
 using StardewValley.Network;
 using System;
@@ -6,29 +6,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using TheLion.Common;
-using TheLion.Common.Harmony;
+using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class GameLocationCheckActionPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal GameLocationCheckActionPatch()
 		{
-			harmony.Patch(
-				original: _TargetMethod(),
-				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationCheckActionTranspiler))
-			);
+			Original = TargetMethod();
+			Transpiler = new HarmonyMethod(GetType(), nameof(GameLocationCheckActionTranspiler));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to nerf Ecologist forage quality + add quality to foraged minerals for Gemologist + increment respective mod data fields.</summary>
-		private static IEnumerable<CodeInstruction> GameLocationCheckActionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> GameLocationCheckActionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
-			Helper.Attach(instructions).Trace($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.checkAction)}.");
+			Helper.Attach(original, instructions);
 
 			/// From: if (who.professions.Contains(<botanist_id>) && objects[key].isForage()) objects[key].Quality = 4
 			/// To: if (who.professions.Contains(<ecologist_id>) && objects[key].isForage() && !IsForagedMineral(objects[key]) objects[key].Quality = GetEcologistForageQuality()
@@ -42,33 +41,32 @@ namespace TheLion.AwesomeProfessions
 					)
 					.ToBufferUntil( // copy objects[key]
 						new CodeInstruction(OpCodes.Callvirt,
-							AccessTools.Property(typeof(OverlaidDictionary), name: "Item").GetGetMethod())
+							typeof(OverlaidDictionary).PropertyGetter(propertyName: "Item"))
 					)
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse) // end of check
+						new CodeInstruction(OpCodes.Brfalse_S) // end of check
 					)
 					.GetOperand(out var shouldntSetCustomQuality) // copy failed check branch destination
 					.Advance()
 					.InsertBuffer() // insert objects[key]
 					.Insert( // check if is foraged mineral and branch if true
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(Utility), nameof(Utility.IsForagedMineral))),
-						new CodeInstruction(OpCodes.Brtrue_S, operand: (Label)shouldntSetCustomQuality)
+							typeof(Util.Objects).MethodNamed(nameof(Util.Objects.IsForagedMineral))),
+						new CodeInstruction(OpCodes.Brtrue_S, (Label)shouldntSetCustomQuality)
 					)
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_4) // start of objects[key].Quality = 4
 					)
 					.ReplaceWith( // replace with custom quality
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(Utility), nameof(Utility.GetEcologistForageQuality)))
+							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetEcologistForageQuality)))
 					);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching modded Ecologist forage quality.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while patching modded Ecologist forage quality.\nHelper returned {ex}");
+				return null;
 			}
-
-			Helper.Backup();
 
 			/// Injected: else if (who.professions.Contains(<gemologist_id>) && IsForagedMineral(objects[key])) objects[key].Quality = GetMineralQualityForGemologist()
 
@@ -85,11 +83,11 @@ namespace TheLion.AwesomeProfessions
 						new CodeInstruction(OpCodes.Br)
 					)
 					.AdvanceUntil( // change previous section branch destinations to injected section
-						new CodeInstruction(OpCodes.Brfalse)
+						new CodeInstruction(OpCodes.Brfalse_S)
 					)
 					.SetOperand(gemologistCheck)
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)
+						new CodeInstruction(OpCodes.Brfalse_S)
 					)
 					.SetOperand(gemologistCheck)
 					.AdvanceUntil(
@@ -104,14 +102,14 @@ namespace TheLion.AwesomeProfessions
 					.Return()
 					.AddLabels(gemologistCheck) // add destination label for branches from previous section
 					.AdvanceUntil( // find repeated botanist check
-						new CodeInstruction(OpCodes.Ldc_I4_S, operand: 16)
+						new CodeInstruction(OpCodes.Ldc_I4_S, 16)
 					)
-					.SetOperand(Utility.ProfessionMap.Forward["Gemologist"]) // replace with gemologist check
+					.SetOperand(Util.Professions.IndexOf("Gemologist")) // replace with gemologist check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldarg_0)
 					)
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse)
+						new CodeInstruction(OpCodes.Brfalse_S)
 					)
 					.GetOperand(out var shouldntSetCustomQuality) // copy next section branch destination
 					.RetreatUntil(
@@ -119,22 +117,22 @@ namespace TheLion.AwesomeProfessions
 					)
 					.RemoveUntil( // right before call to IsForagedMineral()
 						new CodeInstruction(OpCodes.Callvirt,
-							AccessTools.Property(typeof(OverlaidDictionary), name: "Item").GetGetMethod())
+							typeof(OverlaidDictionary).PropertyGetter(propertyName: "Item"))
 					)
 					.Advance()
 					.ReplaceWith( // remove 'not' and set correct branch destination
-						new CodeInstruction(OpCodes.Brfalse_S, operand: (Label)shouldntSetCustomQuality)
+						new CodeInstruction(OpCodes.Brfalse_S, (Label)shouldntSetCustomQuality)
 					)
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(Utility), nameof(Utility.GetEcologistForageQuality)))
+							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetEcologistForageQuality)))
 					)
-					.SetOperand(AccessTools.Method(typeof(Utility),
-						nameof(Utility.GetGemologistMineralQuality))); // set correct custom quality method call
+					.SetOperand(typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetGemologistMineralQuality))); // set correct custom quality method call
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding modded Gemologist foraged mineral quality.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while adding modded Gemologist foraged mineral quality.\nHelper returned {ex}");
+				return null;
 			}
 
 			/// Injected: IncrementModData(objects[key], this, who)
@@ -144,7 +142,7 @@ namespace TheLion.AwesomeProfessions
 				Helper
 					.FindNext(
 						new CodeInstruction(OpCodes.Callvirt,
-							AccessTools.Property(typeof(Stats), nameof(Stats.ItemsForaged)).GetSetMethod())
+							typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
 					)
 					.Advance()
 					.InsertBuffer(index: 6, length: 5) // SObject objects[key]
@@ -152,12 +150,13 @@ namespace TheLion.AwesomeProfessions
 					.InsertBuffer(index: 0, length: 2) // Farmer who
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(GameLocationCheckActionPatch), nameof(_IncrementModData)))
+							typeof(GameLocationCheckActionPatch).MethodNamed(nameof(CheckActionIncrementModData)))
 					);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}");
+				return null;
 			}
 
 			return Helper.Flush();
@@ -168,7 +167,8 @@ namespace TheLion.AwesomeProfessions
 		#region private methods
 
 		/// <summary>Get the inner method to patch.</summary>
-		private static MethodBase _TargetMethod()
+		[HarmonyTargetMethod]
+		private static MethodBase TargetMethod()
 		{
 			var targetMethod = typeof(GameLocation).InnerMethodsStartingWith("<checkAction>b__0").First();
 			if (targetMethod == null)
@@ -177,12 +177,16 @@ namespace TheLion.AwesomeProfessions
 			return targetMethod;
 		}
 
-		private static void _IncrementModData(SObject obj, GameLocation location, Farmer who)
+		/// <summary>Increment one of the mod data fields if applicable.</summary>
+		/// <param name="obj">The picked up object.</param>
+		/// <param name="location">The player's location.</param>
+		/// <param name="who">The player.</param>
+		private static void CheckActionIncrementModData(SObject obj, GameLocation location, Farmer who)
 		{
-			if (Utility.SpecificPlayerHasProfession("Ecologist", who) && obj.isForage(location) && !Utility.IsForagedMineral(obj))
-				AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ItemsForaged", amount: 1);
-			else if (Utility.SpecificPlayerHasProfession("Gemologist", who) && Utility.IsForagedMineral(obj))
-				AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/MineralsCollected", amount: 1);
+			if (who.HasProfession("Ecologist") && obj.isForage(location) && !Util.Objects.IsForagedMineral(obj))
+				ModEntry.Data.IncrementField<uint>("ItemsForaged");
+			else if (who.HasProfession("Gemologist") && Util.Objects.IsForagedMineral(obj))
+				ModEntry.Data.IncrementField<uint>("MineralsCollected");
 		}
 
 		#endregion private methods

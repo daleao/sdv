@@ -1,28 +1,29 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewValley;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class GameLocationOnStoneDestroyedPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal GameLocationOnStoneDestroyedPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(GameLocation), nameof(GameLocation.OnStoneDestroyed)),
-				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationOnStoneDestroyedTranspiler))
-			);
+			Original = typeof(GameLocation).MethodNamed(nameof(GameLocation.OnStoneDestroyed));
+			Transpiler = new HarmonyMethod(GetType(), nameof(GameLocationOnStoneDestroyedTranspiler));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to remove Prospector double coal chance.</summary>
-		private static IEnumerable<CodeInstruction> GameLocationOnStoneDestroyedTranspiler(IEnumerable<CodeInstruction> instructions)
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> GameLocationOnStoneDestroyedTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(instructions).Trace($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.OnStoneDestroyed)}.");
+			Helper.Attach(original, instructions);
 
 			/// From: random.NextDouble() < 0.035 * (double)(!who.professions.Contains(<prospector_id>) ? 1 : 2)
 			/// To: random.NextDouble() < 0.035
@@ -38,7 +39,8 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
+				return null;
 			}
 
 			return Helper.Flush();

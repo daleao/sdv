@@ -1,24 +1,14 @@
 ﻿using StardewModdingAPI;
-using StardewValley;
-using StardewValley.Tools;
 
-namespace TheLion.AwesomeTools
+namespace TheLion.Stardew.Tools.Framework
 {
 	/// <summary>Useful methods that don't fit anywhere specific.</summary>
 	public static class Utility
 	{
-		/// <summary>Whether an Axe or Pickxae instance should run patched logic or original logic.</summary>
-		/// <param name="tool">The tool.</param>
-		public static bool ShouldCharge(Tool tool)
+		/// <summary>Whether the player is requesting a charge.</summary>
+		public static bool ShouldCharge()
 		{
-			if ((AwesomeTools.Config.RequireModkey && !AwesomeTools.Config.Modkey.IsDown())
-				|| (tool is Axe && (!AwesomeTools.Config.AxeConfig.EnableAxeCharging || tool.UpgradeLevel < AwesomeTools.Config.AxeConfig.RequiredUpgradeForCharging))
-				|| (tool is Pickaxe && (!AwesomeTools.Config.PickaxeConfig.EnablePickaxeCharging || tool.UpgradeLevel < AwesomeTools.Config.PickaxeConfig.RequiredUpgradeForCharging)))
-			{
-				return false;
-			}
-
-			return true;
+			return !ModEntry.Config.RequireModkey || ModEntry.Config.Modkey.IsDown();
 		}
 
 		/// <summary>Whether Prismatic or Radioactive Tools mod is installed.</summary>

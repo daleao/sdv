@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace TheLion.Common
+namespace TheLion.Stardew.Common.Classes
 {
 	public class CircleTileGrid : IEnumerable<Vector2>
 	{
@@ -19,35 +19,26 @@ namespace TheLion.Common
 			_origin = origin;
 			_radius = radius;
 
-			_outlineGrid = _GetBooleanOutlineGrid(_radius);
-			_GetTiles();
+			_outlineGrid = GetBooleanOutlineGrid(_radius);
+			GetTiles();
 		}
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="origin">The center tile of the circle in the world reference.</param>
 		/// <param name="radius">The radius of the circle in tile units.</param>
+		/// <param name="excludeOrigin">Whether the circle's origin should be excluded.</param>
 		public CircleTileGrid(Vector2 origin, int radius, bool excludeOrigin = false)
 		{
 			_origin = origin;
 			_radius = radius;
 
-			_outlineGrid = _GetBooleanOutlineGrid(_radius);
-			_GetTiles(excludeOrigin);
-		}
-
-		public IEnumerator<Vector2> GetEnumerator()
-		{
-			return _tiles.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return _tiles.GetEnumerator();
+			_outlineGrid = GetBooleanOutlineGrid(_radius);
+			GetTiles(excludeOrigin);
 		}
 
 		/// <summary>Get all the world tiles within a certain radius from an origin.</summary>
-		/// <param name="origin">The origin of the circle in the world reference.</param>
-		private void _GetTiles(bool excludeOrigin = false)
+		/// <param name="excludeOrigin">Whether the origin point should be excluded.</param>
+		private void GetTiles(bool excludeOrigin = false)
 		{
 			var center = new Vector2(_radius, _radius); // the center of the circle in the grid reference
 
@@ -66,7 +57,7 @@ namespace TheLion.Common
 			{
 				for (var y = 0; y < _radius; ++y)
 				{
-					if (_IsInsideOutlineGrid(new Point(x, y)))
+					if (IsInsideOutlineGrid(new Point(x, y)))
 					{
 						_tiles.Add(_origin - center + new Vector2(y, x));
 						_tiles.Add(_origin - center + new Vector2(y, 2 * _radius - x));
@@ -84,12 +75,12 @@ namespace TheLion.Common
 
 		/// <summary>Create a circle outline boolean grid.</summary>
 		/// <param name="radius">The radius of the circle.</param>
-		private bool[,] _GetBooleanOutlineGrid(int radius)
+		private bool[,] GetBooleanOutlineGrid(int radius)
 		{
 			var circleGrid = new bool[radius * 2 + 1, radius * 2 + 1];
 			var f = 1 - radius;
-			var ddF_x = 1;
-			var ddF_y = -2 * radius;
+			var ddFx = 1;
+			var ddFy = -2 * radius;
 			var x = 0;
 			var y = radius;
 
@@ -103,13 +94,13 @@ namespace TheLion.Common
 				if (f >= 0)
 				{
 					y--;
-					ddF_y += 2;
-					f += ddF_y;
+					ddFy += 2;
+					f += ddFy;
 				}
 
 				x++;
-				ddF_x += 2;
-				f += ddF_x;
+				ddFx += 2;
+				f += ddFx;
 
 				circleGrid[radius + x, radius + y] = true;
 				circleGrid[radius - x, radius + y] = true;
@@ -126,7 +117,7 @@ namespace TheLion.Common
 
 		/// <summary>Determine whether a point in the grid reference intersects with the circle outline grid using the ray casting method.</summary>
 		/// <param name="point">The point to be tested.</param>
-		public bool _IsInsideOutlineGrid(Point point)
+		private bool IsInsideOutlineGrid(Point point)
 		{
 			// handle out of bounds
 			if (point.X < 0 || point.Y < 0 || point.X > _radius * 2 || point.Y > _radius * 2)
@@ -172,6 +163,16 @@ namespace TheLion.Common
 			}
 
 			return true;
+		}
+
+		public IEnumerator<Vector2> GetEnumerator()
+		{
+			return _tiles.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return _tiles.GetEnumerator();
 		}
 	}
 }

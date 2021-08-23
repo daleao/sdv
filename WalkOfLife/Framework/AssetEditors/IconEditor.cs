@@ -4,45 +4,44 @@ using StardewModdingAPI;
 using System;
 using System.IO;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.AssetEditors
 {
-	internal class IconEditor : IAssetEditor
+	public class IconEditor : IAssetEditor
 	{
+		private Texture2D _tileSheet = ModEntry.Content.Load<Texture2D>(Path.Combine("assets", "tilesheet.png"));
+
 		/// <inheritdoc/>
 		public bool CanEdit<T>(IAssetInfo asset)
 		{
-			return asset.AssetNameEquals(Path.Combine("LooseSprites", "Cursors"));
+			return asset.AssetNameEquals(Path.Combine("LooseSprites", "Cursors")) || asset.AssetNameEquals(Path.Combine("TileSheets", "BuffsIcons"));
 		}
 
 		/// <inheritdoc/>
 		public void Edit<T>(IAssetData asset)
 		{
-			if (!asset.AssetNameEquals(Path.Combine("LooseSprites", "Cursors")))
-				throw new InvalidOperationException($"Unexpected asset {asset.AssetName}.");
+			if (asset.AssetNameEquals(Path.Combine("LooseSprites", "Cursors")))
+			{
+				// patch modded profession icons
+				var editor = asset.AsImage();
+				var srcArea = new Rectangle(0, 0, 96, 80);
+				var targetArea = new Rectangle(0, 624, 96, 80);
 
-			// patch modded profession icons
-			var editor = asset.AsImage();
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "agriculturist.png")), targetArea: new Rectangle(80, 624, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "angler.png")), targetArea: new Rectangle(32, 640, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "arborist.png")), targetArea: new Rectangle(32, 656, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "artisan.png")), targetArea: new Rectangle(64, 624, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "blaster.png")), targetArea: new Rectangle(16, 672, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "demolitionist.png")), targetArea: new Rectangle(64, 672, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "ecologist.png")), targetArea: new Rectangle(64, 656, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "gambit.png")), targetArea: new Rectangle(48, 688, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "gemologist.png")), targetArea: new Rectangle(80, 672, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "harvester.png")), targetArea: new Rectangle(80, 624, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "lumberjack.png")), targetArea: new Rectangle(0, 656, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "luremaster.png")), targetArea: new Rectangle(64, 640, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "miner.png")), targetArea: new Rectangle(0, 672, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "producer.png")), targetArea: new Rectangle(48, 624, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "prospector.png")), targetArea: new Rectangle(48, 672, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "rancher.png")), targetArea: new Rectangle(0, 624, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "rascal.png")), targetArea: new Rectangle(16, 688, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "scavenger.png")), targetArea: new Rectangle(80, 656, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "slimecharmer.png")), targetArea: new Rectangle(64, 688, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "tapper.png")), targetArea: new Rectangle(48, 656, 16, 16));
-			editor.PatchImage(AwesomeProfessions.Content.Load<Texture2D>(Path.Combine("assets", "trapper.png")), targetArea: new Rectangle(16, 640, 16, 16));
+				editor.PatchImage(_tileSheet, srcArea, targetArea);
+			}
+			else if (asset.AssetNameEquals(Path.Combine("TileSheets", "BuffsIcons")))
+			{
+				// patch modded profession buff icons
+				var editor = asset.AsImage();
+				editor.ExtendImage(192, 80);
+				var srcArea = new Rectangle(0, 80, 96, 32);
+				var targetArea = new Rectangle(0, 48, 96, 32);
+
+				editor.PatchImage(_tileSheet, srcArea, targetArea);
+			}
+			else
+			{
+				throw new InvalidOperationException($"Unexpected asset {asset.AssetName}.");
+			}
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TheLion.AwesomeTools
+namespace TheLion.Stardew.Tools.Configs
 {
 	/// <summary>Configuration for the axe shockwave.</summary>
 	public class AxeConfig

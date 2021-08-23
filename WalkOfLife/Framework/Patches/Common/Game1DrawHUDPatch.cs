@@ -1,32 +1,50 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
+using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class Game1DrawHUDPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal Game1DrawHUDPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(Game1), name: "drawHUD"),
-				transpiler: new HarmonyMethod(GetType(), nameof(Game1DrawHUDTranspiler)),
-				postfix: new HarmonyMethod(GetType(), nameof(Game1DrawHUDPostfix))
-			);
+			Original = typeof(Game1).MethodNamed(name: "drawHUD");
+			Postfix = new HarmonyMethod(GetType(), nameof(Game1DrawHUDPostfix));
+			Transpiler = new HarmonyMethod(GetType(), nameof(Game1DrawHUDTranspiler));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>
-		private static IEnumerable<CodeInstruction> Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		/// <summary>Patch for Prospector to track ladders and shafts.</summary>
+		[HarmonyPostfix]
+		private static void Game1DrawHUDPostfix()
 		{
-			Helper.Attach(instructions).Trace($"Patching method {typeof(Game1)}::drawHUD.");
+			try
+			{
+				if (!Game1.player.HasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
+				foreach (var tile in Util.Tiles.GetLadderTiles(shaft)) Util.HUD.DrawTrackingArrowPointer(tile, Color.Lime);
+			}
+			catch (Exception ex)
+			{
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+			}
+		}
+
+		/// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		{
+			Helper.Attach(original, instructions);
 
 			/// From: if (!player.professions.Contains(<scavenger_id>) || !currentLocation.IsOutdoors) return
 			/// To: if (!(player.professions.Contains(<scavenger_id>) || player.professions.Contains(<prospector_id>)) return
@@ -45,28 +63,27 @@ namespace TheLion.AwesomeProfessions
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_S)
 					)
-					.SetOperand(Utility.ProfessionMap.Forward["Prospector"]) // change to prospector check
+					.SetOperand(Util.Professions.IndexOf("Prospector")) // change to prospector check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse)
 					)
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Brtrue_S, operand: isProspector) // change !(A && B) to !(A || B)
+						new CodeInstruction(OpCodes.Brtrue_S, isProspector) // change !(A && B) to !(A || B)
 					)
 					.Advance()
 					.StripLabels() // strip repeated label
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Property(typeof(Game1), nameof(Game1.currentLocation)).GetGetMethod())
+							typeof(Game1).PropertyGetter(nameof(Game1.currentLocation)))
 					)
 					.Remove(3) // remove currentLocation.IsOutdoors check
 					.AddLabels(isProspector); // branch here is first profession check was true
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}").Restore();
+				Helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}");
+				return null;
 			}
-
-			Helper.Backup();
 
 			/// From: if ((bool)pair.Value.isSpawnedObject || pair.Value.ParentSheetIndex == 590) ...
 			/// To: if (_ShouldDraw(pair.Value)) ...
@@ -81,7 +98,7 @@ namespace TheLion.AwesomeProfessions
 					.RetreatUntil(
 #pragma warning disable AvoidNetField // Avoid Netcode types when possible
 						new CodeInstruction(OpCodes.Ldfld,
-							AccessTools.Field(typeof(SObject), nameof(SObject.isSpawnedObject)))
+							typeof(SObject).Field(nameof(SObject.isSpawnedObject)))
 #pragma warning restore AvoidNetField // Avoid Netcode types when possible
 					)
 					.RemoveUntil(
@@ -90,29 +107,17 @@ namespace TheLion.AwesomeProfessions
 					)
 					.Insert( // insert call to custom condition
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(Utility), nameof(Utility.ShouldPlayerTrackObject))),
-						new CodeInstruction(OpCodes.Brfalse, operand: loopHead)
+							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.ShouldPlayerTrackObject))),
+						new CodeInstruction(OpCodes.Brfalse, loopHead)
 					);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}").Restore();
+				Helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}");
+				return null;
 			}
 
 			return Helper.Flush();
-		}
-
-		private static void Game1DrawHUDPostfix()
-		{
-			try
-			{
-				if (!Utility.LocalPlayerHasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
-				foreach (var tile in Utility.GetLadderTiles(shaft)) Utility.DrawTrackingArrowPointer(tile, Color.Lime);
-			}
-			catch (Exception ex)
-			{
-				Monitor.Log($"Failed in {nameof(Game1DrawHUDPostfix)}:\n{ex}");
-			}
 		}
 
 		#endregion harmony patches

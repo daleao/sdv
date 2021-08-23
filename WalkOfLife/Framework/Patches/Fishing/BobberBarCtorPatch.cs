@@ -1,36 +1,41 @@
-﻿using Harmony;
+﻿using HarmonyLib;
+using StardewModdingAPI;
+using StardewValley;
 using StardewValley.Menus;
 using System;
+using System.Reflection;
+using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class BobberBarCtorPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal BobberBarCtorPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Constructor(typeof(BobberBar), new[] { typeof(int), typeof(float), typeof(bool), typeof(int) }),
-				postfix: new HarmonyMethod(GetType(), nameof(BobberBarCtorPostfix))
-			);
+			Original = typeof(BobberBar).Constructor(new[] { typeof(int), typeof(float), typeof(bool), typeof(int) });
+			Postfix = new HarmonyMethod(GetType(), nameof(BobberBarCtorPostfix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch for Aquarist bonus bobber height.</summary>
+		[HarmonyPostfix]
 		private static void BobberBarCtorPostfix(ref int ___bobberBarHeight, ref float ___bobberBarPos)
 		{
-			int bonusBobberHeight;
+			int bonusBobberHeight = 0;
 			try
 			{
-				bonusBobberHeight = Utility.GetAquaristBonusBobberBarHeight();
+				if (Game1.player.HasProfession("Aquarist"))
+					bonusBobberHeight = Util.Professions.GetAquaristBonusBobberBarHeight();
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(BobberBarCtorPostfix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 				return;
 			}
-			
+
 			___bobberBarHeight += bonusBobberHeight;
 			___bobberBarPos -= bonusBobberHeight;
 		}

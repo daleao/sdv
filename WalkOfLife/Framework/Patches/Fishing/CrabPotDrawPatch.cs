@@ -1,29 +1,31 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
 using System;
 using System.IO;
-using TheLion.Common;
+using System.Reflection;
+using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class CrabPotDrawPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal CrabPotDrawPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(CrabPot), nameof(CrabPot.draw), new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) }),
-				prefix: new HarmonyMethod(GetType(), nameof(CrabPotDrawPrefix))
-			);
+			Original = typeof(CrabPot).MethodNamed(nameof(CrabPot.draw), new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) });
+			Prefix = new HarmonyMethod(GetType(), nameof(CrabPotDrawPrefix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to draw weapons in Luremaster crabpots.</summary>
-		private static bool CrabPotDrawPrefix(ref CrabPot __instance, ref float ___yBob, ref Vector2 ___shake, SpriteBatch spriteBatch, int x, int y)
+		[HarmonyPrefix]
+		private static bool CrabPotDrawPrefix(CrabPot __instance, ref Vector2 ___shake, ref float ___yBob, SpriteBatch spriteBatch, int x, int y)
 		{
 			try
 			{
@@ -44,7 +46,7 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(CrabPotDrawPrefix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

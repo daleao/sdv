@@ -3,17 +3,17 @@ using StardewValley;
 using StardewValley.Locations;
 using System.Collections.Generic;
 using System.Linq;
-using TheLion.Common;
+using TheLion.Stardew.Common.Extensions;
 using xTile.Dimensions;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Util
 {
 	/// <summary>Holds common methods and properties related to map tilesheets.</summary>
-	public static partial class Utility
+	public static class Tiles
 	{
 		/// <summary>Find all tiles in a mine map containing either a ladder or shaft.</summary>
 		/// <param name="shaft">The MineShaft location.</param>
-		/// <remarks>Credit to pomepome for this logic.</remarks>
+		/// <remarks>Credit to <c>pomepome</c> for this logic.</remarks>
 		public static IEnumerable<Vector2> GetLadderTiles(MineShaft shaft)
 		{
 			for (var i = 0; i < shaft.Map.GetLayer("Buildings").LayerWidth; ++i)

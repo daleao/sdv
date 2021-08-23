@@ -1,75 +1,84 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewValley;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
-using TheLion.Common;
+using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class GameLocationGetFishPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal GameLocationGetFishPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(GameLocation), nameof(GameLocation.getFish)),
-				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationGetFishTranspiler))
-			);
+			Original = typeof(GameLocation).MethodNamed(nameof(GameLocation.getFish));
+			Transpiler = new HarmonyMethod(GetType(), nameof(GameLocationGetFishTranspiler));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch for Fisher to reroll reeled fish if first roll resulted in trash.</summary>
-		private static IEnumerable<CodeInstruction> GameLocationGetFishTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> GameLocationGetFishTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
-			Helper.Attach(instructions).Trace($"Patching method {typeof(GameLocation)}::{nameof(GameLocation.getFish)}.");
+			Helper.Attach(original, instructions);
 
-			/// Injected: if (!hasRerolled && (whichFish > 166 && whichFish < 173 || whichFish == 152 || whichFish == 153 || whichFish == 157)
-			///		&& who.professions.Contains(<fisher_id>) && who.CurrentTool) goto <choose_fish>
+			/// Injected: if (ShouldRerollFish(who, whichFish, hasRerolled)) goto <choose_fish>
+			///	Before: caught = new Object(whichFish, 1);
 
-			var reroll = iLGenerator.DefineLabel();
-			var resumeExecution = iLGenerator.DefineLabel();
+			var startOfFishRoll = iLGenerator.DefineLabel();
+			var shouldntReroll = iLGenerator.DefineLabel();
 			var hasRerolled = iLGenerator.DeclareLocal(typeof(bool));
+			var shuffleMethod = typeof(SUtility).GetMethods().Where(mi => mi.Name.Equals("Shuffle")).ElementAtOrDefault(1);
+			if (shuffleMethod == null)
+			{
+				Helper.Error($"Failed acquire {typeof(SUtility)}::Shuffle method.");
+				return null;
+			}
+
 			try
 			{
 				Helper
 					.Insert( // set hasRerolled to false
 						new CodeInstruction(OpCodes.Ldc_I4_0),
-						new CodeInstruction(OpCodes.Stloc_S, operand: hasRerolled)
+						new CodeInstruction(OpCodes.Stloc_S, hasRerolled)
 					)
 					.FindLast( // find index of caught = new Object(whichFish, 1)
 						new CodeInstruction(OpCodes.Newobj,
-							AccessTools.Constructor(typeof(SObject),
-								new[] { typeof(int), typeof(int), typeof(bool), typeof(int), typeof(int) }))
+							typeof(SObject).Constructor(new[] { typeof(int), typeof(int), typeof(bool), typeof(int), typeof(int) }))
 					)
 					.RetreatUntil(
 						new CodeInstruction(OpCodes.Ldloc_1)
 					)
-					.AddLabels(resumeExecution) // branch here if shouldn't reroll
+					.AddLabels(shouldntReroll) // branch here if shouldn't reroll
 					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_S, operand: (byte)4), // arg 4 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
 						new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
-						new CodeInstruction(OpCodes.Ldloc_S, operand: hasRerolled),
-						new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GameLocationGetFishPatch), nameof(_ShouldRerollFish))),
-						new CodeInstruction(OpCodes.Brtrue_S, operand: resumeExecution),
+						new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),
+						new CodeInstruction(OpCodes.Call, typeof(GameLocationGetFishPatch).MethodNamed(nameof(ShouldRerollFish))),
+						new CodeInstruction(OpCodes.Brfalse_S, shouldntReroll),
 						new CodeInstruction(OpCodes.Ldc_I4_1),
-						new CodeInstruction(OpCodes.Stloc_S, operand: hasRerolled), // set hasRerolled to true
-						new CodeInstruction(OpCodes.Br, operand: reroll)
+						new CodeInstruction(OpCodes.Stloc_S, hasRerolled), // set hasRerolled to true
+						new CodeInstruction(OpCodes.Br, startOfFishRoll)
 					)
 					.RetreatUntil( // start of choose fish
-						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(SUtility), nameof(SUtility.Shuffle)))
+						new CodeInstruction(OpCodes.Call, shuffleMethod.MakeGenericMethod(typeof(string)))
 					)
 					.Retreat(2)
-					.AddLabels(reroll); // add goto label
+					.AddLabels(startOfFishRoll); // branch here to reroll
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}");
+				return null;
 			}
 
 			return Helper.Flush();
@@ -77,13 +86,17 @@ namespace TheLion.AwesomeProfessions
 
 		#endregion harmony patches
 
-		private static bool _ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
+		/// <summary>If the first fish roll returned trash, determines whether the farmer is eligible for a reroll.</summary>
+		/// <param name="who">The farmer.</param>
+		/// <param name="currentFish">The result of the first fish roll.</param>
+		/// <param name="hasRerolled">Whether the game has already rerolled once.</param>
+		private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
 		{
 			return !hasRerolled && (166 < currentFish && currentFish < 173 || currentFish == 152 || currentFish == 153 || currentFish == 157)
 				&& who.CurrentTool is FishingRod rod
-				&& Utility.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
+				&& Util.Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
 				&& baitName.AnyOf("Bait", "Wild Bait", "Magic Bait")
-				&& Utility.SpecificPlayerHasProfession("Fisher", who);
+				&& who.HasProfession("Fisher");
 		}
 	}
 }

@@ -1,14 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TheLion.Common;
+using TheLion.Stardew.Common.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Util
 {
 	/// <summary>Holds common methods and properties related to objects.</summary>
-	public static partial class Utility
+	public static class Objects
 	{
 		#region look-up tables
+
+		/// <summary>Look-up table for different types of bait by id.</summary>
+		public static Dictionary<int, string> BaitById { get; } = new()
+		{
+			{ 685, "Bait" },
+			{ 703, "Magnet" },
+			{ 774, "Wild Bait" },
+			{ 908, "Magic Bait" }
+		};
 
 		/// <summary>Look-up table for what resource should spawn from a given stone.</summary>
 		public static Dictionary<int, int> ResourceFromStoneId { get; } = new()
@@ -53,17 +62,41 @@ namespace TheLion.AwesomeProfessions
 			{ 844, 848 }
 		};
 
-		/// <summary>Look-up table for different types of bait by id.</summary>
-		public static Dictionary<int, string> BaitById { get; } = new()
+		/// <summary>Look-up table for trappable treasure items using magnet.</summary>
+		public static Dictionary<int, string[]> PirateTreasureTable { get; } = new()
 		{
-			{ 685, "Bait" },
-			{ 703, "Magnet" },
-			{ 774, "Wild Bait" },
-			{ 908, "Magic Bait" }
+			{ 14, new[] { "1.003", "1", "1" } },     // neptune's glaive
+			{ 51, new[] { "1.003", "1", "1" } },     // broken trident
+			{ 166, new[] { "0.03", "1", "1" } },     // treasure chest
+			{ 109, new[] { "0.009", "1", "1" } },    // ancient sword
+			{ 110, new[] { "0.009", "1", "1" } },    // rusty spoon
+			{ 111, new[] { "0.009", "1", "1" } },    // rusty spur
+			{ 112, new[] { "0.009", "1", "1" } },    // rusty cog
+			{ 117, new[] { "0.009", "1", "1" } },    // anchor
+			{ 378, new[] { "0.39", "1", "24" } },    // copper ore
+			{ 380, new[] { "0.24", "1", "24" } },    // iron ore
+			{ 384, new[] { "0.12", "1", "24" } },    // gold ore
+			{ 386, new[] { "0.065", "1", "2" } },    // iridium ore
+			{ 516, new[] { "0.024", "1", "1" } },    // small glow ring
+			{ 517, new[] { "1.009", "1", "1" } },    // glow ring
+			{ 518, new[] { "0.024", "1", "1" } },    // small magnet ring
+			{ 519, new[] { "1.009", "1", "1" } },    // magnet ring
+			{ 527, new[] { "0.005", "1", "1" } },    // iridium band
+			{ 529, new[] { "0.005", "1", "1" } },    // amethyst ring
+			{ 530, new[] { "0.005", "1", "1" } },    // topaz ring
+			{ 531, new[] { "0.005", "1", "1" } },    // aquamarine ring
+			{ 532, new[] { "0.005", "1", "1" } },    // jade ring
+			{ 533, new[] { "0.005", "1", "1" } },    // emerald ring
+			{ 534, new[] { "0.005", "1", "1" } },    // ruby ring
+			{ 890, new[] { "0.03", "1", "3" } }      // qi bean
 		};
 
+		#endregion look-up tables
+
+		#region hash sets
+
 		/// <summary>Hash list of artisan machines.</summary>
-		private static IEnumerable<string> _ArtisanMachines { get; } = new HashSet<string>
+		private static readonly IEnumerable<string> ArtisanMachines = new HashSet<string>
 		{
 			"Alembic",
 			"Butter Churn",
@@ -94,7 +127,7 @@ namespace TheLion.AwesomeProfessions
 		};
 
 		/// <summary>Hash list of ids corresponding to animal produce or derived artisan goods.</summary>
-		private static IEnumerable<int> _AnimalDerivedProductIds { get; } = new HashSet<int>
+		private static readonly IEnumerable<int> AnimalDerivedProductIDs = new HashSet<int>
 		{
 			107,	// dinosaur egg
 			306,	// mayonnaise
@@ -107,23 +140,8 @@ namespace TheLion.AwesomeProfessions
 			807,	// dinosaur mayonnaise
 		};
 
-		/// <summary>Hash list of ids corresponding to legendary fish.</summary>
-		private static IEnumerable<int> _LegendaryFishIds { get; } = new HashSet<int>
-		{
-			159,	// crimsonfish
-			160,	// angler
-			163,	// legend
-			682,	// mutant carp
-			775,	// glacierfish
-			898,	// son of crimsonfish
-			899,	// ms. angler
-			900,	// legend ii
-			901,	// radioactive carp
-			902		// glacierfish jr.
-		};
-
 		/// <summary>Hash list of ammunition ids.</summary>
-		private static IEnumerable<int> _MineralAmmunitionIds { get; } = new HashSet<int>
+		private static readonly IEnumerable<int> MineralAmmunitionIDs = new HashSet<int>
 		{
 			SObject.copper + 1,
 			SObject.iron + 1,
@@ -134,7 +152,7 @@ namespace TheLion.AwesomeProfessions
 		};
 
 		/// <summary>Hash list of stone ids corresponding to resource nodes.</summary>
-		private static IEnumerable<int> _ResourceNodeIds { get; } = new HashSet<int>
+		private static readonly IEnumerable<int> ResourceNodeIDs = new HashSet<int>
 		{
 			// ores
 			751,	// copper node
@@ -171,7 +189,9 @@ namespace TheLion.AwesomeProfessions
 			46		// mystic stone
 		};
 
-		#endregion look-up tables
+		#endregion hash sets
+
+		#region public methods
 
 		/// <summary>Whether a given object is an artisan good.</summary>
 		/// <param name="obj">The given object.</param>
@@ -184,7 +204,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="obj">The given object.</param>
 		public static bool IsArtisanMachine(SObject obj)
 		{
-			return _ArtisanMachines.Contains(obj?.Name);
+			return ArtisanMachines.Contains(obj?.Name);
 		}
 
 		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
@@ -192,7 +212,7 @@ namespace TheLion.AwesomeProfessions
 		public static bool IsAnimalProduct(SObject obj)
 		{
 			return obj != null && (obj.Category.AnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
-				|| _AnimalDerivedProductIds.Contains(obj.ParentSheetIndex));
+				|| AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex));
 		}
 
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
@@ -227,7 +247,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="obj">The given object.</param>
 		public static bool IsResourceNode(SObject obj)
 		{
-			return IsStone(obj) && _ResourceNodeIds.Contains(obj.ParentSheetIndex);
+			return IsStone(obj) && ResourceNodeIDs.Contains(obj.ParentSheetIndex);
 		}
 
 		/// <summary>Whether a given object is a stone.</summary>
@@ -237,6 +257,20 @@ namespace TheLion.AwesomeProfessions
 			return obj?.Name == "Stone";
 		}
 
+		/// <summary>Whether a given item index corresponds to mineral ammunition.</summary>
+		/// <param name="index">An item index.</param>
+		public static bool IsMineralAmmunition(int index)
+		{
+			return MineralAmmunitionIDs.Contains(index);
+		}
+
+		/// <summary>Whether a given item index corresponds to algae or seaweed.</summary>
+		/// <param name="index">The given object.</param>
+		public static bool IsAlgae(int index)
+		{
+			return index.AnyOf(152, 152, 157);
+		}
+
 		/// <summary>Whether a given object is a fish caught with a fishing rod.</summary>
 		/// <param name="obj">The given object.</param>
 		public static bool IsFish(SObject obj)
@@ -244,11 +278,11 @@ namespace TheLion.AwesomeProfessions
 			return obj?.Category == SObject.FishCategory;
 		}
 
-		/// <summary>Whether a given object is algae or seaweed.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsAlgae(int whichFish)
+		/// <summary>Whether the specific fish data corresponds to a legendary fish.</summary>
+		/// <param name="fishName">The name of the fish.</param>
+		public static bool IsLegendaryFish(string fishName)
 		{
-			return whichFish.AnyOf(152, 152, 157);
+			return fishName.AnyOf("Crimsonfish", "Angler", "Legend", "Glacierfish", "Mutant Carp", "Son of Crimsonfish", "Ms. Angler", "Legend II", "Glacierfish Jr.", "Radioactive Carp");
 		}
 
 		/// <summary>Whether a given object is a crab pot fish.</summary>
@@ -265,11 +299,13 @@ namespace TheLion.AwesomeProfessions
 			return obj?.Category == SObject.junkCategory;
 		}
 
-		/// <summary>Whether a given item index corresponds to mineral ammunition.</summary>
-		/// <param name="index">An item index.</param>
-		public static bool IsMineralAmmunition(int index)
+		/// <summary>Whether a given object is typically found in pirate treasure.</summary>
+		/// <param name="obj">The given object.</param>
+		public static bool IsPirateTreasure(SObject obj)
 		{
-			return _MineralAmmunitionIds.Contains(index);
+			return PirateTreasureTable.ContainsKey(obj.ParentSheetIndex);
 		}
+
+		#endregion public methods
 	}
 }

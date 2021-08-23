@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace TheLion.Common
+namespace TheLion.Stardew.Common.Classes
 {
 	/// <summary>Represents a collection of forward/reverse key pairs with bidirectional mapping.</summary>
 	/// <typeparam name="TForwardKey">Forward mapping key.</typeparam>
@@ -121,47 +121,44 @@ namespace TheLion.Common
 			return Forward.GetEnumerator();
 		}
 
-		/// <summary>Publically read-only lookup to prevent inconsistent state between forward and reverse map lookup.</summary>
-		public class Indexer<Key, Value> : IEnumerable<KeyValuePair<Key, Value>>
+		/// <summary>Publicly read-only lookup to prevent inconsistent state between forward and reverse map lookup.</summary>
+		public class Indexer<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
 		{
-			private IDictionary<Key, Value> _dictionary;
+			private readonly IDictionary<TKey, TValue> _dictionary;
 
 			public Indexer()
 			{
-				_dictionary = new Dictionary<Key, Value>();
+				_dictionary = new Dictionary<TKey, TValue>();
 			}
 
-			public Indexer(IDictionary<Key, Value> dictionary)
+			public Indexer(IDictionary<TKey, TValue> dictionary)
 			{
 				_dictionary = dictionary;
 			}
 
-			public Value this[Key index]
+			public TValue this[TKey index] => _dictionary[index];
+
+			public static implicit operator Dictionary<TKey, TValue>(Indexer<TKey, TValue> indexer)
 			{
-				get { return _dictionary[index]; }
+				return new Dictionary<TKey, TValue>(indexer._dictionary);
 			}
 
-			public static implicit operator Dictionary<Key, Value>(Indexer<Key, Value> indexer)
-			{
-				return new Dictionary<Key, Value>(indexer._dictionary);
-			}
-
-			internal void Add(Key key, Value value)
+			internal void Add(TKey key, TValue value)
 			{
 				_dictionary.Add(key, value);
 			}
 
-			internal bool Remove(Key key)
+			internal bool Remove(TKey key)
 			{
 				return _dictionary.Remove(key);
 			}
 
-			public bool ContainsKey(Key key)
+			public bool ContainsKey(TKey key)
 			{
 				return _dictionary.ContainsKey(key);
 			}
 
-			public bool TryGetValue(Key key, out Value value)
+			public bool TryGetValue(TKey key, out TValue value)
 			{
 				return _dictionary.TryGetValue(key, out value);
 			}
@@ -176,28 +173,16 @@ namespace TheLion.Common
 				return _dictionary.Count;
 			}
 
-			public IEnumerable<Key> Keys
+			public IEnumerable<TKey> Keys => _dictionary.Keys;
+
+			public IEnumerable<TValue> Values => _dictionary.Values;
+
+			public Dictionary<TKey, TValue> ToDictionary()
 			{
-				get
-				{
-					return _dictionary.Keys;
-				}
+				return new Dictionary<TKey, TValue>(_dictionary);
 			}
 
-			public IEnumerable<Value> Values
-			{
-				get
-				{
-					return _dictionary.Values;
-				}
-			}
-
-			public Dictionary<Key, Value> ToDictionary()
-			{
-				return new Dictionary<Key, Value>(_dictionary);
-			}
-
-			public IEnumerator<KeyValuePair<Key, Value>> GetEnumerator()
+			public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
 			{
 				return _dictionary.GetEnumerator();
 			}

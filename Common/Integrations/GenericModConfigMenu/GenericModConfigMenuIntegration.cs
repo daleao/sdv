@@ -2,7 +2,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using System;
 
-namespace TheLion.Common.Integrations
+namespace TheLion.Stardew.Common.Integrations
 {
 	/// <summary>Handles the logic for integrating with the Generic Mod Configuration Menu mod.</summary>
 	/// <typeparam name="TConfig">The mod configuration type.</typeparam>
@@ -10,41 +10,41 @@ namespace TheLion.Common.Integrations
 		where TConfig : new()
 	{
 		/// <summary>The mod's public API.</summary>
-		private readonly IGenericModConfigMenuAPI ModApi;
+		private readonly IGenericModConfigMenuAPI _modAPI;
 
 		/// <summary>The manifest for the mod consuming the API.</summary>
-		private readonly IManifest ConsumerManifest;
+		private readonly IManifest _consumerManifest;
 
 		/// <summary>Get the current config model.</summary>
-		private readonly Func<TConfig> GetConfig;
+		private readonly Func<TConfig> _getConfig;
 
-		/// <summary>Reset the config model to the default values.</summary>
-		private readonly Action Reset;
+		/// <summary>_reset the config model to the default values.</summary>
+		private readonly Action _reset;
 
 		/// <summary>Save and apply the current config model.</summary>
-		private readonly Action SaveAndApply;
+		private readonly Action _saveAndApply;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
-		/// <param name="monitor">Encapsulates monitoring and logging.</param>
 		/// <param name="consumerManifest">The manifest for the mod consuming the API.</param>
 		/// <param name="getConfig">Get the current config model.</param>
-		/// <param name="reset">Reset the config model to the default values.</param>
+		/// <param name="reset">_reset the config model to the default values.</param>
 		/// <param name="saveAndApply">Save and apply the current config model.</param>
-		public GenericModConfigMenuIntegration(IModRegistry modRegistry, IMonitor monitor, IManifest consumerManifest, Func<TConfig> getConfig, Action reset, Action saveAndApply)
-			: base("Generic Mod Config Menu", "spacechase0.GenericModConfigMenu", "1.1.0", modRegistry, monitor)
+		/// <param name="log">Encapsulates monitoring and logging.</param>
+		public GenericModConfigMenuIntegration(IModRegistry modRegistry, IManifest consumerManifest, Func<TConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
+			: base("Generic Mod Config Menu", "spacechase0.GenericModConfigMenu", "1.1.0", modRegistry, log)
 		{
 			// init
-			ConsumerManifest = consumerManifest;
-			GetConfig = getConfig;
-			Reset = reset;
-			SaveAndApply = saveAndApply;
+			_consumerManifest = consumerManifest;
+			_getConfig = getConfig;
+			_reset = reset;
+			_saveAndApply = saveAndApply;
 
 			// get mod API
 			if (IsLoaded)
 			{
-				ModApi = GetValidatedApi<IGenericModConfigMenuAPI>();
-				IsLoaded = ModApi != null;
+				_modAPI = GetValidatedApi<IGenericModConfigMenuAPI>();
+				IsLoaded = _modAPI != null;
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace TheLion.Common.Integrations
 		public GenericModConfigMenuIntegration<TConfig> RegisterConfig()
 		{
 			AssertLoaded();
-			ModApi.RegisterModConfig(ConsumerManifest, Reset, SaveAndApply);
+			_modAPI.RegisterModConfig(_consumerManifest, _reset, _saveAndApply);
 			return this;
 		}
 
@@ -62,7 +62,7 @@ namespace TheLion.Common.Integrations
 		public GenericModConfigMenuIntegration<TConfig> AddLabel(string label, string description = null)
 		{
 			AssertLoaded();
-			ModApi.RegisterLabel(ConsumerManifest, label, description);
+			_modAPI.RegisterLabel(_consumerManifest, label, description);
 			return this;
 		}
 
@@ -71,7 +71,7 @@ namespace TheLion.Common.Integrations
 		public GenericModConfigMenuIntegration<TConfig> AddNewPage(string pageName)
 		{
 			AssertLoaded();
-			ModApi.StartNewPage(ConsumerManifest, pageName);
+			_modAPI.StartNewPage(_consumerManifest, pageName);
 			return this;
 		}
 
@@ -82,7 +82,7 @@ namespace TheLion.Common.Integrations
 		public GenericModConfigMenuIntegration<TConfig> AddPageLabel(string label, string description = null, string page = "")
 		{
 			AssertLoaded();
-			ModApi.RegisterPageLabel(ConsumerManifest, label, description, page);
+			_modAPI.RegisterPageLabel(_consumerManifest, label, description, page);
 			return this;
 		}
 
@@ -98,12 +98,12 @@ namespace TheLion.Common.Integrations
 
 			if (enable)
 			{
-				ModApi.RegisterSimpleOption(
-					mod: ConsumerManifest,
+				_modAPI.RegisterSimpleOption(
+					mod: _consumerManifest,
 					optionName: label,
 					optionDesc: description,
-					optionGet: () => get(GetConfig()),
-					optionSet: val => set(GetConfig(), val)
+					optionGet: () => get(_getConfig()),
+					optionSet: val => set(_getConfig(), val)
 				);
 			}
 
@@ -123,12 +123,12 @@ namespace TheLion.Common.Integrations
 
 			if (enable)
 			{
-				ModApi.RegisterChoiceOption(
-					mod: ConsumerManifest,
+				_modAPI.RegisterChoiceOption(
+					mod: _consumerManifest,
 					optionName: label,
 					optionDesc: description,
-					optionGet: () => get(GetConfig()),
-					optionSet: val => set(GetConfig(), val),
+					optionGet: () => get(_getConfig()),
+					optionSet: val => set(_getConfig(), val),
 					choices: choices
 				);
 			}
@@ -148,12 +148,12 @@ namespace TheLion.Common.Integrations
 
 			if (enable)
 			{
-				ModApi.RegisterSimpleOption(
-					mod: ConsumerManifest,
+				_modAPI.RegisterSimpleOption(
+					mod: _consumerManifest,
 					optionName: label,
 					optionDesc: description,
-					optionGet: () => get(GetConfig()),
-					optionSet: val => set(GetConfig(), val)
+					optionGet: () => get(_getConfig()),
+					optionSet: val => set(_getConfig(), val)
 				);
 			}
 
@@ -174,12 +174,12 @@ namespace TheLion.Common.Integrations
 
 			if (enable)
 			{
-				ModApi.RegisterClampedOption(
-					mod: ConsumerManifest,
+				_modAPI.RegisterClampedOption(
+					mod: _consumerManifest,
 					optionName: label,
 					optionDesc: description,
-					optionGet: () => get(GetConfig()),
-					optionSet: val => set(GetConfig(), val),
+					optionGet: () => get(_getConfig()),
+					optionSet: val => set(_getConfig(), val),
 					min: min,
 					max: max
 				);
@@ -202,12 +202,12 @@ namespace TheLion.Common.Integrations
 
 			if (enable)
 			{
-				ModApi.RegisterClampedOption(
-					mod: ConsumerManifest,
+				_modAPI.RegisterClampedOption(
+					mod: _consumerManifest,
 					optionName: label,
 					optionDesc: description,
-					optionGet: () => get(GetConfig()),
-					optionSet: val => set(GetConfig(), val),
+					optionGet: () => get(_getConfig()),
+					optionSet: val => set(_getConfig(), val),
 					min: min,
 					max: max
 				);
@@ -228,12 +228,12 @@ namespace TheLion.Common.Integrations
 
 			if (enable)
 			{
-				ModApi.RegisterSimpleOption(
-					mod: ConsumerManifest,
+				_modAPI.RegisterSimpleOption(
+					mod: _consumerManifest,
 					optionName: label,
 					optionDesc: description,
-					optionGet: () => get(GetConfig()),
-					optionSet: val => set(GetConfig(), val)
+					optionGet: () => get(_getConfig()),
+					optionSet: val => set(_getConfig(), val)
 				);
 			}
 

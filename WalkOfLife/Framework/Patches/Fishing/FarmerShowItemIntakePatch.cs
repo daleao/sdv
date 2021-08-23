@@ -1,34 +1,36 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using System;
 using System.IO;
-using TheLion.Common;
-using Object = StardewValley.Object;
+using System.Reflection;
+using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
+using SObject = StardewValley.Object;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class FarmerShowItemIntakePatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal FarmerShowItemIntakePatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(Farmer), nameof(Farmer.showItemIntake)),
-				prefix: new HarmonyMethod(GetType(), nameof(FarmerShowItemIntakePrefix))
-			);
+			Original = typeof(Farmer).MethodNamed(nameof(Farmer.showItemIntake));
+			Prefix = new HarmonyMethod(GetType(), nameof(FarmerShowItemIntakePrefix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to show weapons during crab pot harvest animation.</summary>
+		[HarmonyPrefix]
 		private static bool FarmerShowItemIntakePrefix(Farmer who)
 		{
 			try
 			{
 				if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.AnyOf(14, 51)) return true; // run original logic
 
-				var toShow = (Object)who.mostRecentlyGrabbedItem;
+				var toShow = (SObject)who.mostRecentlyGrabbedItem;
 				var tempSprite = who.FacingDirection switch
 				{
 					2 => who.FarmerSprite.currentAnimationIndex switch
@@ -143,7 +145,7 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(FarmerShowItemIntakePrefix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

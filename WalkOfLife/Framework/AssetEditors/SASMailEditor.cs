@@ -3,9 +3,9 @@ using StardewValley;
 using System;
 using System.IO;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.AssetEditors
 {
-	internal class SASMailEditor : IAssetEditor
+	public class SASMailEditor : IAssetEditor
 	{
 		/// <inheritdoc/>
 		public bool CanEdit<T>(IAssetInfo asset)
@@ -23,8 +23,8 @@ namespace TheLion.AwesomeProfessions
 			var editor = asset.AsDictionary<string, string>();
 			for (var i = 0; i < 5; ++i)
 			{
-				string message = AwesomeProfessions.I18n.Get("artisan.mailbody" + i, new { farmName = Game1.getFarm().Name });
-				editor.Data[$"{AwesomeProfessions.UniqueID}/ArtisanAwardNotice{i}"] = message;
+				string message = ModEntry.I18n.Get("artisan.mailbody" + i, new { farmName = Game1.getFarm().Name });
+				editor.Data[$"{ModEntry.UniqueID}/ArtisanAwardNotice{i}"] = message;
 			}
 		}
 	}

@@ -1,30 +1,30 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
-using TheLion.Common;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class BushShakePatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal BushShakePatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(Bush), name: "shake"),
-				transpiler: new HarmonyMethod(GetType(), nameof(BushShakeTranspiler))
-			);
+			Original = typeof(Bush).MethodNamed(name: "shake");
+			Transpiler = new HarmonyMethod(GetType(), nameof(BushShakeTranspiler));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to nerf Ecologist berry quality and increment forage counter for wild berries.</summary>
-		private static IEnumerable<CodeInstruction> BushShakeTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> BushShakeTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
-			Helper.Attach(instructions).Trace($"Patching method {typeof(Bush)}::shake.");
+			Helper.Attach(original, instructions);
 
 			/// From: Game1.player.professions.Contains(16) ? 4 : 0
 			/// To: Game1.player.professions.Contains(16) ? GetEcologistForageQuality() : 0
@@ -39,20 +39,19 @@ namespace TheLion.AwesomeProfessions
 					.GetLabels(out var labels)
 					.ReplaceWith( // replace with custom quality
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(Utility), nameof(Utility.GetEcologistForageQuality)))
+							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetEcologistForageQuality)))
 					)
 					.SetLabels(labels);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching modded Ecologist wild berry quality.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while patching modded Ecologist wild berry quality.\nHelper returned {ex}");
+				return null;
 			}
 
-			Helper.Backup();
-
 			/// Injected: if (Game1.player.professions.Contains(<ecologist_id>))
-			///		AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/ItemsForaged", amount: @object.Stack)
-			
+			///		Data.IncrementField<uint>("ItemsForaged")
+
 			var dontIncreaseEcologistCounter = iLGenerator.DefineLabel();
 			try
 			{
@@ -63,29 +62,20 @@ namespace TheLion.AwesomeProfessions
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldarg_0)
 					)
-					.InsertProfessionCheckForLocalPlayer(Utility.ProfessionMap.Forward["Ecologist"], dontIncreaseEcologistCounter)
+					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Ecologist"), dontIncreaseEcologistCounter)
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Property(typeof(AwesomeProfessions), nameof(AwesomeProfessions.Data))
-								.GetGetMethod()),
+							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
+						new CodeInstruction(OpCodes.Ldstr, "ItemsForaged"),
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Property(typeof(AwesomeProfessions), nameof(AwesomeProfessions.UniqueID))
-								.GetGetMethod()),
-						new CodeInstruction(OpCodes.Ldstr, operand: "/ItemsForaged"),
-						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(string), nameof(string.Concat),
-								new[] {typeof(string), typeof(string)})),
-						new CodeInstruction(OpCodes.Ldc_I4_1),
-						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(ModDataDictionaryExtensions), name: "IncrementField",
-								new[] {typeof(ModDataDictionary), typeof(string), typeof(int)})),
-						new CodeInstruction(OpCodes.Pop)
+							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] { typeof(string) }).MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseEcologistCounter);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding Ecologist counter increment.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while adding Ecologist counter increment.\nHelper returned {ex}");
+				return null;
 			}
 
 			return Helper.Flush();

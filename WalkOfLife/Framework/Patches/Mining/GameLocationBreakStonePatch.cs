@@ -1,30 +1,29 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewValley;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class GameLocationBreakStonePatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal GameLocationBreakStonePatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(GameLocation), name: "breakStone"),
-				transpiler: new HarmonyMethod(GetType(), nameof(GameLocationBreakStoneTranspiler))
-			);
+			Original = typeof(GameLocation).MethodNamed(name: "breakStone");
+			Transpiler = new HarmonyMethod(GetType(), nameof(GameLocationBreakStoneTranspiler));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to remove Miner extra ore + remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
-		private static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(IEnumerable<CodeInstruction> instructions)
+		/// <summary>Patch to remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(instructions).Trace($"Patching method {typeof(GameLocation)}::breakStone.");
-
-			//Helper.Backup();
+			Helper.Attach(original, instructions);
 
 			/// Skipped: if (who.professions.Contains(<geologist_id>)...
 
@@ -33,7 +32,7 @@ namespace TheLion.AwesomeProfessions
 				Helper
 					.FindProfessionCheck(Farmer.geologist) // find index of geologist check
 					.Retreat()
-					.GetLabels(out var labels) // copy labels
+					.GetLabels(out var labels) // backup branch labels
 					.StripLabels() // remove labels from here
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse) // the false case branch
@@ -44,14 +43,13 @@ namespace TheLion.AwesomeProfessions
 						new CodeInstruction(OpCodes.Br, (Label)isNotGeologist)
 					)
 					.Retreat()
-					.AddLabels(labels); // restore labels to inserted branch
+					.AddLabels(labels); // restore backed-up labels to inserted branch
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while removing vanilla Geologist paired gems.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while removing vanilla Geologist paired gems.\nHelper returned {ex}");
+				return null;
 			}
-
-			Helper.Backup();
 
 			/// Skipped: if (who.professions.Contains(<prospector_id>))...
 
@@ -61,7 +59,7 @@ namespace TheLion.AwesomeProfessions
 					.FindProfessionCheck(Farmer.burrower) // find index of prospector check
 					.Retreat()
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse) // the false case branch
+						new CodeInstruction(OpCodes.Brfalse_S) // the false case branch
 					)
 					.GetOperand(out var isNotProspector) // copy destination
 					.Return()
@@ -71,7 +69,8 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
+				return null;
 			}
 
 			return Helper.Flush();

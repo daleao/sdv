@@ -1,54 +1,59 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class PondQueryMenuDrawPatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal PondQueryMenuDrawPatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(PondQueryMenu), nameof(PondQueryMenu.draw), new[] { typeof(SpriteBatch) }),
-				prefix: new HarmonyMethod(GetType(), nameof(PondQueryMenuDrawPrefix))
-			);
+			Original = typeof(PondQueryMenu).MethodNamed(nameof(PondQueryMenu.draw), new[] { typeof(SpriteBatch) });
+			Prefix = new HarmonyMethod(GetType(), nameof(PondQueryMenuDrawPrefix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to adjust fish pond UI for Aquarist increased max capacity.</summary>
-		private static bool PondQueryMenuDrawPrefix(ref PondQueryMenu __instance, ref float ____age, ref Rectangle ____confirmationBoxRectangle, ref string ____confirmationText, ref SObject ____fishItem, ref FishPond ____pond, ref bool ___confirmingEmpty, ref string ___hoverText, SpriteBatch b)
+		[HarmonyPrefix]
+		private static bool PondQueryMenuDrawPrefix(PondQueryMenu __instance, float ____age, ref Rectangle ____confirmationBoxRectangle, string ____confirmationText, bool ___confirmingEmpty, string ___hoverText, SObject ____fishItem, FishPond ____pond, SpriteBatch b)
 		{
 			try
 			{
 				var owner = Game1.getFarmer(____pond.owner.Value);
-				if (!Utility.SpecificPlayerHasProfession("Aquarist", owner) || ____pond.lastUnlockedPopulationGate.Value < AwesomeProfessions.Reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
+				if (!owner.HasProfession("Aquarist") || ____pond.lastUnlockedPopulationGate.Value < ModEntry.Reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
 
 				if (!Game1.globalFade)
 				{
 					b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, Color.Black * 0.75f);
 					var hasUnresolvedNeeds = ____pond.neededItem.Value != null && ____pond.HasUnresolvedNeeds() && !____pond.hasCompletedRequest.Value;
-					var pondNameText = Game1.content.LoadString("Strings\\UI:PondQuery_Name", ____fishItem.DisplayName);
+					var pondNameText = Game1.content.LoadString(Path.Combine("Strings", "UI:PondQuery_Name"), ____fishItem.DisplayName);
 					var textSize = Game1.smallFont.MeasureString(pondNameText);
-					Game1.DrawBox((int)((Game1.uiViewport.Width / 2) - (textSize.X + 64f) * 0.5f), __instance.yPositionOnScreen - 4 + 128, (int)(textSize.X + 64f), 64);
-					SUtility.drawTextWithShadow(b, pondNameText, Game1.smallFont, new Vector2((Game1.uiViewport.Width / 2) - textSize.X * 0.5f, __instance.yPositionOnScreen - 4 + 160f - textSize.Y * 0.5f), Color.Black);
-					var displayedText = AwesomeProfessions.Reflection.GetMethod(__instance, name: "getDisplayedText").Invoke<string>();
+					Game1.DrawBox((int)(Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f), __instance.yPositionOnScreen - 4 + 128, (int)(textSize.X + 64f), 64);
+					SUtility.drawTextWithShadow(b, pondNameText, Game1.smallFont, new Vector2(Game1.uiViewport.Width / 2 - textSize.X * 0.5f, __instance.yPositionOnScreen - 4 + 160f - textSize.Y * 0.5f), Color.Black);
+					var displayedText = ModEntry.Reflection.GetMethod(__instance, name: "getDisplayedText").Invoke<string>();
 					var extraHeight = 0;
 					if (hasUnresolvedNeeds)
 						extraHeight += 116;
 
-					var extraTextHeight = AwesomeProfessions.Reflection.GetMethod(__instance, name: "measureExtraTextHeight").Invoke<int>(displayedText);
+					var extraTextHeight = ModEntry.Reflection.GetMethod(__instance, name: "measureExtraTextHeight").Invoke<int>(displayedText);
 					Game1.drawDialogueBox(__instance.xPositionOnScreen, __instance.yPositionOnScreen + 128, PondQueryMenu.width, PondQueryMenu.height - 128 + extraHeight + extraTextHeight, speaker: false, drawOnlyBox: true);
-					var populationText = Game1.content.LoadString("Strings\\UI:PondQuery_Population", string.Concat(____pond.FishCount), ____pond.maxOccupants.Value);
+					var populationText = Game1.content.LoadString(Path.Combine("Strings", "UI:PondQuery_Population"), string.Concat(____pond.FishCount), ____pond.maxOccupants.Value);
 					textSize = Game1.smallFont.MeasureString(populationText);
 					SUtility.drawTextWithShadow(b, populationText, Game1.smallFont, new Vector2((__instance.xPositionOnScreen + PondQueryMenu.width / 2) - textSize.X * 0.5f, __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16 + 128), Game1.textColor);
 					var slotsToDraw = ____pond.maxOccupants.Value;
@@ -74,14 +79,14 @@ namespace TheLion.AwesomeProfessions
 					SUtility.drawTextWithShadow(b, displayedText, Game1.smallFont, new Vector2((__instance.xPositionOnScreen + PondQueryMenu.width / 2) - textSize.X * 0.5f, (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - (hasUnresolvedNeeds ? 32 : 48)) - textSize.Y), Game1.textColor);
 					if (hasUnresolvedNeeds)
 					{
-						AwesomeProfessions.Reflection.GetMethod(__instance, name: "drawHorizontalPartition").Invoke(b, (int)((__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight) - 48f));
+						ModEntry.Reflection.GetMethod(__instance, name: "drawHorizontalPartition").Invoke(b, (int)((__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight) - 48f));
 						SUtility.drawWithShadow(b, Game1.mouseCursors, new Vector2((__instance.xPositionOnScreen + 60) + 8f * Game1.dialogueButtonScale / 10f, __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28), new Rectangle(412, 495, 5, 4), Color.White, (float)Math.PI / 2f, Vector2.Zero);
-						var bringText = Game1.content.LoadString("Strings\\UI:PondQuery_StatusRequest_Bring");
+						var bringText = Game1.content.LoadString(Path.Combine("Strings", "UI:PondQuery_StatusRequest_Bring"));
 						textSize = Game1.smallFont.MeasureString(bringText);
 						var leftX = __instance.xPositionOnScreen + 88;
 						float textX = leftX;
 						var iconX = textX + textSize.X + 4f;
-						if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.ja || LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.ko || LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.tr)
+						if (LocalizedContentManager.CurrentLanguageCode.AnyOf(LocalizedContentManager.LanguageCode.ja, LocalizedContentManager.LanguageCode.ko, LocalizedContentManager.LanguageCode.tr))
 						{
 							iconX = leftX - 8;
 							textX = leftX + 76;
@@ -123,7 +128,7 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(PondQueryMenuDrawPrefix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

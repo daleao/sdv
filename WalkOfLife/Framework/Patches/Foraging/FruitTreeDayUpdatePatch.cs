@@ -1,33 +1,35 @@
-﻿using Harmony;
+﻿using HarmonyLib;
+using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
 using System;
+using System.Reflection;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class FruitTreeDayUpdatePatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal FruitTreeDayUpdatePatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(FruitTree), nameof(FruitTree.dayUpdate)),
-				postfix: new HarmonyMethod(GetType(), nameof(FruitTreeDayUpdatePostfix))
-			);
+			Original = typeof(FruitTree).MethodNamed(nameof(FruitTree.dayUpdate));
+			Postfix = new HarmonyMethod(GetType(), nameof(FruitTreeDayUpdatePostfix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to increase Abrorist fruit tree growth speed.</summary>
+		[HarmonyPostfix]
 		private static void FruitTreeDayUpdatePostfix(ref FruitTree __instance)
 		{
 			try
 			{
-				if (Utility.AnyPlayerHasProfession("Arborist", out _) && __instance.daysUntilMature.Value % 4 == 0)
+				if (Util.Professions.DoesAnyPlayerHaveProfession("Arborist", out _) && __instance.daysUntilMature.Value % 4 == 0)
 					--__instance.daysUntilMature.Value;
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(FruitTreeDayUpdatePostfix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

@@ -3,20 +3,20 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using System;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 {
 	/// <summary>Base class for treasure hunts.</summary>
 	public abstract class TreasureHunt
 	{
 		public Vector2? TreasureTile { get; protected set; } = null;
 
-		protected Random Random { get; } = new(Guid.NewGuid().GetHashCode());
 		protected string HuntStartedMessage { get; set; }
 		protected string HuntFailedMessage { get; set; }
 		protected Texture2D Icon { get; set; }
 
-		protected uint _timeLimit;
-		protected uint _elapsed;
+		protected uint TimeLimit;
+		protected uint Elapsed;
+		protected readonly Random Random = new(Guid.NewGuid().GetHashCode());
 
 		private readonly double _baseTriggerChance;
 		private double _accumulatedBonus = 1.0;
@@ -24,16 +24,16 @@ namespace TheLion.AwesomeProfessions
 		/// <summary>Construct an instance.</summary>
 		protected TreasureHunt()
 		{
-			_baseTriggerChance = AwesomeProfessions.Config.ChanceToStartTreasureHunt;
+			_baseTriggerChance = ModEntry.Config.ChanceToStartTreasureHunt;
 		}
 
 		/// <summary>Check for completion or failure on every update tick.</summary>
-		/// <param name="ticks">The number of ticks elapsed since the game started.</param>
+		/// <param name="ticks">The number of ticks Elapsed since the game started.</param>
 		internal void Update(uint ticks)
 		{
 			if (!Game1.shouldTimePass(ignore_multiplayer: true)) return;
 
-			if (ticks % 60 == 0 && ++_elapsed > _timeLimit) Fail();
+			if (ticks % 60 == 0 && ++Elapsed > TimeLimit) Fail();
 			else CheckForCompletion();
 		}
 
@@ -60,13 +60,13 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="location">The game location.</param>
 		internal abstract void TryStartNewHunt(GameLocation location);
 
-		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
-		internal abstract void End();
-
 		/// <summary>Check if the player has found the treasure tile.</summary>
 		protected abstract void CheckForCompletion();
 
 		/// <summary>End the hunt unsuccessfully.</summary>
 		protected abstract void Fail();
+
+		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
+		internal abstract void End();
 	}
 }

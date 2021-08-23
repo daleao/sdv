@@ -1,41 +1,44 @@
-﻿using System;
-using Harmony;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using TheLion.Common;
+using System;
+using System.Reflection;
+using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class TreeDayUpdatePatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal TreeDayUpdatePatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(Tree), nameof(Tree.dayUpdate)),
-				prefix: new HarmonyMethod(GetType(), nameof(TreeDayUpdatePrefix)),
-				postfix: new HarmonyMethod(GetType(), nameof(TreeDayUpdatePostfix))
-			);
+			Original = typeof(Tree).MethodNamed(nameof(Tree.dayUpdate));
+			Prefix = new HarmonyMethod(GetType(), nameof(TreeDayUpdatePrefix));
+			Postfix = new HarmonyMethod(GetType(), nameof(TreeDayUpdatePostfix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to increase Abrorist tree growth odds.</summary>
 		// ReSharper disable once RedundantAssignment
-		private static bool TreeDayUpdatePrefix(ref Tree __instance, ref int __state)
+		[HarmonyPrefix]
+		private static bool TreeDayUpdatePrefix(Tree __instance, ref int __state)
 		{
 			__state = __instance.growthStage.Value;
 			return true; // run original logic
 		}
 
 		/// <summary>Patch to increase Abrorist non-fruit tree growth odds.</summary>
+		[HarmonyPostfix]
 		private static void TreeDayUpdatePostfix(ref Tree __instance, int __state, GameLocation environment, Vector2 tileLocation)
 		{
 			try
 			{
-				var anyPlayerIsArborist = Utility.AnyPlayerHasProfession("Arborist", out var n);
-				if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !_CanThisTreeGrow(__instance, environment, tileLocation)) return;
+				var anyPlayerIsArborist = Util.Professions.DoesAnyPlayerHaveProfession("Arborist", out var n);
+				if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !CanThisTreeGrow(__instance, environment, tileLocation)) return;
 
 				if (__instance.treeType.Value == Tree.mahoganyTree)
 				{
@@ -49,7 +52,7 @@ namespace TheLion.AwesomeProfessions
 			}
 			catch (Exception ex)
 			{
-				Monitor.Log($"Failed in {nameof(TreeDayUpdatePostfix)}:\n{ex}");
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 
@@ -61,7 +64,7 @@ namespace TheLion.AwesomeProfessions
 		/// <param name="tree">The given tree.</param>
 		/// <param name="environment">The tree's game location.</param>
 		/// <param name="tileLocation">The tree's tile location.</param>
-		private static bool _CanThisTreeGrow(Tree tree, GameLocation environment, Vector2 tileLocation)
+		private static bool CanThisTreeGrow(Tree tree, GameLocation environment, Vector2 tileLocation)
 		{
 			if (Game1.GetSeasonForLocation(tree.currentLocation).Equals("winter") && !tree.treeType.Value.AnyOf(Tree.palmTree, Tree.palmTree2) && !environment.CanPlantTreesHere(-1, (int)tileLocation.X, (int)tileLocation.Y) && !tree.fertilized.Value)
 				return false;

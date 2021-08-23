@@ -1,33 +1,34 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewValley;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
-using TheLion.Common;
+using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.AwesomeProfessions
+namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class GeodeMenuUpdatePatch : BasePatch
 	{
-		/// <inheritdoc/>
-		public override void Apply(HarmonyInstance harmony)
+		/// <summary>Construct an instance.</summary>
+		internal GeodeMenuUpdatePatch()
 		{
-			harmony.Patch(
-				original: AccessTools.Method(typeof(GeodeMenu), nameof(GeodeMenu.update)),
-				transpiler: new HarmonyMethod(GetType(), nameof(GeodeMenuUpdateTranspiler))
-			);
+			Original = typeof(GeodeMenu).MethodNamed(nameof(GeodeMenu.update));
+			Transpiler = new HarmonyMethod(GetType(), nameof(GeodeMenuUpdateTranspiler));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to increment Gemologist counter for geodes cracked at Clint's.</summary>
-		private static IEnumerable<CodeInstruction> GeodeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator)
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> GeodeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
-			Helper.Attach(instructions).Trace($"Patching method {typeof(GeodeMenu)}::{nameof(GeodeMenu.update)}.");
+			Helper.Attach(original, instructions);
 
 			/// Injected: if (Game1.player.professions.Contains(<gemologist_id>))
-			///		AwesomeProfessions.Data.IncrementField($"{AwesomeProfessions.UniqueID}/MineralsCollected", amount: 1)
+			///		Data.IncrementField<uint>("MineralsCollected")
+			///	After: Game1.stats.GeodesCracked++;
 
 			var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
 			try
@@ -35,33 +36,24 @@ namespace TheLion.AwesomeProfessions
 				Helper
 					.FindNext(
 						new CodeInstruction(OpCodes.Callvirt,
-							AccessTools.Property(typeof(Stats), nameof(Stats.GeodesCracked)).GetSetMethod())
+							typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
 					)
 					.Advance()
-					.InsertProfessionCheckForLocalPlayer(Utility.ProfessionMap.Forward["Gemologist"],
+					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Gemologist"),
 						dontIncreaseGemologistCounter)
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Property(typeof(AwesomeProfessions), nameof(AwesomeProfessions.Data))
-								.GetGetMethod()),
+							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
+						new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Property(typeof(AwesomeProfessions), nameof(AwesomeProfessions.UniqueID))
-								.GetGetMethod()),
-						new CodeInstruction(OpCodes.Ldstr, operand: "/MineralsCollected"),
-						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(string), nameof(string.Concat),
-								new[] { typeof(string), typeof(string) })),
-						new CodeInstruction(OpCodes.Ldc_I4_1),
-						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(typeof(ModDataDictionaryExtensions), name: "IncrementField",
-								new[] { typeof(ModDataDictionary), typeof(string), typeof(int) })),
-						new CodeInstruction(OpCodes.Pop)
+							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] { typeof(string) }).MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseGemologistCounter);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding Gemologist counter increment.\nHelper returned {ex}").Restore();
+				Helper.Error($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
+				return null;
 			}
 
 			return Helper.Flush();
