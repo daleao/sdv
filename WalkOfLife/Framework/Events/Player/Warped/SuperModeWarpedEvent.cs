@@ -7,17 +7,23 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class SuperModeWarpedEvent : WarpedEvent
 	{
-		private readonly SuperModeBarRenderedHudEvent _superModeBarRenderedHudEvent = new();
-
 		/// <inheritdoc/>
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
 			if (!e.IsLocalPlayer || e.NewLocation.GetType() == e.OldLocation.GetType()) return;
 
 			if (e.NewLocation.AnyOfType(typeof(MineShaft), typeof(Woods), typeof(SlimeHutch), typeof(VolcanoDungeon)))
-				ModEntry.Subscriber.Subscribe(_superModeBarRenderedHudEvent);
+			{
+				ModEntry.Subscriber.Subscribe(new SuperModeBarRenderedHudEvent());
+			}
 			else
+			{
+				ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarFadeOutUpdateTickedEvent), typeof(SuperModeBarShakeTimerUpdateTickedEvent), typeof(SuperModeBarRenderedHudEvent));
+				
 				ModEntry.SuperModeCounter = 0;
+				ModEntry.SuperModeBarOpacity = 1f;
+				ModEntry.ShouldShakeSuperModeBar = false;
+			}
 		}
 	}
 }

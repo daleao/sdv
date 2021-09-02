@@ -17,6 +17,9 @@ namespace TheLion.Stardew.Professions
 		/// <summary>How long <see cref="SuperModeKey"/> should be held to activate Super Mode, in seconds.</summary>
 		public int SuperModeActivationDelay { get; set; } = 1;
 
+		/// <summary>Lower numbers make Super Mode last longer. Should be a number between 1 and 10.</summary>
+		public uint SuperModeDrainFactor { get; set; } = 2;
+
 		/// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
 		public uint ForagesNeededForBestQuality { get; set; } = 500;
 

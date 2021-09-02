@@ -7,6 +7,7 @@ using System;
 using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -37,7 +38,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				var anyPlayerIsArborist = Util.Professions.DoesAnyPlayerHaveProfession("Arborist", out var n);
+				var anyPlayerIsArborist = Game1.game1.DoesAnyPlayerHaveProfession("Arborist", out var n);
 				if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !CanThisTreeGrow(__instance, environment, tileLocation)) return;
 
 				if (__instance.treeType.Value == Tree.mahoganyTree)

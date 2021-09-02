@@ -1,6 +1,7 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
+using System;
 using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 
@@ -27,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (buff != null) return;
 
 			var bonusLadderChance = ModEntry.SpelunkerLadderStreak;
-			var bonusSpeed = bonusLadderChance / 10 + 1;
+			var bonusSpeed = Math.Min(ModEntry.SpelunkerLadderStreak / 5 + 1, 10);
 			Game1.buffsDisplay.addOtherBuff(
 				new Buff(0,
 						 0,

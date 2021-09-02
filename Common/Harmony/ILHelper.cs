@@ -42,7 +42,7 @@ namespace TheLion.Stardew.Common.Harmony
 			get
 			{
 				if (_instructionList == null || !_instructionList.Any())
-					throw new IndexOutOfRangeException("The active instruction list is either null of empty.");
+					throw new IndexOutOfRangeException("The active instruction list is either null or empty.");
 
 				return _instructionList.Count() - 1;
 			}
@@ -50,17 +50,17 @@ namespace TheLion.Stardew.Common.Harmony
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="log">Interface for writing to the SMAPI console.</param>
-		/// <param name="shouldExportInstructionsInCaseOfError">Whether the instruction list should be saved to disk in case an error is thrown.</param>
-		public ILHelper(Action<string, LogLevel> log, bool shouldExportInstructionsInCaseOfError = false)
+		/// <param name="enableExport">Whether the instruction list should be saved to disk in case an error is thrown.</param>
+		public ILHelper(Action<string, LogLevel> log, bool enableExport = false)
 		{
 			Log = log;
-			_export = shouldExportInstructionsInCaseOfError;
+			_export = enableExport;
 			_indexStack = new Stack<int>();
 		}
 
 		/// <summary>Attach a new list of code instructions to this instance.</summary>
 		/// <param name="original"><see cref="MethodBase"/> representation of the original method.</param>
-		/// <param name="instructions"><see cref="IEnumerable{T}"/> of <see cref="CodeInstruction"/> objects.</param>
+		/// <param name="instructions">Collection of <see cref="CodeInstruction"/> objects.</param>
 		public ILHelper Attach(MethodBase original, IEnumerable<CodeInstruction> instructions)
 		{
 			Trace($"Preparing to transpile method {original.DeclaringType}::{original.Name}.");
@@ -245,13 +245,13 @@ namespace TheLion.Stardew.Common.Harmony
 		}
 
 		/// <summary>Move the index pointer to index zero.</summary>
-		public ILHelper GoToFirst()
+		public ILHelper ReturnToFirst()
 		{
 			return GoTo(0);
 		}
 
 		/// <summary>Move the index pointer to the last index.</summary>
-		public ILHelper GoToLast()
+		public ILHelper AdvanceToLast()
 		{
 			return GoTo(LastIndex);
 		}
@@ -332,6 +332,15 @@ namespace TheLion.Stardew.Common.Harmony
 			);
 		}
 
+		/// <summary>Insert a sequence of code instructions at the currently pointed index to roll a random double.</summary>
+		public ILHelper InsertDiceRoll()
+		{
+			return Insert(
+				new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.random))),
+				new CodeInstruction(OpCodes.Callvirt, typeof(Random).MethodNamed(nameof(Random.NextDouble)))
+			);
+		}
+
 		/// <summary>Insert a sequence of code instructions at the currently pointed index to roll a random integer.</summary>
 		/// <param name="minValue">The lower limit, inclusive.</param>
 		/// <param name="maxValue">The upper limit, inclusive.</param>
@@ -342,15 +351,6 @@ namespace TheLion.Stardew.Common.Harmony
 				LoadConstantIntIL(minValue),
 				LoadConstantIntIL(maxValue + 1),
 				new CodeInstruction(OpCodes.Callvirt, typeof(Random).MethodNamed(nameof(Random.Next)))
-			);
-		}
-
-		/// <summary>Insert a sequence of code instructions at the currently pointed index to roll a random double.</summary>
-		public ILHelper InsertDiceRoll()
-		{
-			return Insert(
-				new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.random))),
-				new CodeInstruction(OpCodes.Callvirt, typeof(Random).MethodNamed(nameof(Random.NextDouble)))
 			);
 		}
 
@@ -398,7 +398,7 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			_instructionBuffer = _instructionList.GetRange(CurrentIndex, count).Clone();
 
-			if (stripLabels) StripLabelsFromBuffer();
+			if (stripLabels) StripBufferLabels();
 
 			if (advance) _indexStack.Push(CurrentIndex + count);
 
@@ -430,7 +430,7 @@ namespace TheLion.Stardew.Common.Harmony
 			var count = endIndex - CurrentIndex;
 			_instructionBuffer = _instructionList.GetRange(CurrentIndex, count).Clone();
 
-			if (stripLabels) StripLabelsFromBuffer();
+			if (stripLabels) StripBufferLabels();
 
 			if (advance) _indexStack.Push(endIndex);
 
@@ -581,7 +581,7 @@ namespace TheLion.Stardew.Common.Harmony
 		}
 
 		/// <summary>Remove any labels from code instructions currently in the buffer.</summary>
-		private void StripLabelsFromBuffer()
+		private void StripBufferLabels()
 		{
 			foreach (var instruction in _instructionBuffer) instruction.labels.Clear();
 		}

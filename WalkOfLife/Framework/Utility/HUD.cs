@@ -15,14 +15,12 @@ namespace TheLion.Stardew.Professions.Framework.Util
 	public static class HUD
 	{
 		public static ArrowPointer Pointer { get; set; }
-		public static XnaColor FlashColor { get; set; } = XnaColor.Cyan;
 
-		private const int MAX_BAR_HEIGHT = 168, DRAWN_BAR_HEIGHT = 46;
+		private const int MAX_BAR_HEIGHT = 168, TEXTURE_HEIGHT = 46;
 		private const float RENDER_SCALE = Game1.pixelZoom;
 
-		private static readonly Texture2D _barTx = ModEntry.Content.Load<Texture2D>(Path.Combine("assets", "bar.png"));
-		private static Texture2D _fillTx;
-		private static Texture2D _bloomTx;
+		private static readonly Texture2D _barTx = ModEntry.Content.Load<Texture2D>(Path.Combine("assets", "hud", "bar.png"));
+		private static Texture2D _barFillTx;
 
 		/// <summary>Draw a tracking arrow pointer on the edge of the screen pointing to a target off-screen.</summary>
 		/// <param name="target">The target to point to.</param>
@@ -135,10 +133,11 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			if (Game1.showingHealth) topOfBar.X -= 100;
 			else topOfBar.X -= 44;
 
-			if (ModEntry.IsSuperModeActive)
+			// shake horizontally if full and on stand-by, if active also shake vertically
+			if (ModEntry.IsSuperModeActive || ModEntry.ShouldShakeSuperModeBar)
 			{
 				topOfBar.X += Game1.random.Next(-3, 4);
-				topOfBar.Y += Game1.random.Next(-3, 4);
+				if (ModEntry.IsSuperModeActive) topOfBar.Y += Game1.random.Next(-3, 4);
 			}
 
 			// draw bar in thirds for flexibility
@@ -150,7 +149,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				texture: _barTx,
 				position: topOfBar,
 				sourceRectangle: srcRect,
-				color: XnaColor.White,
+				color: XnaColor.White * ModEntry.SuperModeBarOpacity,
 				rotation: 0f,
 				origin: Vector2.Zero,
 				scale: RENDER_SCALE,
@@ -160,12 +159,12 @@ namespace TheLion.Stardew.Professions.Framework.Util
 
 			// middle
 			srcRect = new XnaRect(0, 16, 9, 16);
-			destRect = new XnaRect((int)topOfBar.X, (int)(topOfBar.Y + 64f), 36, Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - (int)(topOfBar.Y + 64f) - 76);
+			destRect = new XnaRect((int)topOfBar.X, (int)(topOfBar.Y + 64f), 36, 56);
 			Game1.spriteBatch.Draw(
 				texture: _barTx,
 				destinationRectangle: destRect,
 				sourceRectangle: srcRect,
-				color: XnaColor.White
+				color: XnaColor.White * ModEntry.SuperModeBarOpacity
 			 );
 
 			// bottom
@@ -174,7 +173,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				texture: _barTx,
 				position: new Vector2(topOfBar.X, topOfBar.Y + 120f),
 				sourceRectangle: srcRect,
-				color: XnaColor.White,
+				color: XnaColor.White * ModEntry.SuperModeBarOpacity,
 				rotation: 0f,
 				origin: Vector2.Zero,
 				scale: RENDER_SCALE,
@@ -183,7 +182,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			);
 
 			// draw meter overlay
-			if (_fillTx == null)
+			if (_barFillTx == null)
 			{
 				var colors = new[]
 				{
@@ -195,22 +194,21 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				};
 				var positions = new[] { 0f, 0.35f, 0.55f, 0.75f, 1f };
 
-				_fillTx = TextureBuilder.CreateRectangularGradient(Game1.graphics.GraphicsDevice, 9, DRAWN_BAR_HEIGHT, colors, positions);
+				_barFillTx = TextureBuilder.CreateGradientTexture(Game1.graphics.GraphicsDevice, 9, TEXTURE_HEIGHT, colors, positions);
 			}
 
 			var ratio = ModEntry.SuperModeCounter / (float)ModEntry.SuperModeCounterMax;
-			var srcHeight = (int)(DRAWN_BAR_HEIGHT * ratio);
+			var srcHeight = (int)(TEXTURE_HEIGHT * ratio);
 			var destHeight = (int)(MAX_BAR_HEIGHT * ratio);
 
-			srcRect = new XnaRect(0, DRAWN_BAR_HEIGHT - srcHeight, 9, srcHeight);
+			srcRect = new XnaRect(0, TEXTURE_HEIGHT - srcHeight, 9, srcHeight);
 			destRect = new XnaRect((int)topOfBar.X + 12, (int)topOfBar.Y + 8 + (MAX_BAR_HEIGHT - destHeight), 12, destHeight);
 
-			var flashColor = FlashColor;
 			Game1.spriteBatch.Draw(
-				texture: Math.Abs(ratio - 1f) < 0.002f || ModEntry.IsSuperModeActive ? Game1.staminaRect : _fillTx,
+				texture: _barFillTx,
 				destinationRectangle: destRect,
 				sourceRectangle: srcRect,
-				color: Math.Abs(ratio - 1f) < 0.002f || ModEntry.IsSuperModeActive ? flashColor : XnaColor.White,
+				color: XnaColor.White,
 				rotation: 0f,
 				origin: Vector2.Zero,
 				effects: SpriteEffects.None,
@@ -223,30 +221,13 @@ namespace TheLion.Stardew.Professions.Framework.Util
 
 			if (Math.Abs(ratio - 1f) >= 0.002f && !ModEntry.IsSuperModeActive) return;
 
-			// draw bloom effect
-			var bloomRect = new XnaRect((int)topOfBar.X + 10, (int)topOfBar.Y + 6, 16, MAX_BAR_HEIGHT + 4);
-			_bloomTx ??= TextureBuilder.CreateRoundedRectangle(Game1.graphics.GraphicsDevice, 16, MAX_BAR_HEIGHT + 4, 4, Color.Cyan * 0.3f);
-			Game1.spriteBatch.Draw(
-				texture: _bloomTx,
-				destinationRectangle: bloomRect,
-				sourceRectangle: srcRect,
-				color: XnaColor.White,
-				rotation: 0f,
-				origin: Vector2.Zero,
-				effects: SpriteEffects.None,
-				layerDepth: 1f
-			);
-
 			// draw top shadow
-			destRect.Height = 4;
-			flashColor.R = (byte)Math.Max(0, flashColor.R - 50);
-			flashColor.G = (byte)Math.Max(0, flashColor.G - 50);
-			flashColor.B = (byte)Math.Max(0, flashColor.B - 50);
+			destRect.Height = 2;
 			Game1.spriteBatch.Draw(
 				texture: Game1.staminaRect,
 				destinationRectangle: destRect,
 				sourceRectangle: srcRect,
-				color: flashColor,
+				color: XnaColor.Black * 0.3f,
 				rotation: 0f,
 				origin: Vector2.Zero,
 				effects: SpriteEffects.None,

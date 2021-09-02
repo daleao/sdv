@@ -130,23 +130,23 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		//	return professionNames.Where(p => IndexByName.Contains(p) && who.professions.Contains(IndexOf(p))).Any();
 		//}
 
-		/// <summary>Whether any farmer in the current multiplayer session has a specific profession.</summary>
-		/// <param name="professionName">The name of the profession.</param>
-		/// <param name="numberOfPlayersWithThisProfession">How many players have this profession.</param>
-		public static bool DoesAnyPlayerHaveProfession(string professionName, out int numberOfPlayersWithThisProfession)
-		{
-			if (!Game1.IsMultiplayer)
-			{
-				if (Game1.player.HasProfession(professionName))
-				{
-					numberOfPlayersWithThisProfession = 1;
-					return true;
-				}
-			}
+		///// <summary>Whether any farmer in the current multiplayer session has a specific profession.</summary>
+		///// <param name="professionName">The name of the profession.</param>
+		///// <param name="numberOfPlayersWithThisProfession">How many players have this profession.</param>
+		//public static bool DoesAnyPlayerHaveProfession(string professionName, out int numberOfPlayersWithThisProfession)
+		//{
+		//	if (!Game1.IsMultiplayer)
+		//	{
+		//		if (Game1.player.HasProfession(professionName))
+		//		{
+		//			numberOfPlayersWithThisProfession = 1;
+		//			return true;
+		//		}
+		//	}
 
-			numberOfPlayersWithThisProfession = Game1.getAllFarmers().Count(player => player.isActive() && player.HasProfession(professionName));
-			return numberOfPlayersWithThisProfession > 0;
-		}
+		//	numberOfPlayersWithThisProfession = Game1.getAllFarmers().Count(player => player.isActive() && player.HasProfession(professionName));
+		//	return numberOfPlayersWithThisProfession > 0;
+		//}
 
 		///// <summary>Whether any farmer in a specific game location has a specific profession.</summary>
 		///// <param name="professionName">The name of the profession.</param>

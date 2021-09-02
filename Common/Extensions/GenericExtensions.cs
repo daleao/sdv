@@ -24,15 +24,5 @@ namespace TheLion.Stardew.Common.Extensions
 		{
 			return (T)Convert.ChangeType(obj, typeof(T));
 		}
-
-		/// <summary>Clamp the numeric object between the given lower and upper bounds.</summary>
-		/// <param name="min">The inclusive lower bound.</param>
-		/// <param name="max">The inclusive upper bound.</param>
-		public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T>
-		{
-			if (val.CompareTo(min) < 0) return min;
-			else if (val.CompareTo(max) > 0) return max;
-			else return val;
-		}
 	}
 }

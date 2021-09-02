@@ -58,9 +58,10 @@ namespace TheLion.Stardew.Professions
 		{
 			if (!Context.IsWorldReady) throw new InvalidOperationException("Tried to load mod data before save file.");
 
-			ModEntry.Log("Loading mod data.", LogLevel.Info);
+			ModEntry.Log("Loading persisted mod data.", LogLevel.Trace);
 			_data = Game1.player.modData;
 			InitializeDataFieldsForLocalPlayer();
+			ModEntry.Log("Done loading data.", LogLevel.Trace);
 		}
 
 		public void Unload()
@@ -74,6 +75,7 @@ namespace TheLion.Stardew.Professions
 		{
 			ModEntry.Log("Initializing data fields for local player...", LogLevel.Trace);
 			foreach (var professionIndex in Game1.player.professions) InitializeDataFieldsForProfession(professionIndex);
+			_data.WriteIfNotExists($"{_id}/SuperModeIndex", "-1");
 			ModEntry.Log("Done initializing data fields for local player.", LogLevel.Trace);
 		}
 
@@ -149,22 +151,22 @@ namespace TheLion.Stardew.Professions
 			switch (Type.GetTypeCode(typeof(T)))
 			{
 				case TypeCode.Int16:
-					_data.Increment<short>(field, 1);
+					_data.Increment<short>($"{_id}/{field}", 1);
 					break;
 				case TypeCode.UInt16:
-					_data.Increment<ushort>(field, 1);
+					_data.Increment<ushort>($"{_id}/{field}", 1);
 					break;
 				case TypeCode.Int32:
-					_data.Increment<int>(field, 1);
+					_data.Increment<int>($"{_id}/{field}", 1);
 					break;
 				case TypeCode.UInt32:
-					_data.Increment<uint>(field, 1);
+					_data.Increment<uint>($"{_id}/{field}", 1);
 					break;
 				case TypeCode.Int64:
-					_data.Increment<long>(field, 1);
+					_data.Increment<long>($"{_id}/{field}", 1);
 					break;
 				case TypeCode.UInt64:
-					_data.Increment<ulong>(field, 1);
+					_data.Increment<ulong>($"{_id}/{field}", 1);
 					break;
 			}
 

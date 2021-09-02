@@ -22,6 +22,8 @@ namespace TheLion.Stardew.Professions
 
 		public static Dictionary<int, HashSet<long>> ActivePeerSuperModes { get; set; } = new();
 		public static int SuperModeCounterMax => 500;
+		public static float SuperModeBarOpacity { get; set; } = 1f;
+		public static bool ShouldShakeSuperModeBar { get; set; }
 
 		public static int SuperModeIndex
 		{
@@ -29,18 +31,7 @@ namespace TheLion.Stardew.Professions
 			set
 			{
 				_superModeIndex = value;
-				SuperModeRegistered?.Invoke();
-			}
-		}
-
-		public static bool IsSuperModeActive
-		{
-			get => _isSuperModeActive;
-			set
-			{
-				if (!value) SuperModeDisabled?.Invoke();
-				else SuperModeEnabled?.Invoke();
-				_isSuperModeActive = value;
+				SuperModeIndexChanged?.Invoke();
 			}
 		}
 
@@ -56,35 +47,32 @@ namespace TheLion.Stardew.Professions
 				}
 				else
 				{
+					if (_superModeCounter == value) return;
+
 					if (_superModeCounter == 0) SuperModeCounterRaisedAboveZero?.Invoke();
 					if (value >= SuperModeCounterMax) SuperModeCounterFilled?.Invoke();
 					_superModeCounter = Math.Min(value, SuperModeCounterMax);
 				}
 			}
 		}
-
-		public static int SuperModeKeyTimer
+		
+		public static bool IsSuperModeActive
 		{
-			get => _superModeKeyTimer;
+			get => _isSuperModeActive;
 			set
 			{
-				switch (value)
-				{
-					case > 0:
-						_superModeKeyTimer = value;
-						break;
-					case 0:
-						_superModeKeyTimer = 0;
-						SuperModeKeyHeldLongEnough?.Invoke();
-						break;
-				}
+				if (_isSuperModeActive == value) return;
+
+				if (!value) SuperModeDisabled?.Invoke();
+				else SuperModeEnabled?.Invoke();
+				_isSuperModeActive = value;
 			}
 		}
 
 		internal static GameFramework GameFramework { get; private set; }
 		internal static IContentHelper Content { get; private set; }
 		internal static IModEvents Events { get; private set; }
-		internal static IModRegistry ModRegistry { get; private set; }
+		internal static IModRegistry Registry { get; private set; }
 		internal static IMultiplayerHelper Multiplayer { get; private set; }
 		internal static IReflectionHelper Reflection { get; private set; }
 		internal static ITranslationHelper I18n { get; private set; }
@@ -94,19 +82,18 @@ namespace TheLion.Stardew.Professions
 		internal static EventSubscriber Subscriber { get; private set; }
 		internal static ProspectorHunt ProspectorHunt { get; set; }
 		internal static ScavengerHunt ScavengerHunt { get; set; }
+		internal static SoundEffectLoader SfxLoader { get; set; }
 
 		public static event SuperModeCounterFilledEventHandler SuperModeCounterFilled;
 		public static event SuperModeCounterRaisedAboveZeroEventHandler SuperModeCounterRaisedAboveZero;
 		public static event SuperModeCounterReturnedToZeroEventHandler SuperModeCounterReturnedToZero;
 		public static event SuperModeDisabledEventHandler SuperModeDisabled;
 		public static event SuperModeEnabledEventHandler SuperModeEnabled;
-		public static event SuperModeKeyHeldLongEnoughEventHandler SuperModeKeyHeldLongEnough;
-		public static event SuperModeRegisteredEventHandler SuperModeRegistered;
+		public static event SuperModeIndexChangedEventHandler SuperModeIndexChanged;
 
 		private static int _superModeIndex = -1;
 		private static bool _isSuperModeActive;
 		private static int _superModeCounter;
-		private static int _superModeKeyTimer;
 
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -118,7 +105,7 @@ namespace TheLion.Stardew.Professions
 			// store references to mod helpers
 			Content = helper.Content;
 			Events = helper.Events;
-			ModRegistry = helper.ModRegistry;
+			Registry = helper.ModRegistry;
 			Multiplayer = helper.Multiplayer;
 			Reflection = helper.Reflection;
 			I18n = helper.Translation;
@@ -134,73 +121,12 @@ namespace TheLion.Stardew.Professions
 			// get mod assets
 			helper.Content.AssetEditors.Add(new IconEditor());
 
+			// get sound assets
+			SfxLoader = new SoundEffectLoader(helper.DirectoryPath);
+
 			// apply harmony patches
 			BasePatch.Init();
-			new HarmonyPatcher().ApplyAll(
-				new AnimalHouseAddNewHatchedAnimalPatch(),
-				new BasicProjectileBehaviorOnCollisionWithMonsterPatch(),
-				new BobberBarCtorPatch(),
-				new BushShakePatch(),
-				new CrabPotCheckForActionPatch(),
-				new CrabPotDayUpdatePatch(),
-				new CrabPotDrawPatch(),
-				new CrabPotPerformObjectDropInActionPatch(),
-				new CraftingRecipeCtorPatch(),
-				new CropHarvestPatch(),
-				new FarmAnimalDayUpdatePatch(),
-				new FarmAnimalGetSellPricePatch(),
-				new FarmAnimalPetPatch(),
-				new FarmerHasOrWillReceiveMailPatch(),
-				new FarmerShowItemIntakePatch(),
-				new FarmerTakeDamagePatch(),
-				new FishingRodStartMinigameEndFunctionPatch(),
-				new FishPondUpdateMaximumOccupancyPatch(),
-				new FruitTreeDayUpdatePatch(),
-				new Game1CreateObjectDebrisPatch(),
-				new Game1DrawHUDPatch(),
-				new GameLocationBreakStonePatch(),
-				new GameLocationCheckActionPatch(),
-				new GameLocationDamageMonsterPatch(),
-				new GameLocationGetFishPatch(),
-				new GameLocationExplodePatch(),
-				new GameLocationOnStoneDestroyedPatch(),
-				new GeodeMenuUpdatePatch(),
-				new GreenSlimeBehaviorAtGameTickPatch(),
-				new GreenSlimeCollisionWithFarmerBehaviorPatch(),
-				new GreenSlimeOnDealContactDamagePatch(),
-				new GreenSlimeUpdatePatch(),
-				new LevelUpMenuAddProfessionDescriptionsPatch(),
-				new LevelUpMenuDrawPatch(),
-				new LevelUpMenuGetImmediateProfessionPerkPatch(),
-				new LevelUpMenuGetProfessionNamePatch(),
-				new LevelUpMenuGetProfessionTitleFromNumberPatch(),
-				new LevelUpMenuRemoveImmediateProfessionPerkPatch(),
-				new LevelUpMenuRevalidateHealthPatch(),
-				new MeleeWeaponDoAnimateSpecialMovePatch(),
-				new MineShaftCheckStoneForItemsPatch(),
-				new MonsterBehaviorAtGameTickPatch(),
-				new MonsterFindPlayerPatch(),
-				new MonsterTakeDamagePatch(),
-				new NPCWithinPlayerThresholdPatch(),
-				new ObjectCheckForActionPatch(),
-				new ObjectCtorPatch(),
-				new ObjectGetMinutesForCrystalariumPatch(),
-				new ObjectGetPriceAfterMultipliersPatch(),
-				new ObjectLoadDisplayNamePatch(),
-				new ObjectPerformObjectDropInActionPatch(),
-				new PondQueryMenuDrawPatch(),
-				new ProjectileBehaviorOnCollisionPatch(),
-				new QuestionEventSetUpPatch(),
-				new SlingshotCanAutoFirePatch(),
-				new SlingshotGetRequiredChargeTimePatch(),
-				new SlingshotPerformFirePatch(),
-				new TemporaryAnimatedSpriteCtorPatch(),
-				new TreeDayUpdatePatch(),
-				new TreeUpdateTapperProductPatch(),
-				ModRegistry.IsLoaded("Pathoschild.Automate") ? new CrabPotMachineGetStatePatch() : null,
-				ModRegistry.IsLoaded("CJBok.CheatsMenu") ? new ProfessionsCheatSetProfessionPatch() : null,
-				null
-			);
+			new HarmonyPatcher().ApplyAll();
 
 			// start event manager
 			Subscriber = new EventSubscriber();

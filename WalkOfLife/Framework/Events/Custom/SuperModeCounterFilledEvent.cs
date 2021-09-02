@@ -4,8 +4,6 @@
 
 	public class SuperModeCounterFilledEvent : BaseEvent
 	{
-		private readonly SuperModeBarFlashUpdateTickedEvent _superModeBarFlashUpdateTickedEvent = new();
-
 		/// <summary>Hook this event to the event listener.</summary>
 		public override void Hook()
 		{
@@ -21,7 +19,7 @@
 		/// <summary>Raised when SuperModeCounter is set to zero.</summary>
 		public void OnSuperModeCounterFilled()
 		{
-			ModEntry.Subscriber.Subscribe(_superModeBarFlashUpdateTickedEvent);
+			ModEntry.Subscriber.Subscribe(new SuperModeBarShakeTimerUpdateTickedEvent());
 		}
 	}
 }

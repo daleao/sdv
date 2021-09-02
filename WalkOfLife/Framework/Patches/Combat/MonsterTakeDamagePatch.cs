@@ -101,9 +101,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<MethodBase> TargetMethods()
 		{
 			var methods = from type in AccessTools.AllTypes()
-						  where typeof(Monster).IsAssignableFrom(type)
-						  select type.MethodNamed(name: "takeDamage",
-							  new[] { typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer) });
+				where typeof(Monster).IsAssignableFrom(type)
+				select type.MethodNamed(name: "takeDamage",
+					new[] {typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer)});
 
 			return methods.Where(m => !m.DeclaringType.AnyOf(typeof(Monster), typeof(HotHead), typeof(LavaLurk),
 				typeof(MetalHead), typeof(Shooter), typeof(ShadowBrute), typeof(Skeleton), typeof(Spiker))); // these guys already call the base method, so we don't want the patch to run twice

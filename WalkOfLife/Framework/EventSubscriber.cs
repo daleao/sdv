@@ -75,9 +75,9 @@ namespace TheLion.Stardew.Professions.Framework
 		internal void SubscribeStaticEvents()
 		{
 			ModEntry.Log("Subscribing static events...", LogLevel.Trace);
-			Subscribe(new StaticLevelChangedEvent(), new StaticReturnedToTitleEvent(), new StaticSaveLoadedEvent(), new StaticSuperModeRegisteredEvent());
+			Subscribe(new StaticLevelChangedEvent(), new StaticReturnedToTitleEvent(), new StaticSaveLoadedEvent(), new StaticSuperModeIndexChangedEvent());
 
-			if (!ModEntry.ModRegistry.IsLoaded("alphablackwolf.skillPrestige") && !ModEntry.ModRegistry.IsLoaded("cantorsdust.AllProfessions"))
+			if (!ModEntry.Registry.IsLoaded("alphablackwolf.skillPrestige") && !ModEntry.Registry.IsLoaded("cantorsdust.AllProfessions"))
 				return;
 
 			ModEntry.Log("Skill Prestige or All Professions mod detected. Subscribing additional fail-safe event.", LogLevel.Trace);
@@ -141,19 +141,23 @@ namespace TheLion.Stardew.Professions.Framework
 				new SuperModeCounterReturnedToZeroEvent(),
 				new SuperModeDisabledEvent(),
 				new SuperModeEnabledEvent(),
-				new SuperModeKeyHeldLongEnoughEvent(),
 				new SuperModeWarpedEvent()
 			);
 
-			if (Game1.currentLocation.AnyOfType(typeof(MineShaft), typeof(Woods), typeof(SlimeHutch), typeof(VolcanoDungeon)) || ModEntry.SuperModeCounter > 0)
-				ModEntry.Subscriber.Subscribe(new SuperModeBarRenderedHudEvent());
+			if (!Game1.currentLocation.AnyOfType(typeof(MineShaft), typeof(Woods), typeof(SlimeHutch), typeof(VolcanoDungeon)) && ModEntry.SuperModeCounter <= 0) return;
+
+			ModEntry.Subscriber.Subscribe(new SuperModeBarRenderedHudEvent());
+			if (ModEntry.SuperModeCounter >= ModEntry.SuperModeCounterMax) ModEntry.Subscriber.Subscribe(new SuperModeBarShakeTimerUpdateTickedEvent());
 		}
 
 		/// <summary>Unsubscribe the event listener from all events related to super mode functionality.</summary>
 		internal void UnsubscribeSuperModeEvents()
 		{
 			Unsubscribe(
+				typeof(SuperModeActivationTimerUpdateTickedEvent),
+				typeof(SuperModeBarFadeOutUpdateTickedEvent),
 				typeof(SuperModeBarRenderedHudEvent),
+				typeof(SuperModeBarShakeTimerUpdateTickedEvent),
 				typeof(SuperModeBuffsDisplayUpdateTickedEvent),
 				typeof(SuperModeButtonsChangedEvent),
 				typeof(SuperModeCounterFilledEvent),
@@ -161,7 +165,6 @@ namespace TheLion.Stardew.Professions.Framework
 				typeof(SuperModeCounterReturnedToZeroEvent),
 				typeof(SuperModeDisabledEvent),
 				typeof(SuperModeEnabledEvent),
-				typeof(SuperModeKeyHeldLongEnoughEvent),
 				typeof(SuperModeWarpedEvent)
 			);
 		}

@@ -380,7 +380,7 @@ namespace TheLion.Stardew.Professions
 			ModEntry.Log($"ScavengerStreak set to {args[0]}.", LogLevel.Info);
 		}
 
-		/// <summary>Set a new value to the tWaterTrashCollectedThisSeason data field.</summary>
+		/// <summary>Set a new value to the WaterTrashCollectedThisSeason data field.</summary>
 		/// <param name="command">The console command.</param>
 		/// <param name="args">The supplied arguments (not applicable).</param>
 		internal static void SetWaterTrashCollectedThisSeason(string command, string[] args)
@@ -403,8 +403,8 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			ModEntry.Data.WriteField("tWaterTrashCollectedThisSeason", args[0]);
-			ModEntry.Log($"tWaterTrashCollectedThisSeason set to {args[0]}.", LogLevel.Info);
+			ModEntry.Data.WriteField("WaterTrashCollectedThisSeason", args[0]);
+			ModEntry.Log($"WaterTrashCollectedThisSeason set to {args[0]}.", LogLevel.Info);
 		}
 
 		/// <summary>Set <see cref="ModEntry.SuperModeCounter"/> to the max value.</summary>

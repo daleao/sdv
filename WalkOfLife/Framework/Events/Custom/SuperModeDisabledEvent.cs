@@ -24,7 +24,6 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		public void OnSuperModeDisabled()
 		{
 			Game1.player.stopGlowing();
-			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarFlashUpdateTickedEvent), typeof(SuperModeCountdownUpdateTickedEvent));
 
 			var buffID = (ModEntry.UniqueID + ModEntry.SuperModeIndex).Hash();
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == ++buffID);

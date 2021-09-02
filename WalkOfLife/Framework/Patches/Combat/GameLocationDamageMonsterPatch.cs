@@ -209,7 +209,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item).Concat(monster.getExtraDropItems()).ToList();
 			var stolen = drops[Game1.random.Next(drops.Count)].getOne();
-			if (stolen != null) who.addItemToInventoryBool(stolen);
+			if (stolen != null && who.addItemToInventoryBool(stolen) && ModEntry.SfxLoader.SfxByName.TryGetValue("hunter_steal", out var sfx))
+				sfx.CreateInstance().Play();
 		}
 
 		#endregion private methods
