@@ -63,11 +63,11 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - **Lv5 - Harvester** - 10% chance for extra yield from harvested crops.
     - This yields an equivalent 10% monetary bonus to vanilla, but also brings additional benefit to Artisans.
 - **Lv10 - Agriculturist** - Crops grow 10% faster. Grow best-quality crops organically without fertilizer.
-    - Allows harvesting iridium-qual)ity crops without any fertilizer. The chance is unchanged from vanilla, and is equal to half the chance of gold quality. Fertilizers will still massively increase that chance.
-- **Lv10 - Artisan** - All artisan machines work 10% faster. Machine output quality matches input ingredient quality.
+    - Allows harvesting iridium-quality crops without any fertilizer. The chance is unchanged from vanilla, and is equal to half the chance of gold quality. Fertilizers will still massively increase that chance.
+- **Lv10 - Artisan** - All artisan machines work 10% faster. Machine output quality is at least as good as input ingredient quality.
     - Essentially implements [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) (QAP), but exclusively for Artisans. Also adds 5% chance to promote the output quality by one level. In multiplayer, the **bonus production speed applies only to machines crafted by the player with this profession, and only when that player uses the machine**.
 - **Lv5 - Rancher** - Befriend animals quicker.
-    - Gain double mood and friendship points from petting. Newborn animals are born with some starting friendship between 0 and 200 (out of 1000 maximum), chosen at random.
+    - Gain double mood and friendship points from petting. Newborn animals are born with some starting friendship between 150 and 250 (out of 1000 maximum), chosen at random.
 - **Lv10 - Breeder** - Animals incubate faster and breed more frequently. Increase value of animals at high friendship.
     - Makes mammals three times as likely to give birth and oviparous (egg-laying) animals incubate twice as fast. At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x.
 - **Lv10 - Producer** - Happy animals produce twice as frequently. Produce worth 5% more for every full barn or coop.
@@ -124,27 +124,29 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
-The combat tree has received a much more extensive overhaul. Each level 10 profession introduces, in addition to a fixed primary effect, a secondary stackable attribute and a [Super Mode](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode) that may be activated by a hot key _only once the maximum number of stacks has been collected_. Activating Super Mode will consume **all** stacks, reseting the secondary attribute. A new bar added to the UI next to the health bar displays the current stack count. **If a player has multiple combat professions, only the first one will add a secondary attribute and Super Mode, and all the rest will be disabled.**
+The combat tree has received a much more extensive overhaul. Each level 10 profession introduces, in addition to a fixed primary effect, a secondary stackable attribute and a [Super Mode](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode) that may be activated by a hot key _only once the maximum number of stacks has been collected_. Activating Super Mode will consume **all** stacks, reseting the secondary attribute, but granting a strong combat buff for a short time. A new bar added to the UI next to the health bar displays the current stack count. **If a player has multiple combat professions (e.g. if using a mod like All Professions or Skill Prestige), only the first one will register a secondary attribute and a Super Mode; any subsequent professions will only apply their base effect.**
 
 - **Lv5 - Fighter** - Deal 10% more damage. +15 HP.
     - _Unchanged from vanilla._
-- **Lv10 - Brute** - Deal 15% more damage. +25 HP. Wielding a hammer in combat builds Fury, further increasing damage up to 40%. Unleash Fury to provoke Undying Rage.
-    - **Undying Rage:** Doubles the damage bonus and gain immunity to passing out. If using a hammer, also negates the special move cooldown.
-- **Lv10 - Duelist** - Higher Crit. Power at high HP. Higher Crit. Chance at low HP. Crit. strikes build Poise, granting up to 20% parry chance. Spend poise to enter Riposte Stance.
-    - The maximum Crit. Power bonus is x2 at max HP, and the minimum is x1 at 10% HP. The maximum Crit. Chance bonus is +50% at 10% HP, and +0 at max HP. Poise essentially negates all damage.
-    - **Riposte Stance:** Doubles the parry chance and gain the highest bonuses to Crit. Power and Crit. Chance simultaneously, regardless of the current HP. If using a dagger, counter parried hits with special move.
+- **Lv10 - Brute** - Damage +15%. +25 HP. Build fury in combat, further increasing damage.
+    - Damage bonus caps at +40%. If wielding a club the cap is 60%. Also gain up to 50% cooldown reduction to club smash attack.
+    - **Undying Rage:** Double damage bonus. Immune to passing out.
+- **Lv10 - Bushwhacker** - +10% crit. chance. Crit. strikes are deadlier at low HP and build chance to poach an item on hit.
+    - Crit. Power increases up to x2 at 10% HP. Monsters can only be poached once. Also gain upto 50% cooldown reduction to dagger quick-stab attack.
+    - **Ambuscade:** 
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo.
-- **Lv10 - Desperado** - 35% double strafe chance. Timed shots build Cold Blood, increasing both slingshot charge and projectile travel speeds. Use Cold Blood to trigger Death Blossom.
-    - "Timed" means releasing the fire button as soon as it's charged. "Double strafe" means two shots for the price of one.
-    - **Death Blossom:** Enables auto-reload. Shots fire in all directions at once. 
-- **Lv10 - Slimed Piper** - Attract more Slimes in dungeons. Slimes damage other monsters. Build Eubstance on contact with slimes, increasing immunity and damage resistance up to 50%. Consume Eubstance to cause Pandemonium.
-    - Every Slime raised on the farm, either in a hutch or outside, will increase the chance to spawn an extra Slime on every dungeon floor. Slimes will damage any grounded enemies that intersect their hitbox. Flying enemies are immune. Eubstance stacks are gained even while wearing a Slime Charmer ring.
-    - **Pandemonium:** All Slimes in range gain a random effect. Possible effects:
-        - Upgrade to a special slime of the same color.
-        - Upgrade to a yellow slime.
-        - Enrage.
-        - Heal the player on contact.
-        - Self-destruct, blowing-up everything in a 5x5 area.
+- **Lv10 - Desperado** - 35% ammo damage modifier. Ranged hits build chance to perform a double shot.
+    - Better ammo will gain a much higher damage bonus. Also reduce slingshot pull-back time by up to 50% (requires hold-to-charge mode).
+    - **Death Blossom:** Enable auto-reload. Fire in eight directions at once. 
+- **Lv10 - Slimed Piper** - Slimes damage other enemies. Slime drops improve for every Slime raised on the farm. Increase spawned Slimes in dungeons.
+    - Slimes cannot damage flying enemies.
+    - Each Slime raised on the farm, either in a hutch or outside, increase the chance for Slimes to drop additional items.
+    - Every dungeon floor can spawn up to 11 additional Slimes, based on the Super Mode meter.
+    - The Piper will recover 1 HP on contact with Slimes. **This does not negate Slime damage. A Slime Charmer ring is still required.**
+    - **Superfluidity:** Cause Slimes to grow up to twice their size. Large enough Slimes break into smaller Slimes when defeated.
+        - Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant.
+        - Giant Slimes can hit flying enemies.
+        - Also increases healed amount based on the Slime's actual damage.
 
 ## Compatbility
 
@@ -152,10 +154,10 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
 - Compatible with [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636).
 - Limited compatibility with [All Professions](https://www.nexusmods.com/stardewvalley/mods/174). (Profession perks will not be applied immediately, but the following morning.)
 - Limited compatibility with [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#). (Same as above. The Prestige menu also won't reflect modded profession names or descriptions.)
-- Compatible with any mod that adds SpaceCore custom skills (i.e. [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)).
+- Compatible with any mod that adds SpaceCore custom skills (e.g. [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)).
         
 - Not compatible with mods that change vanilla skills.
-- Not compatible with [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley). (Makes Artisan profession redundant. Other features of QAP are also integrated (i.e. mead cares about honey type and large milk/eggs gives double output when processed), essentially replacing that mod entirely. This mod's implementation also does **not** require the Producer Framework Mod.)
+- Not compatible with [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley). (Makes Artisan profession redundant. Other features of QAP are already integrated (i.e. mead cares about honey type and large milk/eggs gives double output when processed), essentially replacing that mod entirely. This mod's implementation also does **not** require the Producer Framework Mod.)
 - Not compatible with [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767). (Makes Trapper and Luremaster professions redundant.)
 - Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554). (May cause bad interactions with Foraging professions.)
 
@@ -167,7 +169,7 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
 
 ## Installation
 
-- You can install this mod on an existing save; all perks will be tetroactively applied upon loading a saved game.
+- You can install this mod on an existing save; all perks will be retroactively applied upon loading a saved game.
 - To install simply drop the extracted folder onto your mods folder.
 - To update make sure to delete the old version first and only then install the new version.
 - There are no dependencies outside of SMAPI.
