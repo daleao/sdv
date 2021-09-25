@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			// set super mode
 			ModEntry.SuperModeIndex = ModEntry.Data.ReadField<int>("SuperModeIndex");
-			
+
 			// subcribe player's profession events
 			ModEntry.Subscriber.SubscribeEventsForLocalPlayer();
 		}

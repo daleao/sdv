@@ -59,7 +59,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Stloc_0)
 					);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Helper.Error($"Failed while adding Poacher untargetability during super mode.\nHelper returned {ex}");
 				return null;

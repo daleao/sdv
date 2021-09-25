@@ -462,7 +462,7 @@ namespace TheLion.Stardew.Professions
 			}
 
 			foreach (var animal in Game1.getFarm().getAllFarmAnimals().Where(a => a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Game1.IsMultiplayer))
-				animal.friendshipTowardFarmer.Value = 1000; 
+				animal.friendshipTowardFarmer.Value = 1000;
 		}
 
 		/// <summary>Set all farm animals owned by the local player to the max mood value.</summary>

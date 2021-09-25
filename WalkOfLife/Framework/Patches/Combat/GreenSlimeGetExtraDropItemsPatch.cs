@@ -3,8 +3,8 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 
 			var slimeCount = Game1.getFarm().buildings.Where(b => (b.owner.Value.AnyOf(pipers.Select(p => p.UniqueMultiplayerID).ToArray()) || !Game1.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() && b.indoors.Value.characters.Any()).Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) + Game1.getFarm().characters.Count(npc => npc is GreenSlime);
 			if (slimeCount <= 0) return;
-			
+
 			var color = __instance.color;
 			var name = __instance.Name;
 
@@ -45,7 +45,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 				if (r.NextDouble() < 5 / 8) __result.Add(new SObject(92, 1)); // sap
 				++count;
 			}
-			
+
 			if (MineShaft.lowestLevelReached >= 120 && (__instance.currentLocation is MineShaft || __instance.currentLocation is VolcanoDungeon))
 			{
 				if (r.NextDouble() < baseChance / 8) __result.Add(new SObject(72, 1)); // diamond
@@ -61,7 +61,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 					if (r.NextDouble() < baseChance / 3) __result.Add(new SObject(553, 1)); // neptunite
 					if (r.NextDouble() < baseChance / 3) __result.Add(new SObject(539, 1)); // bixite
 				}
-				else if (color.R > 200  && color.G > 180 && color.B < 50) // yellow
+				else if (color.R > 200 && color.G > 180 && color.B < 50) // yellow
 				{
 					while (r.NextDouble() < baseChance / 2) __result.Add(new SObject(384, 1)); // gold ore
 					if (r.NextDouble() < baseChance / 3) __result.Add(new SObject(336, 1)); // gold bar

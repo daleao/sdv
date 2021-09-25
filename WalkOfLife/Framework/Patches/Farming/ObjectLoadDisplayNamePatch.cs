@@ -24,7 +24,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				if (!__instance.name.Contains("Mead") || __instance.preservedParentSheetIndex.Value <= 0) return;
-				
+
 				string prefix = Game1.objectInformation[__instance.preservedParentSheetIndex.Value].Split('/')[4];
 				__result = prefix + " " + __result;
 			}

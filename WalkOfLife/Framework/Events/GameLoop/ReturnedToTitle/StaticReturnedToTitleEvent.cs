@@ -11,7 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		{
 			// release mod data
 			ModEntry.Data.Unload();
-			
+
 			// reset super mode
 			if (ModEntry.SuperModeIndex > -1) ModEntry.SuperModeIndex = -1;
 

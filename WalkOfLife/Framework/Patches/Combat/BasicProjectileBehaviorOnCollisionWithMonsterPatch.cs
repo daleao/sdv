@@ -1,9 +1,7 @@
 ﻿using HarmonyLib;
-using Microsoft.Xna.Framework;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 using System;
@@ -31,7 +29,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				if (!___damagesMonsters.Value) return false; // don't run original logic
-				
+
 				if (!n.IsMonster) return true; // run original logic
 
 				var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;

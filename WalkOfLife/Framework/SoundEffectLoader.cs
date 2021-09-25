@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Audio;
+using StardewModdingAPI;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using StardewModdingAPI;
 
 namespace TheLion.Stardew.Professions.Framework
 {

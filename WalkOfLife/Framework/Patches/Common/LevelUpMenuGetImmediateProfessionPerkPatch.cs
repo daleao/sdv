@@ -2,7 +2,6 @@
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
-using StardewValley.Locations;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches

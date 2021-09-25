@@ -200,7 +200,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				increment = (int)Math.Round(critMultiplier * Util.Professions.GetPoacherCritDamageMultiplier(who));
 				if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
 			}
-			
+
 			ModEntry.SuperModeCounter += increment;
 		}
 
@@ -215,7 +215,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var stolen = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
 			if (stolen == null || !who.addItemToInventoryBool(stolen))
 				return;
-			
+
 			ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
 			if (ModEntry.SfxLoader.SfxByName.TryGetValue("poacher_steal", out var sfx)) sfx.CreateInstance().Play();
 		}

@@ -57,7 +57,7 @@ namespace TheLion.Stardew.Professions
 				}
 			}
 		}
-		
+
 		public static bool IsSuperModeActive
 		{
 			get => _isSuperModeActive;

@@ -339,7 +339,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				? 1.15f
 				: ModEntry.SuperModeCounter / 10 * 0.003f;
 		}
-		
+
 		/// <summary>Get the cooldown reduction multiplier that should be applied to Brute or Poacher cooldown reductions and Desperado charge time.</summary>
 		public static float GetCooldownOrChargeTimeReduction()
 		{

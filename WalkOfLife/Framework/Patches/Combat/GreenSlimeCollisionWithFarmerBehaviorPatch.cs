@@ -6,7 +6,6 @@ using StardewValley.Monsters;
 using System;
 using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Events;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -43,9 +42,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				who.health = Math.Min(who.health + healed, who.maxHealth);
 				__instance.currentLocation.debris.Add(new Debris(healed, new Vector2(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
-				
+
 				if (!ModEntry.IsSuperModeActive) ModEntry.SuperModeCounter += Game1.random.Next(1, 10);
-				
+
 				ModEntry.SlimeContactTimer = 60;
 			}
 			catch (Exception ex)

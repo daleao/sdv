@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				ModEntry.PipedSlimes.ElementAt(i).Scale = Math.Min(ModEntry.PipedSlimes.ElementAt(i).Scale * 1.1f, 2f);
 				if (Game1.random.NextDouble() < 0.1 || ModEntry.PipedSlimes.ElementAt(i).Scale >= 2f) ModEntry.PipedSlimes.RemoveAt(i);
 			}
-			
+
 			if (!ModEntry.PipedSlimes.Any()) ModEntry.Subscriber.Unsubscribe(GetType());
 		}
 	}

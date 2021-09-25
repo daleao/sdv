@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using HarmonyLib;
+﻿using HarmonyLib;
 using StardewModdingAPI;
+using System.Linq;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Patches;
 
@@ -16,17 +16,17 @@ namespace TheLion.Stardew.Professions.Framework
 			ModEntry.Log("Applying Harmony patches...", LogLevel.Trace);
 
 			var patchTypes = from type in AccessTools.AllTypes()
-				where type.IsSubclassOf(typeof(BasePatch))
-				select type;
+							 where type.IsSubclassOf(typeof(BasePatch))
+							 select type;
 
 			var harmony = new Harmony(ModEntry.UniqueID);
 			foreach (var type in patchTypes)
 			{
 				if (type.Name == "CrabPotMachineGetStatePatch" && !ModEntry.Registry.IsLoaded("Pathoschild.Automate") ||
-				    type.Name == "ProfessionsCheatSetProfessionPatch" && !ModEntry.Registry.IsLoaded("CJBok.CheatsMenu"))
+					type.Name == "ProfessionsCheatSetProfessionPatch" && !ModEntry.Registry.IsLoaded("CJBok.CheatsMenu"))
 					continue;
 
-				var patch = (BasePatch)type.Constructor()?.Invoke(new object[] {});
+				var patch = (BasePatch)type.Constructor()?.Invoke(new object[] { });
 				patch?.Apply(harmony);
 			}
 		}

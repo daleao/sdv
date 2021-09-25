@@ -20,13 +20,13 @@
 		public void OnSuperModeIndexChanged()
 		{
 			ModEntry.Subscriber.UnsubscribeSuperModeEvents();
-			
+
 			ModEntry.SuperModeCounter = 0;
 			ModEntry.SuperModeBarOpacity = 1f;
 			ModEntry.ShouldShakeSuperModeBar = false;
 
 			if (ModEntry.SuperModeIndex > -1) ModEntry.Subscriber.SubscribeSuperModeEvents();
-			
+
 			ModEntry.Data.WriteField("SuperModeIndex", ModEntry.SuperModeIndex.ToString());
 		}
 	}

@@ -1,5 +1,5 @@
-﻿using StardewValley;
-using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Events;
+using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
@@ -31,4 +31,4 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			_nextShake = TIME_BETWEEN_SHAKES;
 		}
 	}
-}	
+}

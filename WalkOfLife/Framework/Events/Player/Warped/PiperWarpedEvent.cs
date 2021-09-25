@@ -14,8 +14,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
 			if (!e.IsLocalPlayer) return;
-			
-			if(e.NewLocation is not VolcanoDungeon && (e.NewLocation is not MineShaft || (e.NewLocation as MineShaft).IsTreasureOrSafeRoom()))
+
+			if (e.NewLocation is not VolcanoDungeon && (e.NewLocation is not MineShaft || (e.NewLocation as MineShaft).IsTreasureOrSafeRoom()))
 			{
 				ModEntry.Subscriber.Unsubscribe(typeof(PiperUpdateTickedEvent));
 				return;
