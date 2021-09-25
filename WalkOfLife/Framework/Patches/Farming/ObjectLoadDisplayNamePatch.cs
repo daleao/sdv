@@ -17,16 +17,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			Postfix = new HarmonyMethod(GetType(), nameof(ObjectLoadDisplayNamePostfix));
 		}
 
-		/// <summary>Patch to add</summary>
-		/// <param name="__instance"></param>
-		/// <param name="__result"></param>
+		/// <summary>Patch to add honey-specific mead names.</summary>
 		[HarmonyPostfix]
 		private static void ObjectLoadDisplayNamePostfix(SObject __instance, ref string __result)
 		{
-			if (!__instance.name.Contains("Mead") || __instance.preservedParentSheetIndex.Value <= 0) return;
-
 			try
 			{
+				if (!__instance.name.Contains("Mead") || __instance.preservedParentSheetIndex.Value <= 0) return;
+				
 				string prefix = Game1.objectInformation[__instance.preservedParentSheetIndex.Value].Split('/')[4];
 				__result = prefix + " " + __result;
 			}

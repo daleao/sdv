@@ -1,5 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
+using System;
 using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 
@@ -42,7 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
 						millisecondsDuration = 49,
 						description = ModEntry.I18n.Get(professionName.ToLower() + ".buffdesc",
-							new { magnitude1 = GetSuperModePrimaryBuffMagnitude(professionName), magnitude2 = GetSuperModeSecondaryBuffMagnitude() })
+							new { magnitude1 = GetSuperModePrimaryBuffMagnitude(professionName), magnitude2 = GetSuperModeSecondaryBuffMagnitude(professionName) })
 					});
 			}
 		}
@@ -54,18 +55,20 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			return (professionName switch
 			{
 				"Brute" => Util.Professions.GetBruteBonusDamageMultiplier(Game1.player) - 1.15f,
-				"Hunter" => Util.Professions.GetHunterStealChance(Game1.player),
+				"Poacher" => Util.Professions.GetPoacherStealChance(Game1.player),
 				"Desperado" => Util.Professions.GetDesperadoDoubleStrafeChance(),
-				"Piper" => Util.Professions.GetPiperSlowChance(),
-				_ => 0f
+				"Piper" => Util.Professions.GetPiperSlimeSpawnAttempts(),
+				_ => throw new ArgumentException($"Unexpected profession name {professionName}")
 			} * 100f).ToString("0.0");
 		}
 
-		/// <summary>Get the magnitude of the secondary super mode buff for any profession.</summary>
-		private static string GetSuperModeSecondaryBuffMagnitude()
+		/// <summary>Get the magnitude of the secondary super mode buff for the given profession.</summary>
+		/// <param name="professionName">A super mode profession.</param>
+		private static string GetSuperModeSecondaryBuffMagnitude(string professionName)
 		{
-			return ((1f - Util.Professions.GetCooldownOrChargeTimeReduction()) * 100f).ToString("0.0");
+			return professionName == "Piper"
+				? ((Util.Professions.GetPiperSlimeAttackSpeedModifier() - 1f) * 100f).ToString("0.0")
+				: ((1f - Util.Professions.GetCooldownOrChargeTimeReduction()) * 100f).ToString("0.0");
 		}
-
 	}
 }

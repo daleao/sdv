@@ -12,8 +12,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
 	{
-		private static readonly SlimeContactTimerCountdownUpdateTickedEvent PiperUpdateTickedEvent = new();
-
 		/// <summary>Construct an instance.</summary>
 		internal GreenSlimeCollisionWithFarmerBehaviorPatch()
 		{
@@ -32,11 +30,23 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var who = __instance.Player;
 				if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Piper") || ModEntry.SlimeContactTimer > 0) return;
 
-				who.health = Math.Min(who.health + 1, who.maxHealth);
-				__instance.currentLocation.debris.Add(new Debris(1, new Vector2(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
-				ModEntry.SuperModeCounter += 2;
+				int healed;
+				if (ModEntry.IsSuperModeActive)
+				{
+					healed = __instance.DamageToFarmer / 2;
+					healed += Game1.random.Next(Math.Min(-1, -healed / 8), Math.Max(1, healed / 8));
+				}
+				else
+				{
+					healed = 1;
+				}
+
+				who.health = Math.Min(who.health + healed, who.maxHealth);
+				__instance.currentLocation.debris.Add(new Debris(healed, new Vector2(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
+				
+				if (!ModEntry.IsSuperModeActive) ModEntry.SuperModeCounter += Game1.random.Next(1, 10);
+				
 				ModEntry.SlimeContactTimer = 60;
-				ModEntry.Subscriber.Subscribe(PiperUpdateTickedEvent);
 			}
 			catch (Exception ex)
 			{

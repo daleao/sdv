@@ -11,6 +11,12 @@ namespace TheLion.Stardew.Professions
 	{
 		internal static void CheckLocalPlayerProfessions(string command, string[] args)
 		{
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
 			foreach (var professionsIndex in Game1.player.professions)
 				ModEntry.Log($"{Framework.Util.Professions.NameOf(professionsIndex)}", LogLevel.Info);
 		}
@@ -35,7 +41,7 @@ namespace TheLion.Stardew.Professions
 			List<int> professionsToAdd = new();
 			foreach (var arg in args)
 			{
-				if (arg.Equals("level"))
+				if (arg == "level")
 				{
 					ModEntry.Log($"Adding all professions for farmer {Game1.player.Name}'s current skill levels.", LogLevel.Info);
 
@@ -64,7 +70,7 @@ namespace TheLion.Stardew.Professions
 					break;
 				}
 
-				if (arg.Equals("all"))
+				if (arg == "all")
 				{
 					ModEntry.Log($"Adding all professions to farmer {Game1.player.Name}.", LogLevel.Info);
 
@@ -225,6 +231,12 @@ namespace TheLion.Stardew.Professions
 		/// <param name="args">The supplied arguments.</param>
 		internal static void ResetLocalPlayerProfessions(string command, string[] args)
 		{
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
 			Game1.player.FarmingLevel = 0;
 			Game1.player.FishingLevel = 0;
 			Game1.player.ForagingLevel = 0;
@@ -408,9 +420,62 @@ namespace TheLion.Stardew.Professions
 		}
 
 		/// <summary>Set <see cref="ModEntry.SuperModeCounter"/> to the max value.</summary>
-		internal static void ReadySuperMode(string command, string[] arg)
+		internal static void SetSuperModeCounter(string command, string[] args)
 		{
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (!args.Any() || args.Count() > 1)
+			{
+				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
+				return;
+			}
+
+			if (int.TryParse(args[0], out var value))
+				ModEntry.SuperModeCounter = ModEntry.SuperModeCounterMax;
+			else
+				ModEntry.Log("You must specify an integer value.", LogLevel.Warn);
+		}
+
+		/// <summary>Set <see cref="ModEntry.SuperModeCounter"/> to the desired value.</summary>
+		internal static void ReadySuperMode(string command, string[] args)
+		{
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
 			ModEntry.SuperModeCounter = ModEntry.SuperModeCounterMax;
+		}
+
+		/// <summary>Set all farm animals owned by the local player to the max friendship value.</summary>
+		internal static void MaxAnimalFriendship(string command, string[] args)
+		{
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			foreach (var animal in Game1.getFarm().getAllFarmAnimals().Where(a => a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Game1.IsMultiplayer))
+				animal.friendshipTowardFarmer.Value = 1000; 
+		}
+
+		/// <summary>Set all farm animals owned by the local player to the max mood value.</summary>
+		internal static void MaxAnimalMood(string command, string[] args)
+		{
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			foreach (var animal in Game1.getFarm().getAllFarmAnimals().Where(a => a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Game1.IsMultiplayer))
+				animal.happiness.Value = 255;
 		}
 
 		/// <summary>Tell the dummies how to use the console command.</summary>

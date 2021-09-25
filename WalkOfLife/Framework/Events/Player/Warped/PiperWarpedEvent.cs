@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 using System;
-using System.Linq;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
@@ -13,11 +13,18 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
-			if (!e.IsLocalPlayer || (e.NewLocation is not MineShaft && e.NewLocation is not VolcanoDungeon)) return;
+			if (!e.IsLocalPlayer) return;
+			
+			if(e.NewLocation is not VolcanoDungeon && (e.NewLocation is not MineShaft || (e.NewLocation as MineShaft).IsTreasureOrSafeRoom()))
+			{
+				ModEntry.Subscriber.Unsubscribe(typeof(PiperUpdateTickedEvent));
+				return;
+			}
 
-			var count = Game1.getFarm().buildings.Where(b => (b.owner.Value == e.Player.UniqueMultiplayerID || !Game1.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() && b.indoors.Value.characters.Any()).Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) + Game1.getFarm().characters.Count(npc => npc is GreenSlime);
+			var attempts = Util.Professions.GetPiperSlimeSpawnAttempts();
+			var spawned = 0;
 			var r = new Random(Guid.NewGuid().GetHashCode());
-			while (count-- > 0)
+			while (attempts-- > 0 || spawned < 1)
 			{
 				var x = r.Next(e.NewLocation.Map.GetLayer("Back").LayerWidth);
 				var y = r.Next(e.NewLocation.Map.GetLayer("Back").LayerHeight);
@@ -26,7 +33,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				GreenSlime slime;
 				switch (e.NewLocation)
 				{
-					case MineShaft shaft when e.NewLocation is MineShaft:
+					case MineShaft shaft:
 						shaft.checkForMapAlterations(x, y);
 						if (!shaft.isTileClearForMineObjects(spawnPosition) || shaft.isTileOccupied(spawnPosition)) continue;
 
@@ -38,16 +45,22 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 						slime.setTilePosition(x, y);
 						shaft.characters.Add(shaft.BuffMonsterIfNecessary(slime));
+						++spawned;
 						break;
-					case VolcanoDungeon dungeon when e.NewLocation is VolcanoDungeon:
+					case VolcanoDungeon dungeon:
 						if (!e.NewLocation.isTileLocationTotallyClearAndPlaceable(spawnPosition)) continue;
 
 						slime = new GreenSlime(spawnPosition, 1);
 						slime.makeTigerSlime();
 						dungeon.characters.Add(slime);
+						++spawned;
 						break;
 				}
+				--attempts;
 			}
+			ModEntry.Log($"Spawned {spawned} Slimes after {attempts} attempts.", LogLevel.Trace);
+
+			ModEntry.Subscriber.Subscribe(new PiperUpdateTickedEvent());
 		}
 	}
 }

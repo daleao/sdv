@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch for Slimes to damage monsters around Piper.</summary>
+		/// <summary>Patch for Slimes to damage monsters around Piper + destroy nearby objects during super mode.</summary>
 		[HarmonyPostfix]
 		private static void GreenSlimeUpdatePostfix(GreenSlime __instance, GameLocation location)
 		{
@@ -34,11 +34,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				if (!location.DoesAnyPlayerHereHaveProfession("Piper")) return;
 
-				foreach (var npc in __instance.currentLocation.characters.Where(npc => npc.IsMonster && npc is not GreenSlime))
+				foreach (var npc in __instance.currentLocation.characters.Where(npc => npc.IsMonster && npc is not GreenSlime && npc is not BigSlime))
 				{
 					var monster = (Monster)npc;
 					var monsterBox = monster.GetBoundingBox();
-					if (monster.IsInvisible || monster.isInvincible() || monster.isGlider.Value || !monsterBox.Intersects(__instance.GetBoundingBox()))
+					var piperIndex = Util.Professions.IndexOf("Piper");
+					if (monster.IsInvisible || monster.isInvincible() || (monster.isGlider.Value && !((ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == piperIndex) || ModEntry.ActivePeerSuperModes.ContainsKey(piperIndex))) || !monsterBox.Intersects(__instance.GetBoundingBox()))
 						continue;
 
 					if (monster is Bug bug && bug.isArmoredBug.Value // skip armored bugs
@@ -51,7 +52,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					var damageToMonster = Math.Max(1, __instance.DamageToFarmer + Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4));
 					var trajectory = SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.Position) / 2f;
 					monster.takeDamage(damageToMonster, (int)trajectory.X, (int)trajectory.Y, isBomb: false, 1.0, hitSound: "slime");
-					monster.setInvincibleCountdown((int)(BASE_INVINCIBILITY_TIMER * Util.Professions.GetCooldownOrChargeTimeReduction()));
+					monster.setInvincibleCountdown((int)(BASE_INVINCIBILITY_TIMER * (1f - Util.Professions.GetPiperSlimeAttackSpeedModifier())));
 					monster.currentLocation.debris.Add(new Debris(damageToMonster, new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y), new Color(255, 130, 0), 1f, monster));
 				}
 			}

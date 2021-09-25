@@ -1,5 +1,6 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
 using TheLion.Stardew.Professions.Framework;
@@ -19,7 +20,8 @@ namespace TheLion.Stardew.Professions
 		public static int DemolitionistExcitedness { get; set; }
 		public static int SpelunkerLadderStreak { get; set; }
 		public static int SlimeContactTimer { get; set; }
-
+		public static HashSet<int> MonstersStolenFrom { get; set; } = new();
+		public static List<GreenSlime> PipedSlimes { get; set; }
 		public static Dictionary<int, HashSet<long>> ActivePeerSuperModes { get; set; } = new();
 		public static int SuperModeCounterMax => 500;
 		public static float SuperModeBarOpacity { get; set; } = 1f;
@@ -132,10 +134,13 @@ namespace TheLion.Stardew.Professions
 			Subscriber = new EventSubscriber();
 
 			// add debug commands
-			Helper.ConsoleCommands.Add("player_checkprofessions", "List the player's current professions.", ConsoleCommands.CheckLocalPlayerProfessions);
 			Helper.ConsoleCommands.Add("player_addprofessions", "Add the specified professions to the local player." + ConsoleCommands.GetUsageForAddProfessions(), ConsoleCommands.AddProfessionsToLocalPlayer);
 			Helper.ConsoleCommands.Add("player_resetprofessions", "Reset all skills and professions for the local player.", ConsoleCommands.ResetLocalPlayerProfessions);
-			Helper.ConsoleCommands.Add("player_readyult", "Max-out the super mode resource.", ConsoleCommands.ReadySuperMode);
+			Helper.ConsoleCommands.Add("player_checkprofessions", "List the player's current professions.", ConsoleCommands.CheckLocalPlayerProfessions);
+			Helper.ConsoleCommands.Add("player_setultmeter", "Set the super mode meter to the desired value.", ConsoleCommands.SetSuperModeCounter);
+			Helper.ConsoleCommands.Add("player_readyult", "Max-out the super mode meter.", ConsoleCommands.ReadySuperMode);
+			Helper.ConsoleCommands.Add("player_maxanimalfriendship", "Max-out the friendship of all owned animals.", ConsoleCommands.MaxAnimalFriendship);
+			Helper.ConsoleCommands.Add("player_maxanimalmood", "Max-out the mood of all owned animals.", ConsoleCommands.MaxAnimalMood);
 			Helper.ConsoleCommands.Add("wol_getdatafield", "Check current value for a profession data field." + ConsoleCommands.GetAvailableDataFields(), ConsoleCommands.PrintModDataField);
 			Helper.ConsoleCommands.Add("wol_setitemsforaged", "Set a new value for ItemsForaged field.", ConsoleCommands.SetItemsForaged);
 			Helper.ConsoleCommands.Add("wol_setmineralscollected", "Set a new value for MineralsCollected field.", ConsoleCommands.SetMineralsCollected);

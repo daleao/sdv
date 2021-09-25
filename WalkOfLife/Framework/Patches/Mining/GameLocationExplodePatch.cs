@@ -81,6 +81,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						Game1.createObjectDebris(resourceIndex, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID, __instance);
 					}
 					else
+					{
 						switch (tileObj.ParentSheetIndex)
 						{
 							case 44: // gem node
@@ -107,6 +108,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 									Game1.createObjectDebris(827, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID, __instance);
 								break;
 						}
+					}
 				}
 
 				if (!who.IsLocalPlayer || !isDemolitionist) return;

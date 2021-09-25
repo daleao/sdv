@@ -24,22 +24,27 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch for Rascal slingshot damage increase with travel time.</summary>
+		/// <summary>Patch for Rascal slingshot damage increase with travel time + apply Piper projectile slow.</summary>
 		[HarmonyPrefix]
-		private static bool BasicProjectileBehaviorOnCollisionWithMonsterPrefix(BasicProjectile __instance, ref NetBool ___damagesMonsters, NetCharacterRef ___theOneWhoFiredMe, int ___travelTime, ref NPC n, GameLocation location)
+		private static bool BasicProjectileBehaviorOnCollisionWithMonsterPrefix(BasicProjectile __instance, ref NetString ___collisionSound, NetCharacterRef ___theOneWhoFiredMe, int ___travelTime, ref NPC n, GameLocation location)
 		{
 			try
 			{
-				if (!___damagesMonsters.Value) return false; // don't run original logic
-				
-				if (!n.IsMonster) return true; // run original logic
+				if (n is not Monster) return true; // run original logic
 
 				var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
 				if (!firer.HasProfession("Rascal")) return true; // run original logic
 
 				ModEntry.Reflection.GetMethod(__instance, name: "explosionAnimation")?.Invoke(location);
 				var damageToMonster = (int)(__instance.damageToFarmer.Value * Util.Professions.GetRascalBonusDamageForTravelTime(___travelTime));
-				location.damageMonster(n.GetBoundingBox(), damageToMonster, damageToMonster + 1, isBomb: false, firer);
+				var didAnyDamage = location.damageMonster(n.GetBoundingBox(), damageToMonster, damageToMonster + 1, isBomb: false, firer);
+
+				//___collisionSound.Value = "slimeHit";
+				//n.addedSpeed -= 4;
+				//n.startGlowing(Color.Green, border: false, 0.05f);
+				//n.glowingColor = Color.Green;
+				//n.glowRate = 0.05f;
+				//ModEntry.SlimedMonsterTimers[n.GetHashCode()] = 10 + (int)(10 * (float)ModEntry.SuperModeCounter / ModEntry.SuperModeCounterMax);
 
 				return false; // don't run original logic
 			}

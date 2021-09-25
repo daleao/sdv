@@ -65,7 +65,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var distanceToClosestPlayer = double.MaxValue;
 				foreach (var farmer in __instance.currentLocation.farmers)
 				{
-					if (ModEntry.ActivePeerSuperModes.TryGetValue(Util.Professions.IndexOf("Hunter"),
+					if (ModEntry.ActivePeerSuperModes.TryGetValue(Util.Professions.IndexOf("Poacher"),
 						out var peerIDs) && peerIDs.Any(id => id == farmer.UniqueMultiplayerID)) continue;
 
 					var distanceToThisPlayer = __instance.DistanceToCharacter(farmer);
@@ -76,7 +76,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 
 				//if (__result.IsLocalPlayer && ModEntry.IsSuperModeActive &&
-				//    ModEntry.SuperModeIndex == Util.Professions.IndexOf("Hunter"))
+				//    ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher"))
 				//	__result = null;
 
 				return false; // run original logic

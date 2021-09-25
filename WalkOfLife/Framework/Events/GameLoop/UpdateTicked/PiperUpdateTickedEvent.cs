@@ -3,7 +3,7 @@ using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SlimeContactTimerCountdownUpdateTickedEvent : UpdateTickedEvent
+	public class PiperUpdateTickedEvent : UpdateTickedEvent
 	{
 		/// <inheritdoc/>
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)

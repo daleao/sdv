@@ -78,9 +78,9 @@
 	"brute.name": "狂战士",
 	"brute.description": "额外造成15%的伤害.如果使用锤子的话,每杀死一个怪物就增加0.25%的伤害,在离开矿层后重置.+25HP",
 	"brute.buffdescription": "锤系武器伤害 +{{buffMagnitude}}%.",
-	"hunter.name": "亡命之徒",
-	"hunter.description": "暴击率随HP的减小而增大.如果使用匕首系列武器暴击率翻倍",
-	"hunter.buffdescription": "匕首系列武器暴击几率 +{{critChanceBonus}}%. 暴击伤害 x{{critDamageMultiplier}}.",
+	"poacher.name": "亡命之徒",
+	"poacher.description": "暴击率随HP的减小而增大.如果使用匕首系列武器暴击率翻倍",
+	"poacher.buffdescription": "匕首系列武器暴击几率 +{{critChanceBonus}}%. 暴击伤害 x{{critDamageMultiplier}}.",
 
 	"rascal.name": "神射手",
 	"rascal.description": "弹弓在远处造成额外的50%的伤害,有60%的机率找回用过的弹药.",

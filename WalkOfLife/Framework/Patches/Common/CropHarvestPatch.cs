@@ -56,7 +56,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			///	After: Game1.stats.ItemsForaged += @object.Stack;
 
 			var dontIncreaseEcologistCounter = iLGenerator.DefineLabel();
-			var incrementFieldMethod = typeof(ModData).GetMethods().FirstOrDefault(mi => mi.Name.Equals("IncrementField"));
+			var incrementFieldMethod = typeof(ModData).GetMethods().FirstOrDefault(mi => mi.Name == "IncrementField");
 			try
 			{
 				Helper

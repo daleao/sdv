@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+using Netcode;
 using StardewValley;
+using StardewValley.Locations;
 using StardewValley.Monsters;
 using System;
 using System.Linq;
@@ -36,61 +37,24 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			// add countdown event
 			ModEntry.Subscriber.Subscribe(new SuperModeCountdownUpdateTickedEvent());
 
-			// enable corresponding super mode
-			SoundEffect sfx = null;
+			// play sfx
 			var whichSuperMode = Util.Professions.NameOf(ModEntry.SuperModeIndex);
-			switch (whichSuperMode)
+			var whichSfx = whichSuperMode switch
 			{
-				case "Brute":
-					if (ModEntry.SfxLoader.SfxByName.TryGetValue("brute_rage", out sfx))
-						sfx.CreateInstance().Play();
-					Game1.player.startGlowing(Color.OrangeRed, border: false, 0.05f);
-					break;
-				case "Hunter":
-					if (ModEntry.SfxLoader.SfxByName.TryGetValue("hunter_invis", out sfx))
-						sfx.CreateInstance().Play();
-					Game1.player.startGlowing(Color.GhostWhite, border: false, 0.05f);
-					break;
-				case "Desperado":
-					if (ModEntry.SfxLoader.SfxByName.TryGetValue("", out sfx))
-						sfx.CreateInstance().Play();
-					Game1.player.startGlowing(Color.DarkGoldenrod, border: false, 0.05f);
-					break;
-				case "Piper":
-					if (ModEntry.SfxLoader.SfxByName.TryGetValue("piper_provoke", out sfx))
-						sfx.CreateInstance().Play();
-					Game1.player.startGlowing(Color.LightSeaGreen, border: false, 0.05f);
+				"Brute" => ModEntry.Config.UseMenacingSoundEffects ? "brute_rage_menacing" : "brute_rage",
+				"Poacher" => "poacher_invis",
+				"Desperado" => ModEntry.Config.UseMenacingSoundEffects ? "desperado_cockgun_menacing" : "desperado_cockgun",
+				"Piper" => "piper_provoke",
+				_ => throw new ArgumentException($"Unexpected super mode {whichSuperMode}")
+			};
 
-					// do enrage and mutations
-					var location = Game1.currentLocation;
-					var slimes = from npc in location.characters.OfType<GreenSlime>() select npc;
-					var r = new Random(Guid.NewGuid().GetHashCode());
-					foreach (var slime in slimes)
-					{
-						// enrage
-						if (slime.cute.Value && !slime.focusedOnFarmers)
-						{
-							slime.DamageToFarmer += slime.DamageToFarmer / 2;
-							slime.shake(1000);
-							slime.focusedOnFarmers = true;
-						}
-
-						if (Game1.random.NextDouble() > 0.25) return;
-
-						// try to make special
-						slime.hasSpecialItem.Value = true;
-						slime.Health *= 3;
-						slime.DamageToFarmer *= 2;
-					}
-
-					break;
-			}
+			if (ModEntry.SfxLoader.SfxByName.TryGetValue(whichSfx, out var sfx)) sfx.CreateInstance().Play();
 
 			// display buff
 			var buffID = ModEntry.UniqueID.Hash() + ModEntry.SuperModeIndex + 4;
 			var professionIndex = ModEntry.SuperModeIndex;
 			var professionName = Util.Professions.NameOf(professionIndex);
-			
+
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
 			if (buff == null)
 			{
@@ -113,6 +77,14 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					{
 						which = buffID,
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
+						glow = whichSuperMode switch
+						{
+							"Brute" => Color.OrangeRed,
+							"Poacher" => Color.GhostWhite,
+							"Desperado" => Color.DarkGoldenrod,
+							"Piper" => Color.LightSeaGreen,
+							_ => throw new ArgumentException($"Unexpected super mode {whichSuperMode}")
+						},
 						millisecondsDuration = (int)(ModEntry.Config.SuperModeDrainFactor / 60f * ModEntry.SuperModeCounterMax * 1000f),
 						description = ModEntry.I18n.Get(professionName.ToLower() + ".supermdesc")
 					}
@@ -121,6 +93,53 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			// notify peers
 			ModEntry.Multiplayer.SendMessage(message: ModEntry.SuperModeIndex, messageType: "SuperModeActivated", modIDs: new[] { ModEntry.UniqueID });
+
+			// apply immediate effects
+			if (whichSuperMode == "Poacher") DoEnablePoacherSuperMode();
+			else if (whichSuperMode == "Piper") DoEnablePiperSuperMode();
+		}
+
+		/// <summary>Hide the player from monsters that may have already seen him/her.</summary>
+		private void DoEnablePoacherSuperMode()
+		{
+			foreach (var monster in Game1.currentLocation.characters.OfType<Monster>().Where(m => m.Player.IsLocalPlayer))
+			{
+				monster.focusedOnFarmers = false;
+				switch (monster)
+				{
+					case DustSpirit dustSpirit:
+						ModEntry.Reflection.GetField<bool>(dustSpirit, name: "chargingFarmer").SetValue(false);
+						ModEntry.Reflection.GetField<bool>(dustSpirit, name: "seenFarmer").SetValue(false);
+						break;
+					case AngryRoger angryRoger:
+						ModEntry.Reflection.GetField<NetBool>(angryRoger, name: "seenPlayer").GetValue().Set(false);
+						break;
+					case Bat bat:
+						ModEntry.Reflection.GetField<NetBool>(bat, name: "seenPlayer").GetValue().Set(false);
+						break;
+					case Ghost ghost:
+						ModEntry.Reflection.GetField<NetBool>(ghost, name: "seenPlayer").GetValue().Set(false);
+						break;
+					case RockGolem rockGolem:
+						ModEntry.Reflection.GetField<NetBool>(rockGolem, name: "seenPlayer").GetValue().Set(false);
+						break;
+				}
+			}
+		}
+
+		/// <summary>Enflate Slimes and apply mutations.</summary>
+		private void DoEnablePiperSuperMode()
+		{
+			ModEntry.PipedSlimes = Game1.currentLocation.characters.OfType<GreenSlime>().Where(s => s.Scale < 2f).ToList();
+			foreach (var slime in ModEntry.PipedSlimes)
+			{
+				if (Game1.random.NextDouble() <= 0.012 + Game1.player.team.AverageDailyLuck() / 10.0)
+				{
+					if (Game1.currentLocation is MineShaft && Game1.player.team.SpecialOrderActive("Wizard2")) slime.makePrismatic();
+					else slime.hasSpecialItem.Value = true;
+				}
+			}
+			ModEntry.Subscriber.Subscribe(new SlimeInflationUpdateTickedEvent());
 		}
 	}
 }

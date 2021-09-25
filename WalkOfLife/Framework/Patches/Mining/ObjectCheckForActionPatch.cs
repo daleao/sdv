@@ -32,7 +32,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (__instance.heldObject.Value == null || !who.HasProfession("Gemologist") || !(__instance.owner.Value == who.UniqueMultiplayerID || !Game1.IsMultiplayer))
 					return;
 
-				if (__instance.name.Equals("Crystalarium")) __instance.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
+				if (__instance.name == "Crystalarium") __instance.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
 			}
 			catch (Exception ex)
 			{

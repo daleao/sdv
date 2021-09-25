@@ -56,7 +56,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 			Util.Tiles.MakeTileDiggable(v, location);
 			TreasureTile = v;
-			TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize * 10, 2) / 2 * ModEntry.Config.TreasureHuntHandicap);
+			TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize * 10, 2) * ModEntry.Config.TreasureHuntHandicap);
 			Elapsed = 0;
 			ModEntry.Subscriber.Subscribe(new Events.ArrowPointerUpdateTickedEvent(), new Events.ScavengerHuntUpdateTickedEvent(), new Events.ScavengerHuntRenderedHudEvent());
 			Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, Icon));
@@ -136,7 +136,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			while (Random.NextDouble() <= chance)
 			{
 				chance *= 0.4f;
-				if (Game1.currentSeason.Equals("spring") && !(Game1.currentLocation is Beach) && Random.NextDouble() < 0.1)
+				if (Game1.currentSeason == "spring" && !(Game1.currentLocation is Beach) && Random.NextDouble() < 0.1)
 					treasures.Add(new SObject(273, Random.Next(2, 6) + (Random.NextDouble() < 0.25 ? 5 : 0))); // rice shoot
 
 				if (Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))

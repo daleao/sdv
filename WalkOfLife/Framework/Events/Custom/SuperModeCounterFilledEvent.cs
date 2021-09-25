@@ -20,6 +20,7 @@
 		public void OnSuperModeCounterFilled()
 		{
 			ModEntry.Subscriber.Subscribe(new SuperModeBarShakeTimerUpdateTickedEvent());
+
 		}
 	}
 }

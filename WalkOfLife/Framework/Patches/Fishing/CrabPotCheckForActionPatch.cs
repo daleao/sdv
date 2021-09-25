@@ -101,7 +101,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static bool IsHoldingSpecialLuremasterCatch(CrabPot crabpot)
 		{
 			var obj = crabpot.heldObject.Value;
-			return obj != null && (obj.Type?.Equals("Fish") == true && !Util.Objects.IsTrapFish(obj) || Util.Objects.IsPirateTreasure(obj));
+			return obj != null && ((obj.Type == "Fish" && !Util.Objects.IsTrapFish(obj)) || Util.Objects.IsPirateTreasure(obj));
 		}
 
 		#endregion private methods

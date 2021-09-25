@@ -167,10 +167,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="location">The location of the crab pot.</param>
 		private static bool IsCorrectWeatherForThisFish(string[] specificFishData, GameLocation location)
 		{
-			if (specificFishData[7].Equals("both")) return true;
+			if (specificFishData[7] == "both") return true;
 
-			return specificFishData[7].Equals("rainy") && !Game1.IsRainingHere(location) ||
-				specificFishData[7].Equals("sunny") && Game1.IsRainingHere(location);
+			return specificFishData[7] == "rainy" && !Game1.IsRainingHere(location) ||
+				specificFishData[7] == "sunny" && Game1.IsRainingHere(location);
 		}
 
 		/// <summary>Choose amongst a pre-select list of fish.</summary>
@@ -233,7 +233,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				var shouldCatchOceanFish = crabpot.ShouldCatchOceanFish(location);
 				var rawSplit = kvp.Value.Split('/');
-				if ((rawSplit[4].Equals("ocean") && !shouldCatchOceanFish) || (rawSplit[4].Equals("freshwater") && shouldCatchOceanFish))
+				if ((rawSplit[4] == "ocean" && !shouldCatchOceanFish) || (rawSplit[4] == "freshwater" && shouldCatchOceanFish))
 					continue;
 
 				if (isLuremaster)

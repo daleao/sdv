@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using StardewModdingAPI;
 
-namespace TheLion.Stardew.Professions
+namespace TheLion.Stardew.Professions.Framework
 {
 	public class SoundEffectLoader
 	{

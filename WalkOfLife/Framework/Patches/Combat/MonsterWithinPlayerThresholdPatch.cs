@@ -8,25 +8,23 @@ using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
-	internal class NPCWithinPlayerThresholdPatch : BasePatch
+	internal class MonsterWithinPlayerThresholdPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		internal NPCWithinPlayerThresholdPatch()
+		internal MonsterWithinPlayerThresholdPatch()
 		{
-			Original = typeof(NPC).MethodNamed(nameof(NPC.withinPlayerThreshold), new[] { typeof(int) });
-			Prefix = new HarmonyMethod(GetType(), nameof(NPCWithinPlayerThresholdPrefix));
+			Original = typeof(Monster).MethodNamed(nameof(Monster.withinPlayerThreshold), new Type[] { });
+			Prefix = new HarmonyMethod(GetType(), nameof(MonsterWithinPlayerThresholdPrefix));
 		}
 
 		#region harmony patch
 
 		/// <summary>Patch to make Poacher invisible in super mode.</summary>
 		[HarmonyTranspiler]
-		private static bool NPCWithinPlayerThresholdPrefix(NPC __instance, ref bool __result)
+		private static bool MonsterWithinPlayerThresholdPrefix(Monster __instance, ref bool __result)
 		{
 			try
 			{
-				if (__instance is not Monster) return true; // run original method
-
 				var foundPlayer = ModEntry.Reflection.GetMethod(__instance, name: "findPlayer").Invoke<Farmer>();
 				if (!foundPlayer.IsLocalPlayer || !ModEntry.IsSuperModeActive ||
 					ModEntry.SuperModeIndex != Util.Professions.IndexOf("Poacher")) return true; // run original method

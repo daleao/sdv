@@ -37,7 +37,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!Util.Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
 
 				// add immediate perks
-				if (professionName.Equals("Aquarist"))
+				if (professionName == "Aquarist")
 				{
 					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == Game1.player.UniqueMultiplayerID || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
 					{
@@ -53,7 +53,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				ModEntry.Subscriber.SubscribeEventsForProfession(whichProfession);
 
 				// register super mode
-				var combatProfessions = new[] { "Brute", "Hunter", "Desperado", "Piper" };
+				var combatProfessions = new[] { "Brute", "Poacher", "Desperado", "Piper" };
 				if (!professionName.AnyOf(combatProfessions) ||
 					Game1.player.HasAnyOfProfessions(combatProfessions.Except(new[] { professionName }).ToArray())) return;
 

@@ -24,21 +24,21 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch to move critical chance bonus from Scout to Hunter + patch Brute damage bonus + move critical damage bonus from Desperado to Hunter + increment Brute Fury and Hunter Cold Blood counters + perform Hunter steal.</summary>
+		/// <summary>Patch to move critical chance bonus from Scout to Poacher + patch Brute damage bonus + move critical damage bonus from Desperado to Poacher + increment Brute Fury and Poacher Cold Blood counters + perform Poacher steal.</summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
 			/// From: if (who.professions.Contains(<scout_id>) critChance += critChance * 0.5f
-			/// To: if (who.professions.Contains(<hunter_id>) critChance += GetHunterBonusCritChance()
+			/// To: if (who.professions.Contains(<poacher_id>) critChance += GetPoacherBonusCritChance()
 
 			try
 			{
 				Helper
 					.FindProfessionCheck(Farmer.scout) // find index of scout check
 					.Advance()
-					.SetOperand(Util.Professions.IndexOf("Hunter")) // replace with Hunter check
+					.SetOperand(Util.Professions.IndexOf("Poacher")) // replace with Poacher check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldarg_S) // start of critChance += critChance * 0.5f
 					)
@@ -51,14 +51,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Remove()
 					.ReplaceWith( // was Ldc_R4 0.5
 						new CodeInstruction(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetHunterBonusCritChance)))
+							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetPoacherBonusCritChance)))
 					)
 					.Advance()
 					.Remove(); // was Mul
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while moving modded bonus crit chance from Scout to Hunter.\nHelper returned {ex}");
+				Helper.Error($"Failed while moving modded bonus crit chance from Scout to Poacher.\nHelper returned {ex}");
 				return null;
 			}
 
@@ -88,14 +88,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 
 			/// From: if (who != null && who.professions.Contains(<desperado_id>) ... *= 2f
-			/// To: if (who != null && who.professions.Contains(<hunter_id>) ... *= GetHunterCritDamageMultiplier
+			/// To: if (who != null && who.professions.Contains(<poacher_id>) ... *= GetPoacherCritDamageMultiplier
 
 			try
 			{
 				Helper
 					.FindProfessionCheck(Farmer.desperado, fromCurrentIndex: true) // find index of desperado check
 					.Advance()
-					.SetOperand(Util.Professions.IndexOf("Hunter")) // change to Hunter check
+					.SetOperand(Util.Professions.IndexOf("Poacher")) // change to Poacher check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_R4, 2f) // desperado critical damage multiplier
 					)
@@ -105,18 +105,18 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Advance()
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetHunterCritDamageMultiplier)))
+							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetPoacherCritDamageMultiplier)))
 					);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while moving modded bonus crit damage from Desperado to Hunter.\nHelper returned {ex}");
+				Helper.Error($"Failed while moving modded bonus crit damage from Desperado to Poacher.\nHelper returned {ex}");
 				return null;
 			}
 
 			/// Before: damageAmount = monster.takeDamage(damageAmount, (int)trajectory.X, (int)trajectory.Y, isBomb, addedPrecision / 10.0, 
 
-			/// Injected: tryToStealAndIncrementCountersOrEndHunterSuperMode(damageAmount, isBomb, crit, critMultiplier, monster, who)
+			/// Injected: tryToStealAndIncrementCountersOrEndPoacherSuperMode(damageAmount, isBomb, crit, critMultiplier, monster, who)
 			///	Before: if (monster.Health <= 0)
 
 			try
@@ -155,7 +155,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while injecting modded Hunter snatch attempt plus Brute Fury and Hunter Cold Blood counters.\nHelper returned {ex}");
+				Helper.Error($"Failed while injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood counters.\nHelper returned {ex}");
 				return null;
 			}
 
@@ -166,7 +166,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region private methods
 
-		/// <summary>Try to steal an item if the player is Hunter, and also increment Brute and Hunter counters if applicable. If the monster was not killed, end Hunter super mode.</summary>
+		/// <summary>Try to steal an item if the player is Poacher, and also increment Brute and Poacher counters if applicable. If the monster was not killed, end Poacher super mode.</summary>
 		/// <param name="damageAmount">The amount of damage dealt to the monster.</param>
 		/// <param name="isBomb">Whether the damgae source is a bomb.</param>
 		/// <param name="didCrit">Whether the player scored a critical strike.</param>
@@ -176,11 +176,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void TryToStealAndIncrementCounters(int damageAmount, bool isBomb, bool didCrit, float critMultiplier, Monster monster, Farmer who)
 		{
 			if (damageAmount <= 0 || isBomb || who is not { IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon }) return;
-			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Hunter")) TryToStealItem(monster, who);
+			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") && !ModEntry.MonstersStolenFrom.Contains(monster.GetHashCode())) TryToStealItem(monster, who);
 			if (!ModEntry.IsSuperModeActive) TryToIncrementSuperModeCounter(didCrit, critMultiplier, weapon, monster, who);
 		}
 
-		/// <summary>Try to increment Brute or Hunter counters.</summary>
+		/// <summary>Try to increment Brute or Poacher counters.</summary>
 		/// <param name="didCrit">Whether the player scored a critical strike.</param>
 		/// <param name="critMultiplier">The player's raw critical power before profession bonuses.</param>
 		/// <param name="weapon">The player's current weapon.</param>
@@ -188,16 +188,20 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="who">The player.</param>
 		private static void TryToIncrementSuperModeCounter(bool didCrit, float critMultiplier, MeleeWeapon weapon, Monster monster, Farmer who)
 		{
+			int increment = 0;
 			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Brute"))
 			{
-				++ModEntry.SuperModeCounter;
-				if (monster.Health <= 0) ++ModEntry.SuperModeCounter;
-				if (weapon.type.Value == MeleeWeapon.club) ++ModEntry.SuperModeCounter;
+				increment = 2;
+				if (monster.Health <= 0) increment *= 2;
+				if (weapon.type.Value == MeleeWeapon.club) increment *= 2;
 			}
-			else if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Hunter") && didCrit)
+			else if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") && didCrit)
 			{
-				ModEntry.SuperModeCounter += (int)Math.Round(critMultiplier * Util.Professions.GetHunterCritDamageMultiplier(who));
+				increment = (int)Math.Round(critMultiplier * Util.Professions.GetPoacherCritDamageMultiplier(who));
+				if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
 			}
+			
+			ModEntry.SuperModeCounter += increment;
 		}
 
 		/// <summary>Try to steal an item from the target monster.</summary>
@@ -205,12 +209,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="who">The player.</param>
 		private static void TryToStealItem(Monster monster, Farmer who)
 		{
-			if (Game1.random.NextDouble() > Util.Professions.GetHunterStealChance(who)) return;
+			if (Game1.random.NextDouble() > Util.Professions.GetPoacherStealChance(who)) return;
 
 			var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item).Concat(monster.getExtraDropItems()).ToList();
-			var stolen = drops[Game1.random.Next(drops.Count)].getOne();
-			if (stolen != null && who.addItemToInventoryBool(stolen) && ModEntry.SfxLoader.SfxByName.TryGetValue("hunter_steal", out var sfx))
-				sfx.CreateInstance().Play();
+			var stolen = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
+			if (stolen == null || !who.addItemToInventoryBool(stolen))
+				return;
+			
+			ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
+			if (ModEntry.SfxLoader.SfxByName.TryGetValue("poacher_steal", out var sfx)) sfx.CreateInstance().Play();
 		}
 
 		#endregion private methods

@@ -37,7 +37,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var startOfFishRoll = iLGenerator.DefineLabel();
 			var shouldntReroll = iLGenerator.DefineLabel();
 			var hasRerolled = iLGenerator.DeclareLocal(typeof(bool));
-			var shuffleMethod = typeof(SUtility).GetMethods().Where(mi => mi.Name.Equals("Shuffle")).ElementAtOrDefault(1);
+			var shuffleMethod = typeof(SUtility).GetMethods().Where(mi => mi.Name == "Shuffle").ElementAtOrDefault(1);
 			if (shuffleMethod == null)
 			{
 				Helper.Error($"Failed acquire {typeof(SUtility)}::Shuffle method.");

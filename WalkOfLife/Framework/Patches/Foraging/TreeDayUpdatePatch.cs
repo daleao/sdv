@@ -67,7 +67,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="tileLocation">The tree's tile location.</param>
 		private static bool CanThisTreeGrow(Tree tree, GameLocation environment, Vector2 tileLocation)
 		{
-			if (Game1.GetSeasonForLocation(tree.currentLocation).Equals("winter") && !tree.treeType.Value.AnyOf(Tree.palmTree, Tree.palmTree2) && !environment.CanPlantTreesHere(-1, (int)tileLocation.X, (int)tileLocation.Y) && !tree.fertilized.Value)
+			if (Game1.GetSeasonForLocation(tree.currentLocation) == "winter" && !tree.treeType.Value.AnyOf(Tree.palmTree, Tree.palmTree2) && !environment.CanPlantTreesHere(-1, (int)tileLocation.X, (int)tileLocation.Y) && !tree.fertilized.Value)
 				return false;
 
 			var s = environment.doesTileHaveProperty((int)tileLocation.X, (int)tileLocation.Y, "NoSpawn", "Back");

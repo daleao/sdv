@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -15,34 +14,56 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmerTakeDamagePatch()
 		{
 			Original = typeof(Farmer).MethodNamed(nameof(Farmer.takeDamage));
-			Prefix = new HarmonyMethod(GetType(), nameof(FarmerTakeDamagePrefix));
 			Transpiler = new HarmonyMethod(GetType(), nameof(FarmerTakeDamageTranspiler));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to disable Hunter super mode on contact with enemy.</summary>
-		[HarmonyPrefix]
-		private static bool FarmerTakeDamagePrefix(Farmer __instance)
-		{
-			try
-			{
-				if (__instance.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Hunter"))
-					ModEntry.IsSuperModeActive = false;
-			}
-			catch (Exception ex)
-			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
-			}
-
-			return true; // run original logic
-		}
-
-		/// <summary>Patch to increment Brute Rage for damage taken + add Brute Super Mode immortality.</summary>
+		/// <summary>Patch to make Poacher untargetable during super mode + increment Brute Fury for damage taken + add Brute super mode immortality.</summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> FarmerTakeDamageTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
+
+			/// Injected: else if (this.IsLocalPlayer && IsSuperModeActive && SuperModeIndex == <poacher_id>) monsterDamageCapable = false;
+
+			var alreadyUndamageableOrNotAmbuscade = iLGenerator.DefineLabel();
+			try
+			{
+				Helper
+					.FindFirst(
+						new CodeInstruction(OpCodes.Stloc_0)
+					)
+					.Advance()
+					.AddLabels(alreadyUndamageableOrNotAmbuscade)
+					.Insert(
+						// check if monsterDamageCapable is already false
+						new CodeInstruction(OpCodes.Ldloc_0),
+						new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
+						// check if this.IsLocalPlayer
+						new CodeInstruction(OpCodes.Ldarg_0),
+						new CodeInstruction(OpCodes.Call,
+							typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
+						new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
+						// check if IsSuperModeActive
+						new CodeInstruction(OpCodes.Call,
+							typeof(ModEntry).PropertyGetter(nameof(ModEntry.IsSuperModeActive))),
+						new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
+						// check if SuperModeIndex == <poacher_id>
+						new CodeInstruction(OpCodes.Call,
+							typeof(ModEntry).PropertyGetter(nameof(ModEntry.SuperModeIndex))),
+						new CodeInstruction(OpCodes.Ldc_I4_S, Util.Professions.IndexOf("Poacher")),
+						new CodeInstruction(OpCodes.Bne_Un_S, alreadyUndamageableOrNotAmbuscade),
+						// set monsterDamageCapable = false
+						new CodeInstruction(OpCodes.Ldc_I4_0),
+						new CodeInstruction(OpCodes.Stloc_0)
+					);
+			}
+			catch(Exception ex)
+			{
+				Helper.Error($"Failed while adding Poacher untargetability during super mode.\nHelper returned {ex}");
+				return null;
+			}
 
 			/// Injected: if (IsSuperModeActive && SuperModeIndex == <brute_id>) health = 1;
 			/// After: if (health <= 0)
@@ -65,12 +86,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var resumeExecution) // copy branch label to resume normal execution
 					.Advance()
 					.AddLabels(isNotUndyingButMayHaveDailyRevive)
-					//.Insert(
-					//	// prepare profession check
-					//	new CodeInstruction(OpCodes.Ldarg_0)
-					//)
-					//.InsertProfessionCheckForPlayerOnStack(Util.Professions.IndexOf("Brute"), // check if who has Brute profession
-					//	isNotUndyingButMayHaveDailyRevive)
 					.Insert(
 						// check if IsSuperModeActive
 						new CodeInstruction(OpCodes.Call,
@@ -92,7 +107,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding Brute Super Mode immortality.\nHelper returned {ex}");
+				Helper.Error($"Failed while adding Brute super mode immortality.\nHelper returned {ex}");
 				return null;
 			}
 
@@ -128,7 +143,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding Brute Rage counter for damage taken.\nHelper returned {ex}");
+				Helper.Error($"Failed while adding Brute Fury counter for damage taken.\nHelper returned {ex}");
 				return null;
 			}
 

@@ -11,14 +11,17 @@ namespace TheLion.Stardew.Professions
 		/// <summary>Mod key used by Prospector and Scavenger professions.</summary>
 		public KeybindList SuperModeKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-		/// <summary>Whether Super Mode is activated on <see cref="SuperModeKey"/> hold (as opposed to press).</summary>
+		/// <summary>Whether super mode is activated on <see cref="SuperModeKey"/> hold (as opposed to press).</summary>
 		public bool HoldKeyToActivateSuperMode { get; set; } = true;
 
-		/// <summary>How long <see cref="SuperModeKey"/> should be held to activate Super Mode, in seconds.</summary>
+		/// <summary>How long <see cref="SuperModeKey"/> should be held to activate super mode, in seconds.</summary>
 		public int SuperModeActivationDelay { get; set; } = 1;
 
-		/// <summary>Lower numbers make Super Mode last longer. Should be a number between 1 and 10.</summary>
+		/// <summary>Lower numbers make super mode last longer. Should be a number between 1 and 10.</summary>
 		public uint SuperModeDrainFactor { get; set; } = 2;
+
+		/// <summary>Play a more menacing sound effect when activating super mode.</summary>
+		public bool UseMenacingSoundEffects { get; set; } = false;
 
 		/// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
 		public uint ForagesNeededForBestQuality { get; set; } = 500;

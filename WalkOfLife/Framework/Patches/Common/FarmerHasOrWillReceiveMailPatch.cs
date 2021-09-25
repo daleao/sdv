@@ -24,7 +24,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (!id.Equals($"{ModEntry.UniqueID}/ConservationistTaxNotice"))
+				if (id != $"{ModEntry.UniqueID}/ConservationistTaxNotice")
 					return true; // run original logic
 
 				__result = false;

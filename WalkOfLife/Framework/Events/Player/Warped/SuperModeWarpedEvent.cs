@@ -14,11 +14,11 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			if (e.NewLocation.AnyOfType(typeof(MineShaft), typeof(Woods), typeof(SlimeHutch), typeof(VolcanoDungeon)))
 			{
-				ModEntry.Subscriber.Subscribe(new SuperModeBarRenderedHudEvent());
+				ModEntry.Subscriber.Subscribe(new SuperModeBarRenderingHudEvent());
 			}
 			else
 			{
-				ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarFadeOutUpdateTickedEvent), typeof(SuperModeBarShakeTimerUpdateTickedEvent), typeof(SuperModeBarRenderedHudEvent));
+				ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarFadeOutUpdateTickedEvent), typeof(SuperModeBarShakeTimerUpdateTickedEvent), typeof(SuperModeBarRenderingHudEvent));
 				
 				ModEntry.SuperModeCounter = 0;
 				ModEntry.SuperModeBarOpacity = 1f;

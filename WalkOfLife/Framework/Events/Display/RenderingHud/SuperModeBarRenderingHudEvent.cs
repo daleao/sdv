@@ -2,10 +2,10 @@
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SuperModeBarRenderedHudEvent : RenderedHudEvent
+	public class SuperModeBarRenderingHudEvent : RenderingHudEvent
 	{
 		/// <inheritdoc/>
-		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)
+		public override void OnRenderingHud(object sender, RenderingHudEventArgs e)
 		{
 			Util.HUD.DrawSuperModeBar();
 		}

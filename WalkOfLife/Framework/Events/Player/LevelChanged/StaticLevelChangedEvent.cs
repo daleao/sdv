@@ -11,7 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		{
 			if (!e.IsLocalPlayer || e.NewLevel != 0) return;
 
-			// clean up Hunter events and data on skill reset
+			// clean up Poacher events and data on skill reset
 			ModEntry.Subscriber.CleanUpRogueEvents();
 			ModEntry.Data.CleanUpRogueDataFields();
 		}

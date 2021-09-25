@@ -51,14 +51,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch to add Hunter assassination attempt.</summary>
+		/// <summary>Patch to add Poacher assassination attempt.</summary>
 		[HarmonyPrefix]
 		private static bool MonsterTakeDamagePrefix(Monster __instance, ref int __result, ref int ___slideAnimationTimer, int damage, int xTrajectory, int yTrajectory, bool isBomb, Farmer who)
 		{
 			try
 			{
 				if (damage <= 0 || isBomb || !ModEntry.IsSuperModeActive ||
-					ModEntry.SuperModeIndex != Util.Professions.IndexOf("Hunter") ||
+					ModEntry.SuperModeIndex != Util.Professions.IndexOf("Poacher") ||
 					who.CurrentTool is not MeleeWeapon weapon || weapon.isOnSpecial) return true; // run original logic
 
 				if (__instance is Bug bug && bug.isArmoredBug.Value && !weapon.hasEnchantmentOfType<BugKillerEnchantment>() // skip armored bugs
@@ -66,8 +66,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					|| __instance is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !ModEntry.Reflection.GetField<NetBool>(crab, name: "shellGone").GetValue().Value // skip shelled rock crabs
 					|| __instance is LavaLurk lurk && lurk.currentState.Value == LavaLurk.State.Submerged // skip submerged lava lurks
 					|| __instance is Spiker // skip spikers
-					|| __instance.FacingDirection != who.FacingDirection // check for backstab
-					|| Game1.random.NextDouble() > Util.Professions.GetHunterAssassinationChance(weapon, who)) // try assassinate
+					|| __instance.FacingDirection != who.FacingDirection) // check for backstab
 					return true; // run original logic
 
 				___slideAnimationTimer = 0;
@@ -85,17 +84,18 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 		}
 
-		/// <summary>Patch to disable Hunter super mode on failed assassination.</summary>
+		/// <summary>Patch to disable Poacher super mode on failed assassination.</summary>
 		[HarmonyPostfix]
 		private static void MonsterTakeDamagePostfix(Monster __instance, int damage, bool isBomb, Farmer who)
 		{
-			if (damage <= 0 || isBomb || !ModEntry.IsSuperModeActive || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Hunter") || __instance.Health <= 0)
+			if (damage <= 0 || isBomb || !ModEntry.IsSuperModeActive || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Poacher") || __instance.Health <= 0)
 				return;
 			ModEntry.IsSuperModeActive = false;
 		}
 
 		#endregion harmony patches
 
+		#region private methods
 
 		[HarmonyTargetMethods]
 		private static IEnumerable<MethodBase> TargetMethods()
@@ -108,5 +108,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			return methods.Where(m => !m.DeclaringType.AnyOf(typeof(Monster), typeof(HotHead), typeof(LavaLurk),
 				typeof(MetalHead), typeof(Shooter), typeof(ShadowBrute), typeof(Skeleton), typeof(Spiker))); // these guys already call the base method, so we don't want the patch to run twice
 		}
+
+		#endregion private methods
 	}
 }

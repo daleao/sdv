@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (__instance.name.Equals("Tapper") && Game1.player.HasProfession("Tapper"))
+				if (__instance.name == "Tapper" && Game1.player.HasProfession("Tapper"))
 				{
 					__instance.recipeList = new Dictionary<int, int>
 					{

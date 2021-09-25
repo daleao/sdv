@@ -81,7 +81,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.isCoopDweller)))
 					)
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse) // the all cases false branch
+						new CodeInstruction(OpCodes.Brfalse_S) // the all cases false branch
 					)
 					.GetOperand(out var resumeExecution) // copy destination
 					.Return()

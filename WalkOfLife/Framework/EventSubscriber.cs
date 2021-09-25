@@ -21,6 +21,7 @@ namespace TheLion.Stardew.Professions.Framework
 		{
 			{ Util.Professions.IndexOf("Artisan"), new() { new ArtisanDayEndingEvent() } },
 			{ Util.Professions.IndexOf("Conservationist"), new() { new ConservationistDayEndingEvent(), new ConservationistDayStartedEvent() } },
+			{ Util.Professions.IndexOf("Poacher"), new() { new PoacherWarpedEvent() } },
 			{ Util.Professions.IndexOf("Piper"), new() { new PiperWarpedEvent() } },
 			{ Util.Professions.IndexOf("Prospector"), new() { new ProspectorHuntDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent() } },
 			{ Util.Professions.IndexOf("Scavenger"), new() { new ScavengerHuntDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent() } },
@@ -146,7 +147,7 @@ namespace TheLion.Stardew.Professions.Framework
 
 			if (!Game1.currentLocation.AnyOfType(typeof(MineShaft), typeof(Woods), typeof(SlimeHutch), typeof(VolcanoDungeon)) && ModEntry.SuperModeCounter <= 0) return;
 
-			ModEntry.Subscriber.Subscribe(new SuperModeBarRenderedHudEvent());
+			ModEntry.Subscriber.Subscribe(new SuperModeBarRenderingHudEvent());
 			if (ModEntry.SuperModeCounter >= ModEntry.SuperModeCounterMax) ModEntry.Subscriber.Subscribe(new SuperModeBarShakeTimerUpdateTickedEvent());
 		}
 
@@ -156,7 +157,7 @@ namespace TheLion.Stardew.Professions.Framework
 			Unsubscribe(
 				typeof(SuperModeActivationTimerUpdateTickedEvent),
 				typeof(SuperModeBarFadeOutUpdateTickedEvent),
-				typeof(SuperModeBarRenderedHudEvent),
+				typeof(SuperModeBarRenderingHudEvent),
 				typeof(SuperModeBarShakeTimerUpdateTickedEvent),
 				typeof(SuperModeBuffsDisplayUpdateTickedEvent),
 				typeof(SuperModeButtonsChangedEvent),
@@ -187,8 +188,8 @@ namespace TheLion.Stardew.Professions.Framework
 			ModEntry.Log("Checking for rogue profession events...", LogLevel.Trace);
 			foreach (var e in _subscribed
 				.Where(e => Util.Professions.IndexByName.Contains(e.Prefix()) && !Game1.player.HasProfession(e.Prefix()) ||
-							e.Prefix().Equals("Tracker") && !(Game1.player.HasProfession("Prospector") || Game1.player.HasProfession("Scavenger")) ||
-							e.Prefix().Equals("SuperMode") && !Game1.player.HasAnyOfProfessions("Brute", "Hunter", "Piper", "Desperado"))
+							e.Prefix() == "Tracker" & !(Game1.player.HasProfession("Prospector") || Game1.player.HasProfession("Scavenger")) ||
+							e.Prefix() == "SuperMode" && !Game1.player.HasAnyOfProfessions("Brute", "Poacher", "Piper", "Desperado"))
 				.Reverse()) Unsubscribe(e.GetType());
 			ModEntry.Log("Done cleaning up rogue events.", LogLevel.Trace);
 		}

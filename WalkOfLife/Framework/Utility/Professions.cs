@@ -59,7 +59,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			// combat
 			{ "Fighter", Farmer.fighter },              // 24
 			{ "Brute", Farmer.brute },                  // 26
-			{ "Hunter", Farmer.defender },             // 27
+			{ "Poacher", Farmer.defender },             // 27
 
 			{ "Rascal", Farmer.scout },                 // 25
 			{ "Piper", Farmer.acrobat },                // 28
@@ -259,49 +259,49 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		{
 			return 1.15f +
 				   (who.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Brute")
-					   ? 0.5f
+					   ? 0.65f
 					   : ModEntry.SuperModeCounter / 10 * 0.005f) *
 				   (who.CurrentTool is MeleeWeapon weapon && weapon.type.Value == MeleeWeapon.club ? 1.5f : 1f);
 		}
 
-		/// <summary>Get the bonus critical strike chance that should be applied to Hunter.</summary>
-		public static float GetHunterBonusCritChance()
+		/// <summary>Get the bonus critical strike chance that should be applied to Poacher.</summary>
+		public static float GetPoacherBonusCritChance()
 		{
 			//var healthPercent = (double)who.health / who.maxHealth;
-			//return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Hunter") ? 0.5f : (float)Math.Min(0.2 / (healthPercent + 0.2) - 0.2 / 1.2, 0.5f);
-			//return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Hunter") ? 0.1f : (float)(1.0 / 9.0 * healthPercent - 1.0 / 90.0);
-			//return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Hunter") ? 2f : (float)Math.Max(-18.0 / (healthPercent + 3.5) + 6.0, 1f);
+			//return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") ? 0.5f : (float)Math.Min(0.2 / (healthPercent + 0.2) - 0.2 / 1.2, 0.5f);
+			//return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") ? 0.1f : (float)(1.0 / 9.0 * healthPercent - 1.0 / 90.0);
+			//return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") ? 2f : (float)Math.Max(-18.0 / (healthPercent + 3.5) + 6.0, 1f);
 			return 0.1f;
 		}
 
-		/// <summary>Get the bonus critical strike damage that should be applied to Hunter.</summary>
+		/// <summary>Get the bonus critical strike damage that should be applied to Poacher.</summary>
 		/// <param name="who">The player.</param>
-		public static float GetHunterCritDamageMultiplier(Farmer who)
+		public static float GetPoacherCritDamageMultiplier(Farmer who)
 		{
 			var healthPercent = (double)who.health / who.maxHealth;
-			return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Hunter")
+			return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Poacher")
 				? 2f
 				: (float)Math.Max(-18.0 / (-healthPercent + 4.6) + 6.0, 1f);
 		}
 
-		/// <summary>Get the bonus item drop chance for Hunter.</summary>
+		/// <summary>Get the bonus item drop chance for Poacher.</summary>
 		/// <param name="who">The player.</param>
-		public static float GetHunterStealChance(Farmer who)
+		public static float GetPoacherStealChance(Farmer who)
 		{
-			return (ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Hunter")
+			return (ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Poacher")
 					   ? 0.25f
 					   : ModEntry.SuperModeCounter / 10 * 0.005f) *
 				   ((who.CurrentTool as MeleeWeapon)?.type.Value == MeleeWeapon.dagger ? 1.5f : 1f);
 		}
 
-		/// <summary>Get the chance to instant-kill an enemy for Hunter.</summary>
-		/// <param name="who">The player.</param>
-		public static float GetHunterAssassinationChance(MeleeWeapon weapon, Farmer who)
-		{
-			//var critChance = weapon.critChance.Value + (1f + who.critChanceModifier) * Util.Professions.GetHunterBonusCritChance(who);
-			var critPower = weapon.critMultiplier.Value * (1f + who.critPowerModifier) * GetHunterCritDamageMultiplier(who);
-			return (critPower - 3f) / 6f + 0.1f;
-		}
+		///// <summary>Get the chance to instant-kill an enemy for Poacher.</summary>
+		///// <param name="who">The player.</param>
+		//public static float GetPoacherAssassinationChance(MeleeWeapon weapon, Farmer who)
+		//{
+		//	//var critChance = weapon.critChance.Value + (1f + who.critChanceModifier) * Util.Professions.GetPoacherBonusCritChance(who);
+		//	var critPower = weapon.critMultiplier.Value * (1f + who.critPowerModifier) * GetPoacherCritDamageMultiplier(who);
+		//	return (critPower - 3f) / 6f + 0.1f;
+		//}
 
 		/// <summary>Get bonus slingshot damage as function of projectile travel distance.</summary>
 		/// <param name="travelDistance">Distance travelled by the projectile.</param>
@@ -322,19 +322,25 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		public static float GetDesperadoDoubleStrafeChance()
 		{
 			return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Desperado")
-				? 0.25f
+				? 0f
 				: ModEntry.SuperModeCounter / 10 * 0.005f;
 		}
 
-		/// <summary>Get the chance of applying Slimed debuff as Piper.</summary>
-		public static float GetPiperSlowChance()
+		/// <summary>Get the attack speed multiplier that should be applied to Piper Slimes.</summary>
+		public static int GetPiperSlimeSpawnAttempts()
+		{
+			return ModEntry.SuperModeCounter / 50 + 1;
+		}
+
+		/// <summary>Get the attack speed multiplier that should be applied to Piper Slimes.</summary>
+		public static float GetPiperSlimeAttackSpeedModifier()
 		{
 			return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Piper")
-				? 0.25f
-				: ModEntry.SuperModeCounter / 10 * 0.005f;
+				? 1.15f
+				: ModEntry.SuperModeCounter / 10 * 0.003f;
 		}
-
-		/// <summary>Get the cooldown reduction multiplier that should be applied to Brute or Hunter cooldown reductions, Desperado charge time and Piper Slime attack speed.</summary>
+		
+		/// <summary>Get the cooldown reduction multiplier that should be applied to Brute or Poacher cooldown reductions and Desperado charge time.</summary>
 		public static float GetCooldownOrChargeTimeReduction()
 		{
 			return ModEntry.IsSuperModeActive ? 0.5f : 1f - ModEntry.SuperModeCounter / 10 * 0.01f;
