@@ -36,7 +36,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				var owner = Game1.getFarmer(____pond.owner.Value);
-				if (!owner.HasProfession("Aquarist") || ____pond.lastUnlockedPopulationGate.Value < ModEntry.Reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
+				if (!owner.HasProfession("Aquarist") || ____pond.lastUnlockedPopulationGate.Value < ModEntry.ModHelper.Reflection.GetField<FishPondData>(____pond, name: "_fishPondData").GetValue().PopulationGates.Keys.Max()) return true; // run original logic;
 
 				if (!Game1.globalFade)
 				{
@@ -46,12 +46,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					var textSize = Game1.smallFont.MeasureString(pondNameText);
 					Game1.DrawBox((int)(Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f), __instance.yPositionOnScreen - 4 + 128, (int)(textSize.X + 64f), 64);
 					SUtility.drawTextWithShadow(b, pondNameText, Game1.smallFont, new Vector2(Game1.uiViewport.Width / 2 - textSize.X * 0.5f, __instance.yPositionOnScreen - 4 + 160f - textSize.Y * 0.5f), Color.Black);
-					var displayedText = ModEntry.Reflection.GetMethod(__instance, name: "getDisplayedText").Invoke<string>();
+					var displayedText = ModEntry.ModHelper.Reflection.GetMethod(__instance, name: "getDisplayedText").Invoke<string>();
 					var extraHeight = 0;
 					if (hasUnresolvedNeeds)
 						extraHeight += 116;
 
-					var extraTextHeight = ModEntry.Reflection.GetMethod(__instance, name: "measureExtraTextHeight").Invoke<int>(displayedText);
+					var extraTextHeight = ModEntry.ModHelper.Reflection.GetMethod(__instance, name: "measureExtraTextHeight").Invoke<int>(displayedText);
 					Game1.drawDialogueBox(__instance.xPositionOnScreen, __instance.yPositionOnScreen + 128, PondQueryMenu.width, PondQueryMenu.height - 128 + extraHeight + extraTextHeight, speaker: false, drawOnlyBox: true);
 					var populationText = Game1.content.LoadString(Path.Combine("Strings", "UI:PondQuery_Population"), string.Concat(____pond.FishCount), ____pond.maxOccupants.Value);
 					textSize = Game1.smallFont.MeasureString(populationText);
@@ -79,7 +79,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					SUtility.drawTextWithShadow(b, displayedText, Game1.smallFont, new Vector2((__instance.xPositionOnScreen + PondQueryMenu.width / 2) - textSize.X * 0.5f, (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - (hasUnresolvedNeeds ? 32 : 48)) - textSize.Y), Game1.textColor);
 					if (hasUnresolvedNeeds)
 					{
-						ModEntry.Reflection.GetMethod(__instance, name: "drawHorizontalPartition").Invoke(b, (int)((__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight) - 48f));
+						ModEntry.ModHelper.Reflection.GetMethod(__instance, name: "drawHorizontalPartition").Invoke(b, (int)((__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight) - 48f));
 						SUtility.drawWithShadow(b, Game1.mouseCursors, new Vector2((__instance.xPositionOnScreen + 60) + 8f * Game1.dialogueButtonScale / 10f, __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28), new Rectangle(412, 495, 5, 4), Color.White, (float)Math.PI / 2f, Vector2.Zero);
 						var bringText = Game1.content.LoadString(Path.Combine("Strings", "UI:PondQuery_StatusRequest_Bring"));
 						textSize = Game1.smallFont.MeasureString(bringText);

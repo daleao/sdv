@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.GameLoop.ReturnedToTitle += OnReturnedToTitle;
+			ModEntry.ModHelper.Events.GameLoop.ReturnedToTitle += OnReturnedToTitle;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.GameLoop.ReturnedToTitle -= OnReturnedToTitle;
+			ModEntry.ModHelper.Events.GameLoop.ReturnedToTitle -= OnReturnedToTitle;
 		}
 
 		/// <summary>Raised after the game returns to the title screen.</summary>

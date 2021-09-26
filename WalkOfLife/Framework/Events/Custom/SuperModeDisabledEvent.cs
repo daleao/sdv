@@ -24,7 +24,7 @@
 			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeCountdownUpdateTickedEvent));
 
 			// notify peers
-			ModEntry.Multiplayer.SendMessage(message: ModEntry.SuperModeIndex, messageType: "SuperModeDectivated", modIDs: new[] { ModEntry.UniqueID });
+			ModEntry.ModHelper.Multiplayer.SendMessage(message: ModEntry.SuperModeIndex, messageType: "SuperModeDectivated", modIDs: new[] { ModEntry.UniqueID });
 
 			// remove permanent effects
 			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Piper"))

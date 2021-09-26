@@ -14,9 +14,9 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		{
 			if (!e.IsLocalPlayer) return;
 
-			ModEntry.ProspectorHunt ??= new ProspectorHunt(ModEntry.I18n.Get("prospector.huntstarted"),
-				ModEntry.I18n.Get("prospector.huntfailed"),
-				ModEntry.Content.Load<Texture2D>(Path.Combine("assets", "prospector.png")));
+			ModEntry.ProspectorHunt ??= new ProspectorHunt(ModEntry.ModHelper.Translation.Get("prospector.huntstarted"),
+				ModEntry.ModHelper.Translation.Get("prospector.huntfailed"),
+				ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "prospector.png")));
 
 			if (ModEntry.ProspectorHunt.TreasureTile != null) ModEntry.ProspectorHunt.End();
 

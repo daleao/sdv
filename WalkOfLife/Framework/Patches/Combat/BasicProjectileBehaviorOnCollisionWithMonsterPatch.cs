@@ -35,7 +35,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
 				if (!firer.HasProfession("Rascal")) return true; // run original logic
 
-				ModEntry.Reflection.GetMethod(__instance, name: "explosionAnimation")?.Invoke(location);
+				ModEntry.ModHelper.Reflection.GetMethod(__instance, name: "explosionAnimation")?.Invoke(location);
 				var damageToMonster = (int)(__instance.damageToFarmer.Value * Util.Professions.GetRascalBonusDamageForTravelTime(___travelTime));
 				location.damageMonster(n.GetBoundingBox(), damageToMonster, damageToMonster + 1, isBomb: false, firer);
 

@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.GameLoop.SaveLoaded += OnSaveLoaded;
+			ModEntry.ModHelper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.GameLoop.SaveLoaded -= OnSaveLoaded;
+			ModEntry.ModHelper.Events.GameLoop.SaveLoaded -= OnSaveLoaded;
 		}
 
 		/// <summary>Raised after loading a save (including the first day after creating a new save), or connecting to a multiplayer world.</summary>

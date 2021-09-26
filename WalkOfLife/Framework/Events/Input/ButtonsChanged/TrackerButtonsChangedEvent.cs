@@ -8,11 +8,11 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
 		{
-			if (ModEntry.Config.ModKey.JustPressed())
+			if (ModEntry.Config.Modkey.JustPressed())
 			{
 				ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(), new TrackerRenderedHudEvent());
 			}
-			else if (ModEntry.Config.ModKey.GetState() == SButtonState.Released)
+			else if (ModEntry.Config.Modkey.GetState() == SButtonState.Released)
 			{
 				ModEntry.Subscriber.Unsubscribe(typeof(TrackerRenderedHudEvent));
 				if (!(ModEntry.Subscriber.IsSubscribed(typeof(ProspectorHuntRenderedHudEvent)) || ModEntry.Subscriber.IsSubscribed(typeof(ScavengerHuntRenderedHudEvent))))

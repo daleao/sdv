@@ -63,7 +63,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							if (r.NextDouble() < 0.25)
 							{
 								Game1.createObjectDebris(382, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID, __instance);
-								ModEntry.Reflection.GetField<Multiplayer>(typeof(Game1), "multiplayer")
+								ModEntry.ModHelper.Reflection.GetField<Multiplayer>(typeof(Game1), "multiplayer")
 									.GetValue()
 									.broadcastSprites(__instance,
 										new TemporaryAnimatedSprite(25,

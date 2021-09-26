@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.Input.ButtonsChanged += OnButtonsChanged;
+			ModEntry.ModHelper.Events.Input.ButtonsChanged += OnButtonsChanged;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.Input.ButtonsChanged -= OnButtonsChanged;
+			ModEntry.ModHelper.Events.Input.ButtonsChanged -= OnButtonsChanged;
 		}
 
 		/// <summary>Raised after the player pressed/released any buttons on the keyboard, mouse, or controller.</summary>

@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.Display.RenderedWorld += OnRenderedWorld;
+			ModEntry.ModHelper.Events.Display.RenderedWorld += OnRenderedWorld;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.Display.RenderedWorld -= OnRenderedWorld;
+			ModEntry.ModHelper.Events.Display.RenderedWorld -= OnRenderedWorld;
 		}
 
 		/// <summary>Raised after the game world is drawn to the sprite patch, before it's rendered to the screen.</summary>

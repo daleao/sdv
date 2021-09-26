@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.Player.LevelChanged += OnLevelChanged;
+			ModEntry.ModHelper.Events.Player.LevelChanged += OnLevelChanged;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.Player.LevelChanged -= OnLevelChanged;
+			ModEntry.ModHelper.Events.Player.LevelChanged -= OnLevelChanged;
 		}
 
 		/// <summary>Raised after a player's skill level changes.</summary>

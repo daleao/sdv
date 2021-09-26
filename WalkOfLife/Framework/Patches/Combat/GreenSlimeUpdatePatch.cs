@@ -44,7 +44,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					if (monster is Bug bug && bug.isArmoredBug.Value // skip armored bugs
 						|| monster is LavaCrab && __instance.Sprite.currentFrame % 4 == 0 // skip shelled lava crabs
-						|| monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !ModEntry.Reflection.GetField<NetBool>(crab, name: "shellGone").GetValue().Value // skip shelled rock crabs
+						|| monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !ModEntry.ModHelper.Reflection.GetField<NetBool>(crab, name: "shellGone").GetValue().Value // skip shelled rock crabs
 						|| monster is LavaLurk lurk && lurk.currentState.Value == LavaLurk.State.Submerged // skip submerged lava lurks
 						|| monster is Spiker) // skip spikers
 						continue;

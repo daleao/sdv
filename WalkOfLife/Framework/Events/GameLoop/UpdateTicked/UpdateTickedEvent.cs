@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.GameLoop.UpdateTicked += OnUpdateTicked;
+			ModEntry.ModHelper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.GameLoop.UpdateTicked -= OnUpdateTicked;
+			ModEntry.ModHelper.Events.GameLoop.UpdateTicked -= OnUpdateTicked;
 		}
 
 		/// <summary>Raised after the game state is updated.</summary>

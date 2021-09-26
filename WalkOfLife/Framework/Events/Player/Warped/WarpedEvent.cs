@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.Player.Warped += OnWarped;
+			ModEntry.ModHelper.Events.Player.Warped += OnWarped;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.Player.Warped -= OnWarped;
+			ModEntry.ModHelper.Events.Player.Warped -= OnWarped;
 		}
 
 		/// <summary>Raised after the current player moves to a new location.</summary>

@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.GameLoop.DayStarted += OnDayStarted;
+			ModEntry.ModHelper.Events.GameLoop.DayStarted += OnDayStarted;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.GameLoop.DayStarted -= OnDayStarted;
+			ModEntry.ModHelper.Events.GameLoop.DayStarted -= OnDayStarted;
 		}
 
 		/// <summary>Raised after a new in-game day starts, or after connecting to a multiplayer world.</summary>

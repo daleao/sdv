@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.Display.RenderedHud += OnRenderedHud;
+			ModEntry.ModHelper.Events.Display.RenderedHud += OnRenderedHud;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.Display.RenderedHud -= OnRenderedHud;
+			ModEntry.ModHelper.Events.Display.RenderedHud -= OnRenderedHud;
 		}
 
 		/// <summary>Raised after the game draws to the sprite patch in a draw tick, just before the final sprite batch is rendered to the screen.</summary>

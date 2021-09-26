@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 	public static class HUD
 	{
 		public static ArrowPointer Pointer { get; set; }
-		private static Texture2D BarTx { get; } = ModEntry.Content.Load<Texture2D>(Path.Combine("assets", "hud", "bar.png"));
+		private static Texture2D BarTx { get; } = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud", "bar.png"));
 		private static Texture2D BarFillTx { get; set; }
 
 		private const int MAX_BAR_HEIGHT = 168, TEXTURE_HEIGHT = 46;

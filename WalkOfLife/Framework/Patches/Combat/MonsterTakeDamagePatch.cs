@@ -63,7 +63,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				if (__instance is Bug bug && bug.isArmoredBug.Value && !weapon.hasEnchantmentOfType<BugKillerEnchantment>() // skip armored bugs
 					|| __instance is LavaCrab && __instance.Sprite.currentFrame % 4 == 0 // skip shelled lava crabs
-					|| __instance is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !ModEntry.Reflection.GetField<NetBool>(crab, name: "shellGone").GetValue().Value // skip shelled rock crabs
+					|| __instance is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !ModEntry.ModHelper.Reflection.GetField<NetBool>(crab, name: "shellGone").GetValue().Value // skip shelled rock crabs
 					|| __instance is LavaLurk lurk && lurk.currentState.Value == LavaLurk.State.Submerged // skip submerged lava lurks
 					|| __instance is Spiker // skip spikers
 					|| __instance.FacingDirection != who.FacingDirection) // check for backstab

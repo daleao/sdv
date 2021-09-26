@@ -42,12 +42,12 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						0,
 						minutesDuration: 1,
 						source: professionName,
-						displaySource: ModEntry.I18n.Get(professionName.ToLower() + ".name"))
+						displaySource: ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".name"))
 					{
 						which = buffID,
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
 						millisecondsDuration = 49,
-						description = ModEntry.I18n.Get(professionName.ToLower() + ".buffdesc", new { magnitude1, magnitude2 })
+						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".buffdesc", new { magnitude1, magnitude2 })
 					});
 			}
 		}

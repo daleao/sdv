@@ -69,19 +69,19 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						0,
 						minutesDuration: 1,
 						source: "SuperMode",
-						displaySource: ModEntry.I18n.Get(professionName.ToLower() + ".superm"))
+						displaySource: ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".superm"))
 					{
 						which = buffID,
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
 						glow = ModEntry.SuperModeGlowColor,
 						millisecondsDuration = (int)(ModEntry.Config.SuperModeDrainFactor / 60f * ModEntry.SuperModeCounterMax * 1000f),
-						description = ModEntry.I18n.Get(professionName.ToLower() + ".supermdesc")
+						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".supermdesc")
 					}
 				);
 			}
 
 			// notify peers
-			ModEntry.Multiplayer.SendMessage(message: ModEntry.SuperModeIndex, messageType: "SuperModeActivated", modIDs: new[] { ModEntry.UniqueID });
+			ModEntry.ModHelper.Multiplayer.SendMessage(message: ModEntry.SuperModeIndex, messageType: "SuperModeActivated", modIDs: new[] { ModEntry.UniqueID });
 
 			// apply immediate effects
 			if (whichSuperMode == "Poacher") DoEnablePoacherSuperMode();
@@ -97,20 +97,20 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				switch (monster)
 				{
 					case DustSpirit dustSpirit:
-						ModEntry.Reflection.GetField<bool>(dustSpirit, name: "chargingFarmer").SetValue(false);
-						ModEntry.Reflection.GetField<bool>(dustSpirit, name: "seenFarmer").SetValue(false);
+						ModEntry.ModHelper.Reflection.GetField<bool>(dustSpirit, name: "chargingFarmer").SetValue(false);
+						ModEntry.ModHelper.Reflection.GetField<bool>(dustSpirit, name: "seenFarmer").SetValue(false);
 						break;
 					case AngryRoger angryRoger:
-						ModEntry.Reflection.GetField<NetBool>(angryRoger, name: "seenPlayer").GetValue().Set(false);
+						ModEntry.ModHelper.Reflection.GetField<NetBool>(angryRoger, name: "seenPlayer").GetValue().Set(false);
 						break;
 					case Bat bat:
-						ModEntry.Reflection.GetField<NetBool>(bat, name: "seenPlayer").GetValue().Set(false);
+						ModEntry.ModHelper.Reflection.GetField<NetBool>(bat, name: "seenPlayer").GetValue().Set(false);
 						break;
 					case Ghost ghost:
-						ModEntry.Reflection.GetField<NetBool>(ghost, name: "seenPlayer").GetValue().Set(false);
+						ModEntry.ModHelper.Reflection.GetField<NetBool>(ghost, name: "seenPlayer").GetValue().Set(false);
 						break;
 					case RockGolem rockGolem:
-						ModEntry.Reflection.GetField<NetBool>(rockGolem, name: "seenPlayer").GetValue().Set(false);
+						ModEntry.ModHelper.Reflection.GetField<NetBool>(rockGolem, name: "seenPlayer").GetValue().Set(false);
 						break;
 				}
 			}

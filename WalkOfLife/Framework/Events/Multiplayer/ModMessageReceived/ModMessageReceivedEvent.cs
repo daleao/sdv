@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.Multiplayer.ModMessageReceived += OnModMessageReceived;
+			ModEntry.ModHelper.Events.Multiplayer.ModMessageReceived += OnModMessageReceived;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.Multiplayer.ModMessageReceived -= OnModMessageReceived;
+			ModEntry.ModHelper.Events.Multiplayer.ModMessageReceived -= OnModMessageReceived;
 		}
 
 		/// <summary>Raised after a mod message is received over the network.</summary>

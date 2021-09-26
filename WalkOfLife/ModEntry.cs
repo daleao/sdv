@@ -15,8 +15,18 @@ namespace TheLion.Stardew.Professions
 	/// <summary>The mod entry point.</summary>
 	public class ModEntry : Mod
 	{
-		public static ModData Data { get; private set; }
-		public static ModConfig Config { get; private set; }
+		internal static ModData Data { get; set; }
+		internal static ModConfig Config { get; set; }
+		internal static EventSubscriber Subscriber { get; private set; }
+		internal static ProspectorHunt ProspectorHunt { get; set; }
+		internal static ScavengerHunt ScavengerHunt { get; set; }
+		internal static SoundEffectLoader SfxLoader { get; set; }
+
+		internal static GameFramework GameFramework { get; private set; }
+		internal static IModHelper ModHelper { get; private set; }
+		internal static IManifest Manifest { get; private set; }
+		internal static Action<string, LogLevel> Log { get; private set; }
+		internal static string UniqueID { get; private set; }
 
 		public static int DemolitionistExcitedness { get; set; }
 		public static int SpelunkerLadderStreak { get; set; }
@@ -79,21 +89,6 @@ namespace TheLion.Stardew.Professions
 			}
 		}
 
-		internal static GameFramework GameFramework { get; private set; }
-		internal static IContentHelper Content { get; private set; }
-		internal static IModEvents Events { get; private set; }
-		internal static IModRegistry Registry { get; private set; }
-		internal static IMultiplayerHelper Multiplayer { get; private set; }
-		internal static IReflectionHelper Reflection { get; private set; }
-		internal static ITranslationHelper I18n { get; private set; }
-		internal static Action<string, LogLevel> Log { get; private set; }
-		internal static string UniqueID { get; private set; }
-
-		internal static EventSubscriber Subscriber { get; private set; }
-		internal static ProspectorHunt ProspectorHunt { get; set; }
-		internal static ScavengerHunt ScavengerHunt { get; set; }
-		internal static SoundEffectLoader SfxLoader { get; set; }
-
 		public static event SuperModeCounterFilledEventHandler SuperModeCounterFilled;
 		public static event SuperModeCounterRaisedAboveZeroEventHandler SuperModeCounterRaisedAboveZero;
 		public static event SuperModeCounterReturnedToZeroEventHandler SuperModeCounterReturnedToZero;
@@ -111,14 +106,10 @@ namespace TheLion.Stardew.Professions
 		{
 			// get target framework
 			GameFramework = Constants.GameFramework;
-
+			
 			// store references to mod helpers
-			Content = helper.Content;
-			Events = helper.Events;
-			Registry = helper.ModRegistry;
-			Multiplayer = helper.Multiplayer;
-			Reflection = helper.Reflection;
-			I18n = helper.Translation;
+			ModHelper = helper;
+			Manifest = ModManifest;
 			Log = Monitor.Log;
 
 			// get configs.json
@@ -135,7 +126,7 @@ namespace TheLion.Stardew.Professions
 			SfxLoader = new SoundEffectLoader(helper.DirectoryPath);
 
 			// apply harmony patches
-			BasePatch.Init();
+			BasePatch.Init(helper.DirectoryPath);
 			new HarmonyPatcher().ApplyAll();
 
 			// start event manager

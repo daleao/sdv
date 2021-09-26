@@ -17,9 +17,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		protected HarmonyMethod Postfix { get; set; }
 
 		/// <summary>Initialize the ILHelper.</summary>
-		internal static void Init()
+		internal static void Init(string modPath)
 		{
-			Helper = new ILHelper(ModEntry.Log, ModEntry.Config.EnableILCodeExport);
+			Helper = new ILHelper(ModEntry.Log, ModEntry.Config.EnableILCodeExport, modPath);
 		}
 
 		/// <summary>Apply internally-defined Harmony patches.</summary>

@@ -500,7 +500,7 @@ namespace TheLion.Stardew.Professions
 			result += $"\n\tMineralsCollected - Number of minerals collected as Gemologist ({ModEntry.Config.MineralsNeededForBestQuality} needed for best quality).";
 			result += "\n\tProspectorStreak - Number of consecutive Prospector Hunts completed (higher numbers improve odds of Prismatic Shard).";
 			result += "\n\tScavengerStreak - Number of consecutive Scavenger Hunts completed (higher numbers improve odds of Prismatic Shard).";
-			result += $"\n\tWaterTrashCollectedThisSeason - Number of junk items pulled out of water as Conservationist in the current season ({ModEntry.Config.TrashNeededForNextTaxLevel} needed per tax bonus percent).";
+			result += $"\n\tWaterTrashCollectedThisSeason - Number of junk items pulled out of water as Conservationist in the current season ({ModEntry.Config.TrashNeededPerTaxLevel} needed per tax bonus percent).";
 			result += "\n\tActiveTaxBonusPercent - The active tax bonus this season as a result of last season's Conservationist activities.";
 			return result;
 		}

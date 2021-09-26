@@ -7,13 +7,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void Hook()
 		{
-			ModEntry.Events.GameLoop.DayEnding += OnDayEnding;
+			ModEntry.ModHelper.Events.GameLoop.DayEnding += OnDayEnding;
 		}
 
 		/// <inheritdoc/>
 		public override void Unhook()
 		{
-			ModEntry.Events.GameLoop.DayEnding -= OnDayEnding;
+			ModEntry.ModHelper.Events.GameLoop.DayEnding -= OnDayEnding;
 		}
 
 		/// <summary>Raised before the game ends the current day.</summary>

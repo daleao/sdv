@@ -13,9 +13,9 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		{
 			if (!e.IsLocalPlayer) return;
 
-			ModEntry.ScavengerHunt ??= new ScavengerHunt(ModEntry.I18n.Get("scavenger.huntstarted"),
-				ModEntry.I18n.Get("scavenger.huntfailed"),
-				ModEntry.Content.Load<Texture2D>(Path.Combine("assets", "scavenger.png")));
+			ModEntry.ScavengerHunt ??= new ScavengerHunt(ModEntry.ModHelper.Translation.Get("scavenger.huntstarted"),
+				ModEntry.ModHelper.Translation.Get("scavenger.huntfailed"),
+				ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "scavenger.png")));
 
 			if (ModEntry.ScavengerHunt.TreasureTile != null) ModEntry.ScavengerHunt.End();
 

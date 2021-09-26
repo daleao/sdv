@@ -6,16 +6,16 @@ namespace TheLion.Stardew.Professions
 	public class ModConfig
 	{
 		/// <summary>Mod key used by Prospector and Scavenger professions.</summary>
-		public KeybindList ModKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+		public KeybindList Modkey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-		/// <summary>Mod key used by Prospector and Scavenger professions.</summary>
+		/// <summary>Mod key used to activate Super Mode. Can be the same as <see cref="Modkey"/>.</summary>
 		public KeybindList SuperModeKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
 		/// <summary>Whether super mode is activated on <see cref="SuperModeKey"/> hold (as opposed to press).</summary>
 		public bool HoldKeyToActivateSuperMode { get; set; } = true;
 
 		/// <summary>How long <see cref="SuperModeKey"/> should be held to activate super mode, in seconds.</summary>
-		public int SuperModeActivationDelay { get; set; } = 1;
+		public float SuperModeActivationDelay { get; set; } = 1f;
 
 		/// <summary>Lower numbers make super mode last longer. Should be a number between 1 and 10.</summary>
 		public uint SuperModeDrainFactor { get; set; } = 3;
@@ -36,13 +36,13 @@ namespace TheLion.Stardew.Professions
 		public float TreasureDetectionDistance { get; set; } = 3f;
 
 		/// <summary>You must collect this many junk items from crab pots for every 1% of tax deduction next season.</summary>
-		public uint TrashNeededForNextTaxLevel { get; set; } = 100;
+		public uint TrashNeededPerTaxLevel { get; set; } = 100;
 
-		/// <summary>You must collect this many junk items from crab pots for every 1% of tax deduction next season.</summary>
+		/// <summary>You must collect this many junk items from crab pots for every 1 point of friendship towards villagers.</summary>
 		public uint TrashNeededPerFriendshipPoint { get; set; } = 10;
 
 		/// <summary>The maximum tax deduction percentage allowed by the Ferngill Revenue Service.</summary>
-		public float TaxBonusCeiling { get; set; } = 0.25f;
+		public float TaxDeductionCeiling { get; set; } = 0.25f;
 
 		/// <summary>If a Harmony transpiler is failing to patch, enabling this option will export the original IL code for easier debugging.</summary>
 		public bool EnableILCodeExport { get; set; } = true;

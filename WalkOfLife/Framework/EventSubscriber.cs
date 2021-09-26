@@ -77,7 +77,7 @@ namespace TheLion.Stardew.Professions.Framework
 			ModEntry.Log("Subscribing static events...", LogLevel.Trace);
 			Subscribe(new StaticLevelChangedEvent(), new StaticReturnedToTitleEvent(), new StaticSaveLoadedEvent(), new StaticSuperModeIndexChangedEvent());
 
-			if (!ModEntry.Registry.IsLoaded("alphablackwolf.skillPrestige") && !ModEntry.Registry.IsLoaded("cantorsdust.AllProfessions"))
+			if (!ModEntry.ModHelper.ModRegistry.IsLoaded("alphablackwolf.skillPrestige") && !ModEntry.ModHelper.ModRegistry.IsLoaded("cantorsdust.AllProfessions"))
 				return;
 
 			ModEntry.Log("Skill Prestige or All Professions mod detected. Subscribing additional fail-safe event.", LogLevel.Trace);

@@ -22,7 +22,8 @@ namespace TheLion.Stardew.Common.Harmony
 		//private List<CodeInstruction> _instructionListBackup;
 		private List<CodeInstruction> _instructionBuffer;
 		private readonly Stack<int> _indexStack;
-		private readonly bool _export;
+		private readonly bool _shouldExport;
+		private readonly string _exportPath;
 
 		/// <summary>The index currently at the top of the index stack.</summary>
 		public int CurrentIndex
@@ -51,10 +52,11 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <summary>Construct an instance.</summary>
 		/// <param name="log">Interface for writing to the SMAPI console.</param>
 		/// <param name="enableExport">Whether the instruction list should be saved to disk in case an error is thrown.</param>
-		public ILHelper(Action<string, LogLevel> log, bool enableExport = false)
+		public ILHelper(Action<string, LogLevel> log, bool enableExport, string path)
 		{
 			Log = log;
-			_export = enableExport;
+			_shouldExport = enableExport;
+			_exportPath = path;
 			_indexStack = new Stack<int>();
 		}
 
@@ -89,7 +91,7 @@ namespace TheLion.Stardew.Common.Harmony
 			var index = _instructionList.IndexOf(pattern);
 			if (index < 0)
 			{
-				if (_export) Export(pattern.ToList());
+				if (_shouldExport) Export(pattern.ToList());
 				throw new IndexOutOfRangeException($"Couldn't find instruction pattern {pattern}.");
 			}
 
@@ -107,7 +109,7 @@ namespace TheLion.Stardew.Common.Harmony
 			var index = _instructionList.Count() - reversedInstructions.IndexOf(pattern) - 1;
 			if (index < 0)
 			{
-				if (_export) Export(pattern.ToList());
+				if (_shouldExport) Export(pattern.ToList());
 				throw new IndexOutOfRangeException($"Couldn't find instruction pattern {pattern}.");
 			}
 
@@ -122,7 +124,7 @@ namespace TheLion.Stardew.Common.Harmony
 			var index = _instructionList.IndexOf(pattern, start: CurrentIndex + 1);
 			if (index < 0)
 			{
-				if (_export) Export(pattern.ToList());
+				if (_shouldExport) Export(pattern.ToList());
 				throw new IndexOutOfRangeException($"Couldn't find instruction pattern {pattern}.");
 			}
 
@@ -140,7 +142,7 @@ namespace TheLion.Stardew.Common.Harmony
 			var index = _instructionList.Count() - reversedInstructions.IndexOf(pattern, start: _instructionList.Count() - CurrentIndex - 1) - 1;
 			if (index < 0)
 			{
-				if (_export) Export(pattern.ToList());
+				if (_shouldExport) Export(pattern.ToList());
 				throw new IndexOutOfRangeException($"Couldn't find instruction pattern {pattern}.");
 			}
 
@@ -156,7 +158,7 @@ namespace TheLion.Stardew.Common.Harmony
 			var index = _instructionList.IndexOf(label, start: fromCurrentIndex ? CurrentIndex + 1 : 0);
 			if (index < 0)
 			{
-				if (_export) Export(label);
+				if (_shouldExport) Export(label);
 				throw new IndexOutOfRangeException($"Couldn't find label {label}.");
 			}
 
@@ -568,7 +570,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <summary>Export the failed search target and active code instruction list to a text file.</summary>
 		public void Export(Label label)
 		{
-			var path = $"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil";
+			var path = _exportPath + $"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil";
 			using (var writer = File.CreateText(path))
 			{
 				writer.WriteLine("Searching for:\n");
