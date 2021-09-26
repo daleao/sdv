@@ -10,9 +10,6 @@ namespace TheLion.Stardew.Professions.Integrations
 		/// <summary>The Generic Mod Config Menu integration.</summary>
 		private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;
 
-		/// <summary>API for fetching metadata about loaded mods.</summary>
-		private readonly IModRegistry _modRegistry;
-
 		/// <summary>Construct an instance.</summary>
 		/// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
 		/// <param name="manifest">The mod manifest.</param>
@@ -22,7 +19,6 @@ namespace TheLion.Stardew.Professions.Integrations
 		/// <param name="log">Encapsulates monitoring and logging.</param>
 		public GenericModConfigMenuIntegrationForAwesomeTools(IModRegistry modRegistry, IManifest manifest, Func<ModConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
 		{
-			_modRegistry = modRegistry;
 			_configMenu = new GenericModConfigMenuIntegration<ModConfig>(modRegistry, manifest, getConfig, reset, saveAndApply, log);
 		}
 
