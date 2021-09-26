@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TheLion.Stardew.Common.Classes;
-using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Util
@@ -86,92 +85,6 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			throw new IndexOutOfRangeException($"Index {professionIndex} is not a valid profession index.");
 		}
 
-		///// <summary>Whether the local farmer has a specific profession.</summary>
-		///// <param name="professionName">The name of the profession.</param>
-		//public static bool DoesLocalPlayerHaveProfession(string professionName)
-		//{
-		//	return IndexByName.Contains(professionName) && Game1.player.professions.Contains(IndexOf(professionName));
-		//}
-
-		///// <summary>Whether the local farmer has a specific profession.</summary>
-		///// <param name="professionIndex">The index of the profession.</param>
-		//public static bool DoesLocalPlayerHaveProfession(int professionIndex)
-		//{
-		//	return IndexByName.Contains(professionIndex) && Game1.player.professions.Contains(professionIndex);
-		//}
-
-		///// <summary>Whether the local farmer has any of the specified professions.</summary>
-		///// <param name="professionName">The name of the profession.</param>
-		//public static bool DoesLocalPlayerHaveAnyOfProfessions(params string[] professionNames)
-		//{
-		//	return professionNames.Where(p => IndexByName.Contains(p) && Game1.player.professions.Contains(IndexOf(p))).Any();
-		//}
-
-		///// <summary>Whether a farmer has a specific profession.</summary>
-		///// <param name="professionName">The name of the profession.</param>
-		///// <param name="who">The player.</param>
-		//public static bool DoesSpecificPlayerHaveProfession(Farmer who, string professionName)
-		//{
-		//	return IndexByName.Contains(professionName) && who.professions.Contains(IndexOf(professionName));
-		//}
-
-		///// <summary>Whether a farmer has a specific profession.</summary>
-		///// <param name="professionIndex">The index of the profession.</param>
-		///// <param name="who">The player.</param>
-		//public static bool DoesSpecificPlayerHaveProfession(Farmer who, int professionIndex)
-		//{
-		//	return IndexByName.Contains(professionIndex) && who.professions.Contains(professionIndex);
-		//}
-
-		///// <summary>Whether the local farmer has any of the specified professions.</summary>
-		///// <param name="professionName">The name of the profession.</param>
-		//public static bool DoesSpecificPlayerHaveAnyOfProfessions(Farmer who, params string[] professionNames)
-		//{
-		//	return professionNames.Where(p => IndexByName.Contains(p) && who.professions.Contains(IndexOf(p))).Any();
-		//}
-
-		///// <summary>Whether any farmer in the current multiplayer session has a specific profession.</summary>
-		///// <param name="professionName">The name of the profession.</param>
-		///// <param name="numberOfPlayersWithThisProfession">How many players have this profession.</param>
-		//public static bool DoesAnyPlayerHaveProfession(string professionName, out int numberOfPlayersWithThisProfession)
-		//{
-		//	if (!Game1.IsMultiplayer)
-		//	{
-		//		if (Game1.player.HasProfession(professionName))
-		//		{
-		//			numberOfPlayersWithThisProfession = 1;
-		//			return true;
-		//		}
-		//	}
-
-		//	numberOfPlayersWithThisProfession = Game1.getAllFarmers().Count(player => player.isActive() && player.HasProfession(professionName));
-		//	return numberOfPlayersWithThisProfession > 0;
-		//}
-
-		///// <summary>Whether any farmer in a specific game location has a specific profession.</summary>
-		///// <param name="professionName">The name of the profession.</param>
-		///// <param name="location">The game location to check.</param>
-		//public static bool DoesAnyPlayerInSpecificLocationHaveProfession(string professionName, GameLocation location)
-		//{
-		//	if (!Game1.IsMultiplayer && location.Equals(Game1.currentLocation)) return Game1.player.HasProfession(professionName);
-		//	return location.farmers.Any(farmer => farmer.HasProfession(professionName));
-		//}
-
-		/// <summary>Get the price multiplier for beverages sold by Artisan.</summary>
-		public static float GetArtisanPriceMultiplier()
-		{
-			var currentLevel = ModEntry.Data.ReadField<uint>("ArtisanAwardLevel");
-			return 1f + currentLevel switch
-			{
-				>= 5 => 0.4f,
-				4 => 0.25f,
-				3 => 0.15f,
-				2 => 0.10f,
-				1 => 0.05f,
-				0 => 0
-			};
-		}
-
 		/// <summary>Get the price multiplier for produce sold by Producer.</summary>
 		/// <param name="who">The player.</param>
 		public static float GetProducerPriceMultiplier(Farmer who)
@@ -192,7 +105,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				if (!fishData.TryGetValue(fish.Key, out var specificFishData) || specificFishData.Contains("trap")) continue;
 
 				var fields = specificFishData.Split('/');
-				if (Objects.IsLegendaryFish(fields[0]))
+				if (Objects.LegendaryFishNames.Contains(fields[0]))
 					multiplier += 0.05f;
 				else if (fish.Value[0] > Convert.ToInt32(fields[4]))
 					multiplier += 0.01f;
@@ -259,7 +172,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		{
 			return 1.15f +
 				   (who.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Brute")
-					   ? 0.65f
+					   ? 0.65f + who.attackIncreaseModifier + who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f
 					   : ModEntry.SuperModeCounter / 10 * 0.005f) *
 				   (who.CurrentTool is MeleeWeapon weapon && weapon.type.Value == MeleeWeapon.club ? 1.5f : 1f);
 		}
@@ -336,7 +249,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		public static float GetPiperSlimeAttackSpeedModifier()
 		{
 			return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Piper")
-				? 1.15f
+				? 0.15f
 				: ModEntry.SuperModeCounter / 10 * 0.003f;
 		}
 
@@ -344,14 +257,6 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		public static float GetCooldownOrChargeTimeReduction()
 		{
 			return ModEntry.IsSuperModeActive ? 0.5f : 1f - ModEntry.SuperModeCounter / 10 * 0.01f;
-		}
-
-		/// <summary>Whether the player should track a given object.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool ShouldPlayerTrackObject(SObject obj)
-		{
-			return (Game1.player.HasProfession("Scavenger") && ((obj.IsSpawnedObject && !Objects.IsForagedMineral(obj)) || obj.ParentSheetIndex == 590))
-				|| (Game1.player.HasProfession("Prospector") && (Objects.IsResourceNode(obj) || Objects.IsForagedMineral(obj)));
 		}
 
 		#endregion public methods

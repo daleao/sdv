@@ -107,7 +107,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.Insert( // insert call to custom condition
 						new CodeInstruction(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.ShouldPlayerTrackObject))),
+							typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.ShouldBeTracked))),
 						new CodeInstruction(OpCodes.Brfalse, loopHead)
 					);
 			}

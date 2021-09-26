@@ -10,13 +10,21 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
-			for (int i = ModEntry.PipedSlimes.Count() - 1; i >= 0; --i)
+			var uninflatedSlimes = ModEntry.PipedSlimesScales.Keys.ToList();
+			while (uninflatedSlimes.Any())
 			{
-				ModEntry.PipedSlimes.ElementAt(i).Scale = Math.Min(ModEntry.PipedSlimes.ElementAt(i).Scale * 1.1f, 2f);
-				if (Game1.random.NextDouble() < 0.1 || ModEntry.PipedSlimes.ElementAt(i).Scale >= 2f) ModEntry.PipedSlimes.RemoveAt(i);
+				for (int i = uninflatedSlimes.Count - 1; i >= 0; --i)
+				{
+					uninflatedSlimes[i].Scale = Math.Min(uninflatedSlimes[i].Scale * 1.1f, Math.Min(ModEntry.PipedSlimesScales[uninflatedSlimes[i]] * 2f, 2f));
+
+					if (uninflatedSlimes[i].Scale >= 1.8f) uninflatedSlimes[i].willDestroyObjectsUnderfoot = true;
+
+					if ((uninflatedSlimes[i].Scale >= 1f && Game1.random.NextDouble() < 0.1 + Game1.player.DailyLuck / 2 + Game1.player.LuckLevel * 0.01) || uninflatedSlimes[i].Scale >= ModEntry.PipedSlimesScales[uninflatedSlimes[i]] * 2f)
+						uninflatedSlimes.RemoveAt(i);
+				}
 			}
 
-			if (!ModEntry.PipedSlimes.Any()) ModEntry.Subscriber.Unsubscribe(GetType());
+			ModEntry.Subscriber.Unsubscribe(GetType());
 		}
 	}
 }

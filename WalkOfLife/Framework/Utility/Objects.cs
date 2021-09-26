@@ -63,7 +63,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		};
 
 		/// <summary>Look-up table for trappable treasure items using magnet.</summary>
-		public static Dictionary<int, string[]> PirateTreasureTable { get; } = new()
+		public static Dictionary<int, string[]> TrapperPirateTreasureTable { get; } = new()
 		{
 			{ 14, new[] { "1.003", "1", "1" } },     // neptune's glaive
 			{ 51, new[] { "1.003", "1", "1" } },     // broken trident
@@ -96,7 +96,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		#region hash sets
 
 		/// <summary>Hash list of artisan machines.</summary>
-		private static readonly IEnumerable<string> ArtisanMachines = new HashSet<string>
+		public static readonly IEnumerable<string> ArtisanMachines = new HashSet<string>
 		{
 			"Alembic",
 			"Butter Churn",
@@ -127,7 +127,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		};
 
 		/// <summary>Hash list of ids corresponding to animal produce or derived artisan goods.</summary>
-		private static readonly IEnumerable<int> AnimalDerivedProductIDs = new HashSet<int>
+		public static readonly IEnumerable<int> AnimalDerivedProductIDs = new HashSet<int>
 		{
 			107,	// dinosaur egg
 			306,	// mayonnaise
@@ -140,19 +140,8 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			807,	// dinosaur mayonnaise
 		};
 
-		/// <summary>Hash list of ammunition ids.</summary>
-		private static readonly IEnumerable<int> MineralAmmunitionIDs = new HashSet<int>
-		{
-			SObject.copper + 1,
-			SObject.iron + 1,
-			SObject.coal + 1,
-			SObject.gold + 1,
-			SObject.iridium + 1,
-			SObject.stone + 1,
-		};
-
 		/// <summary>Hash list of stone ids corresponding to resource nodes.</summary>
-		private static readonly IEnumerable<int> ResourceNodeIDs = new HashSet<int>
+		public static readonly IEnumerable<int> ResourceNodeIDs = new HashSet<int>
 		{
 			// ores
 			751,	// copper node
@@ -189,123 +178,21 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			46		// mystic stone
 		};
 
+		/// <summary>Hash list of fish names corresponding to legendary fish.</summary>
+		public static readonly IEnumerable<string> LegendaryFishNames = new HashSet<string>
+		{
+			"Crimsonfish",
+			"Angler",
+			"Legend",
+			"Glacierfish",
+			"Mutant Carp",
+			"Son of Crimsonfish",
+			"Ms. Angler",
+			"Legend II",
+			"Glacierfish Jr.",
+			"Radioactive Carp"
+		};
+
 		#endregion hash sets
-
-		#region public methods
-
-		/// <summary>Whether a given object is an artisan good.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsArtisanGood(SObject obj)
-		{
-			return obj?.Category == SObject.artisanGoodsCategory;
-		}
-
-		/// <summary>Whether a given object is an artisan good.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsArtisanMachine(SObject obj)
-		{
-			return ArtisanMachines.Contains(obj?.Name);
-		}
-
-		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsAnimalProduct(SObject obj)
-		{
-			return obj != null && (obj.Category.AnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
-				|| AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex));
-		}
-
-		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsWildBerry(SObject obj)
-		{
-			return obj?.ParentSheetIndex == 296 || obj?.ParentSheetIndex == 410;
-		}
-
-		/// <summary>Whether a given object is a spring onion.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsSpringOnion(SObject obj)
-		{
-			return obj?.ParentSheetIndex == 399;
-		}
-
-		/// <summary>Whether a given object is a gem or mineral.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsGemOrMineral(SObject obj)
-		{
-			return obj?.Category.AnyOf(SObject.GemCategory, SObject.mineralsCategory) == true;
-		}
-
-		/// <summary>Whether a given object is a foraged mineral.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsForagedMineral(SObject obj)
-		{
-			return obj.Name.AnyOf("Quartz", "Earth Crystal", "Frozen Tear", "Fire Quartz");
-		}
-
-		/// <summary>Whether a given object is a resource node or foraged mineral.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsResourceNode(SObject obj)
-		{
-			return IsStone(obj) && ResourceNodeIDs.Contains(obj.ParentSheetIndex);
-		}
-
-		/// <summary>Whether a given object is a stone.</summary>
-		/// <param name="obj">The world object.</param>
-		public static bool IsStone(SObject obj)
-		{
-			return obj?.Name == "Stone";
-		}
-
-		/// <summary>Whether a given item index corresponds to mineral ammunition.</summary>
-		/// <param name="index">An item index.</param>
-		public static bool IsMineralAmmunition(int index)
-		{
-			return MineralAmmunitionIDs.Contains(index);
-		}
-
-		/// <summary>Whether a given item index corresponds to algae or seaweed.</summary>
-		/// <param name="index">The given object.</param>
-		public static bool IsAlgae(int index)
-		{
-			return index.AnyOf(152, 152, 157);
-		}
-
-		/// <summary>Whether a given object is a fish caught with a fishing rod.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsFish(SObject obj)
-		{
-			return obj?.Category == SObject.FishCategory;
-		}
-
-		/// <summary>Whether the specific fish data corresponds to a legendary fish.</summary>
-		/// <param name="fishName">The name of the fish.</param>
-		public static bool IsLegendaryFish(string fishName)
-		{
-			return fishName.AnyOf("Crimsonfish", "Angler", "Legend", "Glacierfish", "Mutant Carp", "Son of Crimsonfish", "Ms. Angler", "Legend II", "Glacierfish Jr.", "Radioactive Carp");
-		}
-
-		/// <summary>Whether a given object is a crab pot fish.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsTrapFish(SObject obj)
-		{
-			return IsFish(obj) && obj.ParentSheetIndex > 714 && obj.ParentSheetIndex < 724;
-		}
-
-		/// <summary>Whether a given object is a trash.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsTrash(SObject obj)
-		{
-			return obj?.Category == SObject.junkCategory;
-		}
-
-		/// <summary>Whether a given object is typically found in pirate treasure.</summary>
-		/// <param name="obj">The given object.</param>
-		public static bool IsPirateTreasure(SObject obj)
-		{
-			return PirateTreasureTable.ContainsKey(obj.ParentSheetIndex);
-		}
-
-		#endregion public methods
 	}
 }

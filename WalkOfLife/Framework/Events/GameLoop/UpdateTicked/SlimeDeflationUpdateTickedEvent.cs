@@ -9,13 +9,22 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
-			for (int i = ModEntry.PipedSlimes.Count() - 1; i >= 0; --i)
+			var undeflatedSlimes = ModEntry.PipedSlimesScales.Keys.ToList();
+			while (undeflatedSlimes.Any())
 			{
-				ModEntry.PipedSlimes.ElementAt(i).Scale = Math.Max(ModEntry.PipedSlimes.ElementAt(i).Scale / 1.1f, 1f);
-				if (ModEntry.PipedSlimes.ElementAt(i).Scale <= 1f) ModEntry.PipedSlimes.RemoveAt(i);
+				for (int i = undeflatedSlimes.Count - 1; i >= 0; --i)
+				{
+					undeflatedSlimes[i].Scale = Math.Max(undeflatedSlimes[i].Scale / 1.1f, ModEntry.PipedSlimesScales[undeflatedSlimes[i]]);
+					if (undeflatedSlimes[i].Scale <= ModEntry.PipedSlimesScales[undeflatedSlimes[i]])
+					{
+						undeflatedSlimes[i].willDestroyObjectsUnderfoot = false;
+						undeflatedSlimes.RemoveAt(i);
+					}
+				}
 			}
 
-			if (!ModEntry.PipedSlimes.Any()) ModEntry.Subscriber.Unsubscribe(GetType());
+			ModEntry.PipedSlimesScales.Clear();
+			ModEntry.Subscriber.Unsubscribe(GetType());
 		}
 	}
 }

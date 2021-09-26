@@ -39,7 +39,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var grid = new CircleTileGrid(tileLocation, radius);
 				foreach (var tile in grid)
 				{
-					if (!__instance.objects.TryGetValue(tile, out var tileObj) || !Util.Objects.IsStone(tileObj)) continue;
+					if (!__instance.objects.TryGetValue(tile, out var tileObj) || !tileObj.IsStone()) continue;
 
 					if (isBlaster)
 					{

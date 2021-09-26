@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Netcode;
+﻿using Netcode;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
@@ -30,25 +29,22 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <summary>Raised when IsSuperModeActive is set to true.</summary>
 		public void OnSuperModeEnabled()
 		{
-			// remove shake timer
+			var whichSuperMode = Util.Professions.NameOf(ModEntry.SuperModeIndex);
+
+			// remove bar shake timer
 			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarShakeTimerUpdateTickedEvent));
 			ModEntry.ShouldShakeSuperModeBar = false;
 
-			// add countdown event
-			ModEntry.Subscriber.Subscribe(new SuperModeCountdownUpdateTickedEvent());
+			// fade in overlay
+			ModEntry.Subscriber.Subscribe(new SuperModeRenderedWorldEvent(), new SuperModeOverlayFadeInUpdateTickedEvent());
 
 			// play sfx
-			var whichSuperMode = Util.Professions.NameOf(ModEntry.SuperModeIndex);
-			var whichSfx = whichSuperMode switch
-			{
-				"Brute" => ModEntry.Config.UseMenacingSoundEffects ? "brute_rage_menacing" : "brute_rage",
-				"Poacher" => "poacher_invis",
-				"Desperado" => ModEntry.Config.UseMenacingSoundEffects ? "desperado_cockgun_menacing" : "desperado_cockgun",
-				"Piper" => "piper_provoke",
-				_ => throw new ArgumentException($"Unexpected super mode {whichSuperMode}")
-			};
+			if (!ModEntry.SfxLoader.SfxByName.TryGetValue(ModEntry.SuperModeSfx, out var sfx))
+				throw new ArgumentException($"Sound asset '{ModEntry.SuperModeSfx}' could not be found.");
+			sfx.CreateInstance().Play();
 
-			if (ModEntry.SfxLoader.SfxByName.TryGetValue(whichSfx, out var sfx)) sfx.CreateInstance().Play();
+			// add countdown event
+			ModEntry.Subscriber.Subscribe(new SuperModeCountdownUpdateTickedEvent());
 
 			// display buff
 			var buffID = ModEntry.UniqueID.Hash() + ModEntry.SuperModeIndex + 4;
@@ -77,14 +73,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					{
 						which = buffID,
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
-						glow = whichSuperMode switch
-						{
-							"Brute" => Color.OrangeRed,
-							"Poacher" => Color.GhostWhite,
-							"Desperado" => Color.DarkGoldenrod,
-							"Piper" => Color.LightSeaGreen,
-							_ => throw new ArgumentException($"Unexpected super mode {whichSuperMode}")
-						},
+						glow = ModEntry.SuperModeGlowColor,
 						millisecondsDuration = (int)(ModEntry.Config.SuperModeDrainFactor / 60f * ModEntry.SuperModeCounterMax * 1000f),
 						description = ModEntry.I18n.Get(professionName.ToLower() + ".supermdesc")
 					}
@@ -130,15 +119,35 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <summary>Enflate Slimes and apply mutations.</summary>
 		private void DoEnablePiperSuperMode()
 		{
-			ModEntry.PipedSlimes = Game1.currentLocation.characters.OfType<GreenSlime>().Where(s => s.Scale < 2f).ToList();
-			foreach (var slime in ModEntry.PipedSlimes)
+			foreach (var greenSlime in Game1.currentLocation.characters.OfType<GreenSlime>().Where(slime => slime.Scale < 2f))
 			{
 				if (Game1.random.NextDouble() <= 0.012 + Game1.player.team.AverageDailyLuck() / 10.0)
 				{
-					if (Game1.currentLocation is MineShaft && Game1.player.team.SpecialOrderActive("Wizard2")) slime.makePrismatic();
-					else slime.hasSpecialItem.Value = true;
+					if (Game1.currentLocation is MineShaft && Game1.player.team.SpecialOrderActive("Wizard2")) greenSlime.makePrismatic();
+					else greenSlime.hasSpecialItem.Value = true;
+				}
+
+				ModEntry.PipedSlimesScales.Add(greenSlime, greenSlime.Scale);
+			}
+
+			var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
+			for (int i = bigSlimes.Count - 1; i >= 0; --i)
+			{
+				bigSlimes[i].Health = 0;
+				bigSlimes[i].deathAnimation();
+				int toCreate = Game1.random.Next(2, 5);
+				while (toCreate-- > 0)
+				{
+					Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
+					var justCreated = Game1.currentLocation.characters[Game1.currentLocation.characters.Count - 1];
+					justCreated.setTrajectory((int)(bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)), (int)(bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
+					justCreated.willDestroyObjectsUnderfoot = false;
+					justCreated.moveTowardPlayer(4);
+					justCreated.Scale = 0.75f + Game1.random.Next(-5, 10) / 100f;
+					justCreated.currentLocation = Game1.currentLocation;
 				}
 			}
+
 			ModEntry.Subscriber.Subscribe(new SlimeInflationUpdateTickedEvent());
 		}
 	}

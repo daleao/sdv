@@ -43,17 +43,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					var multiplier = 1f;
 
 					// professions
-					if (player.IsLocalPlayer && Game1.player.HasProfession("Artisan") && Util.Objects.IsArtisanGood(__instance))
-						multiplier *= Util.Professions.GetArtisanPriceMultiplier();
-					else if (player.HasProfession("Producer") && Util.Objects.IsAnimalProduct(__instance))
+					if (player.HasProfession("Producer") && __instance.IsAnimalProduct())
 						multiplier *= Util.Professions.GetProducerPriceMultiplier(player);
-					else if (player.HasProfession("Angler") && Util.Objects.IsFish(__instance))
+					else if (player.HasProfession("Angler") && __instance.IsFish())
 						multiplier *= Util.Professions.GetAnglerPriceMultiplier(player);
 
 					// events
-					else if (player.eventsSeen.Contains(2120303) && Util.Objects.IsWildBerry(__instance))
+					else if (player.eventsSeen.Contains(2120303) && __instance.IsWildBerry())
 						multiplier *= 3f;
-					else if (player.eventsSeen.Contains(3910979) && Util.Objects.IsSpringOnion(__instance))
+					else if (player.eventsSeen.Contains(3910979) && __instance.IsSpringOnion())
 						multiplier *= 5f;
 
 					// tax bonus

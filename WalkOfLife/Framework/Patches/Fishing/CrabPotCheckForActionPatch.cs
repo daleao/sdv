@@ -10,6 +10,7 @@ using System.IO;
 using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -30,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !IsHoldingSpecialLuremasterCatch(__instance))
+				if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !__instance.HasSpecialLuremasterCatch())
 					return true; // run original logic
 
 				var item = __instance.heldObject.Value;
@@ -93,17 +94,5 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		}
 
 		#endregion harmony patches
-
-		#region private methods
-
-		/// <summary>Whether the given crab pot instance is holding an object that can only be caught by a Luremaster.</summary>
-		/// <param name="crabpot">The crab pot instance.</param>
-		private static bool IsHoldingSpecialLuremasterCatch(CrabPot crabpot)
-		{
-			var obj = crabpot.heldObject.Value;
-			return obj != null && ((obj.Type == "Fish" && !Util.Objects.IsTrapFish(obj)) || Util.Objects.IsPirateTreasure(obj));
-		}
-
-		#endregion private methods
 	}
 }

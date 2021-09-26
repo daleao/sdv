@@ -28,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				var who = Game1.getFarmer(whichPlayer);
-				if (!who.HasProfession("Gemologist") || !Util.Objects.IsGemOrMineral(new SObject(objectIndex, 1)))
+				if (!who.HasProfession("Gemologist") || !new SObject(objectIndex, 1).IsGemOrMineral())
 					return true; // run original logic
 
 				location.debris.Add(new Debris(objectIndex, new Vector2(xTile * 64 + 32, yTile * 64 + 32), who.getStandingPosition())

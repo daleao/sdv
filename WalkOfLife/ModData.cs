@@ -17,11 +17,6 @@ namespace TheLion.Stardew.Professions
 		private static readonly Dictionary<int, List<KeyValuePair<string, string>>> FieldsByProfession = new()
 		{
 			{
-				Framework.Util.Professions.IndexOf("Artisan"),
-				new()
-				{ new("ArtisanPointsAccrued", "0"), new("ArtisanAwardLevel", "0") }
-			},
-			{
 				Framework.Util.Professions.IndexOf("Conservationist"),
 				new()
 				{ new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0") }

@@ -16,12 +16,12 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (_fadeOutTimer >= FADE_OUT_DURATION) return;
 
 			var ratio = (float)_fadeOutTimer / FADE_OUT_DURATION;
-			ModEntry.SuperModeBarOpacity = (float)(-1.0 / (1.0 + Math.Exp(12.0 * ratio - 6.0)) + 1.0);
+			ModEntry.SuperModeBarAlpha = (float)(-1.0 / (1.0 + Math.Exp(12.0 * ratio - 6.0)) + 1.0);
 
 			if (_fadeOutTimer > 0) return;
 
 			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarRenderingHudEvent), GetType());
-			ModEntry.SuperModeBarOpacity = 1f;
+			ModEntry.SuperModeBarAlpha = 1f;
 		}
 	}
 }

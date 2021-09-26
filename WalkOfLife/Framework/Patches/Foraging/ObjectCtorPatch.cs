@@ -28,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				var owner = Game1.getFarmer(__instance.owner.Value);
-				if (Util.Objects.IsWildBerry(__instance) && owner.HasProfession("Ecologist"))
+				if (__instance.IsWildBerry() && owner.HasProfession("Ecologist"))
 					__instance.Edibility = (int)(__instance.Edibility * 1.5f);
 			}
 			catch (Exception ex)

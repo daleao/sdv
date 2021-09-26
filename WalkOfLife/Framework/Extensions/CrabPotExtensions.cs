@@ -30,5 +30,12 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		{
 			return location is Beach || location.catchOceanCrabPotFishFromThisSpot((int)crabpot.TileLocation.X, (int)crabpot.TileLocation.Y);
 		}
+
+		/// <summary>Whether the given crab pot instance is holding an object that can only be caught via Luremaster profession.</summary>
+		public static bool HasSpecialLuremasterCatch(this CrabPot crabpot)
+		{
+			var obj = crabpot.heldObject.Value;
+			return obj != null && ((obj.IsFish() && !obj.IsTrapFish()) || obj.IsAlgae() || obj.IsPirateTreasure());
+		}
 	}
 }

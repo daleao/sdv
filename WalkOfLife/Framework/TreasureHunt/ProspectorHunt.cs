@@ -6,6 +6,7 @@ using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 {
@@ -27,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			if (!location.Objects.Any() || !base.TryStartNewHunt()) return;
 
 			var v = location.Objects.Keys.ElementAtOrDefault(Random.Next(location.Objects.Keys.Count()));
-			if (!location.Objects.TryGetValue(v, out var obj) || !Util.Objects.IsStone(obj) || Util.Objects.IsResourceNode(obj)) return;
+			if (!location.Objects.TryGetValue(v, out var obj) || !obj.IsStone() || obj.IsResourceNode()) return;
 
 			TreasureTile = v;
 			TimeLimit = (uint)(location.Objects.Count() * ModEntry.Config.TreasureHuntHandicap);

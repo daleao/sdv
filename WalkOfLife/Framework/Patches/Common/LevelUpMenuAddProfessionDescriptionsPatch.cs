@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using StardewModdingAPI;
+using StardewValley;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				if (!Util.Professions.IndexByName.Contains(professionName)) return true; // run original logic
 
-				descriptions.Add(ModEntry.I18n.Get(professionName + ".name"));
+				descriptions.Add(ModEntry.I18n.Get(professionName + ".name." + (Game1.player.IsMale ? "male" : "female")));
 				descriptions.AddRange(ModEntry.I18n.Get(professionName + ".desc").ToString()
 					.Split('\n'));
 				return false; // don't run original logic

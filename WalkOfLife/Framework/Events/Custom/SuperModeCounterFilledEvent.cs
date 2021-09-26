@@ -16,7 +16,7 @@
 			ModEntry.SuperModeCounterFilled -= OnSuperModeCounterFilled;
 		}
 
-		/// <summary>Raised when SuperModeCounter is set to zero.</summary>
+		/// <summary>Raised when SuperModeCounter is set to the max value.</summary>
 		public void OnSuperModeCounterFilled()
 		{
 			ModEntry.Subscriber.Subscribe(new SuperModeBarShakeTimerUpdateTickedEvent());

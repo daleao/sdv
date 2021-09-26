@@ -187,7 +187,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			foreach (var key in keys)
 			{
 				var specificFishDataFields = fishData[Convert.ToInt32(key)].Split('/');
-				if (Util.Objects.IsLegendaryFish(specificFishDataFields[0])) continue;
+				if (Util.Objects.LegendaryFishNames.Contains(specificFishDataFields[0])) continue;
 
 				if (!crabpot.HasMagicBait() && !IsFishLevelLowerThanNumber(specificFishDataFields, crabpot.HasWildBait() ? 90 : 70)
 				|| crabpot.HasMagicBait() && IsFishLevelLowerThanNumber(specificFishDataFields, 70)) continue;
@@ -199,7 +199,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (r.NextDouble() > GetChanceForThisFish(specificFishDataFields)) continue;
 
 				var whichFish = Convert.ToInt32(key);
-				if (Util.Objects.IsAlgae(whichFish) && counter == 0)
+				if (whichFish.AnyOf(152, 152, 157) && counter == 0) // if is algae, reroll
 				{
 					++counter;
 					continue;
@@ -262,7 +262,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="who">The player.</param>
 		private static int ChoosePirateTreasure(Random r, Farmer who)
 		{
-			var keys = Util.Objects.PirateTreasureTable.Keys.ToArray();
+			var keys = Util.Objects.TrapperPirateTreasureTable.Keys.ToArray();
 			SUtility.Shuffle(r, keys);
 			foreach (var key in keys)
 			{
@@ -277,7 +277,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="index">The treasure item index.</param>
 		private static double GetChanceForThisTreasure(int index)
 		{
-			return Convert.ToDouble(Util.Objects.PirateTreasureTable[index][0]);
+			return Convert.ToDouble(Util.Objects.TrapperPirateTreasureTable[index][0]);
 		}
 
 		/// <summary>Get the quality for the chosen catch.</summary>
@@ -287,7 +287,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static int GetTrapFishQuality(int whichFish, Farmer who, Random r, CrabPot crabpot, bool isLuremaster)
 		{
 			if (isLuremaster && crabpot.HasMagicBait()) return SObject.bestQuality;
-			if (!who.HasProfession("Trapper") || Util.Objects.PirateTreasureTable.ContainsKey(whichFish) || Util.Objects.IsAlgae(whichFish)) return SObject.lowQuality;
+			
+			var fish = new SObject(whichFish, 1);
+			if (!who.HasProfession("Trapper") || fish.IsPirateTreasure() || fish.IsAlgae()) return SObject.lowQuality;
 			return r.NextDouble() < who.FishingLevel / 30.0 ? SObject.highQuality : r.NextDouble() < who.FishingLevel / 15.0 ? SObject.medQuality : SObject.lowQuality;
 		}
 
@@ -297,7 +299,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="r">Random number generator.</param>
 		private static int GetTrapFishQuantity(CrabPot crabpot, int whichFish, Random r)
 		{
-			return crabpot.HasWildBait() && r.NextDouble() < 0.5 ? 2 : Util.Objects.PirateTreasureTable.TryGetValue(whichFish, out var treasureData) ? r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1) : 1;
+			return crabpot.HasWildBait() && r.NextDouble() < 0.5 ? 2 : Util.Objects.TrapperPirateTreasureTable.TryGetValue(whichFish, out var treasureData) ? r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1) : 1;
 		}
 
 		/// <summary>Get random trash.</summary>

@@ -51,7 +51,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.InsertBuffer() // insert objects[key]
 					.Insert( // check if is foraged mineral and branch if true
 						new CodeInstruction(OpCodes.Call,
-							typeof(Util.Objects).MethodNamed(nameof(Util.Objects.IsForagedMineral))),
+							typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.IsForagedMineral))),
 						new CodeInstruction(OpCodes.Brtrue_S, (Label)shouldntSetCustomQuality)
 					)
 					.AdvanceUntil(
@@ -183,9 +183,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="who">The player.</param>
 		private static void CheckActionIncrementModData(SObject obj, GameLocation location, Farmer who)
 		{
-			if (who.HasProfession("Ecologist") && obj.isForage(location) && !Util.Objects.IsForagedMineral(obj))
+			if (who.HasProfession("Ecologist") && obj.isForage(location) && !obj.IsForagedMineral())
 				ModEntry.Data.IncrementField<uint>("ItemsForaged");
-			else if (who.HasProfession("Gemologist") && Util.Objects.IsForagedMineral(obj))
+			else if (who.HasProfession("Gemologist") && obj.IsForagedMineral())
 				ModEntry.Data.IncrementField<uint>("MineralsCollected");
 		}
 

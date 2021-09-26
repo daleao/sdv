@@ -7,6 +7,7 @@ using StardewValley.Network;
 using StardewValley.Projectiles;
 using System;
 using System.Reflection;
+using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -35,7 +36,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
 				if (!firer.HasProfession("Rascal")) return;
 
-				if (Util.Objects.IsMineralAmmunition(___currentTileSheetIndex.Value) && Game1.random.NextDouble() < 0.6
+				if ((___currentTileSheetIndex.Value - 1).AnyOf(SObject.copper, SObject.iron, SObject.gold, SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
 				|| ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
 					location.debris.Add(new Debris(___currentTileSheetIndex.Value - 1, new Vector2((int)___position.X, (int)___position.Y), firer.getStandingPosition()));
 			}

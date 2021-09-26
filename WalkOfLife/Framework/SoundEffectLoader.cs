@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using Ogg2XNA;
+using Microsoft.Xna.Framework.Audio;
 using StardewModdingAPI;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,17 @@ namespace TheLion.Stardew.Professions.Framework
 		/// <param name="modPath">Path to the mod directory.</param>
 		public SoundEffectLoader(string modPath)
 		{
-			foreach (var file in Directory.GetFiles(Path.Combine(modPath, "assets", "sfx"), "*.wav"))
+			foreach (var file in Directory.GetFiles(Path.Combine(modPath, "assets", "sfx"), "*.ogg"))
 			{
-				using var fs = new FileStream(file, FileMode.Open);
+				// load as .ogg
 				try
 				{
-					var soundEffect = SoundEffect.FromStream(fs);
+					// load .wav
+					//using var fs = new FileStream(file, FileMode.Open);
+					//var soundEffect = SoundEffect.FromStream(fs);
+
+					// load .ogg
+					var soundEffect = OggLoader.Load(file);
 					if (soundEffect == null) throw new FileLoadException();
 					SfxByName.Add(Path.GetFileNameWithoutExtension(file), soundEffect);
 				}

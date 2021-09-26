@@ -496,8 +496,6 @@ namespace TheLion.Stardew.Professions
 		public static string GetAvailableDataFields()
 		{
 			var result = "\n\nAvailable data fields:";
-			result += "\n\tArtisanPointsAccrued - Fame points accrued as Artisan.";
-			result += "\n\tArtisanAwardLevel - Highest tier of Artisan Fair's Seasonal Award won.";
 			result += $"\n\tItemsForaged - Number of items foraged as Ecologist ({ModEntry.Config.ForagesNeededForBestQuality} needed for best quality).";
 			result += $"\n\tMineralsCollected - Number of minerals collected as Gemologist ({ModEntry.Config.MineralsNeededForBestQuality} needed for best quality).";
 			result += "\n\tProspectorStreak - Number of consecutive Prospector Hunts completed (higher numbers improve odds of Prismatic Shard).";

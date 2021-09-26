@@ -18,10 +18,7 @@ namespace TheLion.Stardew.Professions
 		public int SuperModeActivationDelay { get; set; } = 1;
 
 		/// <summary>Lower numbers make super mode last longer. Should be a number between 1 and 10.</summary>
-		public uint SuperModeDrainFactor { get; set; } = 2;
-
-		/// <summary>Play a more menacing sound effect when activating super mode.</summary>
-		public bool UseMenacingSoundEffects { get; set; } = false;
+		public uint SuperModeDrainFactor { get; set; } = 3;
 
 		/// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
 		public uint ForagesNeededForBestQuality { get; set; } = 500;

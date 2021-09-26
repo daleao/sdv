@@ -39,7 +39,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					var monster = (Monster)npc;
 					var monsterBox = monster.GetBoundingBox();
 					var piperIndex = Util.Professions.IndexOf("Piper");
-					if (monster.IsInvisible || monster.isInvincible() || (monster.isGlider.Value && !((ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == piperIndex) || ModEntry.ActivePeerSuperModes.ContainsKey(piperIndex))) || !monsterBox.Intersects(__instance.GetBoundingBox()))
+					if (monster.IsInvisible || monster.isInvincible() || (monster.isGlider.Value && __instance.Scale < 1.4f) || !monsterBox.Intersects(__instance.GetBoundingBox()))
 						continue;
 
 					if (monster is Bug bug && bug.isArmoredBug.Value // skip armored bugs

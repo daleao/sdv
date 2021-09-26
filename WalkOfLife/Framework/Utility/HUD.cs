@@ -15,12 +15,11 @@ namespace TheLion.Stardew.Professions.Framework.Util
 	public static class HUD
 	{
 		public static ArrowPointer Pointer { get; set; }
+		private static Texture2D BarTx { get; } = ModEntry.Content.Load<Texture2D>(Path.Combine("assets", "hud", "bar.png"));
+		private static Texture2D BarFillTx { get; set; }
 
 		private const int MAX_BAR_HEIGHT = 168, TEXTURE_HEIGHT = 46;
 		private const float RENDER_SCALE = Game1.pixelZoom;
-
-		private static readonly Texture2D _barTx = ModEntry.Content.Load<Texture2D>(Path.Combine("assets", "hud", "bar.png"));
-		private static Texture2D _barFillTx;
 
 		/// <summary>Draw a tracking arrow pointer on the edge of the screen pointing to a target off-screen.</summary>
 		/// <param name="target">The target to point to.</param>
@@ -146,10 +145,10 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			// top
 			srcRect = new XnaRect(0, 0, 9, 16);
 			Game1.spriteBatch.Draw(
-				texture: _barTx,
+				texture: BarTx,
 				position: topOfBar,
 				sourceRectangle: srcRect,
-				color: XnaColor.White * ModEntry.SuperModeBarOpacity,
+				color: XnaColor.White * ModEntry.SuperModeBarAlpha,
 				rotation: 0f,
 				origin: Vector2.Zero,
 				scale: RENDER_SCALE,
@@ -161,19 +160,19 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			srcRect = new XnaRect(0, 16, 9, 16);
 			destRect = new XnaRect((int)topOfBar.X, (int)(topOfBar.Y + 64f), 36, 56);
 			Game1.spriteBatch.Draw(
-				texture: _barTx,
+				texture: BarTx,
 				destinationRectangle: destRect,
 				sourceRectangle: srcRect,
-				color: XnaColor.White * ModEntry.SuperModeBarOpacity
+				color: XnaColor.White * ModEntry.SuperModeBarAlpha
 			 );
 
 			// bottom
 			srcRect = new XnaRect(0, 30, 9, 16);
 			Game1.spriteBatch.Draw(
-				texture: _barTx,
+				texture: BarTx,
 				position: new Vector2(topOfBar.X, topOfBar.Y + 120f),
 				sourceRectangle: srcRect,
-				color: XnaColor.White * ModEntry.SuperModeBarOpacity,
+				color: XnaColor.White * ModEntry.SuperModeBarAlpha,
 				rotation: 0f,
 				origin: Vector2.Zero,
 				scale: RENDER_SCALE,
@@ -182,7 +181,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			);
 
 			// draw meter overlay
-			if (_barFillTx == null)
+			if (BarFillTx == null)
 			{
 				var colors = new[]
 				{
@@ -194,7 +193,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				};
 				var positions = new[] { 0f, 0.35f, 0.55f, 0.75f, 1f };
 
-				_barFillTx = TextureBuilder.CreateGradientTexture(Game1.graphics.GraphicsDevice, 9, TEXTURE_HEIGHT, colors, positions);
+				BarFillTx = TextureBuilder.CreateGradientTexture(Game1.graphics.GraphicsDevice, 9, TEXTURE_HEIGHT, colors, positions);
 			}
 
 			var ratio = ModEntry.SuperModeCounter / (float)ModEntry.SuperModeCounterMax;
@@ -205,7 +204,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			destRect = new XnaRect((int)topOfBar.X + 12, (int)topOfBar.Y + 8 + (MAX_BAR_HEIGHT - destHeight), 12, destHeight);
 
 			Game1.spriteBatch.Draw(
-				texture: _barFillTx,
+				texture: BarFillTx,
 				destinationRectangle: destRect,
 				sourceRectangle: srcRect,
 				color: XnaColor.White,

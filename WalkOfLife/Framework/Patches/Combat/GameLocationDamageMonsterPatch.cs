@@ -217,7 +217,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				return;
 
 			ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
-			if (ModEntry.SfxLoader.SfxByName.TryGetValue("poacher_steal", out var sfx)) sfx.CreateInstance().Play();
+			if (!ModEntry.SfxLoader.SfxByName.TryGetValue("poacher_steal", out var sfx))
+				throw new ArgumentException($"Sound asset 'poacher_steal' could not be found.");
+			sfx.CreateInstance().Play();
 		}
 
 		#endregion private methods

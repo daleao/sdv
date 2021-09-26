@@ -19,7 +19,6 @@ namespace TheLion.Stardew.Professions.Framework
 
 		private static readonly Dictionary<int, List<BaseEvent>> EventsByProfession = new()
 		{
-			{ Util.Professions.IndexOf("Artisan"), new() { new ArtisanDayEndingEvent() } },
 			{ Util.Professions.IndexOf("Conservationist"), new() { new ConservationistDayEndingEvent(), new ConservationistDayStartedEvent() } },
 			{ Util.Professions.IndexOf("Poacher"), new() { new PoacherWarpedEvent() } },
 			{ Util.Professions.IndexOf("Piper"), new() { new PiperWarpedEvent() } },
@@ -109,8 +108,6 @@ namespace TheLion.Stardew.Professions.Framework
 		{
 			if (!EventsByProfession.TryGetValue(whichProfession, out var events)) return;
 
-			if (whichProfession == Util.Professions.IndexOf("Artisan") && ModEntry.Data.ReadField<uint>("ArtisanAwardLevel") >= 5) return;
-
 			ModEntry.Log($"Subscribing to {Util.Professions.NameOf(whichProfession)} profession events...", LogLevel.Trace);
 			foreach (var e in events) Subscribe(e);
 			ModEntry.Log("Done subscribing profession events.", LogLevel.Trace);
@@ -159,7 +156,7 @@ namespace TheLion.Stardew.Professions.Framework
 				typeof(SuperModeBarFadeOutUpdateTickedEvent),
 				typeof(SuperModeBarRenderingHudEvent),
 				typeof(SuperModeBarShakeTimerUpdateTickedEvent),
-				typeof(SuperModeBuffsDisplayUpdateTickedEvent),
+				typeof(SuperModeBuffDisplayUpdateTickedEvent),
 				typeof(SuperModeButtonsChangedEvent),
 				typeof(SuperModeCounterFilledEvent),
 				typeof(SuperModeCounterRaisedAboveZeroEvent),

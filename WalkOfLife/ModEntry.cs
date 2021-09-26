@@ -1,4 +1,5 @@
-﻿using StardewModdingAPI;
+﻿using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley.Monsters;
 using System;
@@ -21,19 +22,26 @@ namespace TheLion.Stardew.Professions
 		public static int SpelunkerLadderStreak { get; set; }
 		public static int SlimeContactTimer { get; set; }
 		public static HashSet<int> MonstersStolenFrom { get; set; } = new();
-		public static List<GreenSlime> PipedSlimes { get; set; }
+		public static Dictionary<GreenSlime, float> PipedSlimesScales { get; set; } = new();
 		public static Dictionary<int, HashSet<long>> ActivePeerSuperModes { get; set; } = new();
 		public static int SuperModeCounterMax => 500;
-		public static float SuperModeBarOpacity { get; set; } = 1f;
 		public static bool ShouldShakeSuperModeBar { get; set; }
+		public static float SuperModeBarAlpha { get; set; }
+		public static Color SuperModeGlowColor { get; set; }
+		public static Color SuperModeOverlayColor { get; set; }
+		public static float SuperModeOverlayAlpha { get; set; }
+		public static string SuperModeSfx { get; set; }
 
 		public static int SuperModeIndex
 		{
 			get => _superModeIndex;
 			set
 			{
-				_superModeIndex = value;
-				SuperModeIndexChanged?.Invoke();
+				if (_superModeIndex != value)
+				{
+					_superModeIndex = value;
+					SuperModeIndexChanged?.Invoke(value);
+				}
 			}
 		}
 
