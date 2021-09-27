@@ -14,33 +14,13 @@ namespace TheLion.Stardew.Professions
 		private readonly string _id;
 
 		/// <summary>Easy look-up table for data fields required by each profesion.</summary>
-		private static readonly Dictionary<int, List<KeyValuePair<string, string>>> FieldsByProfession = new()
+		private static readonly Dictionary<string, List<KeyValuePair<string, string>>> FieldsByProfession = new()
 		{
-			{
-				Framework.Util.Professions.IndexOf("Conservationist"),
-				new()
-				{ new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0") }
-			},
-			{
-				Framework.Util.Professions.IndexOf("Ecologist"),
-				new()
-				{ new("ItemsForaged", "0") }
-			},
-			{
-				Framework.Util.Professions.IndexOf("Gemologist"),
-				new()
-				{ new("MineralsCollected", "0") }
-			},
-			{
-				Framework.Util.Professions.IndexOf("Prospector"),
-				new()
-				{ new("ProspectorHuntStreak", "0") }
-			},
-			{
-				Framework.Util.Professions.IndexOf("Scavenger"),
-				new()
-				{ new("ScavengerHuntStreak", "0") }
-			}
+			{ "Conservationist", new() { new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0") } },
+			{ "Ecologist", new() { new("ItemsForaged", "0") } },
+			{ "Gemologist", new() { new("MineralsCollected", "0") } },
+			{ "Prospector", new() { new("ProspectorHuntStreak", "0") } },
+			{ "Scavenger", new() { new("ScavengerHuntStreak", "0") } }
 		};
 
 		/// <summary>Construct an instance.</summary>
@@ -69,28 +49,27 @@ namespace TheLion.Stardew.Professions
 		public void InitializeDataFieldsForLocalPlayer()
 		{
 			ModEntry.Log("Initializing data fields for local player...", LogLevel.Trace);
-			foreach (var professionIndex in Game1.player.professions) InitializeDataFieldsForProfession(professionIndex);
+			foreach (var professionIndex in Game1.player.professions) InitializeDataFieldsForProfession(Framework.Util.Professions.NameOf(professionIndex));
 			_data.WriteIfNotExists($"{_id}/SuperModeIndex", "-1");
 			ModEntry.Log("Done initializing data fields for local player.", LogLevel.Trace);
 		}
 
 		/// <summary>Initialize data fields for a profession.</summary>
 		/// <param name="whichProfession">The profession index.</param>
-		public void InitializeDataFieldsForProfession(int whichProfession)
+		public void InitializeDataFieldsForProfession(string whichProfession)
 		{
 			if (!FieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
-
-			ModEntry.Log($"Initializing data fields for {Framework.Util.Professions.NameOf(whichProfession)}.", LogLevel.Trace);
+			ModEntry.Log($"Initializing data fields for {whichProfession}.", LogLevel.Trace);
 			fields.ForEach(field => _data.WriteIfNotExists($"{_id}/{field.Key}", $"{field.Value}"));
 		}
 
 		/// <summary>Clear data entries for a removed profession.</summary>
 		/// <param name="whichProfession">The profession index.</param>
-		public void RemoveProfessionDataFields(int whichProfession)
+		public void RemoveProfessionDataFields(string whichProfession)
 		{
 			if (!FieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
 
-			ModEntry.Log($"Removing data fields for {Framework.Util.Professions.NameOf(whichProfession)}.", LogLevel.Trace);
+			ModEntry.Log($"Removing data fields for {whichProfession}.", LogLevel.Trace);
 			fields.ForEach(field => _data.Write($"{_id}/{field.Key}", null));
 		}
 
@@ -99,6 +78,7 @@ namespace TheLion.Stardew.Professions
 		{
 			ModEntry.Log("Checking for rogue data fields...", LogLevel.Trace);
 			foreach (var kvp in from kvp in FieldsByProfession
+								where !kvp.Key.AnyOf("Scavenger", "Prospector")
 								from field in kvp.Value
 								where _data.ContainsKey(field.Key) && !Game1.player.HasProfession(kvp.Key)
 								select kvp)

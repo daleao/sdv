@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		#region harmony patches
 
 		/// <summary>Patch to remove modded immediate profession perks.</summary>
-		[HarmonyPrefix]
+		[HarmonyPostfix]
 		private static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
 		{
 			try
@@ -44,10 +44,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 
 				// clean unnecessary mod data
-				ModEntry.Data.RemoveProfessionDataFields(whichProfession);
+				ModEntry.Data.RemoveProfessionDataFields(professionName);
 
 				// unsubscribe unnecessary events
-				ModEntry.Subscriber.UnsubscribeProfessionEvents(whichProfession);
+				ModEntry.Subscriber.UnsubscribeProfessionEvents(professionName);
 
 				// unregister super mode
 				if (ModEntry.SuperModeIndex != whichProfession) return;

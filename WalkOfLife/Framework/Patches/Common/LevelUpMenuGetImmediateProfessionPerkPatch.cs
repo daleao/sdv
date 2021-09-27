@@ -43,10 +43,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 
 				// initialize mod data, assets and helpers
-				ModEntry.Data.InitializeDataFieldsForProfession(whichProfession);
+				ModEntry.Data.InitializeDataFieldsForProfession(professionName);
 
 				// subscribe events
-				ModEntry.Subscriber.SubscribeEventsForProfession(whichProfession);
+				ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
 
 				if (professionName == "Scavenger")
 				{
