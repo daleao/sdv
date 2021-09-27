@@ -16,6 +16,14 @@ namespace TheLion.Stardew.Common.Extensions
 				: s.First().ToString().ToUpper() + s.Substring(1);
 		}
 
+		/// <summary>Truncate the calling string to a <paramref name="maxLength"/>, ending with elipses.</summary>
+		public static string? Truncate(this string? s, int maxLength, string truncationSuffix = "…")
+		{
+			return s?.Length > maxLength
+				? s.Substring(0, maxLength) + truncationSuffix
+				: s;
+		}
+
 		/// <summary>Try to parse the calling string to a generic type.</summary>
 		/// <param name="val">Parsed <typeparamref name="T"/>-type object if successful, else default.</param>
 		/// <returns>True if parse was successful, otherwise false.</returns>

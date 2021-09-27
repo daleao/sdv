@@ -44,12 +44,12 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						 0,
 						 minutesDuration: 1,
 						 source: "Spelunker",
-						 displaySource: ModEntry.ModHelper.Translation.Get("spelunker.buffname"))
+						 displaySource: ModEntry.ModHelper.Translation.Get("spelunker.name." + (Game1.player.IsMale ? "male" : "female")))
 				{
 					which = _buffID,
 					sheetIndex = SHEET_INDEX,
 					millisecondsDuration = 49,
-					description = ModEntry.ModHelper.Translation.Get("spelunker.buffdescription", new { bonusLadderChance, bonusSpeed })
+					description = ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new { bonusLadderChance, bonusSpeed })
 				}
 			);
 		}

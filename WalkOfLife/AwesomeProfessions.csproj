@@ -13,21 +13,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="assets\sfx\wave\**" />
-	  <Compile Remove="assets\sprites\loose\**" />
-	  <EmbeddedResource Remove="assets\sfx\wave\**" />
-	  <EmbeddedResource Remove="assets\sprites\loose\**" />
-	  <None Remove="assets\sfx\wave\**" />
-	  <None Remove="assets\sprites\loose\**" />
+	  <Compile Remove="resources\**" />
+	  <EmbeddedResource Remove="resources\**" />
+	  <None Remove="resources\**" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.3.0" />
 		<PackageReference Include="Platonymous.Ogg2XNA" Version="1.1.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="assets\" />
 	</ItemGroup>
 
 	<Import Project="..\Common\Common.projitems" Label="Shared" Condition="Exists('..\Common\Common.projitems')" />

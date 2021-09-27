@@ -104,7 +104,7 @@ namespace TheLion.Stardew.Professions
 								select kvp)
 				RemoveProfessionDataFields(kvp.Key);
 
-			ModEntry.Log("Done cleaning up rogue data fields.", LogLevel.Trace);
+			ModEntry.Log("Done.", LogLevel.Trace);
 		}
 
 		/// <summary>Read a field from the <see cref="ModData"/> as string.</summary>

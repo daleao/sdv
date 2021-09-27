@@ -42,7 +42,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						0,
 						minutesDuration: 1,
 						source: professionName,
-						displaySource: ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".name"))
+						displaySource: ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".name." + (Game1.player.IsMale ? "male" : "female")))
 					{
 						which = buffID,
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,

@@ -12,7 +12,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 		protected string HuntStartedMessage { get; set; }
 		protected string HuntFailedMessage { get; set; }
-		protected Texture2D Icon { get; set; }
+		protected Rectangle IconSourceRect { get; set; }
 
 		protected uint TimeLimit;
 		protected uint Elapsed;

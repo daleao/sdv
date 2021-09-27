@@ -75,7 +75,7 @@ namespace TheLion.Stardew.Professions.Framework
 		internal void SubscribeStaticEvents()
 		{
 			ModEntry.Log("Subscribing static events...", LogLevel.Trace);
-			Subscribe(new StaticGameLaunchedEvent(), new StaticSaveLoadedEvent(), new StaticReturnedToTitleEvent(), new StaticLevelChangedEvent(), new StaticSuperModeIndexChangedEvent());
+			Subscribe(new StaticGameLaunchedEvent(), new StaticSaveLoadedEvent(), new StaticSavingEvent(), new StaticReturnedToTitleEvent(), new StaticLevelChangedEvent(), new StaticSuperModeIndexChangedEvent());
 
 			if (!ModEntry.ModHelper.ModRegistry.IsLoaded("alphablackwolf.skillPrestige") && !ModEntry.ModHelper.ModRegistry.IsLoaded("cantorsdust.AllProfessions"))
 				return;
@@ -176,7 +176,7 @@ namespace TheLion.Stardew.Professions.Framework
 				if (!EventsByProfession.TryGetValue(professionIndex, out var events)) continue;
 				foreach (var e in events.Except(_subscribed)) Subscribe(e);
 			}
-			ModEntry.Log("Done subscribing to missing events.", LogLevel.Trace);
+			ModEntry.Log("Done.", LogLevel.Trace);
 		}
 
 		/// <summary>Check if there are rogue events still subscribed and remove them.</summary>
@@ -188,7 +188,7 @@ namespace TheLion.Stardew.Professions.Framework
 							e.Prefix() == "Tracker" & !(Game1.player.HasProfession("Prospector") || Game1.player.HasProfession("Scavenger")) ||
 							e.Prefix() == "SuperMode" && !Game1.player.HasAnyOfProfessions("Brute", "Poacher", "Piper", "Desperado"))
 				.Reverse()) Unsubscribe(e.GetType());
-			ModEntry.Log("Done cleaning up rogue events.", LogLevel.Trace);
+			ModEntry.Log("Done.", LogLevel.Trace);
 		}
 
 		/// <summary>Whether the event listener is subscribed to a given event type.</summary>

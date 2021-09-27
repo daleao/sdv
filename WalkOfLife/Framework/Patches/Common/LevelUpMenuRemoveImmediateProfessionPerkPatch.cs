@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -51,11 +50,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				ModEntry.Subscriber.UnsubscribeProfessionEvents(whichProfession);
 
 				// unregister super mode
-				var combatProfessions = new[] { "Brute", "Poacher", "Desperado", "Piper" };
-				if (!professionName.AnyOf(combatProfessions) || ModEntry.SuperModeIndex != whichProfession) return;
+				if (ModEntry.SuperModeIndex != whichProfession) return;
 
-				if (Game1.player.HasAnyOfProfessions(combatProfessions.Except(new[] { professionName }).ToArray()))
-					ModEntry.SuperModeIndex = Util.Professions.IndexOf(combatProfessions.First());
+				var superModeProfessions = new[] { "Brute", "Poacher", "Desperado", "Piper" };
+				if (Game1.player.HasAnyOfProfessions(superModeProfessions.Except(new[] { professionName }).ToArray()))
+					ModEntry.SuperModeIndex = Util.Professions.IndexOf(superModeProfessions.First());
 				else
 					ModEntry.SuperModeIndex = -1;
 

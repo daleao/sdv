@@ -64,7 +64,7 @@ namespace TheLion.Stardew.Professions.Integrations
 				)
 				.AddNumberField(
 					label: "Activation delay",
-					description: "How long the key should be held before activatine Super Mode, in seconds.",
+					description: "How long the key should be held before activating Super Mode, in seconds.",
 					get: config => config.SuperModeActivationDelay,
 					set: (config, value) => config.SuperModeActivationDelay = value,
 					min: 0,

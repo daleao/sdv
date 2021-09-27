@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
@@ -36,11 +35,11 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		};
 
 		/// <summary>Construct an instance.</summary>
-		internal ScavengerHunt(string huntStartedMessage, string huntFailedMessage, Texture2D icon)
+		internal ScavengerHunt()
 		{
-			HuntStartedMessage = huntStartedMessage;
-			HuntFailedMessage = huntFailedMessage;
-			Icon = icon;
+			HuntStartedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntstarted");
+			HuntFailedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntfailed");
+			IconSourceRect = new Rectangle(80, 656, 16, 16);
 		}
 
 		/// <summary>Try to start a new scavenger hunt at this location.</summary>
@@ -56,10 +55,10 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 			Util.Tiles.MakeTileDiggable(v, location);
 			TreasureTile = v;
-			TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize * 10, 2) * ModEntry.Config.TreasureHuntHandicap);
+			TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 10 * ModEntry.Config.TreasureHuntHandicap);
 			Elapsed = 0;
 			ModEntry.Subscriber.Subscribe(new Events.ArrowPointerUpdateTickedEvent(), new Events.ScavengerHuntUpdateTickedEvent(), new Events.ScavengerHuntRenderedHudEvent());
-			Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, Icon));
+			Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
 		}
 
 		/// <summary>Check if the player has found the treasure tile.</summary>

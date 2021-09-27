@@ -6,7 +6,8 @@
 	"agriculturist.name.male": "Agriculturist",
 	"agriculturist.name.female": "Agriculturist",
 	"agriculturist.desc": "Crops grow 10% faster. Grow best-quality crops organically without fertilizer.",
-	"artisan.name": "Artisan",
+	"artisan.name.male": "Artisan",
+	"artisan.name.female": "Artisan",
 	"artisan.desc": "All artisan machines work 10% faster. Machine output quality is equal to or better than input ingredient quality.",
 	
 	"rancher.name.male": "Rancher",

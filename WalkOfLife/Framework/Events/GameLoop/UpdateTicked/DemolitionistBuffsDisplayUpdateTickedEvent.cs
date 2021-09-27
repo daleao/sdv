@@ -48,12 +48,12 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					0,
 					minutesDuration: 1,
 					source: "Demolitionist",
-					displaySource: ModEntry.ModHelper.Translation.Get("demolitionist.name"))
+					displaySource: ModEntry.ModHelper.Translation.Get("demolitionist.name." + (Game1.player.IsMale ? "male" : "female")))
 				{
 					which = buffID,
 					sheetIndex = SHEET_INDEX,
 					millisecondsDuration = 49,
-					description = ModEntry.ModHelper.Translation.Get("demolitionist.buffdescription")
+					description = ModEntry.ModHelper.Translation.Get("demolitionist.buffdesc")
 				}
 			);
 		}

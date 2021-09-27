@@ -8,9 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -50,12 +48,21 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// subscribe events
 				ModEntry.Subscriber.SubscribeEventsForProfession(whichProfession);
 
-				// register super mode
-				var combatProfessions = new[] { "Brute", "Poacher", "Desperado", "Piper" };
-				if (!professionName.AnyOf(combatProfessions) ||
-					Game1.player.HasAnyOfProfessions(combatProfessions.Except(new[] { professionName }).ToArray())) return;
-
-				ModEntry.SuperModeIndex = whichProfession;
+				if (professionName == "Scavenger")
+				{
+					// initialize scavenger hunt helper
+					ModEntry.ScavengerHunt ??= new();
+				}
+				else if (professionName == "Prospector")
+				{
+					// initialize prospector hunt helper 
+					ModEntry.ProspectorHunt ??= new();
+				}
+				else if (whichProfession - 24 > 2 && ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not registered
+				{
+					// register super mode
+					ModEntry.SuperModeIndex = whichProfession;
+				}
 			}
 			catch (Exception ex)
 			{
