@@ -142,7 +142,6 @@ namespace TheLion.Stardew.Professions
 			Helper.ConsoleCommands.Add("player_maxanimalmood", "Max-out the mood of all owned animals.", ConsoleCommands.MaxAnimalMood);
 			Helper.ConsoleCommands.Add("player_getfishaudit", "Check your fishing progress as Angler.", ConsoleCommands.PrintFishCaughtAudit);
 			Helper.ConsoleCommands.Add("wol_checkdata", "Check current value of all mod data fields.", ConsoleCommands.PrintModData);
-			Helper.ConsoleCommands.Add("wol_setdata", "Check current value of all mod data fields.", ConsoleCommands.PrintModData);
 			Helper.ConsoleCommands.Add("wol_setitemsforaged", "Set a new value for ItemsForaged field.", ConsoleCommands.SetItemsForaged);
 			Helper.ConsoleCommands.Add("wol_setmineralscollected", "Set a new value for MineralsCollected field.", ConsoleCommands.SetMineralsCollected);
 			Helper.ConsoleCommands.Add("wol_setprospectorstreak", "Set a new value for ProspectorStreak field.", ConsoleCommands.SetProspectorStreak);

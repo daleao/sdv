@@ -150,20 +150,44 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
         - Giant Slimes can hit flying enemies.
         - Also increases healed amount based on the Slime's actual damage.
 
+## Console Commands
+
+The mod provides the following console commands, which you can enter in the SMAPI console for testing, checking or cheating:
+
+- **player_checkprofessions** - List the player's current professions.
+- **player_addprofessions** - Add the specified professions to the local player.
+- **player_resetprofessions** - Reset all skills and professions for the local player.
+- **player_setultmeter** - Set the super mode meter to the desired value.
+- **player_readyult** - Max-out the super mode meter.
+- **player_maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
+- **player_maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
+- **player_getfishaudit** - Check your fishing progress and bonus fish value as Angler.
+- **wol_checkdata** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent.
+- **wol_setitemsforaged** - Set a new value for ItemsForaged field, which determines the quality of items foraged as Ecologist.
+- **wol_setmineralscollected** - Set a new value for MineralsCollected field, which determines the quality of minerals mines as Gemologist.
+- **wol_setprospectorstreak** - Set a new value for ProspectorStreak field.
+- **wol_setscavengerstreak** - Set a new value for ScavengerStreak field.
+- **wol_settrashcollected** - Set a new value for WaterTrashCollectedThisSeason field, which determines your tax bracket the following season as Conservationist.
+- **wol_checkevents** - List currently subscribed mod events (for debugging).
+
 ## Compatbility
 
-- Compatible with [Automate](https://www.nexusmods.com/stardewvalley/mods/1063) (for craftable machines, the machine's owner's professions will apply; for terrain features, i.e. berry bushes, only the session host's professions will apply).
-- Compatible with [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (you will have to manually change that mod's localization file to fix incorrect profession names, if you care about that).
-- Compatible with [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069).
-- Compatible with [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636).
-- Limited compatibility with [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (profession perks will not be applied immediately, but the following morning.)
-- Limited compatibility with [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (same as above; the Prestige menu also won't reflect modded profession names or descriptions.)
-- Compatible with any mod that adds SpaceCore custom skills (e.g. [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)).
-        
-- Not compatible with mods that change vanilla skills.
-- Not compatible with [Better Crab Pots](https://www.nexusmods.com/stardewvalley/mods/3159), [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767) or any other mod that affects Crab Pot behavior.
-- Not compatible with [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (makes Artisan profession redundant; other features of QAP are already integrated (i.e. mead cares about honey type and large milk/eggs gives double output when processed), essentially replacing that mod entirely).
-- Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) (mushroom box quality is already included; other features may cause bad interactions with foraging professions).
+The mod is compatible with the following popular mods:
+
+- [Automate](https://www.nexusmods.com/stardewvalley/mods/1063) (for craftable machines, the machine's owner's professions will apply; for terrain features, i.e. berry bushes, only the session host's professions will apply)
+- [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (you will have to manually change that mod's localization file to fix incorrect profession names, if you care about that)
+- [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069)
+- [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636)
+- [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (profession perks will not be applied immediately, but the following morning)
+- [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (same as above; the Prestige menu also won't reflect modded profession names or descriptions)
+- Any mod that adds SpaceCore custom skills (e.g. [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830))
+
+The mod is not compatible with the following mods:
+
+- Any mods that change vanilla skills.
+- [Better Crab Pots](https://www.nexusmods.com/stardewvalley/mods/3159), [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767) or any mod that affects Crab Pot behavior.
+- [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but makes Artisan profession redundant; all features are already included). 
+- [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) (mushroom box quality is already included; other features may cause bad interactions with foraging professions).
 
 ## Recommended Mods
 
