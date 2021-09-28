@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Microsoft.Xna.Framework;
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
@@ -42,7 +43,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				__instance.readyForHarvest.Value = true;
 
 				var r = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int)__instance.TileLocation.X * 1000 + (int)__instance.TileLocation.Y);
-				var locationData = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "Locations"));
 				var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
 				var whichFish = -1;
 				if (__instance.bait.Value != null)
@@ -55,7 +55,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						}
 						else if (Game1.random.NextDouble() < (__instance.HasMagicBait() ? 0.25 : 0.1))
 						{
-							var rawFishData = __instance.HasMagicBait() ? GetRawFishDataForAllSeasons(location, locationData) : GetRawFishDataForCurrentSeason(location, locationData);
+							var rawFishData = __instance.HasMagicBait() ? location.GetRawFishDataForAllSeasons() : location.GetRawFishDataForCurrentSeason();
 							var rawFishDataWithLocation = GetRawFishDataWithLocation(rawFishData);
 							whichFish = ChooseFish(__instance, fishData, rawFishDataWithLocation, location, r);
 							if (whichFish < 0) whichFish = ChooseTrapFish(__instance, fishData, location, r, isLuremaster: true);
@@ -103,28 +103,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region private methods
 
-		/// <summary>Get the raw fish data for the current game season.</summary>
-		/// <param name="location">The location of the crab pot.</param>
-		/// <param name="locationData">Raw location data from the game files.</param>
-		private static string[] GetRawFishDataForCurrentSeason(GameLocation location, Dictionary<string, string> locationData)
-		{
-			return locationData[location.NameOrUniqueName].Split('/')[4 + SUtility.getSeasonNumber(Game1.currentSeason)].Split(' ');
-		}
-
-		/// <summary>Get the raw fish data for the all seasons.</summary>
-		/// <param name="location">The location of the crab pot.</param>
-		/// <param name="locationData">Raw location data from the game files.</param>
-		private static string[] GetRawFishDataForAllSeasons(GameLocation location, Dictionary<string, string> locationData)
-		{
-			List<string> allSeasonFish = new();
-			for (var i = 0; i < 4; ++i)
-			{
-				var seasonalFishData = locationData[location.NameOrUniqueName].Split('/')[4 + i].Split(' ');
-				if (seasonalFishData.Length > 1) allSeasonFish.AddRange(seasonalFishData);
-			}
-			return allSeasonFish.ToArray();
-		}
-
 		/// <summary>Convert raw fish data into a look-up dictionary for fishing locations from fish indices.</summary>
 		/// <param name="rawFishData">String array of catchable fish indices and fishing locations.</param>
 		private static Dictionary<string, string> GetRawFishDataWithLocation(string[] rawFishData)
@@ -147,10 +125,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="specificFishLocation">The fishing location index for this fish.</param>
 		/// <param name="crabpot">The crab pot instance.</param>
 		/// <param name="location">The location of the crab pot.</param>
-		private static bool IsCorrectLocationAndTimeForThisFish(string[] specificFishData, int specificFishLocation, CrabPot crabpot, GameLocation location)
+		private static bool IsCorrectLocationAndTimeForThisFish(string[] specificFishData, int specificFishLocation, Vector2 tileLocation, GameLocation gameLocation)
 		{
 			var specificFishSpawnTimes = specificFishData[5].Split(' ');
-			if (specificFishLocation == -1 || location.getFishingLocation(crabpot.TileLocation) == specificFishLocation)
+			if (specificFishLocation == -1 || gameLocation.getFishingLocation(tileLocation) == specificFishLocation)
 			{
 				for (var t = 0; t < specificFishSpawnTimes.Length; t += 2)
 				{
@@ -193,7 +171,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				|| crabpot.HasMagicBait() && IsFishLevelLowerThanNumber(specificFishDataFields, 70)) continue;
 
 				var specificFishLocation = Convert.ToInt32(rawFishDataWithLocation[key]);
-				if (!crabpot.HasMagicBait() && (!IsCorrectLocationAndTimeForThisFish(specificFishDataFields, specificFishLocation, crabpot, location) || !IsCorrectWeatherForThisFish(specificFishDataFields, location)))
+				if (!crabpot.HasMagicBait() && (!IsCorrectLocationAndTimeForThisFish(specificFishDataFields, specificFishLocation, crabpot.TileLocation, location) || !IsCorrectWeatherForThisFish(specificFishDataFields, location)))
 					continue;
 
 				if (r.NextDouble() > GetChanceForThisFish(specificFishDataFields)) continue;

@@ -17,22 +17,32 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectCheckForActionPatch()
 		{
 			Original = typeof(SObject).MethodNamed(nameof(SObject.checkForAction));
+			Prefix = new HarmonyMethod(GetType(), nameof(ObjectCheckForActionPrefix));
 			Postfix = new HarmonyMethod(GetType(), nameof(ObjectCheckForActionPostfix));
 			Transpiler = new HarmonyMethod(GetType(), nameof(ObjectCheckForActionTranspiler));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to increase Gemologist mineral quality from Crystalarium.</summary>
+		/// <summary>Patch to remember object state.</summary>
+		// ReSharper disable once RedundantAssignment
+		[HarmonyPrefix]
+		private static bool ObjectCheckForActionPrefix(SObject __instance, ref bool __state)
+		{
+			__state = __instance.heldObject.Value != null;
+			return true; // run original logic
+		}
+
+		/// <summary>Patch to increase Gemologist mineral quality from Crystalarium + increment Ecologist counter for Mushroom Box.</summary>
 		[HarmonyPostfix]
-		private static void ObjectCheckForActionPostfix(SObject __instance, Farmer who)
+		private static void ObjectCheckForActionPostfix(SObject __instance, bool __state, Farmer who)
 		{
 			try
 			{
-				if (__instance.heldObject.Value == null || !who.HasProfession("Gemologist") || !(__instance.owner.Value == who.UniqueMultiplayerID || !Game1.IsMultiplayer))
-					return;
-
-				if (__instance.name == "Crystalarium") __instance.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
+				if (__instance.heldObject.Value != null && who.HasProfession("Gemologist") && (__instance.owner.Value == who.UniqueMultiplayerID || !Game1.IsMultiplayer) && __instance.name == "Crystalarium")
+					__instance.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
+				else if (__state && __instance.heldObject.Value == null && __instance.ParentSheetIndex == 128 && who.HasProfession("Ecologist"))
+					ModEntry.Data.IncrementField<uint>("ItemsForaged");
 			}
 			catch (Exception ex)
 			{

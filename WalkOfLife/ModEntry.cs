@@ -133,14 +133,16 @@ namespace TheLion.Stardew.Professions
 			Subscriber = new EventSubscriber();
 
 			// add debug commands
+			Helper.ConsoleCommands.Add("player_checkprofessions", "List the player's current professions.", ConsoleCommands.PrintLocalPlayerProfessions);
 			Helper.ConsoleCommands.Add("player_addprofessions", "Add the specified professions to the local player." + ConsoleCommands.GetUsageForAddProfessions(), ConsoleCommands.AddProfessionsToLocalPlayer);
 			Helper.ConsoleCommands.Add("player_resetprofessions", "Reset all skills and professions for the local player.", ConsoleCommands.ResetLocalPlayerProfessions);
-			Helper.ConsoleCommands.Add("player_checkprofessions", "List the player's current professions.", ConsoleCommands.CheckLocalPlayerProfessions);
 			Helper.ConsoleCommands.Add("player_setultmeter", "Set the super mode meter to the desired value.", ConsoleCommands.SetSuperModeCounter);
 			Helper.ConsoleCommands.Add("player_readyult", "Max-out the super mode meter.", ConsoleCommands.ReadySuperMode);
 			Helper.ConsoleCommands.Add("player_maxanimalfriendship", "Max-out the friendship of all owned animals.", ConsoleCommands.MaxAnimalFriendship);
 			Helper.ConsoleCommands.Add("player_maxanimalmood", "Max-out the mood of all owned animals.", ConsoleCommands.MaxAnimalMood);
-			Helper.ConsoleCommands.Add("wol_getdatafield", "Check current value for a profession data field." + ConsoleCommands.GetAvailableDataFields(), ConsoleCommands.PrintModDataField);
+			Helper.ConsoleCommands.Add("player_getfishaudit", "Check your fishing progress as Angler.", ConsoleCommands.PrintFishCaughtAudit);
+			Helper.ConsoleCommands.Add("wol_checkdata", "Check current value of all mod data fields.", ConsoleCommands.PrintModData);
+			Helper.ConsoleCommands.Add("wol_setdata", "Check current value of all mod data fields.", ConsoleCommands.PrintModData);
 			Helper.ConsoleCommands.Add("wol_setitemsforaged", "Set a new value for ItemsForaged field.", ConsoleCommands.SetItemsForaged);
 			Helper.ConsoleCommands.Add("wol_setmineralscollected", "Set a new value for MineralsCollected field.", ConsoleCommands.SetMineralsCollected);
 			Helper.ConsoleCommands.Add("wol_setprospectorstreak", "Set a new value for ProspectorStreak field.", ConsoleCommands.SetProspectorStreak);

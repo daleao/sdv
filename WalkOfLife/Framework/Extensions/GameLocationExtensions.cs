@@ -1,6 +1,8 @@
 ﻿using StardewValley;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using SUtility = StardewValley.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions
 {
@@ -31,6 +33,26 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			}
 
 			return farmers.Any();
+		}
+
+		/// <summary>Get the raw fish data for the game location and current game season.</summary>
+		public static string[] GetRawFishDataForCurrentSeason(this GameLocation location)
+		{
+			var locationData = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "Locations"));
+			return locationData[location.NameOrUniqueName].Split('/')[4 + SUtility.getSeasonNumber(Game1.currentSeason)].Split(' ');
+		}
+
+		/// <summary>Get the raw fish data for the game location and all seasons.</summary>
+		public static string[] GetRawFishDataForAllSeasons(this GameLocation location)
+		{
+			var locationData = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "Locations"));
+			List<string> allSeasonFish = new();
+			for (var i = 0; i < 4; ++i)
+			{
+				var seasonalFishData = locationData[location.NameOrUniqueName].Split('/')[4 + i].Split(' ');
+				if (seasonalFishData.Length > 1) allSeasonFish.AddRange(seasonalFishData);
+			}
+			return allSeasonFish.ToArray();
 		}
 	}
 }

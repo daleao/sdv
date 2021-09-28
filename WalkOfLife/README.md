@@ -78,7 +78,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - **Lv5 - Forager** - 20% chance for double yield of foraged items.
     - _Unchanged effect from vanilla. Only the name is changed._
 - **Lv10 - Ecologist** - Wild berries restore 50% more health and energy. Progressively identify forage of higher quality.
-    - All foraged items will have the same deterministic quality. This immediate gives inventory convenience. However the quality will start off at silver, and progress to iridium when enough items have been foraged.
+    - All foraged items will have the same deterministic quality. This immediate gives inventory convenience. However the quality will start off at silver, and progress to iridium when enough items have been foraged. Applies to Mushroom Boxes, but only if the cave owner (i.e. the host player) has the profession.
 - **Lv10 - Scavenger** - Location of forageable items revealed. Occasionally detect buried treasure.
     - On switching maps while outside you will occasionally detect hidden buried treasure. Find it and dig it up (with a hoe) within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items. _Bonus: hold LeftShift (or LeftShoulder on gamepad) to reveal all forageables on-screen._
 - **Lv5 - Lumberjack** - Felled trees yield 25% more wood.
@@ -152,6 +152,8 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
 
 ## Compatbility
 
+- Compatible with [Automate](https://www.nexusmods.com/stardewvalley/mods/1063) (for craftable machines, the machine's owner's professions will apply; for terrain features, i.e. berry bushes, only the session host's professions will apply).
+- Compatible with [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (you will have to manually change that mod's localization file to fix incorrect profession names, if you care about that).
 - Compatible with [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069).
 - Compatible with [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636).
 - Limited compatibility with [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (profession perks will not be applied immediately, but the following morning.)
@@ -159,9 +161,9 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
 - Compatible with any mod that adds SpaceCore custom skills (e.g. [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)).
         
 - Not compatible with mods that change vanilla skills.
+- Not compatible with [Better Crab Pots](https://www.nexusmods.com/stardewvalley/mods/3159), [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767) or any other mod that affects Crab Pot behavior.
 - Not compatible with [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (makes Artisan profession redundant; other features of QAP are already integrated (i.e. mead cares about honey type and large milk/eggs gives double output when processed), essentially replacing that mod entirely).
-- Not compatible with [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767) (makes Trapper and Luremaster professions redundant).
-- Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) (may cause bad interactions with Foraging professions).
+- Not compatible with [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) (mushroom box quality is already included; other features may cause bad interactions with foraging professions).
 
 ## Recommended Mods
 
