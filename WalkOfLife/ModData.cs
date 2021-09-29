@@ -49,7 +49,18 @@ namespace TheLion.Stardew.Professions
 		public void InitializeDataFieldsForLocalPlayer()
 		{
 			ModEntry.Log("Initializing data fields for local player...", LogLevel.Trace);
-			foreach (var professionIndex in Game1.player.professions) InitializeDataFieldsForProfession(Framework.Util.Professions.NameOf(professionIndex));
+			foreach (var professionIndex in Game1.player.professions)
+			{
+				try
+				{
+					InitializeDataFieldsForProfession(Framework.Util.Professions.NameOf(professionIndex));
+				}
+				catch (IndexOutOfRangeException)
+				{	
+					ModEntry.Log($"Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
+					continue;
+				}
+			}
 			_data.WriteIfNotExists($"{_id}/SuperModeIndex", "-1");
 			ModEntry.Log("Done initializing data fields for local player.", LogLevel.Trace);
 		}

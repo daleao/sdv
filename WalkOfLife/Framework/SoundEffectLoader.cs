@@ -18,7 +18,6 @@ namespace TheLion.Stardew.Professions.Framework
 		{
 			foreach (var file in Directory.GetFiles(Path.Combine(modPath, "assets", "sfx"), "*.ogg"))
 			{
-				// load as .ogg
 				try
 				{
 					// load .wav

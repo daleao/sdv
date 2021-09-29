@@ -23,7 +23,16 @@ namespace TheLion.Stardew.Professions
 			}
 
 			foreach (var professionsIndex in Game1.player.professions)
-				ModEntry.Log($"{Framework.Util.Professions.NameOf(professionsIndex)}", LogLevel.Info);
+			{
+				try
+				{
+					ModEntry.Log($"{Framework.Util.Professions.NameOf(professionsIndex)}", LogLevel.Info);
+				}
+				catch (IndexOutOfRangeException)
+				{
+					ModEntry.Log($"Unknown profession index {professionsIndex}", LogLevel.Info);
+				}
+			}
 		}
 
 		/// <summary>Add specified professions to the local player.</summary>
@@ -313,15 +322,15 @@ namespace TheLion.Stardew.Professions
 			}
 
 			var priceMultiplier = Game1.player.professions.Contains(Farmer.angler) ? (numMaxSizedCaught + numMaxSizedCaught * 5).ToString() + '%' : "Zero. You're not an Angler.";
-			ModEntry.Log($"Species caught: {Game1.player.fishCaught.Count()}/{fishData.Count}\nMax-sized:{numMaxSizedCaught}/{Game1.player.fishCaught.Count()}\nLegendaries:{numLegendariesCaught}/10\nAngler price bonus:{priceMultiplier}\n\nThe following caught fish are not max-sized:", LogLevel.Info);
-			foreach (var fish in nonMaxSizedCaught) ModEntry.Log($"fish", LogLevel.Info);
+			ModEntry.Log($"Species caught: {Game1.player.fishCaught.Count()}/{fishData.Count}\nMax-sized: {numMaxSizedCaught}/{Game1.player.fishCaught.Count()}\nLegendaries: {numLegendariesCaught}/10\nTotal Angler price bonus: {priceMultiplier}\n\nThe following caught fish are not max-sized:", LogLevel.Info);
+			foreach (var fish in nonMaxSizedCaught) ModEntry.Log($"- {fish}", LogLevel.Info);
 
 			var seasonFish = from specificFishData in fishData.Values
 							 where specificFishData.Split('/')[6].Contains(Game1.currentSeason)
 							 select specificFishData.Split('/')[0];
 
 			ModEntry.Log("\nThe following fish can be caught this season:", LogLevel.Info);
-			foreach (var fish in seasonFish.Except(fishCaught)) ModEntry.Log($"{fish}", LogLevel.Info);
+			foreach (var fish in seasonFish.Except(fishCaught)) ModEntry.Log($"- {fish}", LogLevel.Info);
 		}
 
 		/// <summary>Print the current value of every mod data field to the console.</summary>
@@ -338,7 +347,7 @@ namespace TheLion.Stardew.Professions
 			{
 				var value = ModEntry.Data.ReadField($"{field}");
 				if (!string.IsNullOrEmpty(value)) ModEntry.Log($"{field}: {value}", LogLevel.Info);
-				else ModEntry.Log($"Mod data does not contain an entry for {field}.", LogLevel.Warn);
+				else ModEntry.Log($"Mod data does not contain an entry for {field}.", LogLevel.Info);
 			}
 		}
 

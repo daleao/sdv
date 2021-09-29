@@ -88,7 +88,18 @@ namespace TheLion.Stardew.Professions.Framework
 		internal void SubscribeEventsForLocalPlayer()
 		{
 			ModEntry.Log($"Subscribing dynamic events for farmer {Game1.player.Name}...", LogLevel.Trace);
-			foreach (var professionIndex in Game1.player.professions) SubscribeEventsForProfession(Util.Professions.NameOf(professionIndex));
+			foreach (var professionIndex in Game1.player.professions)
+			{
+				try
+				{
+					SubscribeEventsForProfession(Util.Professions.NameOf(professionIndex));
+				}
+				catch (IndexOutOfRangeException)
+				{
+					ModEntry.Log($"Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
+					continue;
+				}
+			}
 			ModEntry.Log("Done subscribing player events.", LogLevel.Trace);
 		}
 
@@ -173,8 +184,16 @@ namespace TheLion.Stardew.Professions.Framework
 			ModEntry.Log("Checking for missing profession events...", LogLevel.Trace);
 			foreach (var professionIndex in Game1.player.professions)
 			{
-				if (!EventsByProfession.TryGetValue(Util.Professions.NameOf(professionIndex), out var events)) continue;
-				foreach (var e in events.Except(_subscribed)) Subscribe(e);
+				try
+				{
+					if (!EventsByProfession.TryGetValue(Util.Professions.NameOf(professionIndex), out var events)) continue;
+					foreach (var e in events.Except(_subscribed)) Subscribe(e);
+				}
+				catch (IndexOutOfRangeException)
+				{
+					ModEntry.Log($"Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
+					continue;
+				}
 			}
 			ModEntry.Log("Done.", LogLevel.Trace);
 		}
