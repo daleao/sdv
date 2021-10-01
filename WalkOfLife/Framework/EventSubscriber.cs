@@ -108,7 +108,7 @@ namespace TheLion.Stardew.Professions.Framework
 		{
 			ModEntry.Log($"Unsubscribing player dynamic events...", LogLevel.Trace);
 			List<Type> toRemove = new();
-			for (var i = 4; i < _subscribed.Count; ++i) toRemove.Add(_subscribed[i].GetType());
+			foreach (var subscribed in _subscribed.Where(s => s.Prefix() != "Static")) toRemove.Add(subscribed.GetType());
 			Unsubscribe(toRemove.ToArray());
 			ModEntry.Log("Done unsubscribing player events.", LogLevel.Trace);
 		}
@@ -176,26 +176,6 @@ namespace TheLion.Stardew.Professions.Framework
 				typeof(SuperModeEnabledEvent),
 				typeof(SuperModeWarpedEvent)
 			);
-		}
-
-		/// <summary>Check if any events that should be subscribed are missing and if so subscribe those events.</summary>
-		internal void SubscribeMissingEvents()
-		{
-			ModEntry.Log("Checking for missing profession events...", LogLevel.Trace);
-			foreach (var professionIndex in Game1.player.professions)
-			{
-				try
-				{
-					if (!EventsByProfession.TryGetValue(Util.Professions.NameOf(professionIndex), out var events)) continue;
-					foreach (var e in events.Except(_subscribed)) Subscribe(e);
-				}
-				catch (IndexOutOfRangeException)
-				{
-					ModEntry.Log($"Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
-					continue;
-				}
-			}
-			ModEntry.Log("Done.", LogLevel.Trace);
 		}
 
 		/// <summary>Check if there are rogue events still subscribed and remove them.</summary>

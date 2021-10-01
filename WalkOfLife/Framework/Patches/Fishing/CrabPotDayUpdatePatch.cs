@@ -205,22 +205,22 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static int ChooseTrapFish(CrabPot crabpot, Dictionary<int, string> fishData, GameLocation location, Random r, bool isLuremaster)
 		{
 			List<int> keys = new();
-			foreach (var kvp in fishData)
+			foreach (var p in fishData)
 			{
-				if (!kvp.Value.Contains("trap")) continue;
+				if (!p.Value.Contains("trap")) continue;
 
 				var shouldCatchOceanFish = crabpot.ShouldCatchOceanFish(location);
-				var rawSplit = kvp.Value.Split('/');
+				var rawSplit = p.Value.Split('/');
 				if ((rawSplit[4] == "ocean" && !shouldCatchOceanFish) || (rawSplit[4] == "freshwater" && shouldCatchOceanFish))
 					continue;
 
 				if (isLuremaster)
 				{
-					keys.Add(kvp.Key);
+					keys.Add(p.Key);
 					continue;
 				}
 
-				if (r.NextDouble() < GetChanceForThisTrapFish(rawSplit)) return kvp.Key;
+				if (r.NextDouble() < GetChanceForThisTrapFish(rawSplit)) return p.Key;
 			}
 
 			if (isLuremaster && keys.Count > 0) return keys[r.Next(keys.Count)];

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
@@ -28,7 +29,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 		{
 			if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession("Piper", out var pipers) || !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;
 
-			var slimeCount = Game1.getFarm().buildings.Where(b => (b.owner.Value.AnyOf(pipers.Select(p => p.UniqueMultiplayerID).ToArray()) || !Game1.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() && b.indoors.Value.characters.Any()).Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) + Game1.getFarm().characters.Count(npc => npc is GreenSlime);
+			var slimeCount = Game1.getFarm().buildings.Where(b => (b.owner.Value.AnyOf(pipers.Select(p => p.UniqueMultiplayerID).ToArray()) || !Context.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() && b.indoors.Value.characters.Any()).Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) + Game1.getFarm().characters.Count(npc => npc is GreenSlime);
 			if (slimeCount <= 0) return;
 
 			var color = __instance.color;

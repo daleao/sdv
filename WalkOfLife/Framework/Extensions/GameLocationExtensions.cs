@@ -1,4 +1,5 @@
-﻿using StardewValley;
+﻿using StardewModdingAPI;
+using StardewValley;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <param name="professionName">The name of the profession.</param>
 		public static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, string professionName)
 		{
-			if (!Game1.IsMultiplayer && location.Equals(Game1.currentLocation)) return Game1.player.HasProfession(professionName);
+			if (!Context.IsMultiplayer && location.Equals(Game1.currentLocation)) return Game1.player.HasProfession(professionName);
 			return location.farmers.Any(farmer => farmer.HasProfession(professionName));
 		}
 
@@ -22,7 +23,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, string professionName, out IList<Farmer> farmers)
 		{
 			farmers = new List<Farmer>();
-			if (!Game1.IsMultiplayer && location.Equals(Game1.player.currentLocation) && Game1.player.HasProfession(professionName))
+			if (!Context.IsMultiplayer && location.Equals(Game1.player.currentLocation) && Game1.player.HasProfession(professionName))
 			{
 				farmers.Add(Game1.player);
 			}

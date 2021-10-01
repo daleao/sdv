@@ -176,9 +176,9 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 			//if (treasuresAndQuantities.Count == 0) treasuresAndQuantities.Add(382, Random.Next(1, 4)); // coal
 
-			foreach (var kvp in treasuresAndQuantities)
+			foreach (var p in treasuresAndQuantities)
 			{
-				switch (kvp.Key)
+				switch (p.Key)
 				{
 					case -1:
 						Game1.createItemDebris(new MeleeWeapon(31) { specialItem = true }, new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f), Random.Next(4), Game1.currentLocation);
@@ -187,7 +187,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 						Game1.createItemDebris(new MeleeWeapon(60) { specialItem = true }, new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f), Random.Next(4), Game1.currentLocation);
 						break;
 					default:
-						Game1.createMultipleObjectDebris(kvp.Key, (int)TreasureTile.Value.X, (int)TreasureTile.Value.Y, kvp.Value, Game1.player.UniqueMultiplayerID, Game1.currentLocation);
+						Game1.createMultipleObjectDebris(p.Key, (int)TreasureTile.Value.X, (int)TreasureTile.Value.Y, p.Value, Game1.player.UniqueMultiplayerID, Game1.currentLocation);
 						break;
 				}
 			}

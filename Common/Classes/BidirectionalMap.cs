@@ -21,7 +21,7 @@ namespace TheLion.Stardew.Common.Classes
 		public BiMap(IDictionary<TForwardKey, TReverseKey> oneWayMap)
 		{
 			Forward = new Indexer<TForwardKey, TReverseKey>(oneWayMap);
-			//var reversedOneWayMap = oneWayMap.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
+			//var reversedOneWayMap = oneWayMap.ToDictionary(p => p.Value, p => p.Key);
 			//Reverse = new Indexer<TReverseKey, TForwardKey>(reversedOneWayMap);
 
 			foreach (var forwardKey in oneWayMap.Keys)

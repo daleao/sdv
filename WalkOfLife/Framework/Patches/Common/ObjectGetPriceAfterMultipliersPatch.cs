@@ -55,8 +55,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						multiplier *= 5f;
 
 					// tax bonus
-					if (Game1.player.HasProfession("Conservationist"))
-						multiplier *= Util.Professions.GetConservationistPriceMultiplier(player);
+					if (player.IsLocalPlayer && player.HasProfession("Conservationist"))
+						multiplier *= Util.Professions.GetConservationistPriceMultiplier();
 
 					saleMultiplier = Math.Max(saleMultiplier, multiplier);
 				}

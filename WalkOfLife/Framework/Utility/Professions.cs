@@ -1,4 +1,5 @@
-﻿using StardewValley;
+﻿using StardewModdingAPI;
+using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Tools;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TheLion.Stardew.Common.Classes;
+using TheLion.Stardew.Common.Extensions;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Util
@@ -90,7 +92,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		public static float GetProducerPriceMultiplier(Farmer who)
 		{
 			return 1f + Game1.getFarm().buildings.Where(b =>
-				(b.owner.Value == who.UniqueMultiplayerID || !Game1.IsMultiplayer) &&
+				(b.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) &&
 				b.buildingType.Contains("Deluxe") && ((AnimalHouse)b.indoors.Value).isFull()).Sum(_ => 0.05f);
 		}
 
@@ -98,16 +100,16 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <param name="who">The player.</param>
 		public static float GetAnglerPriceMultiplier(Farmer who)
 		{
-			var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
+			var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish")).Where(p => !p.Key.AnyOf(152, 152, 157) && !p.Value.Contains("trap")).ToDictionary(p => p.Key, p => p.Value);
 			var multiplier = 1f;
-			foreach (var fish in who.fishCaught.Pairs)
+			foreach (var p in who.fishCaught.Pairs)
 			{
-				if (!fishData.TryGetValue(fish.Key, out var specificFishData) || specificFishData.Contains("trap")) continue;
+				if (!fishData.TryGetValue(p.Key, out var specificFishData)) continue;
 
-				var fields = specificFishData.Split('/');
-				if (Objects.LegendaryFishNames.Contains(fields[0]))
+				var dataFields = specificFishData.Split('/');
+				if (Objects.LegendaryFishNames.Contains(dataFields[0]))
 					multiplier += 0.05f;
-				else if (fish.Value[0] > Convert.ToInt32(fields[4]))
+				else if (p.Value[1] >= Convert.ToInt32(dataFields[4]))
 					multiplier += 0.01f;
 			}
 
@@ -115,11 +117,8 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		}
 
 		/// <summary>Get the price multiplier for items sold by Conservationist.</summary>
-		/// <param name="who">The player.</param>
-		public static float GetConservationistPriceMultiplier(Farmer who)
+		public static float GetConservationistPriceMultiplier()
 		{
-			if (!who.IsLocalPlayer) return 1f;
-
 			return 1f + ModEntry.Data.ReadField<float>("ActiveTaxBonusPercent");
 		}
 
@@ -160,7 +159,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		public static int GetAquaristBonusBobberBarHeight()
 		{
 			return Game1.getFarm().buildings.Where(b =>
-				(b.owner.Value == Game1.player.UniqueMultiplayerID || !Game1.IsMultiplayer) && b is FishPond
+				(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond
 				{
 					FishCount: >= 12
 				}).Sum(_ => 6);

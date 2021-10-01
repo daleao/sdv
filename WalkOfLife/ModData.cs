@@ -69,7 +69,9 @@ namespace TheLion.Stardew.Professions
 		/// <param name="whichProfession">The profession index.</param>
 		public void InitializeDataFieldsForProfession(string whichProfession)
 		{
+			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
 			if (!FieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
+
 			ModEntry.Log($"Initializing data fields for {whichProfession}.", LogLevel.Trace);
 			fields.ForEach(field => _data.WriteIfNotExists($"{_id}/{field.Key}", $"{field.Value}"));
 		}
@@ -78,37 +80,26 @@ namespace TheLion.Stardew.Professions
 		/// <param name="whichProfession">The profession index.</param>
 		public void RemoveProfessionDataFields(string whichProfession)
 		{
+			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
 			if (!FieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
 
 			ModEntry.Log($"Removing data fields for {whichProfession}.", LogLevel.Trace);
 			fields.ForEach(field => _data.Write($"{_id}/{field.Key}", null));
 		}
 
-		/// <summary>Check if there are rogue data feids and remove them.</summary>
-		public void CleanUpRogueDataFields()
-		{
-			ModEntry.Log("Checking for rogue data fields...", LogLevel.Trace);
-			foreach (var kvp in from kvp in FieldsByProfession
-								where !kvp.Key.AnyOf("Scavenger", "Prospector")
-								from field in kvp.Value
-								where _data.ContainsKey(field.Key) && !Game1.player.HasProfession(kvp.Key)
-								select kvp)
-				RemoveProfessionDataFields(kvp.Key);
-
-			ModEntry.Log("Done.", LogLevel.Trace);
-		}
-
 		/// <summary>Read a field from the <see cref="ModData"/> as string.</summary>
 		/// <param name="field">The field to read from.</param>
 		public string ReadField(string field)
 		{
-			return _data.Read($"{_id}/{field}");
+			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
+			return _data.Read($"{_id}/{field}", "");
 		}
 
 		/// <summary>Read a field from the <see cref="ModData"/> as <typeparamref name="T"/>.</summary>
 		/// <param name="field">The field to read from.</param>
-		public T ReadField<T>(string field)
+		public T ReadField<T>(string field) where T : IComparable
 		{
+			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
 			return _data.Read<T>($"{_id}/{field}");
 		}
 
@@ -117,6 +108,8 @@ namespace TheLion.Stardew.Professions
 		/// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
 		public void WriteField(string field, string value)
 		{
+			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
+
 			_data.Write($"{_id}/{field}", value);
 			ModEntry.Log($"Wrote {value} to {field}.", LogLevel.Trace);
 		}
@@ -126,6 +119,8 @@ namespace TheLion.Stardew.Professions
 		/// <param name="amount">Amount to increment by.</param>
 		public void IncrementField<T>(string field, T amount)
 		{
+			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
+
 			_data.Increment($"{_id}/{field}", amount);
 			ModEntry.Log($"Incremented {field} by {amount}.", LogLevel.Trace);
 		}
@@ -134,6 +129,8 @@ namespace TheLion.Stardew.Professions
 		/// <param name="field">The field to update.</param>
 		public void IncrementField<T>(string field)
 		{
+			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
+
 			switch (Type.GetTypeCode(typeof(T)))
 			{
 				case TypeCode.Int16:

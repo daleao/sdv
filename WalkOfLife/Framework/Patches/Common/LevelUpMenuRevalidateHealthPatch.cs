@@ -48,7 +48,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				// revalidate fish pond capacity
-				foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == farmer.UniqueMultiplayerID || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
+				foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
 				{
 					var pond = (FishPond)b;
 					pond.UpdateMaximumOccupancy();

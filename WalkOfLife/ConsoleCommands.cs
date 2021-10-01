@@ -204,7 +204,6 @@ namespace TheLion.Stardew.Professions
 			}
 
 			LevelUpMenu.RevalidateHealth(Game1.player);
-			ModEntry.Subscriber.SubscribeMissingEvents();
 		}
 
 		/// <summary>Reset all skills and professions for the local player.</summary>
@@ -271,7 +270,7 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			foreach (var animal in Game1.getFarm().getAllFarmAnimals().Where(a => a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Game1.IsMultiplayer))
+			foreach (var animal in Game1.getFarm().getAllFarmAnimals().Where(a => a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer))
 				animal.friendshipTowardFarmer.Value = 1000;
 		}
 
@@ -284,7 +283,7 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			foreach (var animal in Game1.getFarm().getAllFarmAnimals().Where(a => a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Game1.IsMultiplayer))
+			foreach (var animal in Game1.getFarm().getAllFarmAnimals().Where(a => a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer))
 				animal.happiness.Value = 255;
 		}
 
@@ -297,40 +296,43 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
+			var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish")).Where(p => !p.Key.AnyOf(152, 152, 157) && !p.Value.Contains("trap")).ToDictionary(p => p.Key, p => p.Value);
 			int numLegendariesCaught = 0, numMaxSizedCaught = 0;
-			var fishCaught = new List<string>();
-			var nonMaxSizedCaught = new List<string>();
-			foreach (var kvp in Game1.player.fishCaught.Pairs)
+			var caughtFishNames = new List<string>();
+			var nonMaxSizedCaught = new Dictionary<string, Tuple<int, int>>();
+			string result = "";
+			foreach (var p in Game1.player.fishCaught.Pairs)
 			{
-				if (!fishData.TryGetValue(kvp.Key, out var specificFishData) || specificFishData.Contains("trap")) continue;
+				if (!fishData.TryGetValue(p.Key, out var specificFishData)) continue;
 
-				var fields = specificFishData.Split('/');
-				if (Framework.Util.Objects.LegendaryFishNames.Contains(fields[0]))
+				var dataFields = specificFishData.Split('/');
+				if (Framework.Util.Objects.LegendaryFishNames.Contains(dataFields[0]))
 				{
 					++numLegendariesCaught;
 				}
 				else
 				{
-					if (kvp.Value[0] > Convert.ToInt32(fields[4]))
+					if (p.Value[1] >= Convert.ToInt32(dataFields[4]))
 						++numMaxSizedCaught;
 					else
-						nonMaxSizedCaught.Add(fields[0]);
+						nonMaxSizedCaught.Add(dataFields[0], new Tuple<int, int>(p.Value[1], Convert.ToInt32(dataFields[4])));
 				}
 
-				fishCaught.Add(fields[0]);
+				caughtFishNames.Add(dataFields[0]);
 			}
 
 			var priceMultiplier = Game1.player.professions.Contains(Farmer.angler) ? (numMaxSizedCaught + numMaxSizedCaught * 5).ToString() + '%' : "Zero. You're not an Angler.";
-			ModEntry.Log($"Species caught: {Game1.player.fishCaught.Count()}/{fishData.Count}\nMax-sized: {numMaxSizedCaught}/{Game1.player.fishCaught.Count()}\nLegendaries: {numLegendariesCaught}/10\nTotal Angler price bonus: {priceMultiplier}\n\nThe following caught fish are not max-sized:", LogLevel.Info);
-			foreach (var fish in nonMaxSizedCaught) ModEntry.Log($"- {fish}", LogLevel.Info);
+			result += $"Species caught: {Game1.player.fishCaught.Count()}/{fishData.Count}\nMax-sized: {numMaxSizedCaught}/{Game1.player.fishCaught.Count()}\nLegendaries: {numLegendariesCaught}/10\nTotal Angler price bonus: {priceMultiplier}\n\nThe following caught fish are not max-sized:";
+			foreach (var fish in nonMaxSizedCaught.Keys) result += $"\n- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})";
 
 			var seasonFish = from specificFishData in fishData.Values
 							 where specificFishData.Split('/')[6].Contains(Game1.currentSeason)
 							 select specificFishData.Split('/')[0];
 
-			ModEntry.Log("\nThe following fish can be caught this season:", LogLevel.Info);
-			foreach (var fish in seasonFish.Except(fishCaught)) ModEntry.Log($"- {fish}", LogLevel.Info);
+			result += "\n\nThe following fish can be caught this season:";
+			foreach (var fish in seasonFish.Except(caughtFishNames)) result += $"\n- {fish}";
+
+			ModEntry.Log(result, LogLevel.Info);
 		}
 
 		/// <summary>Print the current value of every mod data field to the console.</summary>

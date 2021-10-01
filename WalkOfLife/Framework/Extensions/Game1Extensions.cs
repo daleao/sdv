@@ -1,4 +1,5 @@
-﻿using StardewValley;
+﻿using StardewModdingAPI;
+using StardewValley;
 using System.Linq;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions
@@ -10,7 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <param name="numberOfPlayersWithThisProfession">How many players have this profession.</param>
 		public static bool DoesAnyPlayerHaveProfession(this Game1 game1, string professionName, out int numberOfPlayersWithThisProfession)
 		{
-			if (!Game1.IsMultiplayer)
+			if (!Context.IsMultiplayer)
 			{
 				if (Game1.player.HasProfession(professionName))
 				{

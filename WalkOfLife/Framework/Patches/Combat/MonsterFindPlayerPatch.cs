@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal MonsterFindPlayerPatch()
 		{
-			Original = typeof(Monster).MethodNamed(name: "findPlayer");
+			Original = typeof(Monster).MethodNamed("findPlayer");
 			Prefix = new HarmonyMethod(GetType(), nameof(MonsterFindPlayerPrefix));
 		}
 
@@ -23,12 +23,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to override monster aggro.</summary>
 		[HarmonyPrefix]
+		[HarmonyAfter(new string[] { "FarmTypeManager.ModEntry.Monster_findPlayer_Prefix" })]
 		private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer __result)
 		{
 			try
 			{
 				__result = Game1.player;
-				if (__instance.currentLocation == null)
+				if (!Context.IsMultiplayer || __instance.currentLocation == null)
 					return false; // don't run original logic
 
 				if (__instance is GreenSlime && __instance.currentLocation.DoesAnyPlayerHereHaveProfession("Piper", out var pipers))

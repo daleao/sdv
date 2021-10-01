@@ -41,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				// if there was an object inside before running the original method, or if the machine is still empty after running the original method, or if the machine doesn't belong to this player, then do nothing
-				if (__state || __instance.heldObject.Value == null || Game1.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID || probe) return;
+				if (__state || __instance.heldObject.Value == null || Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID || probe) return;
 
 				if (__instance.name.AnyOf("Crystalarium", "Geode Crusher") && who.HasProfession("Gemologist") && (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
 				{

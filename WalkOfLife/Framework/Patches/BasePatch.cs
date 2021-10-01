@@ -7,6 +7,7 @@ using TheLion.Stardew.Common.Harmony;
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	/// <summary>Harmony patch base class.</summary>
+	[HarmonyPatch]
 	internal abstract class BasePatch
 	{
 		protected static ILHelper Helper { get; private set; }
@@ -28,6 +29,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
+				if (Original == null)
+				{
+					ModEntry.Log($"Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Trace);
+					return;
+				}
+
 				ModEntry.Log($"Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.", LogLevel.Trace);
 				harmony.Patch(Original, Prefix, Postfix, Transpiler);
 			}

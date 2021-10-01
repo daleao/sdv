@@ -35,7 +35,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// add immediate perks
 				if (professionName == "Aquarist")
 				{
-					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == Game1.player.UniqueMultiplayerID || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
+					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
 					{
 						var pond = (FishPond)b;
 						pond.UpdateMaximumOccupancy();

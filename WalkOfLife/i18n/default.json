@@ -118,7 +118,7 @@
 	"desperado.superm": "Death Blossom",
 	"desperado.supermdesc": "Enable auto-reload. Fire in eight directions at once.",
 	"piper.name.male": "Slimed Piper",
-	"piper.name.female": "Slimed Piper",
+	"piper.name.female": "Slime Enchantress",
 	"piper.desc": "Slimes damage other enemies and drop better items the more Slimes are raised on the farm. Attract more Slimes in dungeons.",
 	"piper.buffdesc": "Attract up to {{magnitude1}} extra Slimes. Slime attack frequency +{{magnitude2}}%.",
 	"piper.superm": "Superfluidity",

@@ -18,8 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal MonsterTakeDamagePatch()
 		{
-			Original = typeof(Monster).MethodNamed(nameof(Monster.takeDamage),
-				new[] { typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer) });
 			Prefix = new HarmonyMethod(GetType(), nameof(MonsterTakeDamagePrefix));
 			Postfix = new HarmonyMethod(GetType(), nameof(MonsterTakeDamagePostfix));
 		}
@@ -27,26 +25,18 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <inheritdoc/>
 		public override void Apply(Harmony harmony)
 		{
-			MethodBase currentTarget = null;
-			try
+			foreach (var targetMethod in TargetMethods())
 			{
-				foreach (var targetMethod in TargetMethods())
+				try
 				{
-					currentTarget = targetMethod;
-					ModEntry.Log($"Applying {GetType().Name} to {targetMethod.DeclaringType}::{targetMethod.Name}.", LogLevel.Trace);
-					harmony.Patch(
-						original: targetMethod,
-						prefix: Prefix,
-						postfix: Postfix
-					);
+					Original = targetMethod;
+					base.Apply(harmony);
+				}
+				catch
+				{
+					continue;
 				}
 			}
-			catch (Exception ex)
-			{
-				ModEntry.Log($"Failed to patch {currentTarget?.DeclaringType}::{currentTarget?.Name}.\nHarmony returned {ex}", LogLevel.Error);
-			}
-
-			base.Apply(harmony);
 		}
 
 		#region harmony patches
@@ -101,12 +91,19 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<MethodBase> TargetMethods()
 		{
 			var methods = from type in AccessTools.AllTypes()
-						  where typeof(Monster).IsAssignableFrom(type)
+						  where typeof(Monster).IsAssignableFrom(type) && !type.AnyOf(
+							  typeof(HotHead),
+							  typeof(LavaLurk),
+							  typeof(Leaper),
+							  typeof(MetalHead),
+							  typeof(Shooter),
+							  typeof(ShadowBrute),
+							  typeof(Skeleton),
+							  typeof(Spiker))
 						  select type.MethodNamed(name: "takeDamage",
 							  new[] { typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer) });
 
-			return methods.Where(m => !m.DeclaringType.AnyOf(typeof(Monster), typeof(HotHead), typeof(LavaLurk),
-				typeof(MetalHead), typeof(Shooter), typeof(ShadowBrute), typeof(Skeleton), typeof(Spiker))); // these guys already call the base method, so we don't want the patch to run twice
+			return methods.Where(m => m.DeclaringType == m.ReflectedType).Cast<MethodBase>();
 		}
 
 		#endregion private methods

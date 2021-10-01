@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -36,7 +37,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// remove immediate perks
 				if (professionName == "Aquarist")
 				{
-					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == Game1.player.UniqueMultiplayerID || !Game1.IsMultiplayer) && b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
 					{
 						b.maxOccupants.Set(10);
 						b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
@@ -44,7 +45,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 
 				// clean unnecessary mod data
-				ModEntry.Data.RemoveProfessionDataFields(professionName);
+				if (!professionName.AnyOf("Scavenger", "Prospector")) ModEntry.Data.RemoveProfessionDataFields(professionName);
 
 				// unsubscribe unnecessary events
 				ModEntry.Subscriber.UnsubscribeProfessionEvents(professionName);
