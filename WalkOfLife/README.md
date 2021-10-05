@@ -226,6 +226,16 @@ The mod is not compatible with the following mods:
 - [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
 - [Pathoschild](https://www.nexusmods.com/stardewvalley/users/1552317) for SMAPI support.
 - **ConcernedApe** for Stardew Valley.
+- [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.
+
+<table>
+  <tr>
+    <td><img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"></td>
+    <td><img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo."></td>
+  </tr>
+</table>
+
+
 
 ## License
 
