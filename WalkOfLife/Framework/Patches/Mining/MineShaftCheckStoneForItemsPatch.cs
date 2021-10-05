@@ -22,7 +22,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for Spelunker ladder down chance bonus + remove Geologist paired gem chance + remove Excavator double geode chance + remove Prospetor double coal chance.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> MineShaftCheckStoneForItemsTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		private static IEnumerable<CodeInstruction> MineShaftCheckStoneForItemsTranspiler(
+			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -43,13 +44,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.AddLabels(isNotSpelunker) // branch here to resume execution
 					.Insert(
 						// prepare profession check
-						new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
 					)
 					.InsertProfessionCheckForPlayerOnStack(Util.Professions.IndexOf("Spelunker"), isNotSpelunker)
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
 						new CodeInstruction(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetSpelunkerBonusLadderDownChance))),
+							typeof(Util.Professions).MethodNamed(nameof(Util.Professions
+								.GetSpelunkerBonusLadderDownChance))),
 						new CodeInstruction(OpCodes.Add),
 						new CodeInstruction(OpCodes.Stloc_3)
 					)
@@ -69,7 +71,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				Helper // find index of geologist check
-					.FindProfessionCheck(Farmer.geologist, fromCurrentIndex: i != 0)
+					.FindProfessionCheck(Farmer.geologist, i != 0)
 					.Retreat()
 					.GetLabels(out var labels) // backup branch labels
 					.StripLabels() // remove labels from here
@@ -79,7 +81,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var isNotGeologist) // copy destination
 					.Return()
 					.Insert( // insert uncoditional branch to skip this check
-						new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist)
+						new CodeInstruction(OpCodes.Br_S, (Label) isNotGeologist)
 					)
 					.Retreat()
 					.AddLabels(labels)
@@ -102,7 +104,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				Helper // find index of excavator check
-					.FindProfessionCheck(Farmer.excavator, fromCurrentIndex: i != 0)
+					.FindProfessionCheck(Farmer.excavator, i != 0)
 					.Retreat()
 					.RemoveUntil(
 						new CodeInstruction(OpCodes.Mul) // remove this check
@@ -123,7 +125,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				Helper
-					.FindProfessionCheck(Farmer.burrower, fromCurrentIndex: true) // find index of prospector check
+					.FindProfessionCheck(Farmer.burrower, true) // find index of prospector check
 					.Retreat()
 					.RemoveUntil(
 						new CodeInstruction(OpCodes.Mul) // remove this check

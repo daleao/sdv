@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		/// <param name="ticks">The number of ticks Elapsed since the game started.</param>
 		internal void Update(uint ticks)
 		{
-			if (!Game1.shouldTimePass(ignore_multiplayer: true)) return;
+			if (!Game1.shouldTimePass(true)) return;
 
 			if (ticks % 60 == 0 && ++Elapsed > TimeLimit) Fail();
 			else CheckForCompletion();

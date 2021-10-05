@@ -34,13 +34,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				// add immediate perks
 				if (professionName == "Aquarist")
-				{
-					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond && !b.isUnderConstruction()))
+					foreach (var b in Game1.getFarm().buildings.Where(b =>
+						(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+						b is FishPond && !b.isUnderConstruction()))
 					{
-						var pond = (FishPond)b;
+						var pond = (FishPond) b;
 						pond.UpdateMaximumOccupancy();
 					}
-				}
 
 				// initialize mod data, assets and helpers
 				ModEntry.Data.InitializeDataFieldsForProfession(professionName);
@@ -48,11 +48,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// subscribe events
 				ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
 
-				if (whichProfession - 24 > 2 && ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not registered
-				{
+				if (whichProfession - 24 > 2 &&
+				    ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not registered
 					// register super mode
 					ModEntry.SuperModeIndex = whichProfession;
-				}
 			}
 			catch (Exception ex)
 			{
@@ -62,7 +61,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> LevelUpMenuGetImmediateProfessionPerkTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		private static IEnumerable<CodeInstruction> LevelUpMenuGetImmediateProfessionPerkTranspiler(
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 

@@ -24,7 +24,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for Rascal slingshot damage increase with travel time.</summary>
 		[HarmonyPrefix]
-		private static bool BasicProjectileBehaviorOnCollisionWithMonsterPrefix(BasicProjectile __instance, ref NetBool ___damagesMonsters, NetCharacterRef ___theOneWhoFiredMe, int ___travelTime, ref NPC n, GameLocation location)
+		private static bool BasicProjectileBehaviorOnCollisionWithMonsterPrefix(BasicProjectile __instance,
+			ref NetBool ___damagesMonsters, NetCharacterRef ___theOneWhoFiredMe, int ___travelTime, ref NPC n,
+			GameLocation location)
 		{
 			try
 			{
@@ -36,8 +38,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!firer.HasProfession("Rascal")) return true; // run original logic
 
 				ModEntry.ModHelper.Reflection.GetMethod(__instance, "explosionAnimation")?.Invoke(location);
-				var damageToMonster = (int)(__instance.damageToFarmer.Value * Util.Professions.GetRascalBonusDamageForTravelTime(___travelTime));
-				location.damageMonster(n.GetBoundingBox(), damageToMonster, damageToMonster + 1, isBomb: false, firer);
+				var damageToMonster = (int) (__instance.damageToFarmer.Value *
+				                             Util.Professions.GetRascalBonusDamageForTravelTime(___travelTime));
+				location.damageMonster(n.GetBoundingBox(), damageToMonster, damageToMonster + 1, false, firer);
 
 				return false; // don't run original logic
 			}

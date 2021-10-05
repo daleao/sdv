@@ -27,7 +27,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for Rascal chance to recover ammunition.</summary>
 		[HarmonyPostfix]
-		private static void ProjectileBehaviorOnCollisionPostfix(Projectile __instance, NetInt ___currentTileSheetIndex, NetPosition ___position, NetCharacterRef ___theOneWhoFiredMe, GameLocation location)
+		private static void ProjectileBehaviorOnCollisionPostfix(Projectile __instance, NetInt ___currentTileSheetIndex,
+			NetPosition ___position, NetCharacterRef ___theOneWhoFiredMe, GameLocation location)
 		{
 			try
 			{
@@ -36,9 +37,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
 				if (!firer.HasProfession("Rascal")) return;
 
-				if ((___currentTileSheetIndex.Value - 1).AnyOf(SObject.copper, SObject.iron, SObject.gold, SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
-				|| ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
-					location.debris.Add(new Debris(___currentTileSheetIndex.Value - 1, new Vector2((int)___position.X, (int)___position.Y), firer.getStandingPosition()));
+				if ((___currentTileSheetIndex.Value - 1).AnyOf(SObject.copper, SObject.iron, SObject.gold,
+					    SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
+				    || ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
+					location.debris.Add(new Debris(___currentTileSheetIndex.Value - 1,
+						new Vector2((int) ___position.X, (int) ___position.Y), firer.getStandingPosition()));
 			}
 			catch (Exception ex)
 			{

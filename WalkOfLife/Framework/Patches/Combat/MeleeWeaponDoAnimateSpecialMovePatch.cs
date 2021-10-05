@@ -31,17 +31,20 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			switch (__instance.type.Value)
 			{
 				case MeleeWeapon.club when ModEntry.SuperModeIndex == Util.Professions.IndexOf("Brute"):
-					MeleeWeapon.clubCooldown = (int)(MeleeWeapon.clubCooldown * Util.Professions.GetCooldownOrChargeTimeReduction());
+					MeleeWeapon.clubCooldown =
+						(int) (MeleeWeapon.clubCooldown * Util.Professions.GetCooldownOrChargeTimeReduction());
 					break;
 				case MeleeWeapon.dagger when ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher"):
-					MeleeWeapon.daggerCooldown = (int)(MeleeWeapon.daggerCooldown * Util.Professions.GetCooldownOrChargeTimeReduction());
+					MeleeWeapon.daggerCooldown = (int) (MeleeWeapon.daggerCooldown *
+					                                    Util.Professions.GetCooldownOrChargeTimeReduction());
 					break;
 			}
 		}
 
 		/// <summary>Patch to remove Acrobat cooldown reduction.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> MeleeWeaponDoAnimateSpecialMoveTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		private static IEnumerable<CodeInstruction> MeleeWeaponDoAnimateSpecialMoveTranspiler(
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -52,7 +55,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				Helper // find index of acrobat check
-					.FindProfessionCheck(Farmer.acrobat, fromCurrentIndex: i != 0)
+					.FindProfessionCheck(Farmer.acrobat, i != 0)
 					.Retreat(2)
 					.GetLabels(out var labels) // backup branch labels
 					.StripLabels() // remove labels from here
@@ -62,7 +65,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var isNotAcrobat) // copy destination
 					.Return()
 					.Insert( // insert unconditional branch to skip this check
-						new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)
+						new CodeInstruction(OpCodes.Br_S, (Label) isNotAcrobat)
 					)
 					.Retreat()
 					.AddLabels(labels) // restore bakced-up labels to inserted branch

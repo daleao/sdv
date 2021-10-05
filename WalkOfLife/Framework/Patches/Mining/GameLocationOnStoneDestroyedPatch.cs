@@ -21,7 +21,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to remove Prospector double coal chance.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> GameLocationOnStoneDestroyedTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		private static IEnumerable<CodeInstruction> GameLocationOnStoneDestroyedTranspiler(
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 

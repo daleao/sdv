@@ -18,14 +18,10 @@ namespace TheLion.Stardew.Common.Extensions
 			{
 				var j = 0;
 				while (j < pattern.Length && list[i + j].opcode.Equals(pattern[j].opcode)
-				                          && (pattern[j].operand == null || list[i + j].operand.ToString().Equals(pattern[j].operand.ToString())))
-				{
+				                          && (pattern[j].operand == null || list[i + j].operand.ToString()
+					                          .Equals(pattern[j].operand.ToString())))
 					++j;
-				}
-				if (j == pattern.Length)
-				{
-					return i;
-				}
+				if (j == pattern.Length) return i;
 			}
 
 			return -1;
@@ -39,12 +35,8 @@ namespace TheLion.Stardew.Common.Extensions
 		{
 			var count = list.Count;
 			for (var i = start; i < count; ++i)
-			{
 				if (list[i].labels.Contains(label))
-				{
 					return i;
-				}
-			}
 
 			return -1;
 		}
@@ -53,7 +45,7 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <param name="list">The list to be copied.</param>
 		public static List<CodeInstruction> Clone(this IList<CodeInstruction> list)
 		{
-			return list.Select(instr => new CodeInstruction(instr) { blocks = instr.blocks.ToList() }).ToList();
+			return list.Select(instr => new CodeInstruction(instr) {blocks = instr.blocks.ToList()}).ToList();
 		}
 	}
 }

@@ -23,7 +23,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to nerf Ecologist spring onion quality and increment forage counter + always allow iridium-quality crops for Agriculturist + Harvester bonus crop yield.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> CropHarvestTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		private static IEnumerable<CodeInstruction> CropHarvestTranspiler(IEnumerable<CodeInstruction> instructions,
+			ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -65,7 +66,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
 					)
 					.Advance()
-					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Ecologist"), dontIncreaseEcologistCounter)
+					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Ecologist"),
+						dontIncreaseEcologistCounter)
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
@@ -96,7 +98,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_3),
 						new CodeInstruction(OpCodes.Blt_S)
 					)
-					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Agriculturist"), branchDestination: isAgriculturist, useBrtrue: true)
+					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Agriculturist"), isAgriculturist,
+						true)
 					.AdvanceUntil( // find start of dice roll
 						new CodeInstruction(OpCodes.Ldloc_S, random2)
 					)
@@ -119,8 +122,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldloc_S, numToHarvest) // find index of numToHarvest++
 					)
 					.ToBufferUntil( // copy this segment
-						stripLabels: true,
-						advance: false,
+						true,
+						false,
 						new CodeInstruction(OpCodes.Stloc_S, numToHarvest)
 					)
 					.FindNext(
@@ -137,13 +140,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetLabels(out var labels) // copy existing labels
 					.SetLabels(dontIncreaseNumToHarvest) // branch here if shouldn't apply Harvester bonus
 					.Insert( // insert check if junimoHarvester == null
-						new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
+						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4),
 						new CodeInstruction(OpCodes.Brtrue_S, dontIncreaseNumToHarvest)
 					)
 					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Harvester"),
 						dontIncreaseNumToHarvest)
 					.Insert( // insert dice roll
-						new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder)r2),
+						new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder) r2),
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(Random).MethodNamed(nameof(Random.NextDouble))),
 						new CodeInstruction(OpCodes.Ldc_R8, 0.1),

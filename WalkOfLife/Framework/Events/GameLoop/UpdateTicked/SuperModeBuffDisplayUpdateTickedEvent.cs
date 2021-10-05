@@ -26,7 +26,6 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
 			if (buff == null)
-			{
 				Game1.buffsDisplay.addOtherBuff(
 					new Buff(0,
 						0,
@@ -40,16 +39,17 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						0,
 						0,
 						0,
-						minutesDuration: 1,
-						source: professionName,
-						displaySource: ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".name." + (Game1.player.IsMale ? "male" : "female")))
+						1,
+						professionName,
+						ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".name." +
+						                                   (Game1.player.IsMale ? "male" : "female")))
 					{
 						which = buffID,
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
 						millisecondsDuration = 49,
-						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".buffdesc", new { magnitude1, magnitude2 })
+						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".buffdesc",
+							new {magnitude1, magnitude2})
 					});
-			}
 		}
 
 		/// <summary>Get the magnitude of the primary super mode buff for the given profession.</summary>
@@ -58,7 +58,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		{
 			return professionName switch
 			{
-				"Brute" => ((Util.Professions.GetBruteBonusDamageMultiplier(Game1.player) - 1.15f) * 100f).ToString("0.0"),
+				"Brute" => ((Util.Professions.GetBruteBonusDamageMultiplier(Game1.player) - 1.15f) * 100f)
+					.ToString("0.0"),
 				"Poacher" => (Util.Professions.GetPoacherStealChance(Game1.player) * 100f).ToString("0.0"),
 				"Desperado" => (Util.Professions.GetDesperadoDoubleStrafeChance() * 100f).ToString("0.0"),
 				"Piper" => Util.Professions.GetPiperSlimeSpawnAttempts().ToString("0"),

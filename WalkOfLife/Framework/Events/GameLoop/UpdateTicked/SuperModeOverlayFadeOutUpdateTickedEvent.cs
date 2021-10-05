@@ -8,7 +8,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
 			ModEntry.SuperModeOverlayAlpha -= 0.01f;
-			if (ModEntry.SuperModeOverlayAlpha <= 0) ModEntry.Subscriber.Unsubscribe(typeof(SuperModeRenderedWorldEvent), GetType());
+			if (ModEntry.SuperModeOverlayAlpha <= 0)
+				ModEntry.Subscriber.Unsubscribe(typeof(SuperModeRenderedWorldEvent), GetType());
 		}
 	}
 }

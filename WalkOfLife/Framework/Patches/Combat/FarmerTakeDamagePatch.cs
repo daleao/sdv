@@ -21,7 +21,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to make Poacher untargetable during super mode + increment Brute Fury for damage taken + add Brute super mode immortality.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> FarmerTakeDamageTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		private static IEnumerable<CodeInstruction> FarmerTakeDamageTranspiler(
+			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 

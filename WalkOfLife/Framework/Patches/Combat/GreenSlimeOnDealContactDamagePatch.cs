@@ -20,7 +20,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to make Piper immune to slimed debuff.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> GreenSlimeOnDealContactDamageTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		private static IEnumerable<CodeInstruction> GreenSlimeOnDealContactDamageTranspiler(
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -30,14 +31,17 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				Helper
 					.FindFirst(
-						new CodeInstruction(ModEntry.GameFramework.Equals(GameFramework.Xna) ? OpCodes.Bge_Un_S : OpCodes.Bge_Un) // find index of first branch instruction
+						new CodeInstruction(ModEntry.GameFramework.Equals(GameFramework.Xna)
+							? OpCodes.Bge_Un_S
+							: OpCodes.Bge_Un) // find index of first branch instruction
 					)
 					.GetOperand(out var returnLabel) // get return label
 					.Return()
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
 					)
-					.InsertProfessionCheckForPlayerOnStack(Util.Professions.IndexOf("Piper"), (Label)returnLabel, useBrtrue: true);
+					.InsertProfessionCheckForPlayerOnStack(Util.Professions.IndexOf("Piper"), (Label) returnLabel,
+						true);
 			}
 			catch (Exception ex)
 			{

@@ -22,7 +22,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to increment Gemologist counter for geodes cracked at Clint's.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> GeodeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		private static IEnumerable<CodeInstruction> GeodeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
+			ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -46,7 +47,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
 						new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] { typeof(string) }).MakeGenericMethod(typeof(uint)))
+							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] {typeof(string)})
+								.MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseGemologistCounter);
 			}

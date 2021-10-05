@@ -28,7 +28,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (!ModEntry.IsSuperModeActive) return;
 			ModEntry.IsSuperModeActive = false;
 
-			if (!Game1.currentLocation.AnyOfType(typeof(MineShaft), typeof(Woods), typeof(SlimeHutch), typeof(VolcanoDungeon)))
+			if (!Game1.currentLocation.AnyOfType(typeof(MineShaft), typeof(Woods), typeof(SlimeHutch),
+				typeof(VolcanoDungeon)))
 				ModEntry.Subscriber.Subscribe(new SuperModeBarFadeOutUpdateTickedEvent());
 		}
 	}

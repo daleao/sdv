@@ -31,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			125, // golden relic
 			126, // strange doll
 			127, // strange doll
-			588, // palm fossil
+			588 // palm fossil
 		};
 
 		/// <summary>Construct an instance.</summary>
@@ -55,9 +55,11 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 			Util.Tiles.MakeTileDiggable(v, location);
 			TreasureTile = v;
-			TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 10 * ModEntry.Config.TreasureHuntHandicap);
+			TimeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 10 *
+			                    ModEntry.Config.TreasureHuntHandicap);
 			Elapsed = 0;
-			ModEntry.Subscriber.Subscribe(new Events.ArrowPointerUpdateTickedEvent(), new Events.ScavengerHuntUpdateTickedEvent(), new Events.ScavengerHuntRenderedHudEvent());
+			ModEntry.Subscriber.Subscribe(new Events.ArrowPointerUpdateTickedEvent(),
+				new Events.ScavengerHuntUpdateTickedEvent(), new Events.ScavengerHuntRenderedHudEvent());
 			Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
 		}
 
@@ -66,7 +68,8 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		{
 			if (Game1.player.CurrentTool is not Hoe || !Game1.player.UsingTool) return;
 
-			var actionTile = new Vector2((int)(Game1.player.GetToolLocation().X / Game1.tileSize), (int)(Game1.player.GetToolLocation().Y / Game1.tileSize));
+			var actionTile = new Vector2((int) (Game1.player.GetToolLocation().X / Game1.tileSize),
+				(int) (Game1.player.GetToolLocation().Y / Game1.tileSize));
 			if (TreasureTile == null || actionTile != TreasureTile.Value) return;
 
 			End();
@@ -86,14 +89,18 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
 		internal override void End()
 		{
-			ModEntry.Subscriber.Unsubscribe(typeof(Events.ScavengerHuntUpdateTickedEvent), typeof(Events.ProspectorHuntRenderedHudEvent));
+			ModEntry.Subscriber.Unsubscribe(typeof(Events.ScavengerHuntUpdateTickedEvent),
+				typeof(Events.ProspectorHuntRenderedHudEvent));
 			TreasureTile = null;
 		}
 
 		/// <summary>Play treasure chest found animation.</summary>
 		private void BeginFindTreasure()
 		{
-			Game1.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(Path.Combine("LooseSprites", "Cursors"), new Rectangle(64, 1920, 32, 32), 500f, 1, 0, Game1.player.Position + new Vector2(-32f, -160f), flicker: false, flipped: false, Game1.player.getStandingY() / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
+			Game1.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(
+				Path.Combine("LooseSprites", "Cursors"), new Rectangle(64, 1920, 32, 32), 500f, 1, 0,
+				Game1.player.Position + new Vector2(-32f, -160f), false, false,
+				Game1.player.getStandingY() / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
 			{
 				motion = new Vector2(0f, -0.128f),
 				timeBasedMotion = true,
@@ -109,7 +116,10 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		private void OpenChestEndFunction(int extra)
 		{
 			Game1.currentLocation.localSound("openChest");
-			Game1.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(Path.Combine("LooseSprites", "Cursors"), new Rectangle(64, 1920, 32, 32), 200f, 4, 0, Game1.player.Position + new Vector2(-32f, -228f), flicker: false, flipped: false, Game1.player.getStandingY() / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
+			Game1.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(
+				Path.Combine("LooseSprites", "Cursors"), new Rectangle(64, 1920, 32, 32), 200f, 4, 0,
+				Game1.player.Position + new Vector2(-32f, -228f), false, false,
+				Game1.player.getStandingY() / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
 			{
 				endFunction = OpenTreasureMenuEndFunction,
 				extraInfoForEndBehavior = 0
@@ -122,8 +132,8 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		{
 			Game1.player.completelyStopAnimatingOrDoingAction();
 			var treasures = GetTreasureContents();
-			Game1.activeClickableMenu = new ItemGrabMenu(treasures).setEssential(essential: true);
-			((ItemGrabMenu)Game1.activeClickableMenu).source = 3;
+			Game1.activeClickableMenu = new ItemGrabMenu(treasures).setEssential(true);
+			((ItemGrabMenu) Game1.activeClickableMenu).source = 3;
 		}
 
 		/// <summary>Choose the contents of the treasure chest.</summary>
@@ -136,10 +146,12 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			{
 				chance *= 0.4f;
 				if (Game1.currentSeason == "spring" && !(Game1.currentLocation is Beach) && Random.NextDouble() < 0.1)
-					treasures.Add(new SObject(273, Random.Next(2, 6) + (Random.NextDouble() < 0.25 ? 5 : 0))); // rice shoot
+					treasures.Add(new SObject(273,
+						Random.Next(2, 6) + (Random.NextDouble() < 0.25 ? 5 : 0))); // rice shoot
 
 				if (Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
-					treasures.Add(new SObject(890, Random.Next(1, 3) + (Random.NextDouble() < 0.25 ? 2 : 0))); // qi beans
+					treasures.Add(new SObject(890,
+						Random.Next(1, 3) + (Random.NextDouble() < 0.25 ? 2 : 0))); // qi beans
 
 				switch (Random.Next(4))
 				{
@@ -158,8 +170,10 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 						if (possibles.Count == 0 || Random.NextDouble() < 0.4) possibles.Add(390); // stone
 
 						possibles.Add(382); // coal
-						treasures.Add(new SObject(possibles.ElementAt(Random.Next(possibles.Count)), Random.Next(2, 7) * ((!(Random.NextDouble() < (0.05 + Game1.player.LuckLevel * 0.015))) ? 1 : 2)));
-						if (Random.NextDouble() < (0.05 + Game1.player.LuckLevel * 0.03)) treasures.Last().Stack *= 2;
+						treasures.Add(new SObject(possibles.ElementAt(Random.Next(possibles.Count)),
+							Random.Next(2, 7) *
+							(!(Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.015) ? 1 : 2)));
+						if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03) treasures.Last().Stack *= 2;
 
 						break;
 					case 1:
@@ -170,10 +184,17 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 						break;
 					case 2:
-						if (Random.NextDouble() < 0.1 && Game1.netWorldState.Value.LostBooksFound.Value < 21 && Game1.player.hasOrWillReceiveMail("lostBookFound"))
+						if (Random.NextDouble() < 0.1 && Game1.netWorldState.Value.LostBooksFound.Value < 21 &&
+						    Game1.player.hasOrWillReceiveMail("lostBookFound"))
 							treasures.Add(new SObject(102, 1)); // lost book
 						else if (Game1.player.archaeologyFound.Any()) // artifacts
-							treasures.Add(new SObject(Random.NextDouble() < 0.5 ? _artifactsThatCanBeFound.ElementAt(Random.Next(_artifactsThatCanBeFound.Count())) : Random.NextDouble() < 0.25 ? 114 : 535, 1));
+							treasures.Add(new SObject(
+								Random.NextDouble() < 0.5
+									?
+									_artifactsThatCanBeFound.ElementAt(Random.Next(_artifactsThatCanBeFound.Count()))
+									: Random.NextDouble() < 0.25
+										? 114
+										: 535, 1));
 						else
 							treasures.Add(new SObject(382, Random.Next(1, 3))); // coal
 
@@ -183,22 +204,29 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 						{
 							case 0:
 								treasures.Add(new SObject(Random.Next(535, 538), Random.Next(1, 4))); // geodes
-								if (Random.NextDouble() < (0.05 + Game1.player.LuckLevel * 0.03)) treasures.Last().Stack *= 2;
+								if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
+									treasures.Last().Stack *= 2;
 
 								break;
 							case 1:
 								switch (Random.Next(4))
 								{
 									case 0: // fire quartz else ruby or emerald
-										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 82 : Random.NextDouble() < 0.5 ? 64 : 60, Random.Next(1, 3)));
+										treasures.Add(new SObject(
+											Random.NextDouble() < 0.3 ? 82 : Random.NextDouble() < 0.5 ? 64 : 60,
+											Random.Next(1, 3)));
 										break;
 
 									case 1: // frozen tear else jade or aquamarine
-										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 84 : Random.NextDouble() < 0.5 ? 70 : 62, Random.Next(1, 3)));
+										treasures.Add(new SObject(
+											Random.NextDouble() < 0.3 ? 84 : Random.NextDouble() < 0.5 ? 70 : 62,
+											Random.Next(1, 3)));
 										break;
 
 									case 2: // earth crystal else amethyst or topaz
-										treasures.Add(new SObject(Random.NextDouble() < 0.3 ? 86 : Random.NextDouble() < 0.5 ? 66 : 68, Random.Next(1, 3)));
+										treasures.Add(new SObject(
+											Random.NextDouble() < 0.3 ? 86 : Random.NextDouble() < 0.5 ? 66 : 68,
+											Random.Next(1, 3)));
 										break;
 
 									case 3:
@@ -214,43 +242,57 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 							case 2:
 								var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
 								var streak = ModEntry.Data.ReadField<uint>("ScavengerHuntStreak");
-								if (Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(60))
-									treasures.Add(new MeleeWeapon(15) { specialItem = true }); // forest sword
+								if (Random.NextDouble() < 0.025 * luckModifier &&
+								    !Game1.player.specialItems.Contains(60))
+									treasures.Add(new MeleeWeapon(15) {specialItem = true}); // forest sword
 
-								if (Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(20))
-									treasures.Add(new MeleeWeapon(20) { specialItem = true }); // elf blade
+								if (Random.NextDouble() < 0.025 * luckModifier &&
+								    !Game1.player.specialItems.Contains(20))
+									treasures.Add(new MeleeWeapon(20) {specialItem = true}); // elf blade
 
 								if (Random.NextDouble() < 0.07 * luckModifier)
-								{
 									switch (Random.Next(3))
 									{
 										case 0:
-											treasures.Add(new Ring(516 + (Random.NextDouble() < Game1.player.LuckLevel / 11f ? 1 : 0))); // (small) glow ring
+											treasures.Add(new Ring(516 +
+											                       (Random.NextDouble() < Game1.player.LuckLevel / 11f
+												                       ? 1
+												                       : 0))); // (small) glow ring
 											break;
 
 										case 1:
-											treasures.Add(new Ring(518 + (Random.NextDouble() < Game1.player.LuckLevel / 11f ? 1 : 0))); // (small) magnet ring
+											treasures.Add(new Ring(518 +
+											                       (Random.NextDouble() < Game1.player.LuckLevel / 11f
+												                       ? 1
+												                       : 0))); // (small) magnet ring
 											break;
 
 										case 2:
 											treasures.Add(new Ring(Random.Next(529, 535))); // gemstone ring
 											break;
 									}
-								}
 
-								if (Random.NextDouble() < 0.02 * luckModifier) treasures.Add(new SObject(166, 1)); // treasure chest
+								if (Random.NextDouble() < 0.02 * luckModifier)
+									treasures.Add(new SObject(166, 1)); // treasure chest
 
-								if (Random.NextDouble() < 0.01 * luckModifier * Math.Pow(2, streak)) treasures.Add(new SObject(74, 1));  // prismatic shard
+								if (Random.NextDouble() < 0.01 * luckModifier * Math.Pow(2, streak))
+									treasures.Add(new SObject(74, 1)); // prismatic shard
 
-								if (Random.NextDouble() < 0.01 * luckModifier) treasures.Add(new SObject(126, 1)); // strange doll
+								if (Random.NextDouble() < 0.01 * luckModifier)
+									treasures.Add(new SObject(126, 1)); // strange doll
 
-								if (Random.NextDouble() < 0.01 * luckModifier) treasures.Add(new SObject(127, 1)); // strange doll
+								if (Random.NextDouble() < 0.01 * luckModifier)
+									treasures.Add(new SObject(127, 1)); // strange doll
 
-								if (Random.NextDouble() < 0.01 * luckModifier) treasures.Add(new Ring(527)); // iridium band
+								if (Random.NextDouble() < 0.01 * luckModifier)
+									treasures.Add(new Ring(527)); // iridium band
 
-								if (Random.NextDouble() < 0.01 * luckModifier) treasures.Add(new Boots(Random.Next(504, 514))); // boots
+								if (Random.NextDouble() < 0.01 * luckModifier)
+									treasures.Add(new Boots(Random.Next(504, 514))); // boots
 
-								if (Game1.MasterPlayer.mailReceived.Contains("Farm_Eternal") && Random.NextDouble() < 0.01 * luckModifier) treasures.Add(new SObject(928, 1)); // golden egg
+								if (Game1.MasterPlayer.mailReceived.Contains("Farm_Eternal") &&
+								    Random.NextDouble() < 0.01 * luckModifier)
+									treasures.Add(new SObject(928, 1)); // golden egg
 
 								if (treasures.Count == 1) treasures.Add(new SObject(72, 1)); // consolation diamond
 
@@ -262,7 +304,6 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			}
 
 			if (Random.NextDouble() < 0.4)
-			{
 				switch (Game1.currentSeason) // forage seeds
 				{
 					case "spring":
@@ -281,11 +322,8 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 						treasures.Add(new SObject(496, 1));
 						break;
 				}
-			}
 			else
-			{
 				treasures.Add(new SObject(770, Random.Next(1, 4) * 5)); // wild seeds
-			}
 
 			return treasures;
 		}

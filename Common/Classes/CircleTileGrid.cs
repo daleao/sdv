@@ -44,33 +44,24 @@ namespace TheLion.Stardew.Common.Classes
 
 			// get the central axes
 			for (var i = 0; i < _radius * 2 + 1; ++i)
-			{
 				if (i != _radius)
 				{
 					_tiles.Add(_origin - center + new Vector2(i, _radius));
 					_tiles.Add(_origin - center + new Vector2(_radius, i));
 				}
-			}
 
 			// loop over the first remaining quadrant and mirror it 3 times
 			for (var x = 0; x < _radius; ++x)
-			{
-				for (var y = 0; y < _radius; ++y)
+			for (var y = 0; y < _radius; ++y)
+				if (IsInsideOutlineGrid(new Point(x, y)))
 				{
-					if (IsInsideOutlineGrid(new Point(x, y)))
-					{
-						_tiles.Add(_origin - center + new Vector2(y, x));
-						_tiles.Add(_origin - center + new Vector2(y, 2 * _radius - x));
-						_tiles.Add(_origin - center + new Vector2(2 * _radius - y, x));
-						_tiles.Add(_origin - center + new Vector2(2 * _radius - y, 2 * _radius - x));
-					}
+					_tiles.Add(_origin - center + new Vector2(y, x));
+					_tiles.Add(_origin - center + new Vector2(y, 2 * _radius - x));
+					_tiles.Add(_origin - center + new Vector2(2 * _radius - y, x));
+					_tiles.Add(_origin - center + new Vector2(2 * _radius - y, 2 * _radius - x));
 				}
-			}
 
-			if (!excludeOrigin)
-			{
-				_tiles.Add(_origin);
-			}
+			if (!excludeOrigin) _tiles.Add(_origin);
 		}
 
 		/// <summary>Create a circle outline boolean grid.</summary>
@@ -120,47 +111,26 @@ namespace TheLion.Stardew.Common.Classes
 		private bool IsInsideOutlineGrid(Point point)
 		{
 			// handle out of bounds
-			if (point.X < 0 || point.Y < 0 || point.X > _radius * 2 || point.Y > _radius * 2)
-			{
-				return false;
-			}
+			if (point.X < 0 || point.Y < 0 || point.X > _radius * 2 || point.Y > _radius * 2) return false;
 
 			// handle edge points
 			if (point.X == 0 || point.Y == 0 || point.X == _radius * 2 || point.Y == _radius * 2)
-			{
 				return _outlineGrid[point.Y, point.X];
-			}
 
 			// handle central axes
-			if (point.X == _radius || point.Y == _radius)
-			{
-				return true;
-			}
+			if (point.X == _radius || point.Y == _radius) return true;
 
 			// handle remaining outline points
-			if (_outlineGrid[point.Y, point.X])
-			{
-				return true;
-			}
+			if (_outlineGrid[point.Y, point.X]) return true;
 
 			// mirror point into the first quadrant
-			if (point.X > _radius)
-			{
-				point.X = _radius - point.X;
-			}
-			if (point.Y > _radius)
-			{
-				point.Y = _radius - point.Y;
-			}
+			if (point.X > _radius) point.X = _radius - point.X;
+			if (point.Y > _radius) point.Y = _radius - point.Y;
 
 			// cast rays
 			for (var i = point.X; i < _radius; ++i)
-			{
 				if (_outlineGrid[point.Y, i])
-				{
 					return false;
-				}
-			}
 
 			return true;
 		}

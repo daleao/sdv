@@ -27,11 +27,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to handle Luremaster-caught non-trap fish.</summary>
 		[HarmonyPrefix]
-		private static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result, ref bool ___lidFlapping, ref float ___lidFlapTimer, ref Vector2 ___shake, ref float ___shakeTimer, Farmer who, bool justCheckingForActivity = false)
+		private static bool CrabPotCheckForActionPrefix(ref CrabPot __instance, ref bool __result,
+			ref bool ___lidFlapping, ref float ___lidFlapTimer, ref Vector2 ___shake, ref float ___shakeTimer,
+			Farmer who, bool justCheckingForActivity = false)
 		{
 			try
 			{
-				if (__instance.tileIndexToShow != 714 || justCheckingForActivity || !__instance.HasSpecialLuremasterCatch())
+				if (__instance.tileIndexToShow != 714 || justCheckingForActivity ||
+				    !__instance.HasSpecialLuremasterCatch())
 					return true; // run original logic
 
 				var item = __instance.heldObject.Value;
@@ -42,7 +45,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					addedToInvetory = who.addItemToInventoryBool(weapon);
 					who.mostRecentlyGrabbedItem = item;
 				}
-				else if (__instance.heldObject.Value.ParentSheetIndex.AnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534)) // caught a ring
+				else if (__instance.heldObject.Value.ParentSheetIndex.AnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532,
+					533, 534)) // caught a ring
 				{
 					var ring = new Ring(__instance.heldObject.Value.ParentSheetIndex);
 					addedToInvetory = who.addItemToInventoryBool(ring);
@@ -57,7 +61,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (who.IsLocalPlayer && !addedToInvetory)
 				{
 					__instance.heldObject.Value = item;
-					Game1.showRedMessage(Game1.content.LoadString(Path.Combine("Strings", "StringsFromCSFiles:Crop.cs.588")));
+					Game1.showRedMessage(
+						Game1.content.LoadString(Path.Combine("Strings", "StringsFromCSFiles:Crop.cs.588")));
 					__result = false;
 					return false; // don't run original logic;
 				}

@@ -21,7 +21,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for Breeder to increase barn animal pregnancy chance.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> QuestionEventSetUpTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		private static IEnumerable<CodeInstruction> QuestionEventSetUpTranspiler(
+			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -40,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Advance()
 					.AddLabels(resumeExecution) // branch here to resume execution
 					.Retreat()
-					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Breeder"), branchDestination: isNotBreeder)
+					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Breeder"), isNotBreeder)
 					.Insert( // if player is breeder load adjusted pregancy chance
 						new CodeInstruction(OpCodes.Ldc_R8, 0.0165),
 						new CodeInstruction(OpCodes.Br_S, resumeExecution)

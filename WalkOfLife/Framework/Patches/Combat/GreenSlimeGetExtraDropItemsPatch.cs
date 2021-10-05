@@ -22,14 +22,21 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 			Postfix = new HarmonyMethod(GetType(), nameof(GreenSlimeGetExtraDropItemsPostfix));
 		}
 
-		#region harmony patches 
+		#region harmony patches
 
 		/// <summary>Patch Slime drop table for Piper.</summary>
 		private static void GreenSlimeGetExtraDropItemsPostfix(GreenSlime __instance, ref List<Item> __result)
 		{
-			if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession("Piper", out var pipers) || !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;
+			if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession("Piper", out var pipers) ||
+			    !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;
 
-			var slimeCount = Game1.getFarm().buildings.Where(b => (b.owner.Value.AnyOf(pipers.Select(p => p.UniqueMultiplayerID).ToArray()) || !Context.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() && b.indoors.Value.characters.Any()).Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) + Game1.getFarm().characters.Count(npc => npc is GreenSlime);
+			var slimeCount =
+				Game1.getFarm().buildings.Where(b =>
+						(b.owner.Value.AnyOf(pipers.Select(p => p.UniqueMultiplayerID).ToArray()) ||
+						 !Context.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() &&
+						b.indoors.Value.characters.Any())
+					.Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) +
+				Game1.getFarm().characters.Count(npc => npc is GreenSlime);
 			if (slimeCount <= 0) return;
 
 			var color = __instance.color;
@@ -47,7 +54,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 				++count;
 			}
 
-			if (MineShaft.lowestLevelReached >= 120 && (__instance.currentLocation is MineShaft || __instance.currentLocation is VolcanoDungeon))
+			if (MineShaft.lowestLevelReached >= 120 && (__instance.currentLocation is MineShaft ||
+			                                            __instance.currentLocation is VolcanoDungeon))
 			{
 				if (r.NextDouble() < baseChance / 8) __result.Add(new SObject(72, 1)); // diamond
 				if (r.NextDouble() < baseChance / 10) __result.Add(new SObject(74, 1)); // prismatic shard
@@ -95,7 +103,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 				}
 
 				if (!(r.NextDouble() < baseChance / 5)) return;
-				
+
 				// slime eggs
 				switch (__instance.Name)
 				{
@@ -113,7 +121,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 			else
 			{
 				while (r.NextDouble() < baseChance)
-				{
 					switch (r.Next(4))
 					{
 						case 0:
@@ -129,7 +136,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 							__result.Add(new SObject(835, 1)); // mango sapling
 							break;
 					}
-				}
 
 				// tiger slime egg
 				if (r.NextDouble() < baseChance / 5) __result.Add(new SObject(857, 1));

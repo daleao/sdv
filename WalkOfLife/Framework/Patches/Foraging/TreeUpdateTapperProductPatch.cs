@@ -33,7 +33,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!owner.HasProfession("Tapper")) return;
 
 				if (tapper_instance.MinutesUntilReady > 0)
-					tapper_instance.MinutesUntilReady = (int)(tapper_instance.MinutesUntilReady * 0.75);
+					tapper_instance.MinutesUntilReady = (int) (tapper_instance.MinutesUntilReady * 0.75);
 			}
 			catch (Exception ex)
 			{

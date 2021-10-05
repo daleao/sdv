@@ -26,7 +26,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (!__instance.bigCraftable.Value || __instance.ParentSheetIndex != 128 || __instance.heldObject.Value == null || !Game1.MasterPlayer.HasProfession("Ecologist"))
+				if (!__instance.bigCraftable.Value || __instance.ParentSheetIndex != 128 ||
+				    __instance.heldObject.Value == null || !Game1.MasterPlayer.HasProfession("Ecologist"))
 					return;
 
 				__instance.heldObject.Value.Quality = Util.Professions.GetEcologistForageQuality();

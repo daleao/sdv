@@ -21,7 +21,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		private static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -40,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var isNotGeologist) // copy destination
 					.Return()
 					.Insert( // insert uncoditional branch to skip this check
-						new CodeInstruction(OpCodes.Br, (Label)isNotGeologist)
+						new CodeInstruction(OpCodes.Br, (Label) isNotGeologist)
 					)
 					.Retreat()
 					.AddLabels(labels); // restore backed-up labels to inserted branch
@@ -64,7 +65,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var isNotProspector) // copy destination
 					.Return()
 					.Insert( // insert uncoditional branch to skip this check
-						new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector)
+						new CodeInstruction(OpCodes.Br_S, (Label) isNotProspector)
 					);
 			}
 			catch (Exception ex)

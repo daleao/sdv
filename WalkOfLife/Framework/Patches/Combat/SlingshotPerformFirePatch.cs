@@ -31,16 +31,23 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void SlingshotPerformFirePostfix(Slingshot __instance, GameLocation location, Farmer who)
 		{
-			if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Desperado") || location.projectiles.LastOrDefault() is not BasicProjectile mainProjectile) return;
+			if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Desperado") ||
+			    location.projectiles.LastOrDefault() is not BasicProjectile mainProjectile) return;
 
 			// get bullet properties
 			var damage = mainProjectile.damageToFarmer;
-			var xVelocity = ModEntry.ModHelper.Reflection.GetField<NetFloat>(mainProjectile, "xVelocity").GetValue().Value;
-			var yVelocity = ModEntry.ModHelper.Reflection.GetField<NetFloat>(mainProjectile, "yVelocity").GetValue().Value;
-			var ammunitionIndex = ModEntry.ModHelper.Reflection.GetField<NetInt>(mainProjectile, "currentTileSheetIndex").GetValue().Value;
-			var startingPosition = ModEntry.ModHelper.Reflection.GetField<NetPosition>(mainProjectile, "position").GetValue().Value;
-			var collisionSound = ModEntry.ModHelper.Reflection.GetField<NetString>(mainProjectile, "collisionSound").GetValue().Value;
-			var collisionBehavior = ModEntry.ModHelper.Reflection.GetField<BasicProjectile.onCollisionBehavior>(mainProjectile, "collisionBehavior").GetValue();
+			var xVelocity = ModEntry.ModHelper.Reflection.GetField<NetFloat>(mainProjectile, "xVelocity").GetValue()
+				.Value;
+			var yVelocity = ModEntry.ModHelper.Reflection.GetField<NetFloat>(mainProjectile, "yVelocity").GetValue()
+				.Value;
+			var ammunitionIndex = ModEntry.ModHelper.Reflection
+				.GetField<NetInt>(mainProjectile, "currentTileSheetIndex").GetValue().Value;
+			var startingPosition = ModEntry.ModHelper.Reflection.GetField<NetPosition>(mainProjectile, "position")
+				.GetValue().Value;
+			var collisionSound = ModEntry.ModHelper.Reflection.GetField<NetString>(mainProjectile, "collisionSound")
+				.GetValue().Value;
+			var collisionBehavior = ModEntry.ModHelper.Reflection
+				.GetField<BasicProjectile.onCollisionBehavior>(mainProjectile, "collisionBehavior").GetValue();
 
 			var netVelocity = new Vector2(xVelocity * -1f, yVelocity * -1f);
 			var speed = netVelocity.Length();
@@ -56,12 +63,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					var adjustedVelocity = new Vector2(netVelocity.X, netVelocity.Y).Rotate(angle);
 
 					location.projectiles.Add(new BasicProjectile(damage, ammunitionIndex, 0, 0,
-						(float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - adjustedVelocity.X * speed,
-						0f - adjustedVelocity.Y * speed, startingPosition, collisionSound, "", explode: false,
-						damagesMonsters: true, location, who, spriteFromObjectSheet: true, collisionBehavior)
+						(float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - adjustedVelocity.X * speed,
+						0f - adjustedVelocity.Y * speed, startingPosition, collisionSound, "", false,
+						true, location, who, true, collisionBehavior)
 					{
 						IgnoreLocationCollision =
-							(Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null)
+							Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
 					});
 				}
 
@@ -84,12 +91,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				DelayedAction doubleStrafe = new(50, () =>
 				{
 					location.projectiles.Add(new BasicProjectile(damage, ammunitionIndex, 0, 0,
-						(float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - netVelocity.X * speed,
-						0f - netVelocity.Y * speed, startingPosition, collisionSound, "", explode: false,
-						damagesMonsters: true, location, who, spriteFromObjectSheet: true, collisionBehavior)
+						(float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - netVelocity.X * speed,
+						0f - netVelocity.Y * speed, startingPosition, collisionSound, "", false,
+						true, location, who, true, collisionBehavior)
 					{
 						IgnoreLocationCollision =
-							(Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null)
+							Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
 					});
 				});
 				Game1.delayedActions.Add(doubleStrafe);
@@ -98,7 +105,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to increase Desperado ammunition damage modifier + increment Desperado Cold Blood counter + add Desperado quick fire projectile velocity bonus.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> SlingshotPerformFireTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		private static IEnumerable<CodeInstruction> SlingshotPerformFireTranspiler(
+			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -147,7 +155,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_S, Util.Professions.IndexOf("Desperado")),
 						new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution),
 						// check if IsSuperModeActive = true
-						new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.IsSuperModeActive))),
+						new CodeInstruction(OpCodes.Call,
+							typeof(ModEntry).PropertyGetter(nameof(ModEntry.IsSuperModeActive))),
 						new CodeInstruction(OpCodes.Brtrue_S, resumeExecution),
 						// check for quick shot (i.e. sling shot charge time <= required charge time * breathing room)
 						new CodeInstruction(OpCodes.Ldsfld,
@@ -211,7 +220,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while injecting modded Desperado ammunition damage modifier, Cold Blood counter and quick shots.\nHelper returned {ex}");
+				Helper.Error(
+					$"Failed while injecting modded Desperado ammunition damage modifier, Cold Blood counter and quick shots.\nHelper returned {ex}");
 				return null;
 			}
 

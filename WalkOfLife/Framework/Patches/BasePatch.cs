@@ -35,12 +35,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					return;
 				}
 
-				ModEntry.Log($"Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.", LogLevel.Trace);
+				ModEntry.Log($"Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.",
+					LogLevel.Trace);
 				harmony.Patch(Original, Prefix, Postfix, Transpiler);
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed to patch {Original.DeclaringType}::{Original.Name}.\nHarmony returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed to patch {Original.DeclaringType}::{Original.Name}.\nHarmony returned {ex}",
+					LogLevel.Error);
 			}
 		}
 	}

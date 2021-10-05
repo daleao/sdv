@@ -32,7 +32,8 @@ namespace TheLion.Stardew.Common.Integrations
 		/// <param name="reset">_reset the config model to the default values.</param>
 		/// <param name="saveAndApply">Save and apply the current config model.</param>
 		/// <param name="log">Encapsulates monitoring and logging.</param>
-		public GenericModConfigMenuIntegration(IModRegistry modRegistry, IManifest consumerManifest, Func<TConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
+		public GenericModConfigMenuIntegration(IModRegistry modRegistry, IManifest consumerManifest,
+			Func<TConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
 			: base("Generic Mod Config Menu", "spacechase0.GenericModConfigMenu", "1.1.0", modRegistry, log)
 		{
 			// init
@@ -79,7 +80,8 @@ namespace TheLion.Stardew.Common.Integrations
 		/// <param name="label">The label text.</param>
 		/// <param name="description">A description shown on hover, if any.</param>
 		/// <param name="page">The target page name.</param>
-		public GenericModConfigMenuIntegration<TConfig> AddPageLabel(string label, string description = null, string page = "")
+		public GenericModConfigMenuIntegration<TConfig> AddPageLabel(string label, string description = null,
+			string page = "")
 		{
 			AssertLoaded();
 			_modAPI.RegisterPageLabel(_consumerManifest, label, description, page);
@@ -92,20 +94,19 @@ namespace TheLion.Stardew.Common.Integrations
 		/// <param name="get">Get the current value.</param>
 		/// <param name="set">Set a new value.</param>
 		/// <param name="enable">Whether the field is enabled.</param>
-		public GenericModConfigMenuIntegration<TConfig> AddCheckbox(string label, string description, Func<TConfig, bool> get, Action<TConfig, bool> set, bool enable = true)
+		public GenericModConfigMenuIntegration<TConfig> AddCheckbox(string label, string description,
+			Func<TConfig, bool> get, Action<TConfig, bool> set, bool enable = true)
 		{
 			AssertLoaded();
 
 			if (enable)
-			{
 				_modAPI.RegisterSimpleOption(
-					mod: _consumerManifest,
-					optionName: label,
-					optionDesc: description,
-					optionGet: () => get(_getConfig()),
-					optionSet: val => set(_getConfig(), val)
+					_consumerManifest,
+					label,
+					description,
+					() => get(_getConfig()),
+					val => set(_getConfig(), val)
 				);
-			}
 
 			return this;
 		}
@@ -117,21 +118,20 @@ namespace TheLion.Stardew.Common.Integrations
 		/// <param name="set">Set a new value.</param>
 		/// <param name="choices">The choices to choose from.</param>
 		/// <param name="enable">Whether the field is enabled.</param>
-		public GenericModConfigMenuIntegration<TConfig> AddDropdown(string label, string description, Func<TConfig, string> get, Action<TConfig, string> set, string[] choices, bool enable = true)
+		public GenericModConfigMenuIntegration<TConfig> AddDropdown(string label, string description,
+			Func<TConfig, string> get, Action<TConfig, string> set, string[] choices, bool enable = true)
 		{
 			AssertLoaded();
 
 			if (enable)
-			{
 				_modAPI.RegisterChoiceOption(
-					mod: _consumerManifest,
-					optionName: label,
-					optionDesc: description,
-					optionGet: () => get(_getConfig()),
-					optionSet: val => set(_getConfig(), val),
-					choices: choices
+					_consumerManifest,
+					label,
+					description,
+					() => get(_getConfig()),
+					val => set(_getConfig(), val),
+					choices
 				);
-			}
 
 			return this;
 		}
@@ -142,20 +142,19 @@ namespace TheLion.Stardew.Common.Integrations
 		/// <param name="get">Get the current value.</param>
 		/// <param name="set">Set a new value.</param>
 		/// <param name="enable">Whether the field is enabled.</param>
-		public GenericModConfigMenuIntegration<TConfig> AddTextbox(string label, string description, Func<TConfig, string> get, Action<TConfig, string> set, bool enable = true)
+		public GenericModConfigMenuIntegration<TConfig> AddTextbox(string label, string description,
+			Func<TConfig, string> get, Action<TConfig, string> set, bool enable = true)
 		{
 			AssertLoaded();
 
 			if (enable)
-			{
 				_modAPI.RegisterSimpleOption(
-					mod: _consumerManifest,
-					optionName: label,
-					optionDesc: description,
-					optionGet: () => get(_getConfig()),
-					optionSet: val => set(_getConfig(), val)
+					_consumerManifest,
+					label,
+					description,
+					() => get(_getConfig()),
+					val => set(_getConfig(), val)
 				);
-			}
 
 			return this;
 		}
@@ -168,22 +167,21 @@ namespace TheLion.Stardew.Common.Integrations
 		/// <param name="min">The minimum value.</param>
 		/// <param name="max">The maximum value.</param>
 		/// <param name="enable">Whether the field is enabled.</param>
-		public GenericModConfigMenuIntegration<TConfig> AddNumberField(string label, string description, Func<TConfig, int> get, Action<TConfig, int> set, int min, int max, bool enable = true)
+		public GenericModConfigMenuIntegration<TConfig> AddNumberField(string label, string description,
+			Func<TConfig, int> get, Action<TConfig, int> set, int min, int max, bool enable = true)
 		{
 			AssertLoaded();
 
 			if (enable)
-			{
 				_modAPI.RegisterClampedOption(
-					mod: _consumerManifest,
-					optionName: label,
-					optionDesc: description,
-					optionGet: () => get(_getConfig()),
-					optionSet: val => set(_getConfig(), val),
-					min: min,
-					max: max
+					_consumerManifest,
+					label,
+					description,
+					() => get(_getConfig()),
+					val => set(_getConfig(), val),
+					min,
+					max
 				);
-			}
 
 			return this;
 		}
@@ -196,22 +194,21 @@ namespace TheLion.Stardew.Common.Integrations
 		/// <param name="min">The minimum value.</param>
 		/// <param name="max">The maximum value.</param>
 		/// <param name="enable">Whether the field is enabled.</param>
-		public GenericModConfigMenuIntegration<TConfig> AddNumberField(string label, string description, Func<TConfig, float> get, Action<TConfig, float> set, float min, float max, bool enable = true)
+		public GenericModConfigMenuIntegration<TConfig> AddNumberField(string label, string description,
+			Func<TConfig, float> get, Action<TConfig, float> set, float min, float max, bool enable = true)
 		{
 			AssertLoaded();
 
 			if (enable)
-			{
 				_modAPI.RegisterClampedOption(
-					mod: _consumerManifest,
-					optionName: label,
-					optionDesc: description,
-					optionGet: () => get(_getConfig()),
-					optionSet: val => set(_getConfig(), val),
-					min: min,
-					max: max
+					_consumerManifest,
+					label,
+					description,
+					() => get(_getConfig()),
+					val => set(_getConfig(), val),
+					min,
+					max
 				);
-			}
 
 			return this;
 		}
@@ -222,20 +219,19 @@ namespace TheLion.Stardew.Common.Integrations
 		/// <param name="get">Get the current value.</param>
 		/// <param name="set">Set a new value.</param>
 		/// <param name="enable">Whether the field is enabled.</param>
-		public GenericModConfigMenuIntegration<TConfig> AddKeyBinding(string label, string description, Func<TConfig, KeybindList> get, Action<TConfig, KeybindList> set, bool enable = true)
+		public GenericModConfigMenuIntegration<TConfig> AddKeyBinding(string label, string description,
+			Func<TConfig, KeybindList> get, Action<TConfig, KeybindList> set, bool enable = true)
 		{
 			AssertLoaded();
 
 			if (enable)
-			{
 				_modAPI.RegisterSimpleOption(
-					mod: _consumerManifest,
-					optionName: label,
-					optionDesc: description,
-					optionGet: () => get(_getConfig()),
-					optionSet: val => set(_getConfig(), val)
+					_consumerManifest,
+					label,
+					description,
+					() => get(_getConfig()),
+					val => set(_getConfig(), val)
 				);
-			}
 
 			return this;
 		}

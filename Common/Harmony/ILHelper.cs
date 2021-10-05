@@ -112,7 +112,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
 		public ILHelper FindNext(params CodeInstruction[] pattern)
 		{
-			var index = _instructionList.IndexOf(pattern, start: CurrentIndex + 1);
+			var index = _instructionList.IndexOf(pattern, CurrentIndex + 1);
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
@@ -130,7 +130,8 @@ namespace TheLion.Stardew.Common.Harmony
 			var reversedInstructions = _instructionList.Clone();
 			reversedInstructions.Reverse();
 
-			var index = _instructionList.Count - reversedInstructions.IndexOf(pattern, start: _instructionList.Count - CurrentIndex - 1) - 1;
+			var index = _instructionList.Count -
+			            reversedInstructions.IndexOf(pattern, _instructionList.Count - CurrentIndex - 1) - 1;
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
@@ -146,7 +147,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="fromCurrentIndex">Whether to begin search from the currently pointed index.</param>
 		public ILHelper FindLabel(Label label, bool fromCurrentIndex = false)
 		{
-			var index = _instructionList.IndexOf(label, start: fromCurrentIndex ? CurrentIndex + 1 : 0);
+			var index = _instructionList.IndexOf(label, fromCurrentIndex ? CurrentIndex + 1 : 0);
 			if (index < 0)
 			{
 				if (_shouldExport) Export(label);
@@ -163,18 +164,18 @@ namespace TheLion.Stardew.Common.Harmony
 		public ILHelper FindProfessionCheck(int whichProfession, bool fromCurrentIndex = false)
 		{
 			if (fromCurrentIndex)
-			{
 				return FindNext(
 					new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
 					LoadConstantIntIL(whichProfession),
-					new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
+					new CodeInstruction(OpCodes.Callvirt,
+						typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
 				);
-			}
 
 			return FindFirst(
 				new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
 				LoadConstantIntIL(whichProfession),
-				new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
+				new CodeInstruction(OpCodes.Callvirt,
+					typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
 			);
 		}
 
@@ -200,7 +201,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="label">The <see cref="Label"/> object to match.</param>
 		public ILHelper AdvanceUntilLabel(Label label)
 		{
-			return FindLabel(label, fromCurrentIndex: true);
+			return FindLabel(label, true);
 		}
 
 		/// <summary>Move the index pointer backward an integer number of steps.</summary>
@@ -287,7 +288,8 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="branchDestination">The destination <see cref="Label"/> to branch to when the check returns false.</param>
 		/// <param name="useBrtrue">Whether to end on a true-case branch isntead of default false-case branch.</param>
 		/// <param name="useLongFormBranch">Whether to use a long-form branch instead of default short-form branch.</param>
-		public ILHelper InsertProfessionCheckForLocalPlayer(int whichProfession, Label branchDestination, bool useBrtrue = false, bool useLongFormBranch = false)
+		public ILHelper InsertProfessionCheckForLocalPlayer(int whichProfession, Label branchDestination,
+			bool useBrtrue = false, bool useLongFormBranch = false)
 		{
 			OpCode branchOpCode;
 			if (useBrtrue && useLongFormBranch) branchOpCode = OpCodes.Brtrue;
@@ -299,7 +301,8 @@ namespace TheLion.Stardew.Common.Harmony
 				new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
 				new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
 				LoadConstantIntIL(whichProfession),
-				new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
+				new CodeInstruction(OpCodes.Callvirt,
+					typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
 				new CodeInstruction(branchOpCode, branchDestination)
 			);
 		}
@@ -309,7 +312,8 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="branchDestination">The destination <see cref="Label"/> to branch to when the check returns false.</param>
 		/// <param name="useBrtrue">Whether to end on a true-case branch isntead of default false-case branch.</param>
 		/// <param name="useLongFormBranch">Whether to use a long-form branch instead of default short-form branch.</param>
-		public ILHelper InsertProfessionCheckForPlayerOnStack(int whichProfession, Label branchDestination, bool useBrtrue = false, bool useLongFormBranch = false)
+		public ILHelper InsertProfessionCheckForPlayerOnStack(int whichProfession, Label branchDestination,
+			bool useBrtrue = false, bool useLongFormBranch = false)
 		{
 			OpCode branchOpCode;
 			if (useBrtrue && useLongFormBranch) branchOpCode = OpCodes.Brtrue;
@@ -320,7 +324,8 @@ namespace TheLion.Stardew.Common.Harmony
 			return Insert(
 				new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
 				LoadConstantIntIL(whichProfession),
-				new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
+				new CodeInstruction(OpCodes.Callvirt,
+					typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
 				new CodeInstruction(branchOpCode, branchDestination)
 			);
 		}
@@ -539,7 +544,8 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			if (!Directory.Exists(_exportDir)) Directory.CreateDirectory(_exportDir);
 
-			var path = Path.Combine(_exportDir, ($"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil").RemoveInvalidChars());
+			var path = Path.Combine(_exportDir,
+				($"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil").RemoveInvalidChars());
 			using (var writer = File.CreateText(path))
 			{
 				writer.WriteLine("Searching for:");
@@ -548,6 +554,7 @@ namespace TheLion.Stardew.Common.Harmony
 				_instructionList.ForEach(l => writer.WriteLine(l.ToString()));
 				writer.WriteLine("\n<-- END OF INSTRUCTION LIST -->");
 			}
+
 			Log($"Exported IL instruction list to {path}.", LogLevel.Info);
 		}
 
@@ -557,7 +564,8 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			if (!Directory.Exists(_exportDir)) Directory.CreateDirectory(_exportDir);
 
-			var path = Path.Combine(_exportDir, ($"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil").RemoveInvalidChars());
+			var path = Path.Combine(_exportDir,
+				($"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil").RemoveInvalidChars());
 			using (var writer = File.CreateText(path))
 			{
 				writer.WriteLine("Searching for:\n");
@@ -566,6 +574,7 @@ namespace TheLion.Stardew.Common.Harmony
 				_instructionList.ForEach(l => writer.WriteLine(l.ToString()));
 				writer.WriteLine("\n<-- END OF INSTRUCTION LIST -->");
 			}
+
 			Log($"Exported IL instruction list to {path}.", LogLevel.Info);
 		}
 

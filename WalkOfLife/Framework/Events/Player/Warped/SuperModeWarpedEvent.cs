@@ -18,7 +18,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			}
 			else
 			{
-				ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarFadeOutUpdateTickedEvent), typeof(SuperModeBarShakeTimerUpdateTickedEvent), typeof(SuperModeBarRenderingHudEvent));
+				ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarFadeOutUpdateTickedEvent),
+					typeof(SuperModeBarShakeTimerUpdateTickedEvent), typeof(SuperModeBarRenderingHudEvent));
 
 				ModEntry.SuperModeCounter = 0;
 				ModEntry.SuperModeBarAlpha = 1f;

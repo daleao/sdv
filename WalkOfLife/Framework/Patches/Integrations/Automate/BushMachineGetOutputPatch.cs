@@ -12,7 +12,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal BushMachineGetOutputPatch()
 		{
-			Original = AccessTools.Method("Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine:GetOutput");
+			Original = AccessTools.Method(
+				"Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine:GetOutput");
 			Transpiler = new HarmonyMethod(GetType(), nameof(BushMachineGetOutputTranspiler));
 		}
 
@@ -20,7 +21,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for automated Berry Bush quality.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> BushMachineGetOutputTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		private static IEnumerable<CodeInstruction> BushMachineGetOutputTranspiler(
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 

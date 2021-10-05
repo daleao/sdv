@@ -26,7 +26,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (Game1.game1.DoesAnyPlayerHaveProfession("Arborist", out _) && __instance.daysUntilMature.Value % 4 == 0)
+				if (Game1.game1.DoesAnyPlayerHaveProfession("Arborist", out _) &&
+				    __instance.daysUntilMature.Value % 4 == 0)
 					--__instance.daysUntilMature.Value;
 			}
 			catch (Exception ex)

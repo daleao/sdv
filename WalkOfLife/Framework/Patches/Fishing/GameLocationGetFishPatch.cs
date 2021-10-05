@@ -27,7 +27,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for Fisher to reroll reeled fish if first roll resulted in trash.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> GameLocationGetFishTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		private static IEnumerable<CodeInstruction> GameLocationGetFishTranspiler(
+			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -53,17 +54,19 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.FindLast( // find index of caught = new Object(whichFish, 1)
 						new CodeInstruction(OpCodes.Newobj,
-							typeof(SObject).Constructor(new[] { typeof(int), typeof(int), typeof(bool), typeof(int), typeof(int) }))
+							typeof(SObject).Constructor(new[]
+								{typeof(int), typeof(int), typeof(bool), typeof(int), typeof(int)}))
 					)
 					.RetreatUntil(
 						new CodeInstruction(OpCodes.Ldloc_1)
 					)
 					.AddLabels(shouldntReroll) // branch here if shouldn't reroll
 					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = Farmer who
 						new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
 						new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),
-						new CodeInstruction(OpCodes.Call, typeof(GameLocationGetFishPatch).MethodNamed(nameof(ShouldRerollFish))),
+						new CodeInstruction(OpCodes.Call,
+							typeof(GameLocationGetFishPatch).MethodNamed(nameof(ShouldRerollFish))),
 						new CodeInstruction(OpCodes.Brfalse_S, shouldntReroll),
 						new CodeInstruction(OpCodes.Ldc_I4_1),
 						new CodeInstruction(OpCodes.Stloc_S, hasRerolled), // set hasRerolled to true
@@ -93,10 +96,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
 		{
 			return !hasRerolled && currentFish is > 166 and < 173 or 152 or 153 or 157
-				&& who.CurrentTool is FishingRod rod
-				&& Util.Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
-				&& baitName.AnyOf("Bait", "Wild Bait", "Magic Bait")
-				&& who.HasProfession("Fisher");
+			                    && who.CurrentTool is FishingRod rod
+			                    && Util.Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
+			                    && baitName.AnyOf("Bait", "Wild Bait", "Magic Bait")
+			                    && who.HasProfession("Fisher");
 		}
 	}
 }

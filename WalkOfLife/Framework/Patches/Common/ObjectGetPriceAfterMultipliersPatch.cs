@@ -23,7 +23,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Patch to modify price multipliers for various modded professions.</summary>
 		// ReSharper disable once RedundantAssignment
 		[HarmonyPrefix]
-		private static bool ObjectGetPriceAfterMultipliersPrefix(SObject __instance, ref float __result, float startPrice, long specificPlayerID)
+		private static bool ObjectGetPriceAfterMultipliersPrefix(SObject __instance, ref float __result,
+			float startPrice, long specificPlayerID)
 		{
 			var saleMultiplier = 1f;
 			try
@@ -34,11 +35,18 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					{
 						if (specificPlayerID == -1)
 						{
-							if (player.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !player.isActive()) continue;
+							if (player.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !player.isActive())
+								continue;
 						}
-						else if (player.UniqueMultiplayerID != specificPlayerID) continue;
+						else if (player.UniqueMultiplayerID != specificPlayerID)
+						{
+							continue;
+						}
 					}
-					else if (!player.isActive()) continue;
+					else if (!player.isActive())
+					{
+						continue;
+					}
 
 					var multiplier = 1f;
 

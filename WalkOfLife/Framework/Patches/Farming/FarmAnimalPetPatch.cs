@@ -21,7 +21,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for Rancher to combine Shepherd and Coopmaster friendship bonus.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> FarmAnimalPetTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		private static IEnumerable<CodeInstruction> FarmAnimalPetTranspiler(IEnumerable<CodeInstruction> instructions,
+			MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -41,20 +42,22 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var hasRancher) // copy destination
 					.Return()
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Brtrue_S, (Label)hasRancher) // replace false case branch with true case branch
+						new CodeInstruction(OpCodes.Brtrue_S,
+							(Label) hasRancher) // replace false case branch with true case branch
 					)
 					.Advance()
-					.FindProfessionCheck(Farmer.butcher, fromCurrentIndex: true) // find coopmaster check
+					.FindProfessionCheck(Farmer.butcher, true) // find coopmaster check
 					.Advance(3) // the branch to resume execution
 					.GetOperand(out var resumeExecution) // copy destination
 					.Return(2)
 					.Insert(
-						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution) // insert new false case branch
+						new CodeInstruction(OpCodes.Br_S, (Label) resumeExecution) // insert new false case branch
 					);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}");
+				Helper.Error(
+					$"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}");
 				return null;
 			}
 

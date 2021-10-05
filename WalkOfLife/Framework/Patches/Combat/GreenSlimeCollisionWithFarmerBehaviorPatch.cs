@@ -27,7 +27,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				var who = __instance.Player;
-				if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Piper") || ModEntry.SlimeContactTimer > 0) return;
+				if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Piper") ||
+				    ModEntry.SlimeContactTimer > 0) return;
 
 				int healed;
 				if (ModEntry.IsSuperModeActive)
@@ -41,7 +42,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 
 				who.health = Math.Min(who.health + healed, who.maxHealth);
-				__instance.currentLocation.debris.Add(new Debris(healed, new Vector2(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
+				__instance.currentLocation.debris.Add(new Debris(healed,
+					new Vector2(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
 
 				if (!ModEntry.IsSuperModeActive) ModEntry.SuperModeCounter += Game1.random.Next(1, 10);
 

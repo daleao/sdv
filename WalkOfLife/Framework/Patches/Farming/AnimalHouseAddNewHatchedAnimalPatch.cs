@@ -31,7 +31,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				var a = __instance.Animals?.Values.Last();
 				if (a == null || a.age.Value != 0 || a.friendshipTowardFarmer.Value != 0) return;
-				a.friendshipTowardFarmer.Value = 200 + new Random(__instance.GetHashCode() + a.GetHashCode()).Next(-50, 51);
+				a.friendshipTowardFarmer.Value =
+					200 + new Random(__instance.GetHashCode() + a.GetHashCode()).Next(-50, 51);
 			}
 			catch (Exception ex)
 			{

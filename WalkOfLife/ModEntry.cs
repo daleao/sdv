@@ -12,7 +12,7 @@ using TheLion.Stardew.Professions.Framework.TreasureHunt;
 namespace TheLion.Stardew.Professions
 {
 	/// <summary>The mod entry point.</summary>
-	public class ModEntry : Mod
+	public partial class ModEntry : Mod
 	{
 		internal static ModData Data { get; set; }
 		internal static ModConfig Config { get; set; }
@@ -46,11 +46,9 @@ namespace TheLion.Stardew.Professions
 			get => _superModeIndex;
 			set
 			{
-				if (_superModeIndex != value)
-				{
-					_superModeIndex = value;
-					SuperModeIndexChanged?.Invoke(value);
-				}
+				if (_superModeIndex == value) return;
+				_superModeIndex = value;
+				SuperModeIndexChanged?.Invoke(value);
 			}
 		}
 
@@ -132,21 +130,32 @@ namespace TheLion.Stardew.Professions
 			Subscriber = new EventSubscriber();
 
 			// add debug commands
-			Helper.ConsoleCommands.Add("player_checkprofessions", "List the player's current professions.", ConsoleCommands.PrintLocalPlayerProfessions);
-			Helper.ConsoleCommands.Add("player_addprofessions", "Add the specified professions to the local player." + ConsoleCommands.GetUsageForAddProfessions(), ConsoleCommands.AddProfessionsToLocalPlayer);
-			Helper.ConsoleCommands.Add("player_resetprofessions", "Reset all skills and professions for the local player.", ConsoleCommands.ResetLocalPlayerProfessions);
-			Helper.ConsoleCommands.Add("setultmeter", "Set the super mode meter to the desired value.", ConsoleCommands.SetSuperModeCounter);
-			Helper.ConsoleCommands.Add("readyult", "Max-out the super mode meter.", ConsoleCommands.ReadySuperMode);
-			Helper.ConsoleCommands.Add("maxanimalfriendship", "Max-out the friendship of all owned animals.", ConsoleCommands.MaxAnimalFriendship);
-			Helper.ConsoleCommands.Add("maxanimalmood", "Max-out the mood of all owned animals.", ConsoleCommands.MaxAnimalMood);
-			Helper.ConsoleCommands.Add("checkfishingprogress", "Check your fishing progress as Angler.", ConsoleCommands.PrintFishCaughtAudit);
-			Helper.ConsoleCommands.Add("checkdata", "Check current value of all mod data fields.", ConsoleCommands.PrintModData);
-			Helper.ConsoleCommands.Add("setitemsforaged", "Set a new value for ItemsForaged field.", ConsoleCommands.SetItemsForaged);
-			Helper.ConsoleCommands.Add("setmineralscollected", "Set a new value for MineralsCollected field.", ConsoleCommands.SetMineralsCollected);
-			Helper.ConsoleCommands.Add("setprospectorstreak", "Set a new value for ProspectorStreak field.", ConsoleCommands.SetProspectorStreak);
-			Helper.ConsoleCommands.Add("setscavengerstreak", "Set a new value for ScavengerStreak field.", ConsoleCommands.SetScavengerStreak);
-			Helper.ConsoleCommands.Add("settrashcollected", "Set a new value for WaterTrashCollectedThisSeason field.", ConsoleCommands.SetWaterTrashCollectedThisSeason);
-			Helper.ConsoleCommands.Add("checkevents", "List currently subscribed mod events.", ConsoleCommands.PrintSubscribedEvents);
+			Helper.ConsoleCommands.Add("player_checkprofessions", "List the player's current professions.",
+				PrintLocalPlayerProfessions);
+			Helper.ConsoleCommands.Add("player_addprofessions",
+				"Add the specified professions to the local player." + GetUsageForAddProfessions(),
+				AddProfessionsToLocalPlayer);
+			Helper.ConsoleCommands.Add("player_resetprofessions",
+				"Reset all skills and professions for the local player.", ResetLocalPlayerProfessions);
+			Helper.ConsoleCommands.Add("setultmeter", "Set the super mode meter to the desired value.",
+				SetSuperModeCounter);
+			Helper.ConsoleCommands.Add("readyult", "Max-out the super mode meter.", ReadySuperMode);
+			Helper.ConsoleCommands.Add("maxanimalfriendship", "Max-out the friendship of all owned animals.",
+				MaxAnimalFriendship);
+			Helper.ConsoleCommands.Add("maxanimalmood", "Max-out the mood of all owned animals.", MaxAnimalMood);
+			Helper.ConsoleCommands.Add("checkfishingprogress", "Check your fishing progress as Angler.",
+				PrintFishCaughtAudit);
+			Helper.ConsoleCommands.Add("checkdata", "Check current value of all mod data fields.", PrintModData);
+			Helper.ConsoleCommands.Add("setitemsforaged", "Set a new value for ItemsForaged field.", SetItemsForaged);
+			Helper.ConsoleCommands.Add("setmineralscollected", "Set a new value for MineralsCollected field.",
+				SetMineralsCollected);
+			Helper.ConsoleCommands.Add("setprospectorstreak", "Set a new value for ProspectorStreak field.",
+				SetProspectorStreak);
+			Helper.ConsoleCommands.Add("setscavengerstreak", "Set a new value for ScavengerStreak field.",
+				SetScavengerStreak);
+			Helper.ConsoleCommands.Add("settrashcollected", "Set a new value for WaterTrashCollectedThisSeason field.",
+				SetWaterTrashCollectedThisSeason);
+			Helper.ConsoleCommands.Add("checkevents", "List currently subscribed mod events.", PrintSubscribedEvents);
 		}
 	}
 }

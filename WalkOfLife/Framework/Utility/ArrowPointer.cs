@@ -7,7 +7,8 @@ namespace TheLion.Stardew.Professions.Framework.Util
 	/// <summary>Vertical arrow indicator to reveal on-screen objects of interest for tracker professions.</summary>
 	public class ArrowPointer
 	{
-		public Texture2D Texture { get; } = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud", "pointer.png"));
+		public Texture2D Texture { get; } =
+			ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud", "pointer.png"));
 
 		private const float MAX_STEP = 3f, MIN_STEP = -3f;
 

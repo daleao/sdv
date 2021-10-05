@@ -34,16 +34,19 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to increase Abrorist non-fruit tree growth odds.</summary>
 		[HarmonyPostfix]
-		private static void TreeDayUpdatePostfix(ref Tree __instance, int __state, GameLocation environment, Vector2 tileLocation)
+		private static void TreeDayUpdatePostfix(ref Tree __instance, int __state, GameLocation environment,
+			Vector2 tileLocation)
 		{
 			try
 			{
 				var anyPlayerIsArborist = Game1.game1.DoesAnyPlayerHaveProfession("Arborist", out var n);
-				if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !CanThisTreeGrow(__instance, environment, tileLocation)) return;
+				if (__instance.growthStage.Value > __state || !anyPlayerIsArborist ||
+				    !CanThisTreeGrow(__instance, environment, tileLocation)) return;
 
 				if (__instance.treeType.Value == Tree.mahoganyTree)
 				{
-					if (Game1.random.NextDouble() < 0.075 * n || __instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n)
+					if (Game1.random.NextDouble() < 0.075 * n ||
+					    __instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n)
 						++__instance.growthStage.Value;
 				}
 				else if (Game1.random.NextDouble() < 0.1 * n)
@@ -67,20 +70,23 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="tileLocation">The tree's tile location.</param>
 		private static bool CanThisTreeGrow(Tree tree, GameLocation environment, Vector2 tileLocation)
 		{
-			if (Game1.GetSeasonForLocation(tree.currentLocation) == "winter" && !tree.treeType.Value.AnyOf(Tree.palmTree, Tree.palmTree2) && !environment.CanPlantTreesHere(-1, (int)tileLocation.X, (int)tileLocation.Y) && !tree.fertilized.Value)
+			if (Game1.GetSeasonForLocation(tree.currentLocation) == "winter" &&
+			    !tree.treeType.Value.AnyOf(Tree.palmTree, Tree.palmTree2) &&
+			    !environment.CanPlantTreesHere(-1, (int) tileLocation.X, (int) tileLocation.Y) &&
+			    !tree.fertilized.Value)
 				return false;
 
-			var s = environment.doesTileHaveProperty((int)tileLocation.X, (int)tileLocation.Y, "NoSpawn", "Back");
+			var s = environment.doesTileHaveProperty((int) tileLocation.X, (int) tileLocation.Y, "NoSpawn", "Back");
 			if (s != null && s.AnyOf("All", "Tree", "True")) return false;
 
-			var growthRect = new Rectangle((int)((tileLocation.X - 1f) * 64f), (int)((tileLocation.Y - 1f) * 64f), 192, 192);
+			var growthRect = new Rectangle((int) ((tileLocation.X - 1f) * 64f), (int) ((tileLocation.Y - 1f) * 64f),
+				192, 192);
 			if (tree.growthStage.Value == 4)
 			{
 				foreach (var pair in environment.terrainFeatures.Pairs)
-				{
-					if (pair.Value is Tree value && !value.Equals(tree) && value.growthStage.Value >= 5 && value.getBoundingBox(pair.Key).Intersects(growthRect))
+					if (pair.Value is Tree value && !value.Equals(tree) && value.growthStage.Value >= 5 &&
+					    value.getBoundingBox(pair.Key).Intersects(growthRect))
 						return false;
-				}
 			}
 			else if (tree.growthStage.Value == 0 && environment.objects.ContainsKey(tileLocation))
 			{

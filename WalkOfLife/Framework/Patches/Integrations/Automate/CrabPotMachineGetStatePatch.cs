@@ -11,7 +11,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal CrabPotMachineGetStatePatch()
 		{
-			Original = AccessTools.Method("Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine:GetState");
+			Original = AccessTools.Method(
+				"Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine:GetState");
 			Transpiler = new HarmonyMethod(GetType(), nameof(CrabPotMachineGetStateTranspiler));
 		}
 
@@ -19,7 +20,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for conflicting Luremaster and Conservationist automation rules.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> CrabPotMachineGetStateTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		private static IEnumerable<CodeInstruction> CrabPotMachineGetStateTranspiler(
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -33,7 +35,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.RemoveUntil(
 						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method("Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine:PlayerNeedsBait"))
+							AccessTools.Method(
+								"Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine:PlayerNeedsBait"))
 					)
 					.SetOpCode(OpCodes.Brfalse_S);
 			}

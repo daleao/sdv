@@ -14,7 +14,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			// track and reveal treasure hunt target
 			Util.HUD.DrawTrackingArrowPointer(ModEntry.ScavengerHunt.TreasureTile.Value, Color.Violet);
-			var distanceSquared = (Game1.player.getTileLocation() - ModEntry.ScavengerHunt.TreasureTile.Value).LengthSquared();
+			var distanceSquared = (Game1.player.getTileLocation() - ModEntry.ScavengerHunt.TreasureTile.Value)
+				.LengthSquared();
 			if (distanceSquared <= Math.Pow(ModEntry.Config.TreasureDetectionDistance, 2))
 				Util.HUD.DrawArrowPointerOverTarget(ModEntry.ScavengerHunt.TreasureTile.Value, Color.Violet);
 		}

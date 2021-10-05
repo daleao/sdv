@@ -43,12 +43,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					0,
 					0,
 					0,
-					speed: ModEntry.DemolitionistExcitedness,
+					ModEntry.DemolitionistExcitedness,
 					0,
 					0,
-					minutesDuration: 1,
-					source: "Demolitionist",
-					displaySource: ModEntry.ModHelper.Translation.Get("demolitionist.name." + (Game1.player.IsMale ? "male" : "female")))
+					1,
+					"Demolitionist",
+					ModEntry.ModHelper.Translation.Get(
+						"demolitionist.name." + (Game1.player.IsMale ? "male" : "female")))
 				{
 					which = buffID,
 					sheetIndex = SHEET_INDEX,

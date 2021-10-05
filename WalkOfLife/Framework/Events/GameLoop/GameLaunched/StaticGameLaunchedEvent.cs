@@ -15,10 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					ModEntry.Config = new ModConfig();
 					ModEntry.ModHelper.WriteConfig(ModEntry.Config);
 				},
-				saveAndApply: () =>
-				{
-					ModEntry.ModHelper.WriteConfig(ModEntry.Config);
-				},
+				saveAndApply: () => { ModEntry.ModHelper.WriteConfig(ModEntry.Config); },
 				log: ModEntry.Log,
 				modRegistry: ModEntry.ModHelper.ModRegistry,
 				manifest: ModEntry.Manifest

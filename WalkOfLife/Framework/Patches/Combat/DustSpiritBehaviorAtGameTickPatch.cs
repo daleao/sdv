@@ -24,7 +24,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (!__instance.Player.IsLocalPlayer || !ModEntry.IsSuperModeActive || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Poacher")) return;
+				if (!__instance.Player.IsLocalPlayer || !ModEntry.IsSuperModeActive ||
+				    ModEntry.SuperModeIndex != Util.Professions.IndexOf("Poacher")) return;
 				___seenFarmer = false;
 			}
 			catch (Exception ex)

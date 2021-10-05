@@ -10,7 +10,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal GeodeCrusherMachineSetInputPatch()
 		{
-			Original = AccessTools.Method("Pathoschild.Stardew.Automate.Framework.Machines.Objects.GeodeCrusherMachine:SetInput");
+			Original = AccessTools.Method(
+				"Pathoschild.Stardew.Automate.Framework.Machines.Objects.GeodeCrusherMachine:SetInput");
 			Postfix = new HarmonyMethod(GetType(), nameof(GeodeCrusherMachineSetInputPostfix));
 		}
 
@@ -23,14 +24,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (__instance == null) return;
 
 			var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
-			if (machine == null || machine.heldObject.Value == null) return;
+			if (machine?.heldObject.Value == null) return;
 
 			var who = Game1.getFarmer(machine.owner.Value);
-			if (who.HasProfession("Gemologist") && (machine.heldObject.Value.IsForagedMineral() || machine.heldObject.Value.IsGemOrMineral()))
-			{
-				machine.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
-				if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");
-			}
+			if (!who.HasProfession("Gemologist") || !machine.heldObject.Value.IsForagedMineral() &&
+			                                         !machine.heldObject.Value.IsGemOrMineral()) return;
+
+			machine.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
+			if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");
 		}
 
 		#endregion harmony patches

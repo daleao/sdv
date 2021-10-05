@@ -16,17 +16,22 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				ModEntry.ModHelper.Content.AssetEditors.Add(new AssetEditors.MailEditor());
 
 			uint trashCollectedThisSeason;
-			if (Game1.dayOfMonth == 28 && (trashCollectedThisSeason = ModEntry.Data.ReadField<uint>("WaterTrashCollectedThisSeason")) > 0)
+			if (Game1.dayOfMonth != 28 ||
+			    (trashCollectedThisSeason = ModEntry.Data.ReadField<uint>("WaterTrashCollectedThisSeason")) <=
+			    0) return;
+
+			var taxBonusNextSeason =
+				Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxLevel / 100f,
+					ModEntry.Config.TaxDeductionCeiling);
+			ModEntry.Data.WriteField("ActiveTaxBonusPercent",
+				taxBonusNextSeason.ToString(CultureInfo.InvariantCulture));
+			if (taxBonusNextSeason > 0)
 			{
-				var taxBonusNextSeason = Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxLevel / 100f, ModEntry.Config.TaxDeductionCeiling);
-				ModEntry.Data.WriteField("ActiveTaxBonusPercent", taxBonusNextSeason.ToString(CultureInfo.InvariantCulture));
-				if (taxBonusNextSeason > 0)
-				{
-					ModEntry.ModHelper.Content.InvalidateCache(Path.Combine("Data", "mail"));
-					Game1.addMailForTomorrow($"{ModEntry.UniqueID}/ConservationistTaxNotice");
-				}
-				ModEntry.Data.WriteField("WaterTrashCollectedThisSeason", "0");
+				ModEntry.ModHelper.Content.InvalidateCache(Path.Combine("Data", "mail"));
+				Game1.addMailForTomorrow($"{ModEntry.UniqueID}/ConservationistTaxNotice");
 			}
+
+			ModEntry.Data.WriteField("WaterTrashCollectedThisSeason", "0");
 		}
 	}
 }

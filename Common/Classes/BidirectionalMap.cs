@@ -13,7 +13,9 @@ namespace TheLion.Stardew.Common.Classes
 		public Indexer<TReverseKey, TForwardKey> Reverse { get; } = new();
 
 		/// <summary>Construct an instance.</summary>
-		public BiMap() { }
+		public BiMap()
+		{
+		}
 
 		/// <summary>Construct an instance by copying <see cref="KeyValuePairs"/> from a one-way <see cref="IDictionary"/>.</summary>
 		/// <param name="oneWayMap">A one-way <see cref="IDictionary"/>.</param>
@@ -28,7 +30,8 @@ namespace TheLion.Stardew.Common.Classes
 			{
 				var reverseKey = Forward[forwardKey];
 				if (Reverse.ContainsKey(reverseKey))
-					throw new ArgumentException("Cannot construct bidirectional map from a dictionary with non-unique values.");
+					throw new ArgumentException(
+						"Cannot construct bidirectional map from a dictionary with non-unique values.");
 
 				Reverse.Add(reverseKey, forwardKey);
 			}
@@ -41,9 +44,11 @@ namespace TheLion.Stardew.Common.Classes
 		public void Add(TForwardKey forwardKey, TReverseKey reverseKey)
 		{
 			if (Forward.ContainsKey(forwardKey))
-				throw new ArgumentException($"An entry with the same key {forwardKey?.ToString() ?? ""} already exists.");
+				throw new ArgumentException(
+					$"An entry with the same key {forwardKey?.ToString() ?? ""} already exists.");
 			if (Reverse.ContainsKey(reverseKey))
-				throw new ArgumentException($"An entry with the same key {reverseKey?.ToString() ?? ""} already exists.");
+				throw new ArgumentException(
+					$"An entry with the same key {reverseKey?.ToString() ?? ""} already exists.");
 
 			Forward.Add(forwardKey, reverseKey);
 			Reverse.Add(reverseKey, forwardKey);
@@ -111,7 +116,8 @@ namespace TheLion.Stardew.Common.Classes
 			return Forward.Count();
 		}
 
-		IEnumerator<KeyValuePair<TForwardKey, TReverseKey>> IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>.GetEnumerator()
+		IEnumerator<KeyValuePair<TForwardKey, TReverseKey>> IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>.
+			GetEnumerator()
 		{
 			return Forward.GetEnumerator();
 		}

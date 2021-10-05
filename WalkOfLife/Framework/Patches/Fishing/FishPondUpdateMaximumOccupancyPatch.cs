@@ -24,14 +24,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for Aquarist increased max fish pond capacity.</summary>
 		[HarmonyPostfix]
-		private static void FishPondUpdateMaximumOccupancyPostfix(ref FishPond __instance, FishPondData ____fishPondData)
+		private static void FishPondUpdateMaximumOccupancyPostfix(ref FishPond __instance,
+			FishPondData ____fishPondData)
 		{
 			if (__instance == null || ____fishPondData == null) return;
 
 			try
 			{
 				var owner = Game1.getFarmer(__instance.owner.Value);
-				if (owner.HasProfession("Aquarist") && __instance.lastUnlockedPopulationGate.Value >= ____fishPondData.PopulationGates.Keys.Max())
+				if (owner.HasProfession("Aquarist") && __instance.lastUnlockedPopulationGate.Value >=
+					____fishPondData.PopulationGates.Keys.Max())
 					__instance.maxOccupants.Set(12);
 			}
 			catch (Exception ex)

@@ -17,7 +17,6 @@ namespace TheLion.Stardew.Professions.Framework
 		public SoundEffectLoader(string modPath)
 		{
 			foreach (var file in Directory.GetFiles(Path.Combine(modPath, "assets", "sfx"), "*.ogg"))
-			{
 				try
 				{
 					// load .wav
@@ -33,7 +32,6 @@ namespace TheLion.Stardew.Professions.Framework
 				{
 					ModEntry.Log($"Failed to load {file}. Loader returned {ex}", LogLevel.Error);
 				}
-			}
 		}
 	}
 }

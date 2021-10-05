@@ -1,6 +1,7 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
+using TheLion.Stardew.Professions.Framework.TreasureHunt;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
@@ -11,9 +12,10 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		{
 			if (!e.IsLocalPlayer) return;
 
-			ModEntry.ProspectorHunt ??= new();
+			ModEntry.ProspectorHunt ??= new ProspectorHunt();
 			if (ModEntry.ProspectorHunt.TreasureTile != null) ModEntry.ProspectorHunt.End();
-			if (Game1.CurrentEvent == null && e.NewLocation is MineShaft) ModEntry.ProspectorHunt.TryStartNewHunt(e.NewLocation);
+			if (Game1.CurrentEvent == null && e.NewLocation is MineShaft)
+				ModEntry.ProspectorHunt.TryStartNewHunt(e.NewLocation);
 		}
 	}
 }

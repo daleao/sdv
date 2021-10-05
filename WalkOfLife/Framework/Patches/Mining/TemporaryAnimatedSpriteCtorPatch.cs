@@ -14,7 +14,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal TemporaryAnimatedSpriteCtorPatch()
 		{
-			Original = typeof(TemporaryAnimatedSprite).Constructor(new[] { typeof(int), typeof(float), typeof(int), typeof(int), typeof(Vector2), typeof(bool), typeof(bool), typeof(GameLocation), typeof(Farmer) });
+			Original = typeof(TemporaryAnimatedSprite).Constructor(new[]
+			{
+				typeof(int), typeof(float), typeof(int), typeof(int), typeof(Vector2), typeof(bool), typeof(bool),
+				typeof(GameLocation), typeof(Farmer)
+			});
 			Postfix = new HarmonyMethod(GetType(), nameof(TemporaryAnimatedSpriteCtorPostfix));
 		}
 

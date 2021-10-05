@@ -10,7 +10,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal LevelUpMenuDrawPatch()
 		{
-			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.draw), new[] { typeof(SpriteBatch) });
+			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.draw), new[] {typeof(SpriteBatch)});
 			Prefix = new HarmonyMethod(GetType(), nameof(LevelUpMenuDrawPrefix));
 		}
 

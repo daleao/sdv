@@ -15,7 +15,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal ObjectCtorPatch()
 		{
-			Original = typeof(SObject).Constructor(new[] { typeof(Vector2), typeof(int), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool) });
+			Original = typeof(SObject).Constructor(new[]
+				{typeof(Vector2), typeof(int), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool)});
 			Postfix = new HarmonyMethod(GetType(), nameof(ObjectCtorPostfix));
 		}
 
@@ -29,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				var owner = Game1.getFarmer(__instance.owner.Value);
 				if (__instance.IsWildBerry() && owner.HasProfession("Ecologist"))
-					__instance.Edibility = (int)(__instance.Edibility * 1.5f);
+					__instance.Edibility = (int) (__instance.Edibility * 1.5f);
 			}
 			catch (Exception ex)
 			{

@@ -31,25 +31,26 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			var bonusSpeed = Math.Min(ModEntry.SpelunkerLadderStreak / 5 + 1, 10);
 			Game1.buffsDisplay.addOtherBuff(
 				new Buff(0,
-						 0,
-						 0,
-						 0,
-						 0,
-						 0,
-						 0,
-						 0,
-						 0,
-						 speed: bonusSpeed,
-						 0,
-						 0,
-						 minutesDuration: 1,
-						 source: "Spelunker",
-						 displaySource: ModEntry.ModHelper.Translation.Get("spelunker.name." + (Game1.player.IsMale ? "male" : "female")))
+					0,
+					0,
+					0,
+					0,
+					0,
+					0,
+					0,
+					0,
+					bonusSpeed,
+					0,
+					0,
+					1,
+					"Spelunker",
+					ModEntry.ModHelper.Translation.Get("spelunker.name." + (Game1.player.IsMale ? "male" : "female")))
 				{
 					which = _buffID,
 					sheetIndex = SHEET_INDEX,
 					millisecondsDuration = 49,
-					description = ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new { bonusLadderChance, bonusSpeed })
+					description =
+						ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new {bonusLadderChance, bonusSpeed})
 				}
 			);
 		}

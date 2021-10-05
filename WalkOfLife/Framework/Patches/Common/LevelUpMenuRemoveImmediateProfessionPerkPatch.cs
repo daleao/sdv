@@ -36,16 +36,17 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				// remove immediate perks
 				if (professionName == "Aquarist")
-				{
-					foreach (var b in Game1.getFarm().buildings.Where(b => (b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+					foreach (var b in Game1.getFarm().buildings.Where(b =>
+						(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+						b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
 					{
 						b.maxOccupants.Set(10);
 						b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
 					}
-				}
 
 				// clean unnecessary mod data
-				if (!professionName.AnyOf("Scavenger", "Prospector")) ModEntry.Data.RemoveProfessionDataFields(professionName);
+				if (!professionName.AnyOf("Scavenger", "Prospector"))
+					ModEntry.Data.RemoveProfessionDataFields(professionName);
 
 				// unsubscribe unnecessary events
 				ModEntry.Subscriber.UnsubscribeProfessionEvents(professionName);
@@ -53,8 +54,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// unregister super mode
 				if (ModEntry.SuperModeIndex != whichProfession) return;
 
-				var superModeProfessions = new[] { "Brute", "Poacher", "Desperado", "Piper" };
-				if (Game1.player.HasAnyOfProfessions(superModeProfessions.Except(new[] { professionName }).ToArray()))
+				var superModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"};
+				if (Game1.player.HasAnyOfProfessions(superModeProfessions.Except(new[] {professionName}).ToArray()))
 					ModEntry.SuperModeIndex = Util.Professions.IndexOf(superModeProfessions.First());
 				else
 					ModEntry.SuperModeIndex = -1;
@@ -69,7 +70,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> LevelUpMenuRemoveImmediateProfessionPerkTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		private static IEnumerable<CodeInstruction> LevelUpMenuRemoveImmediateProfessionPerkTranspiler(
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 

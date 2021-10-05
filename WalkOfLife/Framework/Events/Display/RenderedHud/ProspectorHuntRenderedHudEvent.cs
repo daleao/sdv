@@ -13,7 +13,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (ModEntry.ProspectorHunt.TreasureTile == null) return;
 
 			// reveal treasure hunt target
-			var distanceSquared = (Game1.player.getTileLocation() - ModEntry.ProspectorHunt.TreasureTile.Value).LengthSquared();
+			var distanceSquared = (Game1.player.getTileLocation() - ModEntry.ProspectorHunt.TreasureTile.Value)
+				.LengthSquared();
 			if (distanceSquared <= Math.Pow(ModEntry.Config.TreasureDetectionDistance, 2))
 				Util.HUD.DrawArrowPointerOverTarget(ModEntry.ProspectorHunt.TreasureTile.Value, Color.Violet);
 		}

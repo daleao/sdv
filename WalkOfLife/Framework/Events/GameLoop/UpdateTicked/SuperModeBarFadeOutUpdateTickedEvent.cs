@@ -15,8 +15,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			--_fadeOutTimer;
 			if (_fadeOutTimer >= FADE_OUT_DURATION) return;
 
-			var ratio = (float)_fadeOutTimer / FADE_OUT_DURATION;
-			ModEntry.SuperModeBarAlpha = (float)(-1.0 / (1.0 + Math.Exp(12.0 * ratio - 6.0)) + 1.0);
+			var ratio = (float) _fadeOutTimer / FADE_OUT_DURATION;
+			ModEntry.SuperModeBarAlpha = (float) (-1.0 / (1.0 + Math.Exp(12.0 * ratio - 6.0)) + 1.0);
 
 			if (_fadeOutTimer > 0) return;
 

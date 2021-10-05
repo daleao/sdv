@@ -23,7 +23,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		public override void Apply(Harmony harmony)
 		{
 			foreach (var targetMethod in TargetMethods())
-			{
 				try
 				{
 					Original = targetMethod;
@@ -33,7 +32,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				{
 					// ignored
 				}
-			}
 		}
 
 		#region harmony patches
@@ -45,13 +43,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (__instance == null) return;
 
 			var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
-			if (machine == null || machine.heldObject.Value == null || !machine.heldObject.Value.IsArtisanGood()) return;
+			if (machine == null || machine.heldObject.Value == null ||
+			    !machine.heldObject.Value.IsArtisanGood()) return;
 
 			var who = Game1.getFarmer(machine.owner.Value);
 			if (!who.HasProfession("Artisan")) return;
 
 
-			if (machine.heldObject.Value.Quality < SObject.bestQuality && new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
+			if (machine.heldObject.Value.Quality < SObject.bestQuality &&
+			    new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
 				machine.heldObject.Value.Quality += machine.heldObject.Value.Quality == SObject.medQuality ? 2 : 1;
 
 			machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;
@@ -65,14 +65,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<MethodBase> TargetMethods()
 		{
 			return from type in AccessTools.AllTypes()
-				   where type.Name.AnyOf(
+				where type.Name.AnyOf(
 					"CheesePressMachine",
 					"KegMachine",
 					"LoomMachine",
 					"MayonnaiseMachine",
 					"OilMakerMachine",
 					"PreservesJarMachine")
-				   select type.MethodNamed("SetInput");
+				select type.MethodNamed("SetInput");
 		}
 
 		#endregion private methods

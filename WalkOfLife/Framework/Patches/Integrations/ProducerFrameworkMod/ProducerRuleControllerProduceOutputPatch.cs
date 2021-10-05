@@ -24,7 +24,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to apply modded Gemologist quality rules to PFM Crystalariums.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> ProducerRuleControllerProduceOutputTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		private static IEnumerable<CodeInstruction> ProducerRuleControllerProduceOutputTranspiler(
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -37,20 +38,25 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				Helper
 					.FindFirst( // find index of setting producer held object value
 						new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(SObject)} (5)"),
-						new CodeInstruction(OpCodes.Callvirt, typeof(NetFieldBase<SObject, NetRef<SObject>>).MethodNamed("set_Value", new[] { typeof(SObject) }))
+						new CodeInstruction(OpCodes.Callvirt,
+							typeof(NetFieldBase<SObject, NetRef<SObject>>).MethodNamed("set_Value",
+								new[] {typeof(SObject)}))
 					)
 					.Insert(
 						// load producer instance
 						new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = SObject producer
-															  // load Farmer who
+						// load Farmer who
 						new CodeInstruction(OpCodes.Ldarg_3), // arg 3 = Farmer who 
-															  // call custom logic
-						new CodeInstruction(OpCodes.Call, typeof(ProducerRuleControllerProduceOutputPatch).MethodNamed(nameof(ProducerOutputSubroutine)))
+						// call custom logic
+						new CodeInstruction(OpCodes.Call,
+							typeof(ProducerRuleControllerProduceOutputPatch).MethodNamed(
+								nameof(ProducerOutputSubroutine)))
 					);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching PFM for Gemologist Crystalariume output quality.\nHelper returned {ex}");
+				Helper.Error(
+					$"Failed while patching PFM for Gemologist Crystalariume output quality.\nHelper returned {ex}");
 				return null;
 			}
 
@@ -63,11 +69,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		private static SObject ProducerOutputSubroutine(SObject output, SObject producer, Farmer who)
 		{
-			if (producer.name == "Crystalarium" && (producer.heldObject.Value.IsForagedMineral() || producer.heldObject.Value.IsGemOrMineral()) && who.HasProfession("Gemologist"))
-			{
-				output.Quality = Util.Professions.GetGemologistMineralQuality();
-				if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");
-			}
+			if (producer.name != "Crystalarium" ||
+			    !producer.heldObject.Value.IsForagedMineral() && !producer.heldObject.Value.IsGemOrMineral() ||
+			    !who.HasProfession("Gemologist")) return output;
+
+			output.Quality = Util.Professions.GetGemologistMineralQuality();
+			if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");
 
 			return output;
 		}

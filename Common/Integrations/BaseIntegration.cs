@@ -28,7 +28,8 @@ namespace TheLion.Stardew.Common.Integrations
 		/// <param name="minVersion">The minimum version of the mod that's supported.</param>
 		/// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
 		/// <param name="log">Encapsulates monitoring and logging.</param>
-		protected BaseIntegration(string label, string modID, string minVersion, IModRegistry modRegistry, Action<string, LogLevel> log)
+		protected BaseIntegration(string label, string modID, string minVersion, IModRegistry modRegistry,
+			Action<string, LogLevel> log)
 		{
 			// init
 			Label = label;
@@ -42,7 +43,9 @@ namespace TheLion.Stardew.Common.Integrations
 
 			if (manifest.Version.IsOlderThan(minVersion))
 			{
-				Log($"Detected {label} {manifest.Version}, but need {minVersion} or later. Disabled integration with this mod.", LogLevel.Warn);
+				Log(
+					$"Detected {label} {manifest.Version}, but need {minVersion} or later. Disabled integration with this mod.",
+					LogLevel.Warn);
 				return;
 			}
 
@@ -54,13 +57,12 @@ namespace TheLion.Stardew.Common.Integrations
 		protected TInterface GetValidatedApi<TInterface>() where TInterface : class
 		{
 			var api = ModRegistry.GetApi<TInterface>(ModID);
-			if (api == null)
-			{
-				Log($"Detected {Label}, but couldn't fetch its API. Disabled integration with this mod.", LogLevel.Warn);
-				return null;
-			}
+			if (api != null) return api;
+			
+			Log($"Detected {Label}, but couldn't fetch its API. Disabled integration with this mod.",
+				LogLevel.Warn);
+			return null;
 
-			return api;
 		}
 
 		/// <summary>Assert that the integration is loaded.</summary>

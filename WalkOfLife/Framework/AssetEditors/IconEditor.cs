@@ -8,12 +8,14 @@ namespace TheLion.Stardew.Professions.Framework.AssetEditors
 {
 	public class IconEditor : IAssetEditor
 	{
-		private readonly Texture2D _tileSheet = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "sprites", "tilesheet.png"));
+		private readonly Texture2D _tileSheet =
+			ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "sprites", "tilesheet.png"));
 
 		/// <inheritdoc/>
 		public bool CanEdit<T>(IAssetInfo asset)
 		{
-			return asset.AssetNameEquals(Path.Combine("LooseSprites", "Cursors")) || asset.AssetNameEquals(Path.Combine("TileSheets", "BuffsIcons"));
+			return asset.AssetNameEquals(Path.Combine("LooseSprites", "Cursors")) ||
+			       asset.AssetNameEquals(Path.Combine("TileSheets", "BuffsIcons"));
 		}
 
 		/// <inheritdoc/>

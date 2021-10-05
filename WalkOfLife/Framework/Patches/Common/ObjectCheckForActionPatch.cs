@@ -39,9 +39,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (__instance.heldObject.Value != null && who.HasProfession("Gemologist") && (__instance.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) && __instance.name == "Crystalarium")
+				if (__instance.heldObject.Value != null && who.HasProfession("Gemologist") &&
+				    (__instance.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+				    __instance.name == "Crystalarium")
 					__instance.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
-				else if (__state && __instance.heldObject.Value == null && __instance.ParentSheetIndex == 128 && who.HasProfession("Ecologist"))
+				else if (__state && __instance.heldObject.Value == null && __instance.ParentSheetIndex == 128 &&
+				         who.HasProfession("Ecologist"))
 					ModEntry.Data.IncrementField<uint>("ItemsForaged");
 			}
 			catch (Exception ex)
@@ -52,7 +55,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> ObjectCheckForActionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		private static IEnumerable<CodeInstruction> ObjectCheckForActionTranspiler(
+			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -80,13 +84,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(SObject).PropertyGetter(nameof(SObject.name))),
 						new CodeInstruction(OpCodes.Ldstr, "Crystalarium"),
 						new CodeInstruction(OpCodes.Callvirt,
-							typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) })),
+							typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)})),
 						new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
 						new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] { typeof(string) }).MakeGenericMethod(typeof(uint)))
+							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] {typeof(string)})
+								.MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseGemologistCounter);
 			}

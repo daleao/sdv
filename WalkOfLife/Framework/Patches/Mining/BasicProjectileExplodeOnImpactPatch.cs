@@ -27,13 +27,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (who is Farmer farmer && farmer.HasProfession("Demolitionist"))
-				{
-					location.explode(new Vector2(x / Game1.tileSize, y / Game1.tileSize), 3, farmer);
-					return false; // don't run original logic
-				}
+				if (who is not Farmer farmer || !farmer.HasProfession("Demolitionist"))
+					return true; // run original logic
 
-				return true; // run original logic
+				location.explode(new Vector2(x / Game1.tileSize, y / Game1.tileSize), 3, farmer);
+				return false; // don't run original logic
+
 			}
 			catch (Exception ex)
 			{

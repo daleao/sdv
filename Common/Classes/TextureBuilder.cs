@@ -16,7 +16,8 @@ namespace TheLion.Stardew.Common.Classes
 		/// <param name="height">The height of the rectangle.</param>
 		/// <param name="colors">Array of <see cref="DrawColor"/>s.</param>
 		/// <param name="positions">Array of floats between 0 and 1, representing the positions of the colors.</param>
-		public static Texture2D CreateGradientTexture(GraphicsDevice device, int width, int height, DrawColor[] colors, float[] positions)
+		public static Texture2D CreateGradientTexture(GraphicsDevice device, int width, int height, DrawColor[] colors,
+			float[] positions)
 		{
 			// define rectangle shape
 			var rect = new DrawRect(0, 0, width, height);

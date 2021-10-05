@@ -16,11 +16,18 @@ namespace TheLion.Stardew.Professions
 		/// <summary>Easy look-up table for data fields required by each profesion.</summary>
 		private static readonly Dictionary<string, List<KeyValuePair<string, string>>> FieldsByProfession = new()
 		{
-			{ "Conservationist", new() { new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0") } },
-			{ "Ecologist", new() { new("ItemsForaged", "0") } },
-			{ "Gemologist", new() { new("MineralsCollected", "0") } },
-			{ "Prospector", new() { new("ProspectorHuntStreak", "0") } },
-			{ "Scavenger", new() { new("ScavengerHuntStreak", "0") } }
+			{
+				"Conservationist",
+				new List<KeyValuePair<string, string>>
+					{new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0")}
+			},
+			{"Ecologist", new List<KeyValuePair<string, string>> {new("ItemsForaged", "0")}},
+			{"Gemologist", new List<KeyValuePair<string, string>> {new("MineralsCollected", "0")}},
+			{"Prospector", new List<KeyValuePair<string, string>> {new("ProspectorHuntStreak", "0")}},
+			{
+				"Scavenger",
+				new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("ScavengerHuntStreak", "0")}
+			}
 		};
 
 		/// <summary>Construct an instance.</summary>
@@ -50,7 +57,6 @@ namespace TheLion.Stardew.Professions
 		{
 			ModEntry.Log("Initializing data fields for local player...", LogLevel.Trace);
 			foreach (var professionIndex in Game1.player.professions)
-			{
 				try
 				{
 					InitializeDataFieldsForProfession(Framework.Util.Professions.NameOf(professionIndex));
@@ -59,7 +65,7 @@ namespace TheLion.Stardew.Professions
 				{
 					ModEntry.Log($"Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
 				}
-			}
+
 			_data.WriteIfNotExists($"{_id}/SuperModeIndex", "-1");
 			ModEntry.Log("Done initializing data fields for local player.", LogLevel.Trace);
 		}
@@ -91,10 +97,10 @@ namespace TheLion.Stardew.Professions
 		{
 			ModEntry.Log("Checking for rogue data fields...", LogLevel.Trace);
 			foreach (var kvp in from kvp in FieldsByProfession
-								where !kvp.Key.AnyOf("Scavenger", "Prospector")
-								from field in kvp.Value
-								where _data.ContainsKey(field.Key) && !Game1.player.HasProfession(kvp.Key)
-								select kvp) RemoveProfessionDataFields(kvp.Key);
+				where !kvp.Key.AnyOf("Scavenger", "Prospector")
+				from field in kvp.Value
+				where _data.ContainsKey(field.Key) && !Game1.player.HasProfession(kvp.Key)
+				select kvp) RemoveProfessionDataFields(kvp.Key);
 			ModEntry.Log("Done.", LogLevel.Trace);
 		}
 

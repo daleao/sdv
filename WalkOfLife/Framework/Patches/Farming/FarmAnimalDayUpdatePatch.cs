@@ -23,7 +23,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for Producer to double produce frequency at max animal happiness + remove Shepherd and Coopmaster hidden produce quality boosts.</summary>
 		[HarmonyTranspiler]
-		protected static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+		protected static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -36,7 +37,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.FindFirst( // find index of FarmAnimal.type.Value.Equals("Sheep")
 						new CodeInstruction(OpCodes.Ldstr, "Sheep"),
 						new CodeInstruction(OpCodes.Callvirt,
-							typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) }))
+							typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)}))
 					)
 					.Retreat(2)
 					.SetOperand(typeof(FarmAnimal).Field(nameof(FarmAnimal.happiness))) // was FarmAnimal.type
@@ -77,7 +78,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				Helper
 					.FindNext( // find index of first FarmAnimal.isCoopDweller check
-						new CodeInstruction(ModEntry.GameFramework.Equals(GameFramework.Xna) ? OpCodes.Call : OpCodes.Callvirt,
+						new CodeInstruction(
+							ModEntry.GameFramework.Equals(GameFramework.Xna) ? OpCodes.Call : OpCodes.Callvirt,
 							typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.isCoopDweller)))
 					)
 					.AdvanceUntil(
@@ -87,12 +89,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Return()
 					.Retreat()
 					.Insert( // insert unconditional branch to skip this whole section
-						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution)
+						new CodeInstruction(OpCodes.Br_S, (Label) resumeExecution)
 					);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}");
+				Helper.Error(
+					$"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}");
 				return null;
 			}
 

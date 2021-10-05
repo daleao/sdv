@@ -22,7 +22,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to nerf Ecologist berry quality and increment forage counter for wild berries.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> BushShakeTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		private static IEnumerable<CodeInstruction> BushShakeTranspiler(IEnumerable<CodeInstruction> instructions,
+			ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -62,13 +63,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldarg_0)
 					)
-					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Ecologist"), dontIncreaseEcologistCounter)
+					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Ecologist"),
+						dontIncreaseEcologistCounter)
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
 						new CodeInstruction(OpCodes.Ldstr, "ItemsForaged"),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] { typeof(string) }).MakeGenericMethod(typeof(uint)))
+							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] {typeof(string)})
+								.MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseEcologistCounter);
 			}

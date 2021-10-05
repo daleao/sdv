@@ -15,7 +15,10 @@ namespace TheLion.Stardew.Professions.Framework.Util
 	public static class HUD
 	{
 		public static ArrowPointer Pointer { get; set; }
-		private static Texture2D BarTx { get; } = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud", "bar.png"));
+
+		private static Texture2D BarTx { get; } =
+			ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud", "bar.png"));
+
 		private static Texture2D BarFillTx { get; set; }
 
 		private const int MAX_BAR_HEIGHT = 168, TEXTURE_HEIGHT = 46;
@@ -36,12 +39,12 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			if (target.X * 64f > Game1.viewport.MaxCorner.X - 64)
 			{
 				onScreenPosition.X = vpbounds.Right - 8;
-				rotation = (float)Math.PI / 2f;
+				rotation = (float) Math.PI / 2f;
 			}
 			else if (target.X * 64f < Game1.viewport.X)
 			{
 				onScreenPosition.X = 8f;
-				rotation = -(float)Math.PI / 2f;
+				rotation = -(float) Math.PI / 2f;
 			}
 			else
 			{
@@ -51,7 +54,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			if (target.Y * 64f > Game1.viewport.MaxCorner.Y - 64)
 			{
 				onScreenPosition.Y = vpbounds.Bottom - 8;
-				rotation = (float)Math.PI;
+				rotation = (float) Math.PI;
 			}
 			else if (target.Y * 64f < Game1.viewport.Y)
 			{
@@ -62,13 +65,16 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				onScreenPosition.Y = target.Y * 64f - Game1.viewport.Y;
 			}
 
-			if ((int)onScreenPosition.X == 8 && (int)onScreenPosition.Y == 8) rotation += (float)Math.PI / 4f;
+			if ((int) onScreenPosition.X == 8 && (int) onScreenPosition.Y == 8) rotation += (float) Math.PI / 4f;
 
-			if ((int)onScreenPosition.X == 8 && (int)onScreenPosition.Y == vpbounds.Bottom - 8) rotation += (float)Math.PI / 4f;
+			if ((int) onScreenPosition.X == 8 && (int) onScreenPosition.Y == vpbounds.Bottom - 8)
+				rotation += (float) Math.PI / 4f;
 
-			if ((int)onScreenPosition.X == vpbounds.Right - 8 && (int)onScreenPosition.Y == 8) rotation -= (float)Math.PI / 4f;
+			if ((int) onScreenPosition.X == vpbounds.Right - 8 && (int) onScreenPosition.Y == 8)
+				rotation -= (float) Math.PI / 4f;
 
-			if ((int)onScreenPosition.X == vpbounds.Right - 8 && (int)onScreenPosition.Y == vpbounds.Bottom - 8) rotation -= (float)Math.PI / 4f;
+			if ((int) onScreenPosition.X == vpbounds.Right - 8 && (int) onScreenPosition.Y == vpbounds.Bottom - 8)
+				rotation -= (float) Math.PI / 4f;
 
 			var srcRect = new XnaRect(0, 0, 5, 4);
 			var safePos = SUtility.makeSafe(
@@ -77,15 +83,15 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			);
 
 			Game1.spriteBatch.Draw(
-				texture: Pointer.Texture,
-				position: safePos,
-				sourceRectangle: srcRect,
-				color: color,
-				rotation: rotation,
-				origin: new Vector2(2f, 2f),
-				scale: RENDER_SCALE,
-				effects: SpriteEffects.None,
-				layerDepth: 1f
+				Pointer.Texture,
+				safePos,
+				srcRect,
+				color,
+				rotation,
+				new Vector2(2f, 2f),
+				RENDER_SCALE,
+				SpriteEffects.None,
+				1f
 			);
 		}
 
@@ -105,15 +111,15 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			adjustedPixel = SUtility.ModifyCoordinatesForUIScale(adjustedPixel);
 
 			Game1.spriteBatch.Draw(
-				texture: Pointer.Texture,
-				position: adjustedPixel,
-				sourceRectangle: srcRect,
-				color: color,
-				rotation: (float)Math.PI,
-				origin: new Vector2(2f, 2f),
-				scale: RENDER_SCALE,
-				effects: SpriteEffects.None,
-				layerDepth: 1f
+				Pointer.Texture,
+				adjustedPixel,
+				srcRect,
+				color,
+				(float) Math.PI,
+				new Vector2(2f, 2f),
+				RENDER_SCALE,
+				SpriteEffects.None,
+				1f
 			);
 		}
 
@@ -122,12 +128,13 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		{
 			// get bar position
 			var topOfBar = new Vector2(
-				x: Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Right - 56,
-				y: Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 200
+				Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Right - 56,
+				Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 200
 			);
 
 			if (Game1.isOutdoorMapSmallerThanViewport())
-				topOfBar.X = Math.Min(topOfBar.X, -Game1.viewport.X + Game1.currentLocation.map.Layers[0].LayerWidth * 64 - 48);
+				topOfBar.X = Math.Min(topOfBar.X,
+					-Game1.viewport.X + Game1.currentLocation.map.Layers[0].LayerWidth * 64 - 48);
 
 			if (Game1.showingHealth) topOfBar.X -= 100;
 			else topOfBar.X -= 44;
@@ -145,39 +152,39 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			// top
 			srcRect = new XnaRect(0, 0, 9, 16);
 			Game1.spriteBatch.Draw(
-				texture: BarTx,
-				position: topOfBar,
-				sourceRectangle: srcRect,
-				color: XnaColor.White * ModEntry.SuperModeBarAlpha,
-				rotation: 0f,
-				origin: Vector2.Zero,
-				scale: RENDER_SCALE,
-				effects: SpriteEffects.None,
-				layerDepth: 1f
+				BarTx,
+				topOfBar,
+				srcRect,
+				XnaColor.White * ModEntry.SuperModeBarAlpha,
+				0f,
+				Vector2.Zero,
+				RENDER_SCALE,
+				SpriteEffects.None,
+				1f
 			);
 
 			// middle
 			srcRect = new XnaRect(0, 16, 9, 16);
-			destRect = new XnaRect((int)topOfBar.X, (int)(topOfBar.Y + 64f), 36, 56);
+			destRect = new XnaRect((int) topOfBar.X, (int) (topOfBar.Y + 64f), 36, 56);
 			Game1.spriteBatch.Draw(
-				texture: BarTx,
-				destinationRectangle: destRect,
-				sourceRectangle: srcRect,
-				color: XnaColor.White * ModEntry.SuperModeBarAlpha
-			 );
+				BarTx,
+				destRect,
+				srcRect,
+				XnaColor.White * ModEntry.SuperModeBarAlpha
+			);
 
 			// bottom
 			srcRect = new XnaRect(0, 30, 9, 16);
 			Game1.spriteBatch.Draw(
-				texture: BarTx,
-				position: new Vector2(topOfBar.X, topOfBar.Y + 120f),
-				sourceRectangle: srcRect,
-				color: XnaColor.White * ModEntry.SuperModeBarAlpha,
-				rotation: 0f,
-				origin: Vector2.Zero,
-				scale: RENDER_SCALE,
-				effects: SpriteEffects.None,
-				layerDepth: 1f
+				BarTx,
+				new Vector2(topOfBar.X, topOfBar.Y + 120f),
+				srcRect,
+				XnaColor.White * ModEntry.SuperModeBarAlpha,
+				0f,
+				Vector2.Zero,
+				RENDER_SCALE,
+				SpriteEffects.None,
+				1f
 			);
 
 			// draw meter overlay
@@ -191,46 +198,51 @@ namespace TheLion.Stardew.Professions.Framework.Util
 					DrawColor.BlueViolet,
 					DrawColor.Cyan
 				};
-				var positions = new[] { 0f, 0.35f, 0.55f, 0.75f, 1f };
+				var positions = new[] {0f, 0.35f, 0.55f, 0.75f, 1f};
 
-				BarFillTx = TextureBuilder.CreateGradientTexture(Game1.graphics.GraphicsDevice, 9, TEXTURE_HEIGHT, colors, positions);
+				BarFillTx = TextureBuilder.CreateGradientTexture(Game1.graphics.GraphicsDevice, 9, TEXTURE_HEIGHT,
+					colors, positions);
 			}
 
-			var ratio = ModEntry.SuperModeCounter / (float)ModEntry.SuperModeCounterMax;
-			var srcHeight = (int)(TEXTURE_HEIGHT * ratio);
-			var destHeight = (int)(MAX_BAR_HEIGHT * ratio);
+			var ratio = ModEntry.SuperModeCounter / (float) ModEntry.SuperModeCounterMax;
+			var srcHeight = (int) (TEXTURE_HEIGHT * ratio);
+			var destHeight = (int) (MAX_BAR_HEIGHT * ratio);
 
 			srcRect = new XnaRect(0, TEXTURE_HEIGHT - srcHeight, 9, srcHeight);
-			destRect = new XnaRect((int)topOfBar.X + 12, (int)topOfBar.Y + 8 + (MAX_BAR_HEIGHT - destHeight), 12, destHeight);
+			destRect = new XnaRect((int) topOfBar.X + 12, (int) topOfBar.Y + 8 + (MAX_BAR_HEIGHT - destHeight), 12,
+				destHeight);
 
 			Game1.spriteBatch.Draw(
-				texture: BarFillTx,
-				destinationRectangle: destRect,
-				sourceRectangle: srcRect,
-				color: XnaColor.White,
-				rotation: 0f,
-				origin: Vector2.Zero,
-				effects: SpriteEffects.None,
-				layerDepth: 1f
+				BarFillTx,
+				destRect,
+				srcRect,
+				XnaColor.White,
+				0f,
+				Vector2.Zero,
+				SpriteEffects.None,
+				1f
 			);
 
 			// draw hover text
-			if (Game1.getOldMouseX() >= topOfBar.X && Game1.getOldMouseY() >= topOfBar.Y && Game1.getOldMouseX() < topOfBar.X + 24f)
-				Game1.drawWithBorder((int)Math.Max(0f, ModEntry.SuperModeCounter) + "/" + 500, XnaColor.Black * 0f, XnaColor.White, topOfBar + new Vector2(0f - Game1.dialogueFont.MeasureString("999/999").X - 32f, 64f));
+			if (Game1.getOldMouseX() >= topOfBar.X && Game1.getOldMouseY() >= topOfBar.Y &&
+			    Game1.getOldMouseX() < topOfBar.X + 24f)
+				Game1.drawWithBorder((int) Math.Max(0f, ModEntry.SuperModeCounter) + "/" + 500, XnaColor.Black * 0f,
+					XnaColor.White,
+					topOfBar + new Vector2(0f - Game1.dialogueFont.MeasureString("999/999").X - 32f, 64f));
 
 			if (Math.Abs(ratio - 1f) >= 0.002f && !ModEntry.IsSuperModeActive) return;
 
 			// draw top shadow
 			destRect.Height = 2;
 			Game1.spriteBatch.Draw(
-				texture: Game1.staminaRect,
-				destinationRectangle: destRect,
-				sourceRectangle: srcRect,
-				color: XnaColor.Black * 0.3f,
-				rotation: 0f,
-				origin: Vector2.Zero,
-				effects: SpriteEffects.None,
-				layerDepth: 1f
+				Game1.staminaRect,
+				destRect,
+				srcRect,
+				XnaColor.Black * 0.3f,
+				0f,
+				Vector2.Zero,
+				SpriteEffects.None,
+				1f
 			);
 		}
 	}

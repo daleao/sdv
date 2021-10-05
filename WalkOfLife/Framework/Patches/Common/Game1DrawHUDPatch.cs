@@ -32,7 +32,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				if (!Game1.player.HasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
-				foreach (var tile in Util.Tiles.GetLadderTiles(shaft)) Util.HUD.DrawTrackingArrowPointer(tile, Color.Lime);
+				foreach (var tile in Util.Tiles.GetLadderTiles(shaft))
+					Util.HUD.DrawTrackingArrowPointer(tile, Color.Lime);
 			}
 			catch (Exception ex)
 			{
@@ -42,7 +43,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		private static IEnumerable<CodeInstruction> Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions,
+			ILGenerator iLGenerator, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 

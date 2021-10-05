@@ -8,7 +8,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
-			if (Game1.game1.IsActive && Game1.shouldTimePass() && e.IsMultipleOf(ModEntry.Config.SuperModeDrainFactor)) --ModEntry.SuperModeCounter;
+			if (Game1.game1.IsActive && Game1.shouldTimePass() && e.IsMultipleOf(ModEntry.Config.SuperModeDrainFactor))
+				--ModEntry.SuperModeCounter;
 			if (ModEntry.SuperModeCounter <= 0) ModEntry.Subscriber.Unsubscribe(GetType());
 		}
 	}

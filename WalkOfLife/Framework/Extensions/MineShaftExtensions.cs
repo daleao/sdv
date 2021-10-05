@@ -10,7 +10,10 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <param name="shaft">The <see cref="MineShaft"/> instance.</param>
 		public static bool IsTreasureOrSafeRoom(this MineShaft shaft)
 		{
-			return (shaft.mineLevel <= 120 && shaft.mineLevel % 10 == 0) || (shaft.mineLevel == 220 && Game1.player.secretNotesSeen.Contains(10) && !Game1.player.mailReceived.Contains("qiCave")) || ModEntry.ModHelper.Reflection.GetField<NetBool>(shaft, "netIsTreasureRoom").GetValue().Value;
+			return shaft.mineLevel <= 120 && shaft.mineLevel % 10 == 0 ||
+			       shaft.mineLevel == 220 && Game1.player.secretNotesSeen.Contains(10) &&
+			       !Game1.player.mailReceived.Contains("qiCave") || ModEntry.ModHelper.Reflection
+				       .GetField<NetBool>(shaft, "netIsTreasureRoom").GetValue().Value;
 		}
 	}
 }
