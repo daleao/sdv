@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal GameLocationBreakStonePatch()
 		{
-			Original = typeof(GameLocation).MethodNamed(name: "breakStone");
+			Original = typeof(GameLocation).MethodNamed("breakStone");
 			Transpiler = new HarmonyMethod(GetType(), nameof(GameLocationBreakStoneTranspiler));
 		}
 

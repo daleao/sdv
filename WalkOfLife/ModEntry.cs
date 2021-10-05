@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI;
-using StardewModdingAPI.Events;
 using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
@@ -106,7 +105,7 @@ namespace TheLion.Stardew.Professions
 		{
 			// get target framework
 			GameFramework = Constants.GameFramework;
-			
+
 			// store references to mod helpers
 			ModHelper = helper;
 			Manifest = ModManifest;
@@ -136,18 +135,18 @@ namespace TheLion.Stardew.Professions
 			Helper.ConsoleCommands.Add("player_checkprofessions", "List the player's current professions.", ConsoleCommands.PrintLocalPlayerProfessions);
 			Helper.ConsoleCommands.Add("player_addprofessions", "Add the specified professions to the local player." + ConsoleCommands.GetUsageForAddProfessions(), ConsoleCommands.AddProfessionsToLocalPlayer);
 			Helper.ConsoleCommands.Add("player_resetprofessions", "Reset all skills and professions for the local player.", ConsoleCommands.ResetLocalPlayerProfessions);
-			Helper.ConsoleCommands.Add("player_setultmeter", "Set the super mode meter to the desired value.", ConsoleCommands.SetSuperModeCounter);
-			Helper.ConsoleCommands.Add("player_readyult", "Max-out the super mode meter.", ConsoleCommands.ReadySuperMode);
-			Helper.ConsoleCommands.Add("player_maxanimalfriendship", "Max-out the friendship of all owned animals.", ConsoleCommands.MaxAnimalFriendship);
-			Helper.ConsoleCommands.Add("player_maxanimalmood", "Max-out the mood of all owned animals.", ConsoleCommands.MaxAnimalMood);
-			Helper.ConsoleCommands.Add("player_getfishaudit", "Check your fishing progress as Angler.", ConsoleCommands.PrintFishCaughtAudit);
-			Helper.ConsoleCommands.Add("wol_checkdata", "Check current value of all mod data fields.", ConsoleCommands.PrintModData);
-			Helper.ConsoleCommands.Add("wol_setitemsforaged", "Set a new value for ItemsForaged field.", ConsoleCommands.SetItemsForaged);
-			Helper.ConsoleCommands.Add("wol_setmineralscollected", "Set a new value for MineralsCollected field.", ConsoleCommands.SetMineralsCollected);
-			Helper.ConsoleCommands.Add("wol_setprospectorstreak", "Set a new value for ProspectorStreak field.", ConsoleCommands.SetProspectorStreak);
-			Helper.ConsoleCommands.Add("wol_setscavengerstreak", "Set a new value for ScavengerStreak field.", ConsoleCommands.SetScavengerStreak);
-			Helper.ConsoleCommands.Add("wol_settrashcollected", "Set a new value for WaterTrashCollectedThisSeason field.", ConsoleCommands.SetWaterTrashCollectedThisSeason);
-			Helper.ConsoleCommands.Add("wol_checkevents", "List currently subscribed mod events.", ConsoleCommands.PrintSubscribedEvents);
+			Helper.ConsoleCommands.Add("setultmeter", "Set the super mode meter to the desired value.", ConsoleCommands.SetSuperModeCounter);
+			Helper.ConsoleCommands.Add("readyult", "Max-out the super mode meter.", ConsoleCommands.ReadySuperMode);
+			Helper.ConsoleCommands.Add("maxanimalfriendship", "Max-out the friendship of all owned animals.", ConsoleCommands.MaxAnimalFriendship);
+			Helper.ConsoleCommands.Add("maxanimalmood", "Max-out the mood of all owned animals.", ConsoleCommands.MaxAnimalMood);
+			Helper.ConsoleCommands.Add("checkfishingprogress", "Check your fishing progress as Angler.", ConsoleCommands.PrintFishCaughtAudit);
+			Helper.ConsoleCommands.Add("checkdata", "Check current value of all mod data fields.", ConsoleCommands.PrintModData);
+			Helper.ConsoleCommands.Add("setitemsforaged", "Set a new value for ItemsForaged field.", ConsoleCommands.SetItemsForaged);
+			Helper.ConsoleCommands.Add("setmineralscollected", "Set a new value for MineralsCollected field.", ConsoleCommands.SetMineralsCollected);
+			Helper.ConsoleCommands.Add("setprospectorstreak", "Set a new value for ProspectorStreak field.", ConsoleCommands.SetProspectorStreak);
+			Helper.ConsoleCommands.Add("setscavengerstreak", "Set a new value for ScavengerStreak field.", ConsoleCommands.SetScavengerStreak);
+			Helper.ConsoleCommands.Add("settrashcollected", "Set a new value for WaterTrashCollectedThisSeason field.", ConsoleCommands.SetWaterTrashCollectedThisSeason);
+			Helper.ConsoleCommands.Add("checkevents", "List currently subscribed mod events.", ConsoleCommands.PrintSubscribedEvents);
 		}
 	}
 }

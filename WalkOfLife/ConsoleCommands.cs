@@ -348,6 +348,8 @@ namespace TheLion.Stardew.Professions
 			foreach (var field in fields)
 			{
 				var value = ModEntry.Data.ReadField($"{field}");
+				if (field == "ActiveTaxBonusPercent" && float.TryParse(value, out var pct)) value = (pct * 100).ToString() + '%';
+
 				if (!string.IsNullOrEmpty(value)) ModEntry.Log($"{field}: {value}", LogLevel.Info);
 				else ModEntry.Log($"Mod data does not contain an entry for {field}.", LogLevel.Info);
 			}

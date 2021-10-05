@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using TheLion.Stardew.Common.Extensions;
-using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Util
 {
@@ -100,7 +97,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		{
 			"Alembic",
 			"Butter Churn",
-			"Cheese Press",
+			"Cheese Press", // vanilla
 			"Dehydrator",
 			"Drying Rack",
 			"Espresso Machine",
@@ -111,12 +108,12 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			"Ice Cream Machine",
 			"Infuser",
 			"Juicer",
-			"Keg",
-			"Loom",
-			"Mayonnaise Machine",
-			"Oil Maker",
+			"Keg", // vanilla
+			"Loom", // vanilla
+			"Mayonnaise Machine", // vanilla
+			"Oil Maker", // vanilla
 			"Pepper Blender",
-			"Preserves Jar",
+			"Preserves Jar", // vanilla
 			"Smoker",
 			"Soap Press",
 			"Sorbet Machine",

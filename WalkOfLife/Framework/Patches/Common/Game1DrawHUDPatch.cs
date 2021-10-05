@@ -18,7 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal Game1DrawHUDPatch()
 		{
-			Original = typeof(Game1).MethodNamed(name: "drawHUD");
+			Original = typeof(Game1).MethodNamed("drawHUD");
 			Postfix = new HarmonyMethod(GetType(), nameof(Game1DrawHUDPostfix));
 			Transpiler = new HarmonyMethod(GetType(), nameof(Game1DrawHUDTranspiler));
 		}

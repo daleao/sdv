@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using HarmonyLib;
+﻿using HarmonyLib;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
@@ -35,7 +35,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				var who = Game1.getFarmer(__instance.owner.Value);
 				var isConservationist = who.HasProfession("Conservationist");
-				var isLuremaster = who.HasProfession("Luremaster");
 				if (__instance.bait.Value == null && !isConservationist || __instance.heldObject.Value != null)
 					return false; // don't run original logic
 
@@ -44,6 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				var r = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int)__instance.TileLocation.X * 1000 + (int)__instance.TileLocation.Y);
 				var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
+				var isLuremaster = who.HasProfession("Luremaster");
 				var whichFish = -1;
 				if (__instance.bait.Value != null)
 				{
@@ -81,7 +81,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var fishQuality = 0;
 				if (whichFish < 0)
 				{
-					if (__instance.bait.Value != null || isConservationist) whichFish = GetTrash(r);
+					if (__instance.bait.Value != null || isConservationist)
+					{
+						whichFish = GetTrash(r);
+						if (isConservationist)
+						{
+							ModEntry.Data.IncrementField<uint>("WaterTrashCollectedThisSeason");
+							if (ModEntry.Data.ReadField<uint>("WaterTrashCollectedThisSeason") % ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
+								SUtility.improveFriendshipWithEveryoneInRegion(Game1.player, 1, 2);
+						}
+					}
 				}
 				else
 				{
@@ -265,7 +274,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static int GetTrapFishQuality(int whichFish, Farmer who, Random r, CrabPot crabpot, bool isLuremaster)
 		{
 			if (isLuremaster && crabpot.HasMagicBait()) return SObject.bestQuality;
-			
+
 			var fish = new SObject(whichFish, 1);
 			if (!who.HasProfession("Trapper") || fish.IsPirateTreasure() || fish.IsAlgae()) return SObject.lowQuality;
 			return r.NextDouble() < who.FishingLevel / 30.0 ? SObject.highQuality : r.NextDouble() < who.FishingLevel / 15.0 ? SObject.medQuality : SObject.lowQuality;

@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal ObjectGetPriceAfterMultipliersPatch()
 		{
-			Original = typeof(SObject).MethodNamed(name: "getPriceAfterMultipliers");
+			Original = typeof(SObject).MethodNamed("getPriceAfterMultipliers");
 			Prefix = new HarmonyMethod(GetType(), nameof(ObjectGetPriceAfterMultipliersPrefix));
 		}
 

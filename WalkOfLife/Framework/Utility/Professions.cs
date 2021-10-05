@@ -144,8 +144,9 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		{
 			var mineralsCollected = ModEntry.Data.ReadField<uint>("MineralsCollected");
 			return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
-				? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2 ? SObject.medQuality :
-				SObject.highQuality
+				? (mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
+				? SObject.medQuality
+				: SObject.highQuality)
 				: SObject.bestQuality;
 		}
 

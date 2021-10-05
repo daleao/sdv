@@ -48,17 +48,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// subscribe events
 				ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
 
-				if (professionName == "Scavenger")
-				{
-					// initialize scavenger hunt helper
-					ModEntry.ScavengerHunt ??= new();
-				}
-				else if (professionName == "Prospector")
-				{
-					// initialize prospector hunt helper 
-					ModEntry.ProspectorHunt ??= new();
-				}
-				else if (whichProfession - 24 > 2 && ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not registered
+				if (whichProfession - 24 > 2 && ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not registered
 				{
 					// register super mode
 					ModEntry.SuperModeIndex = whichProfession;

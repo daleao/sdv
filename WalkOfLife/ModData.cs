@@ -56,7 +56,7 @@ namespace TheLion.Stardew.Professions
 					InitializeDataFieldsForProfession(Framework.Util.Professions.NameOf(professionIndex));
 				}
 				catch (IndexOutOfRangeException)
-				{	
+				{
 					ModEntry.Log($"Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
 					continue;
 				}
@@ -85,6 +85,18 @@ namespace TheLion.Stardew.Professions
 
 			ModEntry.Log($"Removing data fields for {whichProfession}.", LogLevel.Trace);
 			fields.ForEach(field => _data.Write($"{_id}/{field.Key}", null));
+		}
+
+		/// <summary>Check if there are rogue data feids and remove them.</summary>
+		public void CleanUpRogueDataFields()
+		{
+			ModEntry.Log("Checking for rogue data fields...", LogLevel.Trace);
+			foreach (var kvp in from kvp in FieldsByProfession
+								where !kvp.Key.AnyOf("Scavenger", "Prospector")
+								from field in kvp.Value
+								where _data.ContainsKey(field.Key) && !Game1.player.HasProfession(kvp.Key)
+								select kvp) RemoveProfessionDataFields(kvp.Key);
+			ModEntry.Log("Done.", LogLevel.Trace);
 		}
 
 		/// <summary>Read a field from the <see cref="ModData"/> as string.</summary>

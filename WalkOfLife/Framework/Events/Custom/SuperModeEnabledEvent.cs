@@ -97,20 +97,20 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				switch (monster)
 				{
 					case DustSpirit dustSpirit:
-						ModEntry.ModHelper.Reflection.GetField<bool>(dustSpirit, name: "chargingFarmer").SetValue(false);
-						ModEntry.ModHelper.Reflection.GetField<bool>(dustSpirit, name: "seenFarmer").SetValue(false);
+						ModEntry.ModHelper.Reflection.GetField<bool>(dustSpirit, "chargingFarmer").SetValue(false);
+						ModEntry.ModHelper.Reflection.GetField<bool>(dustSpirit, "seenFarmer").SetValue(false);
 						break;
 					case AngryRoger angryRoger:
-						ModEntry.ModHelper.Reflection.GetField<NetBool>(angryRoger, name: "seenPlayer").GetValue().Set(false);
+						ModEntry.ModHelper.Reflection.GetField<NetBool>(angryRoger, "seenPlayer").GetValue().Set(false);
 						break;
 					case Bat bat:
-						ModEntry.ModHelper.Reflection.GetField<NetBool>(bat, name: "seenPlayer").GetValue().Set(false);
+						ModEntry.ModHelper.Reflection.GetField<NetBool>(bat, "seenPlayer").GetValue().Set(false);
 						break;
 					case Ghost ghost:
-						ModEntry.ModHelper.Reflection.GetField<NetBool>(ghost, name: "seenPlayer").GetValue().Set(false);
+						ModEntry.ModHelper.Reflection.GetField<NetBool>(ghost, "seenPlayer").GetValue().Set(false);
 						break;
 					case RockGolem rockGolem:
-						ModEntry.ModHelper.Reflection.GetField<NetBool>(rockGolem, name: "seenPlayer").GetValue().Set(false);
+						ModEntry.ModHelper.Reflection.GetField<NetBool>(rockGolem, "seenPlayer").GetValue().Set(false);
 						break;
 				}
 			}

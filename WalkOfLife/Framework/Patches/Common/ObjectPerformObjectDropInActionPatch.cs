@@ -41,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				// if there was an object inside before running the original method, or if the machine is still empty after running the original method, or if the machine doesn't belong to this player, then do nothing
-				if (__state || __instance.heldObject.Value == null || Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID || probe) return;
+				if (__state || __instance.heldObject.Value == null || (Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID) || probe) return;
 
 				if (__instance.name.AnyOf("Crystalarium", "Geode Crusher") && who.HasProfession("Gemologist") && (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
 				{
@@ -58,16 +58,21 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					// large milk/eggs give double output
 					else if (__instance.name.AnyOf("Mayonnaise Machine", "Cheese Press") && dropIn.name.Contains("Large"))
 					{
-						__instance.heldObject.Value.Stack *= 2;
+						__instance.heldObject.Value.Stack = 2;
 					}
 
-					if (!who.HasProfession("Artisan")) return;
-
-					__instance.MinutesUntilReady -= (int)(__instance.MinutesUntilReady * 0.1);
-					if (dropIn.Quality < SObject.bestQuality && Game1.random.NextDouble() < 0.05)
-						__instance.heldObject.Value.Quality = dropIn.Quality == SObject.medQuality ? dropIn.Quality * 2 : dropIn.Quality + 1;
-					else
+					if (who.HasProfession("Artisan"))
+					{
+						__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
 						__instance.heldObject.Value.Quality = dropIn.Quality;
+						if (dropIn.Quality < SObject.bestQuality && new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
+							__instance.heldObject.Value.Quality += dropIn.Quality == SObject.medQuality ? 2 : dropIn.Quality + 1;
+					}
+					else
+					{
+						__instance.heldObject.Value.Quality = SObject.lowQuality;
+					}
+
 				}
 			}
 			catch (Exception ex)

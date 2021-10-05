@@ -41,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.ToBufferUntil( // copy objects[key]
 						new CodeInstruction(OpCodes.Callvirt,
-							typeof(OverlaidDictionary).PropertyGetter(propertyName: "Item"))
+							typeof(OverlaidDictionary).PropertyGetter("Item"))
 					)
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Brfalse_S) // end of check
@@ -117,7 +117,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.RemoveUntil( // right before call to IsForagedMineral()
 						new CodeInstruction(OpCodes.Callvirt,
-							typeof(OverlaidDictionary).PropertyGetter(propertyName: "Item"))
+							typeof(OverlaidDictionary).PropertyGetter("Item"))
 					)
 					.Advance()
 					.ReplaceWith( // remove 'not' and set correct branch destination
@@ -150,7 +150,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.InsertBuffer(index: 0, length: 2) // Farmer who
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
-							typeof(GameLocationCheckActionPatch).MethodNamed(nameof(CheckActionIncrementModData)))
+							typeof(GameLocationCheckActionPatch).MethodNamed(nameof(CheckActionSubroutine)))
 					);
 			}
 			catch (Exception ex)
@@ -166,7 +166,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region private methods
 
-		/// <summary>Get the inner method to patch.</summary>
 		[HarmonyTargetMethod]
 		private static MethodBase TargetMethod()
 		{
@@ -177,11 +176,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			return targetMethod;
 		}
 
-		/// <summary>Increment one of the mod data fields if applicable.</summary>
-		/// <param name="obj">The picked up object.</param>
-		/// <param name="location">The player's location.</param>
-		/// <param name="who">The player.</param>
-		private static void CheckActionIncrementModData(SObject obj, GameLocation location, Farmer who)
+		private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
 		{
 			if (who.HasProfession("Ecologist") && obj.isForage(location) && !obj.IsForagedMineral())
 				ModEntry.Data.IncrementField<uint>("ItemsForaged");

@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal ObjectLoadDisplayNamePatch()
 		{
-			Original = typeof(SObject).MethodNamed(name: "loadDisplayName");
+			Original = typeof(SObject).MethodNamed("loadDisplayName");
 			Postfix = new HarmonyMethod(GetType(), nameof(ObjectLoadDisplayNamePostfix));
 		}
 

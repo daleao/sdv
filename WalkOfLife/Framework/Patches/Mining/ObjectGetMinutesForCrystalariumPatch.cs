@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal ObjectGetMinutesForCrystalariumPatch()
 		{
-			Original = typeof(SObject).MethodNamed(name: "getMinutesForCrystalarium");
+			Original = typeof(SObject).MethodNamed("getMinutesForCrystalarium");
 			Postfix = new HarmonyMethod(GetType(), nameof(ObjectGetMinutesForCrystalariumPostfix));
 		}
 

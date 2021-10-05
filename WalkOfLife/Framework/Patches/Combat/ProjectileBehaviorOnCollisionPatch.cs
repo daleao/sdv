@@ -19,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal ProjectileBehaviorOnCollisionPatch()
 		{
-			Original = typeof(Projectile).MethodNamed(name: "behaviorOnCollision");
+			Original = typeof(Projectile).MethodNamed("behaviorOnCollision");
 			Postfix = new HarmonyMethod(GetType(), nameof(ProjectileBehaviorOnCollisionPostfix));
 		}
 

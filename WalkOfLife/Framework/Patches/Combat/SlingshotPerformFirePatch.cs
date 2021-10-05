@@ -35,12 +35,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			// get bullet properties
 			var damage = mainProjectile.damageToFarmer;
-			var xVelocity = ModEntry.ModHelper.Reflection.GetField<NetFloat>(mainProjectile, name: "xVelocity").GetValue().Value;
-			var yVelocity = ModEntry.ModHelper.Reflection.GetField<NetFloat>(mainProjectile, name: "yVelocity").GetValue().Value;
-			var ammunitionIndex = ModEntry.ModHelper.Reflection.GetField<NetInt>(mainProjectile, name: "currentTileSheetIndex").GetValue().Value;
-			var startingPosition = ModEntry.ModHelper.Reflection.GetField<NetPosition>(mainProjectile, name: "position").GetValue().Value;
-			var collisionSound = ModEntry.ModHelper.Reflection.GetField<NetString>(mainProjectile, name: "collisionSound").GetValue().Value;
-			var collisionBehavior = ModEntry.ModHelper.Reflection.GetField<BasicProjectile.onCollisionBehavior>(mainProjectile, name: "collisionBehavior").GetValue();
+			var xVelocity = ModEntry.ModHelper.Reflection.GetField<NetFloat>(mainProjectile, "xVelocity").GetValue().Value;
+			var yVelocity = ModEntry.ModHelper.Reflection.GetField<NetFloat>(mainProjectile, "yVelocity").GetValue().Value;
+			var ammunitionIndex = ModEntry.ModHelper.Reflection.GetField<NetInt>(mainProjectile, "currentTileSheetIndex").GetValue().Value;
+			var startingPosition = ModEntry.ModHelper.Reflection.GetField<NetPosition>(mainProjectile, "position").GetValue().Value;
+			var collisionSound = ModEntry.ModHelper.Reflection.GetField<NetString>(mainProjectile, "collisionSound").GetValue().Value;
+			var collisionBehavior = ModEntry.ModHelper.Reflection.GetField<BasicProjectile.onCollisionBehavior>(mainProjectile, "collisionBehavior").GetValue();
 
 			var netVelocity = new Vector2(xVelocity * -1f, yVelocity * -1f);
 			var speed = netVelocity.Length();

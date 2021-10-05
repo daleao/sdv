@@ -35,7 +35,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				Helper
 					.FindFirst( // find ladder spawn segment
 						new CodeInstruction(OpCodes.Ldfld,
-							SafeReflections.Field(typeof(MineShaft), fieldName: "ladderHasSpawned"))
+							typeof(MineShaft).Field("ladderHasSpawned"))
 					)
 					.Retreat()
 					.GetLabels(out var labels) // backup branch labels

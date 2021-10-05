@@ -12,8 +12,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
-			if (!ModEntry.ModHelper.Content.AssetEditors.ContainsType(typeof(AssetEditors.FRSMailEditor)))
-				ModEntry.ModHelper.Content.AssetEditors.Add(new AssetEditors.FRSMailEditor());
+			if (!ModEntry.ModHelper.Content.AssetEditors.ContainsType(typeof(AssetEditors.MailEditor)))
+				ModEntry.ModHelper.Content.AssetEditors.Add(new AssetEditors.MailEditor());
 
 			uint trashCollectedThisSeason;
 			if (Game1.dayOfMonth == 28 && (trashCollectedThisSeason = ModEntry.Data.ReadField<uint>("WaterTrashCollectedThisSeason")) > 0)
@@ -23,7 +23,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				if (taxBonusNextSeason > 0)
 				{
 					ModEntry.ModHelper.Content.InvalidateCache(Path.Combine("Data", "mail"));
-					Game1.addMailForTomorrow("ConservationistTaxNotice");
+					Game1.addMailForTomorrow($"{ModEntry.UniqueID}/ConservationistTaxNotice");
 				}
 				ModEntry.Data.WriteField("WaterTrashCollectedThisSeason", "0");
 			}

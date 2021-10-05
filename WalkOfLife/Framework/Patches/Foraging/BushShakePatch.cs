@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal BushShakePatch()
 		{
-			Original = typeof(Bush).MethodNamed(name: "shake");
+			Original = typeof(Bush).MethodNamed("shake");
 			Transpiler = new HarmonyMethod(GetType(), nameof(BushShakeTranspiler));
 		}
 

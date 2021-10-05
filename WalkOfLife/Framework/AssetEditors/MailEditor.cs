@@ -5,7 +5,7 @@ using System.IO;
 
 namespace TheLion.Stardew.Professions.Framework.AssetEditors
 {
-	public class FRSMailEditor : IAssetEditor
+	public class MailEditor : IAssetEditor
 	{
 		/// <inheritdoc/>
 		public bool CanEdit<T>(IAssetInfo asset)

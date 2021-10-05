@@ -19,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework
 
 		private static readonly Dictionary<string, List<BaseEvent>> EventsByProfession = new()
 		{
-			{ "Conservationist", new() { new ConservationistDayEndingEvent(), new ConservationistDayStartedEvent() } },
+			{ "Conservationist", new() { new ConservationistDayEndingEvent() } },
 			{ "Poacher", new() { new PoacherWarpedEvent() } },
 			{ "Piper", new() { new PiperWarpedEvent() } },
 			{ "Prospector", new() { new ProspectorHuntDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent() } },
@@ -75,13 +75,13 @@ namespace TheLion.Stardew.Professions.Framework
 		internal void SubscribeStaticEvents()
 		{
 			ModEntry.Log("Subscribing static events...", LogLevel.Trace);
-			Subscribe(new StaticGameLaunchedEvent(), new StaticSaveLoadedEvent(), new StaticSavingEvent(), new StaticReturnedToTitleEvent(), new StaticLevelChangedEvent(), new StaticSuperModeIndexChangedEvent());
+			Subscribe(new StaticGameLaunchedEvent(), new StaticSaveLoadedEvent(), new StaticReturnedToTitleEvent(), new StaticLevelChangedEvent(), new StaticSuperModeIndexChangedEvent());
 
 			if (!ModEntry.ModHelper.ModRegistry.IsLoaded("alphablackwolf.skillPrestige") && !ModEntry.ModHelper.ModRegistry.IsLoaded("cantorsdust.AllProfessions"))
 				return;
 
 			ModEntry.Log("Skill Prestige or All Professions mod detected. Subscribing additional fail-safe event.", LogLevel.Trace);
-			Subscribe(new StaticDayStartedEvent());
+			Subscribe(new StaticDayEndingEvent());
 		}
 
 		/// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
@@ -184,7 +184,7 @@ namespace TheLion.Stardew.Professions.Framework
 			ModEntry.Log("Checking for rogue profession events...", LogLevel.Trace);
 			foreach (var e in _subscribed
 				.Where(e => Util.Professions.IndexByName.Contains(e.Prefix()) && !Game1.player.HasProfession(e.Prefix()) ||
-							e.Prefix() == "Tracker" & !(Game1.player.HasProfession("Prospector") || Game1.player.HasProfession("Scavenger")) ||
+							e.Prefix() == "Tracker" && !Game1.player.HasAnyOfProfessions("Prospector", "Scavenger") ||
 							e.Prefix() == "SuperMode" && !Game1.player.HasAnyOfProfessions("Brute", "Poacher", "Piper", "Desperado"))
 				.Reverse()) Unsubscribe(e.GetType());
 			ModEntry.Log("Done.", LogLevel.Trace);

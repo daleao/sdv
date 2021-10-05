@@ -148,7 +148,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldloc_2), // local 2 = Monster monster
 						new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
 						new CodeInstruction(OpCodes.Call,
-							typeof(GameLocationDamageMonsterPatch).MethodNamed(nameof(GameLocationDamageMonsterPatch.TryToStealAndIncrementCounters)))
+							typeof(GameLocationDamageMonsterPatch).MethodNamed(nameof(GameLocationDamageMonsterPatch.DamageMonsterSubroutine)))
 					)
 					.Return()
 					.AddLabels(labels);
@@ -166,60 +166,44 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region private methods
 
-		/// <summary>Try to steal an item if the player is Poacher, and also increment Brute and Poacher counters if applicable. If the monster was not killed, end Poacher super mode.</summary>
-		/// <param name="damageAmount">The amount of damage dealt to the monster.</param>
-		/// <param name="isBomb">Whether the damgae source is a bomb.</param>
-		/// <param name="didCrit">Whether the player scored a critical strike.</param>
-		/// <param name="critMultiplier">The player's raw critical power before profession bonuses.</param>
-		/// <param name="monster">The target monster.</param>
-		/// <param name="who">The player.</param>
-		private static void TryToStealAndIncrementCounters(int damageAmount, bool isBomb, bool didCrit, float critMultiplier, Monster monster, Farmer who)
+		private static void DamageMonsterSubroutine(int damageAmount, bool isBomb, bool didCrit, float critMultiplier, Monster monster, Farmer who)
 		{
 			if (damageAmount <= 0 || isBomb || who is not { IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon }) return;
-			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") && !ModEntry.MonstersStolenFrom.Contains(monster.GetHashCode())) TryToStealItem(monster, who);
-			if (!ModEntry.IsSuperModeActive) TryToIncrementSuperModeCounter(didCrit, critMultiplier, weapon, monster, who);
-		}
 
-		/// <summary>Try to increment Brute or Poacher counters.</summary>
-		/// <param name="didCrit">Whether the player scored a critical strike.</param>
-		/// <param name="critMultiplier">The player's raw critical power before profession bonuses.</param>
-		/// <param name="weapon">The player's current weapon.</param>
-		/// <param name="monster">The target monster.</param>
-		/// <param name="who">The player.</param>
-		private static void TryToIncrementSuperModeCounter(bool didCrit, float critMultiplier, MeleeWeapon weapon, Monster monster, Farmer who)
-		{
-			int increment = 0;
-			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Brute"))
+			// try to steal
+			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") && !ModEntry.MonstersStolenFrom.Contains(monster.GetHashCode()))
 			{
-				increment = 2;
-				if (monster.Health <= 0) increment *= 2;
-				if (weapon.type.Value == MeleeWeapon.club) increment *= 2;
-			}
-			else if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") && didCrit)
-			{
-				increment = (int)Math.Round(critMultiplier * Util.Professions.GetPoacherCritDamageMultiplier(who));
-				if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
+				if (Game1.random.NextDouble() > Util.Professions.GetPoacherStealChance(who)) return;
+
+				var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item).Concat(monster.getExtraDropItems()).ToList();
+				var stolen = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
+				if (stolen == null || !who.addItemToInventoryBool(stolen))
+					return;
+
+				ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
+				if (!ModEntry.SfxLoader.SfxByName.TryGetValue("poacher_steal", out var sfx))
+					throw new ArgumentException($"Sound asset 'poacher_steal' could not be found.");
+				sfx.CreateInstance().Play();
 			}
 
-			ModEntry.SuperModeCounter += increment;
-		}
+			// try to increment super mode counters
+			if (!ModEntry.IsSuperModeActive)
+			{
+				int increment = 0;
+				if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Brute"))
+				{
+					increment = 2;
+					if (monster.Health <= 0) increment *= 2;
+					if (weapon.type.Value == MeleeWeapon.club) increment *= 2;
+				}
+				else if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") && didCrit)
+				{
+					increment = (int)Math.Round(critMultiplier * Util.Professions.GetPoacherCritDamageMultiplier(who));
+					if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
+				}
 
-		/// <summary>Try to steal an item from the target monster.</summary>
-		/// <param name="monster">The target monster.</param>
-		/// <param name="who">The player.</param>
-		private static void TryToStealItem(Monster monster, Farmer who)
-		{
-			if (Game1.random.NextDouble() > Util.Professions.GetPoacherStealChance(who)) return;
-
-			var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item).Concat(monster.getExtraDropItems()).ToList();
-			var stolen = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
-			if (stolen == null || !who.addItemToInventoryBool(stolen))
-				return;
-
-			ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
-			if (!ModEntry.SfxLoader.SfxByName.TryGetValue("poacher_steal", out var sfx))
-				throw new ArgumentException($"Sound asset 'poacher_steal' could not be found.");
-			sfx.CreateInstance().Play();
+				ModEntry.SuperModeCounter += increment;
+			}
 		}
 
 		#endregion private methods

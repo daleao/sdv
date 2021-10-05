@@ -175,18 +175,18 @@ The mod provides the following console commands, which you can enter in the SMAP
 - **player_checkprofessions** - List the player's current professions.
 - **player_addprofessions** - Add the specified professions to the local player.
 - **player_resetprofessions** - Reset all skills and professions for the local player.
-- **player_setultmeter** - Set the super mode meter to the desired value.
-- **player_readyult** - Max-out the super mode meter.
-- **player_maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
-- **player_maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
-- **player_getfishaudit** - Check your fishing progress and bonus fish value as Angler.
-- **wol_checkdata** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent.
-- **wol_setitemsforaged** - Set a new value for ItemsForaged field, which determines the quality of items foraged as Ecologist.
-- **wol_setmineralscollected** - Set a new value for MineralsCollected field, which determines the quality of minerals mines as Gemologist.
-- **wol_setprospectorstreak** - Set a new value for ProspectorStreak field.
-- **wol_setscavengerstreak** - Set a new value for ScavengerStreak field.
-- **wol_settrashcollected** - Set a new value for WaterTrashCollectedThisSeason field, which determines your tax bracket the following season as Conservationist.
-- **wol_checkevents** - List currently subscribed mod events (for debugging).
+- **setultmeter** - Set the super mode meter to the desired value.
+- **readyult** - Max-out the super mode meter.
+- **maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
+- **maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
+- **checkfishingprogress** - Check your fishing progress and bonus fish value as Angler.
+- **checkdata** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent.
+- **setitemsforaged** - Set a new value for ItemsForaged field, which determines the quality of items foraged as Ecologist.
+- **setmineralscollected** - Set a new value for MineralsCollected field, which determines the quality of minerals mines as Gemologist.
+- **setprospectorstreak** - Set a new value for ProspectorStreak field.
+- **setscavengerstreak** - Set a new value for ScavengerStreak field.
+- **settrashcollected** - Set a new value for WaterTrashCollectedThisSeason field, which determines your tax bracket the following season as Conservationist.
+- **checkevents** - List currently subscribed mod events (for debugging).
 
 ## Compatbility
 

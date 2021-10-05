@@ -8,7 +8,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	/// <summary>Harmony patch base class.</summary>
 	[HarmonyPatch]
-	internal abstract class BasePatch
+	public abstract class BasePatch
 	{
 		protected static ILHelper Helper { get; private set; }
 
@@ -31,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				if (Original == null)
 				{
-					ModEntry.Log($"Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Trace);
+					ModEntry.Log($"Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Warn);
 					return;
 				}
 

@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal LevelUpMenuAddProfessionDescriptionsPatch()
 		{
-			Original = typeof(LevelUpMenu).MethodNamed(name: "addProfessionDescriptions");
+			Original = typeof(LevelUpMenu).MethodNamed("addProfessionDescriptions");
 			Prefix = new HarmonyMethod(GetType(), nameof(LevelUpMenuAddProfessionDescriptionsPrefix));
 		}
 
