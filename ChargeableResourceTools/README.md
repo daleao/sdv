@@ -72,6 +72,14 @@ To uninstall simply delete the mod from your mods folder. This mod is safe to un
 
 - [Pathoschild](https://www.nexusmods.com/stardewvalley/users/1552317) for their [TractorMod](https://www.nexusmods.com/stardewvalley/mods/1401), from which this mod ~~steals~~ borrows much of its code.
 - **ConcernedApe** for StardewValley.
+- [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.
+
+<table>
+  <tr>
+    <td><img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"></td>
+    <td><img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo."></td>
+  </tr>
+</table>
 
 ## License
 
