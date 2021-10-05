@@ -8,8 +8,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc/>
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
-			Util.HUD.Pointer ??= new ArrowPointer();
-			if (e.Ticks % 4 == 0) Util.HUD.Pointer.Bob();
+			HUD.Pointer ??= new ArrowPointer();
+			if (e.Ticks % 4 == 0) HUD.Pointer.Bob();
 		}
 	}
 }

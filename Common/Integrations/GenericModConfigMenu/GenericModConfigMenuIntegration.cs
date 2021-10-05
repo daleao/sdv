@@ -6,6 +6,7 @@ namespace TheLion.Stardew.Common.Integrations
 {
 	/// <summary>Handles the logic for integrating with the Generic Mod Configuration Menu mod.</summary>
 	/// <typeparam name="TConfig">The mod configuration type.</typeparam>
+	/// <remarks>Credit to Pathoschild.</remarks>
 	internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
 		where TConfig : new()
 	{
@@ -40,12 +41,11 @@ namespace TheLion.Stardew.Common.Integrations
 			_reset = reset;
 			_saveAndApply = saveAndApply;
 
+			if (!IsLoaded) return;
+
 			// get mod API
-			if (IsLoaded)
-			{
-				_modAPI = GetValidatedApi<IGenericModConfigMenuAPI>();
-				IsLoaded = _modAPI != null;
-			}
+			_modAPI = GetValidatedApi<IGenericModConfigMenuAPI>();
+			IsLoaded = _modAPI != null;
 		}
 
 		/// <summary>Register the mod config.</summary>

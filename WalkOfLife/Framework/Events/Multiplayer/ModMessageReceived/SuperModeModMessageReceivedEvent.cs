@@ -22,7 +22,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				case "SuperModeDeactivated":
 					ModEntry.ActivePeerSuperModes[key].Remove(e.FromPlayerID);
 					break;
-			};
+			}
 		}
 	}
 }

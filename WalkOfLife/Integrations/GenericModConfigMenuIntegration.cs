@@ -101,7 +101,7 @@ namespace TheLion.Stardew.Professions.Integrations
 					label: "Chance to start treasure hunt",
 					description: "The chance that your Scavenger or Prospector hunt senses will start tingling.",
 					get: config => (float)config.ChanceToStartTreasureHunt,
-					set: (config, value) => config.ChanceToStartTreasureHunt = (double)value,
+					set: (config, value) => config.ChanceToStartTreasureHunt = value,
 					min: 0f,
 					max: 1f
 				)

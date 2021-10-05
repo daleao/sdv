@@ -34,7 +34,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 				catch
 				{
-					continue;
+					// ignored
 				}
 			}
 		}
@@ -78,7 +78,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void MonsterTakeDamagePostfix(Monster __instance, int damage, bool isBomb, Farmer who)
 		{
-			if (damage <= 0 || isBomb || !ModEntry.IsSuperModeActive || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Poacher") || __instance.Health <= 0)
+			if (damage <= 0 || isBomb || !who.IsLocalPlayer || !ModEntry.IsSuperModeActive || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Poacher") || __instance.Health <= 0)
 				return;
 			ModEntry.IsSuperModeActive = false;
 		}

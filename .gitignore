@@ -3,8 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# Game source
+# Reference source files
 Game Source/
+Automate Source/
+PFM Source/
 
 # User-specific files
 *.rsuser

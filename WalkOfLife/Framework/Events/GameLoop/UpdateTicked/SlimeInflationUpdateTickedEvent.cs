@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			var uninflatedSlimes = ModEntry.PipedSlimesScales.Keys.ToList();
 			while (uninflatedSlimes.Any())
 			{
-				for (int i = uninflatedSlimes.Count - 1; i >= 0; --i)
+				for (var i = uninflatedSlimes.Count - 1; i >= 0; --i)
 				{
 					uninflatedSlimes[i].Scale = Math.Min(uninflatedSlimes[i].Scale * 1.1f, Math.Min(ModEntry.PipedSlimesScales[uninflatedSlimes[i]] * 2f, 2f));
 

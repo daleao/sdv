@@ -12,7 +12,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			var undeflatedSlimes = ModEntry.PipedSlimesScales.Keys.ToList();
 			while (undeflatedSlimes.Any())
 			{
-				for (int i = undeflatedSlimes.Count - 1; i >= 0; --i)
+				for (var i = undeflatedSlimes.Count - 1; i >= 0; --i)
 				{
 					undeflatedSlimes[i].Scale = Math.Max(undeflatedSlimes[i].Scale / 1.1f, ModEntry.PipedSlimesScales[undeflatedSlimes[i]]);
 					if (undeflatedSlimes[i].Scale <= ModEntry.PipedSlimesScales[undeflatedSlimes[i]])

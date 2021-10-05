@@ -47,7 +47,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			/// Skipped: if (lastUser.professions.Contains(<acrobat_id>) cooldown /= 2
 
-			int i = 0;
+			var i = 0;
 			repeat:
 			try
 			{

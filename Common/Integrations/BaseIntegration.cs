@@ -4,6 +4,7 @@ using System;
 namespace TheLion.Stardew.Common.Integrations
 {
 	/// <summary>The base implementation for a mod integration.</summary>
+	/// <remarks>Credit to Pathoschild.</remarks>
 	internal abstract class BaseIntegration : IModIntegration
 	{
 		/// <summary>The mod's unique ID.</summary>

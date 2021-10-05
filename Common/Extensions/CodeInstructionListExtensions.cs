@@ -13,16 +13,16 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <param name="start">The starting index.</param>
 		public static int IndexOf(this IList<CodeInstruction> list, CodeInstruction[] pattern, int start = 0)
 		{
-			var count = list.Count() - pattern.Count() + 1;
+			var count = list.Count - pattern.Length + 1;
 			for (var i = start; i < count; ++i)
 			{
 				var j = 0;
-				while (j < pattern.Count() && list[i + j].opcode.Equals(pattern[j].opcode)
-					&& (pattern[j].operand == null || list[i + j].operand.ToString().Equals(pattern[j].operand.ToString())))
+				while (j < pattern.Length && list[i + j].opcode.Equals(pattern[j].opcode)
+				                          && (pattern[j].operand == null || list[i + j].operand.ToString().Equals(pattern[j].operand.ToString())))
 				{
 					++j;
 				}
-				if (j == pattern.Count())
+				if (j == pattern.Length)
 				{
 					return i;
 				}
@@ -37,7 +37,7 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <param name="start">The starting index.</param>
 		public static int IndexOf(this IList<CodeInstruction> list, Label label, int start = 0)
 		{
-			var count = list.Count();
+			var count = list.Count;
 			for (var i = start; i < count; ++i)
 			{
 				if (list[i].labels.Contains(label))

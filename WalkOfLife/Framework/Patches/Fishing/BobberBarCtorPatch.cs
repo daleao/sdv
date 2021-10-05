@@ -24,7 +24,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void BobberBarCtorPostfix(ref int ___bobberBarHeight, ref float ___bobberBarPos)
 		{
-			int bonusBobberHeight = 0;
+			var bonusBobberHeight = 0;
 			try
 			{
 				if (Game1.player.HasProfession("Aquarist"))

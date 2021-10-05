@@ -10,7 +10,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 	/// <summary>HUD message for treasure hunts.</summary>
 	public class HuntNotification : HUDMessage
 	{
-		private Rectangle _sourceRect;
+		private readonly Rectangle _sourceRect;
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="message">The message to display.</param>

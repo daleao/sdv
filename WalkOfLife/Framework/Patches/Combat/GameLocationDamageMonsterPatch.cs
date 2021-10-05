@@ -182,14 +182,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
 				if (!ModEntry.SfxLoader.SfxByName.TryGetValue("poacher_steal", out var sfx))
-					throw new ArgumentException($"Sound asset 'poacher_steal' could not be found.");
+					throw new ArgumentException("Sound asset 'poacher_steal' could not be found.");
 				sfx.CreateInstance().Play();
 			}
 
 			// try to increment super mode counters
 			if (!ModEntry.IsSuperModeActive)
 			{
-				int increment = 0;
+				var increment = 0;
 				if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Brute"))
 				{
 					increment = 2;

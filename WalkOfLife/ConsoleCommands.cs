@@ -3,6 +3,7 @@ using StardewValley;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using TheLion.Stardew.Common.Extensions;
@@ -237,14 +238,14 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			if (!args.Any() || args.Count() > 1)
+			if (!args.Any() || args.Length > 1)
 			{
 				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
 				return;
 			}
 
 			if (int.TryParse(args[0], out var value))
-				ModEntry.SuperModeCounter = ModEntry.SuperModeCounterMax;
+				ModEntry.SuperModeCounter = value;
 			else
 				ModEntry.Log("You must specify an integer value.", LogLevel.Warn);
 		}
@@ -300,7 +301,7 @@ namespace TheLion.Stardew.Professions
 			int numLegendariesCaught = 0, numMaxSizedCaught = 0;
 			var caughtFishNames = new List<string>();
 			var nonMaxSizedCaught = new Dictionary<string, Tuple<int, int>>();
-			string result = "";
+			var result = "";
 			foreach (var p in Game1.player.fishCaught.Pairs)
 			{
 				if (!fishData.TryGetValue(p.Key, out var specificFishData)) continue;
@@ -330,7 +331,7 @@ namespace TheLion.Stardew.Professions
 							 select specificFishData.Split('/')[0];
 
 			result += "\n\nThe following fish can be caught this season:";
-			foreach (var fish in seasonFish.Except(caughtFishNames)) result += $"\n- {fish}";
+			result = seasonFish.Except(caughtFishNames).Aggregate(result, (current, fish) => current + $"\n- {fish}");
 
 			ModEntry.Log(result, LogLevel.Info);
 		}
@@ -348,10 +349,12 @@ namespace TheLion.Stardew.Professions
 			foreach (var field in fields)
 			{
 				var value = ModEntry.Data.ReadField($"{field}");
-				if (field == "ActiveTaxBonusPercent" && float.TryParse(value, out var pct)) value = (pct * 100).ToString() + '%';
+				if (field == "ActiveTaxBonusPercent" && float.TryParse(value, out var pct)) value = (pct * 100).ToString(CultureInfo.InvariantCulture) + '%';
 
-				if (!string.IsNullOrEmpty(value)) ModEntry.Log($"{field}: {value}", LogLevel.Info);
-				else ModEntry.Log($"Mod data does not contain an entry for {field}.", LogLevel.Info);
+				ModEntry.Log(
+					!string.IsNullOrEmpty(value)
+						? $"{field}: {value}"
+						: $"Mod data does not contain an entry for {field}.", LogLevel.Info);
 			}
 		}
 
@@ -364,13 +367,13 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			if (!args.Any() || args.Count() > 1)
+			if (!args.Any() || args.Length > 1)
 			{
 				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
 				return;
 			}
 
-			if (!int.TryParse(args[0], out int value) || value < 0)
+			if (!int.TryParse(args[0], out var value) || value < 0)
 			{
 				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
 				return;
@@ -389,13 +392,13 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			if (!args.Any() || args.Count() > 1)
+			if (!args.Any() || args.Length > 1)
 			{
 				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
 				return;
 			}
 
-			if (!int.TryParse(args[0], out int value) || value < 0)
+			if (!int.TryParse(args[0], out var value) || value < 0)
 			{
 				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
 				return;
@@ -414,13 +417,13 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			if (!args.Any() || args.Count() > 1)
+			if (!args.Any() || args.Length > 1)
 			{
 				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
 				return;
 			}
 
-			if (!int.TryParse(args[0], out int value) || value < 0)
+			if (!int.TryParse(args[0], out var value) || value < 0)
 			{
 				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
 				return;
@@ -439,13 +442,13 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			if (!args.Any() || args.Count() > 1)
+			if (!args.Any() || args.Length > 1)
 			{
 				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
 				return;
 			}
 
-			if (!int.TryParse(args[0], out int value) || value < 0)
+			if (!int.TryParse(args[0], out var value) || value < 0)
 			{
 				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
 				return;
@@ -464,13 +467,13 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			if (!args.Any() || args.Count() > 1)
+			if (!args.Any() || args.Length > 1)
 			{
 				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
 				return;
 			}
 
-			if (!int.TryParse(args[0], out int value) || value < 0)
+			if (!int.TryParse(args[0], out var value) || value < 0)
 			{
 				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
 				return;

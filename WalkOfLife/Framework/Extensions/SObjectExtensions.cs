@@ -71,7 +71,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is a crab pot fish.</summary>
 		public static bool IsTrapFish(this SObject obj)
 		{
-			return obj.IsFish() && obj.ParentSheetIndex > 714 && obj.ParentSheetIndex < 724;
+			return obj.IsFish() && obj.ParentSheetIndex is > 714 and < 724;
 		}
 
 		/// <summary>Whether a given object is a trash.</summary>

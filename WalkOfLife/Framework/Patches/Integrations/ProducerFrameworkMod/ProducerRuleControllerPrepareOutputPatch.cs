@@ -33,8 +33,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			/// After: output = OutputConfigController.CreateOutput( ... )
 			/// Before: producer.heldObject.set_Value(output)
 
-			Assembly pfmAssembly = AppDomain.CurrentDomain.GetAssemblies().First(a => a.FullName.StartsWith("ProducerFrameworkMod,"));
-			FieldInfo keepInputQuality = AccessTools.GetDeclaredFields(pfmAssembly.GetType("ProducerFrameworkMod.ContentPack.OutputConfig")).Find(f => f.Name == "KeepInputQuality");
+			var pfmAssembly = AppDomain.CurrentDomain.GetAssemblies().First(a => a.FullName.StartsWith("ProducerFrameworkMod,"));
+			var keepInputQuality = AccessTools.GetDeclaredFields(pfmAssembly.GetType("ProducerFrameworkMod.ContentPack.OutputConfig")).Find(f => f.Name == "KeepInputQuality");
 			try
 			{
 				Helper
@@ -44,7 +44,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.ToBuffer(2) // copy those instructions
 					.FindFirst( // find local 5 = outputConfig
-						new CodeInstruction(OpCodes.Ldloc_S, $"ProducerFrameworkMod.ContentPack.OutputConfig (5)")
+						new CodeInstruction(OpCodes.Ldloc_S, "ProducerFrameworkMod.ContentPack.OutputConfig (5)")
 					)
 					.GetOperand(out var local5) // copy local variable reference
 					.FindFirst( // find local 8 = SObject input

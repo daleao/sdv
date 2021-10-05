@@ -20,17 +20,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void CharacterGetBoundingBoxPostfix(Character __instance, ref Rectangle __result)
 		{
-			if (__instance is GreenSlime slime && slime.Scale > 1f)
-			{
-				var deltaHeight = __result.Height * (slime.Scale - 1f);
-				var deltaWidth = __result.Width * (slime.Scale - 1f);
+			if (__instance is not GreenSlime {Scale: > 1f} slime) return;
 
-				__result.Height += (int)deltaHeight;
-				__result.Width += (int)deltaWidth;
+			var deltaHeight = __result.Height * (slime.Scale - 1f);
+			var deltaWidth = __result.Width * (slime.Scale - 1f);
 
-				__result.Y -= (int)(deltaHeight / 2f);
-				__result.X -= (int)(deltaWidth / 2f);
-			}
+			__result.Height += (int)deltaHeight;
+			__result.Width += (int)deltaWidth;
+
+			__result.Y -= (int)(deltaHeight / 2f);
+			__result.X -= (int)(deltaWidth / 2f);
 		}
 
 		#endregion harmony patches

@@ -31,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 				catch
 				{
-					continue;
+					// ignored
 				}
 			}
 		}

@@ -1,6 +1,7 @@
 namespace TheLion.Stardew.Common.Integrations
 {
 	/// <summary>Handles integration with a given mod.</summary>
+	/// <remarks>Credit to Pathoschild.</remarks>
 	internal interface IModIntegration
 	{
 		/// <summary>A human-readable name for the mod.</summary>

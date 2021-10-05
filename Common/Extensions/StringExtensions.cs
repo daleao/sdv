@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <summary>Try to parse the calling string to a generic type.</summary>
 		/// <param name="val">Parsed <typeparamref name="T"/>-type object if successful, else default.</param>
 		/// <returns>True if parse was successful, otherwise false.</returns>
-		public static bool TryParse<T>(this string s, out T val)
+		public static bool TryParse<T>(this string s, out T? val)
 		{
 			var converter = TypeDescriptor.GetConverter(typeof(T));
 			if (converter.CanConvertTo(typeof(T)) && converter.CanConvertFrom(typeof(string)))
@@ -35,11 +36,9 @@ namespace TheLion.Stardew.Common.Extensions
 				val = (T)converter.ConvertFromString(s);
 				return true;
 			}
-			else
-			{
-				val = default;
-				return false;
-			}
+
+			val = default;
+			return false;
 		}
 
 		/// <summary>Converts a string ID into an 8-digit hash code.</summary>

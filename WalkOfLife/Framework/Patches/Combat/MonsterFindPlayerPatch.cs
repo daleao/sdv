@@ -23,7 +23,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to override monster aggro.</summary>
 		[HarmonyPrefix]
-		[HarmonyAfter(new string[] { "FarmTypeManager.ModEntry.Monster_findPlayer_Prefix" })]
+		[HarmonyAfter("FarmTypeManager.ModEntry.Monster_findPlayer_Prefix")]
 		private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer __result)
 		{
 			try

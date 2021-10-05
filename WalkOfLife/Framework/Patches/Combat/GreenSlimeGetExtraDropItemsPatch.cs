@@ -67,7 +67,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 					while (r.NextDouble() < baseChance / 2) __result.Add(new SObject(384, 1)); // gold ore
 					if (r.NextDouble() < baseChance / 3) __result.Add(new SObject(336, 1)); // gold bar
 				}
-				else if (color.R > 220 && color.G > 90 && color.G < 150 && color.B < 50) // red
+				else if (color.R > 220 && color.G is > 90 and < 150 && color.B < 50) // red
 				{
 					while (r.NextDouble() < baseChance / 2) __result.Add(new SObject(378, 1)); // copper ore
 					if (r.NextDouble() < baseChance / 3) __result.Add(new SObject(334, 1)); // copper bar
@@ -94,22 +94,20 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 					if (r.NextDouble() < baseChance / 4) __result.Add(new SObject(337, 1)); // iridium bar
 				}
 
+				if (!(r.NextDouble() < baseChance / 5)) return;
+				
 				// slime eggs
-				if (r.NextDouble() < baseChance / 5)
+				switch (__instance.Name)
 				{
-					switch (__instance.Name)
-					{
-						case "Green Slime":
-							__result.Add(new SObject(680, 1));
-							break;
-						case "Frost Jelly":
-							__result.Add(new SObject(413, 1));
-							break;
-						case "Sludge":
-							if (color.B < 200) __result.Add(new SObject(437, 1));
-							else __result.Add(new SObject(439, 1));
-							break;
-					}
+					case "Green Slime":
+						__result.Add(new SObject(680, 1));
+						break;
+					case "Frost Jelly":
+						__result.Add(new SObject(413, 1));
+						break;
+					case "Sludge":
+						__result.Add(color.B < 200 ? new SObject(437, 1) : new SObject(439, 1));
+						break;
 				}
 			}
 			else

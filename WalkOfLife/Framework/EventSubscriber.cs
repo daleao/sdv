@@ -97,7 +97,6 @@ namespace TheLion.Stardew.Professions.Framework
 				catch (IndexOutOfRangeException)
 				{
 					ModEntry.Log($"Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
-					continue;
 				}
 			}
 			ModEntry.Log("Done subscribing player events.", LogLevel.Trace);
@@ -106,10 +105,8 @@ namespace TheLion.Stardew.Professions.Framework
 		/// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
 		internal void UnsubscribeLocalPlayerEvents()
 		{
-			ModEntry.Log($"Unsubscribing player dynamic events...", LogLevel.Trace);
-			List<Type> toRemove = new();
-			foreach (var subscribed in _subscribed.Where(s => s.Prefix() != "Static")) toRemove.Add(subscribed.GetType());
-			Unsubscribe(toRemove.ToArray());
+			ModEntry.Log("Unsubscribing player dynamic events...", LogLevel.Trace);
+			Unsubscribe(_subscribed.Where(s => s.Prefix() != "Static").Select(subscribed => subscribed.GetType()).ToArray());
 			ModEntry.Log("Done unsubscribing player events.", LogLevel.Trace);
 		}
 

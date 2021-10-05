@@ -24,5 +24,11 @@ namespace TheLion.Stardew.Common.Extensions
 		{
 			return (T)Convert.ChangeType(obj, typeof(T));
 		}
+
+		/// <summary>Convert the calling object to a generic type.</summary>
+		public static T ChangeType<T>(this object obj, Type type)
+		{
+			return (T)Convert.ChangeType(obj, type);
+		}
 	}
 }

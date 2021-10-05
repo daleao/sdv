@@ -58,7 +58,6 @@ namespace TheLion.Stardew.Professions
 				catch (IndexOutOfRangeException)
 				{
 					ModEntry.Log($"Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
-					continue;
 				}
 			}
 			_data.WriteIfNotExists($"{_id}/SuperModeIndex", "-1");

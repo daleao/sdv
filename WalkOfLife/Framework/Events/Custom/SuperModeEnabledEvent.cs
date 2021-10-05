@@ -131,11 +131,11 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			}
 
 			var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
-			for (int i = bigSlimes.Count - 1; i >= 0; --i)
+			for (var i = bigSlimes.Count - 1; i >= 0; --i)
 			{
 				bigSlimes[i].Health = 0;
 				bigSlimes[i].deathAnimation();
-				int toCreate = Game1.random.Next(2, 5);
+				var toCreate = Game1.random.Next(2, 5);
 				while (toCreate-- > 0)
 				{
 					Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));

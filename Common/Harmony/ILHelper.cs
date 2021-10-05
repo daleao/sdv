@@ -19,11 +19,10 @@ namespace TheLion.Stardew.Common.Harmony
 
 		private MethodBase _original;
 		private List<CodeInstruction> _instructionList;
-		//private List<CodeInstruction> _instructionListBackup;
 		private List<CodeInstruction> _instructionBuffer;
 		private readonly Stack<int> _indexStack;
 		private readonly bool _shouldExport;
-		private readonly string _exportPath;
+		private readonly string _exportDir;
 
 		/// <summary>The index currently at the top of the index stack.</summary>
 		public int CurrentIndex
@@ -45,7 +44,7 @@ namespace TheLion.Stardew.Common.Harmony
 				if (_instructionList == null || !_instructionList.Any())
 					throw new IndexOutOfRangeException("The active instruction list is either null or empty.");
 
-				return _instructionList.Count() - 1;
+				return _instructionList.Count - 1;
 			}
 		}
 
@@ -56,7 +55,7 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			Log = log;
 			_shouldExport = enableExport;
-			_exportPath = path;
+			_exportDir = Path.Combine(path, "exports");
 			_indexStack = new Stack<int>();
 		}
 
@@ -69,20 +68,12 @@ namespace TheLion.Stardew.Common.Harmony
 
 			_original = original;
 			_instructionList = instructions.ToList();
-			//_instructionListBackup = _instructionList.Clone();
 
 			if (_indexStack.Count > 0) _indexStack.Clear();
 			_indexStack.Push(0);
 
 			return this;
 		}
-
-		///// <summary>Create an internal copy of the active code instruction list.</summary>
-		//public ILHelper Backup()
-		//{
-		//	_instructionListBackup = _instructionList.Clone();
-		//	return this;
-		//}
 
 		/// <summary>Find the first occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
 		/// <param name="pattern">Sequence of <see cref="CodeInstruction"/> objects to match.</param>
@@ -106,7 +97,7 @@ namespace TheLion.Stardew.Common.Harmony
 			var reversedInstructions = _instructionList.Clone();
 			reversedInstructions.Reverse();
 
-			var index = _instructionList.Count() - reversedInstructions.IndexOf(pattern) - 1;
+			var index = _instructionList.Count - reversedInstructions.IndexOf(pattern) - 1;
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
@@ -139,7 +130,7 @@ namespace TheLion.Stardew.Common.Harmony
 			var reversedInstructions = _instructionList.Clone();
 			reversedInstructions.Reverse();
 
-			var index = _instructionList.Count() - reversedInstructions.IndexOf(pattern, start: _instructionList.Count() - CurrentIndex - 1) - 1;
+			var index = _instructionList.Count - reversedInstructions.IndexOf(pattern, start: _instructionList.Count - CurrentIndex - 1) - 1;
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
@@ -271,7 +262,7 @@ namespace TheLion.Stardew.Common.Harmony
 		public ILHelper Insert(params CodeInstruction[] instructions)
 		{
 			_instructionList.InsertRange(CurrentIndex, instructions);
-			_indexStack.Push(CurrentIndex + instructions.Count());
+			_indexStack.Push(CurrentIndex + instructions.Length);
 			return this;
 		}
 
@@ -534,27 +525,21 @@ namespace TheLion.Stardew.Common.Harmony
 			return this;
 		}
 
-		///// <summary>Restore the active code instruction list to the backed-up state.</summary>
-		//public ILHelper Restore()
-		//{
-		//	_indexStack.Clear();
-		//	_instructionList = _instructionListBackup;
-		//	return this;
-		//}
-
 		/// <summary>Reset the instance and return the active code instruction list as enumerable.</summary>
 		public IEnumerable<CodeInstruction> Flush()
 		{
 			var result = _instructionList.Clone();
 			Clear();
-			Trace($"Succeeded.");
+			Trace("Succeeded.");
 			return result.AsEnumerable();
 		}
 
 		/// <summary>Export the failed search target and active code instruction list to a text file.</summary>
 		public void Export(List<CodeInstruction> pattern)
 		{
-			var path = ($"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil").RemoveInvalidChars();
+			if (!Directory.Exists(_exportDir)) Directory.CreateDirectory(_exportDir);
+
+			var path = Path.Combine(_exportDir, ($"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil").RemoveInvalidChars());
 			using (var writer = File.CreateText(path))
 			{
 				writer.WriteLine("Searching for:");
@@ -570,7 +555,9 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <summary>Export the failed search target and active code instruction list to a text file.</summary>
 		public void Export(Label label)
 		{
-			var path = _exportPath + $"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil";
+			if (!Directory.Exists(_exportDir)) Directory.CreateDirectory(_exportDir);
+
+			var path = Path.Combine(_exportDir, ($"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil").RemoveInvalidChars());
 			using (var writer = File.CreateText(path))
 			{
 				writer.WriteLine("Searching for:\n");

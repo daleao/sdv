@@ -75,7 +75,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <param name="professionName">Case-sensitive profession name.</param>
 		public static int IndexOf(string professionName)
 		{
-			if (IndexByName.Forward.TryGetValue(professionName, out int professionIndex)) return professionIndex;
+			if (IndexByName.Forward.TryGetValue(professionName, out var professionIndex)) return professionIndex;
 			throw new ArgumentException($"Profession {professionName} does not exist.");
 		}
 
@@ -83,7 +83,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <param name="professionIndex">The index of the profession.</param>
 		public static string NameOf(int professionIndex)
 		{
-			if (IndexByName.Reverse.TryGetValue(professionIndex, out string professionName)) return professionName;
+			if (IndexByName.Reverse.TryGetValue(professionIndex, out var professionName)) return professionName;
 			throw new IndexOutOfRangeException($"Index {professionIndex} is not a valid profession index.");
 		}
 
