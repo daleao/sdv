@@ -47,7 +47,7 @@
 	// Mining
 	"miner.name.male": "Miner",
 	"miner.name.female": "Miner",
-	"miner.desc": "+1 ore per ore vein.",
+	"miner.desc": "+1 ore per vein.",
 	"spelunker.name.male": "Spelunker",
 	"spelunker.name.female": "Spelunker",
 	"spelunker.desc": "Chance to find ladders and shafts increases by 1% every mine level. +1 speed every five levels.",
@@ -125,7 +125,7 @@
 	"piper.name.male": "Slimed Piper",
 	"piper.name.female": "Slime Enchantress",
 	"piper.desc":
-		"Slimes damage other enemies and drop better items the more Slimes are raised on the farm. Attract more Slimes in dungeons.",
+		"Slimes damage other enemies and have improved drops the more Slimes are raised on the farm. Build Slime attraction in dungeons.",
 	"piper.buffdesc": "Attract up to {{magnitude1}} extra Slimes. Slime attack frequency +{{magnitude2}}%.",
 	"piper.superm": "Superfluidity",
 	"piper.supermdesc":

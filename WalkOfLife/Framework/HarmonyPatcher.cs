@@ -22,12 +22,6 @@ namespace TheLion.Stardew.Professions.Framework
 			var harmony = new Harmony(ModEntry.UniqueID);
 			foreach (var type in patchTypes)
 			{
-				if (type.Name == "CrabPotMachineGetStatePatch" &&
-				    !ModEntry.ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate") ||
-				    type.Name == "ProfessionsCheatSetProfessionPatch" &&
-				    !ModEntry.ModHelper.ModRegistry.IsLoaded("CJBok.CheatsMenu"))
-					continue;
-
 				var patch = (BasePatch) type.Constructor()?.Invoke(new object[] { });
 				patch?.Apply(harmony);
 			}

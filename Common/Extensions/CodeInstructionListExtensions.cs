@@ -8,7 +8,6 @@ namespace TheLion.Stardew.Common.Extensions
 	public static class CodeInstructionListExtensions
 	{
 		/// <summary>Determine the index of an instruction pattern in a list of code instructions.</summary>
-		/// <param name="list">The list to be searched.</param>
 		/// <param name="pattern">The <see cref="CodeInstruction"/> pattern to search for.</param>
 		/// <param name="start">The starting index.</param>
 		public static int IndexOf(this IList<CodeInstruction> list, CodeInstruction[] pattern, int start = 0)
@@ -28,7 +27,6 @@ namespace TheLion.Stardew.Common.Extensions
 		}
 
 		/// <summary>Determine the index of the code instruction with a certain branch label in a list of code instructions.</summary>
-		/// <param name="list">The list to be searched.</param>
 		/// <param name="label">The <see cref="Label"/> object to search for.</param>
 		/// <param name="start">The starting index.</param>
 		public static int IndexOf(this IList<CodeInstruction> list, Label label, int start = 0)
@@ -42,10 +40,9 @@ namespace TheLion.Stardew.Common.Extensions
 		}
 
 		/// <summary>Deep copy a list of code instructions.</summary>
-		/// <param name="list">The list to be copied.</param>
 		public static List<CodeInstruction> Clone(this IList<CodeInstruction> list)
 		{
-			return list.Select(instr => new CodeInstruction(instr) {blocks = instr.blocks.ToList()}).ToList();
+			return list.Select(instruction => new CodeInstruction(instruction)).ToList();
 		}
 	}
 }

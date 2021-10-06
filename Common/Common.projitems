@@ -12,13 +12,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BidirectionalMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\TextureBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\IListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CollectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Vector2Extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ArrayExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Int32Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CodeInstructionListExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\LabelListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GenericExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\SafeReflections.cs" />

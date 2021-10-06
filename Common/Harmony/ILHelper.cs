@@ -12,7 +12,7 @@ using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Common.Harmony
 {
-	/// <summary>Provides an interface to abstract common transpiler operations.</summary>
+	/// <summary>Provides an interface for abstracting common transpiler operations.</summary>
 	public class ILHelper
 	{
 		private Action<string, LogLevel> Log { get; }
@@ -166,14 +166,14 @@ namespace TheLion.Stardew.Common.Harmony
 			if (fromCurrentIndex)
 				return FindNext(
 					new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-					LoadConstantIntIL(whichProfession),
+					LoadConstantIntegerIL(whichProfession),
 					new CodeInstruction(OpCodes.Callvirt,
 						typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
 				);
 
 			return FindFirst(
 				new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-				LoadConstantIntIL(whichProfession),
+				LoadConstantIntegerIL(whichProfession),
 				new CodeInstruction(OpCodes.Callvirt,
 					typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
 			);
@@ -267,10 +267,19 @@ namespace TheLion.Stardew.Common.Harmony
 			return this;
 		}
 
+		/// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
+		/// <param name="instructions">Sequence of <see cref="CodeInstruction"/> objects to insert.</param>
+		public ILHelper Insert(ICollection<CodeInstruction> instructions)
+		{
+			_instructionList.InsertRange(CurrentIndex, instructions);
+			_indexStack.Push(CurrentIndex + instructions.Count);
+			return this;
+		}
+
 		/// <summary>Insert the buffer contents at the currently pointed index.</summary>
 		public ILHelper InsertBuffer()
 		{
-			Insert(_instructionBuffer.Clone().ToArray());
+			Insert(_instructionBuffer.Clone());
 			return this;
 		}
 
@@ -279,7 +288,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="length">The subset length.</param>
 		public ILHelper InsertBuffer(int index, int length)
 		{
-			Insert(_instructionBuffer.Clone().ToArray().SubArray(index, length));
+			Insert(_instructionBuffer.Clone().GetRange(index, length));
 			return this;
 		}
 
@@ -291,16 +300,17 @@ namespace TheLion.Stardew.Common.Harmony
 		public ILHelper InsertProfessionCheckForLocalPlayer(int whichProfession, Label branchDestination,
 			bool useBrtrue = false, bool useLongFormBranch = false)
 		{
-			OpCode branchOpCode;
-			if (useBrtrue && useLongFormBranch) branchOpCode = OpCodes.Brtrue;
-			else if (useBrtrue) branchOpCode = OpCodes.Brtrue_S;
-			else if (useLongFormBranch) branchOpCode = OpCodes.Brfalse;
-			else branchOpCode = OpCodes.Brfalse_S;
+			var branchOpCode = useBrtrue switch
+			{
+				true when useLongFormBranch => OpCodes.Brtrue,
+				true => OpCodes.Brtrue_S,
+				_ => useLongFormBranch ? OpCodes.Brfalse : OpCodes.Brfalse_S
+			};
 
 			return Insert(
 				new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
 				new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-				LoadConstantIntIL(whichProfession),
+				LoadConstantIntegerIL(whichProfession),
 				new CodeInstruction(OpCodes.Callvirt,
 					typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
 				new CodeInstruction(branchOpCode, branchDestination)
@@ -315,15 +325,16 @@ namespace TheLion.Stardew.Common.Harmony
 		public ILHelper InsertProfessionCheckForPlayerOnStack(int whichProfession, Label branchDestination,
 			bool useBrtrue = false, bool useLongFormBranch = false)
 		{
-			OpCode branchOpCode;
-			if (useBrtrue && useLongFormBranch) branchOpCode = OpCodes.Brtrue;
-			else if (useBrtrue) branchOpCode = OpCodes.Brtrue_S;
-			else if (useLongFormBranch) branchOpCode = OpCodes.Brfalse;
-			else branchOpCode = OpCodes.Brfalse_S;
+			var branchOpCode = useBrtrue switch
+			{
+				true when useLongFormBranch => OpCodes.Brtrue,
+				true => OpCodes.Brtrue_S,
+				_ => useLongFormBranch ? OpCodes.Brfalse : OpCodes.Brfalse_S
+			};
 
 			return Insert(
 				new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-				LoadConstantIntIL(whichProfession),
+				LoadConstantIntegerIL(whichProfession),
 				new CodeInstruction(OpCodes.Callvirt,
 					typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
 				new CodeInstruction(branchOpCode, branchDestination)
@@ -346,8 +357,8 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			return Insert(
 				new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.random))),
-				LoadConstantIntIL(minValue),
-				LoadConstantIntIL(maxValue + 1),
+				LoadConstantIntegerIL(minValue),
+				LoadConstantIntegerIL(maxValue + 1),
 				new CodeInstruction(OpCodes.Callvirt, typeof(Random).MethodNamed(nameof(Random.Next)))
 			);
 		}
@@ -437,15 +448,23 @@ namespace TheLion.Stardew.Common.Harmony
 
 		/// <summary>Get the labels from the code instruction at the currently pointed index.</summary>
 		/// <param name="labels">The returned list of <see cref="Label"/> objects.</param>
-		public ILHelper GetLabels(out Label[] labels)
+		public ILHelper GetLabels(out List<Label> labels)
 		{
-			labels = _instructionList[CurrentIndex].labels.Clone().ToArray();
+			labels = _instructionList[CurrentIndex].labels.Clone().ToList();
 			return this;
 		}
 
 		/// <summary>Add one or more labels to the code instruction at the currently pointed index.</summary>
 		/// <param name="labels">A sequence of <see cref="Label"/> objects to add.</param>
 		public ILHelper AddLabels(params Label[] labels)
+		{
+			_instructionList[CurrentIndex].labels.AddRange(labels);
+			return this;
+		}
+
+		/// <summary>Add one or more labels to the code instruction at the currently pointed index.</summary>
+		/// <param name="labels">A sequence of <see cref="Label"/> objects to add.</param>
+		public ILHelper AddLabels(ICollection<Label> labels)
 		{
 			_instructionList[CurrentIndex].labels.AddRange(labels);
 			return this;
@@ -459,11 +478,26 @@ namespace TheLion.Stardew.Common.Harmony
 			return this;
 		}
 
+
+		/// <summary>Set the labels of the code instruction at the currently pointed index.</summary>
+		/// <param name="labels">A list of <see cref="Label"/> objects.</param>
+		public ILHelper SetLabels(ICollection<Label> labels)
+		{
+			_instructionList[CurrentIndex].labels = labels.ToList();
+			return this;
+		}
+
 		/// <summary>Remove labels from the code instruction at the currently pointed index.</summary>
 		public ILHelper StripLabels()
 		{
 			_instructionList[CurrentIndex].labels.Clear();
 			return this;
+		}
+
+		/// <summary>Remove any labels from code instructions currently in the buffer.</summary>
+		private void StripBufferLabels()
+		{
+			foreach (var instruction in _instructionBuffer) instruction.labels.Clear();
 		}
 
 		/// <summary>Return the opcode of the code instruction at the currently pointed index.</summary>
@@ -578,15 +612,9 @@ namespace TheLion.Stardew.Common.Harmony
 			Log($"Exported IL instruction list to {path}.", LogLevel.Info);
 		}
 
-		/// <summary>Remove any labels from code instructions currently in the buffer.</summary>
-		private void StripBufferLabels()
-		{
-			foreach (var instruction in _instructionBuffer) instruction.labels.Clear();
-		}
-
 		/// <summary>Get the corresponding IL code instruction which loads a given integer.</summary>
 		/// <param name="number">An integer.</param>
-		private CodeInstruction LoadConstantIntIL(int number)
+		private static CodeInstruction LoadConstantIntegerIL(int number)
 		{
 			return number switch
 			{

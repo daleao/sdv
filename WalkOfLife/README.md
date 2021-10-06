@@ -180,7 +180,7 @@ The mod provides the following console commands, which you can enter in the SMAP
 - **maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
 - **maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
 - **checkfishingprogress** - Check your fishing progress and bonus fish value as Angler.
-- **checkdata** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent.
+- **checkdata** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent).
 - **setitemsforaged** - Set a new value for ItemsForaged field, which determines the quality of items foraged as Ecologist.
 - **setmineralscollected** - Set a new value for MineralsCollected field, which determines the quality of minerals mines as Gemologist.
 - **setprospectorstreak** - Set a new value for ProspectorStreak field.
@@ -195,10 +195,10 @@ The mod is compatible with the following popular mods:
 - [Automate](https://www.nexusmods.com/stardewvalley/mods/1063) (for craftable machines, the machine's owner's professions will apply; for terrain features, i.e. berry bushes, only the session host's professions will apply)
 - [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (you will have to manually change that mod's localization file to fix incorrect profession names, if you care about that)
 - [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069)
+- Custom SpaceCore skills (e.g. [Luck](https://www.nexusmods.com/stardewvalley/mods/521), [Magic](https://www.nexusmods.com/stardewvalley/mods/2007)) or [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830))
 - [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636)
 - [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (profession perks will not be applied immediately, but the following morning)
 - [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (same as above; the Prestige menu also won't reflect modded profession names or descriptions)
-- Any mod that adds SpaceCore custom skills (e.g. [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830))
 
 The mod is not compatible with the following mods:
 
