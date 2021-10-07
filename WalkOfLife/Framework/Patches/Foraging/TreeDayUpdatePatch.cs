@@ -23,8 +23,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		#region harmony patches
 
 		/// <summary>Patch to increase Abrorist tree growth odds.</summary>
-		// ReSharper disable once RedundantAssignment
 		[HarmonyPrefix]
+		// ReSharper disable once RedundantAssignment
 		private static bool TreeDayUpdatePrefix(Tree __instance, ref int __state)
 		{
 			__state = __instance.growthStage.Value;

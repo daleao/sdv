@@ -9,6 +9,7 @@ using System.Linq;
 using TheLion.Stardew.Common.Classes;
 using TheLion.Stardew.Common.Extensions;
 using SObject = StardewValley.Object;
+// ReSharper disable PossibleLossOfFraction
 
 namespace TheLion.Stardew.Professions.Framework.Util
 {
@@ -175,9 +176,9 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			return 1.15f +
 			       (who.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Brute")
 				       ? 0.65f + who.attackIncreaseModifier +
-				         who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f
+				         (who.CurrentTool != null ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f : 0f)
 				       : ModEntry.SuperModeCounter / 10 * 0.005f) *
-			       (who.CurrentTool is MeleeWeapon weapon && weapon.type.Value == MeleeWeapon.club ? 1.5f : 1f);
+			       ((who.CurrentTool as MeleeWeapon)?.type.Value == MeleeWeapon.club ? 1.5f : 1f);
 		}
 
 		/// <summary>Get the bonus critical strike chance that should be applied to Poacher.</summary>

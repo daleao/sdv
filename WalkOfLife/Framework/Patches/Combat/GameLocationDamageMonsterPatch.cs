@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 using SObject = StardewValley.Object;
 
@@ -32,7 +34,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Patch to move critical chance bonus from Scout to Poacher + patch Brute damage bonus + move critical damage bonus from Desperado to Poacher + increment Brute Fury and Poacher Cold Blood counters + perform Poacher steal.</summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(
-			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			Helper.Attach(original, instructions);
 
@@ -49,12 +51,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldarg_S) // start of critChance += critChance * 0.5f
 					)
 					.Advance()
-					//.ReplaceWith(
-					//	new CodeInstruction(OpCodes.Ldarg_S,
-					//		operand: (byte)10) // was Ldarg_S critChance (arg 10 = Farmer who)
-					//)
-					//.Advance()
-					.Remove()
+					.Remove() // was Ldarg_S critChance
 					.ReplaceWith( // was Ldc_R4 0.5
 						new CodeInstruction(OpCodes.Call,
 							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetPoacherBonusCritChance)))
@@ -123,8 +120,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					$"Failed while moving modded bonus crit damage from Desperado to Poacher.\nHelper returned {ex}");
 				return null;
 			}
-
-			/// Before: damageAmount = monster.takeDamage(damageAmount, (int)trajectory.X, (int)trajectory.Y, isBomb, addedPrecision / 10.0, 
 
 			/// Injected: tryToStealAndIncrementCountersOrEndPoacherSuperMode(damageAmount, isBomb, crit, critMultiplier, monster, who)
 			///	Before: if (monster.Health <= 0)
@@ -196,9 +191,19 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					return;
 
 				ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
-				if (!ModEntry.SfxLoader.SfxByName.TryGetValue("poacher_steal", out var sfx))
-					throw new ArgumentException("Sound asset 'poacher_steal' could not be found.");
-				sfx.CreateInstance().Play();
+				
+				// play sound effect
+				try
+				{
+					if (ModEntry.SoundFX.SoundByName.TryGetValue("poacher_steal", out var sfx))
+						sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
+					else throw new ContentLoadException();
+				}
+				catch (Exception ex)
+				{
+					ModEntry.Log($"Couldn't play sound asset file 'poacher_steal'. Make sure the file exists. {ex}",
+						LogLevel.Error);
+				}
 			}
 
 			// try to increment super mode counters

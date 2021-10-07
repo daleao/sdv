@@ -7,6 +7,7 @@ using System;
 using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
+// ReSharper disable PossibleLossOfFraction
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {

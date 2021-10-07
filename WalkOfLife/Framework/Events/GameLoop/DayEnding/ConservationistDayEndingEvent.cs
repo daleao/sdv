@@ -21,6 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			    0) return;
 
 			var taxBonusNextSeason =
+				// ReSharper disable once PossibleLossOfFraction
 				Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxLevel / 100f,
 					ModEntry.Config.TaxDeductionCeiling);
 			ModEntry.Data.WriteField("ActiveTaxBonusPercent",

@@ -6,7 +6,7 @@ namespace TheLion.Stardew.Common.Integrations
 {
 	/// <summary>Handles the logic for integrating with the Generic Mod Configuration Menu mod.</summary>
 	/// <typeparam name="TConfig">The mod configuration type.</typeparam>
-	/// <remarks>Credit to Pathoschild.</remarks>
+	/// <remarks>Credit to <c>Pathoschild</c>.</remarks>
 	internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
 		where TConfig : new()
 	{

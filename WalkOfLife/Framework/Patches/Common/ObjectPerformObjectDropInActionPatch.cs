@@ -26,8 +26,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		#region harmony patches
 
 		/// <summary>Patch to remember initial machine state.</summary>
-		// ReSharper disable once RedundantAssignment
 		[HarmonyPrefix]
+		// ReSharper disable once RedundantAssignment
 		private static bool ObjectPerformObjectDropInActionPrefix(SObject __instance, ref bool __state)
 		{
 			__state = __instance.heldObject.Value !=

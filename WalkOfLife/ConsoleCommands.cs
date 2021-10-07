@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions
 {
@@ -45,7 +46,7 @@ namespace TheLion.Stardew.Professions
 
 			if (!args.Any())
 			{
-				Log("You must specify the professions to add." + GetUsageForAddProfessions(), LogLevel.Warn);
+				Log("You must specify at least one profession." + GetUsageForAddProfessions(), LogLevel.Warn);
 				return;
 			}
 
@@ -235,8 +236,53 @@ namespace TheLion.Stardew.Professions
 			LevelUpMenu.RevalidateHealth(Game1.player);
 		}
 
-		/// <summary>Set <see cref="ModEntry.SuperModeCounter"/> to the max value.</summary>
+		/// <summary>Set <see cref="SuperModeCounter"/> to the max value.</summary>
 		internal static void SetSuperModeCounter(string command, string[] args)
+		{
+			if (!Context.IsWorldReady)
+			{
+				Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (SuperModeIndex < 0)
+			{
+				Log("You must have a level 10 combat profession.", LogLevel.Warn);
+				return;
+			}
+
+			if (!args.Any() || args.Length > 1)
+			{
+				Log("You must specify a single value.", LogLevel.Warn);
+				return;
+			}
+
+			if (int.TryParse(args[0], out var value))
+				SuperModeCounter = Math.Min(value, SuperModeCounterMax);
+			else
+				Log("You must specify an integer value.", LogLevel.Warn);
+		}
+
+		/// <summary>Set <see cref="SuperModeCounter"/> to the desired value.</summary>
+		internal static void ReadySuperMode(string command, string[] args)
+		{
+			if (!Context.IsWorldReady)
+			{
+				Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (SuperModeIndex < 0)
+			{
+				Log("You must have a level 10 combat profession.", LogLevel.Warn);
+				return;
+			}
+
+			SuperModeCounter = SuperModeCounterMax;
+		}
+
+		/// <summary>Set <see cref="SuperModeIndex"/> to a different combat profession, in case you have more than one.</summary>
+		internal static void RegisterNewSuperMode(string command, string[] args)
 		{
 			if (!Context.IsWorldReady)
 			{
@@ -250,22 +296,19 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			if (int.TryParse(args[0], out var value))
-				SuperModeCounter = value;
-			else
-				Log("You must specify an integer value.", LogLevel.Warn);
-		}
-
-		/// <summary>Set <see cref="ModEntry.SuperModeCounter"/> to the desired value.</summary>
-		internal static void ReadySuperMode(string command, string[] args)
-		{
-			if (!Context.IsWorldReady)
+			if (!args[0].AnyOf("brute", "poacher", "desperado", "piper"))
 			{
-				Log("You must load a save first.", LogLevel.Warn);
+				Log("You must specify a valid level 10 combat profession.", LogLevel.Warn);
 				return;
 			}
 
-			SuperModeCounter = SuperModeCounterMax;
+			if (!Game1.player.HasProfession(args[0].FirstCharToUpper()))
+			{
+				Log("You don't have this profession.", LogLevel.Warn);
+				return;
+			}
+
+			SuperModeIndex = Framework.Util.Professions.IndexOf(args[0].FirstCharToUpper());
 		}
 
 		/// <summary>Set all farm animals owned by the local player to the max friendship value.</summary>
@@ -277,9 +320,17 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			foreach (var animal in Game1.getFarm().getAllFarmAnimals().Where(a =>
-				a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer))
-				animal.friendshipTowardFarmer.Value = 1000;
+			var animals = Game1.getFarm().getAllFarmAnimals().Where(a =>
+				a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer).ToList();
+			var count = animals.Count;
+			if (count <= 0)
+			{
+				Log("You don't own any animals.", LogLevel.Warn);
+				return;
+			}
+
+			foreach (var animal in animals) animal.friendshipTowardFarmer.Value = 1000;
+			Log($"Maxed the friendship of {count} animals", LogLevel.Info);
 		}
 
 		/// <summary>Set all farm animals owned by the local player to the max mood value.</summary>
@@ -291,9 +342,17 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			foreach (var animal in Game1.getFarm().getAllFarmAnimals().Where(a =>
-				a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer))
-				animal.happiness.Value = 255;
+			var animals = Game1.getFarm().getAllFarmAnimals().Where(a =>
+				a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer).ToList();
+			var count = animals.Count;
+
+			if (count <= 0)
+			{
+				Log("You don't own any animals.", LogLevel.Warn);
+				return;
+			}
+			foreach (var animal in animals) animal.happiness.Value = 255;
+			Log($"Maxed the mood of {count} animals", LogLevel.Info);
 		}
 
 		/// <summary>Check current fishing progress.</summary>
@@ -302,6 +361,12 @@ namespace TheLion.Stardew.Professions
 			if (!Context.IsWorldReady)
 			{
 				Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (!Game1.player.fishCaught.Pairs.Any())
+			{
+				Log("You haven't caught any fish.", LogLevel.Warn);
 				return;
 			}
 
@@ -333,14 +398,12 @@ namespace TheLion.Stardew.Professions
 				caughtFishNames.Add(dataFields[0]);
 			}
 
-			var priceMultiplier = Game1.player.professions.Contains(Farmer.angler)
+			var priceMultiplier = Game1.player.HasProfession("Angler")
 				? (numMaxSizedCaught + numMaxSizedCaught * 5).ToString() + '%'
 				: "Zero. You're not an Angler.";
 			result +=
 				$"Species caught: {Game1.player.fishCaught.Count()}/{fishData.Count}\nMax-sized: {numMaxSizedCaught}/{Game1.player.fishCaught.Count()}\nLegendaries: {numLegendariesCaught}/10\nTotal Angler price bonus: {priceMultiplier}\n\nThe following caught fish are not max-sized:";
-			foreach (var fish in nonMaxSizedCaught.Keys)
-				result +=
-					$"\n- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})";
+			result = nonMaxSizedCaught.Keys.Aggregate(result, (current, fish) => current + $"\n- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})");
 
 			var seasonFish = from specificFishData in fishData.Values
 				where specificFishData.Split('/')[6].Contains(Game1.currentSeason)
@@ -388,6 +451,12 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
+			if (!Game1.player.HasProfession("Ecologist"))
+			{
+				Log("You must have the Ecologist profession.", LogLevel.Warn);
+				return;
+			}
+
 			if (!args.Any() || args.Length > 1)
 			{
 				Log("You must specify a single value.", LogLevel.Warn);
@@ -410,6 +479,12 @@ namespace TheLion.Stardew.Professions
 			if (!Context.IsWorldReady)
 			{
 				Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (!Game1.player.HasProfession("Gemologist"))
+			{
+				Log("You must have the Gemologist profession.", LogLevel.Warn);
 				return;
 			}
 
@@ -438,6 +513,12 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
+			if (!Game1.player.HasProfession("Prospector"))
+			{
+				Log("You must have the Prospector profession.", LogLevel.Warn);
+				return;
+			}
+
 			if (!args.Any() || args.Length > 1)
 			{
 				Log("You must specify a single value.", LogLevel.Warn);
@@ -463,6 +544,12 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
+			if (!Game1.player.HasProfession("Scavenger"))
+			{
+				Log("You must have the Scavenger profession.", LogLevel.Warn);
+				return;
+			}
+
 			if (!args.Any() || args.Length > 1)
 			{
 				Log("You must specify a single value.", LogLevel.Warn);
@@ -485,6 +572,12 @@ namespace TheLion.Stardew.Professions
 			if (!Context.IsWorldReady)
 			{
 				Log("You must load a save first.", LogLevel.Warn);
+				return;
+			}
+
+			if (!Game1.player.HasProfession("Conservationist"))
+			{
+				Log("You must have the Conservationist profession.", LogLevel.Warn);
 				return;
 			}
 

@@ -59,7 +59,7 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <param name="key">The dictionary key to read update.</param>
 		/// <param name="amount">Amount to increment by.</param>
 		/// <return>Interface to <paramref name="data"/>.</return>
-		/// <remarks>Credit to Adi Lester, "https://stackoverflow.com/questions/8122611/c-sharp-adding-two-generic-values."</remarks>
+		/// <remarks>Credit to <c>Adi Lester</c> (https://stackoverflow.com/questions/8122611/c-sharp-adding-two-generic-values).</remarks>
 		public static ModDataDictionary Increment<T>(this ModDataDictionary data, string key, T amount)
 		{
 			var num = data.Read<T>(key);

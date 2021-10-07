@@ -32,7 +32,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 
 			var slimeCount =
 				Game1.getFarm().buildings.Where(b =>
-						(b.owner.Value.AnyOf(pipers.Select(p => p.UniqueMultiplayerID).ToArray()) ||
+						(b.owner.Value.AnyOf(pipers.Select(p => p.UniqueMultiplayerID)) ||
 						 !Context.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() &&
 						b.indoors.Value.characters.Any())
 					.Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) +
@@ -50,7 +50,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 			while (r.NextDouble() < baseChance && count < 10)
 			{
 				__result.Add(new SObject(766, 1)); // slime
-				if (r.NextDouble() < 5 / 8) __result.Add(new SObject(92, 1)); // sap
+				if (r.NextDouble() < 5f / 8f) __result.Add(new SObject(92, 1)); // sap
 				++count;
 			}
 

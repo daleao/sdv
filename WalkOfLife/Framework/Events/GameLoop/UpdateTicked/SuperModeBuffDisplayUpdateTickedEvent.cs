@@ -46,7 +46,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					{
 						which = buffID,
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
-						millisecondsDuration = 49,
+						millisecondsDuration = 50,
 						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".buffdesc",
 							new {magnitude1, magnitude2})
 					});

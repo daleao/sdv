@@ -37,23 +37,23 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				case "Brute":
 					ModEntry.SuperModeGlowColor = Color.OrangeRed;
 					ModEntry.SuperModeOverlayColor = Color.OrangeRed;
-					ModEntry.SuperModeSfx = "brute_rage";
+					ModEntry.SuperModeSFX = "brute_rage";
 					break;
 				case "Poacher":
 					ModEntry.SuperModeGlowColor = Color.GhostWhite;
 					ModEntry.SuperModeOverlayColor = Color.Black;
-					ModEntry.SuperModeSfx = "poacher_ambush";
+					ModEntry.SuperModeSFX = "poacher_ambush";
 					ModEntry.MonstersStolenFrom ??= new();
 					break;
 				case "Desperado":
 					ModEntry.SuperModeGlowColor = Color.DarkGoldenrod;
 					ModEntry.SuperModeOverlayColor = Color.SandyBrown;
-					ModEntry.SuperModeSfx = "desperado_cockgun";
+					ModEntry.SuperModeSFX = "desperado_cockgun";
 					break;
 				case "Piper":
 					ModEntry.SuperModeGlowColor = Color.LightSeaGreen;
 					ModEntry.SuperModeOverlayColor = Color.Green;
-					ModEntry.SuperModeSfx = "piper_provoke";
+					ModEntry.SuperModeSFX = "piper_provoke";
 					ModEntry.PipedSlimesScales ??= new();
 					break;
 			}

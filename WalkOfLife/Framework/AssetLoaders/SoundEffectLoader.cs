@@ -9,7 +9,7 @@ namespace TheLion.Stardew.Professions.Framework
 {
 	public class SoundEffectLoader
 	{
-		public Dictionary<string, SoundEffect> SfxByName { get; } = new();
+		public Dictionary<string, SoundEffect> SoundByName { get; } = new();
 		public int Volume { get; set; }
 
 		/// <summary>Construct an instance.</summary>
@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework
 					// load .ogg
 					var soundEffect = OggLoader.Load(file);
 					if (soundEffect == null) throw new FileLoadException();
-					SfxByName.Add(Path.GetFileNameWithoutExtension(file), soundEffect);
+					SoundByName.Add(Path.GetFileNameWithoutExtension(file), soundEffect);
 				}
 				catch (Exception ex)
 				{

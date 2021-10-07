@@ -48,7 +48,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				{
 					which = _buffID,
 					sheetIndex = SHEET_INDEX,
-					millisecondsDuration = 49,
+					millisecondsDuration = 50,
 					description =
 						ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new {bonusLadderChance, bonusSpeed})
 				}

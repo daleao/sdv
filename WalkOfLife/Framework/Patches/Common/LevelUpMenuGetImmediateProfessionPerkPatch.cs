@@ -48,7 +48,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// subscribe events
 				ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
 
-				if (whichProfession - 24 > 2 &&
+				if (whichProfession - 24 > 1 &&
 				    ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not registered
 					// register super mode
 					ModEntry.SuperModeIndex = whichProfession;

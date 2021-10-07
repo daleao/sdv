@@ -15,6 +15,7 @@ using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
+// ReSharper disable PossibleLossOfFraction
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {

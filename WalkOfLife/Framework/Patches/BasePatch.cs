@@ -27,14 +27,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="harmony">The Harmony instance for this mod.</param>
 		public virtual void Apply(Harmony harmony)
 		{
+			if (Original == null)
+			{
+				ModEntry.Log($"Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Warn);
+				return;
+			}
+			
 			try
 			{
-				if (Original == null)
-				{
-					ModEntry.Log($"Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Warn);
-					return;
-				}
-
 				ModEntry.Log($"Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.",
 					LogLevel.Trace);
 				harmony.Patch(Original, Prefix, Postfix, Transpiler);

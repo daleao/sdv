@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace TheLion.Stardew.Common.Harmony
 {
-	/// <remarks>Credit to Pardeike.</remarks>
+	/// <remarks>Credit to <c>Pardeike</c>.</remarks>
 	public static class SafeReflections
 	{
 		public static Type ToType(this string name)

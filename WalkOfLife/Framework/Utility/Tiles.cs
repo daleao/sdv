@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 	{
 		/// <summary>Find all tiles in a mine map containing either a ladder or shaft.</summary>
 		/// <param name="shaft">The MineShaft location.</param>
-		/// <remarks>Credit to <c>pomepome</c> for this logic.</remarks>
+		/// <remarks>Credit to <c>pomepome</c>.</remarks>
 		public static IEnumerable<Vector2> GetLadderTiles(MineShaft shaft)
 		{
 			for (var i = 0; i < shaft.Map.GetLayer("Buildings").LayerWidth; ++i)

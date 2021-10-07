@@ -1,9 +1,11 @@
-﻿using Netcode;
+﻿using System;
+using Netcode;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using System;
 using System.Linq;
+using Microsoft.Xna.Framework.Content;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
@@ -39,10 +41,18 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			ModEntry.Subscriber.Subscribe(new SuperModeRenderedWorldEvent(),
 				new SuperModeOverlayFadeInUpdateTickedEvent());
 
-			// play sfx
-			if (!ModEntry.SfxLoader.SfxByName.TryGetValue(ModEntry.SuperModeSfx, out var sfx))
-				throw new ArgumentException($"Sound asset '{ModEntry.SuperModeSfx}' could not be found.");
-			sfx.CreateInstance().Play();
+			// play sound effect
+			try
+			{
+				if (ModEntry.SoundFX.SoundByName.TryGetValue(ModEntry.SuperModeSFX, out var sfx))
+					sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
+				else throw new ContentLoadException();
+			}
+			catch(Exception ex)
+			{
+				ModEntry.Log($"Couldn't play sound asset file '{ModEntry.SuperModeSFX}'. Make sure the file exists. {ex}",
+					LogLevel.Error);
+			}
 
 			// add countdown event
 			ModEntry.Subscriber.Subscribe(new SuperModeCountdownUpdateTickedEvent());
@@ -84,13 +94,20 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeActivated",
 				new[] {ModEntry.UniqueID});
 
-			// apply immediate effects
-			if (whichSuperMode == "Poacher") DoEnablePoacherSuperMode();
-			else if (whichSuperMode == "Piper") DoEnablePiperSuperMode();
+			switch (whichSuperMode)
+			{
+				// apply immediate effects
+				case "Poacher":
+					DoEnablePoacherSuperMode();
+					break;
+				case "Piper":
+					DoEnablePiperSuperMode();
+					break;
+			}
 		}
 
 		/// <summary>Hide the player from monsters that may have already seen him/her.</summary>
-		private void DoEnablePoacherSuperMode()
+		private static void DoEnablePoacherSuperMode()
 		{
 			foreach (var monster in Game1.currentLocation.characters.OfType<Monster>()
 				.Where(m => m.Player.IsLocalPlayer))
@@ -119,7 +136,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		}
 
 		/// <summary>Enflate Slimes and apply mutations.</summary>
-		private void DoEnablePiperSuperMode()
+		private static void DoEnablePiperSuperMode()
 		{
 			foreach (var greenSlime in Game1.currentLocation.characters.OfType<GreenSlime>()
 				.Where(slime => slime.Scale < 2f))

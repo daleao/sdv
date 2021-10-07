@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace TheLion.Stardew.Professions.Framework.Util
 {

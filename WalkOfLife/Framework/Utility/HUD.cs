@@ -8,6 +8,7 @@ using DrawColor = System.Drawing.Color;
 using SUtility = StardewValley.Utility;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using XnaRect = Microsoft.Xna.Framework.Rectangle;
+// ReSharper disable JoinDeclarationAndInitializer
 
 namespace TheLion.Stardew.Professions.Framework.Util
 {
@@ -98,7 +99,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <summary>Draw a tracking arrow pointer over a target on-screen.</summary>
 		/// <param name="target">A target on the game location.</param>
 		/// <param name="color">The color of the pointer.</param>
-		/// <remarks>Note that the game will add a yellow tinge to the color supplied here. Credit to Bpendragon for this logic.</remarks>
+		/// <remarks>Credit to <c>Bpendragon</c>.</remarks>
 		public static void DrawArrowPointerOverTarget(Vector2 target, XnaColor color)
 		{
 			if (!SUtility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;

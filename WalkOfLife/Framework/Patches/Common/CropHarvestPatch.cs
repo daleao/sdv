@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using StardewValley;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -57,7 +58,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			///	After: Game1.stats.ItemsForaged += @object.Stack;
 
 			var dontIncreaseEcologistCounter = iLGenerator.DefineLabel();
-			var incrementFieldMethod = typeof(ModData).GetMethods().FirstOrDefault(mi => mi.Name == "IncrementField");
 			try
 			{
 				Helper
@@ -75,7 +75,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = @object
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(SObject).PropertyGetter(nameof(SObject.Stack))),
-						new CodeInstruction(OpCodes.Call, incrementFieldMethod.MakeGenericMethod(typeof(int)))
+						new CodeInstruction(OpCodes.Call, typeof(ModData).GetMethods().First(mi => mi.Name == "IncrementField").MakeGenericMethod(typeof(int)))
 					)
 					.AddLabels(dontIncreaseEcologistCounter);
 			}

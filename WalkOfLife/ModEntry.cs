@@ -19,7 +19,7 @@ namespace TheLion.Stardew.Professions
 		internal static EventSubscriber Subscriber { get; private set; }
 		internal static ProspectorHunt ProspectorHunt { get; set; }
 		internal static ScavengerHunt ScavengerHunt { get; set; }
-		internal static SoundEffectLoader SfxLoader { get; set; }
+		internal static SoundEffectLoader SoundFX { get; set; }
 
 		internal static GameFramework GameFramework { get; private set; }
 		internal static IModHelper ModHelper { get; private set; }
@@ -39,7 +39,7 @@ namespace TheLion.Stardew.Professions
 		public static Color SuperModeGlowColor { get; set; }
 		public static Color SuperModeOverlayColor { get; set; }
 		public static float SuperModeOverlayAlpha { get; set; }
-		public static string SuperModeSfx { get; set; }
+		public static string SuperModeSFX { get; set; }
 
 		public static int SuperModeIndex
 		{
@@ -120,7 +120,7 @@ namespace TheLion.Stardew.Professions
 			helper.Content.AssetEditors.Add(new IconEditor());
 
 			// get sound assets
-			SfxLoader = new SoundEffectLoader(helper.DirectoryPath);
+			SoundFX = new SoundEffectLoader(helper.DirectoryPath);
 
 			// apply harmony patches
 			BasePatch.Init(helper.DirectoryPath);
@@ -140,6 +140,8 @@ namespace TheLion.Stardew.Professions
 			Helper.ConsoleCommands.Add("setultmeter", "Set the super mode meter to the desired value.",
 				SetSuperModeCounter);
 			Helper.ConsoleCommands.Add("readyult", "Max-out the super mode meter.", ReadySuperMode);
+			Helper.ConsoleCommands.Add("registersupermode", "Change the registered Super Mode profession.",
+				RegisterNewSuperMode);
 			Helper.ConsoleCommands.Add("maxanimalfriendship", "Max-out the friendship of all owned animals.",
 				MaxAnimalFriendship);
 			Helper.ConsoleCommands.Add("maxanimalmood", "Max-out the mood of all owned animals.", MaxAnimalMood);
