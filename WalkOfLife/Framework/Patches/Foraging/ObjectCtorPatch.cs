@@ -1,9 +1,9 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
+using System;
+using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				var owner = Game1.getFarmer(__instance.owner.Value);
 				if (__instance.IsWildBerry() && owner.HasProfession("Ecologist"))
-					__instance.Edibility = (int) (__instance.Edibility * 1.5f);
+					__instance.Edibility = (int)(__instance.Edibility * 1.5f);
 			}
 			catch (Exception ex)
 			{

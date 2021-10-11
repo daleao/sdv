@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -34,7 +34,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				if (__instance.tileIndexToShow != 714 || justCheckingForActivity ||
-				    !__instance.HasSpecialLuremasterCatch())
+					!__instance.HasSpecialLuremasterCatch())
 					return true; // run original logic
 
 				var item = __instance.heldObject.Value;

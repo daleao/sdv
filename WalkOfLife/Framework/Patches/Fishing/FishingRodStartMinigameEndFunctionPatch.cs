@@ -1,10 +1,10 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewValley;
+using StardewValley.Tools;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using StardewValley;
-using StardewValley.Tools;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches

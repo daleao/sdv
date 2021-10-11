@@ -13,9 +13,9 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			var tileLocation = tree.currentTileLocation;
 			var environment = tree.currentLocation;
 			if (Game1.GetSeasonForLocation(tree.currentLocation) == "winter" &&
-			    !tree.treeType.Value.AnyOf(Tree.palmTree, Tree.palmTree2) &&
-			    !environment.CanPlantTreesHere(-1, (int)tileLocation.X, (int)tileLocation.Y) &&
-			    !tree.fertilized.Value)
+				!tree.treeType.Value.AnyOf(Tree.palmTree, Tree.palmTree2) &&
+				!environment.CanPlantTreesHere(-1, (int)tileLocation.X, (int)tileLocation.Y) &&
+				!tree.fertilized.Value)
 				return false;
 
 			var s = environment.doesTileHaveProperty((int)tileLocation.X, (int)tileLocation.Y, "NoSpawn", "Back");
@@ -26,13 +26,13 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			switch (tree.growthStage.Value)
 			{
 				case 4:
-				{
-					foreach (var pair in environment.terrainFeatures.Pairs)
-						if (pair.Value is Tree otherTree && !otherTree.Equals(tree) && otherTree.growthStage.Value >= 5 &&
-						    otherTree.getBoundingBox(pair.Key).Intersects(growthRect))
-							return false;
-					break;
-				}
+					{
+						foreach (var pair in environment.terrainFeatures.Pairs)
+							if (pair.Value is Tree otherTree && !otherTree.Equals(tree) && otherTree.growthStage.Value >= 5 &&
+								otherTree.getBoundingBox(pair.Key).Intersects(growthRect))
+								return false;
+						break;
+					}
 				case 0 when environment.objects.ContainsKey(tileLocation):
 					return false;
 			}

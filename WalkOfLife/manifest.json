@@ -6,5 +6,5 @@
 	"UniqueID": "thelion.AwesomeProfessions",
 	"EntryDll": "AwesomeProfessions.dll",
 	"MinimumApiVersion": "3.8.0",
-	"UpdateKeys": ["Nexus:8111"]
+	"UpdateKeys": [ "Nexus:8111" ]
 }

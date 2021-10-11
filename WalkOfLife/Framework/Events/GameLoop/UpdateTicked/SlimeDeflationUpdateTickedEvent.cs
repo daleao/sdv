@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					undeflatedSlimes[i].Scale = Math.Max(undeflatedSlimes[i].Scale / 1.1f,
 						ModEntry.PipedSlimesScales[undeflatedSlimes[i]]);
 					if (!(undeflatedSlimes[i].Scale <= ModEntry.PipedSlimesScales[undeflatedSlimes[i]])) continue;
-					
+
 					undeflatedSlimes[i].willDestroyObjectsUnderfoot = false;
 					undeflatedSlimes.RemoveAt(i);
 				}

@@ -62,7 +62,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.AddLabels(shouldntReroll) // branch here if shouldn't reroll
 					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
 						new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
 						new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),
 						new CodeInstruction(OpCodes.Call,
@@ -96,10 +96,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
 		{
 			return !hasRerolled && currentFish is > 166 and < 173 or 152 or 153 or 157
-			                    && who.CurrentTool is FishingRod rod
-			                    && Util.Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
-			                    && baitName.AnyOf("Bait", "Wild Bait", "Magic Bait")
-			                    && who.HasProfession("Fisher");
+								&& who.CurrentTool is FishingRod rod
+								&& Util.Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
+								&& baitName.AnyOf("Bait", "Wild Bait", "Magic Bait")
+								&& who.HasProfession("Fisher");
 		}
 	}
 }

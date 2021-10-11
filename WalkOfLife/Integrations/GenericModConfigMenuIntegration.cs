@@ -77,7 +77,7 @@ namespace TheLion.Stardew.Professions.Integrations
 					"Drain factor",
 					"Lower numbers make Super Mode last longer.",
 					config => config.SuperModeDrainFactor,
-					(config, value) => config.SuperModeDrainFactor = (uint) value,
+					(config, value) => config.SuperModeDrainFactor = (uint)value,
 					1,
 					10
 				)
@@ -88,7 +88,7 @@ namespace TheLion.Stardew.Professions.Integrations
 					"Forages needed for best quality",
 					"Ecologists must forage this many items to reach iridium quality.",
 					config => config.ForagesNeededForBestQuality,
-					(config, value) => config.ForagesNeededForBestQuality = (uint) value,
+					(config, value) => config.ForagesNeededForBestQuality = (uint)value,
 					0,
 					1000
 				)
@@ -96,14 +96,14 @@ namespace TheLion.Stardew.Professions.Integrations
 					"Minerals needed for best quality",
 					"Gemologists must mine this many minerals to reach iridium quality.",
 					config => config.ForagesNeededForBestQuality,
-					(config, value) => config.ForagesNeededForBestQuality = (uint) value,
+					(config, value) => config.ForagesNeededForBestQuality = (uint)value,
 					0,
 					1000
 				)
 				.AddNumberField(
 					"Chance to start treasure hunt",
 					"The chance that your Scavenger or Prospector hunt senses will start tingling.",
-					config => (float) config.ChanceToStartTreasureHunt,
+					config => (float)config.ChanceToStartTreasureHunt,
 					(config, value) => config.ChanceToStartTreasureHunt = value,
 					0f,
 					1f
@@ -128,7 +128,7 @@ namespace TheLion.Stardew.Professions.Integrations
 					"Trash needed per tax level",
 					"Conservationists must collect this much trash for every 1% tax deduction the following season.",
 					config => config.TrashNeededPerTaxLevel,
-					(config, value) => config.TrashNeededPerTaxLevel = (uint) value,
+					(config, value) => config.TrashNeededPerTaxLevel = (uint)value,
 					10,
 					1000
 				)
@@ -136,7 +136,7 @@ namespace TheLion.Stardew.Professions.Integrations
 					"Trash needed per friendship point",
 					"Conservationists must collect this much trash for every 1 friendship point towards villagers.",
 					config => config.TrashNeededPerFriendshipPoint,
-					(config, value) => config.TrashNeededPerFriendshipPoint = (uint) value,
+					(config, value) => config.TrashNeededPerFriendshipPoint = (uint)value,
 					10,
 					1000
 				)

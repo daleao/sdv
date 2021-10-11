@@ -131,7 +131,7 @@ namespace TheLion.Stardew.Common.Harmony
 			reversedInstructions.Reverse();
 
 			var index = _instructionList.Count -
-			            reversedInstructions.IndexOf(pattern, _instructionList.Count - CurrentIndex - 1) - 1;
+						reversedInstructions.IndexOf(pattern, _instructionList.Count - CurrentIndex - 1) - 1;
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
@@ -478,7 +478,6 @@ namespace TheLion.Stardew.Common.Harmony
 			return this;
 		}
 
-
 		/// <summary>Set the labels of the code instruction at the currently pointed index.</summary>
 		/// <param name="labels">A list of <see cref="Label"/> objects.</param>
 		public ILHelper SetLabels(ICollection<Label> labels)
@@ -591,7 +590,6 @@ namespace TheLion.Stardew.Common.Harmony
 
 			Log($"Exported IL instruction list to {path}.", LogLevel.Info);
 		}
-
 
 		/// <summary>Export the failed search target and active code instruction list to a text file.</summary>
 		public void Export(Label label)

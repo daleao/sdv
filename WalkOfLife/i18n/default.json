@@ -8,8 +8,7 @@
 	"agriculturist.desc": "Crops grow 10% faster. Grow best-quality crops organically without fertilizer.",
 	"artisan.name.male": "Artisan",
 	"artisan.name.female": "Artisan",
-	"artisan.desc":
-		"All artisan machines work 10% faster. Machine output quality is equal to or better than input ingredient quality.",
+	"artisan.desc": "All artisan machines work 10% faster. Machine output quality is equal to or better than input ingredient quality.",
 
 	"rancher.name.male": "Rancher",
 	"rancher.name.female": "Rancher",
@@ -54,8 +53,7 @@
 	"spelunker.buffdesc": "Ladder chance +{{bonusLadderChance}}%. +{{bonusSpeed}} Speed.",
 	"prospector.name.male": "Prospector",
 	"prospector.name.female": "Prospector",
-	"prospector.desc":
-		"Locations of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals.",
+	"prospector.desc": "Locations of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals.",
 	"prospector.huntstarted": "Your Prospector senses are tingling...",
 	"prospector.huntfailed": "The tingling stops.",
 
@@ -89,12 +87,9 @@
 	"luremaster.desc": "Crab pots no longer produce junk. Use different baits to attract different catch.",
 	"conservationist.name.male": "Conservationist",
 	"conservationist.name.female": "Conservationist",
-	"conservationist.desc":
-		"Crab pots without bait will trap junk. Clean the Valley's waters to merit village favor and tax deductions.",
-	"conservationist.mail1":
-		"Dear @, ^^ We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. Effective this season, all taxable income for {{farmName}} will be increased by the aforementioned amount. ^^ Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status. ^^ Sincerely, Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
-	"conservationist.mail2":
-		"Dear @, ^^ We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for the maximum income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. Effective this season, all taxable income for {{farmName}} will be increased by the aforementioned amount. ^^ Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status. ^^ Sincerely, Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
+	"conservationist.desc": "Crab pots without bait will trap junk. Clean the Valley's waters to merit village favor and tax deductions.",
+	"conservationist.mail1": "Dear @, ^^ We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. Effective this season, all taxable income for {{farmName}} will be increased by the aforementioned amount. ^^ Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status. ^^ Sincerely, Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
+	"conservationist.mail2": "Dear @, ^^ We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for the maximum income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. Effective this season, all taxable income for {{farmName}} will be increased by the aforementioned amount. ^^ Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status. ^^ Sincerely, Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
 
 	// Combat
 	"fighter.name.male": "Fighter",
@@ -124,10 +119,8 @@
 	"desperado.supermdesc": "Enable auto-reload. Fire in eight directions at once.",
 	"piper.name.male": "Slimed Piper",
 	"piper.name.female": "Slime Enchantress",
-	"piper.desc":
-		"Slimes damage other enemies and have improved drops the more Slimes are raised on the farm. Build Slime attraction in dungeons.",
+	"piper.desc": "Slimes damage other enemies and have improved drops the more Slimes are raised on the farm. Build Slime attraction in dungeons.",
 	"piper.buffdesc": "Attract up to {{magnitude1}} extra Slimes. Slime attack frequency +{{magnitude2}}%.",
 	"piper.superm": "Superfluidity",
-	"piper.supermdesc":
-		"Cause Slimes grow up to twice their size. Large enough Slimes break into smaller Slimes when defeated."
+	"piper.supermdesc": "Cause Slimes grow up to twice their size. Large enough Slimes break into smaller Slimes when defeated."
 }

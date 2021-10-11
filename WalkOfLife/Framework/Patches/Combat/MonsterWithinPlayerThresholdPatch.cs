@@ -1,9 +1,9 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
+using System;
+using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -27,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				var foundPlayer = ModEntry.ModHelper.Reflection.GetMethod(__instance, "findPlayer").Invoke<Farmer>();
 				if (!foundPlayer.IsLocalPlayer || !ModEntry.IsSuperModeActive ||
-				    ModEntry.SuperModeIndex != Util.Professions.IndexOf("Poacher")) return true; // run original method
+					ModEntry.SuperModeIndex != Util.Professions.IndexOf("Poacher")) return true; // run original method
 
 				__result = false;
 				return false; // don't run original method

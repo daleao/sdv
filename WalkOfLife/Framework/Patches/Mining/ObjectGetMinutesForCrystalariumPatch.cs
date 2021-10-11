@@ -1,8 +1,8 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
+using System;
+using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -27,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				var owner = Game1.getFarmer(__instance.owner.Value);
-				if (owner.HasProfession("Gemologist")) __result = (int) (__result * 0.75);
+				if (owner.HasProfession("Gemologist")) __result = (int)(__result * 0.75);
 			}
 			catch (Exception ex)
 			{

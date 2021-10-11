@@ -28,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				var who = __instance.Player;
 				if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Piper") ||
-				    ModEntry.SlimeContactTimer > 0) return;
+					ModEntry.SlimeContactTimer > 0) return;
 
 				int healed;
 				if (ModEntry.IsSuperModeActive)

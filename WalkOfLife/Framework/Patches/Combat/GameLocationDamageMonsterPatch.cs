@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
@@ -9,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 using SObject = StardewValley.Object;
 
@@ -83,7 +83,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 								.GetBruteBonusDamageMultiplier)))
 					)
 					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // arg 10 = Farmer who
 					);
 			}
 			catch (Exception ex)
@@ -105,7 +105,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_R4, 2f) // desperado critical damage multiplier
 					)
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // was Ldc_R4 2f (arg 10 = Farmer who)
+						new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // was Ldc_R4 2f (arg 10 = Farmer who)
 					)
 					.Advance()
 					.Insert(
@@ -147,11 +147,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Insert(
 						// prepare arguments
 						new CodeInstruction(OpCodes.Ldloc_S, damageAmount),
-						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = bool isBomb
+						new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = bool isBomb
 						new CodeInstruction(OpCodes.Ldloc_S, didCrit),
-						new CodeInstruction(OpCodes.Ldarg_S, (byte) 8), // arg 8 = float critMultiplier
+						new CodeInstruction(OpCodes.Ldarg_S, (byte)8), // arg 8 = float critMultiplier
 						new CodeInstruction(OpCodes.Ldloc_2), // local 2 = Monster monster
-						new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
 						new CodeInstruction(OpCodes.Call,
 							typeof(GameLocationDamageMonsterPatch).MethodNamed(nameof(DamageMonsterSubroutine)))
 					)
@@ -176,11 +176,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			Monster monster, Farmer who)
 		{
 			if (damageAmount <= 0 || isBomb ||
-			    who is not {IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon}) return;
+				who is not { IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon }) return;
 
 			// try to steal
 			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") &&
-			    !ModEntry.MonstersStolenFrom.Contains(monster.GetHashCode()))
+				!ModEntry.MonstersStolenFrom.Contains(monster.GetHashCode()))
 			{
 				if (Game1.random.NextDouble() > Util.Professions.GetPoacherStealChance(who)) return;
 
@@ -191,7 +191,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					return;
 
 				ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
-				
+
 				// play sound effect
 				try
 				{
@@ -218,7 +218,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			else if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") && didCrit)
 			{
-				increment = (int) Math.Round(critMultiplier * Util.Professions.GetPoacherCritDamageMultiplier(who));
+				increment = (int)Math.Round(critMultiplier * Util.Professions.GetPoacherCritDamageMultiplier(who));
 				if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
 			}
 

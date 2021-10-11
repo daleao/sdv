@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -43,7 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Return()
 					.ReplaceWith(
 						new CodeInstruction(OpCodes.Brtrue_S,
-							(Label) hasRancher) // replace false case branch with true case branch
+							(Label)hasRancher) // replace false case branch with true case branch
 					)
 					.Advance()
 					.FindProfessionCheck(Farmer.butcher, true) // find coopmaster check
@@ -51,7 +51,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var resumeExecution) // copy destination
 					.Return(2)
 					.Insert(
-						new CodeInstruction(OpCodes.Br_S, (Label) resumeExecution) // insert new false case branch
+						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution) // insert new false case branch
 					);
 			}
 			catch (Exception ex)

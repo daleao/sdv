@@ -1,8 +1,8 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
+using System;
+using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -27,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				if (!__instance.bigCraftable.Value || __instance.ParentSheetIndex != 128 ||
-				    __instance.heldObject.Value == null || !Game1.MasterPlayer.HasProfession("Ecologist"))
+					__instance.heldObject.Value == null || !Game1.MasterPlayer.HasProfession("Ecologist"))
 					return;
 
 				__instance.heldObject.Value.Quality = Util.Professions.GetEcologistForageQuality();

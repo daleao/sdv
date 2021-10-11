@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			if (!location.Objects.TryGetValue(v, out var obj) || !obj.IsStone() || obj.IsResourceNode()) return;
 
 			TreasureTile = v;
-			TimeLimit = (uint) (location.Objects.Count() * ModEntry.Config.TreasureHuntHandicap);
+			TimeLimit = (uint)(location.Objects.Count() * ModEntry.Config.TreasureHuntHandicap);
 			Elapsed = 0;
 			ModEntry.Subscriber.Subscribe(new Events.ArrowPointerUpdateTickedEvent(),
 				new Events.ProspectorHuntUpdateTickedEvent(), new Events.ProspectorHuntRenderedHudEvent());
@@ -69,7 +69,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		{
 			if (TreasureTile == null) return;
 
-			var mineLevel = ((MineShaft) Game1.currentLocation).mineLevel;
+			var mineLevel = ((MineShaft)Game1.currentLocation).mineLevel;
 			Dictionary<int, int> treasuresAndQuantities = new();
 
 			if (Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
@@ -99,6 +99,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 					}
 
 					break;
+
 				case 1:
 					if (Game1.player.archaeologyFound.Any() && Random.NextDouble() < 0.5) // artifacts
 						treasuresAndQuantities.Add(Random.NextDouble() < 0.5 ? Random.Next(579, 586) : 535, 1);
@@ -106,6 +107,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 						treasuresAndQuantities.Add(382, Random.Next(1, 4)); // coal
 
 					break;
+
 				case 2:
 					switch (Random.Next(3))
 					{
@@ -135,6 +137,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 							}
 
 							break;
+
 						case 1: // minerals
 							if (mineLevel < 20)
 							{
@@ -168,6 +171,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 							else treasuresAndQuantities.Add(80, Random.Next(1, 3)); // quartz
 
 							break;
+
 						case 2: // special items
 							var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
 							var streak = ModEntry.Data.ReadField<uint>("ProspectorHuntStreak");
@@ -195,17 +199,19 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 				switch (p.Key)
 				{
 					case -1:
-						Game1.createItemDebris(new MeleeWeapon(31) {specialItem = true},
+						Game1.createItemDebris(new MeleeWeapon(31) { specialItem = true },
 							new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f),
 							Random.Next(4), Game1.currentLocation);
 						break;
+
 					case -2:
-						Game1.createItemDebris(new MeleeWeapon(60) {specialItem = true},
+						Game1.createItemDebris(new MeleeWeapon(60) { specialItem = true },
 							new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f),
 							Random.Next(4), Game1.currentLocation);
 						break;
+
 					default:
-						Game1.createMultipleObjectDebris(p.Key, (int) TreasureTile.Value.X, (int) TreasureTile.Value.Y,
+						Game1.createMultipleObjectDebris(p.Key, (int)TreasureTile.Value.X, (int)TreasureTile.Value.Y,
 							p.Value, Game1.player.UniqueMultiplayerID, Game1.currentLocation);
 						break;
 				}

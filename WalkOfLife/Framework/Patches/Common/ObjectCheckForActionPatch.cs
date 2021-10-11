@@ -40,11 +40,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				if (__instance.heldObject.Value != null && who.HasProfession("Gemologist") &&
-				    (__instance.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-				    __instance.name == "Crystalarium")
+					(__instance.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+					__instance.name == "Crystalarium")
 					__instance.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
 				else if (__state && __instance.heldObject.Value == null && __instance.ParentSheetIndex == 128 &&
-				         who.HasProfession("Ecologist"))
+						 who.HasProfession("Ecologist"))
 					ModEntry.Data.IncrementField<uint>("ItemsForaged");
 			}
 			catch (Exception ex)
@@ -62,7 +62,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			/// Injected: if (who.professions.Contains(<gemologist_id>) && name.Equals("Crystalarium"))
 			///		Data.IncrementField<uint>("MineralsCollected")
-			///	Before: switch (name) 
+			///	Before: switch (name)
 
 			var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
 			try
@@ -84,13 +84,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(SObject).PropertyGetter(nameof(SObject.name))),
 						new CodeInstruction(OpCodes.Ldstr, "Crystalarium"),
 						new CodeInstruction(OpCodes.Callvirt,
-							typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)})),
+							typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) })),
 						new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
 						new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] {typeof(string)})
+							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] { typeof(string) })
 								.MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseGemologistCounter);

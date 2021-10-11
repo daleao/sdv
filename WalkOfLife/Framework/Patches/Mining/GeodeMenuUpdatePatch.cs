@@ -1,10 +1,10 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewValley;
+using StardewValley.Menus;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using StardewValley;
-using StardewValley.Menus;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -47,7 +47,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
 						new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] {typeof(string)})
+							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] { typeof(string) })
 								.MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseGemologistCounter);

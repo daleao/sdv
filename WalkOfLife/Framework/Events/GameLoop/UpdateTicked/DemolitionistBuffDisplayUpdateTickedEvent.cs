@@ -6,14 +6,14 @@ using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class DemolitionistBuffsDisplayUpdateTickedEvent : UpdateTickedEvent
+	public class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 	{
 		private const int SHEET_INDEX = 41;
 
 		private readonly int _buffID;
 
 		/// <summary>Construct an instance.</summary>
-		internal DemolitionistBuffsDisplayUpdateTickedEvent()
+		internal DemolitionistBuffDisplayUpdateTickedEvent()
 		{
 			_buffID = (ModEntry.UniqueID + Util.Professions.IndexOf("Demolitionist")).Hash();
 		}
@@ -53,7 +53,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				{
 					which = buffID,
 					sheetIndex = SHEET_INDEX,
-					millisecondsDuration = 49,
+					millisecondsDuration = 0,
 					description = ModEntry.ModHelper.Translation.Get("demolitionist.buffdesc")
 				}
 			);

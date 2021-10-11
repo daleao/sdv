@@ -40,14 +40,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(SObject)} (5)"),
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(NetFieldBase<SObject, NetRef<SObject>>).MethodNamed("set_Value",
-								new[] {typeof(SObject)}))
+								new[] { typeof(SObject) }))
 					)
 					.Insert(
 						// load producer instance
 						new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = SObject producer
-						// load Farmer who
-						new CodeInstruction(OpCodes.Ldarg_3), // arg 3 = Farmer who 
-						// call custom logic
+															  // load Farmer who
+						new CodeInstruction(OpCodes.Ldarg_3), // arg 3 = Farmer who
+															  // call custom logic
 						new CodeInstruction(OpCodes.Call,
 							typeof(ProducerRuleControllerProduceOutputPatch).MethodNamed(
 								nameof(ProducerOutputSubroutine)))
@@ -70,8 +70,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static SObject ProducerOutputSubroutine(SObject output, SObject producer, Farmer who)
 		{
 			if (producer.name != "Crystalarium" ||
-			    !producer.heldObject.Value.IsForagedMineral() && !producer.heldObject.Value.IsGemOrMineral() ||
-			    !who.HasProfession("Gemologist")) return output;
+				!producer.heldObject.Value.IsForagedMineral() && !producer.heldObject.Value.IsGemOrMineral() ||
+				!who.HasProfession("Gemologist")) return output;
 
 			output.Quality = Util.Professions.GetGemologistMineralQuality();
 			if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");

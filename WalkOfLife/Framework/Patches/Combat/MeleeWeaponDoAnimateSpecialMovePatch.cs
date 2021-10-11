@@ -32,11 +32,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				case MeleeWeapon.club when ModEntry.SuperModeIndex == Util.Professions.IndexOf("Brute"):
 					MeleeWeapon.clubCooldown =
-						(int) (MeleeWeapon.clubCooldown * Util.Professions.GetCooldownOrChargeTimeReduction());
+						(int)(MeleeWeapon.clubCooldown * Util.Professions.GetCooldownOrChargeTimeReduction());
 					break;
+
 				case MeleeWeapon.dagger when ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher"):
-					MeleeWeapon.daggerCooldown = (int) (MeleeWeapon.daggerCooldown *
-					                                    Util.Professions.GetCooldownOrChargeTimeReduction());
+					MeleeWeapon.daggerCooldown = (int)(MeleeWeapon.daggerCooldown *
+														Util.Professions.GetCooldownOrChargeTimeReduction());
 					break;
 			}
 		}
@@ -65,7 +66,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var isNotAcrobat) // copy destination
 					.Return()
 					.Insert( // insert unconditional branch to skip this check
-						new CodeInstruction(OpCodes.Br_S, (Label) isNotAcrobat)
+						new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)
 					)
 					.Retreat()
 					.AddLabels(labels) // restore bakced-up labels to inserted branch

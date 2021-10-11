@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using StardewValley;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -140,13 +139,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetLabels(out var labels) // copy existing labels
 					.SetLabels(dontIncreaseNumToHarvest) // branch here if shouldn't apply Harvester bonus
 					.Insert( // insert check if junimoHarvester == null
-						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4),
+						new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
 						new CodeInstruction(OpCodes.Brtrue_S, dontIncreaseNumToHarvest)
 					)
 					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Harvester"),
 						dontIncreaseNumToHarvest)
 					.Insert( // insert dice roll
-						new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder) r2),
+						new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder)r2),
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(Random).MethodNamed(nameof(Random.NextDouble))),
 						new CodeInstruction(OpCodes.Ldc_R8, 0.1),

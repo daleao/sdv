@@ -3,12 +3,12 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using StardewValley.Projectiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using StardewValley.Projectiles;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -37,17 +37,17 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				switch (professionName)
 				{
 					case "Aquarist":
-					{
-						foreach (var b in Game1.getFarm().buildings.Where(b =>
-							(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-							b is FishPond && !b.isUnderConstruction()))
 						{
-							var pond = (FishPond) b;
-							pond.UpdateMaximumOccupancy();
-						}
+							foreach (var b in Game1.getFarm().buildings.Where(b =>
+								(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+								b is FishPond && !b.isUnderConstruction()))
+							{
+								var pond = (FishPond)b;
+								pond.UpdateMaximumOccupancy();
+							}
 
-						break;
-					}
+							break;
+						}
 					case "Desperado":
 						Projectile.boundingBoxHeight = 600;
 						Projectile.boundingBoxWidth = 600;
@@ -60,9 +60,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// subscribe events
 				ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
 
-				if (whichProfession - 24 > 1 &&
-				    ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not registered
-					// register super mode
+				if (whichProfession is >= 26 and < 30 &&
+					ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not yet registered
+												 // register super mode
 					ModEntry.SuperModeIndex = whichProfession;
 			}
 			catch (Exception ex)

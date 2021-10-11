@@ -23,8 +23,8 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool IsAnimalProduct(this SObject obj)
 		{
 			return obj != null &&
-			       (obj.Category.AnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
-			        || Util.Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex));
+				   (obj.Category.AnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
+					|| Util.Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex));
 		}
 
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
@@ -97,8 +97,8 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool ShouldBeTracked(this SObject obj)
 		{
 			return Game1.player.HasProfession("Scavenger") &&
-			       (obj.IsSpawnedObject && !obj.IsForagedMineral() || obj.ParentSheetIndex == 590)
-			       || Game1.player.HasProfession("Prospector") && (obj.IsResourceNode() || obj.IsForagedMineral());
+				   (obj.IsSpawnedObject && !obj.IsForagedMineral() || obj.ParentSheetIndex == 590)
+				   || Game1.player.HasProfession("Prospector") && (obj.IsResourceNode() || obj.IsForagedMineral());
 		}
 	}
 }

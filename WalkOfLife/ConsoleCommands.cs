@@ -406,8 +406,8 @@ namespace TheLion.Stardew.Professions
 			result = nonMaxSizedCaught.Keys.Aggregate(result, (current, fish) => current + $"\n- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})");
 
 			var seasonFish = from specificFishData in fishData.Values
-				where specificFishData.Split('/')[6].Contains(Game1.currentSeason)
-				select specificFishData.Split('/')[0];
+							 where specificFishData.Split('/')[6].Contains(Game1.currentSeason)
+							 select specificFishData.Split('/')[0];
 
 			result += "\n\nThe following fish can be caught this season:";
 			result = seasonFish.Except(caughtFishNames).Aggregate(result, (current, fish) => current + $"\n- {fish}");

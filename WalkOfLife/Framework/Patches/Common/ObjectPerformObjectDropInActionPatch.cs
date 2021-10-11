@@ -31,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static bool ObjectPerformObjectDropInActionPrefix(SObject __instance, ref bool __state)
 		{
 			__state = __instance.heldObject.Value !=
-			          null; // remember whether this machine was already holding an object
+					  null; // remember whether this machine was already holding an object
 			return true; // run original logic
 		}
 
@@ -44,10 +44,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				// if there was an object inside before running the original method, or if the machine is still empty after running the original method, or if the machine doesn't belong to this player, then do nothing
 				if (__state || __instance.heldObject.Value == null ||
-				    Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID || probe) return;
+					Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID || probe) return;
 
 				if (__instance.name.AnyOf("Crystalarium", "Geode Crusher") && who.HasProfession("Gemologist") &&
-				    (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
+					(__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
 				{
 					__instance.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
 				}
@@ -55,7 +55,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				{
 					// mead cares about input honey flower type
 					if (__instance.name == "Keg" && dropIn.ParentSheetIndex == 340 &&
-					    dropIn.preservedParentSheetIndex.Value > 0)
+						dropIn.preservedParentSheetIndex.Value > 0)
 					{
 						__instance.heldObject.Value.preservedParentSheetIndex.Value =
 							dropIn.preservedParentSheetIndex.Value;
@@ -63,7 +63,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					}
 					// large milk/eggs give double output
 					else if (__instance.name.AnyOf("Mayonnaise Machine", "Cheese Press") &&
-					         dropIn.name.Contains("Large"))
+							 dropIn.name.Contains("Large"))
 					{
 						__instance.heldObject.Value.Stack = 2;
 					}
@@ -73,7 +73,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
 						__instance.heldObject.Value.Quality = dropIn.Quality;
 						if (dropIn.Quality < SObject.bestQuality &&
-						    new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
+							new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
 							__instance.heldObject.Value.Quality +=
 								dropIn.Quality == SObject.medQuality ? 2 : dropIn.Quality + 1;
 					}
@@ -116,7 +116,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
 						new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] {typeof(string)})
+							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] { typeof(string) })
 								.MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseGemologistCounter);

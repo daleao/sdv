@@ -133,7 +133,7 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
     - **Undying Rage:** Doubles all damage bonuses. Immune to passing out.
         - Doubles damage bonus from all sources, including profession, rings and enchantments.
 - **Lv10 - Bushwhacker** - +10% crit. chance. Crit. strikes are deadlier at low HP and build chance to poach an item on hit.
-    - Crit. Power increases up to x2 at 10% HP. Monsters can only be poached once. Also gain upto 50% cooldown reduction to dagger quick-stab attack.
+    - Crit. Power increases up to x2 at 10% HP. Monsters can only be poached once. Also gain up to 50% cooldown reduction to dagger quick-stab attack.
     - **Ambuscade:** Become invisible and untargetable. Back stabs cause lethal damage.
 		- Missing a back stab will cancel the status and reveal your position once again.
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo.
@@ -210,9 +210,10 @@ The mod is not compatible with the following mods:
 
 ## Recommended Mods
 
-- Recommended use with [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413) (if you miss Oenologist profession perk).
-- Recommended use with [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926) (add variety to Artisan products and Producer).
-- Recommended use with [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634) (make Slime ranching more interesting and profitable).
+- [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413) (if you miss Oenologist profession perk).
+- [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926) (add variety to Artisan products and Producer).
+- [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634) (make Slime ranching more interesting and profitable).
+- [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660) (better consistency between Ostrich and Golden eggs for Artisan profession).﻿
 
 ## Installation
 
@@ -225,6 +226,7 @@ The mod is not compatible with the following mods:
 
 - [Bpendragon](https://www.nexusmods.com/stardewvalley/users/20668164) for [Forage Pointers](https://www.nexusmods.com/stardewvalley/mods/7781).
 - [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
+- Himetarts for the title logo.
 - [Pathoschild](https://www.nexusmods.com/stardewvalley/users/1552317) for SMAPI support.
 - **ConcernedApe** for Stardew Valley.
 - [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.

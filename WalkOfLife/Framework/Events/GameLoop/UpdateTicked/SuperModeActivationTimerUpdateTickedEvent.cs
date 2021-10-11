@@ -8,7 +8,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		private const int BASE_SUPERMODE_ACTIVATION_DELAY = 60;
 
 		private int _superModeActivationTimer =
-			(int) (BASE_SUPERMODE_ACTIVATION_DELAY * ModEntry.Config.SuperModeActivationDelay);
+			(int)(BASE_SUPERMODE_ACTIVATION_DELAY * ModEntry.Config.SuperModeActivationDelay);
 
 		/// <inheritdoc/>
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)

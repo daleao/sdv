@@ -10,7 +10,6 @@ namespace TheLion.Stardew.Professions.Framework
 	public class SoundEffectLoader
 	{
 		public Dictionary<string, SoundEffect> SoundByName { get; } = new();
-		public int Volume { get; set; }
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="modPath">Path to the mod directory.</param>

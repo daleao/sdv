@@ -58,11 +58,10 @@ namespace TheLion.Stardew.Common.Integrations
 		{
 			var api = ModRegistry.GetApi<TInterface>(ModID);
 			if (api != null) return api;
-			
+
 			Log($"Detected {Label}, but couldn't fetch its API. Disabled integration with this mod.",
 				LogLevel.Warn);
 			return null;
-
 		}
 
 		/// <summary>Assert that the integration is loaded.</summary>

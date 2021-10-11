@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
+using System;
+using System.Linq;
+using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SUtility = StardewValley.Utility;
@@ -21,7 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GreenSlimeUpdatePatch()
 		{
 			Original = typeof(GreenSlime).MethodNamed(nameof(GreenSlime.update),
-				new[] {typeof(GameTime), typeof(GameLocation)});
+				new[] { typeof(GameTime), typeof(GameLocation) });
 			Postfix = new HarmonyMethod(GetType(), nameof(GreenSlimeUpdatePostfix));
 		}
 
@@ -38,30 +38,30 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				foreach (var npc in __instance.currentLocation.characters.Where(npc =>
 					npc.IsMonster && npc is not GreenSlime && npc is not BigSlime))
 				{
-					var monster = (Monster) npc;
+					var monster = (Monster)npc;
 					var monsterBox = monster.GetBoundingBox();
 					var piperIndex = Util.Professions.IndexOf("Piper");
 					if (monster.IsInvisible || monster.isInvincible() ||
-					    monster.isGlider.Value && __instance.Scale < 1.4f ||
-					    !monsterBox.Intersects(__instance.GetBoundingBox()))
+						monster.isGlider.Value && __instance.Scale < 1.4f ||
+						!monsterBox.Intersects(__instance.GetBoundingBox()))
 						continue;
 
 					if (monster is Bug bug && bug.isArmoredBug.Value // skip armored bugs
-					    || monster is LavaCrab && __instance.Sprite.currentFrame % 4 == 0 // skip shelled lava crabs
-					    || monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !ModEntry.ModHelper
-						    .Reflection.GetField<NetBool>(crab, "shellGone").GetValue().Value // skip shelled rock crabs
-					    || monster is LavaLurk lurk &&
-					    lurk.currentState.Value == LavaLurk.State.Submerged // skip submerged lava lurks
-					    || monster is Spiker) // skip spikers
+						|| monster is LavaCrab && __instance.Sprite.currentFrame % 4 == 0 // skip shelled lava crabs
+						|| monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !ModEntry.ModHelper
+							.Reflection.GetField<NetBool>(crab, "shellGone").GetValue().Value // skip shelled rock crabs
+						|| monster is LavaLurk lurk &&
+						lurk.currentState.Value == LavaLurk.State.Submerged // skip submerged lava lurks
+						|| monster is Spiker) // skip spikers
 						continue;
 
 					var damageToMonster = Math.Max(1,
 						__instance.DamageToFarmer + Game1.random.Next(-__instance.DamageToFarmer / 4,
 							__instance.DamageToFarmer / 4));
 					var trajectory = SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.Position) / 2f;
-					monster.takeDamage(damageToMonster, (int) trajectory.X, (int) trajectory.Y, false, 1.0, "slime");
-					monster.setInvincibleCountdown((int) (BASE_INVINCIBILITY_TIMER *
-					                                      (1f - Util.Professions.GetPiperSlimeAttackSpeedModifier())));
+					monster.takeDamage(damageToMonster, (int)trajectory.X, (int)trajectory.Y, false, 1.0, "slime");
+					monster.setInvincibleCountdown((int)(BASE_INVINCIBILITY_TIMER *
+														  (1f - Util.Professions.GetPiperSlimeAttackSpeedModifier())));
 					monster.currentLocation.debris.Add(new Debris(damageToMonster,
 						new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y), new Color(255, 130, 0), 1f,
 						monster));

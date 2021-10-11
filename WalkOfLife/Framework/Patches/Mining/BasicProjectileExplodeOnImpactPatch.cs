@@ -7,6 +7,7 @@ using System;
 using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
+
 // ReSharper disable PossibleLossOfFraction
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -33,7 +34,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				location.explode(new Vector2(x / Game1.tileSize, y / Game1.tileSize), 3, farmer);
 				return false; // don't run original logic
-
 			}
 			catch (Exception ex)
 			{

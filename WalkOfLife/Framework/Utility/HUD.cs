@@ -8,6 +8,7 @@ using DrawColor = System.Drawing.Color;
 using SUtility = StardewValley.Utility;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using XnaRect = Microsoft.Xna.Framework.Rectangle;
+
 // ReSharper disable JoinDeclarationAndInitializer
 
 namespace TheLion.Stardew.Professions.Framework.Util
@@ -40,12 +41,12 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			if (target.X * 64f > Game1.viewport.MaxCorner.X - 64)
 			{
 				onScreenPosition.X = vpbounds.Right - 8;
-				rotation = (float) Math.PI / 2f;
+				rotation = (float)Math.PI / 2f;
 			}
 			else if (target.X * 64f < Game1.viewport.X)
 			{
 				onScreenPosition.X = 8f;
-				rotation = -(float) Math.PI / 2f;
+				rotation = -(float)Math.PI / 2f;
 			}
 			else
 			{
@@ -55,7 +56,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			if (target.Y * 64f > Game1.viewport.MaxCorner.Y - 64)
 			{
 				onScreenPosition.Y = vpbounds.Bottom - 8;
-				rotation = (float) Math.PI;
+				rotation = (float)Math.PI;
 			}
 			else if (target.Y * 64f < Game1.viewport.Y)
 			{
@@ -66,16 +67,16 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				onScreenPosition.Y = target.Y * 64f - Game1.viewport.Y;
 			}
 
-			if ((int) onScreenPosition.X == 8 && (int) onScreenPosition.Y == 8) rotation += (float) Math.PI / 4f;
+			if ((int)onScreenPosition.X == 8 && (int)onScreenPosition.Y == 8) rotation += (float)Math.PI / 4f;
 
-			if ((int) onScreenPosition.X == 8 && (int) onScreenPosition.Y == vpbounds.Bottom - 8)
-				rotation += (float) Math.PI / 4f;
+			if ((int)onScreenPosition.X == 8 && (int)onScreenPosition.Y == vpbounds.Bottom - 8)
+				rotation += (float)Math.PI / 4f;
 
-			if ((int) onScreenPosition.X == vpbounds.Right - 8 && (int) onScreenPosition.Y == 8)
-				rotation -= (float) Math.PI / 4f;
+			if ((int)onScreenPosition.X == vpbounds.Right - 8 && (int)onScreenPosition.Y == 8)
+				rotation -= (float)Math.PI / 4f;
 
-			if ((int) onScreenPosition.X == vpbounds.Right - 8 && (int) onScreenPosition.Y == vpbounds.Bottom - 8)
-				rotation -= (float) Math.PI / 4f;
+			if ((int)onScreenPosition.X == vpbounds.Right - 8 && (int)onScreenPosition.Y == vpbounds.Bottom - 8)
+				rotation -= (float)Math.PI / 4f;
 
 			var srcRect = new XnaRect(0, 0, 5, 4);
 			var safePos = SUtility.makeSafe(
@@ -116,7 +117,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				adjustedPixel,
 				srcRect,
 				color,
-				(float) Math.PI,
+				(float)Math.PI,
 				new Vector2(2f, 2f),
 				RENDER_SCALE,
 				SpriteEffects.None,
@@ -166,7 +167,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 
 			// middle
 			srcRect = new XnaRect(0, 16, 9, 16);
-			destRect = new XnaRect((int) topOfBar.X, (int) (topOfBar.Y + 64f), 36, 56);
+			destRect = new XnaRect((int)topOfBar.X, (int)(topOfBar.Y + 64f), 36, 56);
 			Game1.spriteBatch.Draw(
 				BarTx,
 				destRect,
@@ -199,18 +200,18 @@ namespace TheLion.Stardew.Professions.Framework.Util
 					DrawColor.BlueViolet,
 					DrawColor.Cyan
 				};
-				var positions = new[] {0f, 0.35f, 0.55f, 0.75f, 1f};
+				var positions = new[] { 0f, 0.35f, 0.55f, 0.75f, 1f };
 
 				BarFillTx = TextureBuilder.CreateGradientTexture(Game1.graphics.GraphicsDevice, 9, TEXTURE_HEIGHT,
 					colors, positions);
 			}
 
-			var ratio = ModEntry.SuperModeCounter / (float) ModEntry.SuperModeCounterMax;
-			var srcHeight = (int) (TEXTURE_HEIGHT * ratio);
-			var destHeight = (int) (MAX_BAR_HEIGHT * ratio);
+			var ratio = ModEntry.SuperModeCounter / (float)ModEntry.SuperModeCounterMax;
+			var srcHeight = (int)(TEXTURE_HEIGHT * ratio);
+			var destHeight = (int)(MAX_BAR_HEIGHT * ratio);
 
 			srcRect = new XnaRect(0, TEXTURE_HEIGHT - srcHeight, 9, srcHeight);
-			destRect = new XnaRect((int) topOfBar.X + 12, (int) topOfBar.Y + 8 + (MAX_BAR_HEIGHT - destHeight), 12,
+			destRect = new XnaRect((int)topOfBar.X + 12, (int)topOfBar.Y + 8 + (MAX_BAR_HEIGHT - destHeight), 12,
 				destHeight);
 
 			Game1.spriteBatch.Draw(
@@ -226,8 +227,8 @@ namespace TheLion.Stardew.Professions.Framework.Util
 
 			// draw hover text
 			if (Game1.getOldMouseX() >= topOfBar.X && Game1.getOldMouseY() >= topOfBar.Y &&
-			    Game1.getOldMouseX() < topOfBar.X + 24f)
-				Game1.drawWithBorder((int) Math.Max(0f, ModEntry.SuperModeCounter) + "/" + 500, XnaColor.Black * 0f,
+				Game1.getOldMouseX() < topOfBar.X + 24f)
+				Game1.drawWithBorder((int)Math.Max(0f, ModEntry.SuperModeCounter) + "/" + 500, XnaColor.Black * 0f,
 					XnaColor.White,
 					topOfBar + new Vector2(0f - Game1.dialogueFont.MeasureString("999/999").X - 32f, 64f));
 

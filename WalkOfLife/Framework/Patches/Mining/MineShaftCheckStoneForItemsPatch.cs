@@ -1,10 +1,10 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewValley;
+using StardewValley.Locations;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using StardewValley;
-using StardewValley.Locations;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -47,7 +47,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.AddLabels(isNotSpelunker) // branch here to resume execution
 					.Insert(
 						// prepare profession check
-						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
 					)
 					.InsertProfessionCheckForPlayerOnStack(Util.Professions.IndexOf("Spelunker"), isNotSpelunker)
 					.Insert(
@@ -84,7 +84,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var isNotGeologist) // copy destination
 					.Return()
 					.Insert( // insert uncoditional branch to skip this check
-						new CodeInstruction(OpCodes.Br_S, (Label) isNotGeologist)
+						new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist)
 					)
 					.Retreat()
 					.AddLabels(labels)

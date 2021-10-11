@@ -1,10 +1,10 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewValley;
+using StardewValley.TerrainFeatures;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using StardewValley;
-using StardewValley.TerrainFeatures;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -70,7 +70,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
 						new CodeInstruction(OpCodes.Ldstr, "ItemsForaged"),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] {typeof(string)})
+							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] { typeof(string) })
 								.MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseEcologistCounter);

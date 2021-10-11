@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
@@ -43,7 +42,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (__instance.treeType.Value == Tree.mahoganyTree)
 				{
 					if (Game1.random.NextDouble() < 0.075 * n ||
-					    __instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n)
+						__instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n)
 						++__instance.growthStage.Value;
 				}
 				else if (Game1.random.NextDouble() < 0.1 * n)

@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (!e.IsLocalPlayer) return;
 
 			if (e.NewLocation is not VolcanoDungeon &&
-			    (e.NewLocation is not MineShaft || (e.NewLocation as MineShaft).IsTreasureOrSafeRoom()))
+				(e.NewLocation is not MineShaft || (e.NewLocation as MineShaft).IsTreasureOrSafeRoom()))
 			{
 				ModEntry.Subscriber.Unsubscribe(typeof(PiperUpdateTickedEvent));
 				return;
@@ -35,31 +35,31 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				switch (e.NewLocation)
 				{
 					case MineShaft shaft:
-					{
-						shaft.checkForMapAlterations(x, y);
-						if (!shaft.isTileClearForMineObjects(spawnPosition) || shaft.isTileOccupied(spawnPosition))
-							continue;
+						{
+							shaft.checkForMapAlterations(x, y);
+							if (!shaft.isTileClearForMineObjects(spawnPosition) || shaft.isTileOccupied(spawnPosition))
+								continue;
 
-						slime = new GreenSlime(Vector2.Zero, shaft.mineLevel);
-						if (shaft.GetAdditionalDifficulty() > 0 &&
-						    r.NextDouble() < Math.Min(shaft.GetAdditionalDifficulty() * 0.1f, 0.5f))
-							slime.stackedSlimes.Value = r.NextDouble() < 0.0099999997764825821 ? 4 : 2;
+							slime = new GreenSlime(Vector2.Zero, shaft.mineLevel);
+							if (shaft.GetAdditionalDifficulty() > 0 &&
+								r.NextDouble() < Math.Min(shaft.GetAdditionalDifficulty() * 0.1f, 0.5f))
+								slime.stackedSlimes.Value = r.NextDouble() < 0.0099999997764825821 ? 4 : 2;
 
-						slime.setTilePosition(x, y);
-						shaft.characters.Add(shaft.BuffMonsterIfNecessary(slime));
-						++spawned;
-						break;
-					}
+							slime.setTilePosition(x, y);
+							shaft.characters.Add(shaft.BuffMonsterIfNecessary(slime));
+							++spawned;
+							break;
+						}
 					case VolcanoDungeon dungeon:
-					{
-						if (!e.NewLocation.isTileLocationTotallyClearAndPlaceable(spawnPosition)) continue;
+						{
+							if (!e.NewLocation.isTileLocationTotallyClearAndPlaceable(spawnPosition)) continue;
 
-						slime = new GreenSlime(spawnPosition, 1);
-						slime.makeTigerSlime();
-						dungeon.characters.Add(slime);
-						++spawned;
-						break;
-					}
+							slime = new GreenSlime(spawnPosition, 1);
+							slime.makeTigerSlime();
+							dungeon.characters.Add(slime);
+							++spawned;
+							break;
+						}
 				}
 
 				--attempts;

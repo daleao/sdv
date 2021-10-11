@@ -28,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 		private static void GreenSlimeGetExtraDropItemsPostfix(GreenSlime __instance, ref List<Item> __result)
 		{
 			if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession("Piper", out var pipers) ||
-			    !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;
+				!Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;
 
 			var slimeCount =
 				Game1.getFarm().buildings.Where(b =>
@@ -55,7 +55,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 			}
 
 			if (MineShaft.lowestLevelReached >= 120 && (__instance.currentLocation is MineShaft ||
-			                                            __instance.currentLocation is VolcanoDungeon))
+														__instance.currentLocation is VolcanoDungeon))
 			{
 				if (r.NextDouble() < baseChance / 8) __result.Add(new SObject(72, 1)); // diamond
 				if (r.NextDouble() < baseChance / 10) __result.Add(new SObject(74, 1)); // prismatic shard
@@ -110,9 +110,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 					case "Green Slime":
 						__result.Add(new SObject(680, 1));
 						break;
+
 					case "Frost Jelly":
 						__result.Add(new SObject(413, 1));
 						break;
+
 					case "Sludge":
 						__result.Add(color.B < 200 ? new SObject(437, 1) : new SObject(439, 1));
 						break;
@@ -126,12 +128,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 						case 0:
 							__result.Add(new SObject(831, 1)); // taro tuber
 							break;
+
 						case 1:
 							__result.Add(new SObject(829, 1)); // ginger
 							break;
+
 						case 2:
 							__result.Add(new SObject(833, 1)); // pineapple seeds
 							break;
+
 						case 3:
 							__result.Add(new SObject(835, 1)); // mango sapling
 							break;

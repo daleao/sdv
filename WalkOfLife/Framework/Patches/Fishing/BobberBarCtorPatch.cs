@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal BobberBarCtorPatch()
 		{
-			Original = typeof(BobberBar).Constructor(new[] {typeof(int), typeof(float), typeof(bool), typeof(int)});
+			Original = typeof(BobberBar).Constructor(new[] { typeof(int), typeof(float), typeof(bool), typeof(int) });
 			Postfix = new HarmonyMethod(GetType(), nameof(BobberBarCtorPostfix));
 		}
 

@@ -40,7 +40,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
 					)
-					.InsertProfessionCheckForPlayerOnStack(Util.Professions.IndexOf("Piper"), (Label) returnLabel,
+					.InsertProfessionCheckForPlayerOnStack(Util.Professions.IndexOf("Piper"), (Label)returnLabel,
 						true);
 			}
 			catch (Exception ex)

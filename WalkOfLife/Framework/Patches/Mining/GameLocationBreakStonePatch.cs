@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -41,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var isNotGeologist) // copy destination
 					.Return()
 					.Insert( // insert uncoditional branch to skip this check
-						new CodeInstruction(OpCodes.Br, (Label) isNotGeologist)
+						new CodeInstruction(OpCodes.Br, (Label)isNotGeologist)
 					)
 					.Retreat()
 					.AddLabels(labels); // restore backed-up labels to inserted branch
@@ -65,7 +65,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var isNotProspector) // copy destination
 					.Return()
 					.Insert( // insert uncoditional branch to skip this check
-						new CodeInstruction(OpCodes.Br_S, (Label) isNotProspector)
+						new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector)
 					);
 			}
 			catch (Exception ex)

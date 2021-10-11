@@ -87,10 +87,15 @@ namespace TheLion.Stardew.Professions
 		}
 
 		public static event SuperModeCounterFilledEventHandler SuperModeCounterFilled;
+
 		public static event SuperModeCounterRaisedAboveZeroEventHandler SuperModeCounterRaisedAboveZero;
+
 		public static event SuperModeCounterReturnedToZeroEventHandler SuperModeCounterReturnedToZero;
+
 		public static event SuperModeDisabledEventHandler SuperModeDisabled;
+
 		public static event SuperModeEnabledEventHandler SuperModeEnabled;
+
 		public static event SuperModeIndexChangedEventHandler SuperModeIndexChanged;
 
 		private static int _superModeIndex = -1;

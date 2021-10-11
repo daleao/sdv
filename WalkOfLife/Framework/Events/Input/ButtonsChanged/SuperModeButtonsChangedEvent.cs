@@ -9,7 +9,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		public override void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
 		{
 			if (ModEntry.Config.SuperModeKey.JustPressed() && !ModEntry.IsSuperModeActive &&
-			    ModEntry.SuperModeCounter >= ModEntry.SuperModeCounterMax)
+				ModEntry.SuperModeCounter >= ModEntry.SuperModeCounterMax)
 			{
 				if (ModEntry.Config.HoldKeyToActivateSuperMode)
 					ModEntry.Subscriber.Subscribe(new SuperModeActivationTimerUpdateTickedEvent());

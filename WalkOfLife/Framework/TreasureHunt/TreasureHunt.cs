@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewValley;
+using System;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 {

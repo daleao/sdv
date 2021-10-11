@@ -53,7 +53,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					(b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond &&
 					!b.isUnderConstruction()))
 				{
-					var pond = (FishPond) b;
+					var pond = (FishPond)b;
 					pond.UpdateMaximumOccupancy();
 					pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
 				}

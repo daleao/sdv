@@ -37,7 +37,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.FindFirst( // find index of FarmAnimal.type.Value.Equals("Sheep")
 						new CodeInstruction(OpCodes.Ldstr, "Sheep"),
 						new CodeInstruction(OpCodes.Callvirt,
-							typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)}))
+							typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) }))
 					)
 					.Retreat(2)
 					.SetOperand(typeof(FarmAnimal).Field(nameof(FarmAnimal.happiness))) // was FarmAnimal.type
@@ -89,7 +89,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Return()
 					.Retreat()
 					.Insert( // insert unconditional branch to skip this whole section
-						new CodeInstruction(OpCodes.Br_S, (Label) resumeExecution)
+						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution)
 					);
 			}
 			catch (Exception ex)

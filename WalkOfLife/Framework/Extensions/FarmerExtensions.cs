@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using StardewValley;
+﻿using StardewValley;
+using System.Linq;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions
 {
@@ -10,7 +10,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool HasProfession(this Farmer farmer, string professionName)
 		{
 			return Util.Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex) &&
-			       farmer.professions.Contains(professionIndex);
+				   farmer.professions.Contains(professionIndex);
 		}
 
 		/// <summary>Whether the farmer has a particular profession.</summary>
@@ -18,7 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool HasProfession(this Farmer farmer, int professionIndex)
 		{
 			return Util.Professions.IndexByName.Contains(professionIndex) &&
-			       farmer.professions.Contains(professionIndex);
+				   farmer.professions.Contains(professionIndex);
 		}
 
 		/// <summary>Whether the farmer has any of the specified professions.</summary>

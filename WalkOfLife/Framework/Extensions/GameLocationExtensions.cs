@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		{
 			farmers = new List<Farmer>();
 			if (!Context.IsMultiplayer && location.Equals(Game1.player.currentLocation) &&
-			    Game1.player.HasProfession(professionName))
+				Game1.player.HasProfession(professionName))
 				farmers.Add(Game1.player);
 			else
 				foreach (var farmer in location.farmers.Where(farmer => farmer.HasProfession(professionName)))

@@ -32,7 +32,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void SlingshotPerformFirePostfix(Slingshot __instance, GameLocation location, Farmer who)
 		{
 			if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Desperado") ||
-			    location.projectiles.LastOrDefault() is not BasicProjectile mainProjectile) return;
+				location.projectiles.LastOrDefault() is not BasicProjectile mainProjectile) return;
 
 			// get bullet properties
 			var damage = mainProjectile.damageToFarmer;
@@ -63,7 +63,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					var adjustedVelocity = new Vector2(netVelocity.X, netVelocity.Y).Rotate(angle);
 
 					location.projectiles.Add(new BasicProjectile(damage, ammunitionIndex, 0, 0,
-						(float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - adjustedVelocity.X * speed,
+						(float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - adjustedVelocity.X * speed,
 						0f - adjustedVelocity.Y * speed, startingPosition, collisionSound, "", false,
 						true, location, who, true, collisionBehavior)
 					{
@@ -91,7 +91,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				DelayedAction doubleStrafe = new(50, () =>
 				{
 					location.projectiles.Add(new BasicProjectile(damage, ammunitionIndex, 0, 0,
-						(float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - netVelocity.X * speed,
+						(float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - netVelocity.X * speed,
 						0f - netVelocity.Y * speed, startingPosition, collisionSound, "", false,
 						true, location, who, true, collisionBehavior)
 					{

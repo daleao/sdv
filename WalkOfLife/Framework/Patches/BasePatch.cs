@@ -32,7 +32,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				ModEntry.Log($"Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Warn);
 				return;
 			}
-			
+
 			try
 			{
 				ModEntry.Log($"Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.",

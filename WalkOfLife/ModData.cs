@@ -21,12 +21,12 @@ namespace TheLion.Stardew.Professions
 				new List<KeyValuePair<string, string>>
 					{new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0")}
 			},
-			{"Ecologist", new List<KeyValuePair<string, string>> {new("ItemsForaged", "0")}},
-			{"Gemologist", new List<KeyValuePair<string, string>> {new("MineralsCollected", "0")}},
-			{"Prospector", new List<KeyValuePair<string, string>> {new("ProspectorHuntStreak", "0")}},
+			{ "Ecologist", new List<KeyValuePair<string, string>> { new("ItemsForaged", "0") } },
+			{ "Gemologist", new List<KeyValuePair<string, string>> { new("MineralsCollected", "0") } },
+			{ "Prospector", new List<KeyValuePair<string, string>> { new("ProspectorHuntStreak", "0") } },
 			{
 				"Scavenger",
-				new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("ScavengerHuntStreak", "0")}
+				new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("ScavengerHuntStreak", "0") }
 			}
 		};
 
@@ -97,10 +97,10 @@ namespace TheLion.Stardew.Professions
 		{
 			ModEntry.Log("Checking for rogue data fields...", LogLevel.Trace);
 			foreach (var kvp in from kvp in FieldsByProfession
-				where !kvp.Key.AnyOf("Scavenger", "Prospector")
-				from field in kvp.Value
-				where _data.ContainsKey(field.Key) && !Game1.player.HasProfession(kvp.Key)
-				select kvp) RemoveProfessionDataFields(kvp.Key);
+								where !kvp.Key.AnyOf("Scavenger", "Prospector")
+								from field in kvp.Value
+								where _data.ContainsKey(field.Key) && !Game1.player.HasProfession(kvp.Key)
+								select kvp) RemoveProfessionDataFields(kvp.Key);
 			ModEntry.Log("Done.", LogLevel.Trace);
 		}
 
@@ -153,18 +153,23 @@ namespace TheLion.Stardew.Professions
 				case TypeCode.Int16:
 					_data.Increment<short>($"{_id}/{field}", 1);
 					break;
+
 				case TypeCode.UInt16:
 					_data.Increment<ushort>($"{_id}/{field}", 1);
 					break;
+
 				case TypeCode.Int32:
 					_data.Increment<int>($"{_id}/{field}", 1);
 					break;
+
 				case TypeCode.UInt32:
 					_data.Increment<uint>($"{_id}/{field}", 1);
 					break;
+
 				case TypeCode.Int64:
 					_data.Increment<long>($"{_id}/{field}", 1);
 					break;
+
 				case TypeCode.UInt64:
 					_data.Increment<ulong>($"{_id}/{field}", 1);
 					break;

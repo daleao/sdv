@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal CraftingRecipeCtorPatch()
 		{
-			Original = typeof(CraftingRecipe).Constructor(new[] {typeof(string), typeof(bool)});
+			Original = typeof(CraftingRecipe).Constructor(new[] { typeof(string), typeof(bool) });
 			Postfix = new HarmonyMethod(GetType(), nameof(CraftingRecipeCtorPostfix));
 		}
 

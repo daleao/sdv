@@ -1,4 +1,5 @@
 ﻿#nullable enable
+
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -33,7 +34,7 @@ namespace TheLion.Stardew.Common.Extensions
 			var converter = TypeDescriptor.GetConverter(typeof(T));
 			if (converter.CanConvertTo(typeof(T)) && converter.CanConvertFrom(typeof(string)))
 			{
-				val = (T) converter.ConvertFromString(s);
+				val = (T)converter.ConvertFromString(s);
 				return true;
 			}
 
@@ -44,8 +45,8 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <summary>Converts a string ID into an 8-digit hash code.</summary>
 		public static int Hash(this string s)
 		{
-			return (int) (Math.Abs(s.GetHashCode()) /
-			              Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(s.GetHashCode()))) - 8 + 1));
+			return (int)(Math.Abs(s.GetHashCode()) /
+						  Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(s.GetHashCode()))) - 8 + 1));
 		}
 
 		/// <summary>Removes invalid file name or path characters from the calling string.</summary>

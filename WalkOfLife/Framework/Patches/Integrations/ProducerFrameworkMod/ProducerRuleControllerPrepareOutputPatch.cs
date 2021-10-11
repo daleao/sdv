@@ -58,7 +58,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.FindFirst( // find instruction to set the producer held object value
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(NetFieldBase<SObject, NetRef<SObject>>).MethodNamed("set_Value",
-								new[] {typeof(SObject)}))
+								new[] { typeof(SObject) }))
 					) // after this the output is already on the stack
 					.Insert( // load the input next
 						new CodeInstruction(OpCodes.Ldloc_S, local8)
@@ -70,7 +70,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldfld, keepInputQuality),
 						// load Farmer who
 						new CodeInstruction(OpCodes.Ldarg_2), // arg 2 = Farmer who
-						// call custom logic
+															  // call custom logic
 						new CodeInstruction(OpCodes.Call,
 							typeof(ProducerRuleControllerPrepareOutputPatch).MethodNamed(
 								nameof(PrepareOutputSubroutine)))
@@ -99,11 +99,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					output.Quality = input?.Quality ?? 0;
 
 				if (output.Quality < SObject.bestQuality &&
-				    new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
+					new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
 					output.Quality += output.Quality == SObject.medQuality ? 2 : 1;
 			}
 			else if (producer.name == "Geode Crusher" && (input.IsForagedMineral() || input.IsGemOrMineral()) &&
-			         who.HasProfession("Gemologist"))
+					 who.HasProfession("Gemologist"))
 			{
 				output.Quality = Util.Professions.GetGemologistMineralQuality();
 				if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");

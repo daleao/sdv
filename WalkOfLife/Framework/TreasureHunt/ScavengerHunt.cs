@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Util;
 using SObject = StardewValley.Object;
@@ -57,8 +57,8 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 			Tiles.MakeTileDiggable(v, location);
 			TreasureTile = v;
-			TimeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 10 *
-			                    ModEntry.Config.TreasureHuntHandicap);
+			TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 10 *
+								ModEntry.Config.TreasureHuntHandicap);
 			Elapsed = 0;
 			ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(),
 				new ScavengerHuntUpdateTickedEvent(), new ScavengerHuntRenderedHudEvent());
@@ -70,8 +70,8 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		{
 			if (Game1.player.CurrentTool is not Hoe || !Game1.player.UsingTool) return;
 
-			var actionTile = new Vector2((int) (Game1.player.GetToolLocation().X / Game1.tileSize),
-				(int) (Game1.player.GetToolLocation().Y / Game1.tileSize));
+			var actionTile = new Vector2((int)(Game1.player.GetToolLocation().X / Game1.tileSize),
+				(int)(Game1.player.GetToolLocation().Y / Game1.tileSize));
 			if (TreasureTile == null || actionTile != TreasureTile.Value) return;
 
 			End();
@@ -135,7 +135,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			Game1.player.completelyStopAnimatingOrDoingAction();
 			var treasures = GetTreasureContents();
 			Game1.activeClickableMenu = new ItemGrabMenu(treasures).setEssential(true);
-			((ItemGrabMenu) Game1.activeClickableMenu).source = 3;
+			((ItemGrabMenu)Game1.activeClickableMenu).source = 3;
 		}
 
 		/// <summary>Choose the contents of the treasure chest.</summary>
@@ -178,6 +178,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 						if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03) treasures.Last().Stack *= 2;
 
 						break;
+
 					case 1:
 						if (Random.NextDouble() < 0.25 && Game1.player.craftingRecipes.ContainsKey("Wild Bait"))
 							treasures.Add(new SObject(774, 5 + (Random.NextDouble() < 0.25 ? 5 : 0))); // wild bait
@@ -185,9 +186,10 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 							treasures.Add(new SObject(685, 10)); // bait
 
 						break;
+
 					case 2:
 						if (Random.NextDouble() < 0.1 && Game1.netWorldState.Value.LostBooksFound.Value < 21 &&
-						    Game1.player.hasOrWillReceiveMail("lostBookFound"))
+							Game1.player.hasOrWillReceiveMail("lostBookFound"))
 							treasures.Add(new SObject(102, 1)); // lost book
 						else if (Game1.player.archaeologyFound.Any()) // artifacts
 							treasures.Add(new SObject(
@@ -200,6 +202,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 							treasures.Add(new SObject(382, Random.Next(1, 3))); // coal
 
 						break;
+
 					case 3:
 						switch (Random.Next(3))
 						{
@@ -209,6 +212,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 									treasures.Last().Stack *= 2;
 
 								break;
+
 							case 1:
 								switch (Random.Next(4))
 								{
@@ -240,32 +244,33 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 								if (Random.NextDouble() < 0.05) treasures.Last().Stack *= 2;
 
 								break;
+
 							case 2:
 								var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
 								var streak = ModEntry.Data.ReadField<uint>("ScavengerHuntStreak");
 								if (Random.NextDouble() < 0.025 * luckModifier &&
-								    !Game1.player.specialItems.Contains(60))
-									treasures.Add(new MeleeWeapon(15) {specialItem = true}); // forest sword
+									!Game1.player.specialItems.Contains(60))
+									treasures.Add(new MeleeWeapon(15) { specialItem = true }); // forest sword
 
 								if (Random.NextDouble() < 0.025 * luckModifier &&
-								    !Game1.player.specialItems.Contains(20))
-									treasures.Add(new MeleeWeapon(20) {specialItem = true}); // elf blade
+									!Game1.player.specialItems.Contains(20))
+									treasures.Add(new MeleeWeapon(20) { specialItem = true }); // elf blade
 
 								if (Random.NextDouble() < 0.07 * luckModifier)
 									switch (Random.Next(3))
 									{
 										case 0:
 											treasures.Add(new Ring(516 +
-											                       (Random.NextDouble() < Game1.player.LuckLevel / 11f
-												                       ? 1
-												                       : 0))); // (small) glow ring
+																   (Random.NextDouble() < Game1.player.LuckLevel / 11f
+																	   ? 1
+																	   : 0))); // (small) glow ring
 											break;
 
 										case 1:
 											treasures.Add(new Ring(518 +
-											                       (Random.NextDouble() < Game1.player.LuckLevel / 11f
-												                       ? 1
-												                       : 0))); // (small) magnet ring
+																   (Random.NextDouble() < Game1.player.LuckLevel / 11f
+																	   ? 1
+																	   : 0))); // (small) magnet ring
 											break;
 
 										case 2:
@@ -292,7 +297,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 									treasures.Add(new Boots(Random.Next(504, 514))); // boots
 
 								if (Game1.MasterPlayer.mailReceived.Contains("Farm_Eternal") &&
-								    Random.NextDouble() < 0.01 * luckModifier)
+									Random.NextDouble() < 0.01 * luckModifier)
 									treasures.Add(new SObject(928, 1)); // golden egg
 
 								if (treasures.Count == 1) treasures.Add(new SObject(72, 1)); // consolation diamond

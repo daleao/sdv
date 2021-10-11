@@ -38,10 +38,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!firer.HasProfession("Rascal")) return;
 
 				if ((___currentTileSheetIndex.Value - 1).AnyOf(SObject.copper, SObject.iron, SObject.gold,
-					    SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
-				    || ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
+						SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
+					|| ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
 					location.debris.Add(new Debris(___currentTileSheetIndex.Value - 1,
-						new Vector2((int) ___position.X, (int) ___position.Y), firer.getStandingPosition()));
+						new Vector2((int)___position.X, (int)___position.Y), firer.getStandingPosition()));
 			}
 			catch (Exception ex)
 			{

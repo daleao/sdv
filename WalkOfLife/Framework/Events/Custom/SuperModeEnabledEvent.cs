@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Content;
 using Netcode;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
+using System;
 using System.Linq;
-using Microsoft.Xna.Framework.Content;
-using StardewModdingAPI;
-using StardewValley.Projectiles;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
@@ -49,7 +48,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
 				else throw new ContentLoadException();
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				ModEntry.Log($"Couldn't play sound asset file '{ModEntry.SuperModeSFX}'. Make sure the file exists. {ex}",
 					LogLevel.Error);
@@ -85,15 +84,15 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						which = buffID,
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
 						glow = ModEntry.SuperModeGlowColor,
-						millisecondsDuration = (int) (ModEntry.Config.SuperModeDrainFactor / 60f *
-						                              ModEntry.SuperModeCounterMax * 1000f),
+						millisecondsDuration = (int)(ModEntry.Config.SuperModeDrainFactor / 60f *
+													  ModEntry.SuperModeCounterMax * 1000f),
 						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".supermdesc")
 					}
 				);
 
 			// notify peers
 			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeActivated",
-				new[] {ModEntry.UniqueID});
+				new[] { ModEntry.UniqueID });
 
 			switch (whichSuperMode)
 			{
@@ -101,6 +100,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				case "Poacher":
 					DoEnablePoacherSuperMode();
 					break;
+
 				case "Piper":
 					DoEnablePiperSuperMode();
 					break;
@@ -120,15 +120,19 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						ModEntry.ModHelper.Reflection.GetField<bool>(dustSpirit, "chargingFarmer").SetValue(false);
 						ModEntry.ModHelper.Reflection.GetField<bool>(dustSpirit, "seenFarmer").SetValue(false);
 						break;
+
 					case AngryRoger angryRoger:
 						ModEntry.ModHelper.Reflection.GetField<NetBool>(angryRoger, "seenPlayer").GetValue().Set(false);
 						break;
+
 					case Bat bat:
 						ModEntry.ModHelper.Reflection.GetField<NetBool>(bat, "seenPlayer").GetValue().Set(false);
 						break;
+
 					case Ghost ghost:
 						ModEntry.ModHelper.Reflection.GetField<NetBool>(ghost, "seenPlayer").GetValue().Set(false);
 						break;
+
 					case RockGolem rockGolem:
 						ModEntry.ModHelper.Reflection.GetField<NetBool>(rockGolem, "seenPlayer").GetValue().Set(false);
 						break;
@@ -162,8 +166,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				{
 					Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
 					var justCreated = Game1.currentLocation.characters[Game1.currentLocation.characters.Count - 1];
-					justCreated.setTrajectory((int) (bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
-						(int) (bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
+					justCreated.setTrajectory((int)(bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
+						(int)(bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
 					justCreated.willDestroyObjectsUnderfoot = false;
 					justCreated.moveTowardPlayer(4);
 					justCreated.Scale = 0.75f + Game1.random.Next(-5, 10) / 100f;

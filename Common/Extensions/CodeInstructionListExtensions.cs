@@ -17,8 +17,8 @@ namespace TheLion.Stardew.Common.Extensions
 			{
 				var j = 0;
 				while (j < pattern.Length && list[i + j].opcode.Equals(pattern[j].opcode)
-				                          && (pattern[j].operand == null || list[i + j].operand.ToString()
-					                          .Equals(pattern[j].operand.ToString())))
+										  && (pattern[j].operand == null || list[i + j].operand.ToString()
+											  .Equals(pattern[j].operand.ToString())))
 					++j;
 				if (j == pattern.Length) return i;
 			}

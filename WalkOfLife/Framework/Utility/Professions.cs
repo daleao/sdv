@@ -9,6 +9,7 @@ using System.Linq;
 using TheLion.Stardew.Common.Classes;
 using TheLion.Stardew.Common.Extensions;
 using SObject = StardewValley.Object;
+
 // ReSharper disable PossibleLossOfFraction
 
 namespace TheLion.Stardew.Professions.Framework.Util
@@ -21,51 +22,51 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		public static BiMap<string, int> IndexByName { get; } = new()
 		{
 			// farming
-			{"Rancher", Farmer.rancher}, // 0
-			{"Breeder", Farmer.butcher}, // 2 (coopmaster)
-			{"Producer", Farmer.shepherd}, // 3
+			{ "Rancher", Farmer.rancher }, // 0
+			{ "Breeder", Farmer.butcher }, // 2 (coopmaster)
+			{ "Producer", Farmer.shepherd }, // 3
 
-			{"Harvester", Farmer.tiller}, // 1
-			{"Artisan", Farmer.artisan}, // 4
-			{"Agriculturist", Farmer.agriculturist}, // 5
+			{ "Harvester", Farmer.tiller }, // 1
+			{ "Artisan", Farmer.artisan }, // 4
+			{ "Agriculturist", Farmer.agriculturist }, // 5
 
 			// fishing
-			{"Fisher", Farmer.fisher}, // 6
-			{"Angler", Farmer.angler}, // 8
-			{"Aquarist", Farmer.pirate}, // 9
+			{ "Fisher", Farmer.fisher }, // 6
+			{ "Angler", Farmer.angler }, // 8
+			{ "Aquarist", Farmer.pirate }, // 9
 
-			{"Trapper", Farmer.trapper}, // 7
-			{"Luremaster", Farmer.baitmaster}, // 10
-			{"Conservationist", Farmer.mariner}, // 11
+			{ "Trapper", Farmer.trapper }, // 7
+			{ "Luremaster", Farmer.baitmaster }, // 10
+			{ "Conservationist", Farmer.mariner }, // 11
 			/// Note: the vanilla game code has mariner and baitmaster IDs mixed up; i.e. effectively mariner is 10 and luremaster is 11.
 			/// Since we are completely replacing both professions, we take the opportunity to fix this inconsistency.
 
 			// foraging
-			{"Lumberjack", Farmer.forester}, // 12
-			{"Arborist", Farmer.lumberjack}, // 14
-			{"Tapper", Farmer.tapper}, // 15
+			{ "Lumberjack", Farmer.forester }, // 12
+			{ "Arborist", Farmer.lumberjack }, // 14
+			{ "Tapper", Farmer.tapper }, // 15
 
-			{"Forager", Farmer.gatherer}, // 13
-			{"Ecologist", Farmer.botanist}, // 16
-			{"Scavenger", Farmer.tracker}, // 17
+			{ "Forager", Farmer.gatherer }, // 13
+			{ "Ecologist", Farmer.botanist }, // 16
+			{ "Scavenger", Farmer.tracker }, // 17
 
 			// mining
-			{"Miner", Farmer.miner}, // 18
-			{"Spelunker", Farmer.blacksmith}, // 20
-			{"Prospector", Farmer.burrower}, // 21 (prospector)
+			{ "Miner", Farmer.miner }, // 18
+			{ "Spelunker", Farmer.blacksmith }, // 20
+			{ "Prospector", Farmer.burrower }, // 21 (prospector)
 
-			{"Blaster", Farmer.geologist}, // 19
-			{"Demolitionist", Farmer.excavator}, // 22
-			{"Gemologist", Farmer.gemologist}, // 23
+			{ "Blaster", Farmer.geologist }, // 19
+			{ "Demolitionist", Farmer.excavator }, // 22
+			{ "Gemologist", Farmer.gemologist }, // 23
 
 			// combat
-			{"Fighter", Farmer.fighter}, // 24
-			{"Brute", Farmer.brute}, // 26
-			{"Poacher", Farmer.defender}, // 27
+			{ "Fighter", Farmer.fighter }, // 24
+			{ "Brute", Farmer.brute }, // 26
+			{ "Poacher", Farmer.defender }, // 27
 
-			{"Rascal", Farmer.scout}, // 25
-			{"Piper", Farmer.acrobat}, // 28
-			{"Desperado", Farmer.desperado} // 29
+			{ "Rascal", Farmer.scout }, // 25
+			{ "Piper", Farmer.acrobat }, // 28
+			{ "Desperado", Farmer.desperado } // 29
 		};
 
 		#endregion look-up table
@@ -94,7 +95,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		{
 			return 1f + Game1.getFarm().buildings.Where(b =>
 				(b.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-				b.buildingType.Contains("Deluxe") && ((AnimalHouse) b.indoors.Value).isFull()).Sum(_ => 0.05f);
+				b.buildingType.Contains("Deluxe") && ((AnimalHouse)b.indoors.Value).isFull()).Sum(_ => 0.05f);
 		}
 
 		/// <summary>Get the price multiplier for fish sold by Angler.</summary>
@@ -174,11 +175,11 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		public static float GetBruteBonusDamageMultiplier(Farmer who)
 		{
 			return 1.15f +
-			       (who.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Brute")
-				       ? 0.65f + who.attackIncreaseModifier +
-				         (who.CurrentTool != null ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f : 0f)
-				       : ModEntry.SuperModeCounter / 10 * 0.005f) *
-			       ((who.CurrentTool as MeleeWeapon)?.type.Value == MeleeWeapon.club ? 1.5f : 1f);
+				   (who.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Brute")
+					   ? 0.65f + who.attackIncreaseModifier +
+						 (who.CurrentTool != null ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f : 0f)
+					   : ModEntry.SuperModeCounter / 10 * 0.005f) *
+				   ((who.CurrentTool as MeleeWeapon)?.type.Value == MeleeWeapon.club ? 1.5f : 1f);
 		}
 
 		/// <summary>Get the bonus critical strike chance that should be applied to Poacher.</summary>
@@ -195,10 +196,10 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <param name="who">The player.</param>
 		public static float GetPoacherCritDamageMultiplier(Farmer who)
 		{
-			var healthPercent = (double) who.health / who.maxHealth;
+			var healthPercent = (double)who.health / who.maxHealth;
 			return ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Poacher")
 				? 2f
-				: (float) Math.Max(-18.0 / (-healthPercent + 4.6) + 6.0, 1f);
+				: (float)Math.Max(-18.0 / (-healthPercent + 4.6) + 6.0, 1f);
 		}
 
 		/// <summary>Get the bonus item drop chance for Poacher.</summary>
@@ -206,9 +207,9 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		public static float GetPoacherStealChance(Farmer who)
 		{
 			return (ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Poacher")
-				       ? 0.25f
-				       : ModEntry.SuperModeCounter / 10 * 0.005f) *
-			       ((who.CurrentTool as MeleeWeapon)?.type.Value == MeleeWeapon.dagger ? 1.5f : 1f);
+					   ? 0.25f
+					   : ModEntry.SuperModeCounter / 10 * 0.005f) *
+				   ((who.CurrentTool as MeleeWeapon)?.type.Value == MeleeWeapon.dagger ? 1.5f : 1f);
 		}
 
 		///// <summary>Get the chance to instant-kill an enemy for Poacher.</summary>

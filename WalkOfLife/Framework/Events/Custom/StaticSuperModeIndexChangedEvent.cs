@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
@@ -29,9 +28,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			ModEntry.Data.WriteField("SuperModeIndex", ModEntry.SuperModeIndex.ToString());
 			if (ModEntry.SuperModeIndex < 0) return;
 
-			var whichSuperMode = Util.Professions.NameOf(newIndex);
-			if (!whichSuperMode.AnyOf("Brute", "Poacher", "Desperado", "Piper")) throw new ArgumentException($"Unexpected super mode {whichSuperMode}");
+			if (newIndex is < 26 or >= 30)
+			{
+				ModEntry.SuperModeIndex = -1;
+				throw new ArgumentException($"Unexpected super mode index {newIndex}.");
+			}
 
+			var whichSuperMode = Util.Professions.NameOf(newIndex);
 			switch (whichSuperMode)
 			{
 				case "Brute":
@@ -39,17 +42,20 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					ModEntry.SuperModeOverlayColor = Color.OrangeRed;
 					ModEntry.SuperModeSFX = "brute_rage";
 					break;
+
 				case "Poacher":
 					ModEntry.SuperModeGlowColor = Color.GhostWhite;
 					ModEntry.SuperModeOverlayColor = Color.Black;
 					ModEntry.SuperModeSFX = "poacher_ambush";
 					ModEntry.MonstersStolenFrom ??= new();
 					break;
+
 				case "Desperado":
 					ModEntry.SuperModeGlowColor = Color.DarkGoldenrod;
 					ModEntry.SuperModeOverlayColor = Color.SandyBrown;
 					ModEntry.SuperModeSFX = "desperado_cockgun";
 					break;
+
 				case "Piper":
 					ModEntry.SuperModeGlowColor = Color.LightSeaGreen;
 					ModEntry.SuperModeOverlayColor = Color.Green;

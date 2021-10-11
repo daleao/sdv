@@ -17,8 +17,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			uint trashCollectedThisSeason;
 			if (Game1.dayOfMonth != 28 ||
-			    (trashCollectedThisSeason = ModEntry.Data.ReadField<uint>("WaterTrashCollectedThisSeason")) <=
-			    0) return;
+				(trashCollectedThisSeason = ModEntry.Data.ReadField<uint>("WaterTrashCollectedThisSeason")) <=
+				0) return;
 
 			var taxBonusNextSeason =
 				// ReSharper disable once PossibleLossOfFraction

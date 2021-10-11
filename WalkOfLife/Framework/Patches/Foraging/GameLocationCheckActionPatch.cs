@@ -1,11 +1,11 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewValley;
+using StardewValley.Network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using StardewValley;
-using StardewValley.Network;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -56,7 +56,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Insert( // check if is foraged mineral and branch if true
 						new CodeInstruction(OpCodes.Call,
 							typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.IsForagedMineral))),
-						new CodeInstruction(OpCodes.Brtrue_S, (Label) shouldntSetCustomQuality)
+						new CodeInstruction(OpCodes.Brtrue_S, (Label)shouldntSetCustomQuality)
 					)
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_4) // start of objects[key].Quality = 4
@@ -124,7 +124,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.Advance()
 					.ReplaceWith( // remove 'not' and set correct branch destination
-						new CodeInstruction(OpCodes.Brfalse_S, (Label) shouldntSetCustomQuality)
+						new CodeInstruction(OpCodes.Brfalse_S, (Label)shouldntSetCustomQuality)
 					)
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Call,

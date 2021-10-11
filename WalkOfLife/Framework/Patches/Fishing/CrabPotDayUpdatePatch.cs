@@ -41,8 +41,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				__instance.tileIndexToShow = 714;
 				__instance.readyForHarvest.Value = true;
 
-				var r = new Random((int) Game1.stats.DaysPlayed + (int) Game1.uniqueIDForThisGame / 2 +
-				                   (int) __instance.TileLocation.X * 1000 + (int) __instance.TileLocation.Y);
+				var r = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 +
+								   (int)__instance.TileLocation.X * 1000 + (int)__instance.TileLocation.Y);
 				var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
 				var isLuremaster = who.HasProfession("Luremaster");
 				var whichFish = -1;
@@ -146,7 +146,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (specificFishLocation == -1 || gameLocation.getFishingLocation(tileLocation) == specificFishLocation)
 				for (var t = 0; t < specificFishSpawnTimes.Length; t += 2)
 					if (Game1.timeOfDay >= Convert.ToInt32(specificFishSpawnTimes[t]) &&
-					    Game1.timeOfDay < Convert.ToInt32(specificFishSpawnTimes[t + 1]))
+						Game1.timeOfDay < Convert.ToInt32(specificFishSpawnTimes[t + 1]))
 						return true;
 
 			return false;
@@ -160,7 +160,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (specificFishData[7] == "both") return true;
 
 			return specificFishData[7] == "rainy" && !Game1.IsRainingHere(location) ||
-			       specificFishData[7] == "sunny" && Game1.IsRainingHere(location);
+				   specificFishData[7] == "sunny" && Game1.IsRainingHere(location);
 		}
 
 		/// <summary>Choose amongst a pre-select list of fish.</summary>
@@ -181,14 +181,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (Util.Objects.LegendaryFishNames.Contains(specificFishDataFields[0])) continue;
 
 				if (!crabpot.HasMagicBait() &&
-				    !IsFishLevelLowerThanNumber(specificFishDataFields, crabpot.HasWildBait() ? 90 : 70)
-				    || crabpot.HasMagicBait() && IsFishLevelLowerThanNumber(specificFishDataFields, 70)) continue;
+					!IsFishLevelLowerThanNumber(specificFishDataFields, crabpot.HasWildBait() ? 90 : 70)
+					|| crabpot.HasMagicBait() && IsFishLevelLowerThanNumber(specificFishDataFields, 70)) continue;
 
 				var specificFishLocation = Convert.ToInt32(rawFishDataWithLocation[key]);
 				if (!crabpot.HasMagicBait() &&
-				    (!IsCorrectLocationAndTimeForThisFish(specificFishDataFields, specificFishLocation,
-					     crabpot.TileLocation, location) ||
-				     !IsCorrectWeatherForThisFish(specificFishDataFields, location)))
+					(!IsCorrectLocationAndTimeForThisFish(specificFishDataFields, specificFishLocation,
+						 crabpot.TileLocation, location) ||
+					 !IsCorrectWeatherForThisFish(specificFishDataFields, location)))
 					continue;
 
 				if (r.NextDouble() > GetChanceForThisFish(specificFishDataFields)) continue;
@@ -230,7 +230,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var shouldCatchOceanFish = crabpot.ShouldCatchOceanFish(location);
 				var rawSplit = p.Value.Split('/');
 				if (rawSplit[4] == "ocean" && !shouldCatchOceanFish ||
-				    rawSplit[4] == "freshwater" && shouldCatchOceanFish)
+					rawSplit[4] == "freshwater" && shouldCatchOceanFish)
 					continue;
 
 				if (isLuremaster)

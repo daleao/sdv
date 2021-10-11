@@ -19,9 +19,9 @@ namespace TheLion.Stardew.Professions.Framework
 
 		private static readonly Dictionary<string, List<BaseEvent>> EventsByProfession = new()
 		{
-			{"Conservationist", new List<BaseEvent> {new ConservationistDayEndingEvent()}},
-			{"Poacher", new List<BaseEvent> {new PoacherWarpedEvent()}},
-			{"Piper", new List<BaseEvent> {new PiperWarpedEvent()}},
+			{ "Conservationist", new List<BaseEvent> { new ConservationistDayEndingEvent() } },
+			{ "Poacher", new List<BaseEvent> { new PoacherWarpedEvent() } },
+			{ "Piper", new List<BaseEvent> { new PiperWarpedEvent() } },
 			{
 				"Prospector",
 				new List<BaseEvent>
@@ -32,7 +32,7 @@ namespace TheLion.Stardew.Professions.Framework
 				new List<BaseEvent>
 					{new ScavengerHuntDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent()}
 			},
-			{"Spelunker", new List<BaseEvent> {new SpelunkerWarpedEvent()}}
+			{ "Spelunker", new List<BaseEvent> { new SpelunkerWarpedEvent() } }
 		};
 
 		/// <summary>Construct an instance.</summary>
@@ -83,7 +83,7 @@ namespace TheLion.Stardew.Professions.Framework
 				new StaticLevelChangedEvent(), new StaticSuperModeIndexChangedEvent());
 
 			if (!ModEntry.ModHelper.ModRegistry.IsLoaded("alphablackwolf.skillPrestige") &&
-			    !ModEntry.ModHelper.ModRegistry.IsLoaded("cantorsdust.AllProfessions"))
+				!ModEntry.ModHelper.ModRegistry.IsLoaded("cantorsdust.AllProfessions"))
 				return;
 
 			ModEntry.Log("Skill Prestige or All Professions mod detected. Subscribing additional fail-safe event.",
@@ -136,7 +136,7 @@ namespace TheLion.Stardew.Professions.Framework
 
 			List<BaseEvent> except = new();
 			if (whichProfession == "Prospector" && Game1.player.HasProfession("Scavenger") ||
-			    whichProfession == "Scavenger" && Game1.player.HasProfession("Prospector"))
+				whichProfession == "Scavenger" && Game1.player.HasProfession("Prospector"))
 				except.Add(new TrackerButtonsChangedEvent());
 
 			ModEntry.Log($"Unsubscribing from {whichProfession} profession events...", LogLevel.Trace);

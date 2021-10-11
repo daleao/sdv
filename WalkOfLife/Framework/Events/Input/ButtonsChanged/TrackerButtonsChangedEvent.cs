@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			{
 				ModEntry.Subscriber.Unsubscribe(typeof(TrackerRenderedHudEvent));
 				if (!(ModEntry.Subscriber.IsSubscribed(typeof(ProspectorHuntRenderedHudEvent)) ||
-				      ModEntry.Subscriber.IsSubscribed(typeof(ScavengerHuntRenderedHudEvent))))
+					  ModEntry.Subscriber.IsSubscribed(typeof(ScavengerHuntRenderedHudEvent))))
 					ModEntry.Subscriber.Unsubscribe(typeof(ArrowPointerUpdateTickedEvent));
 			}
 		}

@@ -8,7 +8,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class SuperModeBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 	{
-		private const int SHEET_INDEX_OFFSET = 10;
+		private const int SHEET_INDEX_OFFSET = 10; // this number is added to the profession index to obtain the buff sheet index.</summary>
 
 		/// <inheritdoc/>
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
@@ -42,18 +42,16 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						1,
 						professionName,
 						ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".name." +
-						                                   (Game1.player.IsMale ? "male" : "female")))
+														   (Game1.player.IsMale ? "male" : "female")))
 					{
 						which = buffID,
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
-						millisecondsDuration = 50,
+						millisecondsDuration = 0,
 						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".buffdesc",
-							new {magnitude1, magnitude2})
+							new { magnitude1, magnitude2 })
 					});
 		}
 
-		/// <summary>Get the magnitude of the primary super mode buff for the given profession.</summary>
-		/// <param name="professionName">A super mode profession.</param>
 		private static string GetSuperModePrimaryBuffMagnitude(string professionName)
 		{
 			return professionName switch
@@ -67,8 +65,6 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			};
 		}
 
-		/// <summary>Get the magnitude of the secondary super mode buff for the given profession.</summary>
-		/// <param name="professionName">A super mode profession.</param>
 		private static string GetSuperModeSecondaryBuffMagnitude(string professionName)
 		{
 			return professionName == "Piper"

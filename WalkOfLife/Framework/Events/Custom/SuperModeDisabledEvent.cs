@@ -25,7 +25,7 @@
 
 			// notify peers
 			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeDectivated",
-				new[] {ModEntry.UniqueID});
+				new[] { ModEntry.UniqueID });
 
 			// remove permanent effects
 			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Piper"))

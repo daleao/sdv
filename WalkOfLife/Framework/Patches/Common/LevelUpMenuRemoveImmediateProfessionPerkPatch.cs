@@ -39,17 +39,17 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				switch (professionName)
 				{
 					case "Aquarist":
-					{
-						foreach (var b in Game1.getFarm().buildings.Where(b =>
-							(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-							b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
 						{
-							b.maxOccupants.Set(10);
-							b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
-						}
+							foreach (var b in Game1.getFarm().buildings.Where(b =>
+								(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+								b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+							{
+								b.maxOccupants.Set(10);
+								b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+							}
 
-						break;
-					}
+							break;
+						}
 					case "Desperado":
 						Projectile.boundingBoxHeight = 21;
 						Projectile.boundingBoxWidth = 21;
@@ -66,8 +66,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// unregister super mode
 				if (ModEntry.SuperModeIndex != whichProfession) return;
 
-				var superModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"};
-				if (Game1.player.HasAnyOfProfessions(superModeProfessions.Except(new[] {professionName}).ToArray()))
+				var superModeProfessions = new[] { "Brute", "Poacher", "Desperado", "Piper" };
+				if (Game1.player.HasAnyOfProfessions(superModeProfessions.Except(new[] { professionName }).ToArray()))
 					ModEntry.SuperModeIndex = Util.Professions.IndexOf(superModeProfessions.First());
 				else
 					ModEntry.SuperModeIndex = -1;

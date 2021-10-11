@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
+using System;
+using System.IO;
+using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 
@@ -18,7 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CrabPotDrawPatch()
 		{
 			Original = typeof(CrabPot).MethodNamed(nameof(CrabPot.draw),
-				new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)});
+				new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) });
 			Prefix = new HarmonyMethod(GetType(), nameof(CrabPotDrawPrefix));
 		}
 
@@ -32,10 +32,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				if (!__instance.readyForHarvest.Value || __instance.heldObject.Value == null ||
-				    !__instance.heldObject.Value.ParentSheetIndex.AnyOf(14, 51))
+					!__instance.heldObject.Value.ParentSheetIndex.AnyOf(14, 51))
 					return true; // run original logic
 
-				___yBob = (float) (Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 500.0 + x * 64) *
+				___yBob = (float)(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 500.0 + x * 64) *
 					8.0 + 8.0);
 				if (___yBob <= 0.001f)
 					Game1.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite(
@@ -56,12 +56,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					new Rectangle(Game1.currentLocation.waterAnimationIndex * 64,
 						2112 + ((x + y) % 2 != 0 ? !Game1.currentLocation.waterTileFlip ? 128 :
 							0 :
-							Game1.currentLocation.waterTileFlip ? 128 : 0), 56, 16 + (int) ___yBob),
+							Game1.currentLocation.waterTileFlip ? 128 : 0), 56, 16 + (int)___yBob),
 					Game1.currentLocation.waterColor.Value, 0f, Vector2.Zero, 1f, SpriteEffects.None,
 					(y * 64 + __instance.directionOffset.Value.Y + x % 4) / 9999f);
 				var yOffset = 4f *
-				              (float) Math.Round(
-					              Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0), 2);
+							  (float)Math.Round(
+								  Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0), 2);
 				spriteBatch.Draw(Game1.mouseCursors,
 					Game1.GlobalToLocal(Game1.viewport,
 						__instance.directionOffset.Value + new Vector2(x * 64f - 8f, y * 64f - 96f - 16f + yOffset)),
