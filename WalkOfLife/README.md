@@ -26,9 +26,11 @@
         <li><a href="#combat">Combat</a></li>
       </ul>
     </li>
+    <li><a href="#configs">Configs</a></li>
+    <li><a href="#consolecommands">Console Commands</a></li>
     <li><a href="#compatibility">Compatbility</a></li>
-    <li><a href="#recommended-mods">Recommended Mods</a></li>
     <li><a href="#installation">Installation</a></li>
+    <li><a href="#recommended-mods">Recommended Mods</a></li>
     <li><a href="#special-thanks">Special Thanks</a></li>
     <li><a href="#license">License</a></li>
   </ol>
@@ -206,19 +208,19 @@ The mod is not compatible with the following mods:
 - [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but makes Artisan profession redundant; all features are already included). 
 - [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) (mushroom box quality is already included; other features may cause bad interactions with foraging professions).
 
-## Recommended Mods
-
-- [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413) (if you miss Oenologist profession perk).
-- [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926) (add variety to Artisan products and Producer).
-- [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634) (make Slime ranching more interesting and profitable).
-- [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660) (better consistency between Ostrich and Golden eggs for Artisan profession).﻿
-
 ## Installation
 
 - You can install this mod on an existing save; all perks will be retroactively applied upon loading a saved game.
 - To install simply drop the extracted folder onto your mods folder.
 - To update make sure to delete the old version first and only then install the new version.
 - There are no dependencies outside of SMAPI.
+
+## Recommended Mods
+
+- [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413) (if you miss Oenologist profession perk).
+- [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926) (add variety to Artisan products and Producer).
+- [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634) (make Slime ranching more interesting and profitable).
+- [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660) (better consistency between Ostrich and Golden eggs for Artisan profession).
 
 ## Special Thanks
 
