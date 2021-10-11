@@ -7,7 +7,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 	{
 		private static readonly SpelunkerBuffDisplayUpdateTickedEvent SpelunkerUpdateTickedEvent = new();
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
 			if (!e.IsLocalPlayer) return;

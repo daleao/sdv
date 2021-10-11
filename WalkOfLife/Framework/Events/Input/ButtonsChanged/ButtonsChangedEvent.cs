@@ -4,13 +4,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public abstract class ButtonsChangedEvent : BaseEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void Hook()
 		{
 			ModEntry.ModHelper.Events.Input.ButtonsChanged += OnButtonsChanged;
 		}
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void Unhook()
 		{
 			ModEntry.ModHelper.Events.Input.ButtonsChanged -= OnButtonsChanged;

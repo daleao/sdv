@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using Microsoft.Xna.Framework.Graphics;
 using DrawColor = System.Drawing.Color;
 using DrawRect = System.Drawing.Rectangle;
 
@@ -11,10 +11,10 @@ namespace TheLion.Stardew.Common.Classes
 	public static class TextureBuilder
 	{
 		/// <summary>Create a rectangular texture and fill it with a vertical color gradient.</summary>
-		/// <param name="device">The game's <see cref="GraphicsDevice"/>.</param>
+		/// <param name="device">The game's <see cref="GraphicsDevice" />.</param>
 		/// <param name="width">The width of the rectangle.</param>
 		/// <param name="height">The height of the rectangle.</param>
-		/// <param name="colors">Array of <see cref="DrawColor"/>s.</param>
+		/// <param name="colors">Array of <see cref="DrawColor" />s.</param>
 		/// <param name="positions">Array of floats between 0 and 1, representing the positions of the colors.</param>
 		public static Texture2D CreateGradientTexture(GraphicsDevice device, int width, int height, DrawColor[] colors,
 			float[] positions)

@@ -5,7 +5,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class SuperModeRenderedWorldEvent : RenderedWorldEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
 		{
 			// draw color tint overlay

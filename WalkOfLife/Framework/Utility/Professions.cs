@@ -226,7 +226,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		{
 			const int MAX_DISTANCE = 800;
 			if (travelDistance > MAX_DISTANCE) return 1.5f;
-			return 0.5f / MAX_DISTANCE * travelDistance + 1f;
+			return 1f + 0.5f / MAX_DISTANCE * travelDistance;
 		}
 
 		/// <summary>Get the slingshot charge time modifier for Desperado.</summary>

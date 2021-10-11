@@ -4,7 +4,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class StaticReturnedToTitleEvent : ReturnedToTitleEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
 		{
 			// release mod data

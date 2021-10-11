@@ -1,19 +1,19 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Monsters;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 {
 	internal class GreenSlimeDrawPatch : BasePatch
 	{
-		/// <summary>Construct an instance.<w/summary>
+		/// <summary>Construct an instance.<w/ summary>
 		internal GreenSlimeDrawPatch()
 		{
 			Original = typeof(GreenSlime).MethodNamed(nameof(GreenSlime.draw), new[] {typeof(SpriteBatch)});

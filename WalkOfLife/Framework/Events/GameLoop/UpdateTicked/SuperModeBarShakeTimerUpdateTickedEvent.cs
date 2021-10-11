@@ -9,7 +9,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 		private int _shakeTimer, _nextShake;
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
 			if (!Game1.game1.IsActive || !Game1.shouldTimePass()) return;

@@ -1,13 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
-using System;
+using TheLion.Stardew.Professions.Framework.Util;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class ProspectorHuntRenderedHudEvent : RenderedHudEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)
 		{
 			if (ModEntry.ProspectorHunt.TreasureTile == null) return;
@@ -16,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			var distanceSquared = (Game1.player.getTileLocation() - ModEntry.ProspectorHunt.TreasureTile.Value)
 				.LengthSquared();
 			if (distanceSquared <= Math.Pow(ModEntry.Config.TreasureDetectionDistance, 2))
-				Util.HUD.DrawArrowPointerOverTarget(ModEntry.ProspectorHunt.TreasureTile.Value, Color.Violet);
+				HUD.DrawArrowPointerOverTarget(ModEntry.ProspectorHunt.TreasureTile.Value, Color.Violet);
 		}
 	}
 }

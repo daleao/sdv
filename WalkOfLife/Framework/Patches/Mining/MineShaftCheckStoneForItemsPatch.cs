@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
-using StardewValley;
-using StardewValley.Locations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using StardewValley;
+using StardewValley.Locations;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -20,7 +20,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch for Spelunker ladder down chance bonus + remove Geologist paired gem chance + remove Excavator double geode chance + remove Prospetor double coal chance.</summary>
+		/// <summary>
+		///     Patch for Spelunker ladder down chance bonus + remove Geologist paired gem chance + remove Excavator double
+		///     geode chance + remove Prospetor double coal chance.
+		/// </summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> MineShaftCheckStoneForItemsTranspiler(
 			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)

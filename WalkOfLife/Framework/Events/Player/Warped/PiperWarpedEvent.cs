@@ -35,6 +35,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				switch (e.NewLocation)
 				{
 					case MineShaft shaft:
+					{
 						shaft.checkForMapAlterations(x, y);
 						if (!shaft.isTileClearForMineObjects(spawnPosition) || shaft.isTileOccupied(spawnPosition))
 							continue;
@@ -48,7 +49,9 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						shaft.characters.Add(shaft.BuffMonsterIfNecessary(slime));
 						++spawned;
 						break;
+					}
 					case VolcanoDungeon dungeon:
+					{
 						if (!e.NewLocation.isTileLocationTotallyClearAndPlaceable(spawnPosition)) continue;
 
 						slime = new GreenSlime(spawnPosition, 1);
@@ -56,6 +59,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						dungeon.characters.Add(slime);
 						++spawned;
 						break;
+					}
 				}
 
 				--attempts;

@@ -177,6 +177,7 @@ The mod provides the following console commands, which you can enter in the SMAP
 - **player_resetprofessions** - Reset all skills and professions for the local player.
 - **setultmeter** - Set the super mode meter to the desired value.
 - **readyult** - Max-out the super mode meter.
+- **registersupermode** - Change the currently registered Super Mode profession.
 - **maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
 - **maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
 - **checkfishingprogress** - Check your fishing progress and bonus fish value as Angler.

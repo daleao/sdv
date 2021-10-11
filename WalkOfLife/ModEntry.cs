@@ -140,7 +140,7 @@ namespace TheLion.Stardew.Professions
 			Helper.ConsoleCommands.Add("setultmeter", "Set the super mode meter to the desired value.",
 				SetSuperModeCounter);
 			Helper.ConsoleCommands.Add("readyult", "Max-out the super mode meter.", ReadySuperMode);
-			Helper.ConsoleCommands.Add("registersupermode", "Change the registered Super Mode profession.",
+			Helper.ConsoleCommands.Add("registersupermode", "Change the currently registered Super Mode profession.",
 				RegisterNewSuperMode);
 			Helper.ConsoleCommands.Add("maxanimalfriendship", "Max-out the friendship of all owned animals.",
 				MaxAnimalFriendship);

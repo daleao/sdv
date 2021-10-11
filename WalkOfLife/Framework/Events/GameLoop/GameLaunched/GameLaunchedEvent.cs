@@ -4,13 +4,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public abstract class GameLaunchedEvent : BaseEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void Hook()
 		{
 			ModEntry.ModHelper.Events.GameLoop.GameLaunched += OnGameLaunched;
 		}
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void Unhook()
 		{
 			ModEntry.ModHelper.Events.GameLoop.GameLaunched -= OnGameLaunched;

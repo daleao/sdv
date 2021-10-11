@@ -22,7 +22,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = typeof(Slingshot).MethodNamed(nameof(Slingshot.PerformFire));
 			Postfix = new HarmonyMethod(GetType(), nameof(SlingshotPerformFirePostfix));
-			Transpiler = new HarmonyMethod(GetType(), nameof(SlingshotPerformFireTranspiler));
+			//Transpiler = new HarmonyMethod(GetType(), nameof(SlingshotPerformFireTranspiler));
 		}
 
 		#region harmony patches
@@ -68,7 +68,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						true, location, who, true, collisionBehavior)
 					{
 						IgnoreLocationCollision =
-							Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
+							Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null,
 					});
 				}
 
@@ -125,7 +125,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.FindFirst(
 						new CodeInstruction(OpCodes.Stloc_S, $"{typeof(int)} (5)")
 					)
-					.GetOperand(out var damage) // copy reference to local 5 = damage
+					//.GetOperand(out var damage) // copy reference to local 5 = damage
 					.FindNext(
 						new CodeInstruction(OpCodes.Ldloca_S)
 					)
@@ -138,12 +138,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetLabels(out var labels) // backup branch labels
 					.StripLabels() // remove labels from here
 					.Insert(
-						// multiply ammunition damage by 1.5f
-						new CodeInstruction(OpCodes.Ldloc_S, damage),
-						new CodeInstruction(OpCodes.Ldc_R4, 1.5f),
-						new CodeInstruction(OpCodes.Mul),
-						new CodeInstruction(OpCodes.Conv_I4),
-						new CodeInstruction(OpCodes.Stloc_S, damage),
 						// check if who.IsLocalPlayer)
 						new CodeInstruction(OpCodes.Ldarg_2), // arg 2 = Farmer who
 						new CodeInstruction(OpCodes.Callvirt,

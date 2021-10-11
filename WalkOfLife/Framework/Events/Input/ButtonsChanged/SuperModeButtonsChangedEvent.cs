@@ -5,7 +5,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class SuperModeButtonsChangedEvent : ButtonsChangedEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
 		{
 			if (ModEntry.Config.SuperModeKey.JustPressed() && !ModEntry.IsSuperModeActive &&

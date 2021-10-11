@@ -4,7 +4,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class StaticDayEndingEvent : DayEndingEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
 			// fix dumb shit with other mods

@@ -1,19 +1,19 @@
-﻿using StardewModdingAPI;
-using StardewValley;
-using System;
+﻿using System;
 using System.IO;
+using StardewModdingAPI;
+using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.AssetEditors
 {
 	public class MailEditor : IAssetEditor
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public bool CanEdit<T>(IAssetInfo asset)
 		{
 			return asset.AssetNameEquals(Path.Combine("Data", "mail"));
 		}
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public void Edit<T>(IAssetData asset)
 		{
 			if (!asset.AssetNameEquals(Path.Combine("Data", "mail")))

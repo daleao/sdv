@@ -4,7 +4,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class StaticLevelChangedEvent : LevelChangedEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnLevelChanged(object sender, LevelChangedEventArgs e)
 		{
 			if (!e.IsLocalPlayer || e.NewLevel != 0) return;

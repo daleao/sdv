@@ -4,13 +4,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public abstract class RenderingHudEvent : BaseEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void Hook()
 		{
 			ModEntry.ModHelper.Events.Display.RenderingHud += OnRenderingHud;
 		}
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void Unhook()
 		{
 			ModEntry.ModHelper.Events.Display.RenderingHud -= OnRenderingHud;

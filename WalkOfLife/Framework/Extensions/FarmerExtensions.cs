@@ -1,5 +1,5 @@
-﻿using StardewValley;
-using System.Linq;
+﻿using System.Linq;
+using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions
 {

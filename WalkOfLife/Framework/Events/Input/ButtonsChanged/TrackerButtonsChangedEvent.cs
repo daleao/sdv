@@ -5,7 +5,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class TrackerButtonsChangedEvent : ButtonsChangedEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
 		{
 			if (ModEntry.Config.Modkey.JustPressed())

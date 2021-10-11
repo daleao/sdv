@@ -7,7 +7,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class ProspectorWarpedEvent : WarpedEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
 			if (!e.IsLocalPlayer) return;

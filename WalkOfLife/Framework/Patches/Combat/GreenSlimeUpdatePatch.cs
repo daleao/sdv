@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-using System;
-using System.Linq;
-using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SUtility = StardewValley.Utility;

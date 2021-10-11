@@ -1,6 +1,7 @@
 ﻿using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
+using TheLion.Stardew.Professions.Framework.Util;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions
 {
@@ -10,7 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool HasMagnet(this CrabPot crabpot)
 		{
 			return crabpot.bait.Value != null &&
-			       Util.Objects.BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) &&
+			       Objects.BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) &&
 			       baitName == "Magnet";
 		}
 
@@ -18,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool HasWildBait(this CrabPot crabpot)
 		{
 			return crabpot.bait.Value != null &&
-			       Util.Objects.BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) &&
+			       Objects.BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) &&
 			       baitName == "Wild Bait";
 		}
 
@@ -26,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool HasMagicBait(this CrabPot crabpot)
 		{
 			return crabpot.bait.Value != null &&
-			       Util.Objects.BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) &&
+			       Objects.BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) &&
 			       baitName == "Magic Bait";
 		}
 

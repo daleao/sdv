@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
-using System;
-using System.IO;
-using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 

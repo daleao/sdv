@@ -1,13 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using TheLion.Stardew.Professions.Framework.Events;
+using TheLion.Stardew.Professions.Framework.Util;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt
@@ -51,15 +53,15 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			var x = Random.Next(location.Map.DisplayWidth / Game1.tileSize);
 			var y = Random.Next(location.Map.DisplayHeight / Game1.tileSize);
 			var v = new Vector2(x, y);
-			if (!Util.Tiles.IsTileValidForTreasure(v, location)) return;
+			if (!Tiles.IsTileValidForTreasure(v, location)) return;
 
-			Util.Tiles.MakeTileDiggable(v, location);
+			Tiles.MakeTileDiggable(v, location);
 			TreasureTile = v;
 			TimeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 10 *
 			                    ModEntry.Config.TreasureHuntHandicap);
 			Elapsed = 0;
-			ModEntry.Subscriber.Subscribe(new Events.ArrowPointerUpdateTickedEvent(),
-				new Events.ScavengerHuntUpdateTickedEvent(), new Events.ScavengerHuntRenderedHudEvent());
+			ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(),
+				new ScavengerHuntUpdateTickedEvent(), new ScavengerHuntRenderedHudEvent());
 			Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
 		}
 
@@ -89,8 +91,8 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
 		internal override void End()
 		{
-			ModEntry.Subscriber.Unsubscribe(typeof(Events.ScavengerHuntUpdateTickedEvent),
-				typeof(Events.ProspectorHuntRenderedHudEvent));
+			ModEntry.Subscriber.Unsubscribe(typeof(ScavengerHuntUpdateTickedEvent),
+				typeof(ProspectorHuntRenderedHudEvent));
 			TreasureTile = null;
 		}
 
@@ -190,8 +192,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 						else if (Game1.player.archaeologyFound.Any()) // artifacts
 							treasures.Add(new SObject(
 								Random.NextDouble() < 0.5
-									?
-									_artifactsThatCanBeFound.ElementAt(Random.Next(_artifactsThatCanBeFound.Count()))
+									? _artifactsThatCanBeFound.ElementAt(Random.Next(_artifactsThatCanBeFound.Count()))
 									: Random.NextDouble() < 0.25
 										? 114
 										: 535, 1));

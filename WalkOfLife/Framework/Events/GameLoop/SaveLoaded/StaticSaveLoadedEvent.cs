@@ -1,6 +1,8 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 using System.Linq;
+using StardewValley.Projectiles;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
@@ -21,6 +23,10 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			// subcribe player's profession events
 			ModEntry.Subscriber.SubscribeEventsForLocalPlayer();
+
+			if (!Game1.player.HasProfession("Desperado")) return;
+			Projectile.boundingBoxHeight = 600;
+			Projectile.boundingBoxWidth = 600;
 		}
 	}
 }

@@ -4,13 +4,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public abstract class LevelChangedEvent : BaseEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void Hook()
 		{
 			ModEntry.ModHelper.Events.Player.LevelChanged += OnLevelChanged;
 		}
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void Unhook()
 		{
 			ModEntry.ModHelper.Events.Player.LevelChanged -= OnLevelChanged;

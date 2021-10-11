@@ -6,6 +6,7 @@ using StardewValley.Monsters;
 using System.Linq;
 using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
+using StardewValley.Projectiles;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events

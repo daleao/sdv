@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
-using StardewValley;
-using StardewValley.Network;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using StardewValley;
+using StardewValley.Network;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -23,7 +23,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch to nerf Ecologist forage quality + add quality to foraged minerals for Gemologist + increment respective mod data fields.</summary>
+		/// <summary>
+		///     Patch to nerf Ecologist forage quality + add quality to foraged minerals for Gemologist + increment respective
+		///     mod data fields.
+		/// </summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> GameLocationCheckActionTranspiler(
 			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)

@@ -1,5 +1,5 @@
-﻿using StardewModdingAPI.Events;
-using System;
+﻿using System;
+using StardewModdingAPI.Events;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
@@ -9,7 +9,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 		private int _fadeOutTimer = FADE_OUT_DELAY + FADE_OUT_DURATION;
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
 			--_fadeOutTimer;

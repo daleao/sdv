@@ -3,6 +3,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using StardewValley.Projectiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,14 +36,25 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!Util.Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
 
 				// remove immediate perks
-				if (professionName == "Aquarist")
-					foreach (var b in Game1.getFarm().buildings.Where(b =>
-						(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-						b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+				switch (professionName)
+				{
+					case "Aquarist":
 					{
-						b.maxOccupants.Set(10);
-						b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+						foreach (var b in Game1.getFarm().buildings.Where(b =>
+							(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+							b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+						{
+							b.maxOccupants.Set(10);
+							b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+						}
+
+						break;
 					}
+					case "Desperado":
+						Projectile.boundingBoxHeight = 21;
+						Projectile.boundingBoxWidth = 21;
+						break;
+				}
 
 				// clean unnecessary mod data
 				if (!professionName.AnyOf("Scavenger", "Prospector"))

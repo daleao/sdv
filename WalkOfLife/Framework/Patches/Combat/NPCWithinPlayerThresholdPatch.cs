@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-using System;
-using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches

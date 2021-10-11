@@ -4,13 +4,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public abstract class UpdateTickedEvent : BaseEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void Hook()
 		{
 			ModEntry.ModHelper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
 		}
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void Unhook()
 		{
 			ModEntry.ModHelper.Events.GameLoop.UpdateTicked -= OnUpdateTicked;

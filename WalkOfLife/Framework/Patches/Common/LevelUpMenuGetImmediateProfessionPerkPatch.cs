@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using StardewValley.Projectiles;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -33,14 +34,25 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!Util.Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
 
 				// add immediate perks
-				if (professionName == "Aquarist")
-					foreach (var b in Game1.getFarm().buildings.Where(b =>
-						(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-						b is FishPond && !b.isUnderConstruction()))
+				switch (professionName)
+				{
+					case "Aquarist":
 					{
-						var pond = (FishPond) b;
-						pond.UpdateMaximumOccupancy();
+						foreach (var b in Game1.getFarm().buildings.Where(b =>
+							(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+							b is FishPond && !b.isUnderConstruction()))
+						{
+							var pond = (FishPond) b;
+							pond.UpdateMaximumOccupancy();
+						}
+
+						break;
 					}
+					case "Desperado":
+						Projectile.boundingBoxHeight = 600;
+						Projectile.boundingBoxWidth = 600;
+						break;
+				}
 
 				// initialize mod data, assets and helpers
 				ModEntry.Data.InitializeDataFieldsForProfession(professionName);

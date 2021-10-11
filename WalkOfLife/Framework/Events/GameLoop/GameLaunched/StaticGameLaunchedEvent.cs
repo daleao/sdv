@@ -1,14 +1,15 @@
 ﻿using StardewModdingAPI.Events;
+using TheLion.Stardew.Professions.Integrations;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class StaticGameLaunchedEvent : GameLaunchedEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnGameLaunched(object sender, GameLaunchedEventArgs e)
 		{
 			// add Generic Mod Config Menu integration
-			new Integrations.GenericModConfigMenuIntegrationForAwesomeTools(
+			new GenericModConfigMenuIntegrationForAwesomeTools(
 				getConfig: () => ModEntry.Config,
 				reset: () =>
 				{
