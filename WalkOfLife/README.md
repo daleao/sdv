@@ -1,15 +1,13 @@
 <table align="center"><tr><td align="center" width="9999">
 
 <!-- LOGO, TITLE, DESCRIPTION -->
+![](https://gitlab.com/theLion/smapi-mods/-/raw/master/WalkOfLife/title_2.png)
+# A Professions Overhaul
 ![](https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png)
-
-# Walk Of Life
-
-**A Professions Overhaul**
 
 <br/>
 
