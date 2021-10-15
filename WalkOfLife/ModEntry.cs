@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using TheLion.Stardew.Professions.Framework;
 using TheLion.Stardew.Professions.Framework.AssetEditors;
+using TheLion.Stardew.Professions.Framework.AssetLoaders;
 using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Patches;
 using TheLion.Stardew.Professions.Framework.TreasureHunt;
@@ -21,11 +22,11 @@ namespace TheLion.Stardew.Professions
 		internal static ScavengerHunt ScavengerHunt { get; set; }
 		internal static SoundEffectLoader SoundFX { get; set; }
 
-		internal static GameFramework GameFramework { get; private set; }
 		internal static IModHelper ModHelper { get; private set; }
 		internal static IManifest Manifest { get; private set; }
 		internal static Action<string, LogLevel> Log { get; private set; }
 		internal static string UniqueID { get; private set; }
+		internal static string ModPath { get; private set; }
 
 		public static int DemolitionistExcitedness { get; set; }
 		public static int SpelunkerLadderStreak { get; set; }
@@ -106,9 +107,6 @@ namespace TheLion.Stardew.Professions
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper)
 		{
-			// get target framework
-			GameFramework = Constants.GameFramework;
-
 			// store references to mod helpers
 			ModHelper = helper;
 			Manifest = ModManifest;
@@ -117,22 +115,25 @@ namespace TheLion.Stardew.Professions
 			// get configs.json
 			Config = helper.ReadConfig<ModConfig>();
 
-			// get unique id and instantiate mod data
+			// get mod metadata unique id
 			UniqueID = ModManifest.UniqueID;
-			Data = new ModData();
+			ModPath = helper.DirectoryPath;
+
+			// instantiate mod data
+			Data = new();
 
 			// get mod assets
 			helper.Content.AssetEditors.Add(new IconEditor());
 
 			// get sound assets
-			SoundFX = new SoundEffectLoader(helper.DirectoryPath);
+			SoundFX = new();
 
 			// apply harmony patches
-			BasePatch.Init(helper.DirectoryPath);
+			BasePatch.Init();
 			new HarmonyPatcher().ApplyAll();
 
 			// start event manager
-			Subscriber = new EventSubscriber();
+			Subscriber = new();
 
 			// add debug commands
 			Helper.ConsoleCommands.Add("player_checkprofessions", "List the player's current professions.",

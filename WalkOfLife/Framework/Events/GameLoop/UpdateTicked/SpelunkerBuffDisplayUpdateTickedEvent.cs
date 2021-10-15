@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			var bonusLadderChance = ModEntry.SpelunkerLadderStreak;
 			var bonusSpeed = Math.Min(ModEntry.SpelunkerLadderStreak / 5 + 1, 10);
 			Game1.buffsDisplay.addOtherBuff(
-				new Buff(0,
+				new(0,
 					0,
 					0,
 					0,

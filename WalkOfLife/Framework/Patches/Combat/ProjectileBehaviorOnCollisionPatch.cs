@@ -20,7 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ProjectileBehaviorOnCollisionPatch()
 		{
 			Original = typeof(Projectile).MethodNamed("behaviorOnCollision");
-			Postfix = new HarmonyMethod(GetType(), nameof(ProjectileBehaviorOnCollisionPostfix));
+			Postfix = new(GetType(), nameof(ProjectileBehaviorOnCollisionPostfix));
 		}
 
 		#region harmony patches
@@ -40,12 +40,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if ((___currentTileSheetIndex.Value - 1).AnyOf(SObject.copper, SObject.iron, SObject.gold,
 						SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
 					|| ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
-					location.debris.Add(new Debris(___currentTileSheetIndex.Value - 1,
-						new Vector2((int)___position.X, (int)___position.Y), firer.getStandingPosition()));
+					location.debris.Add(new(___currentTileSheetIndex.Value - 1,
+						new((int)___position.X, (int)___position.Y), firer.getStandingPosition()));
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

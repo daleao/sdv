@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = AccessTools.Method(
 				"Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine:GetState");
-			Transpiler = new HarmonyMethod(GetType(), nameof(CrabPotMachineGetStateTranspiler));
+			Transpiler = new(GetType(), nameof(CrabPotMachineGetStateTranspiler));
 		}
 
 		#region harmony patches

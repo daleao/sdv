@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal QuestionEventSetUpPatch()
 		{
 			Original = typeof(QuestionEvent).MethodNamed(nameof(QuestionEvent.setUp));
-			Transpiler = new HarmonyMethod(GetType(), nameof(QuestionEventSetUpTranspiler));
+			Transpiler = new(GetType(), nameof(QuestionEventSetUpTranspiler));
 		}
 
 		#region harmony patches

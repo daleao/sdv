@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal DustSpiritBehaviorAtGameTickPatch()
 		{
 			Original = typeof(DustSpirit).MethodNamed(nameof(DustSpirit.behaviorAtGameTick));
-			Postfix = new HarmonyMethod(GetType(), nameof(DustSpiritBehaviorAtGameTickPostfix));
+			Postfix = new(GetType(), nameof(DustSpiritBehaviorAtGameTickPostfix));
 		}
 
 		#region harmony patches
@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

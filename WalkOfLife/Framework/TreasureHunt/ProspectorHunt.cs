@@ -17,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		{
 			HuntStartedMessage = ModEntry.ModHelper.Translation.Get("prospector.huntstarted");
 			HuntFailedMessage = ModEntry.ModHelper.Translation.Get("prospector.huntfailed");
-			IconSourceRect = new Rectangle(48, 672, 16, 16);
+			IconSourceRect = new(48, 672, 16, 16);
 		}
 
 		/// <summary>Try to start a new prospector hunt at this location.</summary>

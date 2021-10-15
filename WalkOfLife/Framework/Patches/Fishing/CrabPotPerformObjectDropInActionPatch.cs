@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CrabPotPerformObjectDropInActionPatch()
 		{
 			Original = typeof(CrabPot).MethodNamed(nameof(CrabPot.performObjectDropInAction));
-			Transpiler = new HarmonyMethod(GetType(), nameof(CrabPotPerformObjectDropInActionTranspiler));
+			Transpiler = new(GetType(), nameof(CrabPotPerformObjectDropInActionTranspiler));
 		}
 
 		#region harmony patches

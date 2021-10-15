@@ -34,7 +34,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (buff != null) return;
 
 			Game1.buffsDisplay.addOtherBuff(
-				new Buff(0,
+				new(0,
 					0,
 					0,
 					0,

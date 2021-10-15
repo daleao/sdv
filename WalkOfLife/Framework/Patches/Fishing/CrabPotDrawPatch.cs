@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
 using System;
-using System.IO;
 using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
@@ -19,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = typeof(CrabPot).MethodNamed(nameof(CrabPot.draw),
 				new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) });
-			Prefix = new HarmonyMethod(GetType(), nameof(CrabPotDrawPrefix));
+			Prefix = new(GetType(), nameof(CrabPotDrawPrefix));
 		}
 
 		#region harmony patches
@@ -38,8 +38,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				___yBob = (float)(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 500.0 + x * 64) *
 					8.0 + 8.0);
 				if (___yBob <= 0.001f)
-					Game1.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite(
-						Path.Combine("TileSheets", "animations"), new Rectangle(0, 0, 64, 64), 150f, 8, 0,
+					Game1.currentLocation.temporarySprites.Add(new(
+						PathUtilities.NormalizeAssetName("TileSheets/animations"), new(0, 0, 64, 64), 150f, 8, 0,
 						__instance.directionOffset.Value + new Vector2(x * 64f + 4f, y * 64f + 32f), false,
 						Game1.random.NextDouble() < 0.5, 0.001f, 0.01f, Color.White, 0.75f, 0.003f, 0f, 0f));
 
@@ -72,13 +72,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						__instance.directionOffset.Value + new Vector2(x * 64f + 32f, y * 64f - 64f - 8f + yOffset)),
 					Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture,
 						__instance.heldObject.Value.ParentSheetIndex, 16, 16), Color.White * 0.75f, 0f,
-					new Vector2(8f, 8f), 4f, SpriteEffects.None,
+					new(8f, 8f), 4f, SpriteEffects.None,
 					(y + 1) * 64 / 10000f + 1E-05f + __instance.TileLocation.X / 10000f);
 				return false; // don't run original logic
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

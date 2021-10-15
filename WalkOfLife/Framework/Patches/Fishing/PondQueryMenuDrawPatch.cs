@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
@@ -26,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal PondQueryMenuDrawPatch()
 		{
 			Original = typeof(PondQueryMenu).MethodNamed(nameof(PondQueryMenu.draw), new[] { typeof(SpriteBatch) });
-			Prefix = new HarmonyMethod(GetType(), nameof(PondQueryMenuDrawPrefix));
+			Prefix = new(GetType(), nameof(PondQueryMenuDrawPrefix));
 		}
 
 		#region harmony patches
@@ -49,13 +50,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, Color.Black * 0.75f);
 					var hasUnresolvedNeeds = ____pond.neededItem.Value != null && ____pond.HasUnresolvedNeeds() &&
 											 !____pond.hasCompletedRequest.Value;
-					var pondNameText = Game1.content.LoadString(Path.Combine("Strings", "UI:PondQuery_Name"),
+					var pondNameText = Game1.content.LoadString(PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Name"),
 						____fishItem.DisplayName);
 					var textSize = Game1.smallFont.MeasureString(pondNameText);
 					Game1.DrawBox((int)(Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f),
 						__instance.yPositionOnScreen - 4 + 128, (int)(textSize.X + 64f), 64);
 					SUtility.drawTextWithShadow(b, pondNameText, Game1.smallFont,
-						new Vector2(Game1.uiViewport.Width / 2 - textSize.X * 0.5f,
+						new(Game1.uiViewport.Width / 2 - textSize.X * 0.5f,
 							__instance.yPositionOnScreen - 4 + 160f - textSize.Y * 0.5f), Color.Black);
 					var displayedText = ModEntry.ModHelper.Reflection.GetMethod(__instance, "getDisplayedText")
 						.Invoke<string>();
@@ -67,11 +68,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						.Invoke<int>(displayedText);
 					Game1.drawDialogueBox(__instance.xPositionOnScreen, __instance.yPositionOnScreen + 128,
 						PondQueryMenu.width, PondQueryMenu.height - 128 + extraHeight + extraTextHeight, false, true);
-					var populationText = Game1.content.LoadString(Path.Combine("Strings", "UI:PondQuery_Population"),
+					var populationText = Game1.content.LoadString(PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Population"),
 						string.Concat(____pond.FishCount), ____pond.maxOccupants.Value);
 					textSize = Game1.smallFont.MeasureString(populationText);
 					SUtility.drawTextWithShadow(b, populationText, Game1.smallFont,
-						new Vector2(__instance.xPositionOnScreen + PondQueryMenu.width / 2 - textSize.X * 0.5f,
+						new(__instance.xPositionOnScreen + PondQueryMenu.width / 2 - textSize.X * 0.5f,
 							__instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16 + 128),
 						Game1.textColor);
 					var slotsToDraw = ____pond.maxOccupants.Value;
@@ -83,14 +84,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						var yOffset = (float)Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
 						if (i < ____pond.FishCount)
 							____fishItem.drawInMenu(b,
-								new Vector2(
+								new(
 									__instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
 									slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f + slotSpacing * 4f * x - 12f,
 									__instance.yPositionOnScreen + (int)(yOffset * 4f) + y * 4 * slotSpacing + 275.2f),
 								0.75f, 1f, 0f, StackDrawType.Hide, Color.White, false);
 						else
 							____fishItem.drawInMenu(b,
-								new Vector2(
+								new(
 									__instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
 									slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f + slotSpacing * 4f * x - 12f,
 									__instance.yPositionOnScreen + (int)(yOffset * 4f) + y * 4 * slotSpacing + 275.2f),
@@ -105,7 +106,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					textSize = Game1.smallFont.MeasureString(displayedText);
 					SUtility.drawTextWithShadow(b, displayedText, Game1.smallFont,
-						new Vector2(__instance.xPositionOnScreen + PondQueryMenu.width / 2 - textSize.X * 0.5f,
+						new(__instance.xPositionOnScreen + PondQueryMenu.width / 2 - textSize.X * 0.5f,
 							__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight -
 							(hasUnresolvedNeeds ? 32 : 48) - textSize.Y), Game1.textColor);
 					if (hasUnresolvedNeeds)
@@ -113,11 +114,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						ModEntry.ModHelper.Reflection.GetMethod(__instance, "drawHorizontalPartition").Invoke(b,
 							(int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
 						SUtility.drawWithShadow(b, Game1.mouseCursors,
-							new Vector2(__instance.xPositionOnScreen + 60 + 8f * Game1.dialogueButtonScale / 10f,
+							new(__instance.xPositionOnScreen + 60 + 8f * Game1.dialogueButtonScale / 10f,
 								__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28),
-							new Rectangle(412, 495, 5, 4), Color.White, (float)Math.PI / 2f, Vector2.Zero);
+							new(412, 495, 5, 4), Color.White, (float)Math.PI / 2f, Vector2.Zero);
 						var bringText =
-							Game1.content.LoadString(Path.Combine("Strings", "UI:PondQuery_StatusRequest_Bring"));
+							Game1.content.LoadString(PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_StatusRequest_Bring"));
 						textSize = Game1.smallFont.MeasureString(bringText);
 						var leftX = __instance.xPositionOnScreen + 88;
 						float textX = leftX;
@@ -130,24 +131,24 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						}
 
 						SUtility.drawTextWithShadow(b, bringText, Game1.smallFont,
-							new Vector2(textX,
+							new(textX,
 								__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 24),
 							Game1.textColor);
 						b.Draw(Game1.objectSpriteSheet,
-							new Vector2(iconX,
+							new(iconX,
 								__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 4),
 							Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet,
 								____pond.neededItem.Value.ParentSheetIndex, 16, 16), Color.Black * 0.4f, 0f,
 							Vector2.Zero, 4f, SpriteEffects.None, 1f);
 						b.Draw(Game1.objectSpriteSheet,
-							new Vector2(iconX + 4f,
+							new(iconX + 4f,
 								__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight),
 							Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet,
 								____pond.neededItem.Value.ParentSheetIndex, 16, 16), Color.White, 0f, Vector2.Zero, 4f,
 							SpriteEffects.None, 1f);
 						if (____pond.neededItemCount.Value > 1)
 							SUtility.drawTinyDigits(____pond.neededItemCount.Value, b,
-								new Vector2(iconX + 48f,
+								new(iconX + 48f,
 									__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 48), 3f, 1f,
 								Color.White);
 					}
@@ -171,7 +172,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						____confirmationBoxRectangle.X += padding / 2;
 						____confirmationBoxRectangle.Y += padding / 2;
 						b.DrawString(Game1.smallFont, ____confirmationText,
-							new Vector2(____confirmationBoxRectangle.X, ____confirmationBoxRectangle.Y),
+							new(____confirmationBoxRectangle.X, ____confirmationBoxRectangle.Y),
 							Game1.textColor);
 						__instance.yesButton.draw(b);
 						__instance.noButton.draw(b);
@@ -187,7 +188,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

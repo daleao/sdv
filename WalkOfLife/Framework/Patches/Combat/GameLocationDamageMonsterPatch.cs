@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					typeof(Rectangle), typeof(int), typeof(int), typeof(bool), typeof(float), typeof(int),
 					typeof(float), typeof(float), typeof(bool), typeof(Farmer)
 				});
-			Transpiler = new HarmonyMethod(GetType(), nameof(GameLocationDamageMonsterTranspiler));
+			Transpiler = new(GetType(), nameof(GameLocationDamageMonsterTranspiler));
 		}
 
 		#region harmony patches
@@ -53,7 +53,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Advance()
 					.Remove() // was Ldarg_S critChance
 					.ReplaceWith( // was Ldc_R4 0.5
-						new CodeInstruction(OpCodes.Call,
+						new(OpCodes.Call,
 							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetPoacherBonusCritChance)))
 					)
 					.Advance()
@@ -78,7 +78,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_R4, 1.15f) // brute damage multiplier
 					)
 					.ReplaceWith( // replace with custom multiplier
-						new CodeInstruction(OpCodes.Call,
+						new(OpCodes.Call,
 							typeof(Util.Professions).MethodNamed(nameof(Util.Professions
 								.GetBruteBonusDamageMultiplier)))
 					)
@@ -105,7 +105,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_R4, 2f) // desperado critical damage multiplier
 					)
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // was Ldc_R4 2f (arg 10 = Farmer who)
+						new(OpCodes.Ldarg_S, (byte)10) // was Ldc_R4 2f (arg 10 = Farmer who)
 					)
 					.Advance()
 					.Insert(

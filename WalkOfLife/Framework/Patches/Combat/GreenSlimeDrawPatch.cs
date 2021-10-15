@@ -110,7 +110,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 
 			var x = MathHelper.Lerp(0, -32f, slime.Scale - 1f);
 			var y = MathHelper.Lerp(0, -64f, slime.Scale - 1f);
-			return new Vector2(x, y);
+			return new(x, y);
 		}
 
 		private static Vector2 GetEyesOffset(GreenSlime slime)
@@ -119,7 +119,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 
 			var x = MathHelper.Lerp(0, -32f, slime.Scale - 1f);
 			var y = MathHelper.Lerp(0, -32f, slime.Scale - 1f);
-			return new Vector2(x, y);
+			return new(x, y);
 		}
 
 		#endregion private methods

@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FruitTreeDayUpdatePatch()
 		{
 			Original = typeof(FruitTree).MethodNamed(nameof(FruitTree.dayUpdate));
-			Postfix = new HarmonyMethod(GetType(), nameof(FruitTreeDayUpdatePostfix));
+			Postfix = new(GetType(), nameof(FruitTreeDayUpdatePostfix));
 		}
 
 		#region harmony patches
@@ -32,7 +32,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

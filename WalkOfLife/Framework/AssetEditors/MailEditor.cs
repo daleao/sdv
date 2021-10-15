@@ -1,4 +1,5 @@
 ﻿using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using System;
 using System.IO;
@@ -10,13 +11,13 @@ namespace TheLion.Stardew.Professions.Framework.AssetEditors
 		/// <inheritdoc />
 		public bool CanEdit<T>(IAssetInfo asset)
 		{
-			return asset.AssetNameEquals(Path.Combine("Data", "mail"));
+			return asset.AssetNameEquals(PathUtilities.NormalizeAssetName("Data/mail"));
 		}
 
 		/// <inheritdoc />
 		public void Edit<T>(IAssetData asset)
 		{
-			if (!asset.AssetNameEquals(Path.Combine("Data", "mail")))
+			if (!asset.AssetNameEquals(PathUtilities.NormalizeAssetName("Data/mail")))
 				throw new InvalidOperationException($"Unexpected asset {asset.AssetName}.");
 
 			// patch mail from the Ferngill Revenue Service

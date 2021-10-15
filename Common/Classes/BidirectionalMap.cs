@@ -22,7 +22,7 @@ namespace TheLion.Stardew.Common.Classes
 		/// <remarks>Throws <see cref="ArgumentException"/> if <paramref name="oneWayMap"/> contains repeated values.</remarks>
 		public BiMap(IDictionary<TForwardKey, TReverseKey> oneWayMap)
 		{
-			Forward = new Indexer<TForwardKey, TReverseKey>(oneWayMap);
+			Forward = new(oneWayMap);
 			//var reversedOneWayMap = oneWayMap.ToDictionary(p => p.Value, p => p.Key);
 			//Reverse = new Indexer<TReverseKey, TForwardKey>(reversedOneWayMap);
 
@@ -146,7 +146,7 @@ namespace TheLion.Stardew.Common.Classes
 
 			public static implicit operator Dictionary<TKey, TValue>(Indexer<TKey, TValue> indexer)
 			{
-				return new Dictionary<TKey, TValue>(indexer._dictionary);
+				return new(indexer._dictionary);
 			}
 
 			internal void Add(TKey key, TValue value)
@@ -185,7 +185,7 @@ namespace TheLion.Stardew.Common.Classes
 
 			public Dictionary<TKey, TValue> ToDictionary()
 			{
-				return new Dictionary<TKey, TValue>(_dictionary);
+				return new(_dictionary);
 			}
 
 			public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()

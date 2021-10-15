@@ -1,10 +1,10 @@
 ﻿using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -370,7 +370,7 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"))
+			var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
 				.Where(p => !p.Key.AnyOf(152, 152, 157) && !p.Value.Contains("trap"))
 				.ToDictionary(p => p.Key, p => p.Value);
 			int numLegendariesCaught = 0, numMaxSizedCaught = 0;
@@ -392,7 +392,7 @@ namespace TheLion.Stardew.Professions
 						++numMaxSizedCaught;
 					else
 						nonMaxSizedCaught.Add(dataFields[0],
-							new Tuple<int, int>(p.Value[1], Convert.ToInt32(dataFields[4])));
+							new(p.Value[1], Convert.ToInt32(dataFields[4])));
 				}
 
 				caughtFishNames.Add(dataFields[0]);

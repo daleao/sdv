@@ -1,7 +1,7 @@
 ﻿using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using SUtility = StardewValley.Utility;
 
@@ -38,7 +38,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Get the raw fish data for the game location and current game season.</summary>
 		public static string[] GetRawFishDataForCurrentSeason(this GameLocation location)
 		{
-			var locationData = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "Locations"));
+			var locationData = Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
 			return locationData[location.NameOrUniqueName].Split('/')[4 + SUtility.getSeasonNumber(Game1.currentSeason)]
 				.Split(' ');
 		}
@@ -46,7 +46,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Get the raw fish data for the game location and all seasons.</summary>
 		public static string[] GetRawFishDataForAllSeasons(this GameLocation location)
 		{
-			var locationData = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "Locations"));
+			var locationData = Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
 			List<string> allSeasonFish = new();
 			for (var i = 0; i < 4; ++i)
 			{

@@ -5,6 +5,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class StaticGameLaunchedEvent : GameLaunchedEvent
 	{
+		//
+
 		/// <inheritdoc />
 		public override void OnGameLaunched(object sender, GameLaunchedEventArgs e)
 		{
@@ -13,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				getConfig: () => ModEntry.Config,
 				reset: () =>
 				{
-					ModEntry.Config = new ModConfig();
+					ModEntry.Config = new();
 					ModEntry.ModHelper.WriteConfig(ModEntry.Config);
 				},
 				saveAndApply: () => { ModEntry.ModHelper.WriteConfig(ModEntry.Config); },

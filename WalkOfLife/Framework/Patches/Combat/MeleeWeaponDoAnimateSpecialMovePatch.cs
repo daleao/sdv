@@ -15,8 +15,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MeleeWeaponDoAnimateSpecialMovePatch()
 		{
 			Original = typeof(MeleeWeapon).MethodNamed("doAnimateSpecialMove");
-			Postfix = new HarmonyMethod(GetType(), nameof(MeleeWeaponDoAnimateSpecialMovePostfix));
-			Transpiler = new HarmonyMethod(GetType(), nameof(MeleeWeaponDoAnimateSpecialMoveTranspiler));
+			Postfix = new(GetType(), nameof(MeleeWeaponDoAnimateSpecialMovePostfix));
+			Transpiler = new(GetType(), nameof(MeleeWeaponDoAnimateSpecialMoveTranspiler));
 		}
 
 		#region harmony patches

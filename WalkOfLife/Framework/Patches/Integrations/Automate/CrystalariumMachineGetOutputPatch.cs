@@ -12,7 +12,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = AccessTools.Method(
 				"Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrystalariumMachine:GetOutput");
-			Postfix = new HarmonyMethod(GetType(), nameof(CrystalariumMachineGetOutputPostfix));
+			Postfix = new(GetType(), nameof(CrystalariumMachineGetOutputPostfix));
 		}
 
 		#region harmony patches

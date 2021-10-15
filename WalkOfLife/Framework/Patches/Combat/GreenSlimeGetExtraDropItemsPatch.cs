@@ -19,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 		internal GreenSlimeGetExtraDropItemsPatch()
 		{
 			Original = typeof(GreenSlime).MethodNamed(nameof(GreenSlime.getExtraDropItems));
-			Postfix = new HarmonyMethod(GetType(), nameof(GreenSlimeGetExtraDropItemsPostfix));
+			Postfix = new(GetType(), nameof(GreenSlimeGetExtraDropItemsPostfix));
 		}
 
 		#region harmony patches
@@ -116,7 +116,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 						break;
 
 					case "Sludge":
-						__result.Add(color.B < 200 ? new SObject(437, 1) : new SObject(439, 1));
+						__result.Add(color.B < 200 ? new(437, 1) : new SObject(439, 1));
 						break;
 				}
 			}

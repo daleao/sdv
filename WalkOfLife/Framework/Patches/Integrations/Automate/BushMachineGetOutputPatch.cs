@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = AccessTools.Method(
 				"Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine:GetOutput");
-			Transpiler = new HarmonyMethod(GetType(), nameof(BushMachineGetOutputTranspiler));
+			Transpiler = new(GetType(), nameof(BushMachineGetOutputTranspiler));
 		}
 
 		#region harmony patches
@@ -38,7 +38,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.GetLabels(out var labels)
 					.ReplaceWith( // replace with custom quality
-						new CodeInstruction(OpCodes.Call,
+						new(OpCodes.Call,
 							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetEcologistForageQuality)))
 					)
 					.AddLabels(labels);

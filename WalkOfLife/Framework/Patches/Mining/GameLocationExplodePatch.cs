@@ -21,7 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationExplodePatch()
 		{
 			Original = typeof(GameLocation).MethodNamed(nameof(GameLocation.explode));
-			Postfix = new HarmonyMethod(GetType(), nameof(GameLocationExplodePostfix));
+			Postfix = new(GetType(), nameof(GameLocationExplodePostfix));
 		}
 
 		#region harmony patches
@@ -73,7 +73,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 									.GetValue()
 									.broadcastSprites(__instance,
 										new TemporaryAnimatedSprite(25,
-											new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize), Color.White,
+											new(tile.X * Game1.tileSize, tile.Y * Game1.tileSize), Color.White,
 											8,
 											Game1.random.NextDouble() < 0.5, 80f, 0, -1, -1f, 128));
 							}
@@ -133,7 +133,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

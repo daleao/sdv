@@ -21,7 +21,7 @@ namespace TheLion.Stardew.Professions.Integrations
 			Func<ModConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
 		{
 			_configMenu =
-				new GenericModConfigMenuIntegration<ModConfig>(modRegistry, manifest, getConfig, reset, saveAndApply,
+				new(modRegistry, manifest, getConfig, reset, saveAndApply,
 					log);
 		}
 

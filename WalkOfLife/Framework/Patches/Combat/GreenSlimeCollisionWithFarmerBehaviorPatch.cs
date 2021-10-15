@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GreenSlimeCollisionWithFarmerBehaviorPatch()
 		{
 			Original = typeof(GreenSlime).MethodNamed(nameof(GreenSlime.collisionWithFarmerBehavior));
-			Postfix = new HarmonyMethod(GetType(), nameof(GreenSlimeCollisionWithFarmerBehaviorPostfix));
+			Postfix = new(GetType(), nameof(GreenSlimeCollisionWithFarmerBehaviorPostfix));
 		}
 
 		#region harmony patches
@@ -42,8 +42,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 
 				who.health = Math.Min(who.health + healed, who.maxHealth);
-				__instance.currentLocation.debris.Add(new Debris(healed,
-					new Vector2(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
+				__instance.currentLocation.debris.Add(new(healed,
+					new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
 
 				if (!ModEntry.IsSuperModeActive) ModEntry.SuperModeCounter += Game1.random.Next(1, 10);
 
@@ -51,7 +51,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

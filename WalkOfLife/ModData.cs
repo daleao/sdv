@@ -16,18 +16,11 @@ namespace TheLion.Stardew.Professions
 		/// <summary>Easy look-up table for data fields required by each profesion.</summary>
 		private static readonly Dictionary<string, List<KeyValuePair<string, string>>> FieldsByProfession = new()
 		{
-			{
-				"Conservationist",
-				new List<KeyValuePair<string, string>>
-					{new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0")}
-			},
-			{ "Ecologist", new List<KeyValuePair<string, string>> { new("ItemsForaged", "0") } },
-			{ "Gemologist", new List<KeyValuePair<string, string>> { new("MineralsCollected", "0") } },
-			{ "Prospector", new List<KeyValuePair<string, string>> { new("ProspectorHuntStreak", "0") } },
-			{
-				"Scavenger",
-				new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("ScavengerHuntStreak", "0") }
-			}
+			{ "Conservationist", new() { new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0") } },
+			{ "Ecologist", new() { new("ItemsForaged", "0") } },
+			{ "Gemologist", new() { new("MineralsCollected", "0") } },
+			{ "Prospector", new() { new("ProspectorHuntStreak", "0") } },
+			{ "Scavenger", new() { new("ScavengerHuntStreak", "0") } }
 		};
 
 		/// <summary>Construct an instance.</summary>
@@ -36,26 +29,28 @@ namespace TheLion.Stardew.Professions
 			_id = ModEntry.UniqueID;
 		}
 
+		/// <summary>Load reference to local player's persisted mod data.</summary>
 		public void Load()
 		{
 			if (!Context.IsWorldReady) throw new InvalidOperationException("Tried to load mod data before save file.");
 
-			ModEntry.Log("Loading persisted mod data.", LogLevel.Trace);
+			ModEntry.Log("[ModData]: Loading persisted mod data.", LogLevel.Trace);
 			_data = Game1.player.modData;
 			InitializeDataFieldsForLocalPlayer();
-			ModEntry.Log("Done loading data.", LogLevel.Trace);
+			ModEntry.Log("[ModData]: Done loading data.", LogLevel.Trace);
 		}
 
+		/// <summary>Unload local player's persisted mod data.</summary>
 		public void Unload()
 		{
-			ModEntry.Log("Unloading mod data.", LogLevel.Info);
+			ModEntry.Log("[ModData]: Unloading mod data.", LogLevel.Info);
 			_data = null;
 		}
 
 		/// <summary>Initialize all data fields for the local player.</summary>
 		public void InitializeDataFieldsForLocalPlayer()
 		{
-			ModEntry.Log("Initializing data fields for local player...", LogLevel.Trace);
+			ModEntry.Log("[ModData]: Initializing data fields for local player...", LogLevel.Trace);
 			foreach (var professionIndex in Game1.player.professions)
 				try
 				{
@@ -63,11 +58,11 @@ namespace TheLion.Stardew.Professions
 				}
 				catch (IndexOutOfRangeException)
 				{
-					ModEntry.Log($"Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
+					ModEntry.Log($"[ModData]: Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
 				}
 
 			_data.WriteIfNotExists($"{_id}/SuperModeIndex", "-1");
-			ModEntry.Log("Done initializing data fields for local player.", LogLevel.Trace);
+			ModEntry.Log("[ModData]: Done initializing data fields for local player.", LogLevel.Trace);
 		}
 
 		/// <summary>Initialize data fields for a profession.</summary>
@@ -77,7 +72,7 @@ namespace TheLion.Stardew.Professions
 			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
 			if (!FieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
 
-			ModEntry.Log($"Initializing data fields for {whichProfession}.", LogLevel.Trace);
+			ModEntry.Log($"[ModData]: Initializing data fields for {whichProfession}.", LogLevel.Trace);
 			fields.ForEach(field => _data.WriteIfNotExists($"{_id}/{field.Key}", $"{field.Value}"));
 		}
 
@@ -85,23 +80,23 @@ namespace TheLion.Stardew.Professions
 		/// <param name="whichProfession">The profession index.</param>
 		public void RemoveProfessionDataFields(string whichProfession)
 		{
-			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
+			if (_data == null) throw new NullReferenceException("[ModData]: Mod data was not loaded correctly.");
 			if (!FieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
 
-			ModEntry.Log($"Removing data fields for {whichProfession}.", LogLevel.Trace);
+			ModEntry.Log($"[ModData]: Removing data fields for {whichProfession}.", LogLevel.Trace);
 			fields.ForEach(field => _data.Write($"{_id}/{field.Key}", null));
 		}
 
 		/// <summary>Check if there are rogue data feids and remove them.</summary>
 		public void CleanUpRogueDataFields()
 		{
-			ModEntry.Log("Checking for rogue data fields...", LogLevel.Trace);
+			ModEntry.Log("[ModData]: Checking for rogue data fields...", LogLevel.Trace);
 			foreach (var kvp in from kvp in FieldsByProfession
 								where !kvp.Key.AnyOf("Scavenger", "Prospector")
 								from field in kvp.Value
 								where _data.ContainsKey(field.Key) && !Game1.player.HasProfession(kvp.Key)
 								select kvp) RemoveProfessionDataFields(kvp.Key);
-			ModEntry.Log("Done.", LogLevel.Trace);
+			ModEntry.Log("[ModData]: Done removing rogue data fields.", LogLevel.Trace);
 		}
 
 		/// <summary>Read a field from the <see cref="ModData"/> as string.</summary>
@@ -128,7 +123,7 @@ namespace TheLion.Stardew.Professions
 			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
 
 			_data.Write($"{_id}/{field}", value);
-			ModEntry.Log($"Wrote {value} to {field}.", LogLevel.Trace);
+			ModEntry.Log($"[ModData]: Wrote {value} to {field}.", LogLevel.Trace);
 		}
 
 		/// <summary>Increment the value of a numeric field in the <see cref="ModData"/> by an arbitrary amount.</summary>
@@ -139,7 +134,7 @@ namespace TheLion.Stardew.Professions
 			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
 
 			_data.Increment($"{_id}/{field}", amount);
-			ModEntry.Log($"Incremented {field} by {amount}.", LogLevel.Trace);
+			ModEntry.Log($"[ModData]: Incremented {field} by {amount}.", LogLevel.Trace);
 		}
 
 		/// <summary>Increment the value of a numeric field in the <see cref="ModData"/> by 1.</summary>
@@ -175,7 +170,7 @@ namespace TheLion.Stardew.Professions
 					break;
 			}
 
-			ModEntry.Log($"Incremented {field} by 1.", LogLevel.Trace);
+			ModEntry.Log($"[ModData]: Incremented {field} by 1.", LogLevel.Trace);
 		}
 	}
 }

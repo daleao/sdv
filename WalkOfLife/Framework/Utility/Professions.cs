@@ -1,10 +1,10 @@
 ﻿using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TheLion.Stardew.Common.Classes;
 using TheLion.Stardew.Common.Extensions;
@@ -102,7 +102,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <param name="who">The player.</param>
 		public static float GetAnglerPriceMultiplier(Farmer who)
 		{
-			var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"))
+			var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
 				.Where(p => !p.Key.AnyOf(152, 152, 157) && !p.Value.Contains("trap"))
 				.ToDictionary(p => p.Key, p => p.Value);
 			var multiplier = 1f;

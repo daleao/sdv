@@ -22,7 +22,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = typeof(GreenSlime).MethodNamed(nameof(GreenSlime.update),
 				new[] { typeof(GameTime), typeof(GameLocation) });
-			Postfix = new HarmonyMethod(GetType(), nameof(GreenSlimeUpdatePostfix));
+			Postfix = new(GetType(), nameof(GreenSlimeUpdatePostfix));
 		}
 
 		#region harmony patches
@@ -62,14 +62,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					monster.takeDamage(damageToMonster, (int)trajectory.X, (int)trajectory.Y, false, 1.0, "slime");
 					monster.setInvincibleCountdown((int)(BASE_INVINCIBILITY_TIMER *
 														  (1f - Util.Professions.GetPiperSlimeAttackSpeedModifier())));
-					monster.currentLocation.debris.Add(new Debris(damageToMonster,
-						new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y), new Color(255, 130, 0), 1f,
+					monster.currentLocation.debris.Add(new(damageToMonster,
+						new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f,
 						monster));
 				}
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

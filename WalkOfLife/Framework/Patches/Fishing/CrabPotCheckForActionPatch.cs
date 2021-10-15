@@ -1,12 +1,12 @@
 ﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
@@ -20,7 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CrabPotCheckForActionPatch()
 		{
 			Original = typeof(CrabPot).MethodNamed(nameof(CrabPot.checkForAction));
-			Prefix = new HarmonyMethod(GetType(), nameof(CrabPotCheckForActionPrefix));
+			Prefix = new(GetType(), nameof(CrabPotCheckForActionPrefix));
 		}
 
 		#region harmony patches
@@ -62,12 +62,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				{
 					__instance.heldObject.Value = item;
 					Game1.showRedMessage(
-						Game1.content.LoadString(Path.Combine("Strings", "StringsFromCSFiles:Crop.cs.588")));
+						Game1.content.LoadString(PathUtilities.NormalizeAssetName("Strings/StringsFromCSFiles:Crop.cs.588")));
 					__result = false;
 					return false; // don't run original logic;
 				}
 
-				var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
+				var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
 				if (fishData.TryGetValue(item.ParentSheetIndex, out var specificFishData))
 				{
 					var fields = specificFishData.Split('/');
@@ -93,7 +93,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

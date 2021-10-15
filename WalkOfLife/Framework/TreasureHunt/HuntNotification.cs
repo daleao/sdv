@@ -60,16 +60,16 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			b.Draw(Game1.mouseCursors, itemBoxPosition, new Rectangle(293, 360, 26, 24), Color.White * transparency, 0f,
 				Vector2.Zero, 4f, SpriteEffects.None, 1f);
 			var messageWidth = Game1.smallFont.MeasureString(message).X;
-			b.Draw(Game1.mouseCursors, new Vector2(itemBoxPosition.X + 104f, itemBoxPosition.Y),
+			b.Draw(Game1.mouseCursors, new(itemBoxPosition.X + 104f, itemBoxPosition.Y),
 				new Rectangle(319, 360, 1, 24), Color.White * transparency, 0f, Vector2.Zero,
 				new Vector2(messageWidth, 4f), SpriteEffects.None, 1f);
-			b.Draw(Game1.mouseCursors, new Vector2(itemBoxPosition.X + 104f + messageWidth, itemBoxPosition.Y),
+			b.Draw(Game1.mouseCursors, new(itemBoxPosition.X + 104f + messageWidth, itemBoxPosition.Y),
 				new Rectangle(323, 360, 6, 24), Color.White * transparency, 0f, Vector2.Zero, 4f, SpriteEffects.None,
 				1f);
 			itemBoxPosition.X += 16f;
 			itemBoxPosition.Y += 16f;
 			b.Draw(Game1.mouseCursors, itemBoxPosition + new Vector2(8f, 8f) * 4f, _sourceRect,
-				Color.White * transparency, 0f, new Vector2(8f, 8f), 4f + Math.Max(0f, (timeLeft - 3000f) / 900f),
+				Color.White * transparency, 0f, new(8f, 8f), 4f + Math.Max(0f, (timeLeft - 3000f) / 900f),
 				SpriteEffects.None, 1f);
 			itemBoxPosition.X += 51f;
 			itemBoxPosition.Y += 51f;

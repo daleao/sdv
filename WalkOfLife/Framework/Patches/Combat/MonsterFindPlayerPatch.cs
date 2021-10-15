@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MonsterFindPlayerPatch()
 		{
 			Original = typeof(Monster).MethodNamed("findPlayer");
-			Prefix = new HarmonyMethod(GetType(), nameof(MonsterFindPlayerPrefix));
+			Prefix = new(GetType(), nameof(MonsterFindPlayerPrefix));
 		}
 
 		#region harmony patches
@@ -85,7 +85,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

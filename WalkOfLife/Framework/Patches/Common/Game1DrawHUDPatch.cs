@@ -19,8 +19,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal Game1DrawHUDPatch()
 		{
 			Original = typeof(Game1).MethodNamed("drawHUD");
-			Postfix = new HarmonyMethod(GetType(), nameof(Game1DrawHUDPostfix));
-			Transpiler = new HarmonyMethod(GetType(), nameof(Game1DrawHUDTranspiler));
+			Postfix = new(GetType(), nameof(Game1DrawHUDPostfix));
+			Transpiler = new(GetType(), nameof(Game1DrawHUDTranspiler));
 		}
 
 		#region harmony patches
@@ -37,7 +37,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Brfalse)
 					)
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Brtrue_S, isProspector) // change !(A && B) to !(A || B)
+						new(OpCodes.Brtrue_S, isProspector) // change !(A && B) to !(A || B)
 					)
 					.Advance()
 					.StripLabels() // strip repeated label

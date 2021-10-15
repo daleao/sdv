@@ -17,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = typeof(SObject).Constructor(new[]
 				{typeof(Vector2), typeof(int), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool)});
-			Postfix = new HarmonyMethod(GetType(), nameof(ObjectCtorPostfix));
+			Postfix = new(GetType(), nameof(ObjectCtorPostfix));
 		}
 
 		#region harmony patches
@@ -34,7 +34,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

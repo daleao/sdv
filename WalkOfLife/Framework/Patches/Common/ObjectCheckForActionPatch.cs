@@ -17,9 +17,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectCheckForActionPatch()
 		{
 			Original = typeof(SObject).MethodNamed(nameof(SObject.checkForAction));
-			Prefix = new HarmonyMethod(GetType(), nameof(ObjectCheckForActionPrefix));
-			Postfix = new HarmonyMethod(GetType(), nameof(ObjectCheckForActionPostfix));
-			Transpiler = new HarmonyMethod(GetType(), nameof(ObjectCheckForActionTranspiler));
+			Prefix = new(GetType(), nameof(ObjectCheckForActionPrefix));
+			Postfix = new(GetType(), nameof(ObjectCheckForActionPostfix));
+			Transpiler = new(GetType(), nameof(ObjectCheckForActionTranspiler));
 		}
 
 		#region harmony patches
@@ -49,7 +49,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

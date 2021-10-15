@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmAnimalPetPatch()
 		{
 			Original = typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.pet));
-			Transpiler = new HarmonyMethod(GetType(), nameof(FarmAnimalPetTranspiler));
+			Transpiler = new(GetType(), nameof(FarmAnimalPetTranspiler));
 		}
 
 		#region harmony patches
@@ -42,7 +42,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var hasRancher) // copy destination
 					.Return()
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Brtrue_S,
+						new(OpCodes.Brtrue_S,
 							(Label)hasRancher) // replace false case branch with true case branch
 					)
 					.Advance()

@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal TreeUpdateTapperProductPatch()
 		{
 			Original = typeof(Tree).MethodNamed(nameof(Tree.UpdateTapperProduct));
-			Postfix = new HarmonyMethod(GetType(), nameof(TreeUpdateTapperProductPostfix));
+			Postfix = new(GetType(), nameof(TreeUpdateTapperProductPostfix));
 		}
 
 		#region harmony patches
@@ -37,7 +37,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

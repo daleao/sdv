@@ -17,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = typeof(Game1).MethodNamed(nameof(Game1.createObjectDebris),
 				new[] { typeof(int), typeof(int), typeof(int), typeof(long), typeof(GameLocation) });
-			Prefix = new HarmonyMethod(GetType(), nameof(Game1CreateObjectDebrisPrefix));
+			Prefix = new(GetType(), nameof(Game1CreateObjectDebrisPrefix));
 		}
 
 		#region harmony patches
@@ -33,7 +33,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!who.HasProfession("Gemologist") || !new SObject(objectIndex, 1).IsGemOrMineral())
 					return true; // run original logic
 
-				location.debris.Add(new Debris(objectIndex, new Vector2(xTile * 64 + 32, yTile * 64 + 32),
+				location.debris.Add(new(objectIndex, new(xTile * 64 + 32, yTile * 64 + 32),
 					who.getStandingPosition())
 				{
 					itemQuality = Util.Professions.GetGemologistMineralQuality()
@@ -44,7 +44,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

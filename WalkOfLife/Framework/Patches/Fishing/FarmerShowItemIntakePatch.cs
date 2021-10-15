@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using System;
-using System.IO;
 using System.Reflection;
+using StardewModdingAPI.Utilities;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using SObject = StardewValley.Object;
@@ -17,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmerShowItemIntakePatch()
 		{
 			Original = typeof(Farmer).MethodNamed(nameof(Farmer.showItemIntake));
-			Prefix = new HarmonyMethod(GetType(), nameof(FarmerShowItemIntakePrefix));
+			Prefix = new(GetType(), nameof(FarmerShowItemIntakePrefix));
 		}
 
 		#region harmony patches
@@ -31,31 +31,31 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.AnyOf(14, 51)) return true; // run original logic
 
 				var toShow = (SObject)who.mostRecentlyGrabbedItem;
-				var tempSprite = who.FacingDirection switch
+				TemporaryAnimatedSprite tempSprite = who.FacingDirection switch
 				{
 					2 => who.FarmerSprite.currentAnimationIndex switch
 					{
-						1 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						1 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(0f, -32f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						2 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						2 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(0f, -43f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						3 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						3 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(0f, -128f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						4 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						4 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							200f, 1, 0, who.Position + new Vector2(0f, -120f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						5 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						5 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							200f, 1, 0, who.Position + new Vector2(0f, -120f), false, false,
@@ -64,27 +64,27 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					},
 					1 => who.FarmerSprite.currentAnimationIndex switch
 					{
-						1 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						1 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(28f, -64f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						2 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						2 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(24f, -72f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						3 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						3 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(4f, -128f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						4 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						4 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							200f, 1, 0, who.Position + new Vector2(0f, -124f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						5 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						5 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							200f, 1, 0, who.Position + new Vector2(0f, -124f), false, false,
@@ -93,27 +93,27 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					},
 					0 => who.FarmerSprite.currentAnimationIndex switch
 					{
-						1 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						1 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(0f, -32f), false, false,
 							who.getStandingY() / 10000f - 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						2 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						2 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(0f, -43f), false, false,
 							who.getStandingY() / 10000f - 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						3 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						3 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(0f, -128f), false, false,
 							who.getStandingY() / 10000f - 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						4 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						4 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							200f, 1, 0, who.Position + new Vector2(0f, -120f), false, false,
 							who.getStandingY() / 10000f - 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						5 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						5 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							200f, 1, 0, who.Position + new Vector2(0f, -120f), false, false,
@@ -122,27 +122,27 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					},
 					3 => who.FarmerSprite.currentAnimationIndex switch
 					{
-						1 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						1 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(-32f, -64f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						2 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						2 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(-28f, -76f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						3 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						3 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							100f, 1, 0, who.Position + new Vector2(-16f, -128f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						4 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						4 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							200f, 1, 0, who.Position + new Vector2(0f, -124f), false, false,
 							who.getStandingY() / 10000f + 0.01f, 0f, Color.White, 4f, 0f, 0f, 0f),
-						5 => new TemporaryAnimatedSprite(Path.Combine("TileSheets", "weapons"),
+						5 => new(PathUtilities.NormalizeAssetName("TileSheets/weapons"),
 							Game1.getSourceRectForStandardTileSheet(Tool.weaponsTexture, toShow.ParentSheetIndex, 16,
 								16),
 							200f, 1, 0, who.Position + new Vector2(0f, -124f), false, false,
@@ -167,7 +167,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

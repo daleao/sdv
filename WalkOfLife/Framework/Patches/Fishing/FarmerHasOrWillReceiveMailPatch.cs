@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmerHasOrWillReceiveMailPatch()
 		{
 			Original = typeof(Farmer).MethodNamed(nameof(Farmer.hasOrWillReceiveMail));
-			Prefix = new HarmonyMethod(GetType(), nameof(FarmerHasOrWillReceiveMailPrefix));
+			Prefix = new(GetType(), nameof(FarmerHasOrWillReceiveMailPrefix));
 		}
 
 		#region harmony patches
@@ -32,7 +32,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

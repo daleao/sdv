@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
@@ -41,7 +42,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		{
 			HuntStartedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntstarted");
 			HuntFailedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntfailed");
-			IconSourceRect = new Rectangle(80, 656, 16, 16);
+			IconSourceRect = new(80, 656, 16, 16);
 		}
 
 		/// <summary>Try to start a new scavenger hunt at this location.</summary>
@@ -99,12 +100,12 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		/// <summary>Play treasure chest found animation.</summary>
 		private void BeginFindTreasure()
 		{
-			Game1.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(
-				Path.Combine("LooseSprites", "Cursors"), new Rectangle(64, 1920, 32, 32), 500f, 1, 0,
+			Game1.currentLocation.TemporarySprites.Add(new(
+				PathUtilities.NormalizeAssetName("LooseSprites/Cursors"), new(64, 1920, 32, 32), 500f, 1, 0,
 				Game1.player.Position + new Vector2(-32f, -160f), false, false,
 				Game1.player.getStandingY() / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
 			{
-				motion = new Vector2(0f, -0.128f),
+				motion = new(0f, -0.128f),
 				timeBasedMotion = true,
 				endFunction = OpenChestEndFunction,
 				extraInfoForEndBehavior = 0,
@@ -118,8 +119,8 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		private void OpenChestEndFunction(int extra)
 		{
 			Game1.currentLocation.localSound("openChest");
-			Game1.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(
-				Path.Combine("LooseSprites", "Cursors"), new Rectangle(64, 1920, 32, 32), 200f, 4, 0,
+			Game1.currentLocation.TemporarySprites.Add(new(
+				PathUtilities.NormalizeAssetName("LooseSprites/Cursors"), new(64, 1920, 32, 32), 200f, 4, 0,
 				Game1.player.Position + new Vector2(-32f, -228f), false, false,
 				Game1.player.getStandingY() / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
 			{
@@ -236,7 +237,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 									case 3:
 										treasures.Add(Random.NextDouble() < 0.28
-											? new SObject(72, 1) // diamond
+											? new(72, 1) // diamond
 											: new SObject(80, Random.Next(1, 3))); // quartz
 										break;
 								}

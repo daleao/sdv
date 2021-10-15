@@ -50,13 +50,19 @@ namespace TheLion.Stardew.Common.Harmony
 
 		/// <summary>Construct an instance.</summary>
 		/// <param name="log">Interface for writing to the SMAPI console.</param>
+		public ILHelper(Action<string, LogLevel> log)
+			: this(log, false, "") { }
+
+		/// <summary>Construct an instance.</summary>
+		/// <param name="log">Interface for writing to the SMAPI console.</param>
 		/// <param name="enableExport">Whether the instruction list should be saved to disk in case an error is thrown.</param>
+		/// <param name="path">The root path where instruction lists will be saved.</param>
 		public ILHelper(Action<string, LogLevel> log, bool enableExport, string path)
 		{
 			Log = log;
 			_shouldExport = enableExport;
 			_exportDir = Path.Combine(path, "exports");
-			_indexStack = new Stack<int>();
+			_indexStack = new();
 		}
 
 		/// <summary>Attach a new list of code instructions to this instance.</summary>
@@ -616,16 +622,16 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			return number switch
 			{
-				0 => new CodeInstruction(OpCodes.Ldc_I4_0),
-				1 => new CodeInstruction(OpCodes.Ldc_I4_1),
-				2 => new CodeInstruction(OpCodes.Ldc_I4_2),
-				3 => new CodeInstruction(OpCodes.Ldc_I4_3),
-				4 => new CodeInstruction(OpCodes.Ldc_I4_4),
-				5 => new CodeInstruction(OpCodes.Ldc_I4_5),
-				6 => new CodeInstruction(OpCodes.Ldc_I4_6),
-				7 => new CodeInstruction(OpCodes.Ldc_I4_7),
-				8 => new CodeInstruction(OpCodes.Ldc_I4_8),
-				_ => new CodeInstruction(OpCodes.Ldc_I4_S, number)
+				0 => new(OpCodes.Ldc_I4_0),
+				1 => new(OpCodes.Ldc_I4_1),
+				2 => new(OpCodes.Ldc_I4_2),
+				3 => new(OpCodes.Ldc_I4_3),
+				4 => new(OpCodes.Ldc_I4_4),
+				5 => new(OpCodes.Ldc_I4_5),
+				6 => new(OpCodes.Ldc_I4_6),
+				7 => new(OpCodes.Ldc_I4_7),
+				8 => new(OpCodes.Ldc_I4_8),
+				_ => new(OpCodes.Ldc_I4_S, number)
 			};
 		}
 	}

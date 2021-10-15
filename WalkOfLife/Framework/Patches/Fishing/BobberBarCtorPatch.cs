@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BobberBarCtorPatch()
 		{
 			Original = typeof(BobberBar).Constructor(new[] { typeof(int), typeof(float), typeof(bool), typeof(int) });
-			Postfix = new HarmonyMethod(GetType(), nameof(BobberBarCtorPostfix));
+			Postfix = new(GetType(), nameof(BobberBarCtorPostfix));
 		}
 
 		#region harmony patches
@@ -32,7 +32,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return;
 			}
 

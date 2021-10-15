@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmAnimalGetSellPricePatch()
 		{
 			Original = typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.getSellPrice));
-			Prefix = new HarmonyMethod(GetType(), nameof(FarmAnimalGetSellPricePrefix));
+			Prefix = new(GetType(), nameof(FarmAnimalGetSellPricePrefix));
 		}
 
 		#region harmony patches
@@ -33,7 +33,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 

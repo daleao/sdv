@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectGetMinutesForCrystalariumPatch()
 		{
 			Original = typeof(SObject).MethodNamed("getMinutesForCrystalarium");
-			Postfix = new HarmonyMethod(GetType(), nameof(ObjectGetMinutesForCrystalariumPostfix));
+			Postfix = new(GetType(), nameof(ObjectGetMinutesForCrystalariumPostfix));
 		}
 
 		#region harmony patches
@@ -31,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

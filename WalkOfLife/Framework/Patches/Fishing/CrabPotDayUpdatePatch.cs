@@ -5,9 +5,9 @@ using StardewValley;
 using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
+using StardewModdingAPI.Utilities;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -22,7 +22,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CrabPotDayUpdatePatch()
 		{
 			Original = typeof(CrabPot).MethodNamed(nameof(CrabPot.DayUpdate));
-			Prefix = new HarmonyMethod(GetType(), nameof(CrabPotDayUpdatePrefix));
+			Prefix = new(GetType(), nameof(CrabPotDayUpdatePrefix));
 		}
 
 		#region harmony patches
@@ -43,7 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				var r = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 +
 								   (int)__instance.TileLocation.X * 1000 + (int)__instance.TileLocation.Y);
-				var fishData = Game1.content.Load<Dictionary<int, string>>(Path.Combine("Data", "Fish"));
+				var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
 				var isLuremaster = who.HasProfession("Luremaster");
 				var whichFish = -1;
 				if (__instance.bait.Value != null)
@@ -102,12 +102,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 
 				var fishQuantity = GetTrapFishQuantity(__instance, whichFish, r);
-				__instance.heldObject.Value = new SObject(whichFish, fishQuantity, quality: fishQuality);
+				__instance.heldObject.Value = new(whichFish, fishQuantity, quality: fishQuality);
 				return false; // don't run original logic
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

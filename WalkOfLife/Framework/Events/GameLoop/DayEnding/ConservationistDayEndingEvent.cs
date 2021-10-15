@@ -1,8 +1,8 @@
 ﻿using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using System;
 using System.Globalization;
-using System.IO;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
@@ -28,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				taxBonusNextSeason.ToString(CultureInfo.InvariantCulture));
 			if (taxBonusNextSeason > 0)
 			{
-				ModEntry.ModHelper.Content.InvalidateCache(Path.Combine("Data", "mail"));
+				ModEntry.ModHelper.Content.InvalidateCache(PathUtilities.NormalizeAssetName("Data/mail"));
 				Game1.addMailForTomorrow($"{ModEntry.UniqueID}/ConservationistTaxNotice");
 			}
 

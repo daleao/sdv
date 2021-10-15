@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CropHarvestPatch()
 		{
 			Original = typeof(Crop).MethodNamed(nameof(Crop.harvest));
-			Transpiler = new HarmonyMethod(GetType(), nameof(CropHarvestTranspiler));
+			Transpiler = new(GetType(), nameof(CropHarvestTranspiler));
 		}
 
 		#region harmony patches
@@ -42,7 +42,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_4) // start of @object.Quality = 4
 					)
 					.ReplaceWith( // replace with custom quality
-						new CodeInstruction(OpCodes.Call,
+						new(OpCodes.Call,
 							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetEcologistForageQuality)))
 					);
 			}

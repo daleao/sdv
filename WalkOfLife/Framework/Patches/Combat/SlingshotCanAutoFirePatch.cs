@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SlingshotCanAutoFirePatch()
 		{
 			Original = typeof(Slingshot).MethodNamed(nameof(Slingshot.CanAutoFire));
-			Prefix = new HarmonyMethod(GetType(), nameof(SlingshotCanAutoFirePrefix));
+			Prefix = new(GetType(), nameof(SlingshotCanAutoFirePrefix));
 		}
 
 		#region harmony patches
@@ -33,7 +33,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectDayUpdatePatch()
 		{
 			Original = typeof(SObject).MethodNamed(nameof(SObject.DayUpdate));
-			Postfix = new HarmonyMethod(GetType(), nameof(ObjectDayUpdatePostfix));
+			Postfix = new(GetType(), nameof(ObjectDayUpdatePostfix));
 		}
 
 		#region harmony patches
@@ -34,7 +34,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

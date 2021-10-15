@@ -19,8 +19,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuGetImmediateProfessionPerkPatch()
 		{
 			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.getImmediateProfessionPerk));
-			Postfix = new HarmonyMethod(GetType(), nameof(LevelUpMenuGetImmediateProfessionPerkPostfix));
-			Transpiler = new HarmonyMethod(GetType(), nameof(LevelUpMenuGetImmediateProfessionPerkTranspiler));
+			Postfix = new(GetType(), nameof(LevelUpMenuGetImmediateProfessionPerkPostfix));
+			Transpiler = new(GetType(), nameof(LevelUpMenuGetImmediateProfessionPerkTranspiler));
 		}
 
 		#region harmony patches
@@ -67,7 +67,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

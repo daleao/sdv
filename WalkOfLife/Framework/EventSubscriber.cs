@@ -19,20 +19,12 @@ namespace TheLion.Stardew.Professions.Framework
 
 		private static readonly Dictionary<string, List<BaseEvent>> EventsByProfession = new()
 		{
-			{ "Conservationist", new List<BaseEvent> { new ConservationistDayEndingEvent() } },
-			{ "Poacher", new List<BaseEvent> { new PoacherWarpedEvent() } },
-			{ "Piper", new List<BaseEvent> { new PiperWarpedEvent() } },
-			{
-				"Prospector",
-				new List<BaseEvent>
-					{new ProspectorHuntDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent()}
-			},
-			{
-				"Scavenger",
-				new List<BaseEvent>
-					{new ScavengerHuntDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent()}
-			},
-			{ "Spelunker", new List<BaseEvent> { new SpelunkerWarpedEvent() } }
+			{ "Conservationist", new() { new ConservationistDayEndingEvent() } },
+			{ "Poacher", new() { new PoacherWarpedEvent() } },
+			{ "Piper", new() { new PiperWarpedEvent() } },
+			{ "Prospector", new() { new ProspectorHuntDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent() } },
+			{ "Scavenger", new() { new ScavengerHuntDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent() } },
+			{ "Spelunker", new() { new SpelunkerWarpedEvent() } }
 		};
 
 		/// <summary>Construct an instance.</summary>
@@ -49,13 +41,13 @@ namespace TheLion.Stardew.Professions.Framework
 			foreach (var e in events)
 				if (_subscribed.ContainsType(e.GetType()))
 				{
-					ModEntry.Log($"Farmer already subscribed to {e.GetType().Name}.", LogLevel.Trace);
+					ModEntry.Log($"[EventSubscriber]: Farmer already subscribed to {e.GetType().Name}.", LogLevel.Trace);
 				}
 				else
 				{
 					e.Hook();
 					_subscribed.Add(e);
-					ModEntry.Log($"Subscribed to {e.GetType().Name}.", LogLevel.Trace);
+					ModEntry.Log($"[EventSubscriber]: Subscribed to {e.GetType().Name}.", LogLevel.Trace);
 				}
 		}
 
@@ -67,18 +59,18 @@ namespace TheLion.Stardew.Professions.Framework
 				if (_subscribed.RemoveType(type, out var removed))
 				{
 					removed.Unhook();
-					ModEntry.Log($"Unsubscribed from {type.Name}.", LogLevel.Trace);
+					ModEntry.Log($"[EventSubscriber]: Unsubscribed from {type.Name}.", LogLevel.Trace);
 				}
 				else
 				{
-					ModEntry.Log($"Farmer not subscribed to {type.Name}.", LogLevel.Trace);
+					ModEntry.Log($"[EventSubscriber]: Farmer not subscribed to {type.Name}.", LogLevel.Trace);
 				}
 		}
 
 		/// <summary>Subscribe the event listener to events required for basic mod function.</summary>
 		internal void SubscribeStaticEvents()
 		{
-			ModEntry.Log("Subscribing static events...", LogLevel.Trace);
+			ModEntry.Log("[EventSubscriber]: Subscribing static events...", LogLevel.Trace);
 			Subscribe(new StaticGameLaunchedEvent(), new StaticSaveLoadedEvent(), new StaticReturnedToTitleEvent(),
 				new StaticLevelChangedEvent(), new StaticSuperModeIndexChangedEvent());
 
@@ -86,7 +78,7 @@ namespace TheLion.Stardew.Professions.Framework
 				!ModEntry.ModHelper.ModRegistry.IsLoaded("cantorsdust.AllProfessions"))
 				return;
 
-			ModEntry.Log("Skill Prestige or All Professions mod detected. Subscribing additional fail-safe event.",
+			ModEntry.Log("[EventSubscriber]: Skill Prestige or All Professions mod detected. Subscribing additional fail-safe event.",
 				LogLevel.Trace);
 			Subscribe(new StaticDayEndingEvent());
 		}
@@ -94,7 +86,7 @@ namespace TheLion.Stardew.Professions.Framework
 		/// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
 		internal void SubscribeEventsForLocalPlayer()
 		{
-			ModEntry.Log($"Subscribing dynamic events for farmer {Game1.player.Name}...", LogLevel.Trace);
+			ModEntry.Log($"[EventSubscriber]: Subscribing dynamic events for farmer {Game1.player.Name}...", LogLevel.Trace);
 			foreach (var professionIndex in Game1.player.professions)
 				try
 				{
@@ -102,19 +94,19 @@ namespace TheLion.Stardew.Professions.Framework
 				}
 				catch (IndexOutOfRangeException)
 				{
-					ModEntry.Log($"Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
+					ModEntry.Log($"[EventSubscriber]: Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
 				}
 
-			ModEntry.Log("Done subscribing player events.", LogLevel.Trace);
+			ModEntry.Log("[EventSubscriber]: Done subscribing player events.", LogLevel.Trace);
 		}
 
 		/// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
 		internal void UnsubscribeLocalPlayerEvents()
 		{
-			ModEntry.Log("Unsubscribing player dynamic events...", LogLevel.Trace);
+			ModEntry.Log("[EventSubscriber]: Unsubscribing player dynamic events...", LogLevel.Trace);
 			Unsubscribe(_subscribed.Where(s => s.Prefix() != "Static").Select(subscribed => subscribed.GetType())
 				.ToArray());
-			ModEntry.Log("Done unsubscribing player events.", LogLevel.Trace);
+			ModEntry.Log("[EventSubscriber]: Done unsubscribing player events.", LogLevel.Trace);
 		}
 
 		/// <summary>Subscribe the event listener to all events required by a specific profession.</summary>
@@ -123,9 +115,9 @@ namespace TheLion.Stardew.Professions.Framework
 		{
 			if (!EventsByProfession.TryGetValue(whichProfession, out var events)) return;
 
-			ModEntry.Log($"Subscribing to {whichProfession} profession events...", LogLevel.Trace);
+			ModEntry.Log($"[EventSubscriber]: Subscribing to {whichProfession} profession events...", LogLevel.Trace);
 			foreach (var e in events) Subscribe(e);
-			ModEntry.Log("Done subscribing profession events.", LogLevel.Trace);
+			ModEntry.Log("[EventSubscriber]: Done subscribing profession events.", LogLevel.Trace);
 		}
 
 		/// <summary>Unsubscribe the event listener from all events required by a specific profession.</summary>
@@ -139,9 +131,9 @@ namespace TheLion.Stardew.Professions.Framework
 				whichProfession == "Scavenger" && Game1.player.HasProfession("Prospector"))
 				except.Add(new TrackerButtonsChangedEvent());
 
-			ModEntry.Log($"Unsubscribing from {whichProfession} profession events...", LogLevel.Trace);
+			ModEntry.Log($"[EventSubscriber]: Unsubscribing from {whichProfession} profession events...", LogLevel.Trace);
 			foreach (var e in events.Except(except)) Unsubscribe(e.GetType());
-			ModEntry.Log("Done unsubscribing profession events.", LogLevel.Trace);
+			ModEntry.Log("[EventSubscriber]: Done unsubscribing profession events.", LogLevel.Trace);
 		}
 
 		/// <summary>Subscribe the event listener to all events required for super mode functionality.</summary>
@@ -187,7 +179,7 @@ namespace TheLion.Stardew.Professions.Framework
 		/// <summary>Check if there are rogue events still subscribed and remove them.</summary>
 		internal void CleanUpRogueEvents()
 		{
-			ModEntry.Log("Checking for rogue profession events...", LogLevel.Trace);
+			ModEntry.Log("[EventSubscriber]: Checking for rogue profession events...", LogLevel.Trace);
 			foreach (var e in _subscribed
 				.Where(e =>
 					Util.Professions.IndexByName.Contains(e.Prefix()) && !Game1.player.HasProfession(e.Prefix()) ||
@@ -195,7 +187,7 @@ namespace TheLion.Stardew.Professions.Framework
 					e.Prefix() == "SuperMode" &&
 					!Game1.player.HasAnyOfProfessions("Brute", "Poacher", "Piper", "Desperado"))
 				.Reverse()) Unsubscribe(e.GetType());
-			ModEntry.Log("Done.", LogLevel.Trace);
+			ModEntry.Log("[EventSubscriber]: Done unsubscribing rogue events.", LogLevel.Trace);
 		}
 
 		/// <summary>Whether the event listener is subscribed to a given event type.</summary>

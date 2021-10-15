@@ -20,7 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationGetFishPatch()
 		{
 			Original = typeof(GameLocation).MethodNamed(nameof(GameLocation.getFish));
-			Transpiler = new HarmonyMethod(GetType(), nameof(GameLocationGetFishTranspiler));
+			Transpiler = new(GetType(), nameof(GameLocationGetFishTranspiler));
 		}
 
 		#region harmony patches

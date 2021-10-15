@@ -53,7 +53,7 @@ namespace TheLion.Stardew.Common.Classes
 			// loop over the first remaining quadrant and mirror it 3 times
 			for (var x = 0; x < _radius; ++x)
 				for (var y = 0; y < _radius; ++y)
-					if (IsInsideOutlineGrid(new Point(x, y)))
+					if (IsInsideOutlineGrid(new(x, y)))
 					{
 						_tiles.Add(_origin - center + new Vector2(y, x));
 						_tiles.Add(_origin - center + new Vector2(y, 2 * _radius - x));

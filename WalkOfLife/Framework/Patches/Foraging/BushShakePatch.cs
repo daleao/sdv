@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BushShakePatch()
 		{
 			Original = typeof(Bush).MethodNamed("shake");
-			Transpiler = new HarmonyMethod(GetType(), nameof(BushShakeTranspiler));
+			Transpiler = new(GetType(), nameof(BushShakeTranspiler));
 		}
 
 		#region harmony patches
@@ -39,7 +39,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.GetLabels(out var labels)
 					.ReplaceWith( // replace with custom quality
-						new CodeInstruction(OpCodes.Call,
+						new(OpCodes.Call,
 							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetEcologistForageQuality)))
 					)
 					.SetLabels(labels);

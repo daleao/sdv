@@ -17,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BasicProjectileBehaviorOnCollisionWithMonsterPatch()
 		{
 			Original = typeof(BasicProjectile).MethodNamed(nameof(BasicProjectile.behaviorOnCollisionWithMonster));
-			Prefix = new HarmonyMethod(GetType(), nameof(BasicProjectileBehaviorOnCollisionWithMonsterPrefix));
+			Prefix = new(GetType(), nameof(BasicProjectileBehaviorOnCollisionWithMonsterPrefix));
 		}
 
 		#region harmony patches
@@ -46,7 +46,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

@@ -62,8 +62,8 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <summary>Look-up table for trappable treasure items using magnet.</summary>
 		public static Dictionary<int, string[]> TrapperPirateTreasureTable { get; } = new()
 		{
-			{ 14, new[] { "1.003", "1", "1" } }, // neptune's glaive
-			{ 51, new[] { "1.003", "1", "1" } }, // broken trident
+			{ 14, new[] { "0.003", "1", "1" } }, // neptune's glaive
+			{ 51, new[] { "0.003", "1", "1" } }, // broken trident
 			{ 166, new[] { "0.03", "1", "1" } }, // treasure chest
 			{ 109, new[] { "0.009", "1", "1" } }, // ancient sword
 			{ 110, new[] { "0.009", "1", "1" } }, // rusty spoon
@@ -95,32 +95,42 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <summary>Hash list of artisan machines.</summary>
 		public static readonly IEnumerable<string> ArtisanMachines = new HashSet<string>
 		{
-			"Alembic",
-			"Butter Churn",
+			"Alembic", // artisan valley
+			"Artisanal Soda Maker", // artisanal soda makers
+			"Butter Churn", // artisan valley
+			"Canning Machine", // fresh meat
+			"Carbonator", // artisanal soda makers
 			"Cheese Press", // vanilla
-			"Dehydrator",
-			"Drying Rack",
-			"Espresso Machine",
-			"Extruder",
-			"Foreign Cask",
-			"Glass Jar",
-			"Grinder",
-			"Ice Cream Machine",
-			"Infuser",
-			"Juicer",
+			"Cola Maker", // artisanal soda makers
+			"Cream Soda Maker", // artisanal soda makers
+			"DNA Synthesizer", // fresh meat
+			"Dehydrator", // artisan valley
+			"Drying Rack", // artisan valley
+			"Espresso Machine", // artisan valley
+			"Extruder", // artisan valley
+			"Foreign Cask", // artisan valley
+			"Glass Jar", // artisan valley
+			"Grinder", // artisan valley
+			"Ice Cream Machine", // artisan valley
+			"Infuser", // artisan valley
+			"Juicer", // artisan valley
 			"Keg", // vanilla
 			"Loom", // vanilla
+			"Marble Soda Machine", // fizzy drinks
 			"Mayonnaise Machine", // vanilla
+			"Meat Press", // fresh meat
 			"Oil Maker", // vanilla
-			"Pepper Blender",
+			"Pepper Blender", // artisan valley
 			"Preserves Jar", // vanilla
-			"Smoker",
-			"Soap Press",
-			"Sorbet Machine",
-			"Still",
-			"Vinegar Cask",
-			"Wax Barrel",
-			"Yogurt Jar"
+			"Shaved Ice Machine", // shaved ice & frozen treats
+			"Smoker", // artisan valley
+			"Soap Press", // artisan valley
+			"Sorbet Machine", // artisan valley
+			"Still", // artisan valley
+			"Syrup Maker", // artisanal soda makers
+			"Vinegar Cask", // artisan valley
+			"Wax Barrel", // artisan valley
+			"Yogurt Jar" // artisan valley
 		};
 
 		/// <summary>Hash list of ids corresponding to animal produce or derived artisan goods.</summary>
@@ -178,16 +188,17 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <summary>Hash list of fish names corresponding to legendary fish.</summary>
 		public static readonly IEnumerable<string> LegendaryFishNames = new HashSet<string>
 		{
-			"Crimsonfish",
-			"Angler",
-			"Legend",
-			"Glacierfish",
-			"Mutant Carp",
-			"Son of Crimsonfish",
-			"Ms. Angler",
-			"Legend II",
-			"Glacierfish Jr.",
-			"Radioactive Carp"
+			"Crimsonfish", // vanilla
+			"Angler", // vanilla
+			"Legend", // vanilla
+			"Glacierfish", // vanilla
+			"Mutant Carp", // vanilla
+			"Son of Crimsonfish", // qi extended
+			"Ms. Angler", // qi extended
+			"Legend II", // qi extended
+			"Glacierfish Jr.", // qi extended
+			"Radioactive Carp", // qi extended
+			"Pufferchick" // stardew aquarium
 		};
 
 		#endregion hash sets

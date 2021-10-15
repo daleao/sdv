@@ -17,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FishPondUpdateMaximumOccupancyPatch()
 		{
 			Original = typeof(FishPond).MethodNamed(nameof(FishPond.UpdateMaximumOccupancy));
-			Postfix = new HarmonyMethod(GetType(), nameof(FishPondUpdateMaximumOccupancyPostfix));
+			Postfix = new(GetType(), nameof(FishPondUpdateMaximumOccupancyPostfix));
 		}
 
 		#region harmony patches
@@ -38,7 +38,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

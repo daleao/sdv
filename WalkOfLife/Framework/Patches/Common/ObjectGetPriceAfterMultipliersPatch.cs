@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectGetPriceAfterMultipliersPatch()
 		{
 			Original = typeof(SObject).MethodNamed("getPriceAfterMultipliers");
-			Prefix = new HarmonyMethod(GetType(), nameof(ObjectGetPriceAfterMultipliersPrefix));
+			Prefix = new(GetType(), nameof(ObjectGetPriceAfterMultipliersPrefix));
 		}
 
 		#region harmony patches
@@ -71,7 +71,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 

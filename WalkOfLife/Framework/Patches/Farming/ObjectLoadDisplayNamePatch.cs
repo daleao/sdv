@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectLoadDisplayNamePatch()
 		{
 			Original = typeof(SObject).MethodNamed("loadDisplayName");
-			Postfix = new HarmonyMethod(GetType(), nameof(ObjectLoadDisplayNamePostfix));
+			Postfix = new(GetType(), nameof(ObjectLoadDisplayNamePostfix));
 		}
 
 		/// <summary>Patch to add honey-specific mead names.</summary>
@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 	}

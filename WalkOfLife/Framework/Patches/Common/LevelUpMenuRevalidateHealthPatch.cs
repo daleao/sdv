@@ -18,7 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuRevalidateHealthPatch()
 		{
 			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.RevalidateHealth));
-			Prefix = new HarmonyMethod(GetType(), nameof(LevelUpMenuRevalidateHealthPrefix));
+			Prefix = new(GetType(), nameof(LevelUpMenuRevalidateHealthPrefix));
 		}
 
 		#region harmony patches
@@ -31,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (farmer.mailReceived.Contains("qiCave")) expectedMaxHealth += 25;
 
 			for (var i = 1; i <= farmer.GetUnmodifiedSkillLevel(4); ++i)
-				if (!farmer.newLevels.Contains(new Point(4, i)) && i != 5 && i != 10)
+				if (!farmer.newLevels.Contains(new(4, i)) && i != 5 && i != 10)
 					expectedMaxHealth += 5;
 
 			if (Game1.player.HasProfession("Fighter")) expectedMaxHealth += 15;
@@ -60,7 +60,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return false; // don't run original logic
 			}
 

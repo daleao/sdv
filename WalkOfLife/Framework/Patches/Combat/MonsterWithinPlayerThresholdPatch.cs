@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MonsterWithinPlayerThresholdPatch()
 		{
 			Original = typeof(Monster).MethodNamed(nameof(Monster.withinPlayerThreshold), new Type[] { });
-			Prefix = new HarmonyMethod(GetType(), nameof(MonsterWithinPlayerThresholdPrefix));
+			Prefix = new(GetType(), nameof(MonsterWithinPlayerThresholdPrefix));
 		}
 
 		#region harmony patch
@@ -34,7 +34,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

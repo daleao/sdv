@@ -40,7 +40,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 							if (!shaft.isTileClearForMineObjects(spawnPosition) || shaft.isTileOccupied(spawnPosition))
 								continue;
 
-							slime = new GreenSlime(Vector2.Zero, shaft.mineLevel);
+							slime = new(Vector2.Zero, shaft.mineLevel);
 							if (shaft.GetAdditionalDifficulty() > 0 &&
 								r.NextDouble() < Math.Min(shaft.GetAdditionalDifficulty() * 0.1f, 0.5f))
 								slime.stackedSlimes.Value = r.NextDouble() < 0.0099999997764825821 ? 4 : 2;
@@ -54,7 +54,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						{
 							if (!e.NewLocation.isTileLocationTotallyClearAndPlaceable(spawnPosition)) continue;
 
-							slime = new GreenSlime(spawnPosition, 1);
+							slime = new(spawnPosition, 1);
 							slime.makeTigerSlime();
 							dungeon.characters.Add(slime);
 							++spawned;

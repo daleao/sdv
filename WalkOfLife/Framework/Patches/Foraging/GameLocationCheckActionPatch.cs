@@ -17,8 +17,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal GameLocationCheckActionPatch()
 		{
-			Original = TargetMethod();
-			Transpiler = new HarmonyMethod(GetType(), nameof(GameLocationCheckActionTranspiler));
+			Original = typeof(GameLocation).MethodNamed(nameof(GameLocation.checkAction));
+			Transpiler = new(GetType(), nameof(GameLocationCheckActionTranspiler));
 		}
 
 		#region harmony patches
@@ -62,7 +62,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_4) // start of objects[key].Quality = 4
 					)
 					.ReplaceWith( // replace with custom quality
-						new CodeInstruction(OpCodes.Call,
+						new(OpCodes.Call,
 							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetEcologistForageQuality)))
 					);
 			}
@@ -124,7 +124,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.Advance()
 					.ReplaceWith( // remove 'not' and set correct branch destination
-						new CodeInstruction(OpCodes.Brfalse_S, (Label)shouldntSetCustomQuality)
+						new(OpCodes.Brfalse_S, (Label)shouldntSetCustomQuality)
 					)
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Call,
@@ -170,16 +170,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		#endregion harmony patches
 
 		#region private methods
-
-		[HarmonyTargetMethod]
-		private static MethodBase TargetMethod()
-		{
-			var targetMethod = typeof(GameLocation).InnerMethodsStartingWith("<checkAction>b__0").First();
-			if (targetMethod == null)
-				throw new MissingMethodException("Target method '<checkAction>b__0' was not found.");
-
-			return targetMethod;
-		}
 
 		private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
 		{

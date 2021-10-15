@@ -18,9 +18,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectPerformObjectDropInActionPatch()
 		{
 			Original = typeof(SObject).MethodNamed(nameof(SObject.performObjectDropInAction));
-			Prefix = new HarmonyMethod(GetType(), nameof(ObjectPerformObjectDropInActionPrefix));
-			Postfix = new HarmonyMethod(GetType(), nameof(ObjectPerformObjectDropInActionPostfix));
-			Transpiler = new HarmonyMethod(GetType(), nameof(ObjectPerformObjectDropInActionTranspiler));
+			Prefix = new(GetType(), nameof(ObjectPerformObjectDropInActionPrefix));
+			Postfix = new(GetType(), nameof(ObjectPerformObjectDropInActionPostfix));
+			Transpiler = new(GetType(), nameof(ObjectPerformObjectDropInActionTranspiler));
 		}
 
 		#region harmony patches
@@ -85,7 +85,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

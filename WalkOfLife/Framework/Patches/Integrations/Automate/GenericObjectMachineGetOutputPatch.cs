@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal GenericObjectMachineSetInputPatch()
 		{
-			Postfix = new HarmonyMethod(GetType(), nameof(GenericObjectMachineGetOutputPostfix));
+			Postfix = new(GetType(), nameof(GenericObjectMachineGetOutputPostfix));
 		}
 
 		/// <inheritdoc/>

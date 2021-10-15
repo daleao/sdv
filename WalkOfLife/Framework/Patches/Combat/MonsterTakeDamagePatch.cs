@@ -18,8 +18,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal MonsterTakeDamagePatch()
 		{
-			Prefix = new HarmonyMethod(GetType(), nameof(MonsterTakeDamagePrefix));
-			Postfix = new HarmonyMethod(GetType(), nameof(MonsterTakeDamagePostfix));
+			Prefix = new(GetType(), nameof(MonsterTakeDamagePrefix));
+			Postfix = new(GetType(), nameof(MonsterTakeDamagePostfix));
 		}
 
 		/// <inheritdoc/>
@@ -71,7 +71,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod().Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

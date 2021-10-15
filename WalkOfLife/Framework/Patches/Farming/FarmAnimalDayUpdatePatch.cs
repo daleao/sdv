@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using Netcode;
-using StardewModdingAPI;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -16,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmAnimalDayUpdatePatch()
 		{
 			Original = typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.dayUpdate));
-			Transpiler = new HarmonyMethod(GetType(), nameof(FarmAnimalDayUpdateTranspiler));
+			Transpiler = new(GetType(), nameof(FarmAnimalDayUpdateTranspiler));
 		}
 
 		#region harmony patches
@@ -46,7 +45,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						.PropertyGetter(nameof(NetFieldBase<byte, NetByte>.Value))) // was <string, NetString>
 					.Advance()
 					.ReplaceWith(
-						new CodeInstruction(OpCodes.Ldc_I4_S, 200) // was Ldstr "Sheep"
+						new(OpCodes.Ldc_I4_S, 200) // was Ldstr "Sheep"
 					)
 					.Advance()
 					.Remove()
@@ -78,8 +77,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				Helper
 					.FindNext( // find index of first FarmAnimal.isCoopDweller check
-						new CodeInstruction(
-							ModEntry.GameFramework.Equals(GameFramework.Xna) ? OpCodes.Call : OpCodes.Callvirt,
+						new CodeInstruction(OpCodes.Call,
 							typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.isCoopDweller)))
 					)
 					.AdvanceUntil(

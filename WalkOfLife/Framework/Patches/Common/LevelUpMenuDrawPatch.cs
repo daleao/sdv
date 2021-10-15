@@ -11,7 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuDrawPatch()
 		{
 			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.draw), new[] { typeof(SpriteBatch) });
-			Prefix = new HarmonyMethod(GetType(), nameof(LevelUpMenuDrawPrefix));
+			Prefix = new(GetType(), nameof(LevelUpMenuDrawPrefix));
 		}
 
 		/// <summary>Patch to increase the height of Level Up Menu to fit longer profession descriptions.</summary>

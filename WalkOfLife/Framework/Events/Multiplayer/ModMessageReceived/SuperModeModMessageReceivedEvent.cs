@@ -12,7 +12,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			var key = e.ReadAs<int>();
 			if (!ModEntry.ActivePeerSuperModes.ContainsKey(key))
-				ModEntry.ActivePeerSuperModes[key] = new HashSet<long>();
+				ModEntry.ActivePeerSuperModes[key] = new();
 
 			switch (e.Type)
 			{

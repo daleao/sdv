@@ -19,8 +19,8 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			for (var i = 0; i < shaft.Map.GetLayer("Buildings").LayerWidth; ++i)
 				for (var j = 0; j < shaft.Map.GetLayer("Buildings").LayerHeight; ++j)
 				{
-					var index = shaft.getTileIndexAt(new Point(i, j), "Buildings");
-					if (index.AnyOf(173, 174)) yield return new Vector2(i, j);
+					var index = shaft.getTileIndexAt(new(i, j), "Buildings");
+					if (index.AnyOf(173, 174)) yield return new(i, j);
 				}
 		}
 

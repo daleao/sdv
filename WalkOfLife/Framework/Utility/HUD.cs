@@ -33,7 +33,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		{
 			if (SUtility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
 
-			Pointer ??= new ArrowPointer();
+			Pointer ??= new();
 
 			var vpbounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
 			Vector2 onScreenPosition = default;
@@ -80,7 +80,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 
 			var srcRect = new XnaRect(0, 0, 5, 4);
 			var safePos = SUtility.makeSafe(
-				renderSize: new Vector2(srcRect.Width * RENDER_SCALE, srcRect.Height * RENDER_SCALE),
+				renderSize: new(srcRect.Width * RENDER_SCALE, srcRect.Height * RENDER_SCALE),
 				renderPos: onScreenPosition
 			);
 
@@ -90,7 +90,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				srcRect,
 				color,
 				rotation,
-				new Vector2(2f, 2f),
+				new(2f, 2f),
 				RENDER_SCALE,
 				SpriteEffects.None,
 				1f
@@ -105,7 +105,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		{
 			if (!SUtility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
 
-			Pointer ??= new ArrowPointer();
+			Pointer ??= new();
 
 			var srcRect = new XnaRect(0, 0, 5, 4);
 			var targetPixel = new Vector2(target.X * 64f + 32f, target.Y * 64f + 32f) + Pointer.GetOffset();
@@ -118,7 +118,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				srcRect,
 				color,
 				(float)Math.PI,
-				new Vector2(2f, 2f),
+				new(2f, 2f),
 				RENDER_SCALE,
 				SpriteEffects.None,
 				1f
@@ -152,7 +152,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			XnaRect srcRect, destRect;
 
 			// top
-			srcRect = new XnaRect(0, 0, 9, 16);
+			srcRect = new(0, 0, 9, 16);
 			Game1.spriteBatch.Draw(
 				BarTx,
 				topOfBar,
@@ -166,8 +166,8 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			);
 
 			// middle
-			srcRect = new XnaRect(0, 16, 9, 16);
-			destRect = new XnaRect((int)topOfBar.X, (int)(topOfBar.Y + 64f), 36, 56);
+			srcRect = new(0, 16, 9, 16);
+			destRect = new((int)topOfBar.X, (int)(topOfBar.Y + 64f), 36, 56);
 			Game1.spriteBatch.Draw(
 				BarTx,
 				destRect,
@@ -176,10 +176,10 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			);
 
 			// bottom
-			srcRect = new XnaRect(0, 30, 9, 16);
+			srcRect = new(0, 30, 9, 16);
 			Game1.spriteBatch.Draw(
 				BarTx,
-				new Vector2(topOfBar.X, topOfBar.Y + 120f),
+				new(topOfBar.X, topOfBar.Y + 120f),
 				srcRect,
 				XnaColor.White * ModEntry.SuperModeBarAlpha,
 				0f,
@@ -210,8 +210,8 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			var srcHeight = (int)(TEXTURE_HEIGHT * ratio);
 			var destHeight = (int)(MAX_BAR_HEIGHT * ratio);
 
-			srcRect = new XnaRect(0, TEXTURE_HEIGHT - srcHeight, 9, srcHeight);
-			destRect = new XnaRect((int)topOfBar.X + 12, (int)topOfBar.Y + 8 + (MAX_BAR_HEIGHT - destHeight), 12,
+			srcRect = new(0, TEXTURE_HEIGHT - srcHeight, 9, srcHeight);
+			destRect = new((int)topOfBar.X + 12, (int)topOfBar.Y + 8 + (MAX_BAR_HEIGHT - destHeight), 12,
 				destHeight);
 
 			Game1.spriteBatch.Draw(

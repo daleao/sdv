@@ -21,7 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SlingshotPerformFirePatch()
 		{
 			Original = typeof(Slingshot).MethodNamed(nameof(Slingshot.PerformFire));
-			Postfix = new HarmonyMethod(GetType(), nameof(SlingshotPerformFirePostfix));
+			Postfix = new(GetType(), nameof(SlingshotPerformFirePostfix));
 			//Transpiler = new HarmonyMethod(GetType(), nameof(SlingshotPerformFireTranspiler));
 		}
 

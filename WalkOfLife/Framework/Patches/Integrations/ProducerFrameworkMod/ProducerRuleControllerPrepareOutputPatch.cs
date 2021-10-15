@@ -102,7 +102,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
 					output.Quality += output.Quality == SObject.medQuality ? 2 : 1;
 			}
-			else if (producer.name == "Geode Crusher" && (input.IsForagedMineral() || input.IsGemOrMineral()) &&
+			else if ((input.IsForagedMineral() || input.IsGemOrMineral()) &&
 					 who.HasProfession("Gemologist"))
 			{
 				output.Quality = Util.Professions.GetGemologistMineralQuality();
