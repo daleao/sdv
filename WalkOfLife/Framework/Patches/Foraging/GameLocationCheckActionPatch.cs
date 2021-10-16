@@ -3,7 +3,6 @@ using StardewValley;
 using StardewValley.Network;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
@@ -83,7 +82,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.ToBufferUntil( // copy entire section until done setting quality
 						true,
 						false,
-						new CodeInstruction(OpCodes.Br)
+						new CodeInstruction(OpCodes.Br_S)
 					)
 					.AdvanceUntil( // change previous section branch destinations to injected section
 						new CodeInstruction(OpCodes.Brfalse_S)
@@ -98,7 +97,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.SetOperand(gemologistCheck)
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Br)
+						new CodeInstruction(OpCodes.Br_S)
 					)
 					.Advance()
 					.InsertBuffer() // insert copy

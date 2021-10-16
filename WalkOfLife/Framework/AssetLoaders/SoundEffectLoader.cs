@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.AssetLoaders
 		/// <summary>Construct an instance.</summary>
 		public SoundEffectLoader()
 		{
-			foreach (var file in Directory.GetFiles(Path.Combine(ModEntry.ModPath, "assets", "sfx"), "*.ogg"))
+			foreach (var file in Directory.GetFiles(Path.Combine(ModEntry.ModPath, "assets", "sfx"), "*.wav"))
 				try
 				{
 					// load .wav
