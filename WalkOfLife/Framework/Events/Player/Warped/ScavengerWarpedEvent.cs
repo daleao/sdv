@@ -1,6 +1,5 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.TreasureHunt;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
@@ -14,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			ModEntry.ScavengerHunt ??= new();
 			if (ModEntry.ScavengerHunt.TreasureTile != null) ModEntry.ScavengerHunt.End();
 			if (Game1.CurrentEvent == null && e.NewLocation.IsOutdoors &&
-				!(e.NewLocation.IsFarm || e.NewLocation.NameOrUniqueName == "Town"))
+			    !(e.NewLocation.IsFarm || e.NewLocation.NameOrUniqueName == "Town"))
 				ModEntry.ScavengerHunt.TryStartNewHunt(e.NewLocation);
 		}
 	}

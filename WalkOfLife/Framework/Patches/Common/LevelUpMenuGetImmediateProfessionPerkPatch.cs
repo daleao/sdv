@@ -1,14 +1,13 @@
-﻿using HarmonyLib;
-using StardewModdingAPI;
-using StardewValley;
-using StardewValley.Buildings;
-using StardewValley.Menus;
-using StardewValley.Projectiles;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using StardewModdingAPI;
+using StardewValley;
+using StardewValley.Buildings;
+using StardewValley.Menus;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -34,25 +33,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!Util.Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
 
 				// add immediate perks
-				switch (professionName)
-				{
-					case "Aquarist":
-						{
-							foreach (var b in Game1.getFarm().buildings.Where(b =>
-								(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-								b is FishPond && !b.isUnderConstruction()))
-							{
-								var pond = (FishPond)b;
-								pond.UpdateMaximumOccupancy();
-							}
-
-							break;
-						}
-					case "Desperado":
-						Projectile.boundingBoxHeight = 600;
-						Projectile.boundingBoxWidth = 600;
-						break;
-				}
+				if (professionName == "Aquarist")
+					foreach (var b in Game1.getFarm().buildings.Where(b =>
+						(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+						b is FishPond && !b.isUnderConstruction()))
+					{
+						var pond = (FishPond) b;
+						pond.UpdateMaximumOccupancy();
+					}
 
 				// initialize mod data, assets and helpers
 				ModEntry.Data.InitializeDataFieldsForProfession(professionName);
@@ -61,8 +49,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
 
 				if (whichProfession is >= 26 and < 30 &&
-					ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not yet registered
-												 // register super mode
+				    ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not yet registered
+					// register super mode
 					ModEntry.SuperModeIndex = whichProfession;
 			}
 			catch (Exception ex)
@@ -91,7 +79,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

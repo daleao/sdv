@@ -1,15 +1,13 @@
-﻿using Microsoft.Xna.Framework.Audio;
-using StardewModdingAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Xna.Framework.Audio;
+using StardewModdingAPI;
 
 namespace TheLion.Stardew.Professions.Framework.AssetLoaders
 {
 	public class SoundEffectLoader
 	{
-		public Dictionary<string, SoundEffect> SoundByName { get; } = new();
-
 		/// <summary>Construct an instance.</summary>
 		public SoundEffectLoader()
 		{
@@ -22,7 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.AssetLoaders
 
 					//// load .ogg
 					//var soundEffect = OggLoader.Load(file);
-					
+
 					if (soundEffect == null) throw new FileLoadException();
 					SoundByName.Add(Path.GetFileNameWithoutExtension(file), soundEffect);
 				}
@@ -31,5 +29,7 @@ namespace TheLion.Stardew.Professions.Framework.AssetLoaders
 					ModEntry.Log($"Failed to load {file}. Loader returned {ex}", LogLevel.Error);
 				}
 		}
+
+		public Dictionary<string, SoundEffect> SoundByName { get; } = new();
 	}
 }

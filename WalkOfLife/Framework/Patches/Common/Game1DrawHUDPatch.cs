@@ -1,14 +1,15 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using TheLion.Stardew.Professions.Framework.Util;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -32,8 +33,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				if (!Game1.player.HasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
-				foreach (var tile in Util.Tiles.GetLadderTiles(shaft))
-					Util.HUD.DrawTrackingArrowPointer(tile, Color.Lime);
+				foreach (var tile in Tiles.GetLadderTiles(shaft))
+					HUD.DrawTrackingArrowPointer(tile, Color.Lime);
 			}
 			catch (Exception ex)
 			{
@@ -83,7 +84,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}");
+				ModEntry.Log($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -115,7 +116,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}");
+				ModEntry.Log($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

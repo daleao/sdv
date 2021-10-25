@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt
@@ -30,10 +31,10 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			if (!location.Objects.TryGetValue(v, out var obj) || !obj.IsStone() || obj.IsResourceNode()) return;
 
 			TreasureTile = v;
-			TimeLimit = (uint)(location.Objects.Count() * ModEntry.Config.TreasureHuntHandicap);
+			TimeLimit = (uint) (location.Objects.Count() * ModEntry.Config.TreasureHuntHandicap);
 			Elapsed = 0;
-			ModEntry.Subscriber.Subscribe(new Events.ArrowPointerUpdateTickedEvent(),
-				new Events.ProspectorHuntUpdateTickedEvent(), new Events.ProspectorHuntRenderedHudEvent());
+			ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(),
+				new ProspectorHuntUpdateTickedEvent(), new ProspectorHuntRenderedHudEvent());
 			Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
 		}
 
@@ -58,8 +59,8 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
 		internal override void End()
 		{
-			ModEntry.Subscriber.Unsubscribe(typeof(Events.ProspectorHuntUpdateTickedEvent),
-				typeof(Events.ProspectorHuntRenderedHudEvent));
+			ModEntry.Subscriber.Unsubscribe(typeof(ProspectorHuntUpdateTickedEvent),
+				typeof(ProspectorHuntRenderedHudEvent));
 			TreasureTile = null;
 		}
 
@@ -69,7 +70,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		{
 			if (TreasureTile == null) return;
 
-			var mineLevel = ((MineShaft)Game1.currentLocation).mineLevel;
+			var mineLevel = ((MineShaft) Game1.currentLocation).mineLevel;
 			Dictionary<int, int> treasuresAndQuantities = new();
 
 			if (Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
@@ -199,19 +200,19 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 				switch (p.Key)
 				{
 					case -1:
-						Game1.createItemDebris(new MeleeWeapon(31) { specialItem = true },
+						Game1.createItemDebris(new MeleeWeapon(31) {specialItem = true},
 							new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f),
 							Random.Next(4), Game1.currentLocation);
 						break;
 
 					case -2:
-						Game1.createItemDebris(new MeleeWeapon(60) { specialItem = true },
+						Game1.createItemDebris(new MeleeWeapon(60) {specialItem = true},
 							new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f),
 							Random.Next(4), Game1.currentLocation);
 						break;
 
 					default:
-						Game1.createMultipleObjectDebris(p.Key, (int)TreasureTile.Value.X, (int)TreasureTile.Value.Y,
+						Game1.createMultipleObjectDebris(p.Key, (int) TreasureTile.Value.X, (int) TreasureTile.Value.Y,
 							p.Value, Game1.player.UniqueMultiplayerID, Game1.currentLocation);
 						break;
 				}

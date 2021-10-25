@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
-using StardewValley;
-using System;
-using System.Reflection;
 using StardewModdingAPI.Utilities;
+using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using SObject = StardewValley.Object;
@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.AnyOf(14, 51)) return true; // run original logic
 
-				var toShow = (SObject)who.mostRecentlyGrabbedItem;
+				var toShow = (SObject) who.mostRecentlyGrabbedItem;
 				TemporaryAnimatedSprite tempSprite = who.FacingDirection switch
 				{
 					2 => who.FarmerSprite.currentAnimationIndex switch
@@ -153,8 +153,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				};
 
 				if ((toShow.Equals(who.ActiveObject) || who.ActiveObject != null && toShow != null &&
-						toShow.ParentSheetIndex == who.ActiveObject.ParentSheetIndex) &&
-					who.FarmerSprite.currentAnimationIndex == 5)
+					    toShow.ParentSheetIndex == who.ActiveObject.ParentSheetIndex) &&
+				    who.FarmerSprite.currentAnimationIndex == 5)
 					tempSprite = null;
 
 				if (tempSprite != null) who.currentLocation.temporarySprites.Add(tempSprite);

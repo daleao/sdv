@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
-using System;
-using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal CraftingRecipeCtorPatch()
 		{
-			Original = typeof(CraftingRecipe).Constructor(new[] { typeof(string), typeof(bool) });
+			Original = typeof(CraftingRecipe).Constructor(new[] {typeof(string), typeof(bool)});
 			Postfix = new(GetType(), nameof(CraftingRecipeCtorPostfix));
 		}
 

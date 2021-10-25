@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using StardewModdingAPI;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -42,7 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -78,8 +79,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error(
-					$"Failed while patching PFM for Artisan and Gemologist machine output quality.\nHelper returned {ex}");
+				ModEntry.Log(
+					$"Failed while patching PFM for Artisan and Gemologist machine output quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

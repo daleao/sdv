@@ -1,10 +1,11 @@
-﻿using HarmonyLib;
-using Netcode;
-using StardewValley;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using Netcode;
+using StardewModdingAPI;
+using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -20,7 +21,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch for Producer to double produce frequency at max animal happiness + remove Shepherd and Coopmaster hidden produce quality boosts.</summary>
+		/// <summary>
+		///     Patch for Producer to double produce frequency at max animal happiness + remove Shepherd and Coopmaster hidden
+		///     produce quality boosts.
+		/// </summary>
 		[HarmonyTranspiler]
 		protected static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
@@ -36,7 +40,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.FindFirst( // find index of FarmAnimal.type.Value.Equals("Sheep")
 						new CodeInstruction(OpCodes.Ldstr, "Sheep"),
 						new CodeInstruction(OpCodes.Callvirt,
-							typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) }))
+							typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)}))
 					)
 					.Retreat(2)
 					.SetOperand(typeof(FarmAnimal).Field(nameof(FarmAnimal.happiness))) // was FarmAnimal.type
@@ -67,7 +71,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching modded Producer produce frequency.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while patching modded Producer produce frequency.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -87,13 +91,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Return()
 					.Retreat()
 					.Insert( // insert unconditional branch to skip this whole section
-						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution)
+						new CodeInstruction(OpCodes.Br_S, (Label) resumeExecution)
 					);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error(
-					$"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}");
+				ModEntry.Log(
+					$"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

@@ -1,11 +1,10 @@
 ﻿using StardewModdingAPI.Events;
-using System.Collections.Generic;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class SuperModeModMessageReceivedEvent : ModMessageReceivedEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
 		{
 			if (e.FromModID != ModEntry.UniqueID) return;

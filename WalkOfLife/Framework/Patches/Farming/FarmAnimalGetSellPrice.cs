@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
-using System;
-using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -37,7 +37,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				return true; // default to original logic
 			}
 
-			__result = (int)(__instance.price.Value * adjustedFriendship);
+			__result = (int) (__instance.price.Value * adjustedFriendship);
 			return false; // don't run original logic
 		}
 

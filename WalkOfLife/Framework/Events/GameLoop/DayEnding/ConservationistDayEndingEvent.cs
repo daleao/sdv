@@ -1,24 +1,25 @@
-﻿using StardewModdingAPI.Events;
+﻿using System;
+using System.Globalization;
+using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using System;
-using System.Globalization;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Professions.Framework.AssetEditors;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class ConservationistDayEndingEvent : DayEndingEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
-			if (!ModEntry.ModHelper.Content.AssetEditors.ContainsType(typeof(AssetEditors.MailEditor)))
-				ModEntry.ModHelper.Content.AssetEditors.Add(new AssetEditors.MailEditor());
+			if (!ModEntry.ModHelper.Content.AssetEditors.ContainsType(typeof(MailEditor)))
+				ModEntry.ModHelper.Content.AssetEditors.Add(new MailEditor());
 
 			uint trashCollectedThisSeason;
 			if (Game1.dayOfMonth != 28 ||
-				(trashCollectedThisSeason = ModEntry.Data.ReadField<uint>("WaterTrashCollectedThisSeason")) <=
-				0) return;
+			    (trashCollectedThisSeason = ModEntry.Data.ReadField<uint>("WaterTrashCollectedThisSeason")) <=
+			    0) return;
 
 			var taxBonusNextSeason =
 				// ReSharper disable once PossibleLossOfFraction

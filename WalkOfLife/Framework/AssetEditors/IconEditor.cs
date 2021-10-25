@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-using System;
-using System.IO;
 
 namespace TheLion.Stardew.Professions.Framework.AssetEditors
 {
@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.AssetEditors
 		public bool CanEdit<T>(IAssetInfo asset)
 		{
 			return asset.AssetNameEquals(PathUtilities.NormalizeAssetName("LooseSprites/Cursors")) ||
-				   asset.AssetNameEquals(PathUtilities.NormalizeAssetName("TileSheets/BuffsIcons"));
+			       asset.AssetNameEquals(PathUtilities.NormalizeAssetName("TileSheets/BuffsIcons"));
 		}
 
 		/// <inheritdoc />

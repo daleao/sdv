@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -54,7 +55,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while adding Gemologist counter increment.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

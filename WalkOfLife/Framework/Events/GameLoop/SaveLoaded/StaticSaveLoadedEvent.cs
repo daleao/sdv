@@ -1,14 +1,12 @@
-﻿using StardewModdingAPI.Events;
+﻿using System.Linq;
+using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Projectiles;
-using System.Linq;
-using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class StaticSaveLoadedEvent : SaveLoadedEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
 		{
 			// load persisted mod data
@@ -23,10 +21,6 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			// subcribe player's profession events
 			ModEntry.Subscriber.SubscribeEventsForLocalPlayer();
-
-			if (!Game1.player.HasProfession("Desperado")) return;
-			Projectile.boundingBoxHeight = 600;
-			Projectile.boundingBoxWidth = 600;
 		}
 	}
 }

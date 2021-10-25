@@ -1,6 +1,7 @@
-﻿using StardewValley;
-using System.Linq;
+﻿using System.Linq;
+using StardewValley;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Professions.Framework.Util;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions
@@ -16,15 +17,15 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is an artisan good.</summary>
 		public static bool IsArtisanMachine(this SObject obj)
 		{
-			return Util.Objects.ArtisanMachines.Contains(obj?.Name);
+			return Objects.ArtisanMachines.Contains(obj?.Name);
 		}
 
 		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
 		public static bool IsAnimalProduct(this SObject obj)
 		{
 			return obj != null &&
-				   (obj.Category.AnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
-					|| Util.Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex));
+			       (obj.Category.AnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
+			        || Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex));
 		}
 
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
@@ -54,7 +55,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is a resource node or foraged mineral.</summary>
 		public static bool IsResourceNode(this SObject obj)
 		{
-			return IsStone(obj) && Util.Objects.ResourceNodeIDs.Contains(obj.ParentSheetIndex);
+			return IsStone(obj) && Objects.ResourceNodeIDs.Contains(obj.ParentSheetIndex);
 		}
 
 		/// <summary>Whether a given object is a stone.</summary>
@@ -90,15 +91,15 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is typically found in pirate treasure.</summary>
 		public static bool IsPirateTreasure(this SObject obj)
 		{
-			return Util.Objects.TrapperPirateTreasureTable.ContainsKey(obj.ParentSheetIndex);
+			return Objects.TrapperPirateTreasureTable.ContainsKey(obj.ParentSheetIndex);
 		}
 
 		/// <summary>Whether the player should track a given object.</summary>
 		public static bool ShouldBeTracked(this SObject obj)
 		{
 			return Game1.player.HasProfession("Scavenger") &&
-				   (obj.IsSpawnedObject && !obj.IsForagedMineral() || obj.ParentSheetIndex == 590)
-				   || Game1.player.HasProfession("Prospector") && (obj.IsResourceNode() || obj.IsForagedMineral());
+			       (obj.IsSpawnedObject && !obj.IsForagedMineral() || obj.ParentSheetIndex == 590)
+			       || Game1.player.HasProfession("Prospector") && (obj.IsResourceNode() || obj.IsForagedMineral());
 		}
 	}
 }

@@ -1,12 +1,11 @@
-﻿using HarmonyLib;
-using Microsoft.Xna.Framework;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-using System;
-using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -38,10 +37,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!firer.HasProfession("Rascal")) return;
 
 				if ((___currentTileSheetIndex.Value - 1).AnyOf(SObject.copper, SObject.iron, SObject.gold,
-						SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
-					|| ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
+					    SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
+				    || ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
 					location.debris.Add(new(___currentTileSheetIndex.Value - 1,
-						new((int)___position.X, (int)___position.Y), firer.getStandingPosition()));
+						new((int) ___position.X, (int) ___position.Y), firer.getStandingPosition()));
 			}
 			catch (Exception ex)
 			{

@@ -1,22 +1,23 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using System;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class PiperWarpedEvent : WarpedEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnWarped(object sender, WarpedEventArgs e)
 		{
 			if (!e.IsLocalPlayer) return;
 
-			if (e.NewLocation is not VolcanoDungeon &&
-				(e.NewLocation is not MineShaft || (e.NewLocation as MineShaft).IsTreasureOrSafeRoom()))
+			if (e.NewLocation is not (Woods or VolcanoDungeon or MineShaft) ||
+			    e.NewLocation is MineShaft shaft1 && shaft1.IsTreasureOrSafeRoom())
 			{
 				ModEntry.Subscriber.Unsubscribe(typeof(PiperUpdateTickedEvent));
 				return;
@@ -27,39 +28,53 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			var r = new Random(Guid.NewGuid().GetHashCode());
 			while (attempts-- > 0 || spawned < 1)
 			{
-				var x = r.Next(e.NewLocation.Map.GetLayer("Back").LayerWidth);
-				var y = r.Next(e.NewLocation.Map.GetLayer("Back").LayerHeight);
+				var x = r.Next(e.NewLocation.Map.Layers[0].LayerWidth);
+				var y = r.Next(e.NewLocation.Map.Layers[0].LayerHeight);
 				var spawnPosition = new Vector2(x, y);
 
 				GreenSlime slime;
 				switch (e.NewLocation)
 				{
-					case MineShaft shaft:
+					case MineShaft shaft2:
+					{
+						shaft2.checkForMapAlterations(x, y);
+						if (!shaft2.isTileClearForMineObjects(spawnPosition) || shaft2.isTileOccupied(spawnPosition))
+							continue;
+
+						slime = new(Vector2.Zero, shaft2.mineLevel);
+						if (shaft2.GetAdditionalDifficulty() > 0 &&
+						    r.NextDouble() < Math.Min(shaft2.GetAdditionalDifficulty() * 0.1f, 0.5f))
+							slime.stackedSlimes.Value = r.NextDouble() < 0.0099999997764825821 ? 4 : 2;
+
+						slime.setTilePosition(x, y);
+						shaft2.characters.Add(shaft2.BuffMonsterIfNecessary(slime));
+						++spawned;
+						break;
+					}
+					case Woods woods:
+					{
+						if (!woods.isTileLocationTotallyClearAndPlaceable(spawnPosition)) continue;
+
+						slime = Game1.currentSeason switch
 						{
-							shaft.checkForMapAlterations(x, y);
-							if (!shaft.isTileClearForMineObjects(spawnPosition) || shaft.isTileOccupied(spawnPosition))
-								continue;
-
-							slime = new(Vector2.Zero, shaft.mineLevel);
-							if (shaft.GetAdditionalDifficulty() > 0 &&
-								r.NextDouble() < Math.Min(shaft.GetAdditionalDifficulty() * 0.1f, 0.5f))
-								slime.stackedSlimes.Value = r.NextDouble() < 0.0099999997764825821 ? 4 : 2;
-
-							slime.setTilePosition(x, y);
-							shaft.characters.Add(shaft.BuffMonsterIfNecessary(slime));
-							++spawned;
-							break;
-						}
+							"fall" => new(spawnPosition * 64f, r.NextDouble() < 0.5 ? 40 : 0),
+							"winter" => new(spawnPosition * 64f, 40),
+							_ => new(spawnPosition * 64f, 0)
+						};
+						woods.characters.Add(slime);
+						++spawned;
+						break;
+					}
 					case VolcanoDungeon dungeon:
-						{
-							if (!e.NewLocation.isTileLocationTotallyClearAndPlaceable(spawnPosition)) continue;
+					{
+						if (!dungeon.isTileLocationTotallyClearAndPlaceable(spawnPosition)) continue;
 
-							slime = new(spawnPosition, 1);
-							slime.makeTigerSlime();
-							dungeon.characters.Add(slime);
-							++spawned;
-							break;
-						}
+						slime = new(spawnPosition * 64f, 1);
+						slime.makeTigerSlime();
+						dungeon.characters.Add(slime);
+						++spawned;
+						break;
+					}
 				}
 
 				--attempts;

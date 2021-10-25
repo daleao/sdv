@@ -1,8 +1,11 @@
-﻿using StardewModdingAPI;
+﻿using System.Collections.Generic;
+using System.Linq;
+using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using System.Collections.Generic;
-using System.Linq;
+using StardewValley.Locations;
+using StardewValley.Monsters;
+using TheLion.Stardew.Common.Extensions;
 using SUtility = StardewValley.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions
@@ -26,7 +29,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		{
 			farmers = new List<Farmer>();
 			if (!Context.IsMultiplayer && location.Equals(Game1.player.currentLocation) &&
-				Game1.player.HasProfession(professionName))
+			    Game1.player.HasProfession(professionName))
 				farmers.Add(Game1.player);
 			else
 				foreach (var farmer in location.farmers.Where(farmer => farmer.HasProfession(professionName)))
@@ -38,7 +41,8 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Get the raw fish data for the game location and current game season.</summary>
 		public static string[] GetRawFishDataForCurrentSeason(this GameLocation location)
 		{
-			var locationData = Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
+			var locationData =
+				Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
 			return locationData[location.NameOrUniqueName].Split('/')[4 + SUtility.getSeasonNumber(Game1.currentSeason)]
 				.Split(' ');
 		}
@@ -46,7 +50,8 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Get the raw fish data for the game location and all seasons.</summary>
 		public static string[] GetRawFishDataForAllSeasons(this GameLocation location)
 		{
-			var locationData = Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
+			var locationData =
+				Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
 			List<string> allSeasonFish = new();
 			for (var i = 0; i < 4; ++i)
 			{
@@ -55,6 +60,14 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			}
 
 			return allSeasonFish.ToArray();
+		}
+
+		/// <summary>Whether the game location can spawn enemies.</summary>
+		public static bool IsCombatZone(this GameLocation location)
+		{
+			return location.AnyOfType(typeof(MineShaft), typeof(Woods), typeof(VolcanoDungeon)) ||
+			       location.NameOrUniqueName.ContainsAnyOf("CrimsonBadlands", "DeepWoods", "RidgeForest",
+				       "SpiritRealm") || location.characters.OfType<Monster>().Any();
 		}
 	}
 }

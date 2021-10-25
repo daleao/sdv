@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using System;
+using System.Linq;
+using Microsoft.Xna.Framework.Content;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using System;
-using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 	public class SuperModeEnabledEvent : BaseEvent
 	{
-		private const int SHEET_INDEX_OFFSET = 22;
+		private const int SHEET_INDEX_OFFSET_I = 22;
 
 		/// <summary>Hook this event to the event listener.</summary>
 		public override void Hook()
@@ -34,7 +34,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			var whichSuperMode = Util.Professions.NameOf(ModEntry.SuperModeIndex);
 
 			// remove bar shake timer
-			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarShakeTimerUpdateTickedEvent));
+			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBuffDisplayUpdateTickedEvent),
+				typeof(SuperModeBarShakeTimerUpdateTickedEvent));
 			ModEntry.ShouldShakeSuperModeBar = false;
 
 			// fade in overlay
@@ -50,7 +51,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Couldn't play sound asset file '{ModEntry.SuperModeSFX}'. Make sure the file exists. {ex}",
+				ModEntry.Log(
+					$"Couldn't play sound asset file '{ModEntry.SuperModeSFX}'. Make sure the file exists. {ex}",
 					LogLevel.Error);
 			}
 
@@ -82,17 +84,17 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".superm"))
 					{
 						which = buffID,
-						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
+						sheetIndex = professionIndex + SHEET_INDEX_OFFSET_I,
 						glow = ModEntry.SuperModeGlowColor,
-						millisecondsDuration = (int)(ModEntry.Config.SuperModeDrainFactor / 60f *
-													  ModEntry.SuperModeCounterMax * 1000f),
+						millisecondsDuration = (int) (ModEntry.Config.SuperModeDrainFactor / 60f *
+						                              ModEntry.SuperModeCounterMax * 1000f),
 						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".supermdesc")
 					}
 				);
 
 			// notify peers
 			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeActivated",
-				new[] { ModEntry.UniqueID });
+				new[] {ModEntry.UniqueID});
 
 			switch (whichSuperMode)
 			{
@@ -166,8 +168,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				{
 					Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
 					var justCreated = Game1.currentLocation.characters[Game1.currentLocation.characters.Count - 1];
-					justCreated.setTrajectory((int)(bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
-						(int)(bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
+					justCreated.setTrajectory((int) (bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
+						(int) (bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
 					justCreated.willDestroyObjectsUnderfoot = false;
 					justCreated.moveTowardPlayer(4);
 					justCreated.Scale = 0.75f + Game1.random.Next(-5, 10) / 100f;

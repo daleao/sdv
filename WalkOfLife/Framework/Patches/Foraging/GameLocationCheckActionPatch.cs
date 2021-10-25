@@ -1,10 +1,11 @@
-﻿using HarmonyLib;
-using StardewValley;
-using StardewValley.Network;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using StardewModdingAPI;
+using StardewValley;
+using StardewValley.Network;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -55,7 +56,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Insert( // check if is foraged mineral and branch if true
 						new CodeInstruction(OpCodes.Call,
 							typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.IsForagedMineral))),
-						new CodeInstruction(OpCodes.Brtrue_S, (Label)shouldntSetCustomQuality)
+						new CodeInstruction(OpCodes.Brtrue_S, (Label) shouldntSetCustomQuality)
 					)
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_4) // start of objects[key].Quality = 4
@@ -67,7 +68,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching modded Ecologist forage quality.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while patching modded Ecologist forage quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -78,7 +79,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				Helper
 					.FindProfessionCheck(Farmer.botanist) // return to botanist check
-					.Retreat(2) // retreat to start of check
+					.Retreat() // retreat to start of check
 					.ToBufferUntil( // copy entire section until done setting quality
 						true,
 						false,
@@ -123,7 +124,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.Advance()
 					.ReplaceWith( // remove 'not' and set correct branch destination
-						new(OpCodes.Brfalse_S, (Label)shouldntSetCustomQuality)
+						new(OpCodes.Brfalse_S, (Label) shouldntSetCustomQuality)
 					)
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Call,
@@ -135,7 +136,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding modded Gemologist foraged mineral quality.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while adding modded Gemologist foraged mineral quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -149,9 +150,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
 					)
 					.Advance()
-					.InsertBuffer(6, 5) // SObject objects[key]
-					.InsertBuffer(6, 2) // GameLocation this
-					.InsertBuffer(0, 2) // Farmer who
+					.InsertBuffer(5, 4) // SObject objects[key]
+					.Insert(
+						new CodeInstruction(OpCodes.Ldarg_0),
+						new CodeInstruction(OpCodes.Ldarg_3)
+					)
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
 							typeof(GameLocationCheckActionPatch).MethodNamed(nameof(CheckActionSubroutine)))
@@ -159,7 +162,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

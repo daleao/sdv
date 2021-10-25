@@ -1,8 +1,7 @@
-﻿using StardewModdingAPI;
+﻿using System;
+using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using System;
-using System.IO;
 
 namespace TheLion.Stardew.Professions.Framework.AssetEditors
 {
@@ -27,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.AssetEditors
 			if (taxBonus >= ModEntry.Config.TaxDeductionCeiling) key = "conservationist.mail2";
 
 			string message = ModEntry.ModHelper.Translation.Get(key,
-				new { taxBonus = $"{taxBonus:p0}", farmName = Game1.getFarm().Name });
+				new {taxBonus = $"{taxBonus:p0}", farmName = Game1.getFarm().Name});
 			editor.Data[$"{ModEntry.UniqueID}/ConservationistTaxNotice"] = message;
 		}
 	}

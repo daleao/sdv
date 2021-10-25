@@ -5,7 +5,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class ArrowPointerUpdateTickedEvent : UpdateTickedEvent
 	{
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
 			HUD.Pointer ??= new();

@@ -1,7 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
-using TheLion.Stardew.Professions.Framework.TreasureHunt;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {

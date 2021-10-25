@@ -1,15 +1,15 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using SObject = StardewValley.Object;
 
@@ -31,7 +31,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch to move critical chance bonus from Scout to Poacher + patch Brute damage bonus + move critical damage bonus from Desperado to Poacher + increment Brute Fury and Poacher Cold Blood counters + perform Poacher steal.</summary>
+		/// <summary>
+		///     Patch to move critical chance bonus from Scout to Poacher + patch Brute damage bonus + move critical damage
+		///     bonus from Desperado to Poacher + increment Brute Fury and Poacher Cold Blood counters + perform Poacher steal.
+		/// </summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
@@ -39,7 +42,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			Helper.Attach(original, instructions);
 
 			/// From: if (who.professions.Contains(<scout_id>) critChance += critChance * 0.5f
-			/// To: if (who.professions.Contains(<poacher_id>) critChance += GetPoacherBonusCritChance()
+			/// To: if (who.professions.Contains(<poacher_id>) critChance += 0.1f
 
 			try
 			{
@@ -53,16 +56,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Advance()
 					.Remove() // was Ldarg_S critChance
 					.ReplaceWith( // was Ldc_R4 0.5
-						new(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetPoacherBonusCritChance)))
+						new(OpCodes.Ldc_R4, 0.1f)
 					)
 					.Advance()
 					.Remove(); // was Mul
 			}
 			catch (Exception ex)
 			{
-				Helper.Error(
-					$"Failed while moving modded bonus crit chance from Scout to Poacher.\nHelper returned {ex}");
+				ModEntry.Log(
+					$"Failed while moving modded bonus crit chance from Scout to Poacher.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -83,45 +85,63 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 								.GetBruteBonusDamageMultiplier)))
 					)
 					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // arg 10 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
 					);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching modded Brute bonus damage.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while patching modded Brute bonus damage.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
-			/// From: if (who != null && who.professions.Contains(<desperado_id>) ... *= 2f
-			/// To: if (who != null && who.professions.Contains(<poacher_id>) ... *= GetPoacherCritDamageMultiplier
+			/// From: if (who != null && crit && who.professions.Contains(<desperado_id>) ... *= 2f
+			/// To: if (who != null && crit && who.IsLocalPlayer && ModEntry.SuperModeIndex == <poacher_id>) ... *= GetPoacherCritDamageMultiplier
 
 			try
 			{
 				Helper
 					.FindProfessionCheck(Farmer.desperado, true) // find index of desperado check
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Brfalse_S)
+					)
+					.GetOperand(out var dontIncreaseCritPow)
+					.Return()
+					.ReplaceWith(
+						new(OpCodes.Call,
+							typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))) // was Ldfld Farmer.professions
+					)
 					.Advance()
-					.SetOperand(Util.Professions.IndexOf("Poacher")) // change to Poacher check
+					.ReplaceWith(
+						new(OpCodes.Brfalse_S, dontIncreaseCritPow) // was Ldc_I4_S <desperado id>
+					)
+					.Advance()
+					.ReplaceWith(
+						new(OpCodes.Call,
+							typeof(ModEntry).PropertyGetter(
+								nameof(ModEntry.SuperModeIndex))) // was Callvirt NetList.Contains
+					)
+					.Advance()
+					.Insert(
+						new CodeInstruction(OpCodes.Ldc_I4_S, Util.Professions.IndexOf("Poacher")),
+						new CodeInstruction(OpCodes.Bne_Un_S, dontIncreaseCritPow)
+					)
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_R4, 2f) // desperado critical damage multiplier
 					)
 					.ReplaceWith(
-						new(OpCodes.Ldarg_S, (byte)10) // was Ldc_R4 2f (arg 10 = Farmer who)
-					)
-					.Advance()
-					.Insert(
-						new CodeInstruction(OpCodes.Call,
+						new(OpCodes.Call,
 							typeof(Util.Professions).MethodNamed(
 								nameof(Util.Professions.GetPoacherCritDamageMultiplier)))
 					);
 			}
 			catch (Exception ex)
 			{
-				Helper.Error(
-					$"Failed while moving modded bonus crit damage from Desperado to Poacher.\nHelper returned {ex}");
+				ModEntry.Log(
+					$"Failed while moving modded bonus crit damage from Desperado to Poacher.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
-			/// Injected: tryToStealAndIncrementCountersOrEndPoacherSuperMode(damageAmount, isBomb, crit, critMultiplier, monster, who)
+			/// Injected:GameLocationSubroutine(damageAmount, isBomb, crit, critMultiplier, monster, who)
 			///	Before: if (monster.Health <= 0)
 
 			try
@@ -147,11 +167,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Insert(
 						// prepare arguments
 						new CodeInstruction(OpCodes.Ldloc_S, damageAmount),
-						new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = bool isBomb
+						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = bool isBomb
 						new CodeInstruction(OpCodes.Ldloc_S, didCrit),
-						new CodeInstruction(OpCodes.Ldarg_S, (byte)8), // arg 8 = float critMultiplier
+						new CodeInstruction(OpCodes.Ldarg_S, (byte) 8), // arg 8 = float critMultiplier
 						new CodeInstruction(OpCodes.Ldloc_2), // local 2 = Monster monster
-						new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
 						new CodeInstruction(OpCodes.Call,
 							typeof(GameLocationDamageMonsterPatch).MethodNamed(nameof(DamageMonsterSubroutine)))
 					)
@@ -160,8 +180,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error(
-					$"Failed while injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood counters.\nHelper returned {ex}");
+				ModEntry.Log(
+					$"Failed while injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood counters.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -176,33 +196,32 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			Monster monster, Farmer who)
 		{
 			if (damageAmount <= 0 || isBomb ||
-				who is not { IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon }) return;
+			    who is not {IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon}) return;
 
 			// try to steal
-			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") &&
-				!ModEntry.MonstersStolenFrom.Contains(monster.GetHashCode()))
+			if (didCrit && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") &&
+			    !ModEntry.MonstersStolenFrom.Contains(monster.GetHashCode()) && Game1.random.NextDouble() <
+			    (weapon.type.Value == MeleeWeapon.dagger ? 0.6 : 0.3))
 			{
-				if (Game1.random.NextDouble() > Util.Professions.GetPoacherStealChance(who)) return;
-
 				var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
 					.Concat(monster.getExtraDropItems()).ToList();
 				var stolen = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
-				if (stolen == null || !who.addItemToInventoryBool(stolen))
-					return;
-
-				ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
-
-				// play sound effect
-				try
+				if (stolen != null && who.addItemToInventoryBool(stolen))
 				{
-					if (ModEntry.SoundFX.SoundByName.TryGetValue("poacher_steal", out var sfx))
-						sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
-					else throw new ContentLoadException();
-				}
-				catch (Exception ex)
-				{
-					ModEntry.Log($"Couldn't play sound asset file 'poacher_steal'. Make sure the file exists. {ex}",
-						LogLevel.Error);
+					ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
+
+					// play sound effect
+					try
+					{
+						if (ModEntry.SoundFX.SoundByName.TryGetValue("poacher_steal", out var sfx))
+							sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
+						else throw new ContentLoadException();
+					}
+					catch (Exception ex)
+					{
+						ModEntry.Log($"Couldn't play sound asset file 'poacher_steal'. Make sure the file exists. {ex}",
+							LogLevel.Error);
+					}
 				}
 			}
 
@@ -218,7 +237,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			else if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher") && didCrit)
 			{
-				increment = (int)Math.Round(critMultiplier * Util.Professions.GetPoacherCritDamageMultiplier(who));
+				increment = (int) critMultiplier;
 				if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
 			}
 

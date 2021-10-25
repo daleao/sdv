@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley.Monsters;
-using System;
-using System.Collections.Generic;
 using TheLion.Stardew.Professions.Framework;
 using TheLion.Stardew.Professions.Framework.AssetEditors;
 using TheLion.Stardew.Professions.Framework.AssetLoaders;
@@ -15,9 +15,13 @@ namespace TheLion.Stardew.Professions
 	/// <summary>The mod entry point.</summary>
 	public partial class ModEntry : Mod
 	{
+		private static int _superModeIndex = -1;
+		private static bool _isSuperModeActive;
+		private static int _superModeCounter;
 		internal static ModData Data { get; set; }
 		internal static ModConfig Config { get; set; }
 		internal static EventSubscriber Subscriber { get; private set; }
+		internal static HarmonyPatcher Patcher { get; private set; }
 		internal static ProspectorHunt ProspectorHunt { get; set; }
 		internal static ScavengerHunt ScavengerHunt { get; set; }
 		internal static SoundEffectLoader SoundFX { get; set; }
@@ -41,6 +45,8 @@ namespace TheLion.Stardew.Professions
 		public static Color SuperModeOverlayColor { get; set; }
 		public static float SuperModeOverlayAlpha { get; set; }
 		public static string SuperModeSFX { get; set; }
+
+		public static int debugInt;
 
 		public static int SuperModeIndex
 		{
@@ -99,10 +105,6 @@ namespace TheLion.Stardew.Professions
 
 		public static event SuperModeIndexChangedEventHandler SuperModeIndexChanged;
 
-		private static int _superModeIndex = -1;
-		private static bool _isSuperModeActive;
-		private static int _superModeCounter;
-
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper)
@@ -130,7 +132,8 @@ namespace TheLion.Stardew.Professions
 
 			// apply harmony patches
 			BasePatch.Init();
-			new HarmonyPatcher().ApplyAll();
+			Patcher = new();
+			Patcher.ApplyAll();
 
 			// start event manager
 			Subscriber = new();
@@ -143,27 +146,31 @@ namespace TheLion.Stardew.Professions
 				AddProfessionsToLocalPlayer);
 			Helper.ConsoleCommands.Add("player_resetprofessions",
 				"Reset all skills and professions for the local player.", ResetLocalPlayerProfessions);
-			Helper.ConsoleCommands.Add("setultmeter", "Set the super mode meter to the desired value.",
+			Helper.ConsoleCommands.Add("player_setultmeter", "Set the super mode meter to the desired value.",
 				SetSuperModeCounter);
-			Helper.ConsoleCommands.Add("readyult", "Max-out the super mode meter.", ReadySuperMode);
-			Helper.ConsoleCommands.Add("registersupermode", "Change the currently registered Super Mode profession.",
+			Helper.ConsoleCommands.Add("player_readyult", "Max-out the super mode meter.", ReadySuperMode);
+			Helper.ConsoleCommands.Add("player_registersupermode",
+				"Change the currently registered Super Mode profession.",
 				RegisterNewSuperMode);
-			Helper.ConsoleCommands.Add("maxanimalfriendship", "Max-out the friendship of all owned animals.",
+			Helper.ConsoleCommands.Add("player_maxanimalfriendship", "Max-out the friendship of all owned animals.",
 				MaxAnimalFriendship);
-			Helper.ConsoleCommands.Add("maxanimalmood", "Max-out the mood of all owned animals.", MaxAnimalMood);
-			Helper.ConsoleCommands.Add("checkfishingprogress", "Check your fishing progress as Angler.",
+			Helper.ConsoleCommands.Add("player_maxanimalmood", "Max-out the mood of all owned animals.", MaxAnimalMood);
+			Helper.ConsoleCommands.Add("player_checkfishingprogress", "Check your fishing progress as Angler.",
 				PrintFishCaughtAudit);
-			Helper.ConsoleCommands.Add("checkdata", "Check current value of all mod data fields.", PrintModData);
-			Helper.ConsoleCommands.Add("setitemsforaged", "Set a new value for ItemsForaged field.", SetItemsForaged);
-			Helper.ConsoleCommands.Add("setmineralscollected", "Set a new value for MineralsCollected field.",
+			Helper.ConsoleCommands.Add("wol_checkdata", "Check current value of all mod data fields.", PrintModData);
+			Helper.ConsoleCommands.Add("wol_setitemsforaged", "Set a new value for ItemsForaged field.",
+				SetItemsForaged);
+			Helper.ConsoleCommands.Add("wol_setmineralscollected", "Set a new value for MineralsCollected field.",
 				SetMineralsCollected);
-			Helper.ConsoleCommands.Add("setprospectorstreak", "Set a new value for ProspectorStreak field.",
+			Helper.ConsoleCommands.Add("wol_setprospectorstreak", "Set a new value for ProspectorStreak field.",
 				SetProspectorStreak);
-			Helper.ConsoleCommands.Add("setscavengerstreak", "Set a new value for ScavengerStreak field.",
+			Helper.ConsoleCommands.Add("wol_setscavengerstreak", "Set a new value for ScavengerStreak field.",
 				SetScavengerStreak);
-			Helper.ConsoleCommands.Add("settrashcollected", "Set a new value for WaterTrashCollectedThisSeason field.",
+			Helper.ConsoleCommands.Add("wol_settrashcollected",
+				"Set a new value for WaterTrashCollectedThisSeason field.",
 				SetWaterTrashCollectedThisSeason);
-			Helper.ConsoleCommands.Add("checkevents", "List currently subscribed mod events.", PrintSubscribedEvents);
+			Helper.ConsoleCommands.Add("wol_checkevents", "List currently subscribed mod events.",
+				PrintSubscribedEvents);
 		}
 	}
 }

@@ -5,12 +5,12 @@ namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class SuperModeActivationTimerUpdateTickedEvent : UpdateTickedEvent
 	{
-		private const int BASE_SUPERMODE_ACTIVATION_DELAY = 60;
+		private const int BASE_SUPERMODE_ACTIVATION_DELAY_I = 60;
 
 		private int _superModeActivationTimer =
-			(int)(BASE_SUPERMODE_ACTIVATION_DELAY * ModEntry.Config.SuperModeActivationDelay);
+			(int) (BASE_SUPERMODE_ACTIVATION_DELAY_I * ModEntry.Config.SuperModeActivationDelay);
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
 			if (Game1.game1.IsActive && Game1.shouldTimePass()) --_superModeActivationTimer;

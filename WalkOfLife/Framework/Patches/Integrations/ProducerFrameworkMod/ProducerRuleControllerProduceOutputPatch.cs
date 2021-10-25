@@ -1,10 +1,11 @@
-﻿using HarmonyLib;
-using Netcode;
-using StardewValley;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using Netcode;
+using StardewModdingAPI;
+using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -40,14 +41,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(SObject)} (5)"),
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(NetFieldBase<SObject, NetRef<SObject>>).MethodNamed("set_Value",
-								new[] { typeof(SObject) }))
+								new[] {typeof(SObject)}))
 					)
 					.Insert(
 						// load producer instance
 						new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = SObject producer
-															  // load Farmer who
+						// load Farmer who
 						new CodeInstruction(OpCodes.Ldarg_3), // arg 3 = Farmer who
-															  // call custom logic
+						// call custom logic
 						new CodeInstruction(OpCodes.Call,
 							typeof(ProducerRuleControllerProduceOutputPatch).MethodNamed(
 								nameof(ProduceOutputSubroutine)))
@@ -55,8 +56,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error(
-					$"Failed while patching PFM for Gemologist Crystalariume output quality.\nHelper returned {ex}");
+				ModEntry.Log(
+					$"Failed while patching PFM for Gemologist Crystalariume output quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

@@ -1,9 +1,8 @@
-﻿using HarmonyLib;
-using Microsoft.Xna.Framework;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
-using System;
-using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -16,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal Game1CreateObjectDebrisPatch()
 		{
 			Original = typeof(Game1).MethodNamed(nameof(Game1.createObjectDebris),
-				new[] { typeof(int), typeof(int), typeof(int), typeof(long), typeof(GameLocation) });
+				new[] {typeof(int), typeof(int), typeof(int), typeof(long), typeof(GameLocation)});
 			Prefix = new(GetType(), nameof(Game1CreateObjectDebrisPrefix));
 		}
 

@@ -1,11 +1,10 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -28,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 		private static void GreenSlimeGetExtraDropItemsPostfix(GreenSlime __instance, ref List<Item> __result)
 		{
 			if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession("Piper", out var pipers) ||
-				!Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;
+			    !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;
 
 			var slimeCount =
 				Game1.getFarm().buildings.Where(b =>
@@ -38,9 +37,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 					.Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) +
 				Game1.getFarm().characters.Count(npc => npc is GreenSlime);
 			if (slimeCount <= 0) return;
-
-			var color = __instance.color;
-			var name = __instance.Name;
 
 			var r = new Random(Guid.NewGuid().GetHashCode());
 			var baseChance = -1 / (0.02 * (slimeCount + 50)) + 1;
@@ -54,15 +50,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 				++count;
 			}
 
-			if (MineShaft.lowestLevelReached >= 120 && (__instance.currentLocation is MineShaft ||
-														__instance.currentLocation is VolcanoDungeon))
+			if (MineShaft.lowestLevelReached >= 120 && __instance.currentLocation is MineShaft or VolcanoDungeon)
 			{
 				if (r.NextDouble() < baseChance / 8) __result.Add(new SObject(72, 1)); // diamond
 				if (r.NextDouble() < baseChance / 10) __result.Add(new SObject(74, 1)); // prismatic shard
 			}
 
 			// color drops
-			if (name != "Tiger Slime")
+			var color = __instance.color;
+			if (__instance.Name != "Tiger Slime")
 			{
 				if (color.R < 80 && color.G < 80 && color.B < 80) // black
 				{

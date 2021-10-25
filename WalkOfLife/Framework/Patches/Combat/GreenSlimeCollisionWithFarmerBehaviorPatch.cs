@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-using System;
-using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -28,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				var who = __instance.Player;
 				if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Piper") ||
-					ModEntry.SlimeContactTimer > 0) return;
+				    ModEntry.SlimeContactTimer > 0) return;
 
 				int healed;
 				if (ModEntry.IsSuperModeActive)

@@ -1,8 +1,8 @@
-﻿using StardewModdingAPI.Events;
+﻿using System;
+using System.Linq;
+using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
-using System;
-using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
@@ -19,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			_buffID = (ModEntry.UniqueID + Util.Professions.IndexOf("Spelunker")).Hash();
 		}
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
 			if (Game1.currentLocation is not MineShaft) return;
@@ -50,7 +50,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					sheetIndex = SHEET_INDEX,
 					millisecondsDuration = 0,
 					description =
-						ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new { bonusLadderChance, bonusSpeed })
+						ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new {bonusLadderChance, bonusSpeed})
 				}
 			);
 		}

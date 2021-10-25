@@ -1,14 +1,16 @@
-﻿using HarmonyLib;
-using StardewValley;
-using StardewValley.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using StardewModdingAPI;
+using StardewValley;
+using StardewValley.Tools;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using TheLion.Stardew.Professions.Framework.Util;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
@@ -41,7 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var shuffleMethod = typeof(SUtility).GetMethods().Where(mi => mi.Name == "Shuffle").ElementAtOrDefault(1);
 			if (shuffleMethod == null)
 			{
-				Helper.Error($"Failed acquire {typeof(SUtility)}::Shuffle method.");
+				ModEntry.Log($"Failed to acquire {typeof(SUtility)}::Shuffle method.", LogLevel.Error);
 				return null;
 			}
 
@@ -62,7 +64,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.AddLabels(shouldntReroll) // branch here if shouldn't reroll
 					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
+						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = Farmer who
 						new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
 						new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),
 						new CodeInstruction(OpCodes.Call,
@@ -80,7 +82,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -96,10 +98,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
 		{
 			return !hasRerolled && currentFish is > 166 and < 173 or 152 or 153 or 157
-								&& who.CurrentTool is FishingRod rod
-								&& Util.Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
-								&& baitName.AnyOf("Bait", "Wild Bait", "Magic Bait")
-								&& who.HasProfession("Fisher");
+			                    && who.CurrentTool is FishingRod rod
+			                    && Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
+			                    && baitName.AnyOf("Bait", "Wild Bait", "Magic Bait")
+			                    && who.HasProfession("Fisher");
 		}
 	}
 }

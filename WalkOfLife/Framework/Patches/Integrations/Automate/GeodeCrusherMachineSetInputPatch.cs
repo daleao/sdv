@@ -28,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			var who = Game1.getFarmer(machine.owner.Value);
 			if (!who.HasProfession("Gemologist") || !machine.heldObject.Value.IsForagedMineral() &&
-													 !machine.heldObject.Value.IsGemOrMineral()) return;
+				!machine.heldObject.Value.IsGemOrMineral()) return;
 
 			machine.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
 			if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");

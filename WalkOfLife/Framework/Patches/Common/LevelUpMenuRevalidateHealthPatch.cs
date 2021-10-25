@@ -1,12 +1,11 @@
-﻿using HarmonyLib;
-using Microsoft.Xna.Framework;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using System;
-using System.Linq;
-using System.Reflection;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -23,7 +22,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch revalidate player health after changes to the combat skill + revalidate fish pond capacity after changes to the fishing skill.</summary>
+		/// <summary>
+		///     Patch revalidate player health after changes to the combat skill + revalidate fish pond capacity after changes
+		///     to the fishing skill.
+		/// </summary>
 		[HarmonyPrefix]
 		private static bool LevelUpMenuRevalidateHealthPrefix(Farmer farmer)
 		{
@@ -53,7 +55,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					(b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond &&
 					!b.isUnderConstruction()))
 				{
-					var pond = (FishPond)b;
+					var pond = (FishPond) b;
 					pond.UpdateMaximumOccupancy();
 					pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
 				}

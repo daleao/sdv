@@ -1,13 +1,13 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -34,7 +34,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				if (__instance.tileIndexToShow != 714 || justCheckingForActivity ||
-					!__instance.HasSpecialLuremasterCatch())
+				    !__instance.HasSpecialLuremasterCatch())
 					return true; // run original logic
 
 				var item = __instance.heldObject.Value;
@@ -62,12 +62,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				{
 					__instance.heldObject.Value = item;
 					Game1.showRedMessage(
-						Game1.content.LoadString(PathUtilities.NormalizeAssetName("Strings/StringsFromCSFiles:Crop.cs.588")));
+						Game1.content.LoadString(
+							PathUtilities.NormalizeAssetName("Strings/StringsFromCSFiles:Crop.cs.588")));
 					__result = false;
 					return false; // don't run original logic;
 				}
 
-				var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
+				var fishData =
+					Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
 				if (fishData.TryGetValue(item.ParentSheetIndex, out var specificFishData))
 				{
 					var fields = specificFishData.Split('/');

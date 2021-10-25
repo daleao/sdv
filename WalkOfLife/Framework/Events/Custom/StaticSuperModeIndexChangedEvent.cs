@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
@@ -44,8 +44,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					break;
 
 				case "Poacher":
-					ModEntry.SuperModeGlowColor = Color.GhostWhite;
-					ModEntry.SuperModeOverlayColor = Color.Black;
+					ModEntry.SuperModeGlowColor = Color.MediumPurple;
+					ModEntry.SuperModeOverlayColor = Color.MidnightBlue;
 					ModEntry.SuperModeSFX = "poacher_ambush";
 					ModEntry.MonstersStolenFrom ??= new();
 					break;
@@ -57,8 +57,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					break;
 
 				case "Piper":
-					ModEntry.SuperModeGlowColor = Color.LightSeaGreen;
-					ModEntry.SuperModeOverlayColor = Color.Green;
+					ModEntry.SuperModeGlowColor = Color.LimeGreen;
+					ModEntry.SuperModeOverlayColor = Color.DarkGreen;
 					ModEntry.SuperModeSFX = "piper_provoke";
 					ModEntry.PipedSlimesScales ??= new();
 					break;

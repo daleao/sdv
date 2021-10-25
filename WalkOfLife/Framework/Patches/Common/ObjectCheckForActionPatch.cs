@@ -37,6 +37,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void ObjectCheckForActionPostfix(SObject __instance, bool __state, Farmer who)
 		{
+			ModEntry.Log($"ObjectCheckForAction postfixed {++ModEntry.debugInt} time(s).", LogLevel.Info);
 			try
 			{
 				if (__instance.heldObject.Value != null && who.HasProfession("Gemologist") &&
@@ -97,7 +98,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while adding Gemologist counter increment.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

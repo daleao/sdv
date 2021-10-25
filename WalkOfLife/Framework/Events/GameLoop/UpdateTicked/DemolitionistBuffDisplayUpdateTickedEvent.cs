@@ -1,14 +1,14 @@
-﻿using StardewModdingAPI.Events;
-using StardewValley;
-using System;
+﻿using System;
 using System.Linq;
+using StardewModdingAPI.Events;
+using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 	{
-		private const int SHEET_INDEX = 41;
+		private const int SHEET_INDEX_I = 41;
 
 		private readonly int _buffID;
 
@@ -18,7 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			_buffID = (ModEntry.UniqueID + Util.Professions.IndexOf("Demolitionist")).Hash();
 		}
 
-		/// <inheritdoc/>
+		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
 			if (ModEntry.DemolitionistExcitedness <= 0) ModEntry.Subscriber.Unsubscribe(GetType());
@@ -52,7 +52,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						"demolitionist.name." + (Game1.player.IsMale ? "male" : "female")))
 				{
 					which = buffID,
-					sheetIndex = SHEET_INDEX,
+					sheetIndex = SHEET_INDEX_I,
 					millisecondsDuration = 0,
 					description = ModEntry.ModHelper.Translation.Get("demolitionist.buffdesc")
 				}

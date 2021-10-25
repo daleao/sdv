@@ -1,13 +1,12 @@
-﻿using HarmonyLib;
-using StardewModdingAPI;
-using System;
+﻿using System;
 using System.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	/// <summary>Harmony patch base class.</summary>
-	[HarmonyPatch]
 	public abstract class BasePatch
 	{
 		protected static ILHelper Helper { get; private set; }
@@ -29,20 +28,26 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			if (Original == null)
 			{
-				ModEntry.Log($"Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Warn);
+				ModEntry.Log($"[Patch]: Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Info);
+				++ModEntry.Patcher.ignoredCount;
 				return;
 			}
 
 			try
 			{
-				ModEntry.Log($"Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.",
+				ModEntry.Log($"[Patch]: Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.",
 					LogLevel.Trace);
 				harmony.Patch(Original, Prefix, Postfix, Transpiler);
+				if (Prefix != null) ++ModEntry.Patcher.prefixedCount;
+				if (Postfix != null) ++ModEntry.Patcher.postfixedCount;
+				if (Transpiler != null) ++ModEntry.Patcher.transpiledCount;
+				++ModEntry.Patcher.patchedCount;
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed to patch {Original.DeclaringType}::{Original.Name}.\nHarmony returned {ex}",
+				ModEntry.Log($"[Patch]: Failed to patch {Original.DeclaringType}::{Original.Name}.\nHarmony returned {ex}",
 					LogLevel.Error);
+				++ModEntry.Patcher.failedCount;
 			}
 		}
 	}

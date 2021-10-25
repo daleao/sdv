@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat
@@ -93,7 +94,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 			}
 			catch (Exception ex)
 			{
-				Helper.Error($"Failed while patching inflated Green Slime sprite.\nHelper returned {ex}");
+				ModEntry.Log($"Failed while patching inflated Green Slime sprite.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

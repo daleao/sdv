@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
-using System;
 using TheLion.Stardew.Professions.Framework.Util;
 
 namespace TheLion.Stardew.Professions.Framework.Events
