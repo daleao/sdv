@@ -63,7 +63,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log(
+				Log(
 					$"Failed while moving modded bonus crit chance from Scout to Poacher.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
@@ -90,7 +90,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching modded Brute bonus damage.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while patching modded Brute bonus damage.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -107,7 +107,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var dontIncreaseCritPow)
 					.Return()
 					.ReplaceWith(
-						new(OpCodes.Call,
+						new(OpCodes.Callvirt,
 							typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))) // was Ldfld Farmer.professions
 					)
 					.Advance()
@@ -122,9 +122,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.Advance()
 					.Insert(
-						new CodeInstruction(OpCodes.Ldc_I4_S, Util.Professions.IndexOf("Poacher")),
-						new CodeInstruction(OpCodes.Bne_Un_S, dontIncreaseCritPow)
+						new CodeInstruction(OpCodes.Ldc_I4_S, Util.Professions.IndexOf("Poacher"))
 					)
+					.SetOpCode(OpCodes.Bne_Un_S) // was Brfalse_S
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_R4, 2f) // desperado critical damage multiplier
 					)
@@ -136,7 +136,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log(
+				Log(
 					$"Failed while moving modded bonus crit damage from Desperado to Poacher.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
@@ -162,7 +162,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_0),
 						new CodeInstruction(OpCodes.Bgt)
 					)
-					.GetLabels(out var labels)
+					.GetLabels(out var labels) // backup branch labels
 					.StripLabels()
 					.Insert(
 						// prepare arguments
@@ -176,11 +176,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(GameLocationDamageMonsterPatch).MethodNamed(nameof(DamageMonsterSubroutine)))
 					)
 					.Return()
-					.AddLabels(labels);
+					.AddLabels(labels); // restore backed-up labels to inserted branch
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log(
+				Log(
 					$"Failed while injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood counters.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
@@ -219,7 +219,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					}
 					catch (Exception ex)
 					{
-						ModEntry.Log($"Couldn't play sound asset file 'poacher_steal'. Make sure the file exists. {ex}",
+						Log($"Couldn't play sound asset file 'poacher_steal'. Make sure the file exists. {ex}",
 							LogLevel.Error);
 					}
 				}

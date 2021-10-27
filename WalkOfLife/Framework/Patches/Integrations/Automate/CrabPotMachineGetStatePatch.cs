@@ -43,7 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

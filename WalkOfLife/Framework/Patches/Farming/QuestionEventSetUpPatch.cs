@@ -50,7 +50,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding Breeder bonus animal pregnancy chance.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding Breeder bonus animal pregnancy chance.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

@@ -79,7 +79,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log(
+				Log(
 					$"Failed while patching PFM for Artisan and Gemologist machine output quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}

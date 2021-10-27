@@ -66,7 +66,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding Poacher untargetability during super mode.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding Poacher untargetability during super mode.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -112,7 +112,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding Brute super mode immortality.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding Brute super mode immortality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -148,7 +148,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding Brute Fury counter for damage taken.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding Brute Fury counter for damage taken.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

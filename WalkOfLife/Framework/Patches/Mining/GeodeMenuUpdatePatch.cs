@@ -55,7 +55,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding Gemologist counter increment.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding Gemologist counter increment.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

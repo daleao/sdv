@@ -222,7 +222,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		{
 			return 1f + (ModEntry.IsSuperModeActive
 				? 1f
-				: ModEntry.SuperModeCounter / 10 * 0.02f);
+				: ModEntry.SuperModeCounter / 10 * 0.01f);
 		}
 
 		/// <summary>Get the slingshot charge time modifier for Desperado.</summary>

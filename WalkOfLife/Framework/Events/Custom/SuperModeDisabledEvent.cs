@@ -1,4 +1,6 @@
-﻿namespace TheLion.Stardew.Professions.Framework.Events
+﻿using System;
+
+namespace TheLion.Stardew.Professions.Framework.Events
 {
 	public delegate void SuperModeDisabledEventHandler();
 
@@ -28,8 +30,14 @@
 				new[] { ModEntry.UniqueID });
 
 			// remove permanent effects
-			if (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Piper"))
-				ModEntry.Subscriber.Subscribe(new SlimeDeflationUpdateTickedEvent());
+			if (ModEntry.SuperModeIndex != Util.Professions.IndexOf("Piper")) return;
+			
+			// depower
+			foreach (var slime in ModEntry.PipedSlimeScales.Keys)
+				slime.DamageToFarmer = (int) Math.Round(slime.DamageToFarmer / slime.Scale);
+
+			// degorge
+			ModEntry.Subscriber.Subscribe(new SlimeDeflationUpdateTickedEvent());
 		}
 	}
 }

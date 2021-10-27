@@ -27,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch for Slimes to damage monsters around Piper + destroy nearby objects during super mode.</summary>
+		/// <summary>Patch for Slimes to damage monsters around Piper.</summary>
 		[HarmonyPostfix]
 		private static void GreenSlimeUpdatePostfix(GreenSlime __instance, GameLocation location)
 		{
@@ -40,7 +40,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				{
 					var monster = (Monster) npc;
 					var monsterBox = monster.GetBoundingBox();
-					var piperIndex = Util.Professions.IndexOf("Piper");
 					if (monster.IsInvisible || monster.isInvincible() ||
 					    monster.isGlider.Value && __instance.Scale < 1.4f ||
 					    !monsterBox.Intersects(__instance.GetBoundingBox()))
@@ -58,22 +57,23 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					var damageToMonster = Math.Max(1,
 						__instance.DamageToFarmer + Game1.random.Next(-__instance.DamageToFarmer / 4,
 							__instance.DamageToFarmer / 4));
-					var (xTrajectory, yTrajectory) =
-						SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.Position) / 2f;
+
+					var (xTrajectory, yTrajectory) = monster.Slipperiness < 0 ? Vector2.Zero :
+						SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
 					monster.takeDamage(damageToMonster, (int) xTrajectory, (int) yTrajectory, false, 1.0, "slime");
+					monster.currentLocation.debris.Add(new(damageToMonster,
+						new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f,
+						monster));
 					monster.setInvincibleCountdown(
 						(int) (BASE_INVINCIBILITY_TIMER * (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Piper")
 								? 1f - Util.Professions.GetPiperSlimeAttackSpeedModifier()
 								: 1f)
 						));
-					monster.currentLocation.debris.Add(new(damageToMonster,
-						new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f,
-						monster));
 				}
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

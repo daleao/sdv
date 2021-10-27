@@ -43,7 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var shuffleMethod = typeof(SUtility).GetMethods().Where(mi => mi.Name == "Shuffle").ElementAtOrDefault(1);
 			if (shuffleMethod == null)
 			{
-				ModEntry.Log($"Failed to acquire {typeof(SUtility)}::Shuffle method.", LogLevel.Error);
+				Log($"Failed to acquire {typeof(SUtility)}::Shuffle method.", LogLevel.Error);
 				return null;
 			}
 
@@ -82,7 +82,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

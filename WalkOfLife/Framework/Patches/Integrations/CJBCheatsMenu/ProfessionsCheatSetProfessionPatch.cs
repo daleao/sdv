@@ -39,7 +39,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log(
+				Log(
 					$"Failed while moving CJB Profession Cheat health bonus from Defender to Brute.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}

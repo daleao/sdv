@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
-using StardewValley.Monsters;
 using TheLion.Stardew.Professions.Framework;
 using TheLion.Stardew.Professions.Framework.AssetEditors;
 using TheLion.Stardew.Professions.Framework.AssetLoaders;
@@ -15,13 +14,9 @@ namespace TheLion.Stardew.Professions
 	/// <summary>The mod entry point.</summary>
 	public partial class ModEntry : Mod
 	{
-		private static int _superModeIndex = -1;
-		private static bool _isSuperModeActive;
-		private static int _superModeCounter;
 		internal static ModData Data { get; set; }
 		internal static ModConfig Config { get; set; }
 		internal static EventSubscriber Subscriber { get; private set; }
-		internal static HarmonyPatcher Patcher { get; private set; }
 		internal static ProspectorHunt ProspectorHunt { get; set; }
 		internal static ScavengerHunt ScavengerHunt { get; set; }
 		internal static SoundEffectLoader SoundFX { get; set; }
@@ -30,13 +25,12 @@ namespace TheLion.Stardew.Professions
 		internal static IManifest Manifest { get; private set; }
 		internal static Action<string, LogLevel> Log { get; private set; }
 		internal static string UniqueID { get; private set; }
-		internal static string ModPath { get; private set; }
 
 		public static int DemolitionistExcitedness { get; set; }
 		public static int SpelunkerLadderStreak { get; set; }
 		public static int SlimeContactTimer { get; set; }
 		public static HashSet<int> MonstersStolenFrom { get; set; } = new();
-		public static Dictionary<GreenSlime, float> PipedSlimesScales { get; set; } = new();
+		public static Dictionary<StardewValley.Monsters.GreenSlime, float> PipedSlimeScales { get; set; } = new();
 		public static Dictionary<int, HashSet<long>> ActivePeerSuperModes { get; set; } = new();
 		public static int SuperModeCounterMax => 500;
 		public static bool ShouldShakeSuperModeBar { get; set; }
@@ -45,8 +39,7 @@ namespace TheLion.Stardew.Professions
 		public static Color SuperModeOverlayColor { get; set; }
 		public static float SuperModeOverlayAlpha { get; set; }
 		public static string SuperModeSFX { get; set; }
-
-		public static int debugInt;
+		public static bool DidBulletPierceEnemy { get; set; }
 
 		public static int SuperModeIndex
 		{
@@ -94,49 +87,40 @@ namespace TheLion.Stardew.Professions
 		}
 
 		public static event SuperModeCounterFilledEventHandler SuperModeCounterFilled;
-
 		public static event SuperModeCounterRaisedAboveZeroEventHandler SuperModeCounterRaisedAboveZero;
-
 		public static event SuperModeCounterReturnedToZeroEventHandler SuperModeCounterReturnedToZero;
-
 		public static event SuperModeDisabledEventHandler SuperModeDisabled;
-
 		public static event SuperModeEnabledEventHandler SuperModeEnabled;
-
 		public static event SuperModeIndexChangedEventHandler SuperModeIndexChanged;
-
+		
+		private static int _superModeIndex = -1;
+		private static bool _isSuperModeActive;
+		private static int _superModeCounter;
+		
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper)
 		{
-			// store references to mod helpers
+			// store references to mod helper and metadata
 			ModHelper = helper;
 			Manifest = ModManifest;
 			Log = Monitor.Log;
-
-			// get configs.json
-			Config = helper.ReadConfig<ModConfig>();
-
-			// get mod metadata unique id
 			UniqueID = ModManifest.UniqueID;
-			ModPath = helper.DirectoryPath;
 
-			// instantiate mod data
-			Data = new();
-
-			// get mod assets
-			helper.Content.AssetEditors.Add(new IconEditor());
-
-			// get sound assets
-			SoundFX = new();
+			// get configs and mod data
+			Config = helper.ReadConfig<ModConfig>();
+			Data = new(UniqueID);
 
 			// apply harmony patches
-			BasePatch.Init();
-			Patcher = new();
-			Patcher.ApplyAll();
+			BasePatch.Init(Log, Config.EnableILCodeExport, helper.DirectoryPath);
+			new HarmonyPatcher(Log, UniqueID).ApplyAll();
 
-			// start event manager
-			Subscriber = new();
+			// start event subscriber
+			Subscriber = new(Log);
+
+			// get mod assets
+			helper.Content.AssetEditors.Add(new IconEditor()); // sprite assets
+			SoundFX = new(helper.DirectoryPath); // sound assets
 
 			// add debug commands
 			Helper.ConsoleCommands.Add("player_checkprofessions", "List the player's current professions.",
@@ -149,9 +133,9 @@ namespace TheLion.Stardew.Professions
 			Helper.ConsoleCommands.Add("player_setultmeter", "Set the super mode meter to the desired value.",
 				SetSuperModeCounter);
 			Helper.ConsoleCommands.Add("player_readyult", "Max-out the super mode meter.", ReadySuperMode);
-			Helper.ConsoleCommands.Add("player_registersupermode",
+			Helper.ConsoleCommands.Add("player_register",
 				"Change the currently registered Super Mode profession.",
-				RegisterNewSuperMode);
+				RegisterSuperMode);
 			Helper.ConsoleCommands.Add("player_maxanimalfriendship", "Max-out the friendship of all owned animals.",
 				MaxAnimalFriendship);
 			Helper.ConsoleCommands.Add("player_maxanimalmood", "Max-out the mood of all owned animals.", MaxAnimalMood);

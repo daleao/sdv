@@ -64,7 +64,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding Spelunker bonus ladder down chance.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding Spelunker bonus ladder down chance.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -85,15 +85,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var isNotGeologist) // copy destination
 					.Return()
 					.Insert( // insert uncoditional branch to skip this check
-						new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist)
+						new CodeInstruction(OpCodes.Br_S, (Label) isNotGeologist)
 					)
 					.Retreat()
-					.AddLabels(labels)
-					.Advance(2); // restore backed-up labels to inserted branch
+					.AddLabels(labels); // restore backed-up labels to inserted branch
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while removing vanilla Geologist paired gem chance.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while removing vanilla Geologist paired gem chance.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -116,7 +115,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while removing vanilla Excavator double geode chance.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while removing vanilla Excavator double geode chance.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -137,7 +136,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

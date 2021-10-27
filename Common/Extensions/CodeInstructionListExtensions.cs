@@ -1,14 +1,14 @@
-﻿using HarmonyLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using HarmonyLib;
 
 namespace TheLion.Stardew.Common.Extensions
 {
 	public static class CodeInstructionListExtensions
 	{
 		/// <summary>Determine the index of an instruction pattern in a list of code instructions.</summary>
-		/// <param name="pattern">The <see cref="CodeInstruction"/> pattern to search for.</param>
+		/// <param name="pattern">The <see cref="CodeInstruction" /> pattern to search for.</param>
 		/// <param name="start">The starting index.</param>
 		public static int IndexOf(this IList<CodeInstruction> list, CodeInstruction[] pattern, int start = 0)
 		{
@@ -17,8 +17,8 @@ namespace TheLion.Stardew.Common.Extensions
 			{
 				var j = 0;
 				while (j < pattern.Length && list[i + j].opcode.Equals(pattern[j].opcode)
-										  && (pattern[j].operand == null || list[i + j].operand.ToString()
-											  .Equals(pattern[j].operand.ToString())))
+				                          && (pattern[j].operand == null || list[i + j].operand.ToString()
+					                          .Equals(pattern[j].operand.ToString())))
 					++j;
 				if (j == pattern.Length) return i;
 			}
@@ -27,7 +27,7 @@ namespace TheLion.Stardew.Common.Extensions
 		}
 
 		/// <summary>Determine the index of the code instruction with a certain branch label in a list of code instructions.</summary>
-		/// <param name="label">The <see cref="Label"/> object to search for.</param>
+		/// <param name="label">The <see cref="Label" /> object to search for.</param>
 		/// <param name="start">The starting index.</param>
 		public static int IndexOf(this IList<CodeInstruction> list, Label label, int start = 0)
 		{

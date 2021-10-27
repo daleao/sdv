@@ -24,9 +24,9 @@ namespace TheLion.Stardew.Professions
 		};
 
 		/// <summary>Construct an instance.</summary>
-		internal ModData()
+		internal ModData(string uniqueID)
 		{
-			_id = ModEntry.UniqueID;
+			_id = uniqueID;
 		}
 
 		/// <summary>Load reference to local player's persisted mod data.</summary>

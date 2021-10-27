@@ -29,13 +29,5 @@ namespace TheLion.Stardew.Common.Extensions
 			removed = default;
 			return false;
 		}
-
-		/// <summary>Deep copy a generic collection of <typeparamref name="T"/>.</summary>
-		public static ICollection<T> Clone<T>(this ICollection<T> collection)
-		{
-			var clone = new List<T>();
-			clone.AddRange(collection);
-			return clone;
-		}
 	}
 }

@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 
 namespace TheLion.Stardew.Common.Harmony
 {
@@ -75,8 +75,8 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			yield return parentType;
 			foreach (var t1 in parentType.GetNestedTypes(AccessTools.all))
-				foreach (var t2 in GetAllInnerTypes(t1))
-					yield return t2;
+			foreach (var t2 in GetAllInnerTypes(t1))
+				yield return t2;
 		}
 
 		public static List<MethodInfo> InnerMethodsStartingWith(this Type type, string prefix)

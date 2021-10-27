@@ -52,7 +52,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching modded Ecologist spring onion quality.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while patching modded Ecologist spring onion quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -86,7 +86,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding Ecologist counter increment.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding Ecologist counter increment.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -112,7 +112,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding modded Agriculturist crop harvest quality.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding modded Agriculturist crop harvest quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -163,7 +163,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding modded Harvester extra crop yield.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding modded Harvester extra crop yield.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
