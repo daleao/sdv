@@ -94,7 +94,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching inflated Green Slime sprite.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while patching inflated Green Slime sprite.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

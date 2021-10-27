@@ -37,16 +37,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_4) // quality = 4
 					)
-					.GetLabels(out var labels)
+					.GetLabels(out var labels) // backup branch labels
 					.ReplaceWith( // replace with custom quality
 						new(OpCodes.Call,
 							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetEcologistForageQuality)))
 					)
-					.AddLabels(labels);
+					.AddLabels(labels); // restore backed-up labels
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching automated Berry Bush quality.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while patching automated Berry Bush quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

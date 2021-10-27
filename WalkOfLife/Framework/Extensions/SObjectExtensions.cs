@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Util;
@@ -73,7 +75,9 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is a crab pot fish.</summary>
 		public static bool IsTrapFish(this SObject obj)
 		{
-			return obj.IsFish() && obj.ParentSheetIndex is > 714 and < 724;
+			//return obj.IsFish() && obj.ParentSheetIndex is > 714 and < 724;
+			return Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
+				.TryGetValue(obj.ParentSheetIndex, out var fishData) && fishData.Contains("trap");
 		}
 
 		/// <summary>Whether a given object is a trash.</summary>

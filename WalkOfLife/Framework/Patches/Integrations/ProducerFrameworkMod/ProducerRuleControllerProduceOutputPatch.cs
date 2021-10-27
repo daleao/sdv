@@ -56,7 +56,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log(
+				Log(
 					$"Failed while patching PFM for Gemologist Crystalariume output quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}

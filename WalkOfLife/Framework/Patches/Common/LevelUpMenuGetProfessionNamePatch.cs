@@ -31,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

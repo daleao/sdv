@@ -38,7 +38,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_4)
 					)
-					.GetLabels(out var labels)
+					.GetLabels(out var labels) // backup branch labels
 					.ReplaceWith( // replace with custom quality
 						new(OpCodes.Call,
 							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetEcologistForageQuality)))
@@ -47,7 +47,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching modded Ecologist wild berry quality.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while patching modded Ecologist wild berry quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -78,7 +78,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding Ecologist counter increment.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding Ecologist counter increment.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

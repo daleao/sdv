@@ -49,7 +49,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while removing vanilla Geologist paired gems.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while removing vanilla Geologist paired gems.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -71,7 +71,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

@@ -23,21 +23,36 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		}
 
 		/// <inheritdoc />
-		public override void Apply(Harmony harmony)
+		public override Dictionary<string, int> Apply(Harmony harmony)
 		{
+			var stats = new Dictionary<string, int>
+			{
+				{ "patched", 0},
+				{ "failed", 0},
+				{ "ignored", 0},
+				{ "prefixed", 0},
+				{ "postfixed", 0},
+				{ "transpiled", 0},
+			};
+
 			var targetMethods = TargetMethods().ToList();
-			ModEntry.Patcher.totalPatchTargets += (uint) targetMethods.Count;
-			ModEntry.Log($"[Patch]: Found {targetMethods.Count} target methods for {GetType().Name}.", LogLevel.Trace);
+			Log($"[Patch]: Found {targetMethods.Count} target methods for {GetType().Name}.", LogLevel.Trace);
 			foreach (var method in targetMethods)
 				try
 				{
 					Original = method;
-					base.Apply(harmony);
+					var results = base.Apply(harmony);
+
+					// aggregate patch results to total stats
+					foreach (var key in stats.Keys)
+						stats[key] += results[key];
 				}
 				catch
 				{
 					// ignored
 				}
+
+			return stats;
 		}
 
 		#region harmony patches
@@ -74,7 +89,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

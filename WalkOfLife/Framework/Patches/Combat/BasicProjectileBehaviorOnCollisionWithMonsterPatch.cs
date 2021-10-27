@@ -37,7 +37,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
 				if (!firer.HasProfession("Rascal")) return true; // run original logic
 
-				ModEntry.ModHelper.Reflection.GetMethod(__instance, "explosionAnimation")?.Invoke(location);
+				if (Game1.random.NextDouble() < (Util.Professions.GetDesperadoBulletPower() - 1) / 2)
+					ModEntry.DidBulletPierceEnemy = true;
+				else
+					ModEntry.ModHelper.Reflection.GetMethod(__instance, "explosionAnimation")?.Invoke(location);
+
 				var damageToMonster = (int) (__instance.damageToFarmer.Value *
 				                             Util.Professions.GetRascalBonusDamageForTravelTime(___travelTime));
 
@@ -52,7 +56,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

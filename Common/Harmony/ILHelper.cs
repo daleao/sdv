@@ -70,8 +70,6 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="instructions">Collection of <see cref="CodeInstruction"/> objects.</param>
 		public ILHelper Attach(MethodBase original, IEnumerable<CodeInstruction> instructions)
 		{
-			Trace($"Preparing to transpile method {original.DeclaringType}::{original.Name}.");
-
 			_original = original;
 			_instructionList = instructions.ToList();
 
@@ -266,6 +264,7 @@ namespace TheLion.Stardew.Common.Harmony
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
 		/// <param name="instructions">Sequence of <see cref="CodeInstruction"/> objects to insert.</param>
+		/// <remarks>The instruction originally at this location is pushed forward. After insertion, the index pointer still points to this same instruction.</remarks>
 		public ILHelper Insert(params CodeInstruction[] instructions)
 		{
 			_instructionList.InsertRange(CurrentIndex, instructions);
@@ -275,6 +274,7 @@ namespace TheLion.Stardew.Common.Harmony
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
 		/// <param name="instructions">Sequence of <see cref="CodeInstruction"/> objects to insert.</param>
+		/// <remarks>The instruction originally at this location is pushed forward. After insertion, the index pointer still points to this same instruction.</remarks>
 		public ILHelper Insert(ICollection<CodeInstruction> instructions)
 		{
 			_instructionList.InsertRange(CurrentIndex, instructions);
@@ -456,7 +456,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="labels">The returned list of <see cref="Label"/> objects.</param>
 		public ILHelper GetLabels(out List<Label> labels)
 		{
-			labels = _instructionList[CurrentIndex].labels.Clone().ToList();
+			labels = _instructionList[CurrentIndex].labels.ToList();
 			return this;
 		}
 
@@ -537,30 +537,6 @@ namespace TheLion.Stardew.Common.Harmony
 			return this;
 		}
 
-		/// <summary>Log information to the SMAPI console.</summary>
-		/// <param name="text">The message to log.</param>
-		public ILHelper Trace(string text)
-		{
-			Log(text, LogLevel.Trace);
-			return this;
-		}
-
-		/// <summary>Log a warning to the SMAPI console.</summary>
-		/// <param name="text">The warning message.</param>
-		public ILHelper Warn(string text)
-		{
-			Log(text, LogLevel.Warn);
-			return this;
-		}
-
-		/// <summary>Log an error to the SMAPI console.</summary>
-		/// <param name="text">The error message.</param>
-		public ILHelper Error(string text)
-		{
-			Log(text, LogLevel.Error);
-			return this;
-		}
-
 		/// <summary>Reset the current instance.</summary>
 		public ILHelper Clear()
 		{
@@ -574,7 +550,6 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			var result = _instructionList.Clone();
 			Clear();
-			Trace("Succeeded.");
 			return result.AsEnumerable();
 		}
 

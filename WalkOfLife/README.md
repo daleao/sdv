@@ -80,7 +80,8 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - **Lv10 - Ecologist** - Wild berries restore 50% more health and energy. Progressively identify forage of higher quality.
     - All foraged items will have the same deterministic quality. This immediate gives inventory convenience. However the quality will start off at silver, and progress to iridium when enough items have been foraged. Applies to Mushroom Boxes, but only if the cave owner (i.e. the host player) has the profession.
 - **Lv10 - Scavenger** - Location of forageable items revealed. Occasionally detect buried treasure.
-    - On switching maps while outside you will occasionally detect hidden buried treasure. Find it and dig it up (with a hoe) within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items. _Bonus: hold LeftShift (or LeftShoulder on gamepad) to reveal all forageables on-screen._
+    - On switching maps while outside you will occasionally detect hidden buried treasure. Find it and dig it up (with a hoe) within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items.
+    - _Bonus: holding [ModKey](#configs) will highlight all forageables on-screen._
 - **Lv5 - Lumberjack** - Felled trees yield 25% more wood.
     - _Unchanged effect from vanilla. Only the name is changed._
 - **Lv10 - Arborist** - All trees grow faster and can drop hardwood.
@@ -95,7 +96,8 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - **Lv10 - Spelunker** - Chance to find ladders and shafts increases by 1% every mine level. +1 speed every 10 levels.
     - Bonus ladder chance resets every time you leave the mines. **This includes taking the stairs back to the mine entrance.**
 - **Lv10 - Prospector** - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals.
-    - Analogous to Scavenger. Tracks any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items. _Bonus: hold LeftShift to highlight nodes and ladders on-screen._
+    - Analogous to Scavenger. Tracks any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items.
+    - _Bonus: holding [ModKey](#configs) will highlight all nodes and ladders on-screen._
 - **Lv5 - Blaster** - Bombs are cheaper to craft. Exploded rocks yield twice as much coal.
     - New recipe: x2 ore (copper, iron, gold) and x1 coal.
 - **Lv10 - Demolitionist** - Bomb radius +1. Exploded rocks yield 20% more resources.
@@ -129,25 +131,41 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
 - **Lv5 - Fighter** - Damage +10%. +15 HP.
     - _Unchanged from vanilla._
 - **Lv10 - Brute** - Damage +15%. +25 HP. Build fury in combat, further increasing damage.
-    - Damage bonus caps at +40%. If wielding a club the cap is 60%. Also gain up to 50% cooldown reduction to club smash attack.
-    - **Undying Rage:** Doubles all damage bonuses. Immune to passing out.
-        - Doubles damage bonus from all sources, including profession, rings and enchantments.
-- **Lv10 - Bushwhacker** - +10% crit. chance. Crit. strikes are deadlier at low HP and build chance to poach an item on hit.
-    - Crit. Power increases up to x2 at 10% HP. Monsters can only be poached once. Also gain up to 50% cooldown reduction to dagger quick-stab attack.
-    - **Ambuscade:** Become invisible and untargetable. Back stabs cause lethal damage.
-		- Missing a back stab will cancel the status and reveal your position once again.
+    - **Fury:**
+        - Damage bonus caps at +40%. If wielding a club the cap is 60%.
+        - Additoinally builds up to 50% cooldown reduction to club smash attack.
+    - Unleash all pent-up fury to enter an **Undying Rage:** Doubles all damage bonuses. Immune to passing out.
+        - Doubled damage bonuses include all sources, such as professions, rings and enchantments.
+- **Lv10 - Bushwhacker** - +10% crit. chance. Crit. strikes can poach items. Your blood cools in battle, increasing lethality of crit. strikes.
+    - Monsters can only be poached once.
+    - **Cold Blood:**
+        - Crit. power bonus caps at x3.
+        - Additionally builds up to 50% cooldown reduction to dagger quick-stab attack.
+    - Your cold blood masks your presence, allowing you to mount an **Ambuscade:** Become invisible and untargetable. Back stabs are deadly.
+		- Failing to assassinate an enemy will make them aware of your position, canceling the effect.
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo.
-- **Lv10 - Desperado** - 35% ammo damage modifier. Ranged hits build chance to perform a double shot.
-    - Better ammo will gain a much higher damage bonus. Also reduce slingshot pull-back time by up to 50% (requires hold-to-charge mode).
-    - **Death Blossom:** Enable auto-reload. Fire in eight directions at once.
-- **Lv10 - Slimed Piper** - Slimes damage other enemies. Slime drops improve for every Slime raised on the farm. Increase spawned Slimes in dungeons.
+    - In Vanilla, slingshots are unable to hit enemies that are near the Farmer. As a way to improve slingshot combat, this mod also removes the grace period before a shot is allowed to deal damage. All professions are affected.
+    -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but will bounce off walls._
+- **Lv10 - Desperado** - Chance to fire a two-fer, increasing at lower HP. Projectile power increases with built-up temerity.
+    - **Temerity:**
+        -Projectiles are fired with gradually increasing velocity. Higher velocity projectiles have several properties:
+            - Increased knockback (up to 1.5x).
+            - Chance to pierce through enemies (up to 25%).
+            - Increased hitbox, by affecting the air around them, damaging nearby enemies even if they miss (up to 50% on either side).
+        - Additionally builds slingshot pull-back time reduction up to 50% (requires hold-to-charge mode).
+    - Your temerity culminates in one final desperate **Death Blossom:** Enables auto-reload. Fire eight shots around you at once.
+- **Lv10 - Slimed Piper** - Slimes damage other enemies and drop more items the more Slimes are raised on the farm. Gathered eubstance attracts more Slimes in dungeons.
     - Slimes cannot damage flying enemies.
-    - Each Slime raised on the farm, either in a hutch or outside, increase the chance for Slimes to drop additional items.
-    - Every dungeon floor can spawn up to 11 additional Slimes, based on the Super Mode meter.
-    - The Piper will recover 1 HP on contact with Slimes. **This does not negate Slime damage. A Slime Charmer ring is still required.**
-    - **Superfluidity:** Cause Slimes to grow up to twice their size. Large enough Slimes break into smaller Slimes when defeated.
+    - Each Slime raised on the farm, either in a hutch or outside, increases the chance for Slimes to drop additional items.
+    - Pipers are immune to the Slimed debuff.
+    - Pipers recover 1 HP on contact with Slimes. **This does not negate Slime damage. A Slime Charmer ring is still required.**
+    - **Eubstance:**
+        - Every dungeon floor can spawn up to 11 additional Slimes.
+        - Additionally increases the attack frequency of Slimes up to +15%.
+    - **Superfluidity:** Engorge and empower nearby Slimes.
+        - Causes Slimes to grow up to twice their size and gain a proportional damage boost.
         - Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant.
-        - Giant Slimes can hit flying enemies.
+        - Large enough Slimes can hit flying enemies, and break into smaller Slimes if defeated.
         - Also increases healed amount based on the Slime's actual damage.
 
 ## Compatbility

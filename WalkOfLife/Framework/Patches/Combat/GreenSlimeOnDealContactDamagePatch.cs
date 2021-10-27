@@ -43,7 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding Piper slime debuff immunity.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding Piper slime debuff immunity.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

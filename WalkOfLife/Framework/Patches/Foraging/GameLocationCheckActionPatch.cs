@@ -68,7 +68,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching modded Ecologist forage quality.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while patching modded Ecologist forage quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -136,7 +136,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding modded Gemologist foraged mineral quality.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding modded Gemologist foraged mineral quality.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -162,7 +162,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

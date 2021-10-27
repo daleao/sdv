@@ -282,7 +282,7 @@ namespace TheLion.Stardew.Professions
 		}
 
 		/// <summary>Set <see cref="SuperModeIndex"/> to a different combat profession, in case you have more than one.</summary>
-		internal static void RegisterNewSuperMode(string command, string[] args)
+		internal static void RegisterSuperMode(string command, string[] args)
 		{
 			if (!Context.IsWorldReady)
 			{

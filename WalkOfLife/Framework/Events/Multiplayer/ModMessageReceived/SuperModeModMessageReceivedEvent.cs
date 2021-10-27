@@ -1,4 +1,6 @@
-﻿using StardewModdingAPI.Events;
+﻿using Microsoft.Xna.Framework;
+using StardewModdingAPI.Events;
+using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
@@ -17,10 +19,20 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			{
 				case "SuperModeActivated":
 					ModEntry.ActivePeerSuperModes[key].Add(e.FromPlayerID);
+					var glowingColor = Util.Professions.NameOf(key) switch
+					{
+						"Brute" => Color.OrangeRed,
+						"Poacher" => Color.MediumPurple,
+						"Desperado" => Color.DarkGoldenrod,
+						"Piper" => Color.LimeGreen,
+						_ => Color.White
+					};
+					Game1.getFarmer(e.FromPlayerID).startGlowing(glowingColor, false, 0.05f);
 					break;
 
 				case "SuperModeDeactivated":
 					ModEntry.ActivePeerSuperModes[key].Remove(e.FromPlayerID);
+					Game1.getFarmer(e.FromPlayerID).stopGlowing();
 					break;
 			}
 		}

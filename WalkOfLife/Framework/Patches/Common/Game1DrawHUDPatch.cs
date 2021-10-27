@@ -38,7 +38,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 
@@ -84,7 +84,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}", LogLevel.Error);
+				Log($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
@@ -116,7 +116,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}", LogLevel.Error);
+				Log($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

@@ -11,7 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BidirectionalMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\TextureBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CollectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Vector2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />

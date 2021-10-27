@@ -112,8 +112,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			Helper.Attach(original, instructions);
 
 			/// Injected: if (who.IsLocalPlayer && location.IsCombatZone() && SuperModeIndex == <desperado_id> && !IsSuperModeActive)
-			///				  if (Game1.currentTime.TotalGameTime.TotalSeconds - this.pullStartTime <= GetDesperadoChargeTime()* breathingRoom) { SuperModeCounter += 10; v *= GetDesperadoBulletPower(); }
-			///				  else { SuperModeCounter += 2 }
+			///				v *= GetDesperadoBulletPower();
+			///				if (Game1.currentTime.TotalGameTime.TotalSeconds - this.pullStartTime <= GetDesperadoChargeTime()* breathingRoom) { SuperModeCounter += 10; }
+			///				else { SuperModeCounter += 2 }
 			/// Before: if (ammunition.Category == -5) collisionSound = "slimedead";
 
 			var notQuickShot = iLGenerator.DefineLabel();
@@ -156,6 +157,26 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.IsSuperModeActive))),
 						new CodeInstruction(OpCodes.Brtrue_S, resumeExecution),
+						// v.X *= GetDesperadoBulletPower()
+						new CodeInstruction(OpCodes.Ldloca_S, velocity),
+						new CodeInstruction(OpCodes.Ldflda,
+							typeof(Vector2).Field(nameof(Vector2.X))),
+						new CodeInstruction(OpCodes.Dup),
+						new CodeInstruction(OpCodes.Ldind_R4),
+						new CodeInstruction(OpCodes.Call,
+							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetDesperadoBulletPower))),
+						new CodeInstruction(OpCodes.Mul),
+						new CodeInstruction(OpCodes.Stind_R4),
+						// v.Y *= GetDesperadoBulletPower()
+						new CodeInstruction(OpCodes.Ldloca_S, velocity),
+						new CodeInstruction(OpCodes.Ldflda,
+							typeof(Vector2).Field(nameof(Vector2.Y))),
+						new CodeInstruction(OpCodes.Dup),
+						new CodeInstruction(OpCodes.Ldind_R4),
+						new CodeInstruction(OpCodes.Call,
+							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetDesperadoBulletPower))),
+						new CodeInstruction(OpCodes.Mul),
+						new CodeInstruction(OpCodes.Stind_R4),
 						// check for quick shot (i.e. sling shot charge time <= required charge time * breathing room)
 						new CodeInstruction(OpCodes.Ldsfld,
 							typeof(Game1).Field(nameof(Game1.currentGameTime))),
@@ -181,26 +202,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Add),
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModEntry).PropertySetter(nameof(ModEntry.SuperModeCounter))),
-						// v.X *= GetDesperadoBulletPower()
-						new CodeInstruction(OpCodes.Ldloca_S, velocity),
-						new CodeInstruction(OpCodes.Ldflda,
-							typeof(Vector2).Field(nameof(Vector2.X))),
-						new CodeInstruction(OpCodes.Dup),
-						new CodeInstruction(OpCodes.Ldind_R4),
-						new CodeInstruction(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetDesperadoBulletPower))),
-						new CodeInstruction(OpCodes.Mul),
-						new CodeInstruction(OpCodes.Stind_R4),
-						// v.Y *= GetDesperadoBulletPower()
-						new CodeInstruction(OpCodes.Ldloca_S, velocity),
-						new CodeInstruction(OpCodes.Ldflda,
-							typeof(Vector2).Field(nameof(Vector2.Y))),
-						new CodeInstruction(OpCodes.Dup),
-						new CodeInstruction(OpCodes.Ldind_R4),
-						new CodeInstruction(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetDesperadoBulletPower))),
-						new CodeInstruction(OpCodes.Mul),
-						new CodeInstruction(OpCodes.Stind_R4),
+						
 						new CodeInstruction(OpCodes.Br_S, resumeExecution)
 					)
 					.Insert(
@@ -220,7 +222,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log(
+				Log(
 					$"Failed while injecting modded Desperado ammunition damage modifier, Cold Blood counter and quick shots.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}

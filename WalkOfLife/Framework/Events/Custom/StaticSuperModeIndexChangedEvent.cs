@@ -60,7 +60,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					ModEntry.SuperModeGlowColor = Color.LimeGreen;
 					ModEntry.SuperModeOverlayColor = Color.DarkGreen;
 					ModEntry.SuperModeSFX = "piper_provoke";
-					ModEntry.PipedSlimesScales ??= new();
+					ModEntry.PipedSlimeScales ??= new();
 					break;
 			}
 

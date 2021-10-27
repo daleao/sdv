@@ -41,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			if (farmer.maxHealth != expectedMaxHealth)
 			{
-				ModEntry.Log(
+				Log(
 					$"Fixing max health of {farmer.Name}.\nCurrent: {farmer.maxHealth}\nExpected: {expectedMaxHealth}",
 					LogLevel.Warn);
 				farmer.maxHealth = expectedMaxHealth;
@@ -62,7 +62,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return false; // don't run original logic
 			}
 

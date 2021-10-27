@@ -75,7 +75,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while removing vanilla Acrobat cooldown reduction.\nHelper returned {ex}", LogLevel.Error);
+				Log($"Failed while removing vanilla Acrobat cooldown reduction.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 

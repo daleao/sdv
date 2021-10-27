@@ -26,14 +26,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch for increased Desperado bullet cross-section.</summary>
 		[HarmonyPostfix]
-		private static void ProjectileUpdatePostfix(Projectile __instance, bool __result, NetPosition ___position,
+		private static void ProjectileUpdatePostfix(Projectile __instance, ref bool __result, NetPosition ___position,
 			NetCharacterRef ___theOneWhoFiredMe, NetFloat ___xVelocity, NetFloat ___yVelocity, GameLocation location)
 		{
 			try
 			{
-				// check if already collided
-				if (__result) return;
-
 				// check if is BasicProjectile
 				if (__instance is not BasicProjectile projectile) return;
 
@@ -49,6 +46,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// check for powered bullet
 				var bulletPower = Util.Professions.GetDesperadoBulletPower() - 1f;
 				if (bulletPower <= 0f) return;
+				
+				// check if already collided
+				if (__result)
+				{
+					if (!ModEntry.DidBulletPierceEnemy) return;
+					
+					ModEntry.DidBulletPierceEnemy = false;
+					__result = false;
+					return;
+				}
 
 				// get collision angle
 				var velocity = new Vector2(___xVelocity.Value, ___yVelocity.Value);
@@ -66,29 +73,28 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (location.doesPositionCollideWithCharacter(bulletHitbox) is not Monster monster) return;
 
 				// do deal damage
+				var actualDistance = isBulletTravelingVertically
+					? Math.Abs(monster.getStandingX() - __instance.getBoundingBox().Center.X)
+					: Math.Abs(monster.getStandingY() - __instance.getBoundingBox().Center.Y);
+				var monsterRadius = isBulletTravelingVertically
+					? monster.GetBoundingBox().Width / 2
+					: monster.GetBoundingBox().Height / 2;
 				var actualBulletRadius = isBulletTravelingVertically
 					? __instance.getBoundingBox().Width / 2
 					: __instance.getBoundingBox().Height / 2;
 				var extendedBulletRadius =
 					isBulletTravelingVertically ? bulletHitbox.Width / 2 : bulletHitbox.Height / 2;
 
-				var monsterRadius = isBulletTravelingVertically
-					? monster.GetBoundingBox().Width / 2
-					: monster.GetBoundingBox().Height / 2;
-
-				var actualDistance = Math.Abs((monster.position.Value - ___position.Value).Length());
 				var lerpFactor = (actualDistance - (actualBulletRadius + monsterRadius)) /
 				                 (extendedBulletRadius - actualBulletRadius);
 				var multiplier = MathHelper.Lerp(1f, 0f, lerpFactor);
 				var damage = (int) (projectile.damageToFarmer.Value * multiplier);
 				location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, multiplier + bulletPower, 0,
 					0f, 1f, true, firer);
-
-				ModEntry.Log($"Lerp Factor: {lerpFactor}", LogLevel.Info);
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 			}
 		}
 

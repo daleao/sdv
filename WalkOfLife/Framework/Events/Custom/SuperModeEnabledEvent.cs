@@ -66,6 +66,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
 			if (buff == null)
+			{
+				Game1.buffsDisplay.otherBuffs.Clear();
 				Game1.buffsDisplay.addOtherBuff(
 					new(0,
 						0,
@@ -76,7 +78,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						0,
 						0,
 						0,
-						0,
+						professionName == "Poacher" ? -1 : 0,
 						0,
 						0,
 						1,
@@ -91,6 +93,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".supermdesc")
 					}
 				);
+			}
 
 			// notify peers
 			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeActivated",
@@ -155,7 +158,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					else greenSlime.hasSpecialItem.Value = true;
 				}
 
-				ModEntry.PipedSlimesScales.Add(greenSlime, greenSlime.Scale);
+				ModEntry.PipedSlimeScales.Add(greenSlime, greenSlime.Scale);
 			}
 
 			var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
@@ -167,7 +170,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				while (toCreate-- > 0)
 				{
 					Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
-					var justCreated = Game1.currentLocation.characters[Game1.currentLocation.characters.Count - 1];
+					var justCreated = Game1.currentLocation.characters[^1];
 					justCreated.setTrajectory((int) (bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
 						(int) (bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
 					justCreated.willDestroyObjectsUnderfoot = false;
