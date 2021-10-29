@@ -49,7 +49,7 @@ namespace TheLion.Stardew.Professions.Framework
 			foreach (var patch in patches.Select(type => (BasePatch) type.Constructor()?.Invoke(Array.Empty<object>())))
 			{
 				var results = patch?.Apply(Harmony);
-				if (results == null) continue;
+				if (results is null) continue;
 
 				// aggregate patch results to total stats
 				foreach (var key in stats.Keys)

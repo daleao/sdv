@@ -31,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			var buffID = _buffID + ModEntry.DemolitionistExcitedness;
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
-			if (buff != null) return;
+			if (buff is not null) return;
 
 			Game1.buffsDisplay.addOtherBuff(
 				new(0,

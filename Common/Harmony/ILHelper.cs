@@ -29,7 +29,7 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			get
 			{
-				if (_indexStack == null || !_indexStack.Any())
+				if (_indexStack is null || !_indexStack.Any())
 					throw new IndexOutOfRangeException("The index stack is either null or empty.");
 
 				return _indexStack.Peek();
@@ -41,7 +41,7 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			get
 			{
-				if (_instructionList == null || !_instructionList.Any())
+				if (_instructionList is null || !_instructionList.Any())
 					throw new IndexOutOfRangeException("The active instruction list is either null or empty.");
 
 				return _instructionList.Count - 1;

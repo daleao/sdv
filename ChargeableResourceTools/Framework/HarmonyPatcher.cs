@@ -99,9 +99,9 @@ namespace TheLion.Stardew.Tools.Framework
 			protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 			{
 				var l = instructions.ToList();
-				for (int i = 0; i < instructions.Count(); ++i)
+				for (int i = 0; i < l.Count; ++i)
 				{
-					if (l[i].opcode == OpCodes.Isinst && l[i].operand.ToString().Equals("StardewValley.Tools.Pickaxe"))
+					if (l[i].opcode == OpCodes.Isinst && l[i].operand?.ToString() == "StardewValley.Tools.Pickaxe")
 					{
 						// inject branch over toolPower += 2
 						l.Insert(i - 2, new CodeInstruction(OpCodes.Br_S, l[i + 1].operand));
@@ -122,7 +122,7 @@ namespace TheLion.Stardew.Tools.Framework
 				if (__instance.UpgradeLevel < Tool.copper)
 					return;
 
-				if (__instance is Axe || __instance is Pickaxe)
+				if (__instance is Axe or Pickaxe)
 				{
 					__result.Clear();
 

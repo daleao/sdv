@@ -89,7 +89,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			throw new IndexOutOfRangeException($"Index {professionIndex} is not a valid profession index.");
 		}
 
-		/// <summary>Get the price multiplier for produce sold by Producer.</summary>
+		/// <summary>Affects the price of produce sold by Producer.</summary>
 		/// <param name="who">The player.</param>
 		public static float GetProducerPriceMultiplier(Farmer who)
 		{
@@ -98,7 +98,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				b.buildingType.Contains("Deluxe") && ((AnimalHouse) b.indoors.Value).isFull()).Sum(_ => 0.05f);
 		}
 
-		/// <summary>Get the price multiplier for fish sold by Angler.</summary>
+		/// <summary>Affects the price of fish sold by Angler.</summary>
 		/// <param name="who">The player.</param>
 		public static float GetAnglerPriceMultiplier(Farmer who)
 		{
@@ -120,20 +120,20 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			return multiplier;
 		}
 
-		/// <summary>Get the price multiplier for items sold by Conservationist.</summary>
+		/// <summary>Affects the price all items sold by Conservationist.</summary>
 		public static float GetConservationistPriceMultiplier()
 		{
 			return 1f + ModEntry.Data.ReadField<float>("ActiveTaxBonusPercent");
 		}
 
-		/// <summary>Get adjusted friendship for calculating the value of Breeder-owned farm animal.</summary>
+		/// <summary>Affects the price of animals sold by Breeder.</summary>
 		/// <param name="a">Farm animal instance.</param>
 		public static double GetProducerAdjustedFriendship(FarmAnimal a)
 		{
 			return Math.Pow(Math.Sqrt(2) * a.friendshipTowardFarmer.Value / 1000, 2) + 0.5;
 		}
 
-		/// <summary>Get the quality of forage for Ecologist.</summary>
+		/// <summary>Affects the quality of items foraged by Ecologist.</summary>
 		public static int GetEcologistForageQuality()
 		{
 			var itemsForaged = ModEntry.Data.ReadField<uint>("ItemsForaged");
@@ -143,7 +143,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				: SObject.bestQuality;
 		}
 
-		/// <summary>Get the quality of mineral for Gemologist.</summary>
+		/// <summary>Affects the quality of minerals collected by Gemologist.</summary>
 		public static int GetGemologistMineralQuality()
 		{
 			var mineralsCollected = ModEntry.Data.ReadField<uint>("MineralsCollected");
@@ -154,13 +154,13 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				: SObject.bestQuality;
 		}
 
-		/// <summary>Get the bonus ladder spawn chance for Spelunker.</summary>
+		/// <summary>Affects that chance that a ladder or shaft will spawn for Spelunker.</summary>
 		public static double GetSpelunkerBonusLadderDownChance()
 		{
 			return ModEntry.SpelunkerLadderStreak * 0.01;
 		}
 
-		/// <summary>Get the bonus bobber bar height for Aquarist.</summary>
+		/// <summary>Affects the size of the green fishing bar for Aquarist.</summary>
 		public static int GetAquaristBonusBobberBarHeight()
 		{
 			return Game1.getFarm().buildings.Where(b =>
@@ -170,45 +170,33 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				}).Sum(_ => 6);
 		}
 
-		/// <summary>Get the bonus raw damage that should be applied to Brute.</summary>
+		/// <summary>Affects the raw damage dealt by Brute.</summary>
 		/// <param name="who">The player.</param>
 		public static float GetBruteBonusDamageMultiplier(Farmer who)
 		{
 			return 1.15f +
 			       (who.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Brute")
 				       ? 0.65f + who.attackIncreaseModifier +
-				         (who.CurrentTool != null ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f : 0f)
+				         (who.CurrentTool is not null ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f : 0f)
 				       : ModEntry.SuperModeCounter / 10 * 0.005f) *
 			       ((who.CurrentTool as MeleeWeapon)?.type.Value == MeleeWeapon.club ? 1.5f : 1f);
 		}
 
-		///// <summary>Get the bonus critical strike chance that should be applied to Poacher.</summary>
-		///// <param name="who">The player.</param>
 		//public static float GetPoacherBonusCritChance()
 		//{
 		//	var healthPercent = (double)who.health / who.maxHealth;
 		//	var bonusCrit = (float)Math.Max(-1.8 / (healthPercent - 4.6) - 0.4, 0f);
-		//	if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != IndexOf("Poacher") || healthPercent >= 0.5) return bonusCrit;
-
-		//	bonusCrit += ModEntry.SuperModeCounter * 0.0005f;
-		//	return bonusCrit;
 		//}
 
-		/// <summary>Get the bonus critical strike damage that should be applied to Poacher.</summary>
-		/// <param name="who">The player.</param>
+		/// <summary>Affecsts the powerof critical strikes performed by Poacher.</summary>
 		public static float GetPoacherCritDamageMultiplier()
 		{
 			//var healthPercent = (double) who.health / who.maxHealth;
 			//var multiplier = (float)Math.Min(-18.0 / (-healthPercent + 4.6) + 6.0, 2f);
-			//if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != IndexOf("Poacher") || healthPercent < 0.5) return multiplier;
-
-			//multiplier += ModEntry.SuperModeCounter * 0.0005f;
-			//return multiplier;
-
 			return ModEntry.IsSuperModeActive ? 3f : ModEntry.SuperModeCounter / 10 * 0.06f;
 		}
 
-		/// <summary>Get bonus slingshot damage as function of projectile travel distance.</summary>
+		/// <summary>Affects the damage of projectiles fired by Rascal.</summary>
 		/// <param name="travelDistance">Distance travelled by the projectile.</param>
 		public static float GetRascalBonusDamageForTravelTime(int travelDistance)
 		{
@@ -217,7 +205,15 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			return 1f + 0.5f / MAX_DISTANCE_I * travelDistance;
 		}
 
-		/// <summary>Get the multiplier that will be applied to Desperado bullet speed, knockback and hitbox.</summary>
+		/// <summary>Affects the chance to shoot twice consecutively for Desperado.</summary>
+		/// <param name="who">The player.</param>
+		public static float GetDesperadoDoubleStrafeChance(Farmer who)
+		{
+			var healthPercent = (double)who.health / who.maxHealth;
+			return (float)Math.Min(2 / (healthPercent + 1.5) - 0.75, 0.5f);
+		}
+
+		/// <summary>Affects projectile velocity, knockback, hitbox size and pierce chance for Desperado.</summary>
 		public static float GetDesperadoBulletPower()
 		{
 			return 1f + (ModEntry.IsSuperModeActive
@@ -225,13 +221,13 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				: ModEntry.SuperModeCounter / 10 * 0.01f);
 		}
 
-		/// <summary>Get the slingshot charge time modifier for Desperado.</summary>
+		/// <summary>Affects the time to prepare a shot for Desperado.</summary>
 		public static float GetDesperadoChargeTime()
 		{
 			return 0.3f * GetCooldownOrChargeTimeReduction();
 		}
 
-		/// <summary>Get the maximum number of bonus Slimes attracted by Piper.</summary>
+		/// <summary>Affects the maximum number of bonus Slimes that can be attracted by Piper.</summary>
 		public static int GetPiperSlimeSpawnAttempts()
 		{
 			return ModEntry.IsSuperModeActive
@@ -239,18 +235,17 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				: ModEntry.SuperModeCounter / 50 + 1;
 		}
 
-		/// <summary>Get the attack speed multiplier that should be applied to Piper Slimes.</summary>
+		/// <summary>Affects the attack frequency of Slimes under Piper influence towards other enemies.</summary>
+		/// <returns>Returns a number between 0 (when <see cref="ModEntry.SuperModeCounter"/> is 0, and 0.15 when it is full.</returns>
 		public static float GetPiperSlimeAttackSpeedModifier()
 		{
 			return ModEntry.IsSuperModeActive
-				? 0.15f
-				: ModEntry.SuperModeCounter / 10 * 0.003f;
+				? 0.75f
+				: 1f - ModEntry.SuperModeCounter / 10 * 0.003f;
 		}
 
-		/// <summary>
-		///     Get the cooldown reduction multiplier that should be applied to Brute or Poacher cooldown reductions and
-		///     Desperado charge time.
-		/// </summary>
+		/// <summary>Affects the cooldown of Club or Hammer special attacks for Brute and Poacher, or the pull-back time of shots for Desperado.</summary>
+		/// <returns>Returns a number between 1 (when <see cref="ModEntry.SuperModeCounter"/> is 0, and 0.5 when it is full.</returns>
 		public static float GetCooldownOrChargeTimeReduction()
 		{
 			return ModEntry.IsSuperModeActive

@@ -29,7 +29,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				__result = Game1.player;
-				if (!Context.IsMultiplayer || __instance.currentLocation == null)
+				if (!Context.IsMultiplayer || __instance.currentLocation is null)
 					return false; // don't run original logic
 
 				if (__instance is GreenSlime &&

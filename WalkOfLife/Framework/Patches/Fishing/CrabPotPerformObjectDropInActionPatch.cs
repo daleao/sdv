@@ -27,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Helper.Attach(original, instructions);
 
-			/// Removed: ... && (owner_farmer == null || !owner_farmer.professions.Contains(11)
+			/// Removed: ... && (owner_farmer is null || !owner_farmer.professions.Contains(11)
 
 			try
 			{

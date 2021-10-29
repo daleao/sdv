@@ -25,7 +25,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void TreeUpdateTapperProductPostfix(SObject tapper_instance)
 		{
-			if (tapper_instance == null) return;
+			if (tapper_instance is null) return;
 
 			try
 			{

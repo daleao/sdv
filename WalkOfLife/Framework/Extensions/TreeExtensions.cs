@@ -19,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 				return false;
 
 			var s = environment.doesTileHaveProperty((int) tileLocation.X, (int) tileLocation.Y, "NoSpawn", "Back");
-			if (s != null && s.AnyOf("All", "Tree", "True")) return false;
+			if (s is not null && s.AnyOf("All", "Tree", "True")) return false;
 
 			var growthRect = new Rectangle((int) ((tileLocation.X - 1f) * 64f), (int) ((tileLocation.Y - 1f) * 64f),
 				192, 192);

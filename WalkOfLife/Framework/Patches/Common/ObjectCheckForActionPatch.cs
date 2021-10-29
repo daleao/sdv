@@ -29,7 +29,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		// ReSharper disable once RedundantAssignment
 		private static bool ObjectCheckForActionPrefix(SObject __instance, ref bool __state)
 		{
-			__state = __instance.heldObject.Value != null;
+			__state = __instance.heldObject.Value is not null;
 			return true; // run original logic
 		}
 
@@ -39,11 +39,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (__instance.heldObject.Value != null && who.HasProfession("Gemologist") &&
+				if (__instance.heldObject.Value is not null && who.HasProfession("Gemologist") &&
 					(__instance.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) &&
 					__instance.name == "Crystalarium")
 					__instance.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
-				else if (__state && __instance.heldObject.Value == null && __instance.ParentSheetIndex == 128 &&
+				else if (__state && __instance.heldObject.Value is null && __instance.ParentSheetIndex == 128 &&
 						 who.HasProfession("Ecologist"))
 					ModEntry.Data.IncrementField<uint>("ItemsForaged");
 			}

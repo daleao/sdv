@@ -40,7 +40,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				{ "transpiled", 0},
 			};
 			
-			if (Original == null)
+			if (Original is null)
 			{
 				ModEntry.Log($"[Patch]: Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Trace);
 				++results["ignored"];
@@ -52,9 +52,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				ModEntry.Log($"[Patch]: Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.",
 					LogLevel.Trace);
 				harmony.Patch(Original, Prefix, Postfix, Transpiler);
-				if (Prefix != null) ++results["prefixed"];
-				if (Postfix != null) ++results["postfixed"];
-				if (Transpiler != null) ++results["transpiled"];
+				if (Prefix is not null) ++results["prefixed"];
+				if (Postfix is not null) ++results["postfixed"];
+				if (Transpiler is not null) ++results["transpiled"];
 				++results["patched"];
 			}
 			catch (Exception ex)

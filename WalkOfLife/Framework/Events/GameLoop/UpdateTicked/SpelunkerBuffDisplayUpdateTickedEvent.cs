@@ -25,7 +25,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (Game1.currentLocation is not MineShaft) return;
 
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == _buffID);
-			if (buff != null) return;
+			if (buff is not null) return;
 			
 			var bonusLadderChance = ModEntry.SpelunkerLadderStreak;
 			var bonusSpeed = Math.Min(ModEntry.SpelunkerLadderStreak / 5 + 1, 10);

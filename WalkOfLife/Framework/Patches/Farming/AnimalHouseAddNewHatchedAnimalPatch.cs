@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!who.HasProfession("Rancher")) return;
 
 				var a = __instance.Animals?.Values.Last();
-				if (a == null || a.age.Value != 0 || a.friendshipTowardFarmer.Value != 0) return;
+				if (a is null || a.age.Value != 0 || a.friendshipTowardFarmer.Value != 0) return;
 				a.friendshipTowardFarmer.Value =
 					200 + new Random(__instance.GetHashCode() + a.GetHashCode()).Next(-50, 51);
 			}

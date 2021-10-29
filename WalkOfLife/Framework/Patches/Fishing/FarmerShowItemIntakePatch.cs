@@ -152,12 +152,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					_ => null
 				};
 
-				if ((toShow.Equals(who.ActiveObject) || who.ActiveObject != null && toShow != null &&
+				if ((toShow.Equals(who.ActiveObject) || who.ActiveObject is not null && toShow is not null &&
 					    toShow.ParentSheetIndex == who.ActiveObject.ParentSheetIndex) &&
 				    who.FarmerSprite.currentAnimationIndex == 5)
 					tempSprite = null;
 
-				if (tempSprite != null) who.currentLocation.temporarySprites.Add(tempSprite);
+				if (tempSprite is not null) who.currentLocation.temporarySprites.Add(tempSprite);
 
 				if (who.FarmerSprite.currentAnimationIndex != 5) return false; // don't run original logic
 

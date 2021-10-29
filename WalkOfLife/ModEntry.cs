@@ -109,7 +109,7 @@ namespace TheLion.Stardew.Professions
 
 			// get configs and mod data
 			Config = helper.ReadConfig<ModConfig>();
-			Data = new(UniqueID);
+			Data = new(Log, UniqueID);
 
 			// apply harmony patches
 			BasePatch.Init(Log, Config.EnableILCodeExport, helper.DirectoryPath);

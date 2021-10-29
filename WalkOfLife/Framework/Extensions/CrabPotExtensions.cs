@@ -10,7 +10,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether the crab pot instance is using magnet as bait.</summary>
 		public static bool HasMagnet(this CrabPot crabpot)
 		{
-			return crabpot.bait.Value != null &&
+			return crabpot.bait.Value is not null &&
 				   Objects.BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) &&
 				   baitName == "Magnet";
 		}
@@ -18,7 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether the crab pot instance is using wild bait.</summary>
 		public static bool HasWildBait(this CrabPot crabpot)
 		{
-			return crabpot.bait.Value != null &&
+			return crabpot.bait.Value is not null &&
 				   Objects.BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) &&
 				   baitName == "Wild Bait";
 		}
@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether the crab pot instance is using magic bait.</summary>
 		public static bool HasMagicBait(this CrabPot crabpot)
 		{
-			return crabpot.bait.Value != null &&
+			return crabpot.bait.Value is not null &&
 				   Objects.BaitById.TryGetValue(crabpot.bait.Value.ParentSheetIndex, out var baitName) &&
 				   baitName == "Magic Bait";
 		}
@@ -44,7 +44,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool HasSpecialLuremasterCatch(this CrabPot crabpot)
 		{
 			var obj = crabpot.heldObject.Value;
-			return obj != null && (obj.IsFish() && !obj.IsTrapFish() || obj.IsAlgae() || obj.IsPirateTreasure());
+			return obj is not null && (obj.IsFish() && !obj.IsTrapFish() || obj.IsAlgae() || obj.IsPirateTreasure());
 		}
 	}
 }

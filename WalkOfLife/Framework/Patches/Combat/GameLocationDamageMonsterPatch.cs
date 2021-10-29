@@ -68,8 +68,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				return null;
 			}
 
-			/// From: if (who != null && who.professions.Contains(<brute_id>) ... *= 1.15f
-			/// To: if (who != null && who.professions.Contains(<brute_id>) ... *= GetBruteBonusDamageMultiplier(who)
+			/// From: if (who is not null && who.professions.Contains(<brute_id>) ... *= 1.15f
+			/// To: if (who is not null && who.professions.Contains(<brute_id>) ... *= GetBruteBonusDamageMultiplier(who)
 
 			try
 			{
@@ -94,8 +94,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				return null;
 			}
 
-			/// From: if (who != null && crit && who.professions.Contains(<desperado_id>) ... *= 2f
-			/// To: if (who != null && crit && who.IsLocalPlayer && ModEntry.SuperModeIndex == <poacher_id>) ... *= GetPoacherCritDamageMultiplier
+			/// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f
+			/// To: if (who is not null && crit && who.IsLocalPlayer && ModEntry.SuperModeIndex == <poacher_id>) ... *= GetPoacherCritDamageMultiplier
 
 			try
 			{
@@ -206,7 +206,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
 					.Concat(monster.getExtraDropItems()).ToList();
 				var stolen = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
-				if (stolen != null && who.addItemToInventoryBool(stolen))
+				if (stolen is not null && who.addItemToInventoryBool(stolen))
 				{
 					ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
 

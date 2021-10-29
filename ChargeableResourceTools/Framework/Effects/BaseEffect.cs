@@ -109,7 +109,7 @@ namespace TheLion.Stardew.Tools.Framework.Effects
 		/// <param name="obj">The world object.</param>
 		protected bool IsWeed(SObject obj)
 		{
-			return !(obj is Chest) && obj?.Name == "Weeds";
+			return obj is not Chest && obj?.Name == "Weeds";
 		}
 
 		/// <summary>Get the resource clump which covers a given tile, if any.</summary>
@@ -219,15 +219,15 @@ namespace TheLion.Stardew.Tools.Framework.Effects
 		/// <param name="tile">The tile to affect.</param>
 		private Vector2 GetToolPixelPosition(Vector2 tile)
 		{
-			return (tile * Game1.tileSize) + new Vector2(Game1.tileSize / 2f);
+			return tile * Game1.tileSize + new Vector2(Game1.tileSize / 2f);
 		}
 
 		/// <summary>Get a rectangle representing the tile area in absolute pixels from the map origin.</summary>
 		/// <param name="tile">The tile position.</param>
 		private Rectangle GetAbsoluteTileArea(Vector2 tile)
 		{
-			Vector2 pos = tile * Game1.tileSize;
-			return new Rectangle((int)pos.X, (int)pos.Y, Game1.tileSize, Game1.tileSize);
+			var (x, y) = tile * Game1.tileSize;
+			return new Rectangle((int)x, (int)y, Game1.tileSize, Game1.tileSize);
 		}
 
 		/// <summary>Get the resource clumps in a given location.</summary>
@@ -236,16 +236,12 @@ namespace TheLion.Stardew.Tools.Framework.Effects
 		{
 			IEnumerable<ResourceClump> clumps = location.resourceClumps;
 
-			switch (location)
+			clumps = location switch
 			{
-				case Forest forest when forest.log != null:
-					clumps = clumps.Concat(new[] { forest.log });
-					break;
-
-				case Woods woods when woods.stumps.Any():
-					clumps = clumps.Concat(woods.stumps);
-					break;
-			}
+				Forest {log: { }} forest => clumps.Concat(new[] {forest.log}),
+				Woods woods when woods.stumps.Any() => clumps.Concat(woods.stumps),
+				_ => clumps
+			};
 
 			return clumps;
 		}

@@ -41,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var shouldntReroll = iLGenerator.DefineLabel();
 			var hasRerolled = iLGenerator.DeclareLocal(typeof(bool));
 			var shuffleMethod = typeof(SUtility).GetMethods().Where(mi => mi.Name == "Shuffle").ElementAtOrDefault(1);
-			if (shuffleMethod == null)
+			if (shuffleMethod is null)
 			{
 				Log($"Failed to acquire {typeof(SUtility)}::Shuffle method.", LogLevel.Error);
 				return null;

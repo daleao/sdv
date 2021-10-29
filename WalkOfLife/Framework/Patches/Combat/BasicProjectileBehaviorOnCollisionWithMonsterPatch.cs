@@ -22,7 +22,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch for Rascal slingshot damage increase with travel time.</summary>
+		/// <summary>Patch for Rascal slingshot damage increase with travel time + Desperado peirce shot.</summary>
 		[HarmonyPrefix]
 		private static bool BasicProjectileBehaviorOnCollisionWithMonsterPrefix(BasicProjectile __instance,
 			ref NetBool ___damagesMonsters, NetCharacterRef ___theOneWhoFiredMe, int ___travelTime, ref NPC n,

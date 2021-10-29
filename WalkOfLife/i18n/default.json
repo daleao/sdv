@@ -115,7 +115,7 @@
 	"rascal.desc": "Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo.",
 	"desperado.name.male": "Desperado",
 	"desperado.name.female": "Desperado",
-	"desperado.desc": "Chance to fire a two-fer, increasing at lower HP. Ammo power increases with built-up temerity.",
+	"desperado.desc": "Chance to fire a double shot, increasing at lower HP. Projectile power increases with built-up temerity.",
 	"desperado.buff": "Temerity",
 	"desperado.buffdesc": "Ammo power +{{magnitude1}}%. Slingshot pull-back time -{{magnitude2}}%.",
 	"desperado.superm": "Death Blossom",

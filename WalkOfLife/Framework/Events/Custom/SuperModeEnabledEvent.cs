@@ -65,7 +65,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			var professionName = Util.Professions.NameOf(professionIndex);
 
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
-			if (buff == null)
+			if (buff is null)
 			{
 				Game1.buffsDisplay.otherBuffs.Clear();
 				Game1.buffsDisplay.addOtherBuff(

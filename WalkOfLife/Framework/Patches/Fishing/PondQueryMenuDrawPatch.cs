@@ -47,7 +47,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!Game1.globalFade)
 				{
 					b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, Color.Black * 0.75f);
-					var hasUnresolvedNeeds = ____pond.neededItem.Value != null && ____pond.HasUnresolvedNeeds() &&
+					var hasUnresolvedNeeds = ____pond.neededItem.Value is not null && ____pond.HasUnresolvedNeeds() &&
 					                         !____pond.hasCompletedRequest.Value;
 					var pondNameText = Game1.content.LoadString(
 						PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Name"),

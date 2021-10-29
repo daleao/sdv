@@ -344,6 +344,8 @@ namespace TheLion.Stardew.Tools.Integrations
 					get: config => config.PickaxeConfig.ClearDebris,
 					set: (config, value) => config.PickaxeConfig.ClearDebris = value
 				);
+
+			// add scythe options
 		}
 	}
 }

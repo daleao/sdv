@@ -71,7 +71,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		private static string GetSuperModeSecondaryBuffMagnitude(string professionName)
 		{
 			return professionName == "Piper"
-				? (Util.Professions.GetPiperSlimeAttackSpeedModifier() * 100f).ToString("0.0")
+				? ((1f - Util.Professions.GetPiperSlimeAttackSpeedModifier()) * 100f).ToString("0.0")
 				: ((1f - Util.Professions.GetCooldownOrChargeTimeReduction()) * 100f).ToString("0.0");
 		}
 	}

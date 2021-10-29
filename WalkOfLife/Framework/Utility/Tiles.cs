@@ -40,7 +40,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		public static bool IsTileClearOfDebris(Vector2 tile, GameLocation location)
 		{
 			return (from debris in location.debris
-					where debris.item != null && debris.Chunks.Count > 0
+					where debris.item is not null && debris.Chunks.Count > 0
 					select new Vector2((int)(debris.Chunks[0].position.X / Game1.tileSize) + 1,
 						(int)(debris.Chunks[0].position.Y / Game1.tileSize) + 1)).All(debrisTile => debrisTile != tile);
 		}
@@ -50,7 +50,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <param name="location">The game location.</param>
 		public static bool MakeTileDiggable(Vector2 tile, GameLocation location)
 		{
-			if (location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") != null) return true;
+			if (location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") is not null) return true;
 
 			var digSpot = new Location((int)tile.X * Game1.tileSize, (int)tile.Y * Game1.tileSize);
 			location.Map.GetLayer("Back").PickTile(digSpot, Game1.viewport.Size).Properties["Diggable"] = true;

@@ -39,7 +39,7 @@ namespace TheLion.Stardew.Common.Integrations
 
 			// validate mod
 			var manifest = modRegistry.Get(ModID)?.Manifest;
-			if (manifest == null) return;
+			if (manifest is null) return;
 
 			if (manifest.Version.IsOlderThan(minVersion))
 			{
@@ -57,7 +57,7 @@ namespace TheLion.Stardew.Common.Integrations
 		protected TInterface GetValidatedApi<TInterface>() where TInterface : class
 		{
 			var api = ModRegistry.GetApi<TInterface>(ModID);
-			if (api != null) return api;
+			if (api is not null) return api;
 
 			Log($"Detected {Label}, but couldn't fetch its API. Disabled integration with this mod.",
 				LogLevel.Warn);

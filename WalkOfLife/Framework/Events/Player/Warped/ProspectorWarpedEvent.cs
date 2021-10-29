@@ -12,8 +12,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (!e.IsLocalPlayer) return;
 
 			ModEntry.ProspectorHunt ??= new();
-			if (ModEntry.ProspectorHunt.TreasureTile != null) ModEntry.ProspectorHunt.End();
-			if (Game1.CurrentEvent == null && e.NewLocation is MineShaft)
+			if (ModEntry.ProspectorHunt.TreasureTile is not null) ModEntry.ProspectorHunt.End();
+			if (Game1.CurrentEvent is null && e.NewLocation is MineShaft)
 				ModEntry.ProspectorHunt.TryStartNewHunt(e.NewLocation);
 		}
 	}

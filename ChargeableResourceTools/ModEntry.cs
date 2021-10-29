@@ -40,7 +40,7 @@ namespace TheLion.Stardew.Tools
 			Helper.Events.Input.ButtonReleased += OnButtonReleased;
 
 			// create and patch Harmony instance
-			var harmony = new Harmony("thelion.AwesomeTools");
+			var harmony = new Harmony(ModManifest.UniqueID);
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 
 			// add commands for debugging (or cheating)
@@ -79,7 +79,7 @@ namespace TheLion.Stardew.Tools
 		/// <param name="e">The event data.</param>
 		private void OnButtonReleased(object sender, ButtonReleasedEventArgs e)
 		{
-			if (Game1.activeClickableMenu != null || !e.Button.IsUseToolButton())
+			if (Game1.activeClickableMenu is not null || !e.Button.IsUseToolButton())
 			{
 				return;
 			}
@@ -109,7 +109,7 @@ namespace TheLion.Stardew.Tools
 		/// <summary>Check for and fix invalid tool settings.</summary>
 		private void VerifyModConfig()
 		{
-			if (Config.AxeConfig.RadiusAtEachPowerLevel.Count() < 4)
+			if (Config.AxeConfig.RadiusAtEachPowerLevel.Count < 4)
 			{
 				Monitor.Log("Missing values in configs.json AxeConfig.RadiusAtEachPowerLevel. The default values will be restored.", LogLevel.Warn);
 				Config.AxeConfig.RadiusAtEachPowerLevel = new List<int>() { 1, 2, 3, 4 };
@@ -120,7 +120,7 @@ namespace TheLion.Stardew.Tools
 				Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Select(x => x < 0 ? 0 : x).ToList();
 			}
 
-			if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count() < 4)
+			if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count < 4)
 			{
 				Monitor.Log("Missing values in configs.json PickaxeConfig.RadiusAtEachPowerLevel. The default values will be restored.", LogLevel.Warn);
 				Config.PickaxeConfig.RadiusAtEachPowerLevel = new List<int>() { 1, 2, 3, 4 };
@@ -152,37 +152,39 @@ namespace TheLion.Stardew.Tools
 			{
 				Monitor.Log("Prismatic or Radioactive Tools detected.", LogLevel.Info);
 
-				if (Config.AxeConfig.RadiusAtEachPowerLevel.Count() < 5)
+				switch (Config.AxeConfig.RadiusAtEachPowerLevel.Count)
 				{
-					Monitor.Log("Adding default fifth radius value to Axe configurations.", LogLevel.Info);
-					Config.AxeConfig.RadiusAtEachPowerLevel.Add(5);
-				}
-				else if (Config.AxeConfig.RadiusAtEachPowerLevel.Count() > 5)
-				{
-					Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
-					Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
+					case < 5:
+						Monitor.Log("Adding default fifth radius value to Axe configurations.", LogLevel.Info);
+						Config.AxeConfig.RadiusAtEachPowerLevel.Add(5);
+						break;
+					case > 5:
+						Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
+						Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
+						break;
 				}
 
-				if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count() < 5)
+				switch (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count)
 				{
-					Monitor.Log("Adding default fifth radius value to Pickaxe configurations.", LogLevel.Info);
-					Config.PickaxeConfig.RadiusAtEachPowerLevel.Add(5);
-				}
-				else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count() > 5)
-				{
-					Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
-					Config.PickaxeConfig.RadiusAtEachPowerLevel = Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
+					case < 5:
+						Monitor.Log("Adding default fifth radius value to Pickaxe configurations.", LogLevel.Info);
+						Config.PickaxeConfig.RadiusAtEachPowerLevel.Add(5);
+						break;
+					case > 5:
+						Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
+						Config.PickaxeConfig.RadiusAtEachPowerLevel = Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
+						break;
 				}
 			}
 			else
 			{
-				if (Config.AxeConfig.RadiusAtEachPowerLevel.Count() > 4)
+				if (Config.AxeConfig.RadiusAtEachPowerLevel.Count > 4)
 				{
 					Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
 					Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(4).ToList();
 				}
 
-				if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count() > 4)
+				if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count > 4)
 				{
 					Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
 					Config.PickaxeConfig.RadiusAtEachPowerLevel = Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(4).ToList();
@@ -235,7 +237,7 @@ namespace TheLion.Stardew.Tools
 
 			foreach (Item item in Game1.player.Items)
 			{
-				if (item is Axe || item is Hoe || item is Pickaxe || item is WateringCan)
+				if (item is Axe or Hoe or Pickaxe or WateringCan)
 				{
 					(item as Tool).UpgradeLevel = upgradeLevel;
 				}

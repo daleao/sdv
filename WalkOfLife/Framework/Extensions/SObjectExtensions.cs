@@ -25,7 +25,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
 		public static bool IsAnimalProduct(this SObject obj)
 		{
-			return obj != null &&
+			return obj is not null &&
 			       (obj.Category.AnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
 			        || Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex));
 		}

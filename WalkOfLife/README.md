@@ -133,22 +133,22 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
 - **Lv10 - Brute** - Damage +15%. +25 HP. Build fury in combat, further increasing damage.
     - **Fury:**
         - Damage bonus caps at +40%. If wielding a club the cap is 60%.
-        - Additoinally builds up to 50% cooldown reduction to club smash attack.
+        - Additionally builds up to 50% cooldown reduction on club smash attack.
     - Unleash all pent-up fury to enter an **Undying Rage:** Doubles all damage bonuses. Immune to passing out.
         - Doubled damage bonuses include all sources, such as professions, rings and enchantments.
 - **Lv10 - Bushwhacker** - +10% crit. chance. Crit. strikes can poach items. Your blood cools in battle, increasing lethality of crit. strikes.
     - Monsters can only be poached once.
     - **Cold Blood:**
         - Crit. power bonus caps at x3.
-        - Additionally builds up to 50% cooldown reduction to dagger quick-stab attack.
+        - Additionally builds up to 50% cooldown reduction on dagger quick-stab attack.
     - Your cold blood masks your presence, allowing you to mount an **Ambuscade:** Become invisible and untargetable. Back stabs are deadly.
 		- Failing to assassinate an enemy will make them aware of your position, canceling the effect.
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo.
     - In Vanilla, slingshots are unable to hit enemies that are near the Farmer. As a way to improve slingshot combat, this mod also removes the grace period before a shot is allowed to deal damage. All professions are affected.
     -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but will bounce off walls._
-- **Lv10 - Desperado** - Chance to fire a two-fer, increasing at lower HP. Projectile power increases with built-up temerity.
+- **Lv10 - Desperado** - Chance to fire a double shot, increasing at lower HP. Projectile power increases with built-up temerity.
     - **Temerity:**
-        -Projectiles are fired with gradually increasing velocity. Higher velocity projectiles have several properties:
+        - Projectiles are fired with gradually increasing velocity. Higher velocity projectiles have several properties:
             - Increased knockback (up to 1.5x).
             - Chance to pierce through enemies (up to 25%).
             - Increased hitbox, by affecting the air around them, damaging nearby enemies even if they miss (up to 50% on either side).
@@ -162,11 +162,11 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
     - **Eubstance:**
         - Every dungeon floor can spawn up to 11 additional Slimes.
         - Additionally increases the attack frequency of Slimes up to +15%.
-    - **Superfluidity:** Engorge and empower nearby Slimes.
+    - Spread all gathered Eubstance to nearby Slimes, allowing them to enter a state of **Superfluidity:** Engorge and empower nearby Slimes.
         - Causes Slimes to grow up to twice their size and gain a proportional damage boost.
-        - Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant.
+        - Healed amount reflects the Slime's actual damage.
         - Large enough Slimes can hit flying enemies, and break into smaller Slimes if defeated.
-        - Also increases healed amount based on the Slime's actual damage.
+        - Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant.
 
 ## Compatbility
 

@@ -21,10 +21,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void CrystalariumMachineGetOutputPostfix(object __instance)
 		{
-			if (__instance == null) return;
+			if (__instance is null) return;
 
 			var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
-			if (machine?.heldObject.Value == null) return;
+			if (machine?.heldObject.Value is null) return;
 
 			var who = Game1.getFarmer(machine.owner.Value);
 			if (!who.HasProfession("Gemologist") || !machine.heldObject.Value.IsForagedMineral() &&

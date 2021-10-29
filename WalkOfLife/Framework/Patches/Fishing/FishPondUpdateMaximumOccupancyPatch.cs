@@ -27,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void FishPondUpdateMaximumOccupancyPostfix(ref FishPond __instance,
 			FishPondData ____fishPondData)
 		{
-			if (__instance == null || ____fishPondData == null) return;
+			if (__instance is null || ____fishPondData is null) return;
 
 			try
 			{

@@ -33,7 +33,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			Helper.Attach(original, instructions);
 
 			var mb = original.GetMethodBody();
-			if (mb == null) throw new ArgumentNullException($"{original.Name} method body returned null.");
+			if (mb is null) throw new ArgumentNullException($"{original.Name} method body returned null.");
 
 			/// From: @object.Quality = 4
 			/// To: @object.Quality = GetEcologistForageQuality()
@@ -116,7 +116,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				return null;
 			}
 
-			/// Injected: if (junimoHarvester == null && Game1.player.professions.Contains(<harvester_id>) && r.NextDouble() < 0.1) numToHarvest++
+			/// Injected: if (junimoHarvester is null && Game1.player.professions.Contains(<harvester_id>) && r.NextDouble() < 0.1) numToHarvest++
 
 			var numToHarvest = mb.LocalVariables[6];
 			var dontIncreaseNumToHarvest = iLGenerator.DefineLabel();
@@ -144,7 +144,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.GetLabels(out var labels) // copy existing labels
 					.SetLabels(dontIncreaseNumToHarvest) // branch here if shouldn't apply Harvester bonus
-					.Insert( // insert check if junimoHarvester == null
+					.Insert( // insert check if junimoHarvester is null
 						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4),
 						new CodeInstruction(OpCodes.Brtrue_S, dontIncreaseNumToHarvest)
 					)

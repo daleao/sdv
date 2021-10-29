@@ -19,8 +19,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	internal class SlingshotPerformFirePatch : BasePatch
 	{
-		private const float DOUBLE_STRAFE_CHANCE_F = 0.15f;
-
 		/// <summary>Construct an instance.</summary>
 		internal SlingshotPerformFirePatch()
 		{
@@ -33,10 +31,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to perform Desperado super mode.</summary>
 		[HarmonyPostfix]
-		private static void SlingshotPerformFirePostfix(Slingshot __instance, GameLocation location, Farmer who)
+		private static void SlingshotPerformFirePostfix(GameLocation location, Farmer who)
 		{
-			if (!who.IsLocalPlayer || ModEntry.SuperModeIndex != Util.Professions.IndexOf("Desperado") ||
-			    location.projectiles.LastOrDefault() is not BasicProjectile mainProjectile) return;
+			if (!who.HasProfession("Desperado") || location.projectiles.LastOrDefault() is not BasicProjectile mainProjectile) return;
 
 			// get bullet properties
 			var damage = mainProjectile.damageToFarmer;
@@ -56,7 +53,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var velocity = new Vector2(xVelocity * -1f, yVelocity * -1f);
 			var speed = velocity.Length();
 			velocity.Normalize();
-			if (ModEntry.IsSuperModeActive)
+			if (who.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Desperado"))
 			{
 				// do Death Blossom
 				;
@@ -69,7 +66,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						true, location, who, true, collisionBehavior)
 					{
 						IgnoreLocationCollision =
-							Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
+							Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null
 					});
 				}
 
@@ -77,27 +74,27 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				//var adjustedVelocity = new Vector2(netVelocity.X, netVelocity.Y).Rotate(15);
 				//location.projectiles.Add(new BasicProjectile(damage, ammunitionIndex, 0, 0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - adjustedVelocity.X * speed, 0f - adjustedVelocity.Y * speed, startingPosition, collisionSound, "", explode: false, damagesMonsters: true, location, who, spriteFromObjectSheet: true, collisionBehavior)
 				//{
-				//	IgnoreLocationCollision = (Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null)
+				//	IgnoreLocationCollision = (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
 				//});
 
 				//adjustedVelocity = new Vector2(netVelocity.X, netVelocity.Y).Rotate(-15);
 				//location.projectiles.Add(new BasicProjectile(damage, ammunitionIndex, 0, 0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - adjustedVelocity.X * speed, 0f - adjustedVelocity.Y * speed, startingPosition, collisionSound, "", explode: false, damagesMonsters: true, location, who, spriteFromObjectSheet: true, collisionBehavior)
 				//{
-				//	IgnoreLocationCollision = (Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null)
+				//	IgnoreLocationCollision = (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
 				//});
 			}
-			else if (Game1.random.NextDouble() < DOUBLE_STRAFE_CHANCE_F)
+			else if (Game1.random.NextDouble() < Util.Professions.GetDesperadoDoubleStrafeChance(who))
 			{
 				// do Double Strafe
 				DelayedAction doubleStrafe = new(50, () =>
 				{
-					location.projectiles.Add(new BasicProjectile((int) (damage.Value * 0.8f), ammunitionIndex, 0, 0,
+					location.projectiles.Add(new BasicProjectile((int) (damage.Value * 0.6f), ammunitionIndex, 0, 0,
 						(float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
 						0f - velocity.Y * speed, startingPosition, collisionSound, "", false,
 						true, location, who, true, collisionBehavior)
 					{
 						IgnoreLocationCollision =
-							Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
+							Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null
 					});
 				});
 				Game1.delayedActions.Add(doubleStrafe);

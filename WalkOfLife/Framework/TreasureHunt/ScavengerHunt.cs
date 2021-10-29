@@ -72,7 +72,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 			var actionTile = new Vector2((int) (Game1.player.GetToolLocation().X / Game1.tileSize),
 				(int) (Game1.player.GetToolLocation().Y / Game1.tileSize));
-			if (TreasureTile == null || actionTile != TreasureTile.Value) return;
+			if (TreasureTile is null || actionTile != TreasureTile.Value) return;
 
 			End();
 			var getTreasure = new DelayedAction(200, BeginFindTreasure);

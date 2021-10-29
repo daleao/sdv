@@ -40,13 +40,13 @@ namespace TheLion.Stardew.Tools.Framework.Effects
 			}
 
 			// break mine containers
-			if (Config.BreakMineContainers && tileObj != null)
+			if (Config.BreakMineContainers && tileObj is not null)
 			{
 				return TryBreakContainer(tile, tileObj, tool, location);
 			}
 
 			// clear placed objects
-			if (Config.ClearObjects && tileObj != null)
+			if (Config.ClearObjects && tileObj is not null)
 			{
 				return UseToolOnTile(tool, tile, who, location);
 			}
@@ -67,13 +67,13 @@ namespace TheLion.Stardew.Tools.Framework.Effects
 			if (tileFeature is HoeDirt dirt)
 			{
 				// clear tilled dirt
-				if (dirt.crop == null && Config.ClearDirt)
+				if (dirt.crop is null && Config.ClearDirt)
 				{
 					return UseToolOnTile(tool, tile, who, location);
 				}
 				
 				// clear crops
-				if (dirt.crop != null)
+				if (dirt.crop is not null)
 				{
 					if (Config.ClearDeadCrops && dirt.crop.dead.Value)
 					{
@@ -91,7 +91,7 @@ namespace TheLion.Stardew.Tools.Framework.Effects
 			if (Config.BreakBouldersAndMeteorites)
 			{
 				var clump = GetResourceClumpCoveringTile(location, tile, who, out var applyTool);
-				if (clump != null && (!UpgradeLevelsNeededForResource.TryGetValue(clump.parentSheetIndex.Value, out int requiredUpgradeLevel) || tool.UpgradeLevel >= requiredUpgradeLevel))
+				if (clump is not null && (!UpgradeLevelsNeededForResource.TryGetValue(clump.parentSheetIndex.Value, out int requiredUpgradeLevel) || tool.UpgradeLevel >= requiredUpgradeLevel))
 				{
 					return applyTool(tool);
 				}

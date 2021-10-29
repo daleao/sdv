@@ -41,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		/// <summary>Check if the player has found the treasure tile.</summary>
 		protected override void CheckForCompletion()
 		{
-			if (TreasureTile == null || Game1.currentLocation.Objects.ContainsKey(TreasureTile.Value)) return;
+			if (TreasureTile is null || Game1.currentLocation.Objects.ContainsKey(TreasureTile.Value)) return;
 
 			GetStoneTreasure();
 			End();
@@ -68,7 +68,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		/// <remarks>Adapted from FishingRod.openTreasureMenuEndFunction.</remarks>
 		private void GetStoneTreasure()
 		{
-			if (TreasureTile == null) return;
+			if (TreasureTile is null) return;
 
 			var mineLevel = ((MineShaft) Game1.currentLocation).mineLevel;
 			Dictionary<int, int> treasuresAndQuantities = new();

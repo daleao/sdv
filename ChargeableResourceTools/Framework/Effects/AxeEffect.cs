@@ -53,7 +53,7 @@ namespace TheLion.Stardew.Tools.Framework.Effects
 					return ShouldCut(bush) && UseToolOnTile(tool, tile, who, location);
 
 				// clear crops
-				case HoeDirt dirt when dirt.crop != null:
+				case HoeDirt {crop: { }} dirt:
 					if (Config.ClearDeadCrops && dirt.crop.dead.Value)
 					{
 						return UseToolOnTile(tool, tile, who, location);
@@ -77,7 +77,7 @@ namespace TheLion.Stardew.Tools.Framework.Effects
 				}
 
 				// big stumps and fallen logs
-				if (Config.ClearDebris && clump != null && UpgradeLevelsNeededForResource.ContainsKey(clump.parentSheetIndex.Value) && tool.UpgradeLevel >= UpgradeLevelsNeededForResource[clump.parentSheetIndex.Value])
+				if (Config.ClearDebris && clump is not null && UpgradeLevelsNeededForResource.ContainsKey(clump.parentSheetIndex.Value) && tool.UpgradeLevel >= UpgradeLevelsNeededForResource[clump.parentSheetIndex.Value])
 				{
 					return applyTool(tool);
 				}

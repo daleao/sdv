@@ -52,6 +52,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				{
 					if (!ModEntry.DidBulletPierceEnemy) return;
 					
+					projectile.damageToFarmer.Value = (int) (projectile.damageToFarmer.Value * 0.6f);
 					ModEntry.DidBulletPierceEnemy = false;
 					__result = false;
 					return;

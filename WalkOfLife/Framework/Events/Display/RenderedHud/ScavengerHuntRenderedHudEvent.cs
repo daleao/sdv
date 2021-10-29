@@ -11,7 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc />
 		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)
 		{
-			if (ModEntry.ScavengerHunt.TreasureTile == null) return;
+			if (ModEntry.ScavengerHunt.TreasureTile is null) return;
 
 			// track and reveal treasure hunt target
 			HUD.DrawTrackingArrowPointer(ModEntry.ScavengerHunt.TreasureTile.Value, Color.Violet);

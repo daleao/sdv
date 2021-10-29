@@ -10,7 +10,9 @@ namespace TheLion.Stardew.Professions
 {
 	public class ModData
 	{
-		private ModDataDictionary _data;
+		private ModDataDictionary Data { get; set; }
+		private Action<string, LogLevel> Log { get; }
+
 		private readonly string _id;
 
 		/// <summary>Easy look-up table for data fields required by each profesion.</summary>
@@ -24,8 +26,9 @@ namespace TheLion.Stardew.Professions
 		};
 
 		/// <summary>Construct an instance.</summary>
-		internal ModData(string uniqueID)
+		internal ModData(Action<string, LogLevel> log, string uniqueID)
 		{
+			Log = log;
 			_id = uniqueID;
 		}
 
@@ -34,23 +37,23 @@ namespace TheLion.Stardew.Professions
 		{
 			if (!Context.IsWorldReady) throw new InvalidOperationException("Tried to load mod data before save file.");
 
-			ModEntry.Log("[ModData]: Loading persisted mod data.", LogLevel.Trace);
-			_data = Game1.player.modData;
+			Log("[ModData]: Loading persisted mod data.", LogLevel.Trace);
+			Data = Game1.player.modData;
 			InitializeDataFieldsForLocalPlayer();
-			ModEntry.Log("[ModData]: Done loading data.", LogLevel.Trace);
+			Log("[ModData]: Done loading data.", LogLevel.Trace);
 		}
 
 		/// <summary>Unload local player's persisted mod data.</summary>
 		public void Unload()
 		{
-			ModEntry.Log("[ModData]: Unloading mod data.", LogLevel.Info);
-			_data = null;
+			Log("[ModData]: Unloading mod data.", LogLevel.Info);
+			Data = null;
 		}
 
 		/// <summary>Initialize all data fields for the local player.</summary>
 		public void InitializeDataFieldsForLocalPlayer()
 		{
-			ModEntry.Log("[ModData]: Initializing data fields for local player...", LogLevel.Trace);
+			Log("[ModData]: Initializing data fields for local player...", LogLevel.Trace);
 			foreach (var professionIndex in Game1.player.professions)
 				try
 				{
@@ -58,61 +61,89 @@ namespace TheLion.Stardew.Professions
 				}
 				catch (IndexOutOfRangeException)
 				{
-					ModEntry.Log($"[ModData]: Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
+					Log($"[ModData]: Unexpected profession index {professionIndex} will be ignored.", LogLevel.Trace);
 				}
 
-			_data.WriteIfNotExists($"{_id}/SuperModeIndex", "-1");
-			ModEntry.Log("[ModData]: Done initializing data fields for local player.", LogLevel.Trace);
+			Data.WriteIfNotExists($"{_id}/SuperModeIndex", "-1");
+			Log("[ModData]: Done initializing data fields for local player.", LogLevel.Trace);
 		}
 
 		/// <summary>Initialize data fields for a profession.</summary>
 		/// <param name="whichProfession">The profession index.</param>
 		public void InitializeDataFieldsForProfession(string whichProfession)
 		{
-			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
+			if (Data is null)
+			{
+				Log("Mod data was not loaded correctly.", LogLevel.Warn);
+				Load();
+			}
+
 			if (!FieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
 
-			ModEntry.Log($"[ModData]: Initializing data fields for {whichProfession}.", LogLevel.Trace);
-			fields.ForEach(field => _data.WriteIfNotExists($"{_id}/{field.Key}", $"{field.Value}"));
+			Log($"[ModData]: Initializing data fields for {whichProfession}.", LogLevel.Trace);
+			fields.ForEach(field => Data.WriteIfNotExists($"{_id}/{field.Key}", $"{field.Value}"));
 		}
 
 		/// <summary>Clear data entries for a removed profession.</summary>
 		/// <param name="whichProfession">The profession index.</param>
 		public void RemoveProfessionDataFields(string whichProfession)
 		{
-			if (_data == null) throw new NullReferenceException("[ModData]: Mod data was not loaded correctly.");
+			if (Data is null)
+			{
+				Log("[ModData]: Mod data was not loaded correctly.", LogLevel.Warn);
+				Load();
+			}
+
 			if (!FieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
 
-			ModEntry.Log($"[ModData]: Removing data fields for {whichProfession}.", LogLevel.Trace);
-			fields.ForEach(field => _data.Write($"{_id}/{field.Key}", null));
+			Log($"[ModData]: Removing data fields for {whichProfession}.", LogLevel.Trace);
+			fields.ForEach(field => Data.Write($"{_id}/{field.Key}", null));
 		}
 
 		/// <summary>Check if there are rogue data feids and remove them.</summary>
 		public void CleanUpRogueDataFields()
 		{
-			ModEntry.Log("[ModData]: Checking for rogue data fields...", LogLevel.Trace);
-			foreach (var kvp in from kvp in FieldsByProfession
-								where !kvp.Key.AnyOf("Scavenger", "Prospector")
-								from field in kvp.Value
-								where _data.ContainsKey(field.Key) && !Game1.player.HasProfession(kvp.Key)
-								select kvp) RemoveProfessionDataFields(kvp.Key);
-			ModEntry.Log("[ModData]: Done removing rogue data fields.", LogLevel.Trace);
+			if (Data is null)
+			{
+				Log("[ModData]: Mod data was not loaded correctly.", LogLevel.Warn);
+				Load();
+			}
+
+			Log("[ModData]: Checking for rogue data fields...", LogLevel.Trace);
+			var professionsToRemove =
+				from fieldsByProfession in FieldsByProfession
+				where !fieldsByProfession.Key.AnyOf("Scavenger", "Prospector")
+				from field in fieldsByProfession.Value
+				where Data.ContainsKey(field.Key) && !Game1.player.HasProfession(fieldsByProfession.Key)
+				select fieldsByProfession.Key;
+			foreach (var profession in professionsToRemove) RemoveProfessionDataFields(profession);
+			Log("[ModData]: Done removing rogue data fields.", LogLevel.Trace);
 		}
 
 		/// <summary>Read a field from the <see cref="ModData"/> as string.</summary>
 		/// <param name="field">The field to read from.</param>
 		public string ReadField(string field)
 		{
-			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
-			return _data.Read($"{_id}/{field}", "");
+			if (Data is null)
+			{
+				Log("Mod data was not loaded correctly.", LogLevel.Warn);
+				Load();
+			}
+
+			return Data.Read($"{_id}/{field}", "");
 		}
 
 		/// <summary>Read a field from the <see cref="ModData"/> as <typeparamref name="T"/>.</summary>
 		/// <param name="field">The field to read from.</param>
 		public T ReadField<T>(string field) where T : IComparable
 		{
-			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
-			return _data.Read<T>($"{_id}/{field}");
+			if (Data is null)
+			{
+				Log("Mod data was not loaded correctly.", LogLevel.Warn);
+				Load();
+			}
+
+			return Data.Read<T>($"{_id}/{field}");
 		}
 
 		/// <summary>Write to a field in the <see cref="ModData"/>, or remove the field if supplied with null.</summary>
@@ -120,10 +151,14 @@ namespace TheLion.Stardew.Professions
 		/// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
 		public void WriteField(string field, string value)
 		{
-			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
+			if (Data is null)
+			{
+				Log("Mod data was not loaded correctly.", LogLevel.Warn);
+				Load();
+			}
 
-			_data.Write($"{_id}/{field}", value);
-			ModEntry.Log($"[ModData]: Wrote {value} to {field}.", LogLevel.Trace);
+			Data.Write($"{_id}/{field}", value);
+			Log($"[ModData]: Wrote {value} to {field}.", LogLevel.Trace);
 		}
 
 		/// <summary>Increment the value of a numeric field in the <see cref="ModData"/> by an arbitrary amount.</summary>
@@ -131,46 +166,38 @@ namespace TheLion.Stardew.Professions
 		/// <param name="amount">Amount to increment by.</param>
 		public void IncrementField<T>(string field, T amount)
 		{
-			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
+			if (Data is null)
+			{
+				Log("Mod data was not loaded correctly.", LogLevel.Warn);
+				Load();
+			}
 
-			_data.Increment($"{_id}/{field}", amount);
-			ModEntry.Log($"[ModData]: Incremented {field} by {amount}.", LogLevel.Trace);
+			Data.Increment($"{_id}/{field}", amount);
+			Log($"[ModData]: Incremented {field} by {amount}.", LogLevel.Trace);
 		}
 
 		/// <summary>Increment the value of a numeric field in the <see cref="ModData"/> by 1.</summary>
 		/// <param name="field">The field to update.</param>
 		public void IncrementField<T>(string field)
 		{
-			if (_data == null) throw new NullReferenceException("Mod data was not loaded correctly.");
+			if (Data is null)
+			{
+				Log("Mod data was not loaded correctly.", LogLevel.Warn);
+				Load();
+			}
 
 			switch (Type.GetTypeCode(typeof(T)))
 			{
-				case TypeCode.Int16:
-					_data.Increment<short>($"{_id}/{field}", 1);
-					break;
-
-				case TypeCode.UInt16:
-					_data.Increment<ushort>($"{_id}/{field}", 1);
-					break;
-
 				case TypeCode.Int32:
-					_data.Increment<int>($"{_id}/{field}", 1);
+					Data.Increment<int>($"{_id}/{field}", 1);
 					break;
 
 				case TypeCode.UInt32:
-					_data.Increment<uint>($"{_id}/{field}", 1);
-					break;
-
-				case TypeCode.Int64:
-					_data.Increment<long>($"{_id}/{field}", 1);
-					break;
-
-				case TypeCode.UInt64:
-					_data.Increment<ulong>($"{_id}/{field}", 1);
+					Data.Increment<uint>($"{_id}/{field}", 1);
 					break;
 			}
 
-			ModEntry.Log($"[ModData]: Incremented {field} by 1.", LogLevel.Trace);
+			Log($"[ModData]: Incremented {field} by 1.", LogLevel.Trace);
 		}
 	}
 }

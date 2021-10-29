@@ -21,7 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.AssetLoaders
 					//// load .ogg
 					//var soundEffect = OggLoader.Load(file);
 
-					if (soundEffect == null) throw new FileLoadException();
+					if (soundEffect is null) throw new FileLoadException();
 					SoundByName.Add(Path.GetFileNameWithoutExtension(file), soundEffect);
 				}
 				catch (Exception ex)

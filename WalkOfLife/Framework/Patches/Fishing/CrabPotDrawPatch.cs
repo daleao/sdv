@@ -31,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (!__instance.readyForHarvest.Value || __instance.heldObject.Value == null ||
+				if (!__instance.readyForHarvest.Value || __instance.heldObject.Value is null ||
 					!__instance.heldObject.Value.ParentSheetIndex.AnyOf(14, 51))
 					return true; // run original logic
 

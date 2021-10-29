@@ -66,7 +66,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						monster));
 					monster.setInvincibleCountdown(
 						(int) (BASE_INVINCIBILITY_TIMER * (ModEntry.SuperModeIndex == Util.Professions.IndexOf("Piper")
-								? 1f - Util.Professions.GetPiperSlimeAttackSpeedModifier()
+								? Util.Professions.GetPiperSlimeAttackSpeedModifier()
 								: 1f)
 						));
 				}

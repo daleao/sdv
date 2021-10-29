@@ -10,7 +10,7 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <param name="types">The types to search for.</param>
 		public static bool ContainsType<T>(this ICollection<T> collection, params Type[] types)
 		{
-			return collection.Any(item => item != null && item.AnyOfType(types));
+			return collection.Any(item => item is not null && item.AnyOfType(types));
 		}
 
 		/// <summary>Remove the first instance of a given type from a collection.</summary>
@@ -19,8 +19,8 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <returns>Returns true if an instance was successfully removed, else returns false.</returns>
 		public static bool RemoveType<T>(this ICollection<T> collection, Type type, out T removed)
 		{
-			var toRemove = collection.SingleOrDefault(item => item != null && item.GetType() == type);
-			if (toRemove != null)
+			var toRemove = collection.SingleOrDefault(item => item is not null && item.GetType() == type);
+			if (toRemove is not null)
 			{
 				removed = toRemove;
 				return collection.Remove(toRemove);

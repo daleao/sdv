@@ -46,7 +46,7 @@ namespace TheLion.Stardew.Common.Integrations
 
 			// get mod API
 			_modAPI = GetValidatedApi<IGenericModConfigMenuAPI>();
-			IsLoaded = _modAPI != null;
+			IsLoaded = _modAPI is not null;
 		}
 
 		/// <summary>Register the mod config.</summary>

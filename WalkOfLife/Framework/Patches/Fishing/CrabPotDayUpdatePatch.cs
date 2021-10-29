@@ -36,7 +36,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				var who = Game1.getFarmer(__instance.owner.Value);
 				var isConservationist = who.HasProfession("Conservationist");
-				if (__instance.bait.Value == null && !isConservationist || __instance.heldObject.Value != null)
+				if (__instance.bait.Value is null && !isConservationist || __instance.heldObject.Value is not null)
 					return false; // don't run original logic
 
 				__instance.tileIndexToShow = 714;
@@ -48,7 +48,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
 				var isLuremaster = who.HasProfession("Luremaster");
 				var whichFish = -1;
-				if (__instance.bait.Value != null)
+				if (__instance.bait.Value is not null)
 				{
 					if (isLuremaster)
 					{
@@ -86,7 +86,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var fishQuality = 0;
 				if (whichFish < 0)
 				{
-					if (__instance.bait.Value != null || isConservationist)
+					if (__instance.bait.Value is not null || isConservationist)
 					{
 						whichFish = GetTrash(r);
 						if (isConservationist)
