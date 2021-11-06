@@ -16,6 +16,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 	[UsedImplicitly]
 	internal class GenericObjectMachineSetInputPatch : BasePatch
 	{
+		/// <summary>Construct an instance.</summary>
+		internal GenericObjectMachineSetInputPatch()
+		{
+			//Original = AccessTools.Method(
+			//	"Pathoschild.Stardew.Automate.Framework.Machines.Objects.GenericObjectMachine:SetInput");
+			Postfix = new(AccessTools.Method(GetType(), nameof(GenericObjectMachineGetOutputPostfix)));
+		}
+
 		/// <inheritdoc />
 		public override void Apply(Harmony harmony)
 		{

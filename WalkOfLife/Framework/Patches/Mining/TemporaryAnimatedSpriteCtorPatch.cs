@@ -14,6 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = RequireConstructor<TemporaryAnimatedSprite>(typeof(int), typeof(float), typeof(int), typeof(int),
 				typeof(Vector2), typeof(bool), typeof(bool), typeof(GameLocation), typeof(Farmer));
+			Postfix = new(AccessTools.Method(GetType(), nameof(TemporaryAnimatedSpriteCtorPostfix)));
 		}
 
 		#region harmony patches

@@ -18,6 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MineShaftCheckStoneForItemsPatch()
 		{
 			Original = RequireMethod<MineShaft>(nameof(MineShaft.checkStoneForItems));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(MineShaftCheckStoneForItemsTranspiler)));
 		}
 
 		#region harmony patches

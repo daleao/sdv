@@ -14,6 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal TreeUpdateTapperProductPatch()
 		{
 			Original = RequireMethod<Tree>(nameof(Tree.UpdateTapperProduct));
+			Postfix = new(AccessTools.Method(GetType(), nameof(TreeUpdateTapperProductPostfix)));
 		}
 
 		#region harmony patches

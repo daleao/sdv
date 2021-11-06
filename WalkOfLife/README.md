@@ -26,6 +26,7 @@
         <li><a href="#combat">Combat</a></li>
       </ul>
     </li>
+    <li><a href="#prestige">Prestige</a></li>
     <li><a href="#compatibility">Compatibility</a></li>
     <li><a href="#installation">Installation</a></li>
 	<li><a href="#configs">Configs</a></li>
@@ -45,13 +46,15 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 ## Features
 
 - Rebalanced and reworked [almost] every profession to be an equally unique and attractive choice.
-- Each profession targets a specific style of gameplay, some which were not viable in vanilla (i.e. ranching).
+- Each profession targets a specific style of gameplay, some which were not viable in vanilla (e.g. ranching).
 - No more ~~boring~~ uninspiring flat value bonuses.
 - Bomberman mining; Assassin, Sniper and Slime-army combat.
 - Scaling end-game objectives.
 - Level 5 professions provide simple early-game buffs that benefit most styles of general gameplay.
 - Level 10 professions are more specialized and engaging, providing two bonuses which change the way you play.
 - Professions are more consistent across the board, with several analogous perks and synergies.
+- [Super Mode!](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode)
+- **New:** Skill Prestige!
 - Lightweight. This mod is built with a dynamic event handling system to avoid overhead.
 - New icons for most professions, courtesy of [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) (please make sure to [endorse their original](https://www.nexusmods.com/stardewvalley/mods/4163) mod).
 
@@ -168,6 +171,11 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
         - Large enough Slimes can hit flying enemies, and break into smaller Slimes if defeated.
         - Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant.
 
+## Prestige
+
+The [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) has been replaced by the Statue of Prestige, which is now capable of prestiging level 10 skills. A prestiged skill's level is reset and all related recipes are forgotten, however all acquired professions are maintained. This allows the farmer to eventually acquire all 20 final professions simultaneously.
+Prestiging a skill costs 10,000g the first time, 50,000g the second time, and 100,000g the last time. The ribbon in the skills page of the game menu reflects the number of professions acquired in each skill. Non-vanilla skills at the moment cannot be prestiged.
+
 ## Compatbility
 
 The mod is compatible with the following popular mods:
@@ -175,10 +183,8 @@ The mod is compatible with the following popular mods:
 - [Automate](https://www.nexusmods.com/stardewvalley/mods/1063) (for craftable machines, the machine's owner's professions will apply; for terrain features, i.e. berry bushes, only the session host's professions will apply)
 - [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (you will have to manually change that mod's localization file to fix incorrect profession names, if you care about that)
 - [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069)
-- Custom SpaceCore skills (e.g. [Luck](https://www.nexusmods.com/stardewvalley/mods/521), [Magic](https://www.nexusmods.com/stardewvalley/mods/2007)) or [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830))
 - [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636)
-- [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (profession perks will not be applied immediately, but the following morning)
-- [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (same as above; the Prestige menu also won't reflect modded profession names or descriptions)
+- Custom SpaceCore skills (e.g. [Luck](https://www.nexusmods.com/stardewvalley/mods/521), [Magic](https://www.nexusmods.com/stardewvalley/mods/2007)) or [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830) (Note that these skills cannot be prestiged).
 
 The mod is not compatible with the following mods:
 
@@ -186,6 +192,8 @@ The mod is not compatible with the following mods:
 - [Better Crab Pots](https://www.nexusmods.com/stardewvalley/mods/3159), [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767) or any mod that affects Crab Pot behavior.
 - [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but makes Artisan profession redundant; all features are already included). 
 - [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) (mushroom box quality is already included; other features may cause bad interactions with foraging professions).
+- [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (use included prestige or console commands instead).
+- [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (now also included).
 
 ## Installation
 
@@ -211,28 +219,30 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **TrashNeededPerTaxLevel** (integer) - Represents the number of trash items the Conservationist must collect in order to gain a 1% tax deduction the following season. Use this value to balance your game if you use or don't use Automate. Default is 100.
 - **TrashNeededPerFriendshipPoint** (integer) - Represents the number of trash items the Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
 - **TaxDeductionCeiling** (decimal) - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
-- **EnableILCodeExport** (boolean) - If during launch you see red text in SMAPI that looks like this: "Failed to patch _____", then enabling this setting will create a '.cil' file in the mod folder for every patching error. This is mostly to help myself fix patching bugs, but submitting this along with your SMAPI log in a bug report can be very helpful.
 
 ## Console Commands
 
 The mod provides the following console commands, which you can enter in the SMAPI console for testing, checking or cheating:
 
+- **player_checkskills** - List the player's current skill levels.
+- **player_resetskills** - Reset all player's skills.
 - **player_checkprofessions** - List the player's current professions.
 - **player_addprofessions** - Add the specified professions to the local player.
 - **player_resetprofessions** - Reset all skills and professions for the local player.
-- **setultmeter** - Set the super mode meter to the desired value.
-- **readyult** - Max-out the super mode meter.
-- **registersupermode** - Change the currently registered Super Mode profession.
-- **maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
-- **maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
-- **checkfishingprogress** - Check your fishing progress and bonus fish value as Angler.
-- **checkdata** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent).
-- **setitemsforaged** - Set a new value for ItemsForaged field, which determines the quality of items foraged as Ecologist.
-- **setmineralscollected** - Set a new value for MineralsCollected field, which determines the quality of minerals mines as Gemologist.
-- **setprospectorstreak** - Set a new value for ProspectorStreak field.
-- **setscavengerstreak** - Set a new value for ScavengerStreak field.
-- **settrashcollected** - Set a new value for WaterTrashCollectedThisSeason field, which determines your tax bracket the following season as Conservationist.
-- **checkevents** - List currently subscribed mod events (for debugging).
+- **player_setultmeter** - Set the super mode meter to the desired value.
+- **player_readyult** - Max-out the super mode meter.
+- **player_registerult** - Change the currently registered Super Mode profession.
+- **player_checkult** - Check the currently registered Super Mode profession.
+- **player_maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
+- **player_maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
+- **player_checkfishingprogress** - Check your fishing progress and bonus fish value as Angler.
+- **wol_checkdata** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent).
+- **wol_setitemsforaged** - Set a new value for ItemsForaged field, which determines the quality of items foraged as Ecologist.
+- **wol_setmineralscollected** - Set a new value for MineralsCollected field, which determines the quality of minerals mines as Gemologist.
+- **wol_setprospectorstreak** - Set a new value for ProspectorStreak field.
+- **wol_setscavengerstreak** - Set a new value for ScavengerStreak field.
+- **wol_settrashcollected** - Set a new value for WaterTrashCollectedThisSeason field, which determines your tax bracket the following season as Conservationist.
+- **wol_checkevents** - List currently subscribed mod events (for debugging).
 
 ## Recommended Mods
 

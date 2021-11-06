@@ -20,6 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationAnswerDialogueActionPatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.answerDialogueAction));
+			Prefix = new(AccessTools.Method(GetType(), nameof(GameLocationAnswerDialogueActionPrefix)));
 		}
 
 		#region harmony patches

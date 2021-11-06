@@ -24,6 +24,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CrabPotDayUpdatePatch()
 		{
 			Original = RequireMethod<CrabPot>(nameof(CrabPot.DayUpdate));
+			Prefix = new(AccessTools.Method(GetType(), nameof(CrabPotDayUpdatePrefix)));
 		}
 
 		#region harmony patches

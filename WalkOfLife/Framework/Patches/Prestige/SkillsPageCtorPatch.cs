@@ -11,6 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SkillsPageCtorPatch()
 		{
 			Original = RequireConstructor<SkillsPage>(typeof(int), typeof(int), typeof(int), typeof(int));
+			Postfix = new(AccessTools.Method(GetType(), nameof(SkillsPageCtorPostfix)));
 		}
 
 		#region harmony patches

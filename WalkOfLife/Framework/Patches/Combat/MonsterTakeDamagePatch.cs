@@ -17,6 +17,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 	[UsedImplicitly]
 	internal class MonsterTakeDamagePatch : BasePatch
 	{
+		/// <summary>Construct an instance.</summary>
+		internal MonsterTakeDamagePatch()
+		{
+			//Original = RequireMethod<Monster>(nameof(Monster.takeDamage));
+			Prefix = new(AccessTools.Method(GetType(), nameof(MonsterTakeDamagePrefix)));
+			Postfix = new(AccessTools.Method(GetType(), nameof(MonsterTakeDamagePostfix)));
+		}
+
 		/// <inheritdoc />
 		public override void Apply(Harmony harmony)
 		{
@@ -33,29 +41,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					// ignored
 				}
 		}
-
-		#region private methods
-
-		[HarmonyTargetMethods]
-		private static IEnumerable<MethodBase> TargetMethods()
-		{
-			var methods = from type in AccessTools.AllTypes()
-				where type.IsAssignableTo(typeof(Monster)) && !type.IsAnyOf(
-					typeof(HotHead),
-					typeof(LavaLurk),
-					typeof(Leaper),
-					typeof(MetalHead),
-					typeof(Shooter),
-					typeof(ShadowBrute),
-					typeof(Skeleton),
-					typeof(Spiker))
-				select type.MethodNamed("takeDamage",
-					new[] {typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer)});
-
-			return methods.Where(m => m.DeclaringType == m.ReflectedType);
-		}
-
-		#endregion private methods
 
 		#region harmony patches
 
@@ -107,5 +92,28 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		}
 
 		#endregion harmony patches
+
+		#region private methods
+
+		[HarmonyTargetMethods]
+		private static IEnumerable<MethodBase> TargetMethods()
+		{
+			var methods = from type in AccessTools.AllTypes()
+				where typeof(Monster).IsAssignableFrom(type) && !type.IsAnyOf(
+					typeof(HotHead),
+					typeof(LavaLurk),
+					typeof(Leaper),
+					typeof(MetalHead),
+					typeof(Shooter),
+					typeof(ShadowBrute),
+					typeof(Skeleton),
+					typeof(Spiker))
+				select type.MethodNamed("takeDamage",
+					new[] {typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer)});
+
+			return methods.Where(m => m.DeclaringType == m.ReflectedType);
+		}
+
+		#endregion private methods
 	}
 }

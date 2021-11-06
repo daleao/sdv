@@ -12,6 +12,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectLoadDisplayNamePatch()
 		{
 			Original = RequireMethod<SObject>("loadDisplayName");
+			Postfix = new(AccessTools.Method(GetType(), nameof(ObjectLoadDisplayNamePostfix)));
 		}
 
 		/// <summary>Patch to add honey-specific mead names.</summary>

@@ -17,6 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ProfessionsCheatSetProfessionPatch()
 		{
 			Original = AccessTools.Method("CJBCheatsMenu.Framework.Cheats.Skills.ProfessionsCheat:SetProfession");
+			Transpiler = new(AccessTools.Method(GetType(), nameof(ProfessionsCheatSetProfessionTranspiler)));
 		}
 
 		#region harmony patches

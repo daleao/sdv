@@ -21,6 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CrabPotCheckForActionPatch()
 		{
 			Original = RequireMethod<CrabPot>(nameof(CrabPot.checkForAction));
+			Prefix = new(AccessTools.Method(GetType(), nameof(CrabPotCheckForActionPrefix)));
 		}
 
 		#region harmony patches

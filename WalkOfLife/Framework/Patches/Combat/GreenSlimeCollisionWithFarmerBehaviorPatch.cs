@@ -14,6 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GreenSlimeCollisionWithFarmerBehaviorPatch()
 		{
 			Original = RequireMethod<GreenSlime>(nameof(GreenSlime.collisionWithFarmerBehavior));
+			Postfix = new(AccessTools.Method(GetType(), nameof(GreenSlimeCollisionWithFarmerBehaviorPostfix)));
 		}
 
 		#region harmony patches

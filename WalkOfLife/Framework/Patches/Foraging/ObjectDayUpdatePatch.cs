@@ -13,6 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectDayUpdatePatch()
 		{
 			Original = RequireMethod<SObject>(nameof(SObject.DayUpdate));
+			Postfix = new(AccessTools.Method(GetType(), nameof(ObjectDayUpdatePostfix)));
 		}
 
 		#region harmony patches

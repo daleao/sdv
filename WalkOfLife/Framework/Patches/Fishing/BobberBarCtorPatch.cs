@@ -13,6 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BobberBarCtorPatch()
 		{
 			Original = RequireConstructor<BobberBar>(typeof(int), typeof(float), typeof(bool), typeof(int));
+			Postfix = new(AccessTools.Method(GetType(), nameof(BobberBarCtorPostfix)));
 		}
 
 		#region harmony patches

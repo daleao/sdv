@@ -92,9 +92,9 @@ namespace TheLion.Stardew.Professions.Framework
 		{
 			ModEntry.Log($"[EventSubscriber]: Subscribing {prefix} events using reflection...", LogLevel.Trace);
 			var eventsToSubscribe = AccessTools.GetTypesFromAssembly(Assembly.GetAssembly(typeof(IEvent)))
-				.Where(t => t.IsAssignableTo(typeof(IEvent)) && !t.IsAbstract &&
+				.Where(t => typeof(IEvent).IsAssignableFrom(t) && !t.IsAbstract &&
 				            t.Name.SplitCamelCase().First() == prefix)
-				.Select(t => (IEvent) t.Constructor().Invoke(Array.Empty<object>())).ToArray();
+				.Select(t => (IEvent) t.Constructor().Invoke(new object[] { })).ToArray();
 			Subscribe(eventsToSubscribe);
 		}
 

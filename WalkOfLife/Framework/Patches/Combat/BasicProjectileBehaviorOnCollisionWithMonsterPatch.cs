@@ -18,6 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BasicProjectileBehaviorOnCollisionWithMonsterPatch()
 		{
 			Original = RequireMethod<BasicProjectile>(nameof(BasicProjectile.behaviorOnCollisionWithMonster));
+			Prefix = new(AccessTools.Method(GetType(), nameof(BasicProjectileBehaviorOnCollisionWithMonsterPrefix)));
 		}
 
 		#region harmony patches

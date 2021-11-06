@@ -14,6 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmerHasOrWillReceiveMailPatch()
 		{
 			Original = RequireMethod<Farmer>(nameof(Farmer.hasOrWillReceiveMail));
+			Prefix = new(AccessTools.Method(GetType(), nameof(FarmerHasOrWillReceiveMailPrefix)));
 		}
 
 		#region harmony patches

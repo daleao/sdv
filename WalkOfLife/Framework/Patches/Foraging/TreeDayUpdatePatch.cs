@@ -13,6 +13,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal TreeDayUpdatePatch()
 		{
 			Original = RequireMethod<Tree>(nameof(Tree.dayUpdate));
+			Prefix = new(AccessTools.Method(GetType(), nameof(TreeDayUpdatePrefix)));
+			Postfix = new(AccessTools.Method(GetType(), nameof(TreeDayUpdatePostfix)));
 		}
 
 		#region harmony patches

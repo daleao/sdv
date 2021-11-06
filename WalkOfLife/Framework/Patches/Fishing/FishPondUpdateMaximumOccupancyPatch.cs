@@ -15,6 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FishPondUpdateMaximumOccupancyPatch()
 		{
 			Original = RequireMethod<FishPond>(nameof(FishPond.UpdateMaximumOccupancy));
+			Postfix = new(AccessTools.Method(GetType(), nameof(FishPondUpdateMaximumOccupancyPostfix)));
 		}
 
 		#region harmony patches

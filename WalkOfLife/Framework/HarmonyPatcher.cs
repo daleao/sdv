@@ -24,10 +24,10 @@ namespace TheLion.Stardew.Professions.Framework
 		{
 			ModEntry.Log("[HarmonyPatcher]: Gathering patches...", LogLevel.Trace);
 			var patches = AccessTools.GetTypesFromAssembly(Assembly.GetAssembly(typeof(IPatch)))
-				.Where(t => t.IsAssignableTo(typeof(IPatch)) && !t.IsAbstract).ToList();
+				.Where(t => typeof(IPatch).IsAssignableFrom(t) && !t.IsAbstract).ToList();
 			ModEntry.Log($"[HarmonyPatcher]: Found {patches.Count} patch classes.", LogLevel.Trace);
 
-			foreach (var patch in patches.Select(t => (IPatch) t.Constructor().Invoke(Array.Empty<object>())))
+			foreach (var patch in patches.Select(t => (IPatch) t.Constructor().Invoke(new object[] { })))
 				patch.Apply(Harmony);
 		}
 	}

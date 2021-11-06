@@ -18,6 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				typeof(float), typeof(float), typeof(float), typeof(Vector2), typeof(string), typeof(string),
 				typeof(bool), typeof(bool), typeof(GameLocation), typeof(Character), typeof(bool),
 				typeof(BasicProjectile.onCollisionBehavior));
+			Postfix = new(AccessTools.Method(GetType(), nameof(BasicProjectileCtorPostfix)));
 		}
 
 		#region harmony patches

@@ -16,6 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SkillsPagePerformHoverActionPatch()
 		{
 			Original = RequireMethod<SkillsPage>(nameof(SkillsPage.performHoverAction));
+			Postfix = new(AccessTools.Method(GetType(), nameof(SkillsPagePerformHoverActionPostfix)));
 		}
 
 		#region harmony patches

@@ -10,12 +10,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 	/// <summary>Base implementation for Harmony patch classes.</summary>
 	internal abstract class BasePatch : IPatch
 	{
-		/// <summary>Construct an instance.</summary>
-		protected BasePatch()
-		{
-			(Prefix, Postfix, Transpiler) = GetHarmonyMethods();
-		}
-
 		protected MethodBase Original { get; set; }
 		protected HarmonyMethod Prefix { get; set; }
 		protected HarmonyMethod Postfix { get; set; }
@@ -61,24 +55,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		protected MethodInfo RequireMethod<TTarget>(string name, Type[] parameters = null)
 		{
 			return typeof(TTarget).MethodNamed(name, parameters);
-		}
-
-		/// <summary>Get all Harmony patch methods in the current patch instance.</summary>
-		protected (HarmonyMethod, HarmonyMethod, HarmonyMethod) GetHarmonyMethods()
-		{
-			// get all static and private inner methods of this class
-			var methods = GetType().GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
-
-			// identify patch methods by custom Harmony annotations and create Harmony Method instances
-			var prefix = methods.FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyPrefix), false).Length > 0)
-				.ToHarmonyMethod();
-			var postfix = methods.FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyPostfix), false).Length > 0)
-				.ToHarmonyMethod();
-			var transpiler = methods
-				.FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyTranspiler), false).Length > 0)
-				.ToHarmonyMethod();
-
-			return (prefix, postfix, transpiler);
 		}
 	}
 }

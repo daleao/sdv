@@ -51,7 +51,7 @@ namespace TheLion.Stardew.Professions
 		///     If a Harmony transpiler is failing to patch, enabling this option will export the original IL code for easier
 		///     debugging.
 		/// </summary>
-		public bool EnableILCodeExport { get; set; } = false;
+		public bool EnableILCodeExport { get; set; } = true;
 
 		/// <summary>Whether to draw UI element bounding boxes.</summary>
 		public bool EnableUIDebug { get; set; } = false;

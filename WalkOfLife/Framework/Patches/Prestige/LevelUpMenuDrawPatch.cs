@@ -21,50 +21,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuDrawPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.draw), new[] {typeof(SpriteBatch)});
+			Prefix = new(AccessTools.Method(GetType(), nameof(LevelUpMenuDrawPrefix)));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(LevelUpMenuDrawTranspiler)));
 		}
-
-		#region private methods
-
-		private static void DrawSubroutine(LevelUpMenu menu, SpriteBatch b)
-		{
-			if (!menu.isProfessionChooser) return;
-
-			var professionsToChoose = ModEntry.ModHelper.Reflection.GetField<List<int>>(menu, "professionsToChoose")
-				.GetValue();
-			var leftProfession = professionsToChoose[0];
-			var rightProfession = professionsToChoose[1];
-
-			if (Game1.player.professions.Contains(leftProfession) &&
-			    Game1.player.HasAllProfessionsInBranch(leftProfession))
-			{
-				var selectionArea = new Rectangle(menu.xPositionOnScreen + 32, menu.yPositionOnScreen + 232,
-					menu.width / 2 - 40, menu.height - 264);
-				if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
-				{
-					var hoverText = ModEntry.ModHelper.Translation.Get(leftProfession % 6 <= 1
-						? "prestige.levelup.tooltip:5"
-						: "prestige.levelup.tooltip:10");
-					IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
-				}
-			}
-
-			if (Game1.player.professions.Contains(rightProfession) &&
-			    Game1.player.HasAllProfessionsInBranch(rightProfession))
-			{
-				var selectionArea = new Rectangle(menu.xPositionOnScreen + menu.width / 2 + 8,
-					menu.yPositionOnScreen + 232,
-					menu.width / 2 - 40, menu.height - 264);
-				if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
-				{
-					var hoverText = ModEntry.ModHelper.Translation.Get(leftProfession % 6 <= 1
-						? "prestige.levelup.tooltip:5"
-						: "prestige.levelup.tooltip:10");
-					IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
-				}
-			}
-		}
-
-		#endregion private methods
 
 		#region harmony patches
 
@@ -117,5 +76,48 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		}
 
 		#endregion harmony patches
+
+		#region private methods
+
+		private static void DrawSubroutine(LevelUpMenu menu, SpriteBatch b)
+		{
+			if (!menu.isProfessionChooser) return;
+
+			var professionsToChoose = ModEntry.ModHelper.Reflection.GetField<List<int>>(menu, "professionsToChoose")
+				.GetValue();
+			var leftProfession = professionsToChoose[0];
+			var rightProfession = professionsToChoose[1];
+
+			if (Game1.player.professions.Contains(leftProfession) &&
+			    Game1.player.HasAllProfessionsInBranch(leftProfession))
+			{
+				var selectionArea = new Rectangle(menu.xPositionOnScreen + 32, menu.yPositionOnScreen + 232,
+					menu.width / 2 - 40, menu.height - 264);
+				if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
+				{
+					var hoverText = ModEntry.ModHelper.Translation.Get(leftProfession % 6 <= 1
+						? "prestige.levelup.tooltip:5"
+						: "prestige.levelup.tooltip:10");
+					IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
+				}
+			}
+
+			if (Game1.player.professions.Contains(rightProfession) &&
+			    Game1.player.HasAllProfessionsInBranch(rightProfession))
+			{
+				var selectionArea = new Rectangle(menu.xPositionOnScreen + menu.width / 2 + 8,
+					menu.yPositionOnScreen + 232,
+					menu.width / 2 - 40, menu.height - 264);
+				if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
+				{
+					var hoverText = ModEntry.ModHelper.Translation.Get(leftProfession % 6 <= 1
+						? "prestige.levelup.tooltip:5"
+						: "prestige.levelup.tooltip:10");
+					IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
+				}
+			}
+		}
+
+		#endregion private methods
 	}
 }

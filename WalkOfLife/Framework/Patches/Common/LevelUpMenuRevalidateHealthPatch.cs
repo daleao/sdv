@@ -19,6 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuRevalidateHealthPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.RevalidateHealth));
+			Prefix = new(AccessTools.Method(GetType(), nameof(LevelUpMenuRevalidateHealthPrefix)));
 		}
 
 		#region harmony patches

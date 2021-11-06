@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
@@ -17,7 +18,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal GameLocationCheckActionPatch()
 		{
-			Original = RequireMethod<GameLocation>(nameof(GameLocation.checkAction));
+			Original = TargetMethod();
+			Transpiler = new(AccessTools.Method(GetType(), nameof(GameLocationCheckActionTranspiler)));
 		}
 
 		#region harmony patches
@@ -80,11 +82,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				helper
 					.FindProfessionCheck(Farmer.botanist) // return to botanist check
-					.Retreat() // retreat to start of check
+					.Retreat(2) // retreat to start of check
 					.ToBufferUntil( // copy entire section until done setting quality
 						true,
 						false,
-						new CodeInstruction(OpCodes.Br_S)
+						new CodeInstruction(OpCodes.Br)
 					)
 					.AdvanceUntil( // change previous section branch destinations to injected section
 						new CodeInstruction(OpCodes.Brfalse_S)
@@ -99,14 +101,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.SetOperand(gemologistCheck)
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Br_S)
+						new CodeInstruction(OpCodes.Br)
 					)
 					.Advance()
 					.InsertBuffer() // insert copy
 					.Return()
 					.AddLabels(gemologistCheck) // add destination label for branches from previous section
 					.AdvanceUntil( // find repeated botanist check
-						new CodeInstruction(OpCodes.Ldc_I4_S, 16)
+						new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist)
 					)
 					.SetOperand(Utility.Professions.IndexOf("Gemologist")) // replace with gemologist check
 					.AdvanceUntil(
@@ -153,11 +155,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
 					)
 					.Advance()
-					.InsertBuffer(5, 4) // SObject objects[key]
-					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_0),
-						new CodeInstruction(OpCodes.Ldarg_3)
-					)
+					.InsertBuffer(6, 5) // SObject objects[key]
+					.InsertBuffer(6, 2) // GameLocation this
+					.InsertBuffer(0, 2) // Farmer who
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
 							typeof(GameLocationCheckActionPatch).MethodNamed(nameof(CheckActionSubroutine)))
@@ -176,6 +176,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		#endregion harmony patches
 
 		#region private methods
+
+		[HarmonyTargetMethod]
+		private static MethodBase TargetMethod()
+		{
+			var targetMethod = typeof(GameLocation).InnerMethodsStartingWith("<checkAction>b__0").First();
+			if (targetMethod == null)
+				throw new MissingMethodException("Target method '<checkAction>b__0' was not found.");
+
+			return targetMethod;
+		}
 
 		private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
 		{

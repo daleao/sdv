@@ -11,6 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal DustSpiritBehaviorAtGameTickPatch()
 		{
 			Original = RequireMethod<DustSpirit>(nameof(DustSpirit.behaviorAtGameTick));
+			Postfix = new(AccessTools.Method(GetType(), nameof(DustSpiritBehaviorAtGameTickPostfix)));
 		}
 
 		#region harmony patches

@@ -11,6 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SlingshotGetRequiredChargeTimePatch()
 		{
 			Original = RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
+			Postfix = new(AccessTools.Method(GetType(), nameof(SlingshotGetRequiredChargeTimePostfix)));
 		}
 
 		#region harmony patches

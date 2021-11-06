@@ -13,6 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectGetMinutesForCrystalariumPatch()
 		{
 			Original = RequireMethod<SObject>("getMinutesForCrystalarium");
+			Postfix = new(AccessTools.Method(GetType(), nameof(ObjectGetMinutesForCrystalariumPostfix)));
 		}
 
 		#region harmony patches

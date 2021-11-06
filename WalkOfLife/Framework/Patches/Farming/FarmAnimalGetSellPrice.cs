@@ -15,6 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmAnimalGetSellPricePatch()
 		{
 			Original = RequireMethod<FarmAnimal>(nameof(FarmAnimal.getSellPrice));
+			Prefix = new(AccessTools.Method(GetType(), nameof(FarmAnimalGetSellPricePrefix)));
 		}
 
 		#region harmony patches

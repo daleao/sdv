@@ -27,6 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal PondQueryMenuDrawPatch()
 		{
 			Original = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] {typeof(SpriteBatch)});
+			Prefix = new(AccessTools.Method(GetType(), nameof(PondQueryMenuDrawPrefix)));
 		}
 
 		#region harmony patches

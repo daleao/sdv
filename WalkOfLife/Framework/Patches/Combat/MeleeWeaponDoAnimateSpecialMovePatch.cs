@@ -18,6 +18,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MeleeWeaponDoAnimateSpecialMovePatch()
 		{
 			Original = RequireMethod<MeleeWeapon>("doAnimateSpecialMove");
+			Postfix = new(AccessTools.Method(GetType(), nameof(MeleeWeaponDoAnimateSpecialMovePostfix)));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(MeleeWeaponDoAnimateSpecialMoveTranspiler)));
 		}
 
 		#region harmony patches

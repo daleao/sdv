@@ -17,7 +17,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GreenSlimeOnDealContactDamagePatch()
 		{
 			Original = RequireMethod<GreenSlime>(nameof(GreenSlime.onDealContactDamage));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(GreenSlimeOnDealContactDamageTranspiler)));
 		}
+
+		#region harmony patches
 
 		/// <summary>Patch to make Piper immune to slimed debuff.</summary>
 		[HarmonyTranspiler]
@@ -50,5 +53,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			return helper.Flush();
 		}
+
+		#endregion harmony patches
 	}
 }

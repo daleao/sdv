@@ -39,8 +39,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				DrawBorder(component.bounds, 3, Color.Red, e.SpriteBatch);
 				if (DebugCursorMovedEvent.CursorPosition is null) continue;
 
-				var (x, y) = DebugCursorMovedEvent.CursorPosition.GetScaledScreenPixels();
-				if (component.containsPoint((int) x, (int) y)) FocusedComponent = component;
+				var cursorPos = DebugCursorMovedEvent.CursorPosition.GetScaledScreenPixels();
+				if (component.containsPoint((int) cursorPos.X, (int) cursorPos.Y)) FocusedComponent = component;
 			}
 		}
 

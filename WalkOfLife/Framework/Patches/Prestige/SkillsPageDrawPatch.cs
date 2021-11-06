@@ -23,6 +23,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SkillsPageDrawPatch()
 		{
 			Original = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] {typeof(SpriteBatch)});
+			Transpiler = new(AccessTools.Method(GetType(), nameof(SkillsPageDrawTranspiler)));
 		}
 
 		#region harmony patches
@@ -88,7 +89,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				var srcRect = new Rectangle(i * 30, (count - 1) * 30, 30, 30);
 				b.Draw(Prestige.RibbonTx, position, srcRect, Color.White, 0f, Vector2.Zero, 1.2f, SpriteEffects.None,
-					2f);
+					3f);
 			}
 		}
 

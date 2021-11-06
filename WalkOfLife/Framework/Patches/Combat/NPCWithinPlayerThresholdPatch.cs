@@ -15,6 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal NPCWithinPlayerThresholdPatch()
 		{
 			Original = RequireMethod<NPC>(nameof(NPC.withinPlayerThreshold), new[] {typeof(int)});
+			Prefix = new(AccessTools.Method(GetType(), nameof(NPCWithinPlayerThresholdPrefix)));
 		}
 
 		#region harmony patch

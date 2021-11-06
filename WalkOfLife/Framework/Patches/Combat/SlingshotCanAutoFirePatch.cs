@@ -14,6 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SlingshotCanAutoFirePatch()
 		{
 			Original = RequireMethod<Slingshot>(nameof(Slingshot.CanAutoFire));
+			Prefix = new(AccessTools.Method(GetType(), nameof(SlingshotCanAutoFirePrefix)));
 		}
 
 		#region harmony patches

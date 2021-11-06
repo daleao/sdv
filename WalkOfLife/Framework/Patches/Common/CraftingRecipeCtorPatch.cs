@@ -12,6 +12,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CraftingRecipeCtorPatch()
 		{
 			Original = RequireConstructor<CraftingRecipe>(typeof(string), typeof(bool));
+			Postfix = new(AccessTools.Method(GetType(), nameof(CraftingRecipeCtorPostfix)));
 		}
 
 		#region harmony patches

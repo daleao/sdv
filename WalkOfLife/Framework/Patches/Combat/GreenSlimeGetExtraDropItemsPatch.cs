@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
@@ -19,6 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 		internal GreenSlimeGetExtraDropItemsPatch()
 		{
 			Original = RequireMethod<GreenSlime>(nameof(GreenSlime.getExtraDropItems));
+			Postfix = new(AccessTools.Method(GetType(), nameof(GreenSlimeGetExtraDropItemsPostfix)));
 		}
 
 		#region harmony patches

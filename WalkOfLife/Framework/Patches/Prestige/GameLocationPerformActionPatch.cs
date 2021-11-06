@@ -16,6 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationPerformActionPatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.performAction));
+			Prefix = new(AccessTools.Method(GetType(), nameof(GameLocationPerformActionPrefix)));
 		}
 
 		#region harmony patches

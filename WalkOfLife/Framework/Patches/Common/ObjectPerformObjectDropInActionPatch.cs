@@ -20,6 +20,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectPerformObjectDropInActionPatch()
 		{
 			Original = RequireMethod<SObject>(nameof(SObject.performObjectDropInAction));
+			Prefix = new(AccessTools.Method(GetType(), nameof(ObjectPerformObjectDropInActionPrefix)));
+			Postfix = new(AccessTools.Method(GetType(), nameof(ObjectPerformObjectDropInActionPostfix)));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(ObjectPerformObjectDropInActionTranspiler)));
 		}
 
 		#region harmony patches

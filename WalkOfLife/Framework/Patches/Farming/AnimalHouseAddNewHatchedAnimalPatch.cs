@@ -14,6 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal AnimalHouseAddNewHatchedAnimalPatch()
 		{
 			Original = RequireMethod<AnimalHouse>(nameof(AnimalHouse.addNewHatchedAnimal));
+			Postfix = new(AccessTools.Method(GetType(), nameof(AnimalHouseAddNewHatchedAnimalPostfix)));
 		}
 
 		#region harmony patches

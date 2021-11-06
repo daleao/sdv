@@ -17,6 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = AccessTools.Method(
 				"Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine:GetOutput");
+			Transpiler = new(AccessTools.Method(GetType(), nameof(BushMachineGetOutputTranspiler)));
 		}
 
 		#region harmony patches

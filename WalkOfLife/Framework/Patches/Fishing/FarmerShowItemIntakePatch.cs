@@ -18,6 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmerShowItemIntakePatch()
 		{
 			Original = RequireMethod<Farmer>(nameof(Farmer.showItemIntake));
+			Prefix = new(AccessTools.Method(GetType(), nameof(FarmerShowItemIntakePrefix)));
 		}
 
 		#region harmony patches

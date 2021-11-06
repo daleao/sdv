@@ -22,6 +22,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationGetFishPatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.getFish));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(GameLocationGetFishTranspiler)));
 		}
 
 		#region harmony patches
@@ -90,6 +91,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#endregion harmony patches
 
+		#region private methods
+
 		/// <summary>If the first fish roll returned trash, determines whether the farmer is eligible for a reroll.</summary>
 		/// <param name="who">The farmer.</param>
 		/// <param name="currentFish">The result of the first fish roll.</param>
@@ -102,5 +105,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			                    && baitName.IsAnyOf("Bait", "Wild Bait", "Magic Bait")
 			                    && who.HasProfession("Fisher");
 		}
+
+		#endregion private methods
 	}
 }

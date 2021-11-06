@@ -18,6 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BasicProjectileExplodeOnImpact()
 		{
 			Original = RequireMethod<BasicProjectile>(nameof(BasicProjectile.explodeOnImpact));
+			Prefix = new(AccessTools.Method(GetType(), nameof(BasicProjectileExplodeOnImpactPrefix)));
 		}
 
 		#region harmony patches

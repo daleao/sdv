@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using StardewModdingAPI.Enums;
 using StardewValley;
@@ -63,7 +62,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 				3 => new[] {professionIndex - 1, professionIndex + 1, professionIndex + 2},
 				4 => new[] {professionIndex - 2, professionIndex - 1, professionIndex + 1},
 				5 => new[] {professionIndex - 3, professionIndex - 2, professionIndex - 1},
-				_ => Array.Empty<int>()
+				_ => new int[] { }
 			};
 
 			otherProfessions = farmer.professions.Intersect(otherProfessionsInBranch).ToArray();
@@ -115,7 +114,9 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether the farmer can prestige any skill.</summary>
 		public static bool CanPrestigeAny(this Farmer farmer)
 		{
-			return Enum.GetValues<SkillType>().Any(farmer.CanPrestige);
+			return farmer.CanPrestige(SkillType.Farming) || farmer.CanPrestige(SkillType.Fishing) ||
+			       farmer.CanPrestige(SkillType.Foraging) || farmer.CanPrestige(SkillType.Mining) ||
+			       farmer.CanPrestige(SkillType.Combat);
 		}
 
 		/// <summary>Resets a specific skill level, removing all associated recipes and bonuses but maintaining profession perks.</summary>

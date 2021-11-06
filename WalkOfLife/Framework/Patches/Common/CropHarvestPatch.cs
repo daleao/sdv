@@ -18,6 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CropHarvestPatch()
 		{
 			Original = RequireMethod<Crop>(nameof(Crop.harvest));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(CropHarvestTranspiler)));
 		}
 
 		#region harmony patches

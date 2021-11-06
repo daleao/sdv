@@ -7,15 +7,13 @@ namespace TheLion.Stardew.Common.Extensions
 	{
 		public static double AngleWithHorizontal(this Vector2 v)
 		{
-			var (x, y) = v;
-			return MathHelper.ToDegrees((float) Math.Atan2(0f - y, 0f - x));
+			return MathHelper.ToDegrees((float) Math.Atan2(0f - v.Y, 0f - v.X));
 		}
 
 		/// <summary>Rotates the calling Vector2 by t to a Vector2 by <paramref name="degrees" />.</summary>
 		public static Vector2 Perpendicular(this Vector2 v)
 		{
-			var (x, y) = v;
-			return new(y, -x);
+			return new(v.Y, -v.X);
 		}
 
 		/// <summary>Rotates the calling <see cref="Vector2" /> by <paramref name="degrees" />.</summary>

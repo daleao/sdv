@@ -16,6 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectGetPriceAfterMultipliersPatch()
 		{
 			Original = RequireMethod<SObject>("getPriceAfterMultipliers");
+			Prefix = new(AccessTools.Method(GetType(), nameof(ObjectGetPriceAfterMultipliersPrefix)));
 		}
 
 		#region harmony patches

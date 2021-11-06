@@ -15,6 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MonsterWithinPlayerThresholdPatch()
 		{
 			Original = RequireMethod<Monster>(nameof(Monster.withinPlayerThreshold), new Type[] { });
+			Prefix = new(AccessTools.Method(GetType(), nameof(MonsterWithinPlayerThresholdPrefix)));
 		}
 
 		#region harmony patch

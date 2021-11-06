@@ -18,6 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GeodeMenuUpdatePatch()
 		{
 			Original = RequireMethod<GeodeMenu>(nameof(GeodeMenu.update));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(GeodeMenuUpdateTranspiler)));
 		}
 
 		#region harmony patches

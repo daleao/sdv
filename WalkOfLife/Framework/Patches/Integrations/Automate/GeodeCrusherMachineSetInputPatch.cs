@@ -14,6 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = AccessTools.Method(
 				"Pathoschild.Stardew.Automate.Framework.Machines.Objects.GeodeCrusherMachine:SetInput");
+			Postfix = new(AccessTools.Method(GetType(), nameof(GeodeCrusherMachineSetInputPostfix)));
 		}
 
 		#region harmony patches

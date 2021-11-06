@@ -21,6 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = RequireMethod<GreenSlime>(nameof(GreenSlime.update),
 				new[] {typeof(GameTime), typeof(GameLocation)});
+			Postfix = new(AccessTools.Method(GetType(), nameof(GreenSlimeUpdatePostfix)));
 		}
 
 		#region harmony patches
@@ -54,10 +55,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					__instance.DamageToFarmer + Game1.random.Next(-__instance.DamageToFarmer / 4,
 						__instance.DamageToFarmer / 4));
 
-				var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
+				var trajectory = monster.Slipperiness < 0
 					? Vector2.Zero
 					: SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
-				monster.takeDamage(damageToMonster, (int) xTrajectory, (int) yTrajectory, false, 1.0, "slime");
+				monster.takeDamage(damageToMonster, (int) trajectory.X, (int) trajectory.Y, false, 1.0, "slime");
 				monster.currentLocation.debris.Add(new(damageToMonster,
 					new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f,
 					monster));

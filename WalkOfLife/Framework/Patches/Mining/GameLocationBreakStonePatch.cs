@@ -17,6 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationBreakStonePatch()
 		{
 			Original = RequireMethod<GameLocation>("breakStone");
+			Transpiler = new(AccessTools.Method(GetType(), nameof(GameLocationBreakStoneTranspiler)));
 		}
 
 		#region harmony patches

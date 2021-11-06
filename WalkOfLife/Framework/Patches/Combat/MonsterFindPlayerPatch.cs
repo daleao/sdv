@@ -17,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MonsterFindPlayerPatch()
 		{
 			Original = RequireMethod<Monster>("findPlayer");
-			Prefix.after = new[] {"Esca.FarmTypeManager"};
+			Prefix = new(AccessTools.Method(GetType(), nameof(MonsterFindPlayerPrefix)), after: new[] {"Esca.FarmTypeManager"});
 		}
 
 		#region harmony patches

@@ -17,6 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ProjectileBehaviorOnCollisionPatch()
 		{
 			Original = RequireMethod<Projectile>("behaviorOnCollision");
+			Postfix = new(AccessTools.Method(GetType(), nameof(ProjectileBehaviorOnCollisionPostfix)));
 		}
 
 		#region harmony patches

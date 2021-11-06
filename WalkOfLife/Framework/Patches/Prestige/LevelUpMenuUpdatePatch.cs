@@ -20,6 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuUpdatePatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.update), new[] {typeof(GameTime)});
+			Transpiler = new(AccessTools.Method(GetType(), nameof(LevelUpMenuUpdateTranspiler)));
 		}
 
 		#region harmony patches

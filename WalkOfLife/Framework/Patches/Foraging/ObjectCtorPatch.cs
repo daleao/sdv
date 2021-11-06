@@ -15,6 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = RequireConstructor<SObject>(typeof(Vector2), typeof(int), typeof(string), typeof(bool),
 				typeof(bool), typeof(bool), typeof(bool));
+			Postfix = new(AccessTools.Method(GetType(), nameof(ObjectCtorPostfix)));
 		}
 
 		#region harmony patches

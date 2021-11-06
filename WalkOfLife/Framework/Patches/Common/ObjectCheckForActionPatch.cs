@@ -19,6 +19,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectCheckForActionPatch()
 		{
 			Original = RequireMethod<SObject>(nameof(SObject.checkForAction));
+			Prefix = new(AccessTools.Method(GetType(), nameof(ObjectCheckForActionPrefix)));
+			Postfix = new(AccessTools.Method(GetType(), nameof(ObjectCheckForActionPostfix)));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(ObjectCheckForActionTranspiler)));
 		}
 
 		#region harmony patches

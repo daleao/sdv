@@ -17,6 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal QuestionEventSetUpPatch()
 		{
 			Original = RequireMethod<QuestionEvent>(nameof(QuestionEvent.setUp));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(QuestionEventSetUpTranspiler)));
 		}
 
 		#region harmony patches

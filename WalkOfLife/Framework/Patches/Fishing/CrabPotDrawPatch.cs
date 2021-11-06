@@ -20,6 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = RequireMethod<CrabPot>(nameof(CrabPot.draw),
 				new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)});
+			Prefix = new(AccessTools.Method(GetType(), nameof(CrabPotDrawPrefix)));
 		}
 
 		#region harmony patches

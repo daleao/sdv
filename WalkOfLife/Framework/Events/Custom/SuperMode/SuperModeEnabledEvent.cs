@@ -170,7 +170,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				while (toCreate-- > 0)
 				{
 					Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
-					var justCreated = Game1.currentLocation.characters[^1];
+					var justCreated = Game1.currentLocation.characters.Last();
 					justCreated.setTrajectory((int) (bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
 						(int) (bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
 					justCreated.willDestroyObjectsUnderfoot = false;

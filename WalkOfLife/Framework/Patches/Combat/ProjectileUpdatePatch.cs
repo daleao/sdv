@@ -18,6 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ProjectileUpdatePatch()
 		{
 			Original = RequireMethod<Projectile>(nameof(Projectile.update));
+			Postfix = new(AccessTools.Method(GetType(), nameof(ProjectileUpdatePostfix)));
 		}
 
 		#region harmony patches
@@ -63,9 +64,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var bulletHitbox = __instance.getBoundingBox();
 			var isBulletTravelingVertically = Math.Abs(angle) is >= 45 and <= 135;
 			if (isBulletTravelingVertically)
-				bulletHitbox.Inflate(bulletHitbox.Width * bulletPower, 0f);
+				bulletHitbox.Inflate((int) (bulletHitbox.Width * bulletPower), 0);
 			else
-				bulletHitbox.Inflate(0f, bulletHitbox.Height * bulletPower);
+				bulletHitbox.Inflate(0, (int) (bulletHitbox.Height * bulletPower));
 
 			if (location.doesPositionCollideWithCharacter(bulletHitbox) is not Monster monster) return;
 

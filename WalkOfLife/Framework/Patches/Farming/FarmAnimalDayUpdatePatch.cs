@@ -18,6 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmAnimalDayUpdatePatch()
 		{
 			Original = RequireMethod<FarmAnimal>(nameof(FarmAnimal.dayUpdate));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(FarmAnimalDayUpdateTranspiler)));
 		}
 
 		#region harmony patches

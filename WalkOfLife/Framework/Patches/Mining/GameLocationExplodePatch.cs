@@ -21,6 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationExplodePatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.explode));
+			Postfix = new(AccessTools.Method(GetType(), nameof(GameLocationExplodePostfix)));
 		}
 
 		#region harmony patches

@@ -22,7 +22,7 @@ namespace TheLion.Stardew.Common.Extensions
 		{
 			return string.IsNullOrEmpty(s)
 				? throw new ArgumentException("Argument is null or empty.")
-				: s.First().ToString().ToUpper() + s[1..];
+				: s.First().ToString().ToUpper() + s.Substring(1);
 		}
 
 		/// <summary>Removes invalid file name or path characters from the calling string.</summary>
@@ -42,7 +42,7 @@ namespace TheLion.Stardew.Common.Extensions
 		public static string Truncate(this string s, int maxLength, string truncationSuffix = "…")
 		{
 			return s.Length > maxLength
-				? s[..maxLength] + truncationSuffix
+				? s.Substring(0, maxLength) + truncationSuffix
 				: s;
 		}
 

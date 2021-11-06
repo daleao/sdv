@@ -22,6 +22,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuRemoveImmediateProfessionPerkPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.removeImmediateProfessionPerk));
+			Postfix = new(AccessTools.Method(GetType(), nameof(LevelUpMenuRemoveImmediateProfessionPerkPostfix)));
+			Transpiler = new(AccessTools.Method(GetType(), nameof(LevelUpMenuRemoveImmediateProfessionPerkTranspiler)));
 		}
 
 		#region harmony patches

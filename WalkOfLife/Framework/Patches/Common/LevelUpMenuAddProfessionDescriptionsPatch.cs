@@ -16,6 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuAddProfessionDescriptionsPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>("addProfessionDescriptions");
+			Prefix = new(AccessTools.Method(GetType(), nameof(LevelUpMenuAddProfessionDescriptionsPrefix)));
 		}
 
 		#region harmony patches
