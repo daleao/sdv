@@ -1,21 +1,18 @@
 ﻿using HarmonyLib;
-using StardewModdingAPI;
+using JetBrains.Annotations;
 using StardewValley;
-using System;
-using System.Reflection;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class ObjectGetMinutesForCrystalariumPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal ObjectGetMinutesForCrystalariumPatch()
 		{
-			Original = typeof(SObject).MethodNamed("getMinutesForCrystalarium");
-			Postfix = new(GetType(), nameof(ObjectGetMinutesForCrystalariumPostfix));
+			Original = RequireMethod<SObject>("getMinutesForCrystalarium");
 		}
 
 		#region harmony patches
@@ -24,15 +21,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void ObjectGetMinutesForCrystalariumPostfix(SObject __instance, ref int __result)
 		{
-			try
-			{
-				var owner = Game1.getFarmer(__instance.owner.Value);
-				if (owner.HasProfession("Gemologist")) __result = (int)(__result * 0.75);
-			}
-			catch (Exception ex)
-			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
-			}
+			var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
+			if (owner.HasProfession("Gemologist")) __result = (int) (__result * 0.75);
 		}
 
 		#endregion harmony patches

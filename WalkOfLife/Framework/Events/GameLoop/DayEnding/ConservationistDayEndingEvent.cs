@@ -8,7 +8,7 @@ using TheLion.Stardew.Professions.Framework.AssetEditors;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class ConservationistDayEndingEvent : DayEndingEvent
+	internal class ConservationistDayEndingEvent : DayEndingEvent
 	{
 		/// <inheritdoc />
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)

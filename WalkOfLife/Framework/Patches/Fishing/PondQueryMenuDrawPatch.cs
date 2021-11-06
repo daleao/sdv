@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
@@ -11,7 +12,6 @@ using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
@@ -20,13 +20,13 @@ using SUtility = StardewValley.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class PondQueryMenuDrawPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal PondQueryMenuDrawPatch()
 		{
-			Original = typeof(PondQueryMenu).MethodNamed(nameof(PondQueryMenu.draw), new[] {typeof(SpriteBatch)});
-			Prefix = new(GetType(), nameof(PondQueryMenuDrawPrefix));
+			Original = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] {typeof(SpriteBatch)});
 		}
 
 		#region harmony patches
@@ -39,7 +39,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				var owner = Game1.getFarmer(____pond.owner.Value);
+				var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
 				if (!owner.HasProfession("Aquarist") || ____pond.lastUnlockedPopulationGate.Value < ModEntry.ModHelper
 					.Reflection.GetField<FishPondData>(____pond, "_fishPondData").GetValue().PopulationGates.Keys
 					.Max()) return true; // run original logic;
@@ -125,7 +125,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						var leftX = __instance.xPositionOnScreen + 88;
 						float textX = leftX;
 						var iconX = textX + textSize.X + 4f;
-						if (LocalizedContentManager.CurrentLanguageCode.AnyOf(LocalizedContentManager.LanguageCode.ja,
+						if (LocalizedContentManager.CurrentLanguageCode.IsAnyOf(LocalizedContentManager.LanguageCode.ja,
 							LocalizedContentManager.LanguageCode.ko, LocalizedContentManager.LanguageCode.tr))
 						{
 							iconX = leftX - 8;
@@ -190,7 +190,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

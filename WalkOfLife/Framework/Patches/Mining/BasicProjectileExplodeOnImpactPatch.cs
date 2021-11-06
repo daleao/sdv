@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Reflection;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Projectiles;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 // ReSharper disable PossibleLossOfFraction
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class BasicProjectileExplodeOnImpact : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal BasicProjectileExplodeOnImpact()
 		{
-			Original = typeof(BasicProjectile).MethodNamed(nameof(BasicProjectile.explodeOnImpact));
-			Prefix = new(GetType(), nameof(BasicProjectileExplodeOnImpactPrefix));
+			Original = RequireMethod<BasicProjectile>(nameof(BasicProjectile.explodeOnImpact));
 		}
 
 		#region harmony patches
@@ -36,7 +36,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

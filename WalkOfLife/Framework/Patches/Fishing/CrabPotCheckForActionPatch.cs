@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
@@ -9,18 +10,17 @@ using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class CrabPotCheckForActionPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal CrabPotCheckForActionPatch()
 		{
-			Original = typeof(CrabPot).MethodNamed(nameof(CrabPot.checkForAction));
-			Prefix = new(GetType(), nameof(CrabPotCheckForActionPrefix));
+			Original = RequireMethod<CrabPot>(nameof(CrabPot.checkForAction));
 		}
 
 		#region harmony patches
@@ -39,13 +39,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				var item = __instance.heldObject.Value;
 				bool addedToInvetory;
-				if (__instance.heldObject.Value.ParentSheetIndex.AnyOf(14, 51)) // caught a weapon
+				if (__instance.heldObject.Value.ParentSheetIndex.IsAnyOf(14, 51)) // caught a weapon
 				{
 					var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex);
 					addedToInvetory = who.addItemToInventoryBool(weapon);
 					who.mostRecentlyGrabbedItem = item;
 				}
-				else if (__instance.heldObject.Value.ParentSheetIndex.AnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532,
+				else if (__instance.heldObject.Value.ParentSheetIndex.IsAnyOf(516, 517, 518, 519, 527, 529, 530, 531,
+					532,
 					533, 534)) // caught a ring
 				{
 					var ring = new Ring(__instance.heldObject.Value.ParentSheetIndex);
@@ -95,7 +96,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

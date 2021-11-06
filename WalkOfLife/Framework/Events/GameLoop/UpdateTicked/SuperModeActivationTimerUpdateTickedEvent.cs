@@ -3,7 +3,7 @@ using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SuperModeActivationTimerUpdateTickedEvent : UpdateTickedEvent
+	internal class SuperModeActivationTimerUpdateTickedEvent : UpdateTickedEvent
 	{
 		private const int BASE_SUPERMODE_ACTIVATION_DELAY_I = 60;
 

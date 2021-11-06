@@ -3,7 +3,7 @@ using System.Linq;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Util;
+using TheLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions
@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool IsAnimalProduct(this SObject obj)
 		{
 			return obj is not null &&
-			       (obj.Category.AnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
+			       (obj.Category.IsAnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
 			        || Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex));
 		}
 
@@ -45,13 +45,13 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is a gem or mineral.</summary>
 		public static bool IsGemOrMineral(this SObject obj)
 		{
-			return obj?.Category.AnyOf(SObject.GemCategory, SObject.mineralsCategory) == true;
+			return obj?.Category.IsAnyOf(SObject.GemCategory, SObject.mineralsCategory) == true;
 		}
 
 		/// <summary>Whether a given object is a foraged mineral.</summary>
 		public static bool IsForagedMineral(this SObject obj)
 		{
-			return obj.Name.AnyOf("Quartz", "Earth Crystal", "Frozen Tear", "Fire Quartz");
+			return obj.Name.IsAnyOf("Quartz", "Earth Crystal", "Frozen Tear", "Fire Quartz");
 		}
 
 		/// <summary>Whether a given object is a resource node or foraged mineral.</summary>
@@ -83,7 +83,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is a trash.</summary>
 		public static bool IsAlgae(this SObject obj)
 		{
-			return obj?.ParentSheetIndex.AnyOf(152, 152, 157) == true;
+			return obj?.ParentSheetIndex.IsAnyOf(152, 152, 157) == true;
 		}
 
 		/// <summary>Whether a given object is a trash.</summary>

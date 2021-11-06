@@ -3,7 +3,7 @@ using StardewModdingAPI.Events;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SuperModeBarFadeOutUpdateTickedEvent : UpdateTickedEvent
+	internal class SuperModeBarFadeOutUpdateTickedEvent : UpdateTickedEvent
 	{
 		private const int FADE_OUT_DELAY_I = 120, FADE_OUT_DURATION_I = 30;
 

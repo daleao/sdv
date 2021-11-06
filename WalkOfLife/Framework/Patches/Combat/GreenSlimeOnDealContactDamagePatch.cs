@@ -1,21 +1,22 @@
-﻿using HarmonyLib;
-using StardewValley.Monsters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
+using StardewValley.Monsters;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class GreenSlimeOnDealContactDamagePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal GreenSlimeOnDealContactDamagePatch()
 		{
-			Original = typeof(GreenSlime).MethodNamed(nameof(GreenSlime.onDealContactDamage));
-			Transpiler = new(GetType(), nameof(GreenSlimeOnDealContactDamageTranspiler));
+			Original = RequireMethod<GreenSlime>(nameof(GreenSlime.onDealContactDamage));
 		}
 
 		/// <summary>Patch to make Piper immune to slimed debuff.</summary>
@@ -23,13 +24,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> GreenSlimeOnDealContactDamageTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// Injected: if (who.professions.Contains(<piper_id>)) return
 
 			try
 			{
-				Helper
+				helper
 					.FindFirst(
 						new CodeInstruction(OpCodes.Bge_Un_S) // find index of first branch instruction
 					)
@@ -38,16 +39,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Insert(
 						new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
 					)
-					.InsertProfessionCheckForPlayerOnStack(Util.Professions.IndexOf("Piper"), (Label)returnLabel,
+					.InsertProfessionCheckForPlayerOnStack(Utility.Professions.IndexOf("Piper"), (Label) returnLabel,
 						true);
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while adding Piper slime debuff immunity.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while adding Piper slime debuff immunity.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 	}
 }

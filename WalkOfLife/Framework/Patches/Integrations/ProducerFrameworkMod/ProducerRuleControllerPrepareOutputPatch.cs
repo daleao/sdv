@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
-using Netcode;
-using StardewValley;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using Netcode;
 using StardewModdingAPI;
+using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -19,7 +19,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ProducerRuleControllerPrepareOutputPatch()
 		{
 			Original = AccessTools.Method("ProducerFrameworkMod.Controllers.ProducerRuleController:PrepareOutput");
-			//Transpiler = new HarmonyMethod(GetType(), nameof(ProducerRuleControllerPrepareOutputTranspiler));
 		}
 
 		#region harmony patches
@@ -29,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> ProducerRuleControllerPrepareOutputTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// Injected: output = IncreaseQualityIfNecessary(output, input, producer, keepInputQuality, who)
 			/// After: output = OutputConfigController.CreateOutput( ... )
@@ -42,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				.Find(f => f.Name == "KeepInputQuality");
 			try
 			{
-				Helper
+				helper
 					.FindFirst( // find instruction to load the producer instance
 						new CodeInstruction(OpCodes.Ldloc_0),
 						new CodeInstruction(OpCodes.Ldfld)
@@ -59,7 +58,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.FindFirst( // find instruction to set the producer held object value
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(NetFieldBase<SObject, NetRef<SObject>>).MethodNamed("set_Value",
-								new[] { typeof(SObject) }))
+								new[] {typeof(SObject)}))
 					) // after this the output is already on the stack
 					.Insert( // load the input next
 						new CodeInstruction(OpCodes.Ldloc_S, local8)
@@ -71,7 +70,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldfld, keepInputQuality),
 						// load Farmer who
 						new CodeInstruction(OpCodes.Ldarg_2), // arg 2 = Farmer who
-															  // call custom logic
+						// call custom logic
 						new CodeInstruction(OpCodes.Call,
 							typeof(ProducerRuleControllerPrepareOutputPatch).MethodNamed(
 								nameof(PrepareOutputSubroutine)))
@@ -79,12 +78,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log(
-					$"Failed while patching PFM for Artisan and Gemologist machine output quality.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log(
+					$"Failed while patching PFM for Artisan and Gemologist machine output quality.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches
@@ -100,13 +100,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					output.Quality = input?.Quality ?? 0;
 
 				if (output.Quality < SObject.bestQuality &&
-					new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
+				    new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
 					output.Quality += output.Quality == SObject.medQuality ? 2 : 1;
 			}
 			else if ((input.IsForagedMineral() || input.IsGemOrMineral()) &&
-					 who.HasProfession("Gemologist"))
+			         who.HasProfession("Gemologist"))
 			{
-				output.Quality = Util.Professions.GetGemologistMineralQuality();
+				output.Quality = Utility.Professions.GetGemologistMineralQuality();
 				if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");
 			}
 

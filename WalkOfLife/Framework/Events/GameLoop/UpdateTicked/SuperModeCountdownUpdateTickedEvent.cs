@@ -3,7 +3,7 @@ using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SuperModeCountdownUpdateTickedEvent : UpdateTickedEvent
+	internal class SuperModeCountdownUpdateTickedEvent : UpdateTickedEvent
 	{
 		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)

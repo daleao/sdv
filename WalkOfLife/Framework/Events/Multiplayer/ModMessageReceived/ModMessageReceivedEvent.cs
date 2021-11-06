@@ -2,7 +2,7 @@
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public abstract class ModMessageReceivedEvent : BaseEvent
+	internal abstract class ModMessageReceivedEvent : BaseEvent
 	{
 		/// <inheritdoc />
 		public override void Hook()

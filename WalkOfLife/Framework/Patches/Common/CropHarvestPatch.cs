@@ -4,20 +4,20 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using TheLion.Stardew.Common.Harmony;
-using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class CropHarvestPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal CropHarvestPatch()
 		{
-			Original = typeof(Crop).MethodNamed(nameof(Crop.harvest));
-			Transpiler = new(GetType(), nameof(CropHarvestTranspiler));
+			Original = RequireMethod<Crop>(nameof(Crop.harvest));
 		}
 
 		#region harmony patches
@@ -30,29 +30,31 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> CropHarvestTranspiler(IEnumerable<CodeInstruction> instructions,
 			ILGenerator iLGenerator, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
-			var mb = original.GetMethodBody();
-			if (mb is null) throw new ArgumentNullException($"{original.Name} method body returned null.");
+			var mb = original.GetMethodBody() ??
+			         throw new ArgumentNullException($"{original.Name} method body returned null.");
 
 			/// From: @object.Quality = 4
 			/// To: @object.Quality = GetEcologistForageQuality()
 
 			try
 			{
-				Helper
+				helper
 					.FindProfessionCheck(Farmer.botanist) // find index of botanist check
 					.AdvanceUntil(
 						new CodeInstruction(OpCodes.Ldc_I4_4) // start of @object.Quality = 4
 					)
 					.ReplaceWith( // replace with custom quality
 						new(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetEcologistForageQuality)))
+							typeof(Utility.Professions).MethodNamed(
+								nameof(Utility.Professions.GetEcologistForageQuality)))
 					);
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while patching modded Ecologist spring onion quality.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while patching modded Ecologist spring onion quality.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
@@ -63,13 +65,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var dontIncreaseEcologistCounter = iLGenerator.DefineLabel();
 			try
 			{
-				Helper
+				helper
 					.FindNext(
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
 					)
 					.Advance()
-					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Ecologist"),
+					.InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Ecologist"),
 						dontIncreaseEcologistCounter)
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
@@ -77,33 +79,33 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldstr, "ItemsForaged"),
 						new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = @object
 						new CodeInstruction(OpCodes.Callvirt,
-							typeof(SObject).PropertyGetter(nameof(SObject.Stack))),
+							typeof(Item).PropertyGetter(nameof(Item.Stack))),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).GetMethods().First(mi => mi.Name == "IncrementField")
+							typeof(ModData).GetMethods().First(m => m.Name == "IncrementField")
 								.MakeGenericMethod(typeof(int)))
 					)
 					.AddLabels(dontIncreaseEcologistCounter);
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while adding Ecologist counter increment.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while adding Ecologist counter increment.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
 			/// From: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
-			/// To: if (Game1.player.professions.Contains(< agriculturist_id >) || fertilizerQualityLevel >= 3) && random2.NextDouble() < chanceForGoldQuality / 2.0)
+			/// To: if (Game1.player.professions.Contains(<agriculturist_id>) || fertilizerQualityLevel >= 3) && random2.NextDouble() < chanceForGoldQuality / 2.0)
 
 			var fertilizerQualityLevel = mb.LocalVariables[8];
 			var random2 = mb.LocalVariables[9];
 			var isAgriculturist = iLGenerator.DefineLabel();
 			try
 			{
-				Helper.AdvanceUntil( // find index of Crop.fertilizerQualityLevel >= 3
+				helper.AdvanceUntil( // find index of Crop.fertilizerQualityLevel >= 3
 						new CodeInstruction(OpCodes.Ldloc_S, fertilizerQualityLevel),
 						new CodeInstruction(OpCodes.Ldc_I4_3),
 						new CodeInstruction(OpCodes.Blt_S)
 					)
-					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Agriculturist"), isAgriculturist,
+					.InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Agriculturist"), isAgriculturist,
 						true)
 					.AdvanceUntil( // find start of dice roll
 						new CodeInstruction(OpCodes.Ldloc_S, random2)
@@ -112,7 +114,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while adding modded Agriculturist crop harvest quality.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while adding modded Agriculturist crop harvest quality.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
@@ -122,7 +125,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var dontIncreaseNumToHarvest = iLGenerator.DefineLabel();
 			try
 			{
-				Helper
+				helper
 					.FindNext(
 						new CodeInstruction(OpCodes.Ldloc_S, numToHarvest) // find index of numToHarvest++
 					)
@@ -148,7 +151,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4),
 						new CodeInstruction(OpCodes.Brtrue_S, dontIncreaseNumToHarvest)
 					)
-					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Harvester"),
+					.InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Harvester"),
 						dontIncreaseNumToHarvest)
 					.Insert( // insert dice roll
 						new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder) r2),
@@ -163,11 +166,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while adding modded Harvester extra crop yield.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while adding modded Harvester extra crop yield.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

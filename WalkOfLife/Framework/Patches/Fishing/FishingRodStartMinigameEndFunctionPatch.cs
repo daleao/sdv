@@ -1,22 +1,23 @@
-﻿using HarmonyLib;
-using StardewValley;
-using StardewValley.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
+using StardewValley;
+using StardewValley.Tools;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class FishingRodStartMinigameEndFunctionPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal FishingRodStartMinigameEndFunctionPatch()
 		{
-			Original = typeof(FishingRod).MethodNamed(nameof(FishingRod.startMinigameEndFunction));
-			Transpiler = new(GetType(), nameof(FishingRodStartMinigameEndFunctionTranspiler));
+			Original = RequireMethod<FishingRod>(nameof(FishingRod.startMinigameEndFunction));
 		}
 
 		#region harmony patches
@@ -26,13 +27,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> FishingRodStartMinigameEndFunctionTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// Removed: lastUser.professions.Contains(<pirate_id>) ? baseChance ...
 
 			try
 			{
-				Helper // find index of pirate check
+				helper // find index of pirate check
 					.FindProfessionCheck(Farmer.pirate)
 					.Retreat(2)
 					.RemoveUntil(
@@ -41,11 +42,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

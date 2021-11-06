@@ -2,7 +2,7 @@
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SuperModeOverlayFadeOutUpdateTickedEvent : UpdateTickedEvent
+	internal class SuperModeOverlayFadeOutUpdateTickedEvent : UpdateTickedEvent
 	{
 		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)

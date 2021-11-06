@@ -3,7 +3,7 @@ using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SuperModeBarShakeTimerUpdateTickedEvent : UpdateTickedEvent
+	internal class SuperModeBarShakeTimerUpdateTickedEvent : UpdateTickedEvent
 	{
 		private const int TICKS_BETWEEN_SHAKES_I = 126, SHAKE_DURATION_I = 15;
 

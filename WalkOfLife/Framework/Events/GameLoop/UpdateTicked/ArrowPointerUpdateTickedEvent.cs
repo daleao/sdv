@@ -1,9 +1,9 @@
 ﻿using StardewModdingAPI.Events;
-using TheLion.Stardew.Professions.Framework.Util;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class ArrowPointerUpdateTickedEvent : UpdateTickedEvent
+	internal class ArrowPointerUpdateTickedEvent : UpdateTickedEvent
 	{
 		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)

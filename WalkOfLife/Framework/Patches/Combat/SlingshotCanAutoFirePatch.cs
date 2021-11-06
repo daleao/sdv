@@ -1,19 +1,19 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Tools;
-using System;
-using System.Reflection;
-using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class SlingshotCanAutoFirePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal SlingshotCanAutoFirePatch()
 		{
-			Original = typeof(Slingshot).MethodNamed(nameof(Slingshot.CanAutoFire));
-			Prefix = new(GetType(), nameof(SlingshotCanAutoFirePrefix));
+			Original = RequireMethod<Slingshot>(nameof(Slingshot.CanAutoFire));
 		}
 
 		#region harmony patches
@@ -25,7 +25,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				var who = __instance.getLastFarmerToUse();
-				if (ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Desperado"))
+				if (ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Utility.Professions.IndexOf("Desperado"))
 					__result = true;
 				else
 					__result = false;
@@ -33,7 +33,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

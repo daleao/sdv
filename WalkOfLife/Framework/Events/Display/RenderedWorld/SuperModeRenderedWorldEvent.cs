@@ -3,7 +3,7 @@ using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SuperModeRenderedWorldEvent : RenderedWorldEvent
+	internal class SuperModeRenderedWorldEvent : RenderedWorldEvent
 	{
 		/// <inheritdoc />
 		public override void OnRenderedWorld(object sender, RenderedWorldEventArgs e)

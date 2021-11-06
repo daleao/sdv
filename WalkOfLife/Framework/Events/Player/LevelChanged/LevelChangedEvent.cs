@@ -2,7 +2,7 @@
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public abstract class LevelChangedEvent : BaseEvent
+	internal abstract class LevelChangedEvent : BaseEvent
 	{
 		/// <inheritdoc />
 		public override void Hook()

@@ -3,7 +3,7 @@ using StardewModdingAPI.Events;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class TrackerButtonsChangedEvent : ButtonsChangedEvent
+	internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
 	{
 		/// <inheritdoc />
 		public override void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			{
 				ModEntry.Subscriber.Unsubscribe(typeof(TrackerRenderedHudEvent));
 				if (!(ModEntry.Subscriber.IsSubscribed(typeof(ProspectorHuntRenderedHudEvent)) ||
-					  ModEntry.Subscriber.IsSubscribed(typeof(ScavengerHuntRenderedHudEvent))))
+				      ModEntry.Subscriber.IsSubscribed(typeof(ScavengerHuntRenderedHudEvent))))
 					ModEntry.Subscriber.Unsubscribe(typeof(ArrowPointerUpdateTickedEvent));
 			}
 		}

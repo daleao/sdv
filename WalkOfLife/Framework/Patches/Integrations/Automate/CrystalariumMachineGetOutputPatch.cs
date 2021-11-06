@@ -1,10 +1,12 @@
 ﻿using HarmonyLib;
+using JetBrains.Annotations;
 using StardewValley;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class CrystalariumMachineGetOutputPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
@@ -12,7 +14,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = AccessTools.Method(
 				"Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrystalariumMachine:GetOutput");
-			Postfix = new(GetType(), nameof(CrystalariumMachineGetOutputPostfix));
 		}
 
 		#region harmony patches
@@ -30,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (!who.HasProfession("Gemologist") || !machine.heldObject.Value.IsForagedMineral() &&
 				!machine.heldObject.Value.IsGemOrMineral()) return;
 
-			machine.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
+			machine.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
 			if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");
 		}
 

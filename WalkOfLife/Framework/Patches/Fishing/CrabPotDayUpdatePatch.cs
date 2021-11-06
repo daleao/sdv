@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.Util;
+using TheLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class CrabPotDayUpdatePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal CrabPotDayUpdatePatch()
 		{
-			Original = typeof(CrabPot).MethodNamed(nameof(CrabPot.DayUpdate));
-			Prefix = new(GetType(), nameof(CrabPotDayUpdatePrefix));
+			Original = RequireMethod<CrabPot>(nameof(CrabPot.DayUpdate));
 		}
 
 		#region harmony patches
@@ -76,7 +76,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					}
 				}
 
-				if (whichFish.AnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
+				if (whichFish.IsAnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
 				{
 					var equipment = new SObject(whichFish, 1);
 					__instance.heldObject.Value = equipment;
@@ -109,7 +109,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}
@@ -196,7 +196,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (r.NextDouble() > GetChanceForThisFish(specificFishDataFields)) continue;
 
 				var whichFish = Convert.ToInt32(key);
-				if (whichFish.AnyOf(152, 152, 157) && counter == 0) // if is algae, reroll
+				if (whichFish.IsAnyOf(152, 152, 157) && counter == 0) // if is algae, reroll
 				{
 					++counter;
 					continue;

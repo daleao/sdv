@@ -1,6 +1,6 @@
+using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-using System;
 
 namespace TheLion.Stardew.Common.Integrations
 {
@@ -10,14 +10,14 @@ namespace TheLion.Stardew.Common.Integrations
 	internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
 		where TConfig : new()
 	{
-		/// <summary>The mod's public API.</summary>
-		private readonly IGenericModConfigMenuAPI _modAPI;
-
 		/// <summary>The manifest for the mod consuming the API.</summary>
 		private readonly IManifest _consumerManifest;
 
 		/// <summary>Get the current config model.</summary>
 		private readonly Func<TConfig> _getConfig;
+
+		/// <summary>The mod's public API.</summary>
+		private readonly IGenericModConfigMenuAPI _modAPI;
 
 		/// <summary>_reset the config model to the default values.</summary>
 		private readonly Action _reset;

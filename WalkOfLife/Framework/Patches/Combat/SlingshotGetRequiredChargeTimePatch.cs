@@ -1,37 +1,26 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
-using StardewModdingAPI;
+﻿using HarmonyLib;
+using JetBrains.Annotations;
 using StardewValley.Tools;
-using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class SlingshotGetRequiredChargeTimePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal SlingshotGetRequiredChargeTimePatch()
 		{
-			Original = typeof(Slingshot).MethodNamed(nameof(Slingshot.GetRequiredChargeTime));
-			Postfix = new(GetType(), nameof(SlingshotGetRequiredChargeTimePostfix));
+			Original = RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to reduce slingshot charge time for Desperado.</summary>
-		[HarmonyPrefix]
+		[HarmonyPostfix]
 		private static void SlingshotGetRequiredChargeTimePostfix(ref float __result)
 		{
-			try
-			{
-				if (ModEntry.SuperModeIndex != Util.Professions.IndexOf("Desperado")) return;
-
-				__result *= Util.Professions.GetCooldownOrChargeTimeReduction();
-			}
-			catch (Exception ex)
-			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
-			}
+			if (ModEntry.SuperModeIndex != Utility.Professions.IndexOf("Desperado")) return;
+			__result *= Utility.Professions.GetCooldownOrChargeTimeReduction();
 		}
 
 		#endregion harmony patches

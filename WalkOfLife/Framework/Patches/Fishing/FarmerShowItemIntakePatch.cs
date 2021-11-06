@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Reflection;
 using HarmonyLib;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class FarmerShowItemIntakePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal FarmerShowItemIntakePatch()
 		{
-			Original = typeof(Farmer).MethodNamed(nameof(Farmer.showItemIntake));
-			Prefix = new(GetType(), nameof(FarmerShowItemIntakePrefix));
+			Original = RequireMethod<Farmer>(nameof(Farmer.showItemIntake));
 		}
 
 		#region harmony patches
@@ -28,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			try
 			{
-				if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.AnyOf(14, 51)) return true; // run original logic
+				if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.IsAnyOf(14, 51)) return true; // run original logic
 
 				var toShow = (SObject) who.mostRecentlyGrabbedItem;
 				TemporaryAnimatedSprite tempSprite = who.FacingDirection switch
@@ -167,7 +167,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 		}

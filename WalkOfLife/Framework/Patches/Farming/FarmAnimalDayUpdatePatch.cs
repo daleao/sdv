@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
@@ -10,13 +11,13 @@ using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class FarmAnimalDayUpdatePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal FarmAnimalDayUpdatePatch()
 		{
-			Original = typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.dayUpdate));
-			Transpiler = new(GetType(), nameof(FarmAnimalDayUpdateTranspiler));
+			Original = RequireMethod<FarmAnimal>(nameof(FarmAnimal.dayUpdate));
 		}
 
 		#region harmony patches
@@ -29,14 +30,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		protected static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// From: FarmeAnimal.daysToLay -= (FarmAnimal.type.Value.Equals("Sheep") && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(Farmer.shepherd)) ? 1 : 0
 			/// To: FarmAnimal.daysToLay /= (FarmAnimal.happiness.Value >= 200) && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<producer_id>) ? 2 : 1
 
 			try
 			{
-				Helper
+				helper
 					.FindFirst( // find index of FarmAnimal.type.Value.Equals("Sheep")
 						new CodeInstruction(OpCodes.Ldstr, "Sheep"),
 						new CodeInstruction(OpCodes.Callvirt,
@@ -71,7 +72,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while patching modded Producer produce frequency.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while patching modded Producer produce frequency.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
@@ -79,7 +81,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			try
 			{
-				Helper
+				helper
 					.FindNext( // find index of first FarmAnimal.isCoopDweller check
 						new CodeInstruction(OpCodes.Call,
 							typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.isCoopDweller)))
@@ -96,12 +98,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log(
-					$"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log(
+					$"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

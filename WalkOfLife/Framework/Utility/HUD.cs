@@ -7,7 +7,7 @@ using SUtility = StardewValley.Utility;
 
 // ReSharper disable JoinDeclarationAndInitializer
 
-namespace TheLion.Stardew.Professions.Framework.Util
+namespace TheLion.Stardew.Professions.Framework.Utility
 {
 	/// <summary>Holds common methods and properties related to rendering elements to the game HUD.</summary>
 	public static class HUD

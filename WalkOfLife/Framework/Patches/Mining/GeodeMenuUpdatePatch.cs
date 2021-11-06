@@ -1,22 +1,23 @@
-﻿using HarmonyLib;
-using StardewValley;
-using StardewValley.Menus;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
+using StardewValley;
+using StardewValley.Menus;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class GeodeMenuUpdatePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal GeodeMenuUpdatePatch()
 		{
-			Original = typeof(GeodeMenu).MethodNamed(nameof(GeodeMenu.update));
-			Transpiler = new(GetType(), nameof(GeodeMenuUpdateTranspiler));
+			Original = RequireMethod<GeodeMenu>(nameof(GeodeMenu.update));
 		}
 
 		#region harmony patches
@@ -26,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> GeodeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
 			ILGenerator iLGenerator, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// Injected: if (Game1.player.professions.Contains(<gemologist_id>))
 			///		Data.IncrementField<uint>("MineralsCollected")
@@ -35,31 +36,32 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
 			try
 			{
-				Helper
+				helper
 					.FindNext(
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
 					)
 					.Advance()
-					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Gemologist"),
+					.InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Gemologist"),
 						dontIncreaseGemologistCounter)
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
 						new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] { typeof(string) })
+							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] {typeof(string)})
 								.MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseGemologistCounter);
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while adding Gemologist counter increment.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while adding Gemologist counter increment.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

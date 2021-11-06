@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using TheLion.Stardew.Common.Extensions;
@@ -12,15 +13,13 @@ using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class ObjectPerformObjectDropInActionPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal ObjectPerformObjectDropInActionPatch()
 		{
-			Original = typeof(SObject).MethodNamed(nameof(SObject.performObjectDropInAction));
-			Prefix = new(GetType(), nameof(ObjectPerformObjectDropInActionPrefix));
-			Postfix = new(GetType(), nameof(ObjectPerformObjectDropInActionPostfix));
-			Transpiler = new(GetType(), nameof(ObjectPerformObjectDropInActionTranspiler));
+			Original = RequireMethod<SObject>(nameof(SObject.performObjectDropInAction));
 		}
 
 		#region harmony patches
@@ -43,52 +42,45 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void ObjectPerformObjectDropInActionPostfix(SObject __instance, bool __state, Item dropInItem,
 			bool probe, Farmer who)
 		{
-			try
+			// if there was an object inside before running the original method, or if the machine is still empty after running the original method, or if the machine doesn't belong to this player, then do nothing
+			if (__state || __instance.heldObject.Value is null ||
+			    Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID || probe) return;
+
+			if (__instance.name.IsAnyOf("Crystalarium", "Geode Crusher") && who.HasProfession("Gemologist") &&
+			    (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
 			{
-				// if there was an object inside before running the original method, or if the machine is still empty after running the original method, or if the machine doesn't belong to this player, then do nothing
-				if (__state || __instance.heldObject.Value is null ||
-				    Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID || probe) return;
-
-				if (__instance.name.AnyOf("Crystalarium", "Geode Crusher") && who.HasProfession("Gemologist") &&
-				    (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
-				{
-					__instance.heldObject.Value.Quality = Util.Professions.GetGemologistMineralQuality();
-				}
-				else if (__instance.IsArtisanMachine() && dropInItem is SObject dropIn)
-				{
-					// mead cares about input honey flower type
-					if (__instance.name == "Keg" && dropIn.ParentSheetIndex == 340 &&
-					    dropIn.preservedParentSheetIndex.Value > 0)
-					{
-						__instance.heldObject.Value.preservedParentSheetIndex.Value =
-							dropIn.preservedParentSheetIndex.Value;
-						__instance.heldObject.Value.Price = dropIn.Price * 2;
-					}
-					// large milk/eggs give double output
-					else if (__instance.name.AnyOf("Mayonnaise Machine", "Cheese Press") &&
-					         dropIn.name.Contains("Large"))
-					{
-						__instance.heldObject.Value.Stack = 2;
-					}
-
-					if (who.HasProfession("Artisan"))
-					{
-						__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
-						__instance.heldObject.Value.Quality = dropIn.Quality;
-						if (dropIn.Quality < SObject.bestQuality &&
-						    new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
-							__instance.heldObject.Value.Quality +=
-								dropIn.Quality == SObject.medQuality ? 2 : dropIn.Quality + 1;
-					}
-					else
-					{
-						__instance.heldObject.Value.Quality = SObject.lowQuality;
-					}
-				}
+				__instance.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
 			}
-			catch (Exception ex)
+			else if (__instance.IsArtisanMachine() && dropInItem is SObject dropIn)
 			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				// mead cares about input honey flower type
+				if (__instance.name == "Keg" && dropIn.ParentSheetIndex == 340 &&
+				    dropIn.preservedParentSheetIndex.Value > 0)
+				{
+					__instance.heldObject.Value.preservedParentSheetIndex.Value =
+						dropIn.preservedParentSheetIndex.Value;
+					__instance.heldObject.Value.Price = dropIn.Price * 2;
+				}
+				// large milk/eggs give double output
+				else if (__instance.name.IsAnyOf("Mayonnaise Machine", "Cheese Press") &&
+				         dropIn.name.Contains("Large"))
+				{
+					__instance.heldObject.Value.Stack = 2;
+				}
+
+				if (who.HasProfession("Artisan"))
+				{
+					__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
+					__instance.heldObject.Value.Quality = dropIn.Quality;
+					if (dropIn.Quality < SObject.bestQuality &&
+					    new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
+						__instance.heldObject.Value.Quality +=
+							dropIn.Quality == SObject.medQuality ? 2 : dropIn.Quality + 1;
+				}
+				else
+				{
+					__instance.heldObject.Value.Quality = SObject.lowQuality;
+				}
 			}
 		}
 
@@ -97,7 +89,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> ObjectPerformObjectDropInActionTranspiler(
 			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// Injected: if (Game1.player.professions.Contains(<gemologist_id>))
 			///		Data.IncrementField<uint>("MineralsCollected")
@@ -106,13 +98,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
 			try
 			{
-				Helper
+				helper
 					.FindNext(
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
 					)
 					.Advance()
-					.InsertProfessionCheckForLocalPlayer(Util.Professions.IndexOf("Gemologist"),
+					.InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Gemologist"),
 						dontIncreaseGemologistCounter)
 					.Insert(
 						new CodeInstruction(OpCodes.Call,
@@ -126,11 +118,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while adding Gemologist counter increment.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while adding Gemologist counter increment.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

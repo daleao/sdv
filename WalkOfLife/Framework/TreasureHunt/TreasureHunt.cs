@@ -8,10 +8,10 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 	public abstract class TreasureHunt
 	{
 		private readonly double _baseTriggerChance;
+
 		protected readonly Random Random = new(Guid.NewGuid().GetHashCode());
 		private double _accumulatedBonus = 1.0;
 		protected uint Elapsed;
-
 		protected uint TimeLimit;
 
 		/// <summary>Construct an instance.</summary>

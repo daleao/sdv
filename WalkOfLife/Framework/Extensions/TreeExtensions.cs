@@ -13,13 +13,13 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			var tileLocation = tree.currentTileLocation;
 			var environment = tree.currentLocation;
 			if (Game1.GetSeasonForLocation(tree.currentLocation) == "winter" &&
-			    !tree.treeType.Value.AnyOf(Tree.palmTree, Tree.palmTree2) &&
+			    !tree.treeType.Value.IsAnyOf(Tree.palmTree, Tree.palmTree2) &&
 			    !environment.CanPlantTreesHere(-1, (int) tileLocation.X, (int) tileLocation.Y) &&
 			    !tree.fertilized.Value)
 				return false;
 
 			var s = environment.doesTileHaveProperty((int) tileLocation.X, (int) tileLocation.Y, "NoSpawn", "Back");
-			if (s is not null && s.AnyOf("All", "Tree", "True")) return false;
+			if (s is not null && s.IsAnyOf("All", "Tree", "True")) return false;
 
 			var growthRect = new Rectangle((int) ((tileLocation.X - 1f) * 64f), (int) ((tileLocation.Y - 1f) * 64f),
 				192, 192);

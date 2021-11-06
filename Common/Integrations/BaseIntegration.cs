@@ -1,5 +1,5 @@
-using StardewModdingAPI;
 using System;
+using StardewModdingAPI;
 
 namespace TheLion.Stardew.Common.Integrations
 {
@@ -7,21 +7,6 @@ namespace TheLion.Stardew.Common.Integrations
 	/// <remarks>Credit to <c>Pathoschild</c>.</remarks>
 	internal abstract class BaseIntegration : IModIntegration
 	{
-		/// <summary>The mod's unique ID.</summary>
-		protected string ModID { get; }
-
-		/// <summary>A human-readable name for the mod.</summary>
-		public string Label { get; }
-
-		/// <summary>Whether the mod is available.</summary>
-		public bool IsLoaded { get; protected set; }
-
-		/// <summary>API for fetching metadata about loaded mods.</summary>
-		protected IModRegistry ModRegistry { get; }
-
-		/// <summary>Encapsulates monitoring and logging.</summary>
-		protected Action<string, LogLevel> Log { get; }
-
 		/// <summary>Construct an instance.</summary>
 		/// <param name="label">A human-readable name for the mod.</param>
 		/// <param name="modID">The mod's unique ID.</param>
@@ -51,6 +36,21 @@ namespace TheLion.Stardew.Common.Integrations
 
 			IsLoaded = true;
 		}
+
+		/// <summary>The mod's unique ID.</summary>
+		protected string ModID { get; }
+
+		/// <summary>API for fetching metadata about loaded mods.</summary>
+		protected IModRegistry ModRegistry { get; }
+
+		/// <summary>Encapsulates monitoring and logging.</summary>
+		protected Action<string, LogLevel> Log { get; }
+
+		/// <summary>A human-readable name for the mod.</summary>
+		public string Label { get; }
+
+		/// <summary>Whether the mod is available.</summary>
+		public bool IsLoaded { get; protected set; }
 
 		/// <summary>Get an API for the mod, and show a message if it can't be loaded.</summary>
 		/// <typeparam name="TInterface">The API type.</typeparam>

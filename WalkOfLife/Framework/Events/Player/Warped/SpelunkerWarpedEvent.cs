@@ -3,7 +3,7 @@ using StardewValley.Locations;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SpelunkerWarpedEvent : WarpedEvent
+	internal class SpelunkerWarpedEvent : WarpedEvent
 	{
 		private static readonly SpelunkerBuffDisplayUpdateTickedEvent SpelunkerUpdateTickedEvent = new();
 

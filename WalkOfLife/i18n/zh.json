@@ -88,8 +88,10 @@
 	"conservationist.name.male": "环保主义者",
 	"conservationist.name.female": "环保主义者",
 	"conservationist.desc": "没有诱饵的蟹笼会诱捕垃圾，从水中清除垃圾以获得星露谷村民的青睐和税收减免。",
-	"conservationist.mail1": "亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)节规定的{{taxBonus}}所得税减免条件。自本季起，{{farmName}}的所有应纳税所得额将退回上述数额。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
-	"conservationist.mail2": "亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)条规定的{{taxBonus}}最高所得税减免条件。自本季起，{{farmName}} 的所有应纳税所得额将退回上述数额。^^^如果您需要解决有关您的财政状况的任何问题，请将此信保存在您的永久记录中。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
+	"conservationist.mail1":
+		"亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)节规定的{{taxBonus}}所得税减免条件。自本季起，{{farmName}}的所有应纳税所得额将退回上述数额。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
+	"conservationist.mail2":
+		"亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)条规定的{{taxBonus}}最高所得税减免条件。自本季起，{{farmName}} 的所有应纳税所得额将退回上述数额。^^^如果您需要解决有关您的财政状况的任何问题，请将此信保存在您的永久记录中。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
 
 	// Combat
 	"fighter.name.male": "战士",
@@ -126,5 +128,13 @@
 	"piper.buff": "物质",
 	"piper.buffdesc": "吸引 {{magnitude1}} 额外的史莱姆。史莱姆攻击频率+{{magnitude2}}%。",
 	"piper.superm": "超流体",
-	"piper.supermdesc": "因为史莱姆增长到两倍大小。当被击败时，足够大的史莱姆会分解成更小的史莱姆。"
+	"piper.supermdesc": "因为史莱姆增长到两倍大小。当被击败时，足够大的史莱姆会分解成更小的史莱姆。",
+
+	// Prestige
+	"prestige.dogstatue.first": "- 威望雕像 - ^雕像可以声望技能。^这会将技能的等级恢复为0，同时保留所有获得的专业。^所有相关配方将被遗忘。^提供黄金？",
+	"prestige.dogstatue.question": "你想声望哪个技能？",
+	"prestige.dogstatue.cost": "{{cost}}金子",
+	"prestige.skillpage.tooltip": "{{count}}/4 个获得的职业：",
+	"prestige.levelup.tooltip:5": "你已经拥有这个分支的所有职业。",
+	"prestige.levelup.tooltip:10": "你已经有这个职业了。"
 }

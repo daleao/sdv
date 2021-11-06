@@ -9,7 +9,7 @@ using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class PiperWarpedEvent : WarpedEvent
+	internal class PiperWarpedEvent : WarpedEvent
 	{
 		/// <inheritdoc />
 		public override void OnWarped(object sender, WarpedEventArgs e)
@@ -23,7 +23,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				return;
 			}
 
-			var attempts = Util.Professions.GetPiperSlimeSpawnAttempts();
+			var attempts = Utility.Professions.GetPiperSlimeSpawnAttempts();
 			var spawned = 0;
 			var r = new Random(Guid.NewGuid().GetHashCode());
 			while (attempts-- > 0 || spawned < 1)

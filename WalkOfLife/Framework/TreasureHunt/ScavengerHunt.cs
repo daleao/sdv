@@ -9,7 +9,7 @@ using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
 using TheLion.Stardew.Professions.Framework.Events;
-using TheLion.Stardew.Professions.Framework.Util;
+using TheLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt

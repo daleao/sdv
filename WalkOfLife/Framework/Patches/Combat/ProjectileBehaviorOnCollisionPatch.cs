@@ -1,25 +1,22 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
+using JetBrains.Annotations;
 using Netcode;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class ProjectileBehaviorOnCollisionPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal ProjectileBehaviorOnCollisionPatch()
 		{
-			Original = typeof(Projectile).MethodNamed("behaviorOnCollision");
-			Postfix = new(GetType(), nameof(ProjectileBehaviorOnCollisionPostfix));
+			Original = RequireMethod<Projectile>("behaviorOnCollision");
 		}
 
 		#region harmony patches
@@ -29,23 +26,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void ProjectileBehaviorOnCollisionPostfix(Projectile __instance, NetInt ___currentTileSheetIndex,
 			NetPosition ___position, NetCharacterRef ___theOneWhoFiredMe, GameLocation location)
 		{
-			try
-			{
-				if (__instance is not BasicProjectile || ModEntry.IsSuperModeActive) return;
+			if (__instance is not BasicProjectile || ModEntry.IsSuperModeActive) return;
 
-				var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
-				if (!firer.HasProfession("Rascal")) return;
+			var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
+			if (!firer.HasProfession("Rascal")) return;
 
-				if ((___currentTileSheetIndex.Value - 1).AnyOf(SObject.copper, SObject.iron, SObject.gold,
-					    SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
-				    || ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
-					location.debris.Add(new(___currentTileSheetIndex.Value - 1,
-						new((int) ___position.X, (int) ___position.Y), firer.getStandingPosition()));
-			}
-			catch (Exception ex)
-			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
-			}
+			if ((___currentTileSheetIndex.Value - 1).IsAnyOf(SObject.copper, SObject.iron, SObject.gold,
+				    SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
+			    || ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
+				location.debris.Add(new(___currentTileSheetIndex.Value - 1,
+					new((int) ___position.X, (int) ___position.Y), firer.getStandingPosition()));
 		}
 
 		#endregion harmony patches

@@ -2,22 +2,23 @@
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
+using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class LevelUpMenuRevalidateHealthPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal LevelUpMenuRevalidateHealthPatch()
 		{
-			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.RevalidateHealth));
-			Prefix = new(GetType(), nameof(LevelUpMenuRevalidateHealthPrefix));
+			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.RevalidateHealth));
 		}
 
 		#region harmony patches
@@ -32,8 +33,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var expectedMaxHealth = 100;
 			if (farmer.mailReceived.Contains("qiCave")) expectedMaxHealth += 25;
 
-			for (var i = 1; i <= farmer.GetUnmodifiedSkillLevel(4); ++i)
-				if (!farmer.newLevels.Contains(new(4, i)) && i != 5 && i != 10)
+			for (var i = 1; i <= farmer.GetUnmodifiedSkillLevel((int) SkillType.Combat); ++i)
+				if (!farmer.newLevels.Contains(new((int) SkillType.Combat, i)) && i != 5 && i != 10)
 					expectedMaxHealth += 5;
 
 			if (Game1.player.HasProfession("Fighter")) expectedMaxHealth += 15;
@@ -41,7 +42,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			if (farmer.maxHealth != expectedMaxHealth)
 			{
-				Log(
+				ModEntry.Log(
 					$"Fixing max health of {farmer.Name}.\nCurrent: {farmer.maxHealth}\nExpected: {expectedMaxHealth}",
 					LogLevel.Warn);
 				farmer.maxHealth = expectedMaxHealth;
@@ -62,7 +63,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return false; // don't run original logic
 			}
 

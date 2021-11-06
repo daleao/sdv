@@ -12,7 +12,7 @@ using SObject = StardewValley.Object;
 
 // ReSharper disable PossibleLossOfFraction
 
-namespace TheLion.Stardew.Professions.Framework.Util
+namespace TheLion.Stardew.Professions.Framework.Utility
 {
 	/// <summary>Holds common methods and properties related to specific professions.</summary>
 	public static class Professions
@@ -103,7 +103,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		public static float GetAnglerPriceMultiplier(Farmer who)
 		{
 			var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-				.Where(p => !p.Key.AnyOf(152, 152, 157) && !p.Value.Contains("trap"))
+				.Where(p => !p.Key.IsAnyOf(152, 152, 157) && !p.Value.Contains("trap"))
 				.ToDictionary(p => p.Key, p => p.Value);
 			var multiplier = 1f;
 			foreach (var p in who.fishCaught.Pairs)
@@ -177,7 +177,9 @@ namespace TheLion.Stardew.Professions.Framework.Util
 			return 1.15f +
 			       (who.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Brute")
 				       ? 0.65f + who.attackIncreaseModifier +
-				         (who.CurrentTool is not null ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f : 0f)
+				         (who.CurrentTool is not null
+					         ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f
+					         : 0f)
 				       : ModEntry.SuperModeCounter / 10 * 0.005f) *
 			       ((who.CurrentTool as MeleeWeapon)?.type.Value == MeleeWeapon.club ? 1.5f : 1f);
 		}
@@ -209,8 +211,8 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		/// <param name="who">The player.</param>
 		public static float GetDesperadoDoubleStrafeChance(Farmer who)
 		{
-			var healthPercent = (double)who.health / who.maxHealth;
-			return (float)Math.Min(2 / (healthPercent + 1.5) - 0.75, 0.5f);
+			var healthPercent = (double) who.health / who.maxHealth;
+			return (float) Math.Min(2 / (healthPercent + 1.5) - 0.75, 0.5f);
 		}
 
 		/// <summary>Affects projectile velocity, knockback, hitbox size and pierce chance for Desperado.</summary>
@@ -236,7 +238,7 @@ namespace TheLion.Stardew.Professions.Framework.Util
 		}
 
 		/// <summary>Affects the attack frequency of Slimes under Piper influence towards other enemies.</summary>
-		/// <returns>Returns a number between 0 (when <see cref="ModEntry.SuperModeCounter"/> is 0, and 0.15 when it is full.</returns>
+		/// <returns>Returns a number between 0 (when <see cref="ModEntry.SuperModeCounter" /> is 0, and 0.15 when it is full.</returns>
 		public static float GetPiperSlimeAttackSpeedModifier()
 		{
 			return ModEntry.IsSuperModeActive
@@ -244,8 +246,11 @@ namespace TheLion.Stardew.Professions.Framework.Util
 				: 1f - ModEntry.SuperModeCounter / 10 * 0.003f;
 		}
 
-		/// <summary>Affects the cooldown of Club or Hammer special attacks for Brute and Poacher, or the pull-back time of shots for Desperado.</summary>
-		/// <returns>Returns a number between 1 (when <see cref="ModEntry.SuperModeCounter"/> is 0, and 0.5 when it is full.</returns>
+		/// <summary>
+		///     Affects the cooldown of Club or Hammer special attacks for Brute and Poacher, or the pull-back time of shots
+		///     for Desperado.
+		/// </summary>
+		/// <returns>Returns a number between 1 (when <see cref="ModEntry.SuperModeCounter" /> is 0, and 0.5 when it is full.</returns>
 		public static float GetCooldownOrChargeTimeReduction()
 		{
 			return ModEntry.IsSuperModeActive

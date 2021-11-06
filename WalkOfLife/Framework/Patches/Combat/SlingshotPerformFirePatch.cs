@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewModdingAPI;
@@ -17,14 +18,13 @@ using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class SlingshotPerformFirePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal SlingshotPerformFirePatch()
 		{
-			Original = typeof(Slingshot).MethodNamed(nameof(Slingshot.PerformFire));
-			Postfix = new(GetType(), nameof(SlingshotPerformFirePostfix));
-			Transpiler = new(GetType(), nameof(SlingshotPerformFireTranspiler));
+			Original = RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
 		}
 
 		#region harmony patches
@@ -33,7 +33,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void SlingshotPerformFirePostfix(GameLocation location, Farmer who)
 		{
-			if (!who.HasProfession("Desperado") || location.projectiles.LastOrDefault() is not BasicProjectile mainProjectile) return;
+			if (!who.HasProfession("Desperado") ||
+			    location.projectiles.LastOrDefault() is not BasicProjectile mainProjectile) return;
 
 			// get bullet properties
 			var damage = mainProjectile.damageToFarmer;
@@ -53,7 +54,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var velocity = new Vector2(xVelocity * -1f, yVelocity * -1f);
 			var speed = velocity.Length();
 			velocity.Normalize();
-			if (who.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Util.Professions.IndexOf("Desperado"))
+			if (who.IsLocalPlayer && ModEntry.IsSuperModeActive &&
+			    ModEntry.SuperModeIndex == Utility.Professions.IndexOf("Desperado"))
 			{
 				// do Death Blossom
 				;
@@ -83,7 +85,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				//	IgnoreLocationCollision = (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
 				//});
 			}
-			else if (Game1.random.NextDouble() < Util.Professions.GetDesperadoDoubleStrafeChance(who))
+			else if (Game1.random.NextDouble() < Utility.Professions.GetDesperadoDoubleStrafeChance(who))
 			{
 				// do Double Strafe
 				DelayedAction doubleStrafe = new(50, () =>
@@ -106,7 +108,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> SlingshotPerformFireTranspiler(
 			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// Injected: if (who.IsLocalPlayer && location.IsCombatZone() && SuperModeIndex == <desperado_id> && !IsSuperModeActive)
 			///				v *= GetDesperadoBulletPower();
@@ -119,7 +121,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var chargeTime = iLGenerator.DeclareLocal(typeof(TimeSpan));
 			try
 			{
-				Helper
+				helper
 					.FindFirst(
 						new CodeInstruction(OpCodes.Stloc_S, $"{typeof(int)} (5)")
 					)
@@ -132,8 +134,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(Item).PropertyGetter(nameof(Item.Category)))
 					)
 					.Retreat()
-					.GetLabels(out var labels) // backup branch labels
-					.StripLabels() // remove labels from here
+					.StripLabels(out var labels) // backup and remove branch labels
 					.Insert(
 						// check if who.IsLocalPlayer)
 						new CodeInstruction(OpCodes.Ldarg_2), // arg 2 = Farmer who
@@ -148,7 +149,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						// check if SuperModeIndex == <desperado_id>
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.SuperModeIndex))),
-						new CodeInstruction(OpCodes.Ldc_I4_S, Util.Professions.IndexOf("Desperado")),
+						new CodeInstruction(OpCodes.Ldc_I4_S, Utility.Professions.IndexOf("Desperado")),
 						new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution),
 						// check if IsSuperModeActive = true
 						new CodeInstruction(OpCodes.Call,
@@ -161,7 +162,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Dup),
 						new CodeInstruction(OpCodes.Ldind_R4),
 						new CodeInstruction(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetDesperadoBulletPower))),
+							typeof(Utility.Professions).MethodNamed(nameof(Utility.Professions
+								.GetDesperadoBulletPower))),
 						new CodeInstruction(OpCodes.Mul),
 						new CodeInstruction(OpCodes.Stind_R4),
 						// v.Y *= GetDesperadoBulletPower()
@@ -171,7 +173,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Dup),
 						new CodeInstruction(OpCodes.Ldind_R4),
 						new CodeInstruction(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetDesperadoBulletPower))),
+							typeof(Utility.Professions).MethodNamed(nameof(Utility.Professions
+								.GetDesperadoBulletPower))),
 						new CodeInstruction(OpCodes.Mul),
 						new CodeInstruction(OpCodes.Stind_R4),
 						// check for quick shot (i.e. sling shot charge time <= required charge time * breathing room)
@@ -188,7 +191,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(Slingshot).Field(nameof(Slingshot.pullStartTime))),
 						new CodeInstruction(OpCodes.Sub),
 						new CodeInstruction(OpCodes.Call,
-							typeof(Util.Professions).MethodNamed(nameof(Util.Professions.GetDesperadoChargeTime))),
+							typeof(Utility.Professions).MethodNamed(nameof(Utility.Professions
+								.GetDesperadoChargeTime))),
 						new CodeInstruction(OpCodes.Ldc_R4, 1.2f), // <-- breathing room
 						new CodeInstruction(OpCodes.Mul),
 						new CodeInstruction(OpCodes.Bgt_S, notQuickShot),
@@ -199,7 +203,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Add),
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModEntry).PropertySetter(nameof(ModEntry.SuperModeCounter))),
-						
 						new CodeInstruction(OpCodes.Br_S, resumeExecution)
 					)
 					.Insert(
@@ -219,12 +222,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log(
-					$"Failed while injecting modded Desperado ammunition damage modifier, Cold Blood counter and quick shots.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log(
+					$"Failed while injecting modded Desperado ammunition damage modifier, Cold Blood counter and quick shots.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

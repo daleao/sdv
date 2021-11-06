@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Reflection;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class FarmAnimalGetSellPricePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal FarmAnimalGetSellPricePatch()
 		{
-			Original = typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.getSellPrice));
-			Prefix = new(GetType(), nameof(FarmAnimalGetSellPricePrefix));
+			Original = RequireMethod<FarmAnimal>(nameof(FarmAnimal.getSellPrice));
 		}
 
 		#region harmony patches
@@ -26,14 +26,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			double adjustedFriendship;
 			try
 			{
-				var owner = Game1.getFarmer(__instance.ownerID.Value);
+				var owner = Game1.getFarmerMaybeOffline(__instance.ownerID.Value) ?? Game1.MasterPlayer;
 				if (!owner.HasProfession("Breeder")) return true; // run original logic
 
-				adjustedFriendship = Util.Professions.GetProducerAdjustedFriendship(__instance);
+				adjustedFriendship = Utility.Professions.GetProducerAdjustedFriendship(__instance);
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+				ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
 				return true; // default to original logic
 			}
 

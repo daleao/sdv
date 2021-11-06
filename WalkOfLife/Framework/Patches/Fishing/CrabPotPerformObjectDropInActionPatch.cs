@@ -1,21 +1,22 @@
-﻿using HarmonyLib;
-using StardewValley.Objects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
+using StardewValley.Objects;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class CrabPotPerformObjectDropInActionPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal CrabPotPerformObjectDropInActionPatch()
 		{
-			Original = typeof(CrabPot).MethodNamed(nameof(CrabPot.performObjectDropInAction));
-			Transpiler = new(GetType(), nameof(CrabPotPerformObjectDropInActionTranspiler));
+			Original = RequireMethod<CrabPot>(nameof(CrabPot.performObjectDropInAction));
 		}
 
 		#region harmony patches
@@ -25,14 +26,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> CrabPotPerformObjectDropInActionTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// Removed: ... && (owner_farmer is null || !owner_farmer.professions.Contains(11)
 
 			try
 			{
-				Helper
-					.FindProfessionCheck(Util.Professions.IndexOf("Conservationist"))
+				helper
+					.FindProfessionCheck(Utility.Professions.IndexOf("Conservationist"))
 					.RetreatUntil(
 						new CodeInstruction(OpCodes.Ldloc_1)
 					)
@@ -45,11 +46,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while removing Conservationist bait restriction.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while removing Conservationist bait restriction.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

@@ -1,12 +1,15 @@
-﻿using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
+using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class CrabPotMachineGetStatePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
@@ -14,7 +17,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = AccessTools.Method(
 				"Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine:GetState");
-			Transpiler = new(GetType(), nameof(CrabPotMachineGetStateTranspiler));
 		}
 
 		#region harmony patches
@@ -24,13 +26,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> CrabPotMachineGetStateTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// Removed: || !this.PlayerNeedsBait()
 
 			try
 			{
-				Helper
+				helper
 					.FindFirst(
 						new CodeInstruction(OpCodes.Brtrue_S)
 					)
@@ -43,11 +45,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

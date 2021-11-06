@@ -1,6 +1,6 @@
-﻿using StardewModdingAPI;
+﻿using System.Linq;
+using StardewModdingAPI;
 using StardewValley;
-using System.Linq;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions
 {

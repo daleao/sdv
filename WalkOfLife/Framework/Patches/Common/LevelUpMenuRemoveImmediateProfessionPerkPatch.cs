@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
@@ -14,14 +15,13 @@ using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal LevelUpMenuRemoveImmediateProfessionPerkPatch()
 		{
-			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.removeImmediateProfessionPerk));
-			Postfix = new(GetType(), nameof(LevelUpMenuRemoveImmediateProfessionPerkPostfix));
-			Transpiler = new(GetType(), nameof(LevelUpMenuRemoveImmediateProfessionPerkTranspiler));
+			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.removeImmediateProfessionPerk));
 		}
 
 		#region harmony patches
@@ -30,42 +30,37 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			try
-			{
-				if (!Util.Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
+			if (!Utility.Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
 
-				// remove immediate perks
-				if (professionName == "Aquarist")
-					foreach (var b in Game1.getFarm().buildings.Where(b =>
-						(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-						b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
-					{
-						b.maxOccupants.Set(10);
-						b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
-					}
+			// remove immediate perks
+			if (professionName == "Aquarist")
+				foreach (var b in Game1.getFarm().buildings.Where(b =>
+					(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+					b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+				{
+					b.maxOccupants.Set(10);
+					b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+				}
 
-				// clean unnecessary mod data
-				if (!professionName.AnyOf("Scavenger", "Prospector"))
-					ModEntry.Data.RemoveProfessionDataFields(professionName);
+			// clean unnecessary mod data
+			if (!professionName.IsAnyOf("Scavenger", "Prospector"))
+				ModEntry.Data.RemoveProfessionDataFields(professionName);
 
-				// unsubscribe unnecessary events
-				ModEntry.Subscriber.UnsubscribeProfessionEvents(professionName);
+			// unsubscribe unnecessary events
+			ModEntry.Subscriber.UnsubscribeProfessionEvents(professionName);
 
-				// unregister super mode
-				if (ModEntry.SuperModeIndex != whichProfession) return;
+			// unregister super mode
+			if (ModEntry.SuperModeIndex != whichProfession) return;
 
-				var superModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"};
-				if (Game1.player.HasAnyOfProfessions(superModeProfessions.Except(new[] {professionName}).ToArray()))
-					ModEntry.SuperModeIndex = Util.Professions.IndexOf(superModeProfessions.First());
-				else
-					ModEntry.SuperModeIndex = -1;
+			var otherSuperModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"}
+				.Except(new[] {professionName}).ToArray();
+			var x = Game1.player.professions;
+			if (Game1.player.HasAnyOfProfessions(otherSuperModeProfessions, out var firstMatch))
+				ModEntry.SuperModeIndex = Utility.Professions.IndexOf(firstMatch);
+			else
+				ModEntry.SuperModeIndex = -1;
 
-				ModEntry.SuperModeCounter = 0;
-			}
-			catch (Exception ex)
-			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
-			}
+			ModEntry.SuperModeCounter = 0;
 		}
 
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
@@ -73,26 +68,27 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> LevelUpMenuRemoveImmediateProfessionPerkTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// From: case <defender_id>:
 			/// To: case <brute_id>:
 
 			try
 			{
-				Helper
+				helper
 					.FindFirst(
 						new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
 					)
-					.SetOperand(Util.Professions.IndexOf("Brute"));
+					.SetOperand(Utility.Professions.IndexOf("Brute"));
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

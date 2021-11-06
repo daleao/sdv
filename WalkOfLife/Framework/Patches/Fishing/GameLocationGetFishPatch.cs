@@ -10,7 +10,7 @@ using StardewValley.Tools;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.Util;
+using TheLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
@@ -21,8 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal GameLocationGetFishPatch()
 		{
-			Original = typeof(GameLocation).MethodNamed(nameof(GameLocation.getFish));
-			Transpiler = new(GetType(), nameof(GameLocationGetFishTranspiler));
+			Original = RequireMethod<GameLocation>(nameof(GameLocation.getFish));
 		}
 
 		#region harmony patches
@@ -32,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> GameLocationGetFishTranspiler(
 			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// Injected: if (ShouldRerollFish(who, whichFish, hasRerolled)) goto <choose_fish>
 			///	Before: caught = new Object(whichFish, 1);
@@ -43,13 +42,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var shuffleMethod = typeof(SUtility).GetMethods().Where(mi => mi.Name == "Shuffle").ElementAtOrDefault(1);
 			if (shuffleMethod is null)
 			{
-				Log($"Failed to acquire {typeof(SUtility)}::Shuffle method.", LogLevel.Error);
+				ModEntry.Log($"Failed to acquire {typeof(SUtility)}::Shuffle method.", LogLevel.Error);
 				return null;
 			}
 
 			try
 			{
-				Helper
+				helper
 					.Insert( // set hasRerolled to false
 						new CodeInstruction(OpCodes.Ldc_I4_0),
 						new CodeInstruction(OpCodes.Stloc_S, hasRerolled)
@@ -82,11 +81,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}", LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches
@@ -100,7 +99,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			return !hasRerolled && currentFish is > 166 and < 173 or 152 or 153 or 157
 			                    && who.CurrentTool is FishingRod rod
 			                    && Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
-			                    && baitName.AnyOf("Bait", "Wild Bait", "Magic Bait")
+			                    && baitName.IsAnyOf("Bait", "Wild Bait", "Magic Bait")
 			                    && who.HasProfession("Fisher");
 		}
 	}

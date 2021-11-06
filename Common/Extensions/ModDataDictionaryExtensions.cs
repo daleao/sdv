@@ -1,14 +1,14 @@
-﻿using StardewValley;
-using System;
+﻿using System;
 using System.Linq.Expressions;
+using StardewValley;
 
 namespace TheLion.Stardew.Common.Extensions
 {
-	/// <summary>Provides extension methods for reading and writing values in <see cref="ModDataDictionary"/> fields.</summary>
+	/// <summary>Provides extension methods for reading and writing values in <see cref="ModDataDictionary" /> fields.</summary>
 	internal static class ModDataDictionaryExtensions
 	{
-		/// <summary>Read a value from the <see cref="ModDataDictionary"/> as string.</summary>
-		/// <param name="data">The <see cref="ModDataDictionary"/>.</param>
+		/// <summary>Read a value from the <see cref="ModDataDictionary" /> as string.</summary>
+		/// <param name="data">The <see cref="ModDataDictionary" />.</param>
 		/// <param name="key">The dictionary key to read from.</param>
 		/// <param name="defaultValue">The default value to return if the key does not exist.</param>
 		/// <returns>The value of the specified key if it exists, or a default value if it doesn't.</returns>
@@ -19,11 +19,14 @@ namespace TheLion.Stardew.Common.Extensions
 				: defaultValue;
 		}
 
-		/// <summary>Read a value from the <see cref="ModDataDictionary"/> and try to parse it as type <typeparamref name="T"/>.</summary>
-		/// <param name="data">The <see cref="ModDataDictionary"/>.</param>
+		/// <summary>Read a value from the <see cref="ModDataDictionary" /> and try to parse it as type <typeparamref name="T" />.</summary>
+		/// <param name="data">The <see cref="ModDataDictionary" />.</param>
 		/// <param name="key">The dictionary key to read from.</param>
 		/// <param name="defaultValue">The default value to return if the key does not exist.</param>
-		/// <returns>The value of the specified key if it exists, parsed as type <typeparamref name="T"/>, or a default value if the key doesn't exist or fails to parse.</returns>
+		/// <returns>
+		///     The value of the specified key if it exists, parsed as type <typeparamref name="T" />, or a default value if
+		///     the key doesn't exist or fails to parse.
+		/// </returns>
 		public static T Read<T>(this ModDataDictionary data, string key, T defaultValue = default)
 		{
 			return data.TryGetValue(key, out var rawValue) && rawValue.TryParse(out T parsedValue)
@@ -31,11 +34,11 @@ namespace TheLion.Stardew.Common.Extensions
 				: defaultValue;
 		}
 
-		/// <summary>Write a value to the <see cref="ModDataDictionary"/>, or remove the key if supplied with null.</summary>
-		/// <param name="data">The <see cref="ModDataDictionary"/>.</param>
+		/// <summary>Write a value to the <see cref="ModDataDictionary" />, or remove the key if supplied with null.</summary>
+		/// <param name="data">The <see cref="ModDataDictionary" />.</param>
 		/// <param name="key">The dictionary key to write to.</param>
 		/// <param name="value">The value to write, or <c>null</c> to remove the key.</param>
-		/// <return>Interface to <paramref name="data"/>.</return>
+		/// <return>Interface to <paramref name="data" />.</return>
 		public static ModDataDictionary Write(this ModDataDictionary data, string key, string value)
 		{
 			if (string.IsNullOrWhiteSpace(value)) data.Remove(key);
@@ -43,22 +46,22 @@ namespace TheLion.Stardew.Common.Extensions
 			return data;
 		}
 
-		/// <summary>Write a value to the <see cref="ModDataDictionary"/> only if the key does not yet exist.</summary>
-		/// <param name="data">The <see cref="ModDataDictionary"/>.</param>
+		/// <summary>Write a value to the <see cref="ModDataDictionary" /> only if the key does not yet exist.</summary>
+		/// <param name="data">The <see cref="ModDataDictionary" />.</param>
 		/// <param name="key">The dictionary key to write to.</param>
 		/// <param name="value">The value to write.</param>
-		/// <return>Interface to <paramref name="data"/>.</return>
+		/// <return>Interface to <paramref name="data" />.</return>
 		public static ModDataDictionary WriteIfNotExists(this ModDataDictionary data, string key, string value)
 		{
 			if (!data.ContainsKey(key)) data[key] = value;
 			return data;
 		}
 
-		/// <summary>Increment a numeric value in the <see cref="ModDataDictionary"/>.</summary>
-		/// <param name="data">The <see cref="ModDataDictionary"/>.</param>
+		/// <summary>Increment a numeric value in the <see cref="ModDataDictionary" />.</summary>
+		/// <param name="data">The <see cref="ModDataDictionary" />.</param>
 		/// <param name="key">The dictionary key to read update.</param>
 		/// <param name="amount">Amount to increment by.</param>
-		/// <return>Interface to <paramref name="data"/>.</return>
+		/// <return>Interface to <paramref name="data" />.</return>
 		/// <remarks>Credit to <c>Adi Lester</c> (https://stackoverflow.com/questions/8122611/c-sharp-adding-two-generic-values).</remarks>
 		public static ModDataDictionary Increment<T>(this ModDataDictionary data, string key, T amount)
 		{

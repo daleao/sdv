@@ -5,7 +5,7 @@ using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
+	internal class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
 	{
 		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)

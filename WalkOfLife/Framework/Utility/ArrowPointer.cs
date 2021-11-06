@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
-namespace TheLion.Stardew.Professions.Framework.Util
+namespace TheLion.Stardew.Professions.Framework.Utility
 {
 	/// <summary>Vertical arrow indicator to reveal on-screen objects of interest for tracker professions.</summary>
 	public class ArrowPointer

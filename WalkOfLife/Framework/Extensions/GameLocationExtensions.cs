@@ -65,7 +65,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether the game location can spawn enemies.</summary>
 		public static bool IsCombatZone(this GameLocation location)
 		{
-			return location.AnyOfType(typeof(MineShaft), typeof(Woods), typeof(VolcanoDungeon)) ||
+			return location.IsAnyOfTypes(typeof(MineShaft), typeof(Woods), typeof(VolcanoDungeon)) ||
 			       location.NameOrUniqueName.ContainsAnyOf("CrimsonBadlands", "DeepWoods", "RidgeForest",
 				       "SpiritRealm") || location.characters.OfType<Monster>().Any();
 		}

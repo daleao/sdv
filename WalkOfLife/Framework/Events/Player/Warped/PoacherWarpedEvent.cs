@@ -2,7 +2,7 @@
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class PoacherWarpedEvent : WarpedEvent
+	internal class PoacherWarpedEvent : WarpedEvent
 	{
 		/// <inheritdoc />
 		public override void OnWarped(object sender, WarpedEventArgs e)

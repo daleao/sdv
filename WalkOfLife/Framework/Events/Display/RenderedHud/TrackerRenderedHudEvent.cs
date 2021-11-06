@@ -4,11 +4,11 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.Util;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class TrackerRenderedHudEvent : RenderedHudEvent
+	internal class TrackerRenderedHudEvent : RenderedHudEvent
 	{
 		/// <inheritdoc />
 		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)

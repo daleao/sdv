@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
-using System;
-using TheLion.Stardew.Professions.Framework.Util;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class ProspectorHuntRenderedHudEvent : RenderedHudEvent
+	internal class ProspectorHuntRenderedHudEvent : RenderedHudEvent
 	{
 		/// <inheritdoc />
 		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)

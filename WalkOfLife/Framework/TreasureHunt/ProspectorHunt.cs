@@ -187,14 +187,11 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 							if (treasuresAndQuantities.Count == 0)
 								treasuresAndQuantities.Add(72, 1); // consolation diamond
-
 							break;
 					}
 
 					break;
 			}
-
-			//if (treasuresAndQuantities.Count == 0) treasuresAndQuantities.Add(382, Random.Next(1, 4)); // coal
 
 			foreach (var p in treasuresAndQuantities)
 				switch (p.Key)

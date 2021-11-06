@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using TheLion.Stardew.Common.Extensions;
@@ -12,45 +13,24 @@ using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class GenericObjectMachineSetInputPatch : BasePatch
 	{
-		/// <summary>Construct an instance.</summary>
-		internal GenericObjectMachineSetInputPatch()
-		{
-			Postfix = new(GetType(), nameof(GenericObjectMachineGetOutputPostfix));
-		}
-
 		/// <inheritdoc />
-		public override Dictionary<string, int> Apply(Harmony harmony)
+		public override void Apply(Harmony harmony)
 		{
-			var stats = new Dictionary<string, int>
-			{
-				{ "patched", 0},
-				{ "failed", 0},
-				{ "ignored", 0},
-				{ "prefixed", 0},
-				{ "postfixed", 0},
-				{ "transpiled", 0},
-			};
-
 			var targetMethods = TargetMethods().ToList();
-			Log($"[Patch]: Found {targetMethods.Count} target methods for {GetType().Name}.", LogLevel.Trace);
+			ModEntry.Log($"[Patch]: Found {targetMethods.Count} target methods for {GetType().Name}.", LogLevel.Trace);
 			foreach (var method in targetMethods)
 				try
 				{
 					Original = method;
-					var results = base.Apply(harmony);
-					
-					// aggregate patch results to total stats
-					foreach (var key in stats.Keys)
-						stats[key] += results[key];
+					base.Apply(harmony);
 				}
 				catch
 				{
 					// ignored
 				}
-
-			return stats;
 		}
 
 		#region harmony patches
@@ -83,7 +63,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<MethodBase> TargetMethods()
 		{
 			return from type in AccessTools.AllTypes()
-				where type.Name.AnyOf(
+				where type.Name.IsAnyOf(
 					"CheesePressMachine",
 					"KegMachine",
 					"LoomMachine",

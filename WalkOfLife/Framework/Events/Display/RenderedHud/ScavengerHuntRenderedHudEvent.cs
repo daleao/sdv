@@ -2,11 +2,11 @@
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Util;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class ScavengerHuntRenderedHudEvent : RenderedHudEvent
+	internal class ScavengerHuntRenderedHudEvent : RenderedHudEvent
 	{
 		/// <inheritdoc />
 		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)

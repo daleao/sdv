@@ -3,7 +3,7 @@ using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class ScavengerWarpedEvent : WarpedEvent
+	internal class ScavengerWarpedEvent : WarpedEvent
 	{
 		/// <inheritdoc />
 		public override void OnWarped(object sender, WarpedEventArgs e)

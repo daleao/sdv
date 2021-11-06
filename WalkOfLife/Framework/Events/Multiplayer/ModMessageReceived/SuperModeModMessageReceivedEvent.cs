@@ -4,7 +4,7 @@ using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class SuperModeModMessageReceivedEvent : ModMessageReceivedEvent
+	internal class SuperModeModMessageReceivedEvent : ModMessageReceivedEvent
 	{
 		/// <inheritdoc />
 		public override void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
@@ -19,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			{
 				case "SuperModeActivated":
 					ModEntry.ActivePeerSuperModes[key].Add(e.FromPlayerID);
-					var glowingColor = Util.Professions.NameOf(key) switch
+					var glowingColor = Utility.Professions.NameOf(key) switch
 					{
 						"Brute" => Color.OrangeRed,
 						"Poacher" => Color.MediumPurple,

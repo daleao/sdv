@@ -4,7 +4,7 @@ using StardewValley.Locations;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class ProspectorWarpedEvent : WarpedEvent
+	internal class ProspectorWarpedEvent : WarpedEvent
 	{
 		/// <inheritdoc />
 		public override void OnWarped(object sender, WarpedEventArgs e)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
@@ -12,14 +13,13 @@ using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal LevelUpMenuGetImmediateProfessionPerkPatch()
 		{
-			Original = typeof(LevelUpMenu).MethodNamed(nameof(LevelUpMenu.getImmediateProfessionPerk));
-			Postfix = new(GetType(), nameof(LevelUpMenuGetImmediateProfessionPerkPostfix));
-			Transpiler = new(GetType(), nameof(LevelUpMenuGetImmediateProfessionPerkTranspiler));
+			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getImmediateProfessionPerk));
 		}
 
 		#region harmony patches
@@ -28,35 +28,28 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
 		{
-			try
-			{
-				if (!Util.Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
+			if (!Utility.Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
 
-				// add immediate perks
-				if (professionName == "Aquarist")
-					foreach (var b in Game1.getFarm().buildings.Where(b =>
-						(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-						b is FishPond && !b.isUnderConstruction()))
-					{
-						var pond = (FishPond) b;
-						pond.UpdateMaximumOccupancy();
-					}
+			// add immediate perks
+			if (professionName == "Aquarist")
+				foreach (var b in Game1.getFarm().buildings.Where(b =>
+					(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+					b is FishPond && !b.isUnderConstruction()))
+				{
+					var pond = (FishPond) b;
+					pond.UpdateMaximumOccupancy();
+				}
 
-				// initialize mod data, assets and helpers
-				ModEntry.Data.InitializeDataFieldsForProfession(professionName);
+			// initialize mod data, assets and helpers
+			ModEntry.Data.InitializeDataFieldsForProfession(professionName);
 
-				// subscribe events
-				ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
+			// subscribe events
+			ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
 
-				if (whichProfession is >= 26 and < 30 &&
-				    ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not yet registered
-					// register super mode
-					ModEntry.SuperModeIndex = whichProfession;
-			}
-			catch (Exception ex)
-			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
-			}
+			if (whichProfession is >= 26 and < 30 &&
+			    ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not yet registered
+				// register super mode
+				ModEntry.SuperModeIndex = whichProfession;
 		}
 
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
@@ -64,26 +57,27 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> LevelUpMenuGetImmediateProfessionPerkTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// From: case <defender_id>:
 			/// To: case <brute_id>:
 
 			try
 			{
-				Helper
+				helper
 					.FindFirst(
 						new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
 					)
-					.SetOperand(Util.Professions.IndexOf("Brute"));
+					.SetOperand(Utility.Professions.IndexOf("Brute"));
 			}
 			catch (Exception ex)
 			{
-				Log($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

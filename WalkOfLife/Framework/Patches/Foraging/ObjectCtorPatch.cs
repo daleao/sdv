@@ -1,23 +1,20 @@
 ﻿using HarmonyLib;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
-using System;
-using System.Reflection;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class ObjectCtorPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal ObjectCtorPatch()
 		{
-			Original = typeof(SObject).Constructor(new[]
-				{typeof(Vector2), typeof(int), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool)});
-			Postfix = new(GetType(), nameof(ObjectCtorPostfix));
+			Original = RequireConstructor<SObject>(typeof(Vector2), typeof(int), typeof(string), typeof(bool),
+				typeof(bool), typeof(bool), typeof(bool));
 		}
 
 		#region harmony patches
@@ -26,16 +23,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void ObjectCtorPostfix(ref SObject __instance)
 		{
-			try
-			{
-				var owner = Game1.getFarmer(__instance.owner.Value);
-				if (__instance.IsWildBerry() && owner.HasProfession("Ecologist"))
-					__instance.Edibility = (int)(__instance.Edibility * 1.5f);
-			}
-			catch (Exception ex)
-			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
-			}
+			var owner = Game1.getFarmer(__instance.owner.Value);
+			if (__instance.IsWildBerry() && owner.HasProfession("Ecologist"))
+				__instance.Edibility = (int) (__instance.Edibility * 1.5f);
 		}
 
 		#endregion harmony patches

@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 {
+	[UsedImplicitly]
 	internal class GreenSlimeGetExtraDropItemsPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal GreenSlimeGetExtraDropItemsPatch()
 		{
-			Original = typeof(GreenSlime).MethodNamed(nameof(GreenSlime.getExtraDropItems));
-			Postfix = new(GetType(), nameof(GreenSlimeGetExtraDropItemsPostfix));
+			Original = RequireMethod<GreenSlime>(nameof(GreenSlime.getExtraDropItems));
 		}
 
 		#region harmony patches
@@ -31,7 +31,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 
 			var slimeCount =
 				Game1.getFarm().buildings.Where(b =>
-						(b.owner.Value.AnyOf(pipers.Select(p => p.UniqueMultiplayerID)) ||
+						(b.owner.Value.IsAnyOf(pipers.Select(p => p.UniqueMultiplayerID)) ||
 						 !Context.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() &&
 						b.indoors.Value.characters.Any())
 					.Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) +

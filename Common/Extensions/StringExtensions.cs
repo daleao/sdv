@@ -11,7 +11,7 @@ namespace TheLion.Stardew.Common.Extensions
 	public static class StringExtensions
 	{
 		/// <summary>Determine if the calling string contains any of the specified substrings.</summary>
-		/// <param name="scandidates">A sequence of strings candidates.</param>
+		/// <param name="candidates">A sequence of strings candidates.</param>
 		public static bool ContainsAnyOf(this string s, params string[] candidates)
 		{
 			return candidates.Any(s.Contains);
@@ -22,7 +22,7 @@ namespace TheLion.Stardew.Common.Extensions
 		{
 			return string.IsNullOrEmpty(s)
 				? throw new ArgumentException("Argument is null or empty.")
-				: s.First().ToString().ToUpper() + s.Substring(1);
+				: s.First().ToString().ToUpper() + s[1..];
 		}
 
 		/// <summary>Removes invalid file name or path characters from the calling string.</summary>
@@ -32,11 +32,17 @@ namespace TheLion.Stardew.Common.Extensions
 			return new Regex($"[{Regex.Escape(invalidChars)}]").Replace(s, "");
 		}
 
-		/// <summary>Truncate the calling string to a <paramref name="maxLength" />, ending with elipses.</summary>
-		public static string? Truncate(this string? s, int maxLength, string truncationSuffix = "…")
+		/// <summary>Split a camelCase or PascalCase string into its constituent words.</summary>
+		public static string[] SplitCamelCase(this string s)
 		{
-			return s?.Length > maxLength
-				? s.Substring(0, maxLength) + truncationSuffix
+			return Regex.Split(s, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)").Where(r => !string.IsNullOrEmpty(r)).ToArray();
+		}
+
+		/// <summary>Truncate the calling string to a <paramref name="maxLength" />, ending with elipses.</summary>
+		public static string Truncate(this string s, int maxLength, string truncationSuffix = "…")
+		{
+			return s.Length > maxLength
+				? s[..maxLength] + truncationSuffix
 				: s;
 		}
 

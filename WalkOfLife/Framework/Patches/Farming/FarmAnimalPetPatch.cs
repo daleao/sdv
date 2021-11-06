@@ -1,21 +1,22 @@
-﻿using HarmonyLib;
-using StardewValley;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
 using StardewModdingAPI;
+using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class FarmAnimalPetPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal FarmAnimalPetPatch()
 		{
-			Original = typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.pet));
-			Transpiler = new(GetType(), nameof(FarmAnimalPetTranspiler));
+			Original = RequireMethod<FarmAnimal>(nameof(FarmAnimal.pet));
 		}
 
 		#region harmony patches
@@ -25,14 +26,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> FarmAnimalPetTranspiler(IEnumerable<CodeInstruction> instructions,
 			MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// From: if ((who.professions.Contains(<shepherd_id>) && !isCoopDweller()) || (who.professions.Contains(<coopmaster_id>) && isCoopDweller()))
 			/// To: if (who.professions.Contains(<rancher_id>)
 
 			try
 			{
-				Helper
+				helper
 					.FindProfessionCheck(Farmer.shepherd) // find index of shepherd check
 					.Advance()
 					.SetOpCode(OpCodes.Ldc_I4_0) // replace with rancher check
@@ -44,7 +45,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Return()
 					.ReplaceWith(
 						new(OpCodes.Brtrue_S,
-							(Label)hasRancher) // replace false case branch with true case branch
+							(Label) hasRancher) // replace false case branch with true case branch
 					)
 					.Advance()
 					.FindProfessionCheck(Farmer.butcher, true) // find coopmaster check
@@ -52,17 +53,18 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.GetOperand(out var resumeExecution) // copy destination
 					.Return(2)
 					.Insert(
-						new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution) // insert new false case branch
+						new CodeInstruction(OpCodes.Br_S, (Label) resumeExecution) // insert new false case branch
 					);
 			}
 			catch (Exception ex)
 			{
-				Log(
-					$"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log(
+					$"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

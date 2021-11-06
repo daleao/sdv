@@ -1,23 +1,20 @@
-﻿using HarmonyLib;
-using StardewModdingAPI;
+﻿using System.Linq;
+using HarmonyLib;
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
-using System;
-using System.Linq;
-using System.Reflection;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
+	[UsedImplicitly]
 	internal class FishPondUpdateMaximumOccupancyPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
 		internal FishPondUpdateMaximumOccupancyPatch()
 		{
-			Original = typeof(FishPond).MethodNamed(nameof(FishPond.UpdateMaximumOccupancy));
-			Postfix = new(GetType(), nameof(FishPondUpdateMaximumOccupancyPostfix));
+			Original = RequireMethod<FishPond>(nameof(FishPond.UpdateMaximumOccupancy));
 		}
 
 		#region harmony patches
@@ -29,17 +26,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			if (__instance is null || ____fishPondData is null) return;
 
-			try
-			{
-				var owner = Game1.getFarmer(__instance.owner.Value);
-				if (owner.HasProfession("Aquarist") && __instance.lastUnlockedPopulationGate.Value >=
-					____fishPondData.PopulationGates.Keys.Max())
-					__instance.maxOccupants.Set(12);
-			}
-			catch (Exception ex)
-			{
-				Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
-			}
+			var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
+			if (owner.HasProfession("Aquarist") && __instance.lastUnlockedPopulationGate.Value >=
+				____fishPondData.PopulationGates.Keys.Max())
+				__instance.maxOccupants.Set(12);
 		}
 
 		#endregion harmony patches

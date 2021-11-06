@@ -1,12 +1,12 @@
-﻿using StardewModdingAPI.Events;
+﻿using JetBrains.Annotations;
+using StardewModdingAPI.Events;
 using TheLion.Stardew.Professions.Integrations;
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class StaticGameLaunchedEvent : GameLaunchedEvent
+	[UsedImplicitly]
+	internal class StaticGameLaunchedEvent : GameLaunchedEvent
 	{
-		//
-
 		/// <inheritdoc />
 		public override void OnGameLaunched(object sender, GameLaunchedEventArgs e)
 		{

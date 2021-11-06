@@ -18,7 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ProducerRuleControllerProduceOutputPatch()
 		{
 			Original = AccessTools.Method("ProducerFrameworkMod.Controllers.ProducerRuleController:ProduceOutput");
-			//Transpiler = new HarmonyMethod(GetType(), nameof(ProducerRuleControllerProduceOutputTranspiler));
 		}
 
 		#region harmony patches
@@ -28,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static IEnumerable<CodeInstruction> ProducerRuleControllerProduceOutputTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
-			Helper.Attach(original, instructions);
+			var helper = new ILHelper(original, instructions);
 
 			/// Injected: output = IncreaseQualityIfNecessary(output, producer, who)
 			/// After: output = OutputConfigController.CreateOutput( ... )
@@ -36,7 +35,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			try
 			{
-				Helper
+				helper
 					.FindFirst( // find index of setting producer held object value
 						new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(SObject)} (5)"),
 						new CodeInstruction(OpCodes.Callvirt,
@@ -56,12 +55,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				Log(
-					$"Failed while patching PFM for Gemologist Crystalariume output quality.\nHelper returned {ex}", LogLevel.Error);
+				ModEntry.Log(
+					$"Failed while patching PFM for Gemologist Crystalariume output quality.\nHelper returned {ex}",
+					LogLevel.Error);
 				return null;
 			}
 
-			return Helper.Flush();
+			return helper.Flush();
 		}
 
 		#endregion harmony patches
@@ -73,7 +73,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (!producer.heldObject.Value.IsForagedMineral() && !producer.heldObject.Value.IsGemOrMineral() ||
 			    !who.HasProfession("Gemologist")) return output;
 
-			output.Quality = Util.Professions.GetGemologistMineralQuality();
+			output.Quality = Utility.Professions.GetGemologistMineralQuality();
 			if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");
 
 			return output;

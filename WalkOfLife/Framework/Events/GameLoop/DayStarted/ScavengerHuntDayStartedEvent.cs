@@ -2,7 +2,7 @@
 
 namespace TheLion.Stardew.Professions.Framework.Events
 {
-	public class ScavengerHuntDayStartedEvent : DayStartedEvent
+	internal class ScavengerHuntDayStartedEvent : DayStartedEvent
 	{
 		/// <inheritdoc />
 		public override void OnDayStarted(object sender, DayStartedEventArgs e)
