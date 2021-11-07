@@ -123,7 +123,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					Game1.player.Money = Math.Max(0, Game1.player.Money - cost);
 
 					// prepare to prestige at night
-					ModEntry.Subscriber.Subscribe(new PrestigeDayEndingEvent(whichSkill));
+					if (ModEntry.Subscriber.TryGet(typeof(PrestigeDayEndingEvent), out var prestigeDayEnding))
+						((PrestigeDayEndingEvent) prestigeDayEnding).SkillQueue.Enqueue(whichSkill);
+					else
+						ModEntry.Subscriber.Subscribe(new PrestigeDayEndingEvent(whichSkill));
 
 					// play sound effect
 					try
@@ -134,7 +137,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					}
 					catch (Exception ex)
 					{
-						ModEntry.Log($"Couldn't play sound asset file 'prestige'. Make sure the file exists. {ex}",
+						ModEntry.Log($"Couldn't play file 'assets/sfx/prestige.wav'. Make sure the file exists. {ex}",
 							LogLevel.Error);
 					}
 

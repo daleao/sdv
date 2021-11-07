@@ -108,7 +108,7 @@
 
 	// Combat
 	"fighter.name.male": "Combattant",
-	"fighter.name.femlae": "Combattante",
+	"fighter.name.female": "Combattante",
 	"fighter.desc": "Dégâts +10%. +15 HP.",
 	"brute.name.male": "Brute",
 	"brute.name.female": "Amazone",

@@ -52,7 +52,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			catch (Exception ex)
 			{
 				ModEntry.Log(
-					$"Couldn't play sound asset file '{ModEntry.SuperModeSFX}'. Make sure the file exists. {ex}",
+					$"Couldn't play file 'assets/sfx/{ModEntry.SuperModeSFX}.wav'. Make sure the file exists. {ex}",
 					LogLevel.Error);
 			}
 

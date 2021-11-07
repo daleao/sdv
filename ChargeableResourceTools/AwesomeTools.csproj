@@ -9,6 +9,10 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<GamePath>C:\Games\Steam\steamapps\common\Stardew Valley</GamePath>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 

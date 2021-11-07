@@ -145,7 +145,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var newBuff = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".buff");
 			Game1.currentLocation.createQuestionDialogue(
 				ModEntry.ModHelper.Translation.Get("prestige.levelup.question",
-					new {oldProfessionDisplayName, oldBuff, newProfessionDisplayName, newBuff}),
+					new {oldProfession = oldProfessionDisplayName, oldBuff = oldBuff, newProfession = newProfessionDisplayName, newBuff = newBuff}),
 				Game1.currentLocation.createYesNoResponses(), delegate(Farmer _, string answer)
 				{
 					if (answer == "Yes") ModEntry.SuperModeIndex = chosenProfession;

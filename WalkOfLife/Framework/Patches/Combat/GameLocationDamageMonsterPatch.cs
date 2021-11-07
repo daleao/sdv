@@ -221,7 +221,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					}
 					catch (Exception ex)
 					{
-						ModEntry.Log($"Couldn't play sound asset file 'poacher_steal'. Make sure the file exists. {ex}",
+						ModEntry.Log($"Couldn't play file 'assets/sfx/poacher_steal.wav'. Make sure the file exists. {ex}",
 							LogLevel.Error);
 					}
 				}

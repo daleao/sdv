@@ -93,7 +93,7 @@ namespace TheLion.Stardew.Professions.Framework
 			ModEntry.Log($"[EventSubscriber]: Subscribing {prefix} events using reflection...", LogLevel.Trace);
 			var eventsToSubscribe = AccessTools.GetTypesFromAssembly(Assembly.GetAssembly(typeof(IEvent)))
 				.Where(t => typeof(IEvent).IsAssignableFrom(t) && !t.IsAbstract &&
-				            t.Name.SplitCamelCase().First() == prefix)
+				            t.Name.StartsWith(prefix))
 				.Select(t => (IEvent) t.Constructor().Invoke(new object[] { })).ToArray();
 			Subscribe(eventsToSubscribe);
 		}
@@ -103,7 +103,7 @@ namespace TheLion.Stardew.Professions.Framework
 		{
 			ModEntry.Log($"[EventSubscriber]: Unsubscribing {prefix} events...", LogLevel.Trace);
 			var eventsToRemove = _subscribed.Select(e => e.GetType())
-				.Where(t => t.Name.SplitCamelCase().First() == prefix).ToArray();
+				.Where(t => t.Name.StartsWith(prefix)).ToArray();
 			Unsubscribe(eventsToRemove);
 		}
 
@@ -224,11 +224,28 @@ namespace TheLion.Stardew.Professions.Framework
 			ModEntry.Log("[EventSubscriber]: Done unsubscribing rogue events.", LogLevel.Trace);
 		}
 
-		/// <summary>Whether the event listener is subscribed to a given event type.</summary>
+		/// <summary>Whether the event listener is subscribed to the specified event type.</summary>
 		/// <param name="eventType">The event type to check.</param>
 		internal bool IsSubscribed(Type eventType)
 		{
 			return _subscribed.ContainsType(eventType);
+		}
+
+		/// <summary>Get an event instance of the specified event type.</summary>
+		/// <param name="eventType">An event type.</param>
+		internal IEvent Get(Type eventType)
+		{
+			return _subscribed.FirstOrDefault(e => e is not null && e.GetType() == eventType);
+		}
+
+		/// <summary>Try to get an event instance of the specified event type.</summary>
+		/// <param name="eventType">An event type.</param>
+		/// <param name="got">The matched event, if any.</param>
+		/// <returns>Returns <c>True</c> if a matching event was found, or <c>False</c> otherwise.</returns>
+		internal bool TryGet(Type eventType, out IEvent got)
+		{
+			got = Get(eventType);
+			return got is not null;
 		}
 
 		public IEnumerator<IEvent> GetEnumerator()

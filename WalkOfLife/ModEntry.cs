@@ -1,4 +1,5 @@
-﻿using System;
+﻿/// Walk Of Life .NET 4.52
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;

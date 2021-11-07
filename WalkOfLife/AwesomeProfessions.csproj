@@ -9,7 +9,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
+	<GamePath>C:\Games\Steam\steamapps\common\Stardew Valley</GamePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

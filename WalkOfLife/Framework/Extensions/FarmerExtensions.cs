@@ -84,31 +84,25 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <param name="whichSkill">A skill index (0 to 4).</param>
 		public static bool CanPrestige(this Farmer farmer, SkillType whichSkill)
 		{
-			return whichSkill switch
+			var isSkillLevelTen = whichSkill switch
 			{
-				SkillType.Farming => farmer.FarmingLevel >= 10 &&
-				                     farmer.GetProfessionsForSkill((int) SkillType.Farming, true)
-					                     .Count() is > 0 and < 4 && !ModEntry.Subscriber.Any(e =>
-					                     e is PrestigeDayEndingEvent {Skill: SkillType.Farming}),
-				SkillType.Fishing => farmer.FishingLevel >= 10 &&
-				                     farmer.GetProfessionsForSkill((int) SkillType.Fishing, true)
-					                     .Count() is > 0 and < 4 && !ModEntry.Subscriber.Any(e =>
-					                     e is PrestigeDayEndingEvent {Skill: SkillType.Fishing}),
-				SkillType.Foraging => farmer.ForagingLevel >= 10 &&
-				                      farmer.GetProfessionsForSkill((int) SkillType.Foraging, true)
-					                      .Count() is > 0 and < 4 && !ModEntry.Subscriber.Any(e =>
-					                      e is PrestigeDayEndingEvent {Skill: SkillType.Foraging}),
-				SkillType.Mining => farmer.MiningLevel >= 10 &&
-				                    farmer.GetProfessionsForSkill((int) SkillType.Mining, true)
-					                    .Count() is > 0 and < 4 && !ModEntry.Subscriber.Any(e =>
-					                    e is PrestigeDayEndingEvent {Skill: SkillType.Mining}),
-				SkillType.Combat => farmer.CombatLevel >= 10 &&
-				                    farmer.GetProfessionsForSkill((int) SkillType.Combat, true)
-					                    .Count() is > 0 and < 4 && !ModEntry.Subscriber.Any(e =>
-					                    e is PrestigeDayEndingEvent {Skill: SkillType.Combat}),
+				SkillType.Farming => farmer.FarmingLevel >= 10,
+				SkillType.Fishing => farmer.FishingLevel >= 10,
+				SkillType.Foraging => farmer.ForagingLevel >= 10,
+				SkillType.Mining => farmer.MiningLevel >= 10,
+				SkillType.Combat => farmer.CombatLevel >= 10,
 				SkillType.Luck => false,
 				_ => false
 			};
+
+			var justLeveledUp = farmer.newLevels.Contains(new((int)whichSkill, 10));
+			var hasAtLeastOneButNotAllProfessionsInSkill =
+				farmer.GetProfessionsForSkill((int)whichSkill, true).Count() is > 0 and < 4;
+			var alreadyPrestigedThisSkill = ModEntry.Subscriber.TryGet(typeof(PrestigeDayEndingEvent), out var prestigeDayEnding) &&
+			                                ((PrestigeDayEndingEvent)prestigeDayEnding).SkillQueue.Contains(whichSkill);
+
+			return isSkillLevelTen && !justLeveledUp && hasAtLeastOneButNotAllProfessionsInSkill &&
+			       !alreadyPrestigedThisSkill;
 		}
 
 		/// <summary>Whether the farmer can prestige any skill.</summary>

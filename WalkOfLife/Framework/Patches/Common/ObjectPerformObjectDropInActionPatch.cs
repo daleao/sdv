@@ -45,44 +45,61 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void ObjectPerformObjectDropInActionPostfix(SObject __instance, bool __state, Item dropInItem,
 			bool probe, Farmer who)
 		{
-			// if there was an object inside before running the original method, or if the machine is still empty after running the original method, or if the machine doesn't belong to this player, then do nothing
-			if (__state || __instance.heldObject.Value is null ||
-			    Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID || probe) return;
+			// if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
+			if (__state || __instance.heldObject.Value is null || probe) return;
+
+			if (__instance.name.IsAnyOf("Mayonnaise Machine", "Cheese Press") && dropInItem is SObject)
+			{
+				// large milk/eggs give double output at normal quality
+				if (dropInItem.Name.Contains("Large"))
+				{
+					__instance.heldObject.Value.Stack = 2;
+					__instance.heldObject.Value.Quality = SObject.lowQuality;
+				}
+				// ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
+				else if (dropInItem.ParentSheetIndex == 289 &&
+				         !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"))
+				{
+					__instance.heldObject.Value.Quality = SObject.lowQuality;
+				}
+				// golden mayonnaise keeps giving gives single output but keeps golden quality
+				else if (dropInItem.ParentSheetIndex == 928 &&
+				         !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"))
+				{
+					__instance.heldObject.Value.Stack = 1;
+				}
+			}
+
+			// if the machine doesn't belong to this player, then do nothing further
+			if (Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID) return;
 
 			if (__instance.name.IsAnyOf("Crystalarium", "Geode Crusher") && who.HasProfession("Gemologist") &&
-			    (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
+				    (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
 			{
 				__instance.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
 			}
-			else if (__instance.IsArtisanMachine() && dropInItem is SObject dropIn)
+			else if (__instance.IsArtisanMachine() && who.HasProfession("Artisan") && dropInItem is SObject dropIn)
 			{
-				// mead cares about input honey flower type
-				if (__instance.name == "Keg" && dropIn.ParentSheetIndex == 340 &&
-				    dropIn.preservedParentSheetIndex.Value > 0)
-				{
-					__instance.heldObject.Value.preservedParentSheetIndex.Value =
-						dropIn.preservedParentSheetIndex.Value;
-					__instance.heldObject.Value.Price = dropIn.Price * 2;
-				}
-				// large milk/eggs give double output
-				else if (__instance.name.IsAnyOf("Mayonnaise Machine", "Cheese Press") &&
-				         dropIn.name.Contains("Large"))
-				{
-					__instance.heldObject.Value.Stack = 2;
-				}
+				// produce cares about input quality with low chance for upgrade
+				__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
+				__instance.heldObject.Value.Quality = dropIn.Quality;
+				if (dropIn.Quality < SObject.bestQuality &&
+				    new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
+					__instance.heldObject.Value.Quality +=
+						dropIn.Quality == SObject.medQuality ? 2 : dropIn.Quality + 1;
 
-				if (who.HasProfession("Artisan"))
+				switch (__instance.name)
 				{
-					__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
-					__instance.heldObject.Value.Quality = dropIn.Quality;
-					if (dropIn.Quality < SObject.bestQuality &&
-					    new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
-						__instance.heldObject.Value.Quality +=
-							dropIn.Quality == SObject.medQuality ? 2 : dropIn.Quality + 1;
-				}
-				else
-				{
-					__instance.heldObject.Value.Quality = SObject.lowQuality;
+					// golden mayonnaise is always iridium quality
+					case "Mayonnaise Machine" when dropIn.ParentSheetIndex == 928 && !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
+						__instance.heldObject.Value.Quality = SObject.bestQuality;
+						break;
+					// mead cares about input honey flower type
+					case "Keg" when dropIn.ParentSheetIndex == 340 && dropIn.preservedParentSheetIndex.Value > 0:
+						__instance.heldObject.Value.preservedParentSheetIndex.Value =
+							dropIn.preservedParentSheetIndex.Value;
+						__instance.heldObject.Value.Price = dropIn.Price * 2;
+						break;
 				}
 			}
 		}

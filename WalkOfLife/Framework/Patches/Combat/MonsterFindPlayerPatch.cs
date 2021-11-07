@@ -17,14 +17,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MonsterFindPlayerPatch()
 		{
 			Original = RequireMethod<Monster>("findPlayer");
-			Prefix = new(AccessTools.Method(GetType(), nameof(MonsterFindPlayerPrefix)), after: new[] {"Esca.FarmTypeManager"});
+			Prefix = new(AccessTools.Method(GetType(), nameof(MonsterFindPlayerPrefix)), before: new[] {"Esca.FarmTypeManager"});
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to override monster aggro.</summary>
 		[HarmonyPrefix]
-		[HarmonyAfter("Esca.FarmTypeManager")]
+		[HarmonyBefore("Esca.FarmTypeManager")]
 		private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer __result)
 		{
 			try
