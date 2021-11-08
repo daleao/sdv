@@ -48,7 +48,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (count == 0) continue;
 
 				___hoverText = ModEntry.ModHelper.Translation.Get("prestige.skillpage.tooltip", new {count});
-				___hoverText = professionsForThisSkill.Select(Utility.Professions.NameOf)
+				___hoverText = professionsForThisSkill
+					.Select(p => ModEntry.ModHelper.Translation.Get(Utility.Professions.NameOf(p).ToLower() + ".name." +
+					                                                (Game1.player.IsMale ? "male" : "female")))
 					.Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
 			}
 

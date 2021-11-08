@@ -86,7 +86,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (dropIn.Quality < SObject.bestQuality &&
 				    new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
 					__instance.heldObject.Value.Quality +=
-						dropIn.Quality == SObject.medQuality ? 2 : dropIn.Quality + 1;
+						dropIn.Quality == SObject.highQuality ? 2 : 1;
 
 				switch (__instance.name)
 				{

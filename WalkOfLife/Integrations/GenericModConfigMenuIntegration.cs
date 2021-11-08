@@ -44,12 +44,6 @@ namespace TheLion.Stardew.Professions.Integrations
 					config => config.Modkey,
 					(config, value) => config.Modkey = value
 				)
-				.AddCheckbox(
-					"Enable IL code export",
-					"If you get a 'failed to patch' error, enable this option and send me the output file along with your bug report.",
-					config => config.EnableILCodeExport,
-					(config, value) => config.EnableILCodeExport = value
-				)
 
 				// super mode
 				.AddLabel("Super Mode Settings")

@@ -96,7 +96,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			}
 
 			// notify peers
-			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeActivated",
+			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeEnabled",
 				new[] {ModEntry.UniqueID});
 
 			switch (whichSuperMode)

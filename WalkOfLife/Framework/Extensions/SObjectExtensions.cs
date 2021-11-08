@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is an artisan good.</summary>
 		public static bool IsArtisanGood(this SObject obj)
 		{
-			return obj?.Category == SObject.artisanGoodsCategory;
+			return obj.Category == SObject.artisanGoodsCategory;
 		}
 
 		/// <summary>Whether a given object is an artisan good.</summary>
@@ -25,27 +25,26 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
 		public static bool IsAnimalProduct(this SObject obj)
 		{
-			return obj is not null &&
-			       (obj.Category.IsAnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
-			        || Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex));
+			return obj.Category.IsAnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
+			        || Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex);
 		}
 
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
 		public static bool IsWildBerry(this SObject obj)
 		{
-			return obj?.ParentSheetIndex == 296 || obj?.ParentSheetIndex == 410;
+			return obj.ParentSheetIndex is 296 or 410;
 		}
 
 		/// <summary>Whether a given object is a spring onion.</summary>
 		public static bool IsSpringOnion(this SObject obj)
 		{
-			return obj?.ParentSheetIndex == 399;
+			return obj.ParentSheetIndex == 399;
 		}
 
 		/// <summary>Whether a given object is a gem or mineral.</summary>
 		public static bool IsGemOrMineral(this SObject obj)
 		{
-			return obj?.Category.IsAnyOf(SObject.GemCategory, SObject.mineralsCategory) == true;
+			return obj.Category.IsAnyOf(SObject.GemCategory, SObject.mineralsCategory);
 		}
 
 		/// <summary>Whether a given object is a foraged mineral.</summary>
@@ -57,25 +56,24 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is a resource node or foraged mineral.</summary>
 		public static bool IsResourceNode(this SObject obj)
 		{
-			return IsStone(obj) && Objects.ResourceNodeIDs.Contains(obj.ParentSheetIndex);
+			return Objects.ResourceNodeIDs.Contains(obj.ParentSheetIndex);
 		}
 
 		/// <summary>Whether a given object is a stone.</summary>
 		public static bool IsStone(this SObject obj)
 		{
-			return obj?.Name == "Stone";
+			return obj.Name == "Stone";
 		}
 
 		/// <summary>Whether a given object is a fish caught with a fishing rod.</summary>
 		public static bool IsFish(this SObject obj)
 		{
-			return obj?.Category == SObject.FishCategory;
+			return obj.Category == SObject.FishCategory;
 		}
 
 		/// <summary>Whether a given object is a crab pot fish.</summary>
 		public static bool IsTrapFish(this SObject obj)
 		{
-			//return obj.IsFish() && obj.ParentSheetIndex is > 714 and < 724;
 			return Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
 				.TryGetValue(obj.ParentSheetIndex, out var fishData) && fishData.Contains("trap");
 		}
@@ -83,13 +81,13 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is a trash.</summary>
 		public static bool IsAlgae(this SObject obj)
 		{
-			return obj?.ParentSheetIndex.IsAnyOf(152, 152, 157) == true;
+			return obj.ParentSheetIndex.IsAnyOf(152, 152, 157) == true;
 		}
 
 		/// <summary>Whether a given object is a trash.</summary>
 		public static bool IsTrash(this SObject obj)
 		{
-			return obj?.Category == SObject.junkCategory;
+			return obj.Category == SObject.junkCategory;
 		}
 
 		/// <summary>Whether a given object is typically found in pirate treasure.</summary>

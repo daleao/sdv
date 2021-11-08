@@ -89,7 +89,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				var srcRect = new Rectangle(i * 30, (count - 1) * 30, 30, 30);
 				b.Draw(Prestige.RibbonTx, position, srcRect, Color.White, 0f, Vector2.Zero, 1.2f, SpriteEffects.None,
-					3f);
+					1f);
 			}
 		}
 

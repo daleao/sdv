@@ -132,7 +132,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		private static bool ShouldProposeFinalQuestion(int chosenProfession)
 		{
-			return chosenProfession is >= 26 and < 30 && ModEntry.SuperModeIndex > 0;
+			return ModEntry.SuperModeIndex > 0 && chosenProfession is >= 26 and < 30 && ModEntry.SuperModeIndex != chosenProfession;
 		}
 
 		private static void ProposeFinalQuestion(int chosenProfession)

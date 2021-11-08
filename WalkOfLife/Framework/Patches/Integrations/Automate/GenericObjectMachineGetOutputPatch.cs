@@ -50,8 +50,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (__instance is null) return;
 
 			var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
-			if (machine is null || machine.heldObject.Value is null ||
-			    !machine.heldObject.Value.IsArtisanGood()) return;
+			if (machine?.heldObject.Value is null || !machine.heldObject.Value.IsArtisanGood()) return;
 
 			var who = Game1.getFarmer(machine.owner.Value);
 			if (!who.HasProfession("Artisan")) return;

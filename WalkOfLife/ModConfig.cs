@@ -47,12 +47,6 @@ namespace TheLion.Stardew.Professions
 		/// <summary>The maximum tax deduction percentage allowed by the Ferngill Revenue Service.</summary>
 		public float TaxDeductionCeiling { get; set; } = 0.25f;
 
-		/// <summary>
-		///     If a Harmony transpiler is failing to patch, enabling this option will export the original IL code for easier
-		///     debugging.
-		/// </summary>
-		public bool EnableILCodeExport { get; set; } = true;
-
 		/// <summary>Whether to draw UI element bounding boxes.</summary>
 		public bool EnableUIDebug { get; set; } = false;
 	}

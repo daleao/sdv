@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -17,7 +18,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			switch (e.Type)
 			{
-				case "SuperModeActivated":
+				case "SuperModeEnabled":
+					ModEntry.Log($"Player {e.FromPlayerID} enabled Super Mode.", LogLevel.Trace);
 					ModEntry.ActivePeerSuperModes[key].Add(e.FromPlayerID);
 					var glowingColor = Utility.Professions.NameOf(key) switch
 					{
@@ -30,7 +32,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					Game1.getFarmer(e.FromPlayerID).startGlowing(glowingColor, false, 0.05f);
 					break;
 
-				case "SuperModeDeactivated":
+				case "SuperModeDisabled":
+					ModEntry.Log($"Player {e.FromPlayerID}'s Super Mode has ended.", LogLevel.Trace);
 					ModEntry.ActivePeerSuperModes[key].Remove(e.FromPlayerID);
 					Game1.getFarmer(e.FromPlayerID).stopGlowing();
 					break;

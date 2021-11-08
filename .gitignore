@@ -10,6 +10,9 @@ SMAPI 3.12.8 installer/
 Automate Source/
 PFM Source/
 
+# Windows shortcuts
+*.lnk
+
 # User-specific files
 *.rsuser
 *.suo

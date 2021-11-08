@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeCountdownUpdateTickedEvent));
 
 			// notify peers
-			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeDectivated",
+			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeDisabled",
 				new[] {ModEntry.UniqueID});
 
 			// remove permanent effects
