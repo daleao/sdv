@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
@@ -20,7 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationAnswerDialogueActionPatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.answerDialogueAction));
-			Prefix = new(AccessTools.Method(GetType(), nameof(GameLocationAnswerDialogueActionPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(GameLocationAnswerDialogueActionPrefix)));
 		}
 
 		#region harmony patches

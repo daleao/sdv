@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
-using JetBrains.Annotations;
 
 namespace TheLion.Stardew.Common.Harmony
 {
@@ -92,17 +91,6 @@ namespace TheLion.Stardew.Common.Harmony
 			if (!methods.Any())
 				throw new($"Cannot find method starting with {prefix} in any inner type of {type.FullName}.");
 			return methods;
-		}
-
-		/// <summary>Construct a <see cref="HarmonyMethod" /> instance from a <see cref="MethodInfo" /> object.</summary>
-		/// <returns>
-		///     Returns a new <see cref="HarmonyMethod" /> instance if <paramref name="method" /> is not null, or <c>null</c>
-		///     otherwise.
-		/// </returns>
-		[CanBeNull]
-		public static HarmonyMethod ToHarmonyMethod(this MethodInfo method)
-		{
-			return method is null ? null : new HarmonyMethod(method);
 		}
 	}
 }

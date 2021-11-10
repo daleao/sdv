@@ -4,6 +4,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -17,7 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = RequireMethod<Game1>(nameof(Game1.createObjectDebris),
 				new[] {typeof(int), typeof(int), typeof(int), typeof(long), typeof(GameLocation)});
-			Prefix = new(AccessTools.Method(GetType(), nameof(Game1CreateObjectDebrisPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(Game1CreateObjectDebrisPrefix)));
 		}
 
 		#region harmony patches

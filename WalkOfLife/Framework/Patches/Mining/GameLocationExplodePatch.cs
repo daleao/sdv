@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using TheLion.Stardew.Common.Classes;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
@@ -21,7 +22,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationExplodePatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.explode));
-			Postfix = new(AccessTools.Method(GetType(), nameof(GameLocationExplodePostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(GameLocationExplodePostfix)));
 		}
 
 		#region harmony patches

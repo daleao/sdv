@@ -21,8 +21,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MonsterTakeDamagePatch()
 		{
 			//Original = RequireMethod<Monster>(nameof(Monster.takeDamage));
-			Prefix = new(AccessTools.Method(GetType(), nameof(MonsterTakeDamagePrefix)));
-			Postfix = new(AccessTools.Method(GetType(), nameof(MonsterTakeDamagePostfix)));
+			Prefix = new(GetType().MethodNamed(nameof(MonsterTakeDamagePrefix)));
+			Postfix = new(GetType().MethodNamed(nameof(MonsterTakeDamagePostfix)));
 		}
 
 		/// <inheritdoc />

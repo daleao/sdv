@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
+using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -14,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GreenSlimeCollisionWithFarmerBehaviorPatch()
 		{
 			Original = RequireMethod<GreenSlime>(nameof(GreenSlime.collisionWithFarmerBehavior));
-			Postfix = new(AccessTools.Method(GetType(), nameof(GreenSlimeCollisionWithFarmerBehaviorPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(GreenSlimeCollisionWithFarmerBehaviorPostfix)));
 		}
 
 		#region harmony patches

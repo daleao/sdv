@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -14,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = RequireConstructor<TemporaryAnimatedSprite>(typeof(int), typeof(float), typeof(int), typeof(int),
 				typeof(Vector2), typeof(bool), typeof(bool), typeof(GameLocation), typeof(Farmer));
-			Postfix = new(AccessTools.Method(GetType(), nameof(TemporaryAnimatedSpriteCtorPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(TemporaryAnimatedSpriteCtorPostfix)));
 		}
 
 		#region harmony patches

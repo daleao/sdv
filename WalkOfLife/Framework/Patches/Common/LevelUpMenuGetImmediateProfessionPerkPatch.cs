@@ -20,8 +20,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuGetImmediateProfessionPerkPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getImmediateProfessionPerk));
-			Postfix = new(AccessTools.Method(GetType(), nameof(LevelUpMenuGetImmediateProfessionPerkPostfix)));
-			Transpiler = new(AccessTools.Method(GetType(), nameof(LevelUpMenuGetImmediateProfessionPerkTranspiler)));
+			Postfix = new(GetType().MethodNamed(nameof(LevelUpMenuGetImmediateProfessionPerkPostfix)));
+			Transpiler = new(GetType().MethodNamed(nameof(LevelUpMenuGetImmediateProfessionPerkTranspiler)));
 		}
 
 		#region harmony patches

@@ -20,9 +20,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectPerformObjectDropInActionPatch()
 		{
 			Original = RequireMethod<SObject>(nameof(SObject.performObjectDropInAction));
-			Prefix = new(AccessTools.Method(GetType(), nameof(ObjectPerformObjectDropInActionPrefix)));
-			Postfix = new(AccessTools.Method(GetType(), nameof(ObjectPerformObjectDropInActionPostfix)));
-			Transpiler = new(AccessTools.Method(GetType(), nameof(ObjectPerformObjectDropInActionTranspiler)));
+			Prefix = new(GetType().MethodNamed(nameof(ObjectPerformObjectDropInActionPrefix)));
+			Postfix = new(GetType().MethodNamed(nameof(ObjectPerformObjectDropInActionPostfix)));
+			Transpiler = new(GetType().MethodNamed(nameof(ObjectPerformObjectDropInActionTranspiler)));
 		}
 
 		#region harmony patches
@@ -81,13 +81,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			else if (__instance.IsArtisanMachine() && who.HasProfession("Artisan") && dropInItem is SObject dropIn)
 			{
 				// produce cares about input quality with low chance for upgrade
-				__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
 				__instance.heldObject.Value.Quality = dropIn.Quality;
 				if (dropIn.Quality < SObject.bestQuality &&
 				    new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
 					__instance.heldObject.Value.Quality +=
 						dropIn.Quality == SObject.highQuality ? 2 : 1;
 
+				__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
+				
 				switch (__instance.name)
 				{
 					// golden mayonnaise is always iridium quality

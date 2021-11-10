@@ -8,6 +8,7 @@ using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -19,7 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuRevalidateHealthPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.RevalidateHealth));
-			Prefix = new(AccessTools.Method(GetType(), nameof(LevelUpMenuRevalidateHealthPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(LevelUpMenuRevalidateHealthPrefix)));
 		}
 
 		#region harmony patches

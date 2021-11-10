@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -15,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FishPondUpdateMaximumOccupancyPatch()
 		{
 			Original = RequireMethod<FishPond>(nameof(FishPond.UpdateMaximumOccupancy));
-			Postfix = new(AccessTools.Method(GetType(), nameof(FishPondUpdateMaximumOccupancyPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(FishPondUpdateMaximumOccupancyPostfix)));
 		}
 
 		#region harmony patches

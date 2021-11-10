@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					typeof(Rectangle), typeof(int), typeof(int), typeof(bool), typeof(float), typeof(int),
 					typeof(float), typeof(float), typeof(bool), typeof(Farmer)
 				});
-			Transpiler = new(AccessTools.Method(GetType(), nameof(GameLocationDamageMonsterTranspiler)));
+			Transpiler = new(GetType().MethodNamed(nameof(GameLocationDamageMonsterTranspiler)));
 		}
 
 		#region harmony patches

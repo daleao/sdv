@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -12,9 +13,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal CrystalariumMachineGetOutputPatch()
 		{
-			Original = AccessTools.Method(
-				"Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrystalariumMachine:GetOutput");
-			Postfix = new(AccessTools.Method(GetType(), nameof(CrystalariumMachineGetOutputPostfix)));
+			try
+			{
+				Original = "CrystalariumMachine".ToType().MethodNamed("GetOutput");
+			}
+			catch
+			{
+				// ignored
+			}
+
+			Postfix = new(GetType().MethodNamed(nameof(CrystalariumMachineGetOutputPostfix)));
 		}
 
 		#region harmony patches

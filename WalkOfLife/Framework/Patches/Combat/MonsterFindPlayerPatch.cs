@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -17,7 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MonsterFindPlayerPatch()
 		{
 			Original = RequireMethod<Monster>("findPlayer");
-			Prefix = new(AccessTools.Method(GetType(), nameof(MonsterFindPlayerPrefix)), before: new[] {"Esca.FarmTypeManager"});
+			Prefix = new(GetType().MethodNamed(nameof(MonsterFindPlayerPrefix)), before: new[] {"Esca.FarmTypeManager"});
 		}
 
 		#region harmony patches

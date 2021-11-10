@@ -21,8 +21,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuDrawPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.draw), new[] {typeof(SpriteBatch)});
-			Prefix = new(AccessTools.Method(GetType(), nameof(LevelUpMenuDrawPrefix)));
-			Transpiler = new(AccessTools.Method(GetType(), nameof(LevelUpMenuDrawTranspiler)));
+			Prefix = new(GetType().MethodNamed(nameof(LevelUpMenuDrawPrefix)));
+			Transpiler = new(GetType().MethodNamed(nameof(LevelUpMenuDrawTranspiler)));
 		}
 
 		#region harmony patches

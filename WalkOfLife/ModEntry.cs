@@ -28,7 +28,6 @@ namespace TheLion.Stardew.Professions
 		internal static IModHelper ModHelper { get; private set; }
 		internal static IManifest Manifest { get; private set; }
 		internal static Action<string, LogLevel> Log { get; private set; }
-		internal static string UniqueID { get; private set; }
 
 		public static int DemolitionistExcitedness { get; set; }
 		public static int SpelunkerLadderStreak { get; set; }
@@ -40,8 +39,8 @@ namespace TheLion.Stardew.Professions
 		public static bool ShouldShakeSuperModeBar { get; set; }
 		public static float SuperModeBarAlpha { get; set; }
 		public static Color SuperModeGlowColor { get; set; }
-		public static Color SuperModeOverlayColor { get; set; }
 		public static float SuperModeOverlayAlpha { get; set; }
+		public static Color SuperModeOverlayColor { get; set; }
 		public static string SuperModeSFX { get; set; }
 		public static bool DidBulletPierceEnemy { get; set; }
 
@@ -110,14 +109,13 @@ namespace TheLion.Stardew.Professions
 			ModHelper = helper;
 			Manifest = ModManifest;
 			Log = Monitor.Log;
-			UniqueID = ModManifest.UniqueID;
 
 			// get configs and mod data
 			Config = helper.ReadConfig<ModConfig>();
-			Data = new(UniqueID);
+			Data = new(Manifest.UniqueID);
 
 			// apply harmony patches
-			new HarmonyPatcher(UniqueID).ApplyAll();
+			new HarmonyPatcher(Manifest.UniqueID).ApplyAll();
 
 			// start event subscriber
 			Subscriber = new();

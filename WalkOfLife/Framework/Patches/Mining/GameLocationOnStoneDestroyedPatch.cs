@@ -17,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationOnStoneDestroyedPatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.OnStoneDestroyed));
-			Transpiler = new(AccessTools.Method(GetType(), nameof(GameLocationOnStoneDestroyedTranspiler)));
+			Transpiler = new(GetType().MethodNamed(nameof(GameLocationOnStoneDestroyedTranspiler)));
 		}
 
 		#region harmony patches

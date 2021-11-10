@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -16,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SkillsPagePerformHoverActionPatch()
 		{
 			Original = RequireMethod<SkillsPage>(nameof(SkillsPage.performHoverAction));
-			Postfix = new(AccessTools.Method(GetType(), nameof(SkillsPagePerformHoverActionPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(SkillsPagePerformHoverActionPostfix)));
 		}
 
 		#region harmony patches

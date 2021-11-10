@@ -15,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <summary>Construct an instance.</summary>
 		internal DemolitionistBuffDisplayUpdateTickedEvent()
 		{
-			_buffID = (ModEntry.UniqueID + Utility.Professions.IndexOf("Demolitionist")).Hash();
+			_buffID = (ModEntry.Manifest.UniqueID + Utility.Professions.IndexOf("Demolitionist")).Hash();
 		}
 
 		/// <inheritdoc />

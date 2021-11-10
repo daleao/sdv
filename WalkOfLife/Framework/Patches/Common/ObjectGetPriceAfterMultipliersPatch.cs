@@ -4,6 +4,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -16,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectGetPriceAfterMultipliersPatch()
 		{
 			Original = RequireMethod<SObject>("getPriceAfterMultipliers");
-			Prefix = new(AccessTools.Method(GetType(), nameof(ObjectGetPriceAfterMultipliersPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(ObjectGetPriceAfterMultipliersPrefix)));
 		}
 
 		#region harmony patches

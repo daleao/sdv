@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
+using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -11,7 +12,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SlingshotGetRequiredChargeTimePatch()
 		{
 			Original = RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
-			Postfix = new(AccessTools.Method(GetType(), nameof(SlingshotGetRequiredChargeTimePostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(SlingshotGetRequiredChargeTimePostfix)));
 		}
 
 		#region harmony patches

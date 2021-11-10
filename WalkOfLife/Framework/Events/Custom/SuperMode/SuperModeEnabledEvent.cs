@@ -60,7 +60,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			ModEntry.Subscriber.Subscribe(new SuperModeCountdownUpdateTickedEvent());
 
 			// display buff
-			var buffID = ModEntry.UniqueID.Hash() + ModEntry.SuperModeIndex + 4;
+			var buffID = ModEntry.Manifest.UniqueID.Hash() + ModEntry.SuperModeIndex + 4;
 			var professionIndex = ModEntry.SuperModeIndex;
 			var professionName = Utility.Professions.NameOf(professionIndex);
 
@@ -97,7 +97,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			// notify peers
 			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeEnabled",
-				new[] {ModEntry.UniqueID});
+				new[] {ModEntry.Manifest.UniqueID});
 
 			switch (whichSuperMode)
 			{

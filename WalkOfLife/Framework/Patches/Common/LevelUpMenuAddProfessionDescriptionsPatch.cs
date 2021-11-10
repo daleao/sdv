@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -16,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuAddProfessionDescriptionsPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>("addProfessionDescriptions");
-			Prefix = new(AccessTools.Method(GetType(), nameof(LevelUpMenuAddProfessionDescriptionsPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(LevelUpMenuAddProfessionDescriptionsPrefix)));
 		}
 
 		#region harmony patches

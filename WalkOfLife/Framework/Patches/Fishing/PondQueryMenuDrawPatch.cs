@@ -12,6 +12,7 @@ using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
@@ -27,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal PondQueryMenuDrawPatch()
 		{
 			Original = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] {typeof(SpriteBatch)});
-			Prefix = new(AccessTools.Method(GetType(), nameof(PondQueryMenuDrawPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(PondQueryMenuDrawPrefix)));
 		}
 
 		#region harmony patches

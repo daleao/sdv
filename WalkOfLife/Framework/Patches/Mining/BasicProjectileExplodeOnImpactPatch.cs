@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Projectiles;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 // ReSharper disable PossibleLossOfFraction
@@ -18,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BasicProjectileExplodeOnImpact()
 		{
 			Original = RequireMethod<BasicProjectile>(nameof(BasicProjectile.explodeOnImpact));
-			Prefix = new(AccessTools.Method(GetType(), nameof(BasicProjectileExplodeOnImpactPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(BasicProjectileExplodeOnImpactPrefix)));
 		}
 
 		#region harmony patches

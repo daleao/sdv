@@ -8,6 +8,7 @@ using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -18,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ProjectileUpdatePatch()
 		{
 			Original = RequireMethod<Projectile>(nameof(Projectile.update));
-			Postfix = new(AccessTools.Method(GetType(), nameof(ProjectileUpdatePostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(ProjectileUpdatePostfix)));
 		}
 
 		#region harmony patches

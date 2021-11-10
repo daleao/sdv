@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (taxBonusNextSeason > 0)
 			{
 				ModEntry.ModHelper.Content.InvalidateCache(PathUtilities.NormalizeAssetName("Data/mail"));
-				Game1.addMailForTomorrow($"{ModEntry.UniqueID}/ConservationistTaxNotice");
+				Game1.addMailForTomorrow($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
 			}
 
 			ModEntry.Data.WriteField("WaterTrashCollectedThisSeason", "0");

@@ -7,6 +7,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -18,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BasicProjectileBehaviorOnCollisionWithMonsterPatch()
 		{
 			Original = RequireMethod<BasicProjectile>(nameof(BasicProjectile.behaviorOnCollisionWithMonster));
-			Prefix = new(AccessTools.Method(GetType(), nameof(BasicProjectileBehaviorOnCollisionWithMonsterPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(BasicProjectileBehaviorOnCollisionWithMonsterPrefix)));
 		}
 
 		#region harmony patches

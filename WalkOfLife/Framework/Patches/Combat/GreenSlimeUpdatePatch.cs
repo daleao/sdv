@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Monsters;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SUtility = StardewValley.Utility;
 
@@ -21,7 +22,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = RequireMethod<GreenSlime>(nameof(GreenSlime.update),
 				new[] {typeof(GameTime), typeof(GameLocation)});
-			Postfix = new(AccessTools.Method(GetType(), nameof(GreenSlimeUpdatePostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(GreenSlimeUpdatePostfix)));
 		}
 
 		#region harmony patches

@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -13,8 +14,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal TreeDayUpdatePatch()
 		{
 			Original = RequireMethod<Tree>(nameof(Tree.dayUpdate));
-			Prefix = new(AccessTools.Method(GetType(), nameof(TreeDayUpdatePrefix)));
-			Postfix = new(AccessTools.Method(GetType(), nameof(TreeDayUpdatePostfix)));
+			Prefix = new(GetType().MethodNamed(nameof(TreeDayUpdatePrefix)));
+			Postfix = new(GetType().MethodNamed(nameof(TreeDayUpdatePostfix)));
 		}
 
 		#region harmony patches

@@ -17,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmerTakeDamagePatch()
 		{
 			Original = RequireMethod<Farmer>(nameof(Farmer.takeDamage));
-			Transpiler = new(AccessTools.Method(GetType(), nameof(FarmerTakeDamageTranspiler)));
+			Transpiler = new(GetType().MethodNamed(nameof(FarmerTakeDamageTranspiler)));
 		}
 
 		#region harmony patches

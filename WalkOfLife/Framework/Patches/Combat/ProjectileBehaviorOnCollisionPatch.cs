@@ -5,6 +5,7 @@ using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -17,7 +18,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ProjectileBehaviorOnCollisionPatch()
 		{
 			Original = RequireMethod<Projectile>("behaviorOnCollision");
-			Postfix = new(AccessTools.Method(GetType(), nameof(ProjectileBehaviorOnCollisionPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(ProjectileBehaviorOnCollisionPostfix)));
 		}
 
 		#region harmony patches

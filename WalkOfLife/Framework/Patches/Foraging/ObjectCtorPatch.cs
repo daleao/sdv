@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -15,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = RequireConstructor<SObject>(typeof(Vector2), typeof(int), typeof(string), typeof(bool),
 				typeof(bool), typeof(bool), typeof(bool));
-			Postfix = new(AccessTools.Method(GetType(), nameof(ObjectCtorPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(ObjectCtorPostfix)));
 		}
 
 		#region harmony patches

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Menus;
+using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -11,7 +12,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SkillsPageCtorPatch()
 		{
 			Original = RequireConstructor<SkillsPage>(typeof(int), typeof(int), typeof(int), typeof(int));
-			Postfix = new(AccessTools.Method(GetType(), nameof(SkillsPageCtorPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(SkillsPageCtorPostfix)));
 		}
 
 		#region harmony patches

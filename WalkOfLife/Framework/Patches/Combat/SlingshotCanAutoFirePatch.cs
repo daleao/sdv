@@ -4,6 +4,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Tools;
+using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -14,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SlingshotCanAutoFirePatch()
 		{
 			Original = RequireMethod<Slingshot>(nameof(Slingshot.CanAutoFire));
-			Prefix = new(AccessTools.Method(GetType(), nameof(SlingshotCanAutoFirePrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(SlingshotCanAutoFirePrefix)));
 		}
 
 		#region harmony patches

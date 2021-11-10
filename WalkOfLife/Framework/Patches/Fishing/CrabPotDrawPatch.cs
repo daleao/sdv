@@ -9,6 +9,7 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -20,7 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			Original = RequireMethod<CrabPot>(nameof(CrabPot.draw),
 				new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)});
-			Prefix = new(AccessTools.Method(GetType(), nameof(CrabPotDrawPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(CrabPotDrawPrefix)));
 		}
 
 		#region harmony patches

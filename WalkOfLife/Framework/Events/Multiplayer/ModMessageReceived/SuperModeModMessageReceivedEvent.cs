@@ -10,7 +10,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc />
 		public override void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
 		{
-			if (e.FromModID != ModEntry.UniqueID) return;
+			if (e.FromModID != ModEntry.Manifest.UniqueID) return;
 
 			var key = e.ReadAs<int>();
 			if (!ModEntry.ActivePeerSuperModes.ContainsKey(key))

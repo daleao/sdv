@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -13,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectGetMinutesForCrystalariumPatch()
 		{
 			Original = RequireMethod<SObject>("getMinutesForCrystalarium");
-			Postfix = new(AccessTools.Method(GetType(), nameof(ObjectGetMinutesForCrystalariumPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(ObjectGetMinutesForCrystalariumPostfix)));
 		}
 
 		#region harmony patches

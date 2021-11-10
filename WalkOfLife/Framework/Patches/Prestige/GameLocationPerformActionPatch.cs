@@ -4,6 +4,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using xTile.Dimensions;
 
@@ -16,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationPerformActionPatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.performAction));
-			Prefix = new(AccessTools.Method(GetType(), nameof(GameLocationPerformActionPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(GameLocationPerformActionPrefix)));
 		}
 
 		#region harmony patches

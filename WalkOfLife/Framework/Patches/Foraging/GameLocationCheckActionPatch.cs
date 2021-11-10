@@ -19,7 +19,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationCheckActionPatch()
 		{
 			Original = TargetMethod();
-			Transpiler = new(AccessTools.Method(GetType(), nameof(GameLocationCheckActionTranspiler)));
+			Transpiler = new(GetType().MethodNamed(nameof(GameLocationCheckActionTranspiler)));
 		}
 
 		#region harmony patches

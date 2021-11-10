@@ -15,8 +15,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal BushMachineGetOutputPatch()
 		{
-			Original = AccessTools.Method(
-				"Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine:GetOutput");
+			try
+			{
+				Original = "BushMachine".ToType().MethodNamed("GetOutput");
+			}
+			catch
+			{
+				// ignored
+			}
+
 			Transpiler = new(AccessTools.Method(GetType(), nameof(BushMachineGetOutputTranspiler)));
 		}
 

@@ -22,7 +22,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			if (ModEntry.SuperModeCounter < 10) return;
 
-			var buffID = ModEntry.UniqueID.Hash() + ModEntry.SuperModeIndex;
+			var buffID = ModEntry.Manifest.UniqueID.Hash() + ModEntry.SuperModeIndex;
 			var professionIndex = ModEntry.SuperModeIndex;
 			var professionName = Utility.Professions.NameOf(professionIndex);
 			var magnitude1 = GetSuperModePrimaryBuffMagnitude(professionName);

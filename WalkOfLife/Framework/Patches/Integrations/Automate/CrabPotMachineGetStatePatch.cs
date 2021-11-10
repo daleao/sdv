@@ -15,9 +15,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal CrabPotMachineGetStatePatch()
 		{
-			Original = AccessTools.Method(
-				"Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine:GetState");
-			Transpiler = new(AccessTools.Method(GetType(), nameof(CrabPotMachineGetStateTranspiler)));
+			try
+			{
+				Original = "CrabPotMachine".ToType().MethodNamed("GetState");
+			}
+			catch
+			{
+				// ignored
+			}
+
+			Transpiler = new(GetType().MethodNamed(nameof(CrabPotMachineGetStateTranspiler)));
 		}
 
 		#region harmony patches
@@ -38,9 +45,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Brtrue_S)
 					)
 					.RemoveUntil(
-						new CodeInstruction(OpCodes.Call,
-							AccessTools.Method(
-								"Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine:PlayerNeedsBait"))
+						new CodeInstruction(OpCodes.Call, "CrabPotMachine".ToType().MethodNamed("PlayerNeedsBait"))
 					)
 					.SetOpCode(OpCodes.Brfalse_S);
 			}

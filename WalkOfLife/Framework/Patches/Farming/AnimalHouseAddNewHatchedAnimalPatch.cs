@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -14,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal AnimalHouseAddNewHatchedAnimalPatch()
 		{
 			Original = RequireMethod<AnimalHouse>(nameof(AnimalHouse.addNewHatchedAnimal));
-			Postfix = new(AccessTools.Method(GetType(), nameof(AnimalHouseAddNewHatchedAnimalPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(AnimalHouseAddNewHatchedAnimalPostfix)));
 		}
 
 		#region harmony patches

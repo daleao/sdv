@@ -8,6 +8,7 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -20,7 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 		internal GreenSlimeGetExtraDropItemsPatch()
 		{
 			Original = RequireMethod<GreenSlime>(nameof(GreenSlime.getExtraDropItems));
-			Postfix = new(AccessTools.Method(GetType(), nameof(GreenSlimeGetExtraDropItemsPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(GreenSlimeGetExtraDropItemsPostfix)));
 		}
 
 		#region harmony patches

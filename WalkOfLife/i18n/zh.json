@@ -3,11 +3,11 @@
 	"harvester.name.male": "收获者",
 	"harvester.name.female": "收获者",
 	"harvester.desc": "收获作物有10%的机会获得额外的产量。",
-	"agriculturist.name.male": "农学家",
-	"agriculturist.name.female": "农学家",
+	"agriculturist.name.male": "农业学家",
+	"agriculturist.name.female": "农业学家",
 	"agriculturist.desc": "作物生长速率增加10%。没有施加化肥时有几率收货铱星作物。",
-	"artisan.name.male": "工匠大师",
-	"artisan.name.female": "工匠大师",
+	"artisan.name.male": "工匠",
+	"artisan.name.female": "工匠",
 	"artisan.desc": "所有处理工匠物品的设备的工作速度提高10%。工匠物品的设备输出的品质等于或优于投入的工匠物品的品质。",
 
 	"rancher.name.male": "牧场主",
@@ -27,20 +27,20 @@
 	"ecologist.name.male": "生态学家",
 	"ecologist.name.female": "生态学家",
 	"ecologist.desc": "野生浆果恢复50%以上的健康和能量。随着时间的推移，学会辨别质量更高的饲料。",
-	"scavenger.name.male": "拾荒者",
-	"scavenger.name.female": "拾荒者",
+	"scavenger.name.male": "清道夫",
+	"scavenger.name.female": "清道夫",
 	"scavenger.desc": "可搜寻采集品的位置显示，偶尔追踪到埋葬的宝藏。",
 	"scavenger.huntstarted": "你的觅食搜寻器有强烈反应...",
 	"scavenger.huntfailed": "反应消失了。",
 
-	"lumberjack.name.male": "伐木工",
-	"lumberjack.name.female": "伐木工",
+	"lumberjack.name.male": "伐木工人",
+	"lumberjack.name.female": "伐木工人",
 	"lumberjack.desc": "砍伐树木的木材产量增加25%。",
 	"arborist.name.male": "植树员",
 	"arborist.name.female": "植树员",
 	"arborist.desc": "树木生长得更快,所有的树木都可能会掉落硬木。",
-	"tapper.name.male": "树液采集者",
-	"tapper.name.female": "树液采集者",
+	"tapper.name.male": "萃取者",
+	"tapper.name.female": "萃取者",
 	"tapper.desc": "树液采集器的制造成本更低,采集速度增加25%。",
 
 	// Mining
@@ -51,8 +51,8 @@
 	"spelunker.name.female": "探索者",
 	"spelunker.desc": "找到梯子和竖井的几率随着采矿等级提升而增加，每级增加1%;每下五层矿层+1速度。",
 	"spelunker.buffdesc": "出现梯子的概率+{{bonusLadderChance}}%。+{{bonusSpeed}}速度。",
-	"prospector.name.male": "探矿者",
-	"prospector.name.female": "探矿者",
+	"prospector.name.male": "勘探者",
+	"prospector.name.female": "勘探者",
 	"prospector.desc": "可搜寻楼梯和矿石的位置显示，偶尔追踪到隐藏宝藏的岩石",
 	"prospector.huntstarted": "你的矿石搜寻器有强烈反应...",
 	"prospector.huntfailed": "反应消失了。",
@@ -64,8 +64,8 @@
 	"demolitionist.name.female": "爆破专家",
 	"demolitionist.desc": "炸弹半径+1，爆破的资源增加20%。",
 	"demolitionist.buffdesc": "燃烧吧，炸弹之魂!",
-	"gemologist.name.male": "宝石学家",
-	"gemologist.name.female": "宝石学家",
+	"gemologist.name.male": "宝石专家",
+	"gemologist.name.female": "宝石专家",
 	"gemologist.desc": "随着时间的推移，学会识别更高质量的矿物质，宝石复制机工作速度提高25%。",
 
 	// Fishing
@@ -79,8 +79,8 @@
 	"aquarist.name.female": "养鱼专家",
 	"aquarist.desc": "鱼池最大容量+2。在鱼塘最大容量下钓鱼条长度增加。",
 
-	"trapper.name.male": "捕鱼达人",
-	"trapper.name.female": "捕鱼达人",
+	"trapper.name.male": "捕猎者",
+	"trapper.name.female": "捕猎者",
 	"trapper.desc": "蟹笼的制作成本降低，能捕到更优质的鱼。",
 	"luremaster.name.male": "诱饵大师",
 	"luremaster.name.female": "诱饵大师",
@@ -88,17 +88,15 @@
 	"conservationist.name.male": "环保主义者",
 	"conservationist.name.female": "环保主义者",
 	"conservationist.desc": "没有诱饵的蟹笼会诱捕垃圾，从水中清除垃圾以获得星露谷村民的青睐和税收减免。",
-	"conservationist.mail1":
-		"亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)节规定的{{taxBonus}}所得税减免条件。自本季起，{{farmName}}的所有应纳税所得额将退回上述数额。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
-	"conservationist.mail2":
-		"亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)条规定的{{taxBonus}}最高所得税减免条件。自本季起，{{farmName}} 的所有应纳税所得额将退回上述数额。^^^如果您需要解决有关您的财政状况的任何问题，请将此信保存在您的永久记录中。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
+	"conservationist.mail1": "亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)节规定的{{taxBonus}}所得税减免条件。自本季起，{{farmName}}的所有应纳税所得额将退回上述数额。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
+	"conservationist.mail2": "亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)条规定的{{taxBonus}}最高所得税减免条件。自本季起，{{farmName}} 的所有应纳税所得额将退回上述数额。^^^如果您需要解决有关您的财政状况的任何问题，请将此信保存在您的永久记录中。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
 
 	// Combat
 	"fighter.name.male": "战士",
 	"fighter.name.female": "战士",
 	"fighter.desc": "增加10%的伤害，+15HP。",
-	"brute.name.male": "猛兽",
-	"brute.name.female": "猛兽",
+	"brute.name.male": "野蛮人",
+	"brute.name.female": "野蛮人",
 	"brute.desc": "增加15%的伤害，+25HP。在战斗中狂暴，进一步增加伤害。",
 	"brute.buff": "愤怒",
 	"brute.buffdesc": "额外伤害+{{magnitude1}}%。棍棒系列武器技能冷却-{{magnitude2}}%。",
@@ -115,8 +113,8 @@
 	"rascal.name.male": "流氓",
 	"rascal.name.female": "流氓",
 	"rascal.desc": "弹弓在远处造成额外的50%的伤害，有60%的机率找回用过的弹药。",
-	"desperado.name.male": "枪神",
-	"desperado.name.female": "枪神",
+	"desperado.name.male": "亡命徒",
+	"desperado.name.female": "亡命徒",
 	"desperado.desc": "有可能两次开火，生命值低时后可能性比较高。提高弹药力量。",
 	"desperado.buff": "蛮勇",
 	"desperado.buffdesc": "弹药力量+{{magnitude1}}%。 换弹时间-{{magnitude2}}%。",
@@ -131,10 +129,11 @@
 	"piper.supermdesc": "因为史莱姆增长到两倍大小。当被击败时，足够大的史莱姆会分解成更小的史莱姆。",
 
 	// Prestige
-	"prestige.dogstatue.first": "- 威望雕像 - ^雕像可以声望技能。^这会将技能的等级恢复为0，同时保留所有获得的专业。^所有相关配方将被遗忘。^提供黄金？",
-	"prestige.dogstatue.question": "你想声望哪个技能？",
+	"prestige.dogstatue.first": "- 威望雕像 - ^雕像可以重置你的技能。^这会将技能的等级恢复为0，同时保留所有获得的专业。^所有相关配方将被遗忘。^提供黄金？",
+	"prestige.dogstatue.question": "你想重置哪个技能？",
 	"prestige.dogstatue.cost": "{{cost}}金子",
 	"prestige.skillpage.tooltip": "{{count}}/4 个获得的职业：",
 	"prestige.levelup.tooltip:5": "你已经拥有这个分支的所有职业。",
-	"prestige.levelup.tooltip:10": "你已经有这个职业了。"
+	"prestige.levelup.tooltip:10": "你已经有这个职业了。",
+	"prestige.levelup.question": "目前已经拥有 {{oldProfession}}的 {{oldBuff}}。是否替换为 {{newProfession}}的 {{newBuff}}？"
 }

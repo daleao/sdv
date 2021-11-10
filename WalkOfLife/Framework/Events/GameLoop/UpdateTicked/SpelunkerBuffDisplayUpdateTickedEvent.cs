@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <summary>Construct an instance.</summary>
 		internal SpelunkerBuffDisplayUpdateTickedEvent()
 		{
-			_buffID = (ModEntry.UniqueID + Utility.Professions.IndexOf("Spelunker")).Hash();
+			_buffID = (ModEntry.Manifest.UniqueID + Utility.Professions.IndexOf("Spelunker")).Hash();
 		}
 
 		/// <inheritdoc />

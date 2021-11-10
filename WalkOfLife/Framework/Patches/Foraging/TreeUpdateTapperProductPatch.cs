@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -14,7 +15,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal TreeUpdateTapperProductPatch()
 		{
 			Original = RequireMethod<Tree>(nameof(Tree.UpdateTapperProduct));
-			Postfix = new(AccessTools.Method(GetType(), nameof(TreeUpdateTapperProductPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(TreeUpdateTapperProductPostfix)));
 		}
 
 		#region harmony patches

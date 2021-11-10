@@ -16,8 +16,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal ProfessionsCheatSetProfessionPatch()
 		{
-			Original = AccessTools.Method("CJBCheatsMenu.Framework.Cheats.Skills.ProfessionsCheat:SetProfession");
-			Transpiler = new(AccessTools.Method(GetType(), nameof(ProfessionsCheatSetProfessionTranspiler)));
+			try
+			{
+				Original = "ProfessionsCheat".ToType().MethodNamed("SetProfession");
+			}
+			catch
+			{
+				// ignored
+			}
+
+			Transpiler = new(GetType().MethodNamed(nameof(ProfessionsCheatSetProfessionTranspiler)));
 		}
 
 		#region harmony patches

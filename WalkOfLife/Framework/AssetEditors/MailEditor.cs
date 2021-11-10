@@ -27,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.AssetEditors
 
 			string message = ModEntry.ModHelper.Translation.Get(key,
 				new {taxBonus = $"{taxBonus:p0}", farmName = Game1.getFarm().Name});
-			editor.Data[$"{ModEntry.UniqueID}/ConservationistTaxNotice"] = message;
+			editor.Data[$"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice"] = message;
 		}
 	}
 }

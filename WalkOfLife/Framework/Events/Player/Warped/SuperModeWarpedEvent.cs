@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				ModEntry.SuperModeBarAlpha = 1f;
 				ModEntry.ShouldShakeSuperModeBar = false;
 
-				var buffID = ModEntry.UniqueID.Hash() + ModEntry.SuperModeIndex + 4;
+				var buffID = ModEntry.Manifest.UniqueID.Hash() + ModEntry.SuperModeIndex + 4;
 				var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
 				if (buff is not null) Game1.buffsDisplay.otherBuffs.Remove(buff);
 			}

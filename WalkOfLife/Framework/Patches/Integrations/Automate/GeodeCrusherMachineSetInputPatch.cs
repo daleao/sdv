@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -12,9 +13,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal GeodeCrusherMachineSetInputPatch()
 		{
-			Original = AccessTools.Method(
-				"Pathoschild.Stardew.Automate.Framework.Machines.Objects.GeodeCrusherMachine:SetInput");
-			Postfix = new(AccessTools.Method(GetType(), nameof(GeodeCrusherMachineSetInputPostfix)));
+			try
+			{
+				Original = "GeodeCrusherMachine".ToType().MethodNamed("SetInput");
+			}
+			catch
+			{
+				// ignored
+			}
+
+			Postfix = new(GetType().MethodNamed(nameof(GeodeCrusherMachineSetInputPostfix)));
 		}
 
 		#region harmony patches

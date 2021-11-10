@@ -23,7 +23,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SkillsPageDrawPatch()
 		{
 			Original = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] {typeof(SpriteBatch)});
-			Transpiler = new(AccessTools.Method(GetType(), nameof(SkillsPageDrawTranspiler)));
+			Transpiler = new(GetType().MethodNamed(nameof(SkillsPageDrawTranspiler)));
 		}
 
 		#region harmony patches

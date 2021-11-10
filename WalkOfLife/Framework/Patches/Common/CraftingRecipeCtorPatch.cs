@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -12,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CraftingRecipeCtorPatch()
 		{
 			Original = RequireConstructor<CraftingRecipe>(typeof(string), typeof(bool));
-			Postfix = new(AccessTools.Method(GetType(), nameof(CraftingRecipeCtorPostfix)));
+			Postfix = new(GetType().MethodNamed(nameof(CraftingRecipeCtorPostfix)));
 		}
 
 		#region harmony patches

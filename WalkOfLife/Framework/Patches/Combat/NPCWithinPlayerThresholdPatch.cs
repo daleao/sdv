@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
+using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -15,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal NPCWithinPlayerThresholdPatch()
 		{
 			Original = RequireMethod<NPC>(nameof(NPC.withinPlayerThreshold), new[] {typeof(int)});
-			Prefix = new(AccessTools.Method(GetType(), nameof(NPCWithinPlayerThresholdPrefix)));
+			Prefix = new(GetType().MethodNamed(nameof(NPCWithinPlayerThresholdPrefix)));
 		}
 
 		#region harmony patch
