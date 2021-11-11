@@ -29,6 +29,9 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeDisabled",
 				new[] {ModEntry.Manifest.UniqueID});
 
+			// unsubscribe self
+			ModEntry.Subscriber.Unsubscribe(GetType());
+
 			// remove permanent effects
 			if (ModEntry.SuperModeIndex != Utility.Professions.IndexOf("Piper")) return;
 

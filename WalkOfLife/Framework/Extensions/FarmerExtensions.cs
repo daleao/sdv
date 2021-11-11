@@ -50,7 +50,6 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		///     An array of acquired professions in the same branch as
 		///     <paramref name="professionIndex">, excluding itself.
 		/// </param>
-		/// </param>
 		public static bool HasOtherProfessionsInBranch(this Farmer farmer, int professionIndex,
 			out int[] otherProfessions)
 		{
@@ -78,6 +77,21 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			       professionIndex % 6 == 1 && farmer.professions.Contains(professionIndex + 3) &&
 			       farmer.professions.Contains(professionIndex + 4) ||
 			       professionIndex % 6 > 1;
+		}
+
+		/// <summary>Get the last level 5 profession acquired by the farmer in the specified skill.</summary>
+		/// <param name="skill">The skill index.</param>
+		/// <returns>The last acquired profession, or -1 if none was found.</returns>
+		public static int CurrentBranchForSkill(this Farmer farmer, int skill)
+		{
+			try
+			{
+				return farmer.professions.Reverse().First(p => p == skill * 6 || p == skill * 6 + 1);
+			}
+			catch
+			{
+				return -1;
+			}
 		}
 
 		/// <summary>Whether the farmer can prestige the specified skill.</summary>
@@ -123,23 +137,18 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 				case SkillType.Farming:
 					farmer.FarmingLevel = 0;
 					break;
-
 				case SkillType.Fishing:
 					farmer.FishingLevel = 0;
 					break;
-
 				case SkillType.Foraging:
 					farmer.ForagingLevel = 0;
 					break;
-
 				case SkillType.Mining:
 					farmer.MiningLevel = 0;
 					break;
-
 				case SkillType.Combat:
 					farmer.CombatLevel = 0;
 					break;
-
 				case SkillType.Luck:
 				default:
 					return;
@@ -151,13 +160,16 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			// reset skill experience
 			farmer.experiencePoints[(int) whichSkill] = 0;
 
-			// remove associated crafting recipes
-			foreach (var recipe in farmer.GetCraftingRecipesForSkill(whichSkill))
-				farmer.craftingRecipes.Remove(recipe);
+			if (ModEntry.Config.ForgetRecipesOnPrestige)
+			{
+				// remove associated crafting recipes
+				foreach (var recipe in farmer.GetCraftingRecipesForSkill(whichSkill))
+					farmer.craftingRecipes.Remove(recipe);
 
-			// remove associated cooking recipes
-			foreach (var recipe in farmer.GetCookingRecipesForSkill(whichSkill))
-				farmer.cookingRecipes.Remove(recipe);
+				// remove associated cooking recipes
+				foreach (var recipe in farmer.GetCookingRecipesForSkill(whichSkill))
+					farmer.cookingRecipes.Remove(recipe);
+			}
 
 			// revalidate health
 			if (whichSkill == SkillType.Combat) LevelUpMenu.RevalidateHealth(farmer);

@@ -42,51 +42,51 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					if (Game1.player.CanPrestige(SkillType.Farming))
 					{
 						var costVal = Prestige.GetPrestigeCost(SkillType.Farming);
-						var costStr =
-							ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal});
+						var costStr = costVal > 0
+							? " (" + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal}) + ')'
+							: string.Empty;
 						skillResponses.Add(new("farming",
-							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11604") + " (" +
-							costStr + ')'));
+							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11604") + costStr));
 					}
 
 					if (Game1.player.CanPrestige(SkillType.Fishing))
 					{
 						var costVal = Prestige.GetPrestigeCost(SkillType.Fishing);
-						var costStr =
-							ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal});
+						var costStr = costVal > 0
+							? " (" + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new { cost = costVal }) + ')'
+							: string.Empty;
 						skillResponses.Add(new("fishing",
-							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11607") + " (" +
-							costStr + ')'));
+							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11607") + costStr));
 					}
 
 					if (Game1.player.CanPrestige(SkillType.Foraging))
 					{
 						var costVal = Prestige.GetPrestigeCost(SkillType.Foraging);
-						var costStr =
-							ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal});
+						var costStr = costVal > 0
+							? " (" + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new { cost = costVal }) + ')'
+							: string.Empty;
 						skillResponses.Add(new("foraging",
-							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11606") + " (" +
-							costStr + ')'));
+							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11606") + costStr));
 					}
 
 					if (Game1.player.CanPrestige(SkillType.Mining))
 					{
 						var costVal = Prestige.GetPrestigeCost(SkillType.Mining);
-						var costStr =
-							ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal});
+						var costStr = costVal > 0
+							? " (" + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new { cost = costVal }) + ')'
+							: string.Empty;
 						skillResponses.Add(new("mining",
-							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11605") + " (" +
-							costStr + ')'));
+							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11605") + costStr));
 					}
 
 					if (Game1.player.CanPrestige(SkillType.Combat))
 					{
 						var costVal = Prestige.GetPrestigeCost(SkillType.Combat);
-						var costStr =
-							ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal});
+						var costStr = costVal > 0
+							? " (" + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new { cost = costVal }) + ')'
+							: string.Empty;
 						skillResponses.Add(new("combat",
-							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11608") + " (" +
-							costStr + ')'));
+							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11608") + costStr));
 					}
 
 					skillResponses.Add(new("cancel",
@@ -111,17 +111,20 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						"mining" => SkillType.Mining,
 						"combat" => SkillType.Combat
 					};
-
-					// check for funds and deduct cost
+					
 					var cost = Prestige.GetPrestigeCost(whichSkill);
-					if (Game1.player.Money < cost)
+					if (cost > 0)
 					{
-						Game1.drawObjectDialogue(
-							Game1.content.LoadString("Strings\\Locations:BusStop_NotEnoughMoneyForTicket"));
-						return false; // don't run original logic
-					}
+						// check for funds and deduct cost
+						if (Game1.player.Money < cost)
+						{
+							Game1.drawObjectDialogue(
+								Game1.content.LoadString("Strings\\Locations:BusStop_NotEnoughMoneyForTicket"));
+							return false; // don't run original logic
+						}
 
-					Game1.player.Money = Math.Max(0, Game1.player.Money - cost);
+						Game1.player.Money = Math.Max(0, Game1.player.Money - cost);
+					}
 
 					// prepare to prestige at night
 					if (ModEntry.Subscriber.TryGet(typeof(PrestigeDayEndingEvent), out var prestigeDayEnding))

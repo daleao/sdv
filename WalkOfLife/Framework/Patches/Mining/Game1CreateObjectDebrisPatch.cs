@@ -40,7 +40,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					itemQuality = Utility.Professions.GetGemologistMineralQuality()
 				});
 
-				ModEntry.Data.IncrementField<uint>("MineralsCollected");
+				ModEntry.Data.Increment<uint>("MineralsCollected");
 				return false; // don't run original logic
 			}
 			catch (Exception ex)

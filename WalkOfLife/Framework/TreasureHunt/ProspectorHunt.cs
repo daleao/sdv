@@ -45,7 +45,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 			GetStoneTreasure();
 			End();
-			ModEntry.Data.IncrementField<uint>("ProspectorHuntStreak");
+			ModEntry.Data.Increment<uint>("ProspectorHuntStreak");
 		}
 
 		/// <summary>End the hunt unsuccessfully.</summary>
@@ -53,7 +53,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		{
 			End();
 			Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-			ModEntry.Data.WriteField("ProspectorHuntStreak", "0");
+			ModEntry.Data.Write("ProspectorHuntStreak", "0");
 		}
 
 		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
@@ -175,7 +175,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 						case 2: // special items
 							var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
-							var streak = ModEntry.Data.ReadField<uint>("ProspectorHuntStreak");
+							var streak = ModEntry.Data.Read<uint>("ProspectorHuntStreak");
 							if (Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
 								treasuresAndQuantities.Add(-1, 1); // femur
 

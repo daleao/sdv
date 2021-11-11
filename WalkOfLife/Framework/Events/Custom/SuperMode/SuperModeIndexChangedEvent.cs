@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			ModEntry.Subscriber.UnsubscribeSuperModeEvents();
 			ModEntry.SuperModeCounter = 0;
 
-			ModEntry.Data.WriteField("SuperModeIndex", ModEntry.SuperModeIndex.ToString());
+			ModEntry.Data.Write("SuperModeIndex", ModEntry.SuperModeIndex.ToString());
 			if (ModEntry.SuperModeIndex < 0)
 			{
 				ModEntry.Log("Unregistered Super Mode.", LogLevel.Info);

@@ -64,16 +64,35 @@ namespace TheLion.Stardew.Professions.Integrations
 					"How long the key should be held before activating Super Mode, in seconds.",
 					config => config.SuperModeActivationDelay,
 					(config, value) => config.SuperModeActivationDelay = value,
-					0,
-					5
+					0f,
+					3f,
+					0.2f
 				)
 				.AddNumberField(
 					"Drain factor",
 					"Lower numbers make Super Mode last longer.",
-					config => config.SuperModeDrainFactor,
-					(config, value) => config.SuperModeDrainFactor = (uint)value,
+					config => (int) config.SuperModeDrainFactor,
+					(config, value) => config.SuperModeDrainFactor = (uint) value,
 					1,
 					10
+				)
+
+				// prestige
+				.AddLabel("Prestige Settings")
+				.AddNumberField(
+					"Prestige Cost Multiplier",
+					"Multiplies the base prestige cost. Set to 0 to prestige for free.",
+					config => config.PrestigeCostMultiplier,
+					(config, value) => config.PrestigeCostMultiplier = value,
+					0f,
+					3f,
+					0.2f
+				)
+				.AddCheckbox(
+					"Forget Recipes On Prestige",
+					"Wether prestiging a skill also clears all associated recipes.",
+					config => config.ForgetRecipesOnPrestige,
+					(config, value) => config.ForgetRecipesOnPrestige = value
 				)
 
 				// main
@@ -81,26 +100,27 @@ namespace TheLion.Stardew.Professions.Integrations
 				.AddNumberField(
 					"Forages needed for best quality",
 					"Ecologists must forage this many items to reach iridium quality.",
-					config => config.ForagesNeededForBestQuality,
-					(config, value) => config.ForagesNeededForBestQuality = (uint)value,
+					config => (int) config.ForagesNeededForBestQuality,
+					(config, value) => config.ForagesNeededForBestQuality = (uint) value,
 					0,
 					1000
 				)
 				.AddNumberField(
 					"Minerals needed for best quality",
 					"Gemologists must mine this many minerals to reach iridium quality.",
-					config => config.ForagesNeededForBestQuality,
-					(config, value) => config.ForagesNeededForBestQuality = (uint)value,
+					config => (int) config.ForagesNeededForBestQuality,
+					(config, value) => config.ForagesNeededForBestQuality = (uint) value,
 					0,
 					1000
 				)
 				.AddNumberField(
 					"Chance to start treasure hunt",
 					"The chance that your Scavenger or Prospector hunt senses will start tingling.",
-					config => (float)config.ChanceToStartTreasureHunt,
+					config => (float) config.ChanceToStartTreasureHunt,
 					(config, value) => config.ChanceToStartTreasureHunt = value,
 					0f,
-					1f
+					1f,
+					0.05f
 				)
 				.AddNumberField(
 					"Treasure hunt handicap",
@@ -108,7 +128,8 @@ namespace TheLion.Stardew.Professions.Integrations
 					config => config.TreasureHuntHandicap,
 					(config, value) => config.TreasureHuntHandicap = value,
 					1f,
-					10f
+					10f,
+					0.5f
 				)
 				.AddNumberField(
 					"Treasure detection distance",
@@ -116,21 +137,22 @@ namespace TheLion.Stardew.Professions.Integrations
 					config => config.TreasureDetectionDistance,
 					(config, value) => config.TreasureDetectionDistance = value,
 					1f,
-					10f
+					10f,
+					0.5f
 				)
 				.AddNumberField(
 					"Trash needed per tax level",
 					"Conservationists must collect this much trash for every 1% tax deduction the following season.",
-					config => config.TrashNeededPerTaxLevel,
-					(config, value) => config.TrashNeededPerTaxLevel = (uint)value,
+					config => (int) config.TrashNeededPerTaxLevel,
+					(config, value) => config.TrashNeededPerTaxLevel = (uint) value,
 					10,
 					1000
 				)
 				.AddNumberField(
 					"Trash needed per friendship point",
 					"Conservationists must collect this much trash for every 1 friendship point towards villagers.",
-					config => config.TrashNeededPerFriendshipPoint,
-					(config, value) => config.TrashNeededPerFriendshipPoint = (uint)value,
+					config => (int) config.TrashNeededPerFriendshipPoint,
+					(config, value) => config.TrashNeededPerFriendshipPoint = (uint) value,
 					10,
 					1000
 				)
@@ -140,7 +162,8 @@ namespace TheLion.Stardew.Professions.Integrations
 					config => config.TaxDeductionCeiling,
 					(config, value) => config.TaxDeductionCeiling = value,
 					0f,
-					1f
+					1f,
+					0.05f
 				);
 		}
 	}

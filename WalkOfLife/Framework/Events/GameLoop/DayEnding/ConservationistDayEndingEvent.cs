@@ -18,14 +18,14 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			uint trashCollectedThisSeason;
 			if (Game1.dayOfMonth != 28 ||
-			    (trashCollectedThisSeason = ModEntry.Data.ReadField<uint>("WaterTrashCollectedThisSeason")) <=
+			    (trashCollectedThisSeason = ModEntry.Data.Read<uint>("WaterTrashCollectedThisSeason")) <=
 			    0) return;
 
 			var taxBonusNextSeason =
 				// ReSharper disable once PossibleLossOfFraction
 				Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxLevel / 100f,
 					ModEntry.Config.TaxDeductionCeiling);
-			ModEntry.Data.WriteField("ActiveTaxBonusPercent",
+			ModEntry.Data.Write("ActiveTaxBonusPercent",
 				taxBonusNextSeason.ToString(CultureInfo.InvariantCulture));
 			if (taxBonusNextSeason > 0)
 			{
@@ -33,7 +33,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				Game1.addMailForTomorrow($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
 			}
 
-			ModEntry.Data.WriteField("WaterTrashCollectedThisSeason", "0");
+			ModEntry.Data.Write("WaterTrashCollectedThisSeason", "0");
 		}
 	}
 }

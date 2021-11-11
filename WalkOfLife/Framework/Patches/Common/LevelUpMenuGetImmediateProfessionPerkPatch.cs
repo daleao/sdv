@@ -43,7 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 
 			// initialize mod data, assets and helpers
-			ModEntry.Data.InitializeDataFieldsForProfession(professionName);
+			ModEntry.Data.InitializeDataForProfession(professionName);
 
 			// subscribe events
 			ModEntry.Subscriber.SubscribeEventsForProfession(professionName);

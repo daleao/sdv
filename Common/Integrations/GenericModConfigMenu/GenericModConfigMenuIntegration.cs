@@ -195,7 +195,7 @@ namespace TheLion.Stardew.Common.Integrations
 		/// <param name="max">The maximum value.</param>
 		/// <param name="enable">Whether the field is enabled.</param>
 		public GenericModConfigMenuIntegration<TConfig> AddNumberField(string label, string description,
-			Func<TConfig, float> get, Action<TConfig, float> set, float min, float max, bool enable = true)
+			Func<TConfig, float> get, Action<TConfig, float> set, float min, float max, float interval, bool enable = true)
 		{
 			AssertLoaded();
 
@@ -207,7 +207,8 @@ namespace TheLion.Stardew.Common.Integrations
 					() => get(_getConfig()),
 					val => set(_getConfig(), val),
 					min,
-					max
+					max,
+					interval
 				);
 
 			return this;

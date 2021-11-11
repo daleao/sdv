@@ -55,7 +55,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			         who.HasProfession("Gemologist"))
 			{
 				output.Quality = Utility.Professions.GetGemologistMineralQuality();
-				if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");
+				if (who.IsLocalPlayer) ModEntry.Data.Increment<uint>("MineralsCollected");
 			}
 		}
 

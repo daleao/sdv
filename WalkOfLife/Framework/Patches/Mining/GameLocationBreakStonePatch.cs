@@ -29,7 +29,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			var helper = new ILHelper(original, instructions);
 
-			/// Skipped: if (who.professions.Contains(<geologist_id>)...
+			/// Skipped: if (who.professions.Contains(<geologist_id> && r.NextDouble() < 0.5) switch(indexOfStone) ...
 
 			try
 			{
@@ -55,7 +55,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				return null;
 			}
 
-			/// Skipped: if (who.professions.Contains(<prospector_id>))...
+			/// Skipped: if (who.professions.Contains(<prospector_id>)) ...
 
 			try
 			{

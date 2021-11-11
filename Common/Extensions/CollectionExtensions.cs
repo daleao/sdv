@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <summary>Remove the first instance of a given type from a collection.</summary>
 		/// <param name="type">The type to search for.</param>
 		/// <param name="removed">The removed instance.</param>
-		/// <returns>Returns true if an instance was successfully removed, else returns false.</returns>
+		/// <returns>Returns true if an instance was successfully removed, otherwise false.</returns>
 		public static bool RemoveType<T>(this ICollection<T> collection, Type type, out T removed)
 		{
 			var toRemove = collection.SingleOrDefault(item => item is not null && item.GetType() == type);
@@ -42,6 +42,16 @@ namespace TheLion.Stardew.Common.Extensions
 
 			removed = default;
 			return false;
+		}
+
+		/// <summary>Add an item to the collection, or replace an already existing item with the new one.</summary>
+		/// <param name="item">The item to add.</param>
+		/// <returns>Returns true if an item was replaced, otherwiseelse false.</returns>
+		public static bool AddOrReplace<T>(this ICollection<T> collection, T item)
+		{
+			var removed = collection.Remove(item);
+			collection.Add(item);
+			return removed;
 		}
 	}
 }

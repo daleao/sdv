@@ -46,7 +46,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			// clean unnecessary mod data
 			if (!professionName.IsAnyOf("Scavenger", "Prospector"))
-				ModEntry.Data.RemoveProfessionDataFields(professionName);
+				ModEntry.Data.RemoveProfessionData(professionName);
 
 			// unsubscribe unnecessary events
 			ModEntry.Subscriber.UnsubscribeProfessionEvents(professionName);

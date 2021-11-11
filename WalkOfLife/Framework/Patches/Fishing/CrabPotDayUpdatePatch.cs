@@ -93,8 +93,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						whichFish = GetTrash(r);
 						if (isConservationist)
 						{
-							ModEntry.Data.IncrementField<uint>("WaterTrashCollectedThisSeason");
-							if (ModEntry.Data.ReadField<uint>("WaterTrashCollectedThisSeason") %
+							ModEntry.Data.Increment<uint>("WaterTrashCollectedThisSeason");
+							if (ModEntry.Data.Read<uint>("WaterTrashCollectedThisSeason") %
 								ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
 								SUtility.improveFriendshipWithEveryoneInRegion(Game1.player, 1, 2);
 						}

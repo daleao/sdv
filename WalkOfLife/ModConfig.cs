@@ -47,6 +47,12 @@ namespace TheLion.Stardew.Professions
 		/// <summary>The maximum tax deduction percentage allowed by the Ferngill Revenue Service.</summary>
 		public float TaxDeductionCeiling { get; set; } = 0.25f;
 
+		/// <summary>Multiplies the base prestige cost. Set to 0 to prestige for free.</summary>
+		public float PrestigeCostMultiplier { get; set; } = 1f;
+
+		/// <summary>Wether prestiging a skill also clears all associated recipes.</summary>
+		public bool ForgetRecipesOnPrestige { get; set; } = true;
+
 		/// <summary>Whether to draw UI element bounding boxes.</summary>
 		public bool EnableUIDebug { get; set; } = false;
 	}

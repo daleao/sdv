@@ -11,13 +11,13 @@ namespace TheLion.Stardew.Professions
 	public class ModData
 	{
 		/// <summary>Easy look-up table for data fields required by each profesion.</summary>
-		private static readonly Dictionary<string, List<KeyValuePair<string, string>>> FieldsByProfession = new()
+		private static readonly Dictionary<string, List<KeyValuePair<string, string>>> DataFieldsByProfession = new()
 		{
 			{"Conservationist", new() {new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0")}},
 			{"Ecologist", new() {new("ItemsForaged", "0")}},
 			{"Gemologist", new() {new("MineralsCollected", "0")}},
 			{"Prospector", new() {new("ProspectorHuntStreak", "0")}},
-			{"Scavenger", new() {new("ScavengerHuntStreak", "0")}}
+			{"Scavenger", new() {new("ScavengerHuntStreak", "0")}},
 		};
 
 		private readonly string _id;
@@ -37,7 +37,7 @@ namespace TheLion.Stardew.Professions
 
 			ModEntry.Log("[ModData]: Loading persisted mod data.", LogLevel.Trace);
 			Data = Game1.player.modData;
-			InitializeDataFieldsForLocalPlayer();
+			InitializeDataIfNecessary();
 			ModEntry.Log("[ModData]: Done loading data.", LogLevel.Trace);
 		}
 
@@ -49,13 +49,20 @@ namespace TheLion.Stardew.Professions
 		}
 
 		/// <summary>Initialize all data fields for the local player.</summary>
-		public void InitializeDataFieldsForLocalPlayer()
+		public void InitializeDataIfNecessary()
 		{
-			ModEntry.Log("[ModData]: Initializing data fields for local player...", LogLevel.Trace);
+			Data.WriteIfNotExists($"{_id}/Initialized", true.ToString(), out var exists);
+			if (exists)
+			{
+				ModEntry.Log($"[ModData]: Data already initialized for farmer {Game1.player.Name}.", LogLevel.Trace);
+				return;
+			}
+
+			ModEntry.Log($"[ModData]: Initializing data fields for farmer {Game1.player.Name}...", LogLevel.Trace);
 			foreach (var professionIndex in Game1.player.professions)
 				try
 				{
-					InitializeDataFieldsForProfession(Framework.Utility.Professions.NameOf(professionIndex));
+					InitializeDataForProfession(Framework.Utility.Professions.NameOf(professionIndex));
 				}
 				catch (IndexOutOfRangeException)
 				{
@@ -69,7 +76,7 @@ namespace TheLion.Stardew.Professions
 
 		/// <summary>Initialize data fields for a profession.</summary>
 		/// <param name="whichProfession">The profession index.</param>
-		public void InitializeDataFieldsForProfession(string whichProfession)
+		public void InitializeDataForProfession(string whichProfession)
 		{
 			if (Data is null)
 			{
@@ -77,7 +84,7 @@ namespace TheLion.Stardew.Professions
 				Load();
 			}
 
-			if (!FieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
+			if (!DataFieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
 
 			fields.ForEach(field => Data.WriteIfNotExists($"{_id}/{field.Key}", $"{field.Value}"));
 			ModEntry.Log($"[ModData]: Initialized data fields for {whichProfession}.", LogLevel.Trace);
@@ -85,7 +92,7 @@ namespace TheLion.Stardew.Professions
 
 		/// <summary>Clear data entries for a removed profession.</summary>
 		/// <param name="whichProfession">The profession index.</param>
-		public void RemoveProfessionDataFields(string whichProfession)
+		public void RemoveProfessionData(string whichProfession)
 		{
 			if (Data is null)
 			{
@@ -93,14 +100,14 @@ namespace TheLion.Stardew.Professions
 				Load();
 			}
 
-			if (!FieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
+			if (!DataFieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
 
 			ModEntry.Log($"[ModData]: Removing data fields for {whichProfession}.", LogLevel.Trace);
 			fields.ForEach(field => Data.Write($"{_id}/{field.Key}", null));
 		}
 
 		/// <summary>Check if there are rogue data feids and remove them.</summary>
-		public void CleanUpRogueDataFields()
+		public void CleanUpRogueData()
 		{
 			if (Data is null)
 			{
@@ -110,18 +117,18 @@ namespace TheLion.Stardew.Professions
 
 			ModEntry.Log("[ModData]: Checking for rogue data fields...", LogLevel.Trace);
 			var professionsToRemove =
-				from fieldsByProfession in FieldsByProfession
+				from fieldsByProfession in DataFieldsByProfession
 				where !fieldsByProfession.Key.IsAnyOf("Scavenger", "Prospector")
 				from field in fieldsByProfession.Value
 				where Data.ContainsKey(field.Key) && !Game1.player.HasProfession(fieldsByProfession.Key)
 				select fieldsByProfession.Key;
-			foreach (var profession in professionsToRemove) RemoveProfessionDataFields(profession);
+			foreach (var profession in professionsToRemove) RemoveProfessionData(profession);
 			ModEntry.Log("[ModData]: Done removing rogue data fields.", LogLevel.Trace);
 		}
 
 		/// <summary>Read a field from the <see cref="ModData" /> as string.</summary>
 		/// <param name="field">The field to read from.</param>
-		public string ReadField(string field)
+		public string Read(string field)
 		{
 			if (Data is null)
 			{
@@ -134,7 +141,7 @@ namespace TheLion.Stardew.Professions
 
 		/// <summary>Read a field from the <see cref="ModData" /> as <typeparamref name="T" />.</summary>
 		/// <param name="field">The field to read from.</param>
-		public T ReadField<T>(string field) where T : IComparable
+		public T Read<T>(string field) where T : IComparable
 		{
 			if (Data is null)
 			{
@@ -148,7 +155,7 @@ namespace TheLion.Stardew.Professions
 		/// <summary>Write to a field in the <see cref="ModData" />, or remove the field if supplied with null.</summary>
 		/// <param name="field">The field to write to.</param>
 		/// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-		public void WriteField(string field, string value)
+		public void Write(string field, string value)
 		{
 			if (Data is null)
 			{
@@ -160,10 +167,25 @@ namespace TheLion.Stardew.Professions
 			ModEntry.Log($"[ModData]: Wrote {value} to {field}.", LogLevel.Trace);
 		}
 
+		/// <summary>Write to a field in the <see cref="ModData" />, only if it doesn't yet have a value.</summary>
+		/// <param name="field">The field to write to.</param>
+		/// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
+		public void WriteIfNotExists(string field, string value)
+		{
+			if (Data is null)
+			{
+				ModEntry.Log("Mod data was not loaded correctly.", LogLevel.Warn);
+				Load();
+			}
+
+			Data.WriteIfNotExists($"{_id}/{field}", value);
+			ModEntry.Log($"[ModData]: Tried initializing {field} with {value}.", LogLevel.Trace);
+		}
+
 		/// <summary>Increment the value of a numeric field in the <see cref="ModData" /> by an arbitrary amount.</summary>
 		/// <param name="field">The field to update.</param>
 		/// <param name="amount">Amount to increment by.</param>
-		public void IncrementField<T>(string field, T amount)
+		public void Increment<T>(string field, T amount)
 		{
 			if (Data is null)
 			{
@@ -177,7 +199,7 @@ namespace TheLion.Stardew.Professions
 
 		/// <summary>Increment the value of a numeric field in the <see cref="ModData" /> by 1.</summary>
 		/// <param name="field">The field to update.</param>
-		public void IncrementField<T>(string field)
+		public void Increment<T>(string field)
 		{
 			if (Data is null)
 			{

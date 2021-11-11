@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			// clean up rogue events and data on skill prestige or reset
 			ModEntry.Subscriber.CleanUpRogueEvents();
-			ModEntry.Data.CleanUpRogueDataFields();
+			ModEntry.Data.CleanUpRogueData();
 		}
 	}
 }

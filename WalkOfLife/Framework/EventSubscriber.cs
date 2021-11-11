@@ -18,9 +18,9 @@ namespace TheLion.Stardew.Professions.Framework
 	{
 		private static readonly Dictionary<string, List<IEvent>> EventsByProfession = new()
 		{
-			{"Conservationist", new() {new ConservationistDayEndingEvent()}},
-			{"Poacher", new() {new PoacherWarpedEvent()}},
-			{"Piper", new() {new PiperWarpedEvent()}},
+			{ "Conservationist", new() { new ConservationistDayEndingEvent() } },
+			{ "Poacher", new() { new PoacherWarpedEvent() } },
+			{ "Piper", new() { new PiperWarpedEvent() } },
 			{
 				"Prospector",
 				new()
@@ -32,9 +32,9 @@ namespace TheLion.Stardew.Professions.Framework
 			},
 			{
 				"Scavenger",
-				new() {new ScavengerHuntDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent()}
+				new() { new ScavengerHuntDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent() }
 			},
-			{"Spelunker", new() {new SpelunkerWarpedEvent()}}
+			{ "Spelunker", new() { new SpelunkerWarpedEvent() } }
 		};
 
 		private readonly List<IEvent> _subscribed = new();
@@ -88,22 +88,27 @@ namespace TheLion.Stardew.Professions.Framework
 		///     those events.
 		/// </summary>
 		/// <paramref name="prefix">One of <c>Static</c> or <c>Debug</c>.</paramref>
-		internal void SubscribeEventsStartingWith(string prefix)
+		internal void SubscribeEventsStartingWith(string prefix, params Type[] except)
 		{
 			ModEntry.Log($"[EventSubscriber]: Subscribing {prefix} events using reflection...", LogLevel.Trace);
 			var eventsToSubscribe = AccessTools.GetTypesFromAssembly(Assembly.GetAssembly(typeof(IEvent)))
 				.Where(t => typeof(IEvent).IsAssignableFrom(t) && !t.IsAbstract &&
-				            t.Name.StartsWith(prefix))
-				.Select(t => (IEvent) t.Constructor().Invoke(new object[] { })).ToArray();
+							t.Name.StartsWith(prefix))
+				.Except(except)
+				.Select(t => (IEvent)t.Constructor().Invoke(new object[] { }))
+				.ToArray();
 			Subscribe(eventsToSubscribe);
 		}
 
 		/// <summary>Subscribe the event listener to events required for prestige functionality.</summary>
-		internal void UnsubscribeEventsStartingWith(string prefix)
+		internal void UnsubscribeEventsStartingWith(string prefix, params Type[] except)
 		{
 			ModEntry.Log($"[EventSubscriber]: Unsubscribing {prefix} events...", LogLevel.Trace);
-			var eventsToRemove = _subscribed.Select(e => e.GetType())
-				.Where(t => t.Name.StartsWith(prefix)).ToArray();
+			var eventsToRemove = _subscribed
+				.Select(e => e.GetType())
+				.Where(t => t.Name.StartsWith(prefix))
+				.Except(except)
+				.ToArray();
 			Unsubscribe(eventsToRemove);
 		}
 
@@ -132,9 +137,12 @@ namespace TheLion.Stardew.Professions.Framework
 		internal void UnsubscribeLocalPlayerEvents()
 		{
 			ModEntry.Log("[EventSubscriber]: Unsubscribing player dynamic events...", LogLevel.Trace);
-			Unsubscribe(_subscribed.Where(e => !e.GetType().Name.SplitCamelCase().First().IsAnyOf("Static", "Debug"))
+			var eventsToRemove = _subscribed
+				.Where(e => !e.GetType().Name.SplitCamelCase().First().IsAnyOf("Static", "Debug"))
 				.Select(subscribed => subscribed.GetType())
-				.ToArray());
+				.AddItem(typeof(SuperModeIndexChangedEvent))
+				.ToArray();
+			Unsubscribe(eventsToRemove);
 			ModEntry.Log("[EventSubscriber]: Done unsubscribing player events.", LogLevel.Trace);
 		}
 
@@ -156,7 +164,7 @@ namespace TheLion.Stardew.Professions.Framework
 
 			List<IEvent> except = new();
 			if (whichProfession == "Prospector" && Game1.player.HasProfession("Scavenger") ||
-			    whichProfession == "Scavenger" && Game1.player.HasProfession("Prospector"))
+				whichProfession == "Scavenger" && Game1.player.HasProfession("Prospector"))
 				except.Add(new TrackerButtonsChangedEvent());
 
 			ModEntry.Log($"[EventSubscriber]: Unsubscribing from {whichProfession} profession events...",
@@ -170,11 +178,7 @@ namespace TheLion.Stardew.Professions.Framework
 			ModEntry.Log("[EventSubscriber]: Subscribing Super Mode events...", LogLevel.Trace);
 			Subscribe(
 				new SuperModeButtonsChangedEvent(),
-				new SuperModeCounterFilledEvent(),
 				new SuperModeCounterRaisedAboveZeroEvent(),
-				new SuperModeCounterReturnedToZeroEvent(),
-				new SuperModeDisabledEvent(),
-				new SuperModeEnabledEvent(),
 				new SuperModeWarpedEvent(),
 				new SuperModeModMessageReceivedEvent()
 			);
@@ -190,21 +194,20 @@ namespace TheLion.Stardew.Professions.Framework
 		internal void UnsubscribeSuperModeEvents()
 		{
 			ModEntry.Log("[EventSubscriber]: Unsubscribing Super Mode events...", LogLevel.Trace);
-			Unsubscribe(
-				typeof(SuperModeActivationTimerUpdateTickedEvent),
-				typeof(SuperModeBarFadeOutUpdateTickedEvent),
-				typeof(SuperModeBarRenderingHudEvent),
-				typeof(SuperModeBarShakeTimerUpdateTickedEvent),
-				typeof(SuperModeBuffDisplayUpdateTickedEvent),
-				typeof(SuperModeButtonsChangedEvent),
-				typeof(SuperModeCounterFilledEvent),
-				typeof(SuperModeCounterRaisedAboveZeroEvent),
-				typeof(SuperModeCounterReturnedToZeroEvent),
-				typeof(SuperModeDisabledEvent),
-				typeof(SuperModeEnabledEvent),
-				typeof(SuperModeWarpedEvent),
-				typeof(SuperModeModMessageReceivedEvent)
-			);
+			UnsubscribeEventsStartingWith("SuperMode", except: typeof(SuperModeIndexChangedEvent));
+			//	typeof(SuperModeActivationTimerUpdateTickedEvent),
+			//	typeof(SuperModeBarFadeOutUpdateTickedEvent),
+			//	typeof(SuperModeBarRenderingHudEvent),
+			//	typeof(SuperModeBarShakeTimerUpdateTickedEvent),
+			//	typeof(SuperModeBuffDisplayUpdateTickedEvent),
+			//	typeof(SuperModeButtonsChangedEvent),
+			//	typeof(SuperModeCounterFilledEvent),
+			//	typeof(SuperModeCounterRaisedAboveZeroEvent),
+			//	typeof(SuperModeCounterReturnedToZeroEvent),
+			//	typeof(SuperModeDisabledEvent),
+			//	typeof(SuperModeEnabledEvent),
+			//	typeof(SuperModeWarpedEvent),
+			//	typeof(SuperModeModMessageReceivedEvent)
 		}
 
 		/// <summary>Check if there are rogue events still subscribed and remove them.</summary>
@@ -216,9 +219,9 @@ namespace TheLion.Stardew.Professions.Framework
 				{
 					var prefix = e.GetType().Name.SplitCamelCase().First();
 					return Utility.Professions.IndexByName.Contains(prefix) && !Game1.player.HasProfession(prefix) ||
-					       prefix == "Tracker" && !Game1.player.HasAnyOfProfessions("Prospector", "Scavenger") ||
-					       prefix == "SuperMode" &&
-					       !Game1.player.HasAnyOfProfessions("Brute", "Poacher", "Piper", "Desperado");
+						   prefix == "Tracker" && !Game1.player.HasAnyOfProfessions("Prospector", "Scavenger") ||
+						   prefix == "SuperMode" &&
+						   !Game1.player.HasAnyOfProfessions("Brute", "Poacher", "Piper", "Desperado");
 				})
 				.Reverse()) Unsubscribe(e.GetType());
 			ModEntry.Log("[EventSubscriber]: Done unsubscribing rogue events.", LogLevel.Trace);

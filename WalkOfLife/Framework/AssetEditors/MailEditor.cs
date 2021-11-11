@@ -21,7 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.AssetEditors
 
 			// patch mail from the Ferngill Revenue Service
 			var editor = asset.AsDictionary<string, string>();
-			var taxBonus = ModEntry.Data.ReadField<float>("ActiveTaxBonusPercent");
+			var taxBonus = ModEntry.Data.Read<float>("ActiveTaxBonusPercent");
 			var key = "conservationist.mail1";
 			if (taxBonus >= ModEntry.Config.TaxDeductionCeiling) key = "conservationist.mail2";
 

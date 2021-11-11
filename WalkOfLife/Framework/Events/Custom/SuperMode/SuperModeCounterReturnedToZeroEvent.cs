@@ -25,6 +25,9 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (!ModEntry.IsSuperModeActive) return;
 			ModEntry.IsSuperModeActive = false;
 
+			// stop waiting for counter to fill up and start waiting for it to raise above zero
+			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeCounterFilledEvent));
+			ModEntry.Subscriber.Subscribe(new SuperModeCounterRaisedAboveZeroEvent());
 			if (!Game1.currentLocation.IsCombatZone())
 				ModEntry.Subscriber.Subscribe(new SuperModeBarFadeOutUpdateTickedEvent());
 		}

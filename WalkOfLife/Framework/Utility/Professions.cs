@@ -123,7 +123,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		/// <summary>Affects the price all items sold by Conservationist.</summary>
 		public static float GetConservationistPriceMultiplier()
 		{
-			return 1f + ModEntry.Data.ReadField<float>("ActiveTaxBonusPercent");
+			return 1f + ModEntry.Data.Read<float>("ActiveTaxBonusPercent");
 		}
 
 		/// <summary>Affects the price of animals sold by Breeder.</summary>
@@ -136,7 +136,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		/// <summary>Affects the quality of items foraged by Ecologist.</summary>
 		public static int GetEcologistForageQuality()
 		{
-			var itemsForaged = ModEntry.Data.ReadField<uint>("ItemsForaged");
+			var itemsForaged = ModEntry.Data.Read<uint>("ItemsForaged");
 			return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
 				? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2 ? SObject.medQuality :
 				SObject.highQuality
@@ -146,7 +146,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		/// <summary>Affects the quality of minerals collected by Gemologist.</summary>
 		public static int GetGemologistMineralQuality()
 		{
-			var mineralsCollected = ModEntry.Data.ReadField<uint>("MineralsCollected");
+			var mineralsCollected = ModEntry.Data.Read<uint>("MineralsCollected");
 			return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
 				? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
 					? SObject.medQuality

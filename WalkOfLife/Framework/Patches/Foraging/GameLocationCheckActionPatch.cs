@@ -190,9 +190,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
 		{
 			if (who.HasProfession("Ecologist") && obj.isForage(location) && !obj.IsForagedMineral())
-				ModEntry.Data.IncrementField<uint>("ItemsForaged");
+				ModEntry.Data.Increment<uint>("ItemsForaged");
 			else if (who.HasProfession("Gemologist") && obj.IsForagedMineral())
-				ModEntry.Data.IncrementField<uint>("MineralsCollected");
+				ModEntry.Data.Increment<uint>("MineralsCollected");
 		}
 
 		#endregion private methods

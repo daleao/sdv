@@ -257,7 +257,9 @@ namespace TheLion.Stardew.Professions
 				ModEntry.Log("You must have a level 10 combat profession.", LogLevel.Warn);
 				return;
 			}
-
+			
+			// first raise above zero, then fill, otherwise fill event won't trigger
+			ModEntry.SuperModeCounter = 1;
 			ModEntry.SuperModeCounter = ModEntry.SuperModeCounterMax;
 		}
 
@@ -431,7 +433,7 @@ namespace TheLion.Stardew.Professions
 			};
 			foreach (var field in fields)
 			{
-				var value = ModEntry.Data.ReadField($"{field}");
+				var value = ModEntry.Data.Read($"{field}");
 				if (field == "ActiveTaxBonusPercent" && float.TryParse(value, out var pct))
 					value = (pct * 100).ToString(CultureInfo.InvariantCulture) + '%';
 
@@ -469,7 +471,7 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			ModEntry.Data.WriteField("ItemsForaged", args[0]);
+			ModEntry.Data.Write("ItemsForaged", args[0]);
 			ModEntry.Log($"ItemsForaged set to {args[0]}.", LogLevel.Info);
 		}
 
@@ -500,7 +502,7 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			ModEntry.Data.WriteField("MineralsCollected", args[0]);
+			ModEntry.Data.Write("MineralsCollected", args[0]);
 			ModEntry.Log($"MineralsCollected set to {args[0]}.", LogLevel.Info);
 		}
 
@@ -531,7 +533,7 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			ModEntry.Data.WriteField("ProspectorStreak", args[0]);
+			ModEntry.Data.Write("ProspectorStreak", args[0]);
 			ModEntry.Log($"ProspectorStreak set to {args[0]}.", LogLevel.Info);
 		}
 
@@ -562,7 +564,7 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			ModEntry.Data.WriteField("ScavengerStreak", args[0]);
+			ModEntry.Data.Write("ScavengerStreak", args[0]);
 			ModEntry.Log($"ScavengerStreak set to {args[0]}.", LogLevel.Info);
 		}
 
@@ -593,7 +595,7 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			ModEntry.Data.WriteField("WaterTrashCollectedThisSeason", args[0]);
+			ModEntry.Data.Write("WaterTrashCollectedThisSeason", args[0]);
 			ModEntry.Log($"WaterTrashCollectedThisSeason set to {args[0]}.", LogLevel.Info);
 		}
 

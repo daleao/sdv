@@ -110,6 +110,10 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					DoEnablePiperSuperMode();
 					break;
 			}
+
+			// unsubscribe self and wait for disabled
+			ModEntry.Subscriber.Unsubscribe(GetType());
+			ModEntry.Subscriber.Subscribe(new SuperModeDisabledEvent());
 		}
 
 		/// <summary>Hide the player from monsters that may have already seen him/her.</summary>

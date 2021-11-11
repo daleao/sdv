@@ -38,7 +38,7 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <param name="data">The <see cref="ModDataDictionary" />.</param>
 		/// <param name="key">The dictionary key to write to.</param>
 		/// <param name="value">The value to write, or <c>null</c> to remove the key.</param>
-		/// <return>Interface to <paramref name="data" />.</return>
+		/// <returns>Interface to <paramref name="data" />.</returns>
 		public static ModDataDictionary Write(this ModDataDictionary data, string key, string value)
 		{
 			if (string.IsNullOrWhiteSpace(value)) data.Remove(key);
@@ -50,10 +50,23 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <param name="data">The <see cref="ModDataDictionary" />.</param>
 		/// <param name="key">The dictionary key to write to.</param>
 		/// <param name="value">The value to write.</param>
-		/// <return>Interface to <paramref name="data" />.</return>
+		/// <returns>Interface to <paramref name="data" />.</returns>
 		public static ModDataDictionary WriteIfNotExists(this ModDataDictionary data, string key, string value)
 		{
 			if (!data.ContainsKey(key)) data[key] = value;
+			return data;
+		}
+
+		/// <summary>Write a value to the <see cref="ModDataDictionary" /> only if the key does not yet exist.</summary>
+		/// <param name="data">The <see cref="ModDataDictionary" />.</param>
+		/// <param name="key">The dictionary key to write to.</param>
+		/// <param name="value">The value to write.</param>
+		/// <param name="exists">Whether the key already existed in the dictionary.</param>
+		/// <returns>Interface to <paramref name="data" />.</returns>
+		public static ModDataDictionary WriteIfNotExists(this ModDataDictionary data, string key, string value, out bool exists)
+		{
+			exists = data.ContainsKey(key);
+			if (!exists) data[key] = value;
 			return data;
 		}
 
@@ -61,7 +74,7 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <param name="data">The <see cref="ModDataDictionary" />.</param>
 		/// <param name="key">The dictionary key to read update.</param>
 		/// <param name="amount">Amount to increment by.</param>
-		/// <return>Interface to <paramref name="data" />.</return>
+		/// <returns>Interface to <paramref name="data" />.</returns>
 		/// <remarks>Credit to <c>Adi Lester</c> (https://stackoverflow.com/questions/8122611/c-sharp-adding-two-generic-values).</remarks>
 		public static ModDataDictionary Increment<T>(this ModDataDictionary data, string key, T amount)
 		{

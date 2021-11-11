@@ -18,15 +18,20 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		/// <param name="whichSkill">The desired skill.</param>
 		public static int GetPrestigeCost(SkillType whichSkill)
 		{
+			var multiplier = ModEntry.Config.PrestigeCostMultiplier;
+			if (multiplier <= 0f) return 0;
+
 			var count = Game1.player.GetProfessionsForSkill((int) whichSkill, true).Count();
 #pragma warning disable 8509
-			return count switch
+			var baseCost = count switch
 #pragma warning restore 8509
 			{
 				1 => 10000,
 				2 => 50000,
 				3 => 100000
 			};
+
+			return (int) (baseCost * multiplier);
 		}
 	}
 }

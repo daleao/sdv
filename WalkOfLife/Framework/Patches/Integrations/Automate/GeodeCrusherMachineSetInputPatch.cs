@@ -41,7 +41,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				!machine.heldObject.Value.IsGemOrMineral()) return;
 
 			machine.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
-			if (who.IsLocalPlayer) ModEntry.Data.IncrementField<uint>("MineralsCollected");
+			if (who.IsLocalPlayer) ModEntry.Data.Increment<uint>("MineralsCollected");
 		}
 
 		#endregion harmony patches

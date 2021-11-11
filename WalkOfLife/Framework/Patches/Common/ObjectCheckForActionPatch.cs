@@ -45,7 +45,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				__instance.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
 			else if (__state && __instance.heldObject.Value is null && __instance.ParentSheetIndex == 128 &&
 			         who.HasProfession("Ecologist"))
-				ModEntry.Data.IncrementField<uint>("ItemsForaged");
+				ModEntry.Data.Increment<uint>("ItemsForaged");
 		}
 
 		/// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium.</summary>
@@ -85,7 +85,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
 						new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] {typeof(string)})
+							typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] {typeof(string)})
 								.MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseGemologistCounter);

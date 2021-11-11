@@ -77,7 +77,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 			End();
 			var getTreasure = new DelayedAction(200, BeginFindTreasure);
 			Game1.delayedActions.Add(getTreasure);
-			ModEntry.Data.IncrementField<uint>("ScavengerHuntStreak");
+			ModEntry.Data.Increment<uint>("ScavengerHuntStreak");
 		}
 
 		/// <summary>End the hunt unsuccessfully.</summary>
@@ -85,7 +85,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		{
 			End();
 			Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-			ModEntry.Data.WriteField("ScavengerHuntStreak", "0");
+			ModEntry.Data.Write("ScavengerHuntStreak", "0");
 		}
 
 		/// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
@@ -247,7 +247,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 
 							case 2:
 								var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
-								var streak = ModEntry.Data.ReadField<uint>("ScavengerHuntStreak");
+								var streak = ModEntry.Data.Read<uint>("ScavengerHuntStreak");
 								if (Random.NextDouble() < 0.025 * luckModifier &&
 								    !Game1.player.specialItems.Contains(60))
 									treasures.Add(new MeleeWeapon(15) {specialItem = true}); // forest sword

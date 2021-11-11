@@ -13,15 +13,23 @@ using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
-	internal class GenericObjectMachineSetInputPatch : BasePatch
+	internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		internal GenericObjectMachineSetInputPatch()
+		internal GenericObjectMachineGenericPullRecipePatch()
 		{
-			Original = "GenericObjectMachine`1".ToType()
-				.MakeGenericType(typeof(SObject))
-				.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
-				.FirstOrDefault(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3);
+			try
+			{
+				Original = "GenericObjectMachine`1".ToType()
+					.MakeGenericType(typeof(SObject))
+					.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
+					.FirstOrDefault(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3);
+			}
+			catch
+			{
+				// ignored
+			}
+
 			Transpiler = new(GetType().MethodNamed(nameof(GenericObjectMachineGenericPullRecipeTranspiler)));
 		}
 
@@ -53,7 +61,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Insert(
 						new CodeInstruction(OpCodes.Ldloc_0),
 						new CodeInstruction(OpCodes.Call,
-							typeof(GenericObjectMachineSetInputPatch).MethodNamed(
+							typeof(GenericObjectMachineGenericPullRecipePatch).MethodNamed(
 								nameof(GenericPullRecipeSubroutine)))
 					);
 			}

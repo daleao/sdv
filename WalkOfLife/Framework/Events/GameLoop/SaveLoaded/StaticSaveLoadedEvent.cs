@@ -22,7 +22,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			// set super mode
 			ModEntry.Log("Loading persisted Super Mode index.", LogLevel.Trace);
-			ModEntry.SuperModeIndex = ModEntry.Data.ReadField<int>("SuperModeIndex");
+			ModEntry.SuperModeIndex = ModEntry.Data.Read<int>("SuperModeIndex");
 
 			// check for mismatch between saved data and player professions
 			switch (ModEntry.SuperModeIndex)

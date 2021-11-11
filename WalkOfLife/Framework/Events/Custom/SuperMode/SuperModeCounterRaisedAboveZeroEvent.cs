@@ -19,8 +19,10 @@
 		/// <summary>Raised when the SuperModeCounter is raised from zero to any value greater than zero.</summary>
 		public void OnSuperModeCounterRaisedAboveZero()
 		{
+			// stop waiting for counter to return to zero and start waiting for it to fill up
+			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeCounterReturnedToZeroEvent));
 			ModEntry.Subscriber.Subscribe(new SuperModeBarRenderingHudEvent(),
-				new SuperModeBuffDisplayUpdateTickedEvent());
+				new SuperModeBuffDisplayUpdateTickedEvent(), new SuperModeCounterFilledEvent());
 		}
 	}
 }

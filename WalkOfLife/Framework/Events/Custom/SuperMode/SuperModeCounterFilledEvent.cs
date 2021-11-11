@@ -19,7 +19,10 @@
 		/// <summary>Raised when SuperModeCounter is set to the max value.</summary>
 		public void OnSuperModeCounterFilled()
 		{
-			ModEntry.Subscriber.Subscribe(new SuperModeBarShakeTimerUpdateTickedEvent());
+			// stop waiting for counter to raise above zero and start waiting for it to return to zero
+			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeCounterRaisedAboveZeroEvent));
+			ModEntry.Subscriber.Subscribe(new SuperModeBarShakeTimerUpdateTickedEvent(),
+				new SuperModeCounterReturnedToZeroEvent(), new SuperModeEnabledEvent());
 		}
 	}
 }

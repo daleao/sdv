@@ -50,7 +50,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
 						new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).MethodNamed(nameof(ModData.IncrementField), new[] {typeof(string)})
+							typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] {typeof(string)})
 								.MakeGenericMethod(typeof(uint)))
 					)
 					.AddLabels(dontIncreaseGemologistCounter);

@@ -82,7 +82,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(Item).PropertyGetter(nameof(Item.Stack))),
 						new CodeInstruction(OpCodes.Call,
-							typeof(ModData).GetMethods().First(m => m.Name == "IncrementField")
+							typeof(ModData).GetMethods().First(m => m.Name == "Increment")
 								.MakeGenericMethod(typeof(int)))
 					)
 					.AddLabels(dontIncreaseEcologistCounter);
