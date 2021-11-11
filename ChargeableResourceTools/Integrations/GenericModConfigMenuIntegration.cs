@@ -44,8 +44,9 @@ namespace TheLion.Stardew.Tools.Integrations
 					description: "Adjusts the stamina cost of charging.",
 					get: config => config.StaminaCostMultiplier,
 					set: (config, value) => config.StaminaCostMultiplier = value,
-					min: 0,
-					max: 10
+					min: 0f,
+					max: 10f,
+					interval: 0.5f
 				)
 				.AddNumberField(
 					label: "Shockwave Delay",
