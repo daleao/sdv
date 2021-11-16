@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using TheLion.Stardew.Common.Harmony;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -13,7 +12,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectLoadDisplayNamePatch()
 		{
 			Original = RequireMethod<SObject>("loadDisplayName");
-			Postfix = new(GetType().MethodNamed(nameof(ObjectLoadDisplayNamePostfix)));
 		}
 
 		/// <summary>Patch to add honey-specific mead names.</summary>

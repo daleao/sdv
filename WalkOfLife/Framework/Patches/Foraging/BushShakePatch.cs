@@ -18,7 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BushShakePatch()
 		{
 			Original = RequireMethod<Bush>("shake");
-			Transpiler = new(GetType().MethodNamed(nameof(BushShakeTranspiler)));
 		}
 
 		#region harmony patches

@@ -24,8 +24,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				// ignored
 			}
-
-			Transpiler = new(GetType().MethodNamed(nameof(GenericObjectMachineGenericPullRecipeTranspiler)));
 		}
 
 		#region harmony patches
@@ -62,7 +60,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching modded Artisan behavior for automated Cheese Press.\nHelper returned {ex}",
+				ModEntry.Log(
+					$"Failed while patching modded Artisan behavior for automated Cheese Press.\nHelper returned {ex}",
 					LogLevel.Error);
 				return null;
 			}

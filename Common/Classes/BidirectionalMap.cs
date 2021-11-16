@@ -9,17 +9,14 @@ namespace TheLion.Stardew.Common.Classes
 	/// <typeparam name="TReverseKey">Reverse mapping key</typeparam>
 	public class BiMap<TForwardKey, TReverseKey> : IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>
 	{
-		public Indexer<TForwardKey, TReverseKey> Forward { get; } = new();
-		public Indexer<TReverseKey, TForwardKey> Reverse { get; } = new();
-
 		/// <summary>Construct an instance.</summary>
 		public BiMap()
 		{
 		}
 
-		/// <summary>Construct an instance by copying <see cref="KeyValuePairs"/> from a one-way <see cref="IDictionary"/>.</summary>
-		/// <param name="oneWayMap">A one-way <see cref="IDictionary"/>.</param>
-		/// <remarks>Throws <see cref="ArgumentException"/> if <paramref name="oneWayMap"/> contains repeated values.</remarks>
+		/// <summary>Construct an instance by copying <see cref="KeyValuePairs" /> from a one-way <see cref="IDictionary" />.</summary>
+		/// <param name="oneWayMap">A one-way <see cref="IDictionary" />.</param>
+		/// <remarks>Throws <see cref="ArgumentException" /> if <paramref name="oneWayMap" /> contains repeated values.</remarks>
 		public BiMap(IDictionary<TForwardKey, TReverseKey> oneWayMap)
 		{
 			Forward = new(oneWayMap);
@@ -37,10 +34,27 @@ namespace TheLion.Stardew.Common.Classes
 			}
 		}
 
-		/// <summary>Add a new <see cref="KeyValuePair{TForwardKey, TReverseKey}"/> entry to the instance.</summary>
-		/// <param name="forwardKey">A <typeparamref name="TForwardKey"/> object.</param>
-		/// <param name="reverseKey">A <typeparamref name="TReverseKey"/> object.</param>
-		/// <remarks>Throws <see cref="ArgumentException"/> if either <paramref name="forwardKey"/> or <paramref name="reverseKey"/> already exist in the instance.</remarks>
+		public Indexer<TForwardKey, TReverseKey> Forward { get; } = new();
+		public Indexer<TReverseKey, TForwardKey> Reverse { get; } = new();
+
+		IEnumerator<KeyValuePair<TForwardKey, TReverseKey>> IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>.
+			GetEnumerator()
+		{
+			return Forward.GetEnumerator();
+		}
+
+		public IEnumerator GetEnumerator()
+		{
+			return Forward.GetEnumerator();
+		}
+
+		/// <summary>Add a new <see cref="KeyValuePair{TForwardKey, TReverseKey}" /> entry to the instance.</summary>
+		/// <param name="forwardKey">A <typeparamref name="TForwardKey" /> object.</param>
+		/// <param name="reverseKey">A <typeparamref name="TReverseKey" /> object.</param>
+		/// <remarks>
+		///     Throws <see cref="ArgumentException" /> if either <paramref name="forwardKey" /> or
+		///     <paramref name="reverseKey" /> already exist in the instance.
+		/// </remarks>
 		public void Add(TForwardKey forwardKey, TReverseKey reverseKey)
 		{
 			if (Forward.ContainsKey(forwardKey))
@@ -54,7 +68,7 @@ namespace TheLion.Stardew.Common.Classes
 			Reverse.Add(reverseKey, forwardKey);
 		}
 
-		/// <summary>Remove a <see cref="KeyValuePair{TForwardKey, TReverseKey}"/> entry from the instance.</summary>
+		/// <summary>Remove a <see cref="KeyValuePair{TForwardKey, TReverseKey}" /> entry from the instance.</summary>
 		/// <param name="forwardKey">Forward key.</param>
 		/// <returns>Returns true if the pair exists and was successfully removed, otherwise returns false.</returns>
 		public bool Remove(TForwardKey forwardKey)
@@ -65,39 +79,45 @@ namespace TheLion.Stardew.Common.Classes
 			return Reverse.Remove(Forward[forwardKey]) && Forward.Remove(forwardKey);
 		}
 
-		/// <summary>Remove a <see cref="KeyValuePair{TForwardKey, TReverseKey}"/> entry from the instance.</summary>
-		/// <param name="entry"><see cref="KeyValuePair{TForwardKey, TReserveKey}"/> entry to be removed.</param>
+		/// <summary>Remove a <see cref="KeyValuePair{TForwardKey, TReverseKey}" /> entry from the instance.</summary>
+		/// <param name="entry"><see cref="KeyValuePair{TForwardKey, TReserveKey}" /> entry to be removed.</param>
 		/// <returns>Returns true if the pair exists and was successfully removed, otherwise returns false.</returns>
 		public bool Remove(KeyValuePair<TForwardKey, TReverseKey> entry)
 		{
 			return Forward.Remove(entry.Key) && Reverse.Remove(entry.Value);
 		}
 
-		/// <summary>Check if a <typeparamref name="TForwardKey"/> is present in the instance.</summary>
-		/// <param name="key">The <typeparamref name="TForwardKey"/> object to check.</param>
+		/// <summary>Check if a <typeparamref name="TForwardKey" /> is present in the instance.</summary>
+		/// <param name="key">The <typeparamref name="TForwardKey" /> object to check.</param>
 		public bool Contains(TForwardKey key)
 		{
 			return Forward.ContainsKey(key);
 		}
 
-		/// <summary>Check if a <typeparamref name="TReverseKey"/> is present in the instance.</summary>
-		/// <param name="key">The <typeparamref name="TReverseKey"/> object to check.</param>
+		/// <summary>Check if a <typeparamref name="TReverseKey" /> is present in the instance.</summary>
+		/// <param name="key">The <typeparamref name="TReverseKey" /> object to check.</param>
 		public bool Contains(TReverseKey key)
 		{
 			return Reverse.ContainsKey(key);
 		}
 
-		/// <summary>Check if a <typeparamref name="TForwardKey"/> is present in the instance and return the corresponding <typeparamref name="TReverseKey"/>.</summary>
-		/// <param name="forwardKey">The <typeparamref name="TForwardKey"/> object to check.</param>
-		/// <param name="reverseKey">The corresponding <typeparamref name="TReverseKey"/> object, if any.</param>
+		/// <summary>
+		///     Check if a <typeparamref name="TForwardKey" /> is present in the instance and return the corresponding
+		///     <typeparamref name="TReverseKey" />.
+		/// </summary>
+		/// <param name="forwardKey">The <typeparamref name="TForwardKey" /> object to check.</param>
+		/// <param name="reverseKey">The corresponding <typeparamref name="TReverseKey" /> object, if any.</param>
 		public bool TryGetForwardValue(TForwardKey forwardKey, out TReverseKey reverseKey)
 		{
 			return Forward.TryGetValue(forwardKey, out reverseKey);
 		}
 
-		/// <summary>Check if a <typeparamref name="TReverseKey"/> is present in the instance and return the corresponding <typeparamref name="TForwardKey"/>.</summary>
-		/// <param name="reverseKey">The <typeparamref name="TReverseKey"/> object to check.</param>
-		/// <param name="forwardKey">The corresponding <typeparamref name="TForwardKey"/> object, if any.</param>
+		/// <summary>
+		///     Check if a <typeparamref name="TReverseKey" /> is present in the instance and return the corresponding
+		///     <typeparamref name="TForwardKey" />.
+		/// </summary>
+		/// <param name="reverseKey">The <typeparamref name="TReverseKey" /> object to check.</param>
+		/// <param name="forwardKey">The corresponding <typeparamref name="TForwardKey" /> object, if any.</param>
 		public bool TryGetReverseValue(TReverseKey reverseKey, out TForwardKey forwardKey)
 		{
 			return Reverse.TryGetValue(reverseKey, out forwardKey);
@@ -116,17 +136,6 @@ namespace TheLion.Stardew.Common.Classes
 			return Forward.Count();
 		}
 
-		IEnumerator<KeyValuePair<TForwardKey, TReverseKey>> IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>.
-			GetEnumerator()
-		{
-			return Forward.GetEnumerator();
-		}
-
-		public IEnumerator GetEnumerator()
-		{
-			return Forward.GetEnumerator();
-		}
-
 		/// <summary>Publicly read-only lookup to prevent inconsistent state between forward and reverse map lookup.</summary>
 		public class Indexer<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
 		{
@@ -143,6 +152,20 @@ namespace TheLion.Stardew.Common.Classes
 			}
 
 			public TValue this[TKey index] => _dictionary[index];
+
+			public IEnumerable<TKey> Keys => _dictionary.Keys;
+
+			public IEnumerable<TValue> Values => _dictionary.Values;
+
+			public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+			{
+				return _dictionary.GetEnumerator();
+			}
+
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return _dictionary.GetEnumerator();
+			}
 
 			public static implicit operator Dictionary<TKey, TValue>(Indexer<TKey, TValue> indexer)
 			{
@@ -179,23 +202,9 @@ namespace TheLion.Stardew.Common.Classes
 				return _dictionary.Count;
 			}
 
-			public IEnumerable<TKey> Keys => _dictionary.Keys;
-
-			public IEnumerable<TValue> Values => _dictionary.Values;
-
 			public Dictionary<TKey, TValue> ToDictionary()
 			{
 				return new(_dictionary);
-			}
-
-			public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-			{
-				return _dictionary.GetEnumerator();
-			}
-
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return _dictionary.GetEnumerator();
 			}
 		}
 	}

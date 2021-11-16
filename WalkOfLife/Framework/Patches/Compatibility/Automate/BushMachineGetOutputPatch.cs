@@ -23,8 +23,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				// ignored
 			}
-
-			Transpiler = new(AccessTools.Method(GetType(), nameof(BushMachineGetOutputTranspiler)));
 		}
 
 		#region harmony patches

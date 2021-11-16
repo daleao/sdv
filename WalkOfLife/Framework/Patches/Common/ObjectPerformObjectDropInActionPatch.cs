@@ -20,16 +20,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectPerformObjectDropInActionPatch()
 		{
 			Original = RequireMethod<SObject>(nameof(SObject.performObjectDropInAction));
-			Prefix = new(GetType().MethodNamed(nameof(ObjectPerformObjectDropInActionPrefix)));
-			Postfix = new(GetType().MethodNamed(nameof(ObjectPerformObjectDropInActionPostfix)));
-			Transpiler = new(GetType().MethodNamed(nameof(ObjectPerformObjectDropInActionTranspiler)));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to remember initial machine state.</summary>
 		[HarmonyPrefix]
-		// ReSharper disable once RedundantAssignment
 		private static bool ObjectPerformObjectDropInActionPrefix(SObject __instance, ref bool __state)
 		{
 			__state = __instance.heldObject.Value !=
@@ -74,7 +70,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID) return;
 
 			if (__instance.name.IsAnyOf("Crystalarium", "Geode Crusher") && who.HasProfession("Gemologist") &&
-				    (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
+			    (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
 			{
 				__instance.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
 			}
@@ -88,11 +84,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						dropIn.Quality == SObject.highQuality ? 2 : 1;
 
 				__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
-				
+
 				switch (__instance.name)
 				{
 					// golden mayonnaise is always iridium quality
-					case "Mayonnaise Machine" when dropIn.ParentSheetIndex == 928 && !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
+					case "Mayonnaise Machine" when dropIn.ParentSheetIndex == 928 &&
+					                               !ModEntry.ModHelper.ModRegistry.IsLoaded(
+						                               "ughitsmegan.goldenmayoForProducerFrameworkMod"):
 						__instance.heldObject.Value.Quality = SObject.bestQuality;
 						break;
 					// mead cares about input honey flower type

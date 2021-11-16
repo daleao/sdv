@@ -27,6 +27,7 @@
       </ul>
     </li>
     <li><a href="#prestige">Prestige</a></li>
+	<li><a href="#extended-progression">Extended Progression</a></li>
     <li><a href="#compatibility">Compatibility</a></li>
     <li><a href="#installation">Installation</a></li>
 	<li><a href="#configs">Configs</a></li>
@@ -137,6 +138,7 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
     - **Fury:**
         - Damage bonus caps at +40%. If wielding a club the cap is 60%.
         - Additionally builds up to 50% cooldown reduction on club smash attack.
+		- Fury builds faster if wielding a club.
     - Unleash all pent-up fury to enter an **Undying Rage:** Doubles all damage bonuses. Immune to passing out.
         - Doubled damage bonuses include all sources, such as professions, rings and enchantments.
 - **Lv10 - Bushwhacker** - +10% crit. chance. Crit. strikes can poach items. Your blood cools in battle, increasing lethality of crit. strikes.
@@ -144,6 +146,7 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
     - **Cold Blood:**
         - Crit. power bonus caps at x3.
         - Additionally builds up to 50% cooldown reduction on dagger quick-stab attack.
+		- Cold blood builds faster if wielding a dagger.
     - Your cold blood masks your presence, allowing you to mount an **Ambuscade:** Become invisible and untargetable. Back stabs are deadly.
 		- Failing to assassinate an enemy will make them aware of your position, canceling the effect.
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo.
@@ -176,6 +179,10 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
 The [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) has been replaced by the Statue of Prestige, which is now capable of prestiging level 10 skills. A prestiged skill's level is reset and all related recipes are forgotten, however all acquired professions are maintained. This allows the farmer to eventually acquire all 20 final professions simultaneously.
 Prestiging a skill costs 10,000g the first time, 50,000g the second time, and 100,000g the last time. The ribbon in the skills page of the game menu reflects the number of professions acquired in each skill. Non-vanilla skills at the moment cannot be prestiged.
 
+## Extended Progression
+
+After a skill has been fully prestiged, its level cap will be raised to 20, allowing you to continue developing your tool proficiency and max health. Skill level also increases the odds of higher quality crops and fishes, as well as the amount of berries foraged per bush. The Super Mode duration and perks are also improved for combat professions.
+
 ## Compatbility
 
 The mod is compatible with the following popular mods:
@@ -184,7 +191,7 @@ The mod is compatible with the following popular mods:
 - [ProducerFrameworkMod](https://www.nexusmods.com/stardewvalley/mods/4970) and [PFMAutomate](https://www.nexusmods.com/stardewvalley/mods/5038) (same rules apply as above).
 - PPJA Packs: [Artisan Valley﻿](https://www.nexusmods.com/stardewvalley/mods/1926), [Artisanal Soda Makers](https://www.nexusmods.com/stardewvalley/mods/5173)﻿, [Fizzy Drinks](https://www.nexusmods.com/stardewvalley/mods/5342)﻿, [Fresh Meat﻿](https://www.nexusmods.com/stardewvalley/mods/1721), [Shaved Ice & Frozen Treats](https://www.nexusmods.com/stardewvalley/mods/5388).
 - [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069)
-- [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636)
+- [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636) (though I don't recommend it if prestige and extended progression options are enabled).
 - [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (download the optional translation files to change profession names under skill cheats).
 - Custom SpaceCore skills (e.g. [Luck](https://www.nexusmods.com/stardewvalley/mods/521), [Magic](https://www.nexusmods.com/stardewvalley/mods/2007), [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)) (note that these skills cannot be prestiged).
 - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098)
@@ -222,6 +229,11 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **TrashNeededPerTaxLevel** (integer) - Represents the number of trash items the Conservationist must collect in order to gain a 1% tax deduction the following season. Use this value to balance your game if you use or don't use Automate. Default is 100.
 - **TrashNeededPerFriendshipPoint** (integer) - Represents the number of trash items the Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
 - **TaxDeductionCeiling** (decimal) - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
+- **EnablePrestige** (boolean) - Whether to apply prestige changes.
+- **PrestigeCostMultiplier** (decimal) - Multiplies the base prestige cost. Set to 0 to prestige for free.
+- **ForgetRecipesOnPrestige** (boolean) - Wether prestiging a skill also clears all associated recipes.
+- **ExperienceBonusOnPrestige** (decimal) - Percentage bonus ll skill experience gained after each respective prestige.
+- **EnableExtendedProgession** (boolean) - Whether to open progression up to level 20 after fully prestiging a skill. 
 
 ## Console Commands
 
@@ -232,19 +244,15 @@ The mod provides the following console commands, which you can enter in the SMAP
 - **player_checkprofessions** - List the player's current professions.
 - **player_addprofessions** - Add the specified professions to the local player.
 - **player_resetprofessions** - Reset all skills and professions for the local player.
-- **player_setultmeter** - Set the super mode meter to the desired value.
-- **player_readyult** - Max-out the super mode meter.
+- **player_setultmeter** - Set the Super Mode meter to the desired value.
+- **player_readyult** - Max-out the Super Mode meter.
 - **player_registerult** - Change the currently registered Super Mode profession.
 - **player_checkult** - Check the currently registered Super Mode profession.
 - **player_maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
 - **player_maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
 - **player_checkfishingprogress** - Check your fishing progress and bonus fish value as Angler.
 - **wol_checkdata** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent).
-- **wol_setitemsforaged** - Set a new value for ItemsForaged field, which determines the quality of items foraged as Ecologist.
-- **wol_setmineralscollected** - Set a new value for MineralsCollected field, which determines the quality of minerals mines as Gemologist.
-- **wol_setprospectorstreak** - Set a new value for ProspectorStreak field.
-- **wol_setscavengerstreak** - Set a new value for ScavengerStreak field.
-- **wol_settrashcollected** - Set a new value for WaterTrashCollectedThisSeason field, which determines your tax bracket the following season as Conservationist.
+- **wol_setdata** - Set a new value for one of the mod data fields above.
 - **wol_checkevents** - List currently subscribed mod events (for debugging).
 
 ## Recommended Mods

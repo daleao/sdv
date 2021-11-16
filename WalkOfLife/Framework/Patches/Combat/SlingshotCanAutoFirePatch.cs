@@ -4,7 +4,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Tools;
-using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -15,19 +14,18 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SlingshotCanAutoFirePatch()
 		{
 			Original = RequireMethod<Slingshot>(nameof(Slingshot.CanAutoFire));
-			Prefix = new(GetType().MethodNamed(nameof(SlingshotCanAutoFirePrefix)));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to allow auto-fire during Desperado super mode.</summary>
+		/// <summary>Patch to allow auto-fire during Desperado Super Mode.</summary>
 		[HarmonyPrefix]
 		private static bool SlingshotCanAutoFirePrefix(Slingshot __instance, ref bool __result)
 		{
 			try
 			{
 				var who = __instance.getLastFarmerToUse();
-				if (ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == Utility.Professions.IndexOf("Desperado"))
+				if (ModState.IsSuperModeActive && ModState.SuperModeIndex == Utility.Professions.IndexOf("Desperado"))
 					__result = true;
 				else
 					__result = false;

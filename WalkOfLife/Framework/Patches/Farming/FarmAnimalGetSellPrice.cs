@@ -4,7 +4,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -16,7 +15,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmAnimalGetSellPricePatch()
 		{
 			Original = RequireMethod<FarmAnimal>(nameof(FarmAnimal.getSellPrice));
-			Prefix = new(GetType().MethodNamed(nameof(FarmAnimalGetSellPricePrefix)));
 		}
 
 		#region harmony patches

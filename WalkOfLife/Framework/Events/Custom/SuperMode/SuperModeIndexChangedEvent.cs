@@ -11,23 +11,23 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <summary>Hook this event to the event listener.</summary>
 		public override void Hook()
 		{
-			ModEntry.SuperModeIndexChanged += OnSuperModeIndexChanged;
+			ModState.SuperModeIndexChanged += OnSuperModeIndexChanged;
 		}
 
 		/// <summary>Unhook this event from the event listener.</summary>
 		public override void Unhook()
 		{
-			ModEntry.SuperModeIndexChanged -= OnSuperModeIndexChanged;
+			ModState.SuperModeIndexChanged -= OnSuperModeIndexChanged;
 		}
 
 		/// <summary>Raised when SuperModeIndex is set to a new value.</summary>
 		public void OnSuperModeIndexChanged(int newIndex)
 		{
 			ModEntry.Subscriber.UnsubscribeSuperModeEvents();
-			ModEntry.SuperModeCounter = 0;
+			ModState.SuperModeGaugeValue = 0;
 
-			ModEntry.Data.Write("SuperModeIndex", ModEntry.SuperModeIndex.ToString());
-			if (ModEntry.SuperModeIndex < 0)
+			ModEntry.Data.Write("SuperModeIndex", ModState.SuperModeIndex.ToString());
+			if (ModState.SuperModeIndex < 0)
 			{
 				ModEntry.Log("Unregistered Super Mode.", LogLevel.Info);
 				return;
@@ -35,42 +35,42 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			if (newIndex is < 26 or >= 30)
 			{
-				ModEntry.SuperModeIndex = -1;
-				throw new ArgumentException($"Unexpected super mode index {newIndex}.");
+				ModState.SuperModeIndex = -1;
+				throw new ArgumentException($"Unexpected Super Mode index {newIndex}.");
 			}
 
 			var whichSuperMode = Utility.Professions.NameOf(newIndex);
 			switch (whichSuperMode)
 			{
 				case "Brute":
-					ModEntry.SuperModeGlowColor = Color.OrangeRed;
-					ModEntry.SuperModeOverlayColor = Color.OrangeRed;
-					ModEntry.SuperModeSFX = "brute_rage";
+					ModState.SuperModeGlowColor = Color.OrangeRed;
+					ModState.SuperModeOverlayColor = Color.OrangeRed;
+					ModState.SuperModeSFX = "brute_rage";
 					break;
 
 				case "Poacher":
-					ModEntry.SuperModeGlowColor = Color.MediumPurple;
-					ModEntry.SuperModeOverlayColor = Color.MidnightBlue;
-					ModEntry.SuperModeSFX = "poacher_ambush";
-					ModEntry.MonstersStolenFrom ??= new();
+					ModState.SuperModeGlowColor = Color.MediumPurple;
+					ModState.SuperModeOverlayColor = Color.MidnightBlue;
+					ModState.SuperModeSFX = "poacher_ambush";
+					ModState.MonstersStolenFrom ??= new();
 					break;
 
 				case "Desperado":
-					ModEntry.SuperModeGlowColor = Color.DarkGoldenrod;
-					ModEntry.SuperModeOverlayColor = Color.SandyBrown;
-					ModEntry.SuperModeSFX = "desperado_cockgun";
+					ModState.SuperModeGlowColor = Color.DarkGoldenrod;
+					ModState.SuperModeOverlayColor = Color.SandyBrown;
+					ModState.SuperModeSFX = "desperado_cockgun";
 					break;
 
 				case "Piper":
-					ModEntry.SuperModeGlowColor = Color.LimeGreen;
-					ModEntry.SuperModeOverlayColor = Color.DarkGreen;
-					ModEntry.SuperModeSFX = "piper_provoke";
-					ModEntry.PipedSlimeScales ??= new();
+					ModState.SuperModeGlowColor = Color.LimeGreen;
+					ModState.SuperModeOverlayColor = Color.DarkGreen;
+					ModState.SuperModeSFX = "piper_provoke";
+					ModState.PipedSlimeScales ??= new();
 					break;
 			}
 
-			ModEntry.SuperModeBarAlpha = 1f;
-			ModEntry.ShouldShakeSuperModeBar = false;
+			ModState.SuperModeGaugeAlpha = 1f;
+			ModState.ShouldShakeSuperModeGauge = false;
 			ModEntry.Subscriber.SubscribeSuperModeEvents();
 
 			var key = whichSuperMode.ToLower();

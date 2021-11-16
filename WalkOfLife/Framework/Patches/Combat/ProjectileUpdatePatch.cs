@@ -8,7 +8,6 @@ using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -19,7 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ProjectileUpdatePatch()
 		{
 			Original = RequireMethod<Projectile>(nameof(Projectile.update));
-			Postfix = new(GetType().MethodNamed(nameof(ProjectileUpdatePostfix)));
 		}
 
 		#region harmony patches
@@ -39,7 +37,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			// check if firer is has Desperado Super Mode
 			var firer = ___theOneWhoFiredMe.Get(Game1.currentLocation) is Farmer farmer ? farmer : Game1.player;
-			if (!firer.IsLocalPlayer || ModEntry.SuperModeIndex != Utility.Professions.IndexOf("Desperado")) return;
+			if (!firer.IsLocalPlayer || ModState.SuperModeIndex != Utility.Professions.IndexOf("Desperado")) return;
 
 			// check for powered bullet
 			var bulletPower = Utility.Professions.GetDesperadoBulletPower() - 1f;
@@ -48,10 +46,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			// check if already collided
 			if (__result)
 			{
-				if (!ModEntry.DidBulletPierceEnemy) return;
+				if (!ModState.DidBulletPierceEnemy) return;
 
 				projectile.damageToFarmer.Value = (int) (projectile.damageToFarmer.Value * 0.6f);
-				ModEntry.DidBulletPierceEnemy = false;
+				ModState.DidBulletPierceEnemy = false;
 				__result = false;
 				return;
 			}

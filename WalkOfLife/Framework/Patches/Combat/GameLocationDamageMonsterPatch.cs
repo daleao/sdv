@@ -26,14 +26,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					typeof(Rectangle), typeof(int), typeof(int), typeof(bool), typeof(float), typeof(int),
 					typeof(float), typeof(float), typeof(bool), typeof(Farmer)
 				});
-			Transpiler = new(GetType().MethodNamed(nameof(GameLocationDamageMonsterTranspiler)));
 		}
 
 		#region harmony patches
 
 		/// <summary>
 		///     Patch to move critical chance bonus from Scout to Poacher + patch Brute damage bonus + move critical damage
-		///     bonus from Desperado to Poacher + increment Brute Fury and Poacher Cold Blood counters + perform Poacher steal.
+		///     bonus from Desperado to Poacher + increment Brute Fury and Poacher Cold Blood gauges + perform Poacher steal.
 		/// </summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(
@@ -96,7 +95,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 
 			/// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f
-			/// To: if (who is not null && crit && who.IsLocalPlayer && ModEntry.SuperModeIndex == <poacher_id>) ... *= GetPoacherCritDamageMultiplier
+			/// To: if (who is not null && crit && who.IsLocalPlayer && ModState.Index == <poacher_id>) ... *= GetPoacherCritDamageMultiplier
 
 			try
 			{
@@ -118,8 +117,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Advance()
 					.ReplaceWith(
 						new(OpCodes.Call,
-							typeof(ModEntry).PropertyGetter(
-								nameof(ModEntry.SuperModeIndex))) // was Callvirt NetList.Contains
+							typeof(ModState).PropertyGetter(
+								nameof(ModState.SuperModeIndex))) // was Callvirt NetList.Contains
 					)
 					.Advance()
 					.Insert(
@@ -166,6 +165,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.StripLabels(out var labels) // backup and remove branch labels
 					.Insert(
+						// restore backed-up labels
+						labels,
 						// prepare arguments
 						new CodeInstruction(OpCodes.Ldloc_S, damageAmount),
 						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = bool isBomb
@@ -177,12 +178,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(GameLocationDamageMonsterPatch).MethodNamed(nameof(DamageMonsterSubroutine)))
 					)
 					.Return()
-					.AddLabels(labels); // restore backed-up labels to inserted branch
+					.AddLabels(labels);
 			}
 			catch (Exception ex)
 			{
 				ModEntry.Log(
-					$"Failed while injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood counters.\nHelper returned {ex}",
+					$"Failed while injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood gauges.\nHelper returned {ex}",
 					LogLevel.Error);
 				return null;
 			}
@@ -201,8 +202,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			    who is not {IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon}) return;
 
 			// try to steal
-			if (didCrit && ModEntry.SuperModeIndex == Utility.Professions.IndexOf("Poacher") &&
-			    !ModEntry.MonstersStolenFrom.Contains(monster.GetHashCode()) && Game1.random.NextDouble() <
+			if (didCrit && ModState.SuperModeIndex == Utility.Professions.IndexOf("Poacher") &&
+			    !ModState.MonstersStolenFrom.Contains(monster.GetHashCode()) && Game1.random.NextDouble() <
 			    (weapon.type.Value == MeleeWeapon.dagger ? 0.6 : 0.3))
 			{
 				var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
@@ -210,7 +211,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var stolen = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
 				if (stolen is not null && who.addItemToInventoryBool(stolen))
 				{
-					ModEntry.MonstersStolenFrom.Add(monster.GetHashCode());
+					ModState.MonstersStolenFrom.Add(monster.GetHashCode());
 
 					// play sound effect
 					try
@@ -221,29 +222,30 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					}
 					catch (Exception ex)
 					{
-						ModEntry.Log($"Couldn't play file 'assets/sfx/poacher_steal.wav'. Make sure the file exists. {ex}",
+						ModEntry.Log(
+							$"Couldn't play file 'assets/sfx/poacher_steal.wav'. Make sure the file exists. {ex}",
 							LogLevel.Error);
 					}
 				}
 			}
 
-			// try to increment super mode counters
-			if (ModEntry.IsSuperModeActive) return;
+			// try to increment Super Mode gauges
+			if (ModState.IsSuperModeActive) return;
 
 			var increment = 0;
-			if (ModEntry.SuperModeIndex == Utility.Professions.IndexOf("Brute"))
+			if (ModState.SuperModeIndex == Utility.Professions.IndexOf("Brute"))
 			{
 				increment = 2;
 				if (monster.Health <= 0) increment *= 2;
 				if (weapon.type.Value == MeleeWeapon.club) increment *= 2;
 			}
-			else if (ModEntry.SuperModeIndex == Utility.Professions.IndexOf("Poacher") && didCrit)
+			else if (ModState.SuperModeIndex == Utility.Professions.IndexOf("Poacher") && didCrit)
 			{
 				increment = (int) critMultiplier;
 				if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
 			}
 
-			ModEntry.SuperModeCounter += increment;
+			ModState.SuperModeGaugeValue += (int) (increment * ((float) ModState.SuperModeGaugeMaxValue / 500));
 		}
 
 		#endregion private methods

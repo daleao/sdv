@@ -8,7 +8,6 @@ using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -20,7 +19,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuRevalidateHealthPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.RevalidateHealth));
-			Prefix = new(GetType().MethodNamed(nameof(LevelUpMenuRevalidateHealthPrefix)));
 		}
 
 		#region harmony patches
@@ -35,8 +33,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var expectedMaxHealth = 100;
 			if (farmer.mailReceived.Contains("qiCave")) expectedMaxHealth += 25;
 
-			for (var i = 1; i <= farmer.GetUnmodifiedSkillLevel((int) SkillType.Combat); ++i)
-				if (!farmer.newLevels.Contains(new((int) SkillType.Combat, i)) && i != 5 && i != 10)
+			for (var i = 0; i < farmer.GetUnmodifiedSkillLevel((int) SkillType.Combat); ++i)
+				if (!farmer.newLevels.Contains(new((int) SkillType.Combat, i)))
 					expectedMaxHealth += 5;
 
 			if (Game1.player.HasProfession("Fighter")) expectedMaxHealth += 15;

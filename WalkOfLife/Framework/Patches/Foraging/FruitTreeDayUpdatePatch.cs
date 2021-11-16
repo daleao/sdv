@@ -2,7 +2,6 @@
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -14,7 +13,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FruitTreeDayUpdatePatch()
 		{
 			Original = RequireMethod<FruitTree>(nameof(FruitTree.dayUpdate));
-			Postfix = new(GetType().MethodNamed(nameof(FruitTreeDayUpdatePostfix)));
 		}
 
 		#region harmony patches

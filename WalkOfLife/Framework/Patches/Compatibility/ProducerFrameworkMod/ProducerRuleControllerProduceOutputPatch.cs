@@ -23,22 +23,22 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				// ignored
 			}
-
-			Postfix = new(GetType(), nameof(ProducerRuleControllerProduceOutputPostfix));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to apply modded Artisan and Gemologist perks to PFM machines.</summary>
 		[HarmonyPostfix]
-		private static void ProducerRuleControllerProduceOutputPostfix(SObject producer, Farmer who, SObject input, bool probe)
+		private static void ProducerRuleControllerProduceOutputPostfix(SObject producer, Farmer who, SObject input,
+			bool probe)
 		{
 			if (input is null || probe) return;
 
 			var output = producer.heldObject.Value;
 			if (producer.IsArtisanMachine() && output.IsArtisanGood())
 			{
-				if (Context.IsMultiplayer && producer.owner.Value != who.UniqueMultiplayerID || !who.HasProfession("Artisan"))
+				if (Context.IsMultiplayer && producer.owner.Value != who.UniqueMultiplayerID ||
+				    !who.HasProfession("Artisan"))
 				{
 					output.Quality = SObject.lowQuality;
 					return;

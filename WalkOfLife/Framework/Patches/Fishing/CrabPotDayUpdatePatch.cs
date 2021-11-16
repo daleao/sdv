@@ -10,7 +10,6 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
@@ -25,7 +24,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CrabPotDayUpdatePatch()
 		{
 			Original = RequireMethod<CrabPot>(nameof(CrabPot.DayUpdate));
-			Prefix = new(GetType().MethodNamed(nameof(CrabPotDayUpdatePrefix)));
 		}
 
 		#region harmony patches

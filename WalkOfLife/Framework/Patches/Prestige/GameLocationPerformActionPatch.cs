@@ -4,9 +4,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
-using xTile.Dimensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -17,17 +15,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationPerformActionPatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.performAction));
-			Prefix = new(GetType().MethodNamed(nameof(GameLocationPerformActionPrefix)));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to change Statue of Uncertainty into Statue of Prestige.</summary>
 		[HarmonyPrefix]
-		private static bool GameLocationPerformActionPrefix(GameLocation __instance, string action, Farmer who,
-			Location tileLocation)
+		private static bool GameLocationPerformActionPrefix(GameLocation __instance, string action, Farmer who)
 		{
-			if (action is null || action.Split(' ')[0] != "DogStatue" || !who.IsLocalPlayer)
+			if (!ModEntry.Config.EnablePrestige || action is null || action.Split(' ')[0] != "DogStatue" || !who.IsLocalPlayer)
 				return true; // run original logic
 
 			try

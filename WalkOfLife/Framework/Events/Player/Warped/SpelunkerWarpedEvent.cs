@@ -14,12 +14,12 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			if (e.NewLocation is MineShaft)
 			{
-				++ModEntry.SpelunkerLadderStreak;
+				++ModState.SpelunkerLadderStreak;
 				ModEntry.Subscriber.Subscribe(SpelunkerUpdateTickedEvent);
 			}
 			else
 			{
-				ModEntry.SpelunkerLadderStreak = 0;
+				ModState.SpelunkerLadderStreak = 0;
 				ModEntry.Subscriber.Unsubscribe(SpelunkerUpdateTickedEvent.GetType());
 			}
 

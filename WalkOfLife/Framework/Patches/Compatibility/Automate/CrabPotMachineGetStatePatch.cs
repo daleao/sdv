@@ -5,53 +5,51 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
-using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	[UsedImplicitly]
-	internal class ProfessionsCheatSetProfessionPatch : BasePatch
+	internal class CrabPotMachineGetStatePatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		internal ProfessionsCheatSetProfessionPatch()
+		internal CrabPotMachineGetStatePatch()
 		{
 			try
 			{
-				Original = "ProfessionsCheat".ToType().MethodNamed("SetProfession");
+				Original = "CrabPotMachine".ToType().MethodNamed("GetState");
 			}
 			catch
 			{
 				// ignored
 			}
-
-			Transpiler = new(GetType().MethodNamed(nameof(ProfessionsCheatSetProfessionTranspiler)));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to move bonus health from Defender to Brute.</summary>
+		/// <summary>Patch for conflicting Luremaster and Conservationist automation rules.</summary>
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> ProfessionsCheatSetProfessionTranspiler(
+		private static IEnumerable<CodeInstruction> CrabPotMachineGetStateTranspiler(
 			IEnumerable<CodeInstruction> instructions, MethodBase original)
 		{
 			var helper = new ILHelper(original, instructions);
 
-			/// From: case <defender_id>
-			/// To: case <brute_id>
+			/// Removed: || !this.PlayerNeedsBait()
 
 			try
 			{
 				helper
 					.FindFirst(
-						new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
+						new CodeInstruction(OpCodes.Brtrue_S)
 					)
-					.SetOperand(Utility.Professions.IndexOf("Brute"));
+					.RemoveUntil(
+						new CodeInstruction(OpCodes.Call, "CrabPotMachine".ToType().MethodNamed("PlayerNeedsBait"))
+					)
+					.SetOpCode(OpCodes.Brfalse_S);
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log(
-					$"Failed while moving CJB Profession Cheat health bonus from Defender to Brute.\nHelper returned {ex}",
+				ModEntry.Log($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}",
 					LogLevel.Error);
 				return null;
 			}

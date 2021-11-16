@@ -14,13 +14,13 @@ namespace TheLion.Stardew.Professions
 		/// <summary>Key used by trigger UI debugging events.</summary>
 		public KeybindList DebugKey { get; set; } = KeybindList.Parse("LeftControl");
 
-		/// <summary>Whether super mode is activated on <see cref="SuperModeKey" /> hold (as opposed to press).</summary>
+		/// <summary>Whether Super Mode is activated on <see cref="SuperModeKey" /> hold (as opposed to press).</summary>
 		public bool HoldKeyToActivateSuperMode { get; set; } = true;
 
-		/// <summary>How long <see cref="SuperModeKey" /> should be held to activate super mode, in seconds.</summary>
+		/// <summary>How long <see cref="SuperModeKey" /> should be held to activate Super Mode, in seconds.</summary>
 		public float SuperModeActivationDelay { get; set; } = 1f;
 
-		/// <summary>Lower numbers make super mode last longer. Should be a number between 1 and 10.</summary>
+		/// <summary>Lower numbers make Super Mode last longer. Should be a number between 1 and 10.</summary>
 		public uint SuperModeDrainFactor { get; set; } = 3;
 
 		/// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
@@ -47,11 +47,20 @@ namespace TheLion.Stardew.Professions
 		/// <summary>The maximum tax deduction percentage allowed by the Ferngill Revenue Service.</summary>
 		public float TaxDeductionCeiling { get; set; } = 0.25f;
 
+		/// <summary>Whether to apply prestige changes.</summary>
+		public bool EnablePrestige { get; set; } = true;
+
 		/// <summary>Multiplies the base prestige cost. Set to 0 to prestige for free.</summary>
 		public float PrestigeCostMultiplier { get; set; } = 1f;
 
 		/// <summary>Wether prestiging a skill also clears all associated recipes.</summary>
 		public bool ForgetRecipesOnPrestige { get; set; } = true;
+
+		/// <summary>Multiplies all skill experience gained after each respective prestige.</summary>
+		public float ExperienceBonusOnPrestige { get; set; } = 0.2f;
+
+		/// <summary>Whether to open progression up to level 20 after fully prestiging a skill.</summary>
+		public bool EnableExtendedProgression { get; set; } = true;
 
 		/// <summary>Whether to draw UI element bounding boxes.</summary>
 		public bool EnableUIDebug { get; set; } = false;

@@ -22,8 +22,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal Game1DrawHUDPatch()
 		{
 			Original = RequireMethod<Game1>("drawHUD");
-			Postfix = new(GetType().MethodNamed(nameof(Game1DrawHUDPostfix)));
-			Transpiler = new(GetType().MethodNamed(nameof(Game1DrawHUDTranspiler)));
 		}
 
 		#region harmony patches

@@ -17,7 +17,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Combat
 		internal GreenSlimeDrawPatch()
 		{
 			Original = null;
-			Transpiler = new(GetType().MethodNamed(nameof(GreenSlimeDrawTranspiler)));
 		}
 
 		#region harmony patches

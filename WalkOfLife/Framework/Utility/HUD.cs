@@ -135,10 +135,10 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 			else topOfBar.X -= 44;
 
 			// shake horizontally if full and on stand-by, if active also shake vertically
-			if (ModEntry.IsSuperModeActive || ModEntry.ShouldShakeSuperModeBar)
+			if (ModState.IsSuperModeActive || ModState.ShouldShakeSuperModeGauge)
 			{
 				topOfBar.X += Game1.random.Next(-3, 4);
-				if (ModEntry.IsSuperModeActive) topOfBar.Y += Game1.random.Next(-3, 4);
+				if (ModState.IsSuperModeActive) topOfBar.Y += Game1.random.Next(-3, 4);
 			}
 
 			// draw bar in thirds for flexibility
@@ -150,7 +150,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 				BarTx,
 				topOfBar,
 				srcRect,
-				Color.White * ModEntry.SuperModeBarAlpha,
+				Color.White * ModState.SuperModeGaugeAlpha,
 				0f,
 				Vector2.Zero,
 				RENDER_SCALE_F,
@@ -165,7 +165,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 				BarTx,
 				destRect,
 				srcRect,
-				Color.White * ModEntry.SuperModeBarAlpha
+				Color.White * ModState.SuperModeGaugeAlpha
 			);
 
 			// bottom
@@ -174,7 +174,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 				BarTx,
 				new(topOfBar.X, topOfBar.Y + 120f),
 				srcRect,
-				Color.White * ModEntry.SuperModeBarAlpha,
+				Color.White * ModState.SuperModeGaugeAlpha,
 				0f,
 				Vector2.Zero,
 				RENDER_SCALE_F,
@@ -182,7 +182,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 				1f
 			);
 
-			var ratio = ModEntry.SuperModeCounter / (float) ModEntry.SuperModeCounterMax;
+			var ratio = ModState.SuperModeGaugeValue / (float) ModState.SuperModeGaugeMaxValue;
 			var srcHeight = (int) (TEXTURE_HEIGHT_I * ratio) - 2;
 			var destHeight = (int) (MAX_BAR_HEIGHT_I * ratio);
 
@@ -204,11 +204,11 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 			// draw hover text
 			if (Game1.getOldMouseX() >= topOfBar.X && Game1.getOldMouseY() >= topOfBar.Y &&
 			    Game1.getOldMouseX() < topOfBar.X + 24f)
-				Game1.drawWithBorder((int) Math.Max(0f, ModEntry.SuperModeCounter) + "/" + 500, Color.Black * 0f,
+				Game1.drawWithBorder((int) Math.Max(0f, ModState.SuperModeGaugeValue) + "/" + 500, Color.Black * 0f,
 					Color.White,
 					topOfBar + new Vector2(0f - Game1.dialogueFont.MeasureString("999/999").X - 32f, 64f));
 
-			if (Math.Abs(ratio - 1f) >= 0.002f && !ModEntry.IsSuperModeActive) return;
+			if (Math.Abs(ratio - 1f) >= 0.002f && !ModState.IsSuperModeActive) return;
 
 			// draw top shadow
 			destRect.Height = 2;

@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -14,7 +13,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectDayUpdatePatch()
 		{
 			Original = RequireMethod<SObject>(nameof(SObject.DayUpdate));
-			Postfix = new(GetType().MethodNamed(nameof(ObjectDayUpdatePostfix)));
 		}
 
 		#region harmony patches

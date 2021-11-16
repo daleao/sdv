@@ -17,7 +17,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GreenSlimeOnDealContactDamagePatch()
 		{
 			Original = RequireMethod<GreenSlime>(nameof(GreenSlime.onDealContactDamage));
-			Transpiler = new(GetType().MethodNamed(nameof(GreenSlimeOnDealContactDamageTranspiler)));
 		}
 
 		#region harmony patches

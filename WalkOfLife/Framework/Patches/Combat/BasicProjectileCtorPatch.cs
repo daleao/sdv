@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Projectiles;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -19,7 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				typeof(float), typeof(float), typeof(float), typeof(Vector2), typeof(string), typeof(string),
 				typeof(bool), typeof(bool), typeof(GameLocation), typeof(Character), typeof(bool),
 				typeof(BasicProjectile.onCollisionBehavior));
-			Postfix = new(GetType().MethodNamed(nameof(BasicProjectileCtorPostfix)));
 		}
 
 		#region harmony patches

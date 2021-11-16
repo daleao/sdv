@@ -18,7 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MineShaftCheckStoneForItemsPatch()
 		{
 			Original = RequireMethod<MineShaft>(nameof(MineShaft.checkStoneForItems));
-			Transpiler = new(GetType().MethodNamed(nameof(MineShaftCheckStoneForItemsTranspiler)));
 		}
 
 		#region harmony patches
@@ -48,6 +47,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.StripLabels(out var labels) // backup and remove branch labels
 					.AddLabels(isNotSpelunker) // branch here to resume execution
 					.Insert(
+						// restore backed-up labels
+						labels,
 						// prepare profession check
 						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
 					)
@@ -59,9 +60,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 								.GetSpelunkerBonusLadderDownChance))),
 						new CodeInstruction(OpCodes.Add),
 						new CodeInstruction(OpCodes.Stloc_3)
-					)
-					.Return(3)
-					.AddLabels(labels); // restore backed-up labels to inserted spelunker check
+					);
 			}
 			catch (Exception ex)
 			{

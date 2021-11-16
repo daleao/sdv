@@ -2,7 +2,6 @@
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -14,7 +13,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BobberBarCtorPatch()
 		{
 			Original = RequireConstructor<BobberBar>(typeof(int), typeof(float), typeof(bool), typeof(int));
-			Postfix = new(GetType().MethodNamed(nameof(BobberBarCtorPostfix)));
 		}
 
 		#region harmony patches

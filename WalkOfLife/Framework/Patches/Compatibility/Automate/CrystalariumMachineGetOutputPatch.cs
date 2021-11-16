@@ -8,28 +8,26 @@ using SObject = StardewValley.Object;
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
 	[UsedImplicitly]
-	internal class GeodeCrusherMachineSetInputPatch : BasePatch
+	internal class CrystalariumMachineGetOutputPatch : BasePatch
 	{
 		/// <summary>Construct an instance.</summary>
-		internal GeodeCrusherMachineSetInputPatch()
+		internal CrystalariumMachineGetOutputPatch()
 		{
 			try
 			{
-				Original = "GeodeCrusherMachine".ToType().MethodNamed("SetInput");
+				Original = "CrystalariumMachine".ToType().MethodNamed("GetOutput");
 			}
 			catch
 			{
 				// ignored
 			}
-
-			Postfix = new(GetType().MethodNamed(nameof(GeodeCrusherMachineSetInputPostfix)));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to apply Gemologist effects to automated Geode Crusher.</summary>
+		/// <summary>Patch to apply Gemologist effects to automated Crystalariums.</summary>
 		[HarmonyPostfix]
-		private static void GeodeCrusherMachineSetInputPostfix(object __instance)
+		private static void CrystalariumMachineGetOutputPostfix(object __instance)
 		{
 			if (__instance is null) return;
 

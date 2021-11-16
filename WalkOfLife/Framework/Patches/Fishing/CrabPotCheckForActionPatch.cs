@@ -10,7 +10,6 @@ using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -22,7 +21,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CrabPotCheckForActionPatch()
 		{
 			Original = RequireMethod<CrabPot>(nameof(CrabPot.checkForAction));
-			Prefix = new(GetType().MethodNamed(nameof(CrabPotCheckForActionPrefix)));
 		}
 
 		#region harmony patches

@@ -1,14 +1,14 @@
-﻿using Microsoft.Xna.Framework;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace TheLion.Stardew.Common.Classes
 {
 	public class CircleTileGrid : IEnumerable<Vector2>
 	{
 		private readonly Vector2 _origin;
-		private readonly int _radius;
 		private readonly bool[,] _outlineGrid;
+		private readonly int _radius;
 		private readonly List<Vector2> _tiles = new();
 
 		/// <summary>Construct an instance.</summary>
@@ -36,6 +36,16 @@ namespace TheLion.Stardew.Common.Classes
 			GetTiles(excludeOrigin);
 		}
 
+		public IEnumerator<Vector2> GetEnumerator()
+		{
+			return _tiles.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return _tiles.GetEnumerator();
+		}
+
 		/// <summary>Get all the world tiles within a certain radius from an origin.</summary>
 		/// <param name="excludeOrigin">Whether the origin point should be excluded.</param>
 		private void GetTiles(bool excludeOrigin = false)
@@ -52,14 +62,14 @@ namespace TheLion.Stardew.Common.Classes
 
 			// loop over the first remaining quadrant and mirror it 3 times
 			for (var x = 0; x < _radius; ++x)
-				for (var y = 0; y < _radius; ++y)
-					if (IsInsideOutlineGrid(new(x, y)))
-					{
-						_tiles.Add(_origin - center + new Vector2(y, x));
-						_tiles.Add(_origin - center + new Vector2(y, 2 * _radius - x));
-						_tiles.Add(_origin - center + new Vector2(2 * _radius - y, x));
-						_tiles.Add(_origin - center + new Vector2(2 * _radius - y, 2 * _radius - x));
-					}
+			for (var y = 0; y < _radius; ++y)
+				if (IsInsideOutlineGrid(new(x, y)))
+				{
+					_tiles.Add(_origin - center + new Vector2(y, x));
+					_tiles.Add(_origin - center + new Vector2(y, 2 * _radius - x));
+					_tiles.Add(_origin - center + new Vector2(2 * _radius - y, x));
+					_tiles.Add(_origin - center + new Vector2(2 * _radius - y, 2 * _radius - x));
+				}
 
 			if (!excludeOrigin) _tiles.Add(_origin);
 		}
@@ -106,7 +116,10 @@ namespace TheLion.Stardew.Common.Classes
 			return circleGrid;
 		}
 
-		/// <summary>Determine whether a point in the grid reference intersects with the circle outline grid using the ray casting method.</summary>
+		/// <summary>
+		///     Determine whether a point in the grid reference intersects with the circle outline grid using the ray casting
+		///     method.
+		/// </summary>
 		/// <param name="point">The point to be tested.</param>
 		private bool IsInsideOutlineGrid(Point point)
 		{
@@ -133,16 +146,6 @@ namespace TheLion.Stardew.Common.Classes
 					return false;
 
 			return true;
-		}
-
-		public IEnumerator<Vector2> GetEnumerator()
-		{
-			return _tiles.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return _tiles.GetEnumerator();
 		}
 	}
 }

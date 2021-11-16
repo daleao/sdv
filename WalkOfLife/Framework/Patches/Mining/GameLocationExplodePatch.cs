@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using TheLion.Stardew.Common.Classes;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
@@ -22,7 +21,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationExplodePatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.explode));
-			Postfix = new(GetType().MethodNamed(nameof(GameLocationExplodePostfix)));
 		}
 
 		#region harmony patches
@@ -126,8 +124,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			// get excited speed buff
 			var distanceFromEpicenter = (int) (tileLocation - who.getTileLocation()).Length();
-			if (distanceFromEpicenter < radius * 2 + 1) ModEntry.DemolitionistExcitedness = 6;
-			if (distanceFromEpicenter < radius + 1) ModEntry.DemolitionistExcitedness += 2;
+			if (distanceFromEpicenter < radius * 2 + 1) ModState.DemolitionistExcitedness = 6;
+			if (distanceFromEpicenter < radius + 1) ModState.DemolitionistExcitedness += 2;
 			ModEntry.Subscriber.Subscribe(DemolitionistUpdateTickedEvent);
 		}
 

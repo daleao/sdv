@@ -7,10 +7,8 @@ using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -21,17 +19,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal GameLocationAnswerDialogueActionPatch()
 		{
 			Original = RequireMethod<GameLocation>(nameof(GameLocation.answerDialogueAction));
-			Prefix = new(GetType().MethodNamed(nameof(GameLocationAnswerDialogueActionPrefix)));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to change Statue of Uncertainty into Statue of Prestige.</summary>
 		[HarmonyPrefix]
-		private static bool GameLocationAnswerDialogueActionPrefix(GameLocation __instance, string questionAndAnswer,
-			string[] questionParams)
+		private static bool GameLocationAnswerDialogueActionPrefix(GameLocation __instance, string questionAndAnswer)
 		{
-			if (questionAndAnswer != "dogStatue_Yes" && !questionAndAnswer.Contains("professionForget_"))
+			if (!ModEntry.Config.EnablePrestige || questionAndAnswer != "dogStatue_Yes" && !questionAndAnswer.Contains("professionForget_"))
 				return true; // run original logic
 
 			try
@@ -41,9 +37,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					var skillResponses = new List<Response>();
 					if (Game1.player.CanPrestige(SkillType.Farming))
 					{
-						var costVal = Prestige.GetPrestigeCost(SkillType.Farming);
+						var costVal = Utility.Prestige.GetPrestigeCost(SkillType.Farming);
 						var costStr = costVal > 0
-							? " (" + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal}) + ')'
+							? " (" +
+							  ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal}) + ')'
 							: string.Empty;
 						skillResponses.Add(new("farming",
 							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11604") + costStr));
@@ -51,9 +48,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					if (Game1.player.CanPrestige(SkillType.Fishing))
 					{
-						var costVal = Prestige.GetPrestigeCost(SkillType.Fishing);
+						var costVal = Utility.Prestige.GetPrestigeCost(SkillType.Fishing);
 						var costStr = costVal > 0
-							? " (" + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new { cost = costVal }) + ')'
+							? " (" +
+							  ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal}) + ')'
 							: string.Empty;
 						skillResponses.Add(new("fishing",
 							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11607") + costStr));
@@ -61,9 +59,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					if (Game1.player.CanPrestige(SkillType.Foraging))
 					{
-						var costVal = Prestige.GetPrestigeCost(SkillType.Foraging);
+						var costVal = Utility.Prestige.GetPrestigeCost(SkillType.Foraging);
 						var costStr = costVal > 0
-							? " (" + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new { cost = costVal }) + ')'
+							? " (" +
+							  ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal}) + ')'
 							: string.Empty;
 						skillResponses.Add(new("foraging",
 							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11606") + costStr));
@@ -71,9 +70,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					if (Game1.player.CanPrestige(SkillType.Mining))
 					{
-						var costVal = Prestige.GetPrestigeCost(SkillType.Mining);
+						var costVal = Utility.Prestige.GetPrestigeCost(SkillType.Mining);
 						var costStr = costVal > 0
-							? " (" + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new { cost = costVal }) + ')'
+							? " (" +
+							  ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal}) + ')'
 							: string.Empty;
 						skillResponses.Add(new("mining",
 							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11605") + costStr));
@@ -81,9 +81,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					if (Game1.player.CanPrestige(SkillType.Combat))
 					{
-						var costVal = Prestige.GetPrestigeCost(SkillType.Combat);
+						var costVal = Utility.Prestige.GetPrestigeCost(SkillType.Combat);
 						var costStr = costVal > 0
-							? " (" + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new { cost = costVal }) + ')'
+							? " (" +
+							  ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal}) + ')'
 							: string.Empty;
 						skillResponses.Add(new("combat",
 							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11608") + costStr));
@@ -102,7 +103,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					// get skill type
 #pragma warning disable 8509
-					var whichSkill = skillName switch
+					var skillType = skillName switch
 #pragma warning restore 8509
 					{
 						"farming" => SkillType.Farming,
@@ -111,8 +112,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						"mining" => SkillType.Mining,
 						"combat" => SkillType.Combat
 					};
-					
-					var cost = Prestige.GetPrestigeCost(whichSkill);
+
+					var cost = Utility.Prestige.GetPrestigeCost(skillType);
 					if (cost > 0)
 					{
 						// check for funds and deduct cost
@@ -128,9 +129,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					// prepare to prestige at night
 					if (ModEntry.Subscriber.TryGet(typeof(PrestigeDayEndingEvent), out var prestigeDayEnding))
-						((PrestigeDayEndingEvent) prestigeDayEnding).SkillQueue.Enqueue(whichSkill);
+						((PrestigeDayEndingEvent) prestigeDayEnding).SkillsToPrestige.Enqueue(skillType);
 					else
-						ModEntry.Subscriber.Subscribe(new PrestigeDayEndingEvent(whichSkill));
+						ModEntry.Subscriber.Subscribe(new PrestigeDayEndingEvent(skillType));
 
 					// play sound effect
 					try

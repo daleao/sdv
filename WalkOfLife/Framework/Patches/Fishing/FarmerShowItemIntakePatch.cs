@@ -7,7 +7,6 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -19,7 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmerShowItemIntakePatch()
 		{
 			Original = RequireMethod<Farmer>(nameof(Farmer.showItemIntake));
-			Prefix = new(GetType().MethodNamed(nameof(FarmerShowItemIntakePrefix)));
 		}
 
 		#region harmony patches

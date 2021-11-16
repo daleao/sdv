@@ -6,7 +6,6 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -18,7 +17,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MonsterFindPlayerPatch()
 		{
 			Original = RequireMethod<Monster>("findPlayer");
-			Prefix = new(GetType().MethodNamed(nameof(MonsterFindPlayerPrefix)), before: new[] {"Esca.FarmTypeManager"});
+			Prefix.before = new[] {"Esca.FarmTypeManager"};
 		}
 
 		#region harmony patches
@@ -72,7 +71,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var distanceToClosestPlayer = double.MaxValue;
 				foreach (var farmer in __instance.currentLocation.farmers)
 				{
-					if (ModEntry.ActivePeerSuperModes.TryGetValue(Utility.Professions.IndexOf("Poacher"),
+					if (ModState.ActivePeerSuperModes.TryGetValue(Utility.Professions.IndexOf("Poacher"),
 						out var peerIDs) && peerIDs.Any(id => id == farmer.UniqueMultiplayerID)) continue;
 
 					var distanceToThisPlayer = __instance.DistanceToCharacter(farmer);
@@ -82,8 +81,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					distanceToClosestPlayer = distanceToThisPlayer;
 				}
 
-				//if (__result.IsLocalPlayer && ModEntry.IsSuperModeActive &&
-				//    ModEntry.SuperModeIndex == Util.Professions.IndexOf("Poacher"))
+				//if (__result.IsLocalPlayer && ModState.IsSuperModeActive &&
+				//    ModState.SuperModeIndex == Util.Professions.IndexOf("Poacher"))
 				//	__result = null;
 
 				return false; // run original logic

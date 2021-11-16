@@ -135,5 +135,9 @@
 	"prestige.skillpage.tooltip": "{{count}}/4 个获得的职业：",
 	"prestige.levelup.tooltip:5": "你已经拥有这个分支的所有职业。",
 	"prestige.levelup.tooltip:10": "你已经有这个职业了。",
-	"prestige.levelup.question": "目前已经拥有 {{oldProfession}}的 {{oldBuff}}。是否替换为 {{newProfession}}的 {{newBuff}}？"
+	"prestige.levelup.question": "目前已经拥有 {{oldProfession}}的 {{oldBuff}}。是否替换为 {{newProfession}}的 {{newBuff}}？",
+	"prestige.levelup.unlocked": "您现在可以继续进一步发展您的 {{whichSkill}} 技能。",
+	"prestige.achievement.name.male": "多面手",
+	"prestige.achievement.name.female": "多面手",
+	"prestige.achievement.desc": "获得所有技能的所有专业。"
 }

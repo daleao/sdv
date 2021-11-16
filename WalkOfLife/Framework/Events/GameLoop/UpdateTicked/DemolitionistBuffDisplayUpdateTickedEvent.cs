@@ -21,15 +21,15 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
-			if (ModEntry.DemolitionistExcitedness <= 0) ModEntry.Subscriber.Unsubscribe(GetType());
+			if (ModState.DemolitionistExcitedness <= 0) ModEntry.Subscriber.Unsubscribe(GetType());
 
 			if (e.Ticks % 30 == 0)
 			{
-				var buffDecay = ModEntry.DemolitionistExcitedness > 4 ? 2 : 1;
-				ModEntry.DemolitionistExcitedness = Math.Max(0, ModEntry.DemolitionistExcitedness - buffDecay);
+				var buffDecay = ModState.DemolitionistExcitedness > 4 ? 2 : 1;
+				ModState.DemolitionistExcitedness = Math.Max(0, ModState.DemolitionistExcitedness - buffDecay);
 			}
 
-			var buffID = _buffID + ModEntry.DemolitionistExcitedness;
+			var buffID = _buffID + ModState.DemolitionistExcitedness;
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
 			if (buff is not null) return;
 
@@ -43,7 +43,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					0,
 					0,
 					0,
-					ModEntry.DemolitionistExcitedness,
+					ModState.DemolitionistExcitedness,
 					0,
 					0,
 					1,

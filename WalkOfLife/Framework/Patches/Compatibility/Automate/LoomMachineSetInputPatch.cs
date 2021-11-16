@@ -24,10 +24,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				// ignored
 			}
-
-			Transpiler = new(GetType().MethodNamed(nameof(GenericObjectMachineGenericPullRecipeTranspiler)));
 		}
-		
+
 		#region harmony patches
 
 		/// <summary>Patch to apply Artisan effects to automated Loom.</summary>

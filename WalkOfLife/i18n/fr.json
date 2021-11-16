@@ -135,5 +135,9 @@
 	"prestige.skillpage.tooltip": "{{count}}/4 métiers acquis:",
 	"prestige.levelup.tooltip:5": "Vous avez déjà tous les métiers dans cette branche.",
 	"prestige.levelup.tooltip:10": "Vous avez déjà ce métier.",
-	"prestige.levelup.question": "Actuellement enregistré à la / au {{oldBuff}} de {{oldProfession}}. Remplacer par la / le {{newBuff}} de {{newProfession}}?"
+	"prestige.levelup.question": "Actuellement enregistré à la / au {{oldBuff}} de {{oldProfession}}. Remplacer par la / le {{newBuff}} de {{newProfession}}?",
+	"prestige.levelup.unlocked": "Vous pouvez désormais continuer à développer votre compétence {{whichSkill}} encore plus.",
+	"prestige.achievement.name.male": "Touche-à-tout",
+	"prestige.achievement.name.female": "Touche-à-tout",
+	"prestige.achievement.desc": "Acquérir tous les métiers dans toutes les compétences."
 }

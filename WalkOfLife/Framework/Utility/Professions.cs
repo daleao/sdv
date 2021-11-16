@@ -138,8 +138,9 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		{
 			var itemsForaged = ModEntry.Data.Read<uint>("ItemsForaged");
 			return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
-				? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2 ? SObject.medQuality :
-				SObject.highQuality
+				? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2
+					? SObject.medQuality
+					: SObject.highQuality
 				: SObject.bestQuality;
 		}
 
@@ -157,7 +158,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		/// <summary>Affects that chance that a ladder or shaft will spawn for Spelunker.</summary>
 		public static double GetSpelunkerBonusLadderDownChance()
 		{
-			return ModEntry.SpelunkerLadderStreak * 0.01;
+			return ModState.SpelunkerLadderStreak * 0.01;
 		}
 
 		/// <summary>Affects the size of the green fishing bar for Aquarist.</summary>
@@ -175,12 +176,12 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		public static float GetBruteBonusDamageMultiplier(Farmer who)
 		{
 			return 1.15f +
-			       (who.IsLocalPlayer && ModEntry.IsSuperModeActive && ModEntry.SuperModeIndex == IndexOf("Brute")
+			       (who.IsLocalPlayer && ModState.IsSuperModeActive && ModState.SuperModeIndex == IndexOf("Brute")
 				       ? 0.65f + who.attackIncreaseModifier +
 				         (who.CurrentTool is not null
 					         ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f
 					         : 0f)
-				       : ModEntry.SuperModeCounter / 10 * 0.005f) *
+				       : ModState.SuperModeGaugeValue / 10 * 0.005f) *
 			       ((who.CurrentTool as MeleeWeapon)?.type.Value == MeleeWeapon.club ? 1.5f : 1f);
 		}
 
@@ -195,7 +196,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		{
 			//var healthPercent = (double) who.health / who.maxHealth;
 			//var multiplier = (float)Math.Min(-18.0 / (-healthPercent + 4.6) + 6.0, 2f);
-			return ModEntry.IsSuperModeActive ? 3f : ModEntry.SuperModeCounter / 10 * 0.06f;
+			return 1f + (ModState.IsSuperModeActive ? 2f : ModState.SuperModeGaugeValue / 10 * 0.04f);
 		}
 
 		/// <summary>Affects the damage of projectiles fired by Rascal.</summary>
@@ -218,9 +219,9 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		/// <summary>Affects projectile velocity, knockback, hitbox size and pierce chance for Desperado.</summary>
 		public static float GetDesperadoBulletPower()
 		{
-			return 1f + (ModEntry.IsSuperModeActive
+			return 1f + (ModState.IsSuperModeActive
 				? 1f
-				: ModEntry.SuperModeCounter / 10 * 0.01f);
+				: ModState.SuperModeGaugeValue / 10 * 0.01f);
 		}
 
 		/// <summary>Affects the time to prepare a shot for Desperado.</summary>
@@ -232,30 +233,30 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		/// <summary>Affects the maximum number of bonus Slimes that can be attracted by Piper.</summary>
 		public static int GetPiperSlimeSpawnAttempts()
 		{
-			return ModEntry.IsSuperModeActive
+			return ModState.IsSuperModeActive
 				? 11
-				: ModEntry.SuperModeCounter / 50 + 1;
+				: ModState.SuperModeGaugeValue / 50 + 1;
 		}
 
 		/// <summary>Affects the attack frequency of Slimes under Piper influence towards other enemies.</summary>
-		/// <returns>Returns a number between 0 (when <see cref="ModEntry.SuperModeCounter" /> is 0, and 0.15 when it is full.</returns>
+		/// <returns>Returns a number between 0 (when <see cref="ModState.SuperModeGaugeValue" /> is 0, and 0.15 when it is full.</returns>
 		public static float GetPiperSlimeAttackSpeedModifier()
 		{
-			return ModEntry.IsSuperModeActive
+			return ModState.IsSuperModeActive
 				? 0.75f
-				: 1f - ModEntry.SuperModeCounter / 10 * 0.003f;
+				: 1f - ModState.SuperModeGaugeValue / 10 * 0.003f;
 		}
 
 		/// <summary>
 		///     Affects the cooldown of Club or Hammer special attacks for Brute and Poacher, or the pull-back time of shots
 		///     for Desperado.
 		/// </summary>
-		/// <returns>Returns a number between 1 (when <see cref="ModEntry.SuperModeCounter" /> is 0, and 0.5 when it is full.</returns>
+		/// <returns>Returns a number between 1 (when <see cref="ModState.SuperModeGaugeValue" /> is 0, and 0.5 when it is full.</returns>
 		public static float GetCooldownOrChargeTimeReduction()
 		{
-			return ModEntry.IsSuperModeActive
+			return ModState.IsSuperModeActive
 				? 0.5f
-				: 1f - ModEntry.SuperModeCounter / 10 * 0.01f;
+				: 1f - ModState.SuperModeGaugeValue / 10 * 0.01f;
 		}
 
 		#endregion public methods

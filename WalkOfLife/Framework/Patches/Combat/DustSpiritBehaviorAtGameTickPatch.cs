@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
-using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -12,17 +11,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal DustSpiritBehaviorAtGameTickPatch()
 		{
 			Original = RequireMethod<DustSpirit>(nameof(DustSpirit.behaviorAtGameTick));
-			Postfix = new(GetType().MethodNamed(nameof(DustSpiritBehaviorAtGameTickPostfix)));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to hide Poacher from Dust Spirits during super mode.</summary>
+		/// <summary>Patch to hide Poacher from Dust Spirits during Super Mode.</summary>
 		[HarmonyPostfix]
 		private static void DustSpiritBehaviorAtGameTickPostfix(DustSpirit __instance, ref bool ___seenFarmer)
 		{
-			if (!__instance.Player.IsLocalPlayer || !ModEntry.IsSuperModeActive ||
-			    ModEntry.SuperModeIndex != Utility.Professions.IndexOf("Poacher")) return;
+			if (!__instance.Player.IsLocalPlayer || !ModState.IsSuperModeActive ||
+			    ModState.SuperModeIndex != Utility.Professions.IndexOf("Poacher")) return;
 			___seenFarmer = false;
 		}
 

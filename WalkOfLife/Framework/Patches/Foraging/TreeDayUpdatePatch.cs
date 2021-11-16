@@ -2,7 +2,6 @@
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -14,15 +13,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal TreeDayUpdatePatch()
 		{
 			Original = RequireMethod<Tree>(nameof(Tree.dayUpdate));
-			Prefix = new(GetType().MethodNamed(nameof(TreeDayUpdatePrefix)));
-			Postfix = new(GetType().MethodNamed(nameof(TreeDayUpdatePostfix)));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to increase Abrorist tree growth odds.</summary>
 		[HarmonyPrefix]
-		// ReSharper disable once RedundantAssignment
 		private static bool TreeDayUpdatePrefix(Tree __instance, ref int __state)
 		{
 			__state = __instance.growthStage.Value;

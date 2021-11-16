@@ -17,7 +17,7 @@ namespace TheLion.Stardew.Professions
 			{"Ecologist", new() {new("ItemsForaged", "0")}},
 			{"Gemologist", new() {new("MineralsCollected", "0")}},
 			{"Prospector", new() {new("ProspectorHuntStreak", "0")}},
-			{"Scavenger", new() {new("ScavengerHuntStreak", "0")}},
+			{"Scavenger", new() {new("ScavengerHuntStreak", "0")}}
 		};
 
 		private readonly string _id;
@@ -136,7 +136,7 @@ namespace TheLion.Stardew.Professions
 				Load();
 			}
 
-			return Data.Read($"{_id}/{field}", "");
+			return Data.Read($"{_id}/{field}", string.Empty);
 		}
 
 		/// <summary>Read a field from the <see cref="ModData" /> as <typeparamref name="T" />.</summary>

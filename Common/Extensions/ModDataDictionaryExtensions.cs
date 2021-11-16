@@ -5,7 +5,7 @@ using StardewValley;
 namespace TheLion.Stardew.Common.Extensions
 {
 	/// <summary>Provides extension methods for reading and writing values in <see cref="ModDataDictionary" /> fields.</summary>
-	internal static class ModDataDictionaryExtensions
+	public static class ModDataDictionaryExtensions
 	{
 		/// <summary>Read a value from the <see cref="ModDataDictionary" /> as string.</summary>
 		/// <param name="data">The <see cref="ModDataDictionary" />.</param>
@@ -63,7 +63,8 @@ namespace TheLion.Stardew.Common.Extensions
 		/// <param name="value">The value to write.</param>
 		/// <param name="exists">Whether the key already existed in the dictionary.</param>
 		/// <returns>Interface to <paramref name="data" />.</returns>
-		public static ModDataDictionary WriteIfNotExists(this ModDataDictionary data, string key, string value, out bool exists)
+		public static ModDataDictionary WriteIfNotExists(this ModDataDictionary data, string key, string value,
+			out bool exists)
 		{
 			exists = data.ContainsKey(key);
 			if (!exists) data[key] = value;

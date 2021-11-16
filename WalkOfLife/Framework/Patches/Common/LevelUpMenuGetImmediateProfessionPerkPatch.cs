@@ -20,8 +20,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuGetImmediateProfessionPerkPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getImmediateProfessionPerk));
-			Postfix = new(GetType().MethodNamed(nameof(LevelUpMenuGetImmediateProfessionPerkPostfix)));
-			Transpiler = new(GetType().MethodNamed(nameof(LevelUpMenuGetImmediateProfessionPerkTranspiler)));
 		}
 
 		#region harmony patches
@@ -49,9 +47,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
 
 			if (whichProfession is >= 26 and < 30 &&
-			    ModEntry.SuperModeIndex < 0) // is level 10 combat profession and super mode is not yet registered
-				// register super mode
-				ModEntry.SuperModeIndex = whichProfession;
+			    ModState.SuperModeIndex < 0) // is level 10 combat profession and Super Mode is not yet registered
+				// register Super Mode
+				ModState.SuperModeIndex = whichProfession;
 		}
 
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>

@@ -79,7 +79,8 @@ namespace TheLion.Stardew.Common.Harmony
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
-				throw new IndexOutOfRangeException($"Couldn't find instruction pattern {pattern}.");
+				throw new IndexOutOfRangeException(
+					$"Couldn't find instruction pattern.\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
 			}
 
 			_indexStack.Push(index);
@@ -97,7 +98,8 @@ namespace TheLion.Stardew.Common.Harmony
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
-				throw new IndexOutOfRangeException($"Couldn't find instruction pattern {pattern}.");
+				throw new IndexOutOfRangeException(
+					$"Couldn't find instruction pattern:\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
 			}
 
 			_indexStack.Push(index);
@@ -112,7 +114,8 @@ namespace TheLion.Stardew.Common.Harmony
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
-				throw new IndexOutOfRangeException($"Couldn't find instruction pattern {pattern}.");
+				throw new IndexOutOfRangeException(
+					$"Couldn't find instruction pattern:\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
 			}
 
 			_indexStack.Push(index);
@@ -134,7 +137,8 @@ namespace TheLion.Stardew.Common.Harmony
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
-				throw new IndexOutOfRangeException($"Couldn't find instruction pattern {pattern}.");
+				throw new IndexOutOfRangeException(
+					$"Couldn't find instruction pattern:\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
 			}
 
 			_indexStack.Push(index);
@@ -150,7 +154,7 @@ namespace TheLion.Stardew.Common.Harmony
 			if (index < 0)
 			{
 				if (_shouldExport) Export(label);
-				throw new IndexOutOfRangeException($"Couldn't find label {label}.");
+				throw new IndexOutOfRangeException($"Couldn't find label: {label}.");
 			}
 
 			_indexStack.Push(index);
@@ -274,6 +278,21 @@ namespace TheLion.Stardew.Common.Harmony
 		}
 
 		/// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
+		/// <param name="labels">Any labels to add at the start of the insertion.</param>
+		/// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
+		/// <remarks>
+		///     The instruction originally at this location is pushed forward. After insertion, the index pointer still points
+		///     to this same instruction.
+		/// </remarks>
+		public ILHelper Insert(Label[] labels, params CodeInstruction[] instructions)
+		{
+			instructions[0].labels.AddRange(labels);
+			_instructionList.InsertRange(CurrentIndex, instructions);
+			_indexStack.Push(CurrentIndex + instructions.Length);
+			return this;
+		}
+
+		/// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
 		/// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
 		/// <remarks>
 		///     The instruction originally at this location is pushed forward. After insertion, the index pointer still points
@@ -281,6 +300,22 @@ namespace TheLion.Stardew.Common.Harmony
 		/// </remarks>
 		public ILHelper Insert(ICollection<CodeInstruction> instructions)
 		{
+			_instructionList.InsertRange(CurrentIndex, instructions);
+			_indexStack.Push(CurrentIndex + instructions.Count);
+			return this;
+		}
+
+		/// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
+		/// ///
+		/// <param name="labels">Any labels to add at the start of the insertion.</param>
+		/// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
+		/// <remarks>
+		///     The instruction originally at this location is pushed forward. After insertion, the index pointer still points
+		///     to this same instruction.
+		/// </remarks>
+		public ILHelper Insert(Label[] labels, ICollection<CodeInstruction> instructions)
+		{
+			instructions.First().labels.AddRange(labels);
 			_instructionList.InsertRange(CurrentIndex, instructions);
 			_indexStack.Push(CurrentIndex + instructions.Count);
 			return this;
@@ -470,9 +505,9 @@ namespace TheLion.Stardew.Common.Harmony
 
 		/// <summary>Get the labels from the code instruction at the currently pointed index.</summary>
 		/// <param name="labels">The returned list of <see cref="Label" /> objects.</param>
-		public ILHelper GetLabels(out List<Label> labels)
+		public ILHelper GetLabels(out Label[] labels)
 		{
-			labels = _instructionList[CurrentIndex].labels.ToList();
+			labels = _instructionList[CurrentIndex].labels.ToArray();
 			return this;
 		}
 
@@ -516,7 +551,7 @@ namespace TheLion.Stardew.Common.Harmony
 		}
 
 		/// <summary>Remove labels from the code instruction at the currently pointed index.</summary>
-		public ILHelper StripLabels(out List<Label> labels)
+		public ILHelper StripLabels(out Label[] labels)
 		{
 			GetLabels(out labels);
 			_instructionList[CurrentIndex].labels.Clear();

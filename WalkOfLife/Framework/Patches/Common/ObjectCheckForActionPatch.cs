@@ -19,16 +19,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ObjectCheckForActionPatch()
 		{
 			Original = RequireMethod<SObject>(nameof(SObject.checkForAction));
-			Prefix = new(GetType().MethodNamed(nameof(ObjectCheckForActionPrefix)));
-			Postfix = new(GetType().MethodNamed(nameof(ObjectCheckForActionPostfix)));
-			Transpiler = new(GetType().MethodNamed(nameof(ObjectCheckForActionTranspiler)));
 		}
 
 		#region harmony patches
 
 		/// <summary>Patch to remember object state.</summary>
 		[HarmonyPrefix]
-		// ReSharper disable once RedundantAssignment
 		private static bool ObjectCheckForActionPrefix(SObject __instance, ref bool __state)
 		{
 			__state = __instance.heldObject.Value is not null;

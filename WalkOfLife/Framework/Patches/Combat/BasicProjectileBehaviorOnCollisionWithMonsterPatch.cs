@@ -7,7 +7,6 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -19,7 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal BasicProjectileBehaviorOnCollisionWithMonsterPatch()
 		{
 			Original = RequireMethod<BasicProjectile>(nameof(BasicProjectile.behaviorOnCollisionWithMonster));
-			Prefix = new(GetType().MethodNamed(nameof(BasicProjectileBehaviorOnCollisionWithMonsterPrefix)));
 		}
 
 		#region harmony patches
@@ -40,7 +38,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (!firer.HasProfession("Rascal")) return true; // run original logic
 
 				if (Game1.random.NextDouble() < (Utility.Professions.GetDesperadoBulletPower() - 1) / 2)
-					ModEntry.DidBulletPierceEnemy = true;
+					ModState.DidBulletPierceEnemy = true;
 				else
 					ModEntry.ModHelper.Reflection.GetMethod(__instance, "explosionAnimation")?.Invoke(location);
 
@@ -48,7 +46,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				                             Utility.Professions.GetRascalBonusDamageForTravelTime(___travelTime));
 
 				var knockbackModifier =
-					firer.IsLocalPlayer && ModEntry.SuperModeIndex == Utility.Professions.IndexOf("Desperado")
+					firer.IsLocalPlayer && ModState.SuperModeIndex == Utility.Professions.IndexOf("Desperado")
 						? Utility.Professions.GetDesperadoBulletPower()
 						: 1f;
 				location.damageMonster(n.GetBoundingBox(), damageToMonster, damageToMonster + 1, false,

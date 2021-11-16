@@ -7,7 +7,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
-			ModEntry.ScavengerHunt.Update(e.Ticks);
+			ModState.ScavengerHunt.Update(e.Ticks);
 		}
 	}
 }

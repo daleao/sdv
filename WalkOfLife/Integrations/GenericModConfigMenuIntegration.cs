@@ -1,5 +1,5 @@
-using StardewModdingAPI;
 using System;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Integrations;
 
 namespace TheLion.Stardew.Professions.Integrations
@@ -45,7 +45,7 @@ namespace TheLion.Stardew.Professions.Integrations
 					(config, value) => config.Modkey = value
 				)
 
-				// super mode
+				// Super Mode
 				.AddLabel("Super Mode Settings")
 				.AddKeyBinding(
 					"Super Mode key",
@@ -79,18 +79,39 @@ namespace TheLion.Stardew.Professions.Integrations
 
 				// prestige
 				.AddLabel("Prestige Settings")
+				.AddCheckbox(
+					"Enable Prestige",
+					"Must be enabled to allow prestiging.",
+					config => config.EnablePrestige,
+					(config, value) => config.EnablePrestige = value
+				)
 				.AddNumberField(
 					"Prestige Cost Multiplier",
 					"Multiplies the base prestige cost. Set to 0 to prestige for free.",
 					config => config.PrestigeCostMultiplier,
 					(config, value) => config.PrestigeCostMultiplier = value,
 					0f,
-					3f,
+					2f,
 					0.2f
 				)
 				.AddCheckbox(
 					"Forget Recipes On Prestige",
-					"Wether prestiging a skill also clears all associated recipes.",
+					"Disable this to keep all skill recipes upon prestiging.",
+					config => config.ForgetRecipesOnPrestige,
+					(config, value) => config.ForgetRecipesOnPrestige = value
+				)
+				.AddNumberField(
+					"Experience Bonus On Prestige",
+					"Multiplies all skill experience gained after each respective prestige.",
+					config => config.PrestigeCostMultiplier,
+					(config, value) => config.PrestigeCostMultiplier = value,
+					0f,
+					2f,
+					0.2f
+				)
+				.AddCheckbox(
+					"Enable Extended Progression",
+					"Enable this to open progression up to level 20 after fully prestiging a skill.",
 					config => config.ForgetRecipesOnPrestige,
 					(config, value) => config.ForgetRecipesOnPrestige = value
 				)

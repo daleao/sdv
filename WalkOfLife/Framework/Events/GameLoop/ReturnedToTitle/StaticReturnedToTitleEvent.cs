@@ -15,8 +15,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			// unsubscribe events
 			ModEntry.Subscriber.UnsubscribeLocalPlayerEvents();
 
-			// reset super mode
-			if (ModEntry.SuperModeIndex > 0) ModEntry.SuperModeIndex = -1;
+			// reset Super Mode
+			if (ModState.SuperModeIndex > 0) ModState.SuperModeIndex = -1;
 		}
 	}
 }

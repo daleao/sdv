@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Enums;
 using StardewValley;
@@ -14,14 +13,21 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		public static Texture2D RibbonTx { get; } =
 			ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "sprites", "ribbons.png"));
 
+		public static Texture2D SkillBarTx { get; } =
+			ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "menus", "skillbars.png"));
+
+		public static int RibbonWidth => 22;
+		public static int RibbonHorizontalOffset => -99;
+		public static float RibbonScale => 1.8f;
+
 		/// <summary>Get the cost of prestiging the specified skill.</summary>
-		/// <param name="whichSkill">The desired skill.</param>
-		public static int GetPrestigeCost(SkillType whichSkill)
+		/// <param name="skillType">The desired skill.</param>
+		public static int GetPrestigeCost(SkillType skillType)
 		{
 			var multiplier = ModEntry.Config.PrestigeCostMultiplier;
 			if (multiplier <= 0f) return 0;
 
-			var count = Game1.player.GetProfessionsForSkill((int) whichSkill, true).Count();
+			var count = Game1.player.NumberOfProfessionsInSkill((int) skillType, true);
 #pragma warning disable 8509
 			var baseCost = count switch
 #pragma warning restore 8509

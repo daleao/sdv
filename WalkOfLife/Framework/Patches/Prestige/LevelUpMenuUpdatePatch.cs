@@ -9,8 +9,11 @@ using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using CollectionExtensions = TheLion.Stardew.Common.Extensions.CollectionExtensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -21,18 +24,18 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuUpdatePatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.update), new[] {typeof(GameTime)});
-			Transpiler = new(GetType().MethodNamed(nameof(LevelUpMenuUpdateTranspiler)));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to prevent duplicate profession acquisition.</summary>
+		/// <summary>Patch to prevent duplicate profession acquisition + display end of level up dialogues.</summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> LevelUpMenuUpdateTranspiler(
 			IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator, MethodBase original)
 		{
 			var helper = new ILHelper(original, instructions);
 
+			/// This injection chooses the correct level 10 profession choices based on the last selected level 5 profession
 			/// From: else if (Game1.player.professions.Contains(currentSkill * 6))
 			/// To: else if (Game1.player.CurrentBranchForSkill(currentSkill) == currentSkill * 6)
 
@@ -53,7 +56,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldc_I4_6)
 					)
 					.Insert(
-						new CodeInstruction(OpCodes.Call, typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions.CurrentBranchForSkill))),
+						new CodeInstruction(OpCodes.Call,
+							typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions.CurrentBranchForSkill))),
 						new CodeInstruction(OpCodes.Ldarg_0),
 						new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentSkill"))
 					)
@@ -76,14 +80,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			///		  getImmediateProfessionPerk(professionsToChoose[i]);
 			/// To: if (!Game1.player.professions.AddOrReplace(professionsToChoose[i])) getImmediateProfessionPerk(professionsToChoose[i]);
 			///		- and also -
-			/// Injected: if (ShouldProposeFinalQuestion(professionsToChoose[i])) finalQuestion = true;
+			/// Injected: if (ShouldProposeFinalQuestion(professionsToChoose[i])) shouldProposeFinalQuestion = true;
+			///			  if (ShouldCongratulateOnFullPrestige(professionsToChoose[i])) shouldCongratulateOnFullPrestige = true;
 			/// Before: isActive = false;
 
 			var dontGiveImmediatePerks = ilGenerator.DefineLabel();
 			var chosenProfession = ilGenerator.DeclareLocal(typeof(int));
 			var shouldProposeFinalQuestion = ilGenerator.DeclareLocal(typeof(bool));
+			var shouldCongratulateOnFullPrestige = ilGenerator.DeclareLocal(typeof(bool));
 			var i = 0;
-			repeat:
+			repeat1:
 			try
 			{
 				helper
@@ -92,10 +98,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).MethodNamed("Add"))
 					)
 					.Advance()
+					.Insert(
+						// duplicate chosen profession
+						new CodeInstruction(OpCodes.Dup),
+						// store it for later
+						new CodeInstruction(OpCodes.Stloc_S, chosenProfession)
+					)
 					.ReplaceWith( // replace Add() with AddOrReplace()
-						new CodeInstruction(OpCodes.Call,
-							typeof(Common.Extensions.CollectionExtensions)
-								.MethodNamed(nameof(Common.Extensions.CollectionExtensions.AddOrReplace))
+						new(OpCodes.Call,
+							typeof(CollectionExtensions)
+								.MethodNamed(nameof(CollectionExtensions.AddOrReplace))
 								.MakeGenericMethod(typeof(int)))
 					)
 					.Advance()
@@ -103,69 +115,92 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						// skip adding perks if player already has them
 						new CodeInstruction(OpCodes.Brtrue_S, dontGiveImmediatePerks)
 					)
-					.Advance()
-					.ToBufferUntil( // copy instructions to push chosen profession onto the stack
-						stripLabels: false,
-						advance: true,
-						new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).PropertyGetter("Item"))
-					)
 					.AdvanceUntil( // advance until an instruction signaling the end of instructions related to adding a new profession
+						new CodeInstruction(OpCodes.Stfld, typeof(LevelUpMenu).Field(nameof(LevelUpMenu.isActive)))
+					)
+					.RetreatUntil(
 						new CodeInstruction(OpCodes.Ldarg_0)
 					)
-					.InsertBuffer() // paste instructions to push the chosen profession onto the stack
 					.Insert(
-						// duplicate the chosen profession
-						new CodeInstruction(OpCodes.Dup),
-						// store the first copy to a local variable for later
-						new CodeInstruction(OpCodes.Stloc_S, chosenProfession),
-						// the second copy will be consumed by the ShouldProposeFinalQuestion() check
+						// branch here if the player already had the chosen profession
+						new[] {dontGiveImmediatePerks},
+						// load the chosen profession onto the stack
+						new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
+						// check if should propose final question
 						new CodeInstruction(OpCodes.Call,
 							typeof(LevelUpMenuUpdatePatch).MethodNamed(nameof(ShouldProposeFinalQuestion))),
-						// store the bool result onto another local variable
-						new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion)
-					)
-					.Return(2) // return to the start of the section which calls ShouldProposeFinalQuestion
-					.AddLabels(dontGiveImmediatePerks); // branch here if the player already had the chosen profession 
+						// store the bool result for later
+						new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion),
+						// load the chosen profession onto the stack
+						new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
+						// check if should congratulate on full prestige
+						new CodeInstruction(OpCodes.Call,
+							typeof(LevelUpMenuUpdatePatch).MethodNamed(nameof(ShouldCongratulateOnFullPrestige))),
+						// store the bool result for later
+						new CodeInstruction(OpCodes.Stloc_S, shouldCongratulateOnFullPrestige)
+					);
 			}
 			catch (Exception ex)
 			{
 				ModEntry.Log(
-					$"Failed while patching level up profession redundancy and injecting final question decision. Helper returned {ex}",
+					$"Failed while patching level up profession redundancy and injecting dialogues. Helper returned {ex}",
 					LogLevel.Error);
 				return null;
 			}
 
 			// repeat injection
-			if (++i < 2) goto repeat;
+			if (++i < 2) goto repeat1;
 
-			/// Injected: ProposeFinalQuestion(chosenProfession)
+			/// Injected: if (shouldProposeFinalQuestion) ProposeFinalQuestion(chosenProfession)
+			/// Aand: if (shouldCongratulateOnFullPrestige) CongratulateOnFullPrestige(chosenProfession)
 			/// Before: if (!isActive || !informationUp)
 
-			var shouldNotProposeFinalQuestion = ilGenerator.DefineLabel();
+			var dontProposeFinalQuestion = ilGenerator.DefineLabel();
+			var dontCongratulateOnFullPrestige = ilGenerator.DefineLabel();
+			var resumeExecution = ilGenerator.DefineLabel();
 			try
 			{
 				helper
 					.ReturnToFirst()
-					.Insert( // initialize shouldProposeFinalQuestion local variable to false
+					.Insert(
+						// initialize shouldProposeFinalQuestion local variable to false
 						new CodeInstruction(OpCodes.Ldc_I4_0),
-						new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion))
+						new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion),
+						// initialize shouldCongratulateOnFullPrestige local variable to false
+						new CodeInstruction(OpCodes.Ldc_I4_0),
+						new CodeInstruction(OpCodes.Stloc_S, shouldCongratulateOnFullPrestige)
+					)
 					.FindLast( // find index of the section that checks for a return (once LevelUpMenu is no longer needed)
 						new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field(nameof(LevelUpMenu.isActive)))
 					)
 					.Retreat() // retreat to the start of this section
 					.StripLabels(out var labels) // backup and remove branch labels
-					.AddLabels(shouldNotProposeFinalQuestion) // branch here if should not propose the final question
+					.AddLabels(dontCongratulateOnFullPrestige,
+						resumeExecution) // branch here after checking for congratulate or after proposing final question
 					.Insert(
+						// restore backed-up labels
+						labels,
 						// check if should propose the final question
 						new CodeInstruction(OpCodes.Ldloc_S, shouldProposeFinalQuestion),
-						new CodeInstruction(OpCodes.Brfalse_S, shouldNotProposeFinalQuestion),
+						new CodeInstruction(OpCodes.Brfalse_S, dontProposeFinalQuestion),
 						// if so, push the chosen profession onto the stack and call ProposeFinalQuestion()
 						new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
+						new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateOnFullPrestige),
 						new CodeInstruction(OpCodes.Call,
-							typeof(LevelUpMenuUpdatePatch).MethodNamed(nameof(ProposeFinalQuestion)))
+							typeof(LevelUpMenuUpdatePatch).MethodNamed(nameof(ProposeFinalQuestion))),
+						new CodeInstruction(OpCodes.Br_S, resumeExecution)
 					)
-					.Return()
-					.AddLabels(labels);
+					.Insert(
+						// branch here after checking for proposal
+						new[] {dontProposeFinalQuestion},
+						// check if should congratulate on full prestige
+						new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateOnFullPrestige),
+						new CodeInstruction(OpCodes.Brfalse_S, dontCongratulateOnFullPrestige),
+						// if so, push the chosen profession onto the stack and call CongratulateOnFullPrestige()
+						new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
+						new CodeInstruction(OpCodes.Call,
+							typeof(LevelUpMenuUpdatePatch).MethodNamed(nameof(CongratulateOnFullPrestige)))
+					);
 			}
 			catch (Exception ex)
 			{
@@ -178,17 +213,23 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		}
 
 		#endregion harmony patches
-
+		
 		#region private methods
 
 		private static bool ShouldProposeFinalQuestion(int chosenProfession)
 		{
-			return ModEntry.SuperModeIndex > 0 && chosenProfession is >= 26 and < 30 && ModEntry.SuperModeIndex != chosenProfession;
+			return ModEntry.Config.EnablePrestige && ModState.SuperModeIndex > 0 && chosenProfession is >= 26 and < 30 &&
+			       ModState.SuperModeIndex != chosenProfession;
 		}
 
-		private static void ProposeFinalQuestion(int chosenProfession)
+		private static bool ShouldCongratulateOnFullPrestige(int chosenProfession)
 		{
-			var oldProfessionKey = Utility.Professions.NameOf(ModEntry.SuperModeIndex).ToLower();
+			return ModEntry.Config.EnableExtendedProgression && Game1.player.HasAllProfessionsInSkill(chosenProfession / 6);
+		}
+
+		private static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateOnFullPrestige)
+		{
+			var oldProfessionKey = Utility.Professions.NameOf(ModState.SuperModeIndex).ToLower();
 			var oldProfessionDisplayName = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".name.male");
 			var oldBuff = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".buff");
 			var newProfessionKey = Utility.Professions.NameOf(chosenProfession);
@@ -196,11 +237,29 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var newBuff = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".buff");
 			Game1.currentLocation.createQuestionDialogue(
 				ModEntry.ModHelper.Translation.Get("prestige.levelup.question",
-					new {oldProfession = oldProfessionDisplayName, oldBuff = oldBuff, newProfession = newProfessionDisplayName, newBuff = newBuff}),
+					new
+					{
+						oldProfession = oldProfessionDisplayName, oldBuff, newProfession = newProfessionDisplayName,
+						newBuff
+					}),
 				Game1.currentLocation.createYesNoResponses(), delegate(Farmer _, string answer)
 				{
-					if (answer == "Yes") ModEntry.SuperModeIndex = chosenProfession;
+					if (answer == "Yes") ModState.SuperModeIndex = chosenProfession;
+					if (shouldCongratulateOnFullPrestige) CongratulateOnFullPrestige(chosenProfession);
 				});
+		}
+
+		private static void CongratulateOnFullPrestige(int chosenProfession)
+		{
+			Game1.drawObjectDialogue(ModEntry.ModHelper.Translation.Get("prestige.levelup.unlocked",
+				new {whichSkill = Farmer.getSkillDisplayNameFromIndex(chosenProfession / 6)}));
+
+			if (!Game1.player.HasAllProfessions()) return;
+			
+			string name = ModEntry.ModHelper.Translation.Get("prestige.achievement.name." + (Game1.player.IsMale ? "male" : "female"));
+			if (Game1.player.achievements.Contains(name.Hash())) return;
+
+			ModEntry.Subscriber.Subscribe(new AchievementUnlockedDayStartedEvent());
 		}
 
 		#endregion private methods

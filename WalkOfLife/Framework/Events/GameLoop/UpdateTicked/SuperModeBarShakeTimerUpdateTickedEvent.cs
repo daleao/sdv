@@ -16,12 +16,12 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 			if (_shakeTimer > 0)
 			{
-				ModEntry.ShouldShakeSuperModeBar = true;
+				ModState.ShouldShakeSuperModeGauge = true;
 				--_shakeTimer;
 			}
 			else
 			{
-				ModEntry.ShouldShakeSuperModeBar = false;
+				ModState.ShouldShakeSuperModeGauge = false;
 			}
 
 			--_nextShake;

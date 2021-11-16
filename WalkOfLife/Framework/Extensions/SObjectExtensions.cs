@@ -26,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		public static bool IsAnimalProduct(this SObject obj)
 		{
 			return obj.Category.IsAnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
-			        || Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex);
+			       || Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex);
 		}
 
 		/// <summary>Whether a given object is salmonberry or blackberry.</summary>
@@ -81,7 +81,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <summary>Whether a given object is a trash.</summary>
 		public static bool IsAlgae(this SObject obj)
 		{
-			return obj.ParentSheetIndex.IsAnyOf(152, 152, 157) == true;
+			return obj.ParentSheetIndex.IsAnyOf(152, 152, 157);
 		}
 
 		/// <summary>Whether a given object is a trash.</summary>

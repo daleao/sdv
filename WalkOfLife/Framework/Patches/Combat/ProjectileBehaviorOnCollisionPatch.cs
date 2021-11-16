@@ -5,7 +5,6 @@ using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -18,7 +17,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal ProjectileBehaviorOnCollisionPatch()
 		{
 			Original = RequireMethod<Projectile>("behaviorOnCollision");
-			Postfix = new(GetType().MethodNamed(nameof(ProjectileBehaviorOnCollisionPostfix)));
 		}
 
 		#region harmony patches
@@ -28,7 +26,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void ProjectileBehaviorOnCollisionPostfix(Projectile __instance, NetInt ___currentTileSheetIndex,
 			NetPosition ___position, NetCharacterRef ___theOneWhoFiredMe, GameLocation location)
 		{
-			if (__instance is not BasicProjectile || ModEntry.IsSuperModeActive) return;
+			if (__instance is not BasicProjectile || ModState.IsSuperModeActive) return;
 
 			var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
 			if (!firer.HasProfession("Rascal")) return;

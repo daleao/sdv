@@ -11,17 +11,17 @@ namespace TheLion.Stardew.Professions.Framework.Events
 	[UsedImplicitly]
 	internal class PrestigeDayEndingEvent : DayEndingEvent
 	{
-		public Queue<SkillType> SkillQueue { get; } = new();
-
-		internal PrestigeDayEndingEvent(SkillType whichSkill)
+		internal PrestigeDayEndingEvent(SkillType skillType)
 		{
-			SkillQueue.Enqueue(whichSkill);
+			SkillsToPrestige.Enqueue(skillType);
 		}
+
+		public Queue<SkillType> SkillsToPrestige { get; } = new();
 
 		/// <inheritdoc />
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
-			while (SkillQueue.Any()) Game1.player.PrestigeSkill(SkillQueue.Dequeue());
+			while (SkillsToPrestige.Any()) Game1.player.PrestigeSkill(SkillsToPrestige.Dequeue());
 
 			ModEntry.Subscriber.Unsubscribe(GetType());
 		}

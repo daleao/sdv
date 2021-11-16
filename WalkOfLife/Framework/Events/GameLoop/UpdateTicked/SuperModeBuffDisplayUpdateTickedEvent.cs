@@ -14,16 +14,16 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc />
 		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
 		{
-			if (ModEntry.SuperModeIndex <= 0)
+			if (ModState.SuperModeIndex <= 0)
 			{
 				ModEntry.Subscriber.Unsubscribe(GetType());
 				return;
 			}
 
-			if (ModEntry.SuperModeCounter < 10) return;
+			if (ModState.SuperModeGaugeValue < 10) return;
 
-			var buffID = ModEntry.Manifest.UniqueID.Hash() + ModEntry.SuperModeIndex;
-			var professionIndex = ModEntry.SuperModeIndex;
+			var buffID = ModEntry.Manifest.UniqueID.Hash() + ModState.SuperModeIndex;
+			var professionIndex = ModState.SuperModeIndex;
 			var professionName = Utility.Professions.NameOf(professionIndex);
 			var magnitude1 = GetSuperModePrimaryBuffMagnitude(professionName);
 			var magnitude2 = GetSuperModeSecondaryBuffMagnitude(professionName);

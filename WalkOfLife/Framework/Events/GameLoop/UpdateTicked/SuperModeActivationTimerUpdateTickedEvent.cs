@@ -16,7 +16,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (Game1.game1.IsActive && Game1.shouldTimePass()) --_superModeActivationTimer;
 
 			if (_superModeActivationTimer > 0) return;
-			ModEntry.IsSuperModeActive = true;
+			ModState.IsSuperModeActive = true;
 			ModEntry.Subscriber.Unsubscribe(GetType());
 		}
 	}

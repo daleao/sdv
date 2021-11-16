@@ -16,27 +16,30 @@ namespace TheLion.Stardew.Professions
 	{
 		internal static void Register()
 		{
-			ModEntry.ModHelper.ConsoleCommands.Add("player_checkskills", "List the player's current skill levels.",
+			ModEntry.ModHelper.ConsoleCommands.Add("player_skills", "List the player's current skill levels.",
 				PrintLocalPlayerSkillLevels);
 			ModEntry.ModHelper.ConsoleCommands.Add("player_resetskills", "Reset all player's skills.",
 				ResetLocalPlayerSkills);
-			ModEntry.ModHelper.ConsoleCommands.Add("player_checkprofessions", "List the player's current professions.",
+			ModEntry.ModHelper.ConsoleCommands.Add("player_professions", "List the player's current professions.",
 				PrintLocalPlayerProfessions);
 			ModEntry.ModHelper.ConsoleCommands.Add("player_addprofessions",
 				"Add the specified professions to the local player, without affecting skill levels." +
 				GetUsageForAddProfessions(),
 				AddProfessionsToLocalPlayer);
 			ModEntry.ModHelper.ConsoleCommands.Add("player_resetprofessions",
-				"Reset all skills and professions for the local player.", ResetLocalPlayerProfessions);
-			ModEntry.ModHelper.ConsoleCommands.Add("player_setultmeter",
-				"Set the super mode meter to the desired value.",
-				SetSuperModeCounter);
-			ModEntry.ModHelper.ConsoleCommands.Add("player_readyult", "Max-out the super mode meter.", ReadySuperMode);
-			ModEntry.ModHelper.ConsoleCommands.Add("player_registerult",
+				"Reset all skills and professions for the local player.",
+				ResetLocalPlayerProfessions);
+			ModEntry.ModHelper.ConsoleCommands.Add("player_setultval",
+				"Set the Super Mode meter to the desired value.",
+				SetSuperModeGaugeValue);
+			ModEntry.ModHelper.ConsoleCommands.Add("player_readyult", "Max-out the Super Mode meter.",
+				MaxSuperModeGaugeValue);
+			ModEntry.ModHelper.ConsoleCommands.Add("player_setultindex",
 				"Change the currently registered Super Mode profession.",
-				RegisterSuperMode);
-			ModEntry.ModHelper.ConsoleCommands.Add("player_checkult",
-				"Check the currently registered Super Mode profession.", PrintRegisteredSuperMode);
+				SetSuperModeIndex);
+			ModEntry.ModHelper.ConsoleCommands.Add("player_ult",
+				"Check the currently registered Super Mode profession.",
+				PrintSuperModeIndex);
 			ModEntry.ModHelper.ConsoleCommands.Add("player_maxanimalfriendship",
 				"Max-out the friendship of all owned animals.",
 				MaxAnimalFriendship);
@@ -45,42 +48,14 @@ namespace TheLion.Stardew.Professions
 			ModEntry.ModHelper.ConsoleCommands.Add("player_checkfishingprogress",
 				"Check your fishing progress as Angler.",
 				PrintFishCaughtAudit);
-			ModEntry.ModHelper.ConsoleCommands.Add("wol_checkdata", "Check current value of all mod data fields.",
+			ModEntry.ModHelper.ConsoleCommands.Add("wol_data",
+				"Check the current value of all mod data fields." + GetUsageForSetModData(),
 				PrintModData);
-			ModEntry.ModHelper.ConsoleCommands.Add("wol_setitemsforaged", "Set a new value for ItemsForaged field.",
-				SetItemsForaged);
-			ModEntry.ModHelper.ConsoleCommands.Add("wol_setmineralscollected",
-				"Set a new value for MineralsCollected field.",
-				SetMineralsCollected);
-			ModEntry.ModHelper.ConsoleCommands.Add("wol_setprospectorstreak",
-				"Set a new value for ProspectorStreak field.",
-				SetProspectorStreak);
-			ModEntry.ModHelper.ConsoleCommands.Add("wol_setscavengerstreak",
-				"Set a new value for ScavengerStreak field.",
-				SetScavengerStreak);
-			ModEntry.ModHelper.ConsoleCommands.Add("wol_settrashcollected",
-				"Set a new value for WaterTrashCollectedThisSeason field.",
-				SetWaterTrashCollectedThisSeason);
-			ModEntry.ModHelper.ConsoleCommands.Add("wol_checkevents", "List currently subscribed mod events.",
+			ModEntry.ModHelper.ConsoleCommands.Add("wol_setdata", "Set a new value for a mod data field.",
+				SetModData);
+			ModEntry.ModHelper.ConsoleCommands.Add("wol_events", "List currently subscribed mod events.",
 				PrintSubscribedEvents);
 		}
-
-		#region private methods
-
-		/// <summary>Tell the dummies how to use the console command.</summary>
-		private static string GetUsageForAddProfessions()
-		{
-			var result = "\n\nUsage: player_addprofessions <argument1> <argument2> ... <argumentN>";
-			result += "\nAvailable arguments:";
-			result +=
-				"\n\t'<profession>' - get the specified profession.";
-			result += "\n\t'all' - get all professions.";
-			result += "\n\nExample:";
-			result += "\n\tplayer_addprofessions artisan brute";
-			return result;
-		}
-
-		#endregion private methods
 
 		#region command handlers
 
@@ -144,15 +119,15 @@ namespace TheLion.Stardew.Professions
 		/// <summary>Add specified professions to the local player.</summary>
 		internal static void AddProfessionsToLocalPlayer(string command, string[] args)
 		{
-			if (!Context.IsWorldReady)
-			{
-				ModEntry.Log("You must load a save first.", LogLevel.Warn);
-				return;
-			}
-
 			if (!args.Any())
 			{
 				ModEntry.Log("You must specify at least one profession." + GetUsageForAddProfessions(), LogLevel.Warn);
+				return;
+			}
+
+			if (!Context.IsWorldReady)
+			{
+				ModEntry.Log("You must load a save first.", LogLevel.Warn);
 				return;
 			}
 
@@ -205,7 +180,7 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			ModEntry.SuperModeIndex = -1;
+			ModState.SuperModeIndex = -1;
 			var professionsToRemove = Game1.player.professions.ToList();
 			foreach (var professionIndex in professionsToRemove)
 			{
@@ -216,8 +191,8 @@ namespace TheLion.Stardew.Professions
 			LevelUpMenu.RevalidateHealth(Game1.player);
 		}
 
-		/// <summary>Set <see cref="ModEntry.SuperModeCounter" /> to the max value.</summary>
-		internal static void SetSuperModeCounter(string command, string[] args)
+		/// <summary>Set <see cref="ModState.SuperModeGaugeValue" /> to the max value.</summary>
+		internal static void SetSuperModeGaugeValue(string command, string[] args)
 		{
 			if (!Context.IsWorldReady)
 			{
@@ -225,7 +200,7 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			if (ModEntry.SuperModeIndex < 0)
+			if (ModState.SuperModeIndex < 0)
 			{
 				ModEntry.Log("You must have a level 10 combat profession.", LogLevel.Warn);
 				return;
@@ -238,13 +213,13 @@ namespace TheLion.Stardew.Professions
 			}
 
 			if (int.TryParse(args[0], out var value))
-				ModEntry.SuperModeCounter = Math.Min(value, ModEntry.SuperModeCounterMax);
+				ModState.SuperModeGaugeValue = Math.Min(value, ModState.SuperModeGaugeMaxValue);
 			else
 				ModEntry.Log("You must specify an integer value.", LogLevel.Warn);
 		}
 
-		/// <summary>Set <see cref="ModEntry.SuperModeCounter" /> to the desired value.</summary>
-		internal static void ReadySuperMode(string command, string[] args)
+		/// <summary>Set <see cref="ModState.SuperModeGaugeValue" /> to the desired value.</summary>
+		internal static void MaxSuperModeGaugeValue(string command, string[] args)
 		{
 			if (!Context.IsWorldReady)
 			{
@@ -252,19 +227,19 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			if (ModEntry.SuperModeIndex < 0)
+			if (ModState.SuperModeIndex < 0)
 			{
 				ModEntry.Log("You must have a level 10 combat profession.", LogLevel.Warn);
 				return;
 			}
-			
+
 			// first raise above zero, then fill, otherwise fill event won't trigger
-			ModEntry.SuperModeCounter = 1;
-			ModEntry.SuperModeCounter = ModEntry.SuperModeCounterMax;
+			ModState.SuperModeGaugeValue = 1;
+			ModState.SuperModeGaugeValue = ModState.SuperModeGaugeMaxValue;
 		}
 
-		/// <summary>Set <see cref="ModEntry.SuperModeIndex" /> to a different combat profession, in case you have more than one.</summary>
-		internal static void RegisterSuperMode(string command, string[] args)
+		/// <summary>Set <see cref="ModState.SuperModeIndex" /> to a different combat profession, in case you have more than one.</summary>
+		internal static void SetSuperModeIndex(string command, string[] args)
 		{
 			if (!Context.IsWorldReady)
 			{
@@ -290,19 +265,19 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			ModEntry.SuperModeIndex = Framework.Utility.Professions.IndexOf(args[0].FirstCharToUpper());
+			ModState.SuperModeIndex = Framework.Utility.Professions.IndexOf(args[0].FirstCharToUpper());
 		}
 
-		/// <summary>Print the currently registered super mode profession.</summary>
-		internal static void PrintRegisteredSuperMode(string command, string[] args)
+		/// <summary>Print the currently registered Super Mode profession.</summary>
+		internal static void PrintSuperModeIndex(string command, string[] args)
 		{
-			if (ModEntry.SuperModeIndex < 0)
+			if (ModState.SuperModeIndex < 0)
 			{
 				ModEntry.Log("Not registered to any Super Mode.", LogLevel.Info);
 				return;
 			}
 
-			var key = Framework.Utility.Professions.NameOf(ModEntry.SuperModeIndex).ToLower();
+			var key = Framework.Utility.Professions.NameOf(ModState.SuperModeIndex).ToLower();
 			var professionDisplayName = ModEntry.ModHelper.Translation.Get(key + ".name.male");
 			var buffName = ModEntry.ModHelper.Translation.Get(key + ".buff");
 			ModEntry.Log($"Registered to {professionDisplayName}'s {buffName}.", LogLevel.Info);
@@ -444,168 +419,154 @@ namespace TheLion.Stardew.Professions
 			}
 		}
 
-		/// <summary>Set a new value to the ItemsForaged data field.</summary>
-		internal static void SetItemsForaged(string command, string[] args)
+		/// <summary>Set a new value to the specified mod data field.</summary>
+		internal static void SetModData(string command, string[] args)
 		{
+			if (!args.Any() || args.Length != 2)
+			{
+				ModEntry.Log("You must specify a data field and value." + GetUsageForSetModData(), LogLevel.Warn);
+				return;
+			}
+
+			if (!int.TryParse(args[1], out var value) || value < 0)
+			{
+				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
+				return;
+			}
+
 			if (!Context.IsWorldReady)
 			{
 				ModEntry.Log("You must load a save first.", LogLevel.Warn);
 				return;
 			}
 
-			if (!Game1.player.HasProfession("Ecologist"))
+			switch (args[0])
 			{
-				ModEntry.Log("You must have the Ecologist profession.", LogLevel.Warn);
-				return;
+				case "itemsforaged":
+					SetItemsForaged(value);
+					break;
+
+				case "mineralscollected":
+					SetMineralsCollected(value);
+					break;
+
+				case "scavengerstreak":
+					SetScavengerStreak(value);
+					break;
+
+				case "prospectorstreak":
+					SetProspectorStreak(value);
+					break;
+
+				case "watertrashcollectedthisseason":
+					SetWaterTrashCollectedThisSeason(value);
+					break;
+
+				default:
+					ModEntry.Log($"'{args[0]}' is not a settable data field.", LogLevel.Warn);
+					break;
 			}
-
-			if (!args.Any() || args.Length > 1)
-			{
-				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
-				return;
-			}
-
-			if (!int.TryParse(args[0], out var value) || value < 0)
-			{
-				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
-				return;
-			}
-
-			ModEntry.Data.Write("ItemsForaged", args[0]);
-			ModEntry.Log($"ItemsForaged set to {args[0]}.", LogLevel.Info);
-		}
-
-		/// <summary>Set a new value to the MineralsCollected data field.</summary>
-		internal static void SetMineralsCollected(string command, string[] args)
-		{
-			if (!Context.IsWorldReady)
-			{
-				ModEntry.Log("You must load a save first.", LogLevel.Warn);
-				return;
-			}
-
-			if (!Game1.player.HasProfession("Gemologist"))
-			{
-				ModEntry.Log("You must have the Gemologist profession.", LogLevel.Warn);
-				return;
-			}
-
-			if (!args.Any() || args.Length > 1)
-			{
-				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
-				return;
-			}
-
-			if (!int.TryParse(args[0], out var value) || value < 0)
-			{
-				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
-				return;
-			}
-
-			ModEntry.Data.Write("MineralsCollected", args[0]);
-			ModEntry.Log($"MineralsCollected set to {args[0]}.", LogLevel.Info);
-		}
-
-		/// <summary>Set a new value to the ProspectorStreak data field.</summary>
-		internal static void SetProspectorStreak(string command, string[] args)
-		{
-			if (!Context.IsWorldReady)
-			{
-				ModEntry.Log("You must load a save first.", LogLevel.Warn);
-				return;
-			}
-
-			if (!Game1.player.HasProfession("Prospector"))
-			{
-				ModEntry.Log("You must have the Prospector profession.", LogLevel.Warn);
-				return;
-			}
-
-			if (!args.Any() || args.Length > 1)
-			{
-				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
-				return;
-			}
-
-			if (!int.TryParse(args[0], out var value) || value < 0)
-			{
-				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
-				return;
-			}
-
-			ModEntry.Data.Write("ProspectorStreak", args[0]);
-			ModEntry.Log($"ProspectorStreak set to {args[0]}.", LogLevel.Info);
-		}
-
-		/// <summary>Set a new value to the ScavengerStreak data field.</summary>
-		internal static void SetScavengerStreak(string command, string[] args)
-		{
-			if (!Context.IsWorldReady)
-			{
-				ModEntry.Log("You must load a save first.", LogLevel.Warn);
-				return;
-			}
-
-			if (!Game1.player.HasProfession("Scavenger"))
-			{
-				ModEntry.Log("You must have the Scavenger profession.", LogLevel.Warn);
-				return;
-			}
-
-			if (!args.Any() || args.Length > 1)
-			{
-				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
-				return;
-			}
-
-			if (!int.TryParse(args[0], out var value) || value < 0)
-			{
-				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
-				return;
-			}
-
-			ModEntry.Data.Write("ScavengerStreak", args[0]);
-			ModEntry.Log($"ScavengerStreak set to {args[0]}.", LogLevel.Info);
-		}
-
-		/// <summary>Set a new value to the WaterTrashCollectedThisSeason data field.</summary>
-		internal static void SetWaterTrashCollectedThisSeason(string command, string[] args)
-		{
-			if (!Context.IsWorldReady)
-			{
-				ModEntry.Log("You must load a save first.", LogLevel.Warn);
-				return;
-			}
-
-			if (!Game1.player.HasProfession("Conservationist"))
-			{
-				ModEntry.Log("You must have the Conservationist profession.", LogLevel.Warn);
-				return;
-			}
-
-			if (!args.Any() || args.Length > 1)
-			{
-				ModEntry.Log("You must specify a single value.", LogLevel.Warn);
-				return;
-			}
-
-			if (!int.TryParse(args[0], out var value) || value < 0)
-			{
-				ModEntry.Log("You must specify a positive integer value.", LogLevel.Warn);
-				return;
-			}
-
-			ModEntry.Data.Write("WaterTrashCollectedThisSeason", args[0]);
-			ModEntry.Log($"WaterTrashCollectedThisSeason set to {args[0]}.", LogLevel.Info);
 		}
 
 		/// <summary>Print the currently subscribed mod events to the console.</summary>
 		internal static void PrintSubscribedEvents(string command, string[] args)
 		{
 			ModEntry.Log("Currently subscribed events:", LogLevel.Info);
-			foreach (var eventName in ModEntry.Subscriber.Select(e => e.GetType().Name)) ModEntry.Log($"{eventName}", LogLevel.Info);
+			foreach (var eventName in ModEntry.Subscriber.Select(e => e.GetType().Name))
+				ModEntry.Log($"{eventName}", LogLevel.Info);
 		}
 
 		#endregion command handlers
+		
+		#region private methods
+
+		/// <summary>Tell the dummies how to use the console command.</summary>
+		private static string GetUsageForAddProfessions()
+		{
+			var result = "\n\nUsage: player_addprofessions <argument1> <argument2> ... <argumentN>";
+			result += "\nAvailable arguments:";
+			result +=
+				"\n\t'<profession>' - get the specified profession.";
+			result += "\n\t'all' - get all professions.";
+			result += "\n\nExample:";
+			result += "\n\tplayer_addprofessions artisan brute";
+			return result;
+		}
+
+		/// <summary>Tell the dummies how to use the console command.</summary>
+		private static string GetUsageForSetModData()
+		{
+			var result = "\n\nUsage: wol_setdata <name> <value>";
+			result += "\n\nExample:";
+			result += "\n\twol_setdata itemsforaged 100";
+			return result;
+		}
+
+		/// <summary>Set a new value to the ItemsForaged data field.</summary>
+		internal static void SetItemsForaged(int value)
+		{
+			if (!Game1.player.HasProfession("Ecologist"))
+			{
+				ModEntry.Log("You must have the Ecologist profession.", LogLevel.Warn);
+				return;
+			}
+
+			ModEntry.Data.Write("ItemsForaged", value.ToString());
+			ModEntry.Log($"ItemsForaged set to {value}.", LogLevel.Info);
+		}
+
+		/// <summary>Set a new value to the MineralsCollected data field.</summary>
+		internal static void SetMineralsCollected(int value)
+		{
+			if (!Game1.player.HasProfession("Gemologist"))
+			{
+				ModEntry.Log("You must have the Gemologist profession.", LogLevel.Warn);
+				return;
+			}
+
+			ModEntry.Data.Write("MineralsCollected", value.ToString());
+			ModEntry.Log($"MineralsCollected set to {value}.", LogLevel.Info);
+		}
+
+		/// <summary>Set a new value to the ProspectorStreak data field.</summary>
+		internal static void SetProspectorStreak(int value)
+		{
+			if (!Game1.player.HasProfession("Prospector"))
+			{
+				ModEntry.Log("You must have the Prospector profession.", LogLevel.Warn);
+				return;
+			}
+
+			ModEntry.Data.Write("ProspectorStreak", value.ToString());
+			ModEntry.Log($"ProspectorStreak set to {value}.", LogLevel.Info);
+		}
+
+		/// <summary>Set a new value to the ScavengerStreak data field.</summary>
+		internal static void SetScavengerStreak(int value)
+		{
+			if (!Game1.player.HasProfession("Scavenger"))
+			{
+				ModEntry.Log("You must have the Scavenger profession.", LogLevel.Warn);
+				return;
+			}
+
+			ModEntry.Data.Write("ScavengerStreak", value.ToString());
+			ModEntry.Log($"ScavengerStreak set to {value}.", LogLevel.Info);
+		}
+
+		/// <summary>Set a new value to the WaterTrashCollectedThisSeason data field.</summary>
+		internal static void SetWaterTrashCollectedThisSeason(int value)
+		{
+			if (!Game1.player.HasProfession("Conservationist"))
+			{
+				ModEntry.Log("You must have the Conservationist profession.", LogLevel.Warn);
+				return;
+			}
+
+			ModEntry.Data.Write("WaterTrashCollectedThisSeason", value.ToString());
+			ModEntry.Log($"WaterTrashCollectedThisSeason set to {value}.", LogLevel.Info);
+		}
+
+		#endregion private methods
 	}
 }

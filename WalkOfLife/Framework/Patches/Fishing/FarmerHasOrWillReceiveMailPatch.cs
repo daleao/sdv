@@ -4,7 +4,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -15,7 +14,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmerHasOrWillReceiveMailPatch()
 		{
 			Original = RequireMethod<Farmer>(nameof(Farmer.hasOrWillReceiveMail));
-			Prefix = new(GetType().MethodNamed(nameof(FarmerHasOrWillReceiveMailPrefix)));
 		}
 
 		#region harmony patches

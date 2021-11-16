@@ -9,13 +9,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <summary>Hook this event to the event listener.</summary>
 		public override void Hook()
 		{
-			ModEntry.SuperModeDisabled += OnSuperModeDisabled;
+			ModState.SuperModeDisabled += OnSuperModeDisabled;
 		}
 
 		/// <summary>Unhook this event from the event listener.</summary>
 		public override void Unhook()
 		{
-			ModEntry.SuperModeDisabled -= OnSuperModeDisabled;
+			ModState.SuperModeDisabled -= OnSuperModeDisabled;
 		}
 
 		/// <summary>Raised when IsSuperModeActive is set to false.</summary>
@@ -26,17 +26,17 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeCountdownUpdateTickedEvent));
 
 			// notify peers
-			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeDisabled",
+			ModEntry.ModHelper.Multiplayer.SendMessage(ModState.SuperModeIndex, "SuperModeDisabled",
 				new[] {ModEntry.Manifest.UniqueID});
 
 			// unsubscribe self
 			ModEntry.Subscriber.Unsubscribe(GetType());
 
 			// remove permanent effects
-			if (ModEntry.SuperModeIndex != Utility.Professions.IndexOf("Piper")) return;
+			if (ModState.SuperModeIndex != Utility.Professions.IndexOf("Piper")) return;
 
 			// depower
-			foreach (var slime in ModEntry.PipedSlimeScales.Keys)
+			foreach (var slime in ModState.PipedSlimeScales.Keys)
 				slime.DamageToFarmer = (int) Math.Round(slime.DamageToFarmer / slime.Scale);
 
 			// degorge

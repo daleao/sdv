@@ -21,8 +21,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuDrawPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.draw), new[] {typeof(SpriteBatch)});
-			Prefix = new(GetType().MethodNamed(nameof(LevelUpMenuDrawPrefix)));
-			Transpiler = new(GetType().MethodNamed(nameof(LevelUpMenuDrawTranspiler)));
 		}
 
 		#region harmony patches
@@ -32,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static bool LevelUpMenuDrawPrefix(LevelUpMenu __instance, int ___currentSkill, int ___currentLevel)
 		{
 			if (__instance.isProfessionChooser && ___currentSkill == 4 && ___currentLevel == 10)
-				__instance.height += 32;
+				__instance.height += 16;
 
 			return true; // run original logic
 		}
@@ -81,7 +79,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		private static void DrawSubroutine(LevelUpMenu menu, SpriteBatch b)
 		{
-			if (!menu.isProfessionChooser) return;
+			if (!ModEntry.Config.EnablePrestige || !menu.isProfessionChooser) return;
 
 			var professionsToChoose = ModEntry.ModHelper.Reflection.GetField<List<int>>(menu, "professionsToChoose")
 				.GetValue();

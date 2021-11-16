@@ -10,7 +10,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		{
 			// draw color tint overlay
 			e.SpriteBatch.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds,
-				ModEntry.SuperModeOverlayColor * ModEntry.SuperModeOverlayAlpha);
+				ModState.SuperModeOverlayColor * ModState.SuperModeOverlayAlpha);
 		}
 	}
 }

@@ -29,8 +29,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				// ignored
 			}
-
-			Transpiler = new(GetType().MethodNamed(nameof(GenericObjectMachineGenericPullRecipeTranspiler)));
 		}
 
 		#region harmony patches
@@ -67,7 +65,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 			catch (Exception ex)
 			{
-				ModEntry.Log($"Failed while patching modded Artisan behavior to generic Automate machines.\nHelper returned {ex}",
+				ModEntry.Log(
+					$"Failed while patching modded Artisan behavior to generic Automate machines.\nHelper returned {ex}",
 					LogLevel.Error);
 				return null;
 			}
@@ -84,7 +83,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (!machine.IsArtisanMachine() || !machine.heldObject.Value.IsArtisanGood()) return;
 
 			if (consumable.GetType().GetProperty("Sample")?.GetValue(consumable) is not SObject input) return;
-			
+
 			var output = machine.heldObject.Value;
 			if (machine.name.IsAnyOf("Mayonnaise Machine", "Cheese Press"))
 			{
@@ -121,7 +120,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			switch (machine.name)
 			{
 				// golden mayonnaise is always iridium quality
-				case "Mayonnaise Machine" when input.ParentSheetIndex == 928 && !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
+				case "Mayonnaise Machine" when input.ParentSheetIndex == 928 &&
+				                               !ModEntry.ModHelper.ModRegistry.IsLoaded(
+					                               "ughitsmegan.goldenmayoForProducerFrameworkMod"):
 					output.Quality = SObject.bestQuality;
 					break;
 				// mead cares about input honey flower type

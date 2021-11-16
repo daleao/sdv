@@ -18,7 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FishingRodStartMinigameEndFunctionPatch()
 		{
 			Original = RequireMethod<FishingRod>(nameof(FishingRod.startMinigameEndFunction));
-			Transpiler = new(GetType().MethodNamed(nameof(FishingRodStartMinigameEndFunctionTranspiler)));
 		}
 
 		#region harmony patches

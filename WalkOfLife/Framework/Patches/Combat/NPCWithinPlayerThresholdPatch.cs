@@ -5,7 +5,6 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -16,12 +15,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal NPCWithinPlayerThresholdPatch()
 		{
 			Original = RequireMethod<NPC>(nameof(NPC.withinPlayerThreshold), new[] {typeof(int)});
-			Prefix = new(GetType().MethodNamed(nameof(NPCWithinPlayerThresholdPrefix)));
 		}
 
 		#region harmony patch
 
-		/// <summary>Patch to make Poacher invisible in super mode.</summary>
+		/// <summary>Patch to make Poacher invisible in Super Mode.</summary>
 		[HarmonyPrefix]
 		private static bool NPCWithinPlayerThresholdPrefix(NPC __instance, ref bool __result)
 		{
@@ -30,8 +28,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (__instance is not Monster) return true; // run original method
 
 				var foundPlayer = ModEntry.ModHelper.Reflection.GetMethod(__instance, "findPlayer").Invoke<Farmer>();
-				if (!foundPlayer.IsLocalPlayer || !ModEntry.IsSuperModeActive ||
-				    ModEntry.SuperModeIndex != Utility.Professions.IndexOf("Poacher"))
+				if (!foundPlayer.IsLocalPlayer || !ModState.IsSuperModeActive ||
+				    ModState.SuperModeIndex != Utility.Professions.IndexOf("Poacher"))
 					return true; // run original method
 
 				__result = false;

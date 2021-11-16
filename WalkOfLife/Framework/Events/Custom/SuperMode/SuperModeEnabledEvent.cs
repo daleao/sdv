@@ -19,24 +19,24 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <summary>Hook this event to the event listener.</summary>
 		public override void Hook()
 		{
-			ModEntry.SuperModeEnabled += OnSuperModeEnabled;
+			ModState.SuperModeEnabled += OnSuperModeEnabled;
 		}
 
 		/// <summary>Unhook this event from the event listener.</summary>
 		public override void Unhook()
 		{
-			ModEntry.SuperModeEnabled -= OnSuperModeEnabled;
+			ModState.SuperModeEnabled -= OnSuperModeEnabled;
 		}
 
 		/// <summary>Raised when IsSuperModeActive is set to true.</summary>
 		public void OnSuperModeEnabled()
 		{
-			var whichSuperMode = Utility.Professions.NameOf(ModEntry.SuperModeIndex);
+			var whichSuperMode = Utility.Professions.NameOf(ModState.SuperModeIndex);
 
 			// remove bar shake timer
 			ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBuffDisplayUpdateTickedEvent),
 				typeof(SuperModeBarShakeTimerUpdateTickedEvent));
-			ModEntry.ShouldShakeSuperModeBar = false;
+			ModState.ShouldShakeSuperModeGauge = false;
 
 			// fade in overlay
 			ModEntry.Subscriber.Subscribe(new SuperModeRenderedWorldEvent(),
@@ -45,14 +45,14 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			// play sound effect
 			try
 			{
-				if (ModEntry.SoundFX.SoundByName.TryGetValue(ModEntry.SuperModeSFX, out var sfx))
+				if (ModEntry.SoundFX.SoundByName.TryGetValue(ModState.SuperModeSFX, out var sfx))
 					sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
 				else throw new ContentLoadException();
 			}
 			catch (Exception ex)
 			{
 				ModEntry.Log(
-					$"Couldn't play file 'assets/sfx/{ModEntry.SuperModeSFX}.wav'. Make sure the file exists. {ex}",
+					$"Couldn't play file 'assets/sfx/{ModState.SuperModeSFX}.wav'. Make sure the file exists. {ex}",
 					LogLevel.Error);
 			}
 
@@ -60,8 +60,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			ModEntry.Subscriber.Subscribe(new SuperModeCountdownUpdateTickedEvent());
 
 			// display buff
-			var buffID = ModEntry.Manifest.UniqueID.Hash() + ModEntry.SuperModeIndex + 4;
-			var professionIndex = ModEntry.SuperModeIndex;
+			var buffID = ModEntry.Manifest.UniqueID.Hash() + ModState.SuperModeIndex + 4;
+			var professionIndex = ModState.SuperModeIndex;
 			var professionName = Utility.Professions.NameOf(professionIndex);
 
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
@@ -87,16 +87,16 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					{
 						which = buffID,
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET_I,
-						glow = ModEntry.SuperModeGlowColor,
-						millisecondsDuration = (int) (ModEntry.Config.SuperModeDrainFactor / 60f *
-						                              ModEntry.SuperModeCounterMax * 1000f),
+						glow = ModState.SuperModeGlowColor,
+						millisecondsDuration =
+							(int) (ModState.SuperModeGaugeMaxValue * ModEntry.Config.SuperModeDrainFactor / 60f) * 1000,
 						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".supermdesc")
 					}
 				);
 			}
 
 			// notify peers
-			ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.SuperModeIndex, "SuperModeEnabled",
+			ModEntry.ModHelper.Multiplayer.SendMessage(ModState.SuperModeIndex, "SuperModeEnabled",
 				new[] {ModEntry.Manifest.UniqueID});
 
 			switch (whichSuperMode)
@@ -162,7 +162,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					else greenSlime.hasSpecialItem.Value = true;
 				}
 
-				ModEntry.PipedSlimeScales.Add(greenSlime, greenSlime.Scale);
+				ModState.PipedSlimeScales.Add(greenSlime, greenSlime.Scale);
 			}
 
 			var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
@@ -174,7 +174,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				while (toCreate-- > 0)
 				{
 					Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
-					var justCreated = Game1.currentLocation.characters.Last();
+					var justCreated = Game1.currentLocation.characters[^1];
 					justCreated.setTrajectory((int) (bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
 						(int) (bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
 					justCreated.willDestroyObjectsUnderfoot = false;

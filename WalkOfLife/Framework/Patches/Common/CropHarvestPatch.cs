@@ -18,7 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal CropHarvestPatch()
 		{
 			Original = RequireMethod<Crop>(nameof(Crop.harvest));
-			Transpiler = new(GetType().MethodNamed(nameof(CropHarvestTranspiler)));
 		}
 
 		#region harmony patches
@@ -155,7 +154,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Harvester"),
 						dontIncreaseNumToHarvest)
 					.Insert( // insert dice roll
-						new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder) r2),
+						new CodeInstruction(OpCodes.Ldloc_S, r2),
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(Random).MethodNamed(nameof(Random.NextDouble))),
 						new CodeInstruction(OpCodes.Ldc_R8, 0.1),

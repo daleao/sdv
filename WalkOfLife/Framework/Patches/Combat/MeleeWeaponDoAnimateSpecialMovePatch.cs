@@ -18,8 +18,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal MeleeWeaponDoAnimateSpecialMovePatch()
 		{
 			Original = RequireMethod<MeleeWeapon>("doAnimateSpecialMove");
-			Postfix = new(GetType().MethodNamed(nameof(MeleeWeaponDoAnimateSpecialMovePostfix)));
-			Transpiler = new(GetType().MethodNamed(nameof(MeleeWeaponDoAnimateSpecialMoveTranspiler)));
 		}
 
 		#region harmony patches
@@ -29,16 +27,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
 		{
 			var who = __instance.getLastFarmerToUse();
-			if (!who.IsLocalPlayer || ModEntry.SuperModeIndex < 0) return;
+			if (!who.IsLocalPlayer || ModState.SuperModeIndex < 0) return;
 
 			switch (__instance.type.Value)
 			{
-				case MeleeWeapon.club when ModEntry.SuperModeIndex == Utility.Professions.IndexOf("Brute"):
+				case MeleeWeapon.club when ModState.SuperModeIndex == Utility.Professions.IndexOf("Brute"):
 					MeleeWeapon.clubCooldown =
 						(int) (MeleeWeapon.clubCooldown * Utility.Professions.GetCooldownOrChargeTimeReduction());
 					break;
 
-				case MeleeWeapon.dagger when ModEntry.SuperModeIndex == Utility.Professions.IndexOf("Poacher"):
+				case MeleeWeapon.dagger when ModState.SuperModeIndex == Utility.Professions.IndexOf("Poacher"):
 					MeleeWeapon.daggerCooldown = (int) (MeleeWeapon.daggerCooldown *
 					                                    Utility.Professions.GetCooldownOrChargeTimeReduction());
 					break;

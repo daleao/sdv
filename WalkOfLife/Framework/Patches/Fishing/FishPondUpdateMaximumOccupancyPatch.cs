@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -16,7 +15,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FishPondUpdateMaximumOccupancyPatch()
 		{
 			Original = RequireMethod<FishPond>(nameof(FishPond.UpdateMaximumOccupancy));
-			Postfix = new(GetType().MethodNamed(nameof(FishPondUpdateMaximumOccupancyPostfix)));
 		}
 
 		#region harmony patches
@@ -29,8 +27,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (__instance is null || ____fishPondData is null) return;
 
 			var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
-			if (owner.HasProfession("Aquarist") && (____fishPondData.PopulationGates is null || __instance.lastUnlockedPopulationGate.Value >=
-				____fishPondData.PopulationGates.Keys.Max()))
+			if (owner.HasProfession("Aquarist") && (____fishPondData.PopulationGates is null ||
+			                                        __instance.lastUnlockedPopulationGate.Value >=
+			                                        ____fishPondData.PopulationGates.Keys.Max()))
 				__instance.maxOccupants.Set(12);
 		}
 

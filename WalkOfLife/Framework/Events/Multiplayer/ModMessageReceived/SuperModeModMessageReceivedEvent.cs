@@ -13,14 +13,14 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (e.FromModID != ModEntry.Manifest.UniqueID) return;
 
 			var key = e.ReadAs<int>();
-			if (!ModEntry.ActivePeerSuperModes.ContainsKey(key))
-				ModEntry.ActivePeerSuperModes[key] = new();
+			if (!ModState.ActivePeerSuperModes.ContainsKey(key))
+				ModState.ActivePeerSuperModes[key] = new();
 
 			switch (e.Type)
 			{
 				case "SuperModeEnabled":
 					ModEntry.Log($"Player {e.FromPlayerID} enabled Super Mode.", LogLevel.Trace);
-					ModEntry.ActivePeerSuperModes[key].Add(e.FromPlayerID);
+					ModState.ActivePeerSuperModes[key].Add(e.FromPlayerID);
 					var glowingColor = Utility.Professions.NameOf(key) switch
 					{
 						"Brute" => Color.OrangeRed,
@@ -34,7 +34,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 
 				case "SuperModeDisabled":
 					ModEntry.Log($"Player {e.FromPlayerID}'s Super Mode has ended.", LogLevel.Trace);
-					ModEntry.ActivePeerSuperModes[key].Remove(e.FromPlayerID);
+					ModState.ActivePeerSuperModes[key].Remove(e.FromPlayerID);
 					Game1.getFarmer(e.FromPlayerID).stopGlowing();
 					break;
 			}

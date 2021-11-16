@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -17,33 +16,40 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal SkillsPagePerformHoverActionPatch()
 		{
 			Original = RequireMethod<SkillsPage>(nameof(SkillsPage.performHoverAction));
-			Postfix = new(GetType().MethodNamed(nameof(SkillsPagePerformHoverActionPostfix)));
 		}
 
 		#region harmony patches
 
-		/// <summary>Patch to truncate profession descriptions in hover menu.</summary>
+		/// <summary>Patch to add prestige ribbon hover text + truncate profession descriptions in hover menu.</summary>
 		[HarmonyPostfix]
 		private static void SkillsPagePerformHoverActionPostfix(SkillsPage __instance, int x, int y,
 			ref string ___hoverText)
 		{
+			___hoverText = ___hoverText?.Truncate(90);
+
+			if (!ModEntry.Config.EnablePrestige) return;
+
+			var w = Utility.Prestige.RibbonWidth;
+			var s = Utility.Prestige.RibbonScale;
 			var bounds =
 				new Rectangle(
-					__instance.xPositionOnScreen + __instance.width - 89,
+					__instance.xPositionOnScreen + __instance.width + Utility.Prestige.RibbonHorizontalOffset,
 					__instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth -
-					68, 30, 30);
+					70, (int) (w * s), (int) (w * s));
 
 			for (var i = 0; i < 5; ++i)
 			{
 				bounds.Y += 56;
 				if (!bounds.Contains(x, y)) continue;
 
+				// need to do this bullshit switch because mining and fishing are inverted in the skills page
 				var skillIndex = i switch
 				{
 					1 => 3,
 					3 => 1,
 					_ => i
 				};
+
 				var professionsForThisSkill = Game1.player.GetProfessionsForSkill(skillIndex, true).ToList();
 				var count = professionsForThisSkill.Count;
 				if (count == 0) continue;
@@ -54,8 +60,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					                                                (Game1.player.IsMale ? "male" : "female")))
 					.Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
 			}
-
-			___hoverText = ___hoverText?.Truncate(90);
 		}
 
 		#endregion harmony patches

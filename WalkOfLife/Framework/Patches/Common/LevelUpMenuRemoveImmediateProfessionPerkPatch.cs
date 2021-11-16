@@ -22,8 +22,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal LevelUpMenuRemoveImmediateProfessionPerkPatch()
 		{
 			Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.removeImmediateProfessionPerk));
-			Postfix = new(GetType().MethodNamed(nameof(LevelUpMenuRemoveImmediateProfessionPerkPostfix)));
-			Transpiler = new(GetType().MethodNamed(nameof(LevelUpMenuRemoveImmediateProfessionPerkTranspiler)));
 		}
 
 		#region harmony patches
@@ -51,18 +49,18 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			// unsubscribe unnecessary events
 			ModEntry.Subscriber.UnsubscribeProfessionEvents(professionName);
 
-			// unregister super mode
-			if (ModEntry.SuperModeIndex != whichProfession) return;
+			// unregister Super Mode
+			if (ModState.SuperModeIndex != whichProfession) return;
 
 			var otherSuperModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"}
 				.Except(new[] {professionName}).ToArray();
 			var x = Game1.player.professions;
 			if (Game1.player.HasAnyOfProfessions(otherSuperModeProfessions, out var firstMatch))
-				ModEntry.SuperModeIndex = Utility.Professions.IndexOf(firstMatch);
+				ModState.SuperModeIndex = Utility.Professions.IndexOf(firstMatch);
 			else
-				ModEntry.SuperModeIndex = -1;
+				ModState.SuperModeIndex = -1;
 
-			ModEntry.SuperModeCounter = 0;
+			ModState.SuperModeGaugeValue = 0;
 		}
 
 		/// <summary>Patch to move bonus health from Defender to Brute.</summary>

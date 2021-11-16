@@ -17,7 +17,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		internal FarmAnimalPetPatch()
 		{
 			Original = RequireMethod<FarmAnimal>(nameof(FarmAnimal.pet));
-			Transpiler = new(GetType().MethodNamed(nameof(FarmAnimalPetTranspiler)));
 		}
 
 		#region harmony patches
