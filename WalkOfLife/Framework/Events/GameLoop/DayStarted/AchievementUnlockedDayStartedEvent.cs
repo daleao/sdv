@@ -13,7 +13,9 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (!ModEntry.ModHelper.Content.AssetEditors.ContainsType(typeof(AchivementsEditor)))
 				ModEntry.ModHelper.Content.AssetEditors.Add(new AchivementsEditor());
 
-			string name = ModEntry.ModHelper.Translation.Get("prestige.achievement.name." + (Game1.player.IsMale ? "male" : "female"));
+			string name =
+				ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
+				                                   (Game1.player.IsMale ? "male" : "female"));
 			Game1.player.achievements.Add(name.Hash());
 			Game1.playSound("achievement");
 			Game1.addHUDMessage(new(name, true));

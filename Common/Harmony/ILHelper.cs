@@ -14,24 +14,16 @@ namespace TheLion.Stardew.Common.Harmony
 	/// <summary>Provides an interface for abstracting common transpiler operations.</summary>
 	public class ILHelper
 	{
+		private readonly bool _shouldExport;
 		private readonly string _exportDir;
 		private readonly Stack<int> _indexStack;
-		private readonly bool _shouldExport;
-		private List<CodeInstruction> _instructionBuffer;
-		private List<CodeInstruction> _instructionList;
 		private MethodBase _original;
 
-		/// <summary>Construct an instance.</summary>
-		/// <param name="enableExport">Whether the instruction list should be saved to disk in case an error is thrown.</param>
-		/// <param name="path">The root path where instruction lists will be saved.</param>
-		public ILHelper(MethodBase original, IEnumerable<CodeInstruction> instructions, bool enableExport = false,
-			string path = "")
-		{
-			_indexStack = new();
-			Attach(original, instructions);
-			_shouldExport = enableExport;
-			_exportDir = Path.Combine(path, "exports");
-		}
+		/// <summary>Get the contents of the instruction buffer.</summary>
+		public List<CodeInstruction> Instructions { get; private set; }
+
+		/// <summary>Get the contents of the instruction buffer.</summary>
+		public List<CodeInstruction> Buffer { get; private set; }
 
 		/// <summary>The index currently at the top of the index stack.</summary>
 		public int CurrentIndex
@@ -50,11 +42,23 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			get
 			{
-				if (_instructionList is null || !_instructionList.Any())
+				if (Instructions is null || !Instructions.Any())
 					throw new IndexOutOfRangeException("The active instruction list is either null or empty.");
 
-				return _instructionList.Count - 1;
+				return Instructions.Count - 1;
 			}
+		}
+
+		/// <summary>Construct an instance.</summary>
+		/// <param name="enableExport">Whether the instruction list should be saved to disk in case an error is thrown.</param>
+		/// <param name="path">The root path where instruction lists will be saved.</param>
+		public ILHelper(MethodBase original, IEnumerable<CodeInstruction> instructions, bool enableExport = false,
+			string path = "")
+		{
+			_indexStack = new();
+			Attach(original, instructions);
+			_shouldExport = enableExport;
+			_exportDir = Path.Combine(path, "exports");
 		}
 
 		/// <summary>Attach a new list of code instructions to this instance.</summary>
@@ -63,7 +67,7 @@ namespace TheLion.Stardew.Common.Harmony
 		public ILHelper Attach(MethodBase original, IEnumerable<CodeInstruction> instructions)
 		{
 			_original = original;
-			_instructionList = instructions.ToList();
+			Instructions = instructions.ToList();
 
 			if (_indexStack.Count > 0) _indexStack.Clear();
 			_indexStack.Push(0);
@@ -75,7 +79,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
 		public ILHelper FindFirst(params CodeInstruction[] pattern)
 		{
-			var index = _instructionList.IndexOf(pattern);
+			var index = Instructions.IndexOf(pattern);
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
@@ -91,10 +95,10 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
 		public ILHelper FindLast(params CodeInstruction[] pattern)
 		{
-			var reversedInstructions = _instructionList.Clone();
+			var reversedInstructions = Instructions.Clone();
 			reversedInstructions.Reverse();
 
-			var index = _instructionList.Count - reversedInstructions.IndexOf(pattern.Reverse().ToArray()) - 1;
+			var index = Instructions.Count - reversedInstructions.IndexOf(pattern.Reverse().ToArray()) - 1;
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
@@ -110,7 +114,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
 		public ILHelper FindNext(params CodeInstruction[] pattern)
 		{
-			var index = _instructionList.IndexOf(pattern, CurrentIndex + 1);
+			var index = Instructions.IndexOf(pattern, CurrentIndex + 1);
 			if (index < 0)
 			{
 				if (_shouldExport) Export(pattern.ToList());
@@ -129,12 +133,13 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
 		public ILHelper FindPrevious(params CodeInstruction[] pattern)
 		{
-			var reversedInstructions = _instructionList.Clone();
+			var reversedInstructions = Instructions.Clone();
 			reversedInstructions.Reverse();
 
-			var index = _instructionList.Count -
-			            reversedInstructions.IndexOf(pattern, _instructionList.Count - CurrentIndex - 1) - 1;
-			if (index < 0)
+			var index = Instructions.Count -
+			            reversedInstructions.IndexOf(pattern.Reverse().ToArray(), Instructions.Count - CurrentIndex) -
+			            pattern.Length;
+			if (index >= Instructions.Count)
 			{
 				if (_shouldExport) Export(pattern.ToList());
 				throw new IndexOutOfRangeException(
@@ -150,7 +155,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="fromCurrentIndex">Whether to begin search from the currently pointed index.</param>
 		public ILHelper FindLabel(Label label, bool fromCurrentIndex = false)
 		{
-			var index = _instructionList.IndexOf(label, fromCurrentIndex ? CurrentIndex + 1 : 0);
+			var index = Instructions.IndexOf(label, fromCurrentIndex ? CurrentIndex + 1 : 0);
 			if (index < 0)
 			{
 				if (_shouldExport) Export(label);
@@ -258,9 +263,12 @@ namespace TheLion.Stardew.Common.Harmony
 
 		/// <summary>Replace the code instruction at the currently pointed index.</summary>
 		/// <param name="instruction">The <see cref="CodeInstruction" /> object to replace with.</param>
-		public ILHelper ReplaceWith(CodeInstruction instruction)
+		public ILHelper ReplaceWith(CodeInstruction instruction, bool preserveLabels = false)
 		{
-			_instructionList[CurrentIndex] = instruction;
+			if (preserveLabels)
+				instruction.labels = Instructions[CurrentIndex].labels;
+			
+			Instructions[CurrentIndex] = instruction;
 			return this;
 		}
 
@@ -272,7 +280,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// </remarks>
 		public ILHelper Insert(params CodeInstruction[] instructions)
 		{
-			_instructionList.InsertRange(CurrentIndex, instructions);
+			Instructions.InsertRange(CurrentIndex, instructions);
 			_indexStack.Push(CurrentIndex + instructions.Length);
 			return this;
 		}
@@ -287,7 +295,7 @@ namespace TheLion.Stardew.Common.Harmony
 		public ILHelper Insert(Label[] labels, params CodeInstruction[] instructions)
 		{
 			instructions[0].labels.AddRange(labels);
-			_instructionList.InsertRange(CurrentIndex, instructions);
+			Instructions.InsertRange(CurrentIndex, instructions);
 			_indexStack.Push(CurrentIndex + instructions.Length);
 			return this;
 		}
@@ -300,7 +308,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// </remarks>
 		public ILHelper Insert(ICollection<CodeInstruction> instructions)
 		{
-			_instructionList.InsertRange(CurrentIndex, instructions);
+			Instructions.InsertRange(CurrentIndex, instructions);
 			_indexStack.Push(CurrentIndex + instructions.Count);
 			return this;
 		}
@@ -316,7 +324,7 @@ namespace TheLion.Stardew.Common.Harmony
 		public ILHelper Insert(Label[] labels, ICollection<CodeInstruction> instructions)
 		{
 			instructions.First().labels.AddRange(labels);
-			_instructionList.InsertRange(CurrentIndex, instructions);
+			Instructions.InsertRange(CurrentIndex, instructions);
 			_indexStack.Push(CurrentIndex + instructions.Count);
 			return this;
 		}
@@ -324,7 +332,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <summary>Insert the buffer contents at the currently pointed index.</summary>
 		public ILHelper InsertBuffer()
 		{
-			Insert(_instructionBuffer.Clone());
+			Insert(Buffer.Clone());
 			return this;
 		}
 
@@ -333,7 +341,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="length">The subset length.</param>
 		public ILHelper InsertBuffer(int index, int length)
 		{
-			Insert(_instructionBuffer.Clone().GetRange(index, length));
+			Insert(Buffer.Clone().GetRange(index, length));
 			return this;
 		}
 
@@ -420,7 +428,7 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			if (CurrentIndex + count > LastIndex) throw new IndexOutOfRangeException("Can't remove item out of range.");
 
-			_instructionList.RemoveRange(CurrentIndex, count);
+			Instructions.RemoveRange(CurrentIndex, count);
 			return this;
 		}
 
@@ -432,7 +440,7 @@ namespace TheLion.Stardew.Common.Harmony
 
 			var endIndex = _indexStack.Pop() + 1;
 			var count = endIndex - CurrentIndex;
-			_instructionList.RemoveRange(CurrentIndex, count);
+			Instructions.RemoveRange(CurrentIndex, count);
 
 			return this;
 		}
@@ -445,7 +453,7 @@ namespace TheLion.Stardew.Common.Harmony
 
 			var endIndex = _indexStack.Pop() + 1;
 			var count = endIndex - CurrentIndex;
-			_instructionList.RemoveRange(CurrentIndex, count);
+			Instructions.RemoveRange(CurrentIndex, count);
 
 			return this;
 		}
@@ -456,7 +464,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="advance">Whether to advance the index pointer.</param>
 		public ILHelper ToBuffer(int count = 1, bool stripLabels = false, bool advance = false)
 		{
-			_instructionBuffer = _instructionList.GetRange(CurrentIndex, count).Clone();
+			Buffer = Instructions.GetRange(CurrentIndex, count).Clone();
 
 			if (stripLabels) StripBufferLabels();
 
@@ -476,7 +484,7 @@ namespace TheLion.Stardew.Common.Harmony
 
 			var endIndex = _indexStack.Pop() + 1;
 			var count = endIndex - CurrentIndex;
-			_instructionBuffer = _instructionList.GetRange(CurrentIndex, count).Clone();
+			Buffer = Instructions.GetRange(CurrentIndex, count).Clone();
 
 			return this;
 		}
@@ -494,7 +502,7 @@ namespace TheLion.Stardew.Common.Harmony
 
 			var endIndex = _indexStack.Pop() + 1;
 			var count = endIndex - CurrentIndex;
-			_instructionBuffer = _instructionList.GetRange(CurrentIndex, count).Clone();
+			Buffer = Instructions.GetRange(CurrentIndex, count).Clone();
 
 			if (stripLabels) StripBufferLabels();
 
@@ -507,7 +515,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="labels">The returned list of <see cref="Label" /> objects.</param>
 		public ILHelper GetLabels(out Label[] labels)
 		{
-			labels = _instructionList[CurrentIndex].labels.ToArray();
+			labels = Instructions[CurrentIndex].labels.ToArray();
 			return this;
 		}
 
@@ -515,7 +523,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="labels">A sequence of <see cref="Label" /> objects to add.</param>
 		public ILHelper AddLabels(params Label[] labels)
 		{
-			_instructionList[CurrentIndex].labels.AddRange(labels);
+			Instructions[CurrentIndex].labels.AddRange(labels);
 			return this;
 		}
 
@@ -523,7 +531,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="labels">A sequence of <see cref="Label" /> objects to add.</param>
 		public ILHelper AddLabels(ICollection<Label> labels)
 		{
-			_instructionList[CurrentIndex].labels.AddRange(labels);
+			Instructions[CurrentIndex].labels.AddRange(labels);
 			return this;
 		}
 
@@ -531,7 +539,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="labels">A list of <see cref="Label" /> objects.</param>
 		public ILHelper SetLabels(params Label[] labels)
 		{
-			_instructionList[CurrentIndex].labels = labels.ToList();
+			Instructions[CurrentIndex].labels = labels.ToList();
 			return this;
 		}
 
@@ -539,14 +547,14 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="labels">A list of <see cref="Label" /> objects.</param>
 		public ILHelper SetLabels(ICollection<Label> labels)
 		{
-			_instructionList[CurrentIndex].labels = labels.ToList();
+			Instructions[CurrentIndex].labels = labels.ToList();
 			return this;
 		}
 
 		/// <summary>Remove labels from the code instruction at the currently pointed index.</summary>
 		public ILHelper StripLabels()
 		{
-			_instructionList[CurrentIndex].labels.Clear();
+			Instructions[CurrentIndex].labels.Clear();
 			return this;
 		}
 
@@ -554,21 +562,21 @@ namespace TheLion.Stardew.Common.Harmony
 		public ILHelper StripLabels(out Label[] labels)
 		{
 			GetLabels(out labels);
-			_instructionList[CurrentIndex].labels.Clear();
+			Instructions[CurrentIndex].labels.Clear();
 			return this;
 		}
 
 		/// <summary>Remove any labels from code instructions currently in the buffer.</summary>
 		private void StripBufferLabels()
 		{
-			foreach (var instruction in _instructionBuffer) instruction.labels.Clear();
+			foreach (var instruction in Buffer) instruction.labels.Clear();
 		}
 
 		/// <summary>Return the opcode of the code instruction at the currently pointed index.</summary>
 		/// <param name="opcode">The returned <see cref="OpCode" /> object.</param>
 		public ILHelper GetOpCode(out OpCode opcode)
 		{
-			opcode = _instructionList[CurrentIndex].opcode;
+			opcode = Instructions[CurrentIndex].opcode;
 			return this;
 		}
 
@@ -576,7 +584,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="opcode">The new <see cref="OpCode" /> object.</param>
 		public ILHelper SetOpCode(OpCode opcode)
 		{
-			_instructionList[CurrentIndex].opcode = opcode;
+			Instructions[CurrentIndex].opcode = opcode;
 			return this;
 		}
 
@@ -584,7 +592,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="operand">The returned operand <see cref="object" />.</param>
 		public ILHelper GetOperand(out object operand)
 		{
-			operand = _instructionList[CurrentIndex].operand;
+			operand = Instructions[CurrentIndex].operand;
 			return this;
 		}
 
@@ -592,7 +600,7 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="operand">The new <see cref="object" /> operand.</param>
 		public ILHelper SetOperand(object operand)
 		{
-			_instructionList[CurrentIndex].operand = operand;
+			Instructions[CurrentIndex].operand = operand;
 			return this;
 		}
 
@@ -600,14 +608,14 @@ namespace TheLion.Stardew.Common.Harmony
 		public ILHelper Clear()
 		{
 			_indexStack.Clear();
-			_instructionList.Clear();
+			Instructions.Clear();
 			return this;
 		}
 
 		/// <summary>Reset the instance and return the active code instruction list as enumerable.</summary>
 		public IEnumerable<CodeInstruction> Flush()
 		{
-			var result = _instructionList.Clone();
+			var result = Instructions.Clone();
 			Clear();
 			return result.AsEnumerable();
 		}
@@ -623,7 +631,7 @@ namespace TheLion.Stardew.Common.Harmony
 			writer.WriteLine("Searching for:");
 			pattern.ForEach(l => writer.WriteLine(l.ToString()));
 			writer.WriteLine("\n <-- START OF INSTRUCTION LIST -->\n");
-			_instructionList.ForEach(l => writer.WriteLine(l.ToString()));
+			Instructions.ForEach(l => writer.WriteLine(l.ToString()));
 			writer.WriteLine("\n<-- END OF INSTRUCTION LIST -->");
 		}
 
@@ -638,7 +646,7 @@ namespace TheLion.Stardew.Common.Harmony
 			writer.WriteLine("Searching for:\n");
 			writer.WriteLine(label.ToString());
 			writer.WriteLine("\n <-- START OF INSTRUCTION LIST -->\n");
-			_instructionList.ForEach(l => writer.WriteLine(l.ToString()));
+			Instructions.ForEach(l => writer.WriteLine(l.ToString()));
 			writer.WriteLine("\n<-- END OF INSTRUCTION LIST -->");
 		}
 

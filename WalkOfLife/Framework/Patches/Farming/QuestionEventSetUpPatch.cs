@@ -32,6 +32,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			/// To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (Game1.player.professions.Contains(<breeder_id>) ? 0.011 : 0.0055)
 
 			var isNotBreeder = iLGenerator.DefineLabel();
+			var isNotPrestiged = iLGenerator.DefineLabel();
 			var resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
@@ -44,8 +45,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.AddLabels(resumeExecution) // branch here to resume execution
 					.Retreat()
 					.InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Breeder"), isNotBreeder)
+					.InsertProfessionCheckForLocalPlayer(100 + Utility.Professions.IndexOf("Breeder"), isNotPrestiged)
 					.Insert( // if player is breeder load adjusted pregancy chance
-						new CodeInstruction(OpCodes.Ldc_R8, 0.0165),
+						new CodeInstruction(OpCodes.Ldc_R8, 0.0275), // x5 for prestiged
+						new CodeInstruction(OpCodes.Br_S, resumeExecution)
+					)
+					.Insert(
+						new[] {isNotPrestiged},
+						new CodeInstruction(OpCodes.Ldc_R8, 0.0165), // x3 for regular
 						new CodeInstruction(OpCodes.Br_S, resumeExecution)
 					);
 			}

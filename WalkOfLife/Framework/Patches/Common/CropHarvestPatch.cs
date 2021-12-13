@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
+using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using TheLion.Stardew.Common.Harmony;
@@ -119,10 +120,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				return null;
 			}
 
-			/// Injected: if (junimoHarvester is null && Game1.player.professions.Contains(<harvester_id>) && r.NextDouble() < 0.1) numToHarvest++
+			/// Injected: if (junimoHarvester is null && Game1.player.professions.Contains(<harvester_id>) && r.NextDouble() <
+			///		Game1.player.professions.Contains(100 + <harverster_id>) ? 0.2 : 0.1)
+			///		numToHarvest++
 
 			var numToHarvest = mb.LocalVariables[6];
 			var dontIncreaseNumToHarvest = iLGenerator.DefineLabel();
+			var dontDuplicateChance = iLGenerator.DefineLabel();
 			try
 			{
 				helper
@@ -158,6 +162,18 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Callvirt,
 							typeof(Random).MethodNamed(nameof(Random.NextDouble))),
 						new CodeInstruction(OpCodes.Ldc_R8, 0.1),
+						// double chance if prestiged
+						new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
+						new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
+						new CodeInstruction(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Harvester")),
+						new CodeInstruction(OpCodes.Callvirt,
+							typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
+						new CodeInstruction(OpCodes.Brfalse_S, dontDuplicateChance),
+						new CodeInstruction(OpCodes.Ldc_R8, 0.1),
+						new CodeInstruction(OpCodes.Add)
+					)
+					.Insert(
+						new[] {dontDuplicateChance},
 						new CodeInstruction(OpCodes.Bge_Un_S, dontIncreaseNumToHarvest)
 					)
 					.InsertBuffer() // insert numToHarvest++

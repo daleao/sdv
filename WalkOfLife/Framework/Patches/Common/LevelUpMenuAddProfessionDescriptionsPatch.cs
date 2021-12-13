@@ -22,7 +22,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to apply modded profession descriptions.</summary>
 		[HarmonyPrefix]
-		private static bool LevelUpMenuAddProfessionDescriptionsPrefix(List<string> descriptions, string professionName)
+		private static bool LevelUpMenuAddProfessionDescriptionsPrefix(int ___currentLevel, List<string> descriptions,
+			string professionName)
 		{
 			try
 			{
@@ -30,7 +31,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				descriptions.Add(ModEntry.ModHelper.Translation.Get(professionName + ".name." +
 				                                                    (Game1.player.IsMale ? "male" : "female")));
-				descriptions.AddRange(ModEntry.ModHelper.Translation.Get(professionName + ".desc").ToString()
+				descriptions.AddRange(ModEntry.ModHelper.Translation
+					.Get(professionName + ".desc" + (___currentLevel > 10 ? ".prestiged" : string.Empty)).ToString()
 					.Split('\n'));
 				return false; // don't run original logic
 			}

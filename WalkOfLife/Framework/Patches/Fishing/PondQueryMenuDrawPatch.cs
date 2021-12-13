@@ -23,6 +23,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 	[UsedImplicitly]
 	internal class PondQueryMenuDrawPatch : BasePatch
 	{
+		private const float SLOT_SPACING_F = 12f;
+
 		/// <summary>Construct an instance.</summary>
 		internal PondQueryMenuDrawPatch()
 		{
@@ -40,9 +42,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
-				if (!owner.HasProfession("Aquarist") || ____pond.lastUnlockedPopulationGate.Value < ModEntry.ModHelper
-					.Reflection.GetField<FishPondData>(____pond, "_fishPondData").GetValue().PopulationGates.Keys
-					.Max()) return true; // run original logic;
+				if (!owner.HasProfession("Aquarist")) return true; // run original logic
+
+				var fishPondData = ModEntry.ModHelper.Reflection.GetField<FishPondData>(____pond, "_fishPondData")
+					.GetValue();
+				if (fishPondData is null) return true; // run original logic
+				
+				var populationGates = fishPondData.PopulationGates;
+				if (populationGates is not null && populationGates.Keys.Max() >= ____pond.lastUnlockedPopulationGate.Value)
+					return true; // run original logic
 
 				if (!Game1.globalFade)
 				{
@@ -77,7 +85,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							__instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16 + 128),
 						Game1.textColor);
 					var slotsToDraw = ____pond.maxOccupants.Value;
-					var slotSpacing = 11f;
+					
 					var x = 0;
 					var y = 0;
 					for (var i = 0; i < slotsToDraw; ++i)
@@ -87,15 +95,15 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							____fishItem.drawInMenu(b,
 								new(
 									__instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
-									slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f + slotSpacing * 4f * x - 12f,
-									__instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * slotSpacing + 275.2f),
+									SLOT_SPACING_F * Math.Min(slotsToDraw, 5) * 4f * 0.5f + SLOT_SPACING_F * 4f * x - 12f,
+									__instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f),
 								0.75f, 1f, 0f, StackDrawType.Hide, Color.White, false);
 						else
 							____fishItem.drawInMenu(b,
 								new(
 									__instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
-									slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f + slotSpacing * 4f * x - 12f,
-									__instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * slotSpacing + 275.2f),
+									SLOT_SPACING_F * Math.Min(slotsToDraw, 5) * 4f * 0.5f + SLOT_SPACING_F * 4f * x - 12f,
+									__instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f),
 								0.75f, 0.35f, 0f, StackDrawType.Hide, Color.Black, false);
 
 						++x;

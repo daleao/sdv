@@ -1,5 +1,4 @@
-﻿/// Walk Of Life .NET 5.0
-using System;
+﻿using System;
 using StardewModdingAPI;
 using TheLion.Stardew.Professions.Framework;
 using TheLion.Stardew.Professions.Framework.AssetEditors;

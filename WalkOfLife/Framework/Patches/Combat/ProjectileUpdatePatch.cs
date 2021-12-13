@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -43,13 +48,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var bulletPower = Utility.Professions.GetDesperadoBulletPower() - 1f;
 			if (bulletPower <= 0f) return;
 
+			// check if current power makes a difference for cross section
+			var originalHitbox = __instance.getBoundingBox();
+			if (originalHitbox.Width * bulletPower < 1f) return;
+
 			// check if already collided
 			if (__result)
 			{
-				if (!ModState.DidBulletPierceEnemy) return;
+				if (!ModState.PiercedBullets.Remove(projectile.GetHashCode())) return;
 
 				projectile.damageToFarmer.Value = (int) (projectile.damageToFarmer.Value * 0.6f);
-				ModState.DidBulletPierceEnemy = false;
 				__result = false;
 				return;
 			}
@@ -60,27 +68,37 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (angle > 180) angle -= 360;
 
 			// check for extended collision
-			var bulletHitbox = __instance.getBoundingBox();
+			var newHitbox = new Rectangle(originalHitbox.X, originalHitbox.Y, originalHitbox.Width, originalHitbox.Height);
 			var isBulletTravelingVertically = Math.Abs(angle) is >= 45 and <= 135;
 			if (isBulletTravelingVertically)
-				bulletHitbox.Inflate((int) (bulletHitbox.Width * bulletPower), 0);
+			{
+				newHitbox.Inflate((int) (originalHitbox.Width * bulletPower), 0);
+				if (newHitbox.Width <= originalHitbox.Width) return;
+			}
 			else
-				bulletHitbox.Inflate(0, (int) (bulletHitbox.Height * bulletPower));
+			{
+				newHitbox.Inflate(0, (int) (originalHitbox.Height * bulletPower));
+				if (newHitbox.Height <= originalHitbox.Height) return;
+			}
 
-			if (location.doesPositionCollideWithCharacter(bulletHitbox) is not Monster monster) return;
+			if (location.doesPositionCollideWithCharacter(newHitbox) is not Monster monster) return;
 
 			// do deal damage
-			var actualDistance = isBulletTravelingVertically
-				? Math.Abs(monster.getStandingX() - __instance.getBoundingBox().Center.X)
-				: Math.Abs(monster.getStandingY() - __instance.getBoundingBox().Center.Y);
-			var monsterRadius = isBulletTravelingVertically
-				? monster.GetBoundingBox().Width / 2
-				: monster.GetBoundingBox().Height / 2;
-			var actualBulletRadius = isBulletTravelingVertically
-				? __instance.getBoundingBox().Width / 2
-				: __instance.getBoundingBox().Height / 2;
-			var extendedBulletRadius =
-				isBulletTravelingVertically ? bulletHitbox.Width / 2 : bulletHitbox.Height / 2;
+			int actualDistance, monsterRadius, actualBulletRadius, extendedBulletRadius;
+			if (isBulletTravelingVertically)
+			{
+				actualDistance = Math.Abs(monster.getStandingX() - originalHitbox.Center.X);
+				monsterRadius = monster.GetBoundingBox().Width / 2;
+				actualBulletRadius = originalHitbox.Width / 2;
+				extendedBulletRadius = newHitbox.Width / 2;
+			}
+			else
+			{
+				actualDistance = Math.Abs(monster.getStandingY() - originalHitbox.Center.Y);
+				monsterRadius = monster.GetBoundingBox().Height / 2;
+				actualBulletRadius = originalHitbox.Height / 2;
+				extendedBulletRadius = newHitbox.Height / 2;
+			}
 
 			var lerpFactor = (actualDistance - (actualBulletRadius + monsterRadius)) /
 			                 (extendedBulletRadius - actualBulletRadius);
@@ -88,6 +106,65 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var damage = (int) (projectile.damageToFarmer.Value * multiplier);
 			location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, multiplier + bulletPower, 0,
 				0f, 1f, true, firer);
+		}
+
+		/// <summary>Patch for prestiged Rascal trick shot.</summary>
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> ProjectileUpdateTranspiler(
+			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+		{
+			var helper = new ILHelper(original, instructions);
+
+			/// Injected: BouncedBullets.Add(this.GetHashCode());
+			/// After: bouncesLeft.Value--;
+
+			var notTrickShot = iLGenerator.DefineLabel();
+			try
+			{
+				helper
+					.FindFirst(
+						new CodeInstruction(OpCodes.Ldfld, typeof(Projectile).Field("bouncesLeft")),
+						new CodeInstruction(OpCodes.Dup)
+					)
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Callvirt, typeof(NetFieldBase<int, NetInt>).PropertySetter("Value"))
+					)
+					.Advance()
+					.AddLabels(notTrickShot)
+					.Insert(
+						// check if this is BasicProjectile
+						new CodeInstruction(OpCodes.Ldarg_0),
+						new CodeInstruction(OpCodes.Isinst, typeof(BasicProjectile)),
+						new CodeInstruction(OpCodes.Brfalse_S, notTrickShot),
+						// check if is colliding with monster
+						new CodeInstruction(OpCodes.Ldarg_2),
+						new CodeInstruction(OpCodes.Ldarg_0),
+						new CodeInstruction(OpCodes.Callvirt,
+							typeof(Projectile).MethodNamed(nameof(Projectile.getBoundingBox))),
+						new CodeInstruction(OpCodes.Ldc_I4_0),
+						new CodeInstruction(OpCodes.Callvirt,
+							typeof(GameLocation).MethodNamed(nameof(GameLocation.doesPositionCollideWithCharacter),
+								new[] {typeof(Rectangle), typeof(bool)})),
+						new CodeInstruction(OpCodes.Ldnull),
+						new CodeInstruction(OpCodes.Bgt_Un_S, notTrickShot),
+						// add to bounced bullet set
+						new CodeInstruction(OpCodes.Call,
+							typeof(ModState).PropertyGetter(nameof(ModState.BouncedBullets))),
+						new CodeInstruction(OpCodes.Ldarg_0),
+						new CodeInstruction(OpCodes.Callvirt, typeof(Projectile).MethodNamed(nameof(GetHashCode))),
+						new CodeInstruction(OpCodes.Callvirt,
+							typeof(HashSet<int>).MethodNamed(nameof(HashSet<int>.Add))),
+						new CodeInstruction(OpCodes.Pop)
+					);
+			}
+			catch (Exception ex)
+			{
+				ModEntry.Log($"Failed while patching prestiged Rascal trick shot.\nHelper returned {ex}",
+					LogLevel.Error);
+				return null;
+			}
+
+			return helper.Flush();
 		}
 
 		#endregion harmony patches

@@ -21,6 +21,7 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt
 		}
 
 		public Vector2? TreasureTile { get; protected set; } = null;
+		public bool IsActive => TreasureTile is not null;
 
 		protected string HuntStartedMessage { get; set; }
 		protected string HuntFailedMessage { get; set; }

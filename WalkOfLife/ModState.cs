@@ -10,6 +10,11 @@ namespace TheLion.Stardew.Professions
 {
 	public static class ModState
 	{
+		// super mode private fields
+		private static int _index = -1;
+		private static bool _isActive;
+		private static int _value;
+
 		// treasure hunts
 		internal static ProspectorHunt ProspectorHunt { get; set; }
 		internal static ScavengerHunt ScavengerHunt { get; set; }
@@ -18,15 +23,13 @@ namespace TheLion.Stardew.Professions
 		internal static int DemolitionistExcitedness { get; set; }
 		internal static int SpelunkerLadderStreak { get; set; }
 		internal static int SlimeContactTimer { get; set; }
-		internal static HashSet<int> MonstersStolenFrom { get; set; } = new();
-		internal static Dictionary<GreenSlime, float> PipedSlimeScales { get; set; } = new();
-		internal static bool DidBulletPierceEnemy { get; set; }
+		internal static HashSet<int> MonstersStolenFrom { get; set; }
+		internal static Dictionary<GreenSlime, float> PipedSlimeScales { get; set; }
+		internal static HashSet<int> AuxiliaryBullets { get; set; }
+		internal static HashSet<int> BouncedBullets { get; set; }
+		internal static HashSet<int> PiercedBullets { get; set; }
 
-		// super mode
-		private static int _index = -1;
-		private static bool _isActive;
-		private static int _value;
-
+		// super mode properties
 		public static bool ShouldShakeSuperModeGauge { get; set; }
 		public static float SuperModeGaugeAlpha { get; set; }
 		public static Color SuperModeGlowColor { get; set; }
@@ -70,7 +73,7 @@ namespace TheLion.Stardew.Professions
 		public static int SuperModeGaugeMaxValue =>
 			Game1.player.CombatLevel >= 10
 				? Game1.player.CombatLevel * 50
-				: 0;
+				: 500;
 
 		public static bool IsSuperModeActive
 		{
@@ -85,12 +88,21 @@ namespace TheLion.Stardew.Professions
 			}
 		}
 
-		// event handlers
+		// super mode event handlers
 		public static event SuperModeGaugeFilledEventHandler SuperModeGaugeFilled;
 		public static event SuperModeGaugeRaisedAboveZeroEventHandler SuperModeGaugeRaisedAboveZero;
 		public static event SuperModeGaugeReturnedToZeroEventHandler SuperModeGaugeReturnedToZero;
 		public static event SuperModeDisabledEventHandler SuperModeDisabled;
 		public static event SuperModeEnabledEventHandler SuperModeEnabled;
 		public static event SuperModeIndexChangedEventHandler SuperModeIndexChanged;
+
+		static ModState()
+		{
+			MonstersStolenFrom = new();
+			PipedSlimeScales = new();
+			AuxiliaryBullets = new();
+			BouncedBullets = new();
+			PiercedBullets = new();
+		}
 	}
 }

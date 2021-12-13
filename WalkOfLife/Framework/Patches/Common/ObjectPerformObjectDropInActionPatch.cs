@@ -47,7 +47,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (__instance.name.IsAnyOf("Mayonnaise Machine", "Cheese Press") && dropInItem is SObject)
 			{
 				// large milk/eggs give double output at normal quality
-				if (dropInItem.Name.Contains("Large"))
+				if (dropInItem.Name.ContainsAnyOf("Large", "L."))
 				{
 					__instance.heldObject.Value.Stack = 2;
 					__instance.heldObject.Value.Quality = SObject.lowQuality;
@@ -83,7 +83,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					__instance.heldObject.Value.Quality +=
 						dropIn.Quality == SObject.highQuality ? 2 : 1;
 
-				__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
+				if (who.HasPrestigedProfession("Artisan"))
+					__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 4;
+				else
+					__instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
 
 				switch (__instance.name)
 				{
@@ -103,7 +106,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			}
 		}
 
-		/// <summary>Patch to increment Gemologist counter for geodes cracked by Geode Crusher.</summary>
+		/// <summary>
+		///     Patch to increment Gemologist counter for geodes cracked by Geode Crusher +  + reduce prestiged Breeder
+		///     incubation time.
+		/// </summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> ObjectPerformObjectDropInActionTranspiler(
 			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
@@ -141,6 +147,60 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					LogLevel.Error);
 				return null;
 			}
+
+			/// From: minutesUntilReady.Value /= 2
+			/// To: minutesUntilReady.Value /= who.professions.Contains(100 + <breeder_id>) ? 3 : 2
+
+			helper.ReturnToFirst();
+			var i = 0;
+			repeat:
+			try
+			{
+				var notPrestigedBreeder = iLGenerator.DefineLabel();
+				var resumeExecution = iLGenerator.DefineLabel();
+				helper
+					.FindProfessionCheck(Utility.Professions.IndexOf("Breeder"), true)
+					.RetreatUntil(
+						new CodeInstruction(OpCodes.Ldloc_0)
+					)
+					.ToBufferUntil(
+						true,
+						true,
+						new CodeInstruction(OpCodes.Brfalse_S)
+					)
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Ldc_I4_2)
+					)
+					.AddLabels(notPrestigedBreeder)
+					.InsertBuffer()
+					.Retreat()
+					.RetreatUntil(
+						new CodeInstruction(OpCodes.Ldc_I4_2)
+					)
+					.ReplaceWith(
+						new(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Breeder"))
+					)
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Brfalse_S)
+					)
+					.SetOperand(notPrestigedBreeder)
+					.Advance()
+					.Insert(
+						new CodeInstruction(OpCodes.Ldc_I4_3),
+						new CodeInstruction(OpCodes.Br_S, resumeExecution)
+					)
+					.Advance()
+					.AddLabels(resumeExecution);
+			}
+			catch (Exception ex)
+			{
+				ModEntry.Log($"Failed while adding prestiged Breeder incubation bonus.\nHelper returned {ex}",
+					LogLevel.Error);
+				return null;
+			}
+
+			// repeat injection three times
+			if (++i < 3) goto repeat;
 
 			return helper.Flush();
 		}

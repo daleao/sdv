@@ -28,8 +28,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			__instance.width += 64;
 
-			if (!ModEntry.Config.EnableExtendedProgression) return;
-
 			var srcRect = new Rectangle(16, 0, 14, 9);
 			foreach (var component in __instance.skillBars)
 			{

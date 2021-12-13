@@ -1,4 +1,5 @@
-﻿using StardewModdingAPI.Events;
+﻿using System;
+using StardewModdingAPI.Events;
 using StardewValley.Locations;
 
 namespace TheLion.Stardew.Professions.Framework.Events
@@ -15,6 +16,8 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (e.NewLocation is MineShaft)
 			{
 				++ModState.SpelunkerLadderStreak;
+				e.Player.health = Math.Min(e.Player.health + (int) (e.Player.maxHealth * 0.05f), e.Player.maxHealth);
+				e.Player.Stamina = Math.Min(e.Player.Stamina + e.Player.MaxStamina * 0.05f, e.Player.MaxStamina);
 				ModEntry.Subscriber.Subscribe(SpelunkerUpdateTickedEvent);
 			}
 			else
@@ -22,9 +25,6 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				ModState.SpelunkerLadderStreak = 0;
 				ModEntry.Subscriber.Unsubscribe(SpelunkerUpdateTickedEvent.GetType());
 			}
-
-			//e.Player.health = Math.Min(e.Player.health + 11, e.Player.maxHealth);
-			//e.Player.Stamina = Math.Min(e.Player.Stamina + 25f, e.Player.MaxStamina);
 		}
 	}
 }

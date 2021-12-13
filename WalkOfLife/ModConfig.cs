@@ -38,6 +38,9 @@ namespace TheLion.Stardew.Professions
 		/// <summary>You must be this close to the treasure hunt target before the indicator appears.</summary>
 		public float TreasureDetectionDistance { get; set; } = 3f;
 
+		/// <summary>Toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
+		public bool EnableGetExcited { get; set; } = true;
+
 		/// <summary>You must collect this many junk items from crab pots for every 1% of tax deduction next season.</summary>
 		public uint TrashNeededPerTaxLevel { get; set; } = 100;
 
@@ -50,17 +53,23 @@ namespace TheLion.Stardew.Professions
 		/// <summary>Whether to apply prestige changes.</summary>
 		public bool EnablePrestige { get; set; } = true;
 
-		/// <summary>Multiplies the base prestige cost. Set to 0 to prestige for free.</summary>
-		public float PrestigeCostMultiplier { get; set; } = 1f;
+		/// <summary>Multiplies the base skill reset cost. Set to 0 to prestige for free.</summary>
+		public float SkillResetCostMultiplier { get; set; } = 1f;
 
-		/// <summary>Wether prestiging a skill also clears all associated recipes.</summary>
-		public bool ForgetRecipesOnPrestige { get; set; } = true;
+		/// <summary>Wether reseting a skill also clears all associated recipes.</summary>
+		public bool ForgetRecipesOnSkillReset { get; set; } = true;
+
+		/// <summary>Whether the player can reset more than one skill in a day.</summary>
+		public bool AllowMultipleResetsPerDay { get; set; } = false;
+
+		/// <summary>Multiplies all skill experience gained from the start of the game.</summary>
+		public float BaseSkillExpMultiplier { get; set; } = 1f;
 
 		/// <summary>Multiplies all skill experience gained after each respective prestige.</summary>
-		public float ExperienceBonusOnPrestige { get; set; } = 0.2f;
+		public float BonusSkillExpPerReset { get; set; } = 0.2f;
 
-		/// <summary>Whether to open progression up to level 20 after fully prestiging a skill.</summary>
-		public bool EnableExtendedProgression { get; set; } = true;
+		/// <summary>How much skill experience is required for each level up beyond 10.</summary>
+		public uint RequiredExpPerExtendedLevel { get; set; } = 10000;
 
 		/// <summary>Whether to draw UI element bounding boxes.</summary>
 		public bool EnableUIDebug { get; set; } = false;

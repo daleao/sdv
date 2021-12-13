@@ -27,6 +27,14 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			       farmer.professions.Contains(professionIndex);
 		}
 
+		/// <summary>Whether the farmer has prestiged a particular profession.</summary>
+		/// <param name="professionName">The name of the profession.</param>
+		public static bool HasPrestigedProfession(this Farmer farmer, string professionName)
+		{
+			return Utility.Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex) &&
+			       farmer.professions.Contains(100 + professionIndex);
+		}
+
 		/// <summary>Whether the farmer has any of the specified professions.</summary>
 		/// <param name="professionNames">Sequence of profession names.</param>
 		public static bool HasAnyOfProfessions(this Farmer farmer, params string[] professionNames)
@@ -83,23 +91,32 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		}
 
 		/// <summary>Get the last level 5 profession acquired by the farmer in the specified skill.</summary>
-		/// <param name="which">The skill index.</param>
+		/// <param name="skill">The skill index.</param>
 		/// <returns>The last acquired profession, or -1 if none was found.</returns>
-		public static int CurrentBranchForSkill(this Farmer farmer, int which)
+		public static int GetCurrentBranchForSkill(this Farmer farmer, int skill)
 		{
-			try
-			{
-				return farmer.professions.Reverse().First(p => p == which * 6 || p == which * 6 + 1);
-			}
-			catch
-			{
-				return -1;
-			}
+			var lastIndex = farmer.professions.ToList().FindLastIndex(p => p == skill * 6 || p == skill * 6 + 1);
+			return lastIndex >= 0
+				? farmer.professions[lastIndex]
+				: lastIndex;
 		}
 
-		/// <summary>Whether the farmer can prestige the specified skill.</summary>
+		/// <summary>Get the last level 10 profession acquired by the farmer in the specified skill branch.</summary>
+		/// <param name="branch">The branch (level 5 profession) index.</param>
+		/// <returns>The last acquired profession, or -1 if none was found.</returns>
+		public static int GetCurrentProfessionForBranch(this Farmer farmer, int branch)
+		{
+			var lastIndex = farmer.professions.ToList().FindLastIndex(p => branch % 6 == 0
+					? p == branch + 2 || p == branch + 3
+					: p == branch + 3 || p == branch + 4);
+			return lastIndex >= 0
+				? farmer.professions[lastIndex]
+				: lastIndex;
+		}
+
+		/// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
 		/// <param name="skillType">A skill index (0 to 4).</param>
-		public static bool CanPrestige(this Farmer farmer, SkillType skillType)
+		public static bool CanResetSkill(this Farmer farmer, SkillType skillType)
 		{
 			var isSkillLevelTen = skillType switch
 			{
@@ -115,23 +132,23 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			var justLeveledUp = farmer.newLevels.Contains(new((int) skillType, 10));
 			var hasAtLeastOneButNotAllProfessionsInSkill =
 				farmer.NumberOfProfessionsInSkill((int) skillType, true) is > 0 and < 4;
-			var alreadyPrestigedThisSkill =
+			var alreadyResetThisSkill =
 				ModEntry.Subscriber.TryGet(typeof(PrestigeDayEndingEvent), out var prestigeDayEnding) &&
-				((PrestigeDayEndingEvent) prestigeDayEnding).SkillsToPrestige.Contains(skillType);
+				((PrestigeDayEndingEvent) prestigeDayEnding).SkillsToReset.Contains(skillType);
 
 			return isSkillLevelTen && !justLeveledUp && hasAtLeastOneButNotAllProfessionsInSkill &&
-			       !alreadyPrestigedThisSkill;
+			       !alreadyResetThisSkill;
 		}
 
-		/// <summary>Whether the farmer can prestige any skill.</summary>
-		public static bool CanPrestigeAny(this Farmer farmer)
+		/// <summary>Whether the farmer can reset any skill for prestige.</summary>
+		public static bool CanResetAnySkill(this Farmer farmer)
 		{
-			return Enum.GetValues<SkillType>().Any(farmer.CanPrestige);
+			return Enum.GetValues<SkillType>().Any(farmer.CanResetSkill);
 		}
 
 		/// <summary>Resets a specific skill level, removing all associated recipes and bonuses but maintaining profession perks.</summary>
 		/// <param name="skillType">The skill to reset.</param>
-		public static void PrestigeSkill(this Farmer farmer, SkillType skillType)
+		public static void ResetSkill(this Farmer farmer, SkillType skillType)
 		{
 			// reset skill level
 			switch (skillType)
@@ -167,7 +184,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			// reset skill experience
 			farmer.experiencePoints[(int) skillType] = 0;
 
-			if (ModEntry.Config.ForgetRecipesOnPrestige)
+			if (ModEntry.Config.ForgetRecipesOnSkillReset)
 			{
 				var forgottenRecipesDict = ModEntry.Data.Read("ForgottenRecipes").ToDictionary<string, int>(",", ";");
 

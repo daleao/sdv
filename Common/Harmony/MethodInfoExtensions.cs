@@ -16,6 +16,5 @@ namespace TheLion.Stardew.Common.Harmony
 		{
 			return method is null ? null : new HarmonyMethod(method);
 		}
-
 	}
 }

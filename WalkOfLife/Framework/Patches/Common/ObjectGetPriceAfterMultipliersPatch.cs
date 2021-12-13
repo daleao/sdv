@@ -52,9 +52,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					// professions
 					if (player.HasProfession("Producer") && __instance.IsAnimalProduct())
-						multiplier *= Utility.Professions.GetProducerPriceMultiplier(player);
-					else if (player.HasProfession("Angler") && __instance.IsFish())
-						multiplier *= Utility.Professions.GetAnglerPriceMultiplier(player);
+						multiplier += Utility.Professions.GetProducerPriceBonus(player);
+					if (player.HasProfession("Angler") && __instance.IsFish())
+						multiplier += Utility.Professions.GetAnglerPriceBonus(player);
 
 					// events
 					else if (player.eventsSeen.Contains(2120303) && __instance.IsWildBerry())

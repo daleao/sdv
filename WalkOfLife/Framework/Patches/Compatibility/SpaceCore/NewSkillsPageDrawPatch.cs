@@ -145,9 +145,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				// need to do this bullshit switch because mining and fishing are inverted in the skills page
 				var skillIndex = i switch
 				{
-				   1 => 3,
-				   3 => 1,
-				   _ => i
+					1 => 3,
+					3 => 1,
+					_ => i
 				};
 
 				var count = Game1.player.NumberOfProfessionsInSkill(skillIndex, true);

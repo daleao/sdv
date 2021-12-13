@@ -23,11 +23,13 @@ namespace TheLion.Stardew.Professions.Framework.AssetEditors
 			// patch custom prestige achievements
 			var data = asset.AsDictionary<int, string>().Data;
 
-			string name = ModEntry.ModHelper.Translation.Get("prestige.achievement.name." + (Game1.player.IsMale ? "male" : "female"));
+			string name =
+				ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
+				                                   (Game1.player.IsMale ? "male" : "female"));
 			var desc = ModEntry.ModHelper.Translation.Get("prestige.achievement.desc");
 			var shouldDisplayBeforeEarned = "false";
 			var prerequisite = "-1";
-			var hatIndex = "";
+			var hatIndex = string.Empty;
 
 			var newEntry = string.Join("^", name, desc, shouldDisplayBeforeEarned, prerequisite, hatIndex);
 			data[name.Hash()] = newEntry;

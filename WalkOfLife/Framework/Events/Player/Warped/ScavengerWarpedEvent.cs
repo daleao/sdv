@@ -11,7 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			if (!e.IsLocalPlayer) return;
 
 			ModState.ScavengerHunt ??= new();
-			if (ModState.ScavengerHunt.TreasureTile is not null) ModState.ScavengerHunt.End();
+			if (ModState.ScavengerHunt.IsActive) ModState.ScavengerHunt.End();
 			if (Game1.CurrentEvent is null && e.NewLocation.IsOutdoors &&
 			    !(e.NewLocation.IsFarm || e.NewLocation.NameOrUniqueName == "Town"))
 				ModState.ScavengerHunt.TryStartNewHunt(e.NewLocation);

@@ -144,7 +144,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeValue))),
 						new CodeInstruction(OpCodes.Ldc_R8, 2.0), // <-- increment amount
-						new CodeInstruction(OpCodes.Call, typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeMaxValue))),
+						new CodeInstruction(OpCodes.Call,
+							typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeMaxValue))),
 						new CodeInstruction(OpCodes.Conv_R8),
 						new CodeInstruction(OpCodes.Ldc_R8, 500.0),
 						new CodeInstruction(OpCodes.Div),

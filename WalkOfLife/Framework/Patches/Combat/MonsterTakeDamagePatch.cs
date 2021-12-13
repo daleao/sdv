@@ -34,6 +34,29 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				}
 		}
 
+		#region private methods
+
+		[HarmonyTargetMethods]
+		private static IEnumerable<MethodBase> TargetMethods()
+		{
+			var methods = from type in AccessTools.AllTypes()
+				where type.IsAssignableTo(typeof(Monster)) && !type.IsAnyOf(
+					typeof(HotHead),
+					typeof(LavaLurk),
+					typeof(Leaper),
+					typeof(MetalHead),
+					typeof(Shooter),
+					typeof(ShadowBrute),
+					typeof(Skeleton),
+					typeof(Spiker))
+				select type.MethodNamed("takeDamage",
+					new[] {typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer)});
+
+			return methods.Where(m => m.DeclaringType == m.ReflectedType);
+		}
+
+		#endregion private methods
+
 		#region harmony patches
 
 		/// <summary>Patch to add Poacher assassination attempt.</summary>
@@ -84,28 +107,5 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		}
 
 		#endregion harmony patches
-		
-		#region private methods
-
-		[HarmonyTargetMethods]
-		private static IEnumerable<MethodBase> TargetMethods()
-		{
-			var methods = from type in AccessTools.AllTypes()
-				where type.IsAssignableTo(typeof(Monster)) && !type.IsAnyOf(
-					typeof(HotHead),
-					typeof(LavaLurk),
-					typeof(Leaper),
-					typeof(MetalHead),
-					typeof(Shooter),
-					typeof(ShadowBrute),
-					typeof(Skeleton),
-					typeof(Spiker))
-				select type.MethodNamed("takeDamage",
-					new[] {typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer)});
-
-			return methods.Where(m => m.DeclaringType == m.ReflectedType);
-		}
-
-		#endregion private methods
 	}
 }

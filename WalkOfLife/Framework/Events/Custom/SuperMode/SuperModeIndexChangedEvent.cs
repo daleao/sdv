@@ -52,7 +52,6 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					ModState.SuperModeGlowColor = Color.MediumPurple;
 					ModState.SuperModeOverlayColor = Color.MidnightBlue;
 					ModState.SuperModeSFX = "poacher_ambush";
-					ModState.MonstersStolenFrom ??= new();
 					break;
 
 				case "Desperado":
@@ -65,7 +64,6 @@ namespace TheLion.Stardew.Professions.Framework.Events
 					ModState.SuperModeGlowColor = Color.LimeGreen;
 					ModState.SuperModeOverlayColor = Color.DarkGreen;
 					ModState.SuperModeSFX = "piper_provoke";
-					ModState.PipedSlimeScales ??= new();
 					break;
 			}
 

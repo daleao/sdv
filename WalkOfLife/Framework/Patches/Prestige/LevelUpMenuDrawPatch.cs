@@ -42,8 +42,36 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			var helper = new ILHelper(original, instructions);
 
+			/// From: string chooseProfession = Game1.content.LoadString("Strings\\UI:LevelUp_ChooseProfession");
+			/// To: string chooseProfession = GetChooseProfessionText(this);
+
+			try
+			{
+				helper
+					.FindFirst(
+						new CodeInstruction(OpCodes.Stloc_1)
+					)
+					.RetreatUntil(
+						new CodeInstruction(OpCodes.Ldsfld)
+					)
+					.RemoveUntil(
+						new CodeInstruction(OpCodes.Callvirt)
+					)
+					.Insert(
+						new CodeInstruction(OpCodes.Ldarg_0),
+						new CodeInstruction(OpCodes.Call,
+							typeof(LevelUpMenuDrawPatch).MethodNamed(nameof(GetChooseProfessionText)))
+					);
+			}
+			catch (Exception ex)
+			{
+				ModEntry.Log($"Failed while patching level up menu choose profession text. Helper returned {ex}",
+					LogLevel.Error);
+				return null;
+			}
+
 			/// Injected: DrawSubroutine(this, b);
-			/// Before: else (!isProfessionChooser)
+			/// Before: else if (!isProfessionChooser)
 
 			try
 			{
@@ -77,9 +105,20 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region private methods
 
+		private static string GetChooseProfessionText(LevelUpMenu menu)
+		{
+			var currentLevel = ModEntry.ModHelper.Reflection.GetField<int>(menu, "currentLevel").GetValue();
+			return currentLevel > 10
+				? ModEntry.ModHelper.Translation.Get("prestige.levelup.prestige")
+				: Game1.content.LoadString("Strings\\UI:LevelUp_ChooseProfession");
+		}
+
 		private static void DrawSubroutine(LevelUpMenu menu, SpriteBatch b)
 		{
 			if (!ModEntry.Config.EnablePrestige || !menu.isProfessionChooser) return;
+
+			var currentLevel = ModEntry.ModHelper.Reflection.GetField<int>(menu, "currentLevel").GetValue();
+			if (currentLevel > 10) return;
 
 			var professionsToChoose = ModEntry.ModHelper.Reflection.GetField<List<int>>(menu, "professionsToChoose")
 				.GetValue();

@@ -13,15 +13,15 @@ namespace TheLion.Stardew.Professions.Framework.Events
 	{
 		internal PrestigeDayEndingEvent(SkillType skillType)
 		{
-			SkillsToPrestige.Enqueue(skillType);
+			SkillsToReset.Enqueue(skillType);
 		}
 
-		public Queue<SkillType> SkillsToPrestige { get; } = new();
+		public Queue<SkillType> SkillsToReset { get; } = new();
 
 		/// <inheritdoc />
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
-			while (SkillsToPrestige.Any()) Game1.player.PrestigeSkill(SkillsToPrestige.Dequeue());
+			while (SkillsToReset.Any()) Game1.player.ResetSkill(SkillsToReset.Dequeue());
 
 			ModEntry.Subscriber.Unsubscribe(GetType());
 		}

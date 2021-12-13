@@ -27,7 +27,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == _buffID);
 			if (buff is not null) return;
 
-			var bonusLadderChance = ModState.SpelunkerLadderStreak;
+			var bonusLadderChance = (ModState.SpelunkerLadderStreak * 0.5f).ToString("0.0");
 			var bonusSpeed = Math.Min(ModState.SpelunkerLadderStreak / 5 + 1, 10);
 			Game1.buffsDisplay.addOtherBuff(
 				new(0,

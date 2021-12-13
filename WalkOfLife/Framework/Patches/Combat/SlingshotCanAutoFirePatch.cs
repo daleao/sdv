@@ -25,7 +25,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				var who = __instance.getLastFarmerToUse();
-				if (ModState.IsSuperModeActive && ModState.SuperModeIndex == Utility.Professions.IndexOf("Desperado"))
+				if (who.IsLocalPlayer && ModState.IsSuperModeActive && ModState.SuperModeIndex == Utility.Professions.IndexOf("Desperado"))
 					__result = true;
 				else
 					__result = false;

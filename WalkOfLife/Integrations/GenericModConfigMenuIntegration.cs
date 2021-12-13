@@ -81,39 +81,57 @@ namespace TheLion.Stardew.Professions.Integrations
 				.AddLabel("Prestige Settings")
 				.AddCheckbox(
 					"Enable Prestige",
-					"Must be enabled to allow prestiging.",
+					"Must be enabled to allow all prestige modifications.",
 					config => config.EnablePrestige,
 					(config, value) => config.EnablePrestige = value
 				)
 				.AddNumberField(
-					"Prestige Cost Multiplier",
-					"Multiplies the base prestige cost. Set to 0 to prestige for free.",
-					config => config.PrestigeCostMultiplier,
-					(config, value) => config.PrestigeCostMultiplier = value,
+					"Skill Reset Cost Multiplier",
+					"Multiplies the base cost reseting a skill at the Statue of Prestige. Set to 0 to reset for free.",
+					config => config.SkillResetCostMultiplier,
+					(config, value) => config.SkillResetCostMultiplier = value,
 					0f,
 					2f,
 					0.2f
 				)
 				.AddCheckbox(
-					"Forget Recipes On Prestige",
-					"Disable this to keep all skill recipes upon prestiging.",
-					config => config.ForgetRecipesOnPrestige,
-					(config, value) => config.ForgetRecipesOnPrestige = value
+					"Forget Recipes On Skill Reset",
+					"Disable this to keep all skill recipes upon reseting.",
+					config => config.ForgetRecipesOnSkillReset,
+					(config, value) => config.ForgetRecipesOnSkillReset = value
+				)
+				.AddCheckbox(
+					"Allow Multiple Resets Per Day",
+					"Whether the player can reset more than one skill in a day.",
+					config => config.AllowMultipleResetsPerDay,
+					(config, value) => config.AllowMultipleResetsPerDay = value
 				)
 				.AddNumberField(
-					"Experience Bonus On Prestige",
-					"Multiplies all skill experience gained after each respective prestige.",
-					config => config.PrestigeCostMultiplier,
-					(config, value) => config.PrestigeCostMultiplier = value,
+					"Base Skill Experience Multiplier",
+					"Multiplies all skill experience gained from the start of the game.",
+					config => config.BaseSkillExpMultiplier,
+					(config, value) => config.BaseSkillExpMultiplier = value,
+					0.2f,
+					2f,
+					0.2f
+				)
+				.AddNumberField(
+					"Bonus Skill Experience Per Reset",
+					"Multiplies all skill experience gained after each respective reset.",
+					config => config.BonusSkillExpPerReset,
+					(config, value) => config.BonusSkillExpPerReset = value,
 					0f,
 					2f,
 					0.2f
 				)
-				.AddCheckbox(
-					"Enable Extended Progression",
-					"Enable this to open progression up to level 20 after fully prestiging a skill.",
-					config => config.ForgetRecipesOnPrestige,
-					(config, value) => config.ForgetRecipesOnPrestige = value
+				.AddNumberField(
+					"Required Experience Per Extended Level",
+					"How much skill experience is required for each level-up beyond level 10.",
+					config => (int) config.RequiredExpPerExtendedLevel,
+					(config, value) => config.RequiredExpPerExtendedLevel = (uint) value,
+					2000,
+					20000,
+					1000
 				)
 
 				// main

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -17,10 +18,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		/// <summary>Patch to reduce slingshot charge time for Desperado.</summary>
 		[HarmonyPostfix]
-		private static void SlingshotGetRequiredChargeTimePostfix(ref float __result)
+		private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
 		{
-			if (ModState.SuperModeIndex != Utility.Professions.IndexOf("Desperado")) return;
-			__result *= Utility.Professions.GetCooldownOrChargeTimeReduction();
+			var firer = __instance.getLastFarmerToUse();
+			if (!firer.HasProfession("Desperado")) return;
+			__result *= 0.5f;
 		}
 
 		#endregion harmony patches

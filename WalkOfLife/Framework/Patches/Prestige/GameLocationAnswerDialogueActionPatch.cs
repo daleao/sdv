@@ -27,7 +27,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPrefix]
 		private static bool GameLocationAnswerDialogueActionPrefix(GameLocation __instance, string questionAndAnswer)
 		{
-			if (!ModEntry.Config.EnablePrestige || questionAndAnswer != "dogStatue_Yes" && !questionAndAnswer.Contains("professionForget_"))
+			if (!ModEntry.Config.EnablePrestige || questionAndAnswer != "dogStatue_Yes" &&
+				!questionAndAnswer.Contains("professionForget_"))
 				return true; // run original logic
 
 			try
@@ -35,7 +36,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (questionAndAnswer == "dogStatue_Yes")
 				{
 					var skillResponses = new List<Response>();
-					if (Game1.player.CanPrestige(SkillType.Farming))
+					if (Game1.player.CanResetSkill(SkillType.Farming))
 					{
 						var costVal = Utility.Prestige.GetPrestigeCost(SkillType.Farming);
 						var costStr = costVal > 0
@@ -46,7 +47,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11604") + costStr));
 					}
 
-					if (Game1.player.CanPrestige(SkillType.Fishing))
+					if (Game1.player.CanResetSkill(SkillType.Fishing))
 					{
 						var costVal = Utility.Prestige.GetPrestigeCost(SkillType.Fishing);
 						var costStr = costVal > 0
@@ -57,7 +58,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11607") + costStr));
 					}
 
-					if (Game1.player.CanPrestige(SkillType.Foraging))
+					if (Game1.player.CanResetSkill(SkillType.Foraging))
 					{
 						var costVal = Utility.Prestige.GetPrestigeCost(SkillType.Foraging);
 						var costStr = costVal > 0
@@ -68,7 +69,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11606") + costStr));
 					}
 
-					if (Game1.player.CanPrestige(SkillType.Mining))
+					if (Game1.player.CanResetSkill(SkillType.Mining))
 					{
 						var costVal = Utility.Prestige.GetPrestigeCost(SkillType.Mining);
 						var costStr = costVal > 0
@@ -79,7 +80,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11605") + costStr));
 					}
 
-					if (Game1.player.CanPrestige(SkillType.Combat))
+					if (Game1.player.CanResetSkill(SkillType.Combat))
 					{
 						var costVal = Utility.Prestige.GetPrestigeCost(SkillType.Combat);
 						var costStr = costVal > 0
@@ -92,7 +93,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					skillResponses.Add(new("cancel",
 						Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueCancel")));
-					__instance.createQuestionDialogue(ModEntry.ModHelper.Translation.Get("prestige.dogstatue.question"),
+					__instance.createQuestionDialogue(ModEntry.ModHelper.Translation.Get("prestige.dogstatue.which"),
 						skillResponses.ToArray(), "professionForget");
 				}
 				else if (questionAndAnswer.Contains("professionForget_"))
@@ -129,7 +130,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 					// prepare to prestige at night
 					if (ModEntry.Subscriber.TryGet(typeof(PrestigeDayEndingEvent), out var prestigeDayEnding))
-						((PrestigeDayEndingEvent) prestigeDayEnding).SkillsToPrestige.Enqueue(skillType);
+						((PrestigeDayEndingEvent) prestigeDayEnding).SkillsToReset.Enqueue(skillType);
 					else
 						ModEntry.Subscriber.Subscribe(new PrestigeDayEndingEvent(skillType));
 

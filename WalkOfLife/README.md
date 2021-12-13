@@ -230,9 +230,9 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **TrashNeededPerFriendshipPoint** (integer) - Represents the number of trash items the Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
 - **TaxDeductionCeiling** (decimal) - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
 - **EnablePrestige** (boolean) - Whether to apply prestige changes.
-- **PrestigeCostMultiplier** (decimal) - Multiplies the base prestige cost. Set to 0 to prestige for free.
-- **ForgetRecipesOnPrestige** (boolean) - Wether prestiging a skill also clears all associated recipes.
-- **ExperienceBonusOnPrestige** (decimal) - Percentage bonus ll skill experience gained after each respective prestige.
+- **SkillResetCostMultiplier** (decimal) - Multiplies the base prestige cost. Set to 0 to prestige for free.
+- **ForgetRecipesOnSkillReset** (boolean) - Wether prestiging a skill also clears all associated recipes.
+- **BonusSkillExpAfterReset** (decimal) - Percentage bonus ll skill experience gained after each respective prestige.
 - **EnableExtendedProgession** (boolean) - Whether to open progression up to level 20 after fully prestiging a skill. 
 
 ## Console Commands

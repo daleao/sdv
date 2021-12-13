@@ -11,7 +11,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc />
 		public override void OnRenderedHud(object sender, RenderedHudEventArgs e)
 		{
-			if (ModState.ProspectorHunt.TreasureTile is null) return;
+			if (!ModState.ProspectorHunt.IsActive) return;
 
 			// reveal treasure hunt target
 			var distanceSquared = (Game1.player.getTileLocation() - ModState.ProspectorHunt.TreasureTile.Value)

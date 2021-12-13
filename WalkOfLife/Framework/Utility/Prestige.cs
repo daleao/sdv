@@ -24,7 +24,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		/// <param name="skillType">The desired skill.</param>
 		public static int GetPrestigeCost(SkillType skillType)
 		{
-			var multiplier = ModEntry.Config.PrestigeCostMultiplier;
+			var multiplier = ModEntry.Config.SkillResetCostMultiplier;
 			if (multiplier <= 0f) return 0;
 
 			var count = Game1.player.NumberOfProfessionsInSkill((int) skillType, true);

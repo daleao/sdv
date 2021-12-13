@@ -23,7 +23,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			if (!Game1.player.HasProfession("Aquarist")) return;
 
-			var bonusBobberHeight = Utility.Professions.GetAquaristBonusBobberBarHeight();
+			var bonusBobberHeight = Utility.Professions.GetAquaristBonusBobberBarHeight(Game1.player);
 			___bobberBarHeight += bonusBobberHeight;
 			___bobberBarPos -= bonusBobberHeight;
 		}

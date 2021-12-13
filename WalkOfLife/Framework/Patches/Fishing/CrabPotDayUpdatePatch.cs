@@ -20,6 +20,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 	[UsedImplicitly]
 	internal class CrabPotDayUpdatePatch : BasePatch
 	{
+		private const double CHANCE_TO_CATCH_FISH_D = 0.25;
+
 		/// <summary>Construct an instance.</summary>
 		internal CrabPotDayUpdatePatch()
 		{
@@ -56,7 +58,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						{
 							whichFish = ChoosePirateTreasure(r, who);
 						}
-						else if (Game1.random.NextDouble() < (__instance.HasMagicBait() ? 0.25 : 0.1))
+						else if (Game1.random.NextDouble() < CHANCE_TO_CATCH_FISH_D)
 						{
 							var rawFishData = __instance.HasMagicBait()
 								? location.GetRawFishDataForAllSeasons()
@@ -76,7 +78,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					}
 				}
 
-				if (whichFish.IsAnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
+				if (whichFish.IsAnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534)) // ring or weapon
 				{
 					var equipment = new SObject(whichFish, 1);
 					__instance.heldObject.Value = equipment;
@@ -92,9 +94,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						if (isConservationist)
 						{
 							ModEntry.Data.Increment<uint>("WaterTrashCollectedThisSeason");
-							if (ModEntry.Data.Read<uint>("WaterTrashCollectedThisSeason") %
-								ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
-								SUtility.improveFriendshipWithEveryoneInRegion(Game1.player, 1, 2);
+							if (who.HasPrestigedProfession("Conservationist") &&
+							    ModEntry.Data.Read<uint>("WaterTrashCollectedThisSeason") %
+							    ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
+								SUtility.improveFriendshipWithEveryoneInRegion(who, 1, 2);
 						}
 					}
 				}
@@ -103,7 +106,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					fishQuality = GetTrapFishQuality(whichFish, who, r, __instance, isLuremaster);
 				}
 
-				var fishQuantity = GetTrapFishQuantity(__instance, whichFish, r);
+				var fishQuantity = GetTrapFishQuantity(__instance, whichFish, who, r);
 				__instance.heldObject.Value = new(whichFish, fishQuantity, quality: fishQuality);
 				return false; // don't run original logic
 			}
@@ -127,13 +130,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				for (var i = 0; i < rawFishData.Length; i += 2)
 					rawFishDataWithLocation[rawFishData[i]] = rawFishData[i + 1];
 			return rawFishDataWithLocation;
-		}
-
-		/// <summary>Whether the specific fish data corresponds to a sufficiently low level fish.</summary>
-		/// <param name="specificFishData">Raw game file data for this fish.</param>
-		private static bool IsFishLevelLowerThanNumber(string[] specificFishData, int num)
-		{
-			return Convert.ToInt32(specificFishData[1]) < num;
 		}
 
 		/// <summary>Whether the current fishing location and game time match the specific fish data.</summary>
@@ -182,10 +178,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var specificFishDataFields = fishData[Convert.ToInt32(key)].Split('/');
 				if (Objects.LegendaryFishNames.Contains(specificFishDataFields[0])) continue;
 
-				if (!crabpot.HasMagicBait() &&
-				    !IsFishLevelLowerThanNumber(specificFishDataFields, crabpot.HasWildBait() ? 90 : 70)
-				    || crabpot.HasMagicBait() && IsFishLevelLowerThanNumber(specificFishDataFields, 70)) continue;
-
 				var specificFishLocation = Convert.ToInt32(rawFishDataWithLocation[key]);
 				if (!crabpot.HasMagicBait() &&
 				    (!IsCorrectLocationAndTimeForThisFish(specificFishDataFields, specificFishLocation,
@@ -196,13 +188,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (r.NextDouble() > GetChanceForThisFish(specificFishDataFields)) continue;
 
 				var whichFish = Convert.ToInt32(key);
-				if (whichFish.IsAnyOf(152, 152, 157) && counter == 0) // if is algae, reroll
-				{
-					++counter;
-					continue;
-				}
+				if (!whichFish.IsAnyOf(152, 152, 157)) return whichFish; // if isn't algae
 
-				return whichFish;
+				if (counter != 0) return -1; // if already rerolled
+				++counter;
 			}
 
 			return -1;
@@ -225,23 +214,23 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			Random r, bool isLuremaster)
 		{
 			List<int> keys = new();
-			foreach (var p in fishData)
+			foreach (var (key, value) in fishData)
 			{
-				if (!p.Value.Contains("trap")) continue;
+				if (!value.Contains("trap")) continue;
 
 				var shouldCatchOceanFish = crabpot.ShouldCatchOceanFish(location);
-				var rawSplit = p.Value.Split('/');
+				var rawSplit = value.Split('/');
 				if (rawSplit[4] == "ocean" && !shouldCatchOceanFish ||
 				    rawSplit[4] == "freshwater" && shouldCatchOceanFish)
 					continue;
 
 				if (isLuremaster)
 				{
-					keys.Add(p.Key);
+					keys.Add(key);
 					continue;
 				}
 
-				if (r.NextDouble() < GetChanceForThisTrapFish(rawSplit)) return p.Key;
+				if (r.NextDouble() < GetChanceForThisTrapFish(rawSplit)) return key;
 			}
 
 			if (isLuremaster && keys.Count > 0) return keys[r.Next(keys.Count)];
@@ -290,17 +279,26 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			var fish = new SObject(whichFish, 1);
 			if (!who.HasProfession("Trapper") || fish.IsPirateTreasure() || fish.IsAlgae()) return SObject.lowQuality;
-			return r.NextDouble() < who.FishingLevel / 30.0 ? SObject.highQuality :
-				r.NextDouble() < who.FishingLevel / 15.0 ? SObject.medQuality : SObject.lowQuality;
+			return who.HasPrestigedProfession("Trapper") && r.NextDouble() < who.FishingLevel / 60.0
+				?
+				SObject.bestQuality
+				:
+				r.NextDouble() < who.FishingLevel / 30.0
+					? SObject.highQuality
+					:
+					r.NextDouble() < who.FishingLevel / 15.0
+						? SObject.medQuality
+						: SObject.lowQuality;
 		}
 
 		/// <summary>Get initial stack for the chosen stack.</summary>
 		/// <param name="crabpot">The crab pot instance.</param>
 		/// <param name="whichFish">The chosen fish</param>
+		/// <param name="who">The player.</param>
 		/// <param name="r">Random number generator.</param>
-		private static int GetTrapFishQuantity(CrabPot crabpot, int whichFish, Random r)
+		private static int GetTrapFishQuantity(CrabPot crabpot, int whichFish, Farmer who, Random r)
 		{
-			return crabpot.HasWildBait() && r.NextDouble() < 0.5
+			return crabpot.HasWildBait() && r.NextDouble() < 0.25 + who.DailyLuck / 2.0
 				? 2
 				: Objects.TrapperPirateTreasureTable.TryGetValue(whichFish, out var treasureData)
 					? r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1)

@@ -8,6 +8,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
 using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
 {
@@ -22,23 +23,46 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch to reduce special move cooldown for Brute and Poacher.</summary>
+		/// <summary>Patch to reduce special move cooldown for prestiged Brute and Poacher.</summary>
 		[HarmonyPostfix]
 		private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
 		{
 			var who = __instance.getLastFarmerToUse();
-			if (!who.IsLocalPlayer || ModState.SuperModeIndex < 0) return;
+			if (!who.IsLocalPlayer) return;
 
 			switch (__instance.type.Value)
 			{
-				case MeleeWeapon.club when ModState.SuperModeIndex == Utility.Professions.IndexOf("Brute"):
-					MeleeWeapon.clubCooldown =
-						(int) (MeleeWeapon.clubCooldown * Utility.Professions.GetCooldownOrChargeTimeReduction());
+				case MeleeWeapon.dagger:
+					if (who.HasPrestigedProfession("Brute"))
+						MeleeWeapon.daggerCooldown =
+							(int) (MeleeWeapon.daggerCooldown *
+							       Utility.Professions.GetPrestigedBruteCooldownReduction(who));
+					else if (who.HasPrestigedProfession("Poacher"))
+						MeleeWeapon.daggerCooldown =
+							(int) (MeleeWeapon.daggerCooldown *
+							       Utility.Professions.GetPrestigedPoacherCooldownReduction(who));
 					break;
 
-				case MeleeWeapon.dagger when ModState.SuperModeIndex == Utility.Professions.IndexOf("Poacher"):
-					MeleeWeapon.daggerCooldown = (int) (MeleeWeapon.daggerCooldown *
-					                                    Utility.Professions.GetCooldownOrChargeTimeReduction());
+				case MeleeWeapon.club:
+					if (who.HasPrestigedProfession("Brute"))
+						MeleeWeapon.clubCooldown =
+							(int) (MeleeWeapon.clubCooldown *
+							       Utility.Professions.GetPrestigedBruteCooldownReduction(who));
+					else if (who.HasPrestigedProfession("Poacher"))
+						MeleeWeapon.clubCooldown =
+							(int) (MeleeWeapon.clubCooldown *
+							       Utility.Professions.GetPrestigedPoacherCooldownReduction(who));
+					break;
+
+				case MeleeWeapon.defenseSword:
+					if (who.HasPrestigedProfession("Brute"))
+						MeleeWeapon.defenseCooldown =
+							(int) (MeleeWeapon.defenseCooldown *
+							       Utility.Professions.GetPrestigedBruteCooldownReduction(who));
+					else if (who.HasPrestigedProfession("Poacher"))
+						MeleeWeapon.defenseCooldown =
+							(int) (MeleeWeapon.defenseCooldown *
+							       Utility.Professions.GetPrestigedPoacherCooldownReduction(who));
 					break;
 			}
 		}

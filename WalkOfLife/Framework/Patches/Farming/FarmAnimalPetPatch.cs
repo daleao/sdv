@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
+using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using TheLion.Stardew.Common.Harmony;
@@ -60,6 +61,32 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			{
 				ModEntry.Log(
 					$"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}",
+					LogLevel.Error);
+				return null;
+			}
+
+			/// Injected: if (who.professions.Contains(100 + <rancher_id>) repeat happiness and mood increase...
+
+			try
+			{
+				helper
+					.FindProfessionCheck(
+						Utility.Professions.IndexOf("Rancher")) // go back and find the inserted rancher check
+					.Retreat() // reatreat until Ldarg_1 Farmer who
+					.ToBufferUntil( // copy to buffer the entire sections which increases happiness and mood
+						new CodeInstruction(OpCodes.Callvirt,
+							typeof(NetFieldBase<byte, NetByte>).MethodNamed("set_Value"))
+					)
+					.InsertBuffer() // paste it in-place
+					.FindProfessionCheck(
+						Utility.Professions.IndexOf("Rancher")) // advance until the second rancher check
+					.Advance() // advance to Ldc_I4_S
+					.SetOperand(100 + Utility.Professions.IndexOf("Rancher")); // replace rancher with prestiged rancher
+			}
+			catch (Exception ex)
+			{
+				ModEntry.Log(
+					$"Failed while adding prestiged Rancher friendship bonuses.\nHelper returned {ex}",
 					LogLevel.Error);
 				return null;
 			}

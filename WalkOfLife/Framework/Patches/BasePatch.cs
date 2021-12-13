@@ -10,16 +10,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 	/// <summary>Base implementation for Harmony patch classes.</summary>
 	internal abstract class BasePatch : IPatch
 	{
-		protected MethodBase Original { get; set; }
-		protected HarmonyMethod Prefix { get; set; }
-		protected HarmonyMethod Postfix { get; set; }
-		protected HarmonyMethod Transpiler { get; set; }
-
 		/// <summary>Construct an instance.</summary>
 		protected BasePatch()
 		{
 			(Prefix, Postfix, Transpiler) = GetHarmonyMethods();
 		}
+
+		protected MethodBase Original { get; set; }
+		protected HarmonyMethod Prefix { get; set; }
+		protected HarmonyMethod Postfix { get; set; }
+		protected HarmonyMethod Transpiler { get; set; }
 
 		/// <inheritdoc />
 		public virtual void Apply(Harmony harmony)
@@ -80,6 +80,5 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			return (prefix, postfix, transpiler);
 		}
-
 	}
 }

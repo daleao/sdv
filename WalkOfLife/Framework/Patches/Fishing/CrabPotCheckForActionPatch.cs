@@ -83,7 +83,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				__instance.tileIndexToShow = 710;
 				___lidFlapping = true;
 				___lidFlapTimer = 60f;
-				__instance.bait.Value = null;
+
+				if (!who.HasPrestigedProfession("Luremaster") || Game1.random.NextDouble() > 0.6)
+					__instance.bait.Value = null;
+
 				who.animateOnce(279 + who.FacingDirection);
 				who.currentLocation.playSound("fishingRodBend");
 				DelayedAction.playSoundAfterDelay("coin", 500);

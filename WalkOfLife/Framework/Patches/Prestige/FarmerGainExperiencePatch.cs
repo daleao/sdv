@@ -25,12 +25,14 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Prestige
 		[HarmonyPrefix]
 		private static bool FarmerGainExperiencePrefix(Farmer __instance, int which, ref int howMuch)
 		{
+			howMuch = (int) (howMuch * ModEntry.Config.BaseSkillExpMultiplier);
+
 			if (!ModEntry.Config.EnablePrestige) return true; // run original logic
 
 			try
 			{
-				var howMuchAdjusted = howMuch * (int) Math.Pow(1f + ModEntry.Config.ExperienceBonusOnPrestige,
-					__instance.NumberOfProfessionsInSkill(which, true));
+				var howMuchAdjusted = (int) (howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
+					__instance.NumberOfProfessionsInSkill(which, true)));
 				switch (__instance.experiencePoints[which])
 				{
 					case >= PRESTIGE_GATE_I when !__instance.HasAllProfessionsInSkill(which):

@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Common.Extensions
 		public static string RemoveInvalidChars(this string s)
 		{
 			var invalidChars = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
-			return new Regex($"[{Regex.Escape(invalidChars)}]").Replace(s, "");
+			return new Regex($"[{Regex.Escape(invalidChars)}]").Replace(s, string.Empty);
 		}
 
 		/// <summary>Split a camelCase or PascalCase string into its constituent words.</summary>

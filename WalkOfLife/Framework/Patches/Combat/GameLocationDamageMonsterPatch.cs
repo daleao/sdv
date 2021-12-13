@@ -36,12 +36,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// </summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(
-			IEnumerable<CodeInstruction> instructions, MethodBase original)
+			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			var helper = new ILHelper(original, instructions);
 
-			/// From: if (who.professions.Contains(<scout_id>) critChance += critChance * 0.5f
-			/// To: if (who.professions.Contains(<poacher_id>) critChance += 0.1f
+			/// From: if (who.professions.Contains(<scout_id>) critChance += critChance * 0.5f;
+			/// To: if (who.professions.Contains(<poacher_id>) critChance += 0.1f;
 
 			try
 			{
@@ -68,8 +68,41 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				return null;
 			}
 
-			/// From: if (who is not null && who.professions.Contains(<brute_id>) ... *= 1.15f
-			/// To: if (who is not null && who.professions.Contains(<brute_id>) ... *= GetBruteBonusDamageMultiplier(who)
+			/// From: if (who is not null && who.professions.Contains(<fighter_id>) ... *= 1.1f;
+			/// To: if (who is not null && who.professions.Contains(<fighter_id>) ... *= who.professions.Contains(100 + <fighter_id>) ? 1.2f : 1.1f;
+
+			var notPrestigedFighter = iLGenerator.DefineLabel();
+			var resumeExecution = iLGenerator.DefineLabel();
+			try
+			{
+				helper
+					.FindProfessionCheck(Utility.Professions.IndexOf("Fighter"),
+						true) // find index of brute check
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Ldc_R4, 1.1f) // brute damage multiplier
+					)
+					.AddLabels(notPrestigedFighter)
+					.Insert(
+						new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
+					)
+					.InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Fighter"),
+						notPrestigedFighter)
+					.Insert(
+						new CodeInstruction(OpCodes.Ldc_R4, 1.2f),
+						new CodeInstruction(OpCodes.Br_S, resumeExecution)
+					)
+					.Advance()
+					.AddLabels(resumeExecution);
+			}
+			catch (Exception ex)
+			{
+				ModEntry.Log($"Failed while patching prestiged Fighter bonus damage.\nHelper returned {ex}",
+					LogLevel.Error);
+				return null;
+			}
+
+			/// From: if (who is not null && who.professions.Contains(<brute_id>) ... *= 1.15f;
+			/// To: if (who is not null && who.professions.Contains(<brute_id>) ... *= GetBruteBonusDamageMultiplier(who);
 
 			try
 			{
@@ -94,8 +127,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				return null;
 			}
 
-			/// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f
-			/// To: if (who is not null && crit && who.IsLocalPlayer && ModState.Index == <poacher_id>) ... *= GetPoacherCritDamageMultiplier
+			/// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f;
+			/// To: if (who is not null && crit && who.IsLocalPlayer && ModState.SuperModeIndex == <poacher_id>) ... *= GetPoacherCritDamageMultiplier;
 
 			try
 			{
@@ -142,7 +175,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				return null;
 			}
 
-			/// Injected: GameLocationSubroutine(damageAmount, isBomb, crit, critMultiplier, monster, who)
+			/// Injected: DamageMonsterSubroutine(damageAmount, isBomb, crit, critMultiplier, monster, who);
 			///	Before: if (monster.Health <= 0)
 
 			try
@@ -204,28 +237,27 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			// try to steal
 			if (didCrit && ModState.SuperModeIndex == Utility.Professions.IndexOf("Poacher") &&
 			    !ModState.MonstersStolenFrom.Contains(monster.GetHashCode()) && Game1.random.NextDouble() <
-			    (weapon.type.Value == MeleeWeapon.dagger ? 0.6 : 0.3))
+			    (weapon.type.Value == MeleeWeapon.dagger ? 0.5 : 0.25))
 			{
 				var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
 					.Concat(monster.getExtraDropItems()).ToList();
 				var stolen = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
-				if (stolen is not null && who.addItemToInventoryBool(stolen))
-				{
-					ModState.MonstersStolenFrom.Add(monster.GetHashCode());
+				if (stolen is null || !who.addItemToInventoryBool(stolen)) return;
 
-					// play sound effect
-					try
-					{
-						if (ModEntry.SoundFX.SoundByName.TryGetValue("poacher_steal", out var sfx))
-							sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
-						else throw new ContentLoadException();
-					}
-					catch (Exception ex)
-					{
-						ModEntry.Log(
-							$"Couldn't play file 'assets/sfx/poacher_steal.wav'. Make sure the file exists. {ex}",
-							LogLevel.Error);
-					}
+				ModState.MonstersStolenFrom.Add(monster.GetHashCode());
+
+				// play sound effect
+				try
+				{
+					if (ModEntry.SoundFX.SoundByName.TryGetValue("poacher_steal", out var sfx))
+						sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
+					else throw new ContentLoadException();
+				}
+				catch (Exception ex)
+				{
+					ModEntry.Log(
+						$"Couldn't play file 'assets/sfx/poacher_steal.wav'. Make sure the file exists. {ex}",
+						LogLevel.Error);
 				}
 			}
 

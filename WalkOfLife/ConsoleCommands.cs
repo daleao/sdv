@@ -37,7 +37,7 @@ namespace TheLion.Stardew.Professions
 			ModEntry.ModHelper.ConsoleCommands.Add("player_setultindex",
 				"Change the currently registered Super Mode profession.",
 				SetSuperModeIndex);
-			ModEntry.ModHelper.ConsoleCommands.Add("player_ult",
+			ModEntry.ModHelper.ConsoleCommands.Add("player_whichult",
 				"Check the currently registered Super Mode profession.",
 				PrintSuperModeIndex);
 			ModEntry.ModHelper.ConsoleCommands.Add("player_maxanimalfriendship",
@@ -45,7 +45,7 @@ namespace TheLion.Stardew.Professions
 				MaxAnimalFriendship);
 			ModEntry.ModHelper.ConsoleCommands.Add("player_maxanimalmood", "Max-out the mood of all owned animals.",
 				MaxAnimalMood);
-			ModEntry.ModHelper.ConsoleCommands.Add("player_checkfishingprogress",
+			ModEntry.ModHelper.ConsoleCommands.Add("player_fishingprogress",
 				"Check your fishing progress as Angler.",
 				PrintFishCaughtAudit);
 			ModEntry.ModHelper.ConsoleCommands.Add("wol_data",
@@ -108,7 +108,10 @@ namespace TheLion.Stardew.Professions
 			foreach (var professionsIndex in Game1.player.professions)
 				try
 				{
-					ModEntry.Log($"{Framework.Utility.Professions.NameOf(professionsIndex)}", LogLevel.Info);
+					ModEntry.Log(
+						professionsIndex < 100
+							? $"{Framework.Utility.Professions.NameOf(professionsIndex)}"
+							: $"{Framework.Utility.Professions.NameOf(professionsIndex - 100)} (P)", LogLevel.Info);
 				}
 				catch (IndexOutOfRangeException)
 				{
@@ -131,33 +134,40 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
+			var prestige = args[0] is "-p" or "--prestiged";
+			if (prestige) args = args.Skip(1).ToArray();
+
 			List<int> professionsToAdd = new();
 			foreach (var arg in args)
 			{
 				if (arg == "all")
 				{
-					professionsToAdd.AddRange(Enumerable.Range(0, 30));
-					ModEntry.Log($"Added all professions to farmer {Game1.player.Name}.", LogLevel.Info);
+					var range = Enumerable.Range(0, 30).ToHashSet();
+					if (prestige) range = range.Concat(Enumerable.Range(100, 30)).ToHashSet();
+
+					professionsToAdd.AddRange(range);
+					ModEntry.Log($"Added all {(prestige ? "prestiged " : "")}professions to farmer {Game1.player.Name}.", LogLevel.Info);
 					break;
 				}
 
-				if (Framework.Utility.Professions.IndexByName.Forward.TryGetValue(arg.FirstCharToUpper(),
-					out var professionIndex) || int.TryParse(arg, out professionIndex))
+				var professionName = arg.FirstCharToUpper();
+				if (Framework.Utility.Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex))
 				{
-					if (Game1.player.HasProfession(professionIndex))
+					if (!prestige && Game1.player.HasProfession(professionName) || prestige && Game1.player.HasPrestigedProfession(professionName))
 					{
 						ModEntry.Log("You already have this profession.", LogLevel.Warn);
 						continue;
 					}
 
 					professionsToAdd.Add(professionIndex);
+					if (prestige) professionsToAdd.Add(100 + professionIndex);
 					ModEntry.Log(
-						$"Added {Framework.Utility.Professions.NameOf(professionIndex)} profession to farmer {Game1.player.Name}.",
+						$"Added {Framework.Utility.Professions.NameOf(professionIndex)}{(prestige ? " (P)" : "")} profession to farmer {Game1.player.Name}.",
 						LogLevel.Info);
 				}
 				else
 				{
-					ModEntry.Log($"Ignoring unexpected argument {arg}.", LogLevel.Warn);
+					ModEntry.Log($"Ignoring unknown profession {arg}.", LogLevel.Warn);
 				}
 			}
 
@@ -350,7 +360,7 @@ namespace TheLion.Stardew.Professions
 			int numLegendariesCaught = 0, numMaxSizedCaught = 0;
 			var caughtFishNames = new List<string>();
 			var nonMaxSizedCaught = new Dictionary<string, Tuple<int, int>>();
-			var result = "";
+			var result = string.Empty;
 			foreach (var p in Game1.player.fishCaught.Pairs)
 			{
 				if (!fishData.TryGetValue(p.Key, out var specificFishData)) continue;
@@ -477,7 +487,7 @@ namespace TheLion.Stardew.Professions
 		}
 
 		#endregion command handlers
-		
+
 		#region private methods
 
 		/// <summary>Tell the dummies how to use the console command.</summary>

@@ -26,7 +26,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void ProjectileBehaviorOnCollisionPostfix(Projectile __instance, NetInt ___currentTileSheetIndex,
 			NetPosition ___position, NetCharacterRef ___theOneWhoFiredMe, GameLocation location)
 		{
-			if (__instance is not BasicProjectile || ModState.IsSuperModeActive) return;
+			if (__instance is not BasicProjectile basic) return;
+
+			var hashCode = basic.GetHashCode();
+			ModState.BouncedBullets.Remove(hashCode);
+			if (ModState.AuxiliaryBullets.Remove(hashCode)) return;
 
 			var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
 			if (!firer.HasProfession("Rascal")) return;

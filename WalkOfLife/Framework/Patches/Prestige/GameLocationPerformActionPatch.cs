@@ -4,6 +4,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
+using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches
@@ -23,21 +24,33 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPrefix]
 		private static bool GameLocationPerformActionPrefix(GameLocation __instance, string action, Farmer who)
 		{
-			if (!ModEntry.Config.EnablePrestige || action is null || action.Split(' ')[0] != "DogStatue" || !who.IsLocalPlayer)
+			if (!ModEntry.Config.EnablePrestige || action is null || action.Split(' ')[0] != "DogStatue" ||
+			    !who.IsLocalPlayer)
 				return true; // run original logic
 
 			try
 			{
-				if (who.CanPrestigeAny())
+				string message;
+				if (!ModEntry.Config.AllowMultipleResetsPerDay &&
+				    ModEntry.Subscriber.IsSubscribed(typeof(PrestigeDayEndingEvent)))
 				{
-					__instance.createQuestionDialogue(ModEntry.ModHelper.Translation.Get("prestige.dogstatue.first"),
-						__instance.createYesNoResponses(), "dogStatue");
+					message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.dismiss");
+					Game1.drawObjectDialogue(message);
 					return false; // don't run original logic
 				}
 
-				string message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.first");
-				var tokens = message.Split('^');
-				message = tokens[0] + '^' + tokens[1];
+				if (who.CanResetAnySkill())
+				{
+					message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.first");
+					if (ModEntry.Config.ForgetRecipesOnSkillReset)
+						message += ModEntry.ModHelper.Translation.Get("prestige.dogstatue.forget");
+					message += ModEntry.ModHelper.Translation.Get("prestige.dogstatue.offer");
+
+					__instance.createQuestionDialogue(message, __instance.createYesNoResponses(), "dogStatue");
+					return false; // don't run original logic
+				}
+
+				message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.first");
 				Game1.drawObjectDialogue(message);
 				return false; // don't run original logic
 			}

@@ -5,7 +5,6 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
-using StardewValley.Tools;
 using TheLion.Stardew.Common.Classes;
 using TheLion.Stardew.Common.Extensions;
 using SObject = StardewValley.Object;
@@ -91,33 +90,46 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 
 		/// <summary>Affects the price of produce sold by Producer.</summary>
 		/// <param name="who">The player.</param>
-		public static float GetProducerPriceMultiplier(Farmer who)
+		public static float GetProducerPriceBonus(Farmer who)
 		{
-			return 1f + Game1.getFarm().buildings.Where(b =>
+			return Game1.getFarm().buildings.Where(b =>
 				(b.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) &&
 				b.buildingType.Contains("Deluxe") && ((AnimalHouse) b.indoors.Value).isFull()).Sum(_ => 0.05f);
 		}
 
 		/// <summary>Affects the price of fish sold by Angler.</summary>
 		/// <param name="who">The player.</param>
-		public static float GetAnglerPriceMultiplier(Farmer who)
+		public static float GetAnglerPriceBonus(Farmer who)
 		{
 			var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
 				.Where(p => !p.Key.IsAnyOf(152, 152, 157) && !p.Value.Contains("trap"))
 				.ToDictionary(p => p.Key, p => p.Value);
-			var multiplier = 1f;
-			foreach (var p in who.fishCaught.Pairs)
+
+			var multiplier = 0f;
+			foreach (var (key, value) in who.fishCaught.Pairs)
 			{
-				if (!fishData.TryGetValue(p.Key, out var specificFishData)) continue;
+				if (!fishData.TryGetValue(key, out var specificFishData)) continue;
 
 				var dataFields = specificFishData.Split('/');
 				if (Objects.LegendaryFishNames.Contains(dataFields[0]))
 					multiplier += 0.05f;
-				else if (p.Value[1] >= Convert.ToInt32(dataFields[4]))
+				else if (value[1] >= Convert.ToInt32(dataFields[4]))
 					multiplier += 0.01f;
 			}
 
 			return multiplier;
+		}
+
+		/// <summary>Affects the size of the green fishing bar for Aquarist.</summary>
+		public static int GetAquaristBonusBobberBarHeight(Farmer who)
+		{
+			var fishTypes = Game1.getFarm().buildings
+				.Where(b => (b.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+				            b is FishPond)
+				.Cast<FishPond>()
+				.Select(pond => pond.fishType);
+
+			return fishTypes.Distinct().Count() * 6;
 		}
 
 		/// <summary>Affects the price all items sold by Conservationist.</summary>
@@ -158,17 +170,7 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		/// <summary>Affects that chance that a ladder or shaft will spawn for Spelunker.</summary>
 		public static double GetSpelunkerBonusLadderDownChance()
 		{
-			return ModState.SpelunkerLadderStreak * 0.01;
-		}
-
-		/// <summary>Affects the size of the green fishing bar for Aquarist.</summary>
-		public static int GetAquaristBonusBobberBarHeight()
-		{
-			return Game1.getFarm().buildings.Where(b =>
-				(b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond
-				{
-					FishCount: >= 12
-				}).Sum(_ => 6);
+			return ModState.SpelunkerLadderStreak * 0.005;
 		}
 
 		/// <summary>Affects the raw damage dealt by Brute.</summary>
@@ -177,35 +179,48 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		{
 			return 1.15f +
 			       (who.IsLocalPlayer && ModState.IsSuperModeActive && ModState.SuperModeIndex == IndexOf("Brute")
-				       ? 0.65f + who.attackIncreaseModifier +
-				         (who.CurrentTool is not null
-					         ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f
+				       ? 0.1f + 0.15f + who.attackIncreaseModifier +
+				         (who.CurrentTool is not null // double fighter, brute and ring bonuses
+					         ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f // double enchants
 					         : 0f)
-				       : ModState.SuperModeGaugeValue / 10 * 0.005f) *
-			       ((who.CurrentTool as MeleeWeapon)?.type.Value == MeleeWeapon.club ? 1.5f : 1f);
+				         + ModState.SuperModeGaugeMaxValue / 10 * 0.005f // apply the maximum fury bonus
+				       : ModState.SuperModeGaugeValue / 10 * 0.005f);
 		}
 
-		//public static float GetPoacherBonusCritChance()
-		//{
-		//	var healthPercent = (double)who.health / who.maxHealth;
-		//	var bonusCrit = (float)Math.Max(-1.8 / (healthPercent - 4.6) - 0.4, 0f);
-		//}
+		/// <summary>Affects the cooldown of special moves performed by prestiged Brute.</summary>
+		/// <param name="who">The player.</param>
+		public static float GetPrestigedBruteCooldownReduction(Farmer who)
+		{
+			return 1f - who.attackIncreaseModifier + (who.CurrentTool is not null
+				? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f
+				: 0f);
+		}
 
-		/// <summary>Affecsts the powerof critical strikes performed by Poacher.</summary>
+		/// <summary>Affecsts the power of critical strikes performed by Poacher.</summary>
 		public static float GetPoacherCritDamageMultiplier()
 		{
-			//var healthPercent = (double) who.health / who.maxHealth;
-			//var multiplier = (float)Math.Min(-18.0 / (-healthPercent + 4.6) + 6.0, 2f);
-			return 1f + (ModState.IsSuperModeActive ? 2f : ModState.SuperModeGaugeValue / 10 * 0.04f);
+			return ModState.IsSuperModeActive
+				? 1f + ModState.SuperModeGaugeMaxValue / 10 * 0.04f // apply the maximum cold blood bonus
+				: 1f + ModState.SuperModeGaugeValue / 10 * 0.04f;
+		}
+
+		/// <summary>Affects the cooldown special moves performed by prestiged Poacher.</summary>
+		/// <param name="who">The player.</param>
+		public static float GetPrestigedPoacherCooldownReduction(Farmer who)
+		{
+			return 1f - who.critChanceModifier + who.critPowerModifier + (who.CurrentTool is not null
+				? who.CurrentTool.GetEnchantmentLevel<AquamarineEnchantment>() +
+				  who.CurrentTool.GetEnchantmentLevel<JadeEnchantment>() * 0.1f
+				: 0f);
 		}
 
 		/// <summary>Affects the damage of projectiles fired by Rascal.</summary>
-		/// <param name="travelDistance">Distance travelled by the projectile.</param>
-		public static float GetRascalBonusDamageForTravelTime(int travelDistance)
+		/// <param name="travelTime">Projectile's travel time.</param>
+		public static float GetRascalBonusDamageForTravelTime(int travelTime)
 		{
-			const int MAX_DISTANCE_I = 800;
-			if (travelDistance > MAX_DISTANCE_I) return 1.5f;
-			return 1f + 0.5f / MAX_DISTANCE_I * travelDistance;
+			const int MAX_TRAVEL_TIME_I = 800;
+			if (travelTime > MAX_TRAVEL_TIME_I) return 1.5f;
+			return 1f + 0.5f / MAX_TRAVEL_TIME_I * travelTime;
 		}
 
 		/// <summary>Affects the chance to shoot twice consecutively for Desperado.</summary>
@@ -219,44 +234,17 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		/// <summary>Affects projectile velocity, knockback, hitbox size and pierce chance for Desperado.</summary>
 		public static float GetDesperadoBulletPower()
 		{
-			return 1f + (ModState.IsSuperModeActive
+			return ModState.IsSuperModeActive
 				? 1f
-				: ModState.SuperModeGaugeValue / 10 * 0.01f);
-		}
-
-		/// <summary>Affects the time to prepare a shot for Desperado.</summary>
-		public static float GetDesperadoChargeTime()
-		{
-			return 0.3f * GetCooldownOrChargeTimeReduction();
+				: 1f + ModState.SuperModeGaugeValue / 10 * 0.01f;
 		}
 
 		/// <summary>Affects the maximum number of bonus Slimes that can be attracted by Piper.</summary>
 		public static int GetPiperSlimeSpawnAttempts()
 		{
 			return ModState.IsSuperModeActive
-				? 11
+				? ModState.SuperModeGaugeMaxValue / 50 + 1
 				: ModState.SuperModeGaugeValue / 50 + 1;
-		}
-
-		/// <summary>Affects the attack frequency of Slimes under Piper influence towards other enemies.</summary>
-		/// <returns>Returns a number between 0 (when <see cref="ModState.SuperModeGaugeValue" /> is 0, and 0.15 when it is full.</returns>
-		public static float GetPiperSlimeAttackSpeedModifier()
-		{
-			return ModState.IsSuperModeActive
-				? 0.75f
-				: 1f - ModState.SuperModeGaugeValue / 10 * 0.003f;
-		}
-
-		/// <summary>
-		///     Affects the cooldown of Club or Hammer special attacks for Brute and Poacher, or the pull-back time of shots
-		///     for Desperado.
-		/// </summary>
-		/// <returns>Returns a number between 1 (when <see cref="ModState.SuperModeGaugeValue" /> is 0, and 0.5 when it is full.</returns>
-		public static float GetCooldownOrChargeTimeReduction()
-		{
-			return ModState.IsSuperModeActive
-				? 0.5f
-				: 1f - ModState.SuperModeGaugeValue / 10 * 0.01f;
 		}
 
 		#endregion public methods

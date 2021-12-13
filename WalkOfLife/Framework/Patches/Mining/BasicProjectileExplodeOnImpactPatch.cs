@@ -31,7 +31,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				if (who is not Farmer farmer || !farmer.HasProfession("Demolitionist"))
 					return true; // run original logic
 
-				location.explode(new(x / Game1.tileSize, y / Game1.tileSize), 3, farmer);
+				location.explode(new(x / Game1.tileSize, y / Game1.tileSize),
+					farmer.HasPrestigedProfession("Demolitionist") ? 4 : 3, farmer);
 				return false; // don't run original logic
 			}
 			catch (Exception ex)

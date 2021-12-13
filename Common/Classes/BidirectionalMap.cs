@@ -59,10 +59,10 @@ namespace TheLion.Stardew.Common.Classes
 		{
 			if (Forward.ContainsKey(forwardKey))
 				throw new ArgumentException(
-					$"An entry with the same key {forwardKey?.ToString() ?? ""} already exists.");
+					$"An entry with the same key {forwardKey?.ToString() ?? string.Empty} already exists.");
 			if (Reverse.ContainsKey(reverseKey))
 				throw new ArgumentException(
-					$"An entry with the same key {reverseKey?.ToString() ?? ""} already exists.");
+					$"An entry with the same key {reverseKey?.ToString() ?? string.Empty} already exists.");
 
 			Forward.Add(forwardKey, reverseKey);
 			Reverse.Add(reverseKey, forwardKey);

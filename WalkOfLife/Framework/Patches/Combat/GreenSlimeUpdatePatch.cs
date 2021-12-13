@@ -14,7 +14,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 	[UsedImplicitly]
 	internal class GreenSlimeUpdatePatch : BasePatch
 	{
-		private const int BASE_INVINCIBILITY_TIMER = 225;
+		private const int INVINCIBILITY_TIMER_I = 225;
 
 		/// <summary>Construct an instance.</summary>
 		internal GreenSlimeUpdatePatch()
@@ -61,11 +61,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				monster.currentLocation.debris.Add(new(damageToMonster,
 					new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f,
 					monster));
-				monster.setInvincibleCountdown(
-					(int) (BASE_INVINCIBILITY_TIMER * (ModState.SuperModeIndex == Utility.Professions.IndexOf("Piper")
-							? Utility.Professions.GetPiperSlimeAttackSpeedModifier()
-							: 1f)
-					));
+				monster.setInvincibleCountdown(INVINCIBILITY_TIMER_I);
 			}
 		}
 

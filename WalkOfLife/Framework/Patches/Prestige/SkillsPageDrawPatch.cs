@@ -20,8 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Construct an instance.</summary>
 		internal SkillsPageDrawPatch()
 		{
-			if (ModEntry.Config.EnablePrestige)
-				Original = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] {typeof(SpriteBatch)});
+			Original = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] {typeof(SpriteBatch)});
 		}
 
 		#region harmony patches
@@ -109,7 +108,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void DrawExtendedLevelBars(int levelIndex, int skillIndex, int x, int y, int addedX,
 			int skillLevel, SpriteBatch b)
 		{
-			if (!ModEntry.Config.EnableExtendedProgression) return;
+			if (!ModEntry.Config.EnablePrestige) return;
 
 			var drawBlue = skillLevel > levelIndex + 10;
 			if (!drawBlue) return;

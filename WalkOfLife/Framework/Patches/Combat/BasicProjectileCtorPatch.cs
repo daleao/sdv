@@ -22,12 +22,13 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		#region harmony patches
 
-		/// <summary>Patch for all classes to eliminate travel grace period.</summary>
+		/// <summary>Patch for all classes to eliminate travel grace period + add Rascal trick shot.</summary>
 		[HarmonyPostfix]
 		private static void BasicProjectileCtorPostfix(BasicProjectile __instance, ref NetInt ___bouncesLeft,
 			bool damagesMonsters, Character firer)
 		{
 			if (!damagesMonsters || firer is not Farmer farmer) return;
+			
 			__instance.ignoreTravelGracePeriod.Value = true;
 
 			if (!farmer.HasProfession("Rascal") || !ModEntry.Config.Modkey.IsDown()) return;

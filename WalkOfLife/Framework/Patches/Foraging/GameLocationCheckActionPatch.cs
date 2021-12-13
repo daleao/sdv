@@ -145,7 +145,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			/// Injected: CheckActionSubroutine(objects[key], this, who)
 			/// After: Game1.stats.ItemsForaged++
-			
+
 			try
 			{
 				helper
@@ -167,6 +167,49 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			catch (Exception ex)
 			{
 				ModEntry.Log($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}",
+					LogLevel.Error);
+				return null;
+			}
+
+			/// From: if (random.NextDouble() < 0.2)
+			/// To: if (random.NextDouble() < who.professions.Contains(100 + <forager_id>) ? 0.4 : 0.2
+
+			var notPrestigedForager = iLGenerator.DefineLabel();
+			var resumeExecution = iLGenerator.DefineLabel();
+			try
+			{
+				helper
+					.FindProfessionCheck(Utility.Professions.IndexOf("Forager"))
+					.Retreat()
+					.ToBufferUntil(
+						true,
+						true,
+						new CodeInstruction(OpCodes.Brfalse_S)
+					)
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Ldc_R8, 0.2)
+					)
+					.AddLabels(notPrestigedForager)
+					.InsertBuffer()
+					.RetreatUntil(
+						new CodeInstruction(OpCodes.Ldc_I4_S, Utility.Professions.IndexOf("Forager"))
+					)
+					.SetOperand(100 + Utility.Professions.IndexOf("Forager"))
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Brfalse_S)
+					)
+					.SetOperand(notPrestigedForager)
+					.Advance()
+					.Insert(
+						new CodeInstruction(OpCodes.Ldc_R8, 0.4),
+						new CodeInstruction(OpCodes.Br_S, resumeExecution)
+					)
+					.Advance()
+					.AddLabels(resumeExecution);
+			}
+			catch (Exception ex)
+			{
+				ModEntry.Log($"Failed while adding prestiged Foraged double forage bonus.\nHelper returned {ex}",
 					LogLevel.Error);
 				return null;
 			}

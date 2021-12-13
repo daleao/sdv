@@ -28,7 +28,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		{
 			var helper = new ILHelper(original, instructions);
 
-			/// Injected: if (who.professions.Contains(<piper_id>)) return
+			/// Injected: if (who.professions.Contains(<piper_id>)) return;
 
 			try
 			{

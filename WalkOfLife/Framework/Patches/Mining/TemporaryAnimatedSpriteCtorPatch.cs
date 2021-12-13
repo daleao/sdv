@@ -23,6 +23,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void TemporaryAnimatedSpriteCtorPostfix(ref TemporaryAnimatedSprite __instance, Farmer owner)
 		{
 			if (owner.HasProfession("Demolitionist")) ++__instance.bombRadius;
+			if (owner.HasPrestigedProfession("Demolitionist")) ++__instance.bombRadius;
 		}
 
 		#endregion harmony patches

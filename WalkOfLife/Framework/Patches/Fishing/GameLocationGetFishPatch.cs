@@ -98,11 +98,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <param name="hasRerolled">Whether the game has already rerolled once.</param>
 		private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
 		{
-			return !hasRerolled && currentFish is > 166 and < 173 or 152 or 153 or 157
-			                    && who.CurrentTool is FishingRod rod
-			                    && Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
-			                    && baitName.IsAnyOf("Bait", "Wild Bait", "Magic Bait")
-			                    && who.HasProfession("Fisher");
+			return currentFish is > 166 and < 173 or 152 or 153 or 157
+			       && who.CurrentTool is FishingRod rod
+			       && Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
+			       && baitName.IsAnyOf("Bait", "Wild Bait", "Magic Bait")
+			       && who.HasProfession("Fisher") && !hasRerolled;
 		}
 
 		#endregion private methods

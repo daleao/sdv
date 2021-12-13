@@ -25,8 +25,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			var buffID = ModEntry.Manifest.UniqueID.Hash() + ModState.SuperModeIndex;
 			var professionIndex = ModState.SuperModeIndex;
 			var professionName = Utility.Professions.NameOf(professionIndex);
-			var magnitude1 = GetSuperModePrimaryBuffMagnitude(professionName);
-			var magnitude2 = GetSuperModeSecondaryBuffMagnitude(professionName);
+			var magnitude = GetSuperModePrimaryBuffMagnitude(professionName);
 			var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
 			if (buff == null)
 				Game1.buffsDisplay.addOtherBuff(
@@ -50,7 +49,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 						sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
 						millisecondsDuration = 0,
 						description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".buffdesc",
-							new {magnitude1, magnitude2})
+							new {magnitude})
 					});
 		}
 
@@ -60,19 +59,12 @@ namespace TheLion.Stardew.Professions.Framework.Events
 			return professionName switch
 #pragma warning restore 8509
 			{
-				"Brute" => ((Utility.Professions.GetBruteBonusDamageMultiplier(Game1.player) - 1.15f) * 100f)
+				"Brute" => ((Utility.Professions.GetBruteBonusDamageMultiplier(Game1.player) - 1.15) * 100f)
 					.ToString("0.0"),
 				"Poacher" => Utility.Professions.GetPoacherCritDamageMultiplier().ToString("0.0"),
 				"Desperado" => ((Utility.Professions.GetDesperadoBulletPower() - 1f) * 100f).ToString("0.0"),
 				"Piper" => Utility.Professions.GetPiperSlimeSpawnAttempts().ToString("0")
 			};
-		}
-
-		private static string GetSuperModeSecondaryBuffMagnitude(string professionName)
-		{
-			return professionName == "Piper"
-				? ((1f - Utility.Professions.GetPiperSlimeAttackSpeedModifier()) * 100f).ToString("0.0")
-				: ((1f - Utility.Professions.GetCooldownOrChargeTimeReduction()) * 100f).ToString("0.0");
 		}
 	}
 }

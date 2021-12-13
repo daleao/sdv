@@ -24,9 +24,38 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		/// <summary>Patch to remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(
-			IEnumerable<CodeInstruction> instructions, MethodBase original)
+			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			var helper = new ILHelper(original, instructions);
+
+			/// Injected: if (who.professions.Contains(100 + <miner_id>) addedOres++;
+			/// After: int addedOres = (who.professions.Contains(<miner_id>) ? 1 : 0);
+
+			var notPrestigedMiner = iLGenerator.DefineLabel();
+			try
+			{
+				helper
+					.FindProfessionCheck(Utility.Professions.IndexOf("Miner"))
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Stloc_1)
+					)
+					.AddLabels(notPrestigedMiner)
+					.Insert(
+						new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
+					)
+					.InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Miner"),
+						notPrestigedMiner)
+					.Insert(
+						new CodeInstruction(OpCodes.Ldc_I4_1),
+						new CodeInstruction(OpCodes.Add)
+					);
+			}
+			catch (Exception ex)
+			{
+				ModEntry.Log($"Failed while adding prestiged Miner extra ores.\nHelper returned {ex}",
+					LogLevel.Error);
+				return null;
+			}
 
 			/// Skipped: if (who.professions.Contains(<geologist_id> && r.NextDouble() < 0.5) switch(indexOfStone) ...
 

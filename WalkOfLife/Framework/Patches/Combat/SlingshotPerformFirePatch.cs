@@ -21,6 +21,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 	[UsedImplicitly]
 	internal class SlingshotPerformFirePatch : BasePatch
 	{
+		private const float QUICK_FIRE_HANDICAP_F = 1.2f;
+
 		/// <summary>Construct an instance.</summary>
 		internal SlingshotPerformFirePatch()
 		{
@@ -61,44 +63,69 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				for (var i = 0; i < 7; ++i)
 				{
 					velocity.Rotate(45);
-					location.projectiles.Add(new BasicProjectile(damage, ammunitionIndex, 0, 0,
+					var blossom = new BasicProjectile(damage, ammunitionIndex, 0, 0,
 						(float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
-						0f - velocity.Y * speed, startingPosition, collisionSound, "", false,
+						0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
 						true, location, who, true, collisionBehavior)
 					{
 						IgnoreLocationCollision =
 							Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null
-					});
+					};
+
+					location.projectiles.Add(blossom);
+					ModState.AuxiliaryBullets.Add(blossom.GetHashCode());
 				}
-
-				//// do Spreadshot
-				//var adjustedVelocity = new Vector2(netVelocity.X, netVelocity.Y).Rotate(15);
-				//location.projectiles.Add(new BasicProjectile(damage, ammunitionIndex, 0, 0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - adjustedVelocity.X * speed, 0f - adjustedVelocity.Y * speed, startingPosition, collisionSound, "", explode: false, damagesMonsters: true, location, who, spriteFromObjectSheet: true, collisionBehavior)
-				//{
-				//	IgnoreLocationCollision = (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
-				//});
-
-				//adjustedVelocity = new Vector2(netVelocity.X, netVelocity.Y).Rotate(-15);
-				//location.projectiles.Add(new BasicProjectile(damage, ammunitionIndex, 0, 0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - adjustedVelocity.X * speed, 0f - adjustedVelocity.Y * speed, startingPosition, collisionSound, "", explode: false, damagesMonsters: true, location, who, spriteFromObjectSheet: true, collisionBehavior)
-				//{
-				//	IgnoreLocationCollision = (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
-				//});
 			}
 			else if (Game1.random.NextDouble() < Utility.Professions.GetDesperadoDoubleStrafeChance(who))
 			{
-				// do Double Strafe
-				DelayedAction doubleStrafe = new(50, () =>
+				if (who.HasPrestigedProfession("Desperado"))
 				{
-					location.projectiles.Add(new BasicProjectile((int) (damage.Value * 0.6f), ammunitionIndex, 0, 0,
+					// do Spreadshot
+					velocity.Rotate(15);
+					var clockwise = new BasicProjectile(damage, ammunitionIndex, 0, 0,
 						(float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
-						0f - velocity.Y * speed, startingPosition, collisionSound, "", false,
+						0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
+						true, location, who, true, collisionBehavior)
+					{
+						IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
+						                          Game1.currentMinigame is not null
+					};
+
+					location.projectiles.Add(clockwise);
+					ModState.AuxiliaryBullets.Add(clockwise.GetHashCode());
+
+					velocity.Rotate(-30);
+					var anticlockwise = new BasicProjectile(damage, ammunitionIndex, 0, 0,
+						(float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
+						0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
+						true, location, who, true, collisionBehavior)
+					{
+						IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
+						                          Game1.currentMinigame is not null
+					};
+
+					location.projectiles.Add(anticlockwise);
+					ModState.AuxiliaryBullets.Add(anticlockwise.GetHashCode());
+				}
+				else
+				{
+					// do double strafe
+					var secondary = new BasicProjectile((int) (damage.Value * 0.6f), ammunitionIndex, 0, 0,
+						(float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
+						0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
 						true, location, who, true, collisionBehavior)
 					{
 						IgnoreLocationCollision =
 							Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null
+					};
+
+					DelayedAction doubleStrafe = new(50, () =>
+					{
+						location.projectiles.Add(secondary);
 					});
-				});
-				Game1.delayedActions.Add(doubleStrafe);
+					Game1.delayedActions.Add(doubleStrafe);
+					ModState.AuxiliaryBullets.Add(secondary.GetHashCode());
+				}
 			}
 		}
 
@@ -111,8 +138,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			/// Injected: if (who.IsLocalPlayer && location.IsCombatZone() && ModStateIndex == <desperado_id> && !IsModStateActive)
 			///				v *= GetDesperadoBulletPower();
-			///				if (Game1.currentTime.TotalGameTime.TotalSeconds - this.pullStartTime <= GetDesperadoChargeTime()* breathingRoom) { ModStateCounter += 10; }
-			///				else { ModStateCounter += 2 }
+			///				if (Game1.currentTime.TotalGameTime.TotalSeconds - this.pullStartTime <= GetDesperadoChargeTime()* breathingRoom) { SuperModeCounter += 10; }
+			///				else { SuperModeCounter += 2 }
 			/// Before: if (ammunition.Category == -5) collisionSound = "slimedead";
 
 			var notQuickShot = iLGenerator.DefineLabel();
@@ -152,7 +179,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							typeof(ModState).PropertyGetter(nameof(ModState.SuperModeIndex))),
 						new CodeInstruction(OpCodes.Ldc_I4_S, Utility.Professions.IndexOf("Desperado")),
 						new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution),
-						// check if IsModStateActive = true
+						// check if IsSuperModeActive = true
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModState).PropertyGetter(nameof(ModState.IsSuperModeActive))),
 						new CodeInstruction(OpCodes.Brtrue_S, resumeExecution),
@@ -178,7 +205,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 								.GetDesperadoBulletPower))),
 						new CodeInstruction(OpCodes.Mul),
 						new CodeInstruction(OpCodes.Stind_R4),
-						// check for quick shot (i.e. sling shot charge time <= required charge time * breathing room)
+						// check for quick shot (i.e. sling shot charge time <= required charge time * handicap)
 						new CodeInstruction(OpCodes.Ldsfld,
 							typeof(Game1).Field(nameof(Game1.currentGameTime))),
 						new CodeInstruction(OpCodes.Callvirt,
@@ -191,17 +218,18 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Ldfld,
 							typeof(Slingshot).Field(nameof(Slingshot.pullStartTime))),
 						new CodeInstruction(OpCodes.Sub),
+						new CodeInstruction(OpCodes.Ldarg_0),
 						new CodeInstruction(OpCodes.Call,
-							typeof(Utility.Professions).MethodNamed(nameof(Utility.Professions
-								.GetDesperadoChargeTime))),
-						new CodeInstruction(OpCodes.Ldc_R4, 1.2f), // <-- breathing room
+							typeof(Slingshot).MethodNamed(nameof(Slingshot.GetRequiredChargeTime))),
+						new CodeInstruction(OpCodes.Ldc_R4, QUICK_FIRE_HANDICAP_F), // <-- handicap
 						new CodeInstruction(OpCodes.Mul),
 						new CodeInstruction(OpCodes.Bgt_S, notQuickShot),
 						// increment Temerity gauge
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeValue))),
 						new CodeInstruction(OpCodes.Ldc_R8, 10.0), // <-- increment amount
-						new CodeInstruction(OpCodes.Call, typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeMaxValue))),
+						new CodeInstruction(OpCodes.Call,
+							typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeMaxValue))),
 						new CodeInstruction(OpCodes.Conv_R8),
 						new CodeInstruction(OpCodes.Ldc_R8, 500.0),
 						new CodeInstruction(OpCodes.Div),
@@ -218,7 +246,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						new CodeInstruction(OpCodes.Call,
 							typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeValue))),
 						new CodeInstruction(OpCodes.Ldc_R8, 2.0), // <-- increment amount
-						new CodeInstruction(OpCodes.Call, typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeMaxValue))),
+						new CodeInstruction(OpCodes.Call,
+							typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeMaxValue))),
 						new CodeInstruction(OpCodes.Conv_R8),
 						new CodeInstruction(OpCodes.Ldc_R8, 500.0),
 						new CodeInstruction(OpCodes.Div),
