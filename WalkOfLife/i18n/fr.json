@@ -143,7 +143,7 @@
 	"rascal.desc.prestiged": "Les tirs rebondis étourdissent les ennemis pendant 5 secondes.",
 	"desperado.name.male": "Desperado",
 	"desperado.name.female": "Desperada",
-	"desperado.desc": "Tirez 50 % plus vite. Chance d'effectuer un double tir, augmentant à bas HP. La témérité accumulée augmente la section efficace des tirs et la puissance d'impact.",
+	"desperado.desc": "Tirez 50 % plus vite. Chance d'effectuer un double tir, basé sur le HP actuel. La témérité accumulée augmente la section efficace des tirs et la puissance d'impact.",
 	"desperado.desc.prestiged": "Les double tirs deviennent des tirs étalés.",
 	"desperado.buff": "Témérité",
 	"desperado.buffdesc": "Puissance des tires +{{magnitude}} %.",

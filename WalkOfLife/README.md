@@ -49,16 +49,18 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - Rebalanced and reworked [almost] every profession to be an equally unique and attractive choice.
 - Each profession targets a specific style of gameplay, some which were not viable in vanilla (e.g. ranching).
 - No more ~~boring~~ uninspiring flat value bonuses.
-- Bomberman mining; Assassin, Sniper and Slime-army combat.
+- Bomberman mining; Thief/Assassin combat; epic slingshots; command an army of giant Slimes.
 - Scaling end-game objectives.
 - Level 5 professions provide simple early-game buffs that benefit most styles of general gameplay.
 - Level 10 professions are more specialized and engaging, providing two bonuses which change the way you play.
 - Professions are more consistent across the board, with several analogous perks and synergies.
-- [Super Mode!](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode)
-- **New:** Skill Prestige!
+- Combat professions have unique [Ultimates](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode)
+- Lore-friendly multi-profession.
+- Level 20 skills and prestiged professions.
 - Lightweight. This mod is built with a dynamic event handling system to avoid overhead.
+- Gender-specific profession title.
 - New icons for most professions, courtesy of [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) (please make sure to [endorse their original](https://www.nexusmods.com/stardewvalley/mods/4163) mod).
-
+- New sound effects for certain professions.
 
 ## Professions
 
@@ -91,7 +93,8 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - **Lv10 - Arborist** - All trees grow faster and can drop hardwood.
     - Bonus tree growth works as a global buff; i.e. in multiplayer, all trees will be affected as long as any player in the session has this profession, and the effect will stack for all additional online players that share this profession. _The hardwood bonus is unchanged from vanilla._
 - **Lv10 - Tapper** - Tappers are cheaper to craft. Tapped trees give syrup 25% faster.
-    - New recipe: x25 wood and x1 copper bar.
+    - New recipe: x25 wood, x1 copper bar.
+    - New Heavy recipe: x20 hardwood, x1 iridium bar, x1 radioactive ore.
 
 ### ![](https://i.imgur.com/TidtIw0.png) Mining 
 
@@ -111,7 +114,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ### ![](https://i.imgur.com/XvdVsAn.png) Fishing
 
-- **Lv5 - Fisher** - Live bait reduces the chance to fish junk.
+- **Lv5 - Fisher** - Fish bite faster. Live bait reduces the chance to fish junk.
     - Here, "junk" includes algae and seaweed.
 - **Lv10 - Angler** - Fish worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish.
     - "Legendary fish" includes the Extended Family Qi challenge varieties, counted only once.
@@ -120,13 +123,13 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - **Lv5 - Trapper** - Crab pots are cheaper to craft. Can trap higher-quality haul.
     - All trapped fish can have quality up to gold. Chance depends on your fishing level (same formula as forage). _Recipe is unchanged from vanilla._
 - **Lv10 - Luremaster** - Crab pots no longer produce junk. Use different baits to attract different catch.
-    - Each type bait will attract different catch:
-        - **Regular bait:** 10% chance to catch fish up to level 70. Trappable fish are subject to the same location and season limitations as regular fishing.
-        - **Wild bait:** 10% chance to catch fish up to level 90 (i.e. anything but legendaries and octopus). 50% chance to double the haul.
+    - Each type bait will also apply it's regular fishing effects:
+        - **Regular bait:** 25% chance to catch fish, subject to the same location and season limitations as regular fishing.
+        - **Wild bait:** 25% chance to also double the haul.
         - **Magnet:** repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even weapons.
-        - **Magic bait:** 25% chance to catch fish above level 70, excluding legendaries. Removes all location and seasonal restrictions for catching fish. Makes all catch iridium-quality. _This is the only way to obtain iridium-quality fish from Crab Pots._
-- **Lv10 - Conservationist** - Crab pots without bait will trap junk. Clean the Valley's waters to merit village favor and tax deductions.
-    - Every 10 (configurable) junk items collected from Crab Pots increases friendship with all villagers by 1. Every 100 (configurable) junk items collected will earn you a 1% tax deduction the following season (max 25%, also configurable), increasing the value of all shipped goods. You will receive a formal mail from the Ferngill Revenue Service each season informing your currrent tax bracket.
+        - **Magic bait:** 25% chance to catch fish of any location or season. Also upgrades all catch to iridium-quality.
+- **Lv10 - Conservationist** - Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions.
+    - Every 100 (configurable) junk items collected will earn you a 1% tax deduction the following season (max 25%, also configurable), increasing the value of all shipped goods. You will receive a formal mail from the Ferngill Revenue Service each season informing your currrent tax bracket.
 
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
@@ -137,7 +140,6 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
 - **Lv10 - Brute** - Damage +15%. +25 HP. Build fury in combat, further increasing damage.
     - **Fury:**
         - Damage bonus caps at +40%. If wielding a club the cap is 60%.
-        - Additionally builds up to 50% cooldown reduction on club smash attack.
 		- Fury builds faster if wielding a club.
     - Unleash all pent-up fury to enter an **Undying Rage:** Doubles all damage bonuses. Immune to passing out.
         - Doubled damage bonuses include all sources, such as professions, rings and enchantments.
@@ -145,43 +147,38 @@ The combat tree has received a much more extensive overhaul. Each level 10 profe
     - Monsters can only be poached once.
     - **Cold Blood:**
         - Crit. power bonus caps at x3.
-        - Additionally builds up to 50% cooldown reduction on dagger quick-stab attack.
 		- Cold blood builds faster if wielding a dagger.
     - Your cold blood masks your presence, allowing you to mount an **Ambuscade:** Become invisible and untargetable. Back stabs are deadly.
-		- Failing to assassinate an enemy will make them aware of your position, canceling the effect.
+		- Failing to assassinate an enemy will instantly reveal your position, canceling the effect.
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo.
     - In Vanilla, slingshots are unable to hit enemies that are near the Farmer. As a way to improve slingshot combat, this mod also removes the grace period before a shot is allowed to deal damage. All professions are affected.
-    -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but will bounce off walls._
-- **Lv10 - Desperado** - Chance to fire a double shot, increasing at lower HP. Projectile power increases with built-up temerity.
+    -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but can ricochet once._
+- **Lv10 - Desperado** - Fire 50% faster. Chance to fire a double shot, based on current HP. Built-up temerity increases projectile cross section and impact power.
     - **Temerity:**
         - Projectiles are fired with gradually increasing velocity. Higher velocity projectiles have several properties:
             - Increased knockback (up to 1.5x).
             - Chance to pierce through enemies (up to 25%).
             - Increased hitbox, by affecting the air around them, damaging nearby enemies even if they miss (up to 50% on either side).
-        - Additionally builds slingshot pull-back time reduction up to 50% (requires hold-to-charge mode).
     - Your temerity culminates in one final desperate **Death Blossom:** Enables auto-reload. Fire eight shots around you at once.
 - **Lv10 - Slimed Piper** - Slimes damage other enemies and drop more items the more Slimes are raised on the farm. Gathered eubstance attracts more Slimes in dungeons.
     - Slimes cannot damage flying enemies.
     - Each Slime raised on the farm, either in a hutch or outside, increases the chance for Slimes to drop additional items.
     - Pipers are immune to the Slimed debuff.
-    - Pipers recover 1 HP on contact with Slimes. **This does not negate Slime damage. A Slime Charmer ring is still required.**
     - **Eubstance:**
         - Every dungeon floor can spawn up to 11 additional Slimes.
-        - Additionally increases the attack frequency of Slimes up to +15%.
     - Spread all gathered Eubstance to nearby Slimes, allowing them to enter a state of **Superfluidity:** Engorge and empower nearby Slimes.
         - Causes Slimes to grow up to twice their size and gain a proportional damage boost.
-        - Healed amount reflects the Slime's actual damage.
         - Large enough Slimes can hit flying enemies, and break into smaller Slimes if defeated.
         - Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant.
 
 ## Prestige
 
-The [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) has been replaced by the Statue of Prestige, which is now capable of prestiging level 10 skills. A prestiged skill's level is reset and all related recipes are forgotten, however all acquired professions are maintained. This allows the farmer to eventually acquire all 20 final professions simultaneously.
-Prestiging a skill costs 10,000g the first time, 50,000g the second time, and 100,000g the last time. The ribbon in the skills page of the game menu reflects the number of professions acquired in each skill. Non-vanilla skills at the moment cannot be prestiged.
+The [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) has been replaced by the Statue of Prestige, which is capable of reseting level 10 skills for a price. A skill reset preserves all related professions, and optionally removes all related recipes. The farmer can use this to eventually acquire all 20 final professions simultaneously.
+Reseting a skill costs 10,000g the first time, 50,000g the second time, and 100,000g the last time. The ribbon in the skills page of the game menu reflects the number of professions acquired in each skill. Skill level also affects the odds of higher quality crops and fishes, the amount of berries foraged per bush, and the duration of Super Mode and related perks.
+(Non-vanilla skills at the moment are not supported.)
 
-## Extended Progression
-
-After a skill has been fully prestiged, its level cap will be raised to 20, allowing you to continue developing your tool proficiency and max health. Skill level also increases the odds of higher quality crops and fishes, as well as the amount of berries foraged per bush. The Super Mode duration and perks are also improved for combat professions.
+Once a skill has been reset at least three times, and all professions obtained, its level cap is raised to 20, allowing the farmer to continue developing tool proficiency and/or max health. 
+At levels 15 and 20, the farmer can choose a profession to prestige, improving one of its base perks, or, in some cases, granting entirely new ones. 
 
 ## Compatbility
 
@@ -230,30 +227,31 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **TrashNeededPerFriendshipPoint** (integer) - Represents the number of trash items the Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
 - **TaxDeductionCeiling** (decimal) - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
 - **EnablePrestige** (boolean) - Whether to apply prestige changes.
-- **SkillResetCostMultiplier** (decimal) - Multiplies the base prestige cost. Set to 0 to prestige for free.
-- **ForgetRecipesOnSkillReset** (boolean) - Wether prestiging a skill also clears all associated recipes.
-- **BonusSkillExpAfterReset** (decimal) - Percentage bonus ll skill experience gained after each respective prestige.
-- **EnableExtendedProgession** (boolean) - Whether to open progression up to level 20 after fully prestiging a skill. 
+- **SkillResetCostMultiplier** (decimal) - Multiplies the base skill reset cost. Set to 0 to prestige for free.
+- **ForgetRecipesOnSkillReset** (boolean) - Wether reseting a skill also clears all associated recipes.
+- **AllowMultipleResetsPerDay** (boolean) - Whether the player can reset more than one skill in a day.
+- **BaseSkillExpMultiplier** (decimal) - Multiplies all skill experience gained from the start of the game.
+- **BonusSkillExpPerReset** (decimal) - Multiplies all skill experience gained after each respective prestige.
 
 ## Console Commands
 
 The mod provides the following console commands, which you can enter in the SMAPI console for testing, checking or cheating:
 
-- **player_checkskills** - List the player's current skill levels.
+- **player_skills** - List the player's current skill levels.
 - **player_resetskills** - Reset all player's skills.
-- **player_checkprofessions** - List the player's current professions.
+- **player_professions** - List the player's current professions.
 - **player_addprofessions** - Add the specified professions to the local player.
 - **player_resetprofessions** - Reset all skills and professions for the local player.
-- **player_setultmeter** - Set the Super Mode meter to the desired value.
+- **player_setultvalue** - Set the Super Mode value to the desired number.
 - **player_readyult** - Max-out the Super Mode meter.
-- **player_registerult** - Change the currently registered Super Mode profession.
-- **player_checkult** - Check the currently registered Super Mode profession.
+- **player_setultindex** - Change the Super Mode profession to the desired index.
+- **player_whichult** - Check the currently registered Super Mode profession.
 - **player_maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
 - **player_maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
-- **player_checkfishingprogress** - Check your fishing progress and bonus fish value as Angler.
-- **wol_checkdata** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent).
+- **player_fishingprogress** - Check your fishing progress and bonus fish value as Angler.
+- **wol_data** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent).
 - **wol_setdata** - Set a new value for one of the mod data fields above.
-- **wol_checkevents** - List currently subscribed mod events (for debugging).
+- **wol_events** - List currently subscribed mod events (for debugging).
 
 ## Recommended Mods
 

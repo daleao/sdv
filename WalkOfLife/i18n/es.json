@@ -143,7 +143,7 @@
 	"rascal.desc.prestiged": "Los disparos rebotados aturden a los enemigos durante 5 segundos.",
 	"desperado.name.male": "Forajido",
 	"desperado.name.female": "Forajida",
-	"desperado.desc": "Possibilidad de disparar una ráfaga doble, aumentando a menor HP. La temeridad acumulada aumenta la sección éficaz de los tiros y la potencia de impacto.",
+	"desperado.desc": "Possibilidad de disparar una ráfaga doble, basado en el HP actual. La temeridad acumulada aumenta la sección éficaz de los tiros y la potencia de impacto.",
 	"desperado.desc.prestiged": "Dispara un 50% más rápido. El tiro doble se convierte en un tiro de escopeta.",
 	"desperado.buff": "Temeridad",
 	"desperado.buffdesc": "Potencia de los disparos +{{magnitude}}%.",

@@ -143,7 +143,7 @@
 	"rascal.desc.prestiged": "Tiros ricocheteados atordoam os inimigos por 5 segundos.",
 	"desperado.name.male": "Foragido",
 	"desperado.name.female": "Foragida",
-	"desperado.desc": "Dispara 50% mais rápido. Chance de disparar uma rajada dupla, aumentando a baixo HP. A temeridade acumulada aumenta a seção de choque dos tiros e a potência de impacto.",
+	"desperado.desc": "Dispara 50% mais rápido. Chance de disparar uma rajada dupla, com base na HP atual. A temeridade acumulada aumenta a seção de choque dos tiros e a potência de impacto.",
 	"desperado.desc.prestiged": "Rajada dupla se torna disparo triplo.",
 	"desperado.buff": "Temeridade",
 	"desperado.buffdesc": "Potência dos disparos +{{magnitude}}%.",

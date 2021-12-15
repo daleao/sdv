@@ -29,7 +29,7 @@ namespace TheLion.Stardew.Professions
 			ModEntry.ModHelper.ConsoleCommands.Add("player_resetprofessions",
 				"Reset all skills and professions for the local player.",
 				ResetLocalPlayerProfessions);
-			ModEntry.ModHelper.ConsoleCommands.Add("player_setultval",
+			ModEntry.ModHelper.ConsoleCommands.Add("player_setultvalue",
 				"Set the Super Mode meter to the desired value.",
 				SetSuperModeGaugeValue);
 			ModEntry.ModHelper.ConsoleCommands.Add("player_readyult", "Max-out the Super Mode meter.",
