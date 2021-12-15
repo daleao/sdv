@@ -20,7 +20,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 	[UsedImplicitly]
 	internal class CrabPotDayUpdatePatch : BasePatch
 	{
-		private const double CHANCE_TO_CATCH_FISH_D = 0.25;
+		private const double CHANCE_TO_CATCH_FISH_D = 0.25, CHANCE_TO_CATCH_TRASH_D = 0.5;
 
 		/// <summary>Construct an instance.</summary>
 		internal CrabPotDayUpdatePatch()
@@ -88,7 +88,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				var fishQuality = 0;
 				if (whichFish < 0)
 				{
-					if (__instance.bait.Value is not null || isConservationist)
+					if (__instance.bait.Value is not null || isConservationist && r.NextDouble() < CHANCE_TO_CATCH_TRASH_D)
 					{
 						whichFish = GetTrash(r);
 						if (isConservationist)
