@@ -29,7 +29,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPrefix]
 		private static bool LevelUpMenuDrawPrefix(LevelUpMenu __instance, int ___currentSkill, int ___currentLevel)
 		{
-			if (__instance.isProfessionChooser && ___currentSkill == 4 && ___currentLevel == 10)
+			if (__instance.isProfessionChooser && ___currentLevel == 10)
 				__instance.height += 16;
 
 			return true; // run original logic

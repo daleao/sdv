@@ -126,7 +126,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
     - Each type bait will also apply it's regular fishing effects:
         - **Regular bait:** 25% chance to catch fish, subject to the same location and season limitations as regular fishing.
         - **Wild bait:** 25% chance to also double the haul.
-        - **Magnet:** repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even weapons.
+        - **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even weapons.
         - **Magic bait:** 25% chance to catch fish of any location or season. Also upgrades all catch to iridium-quality.
 - **Lv10 - Conservationist** - Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions.
     - Every 100 (configurable) junk items collected will earn you a 1% tax deduction the following season (max 25%, also configurable), increasing the value of all shipped goods. You will receive a formal mail from the Ferngill Revenue Service each season informing your currrent tax bracket.
@@ -231,7 +231,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **ForgetRecipesOnSkillReset** (boolean) - Wether reseting a skill also clears all associated recipes.
 - **AllowMultipleResetsPerDay** (boolean) - Whether the player can reset more than one skill in a day.
 - **BaseSkillExpMultiplier** (decimal) - Multiplies all skill experience gained from the start of the game.
-- **BonusSkillExpPerReset** (decimal) - Multiplies all skill experience gained after each respective prestige.
+- **BonusSkillExpPerReset** (decimal) - Multiplies all skill experience gained after each respective skill reset.
 
 ## Console Commands
 
