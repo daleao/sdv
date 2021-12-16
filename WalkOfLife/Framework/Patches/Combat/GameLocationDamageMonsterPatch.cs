@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
@@ -247,18 +246,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				ModState.MonstersStolenFrom.Add(monster.GetHashCode());
 
 				// play sound effect
-				try
-				{
-					if (ModEntry.SoundFX.SoundByName.TryGetValue("poacher_steal", out var sfx))
-						sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
-					else throw new ContentLoadException();
-				}
-				catch (Exception ex)
-				{
-					ModEntry.Log(
-						$"Couldn't play file 'assets/sfx/poacher_steal.wav'. Make sure the file exists. {ex}",
-						LogLevel.Error);
-				}
+				ModEntry.SoundBox.Play("poacher_steal");
 			}
 
 			// try to increment Super Mode gauges

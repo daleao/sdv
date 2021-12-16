@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Xna.Framework.Content;
+﻿using System.Linq;
 using Netcode;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
@@ -43,18 +40,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				new SuperModeOverlayFadeInUpdateTickedEvent());
 
 			// play sound effect
-			try
-			{
-				if (ModEntry.SoundFX.SoundByName.TryGetValue(ModState.SuperModeSFX, out var sfx))
-					sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
-				else throw new ContentLoadException();
-			}
-			catch (Exception ex)
-			{
-				ModEntry.Log(
-					$"Couldn't play file 'assets/sfx/{ModState.SuperModeSFX}.wav'. Make sure the file exists. {ex}",
-					LogLevel.Error);
-			}
+			ModEntry.SoundBox.Play(ModState.SuperModeSFX);
 
 			// add countdown event
 			ModEntry.Subscriber.Subscribe(new SuperModeCountdownUpdateTickedEvent());

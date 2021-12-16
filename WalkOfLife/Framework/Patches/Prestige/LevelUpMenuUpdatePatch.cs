@@ -290,10 +290,12 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var newProfessionKey = Utility.Professions.NameOf(chosenProfession);
 			var newProfessionDisplayName = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".name.male");
 			var newBuff = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".buff");
+			var pronoun = Utility.Professions.GetBuffPronoun();
 			Game1.currentLocation.createQuestionDialogue(
 				ModEntry.ModHelper.Translation.Get("prestige.levelup.question",
 					new
 					{
+						pronoun,
 						oldProfession = oldProfessionDisplayName,
 						oldBuff,
 						newProfession = newProfessionDisplayName,

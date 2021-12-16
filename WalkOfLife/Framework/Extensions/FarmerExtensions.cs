@@ -90,6 +90,19 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			       professionIndex % 6 > 1;
 		}
 
+		/// <summary>Whether the farmer has all six professions in the specified skill.</summary>
+		public static bool HasAllProfessionsInSkill(this Farmer farmer, int which)
+		{
+			return farmer.NumberOfProfessionsInSkill(which) == 6;
+		}
+
+		/// <summary>Whether the farmer has all 30 vanilla professions.</summary>
+		public static bool HasAllProfessions(this Farmer farmer)
+		{
+			var allProfessions = Enumerable.Range(0, 30).ToList();
+			return farmer.professions.Intersect(allProfessions).Count() == allProfessions.Count();
+		}
+
 		/// <summary>Get the last level 5 profession acquired by the farmer in the specified skill.</summary>
 		/// <param name="skill">The skill index.</param>
 		/// <returns>The last acquired profession, or -1 if none was found.</returns>
@@ -112,6 +125,28 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 			return lastIndex >= 0
 				? farmer.professions[lastIndex]
 				: lastIndex;
+		}
+
+		/// <summary>Get all the farmer's professions associated with a specific skill.</summary>
+		/// <param name="which">The skill index.</param>
+		/// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the result.</param>
+		public static IEnumerable<int> GetAllProfessionsForSkill(this Farmer farmer, int which,
+			bool excludeTierOneProfessions = false)
+		{
+			return farmer.professions.Intersect(excludeTierOneProfessions
+				? Enumerable.Range(which * 6 + 2, 4)
+				: Enumerable.Range(which * 6, 6));
+		}
+
+		/// <summary>Count the number of professions acquired by the player in the specified skill.</summary>
+		/// <param name="which">The skill index.</param>
+		/// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
+		public static int NumberOfProfessionsInSkill(this Farmer farmer, int which,
+			bool excludeTierOneProfessions = false)
+		{
+			return excludeTierOneProfessions
+				? farmer.professions.Count(p => p / 6 == which && p % 6 > 1)
+				: farmer.professions.Count(p => p / 6 == which);
 		}
 
 		/// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
@@ -227,39 +262,12 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 				.Select(recipe => recipe.Key);
 		}
 
-		/// <summary>Get all the farmer's professions associated with a specific skill.</summary>
-		/// <param name="which">The skill index.</param>
-		/// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the result.</param>
-		public static IEnumerable<int> GetProfessionsForSkill(this Farmer farmer, int which,
-			bool excludeTierOneProfessions = false)
+		/// <summary>Get all available Super Mode's not currently registerd.</summary>
+		public static IEnumerable<int> GetUnchosenSuperModes(this Farmer farmer)
 		{
-			return farmer.professions.Intersect(excludeTierOneProfessions
-				? Enumerable.Range(which * 6 + 2, 4)
-				: Enumerable.Range(which * 6, 6));
-		}
-
-		/// <summary>Count the number of professions acquired by the player in the specified skill.</summary>
-		/// <param name="which">The skill index.</param>
-		/// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
-		public static int NumberOfProfessionsInSkill(this Farmer farmer, int which,
-			bool excludeTierOneProfessions = false)
-		{
-			return excludeTierOneProfessions
-				? farmer.professions.Count(p => p / 6 == which && p % 6 > 1)
-				: farmer.professions.Count(p => p / 6 == which);
-		}
-
-		/// <summary>Whether the farmer has all six professions in the specified skill.</summary>
-		public static bool HasAllProfessionsInSkill(this Farmer farmer, int which)
-		{
-			return farmer.NumberOfProfessionsInSkill(which) == 6;
-		}
-
-		/// <summary>Whether the farmer has all 30 vanilla professions.</summary>
-		public static bool HasAllProfessions(this Farmer farmer)
-		{
-			var allProfessions = Enumerable.Range(0, 30).ToList();
-			return farmer.professions.Intersect(allProfessions).Count() == allProfessions.Count();
+			var otherSuperModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"}
+				.Select(Utility.Professions.IndexOf).Except(new[] {ModState.SuperModeIndex});
+			return farmer.professions.Intersect(otherSuperModeProfessions);
 		}
 	}
 }

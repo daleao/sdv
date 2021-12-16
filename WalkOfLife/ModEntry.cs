@@ -12,7 +12,7 @@ namespace TheLion.Stardew.Professions
 		internal static ModData Data { get; set; }
 		internal static ModConfig Config { get; set; }
 		internal static EventSubscriber Subscriber { get; private set; }
-		internal static SoundEffectLoader SoundFX { get; set; }
+		internal static SoundBox SoundBox { get; set; }
 
 		internal static IModHelper ModHelper { get; private set; }
 		internal static IManifest Manifest { get; private set; }
@@ -39,7 +39,7 @@ namespace TheLion.Stardew.Professions
 
 			// get mod assets
 			helper.Content.AssetEditors.Add(new IconEditor()); // sprite assets
-			SoundFX = new(helper.DirectoryPath); // sound assets
+			SoundBox = new(helper.DirectoryPath); // sound assets
 
 			// add debug commands
 			ConsoleCommands.Register();

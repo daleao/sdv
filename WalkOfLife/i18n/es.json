@@ -165,13 +165,22 @@
 	"prestige.dogstatue.which": "¿Qué habilidad te gustaría restablecer?",
 	"prestige.dogstatue.cost": "{{cost}}G",
 	"prestige.dogstatue.dismiss": "Vuelve mañana.",
+	"prestige.dogstatue.replace": "-Estatua del prestigio-^Actualmente registrado {{pronoun}} {{currentBuff}} de {{currentProfession}}. ¿Reemplazar?",
+	"prestige.dogstatue.choice": "{{choiceBuff}} de {{choiceProfession}}",
+	"prestige.dogstatue.fledged": "Ahora eres {{pronoun}} {{choiceProfession}} de pleno derecho.",
 	"prestige.skillpage.tooltip": "{{count}}/4 profesiones adquiridas:",
 	"prestige.levelup.tooltip:5": "Ya tienes todas las profesiones en esta rama.",
 	"prestige.levelup.tooltip:10": "Ya tienes esta profesión.",
-	"prestige.levelup.question": "Actualmente registrado en el {{oldBuff}} de {{oldProfession}}. ¿Reemplazar con el {{newBuff}} de {{newProfession}}?",
+	"prestige.levelup.question": "Actualmente registrado en {{pronoun}} {{oldBuff}} de {{oldProfession}}. ¿Reemplazar con el {{newBuff}} de {{newProfession}}?",
 	"prestige.levelup.unlocked": "Ahora puedes continuar a desarrollar tu habilidad {{whichSkill}} aún más.",
 	"prestige.levelup.prestige": "Elige una profesión para prestigiar:",
 	"prestige.achievement.name.male": "Manitas",
 	"prestige.achievement.name.female": "Manitas",
-	"prestige.achievement.desc": "Adquira todas las profesiones en todas las habilidades."
+	"prestige.achievement.desc": "Adquira todas las profesiones en todas las habilidades.",
+
+	// Other
+	"pronoun.definite.male": "en el",
+	"pronoun.definite.female": "en la",
+	"pronoun.indefinite.male": "un",
+	"pronoun.indefinite.female": "una"
 }

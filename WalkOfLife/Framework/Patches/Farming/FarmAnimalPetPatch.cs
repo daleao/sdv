@@ -38,24 +38,29 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.FindProfessionCheck(Farmer.shepherd) // find index of shepherd check
 					.Advance()
 					.SetOpCode(OpCodes.Ldc_I4_0) // replace with rancher check
-					.Advance(2) // the false case branch instruction
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Brfalse_S) // the true case branch instruction
+						new CodeInstruction(OpCodes.Brfalse_S)
 					)
-					.GetOperand(out var hasRancher) // copy destination
-					.Return()
-					.ReplaceWith(
-						new(OpCodes.Brtrue_S,
-							(Label) hasRancher) // replace false case branch with true case branch
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Brfalse_S)
 					)
-					.Advance()
-					.FindProfessionCheck(Farmer.butcher, true) // find coopmaster check
-					.Advance(3) // the branch to resume execution
-					.GetOperand(out var resumeExecution) // copy destination
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Brfalse_S) // the get out of here false case branch instruction
+					)
+					.GetOperand(out var isNotRancher) // copy destination
 					.Return(2)
-					.Insert(
-						new CodeInstruction(OpCodes.Br_S, (Label) resumeExecution) // insert new false case branch
-					);
+					.SetOperand(isNotRancher) // replace false case branch with true case branch
+					.Advance()
+					.RemoveUntil(
+						new CodeInstruction(OpCodes.Brfalse_S)
+					)
+					.RemoveUntil(
+						new CodeInstruction(OpCodes.Brfalse_S)
+					)
+					.RemoveUntil(
+						new CodeInstruction(OpCodes.Brfalse_S)
+					)
+					.StripLabels();
 			}
 			catch (Exception ex)
 			{
@@ -79,9 +84,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					)
 					.InsertBuffer() // paste it in-place
 					.FindProfessionCheck(
-						Utility.Professions.IndexOf("Rancher")) // advance until the second rancher check
-					.Advance() // advance to Ldc_I4_S
-					.SetOperand(100 + Utility.Professions.IndexOf("Rancher")); // replace rancher with prestiged rancher
+						Utility.Professions.IndexOf("Rancher"), true) // advance until the second rancher check
+					.Advance()
+					.SetOperand(100 + Utility.Professions.IndexOf("Rancher")) // replace rancher with prestiged rancher
+					.AdvanceUntil(
+						new CodeInstruction(OpCodes.Callvirt,
+							typeof(NetFieldBase<byte, NetByte>).MethodNamed("set_Value"))
+					)
+					.Advance()
+					.StripLabels(out var labels)
+					.AddLabels(labels[0]);
 			}
 			catch (Exception ex)
 			{

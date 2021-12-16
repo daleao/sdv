@@ -54,7 +54,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 			var otherSuperModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"}
 				.Except(new[] {professionName}).ToArray();
-			var x = Game1.player.professions;
 			if (Game1.player.HasAnyOfProfessions(otherSuperModeProfessions, out var firstMatch))
 				ModState.SuperModeIndex = Utility.Professions.IndexOf(firstMatch);
 			else

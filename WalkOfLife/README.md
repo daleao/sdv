@@ -27,10 +27,10 @@
       </ul>
     </li>
     <li><a href="#prestige">Prestige</a></li>
-	<li><a href="#extended-progression">Extended Progression</a></li>
+    <li><a href="#extended-progression">Extended Progression</a></li>
     <li><a href="#compatibility">Compatibility</a></li>
     <li><a href="#installation">Installation</a></li>
-	<li><a href="#configs">Configs</a></li>
+    <li><a href="#configs">Configs</a></li>
     <li><a href="#console-commands">Console Commands</a></li>
     <li><a href="#recommended-mods">Recommended Mods</a></li>
     <li><a href="#special-thanks">Special Thanks</a></li>

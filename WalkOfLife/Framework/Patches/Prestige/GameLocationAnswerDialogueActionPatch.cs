@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
@@ -135,17 +134,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 						ModEntry.Subscriber.Subscribe(new PrestigeDayEndingEvent(skillType));
 
 					// play sound effect
-					try
-					{
-						if (ModEntry.SoundFX.SoundByName.TryGetValue("prestige", out var sfx))
-							sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
-						else throw new ContentLoadException();
-					}
-					catch (Exception ex)
-					{
-						ModEntry.Log($"Couldn't play file 'assets/sfx/prestige.wav'. Make sure the file exists. {ex}",
-							LogLevel.Error);
-					}
+					ModEntry.SoundBox.Play("prestige");
 
 					// tell the player
 					Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));

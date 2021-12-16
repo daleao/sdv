@@ -247,6 +247,24 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 				: ModState.SuperModeGaugeValue / 50 + 1;
 		}
 
+		/// <summary>Get the localized pronoun for the currently registered Super Mode buff.</summary>
+		public static string GetBuffPronoun()
+		{
+			switch (LocalizedContentManager.CurrentLanguageCode)
+			{
+				case LocalizedContentManager.LanguageCode.es:
+					return ModEntry.ModHelper.Translation.Get("pronoun.definite.female");
+				case LocalizedContentManager.LanguageCode.fr:
+				case LocalizedContentManager.LanguageCode.pt:
+					return ModEntry.ModHelper.Translation.Get("pronoun.definite" +
+					                                          (ModState.SuperModeIndex == IndexOf("Poacher")
+						                                          ? ".male"
+						                                          : ".female"));
+				default:
+					return string.Empty;
+			}
+		}
+
 		#endregion public methods
 	}
 }

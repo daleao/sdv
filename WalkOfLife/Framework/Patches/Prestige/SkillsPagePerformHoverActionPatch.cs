@@ -50,7 +50,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					_ => i
 				};
 
-				var professionsForThisSkill = Game1.player.GetProfessionsForSkill(skillIndex, true).ToList();
+				var professionsForThisSkill = Game1.player.GetAllProfessionsForSkill(skillIndex, true).ToList();
 				var count = professionsForThisSkill.Count;
 				if (count == 0) continue;
 
