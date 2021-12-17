@@ -654,6 +654,8 @@ namespace TheLion.Stardew.Common.Harmony
 		/// <param name="number">An integer.</param>
 		private static CodeInstruction LoadConstantIntegerIL(int number)
 		{
+			if (number > byte.MaxValue)
+				throw new ArgumentException($"Profession index is too large. Should be less than {byte.MaxValue}.");
 			return number switch
 			{
 				0 => new(OpCodes.Ldc_I4_0),

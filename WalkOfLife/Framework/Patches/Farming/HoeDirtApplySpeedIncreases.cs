@@ -23,32 +23,35 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Farming
 
 		[HarmonyTranspiler]
 		protected static IEnumerable<CodeInstruction> HoeDirtApplySpeedIncreasesTranspiler(
-			IEnumerable<CodeInstruction> instructions, MethodBase original)
+			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
 		{
 			var helper = new ILHelper(original, instructions);
 
 			/// Injected: if (who.professions.Contains(100 + <agriculturist_id>)) speedIncrease += 0.1f;
 
+			var notPrestigedAgriculturist = iLGenerator.DefineLabel();
+			var resumeExecution = iLGenerator.DefineLabel();
 			try
 			{
 				helper
 					.FindProfessionCheck(Utility.Professions.IndexOf("Agriculturist"))
 					.Advance()
 					.FindProfessionCheck(Utility.Professions.IndexOf("Agriculturist"))
-					.Retreat()
-					.ToBufferUntil(
-						true,
-						true,
-						new CodeInstruction(OpCodes.Stloc_2)
-					)
-					.InsertBuffer()
-					.Return()
 					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Ldc_I4_5)
+						new CodeInstruction(OpCodes.Ldc_R4, 0.1f)
 					)
-					.ReplaceWith(
-						new(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Agriculturist"))
-					);
+					.AddLabels(notPrestigedAgriculturist)
+					.Insert(
+						new CodeInstruction(OpCodes.Ldarg_1)
+					)
+					.InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Agriculturist"),
+						notPrestigedAgriculturist)
+					.Insert(
+						new CodeInstruction(OpCodes.Ldc_R4, 0.2f),
+						new CodeInstruction(OpCodes.Br_S, resumeExecution)
+					)
+					.Advance()
+					.AddLabels(resumeExecution);
 			}
 			catch (Exception ex)
 			{

@@ -44,8 +44,9 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 				__instance.tileIndexToShow = 714;
 				__instance.readyForHarvest.Value = true;
 
-				var r = new Random((int) Game1.stats.DaysPlayed + (int) Game1.uniqueIDForThisGame / 2 +
-				                   (int) __instance.TileLocation.X * 1000 + (int) __instance.TileLocation.Y);
+				//var r = new Random((int) Game1.stats.DaysPlayed + (int) Game1.uniqueIDForThisGame / 2 +
+				//                   (int) __instance.TileLocation.X * 1000 + (int) __instance.TileLocation.Y);
+				var r = new Random(Guid.NewGuid().GetHashCode());
 				var fishData =
 					Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
 				var isLuremaster = who.HasProfession("Luremaster");
@@ -99,6 +100,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							    ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
 								SUtility.improveFriendshipWithEveryoneInRegion(who, 1, 2);
 						}
+					}
+					else
+					{
+						return false; // don't run original logic
 					}
 				}
 				else

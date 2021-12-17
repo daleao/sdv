@@ -155,11 +155,11 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		{
 			var isSkillLevelTen = skillType switch
 			{
-				SkillType.Farming => farmer.FarmingLevel >= 10,
-				SkillType.Fishing => farmer.FishingLevel >= 10,
-				SkillType.Foraging => farmer.ForagingLevel >= 10,
-				SkillType.Mining => farmer.MiningLevel >= 10,
-				SkillType.Combat => farmer.CombatLevel >= 10,
+				SkillType.Farming => farmer.GetUnmodifiedSkillLevel((int) SkillType.Farming) >= 10,
+				SkillType.Fishing => farmer.GetUnmodifiedSkillLevel((int) SkillType.Fishing) >= 10,
+				SkillType.Foraging => farmer.GetUnmodifiedSkillLevel((int) SkillType.Foraging) >= 10,
+				SkillType.Mining => farmer.GetUnmodifiedSkillLevel((int) SkillType.Mining) >= 10,
+				SkillType.Combat => farmer.GetUnmodifiedSkillLevel((int) SkillType.Combat) >= 10,
 				SkillType.Luck => false,
 				_ => false
 			};
