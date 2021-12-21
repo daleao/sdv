@@ -37,7 +37,7 @@ namespace TheLion.Stardew.Professions
 		public static Color SuperModeOverlayColor { get; set; }
 		public static string SuperModeSFX { get; set; }
 		public static Dictionary<int, HashSet<long>> ActivePeerSuperModes { get; set; } = new();
-		public static bool ChangedSuperModeToday = false;
+		public static bool UsedDogStatueToday = false;
 
 		public static int SuperModeIndex
 		{

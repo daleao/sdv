@@ -34,6 +34,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		[HarmonyPostfix]
 		private static void SkillsPageCtorPostfix(IClickableMenu __instance)
 		{
+			if (!ModEntry.Config.EnablePrestige) return;
+
 			__instance.width += 64;
 
 			if (__instance.GetType().GetField("skillBars")?.GetValue(__instance) is not List<ClickableTextureComponent>

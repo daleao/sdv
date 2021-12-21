@@ -29,7 +29,16 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			____fishPondData = new()
 			{
 				PopulationGates = null,
-				ProducedItems = new(),
+				ProducedItems = new()
+				{
+					new()
+					{
+						Chance = 0.9f,
+						ItemID = 812, // roe
+						MinQuantity = 1,
+						MaxQuantity = 1
+					}
+				},
 				RequiredTags = new(),
 				SpawnTime = 7
 			};

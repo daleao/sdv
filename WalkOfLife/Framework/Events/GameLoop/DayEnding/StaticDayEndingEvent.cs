@@ -9,7 +9,7 @@ namespace TheLion.Stardew.Professions.Framework.Events
 		/// <inheritdoc />
 		public override void OnDayEnding(object sender, DayEndingEventArgs e)
 		{
-			ModState.ChangedSuperModeToday = false;
+			ModState.UsedDogStatueToday = false;
 		}
 	}
 }

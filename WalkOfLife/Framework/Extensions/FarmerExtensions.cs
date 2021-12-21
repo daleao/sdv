@@ -153,17 +153,7 @@ namespace TheLion.Stardew.Professions.Framework.Extensions
 		/// <param name="skillType">A skill index (0 to 4).</param>
 		public static bool CanResetSkill(this Farmer farmer, SkillType skillType)
 		{
-			var isSkillLevelTen = skillType switch
-			{
-				SkillType.Farming => farmer.GetUnmodifiedSkillLevel((int) SkillType.Farming) >= 10,
-				SkillType.Fishing => farmer.GetUnmodifiedSkillLevel((int) SkillType.Fishing) >= 10,
-				SkillType.Foraging => farmer.GetUnmodifiedSkillLevel((int) SkillType.Foraging) >= 10,
-				SkillType.Mining => farmer.GetUnmodifiedSkillLevel((int) SkillType.Mining) >= 10,
-				SkillType.Combat => farmer.GetUnmodifiedSkillLevel((int) SkillType.Combat) >= 10,
-				SkillType.Luck => false,
-				_ => false
-			};
-
+			var isSkillLevelTen = farmer.GetUnmodifiedSkillLevel((int) skillType) == 10;
 			var justLeveledUp = farmer.newLevels.Contains(new((int) skillType, 10));
 			var hasAtLeastOneButNotAllProfessionsInSkill =
 				farmer.NumberOfProfessionsInSkill((int) skillType, true) is > 0 and < 4;

@@ -101,10 +101,10 @@ namespace TheLion.Stardew.Professions.Integrations
 					(config, value) => config.ForgetRecipesOnSkillReset = value
 				)
 				.AddCheckbox(
-					"Allow Multiple Resets Per Day",
-					"Whether the player can reset more than one skill in a day.",
-					config => config.AllowMultipleResetsPerDay,
-					(config, value) => config.AllowMultipleResetsPerDay = value
+					"Allow Multiple Prestiges Per Day",
+					"Whether the player can use the Statue of Prestige more than once in a day.",
+					config => config.AllowPrestigeMultiplePerDay,
+					(config, value) => config.AllowPrestigeMultiplePerDay = value
 				)
 				.AddNumberField(
 					"Base Skill Experience Multiplier",
@@ -132,6 +132,24 @@ namespace TheLion.Stardew.Professions.Integrations
 					2000,
 					20000,
 					1000
+				)
+				.AddNumberField(
+					"Cost of Prestige Respec",
+					"Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
+					config => (int) config.PrestigeRespecCost,
+					(config, value) => config.PrestigeRespecCost = (uint) value,
+					0,
+					100000,
+					10000
+				)
+				.AddNumberField(
+					"Cost of Changing Ultimate",
+					"Monetary cost of changing the combat ultimate. Set to 0 to change for free.",
+					config => (int) config.ChangeUltCost,
+					(config, value) => config.ChangeUltCost = (uint) value,
+					0,
+					100000,
+					10000
 				)
 
 				// main

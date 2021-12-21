@@ -7,6 +7,7 @@ using StardewValley;
 using StardewValley.Buildings;
 using TheLion.Stardew.Common.Classes;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
 // ReSharper disable PossibleLossOfFraction
@@ -179,8 +180,8 @@ namespace TheLion.Stardew.Professions.Framework.Utility
 		{
 			return 1.15f +
 			       (who.IsLocalPlayer && ModState.IsSuperModeActive && ModState.SuperModeIndex == IndexOf("Brute")
-				       ? 0.1f + 0.15f + who.attackIncreaseModifier +
-				         (who.CurrentTool is not null // double fighter, brute and ring bonuses
+				       ? (who.HasPrestigedProfession("Fighter") ? 0.2f : 0.1f) + 0.15f + who.attackIncreaseModifier + // double fighter, brute and ring bonuses
+						 (who.CurrentTool is not null
 					         ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f // double enchants
 					         : 0f)
 				         + ModState.SuperModeGaugeMaxValue / 10 * 0.005f // apply the maximum fury bonus

@@ -53,14 +53,14 @@ namespace TheLion.Stardew.Professions
 		/// <summary>Whether to apply prestige changes.</summary>
 		public bool EnablePrestige { get; set; } = true;
 
-		/// <summary>Multiplies the base skill reset cost. Set to 0 to prestige for free.</summary>
+		/// <summary>Multiplies the base skill reset cost. Set to 0 to reset for free.</summary>
 		public float SkillResetCostMultiplier { get; set; } = 1f;
 
 		/// <summary>Wether reseting a skill also clears all associated recipes.</summary>
 		public bool ForgetRecipesOnSkillReset { get; set; } = true;
 
-		/// <summary>Whether the player can reset more than one skill in a day.</summary>
-		public bool AllowMultipleResetsPerDay { get; set; } = false;
+		/// <summary>Whether the player can use the Statue of Prestige more than once per day.</summary>
+		public bool AllowPrestigeMultiplePerDay { get; set; } = false;
 
 		/// <summary>Multiplies all skill experience gained from the start of the game.</summary>
 		public float BaseSkillExpMultiplier { get; set; } = 1f;
@@ -70,6 +70,12 @@ namespace TheLion.Stardew.Professions
 
 		/// <summary>How much skill experience is required for each level up beyond 10.</summary>
 		public uint RequiredExpPerExtendedLevel { get; set; } = 10000;
+
+		/// <summary>Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
+		public uint PrestigeRespecCost { get; set; } = 20000;
+
+		/// <summary>Monetary cost of changing the combat ultimate. Set to 0 to change for free.</summary>
+		public uint ChangeUltCost { get; set; } = 0;
 
 		/// <summary>Whether to draw UI element bounding boxes.</summary>
 		public bool EnableUIDebug { get; set; } = false;

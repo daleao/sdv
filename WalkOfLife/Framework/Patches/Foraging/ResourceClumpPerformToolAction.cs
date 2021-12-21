@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var helper = new ILHelper(original, instructions);
 
 			/// From: numChunks = 10;
-			/// To: numChunks = (t.getLastFarmerToUse().professions.Contains(100 + <lumberjack_id>)) ? 12 : 10;
+			/// To: numChunks = (t.getLastFarmerToUse().professions.Contains(100 + <lumberjack_id>)) ? 11 : 10;
 			/// -- and also
 			/// Injected: if (t.getLastFarmerToUse().professions.Contains(100 + <lumberjack_id>) && Game1.NextDouble() < 0.5) numChunks++;
 			/// Before: numChunks++;
@@ -53,7 +53,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Lumberjack"),
 						notPrestigedLumberjack)
 					.Insert(
-						new CodeInstruction(OpCodes.Ldc_I4_S, 12),
+						new CodeInstruction(OpCodes.Ldc_I4_S, 11),
 						new CodeInstruction(OpCodes.Br_S, resumeExecution1)
 					)
 					.Advance()

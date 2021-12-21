@@ -121,6 +121,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void DrawExtendedLevelBars(int levelIndex, int skillIndex, int x, int y, int addedX,
 			int skillLevel, SpriteBatch b)
 		{
+			if (!ModEntry.Config.EnablePrestige) return;
+
 			var drawBlue = skillLevel > levelIndex + 10;
 			if (!drawBlue) return;
 
@@ -132,6 +134,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 		private static void DrawRibbonsSubroutine(IClickableMenu page, SpriteBatch b)
 		{
+			if (!ModEntry.Config.EnablePrestige) return;
+
 			var w = Utility.Prestige.RibbonWidth;
 			var s = Utility.Prestige.RibbonScale;
 			var position =

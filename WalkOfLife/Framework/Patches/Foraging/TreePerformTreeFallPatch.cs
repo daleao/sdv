@@ -30,7 +30,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			var helper = new ILHelper(original, instructions);
 
 			/// From: Game1.getFarmer(lastPlayerToHit).professions.Contains(<lumberjack_id>) ? 1.25 : 1.0
-			/// To: Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <lumberjack_id>) ? 1.5 : Game1.getFarmer(lastPlayerToHit).professions.Contains(12) ? 1.25 : 1.0
+			/// To: Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <lumberjack_id>) ? 1.4 : Game1.getFarmer(lastPlayerToHit).professions.Contains(12) ? 1.25 : 1.0
 
 			var i = 0;
 			repeat:
@@ -59,7 +59,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					.Insert(
 						new[] {isPrestiged},
 						new CodeInstruction(OpCodes.Pop),
-						new CodeInstruction(OpCodes.Ldc_R8, 1.5)
+						new CodeInstruction(OpCodes.Ldc_R8, 1.4)
 					);
 			}
 			catch (Exception ex)

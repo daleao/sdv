@@ -33,6 +33,10 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 		private static void NewSkillsPagePerformHoverActionPostfix(IClickableMenu __instance, int x, int y,
 			ref string ___hoverText)
 		{
+			___hoverText = ___hoverText?.Truncate(90);
+
+			if (!ModEntry.Config.EnablePrestige) return;
+
 			var w = Utility.Prestige.RibbonWidth;
 			var s = Utility.Prestige.RibbonScale;
 			var bounds =
@@ -64,8 +68,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					                                                (Game1.player.IsMale ? "male" : "female")))
 					.Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
 			}
-
-			___hoverText = ___hoverText?.Truncate(90);
 		}
 
 		#endregion harmony patches

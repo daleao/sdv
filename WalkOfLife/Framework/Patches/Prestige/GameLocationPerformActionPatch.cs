@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -33,8 +34,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			try
 			{
 				string message;
-				if (!ModEntry.Config.AllowMultipleResetsPerDay &&
-				    ModEntry.Subscriber.IsSubscribed(typeof(PrestigeDayEndingEvent)) || ModState.ChangedSuperModeToday)
+				if (!ModEntry.Config.AllowPrestigeMultiplePerDay &&
+				    (ModEntry.Subscriber.IsSubscribed(typeof(PrestigeDayEndingEvent)) || ModState.UsedDogStatueToday))
 				{
 					message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.dismiss");
 					Game1.drawObjectDialogue(message);
@@ -52,48 +53,24 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 					return false; // don't run original logic
 				}
 				
-				if (who.HasAllProfessions() && !ModState.ChangedSuperModeToday)
+				if (who.HasAllProfessions() && !ModState.UsedDogStatueToday)
 				{
-					var currentProfessionKey = Utility.Professions.NameOf(ModState.SuperModeIndex).ToLower();
-					var currentProfessionDisplayName = ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".name.male");
-					var currentBuff = ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".buff");
-					var pronoun = Utility.Professions.GetBuffPronoun();
-					message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.replace",
-						new {pronoun, currentProfession = currentProfessionDisplayName, currentBuff});
-
-					var choices = (
-						from superMode in who.GetUnchosenSuperModes()
-						orderby superMode
-						let choiceProfessionKey = Utility.Professions.NameOf(superMode).ToLower()
-						let choiceProfessionDisplayName =
-							ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".name.male")
-						let choiceBuff = ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".buff")
-						let choice =
-							ModEntry.ModHelper.Translation.Get("prestige.dogstatue.choice",
-								new {choiceProfession = choiceProfessionDisplayName, choiceBuff})
-						select new Response("Choice_" + superMode, choice)).ToList();
-
-					choices.Add(new Response("Cancel", Game1.content.LoadString("Strings\\Lexicon:QuestionDialogue_No"))
-						.SetHotKey(Keys.Escape));
-
-					__instance.createQuestionDialogue(message, choices.ToArray(), delegate (Farmer _, string choice)
+					message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.what");
+					var options = new Response[]
 					{
-						if (choice == "Cancel") return;
-						var newIndex = int.Parse(choice.Split("_")[1]);
-						ModState.SuperModeIndex = newIndex;
-
-						ModEntry.SoundBox.Play("prestige");
-
-						var choiceProfessionKey = Utility.Professions.NameOf(newIndex).ToLower();
-						var choiceProfessionDisplayName =
-							ModEntry.ModHelper.Translation.Get(choiceProfessionKey +
-							                                   (who.IsMale ? ".name.male" : ".name.female"));
-						pronoun = ModEntry.ModHelper.Translation.Get("pronoun.indefinite" + (who.IsMale ? ".male" : ".female"));
-						Game1.drawObjectDialogue(ModEntry.ModHelper.Translation.Get("prestige.dogstatue.fledged",
-							new {pronoun, choiceProfession = choiceProfessionDisplayName}));
-
-						ModState.ChangedSuperModeToday = true;
-					});
+						new("prestigeRespec",
+							ModEntry.ModHelper.Translation.Get("prestige.dogstatue.respec") +
+							(ModEntry.Config.PrestigeRespecCost > 0
+								? ' ' + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost",
+									new {cost = ModEntry.Config.PrestigeRespecCost})
+								: string.Empty)),
+						new("changeUlt", ModEntry.ModHelper.Translation.Get("prestige.dogstatue.changeult") +
+							(ModEntry.Config.ChangeUltCost > 0
+								? ' ' + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost",
+								 new {cost = ModEntry.Config.ChangeUltCost})
+								: string.Empty))
+					};
+					__instance.createQuestionDialogue(message, options, "dogStatue");
 					return false; // don't run original logic
 				}
 
