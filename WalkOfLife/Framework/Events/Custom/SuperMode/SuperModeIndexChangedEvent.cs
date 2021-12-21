@@ -57,13 +57,13 @@ namespace TheLion.Stardew.Professions.Framework.Events
 				case "Desperado":
 					ModState.SuperModeGlowColor = Color.DarkGoldenrod;
 					ModState.SuperModeOverlayColor = Color.SandyBrown;
-					ModState.SuperModeSFX = "desperado_cockgun";
+					ModState.SuperModeSFX = "desperado_blossom";
 					break;
 
 				case "Piper":
 					ModState.SuperModeGlowColor = Color.LimeGreen;
 					ModState.SuperModeOverlayColor = Color.DarkGreen;
-					ModState.SuperModeSFX = "piper_provoke";
+					ModState.SuperModeSFX = "piper_fluidity";
 					break;
 			}
 

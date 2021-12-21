@@ -184,7 +184,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 							ModState.SuperModeIndex = newIndex;
 
 							// play sound effect
-							ModEntry.SoundBox.Play("prestige");
+							ModEntry.SoundBox.Play("dogstatue_prestige");
 
 							// tell the player
 							var choiceProfessionKey = Utility.Professions.NameOf(newIndex).ToLower();
@@ -244,7 +244,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 								ModEntry.Subscriber.Subscribe(new PrestigeDayEndingEvent(skillType));
 
 							// play sound effect
-							ModEntry.SoundBox.Play("prestige");
+							ModEntry.SoundBox.Play("dogstatue_prestige");
 
 							// tell the player
 							Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
@@ -267,7 +267,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 								Game1.player.newLevels.Add(new (0, 20));
 
 							// play sound effect
-							ModEntry.SoundBox.Play("prestige");
+							ModEntry.SoundBox.Play("dogstatue_prestige");
 
 							// tell the player
 							Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
