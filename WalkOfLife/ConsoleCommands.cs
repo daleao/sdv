@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using StardewModdingAPI;
+using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
@@ -34,7 +35,7 @@ namespace TheLion.Stardew.Professions
 				SetSuperModeGaugeValue);
 			ModEntry.ModHelper.ConsoleCommands.Add("player_readyult", "Max-out the Super Mode meter.",
 				MaxSuperModeGaugeValue);
-			ModEntry.ModHelper.ConsoleCommands.Add("player_setultindex",
+			ModEntry.ModHelper.ConsoleCommands.Add("player_chooseult",
 				"Change the currently registered Super Mode profession.",
 				SetSuperModeIndex);
 			ModEntry.ModHelper.ConsoleCommands.Add("player_whichult",
@@ -68,11 +69,11 @@ namespace TheLion.Stardew.Professions
 				return;
 			}
 
-			ModEntry.Log($"Farming level: {Game1.player.FarmingLevel}", LogLevel.Info);
-			ModEntry.Log($"Fishing level: {Game1.player.FishingLevel}", LogLevel.Info);
-			ModEntry.Log($"Foraging level: {Game1.player.ForagingLevel}", LogLevel.Info);
-			ModEntry.Log($"Mining level: {Game1.player.MiningLevel}", LogLevel.Info);
-			ModEntry.Log($"Combat level: {Game1.player.CombatLevel}", LogLevel.Info);
+			ModEntry.Log($"Farming level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Farming)}", LogLevel.Info);
+			ModEntry.Log($"Fishing level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Fishing)}", LogLevel.Info);
+			ModEntry.Log($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Foraging)}", LogLevel.Info);
+			ModEntry.Log($"Mining level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Mining)}", LogLevel.Info);
+			ModEntry.Log($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Combat)}", LogLevel.Info);
 		}
 
 		/// <summary>Reset all skills for the local player.</summary>

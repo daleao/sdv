@@ -88,7 +88,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (machine.name.IsAnyOf("Mayonnaise Machine", "Cheese Press"))
 			{
 				// large milk/eggs give double output at normal quality
-				if (input.Name.Contains("Large"))
+				if (input.Name.ContainsAnyOf("Large", "L."))
 				{
 					output.Stack = 2;
 					output.Quality = SObject.lowQuality;

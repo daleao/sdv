@@ -35,11 +35,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 			if (machine?.heldObject.Value is null) return;
 
 			var who = Game1.getFarmer(machine.owner.Value);
-			if (!who.HasProfession("Gemologist") || !machine.heldObject.Value.IsForagedMineral() &&
-				!machine.heldObject.Value.IsGemOrMineral()) return;
+			if (!who.IsLocalPlayer || !who.HasProfession("Gemologist") ||
+			    !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
 			machine.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
-			if (who.IsLocalPlayer) ModEntry.Data.Increment<uint>("MineralsCollected");
+			ModEntry.Data.Increment<uint>("MineralsCollected");
 		}
 
 		#endregion harmony patches

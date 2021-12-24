@@ -51,11 +51,11 @@ namespace TheLion.Stardew.Professions.Framework.Patches
 
 				producer.MinutesUntilReady -= producer.MinutesUntilReady / 10;
 			}
-			else if ((output.IsForagedMineral() || output.IsGemOrMineral()) &&
+			else if (who.IsLocalPlayer && (output.IsForagedMineral() || output.IsGemOrMineral()) &&
 			         who.HasProfession("Gemologist"))
 			{
 				output.Quality = Utility.Professions.GetGemologistMineralQuality();
-				if (who.IsLocalPlayer) ModEntry.Data.Increment<uint>("MineralsCollected");
+				ModEntry.Data.Increment<uint>("MineralsCollected");
 			}
 		}
 
