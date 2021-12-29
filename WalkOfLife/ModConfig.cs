@@ -48,7 +48,7 @@ public class ModConfig
     public uint TrashNeededPerTaxLevel { get; set; } = 100;
 
     /// <summary>You must collect this many junk items from crab pots for every 1 point of friendship towards villagers.</summary>
-    public uint TrashNeededPerFriendshipPoint { get; set; } = 10;
+    public uint TrashNeededPerFriendshipPoint { get; set; } = 100;
 
     /// <summary>The maximum tax deduction percentage allowed by the Ferngill Revenue Service.</summary>
     public float TaxDeductionCeiling { get; set; } = 0.25f;
