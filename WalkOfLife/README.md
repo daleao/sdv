@@ -189,8 +189,9 @@ The following mods are fully integrated:
 - PPJA Packs: [Artisan Valley﻿](https://www.nexusmods.com/stardewvalley/mods/1926), [Artisanal Soda Makers](https://www.nexusmods.com/stardewvalley/mods/5173)﻿, [Fizzy Drinks](https://www.nexusmods.com/stardewvalley/mods/5342)﻿, [Fresh Meat﻿](https://www.nexusmods.com/stardewvalley/mods/1721), [Shaved Ice & Frozen Treats](https://www.nexusmods.com/stardewvalley/mods/5388) will all work with Artisan profession.﻿.
 - [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (download the optional translation files to change profession names under skill cheats).
 - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098)
+- [Teh's Fishing Overhaul](https://www.nexusmods.com/stardewvalley/mods/866/)
 
-The following mods are compatible:
+The following mods are compatible without integration:
 - [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069)
 - [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636) (though I don't recommend it if prestige and extended progression options are enabled).
 - Custom SpaceCore skills (e.g. [Luck](https://www.nexusmods.com/stardewvalley/mods/521), [Magic](https://www.nexusmods.com/stardewvalley/mods/2007), [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)) (note that these skills cannot be prestiged).
