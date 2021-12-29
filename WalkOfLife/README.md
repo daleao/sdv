@@ -118,8 +118,8 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
     - Here, "junk" includes algae and seaweed.
 - **Lv10 - Angler** - Fish worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish. *Can recatch legendary fish.*
     - "Legendary fish" includes the Extended Family Qi challenge varieties, counted only once.
-- **Lv10 - Aquarist** - Fish pond max capacity +2. Fishing bar height increases for every unique fish species raised in a fish pond. *Can raise legendary fish.*
-    - Gain 6 pixels per Fish Pond. Every four ponds equal a permanent cork bobber. In multiplayer, **only counts Fish Ponds owned by the player with this profession**.
+- **Lv10 - Aquarist** - Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a fish pond. *Can raise legendary fish.*
+    - The catching bar decays 5.5% slower per unique Fish Pond. Six ponds equal a permanent Trap Bobber. In multiplayer, **only counts Fish Ponds owned by the player with this profession**.
 - **Lv5 - Trapper** - Crab pots are cheaper to craft. Can trap higher-quality *(highest-quality)* haul.
     - All trapped fish can have quality up to gold. Chance depends on your fishing level (same formula as forage). _Recipe is unchanged from vanilla._
 - **Lv10 - Luremaster** - Crab pots no longer produce junk. Use different baits to attract different catch. *60% chance to preserve bait.*

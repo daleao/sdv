@@ -89,7 +89,7 @@
 	// Fishing
 	"fisher.name.male": "Pescador",
 	"fisher.name.female": "Pescadora",
-	"fisher.desc": "Los peces muerden más rápido. El cebo vivo reduce la probabilidad de pescar basura.",
+	"fisher.desc": "Los peces muerden más rápido. Reduce la probabilidad de pescar basura.",
 	"fisher.desc.prestiged": "Los peces siempre muerden al instante",
 	"angler.name.male": "Pesquero",
 	"angler.name.female": "Pesquera",
@@ -97,7 +97,7 @@
 	"angler.desc.prestiged": "Puede volver a atrapar peces legendarios.",
 	"aquarist.name.male": "Acuarista",
 	"aquarist.name.female": "Acuarista",
-	"aquarist.desc": "Capacidad máxima del estanque de peces +2. La altura de la barra de pesca aumenta por cada estanque lleno.",
+	"aquarist.desc": "Capacidad máxima del estanque de peces +2. La barra de captura disminuye más lentamente para cada especie de pez que se cría en un estanque.",
 	"aquarist.desc.prestiged": "Puede criar peces legendarios en estanques de peces.",
 
 	"trapper.name.male": "Trampero",

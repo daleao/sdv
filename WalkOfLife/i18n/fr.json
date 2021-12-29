@@ -89,7 +89,7 @@
 	// Fishing
 	"fisher.name.male": "Pêcheur",
 	"fisher.name.female": "Pêcheuse",
-	"fisher.desc": "Le poissons mordent plus vite. L'appât vivant réduit les chances de pêcher des déchets.",
+	"fisher.desc": "Le poissons mordent plus vite. Réduit les chances de pêcher des déchets.",
 	"fisher.desc.prestiged": "Les poissons mordent toujours instantanément.",
 	"angler.name.male": "Maître pêcheur",
 	"angler.name.female": "Maîtresse pêcheuse",
@@ -97,7 +97,7 @@
 	"angler.desc.prestiged": "Peut rattraper des poissons légendaires.",
 	"aquarist.name.male": "Aquariophile",
 	"aquarist.name.female": "Aquariophile",
-	"aquarist.desc": "Capacité des étanges +2. La hauteur de la barre de pêche augmente pour chaque étang à sa capacité maximale.",
+	"aquarist.desc": "Capacité des étanges +2. La barre de capture diminue plus lentement pour chaque espèce de poisson élevée dans un étang.",
 	"aquarist.desc.prestiged": "Peut élever des poissons légendaires dans des étangs.",
 
 	"trapper.name.male": "Trappeur",

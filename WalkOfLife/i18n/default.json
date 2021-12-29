@@ -89,7 +89,7 @@
 	// Fishing
 	"fisher.name.male": "Fisher",
 	"fisher.name.female": "Fisher",
-	"fisher.desc": "Fish bite faster. Live bait reduces the chance to fish junk.",
+	"fisher.desc": "Fish bite faster. Reduced chance to fish junk.",
 	"fisher.desc.prestiged": "Fish always bite instantly.",
 	"angler.name.male": "Angler",
 	"angler.name.female": "Angler",
@@ -97,7 +97,7 @@
 	"angler.desc.prestiged": "Can re-catch legendary fish.",
 	"aquarist.name.male": "Aquarist",
 	"aquarist.name.female": "Aquarist",
-	"aquarist.desc": "Fish pond max capacity +2. Increase fishing bar height for every unique fish species raised in a fish pond.",
+	"aquarist.desc": "Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a fish pond.",
 	"aquarist.desc.prestiged": "Can raise legendary fish in fish ponds.",
 
 	"trapper.name.male": "Trapper",

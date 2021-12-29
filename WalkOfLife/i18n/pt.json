@@ -89,7 +89,7 @@
 	// Fishing
 	"fisher.name.male": "Pescador",
 	"fisher.name.female": "Pescadora",
-	"fisher.desc": "Peixes mordem mais rápido. Isca viva reduz a chance de pescar lixo.",
+	"fisher.desc": "Peixes mordem mais rápido. Reduz a chance de pescar lixo.",
 	"fisher.desc.prestiged": "Peixes mordem instantaneamente.",
 	"angler.name.male": "Mestre pescador",
 	"angler.name.female": "Mestra pescadora",
@@ -97,7 +97,7 @@
 	"angler.desc.prestiged": "Pode repescar peixes lendários.",
 	"aquarist.name.male": "Aquarista",
 	"aquarist.name.female": "Aquarista",
-	"aquarist.desc": "Capacidade máxima do viveiro de peixes +2. A altura da barra de pesca aumenta para cada viveiro cheio.",
+	"aquarist.desc": "Capacidade máxima do viveiro de peixes +2. A barra de captura diminui mais devagar para cada espécie de peixe criado em um viveiro.",
 	"aquarist.desc.prestiged": "Pode criar peixes lendários em viveiros.",
 
 	"trapper.name.male": "Armadilheiro",

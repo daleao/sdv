@@ -13,7 +13,7 @@ namespace TheLion.Stardew.Professions.Framework.Patches;
 [UsedImplicitly]
 internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
 {
-    /// <summary>Construct an instance.</summary>\
+    /// <summary>Construct an instance.</summary>
     internal LevelUpMenuAddProfessionDescriptionsPatch()
     {
         Original = RequireMethod<LevelUpMenu>("addProfessionDescriptions");

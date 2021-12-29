@@ -89,15 +89,15 @@
 	// Fishing
 	"fisher.name.male": "渔夫",
 	"fisher.name.female": "渔夫",
-	"fisher.desc": "使用鱼饵钓鱼，钓到垃圾物品的机会大大减少。",
-	"fisher.desc.prestiged": "不会钓到垃圾。",
+	"fisher.desc": "咬来得更快。减少抓到垃圾的机会。",
+	"fisher.desc.prestiged": "鱼立刻上钩了。",
 	"angler.name.male": "垂钓者",
 	"angler.name.female": "垂钓者",
 	"angler.desc": "每钓到一条最大长度的鱼，鱼的价值就增加1%。每钓到一条传说中的鱼，鱼的价值就增加5%。",
 	"angler.desc.prestiged": "可以重新捕获传说中的鱼。",
 	"aquarist.name.male": "养鱼专家",
 	"aquarist.name.female": "养鱼专家",
-	"aquarist.desc": "鱼池最大容量+2。在鱼塘最大容量下钓鱼条长度增加。",
+	"aquarist.desc": "鱼池最大容量+2。对于在鱼塘中生长的每个物种，捕捞杆的腐烂速度较慢。",
 	"aquarist.desc.prestiged": "可以在鱼塘中饲养传说中的鱼。",
 
 	"trapper.name.male": "捕猎者",
@@ -112,10 +112,8 @@
 	"conservationist.name.female": "环保主义者",
 	"conservationist.desc": "没有诱饵的蟹笼会诱捕垃圾，从水中清除垃圾以税收减免。",
 	"conservationist.desc.prestiged": "从水中清除垃圾以获得星露谷村民的青睐。",
-	"conservationist.mail1":
-		"亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)节规定的{{taxBonus}}所得税减免条件。自本季起，{{farmName}}的所有应纳税所得额将退回上述数额。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
-	"conservationist.mail2":
-		"亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)条规定的{{taxBonus}}最高所得税减免条件。自本季起，{{farmName}} 的所有应纳税所得额将退回上述数额。^^^如果您需要解决有关您的财政状况的任何问题，请将此信保存在您的永久记录中。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
+	"conservationist.mail1": "亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)节规定的{{taxBonus}}所得税减免条件。自本季起，{{farmName}}的所有应纳税所得额将退回上述数额。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
+	"conservationist.mail2": "亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)条规定的{{taxBonus}}最高所得税减免条件。自本季起，{{farmName}} 的所有应纳税所得额将退回上述数额。^^^如果您需要解决有关您的财政状况的任何问题，请将此信保存在您的永久记录中。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
 
 	// Combat
 	"fighter.name.male": "战士",
