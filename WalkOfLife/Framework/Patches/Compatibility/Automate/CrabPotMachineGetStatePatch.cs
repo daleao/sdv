@@ -7,56 +7,56 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches
+namespace TheLion.Stardew.Professions.Framework.Patches;
+
+[UsedImplicitly]
+internal class CrabPotMachineGetStatePatch : BasePatch
 {
-	[UsedImplicitly]
-	internal class CrabPotMachineGetStatePatch : BasePatch
-	{
-		/// <summary>Construct an instance.</summary>
-		internal CrabPotMachineGetStatePatch()
-		{
-			try
-			{
-				Original = "CrabPotMachine".ToType().MethodNamed("GetState");
-			}
-			catch
-			{
-				// ignored
-			}
-		}
+    /// <summary>Construct an instance.</summary>
+    internal CrabPotMachineGetStatePatch()
+    {
+        try
+        {
+            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine".ToType()
+                .MethodNamed("GetState");
+        }
+        catch
+        {
+            // ignored
+        }
+    }
 
-		#region harmony patches
+    #region harmony patches
 
-		/// <summary>Patch for conflicting Luremaster and Conservationist automation rules.</summary>
-		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> CrabPotMachineGetStateTranspiler(
-			IEnumerable<CodeInstruction> instructions, MethodBase original)
-		{
-			var helper = new ILHelper(original, instructions);
+    /// <summary>Patch for conflicting Luremaster and Conservationist automation rules.</summary>
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> CrabPotMachineGetStateTranspiler(
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
 
-			/// Removed: || !this.PlayerNeedsBait()
+        /// Removed: || !this.PlayerNeedsBait()
 
-			try
-			{
-				helper
-					.FindFirst(
-						new CodeInstruction(OpCodes.Brtrue_S)
-					)
-					.RemoveUntil(
-						new CodeInstruction(OpCodes.Call, "CrabPotMachine".ToType().MethodNamed("PlayerNeedsBait"))
-					)
-					.SetOpCode(OpCodes.Brfalse_S);
-			}
-			catch (Exception ex)
-			{
-				ModEntry.Log($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}",
-					LogLevel.Error);
-				return null;
-			}
+        try
+        {
+            helper
+                .FindFirst(
+                    new CodeInstruction(OpCodes.Brtrue_S)
+                )
+                .RemoveUntil(
+                    new CodeInstruction(OpCodes.Call, "CrabPotMachine".ToType().MethodNamed("PlayerNeedsBait"))
+                )
+                .SetOpCode(OpCodes.Brfalse_S);
+        }
+        catch (Exception ex)
+        {
+            ModEntry.Log($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}",
+                LogLevel.Error);
+            return null;
+        }
 
-			return helper.Flush();
-		}
+        return helper.Flush();
+    }
 
-		#endregion harmony patches
-	}
+    #endregion harmony patches
 }

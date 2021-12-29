@@ -1,14 +1,13 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events
+namespace TheLion.Stardew.Professions.Framework.Events;
+
+internal class PiperUpdateTickedEvent : UpdateTickedEvent
 {
-	internal class PiperUpdateTickedEvent : UpdateTickedEvent
-	{
-		/// <inheritdoc />
-		public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
-		{
-			if (ModState.SlimeContactTimer > 0 && Game1.shouldTimePass()) --ModState.SlimeContactTimer;
-		}
-	}
+    /// <inheritdoc />
+    public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+    {
+        if (ModState.SlimeContactTimer > 0 && Game1.shouldTimePass()) --ModState.SlimeContactTimer;
+    }
 }

@@ -1,24 +1,23 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events
+namespace TheLion.Stardew.Professions.Framework.Events;
+
+internal abstract class RenderedWorldEvent : BaseEvent
 {
-	internal abstract class RenderedWorldEvent : BaseEvent
-	{
-		/// <inheritdoc />
-		public override void Hook()
-		{
-			ModEntry.ModHelper.Events.Display.RenderedWorld += OnRenderedWorld;
-		}
+    /// <inheritdoc />
+    public override void Hook()
+    {
+        ModEntry.ModHelper.Events.Display.RenderedWorld += OnRenderedWorld;
+    }
 
-		/// <inheritdoc />
-		public override void Unhook()
-		{
-			ModEntry.ModHelper.Events.Display.RenderedWorld -= OnRenderedWorld;
-		}
+    /// <inheritdoc />
+    public override void Unhook()
+    {
+        ModEntry.ModHelper.Events.Display.RenderedWorld -= OnRenderedWorld;
+    }
 
-		/// <summary>Raised after the game world is drawn to the sprite patch, before it's rendered to the screen.</summary>
-		/// <param name="sender">The event sender.</param>
-		/// <param name="e">The event arguments.</param>
-		public abstract void OnRenderedWorld(object sender, RenderedWorldEventArgs e);
-	}
+    /// <summary>Raised after the game world is drawn to the sprite patch, before it's rendered to the screen.</summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    public abstract void OnRenderedWorld(object sender, RenderedWorldEventArgs e);
 }

@@ -6,24 +6,23 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events
+namespace TheLion.Stardew.Professions.Framework.Events;
+
+[UsedImplicitly]
+internal class PrestigeDayEndingEvent : DayEndingEvent
 {
-	[UsedImplicitly]
-	internal class PrestigeDayEndingEvent : DayEndingEvent
-	{
-		internal PrestigeDayEndingEvent(SkillType skillType)
-		{
-			SkillsToReset.Enqueue(skillType);
-		}
+    internal PrestigeDayEndingEvent(SkillType skillType)
+    {
+        SkillsToReset.Enqueue(skillType);
+    }
 
-		public Queue<SkillType> SkillsToReset { get; } = new();
+    public Queue<SkillType> SkillsToReset { get; } = new();
 
-		/// <inheritdoc />
-		public override void OnDayEnding(object sender, DayEndingEventArgs e)
-		{
-			while (SkillsToReset.Any()) Game1.player.ResetSkill(SkillsToReset.Dequeue());
+    /// <inheritdoc />
+    public override void OnDayEnding(object sender, DayEndingEventArgs e)
+    {
+        while (SkillsToReset.Any()) Game1.player.ResetSkill(SkillsToReset.Dequeue());
 
-			ModEntry.Subscriber.Unsubscribe(GetType());
-		}
-	}
+        ModEntry.Subscriber.Unsubscribe(GetType());
+    }
 }

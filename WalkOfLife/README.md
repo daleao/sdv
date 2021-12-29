@@ -147,7 +147,7 @@ The combat tree has received a much more extensive overhaul.  In addition to the
     - Monsters can only be poached once.
     - **Cold Blood:**
         - Crit. power bonus caps at ×3 at Combat level 10.
-		- Cold blood builds faster if wielding a dagger.
+		- Cold blood builds faster if wielding a dagger. Steal chance is also higher with a dagger.
     - Your cold blood masks your presence, allowing you to mount an **Ambuscade:** Become invisible and untargetable. Back stabs are deadly.
 		- Failing to assassinate an enemy will instantly reveal your position, canceling the effect.
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo. *Trick shots stun enemies for 5s.*

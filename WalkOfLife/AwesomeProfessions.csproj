@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <AssemblyName>AwesomeProfessions</AssemblyName>
     <RootNamespace>TheLion.Stardew.Professions</RootNamespace>

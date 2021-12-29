@@ -9,85 +9,84 @@ using StardewValley;
 using StardewValley.TerrainFeatures;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches
+namespace TheLion.Stardew.Professions.Framework.Patches;
+
+[UsedImplicitly]
+internal class ResourceClumpPerformToolAction : BasePatch
 {
-	[UsedImplicitly]
-	internal class ResourceClumpPerformToolAction : BasePatch
-	{
-		/// <summary>Construct an instance.</summary>
-		internal ResourceClumpPerformToolAction()
-		{
-			Original = RequireMethod<ResourceClump>(nameof(ResourceClump.performToolAction));
-		}
+    /// <summary>Construct an instance.</summary>
+    internal ResourceClumpPerformToolAction()
+    {
+        Original = RequireMethod<ResourceClump>(nameof(ResourceClump.performToolAction));
+    }
 
-		#region harmony patches
+    #region harmony patches
 
-		/// <summary>Patch to add bonus wood for prestiged Lumberjack.</summary>
-		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> ResourceClumpPerformToolActionTranspiler(
-			IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
-		{
-			var helper = new ILHelper(original, instructions);
+    /// <summary>Patch to add bonus wood for prestiged Lumberjack.</summary>
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> ResourceClumpPerformToolActionTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
 
-			/// From: numChunks = 10;
-			/// To: numChunks = (t.getLastFarmerToUse().professions.Contains(100 + <lumberjack_id>)) ? 11 : 10;
-			/// -- and also
-			/// Injected: if (t.getLastFarmerToUse().professions.Contains(100 + <lumberjack_id>) && Game1.NextDouble() < 0.5) numChunks++;
-			/// Before: numChunks++;
+        /// From: numChunks = 10;
+        /// To: numChunks = (t.getLastFarmerToUse().professions.Contains(100 + <lumberjack_id>)) ? 11 : 10;
+        /// -- and also
+        /// Injected: if (t.getLastFarmerToUse().professions.Contains(100 + <lumberjack_id>) && Game1.NextDouble() < 0.5) numChunks++;
+        /// Before: numChunks++;
 
-			var notPrestigedLumberjack = iLGenerator.DefineLabel();
-			var resumeExecution1 = iLGenerator.DefineLabel();
-			var resumeExecution2 = iLGenerator.DefineLabel();
-			try
-			{
-				helper
-					.FindProfessionCheck(Utility.Professions.IndexOf("Lumberjack"))
-					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Ldc_I4_S, 10)
-					)
-					.AddLabels(notPrestigedLumberjack)
-					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_1),
-						new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
-					)
-					.InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Lumberjack"),
-						notPrestigedLumberjack)
-					.Insert(
-						new CodeInstruction(OpCodes.Ldc_I4_S, 11),
-						new CodeInstruction(OpCodes.Br_S, resumeExecution1)
-					)
-					.Advance()
-					.AddLabels(resumeExecution1)
-					.AdvanceUntil(
-						new CodeInstruction(OpCodes.Ldc_I4_1),
-						new CodeInstruction(OpCodes.Add)
-					)
-					.Advance()
-					.AddLabels(resumeExecution2)
-					.Insert(
-						new CodeInstruction(OpCodes.Ldarg_1),
-						new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
-					)
-					.InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Lumberjack"),
-						resumeExecution2)
-					.InsertDiceRoll()
-					.Insert(
-						new CodeInstruction(OpCodes.Ldc_R8, 0.5),
-						new CodeInstruction(OpCodes.Bgt_S, resumeExecution2),
-						new CodeInstruction(OpCodes.Ldc_I4_1),
-						new CodeInstruction(OpCodes.Add)
-					);
-			}
-			catch (Exception ex)
-			{
-				ModEntry.Log($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}",
-					LogLevel.Error);
-				return null;
-			}
+        var notPrestigedLumberjack = iLGenerator.DefineLabel();
+        var resumeExecution1 = iLGenerator.DefineLabel();
+        var resumeExecution2 = iLGenerator.DefineLabel();
+        try
+        {
+            helper
+                .FindProfessionCheck(Utility.Professions.IndexOf("Lumberjack"))
+                .AdvanceUntil(
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 10)
+                )
+                .AddLabels(notPrestigedLumberjack)
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_1),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
+                )
+                .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Lumberjack"),
+                    notPrestigedLumberjack)
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 11),
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution1)
+                )
+                .Advance()
+                .AddLabels(resumeExecution1)
+                .AdvanceUntil(
+                    new CodeInstruction(OpCodes.Ldc_I4_1),
+                    new CodeInstruction(OpCodes.Add)
+                )
+                .Advance()
+                .AddLabels(resumeExecution2)
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_1),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
+                )
+                .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Lumberjack"),
+                    resumeExecution2)
+                .InsertDiceRoll()
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldc_R8, 0.5),
+                    new CodeInstruction(OpCodes.Bgt_S, resumeExecution2),
+                    new CodeInstruction(OpCodes.Ldc_I4_1),
+                    new CodeInstruction(OpCodes.Add)
+                );
+        }
+        catch (Exception ex)
+        {
+            ModEntry.Log($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}",
+                LogLevel.Error);
+            return null;
+        }
 
-			return helper.Flush();
-		}
+        return helper.Flush();
+    }
 
-		#endregion harmony patches
-	}
+    #endregion harmony patches
 }

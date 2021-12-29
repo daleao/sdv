@@ -6,44 +6,43 @@ using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.AssetLoaders
+namespace TheLion.Stardew.Professions.Framework.AssetLoaders;
+
+public class SoundBox
 {
-	public class SoundBox
-	{
-		/// <summary>Construct an instance.</summary>
-		public SoundBox(string modPath)
-		{
-			foreach (var file in Directory.GetFiles(Path.Combine(modPath, "assets", "sfx"), "*.wav"))
-				try
-				{
-					// load .wav
-					using var fs = new FileStream(file, FileMode.Open);
-					var soundEffect = SoundEffect.FromStream(fs);
+    /// <summary>Construct an instance.</summary>
+    public SoundBox(string modPath)
+    {
+        foreach (var file in Directory.GetFiles(Path.Combine(modPath, "assets", "sfx"), "*.wav"))
+            try
+            {
+                // load .wav
+                using var fs = new FileStream(file, FileMode.Open);
+                var soundEffect = SoundEffect.FromStream(fs);
 
-					if (soundEffect is null) throw new FileLoadException();
-					SoundByName.Add(Path.GetFileNameWithoutExtension(file), soundEffect);
-				}
-				catch (Exception ex)
-				{
-					ModEntry.Log($"Failed to load {file}. Loader returned {ex}", LogLevel.Error);
-				}
-		}
+                if (soundEffect is null) throw new FileLoadException();
+                SoundByName.Add(Path.GetFileNameWithoutExtension(file), soundEffect);
+            }
+            catch (Exception ex)
+            {
+                ModEntry.Log($"Failed to load {file}. Loader returned {ex}", LogLevel.Error);
+            }
+    }
 
-		public Dictionary<string, SoundEffect> SoundByName { get; } = new();
+    public Dictionary<string, SoundEffect> SoundByName { get; } = new();
 
-		public void Play(string id)
-		{
-			try
-			{
-				if (SoundByName.TryGetValue(id, out var sfx))
-					sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
-				else throw new ContentLoadException();
-			}
-			catch (Exception ex)
-			{
-				ModEntry.Log($"Couldn't play file 'assets/sfx/{id}.wav'. Make sure the file exists. {ex}",
-					LogLevel.Error);
-			}
-		}
-	}
+    public void Play(string id)
+    {
+        try
+        {
+            if (SoundByName.TryGetValue(id, out var sfx))
+                sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
+            else throw new ContentLoadException();
+        }
+        catch (Exception ex)
+        {
+            ModEntry.Log($"Couldn't play file 'assets/sfx/{id}.wav'. Make sure the file exists. {ex}",
+                LogLevel.Error);
+        }
+    }
 }
