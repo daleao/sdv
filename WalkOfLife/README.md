@@ -230,7 +230,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **SpelunkerSpeedCap** (integer) - The maximum speed bonus a Spelunker can reach (values above 10 may cause problems).
 - **EnableGetExcited** (bool) - Toggles the Get Excited buff when a Demolitionist is hit by an explosion.
 - **TrashNeededPerTaxLevel** (integer) - Represents the number of trash items the Conservationist must collect in order to gain a 1% tax deduction the following season. Use this value to balance your game if you use or don't use Automate. Default is 100.
-- **TrashNeededPerFriendshipPoint** (integer) - Represents the number of trash items the Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
+- **TrashNeededPerFriendshipPoint** (integer) - Represents the number of trash items the Prestiged Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
 - **TaxDeductionCeiling** (decimal) - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
 - **EnablePrestige** (boolean) - Whether to apply prestige changes.
 - **SkillResetCostMultiplier** (decimal) - Multiplies the base skill reset cost. Set to 0 to prestige for free.
