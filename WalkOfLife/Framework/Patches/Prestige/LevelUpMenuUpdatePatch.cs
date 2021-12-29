@@ -112,15 +112,14 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         /// From: Game1.player.professions.Add(professionsToChoose[i]);
         ///		  getImmediateProfessionPerk(professionsToChoose[i]);
         /// To: if (!Game1.player.professions.AddOrReplace(professionsToChoose[i])) getImmediateProfessionPerk(professionsToChoose[i]);
-        ///		- and also -
-        /// Injected: if (currentLevel > 10) Game1.player.professions.Add(100 + professionsToChoose[i]);
-        /// After: getImmediateProfessionPerk(professionsToChoose[i]);
+        ///     if (currentLevel > 10) Game1.player.professions.Add(100 + professionsToChoose[i]);
         ///		- and also -
         /// Injected: if (ShouldProposeFinalQuestion(professionsToChoose[i])) shouldProposeFinalQuestion = true;
         ///			  if (ShouldCongratulateOnFullPrestige(currentLevel, professionsToChoose[i])) shouldCongratulateOnFullPrestige = true;
         /// Before: isActive = false;
 
-        var endOfImmediatePerks = iLGenerator.DefineLabel();
+        var dontGetImmediatePerks = iLGenerator.DefineLabel();
+        var isNotPrestigeLevel = iLGenerator.DefineLabel();
         var chosenProfession = iLGenerator.DeclareLocal(typeof(int));
         var shouldProposeFinalQuestion = iLGenerator.DeclareLocal(typeof(bool));
         var shouldCongratulateOnFullPrestige = iLGenerator.DeclareLocal(typeof(bool));
@@ -149,20 +148,21 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 .Advance()
                 .Insert(
                     // skip adding perks if player already has them
-                    new CodeInstruction(OpCodes.Brtrue_S, endOfImmediatePerks)
+                    new CodeInstruction(OpCodes.Brfalse_S, dontGetImmediatePerks)
                 )
-                .AdvanceUntil( // advance until an instruction signaling the end of instructions related to adding a new profession
-                    new CodeInstruction(OpCodes.Stfld, typeof(LevelUpMenu).Field(nameof(LevelUpMenu.isActive)))
-                )
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldarg_0)
+                .AdvanceUntil( // find isActive = false section
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                    new CodeInstruction(OpCodes.Stfld)
                 )
                 .Insert(
+                    // branch here if the player already had the chosen profession
+                    new[] {dontGetImmediatePerks},
                     // check if current level is above 10 (i.e. prestige level)
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentLevel")),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10),
-                    new CodeInstruction(OpCodes.Ble_Un_S, endOfImmediatePerks), // branch out if not
+                    new CodeInstruction(OpCodes.Ble_Un_S, isNotPrestigeLevel), // branch out if not
                     // add chosenProfession + 100 to player's professions
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
@@ -173,8 +173,8 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                         typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Add)))
                 )
                 .Insert(
-                    // branch here if the player already had the chosen profession
-                    new[] {endOfImmediatePerks},
+                    // branch here if was not prestige level
+                    new[] {isNotPrestigeLevel},
                     // load the chosen profession onto the stack
                     new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
                     // check if should propose final question
@@ -318,7 +318,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         string name =
             ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
                                                (Game1.player.IsMale ? "male" : "female"));
-        if (Game1.player.achievements.Contains(name.Hash())) return;
+        if (Game1.player.achievements.Contains(name.GetDeterministicHashCode())) return;
 
         ModEntry.Subscriber.Subscribe(new AchievementUnlockedDayStartedEvent());
     }

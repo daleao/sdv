@@ -46,7 +46,7 @@ internal class SuperModeEnabledEvent : BaseEvent
         ModEntry.Subscriber.Subscribe(new SuperModeCountdownUpdateTickedEvent());
 
         // display buff
-        var buffID = ModEntry.Manifest.UniqueID.Hash() + ModState.SuperModeIndex + 4;
+        var buffID = ModEntry.Manifest.UniqueID.GetHashCode() + ModState.SuperModeIndex + 4;
         var professionIndex = ModState.SuperModeIndex;
         var professionName = Utility.Professions.NameOf(professionIndex);
 

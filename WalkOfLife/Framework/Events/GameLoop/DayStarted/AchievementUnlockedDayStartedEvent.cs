@@ -16,7 +16,7 @@ internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
         string name =
             ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
                                                (Game1.player.IsMale ? "male" : "female"));
-        Game1.player.achievements.Add(name.Hash());
+        Game1.player.achievements.Add(name.GetDeterministicHashCode());
         Game1.playSound("achievement");
         Game1.addHUDMessage(new(name, true));
 

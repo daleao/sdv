@@ -28,7 +28,7 @@ internal class SkillsPageDrawPatch : BasePatch
     /// <summary>Patch to overlay skill bars above skill level 10 + draw prestige ribbons on the skills page.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> SkillsPageDrawTranspiler(IEnumerable<CodeInstruction> instructions,
-        MethodBase original)
+        ILGenerator iLGenerator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -68,6 +68,42 @@ internal class SkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             ModEntry.Log($"Failed while patching to draw skills page extended level bars. Helper returned {ex}",
+                LogLevel.Error);
+            return null;
+        }
+
+        /// From: (addedSkill ? Color.LightGreen : Color.Cornsilk)
+        /// To: (addedSkill ? Color.LightGreen : skillLevel == 20 ? Color.Grey : Color.SandyBrown)
+
+        var isSkillLevel20 = iLGenerator.DefineLabel();
+        try
+        {
+            helper
+                .FindNext(
+                    new CodeInstruction(OpCodes.Call, typeof(Color).PropertyGetter(nameof(Color.SandyBrown)))
+                )
+                .AdvanceUntil(
+                    new CodeInstruction(OpCodes.Ldloc_S)
+                )
+                .GetOperand(out var skillLevel)
+                .Return()
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 20),
+                    new CodeInstruction(OpCodes.Beq_S, isSkillLevel20)
+                )
+                .Advance()
+                .GetOperand(out var resumeExecution)
+                .Advance()
+                .Insert(
+                    new[] {isSkillLevel20},
+                    new CodeInstruction(OpCodes.Call, typeof(Color).PropertyGetter(nameof(Color.Cornsilk))),
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
+                );
+        }
+        catch (Exception ex)
+        {
+            ModEntry.Log($"Failed while patching to draw max skill level with different color. Helper returned {ex}",
                 LogLevel.Error);
             return null;
         }

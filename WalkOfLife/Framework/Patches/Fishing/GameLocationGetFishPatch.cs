@@ -92,16 +92,12 @@ internal class GameLocationGetFishPatch : BasePatch
 
     #region private methods
 
-    /// <summary>If the first fish roll returned trash, determines whether the farmer is eligible for a reroll.</summary>
-    /// <param name="who">The farmer.</param>
-    /// <param name="currentFish">The result of the first fish roll.</param>
-    /// <param name="hasRerolled">Whether the game has already rerolled once.</param>
     private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
     {
         return currentFish is > 166 and < 173 or 152 or 153 or 157
                && who.CurrentTool is FishingRod rod
                && Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
-               && baitName.IsAnyOf("Bait", "Wild Bait", "Magic Bait")
+               && baitName != "Magnet"
                && who.HasProfession("Fisher") && !hasRerolled;
     }
 

@@ -26,7 +26,7 @@ internal class SuperModeWarpedEvent : WarpedEvent
             ModState.SuperModeGaugeAlpha = 1f;
             ModState.ShouldShakeSuperModeGauge = false;
 
-            var buffID = ModEntry.Manifest.UniqueID.Hash() + ModState.SuperModeIndex + 4;
+            var buffID = ModEntry.Manifest.UniqueID.GetHashCode() + ModState.SuperModeIndex + 4;
             var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
             if (buff is null) return;
 

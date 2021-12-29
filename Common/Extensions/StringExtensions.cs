@@ -75,11 +75,23 @@ public static class StringExtensions
         return false;
     }
 
-    /// <summary>Converts a string ID into an 8-digit hash code.</summary>
-    public static int Hash(this string s)
+    /// <summary>Converts a string into a hash code that is reliable across different executions.</summary>
+    public static int GetDeterministicHashCode(this string s)
     {
-        return (int) (Math.Abs(s.GetHashCode()) /
-                      Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(s.GetHashCode()))) - 8 + 1));
+        unchecked
+        {
+            var hash1 = (5381 << 16) + 5381;
+            var hash2 = hash1;
+            for (var i = 0; i < s.Length; i += 2)
+            {
+                hash1 = ((hash1 << 5) + hash1) ^ s[i];
+                if (i == s.Length - 1)
+                    break;
+                hash2 = ((hash2 << 5) + hash2) ^ s[i + 1];
+            }
+
+            return hash1 + hash2 * 1566083941;
+        }
     }
 
     /// <summary>Parse a flattened string of key-value pairs back into a <see cref="Dictionary{TKey,TValue}" />.</summary>

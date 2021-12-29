@@ -15,7 +15,7 @@ internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     /// <summary>Construct an instance.</summary>
     internal DemolitionistBuffDisplayUpdateTickedEvent()
     {
-        _buffID = (ModEntry.Manifest.UniqueID + Utility.Professions.IndexOf("Demolitionist")).Hash();
+        _buffID = (ModEntry.Manifest.UniqueID + Utility.Professions.IndexOf("Demolitionist")).GetHashCode();
     }
 
     /// <inheritdoc />

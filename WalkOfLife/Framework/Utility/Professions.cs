@@ -121,16 +121,15 @@ public static class Professions
         return multiplier;
     }
 
-    /// <summary>Affects the size of the green fishing bar for Aquarist.</summary>
-    public static int GetAquaristBonusBobberBarHeight(Farmer who)
+    /// <summary>Affects the decay of the "catching" bar for Aquarist.</summary>
+    public static float GetAquaristBonusCatchingBarSpeed(Farmer who)
     {
         var fishTypes = Game1.getFarm().buildings
-            .Where(b => (b.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-                        b is FishPond)
+            .Where(b => (b.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond pond && pond.fishType.Value > 0)
             .Cast<FishPond>()
-            .Select(pond => pond.fishType);
+            .Select(pond => pond.fishType.Value);
 
-        return fishTypes.Distinct().Count() * 6;
+        return fishTypes.Distinct().Count() * 0.000165f;
     }
 
     /// <summary>Affects the price all items sold by Conservationist.</summary>

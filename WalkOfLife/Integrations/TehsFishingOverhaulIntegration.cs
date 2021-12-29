@@ -75,7 +75,7 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
         _fishingApi.ModifyChanceForFish(
             (who, chance) => who.CurrentTool is FishingRod rod &&
                              Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
-                             && baitName.IsAnyOf("Bait", "Wild Bait", "Magic Bait")
+                             && baitName != "Magnet"
                              && who.HasProfession("Fisher")
                 ? 1 - Math.Pow(1 - chance, 2.0)
                 : chance);

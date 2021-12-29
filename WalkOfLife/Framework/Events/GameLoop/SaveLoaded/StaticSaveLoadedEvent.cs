@@ -43,17 +43,15 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
                 break;
         }
 
+        // check for prestige achievements
         if (!Game1.player.HasAllProfessions()) return;
 
-        // check for prestige achievements
         string name =
             ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
                                                (Game1.player.IsMale ? "male" : "female"));
-        if (Game1.player.achievements.Contains(name.Hash()) &&
-            !ModEntry.ModHelper.Content.AssetEditors.ContainsType(typeof(AchivementsEditor)))
-            ModEntry.ModHelper.Content.AssetEditors.Add(new AchivementsEditor());
-        else
-            ModEntry.Subscriber.Subscribe(new AchievementUnlockedDayStartedEvent());
+        if (Game1.player.achievements.Contains(name.GetDeterministicHashCode())) return;
+
+        ModEntry.Subscriber.Subscribe(new AchievementUnlockedDayStartedEvent());
     }
 
     public static void ResetSuperMode()

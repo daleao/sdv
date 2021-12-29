@@ -6,13 +6,14 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches;
 
 [UsedImplicitly]
 internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Construct an instance.</summary>\
     internal LevelUpMenuAddProfessionDescriptionsPatch()
     {
         Original = RequireMethod<LevelUpMenu>("addProfessionDescriptions");
@@ -22,7 +23,7 @@ internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
 
     /// <summary>Patch to apply modded profession descriptions.</summary>
     [HarmonyPrefix]
-    private static bool LevelUpMenuAddProfessionDescriptionsPrefix(int ___currentLevel, List<string> descriptions,
+    private static bool LevelUpMenuAddProfessionDescriptionsPrefix(List<string> descriptions,
         string professionName)
     {
         try
@@ -31,9 +32,18 @@ internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
 
             descriptions.Add(ModEntry.ModHelper.Translation.Get(professionName + ".name." +
                                                                 (Game1.player.IsMale ? "male" : "female")));
+
+            var professionIndex = Utility.Professions.IndexOf(professionName);
+            var skillIndex = professionIndex / 6;
+            var currentLevel = Game1.player.GetUnmodifiedSkillLevel(skillIndex);
             descriptions.AddRange(ModEntry.ModHelper.Translation
-                .Get(professionName + ".desc" + (___currentLevel > 10 ? ".prestiged" : string.Empty)).ToString()
+                .Get(professionName + ".desc" +
+                     (Game1.player.HasPrestigedProfession(professionName) ||
+                      Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10
+                         ? ".prestiged"
+                         : string.Empty)).ToString()
                 .Split('\n'));
+
             return false; // don't run original logic
         }
         catch (Exception ex)

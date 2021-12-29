@@ -33,7 +33,7 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
         var expectedMaxHealth = 100;
         if (farmer.mailReceived.Contains("qiCave")) expectedMaxHealth += 25;
 
-        for (var i = 0; i < farmer.GetUnmodifiedSkillLevel((int) SkillType.Combat); ++i)
+        for (var i = 0; i < farmer.combatLevel.Value; ++i)
             if (!farmer.newLevels.Contains(new((int) SkillType.Combat, i)))
                 expectedMaxHealth += 5;
 

@@ -22,7 +22,7 @@ internal class SuperModeBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 
         if (ModState.SuperModeGaugeValue < 10) return;
 
-        var buffID = ModEntry.Manifest.UniqueID.Hash() + ModState.SuperModeIndex;
+        var buffID = ModEntry.Manifest.UniqueID.GetHashCode() + ModState.SuperModeIndex;
         var professionIndex = ModState.SuperModeIndex;
         var professionName = Utility.Professions.NameOf(professionIndex);
         var magnitude = GetSuperModePrimaryBuffMagnitude(professionName);

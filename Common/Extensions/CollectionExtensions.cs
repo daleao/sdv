@@ -46,11 +46,11 @@ public static class CollectionExtensions
 
     /// <summary>Add an item to the collection, or replace an already existing item with the new one.</summary>
     /// <param name="item">The item to add.</param>
-    /// <returns>Returns true if an item was replaced, otherwiseelse false.</returns>
+    /// <returns>Returns true if an item was added, otherwise returns false.</returns>
     public static bool AddOrReplace<T>(this ICollection<T> collection, T item)
     {
         var removed = collection.Remove(item);
         collection.Add(item);
-        return removed;
+        return !removed;
     }
 }

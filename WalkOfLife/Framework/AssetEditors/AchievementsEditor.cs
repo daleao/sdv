@@ -27,11 +27,12 @@ public class AchivementsEditor : IAssetEditor
             ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
                                                (Game1.player.IsMale ? "male" : "female"));
         var desc = ModEntry.ModHelper.Translation.Get("prestige.achievement.desc");
-        var shouldDisplayBeforeEarned = "false";
-        var prerequisite = "-1";
-        var hatIndex = string.Empty;
+        
+        const string SHOULD_DISPLAY_BEFORE_EARNED_S = "false";
+        const string PREREQUISITE_S = "-1";
+        const string HAT_INDEX_S = "";
 
-        var newEntry = string.Join("^", name, desc, shouldDisplayBeforeEarned, prerequisite, hatIndex);
-        data[name.Hash()] = newEntry;
+        var newEntry = string.Join("^", name, desc, SHOULD_DISPLAY_BEFORE_EARNED_S, PREREQUISITE_S, HAT_INDEX_S);
+        data[name.GetDeterministicHashCode()] = newEntry;
     }
 }
