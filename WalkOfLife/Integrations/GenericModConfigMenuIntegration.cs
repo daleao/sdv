@@ -198,6 +198,20 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 0.5f
             )
             .AddNumberField(
+                "Spelunker speed cap",
+                "The maximum speed a Spelunker can reach in the mines.",
+                config => config.SpelunkerSpeedCap,
+                (config, value) => config.SpelunkerSpeedCap = value,
+                1,
+                10
+            )
+            .AddCheckbox(
+                "Enable 'Get Excited' buff",
+                "Toggles the 'Get Excited' buff when a Demolitionist is hit by an explosion.",
+                config => config.EnableGetExcited,
+                (config, value) => config.EnableGetExcited = value
+            )
+            .AddNumberField(
                 "Trash needed per tax level",
                 "Conservationists must collect this much trash for every 1% tax deduction the following season.",
                 config => (int) config.TrashNeededPerTaxLevel,

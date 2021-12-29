@@ -38,6 +38,9 @@ public class ModConfig
     /// <summary>You must be this close to the treasure hunt target before the indicator appears.</summary>
     public float TreasureDetectionDistance { get; set; } = 3f;
 
+    /// <summary>The maximum speed bonus a Spelunker can reach.</summary>
+    public int SpelunkerSpeedCap { get; set; } = 10;
+
     /// <summary>Toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
     public bool EnableGetExcited { get; set; } = true;
 

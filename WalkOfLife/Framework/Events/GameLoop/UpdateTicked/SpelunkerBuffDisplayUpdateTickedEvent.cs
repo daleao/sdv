@@ -28,7 +28,7 @@ internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
         if (buff is not null) return;
 
         var bonusLadderChance = (ModState.SpelunkerLadderStreak * 0.5f).ToString("0.0");
-        var bonusSpeed = Math.Min(ModState.SpelunkerLadderStreak / 5 + 1, 10);
+        var bonusSpeed = Math.Min(ModState.SpelunkerLadderStreak / 5 + 1, ModEntry.Config.SpelunkerSpeedCap);
         Game1.buffsDisplay.addOtherBuff(
             new(0,
                 0,
