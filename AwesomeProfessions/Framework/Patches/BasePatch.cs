@@ -10,16 +10,20 @@ namespace TheLion.Stardew.Professions.Framework.Patches;
 /// <summary>Base implementation for Harmony patch classes.</summary>
 internal abstract class BasePatch : IPatch
 {
-    /// <summary>Construct an instance.</summary>
-    protected BasePatch()
-    {
-        (Prefix, Postfix, Transpiler) = GetHarmonyMethods();
-    }
-
     protected MethodBase Original { get; set; }
     protected HarmonyMethod Prefix { get; set; }
     protected HarmonyMethod Postfix { get; set; }
     protected HarmonyMethod Transpiler { get; set; }
+
+    /// <summary>Construct an instance.</summary>
+    protected BasePatch()
+    {
+        (Prefix, Postfix, Transpiler) = GetHarmonyMethods();
+
+        if (Prefix is not null) ++HarmonyPatcher.TotalPrefixCount;
+        if (Postfix is not null) ++HarmonyPatcher.TotalPostfixCount;
+        if (Transpiler is not null) ++HarmonyPatcher.TotalTranspilerCount;
+    }
 
     /// <inheritdoc />
     public virtual void Apply(Harmony harmony)
@@ -27,6 +31,11 @@ internal abstract class BasePatch : IPatch
         if (Original is null)
         {
             ModEntry.Log($"[Patch]: Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Trace);
+
+            if (Prefix is not null) ++HarmonyPatcher.IgnoredPrefixCount;
+            if (Postfix is not null) ++HarmonyPatcher.IgnoredPostfixCount;
+            if (Transpiler is not null) ++HarmonyPatcher.IgnoredTranspilerCount;
+
             return;
         }
 
@@ -35,12 +44,20 @@ internal abstract class BasePatch : IPatch
             ModEntry.Log($"[Patch]: Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.",
                 LogLevel.Trace);
             harmony.Patch(Original, Prefix, Postfix, Transpiler);
+
+            if (Prefix is not null) ++HarmonyPatcher.AppliedPrefixCount;
+            if (Postfix is not null) ++HarmonyPatcher.AppliedPostfixCount;
+            if (Transpiler is not null) ++HarmonyPatcher.AppliedTranspilerCount;
         }
         catch (Exception ex)
         {
             ModEntry.Log(
                 $"[Patch]: Failed to patch {Original.DeclaringType}::{Original.Name}.\nHarmony returned {ex}",
                 LogLevel.Error);
+
+            if (Prefix is not null) ++HarmonyPatcher.FailedPrefixCount;
+            if (Postfix is not null) ++HarmonyPatcher.FailedPostfixCount;
+            if (Transpiler is not null) ++HarmonyPatcher.FailedTranspilerCount;
         }
     }
 

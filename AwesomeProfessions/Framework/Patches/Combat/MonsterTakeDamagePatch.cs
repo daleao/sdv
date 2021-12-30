@@ -22,6 +22,9 @@ internal class MonsterTakeDamagePatch : BasePatch
     {
         var targetMethods = TargetMethods().ToList();
         ModEntry.Log($"[Patch]: Found {targetMethods.Count} target methods for {GetType().Name}.", LogLevel.Trace);
+        HarmonyPatcher.TotalPrefixCount += (uint) targetMethods.Count - 1;
+        HarmonyPatcher.TotalPostfixCount += (uint) targetMethods.Count - 1;
+
         foreach (var method in targetMethods)
             try
             {
@@ -33,29 +36,6 @@ internal class MonsterTakeDamagePatch : BasePatch
                 // ignored
             }
     }
-
-    #region private methods
-
-    [HarmonyTargetMethods]
-    private static IEnumerable<MethodBase> TargetMethods()
-    {
-        var methods = from type in AccessTools.AllTypes()
-            where type.IsAssignableTo(typeof(Monster)) && !type.IsAnyOf(
-                typeof(HotHead),
-                typeof(LavaLurk),
-                typeof(Leaper),
-                typeof(MetalHead),
-                typeof(Shooter),
-                typeof(ShadowBrute),
-                typeof(Skeleton),
-                typeof(Spiker))
-            select type.MethodNamed("takeDamage",
-                new[] {typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer)});
-
-        return methods.Where(m => m.DeclaringType == m.ReflectedType);
-    }
-
-    #endregion private methods
 
     #region harmony patches
 
@@ -107,4 +87,27 @@ internal class MonsterTakeDamagePatch : BasePatch
     }
 
     #endregion harmony patches
+    
+    #region private methods
+
+    [HarmonyTargetMethods]
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        var methods = from type in AccessTools.AllTypes()
+            where type.IsAssignableTo(typeof(Monster)) && !type.IsAnyOf(
+                typeof(HotHead),
+                typeof(LavaLurk),
+                typeof(Leaper),
+                typeof(MetalHead),
+                typeof(Shooter),
+                typeof(ShadowBrute),
+                typeof(Skeleton),
+                typeof(Spiker))
+            select type.MethodNamed("takeDamage",
+                new[] {typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer)});
+
+        return methods.Where(m => m.DeclaringType == m.ReflectedType);
+    }
+
+    #endregion private methods
 }
