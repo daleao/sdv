@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwesomeProfessions", "AwesomeProfessions.csproj", "{DC7114FB-22BE-45DF-8112-D5617BCF7D23}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwesomeTools", "..\ChargeableResourceTools\AwesomeTools.csproj", "{388CBB99-61DD-47BA-A58C-6EBB0870B633}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\Common\Common.projitems*{388cbb99-61dd-47ba-a58c-6ebb0870b633}*SharedItemsImports = 5
+		..\Common\Common.projitems*{dc7114fb-22be-45df-8112-d5617bcf7d23}*SharedItemsImports = 5
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC7114FB-22BE-45DF-8112-D5617BCF7D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7114FB-22BE-45DF-8112-D5617BCF7D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC7114FB-22BE-45DF-8112-D5617BCF7D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7114FB-22BE-45DF-8112-D5617BCF7D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{388CBB99-61DD-47BA-A58C-6EBB0870B633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{388CBB99-61DD-47BA-A58C-6EBB0870B633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{388CBB99-61DD-47BA-A58C-6EBB0870B633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{388CBB99-61DD-47BA-A58C-6EBB0870B633}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3BE78E5-6C25-4A8A-B1DF-3471543BE177}
+	EndGlobalSection
+EndGlobal
