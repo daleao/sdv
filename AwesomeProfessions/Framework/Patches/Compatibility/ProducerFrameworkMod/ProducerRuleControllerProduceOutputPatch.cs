@@ -50,13 +50,16 @@ internal class ProducerRuleControllerProduceOutputPatch : BasePatch
                 new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
                 output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
 
-            producer.MinutesUntilReady -= producer.MinutesUntilReady / 10;
+            if (who.HasPrestigedProfession("Artisan"))
+                producer.MinutesUntilReady -= producer.MinutesUntilReady / 4;
+            else
+                producer.MinutesUntilReady -= producer.MinutesUntilReady / 10;
         }
         else if (who.IsLocalPlayer && (output.IsForagedMineral() || output.IsGemOrMineral()) &&
-                 who.HasProfession("Gemologist") && producer.name != "Crystalarium")
+                 who.HasProfession("Gemologist"))
         {
-            output.Quality = Utility.Professions.GetGemologistMineralQuality();
             ModEntry.Data.Increment<uint>("MineralsCollected");
+            if (producer.name != "Crystalarium") output.Quality = Utility.Professions.GetGemologistMineralQuality();
         }
     }
 

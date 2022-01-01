@@ -20,7 +20,7 @@ internal static class HarmonyPatcher
 
     // Enable Axe power level increase
     [HarmonyPatch(typeof(Axe), "beginUsing")]
-    internal class AxeBeginUsing
+    internal class AxeBeginUsingPatch
     {
         protected static bool Prefix(Tool __instance, Farmer who)
         {
@@ -58,7 +58,7 @@ internal static class HarmonyPatcher
 
     // Enable Pickaxe power level increase
     [HarmonyPatch(typeof(Pickaxe), "beginUsing")]
-    internal class PickaxeBeginUsing
+    internal class PickaxeBeginUsingPatch
     {
         protected static bool Prefix(Tool __instance, Farmer who)
         {
@@ -96,7 +96,7 @@ internal static class HarmonyPatcher
 
     // Allow first two power levels on Pickaxe
     [HarmonyPatch(typeof(Farmer), "toolPowerIncrease")]
-    internal class FarmerToolPowerIncrease
+    internal class FarmerToolPowerIncreasePatch
     {
         protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
@@ -117,7 +117,7 @@ internal static class HarmonyPatcher
 
     // Set affected tiles for Axe and Pickaxe power levels
     [HarmonyPatch(typeof(Tool), "tilesAffected")]
-    internal class ToolTileseAffected
+    internal class ToolTileseAffectedPatch
     {
         protected static void Postfix(Tool __instance, ref List<Vector2> __result, Vector2 tileLocation, int power)
         {
@@ -140,7 +140,7 @@ internal static class HarmonyPatcher
 
     // Hide affected tiles overlay for Axe or Pickaxe
     [HarmonyPatch(typeof(Tool), "draw")]
-    internal class ToolDraw
+    internal class ToolDrawPatch
     {
         protected static bool Prefix(Tool __instance)
         {

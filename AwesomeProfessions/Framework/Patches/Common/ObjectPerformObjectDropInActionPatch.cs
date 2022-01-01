@@ -52,17 +52,16 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                 __instance.heldObject.Value.Stack = 2;
                 __instance.heldObject.Value.Quality = SObject.lowQuality;
             }
-            // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-            else if (dropInItem.ParentSheetIndex == 289 &&
-                     !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"))
+            else switch (dropInItem.ParentSheetIndex)
             {
-                __instance.heldObject.Value.Quality = SObject.lowQuality;
-            }
-            // golden mayonnaise keeps giving gives single output but keeps golden quality
-            else if (dropInItem.ParentSheetIndex == 928 &&
-                     !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"))
-            {
-                __instance.heldObject.Value.Stack = 1;
+                // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
+                case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+                    __instance.heldObject.Value.Quality = SObject.lowQuality;
+                    break;
+                // golden mayonnaise keeps giving gives single output but keeps golden quality
+                case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                    __instance.heldObject.Value.Stack = 1;
+                    break;
             }
         }
 

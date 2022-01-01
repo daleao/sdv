@@ -5,6 +5,6 @@
 	"Description": "Charge your Axe and Pickaxe to unleash a powerful shockwave!",
 	"UniqueID": "thelion.AwesomeTools",
 	"EntryDll": "AwesomeTools.dll",
-	"MinimumApiVersion": "3.8.0",
+	"MinimumApiVersion": "3.13.0",
 	"UpdateKeys": [ "Nexus:7965" ]
 }

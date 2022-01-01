@@ -83,7 +83,10 @@ internal class LoomMachineSetInputPatch : BasePatch
             new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
 
-        machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;
+        if (who.HasPrestigedProfession("Artisan"))
+            machine.MinutesUntilReady -= machine.MinutesUntilReady / 4;
+        else
+            machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;
     }
 
     #endregion private methods

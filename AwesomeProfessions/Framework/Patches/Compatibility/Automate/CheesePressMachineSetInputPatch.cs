@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
+using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -37,7 +38,7 @@ internal class CheesePressMachineSetInput : BasePatch
         var helper = new ILHelper(original, instructions);
 
         /// Injected: GenericPullRecipeSubroutine(this, consumable)
-        /// Before: return tr-ue;
+        /// Before: return true;
 
         try
         {
@@ -78,18 +79,28 @@ internal class CheesePressMachineSetInput : BasePatch
     {
         if (!machine.heldObject.Value.IsArtisanGood()) return;
 
+        if (consumable.GetType().GetProperty("Sample")?.GetValue(consumable) is not SObject input) return;
+
+        var output = machine.heldObject.Value;
+        // large milk gives double output at normal quality
+        if (output.Name.ContainsAnyOf("Large", "L."))
+        {
+            output.Stack = 2;
+            output.Quality = SObject.lowQuality;
+        }
+
         var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!who.HasProfession("Artisan")) return;
 
-        var output = machine.heldObject.Value;
-        if (consumable.GetType().GetProperty("Sample")?.GetValue(consumable) is SObject input)
-            output.Quality = input.Quality;
-
+        output.Quality = input.Quality;
         if (output.Quality < SObject.bestQuality &&
             new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
 
-        machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;
+        if (who.HasPrestigedProfession("Artisan"))
+            machine.MinutesUntilReady -= machine.MinutesUntilReady / 4;
+        else
+            machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;
     }
 
     #endregion private methods

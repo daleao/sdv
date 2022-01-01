@@ -5,7 +5,7 @@
   "Description": "An awesome overhaul of Stardew professions.",
   "UniqueID": "thelion.AwesomeProfessions",
   "EntryDll": "AwesomeProfessions.dll",
-  "MinimumApiVersion": "3.8.0",
+  "MinimumApiVersion": "3.13.0",
   "UpdateKeys": ["Nexus:8111"],
   "Dependencies": [
     {

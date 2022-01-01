@@ -85,25 +85,24 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
         if (consumable.GetType().GetProperty("Sample")?.GetValue(consumable) is not SObject input) return;
 
         var output = machine.heldObject.Value;
-        if (machine.name.IsAnyOf("Mayonnaise Machine", "Cheese Press"))
+        if (machine.name == "Mayonnaise Machine")
         {
-            // large milk/eggs give double output at normal quality
+            // large eggs give double output at normal quality
             if (input.Name.ContainsAnyOf("Large", "L."))
             {
                 output.Stack = 2;
                 output.Quality = SObject.lowQuality;
             }
-            // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-            else if (input.ParentSheetIndex == 289 &&
-                     !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"))
+            else switch (input.ParentSheetIndex)
             {
-                output.Quality = SObject.lowQuality;
-            }
-            // golden mayonnaise keeps giving gives single output but keeps golden quality
-            else if (input.ParentSheetIndex == 928 &&
-                     !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"))
-            {
-                output.Stack = 1;
+                // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
+                case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+                    output.Quality = SObject.lowQuality;
+                    break;
+                // golden mayonnaise keeps giving gives single output but keeps golden quality
+                case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                    output.Stack = 1;
+                    break;
             }
         }
 
@@ -115,7 +114,10 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
             new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
 
-        machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;
+        if (who.HasPrestigedProfession("Artisan"))
+            machine.MinutesUntilReady -= machine.MinutesUntilReady / 4;
+        else
+            machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;
 
         switch (machine.name)
         {
@@ -127,8 +129,8 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
                 break;
             // mead cares about input honey flower type
             case "Keg" when input.ParentSheetIndex == 340 && input.preservedParentSheetIndex.Value > 0:
-                output.preservedParentSheetIndex.Value =
-                    input.preservedParentSheetIndex.Value;
+                output.name = input.name.Split(" Honey")[0] + " Mead";
+                output.preservedParentSheetIndex.Value = input.preservedParentSheetIndex.Value;
                 output.Price = input.Price * 2;
                 break;
         }

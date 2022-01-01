@@ -7,8 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwesomeProfessions", "Aweso
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwesomeTools", "AwesomeTools\AwesomeTools.csproj", "{388CBB99-61DD-47BA-A58C-6EBB0870B633}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwesomeValley", "AwesomeValley\AwesomeValley.csproj", "{221E2444-7C0C-4BEB-81A7-4F2B710D9D54}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Common\Common.projitems*{221e2444-7c0c-4beb-81a7-4f2b710d9d54}*SharedItemsImports = 5
 		Common\Common.projitems*{388cbb99-61dd-47ba-a58c-6ebb0870b633}*SharedItemsImports = 5
 		Common\Common.projitems*{dc7114fb-22be-45df-8112-d5617bcf7d23}*SharedItemsImports = 5
 	EndGlobalSection
@@ -25,6 +28,10 @@ Global
 		{388CBB99-61DD-47BA-A58C-6EBB0870B633}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{388CBB99-61DD-47BA-A58C-6EBB0870B633}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{388CBB99-61DD-47BA-A58C-6EBB0870B633}.Release|Any CPU.Build.0 = Release|Any CPU
+		{221E2444-7C0C-4BEB-81A7-4F2B710D9D54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{221E2444-7C0C-4BEB-81A7-4F2B710D9D54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{221E2444-7C0C-4BEB-81A7-4F2B710D9D54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{221E2444-7C0C-4BEB-81A7-4F2B710D9D54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
