@@ -226,7 +226,9 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **ForagesNeededForBestQuality** (integer) - Determines the number of items foraged from the ground, bushes or mushroom boxes, required to reach permanent iridium-quality forage as an Ecologist. Default is 500.
 - **MineralsNeededForBestQuality** (integer) - As above. Determines the number of minerals (gems or foraged minerals) mined or collected from geode crushers or crystalariums, required to reach permanent iridium-quality minerals as a Gemologist. Default it 500.
 - **ChanceToStartTreasureHunt** (decimal) - The percent chance of triggering a treasure hunt when entering a new map as Prospector or Scavenger. Note that this only affects that chance the game will try to start a treasure hunt, and the actual chance is slightly lower as the game might fail to choose a valid treasure tile. Increase this value if you don't see enough treasure hunts, or decrease it if you find treasure hunts cumbersome and don't want to lose your streak. Default is 0.2 (20%).
-- **TreasureHuntHandicap** (decimal) - This number multiplies the treasure hunt time limit. Increase this number if you find that treasure hunts end too quickly.
+- **AllowScavengerHuntsOnFarm** (boolean) - Whether a Scavenger Hunt can trigger while entering a farm map.
+- **ScavengerHuntHandicap** (decimal) - This number multiplies the Scavener Hunt time limit. Increase this number if you find that Scavenger hunts end too quickly.
+- **ProspectorHuntHandicap** (decimal) - This number multiplies the Prospector Hunt time limit. Increase this number if you find that Prospector hunts end too quickly.
 - **TreasureDetectionDistance** (decimal) - Represents the minimum number of adjacent tiles between the player and the treasure tile before the treasure tile will be revealed by a floating arrow. Increase this value is you find treasure hunts too difficult. Default is 3.
 - **SpelunkerSpeedCap** (integer) - The maximum speed bonus a Spelunker can reach (values above 10 may cause problems).
 - **EnableGetExcited** (bool) - Toggles the Get Excited buff when a Demolitionist is hit by an explosion.
