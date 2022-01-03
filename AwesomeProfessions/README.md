@@ -265,7 +265,7 @@ The mod provides the following console commands, which you can enter in the SMAP
 - **wol_data** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent).
 - **wol_setdata** - Set a new value for one of the mod data fields above.
 - **wol_events** - List currently subscribed mod events (for debugging).
-- **wol_rerolltreasure** - Forcefully reset the currently active Treasure Hunt with a new target treasure tile.
+- **wol_resetthehunt** - Forcefully reset the currently active Treasure Hunt with a new target treasure tile.
 
 ## Recommended Mods
 
