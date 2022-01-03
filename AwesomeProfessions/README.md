@@ -188,8 +188,9 @@ The following mods are fully integrated:
 - [ProducerFrameworkMod](https://www.nexusmods.com/stardewvalley/mods/4970) and [PFMAutomate](https://www.nexusmods.com/stardewvalley/mods/5038) (same rules apply as above).
 - PPJA Packs: [Artisan Valley﻿](https://www.nexusmods.com/stardewvalley/mods/1926), [Artisanal Soda Makers](https://www.nexusmods.com/stardewvalley/mods/5173)﻿, [Fizzy Drinks](https://www.nexusmods.com/stardewvalley/mods/5342)﻿, [Fresh Meat﻿](https://www.nexusmods.com/stardewvalley/mods/1721), [Shaved Ice & Frozen Treats](https://www.nexusmods.com/stardewvalley/mods/5388) will all work with Artisan profession.﻿.
 - [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (download the optional translation files to change profession names under skill cheats).
-- [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098)
 - [Teh's Fishing Overhaul](https://www.nexusmods.com/stardewvalley/mods/866/)
+- [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098)
+- [Vintage Interface](https://www.nexusmods.com/stardewvalley/mods/6654)
 
 The following mods are compatible without integration:
 - [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069)
@@ -241,6 +242,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **RequiredExpPerExtendedLevel** (integer) - How much skill experience is required for each level up beyond 10.
 - **PrestigeRespecCost** (integer) - Monetary cost of respecing prestige profession choices for a skill.
 - **ChangeUltCost** (integer) - Monetary cost of changing the combat ultimate.
+- **UseVintageSkillBars** (boolean) - Set to true if you use the Vintage Interface﻿ mod. Makes the skill bars above level 10 a light pink. You can use this with the brown version of Vintage Interface. If you want to use the pink version you will have to recolor the file `assets/menus/skillbars_vintage.png` by yourself.
 
 ## Console Commands
 
