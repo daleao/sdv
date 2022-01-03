@@ -31,7 +31,7 @@ internal class Game1DrawHUDPatch : BasePatch
     private static void Game1DrawHUDPostfix()
     {
         if (!Game1.player.HasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
-        foreach (var tile in Tiles.GetLadderTiles(shaft))
+        foreach (var tile in shaft.GetLadderTiles())
             HUD.DrawTrackingArrowPointer(tile, Color.Lime);
     }
 

@@ -13,7 +13,7 @@ internal class ProspectorWarpedEvent : WarpedEvent
 
         ModState.ProspectorHunt ??= new();
         if (ModState.ProspectorHunt.IsActive) ModState.ProspectorHunt.End();
-        if (Game1.CurrentEvent is null && e.NewLocation is MineShaft)
+        if (!Game1.eventUp && e.NewLocation is MineShaft)
             ModState.ProspectorHunt.TryStartNewHunt(e.NewLocation);
     }
 }

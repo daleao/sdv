@@ -42,7 +42,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                     var skillResponses = new List<Response>();
                     if (Game1.player.CanResetSkill(SkillType.Farming))
                     {
-                        var costVal = Utility.Prestige.GetResetCost(SkillType.Farming);
+                        var costVal = Game1.player.GetResetCost(SkillType.Farming);
                         var costStr = costVal > 0
                             ? ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal})
                             : string.Empty;
@@ -52,7 +52,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
 
                     if (Game1.player.CanResetSkill(SkillType.Fishing))
                     {
-                        var costVal = Utility.Prestige.GetResetCost(SkillType.Fishing);
+                        var costVal = Game1.player.GetResetCost(SkillType.Fishing);
                         var costStr = costVal > 0
                             ? ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal})
                             : string.Empty;
@@ -62,7 +62,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
 
                     if (Game1.player.CanResetSkill(SkillType.Foraging))
                     {
-                        var costVal = Utility.Prestige.GetResetCost(SkillType.Foraging);
+                        var costVal = Game1.player.GetResetCost(SkillType.Foraging);
                         var costStr = costVal > 0
                             ? ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal})
                             : string.Empty;
@@ -72,7 +72,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
 
                     if (Game1.player.CanResetSkill(SkillType.Mining))
                     {
-                        var costVal = Utility.Prestige.GetResetCost(SkillType.Mining);
+                        var costVal = Game1.player.GetResetCost(SkillType.Mining);
                         var costStr = costVal > 0
                             ? ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal})
                             : string.Empty;
@@ -82,7 +82,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
 
                     if (Game1.player.CanResetSkill(SkillType.Combat))
                     {
-                        var costVal = Utility.Prestige.GetResetCost(SkillType.Combat);
+                        var costVal = Game1.player.GetResetCost(SkillType.Combat);
                         var costStr = costVal > 0
                             ? ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost", new {cost = costVal})
                             : string.Empty;
@@ -223,7 +223,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
 
                     if (questionAndAnswer.Contains("skillReset_"))
                     {
-                        var cost = Utility.Prestige.GetResetCost(skillType);
+                        var cost = Game1.player.GetResetCost(skillType);
                         if (cost > 0)
                         {
                             // check for funds and deduct cost

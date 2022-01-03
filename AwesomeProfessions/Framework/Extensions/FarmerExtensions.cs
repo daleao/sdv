@@ -172,6 +172,26 @@ public static class FarmerExtensions
         return Enum.GetValues<SkillType>().Any(farmer.CanResetSkill);
     }
 
+    /// <summary>Get the cost of resetting the specified skill.</summary>
+    /// <param name="skillType">The desired skill.</param>
+    public static int GetResetCost(this Farmer farmer, SkillType skillType)
+    {
+        var multiplier = ModEntry.Config.SkillResetCostMultiplier;
+        if (multiplier <= 0f) return 0;
+
+        var count = farmer.NumberOfProfessionsInSkill((int) skillType, true);
+#pragma warning disable 8509
+        var baseCost = count switch
+#pragma warning restore 8509
+        {
+            1 => 10000,
+            2 => 50000,
+            3 => 100000
+        };
+
+        return (int)(baseCost * multiplier);
+    }
+
     /// <summary>Resets a specific skill level, removing all associated recipes and bonuses but maintaining profession perks.</summary>
     /// <param name="skillType">The skill to reset.</param>
     public static void ResetSkill(this Farmer farmer, SkillType skillType)

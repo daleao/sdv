@@ -1,6 +1,8 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
+using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
@@ -12,6 +14,8 @@ internal class Game1ShouldTimePassPatch : BasePatch
     internal Game1ShouldTimePassPatch()
     {
         Original = RequireMethod<Game1>(nameof(Game1.shouldTimePass));
+        ReversePatch = new(GetType().MethodNamed(nameof(Game1ShouldTimePassOriginal)));
+        ++HarmonyPatcher.TotalReversePatchCount;
     }
 
     #region harmony patches
@@ -27,6 +31,14 @@ internal class Game1ShouldTimePassPatch : BasePatch
         
         __result = false;
         return false; // don't run original logic
+    }
+
+    /// <summary>Reverse patch to store a copy of the original method for exclusive use by Treasure Hunts.</summary>
+    [HarmonyReversePatch]
+    public static bool Game1ShouldTimePassOriginal(Game1 instance, bool ignore_multiplayer = false)
+    {
+        // it's a stub so it has no initial content
+        throw new NotImplementedException("It's a stub!");
     }
 
     #endregion harmony patches

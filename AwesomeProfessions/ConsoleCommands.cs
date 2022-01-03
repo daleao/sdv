@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
@@ -56,6 +57,8 @@ internal static class ConsoleCommands
             SetModData);
         ModEntry.ModHelper.ConsoleCommands.Add("wol_events", "List currently subscribed mod events.",
             PrintSubscribedEvents);
+        ModEntry.ModHelper.ConsoleCommands.Add("wol_rerolltreasure", "Forces the current Treasure Hunt to select a new target treasure tile.",
+            RerollTreasureTile);
     }
 
     #region command handlers
@@ -485,6 +488,52 @@ internal static class ConsoleCommands
         ModEntry.Log("Currently subscribed events:", LogLevel.Info);
         foreach (var eventName in ModEntry.Subscriber.Select(e => e.GetType().Name))
             ModEntry.Log($"{eventName}", LogLevel.Info);
+    }
+
+    /// <summary>Force a new treasure tile to be selected for the currently active Treasure Hunt.</summary>
+    internal static void RerollTreasureTile(string command, string[] args)
+    {
+        if (!Context.IsWorldReady)
+        {
+            ModEntry.Log("You must load a save first.", LogLevel.Warn);
+            return;
+        }
+
+        if (!ModState.ScavengerHunt.IsActive && !ModState.ProspectorHunt.IsActive)
+        {
+            ModEntry.Log("There is no Treasure Hunt currently active.", LogLevel.Warn);
+            return;
+        }
+
+        if (ModState.ScavengerHunt.IsActive)
+        {
+            var v = ModState.ScavengerHunt.ChooseTreasureTile(Game1.currentLocation);
+            if (v is null)
+            {
+                ModEntry.Log("Couldn't find a valid treasure tile after 10 tries.", LogLevel.Warn);
+                return;
+            }
+
+            Game1.currentLocation.MakeTileDiggable(v.Value);
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModState.ScavengerHunt, "TreasureTile").SetValue(v);
+            ModEntry.ModHelper.Reflection.GetField<uint>(ModState.ScavengerHunt, "Elapsed").SetValue(0);
+
+            ModEntry.Log("The Scavenger Hunt was reset.", LogLevel.Info);
+        }
+        else if (ModState.ProspectorHunt.IsActive)
+        {
+            var v = ModState.ProspectorHunt.ChooseTreasureTile(Game1.currentLocation);
+            if (v is null)
+            {
+                ModEntry.Log("Couldn't find a valid treasure tile after 10 tries.", LogLevel.Warn);
+                return;
+            }
+
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModState.ProspectorHunt, "TreasureTile").SetValue(v);
+            ModEntry.ModHelper.Reflection.GetField<int>(ModState.ProspectorHunt, "Elapsed").SetValue(0);
+
+            ModEntry.Log("The Prospector Hunt was reset.", LogLevel.Info);
+        }
     }
 
     #endregion command handlers

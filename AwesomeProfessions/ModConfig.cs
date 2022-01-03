@@ -32,8 +32,14 @@ public class ModConfig
     /// <summary>The chance that a scavenger or prospector hunt will trigger in the right conditions.</summary>
     public double ChanceToStartTreasureHunt { get; set; } = 0.2;
 
-    /// <summary>Increase this multiplier if you find that treasure hunts end too quickly.</summary>
-    public float TreasureHuntHandicap { get; set; } = 1f;
+    /// <summary>Whether a Scavenger Hunt can trigger while entering a farm map.</summary>
+    public bool AllowScavengerHuntsOnFarm { get; set; } = false;
+
+    /// <summary>Increase this multiplier if you find that Scavenger hunts end too quickly.</summary>
+    public float ScavengerHuntHandicap { get; set; } = 1f;
+
+    /// <summary>Increase this multiplier if you find that Prospector hunts end too quickly.</summary>
+    public float ProspectorHuntHandicap { get; set; } = 1f;
 
     /// <summary>You must be this close to the treasure hunt target before the indicator appears.</summary>
     public float TreasureDetectionDistance { get; set; } = 3f;

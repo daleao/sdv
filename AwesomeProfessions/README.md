@@ -278,6 +278,7 @@ The mod provides the following console commands, which you can enter in the SMAP
 - [HimeTarts](https://www.nexusmods.com/stardewvalley/users/108124018) for the title logo.
 - [PiknikKey](https://forums.nexusmods.com/index.php?/user/97782533-piknikkey/) for Chinese translation.
 - [lacerta143](https://www.nexusmods.com/stardewvalley/users/38094530) for Korean translation.
+- [TehPers](https://www.nexusmods.com/stardewvalley/users/3994776) for TFO integration.
 - [Pathoschild](https://www.nexusmods.com/stardewvalley/users/1552317) for SMAPI support.
 - **ConcernedApe** for Stardew Valley.
 - [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.

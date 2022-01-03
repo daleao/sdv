@@ -13,6 +13,8 @@ namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
 /// <summary>Manages treasure hunt events for Prospector profession.</summary>
 public class ProspectorHunt : TreasureHunt
 {
+    #region internal methods
+
     /// <summary>Construct an instance.</summary>
     internal ProspectorHunt()
     {
@@ -21,24 +23,50 @@ public class ProspectorHunt : TreasureHunt
         IconSourceRect = new(48, 672, 16, 16);
     }
 
-    /// <summary>Try to start a new prospector hunt at this location.</summary>
-    /// <param name="location">The game location.</param>
+    /// <inheritdoc/>
     internal override void TryStartNewHunt(GameLocation location)
     {
         if (!location.Objects.Any() || !base.TryStartNewHunt()) return;
+        
+        TreasureTile = ChooseTreasureTile(location);
+        if (TreasureTile is null) return;
 
-        var v = location.Objects.Keys.ElementAtOrDefault(Random.Next(location.Objects.Keys.Count()));
-        if (!location.Objects.TryGetValue(v, out var obj) || !obj.IsStone() || obj.IsResourceNode()) return;
-
-        TreasureTile = v;
-        TimeLimit = (uint) (location.Objects.Count() * ModEntry.Config.TreasureHuntHandicap);
+        TimeLimit = (uint) (location.Objects.Count() * ModEntry.Config.ProspectorHuntHandicap);
         Elapsed = 0;
         ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(),
             new ProspectorHuntUpdateTickedEvent(), new ProspectorHuntRenderedHudEvent());
         Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
     }
 
-    /// <summary>Check if the player has found the treasure tile.</summary>
+    /// <inheritdoc/>
+    internal override Vector2? ChooseTreasureTile(GameLocation location)
+    {
+        Vector2 v;
+        var failsafe = 0;
+        do
+        {
+            if (failsafe > 10) return null;
+            v = location.Objects.Keys.ElementAtOrDefault(Random.Next(location.Objects.Keys.Count()));
+            ++failsafe;
+        }
+        while ((!location.Objects.TryGetValue(v, out var obj) || !obj.IsStone() || obj.IsResourceNode()));
+
+        return v;
+    }
+
+    /// <inheritdoc/>
+    internal override void End()
+    {
+        ModEntry.Subscriber.Unsubscribe(typeof(ProspectorHuntUpdateTickedEvent),
+            typeof(ProspectorHuntRenderedHudEvent));
+        TreasureTile = null;
+    }
+
+    #endregion internal methods
+
+    #region protected methods
+
+    /// <inheritdoc/>
     protected override void CheckForCompletion()
     {
         if (TreasureTile is null || Game1.currentLocation.Objects.ContainsKey(TreasureTile.Value)) return;
@@ -48,7 +76,7 @@ public class ProspectorHunt : TreasureHunt
         ModEntry.Data.Increment<uint>("ProspectorHuntStreak");
     }
 
-    /// <summary>End the hunt unsuccessfully.</summary>
+    /// <inheritdoc/>
     protected override void Fail()
     {
         End();
@@ -56,13 +84,9 @@ public class ProspectorHunt : TreasureHunt
         ModEntry.Data.Write("ProspectorHuntStreak", "0");
     }
 
-    /// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
-    internal override void End()
-    {
-        ModEntry.Subscriber.Unsubscribe(typeof(ProspectorHuntUpdateTickedEvent),
-            typeof(ProspectorHuntRenderedHudEvent));
-        TreasureTile = null;
-    }
+    #endregion protected methods
+
+    #region private methods
 
     /// <summary>Spawn hunt spoils as debris.</summary>
     /// <remarks>Adapted from FishingRod.openTreasureMenuEndFunction.</remarks>
@@ -214,4 +238,6 @@ public class ProspectorHunt : TreasureHunt
                     break;
             }
     }
+
+    #endregion private methods
 }

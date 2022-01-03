@@ -14,6 +14,7 @@ internal abstract class BasePatch : IPatch
     protected HarmonyMethod Prefix { get; set; }
     protected HarmonyMethod Postfix { get; set; }
     protected HarmonyMethod Transpiler { get; set; }
+    protected HarmonyMethod ReversePatch { get; set; }
 
     /// <summary>Construct an instance.</summary>
     protected BasePatch()
@@ -35,6 +36,7 @@ internal abstract class BasePatch : IPatch
             if (Prefix is not null) ++HarmonyPatcher.IgnoredPrefixCount;
             if (Postfix is not null) ++HarmonyPatcher.IgnoredPostfixCount;
             if (Transpiler is not null) ++HarmonyPatcher.IgnoredTranspilerCount;
+            if (ReversePatch is not null) ++HarmonyPatcher.FailedReversePatchCount;
 
             return;
         }
@@ -48,6 +50,11 @@ internal abstract class BasePatch : IPatch
             if (Prefix is not null) ++HarmonyPatcher.AppliedPrefixCount;
             if (Postfix is not null) ++HarmonyPatcher.AppliedPostfixCount;
             if (Transpiler is not null) ++HarmonyPatcher.AppliedTranspilerCount;
+
+            if (ReversePatch is null) return;
+
+            harmony.CreateReversePatcher(Original, ReversePatch).Patch();
+            ++HarmonyPatcher.AppliedReversePatchCount;
         }
         catch (Exception ex)
         {
@@ -58,6 +65,7 @@ internal abstract class BasePatch : IPatch
             if (Prefix is not null) ++HarmonyPatcher.FailedPrefixCount;
             if (Postfix is not null) ++HarmonyPatcher.FailedPostfixCount;
             if (Transpiler is not null) ++HarmonyPatcher.FailedTranspilerCount;
+            if (ReversePatch is not null) ++HarmonyPatcher.FailedReversePatchCount;
         }
     }
 

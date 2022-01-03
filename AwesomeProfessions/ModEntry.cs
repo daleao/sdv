@@ -1,5 +1,6 @@
 ﻿using System;
 using StardewModdingAPI;
+using StardewValley;
 using TheLion.Stardew.Professions.Framework;
 using TheLion.Stardew.Professions.Framework.AssetEditors;
 using TheLion.Stardew.Professions.Framework.AssetLoaders;
@@ -17,6 +18,8 @@ public class ModEntry : Mod
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
     internal static Action<string, LogLevel> Log { get; private set; }
+
+    internal static FrameRateCounter FpsCounter { get; private set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -43,5 +46,11 @@ public class ModEntry : Mod
 
         // add debug commands
         ConsoleCommands.Register();
+
+        if (!Config.EnableDebug) return;
+
+        // start FPS counter
+        FpsCounter = new(GameRunner.instance);
+        helper.Reflection.GetMethod(FpsCounter, "LoadContent").Invoke();
     }
 }

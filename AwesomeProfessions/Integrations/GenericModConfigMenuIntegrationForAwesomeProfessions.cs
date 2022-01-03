@@ -184,11 +184,26 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 1f,
                 0.05f
             )
+            .AddCheckbox(
+                () => "Allow Scavenger hunts on farm",
+                () => "Whether a Scavenger Hunt can trigger while entering a farm map.",
+                config => config.AllowScavengerHuntsOnFarm,
+                (config, value) => config.AllowScavengerHuntsOnFarm = value
+            )
             .AddNumberField(
-                () => "Treasure hunt handicap",
-                () => "Increase this number if you find that treasure hunts end too quickly.",
-                config => config.TreasureHuntHandicap,
-                (config, value) => config.TreasureHuntHandicap = value,
+                () => "Scavenger Hunt handicap",
+                () => "Increase this number if you find that Scavenger hunts end too quickly.",
+                config => config.ScavengerHuntHandicap,
+                (config, value) => config.ScavengerHuntHandicap = value,
+                1f,
+                10f,
+                0.5f
+            )
+            .AddNumberField(
+                () => "Prospector Hunt handicap",
+                () => "Increase this number if you find that Prospector hunts end too quickly.",
+                config => config.ProspectorHuntHandicap,
+                (config, value) => config.ProspectorHuntHandicap = value,
                 1f,
                 10f,
                 0.5f

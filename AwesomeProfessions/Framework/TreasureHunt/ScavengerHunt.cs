@@ -9,8 +9,9 @@ using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
 using TheLion.Stardew.Professions.Framework.Events;
-using TheLion.Stardew.Professions.Framework.Utility;
+using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
 
@@ -36,6 +37,8 @@ public class ScavengerHunt : TreasureHunt
         588 // palm fossil
     };
 
+    #region internal methods
+
     /// <summary>Construct an instance.</summary>
     internal ScavengerHunt()
     {
@@ -50,28 +53,55 @@ public class ScavengerHunt : TreasureHunt
     {
         if (!base.TryStartNewHunt()) return;
 
-        var x = Random.Next(location.Map.DisplayWidth / Game1.tileSize);
-        var y = Random.Next(location.Map.DisplayHeight / Game1.tileSize);
-        var v = new Vector2(x, y);
-        if (!Tiles.IsTileValidForTreasure(v, location)) return;
+        TreasureTile = ChooseTreasureTile(location);
+        if (TreasureTile is null) return;
 
-        Tiles.MakeTileDiggable(v, location);
-        TreasureTile = v;
-        TimeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 10 *
-                            ModEntry.Config.TreasureHuntHandicap);
+        location.MakeTileDiggable(TreasureTile.Value);
+        TimeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
+                            ModEntry.Config.ScavengerHuntHandicap);
         Elapsed = 0;
         ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(),
             new ScavengerHuntUpdateTickedEvent(), new ScavengerHuntRenderedHudEvent());
         Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
     }
 
-    /// <summary>Check if the player has found the treasure tile.</summary>
+    /// <inheritdoc/>
+    internal override Vector2? ChooseTreasureTile(GameLocation location)
+    {
+        Vector2 v;
+        var failsafe = 0;
+        do
+        {
+            if (failsafe > 10) return null;
+
+            var x = Random.Next(location.Map.DisplayWidth / Game1.tileSize);
+            var y = Random.Next(location.Map.DisplayHeight / Game1.tileSize);
+            v = new(x, y);
+            ++failsafe;
+        } while (!location.IsTileValidForTreasure(v));
+
+        return v;
+    }
+
+    /// <inheritdoc/>
+    internal override void End()
+    {
+        ModEntry.Subscriber.Unsubscribe(typeof(ScavengerHuntUpdateTickedEvent),
+            typeof(ProspectorHuntRenderedHudEvent));
+        TreasureTile = null;
+    }
+
+    #endregion internal methods
+
+    #region protected methods
+
+    /// <inheritdoc/>
     protected override void CheckForCompletion()
     {
         if (Game1.player.CurrentTool is not Hoe || !Game1.player.UsingTool) return;
 
-        var actionTile = new Vector2((int) (Game1.player.GetToolLocation().X / Game1.tileSize),
-            (int) (Game1.player.GetToolLocation().Y / Game1.tileSize));
+        var actionTile = new Vector2((int)(Game1.player.GetToolLocation().X / Game1.tileSize),
+            (int)(Game1.player.GetToolLocation().Y / Game1.tileSize));
         if (TreasureTile is null || actionTile != TreasureTile.Value) return;
 
         End();
@@ -80,7 +110,7 @@ public class ScavengerHunt : TreasureHunt
         ModEntry.Data.Increment<uint>("ScavengerHuntStreak");
     }
 
-    /// <summary>End the hunt unsuccessfully.</summary>
+    /// <inheritdoc/>
     protected override void Fail()
     {
         End();
@@ -88,13 +118,9 @@ public class ScavengerHunt : TreasureHunt
         ModEntry.Data.Write("ScavengerHuntStreak", "0");
     }
 
-    /// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
-    internal override void End()
-    {
-        ModEntry.Subscriber.Unsubscribe(typeof(ScavengerHuntUpdateTickedEvent),
-            typeof(ProspectorHuntRenderedHudEvent));
-        TreasureTile = null;
-    }
+    #endregion protected methods
+
+    #region private methods
 
     /// <summary>Play treasure chest found animation.</summary>
     private void BeginFindTreasure()
@@ -333,4 +359,6 @@ public class ScavengerHunt : TreasureHunt
 
         return treasures;
     }
+
+    #endregion private methods
 }

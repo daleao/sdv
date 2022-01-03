@@ -20,6 +20,6 @@ internal class TrackerRenderedHudEvent : RenderedHudEvent
         if (!Game1.player.HasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
 
         // reveal on-screen ladders and shafts
-        foreach (var tile in Tiles.GetLadderTiles(shaft)) HUD.DrawTrackingArrowPointer(tile, Color.Lime);
+        foreach (var tile in shaft.GetLadderTiles()) HUD.DrawTrackingArrowPointer(tile, Color.Lime);
     }
 }

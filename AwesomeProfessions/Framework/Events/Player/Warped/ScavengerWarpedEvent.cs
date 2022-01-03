@@ -12,8 +12,8 @@ internal class ScavengerWarpedEvent : WarpedEvent
 
         ModState.ScavengerHunt ??= new();
         if (ModState.ScavengerHunt.IsActive) ModState.ScavengerHunt.End();
-        if (Game1.CurrentEvent is null && e.NewLocation.IsOutdoors &&
-            !(e.NewLocation.IsFarm || e.NewLocation.NameOrUniqueName == "Town"))
+        if (!Game1.eventUp && e.NewLocation.IsOutdoors &&
+            (ModEntry.Config.AllowScavengerHuntsOnFarm || !e.NewLocation.IsFarm))
             ModState.ScavengerHunt.TryStartNewHunt(e.NewLocation);
     }
 }
