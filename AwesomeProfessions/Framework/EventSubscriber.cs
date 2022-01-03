@@ -35,7 +35,7 @@ internal class EventSubscriber : IEnumerable<IEvent>
         SubscribeEventsStartingWith("Static");
 
         // hook debug events
-        if (ModEntry.Config.EnableUIDebug) SubscribeEventsStartingWith("Debug");
+        if (ModEntry.Config.EnableDebug) SubscribeEventsStartingWith("Debug");
     }
 
     public IEnumerator<IEvent> GetEnumerator()

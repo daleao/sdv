@@ -6,21 +6,10 @@ using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Utility;
 
-/// <summary>Holds common methods and properties related to prestige elements.</summary>
+/// <summary>Holds common methods and properties related to prestige mechanics.</summary>
 public static class Prestige
 {
-    /// <summary>The prestige ribbon tilesheet.</summary>
-    public static Texture2D RibbonTx { get; } =
-        ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "sprites", "ribbons.png"));
-
-    public static Texture2D SkillBarTx { get; } =
-        ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "menus", "skillbars.png"));
-
-    public static int RibbonWidth => 22;
-    public static int RibbonHorizontalOffset => -99;
-    public static float RibbonScale => 1.8f;
-
-    /// <summary>Get the cost of prestiging the specified skill.</summary>
+    /// <summary>Get the cost of resetting the specified skill.</summary>
     /// <param name="skillType">The desired skill.</param>
     public static int GetResetCost(SkillType skillType)
     {

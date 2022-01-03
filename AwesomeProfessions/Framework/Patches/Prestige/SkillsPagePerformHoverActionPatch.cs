@@ -29,11 +29,11 @@ internal class SkillsPagePerformHoverActionPatch : BasePatch
 
         if (!ModEntry.Config.EnablePrestige) return;
 
-        var w = Utility.Prestige.RibbonWidth;
-        var s = Utility.Prestige.RibbonScale;
+        var w = Utility.Textures.RibbonWidth;
+        var s = Utility.Textures.RibbonScale;
         var bounds =
             new Rectangle(
-                __instance.xPositionOnScreen + __instance.width + Utility.Prestige.RibbonHorizontalOffset,
+                __instance.xPositionOnScreen + __instance.width + Utility.Textures.RibbonHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth -
                 70, (int) (w * s), (int) (w * s));
 

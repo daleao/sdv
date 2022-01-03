@@ -11,7 +11,7 @@ internal class StaticGameLaunchedEvent : GameLaunchedEvent
     public override void OnGameLaunched(object sender, GameLaunchedEventArgs e)
     {
         // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForAwesomeTools(
+        new GenericModConfigMenuIntegrationForAwesomeProfessions(
             getConfig: () => ModEntry.Config,
             reset: () =>
             {
@@ -27,7 +27,7 @@ internal class StaticGameLaunchedEvent : GameLaunchedEvent
         // add Teh's Fishing Overhaul integration
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("TehPers.FishingOverhaul"))
         {
-            new TehsFishingOverhaulIntegration(modRegistry: ModEntry.ModHelper.ModRegistry, log: ModEntry.Log)
+            new TehsFishingOverhaulIntegration(modRegistry: ModEntry.ModHelper.ModRegistry, log: ModEntry.Log, helper: ModEntry.ModHelper)
                 .Register();
         }
     }

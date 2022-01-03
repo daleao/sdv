@@ -19,7 +19,7 @@ public class ArrowPointer
     /// <summary>Advance the pointer's vertical offset motion by one step, in a bobbing fashion.</summary>
     public void Bob()
     {
-        if (_step == MAX_STEP_F || _step == MIN_STEP_F) _jerk = -_jerk;
+        if (_step is MAX_STEP_F or MIN_STEP_F) _jerk = -_jerk;
         _step += _jerk;
         _height += _step;
     }

@@ -6,234 +6,270 @@ namespace TheLion.Stardew.Common.Integrations;
 
 /// <summary>Handles the logic for integrating with the Generic Mod Configuration Menu mod.</summary>
 /// <typeparam name="TConfig">The mod configuration type.</typeparam>
-/// <remarks>Credit to <c>Pathoschild</c>.</remarks>
 internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     where TConfig : new()
 {
+    /*********
+    ** Fields
+    *********/
+    /// <summary>The mod's public API.</summary>
+    private readonly IGenericModConfigMenuApi ModApi;
+
     /// <summary>The manifest for the mod consuming the API.</summary>
-    private readonly IManifest _consumerManifest;
+    private readonly IManifest ConsumerManifest;
 
     /// <summary>Get the current config model.</summary>
-    private readonly Func<TConfig> _getConfig;
+    private readonly Func<TConfig> GetConfig;
 
-    /// <summary>The mod's public API.</summary>
-    private readonly IGenericModConfigMenuAPI _modAPI;
-
-    /// <summary>_reset the config model to the default values.</summary>
-    private readonly Action _reset;
+    /// <summary>Reset the config model to the default values.</summary>
+    private readonly Action Reset;
 
     /// <summary>Save and apply the current config model.</summary>
-    private readonly Action _saveAndApply;
+    private readonly Action SaveAndApply;
 
+
+    /*********
+    ** Public methods
+    *********/
     /// <summary>Construct an instance.</summary>
-    /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
+    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     /// <param name="consumerManifest">The manifest for the mod consuming the API.</param>
-    /// <param name="getConfig">Get the current config model.</param>
-    /// <param name="reset">_reset the config model to the default values.</param>
-    /// <param name="saveAndApply">Save and apply the current config model.</param>
     /// <param name="log">Encapsulates monitoring and logging.</param>
-    public GenericModConfigMenuIntegration(IModRegistry modRegistry, IManifest consumerManifest,
-        Func<TConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
-        : base("Generic Mod Config Menu", "spacechase0.GenericModConfigMenu", "1.1.0", modRegistry, log)
+    /// <param name="getConfig">Get the current config model.</param>
+    /// <param name="reset">Reset the mod's config to its default values.</param>
+    /// <param name="saveAndApply">Save the mod's current config to the <c>config.json</c> file.</param>
+    public GenericModConfigMenuIntegration(IModRegistry modRegistry, IManifest consumerManifest, Action<string, LogLevel> log, Func<TConfig> getConfig, Action reset, Action saveAndApply)
+        : base("Generic Mod Config Menu", "spacechase0.GenericModConfigMenu", "1.6.0", modRegistry, log)
     {
         // init
-        _consumerManifest = consumerManifest;
-        _getConfig = getConfig;
-        _reset = reset;
-        _saveAndApply = saveAndApply;
-
-        if (!IsLoaded) return;
+        ConsumerManifest = consumerManifest;
+        GetConfig = getConfig;
+        Reset = reset;
+        SaveAndApply = saveAndApply;
 
         // get mod API
-        _modAPI = GetValidatedApi<IGenericModConfigMenuAPI>();
-        IsLoaded = _modAPI is not null;
+        if (IsLoaded)
+        {
+            ModApi = GetValidatedApi<IGenericModConfigMenuApi>();
+            IsLoaded = ModApi != null;
+        }
     }
 
     /// <summary>Register the mod config.</summary>
-    public GenericModConfigMenuIntegration<TConfig> RegisterConfig()
+    /// <param name="titleScreenOnly">Whether the options can only be edited from the title screen.</param>
+    public GenericModConfigMenuIntegration<TConfig> Register(bool titleScreenOnly = false)
     {
         AssertLoaded();
-        _modAPI.RegisterModConfig(_consumerManifest, _reset, _saveAndApply);
+
+        ModApi.Register(ConsumerManifest, Reset, SaveAndApply, titleScreenOnly);
+
         return this;
     }
 
-    /// <summary>Add a label to the form.</summary>
-    /// <param name="label">The label text.</param>
-    /// <param name="description">A description shown on hover, if any.</param>
-    public GenericModConfigMenuIntegration<TConfig> AddLabel(string label, string description = null)
+    /// <summary>Start a new page in the mod's config UI, or switch to that page if it already exists. All options registered after this will be part of that page.</summary>
+    /// <param name="pageId">The unique page ID.</param>
+    /// <param name="pageTitle">The page title shown in its UI, or <c>null</c> to show the <paramref name="pageId"/> value.</param>
+    /// <remarks>You must also call <see cref="AddPageLink"/> to make the page accessible. This is only needed to set up a multi-page config UI. If you don't call this method, all options will be part of the mod's main config UI instead.</remarks>
+    public GenericModConfigMenuIntegration<TConfig> AddPage(string pageId, Func<string> pageTitle = null)
     {
         AssertLoaded();
-        _modAPI.RegisterLabel(_consumerManifest, label, description);
+
+        ModApi.AddPage(ConsumerManifest, pageId, pageTitle);
+
         return this;
     }
 
-    /// <summary>Start a new form page.</summary>
-    /// <param name="pageName">The name of the page.</param>
-    public GenericModConfigMenuIntegration<TConfig> AddNewPage(string pageName)
+    /// <summary>Add a link to a page added via <see cref="AddPage"/> at the current position in the form.</summary>
+    /// <param name="pageId">The unique ID of the page to open when the link is clicked.</param>
+    /// <param name="text">The link text shown in the form.</param>
+    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the link, or <c>null</c> to disable the tooltip.</param>
+    public GenericModConfigMenuIntegration<TConfig> AddPageLink(string pageId, Func<string> text,
+        Func<string> tooltip = null)
     {
         AssertLoaded();
-        _modAPI.StartNewPage(_consumerManifest, pageName);
+
+        ModApi.AddPageLink(ConsumerManifest, pageId, text, tooltip);
+
         return this;
     }
 
-    /// <summary>Add a label to a different form page.</summary>
-    /// <param name="label">The label text.</param>
-    /// <param name="description">A description shown on hover, if any.</param>
-    /// <param name="page">The target page name.</param>
-    public GenericModConfigMenuIntegration<TConfig> AddPageLabel(string label, string description = null,
-        string page = "")
+    /// <summary>Add a section title at the current position in the form.</summary>
+    /// <param name="text">The title text shown in the form.</param>
+    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the title, or <c>null</c> to disable the tooltip.</param>
+    public GenericModConfigMenuIntegration<TConfig> AddSectionTitle(Func<string> text, Func<string> tooltip = null)
     {
         AssertLoaded();
-        _modAPI.RegisterPageLabel(_consumerManifest, label, description, page);
+
+        ModApi.AddSectionTitle(ConsumerManifest, text, tooltip);
+
+        return this;
+    }
+
+    /// <summary>Add a paragraph of text at the current position in the form.</summary>
+    /// <param name="text">The paragraph text to display.</param>
+    public GenericModConfigMenuIntegration<TConfig> AddParagraph(Func<string> text)
+    {
+        AssertLoaded();
+
+        ModApi.AddParagraph(ConsumerManifest, text);
+
         return this;
     }
 
     /// <summary>Add a checkbox to the form.</summary>
-    /// <param name="label">The label text.</param>
-    /// <param name="description">A description shown on hover, if any.</param>
-    /// <param name="get">Get the current value.</param>
-    /// <param name="set">Set a new value.</param>
+    /// <param name="name">The label text to show in the form.</param>
+    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="get">Get the current value from the mod config.</param>
+    /// <param name="set">Set a new value in the mod config.</param>
     /// <param name="enable">Whether the field is enabled.</param>
-    public GenericModConfigMenuIntegration<TConfig> AddCheckbox(string label, string description,
-        Func<TConfig, bool> get, Action<TConfig, bool> set, bool enable = true)
+    public GenericModConfigMenuIntegration<TConfig> AddCheckbox(Func<string> name, Func<string> tooltip, Func<TConfig, bool> get, Action<TConfig, bool> set, bool enable = true)
     {
         AssertLoaded();
 
         if (enable)
-            _modAPI.RegisterSimpleOption(
-                _consumerManifest,
-                label,
-                description,
-                () => get(_getConfig()),
-                val => set(_getConfig(), val)
+        {
+            ModApi.AddBoolOption(
+                mod: ConsumerManifest,
+                name: name,
+                tooltip: tooltip,
+                getValue: () => get(GetConfig()),
+                setValue: val => set(GetConfig(), val)
             );
+        }
 
         return this;
     }
 
     /// <summary>Add a dropdown to the form.</summary>
-    /// <param name="label">The label text.</param>
-    /// <param name="description">A description shown on hover, if any.</param>
-    /// <param name="get">Get the current value.</param>
-    /// <param name="set">Set a new value.</param>
-    /// <param name="choices">The choices to choose from.</param>
+    /// <param name="name">The label text to show in the form.</param>
+    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="get">Get the current value from the mod config.</param>
+    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="allowedValues">The values that can be selected.</param>
+    /// <param name="formatAllowedValue">Get the display text to show for a value from <paramref name="allowedValues"/>, or <c>null</c> to show the values as-is.</param>
     /// <param name="enable">Whether the field is enabled.</param>
-    public GenericModConfigMenuIntegration<TConfig> AddDropdown(string label, string description,
-        Func<TConfig, string> get, Action<TConfig, string> set, string[] choices, bool enable = true)
+    public GenericModConfigMenuIntegration<TConfig> AddDropdown(Func<string> name, Func<string> tooltip, Func<TConfig, string> get, Action<TConfig, string> set, string[] allowedValues, Func<string, string> formatAllowedValue, bool enable = true)
     {
         AssertLoaded();
 
         if (enable)
-            _modAPI.RegisterChoiceOption(
-                _consumerManifest,
-                label,
-                description,
-                () => get(_getConfig()),
-                val => set(_getConfig(), val),
-                choices
+        {
+            ModApi.AddTextOption(
+                mod: ConsumerManifest,
+                name: name,
+                tooltip: tooltip,
+                getValue: () => get(GetConfig()),
+                setValue: val => set(GetConfig(), val),
+                allowedValues: allowedValues,
+                formatAllowedValue: formatAllowedValue
             );
+        }
 
         return this;
     }
 
     /// <summary>Add a checkbox to the form.</summary>
-    /// <param name="label">The label text.</param>
-    /// <param name="description">A description shown on hover, if any.</param>
-    /// <param name="get">Get the current value.</param>
-    /// <param name="set">Set a new value.</param>
+    /// <param name="name">The label text to show in the form.</param>
+    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="get">Get the current value from the mod config.</param>
+    /// <param name="set">Set a new value in the mod config.</param>
     /// <param name="enable">Whether the field is enabled.</param>
-    public GenericModConfigMenuIntegration<TConfig> AddTextbox(string label, string description,
-        Func<TConfig, string> get, Action<TConfig, string> set, bool enable = true)
+    public GenericModConfigMenuIntegration<TConfig> AddTextbox(Func<string> name, Func<string> tooltip, Func<TConfig, string> get, Action<TConfig, string> set, bool enable = true)
     {
         AssertLoaded();
 
         if (enable)
-            _modAPI.RegisterSimpleOption(
-                _consumerManifest,
-                label,
-                description,
-                () => get(_getConfig()),
-                val => set(_getConfig(), val)
+        {
+            ModApi.AddTextOption(
+                mod: ConsumerManifest,
+                name: name,
+                tooltip: tooltip,
+                getValue: () => get(GetConfig()),
+                setValue: val => set(GetConfig(), val)
             );
+        }
 
         return this;
     }
 
     /// <summary>Add a numeric field to the form.</summary>
-    /// <param name="label">The label text.</param>
-    /// <param name="description">A description shown on hover, if any.</param>
-    /// <param name="get">Get the current value.</param>
-    /// <param name="set">Set a new value.</param>
-    /// <param name="min">The minimum value.</param>
-    /// <param name="max">The maximum value.</param>
+    /// <param name="name">The label text to show in the form.</param>
+    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="get">Get the current value from the mod config.</param>
+    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="min">The minimum allowed value.</param>
+    /// <param name="max">The maximum allowed value.</param>
     /// <param name="enable">Whether the field is enabled.</param>
-    public GenericModConfigMenuIntegration<TConfig> AddNumberField(string label, string description,
-        Func<TConfig, int> get, Action<TConfig, int> set, int min, int max, bool enable = true)
+    public GenericModConfigMenuIntegration<TConfig> AddNumberField(Func<string> name, Func<string> tooltip, Func<TConfig, int> get, Action<TConfig, int> set, int min, int max, bool enable = true)
     {
         AssertLoaded();
 
         if (enable)
-            _modAPI.RegisterClampedOption(
-                _consumerManifest,
-                label,
-                description,
-                () => get(_getConfig()),
-                val => set(_getConfig(), val),
-                min,
-                max
+        {
+            ModApi.AddNumberOption(
+                mod: ConsumerManifest,
+                name: name,
+                tooltip: tooltip,
+                getValue: () => get(GetConfig()),
+                setValue: val => set(GetConfig(), val),
+                min: min,
+                max: max
             );
+        }
 
         return this;
     }
 
     /// <summary>Add a numeric field to the form.</summary>
-    /// <param name="label">The label text.</param>
-    /// <param name="description">A description shown on hover, if any.</param>
-    /// <param name="get">Get the current value.</param>
-    /// <param name="set">Set a new value.</param>
-    /// <param name="min">The minimum value.</param>
-    /// <param name="max">The maximum value.</param>
+    /// <param name="name">The label text to show in the form.</param>
+    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="get">Get the current value from the mod config.</param>
+    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="min">The minimum allowed value.</param>
+    /// <param name="max">The maximum allowed value.</param>
     /// <param name="enable">Whether the field is enabled.</param>
-    public GenericModConfigMenuIntegration<TConfig> AddNumberField(string label, string description,
-        Func<TConfig, float> get, Action<TConfig, float> set, float min, float max, float interval,
-        bool enable = true)
+    /// <param name="interval">The interval of values that can be selected.</param>
+    public GenericModConfigMenuIntegration<TConfig> AddNumberField(Func<string> name, Func<string> tooltip, Func<TConfig, float> get, Action<TConfig, float> set, float min, float max, float interval = 0.1f, bool enable = true)
     {
         AssertLoaded();
 
         if (enable)
-            _modAPI.RegisterClampedOption(
-                _consumerManifest,
-                label,
-                description,
-                () => get(_getConfig()),
-                val => set(_getConfig(), val),
-                min,
-                max,
-                interval
+        {
+            ModApi.AddNumberOption(
+                mod: ConsumerManifest,
+                name: name,
+                tooltip: tooltip,
+                getValue: () => get(GetConfig()),
+                setValue: val => set(GetConfig(), val),
+                min: min,
+                max: max,
+                interval: interval
             );
+        }
 
         return this;
     }
 
     /// <summary>Add a key binding field to the form.</summary>
-    /// <param name="label">The label text.</param>
-    /// <param name="description">A description shown on hover, if any.</param>
-    /// <param name="get">Get the current value.</param>
-    /// <param name="set">Set a new value.</param>
+    /// <param name="name">The label text to show in the form.</param>
+    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="get">Get the current value from the mod config.</param>
+    /// <param name="set">Set a new value in the mod config.</param>
     /// <param name="enable">Whether the field is enabled.</param>
-    public GenericModConfigMenuIntegration<TConfig> AddKeyBinding(string label, string description,
-        Func<TConfig, KeybindList> get, Action<TConfig, KeybindList> set, bool enable = true)
+    public GenericModConfigMenuIntegration<TConfig> AddKeyBinding(Func<string> name, Func<string> tooltip, Func<TConfig, KeybindList> get, Action<TConfig, KeybindList> set, bool enable = true)
     {
         AssertLoaded();
 
         if (enable)
-            _modAPI.RegisterSimpleOption(
-                _consumerManifest,
-                label,
-                description,
-                () => get(_getConfig()),
-                val => set(_getConfig(), val)
+        {
+            ModApi.AddKeybindList(
+                mod: ConsumerManifest,
+                name: name,
+                tooltip: tooltip,
+                getValue: () => get(GetConfig()),
+                setValue: val => set(GetConfig(), val)
             );
+        }
 
         return this;
     }

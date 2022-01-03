@@ -47,7 +47,7 @@ internal class SkillsPageCtorPatch : BasePatch
 
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 15)
                     {
-                        component.texture = Utility.Prestige.SkillBarTx;
+                        component.texture = Utility.Textures.SkillBarTx;
                         component.sourceRect = srcRect;
                     }
 
@@ -66,7 +66,7 @@ internal class SkillsPageCtorPatch : BasePatch
 
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 20)
                     {
-                        component.texture = Utility.Prestige.SkillBarTx;
+                        component.texture = Utility.Textures.SkillBarTx;
                         component.sourceRect = srcRect;
                     }
 

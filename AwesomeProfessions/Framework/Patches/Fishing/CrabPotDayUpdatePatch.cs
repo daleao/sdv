@@ -193,7 +193,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
             if (r.NextDouble() > GetChanceForThisFish(specificFishDataFields)) continue;
 
             var whichFish = Convert.ToInt32(key);
-            if (!whichFish.IsAnyOf(152, 152, 157)) return whichFish; // if isn't algae
+            if (!whichFish.IsAnyOf(152, 153, 157)) return whichFish; // if isn't algae
 
             if (counter != 0) return -1; // if already rerolled
             ++counter;

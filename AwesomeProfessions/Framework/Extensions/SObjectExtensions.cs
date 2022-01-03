@@ -84,10 +84,10 @@ public static class SObjectExtensions
             .TryGetValue(obj.ParentSheetIndex, out var fishData) && fishData.Contains("trap");
     }
 
-    /// <summary>Whether a given object is a trash.</summary>
+    /// <summary>Whether a given object is algae or seaweed.</summary>
     public static bool IsAlgae(this SObject obj)
     {
-        return obj.ParentSheetIndex.IsAnyOf(152, 152, 157);
+        return obj.ParentSheetIndex.IsAnyOf(152, 153, 157);
     }
 
     /// <summary>Whether a given object is a trash.</summary>

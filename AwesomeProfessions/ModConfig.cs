@@ -80,6 +80,9 @@ public class ModConfig
     /// <summary>Monetary cost of changing the combat ultimate. Set to 0 to change for free.</summary>
     public uint ChangeUltCost { get; set; } = 0;
 
+    /// <summary>Enable if using the Vintage Interface mod.</summary>
+    public bool UseVintageSkillBars { get; set; } = false;
+
     /// <summary>Whether to draw UI element bounding boxes.</summary>
-    public bool EnableUIDebug { get; set; } = false;
+    public bool EnableDebug { get; set; } = false;
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using StardewModdingAPI.Enums;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
 using TheLion.Stardew.Common.Extensions;
@@ -258,5 +259,22 @@ public static class FarmerExtensions
         var otherSuperModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"}
             .Select(Utility.Professions.IndexOf).Except(new[] {ModState.SuperModeIndex});
         return farmer.professions.Intersect(otherSuperModeProfessions);
+    }
+
+    /// <summary>Whether the farmer has caught the specified fish at max size.</summary>
+    /// <param name="index">The fish's index.</param>
+    public static bool HasCaughtMaxSized(this Farmer farmer, int index)
+    {
+        if (!farmer.fishCaught.ContainsKey(index) || farmer.fishCaught[index][1] <= 0) return false;
+
+        var fishData = Game1.content
+            .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
+            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
+            .ToDictionary(p => p.Key, p => p.Value);
+
+        if (!fishData.TryGetValue(index, out var specificFishData)) return false;
+
+        var dataFields = specificFishData.Split('/');
+        return farmer.fishCaught[index][1] >= Convert.ToInt32(dataFields[4]);
     }
 }

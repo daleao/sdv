@@ -1,7 +1,7 @@
 <table align="center"><tr><td align="center" width="9999">
 
 <!-- LOGO, TITLE, DESCRIPTION -->
-![](https://gitlab.com/theLion/smapi-mods/-/raw/master/WalkOfLife/title_2.png)
+![](https://gitlab.com/theLion/smapi-mods/-/raw/main/AwesomeProfessions/title_2.png)
 # A Professions Overhaul
 ![](https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png)

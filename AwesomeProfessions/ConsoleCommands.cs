@@ -48,7 +48,7 @@ internal static class ConsoleCommands
             MaxAnimalMood);
         ModEntry.ModHelper.ConsoleCommands.Add("player_fishingprogress",
             "Check your fishing progress as Angler.",
-            PrintFishCaughtAudit);
+            PrintFishingAudit);
         ModEntry.ModHelper.ConsoleCommands.Add("wol_data",
             "Check the current value of all mod data fields." + GetUsageForSetModData(),
             PrintModData);
@@ -340,7 +340,7 @@ internal static class ConsoleCommands
     }
 
     /// <summary>Check current fishing progress.</summary>
-    internal static void PrintFishCaughtAudit(string command, string[] args)
+    internal static void PrintFishingAudit(string command, string[] args)
     {
         if (!Context.IsWorldReady)
         {
@@ -355,8 +355,8 @@ internal static class ConsoleCommands
         }
 
         var fishData = Game1.content
-            .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("ModEntry.Data/Fish"))
-            .Where(p => !p.Key.IsAnyOf(152, 152, 157) && !p.Value.Contains("trap"))
+            .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
+            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
         int numLegendariesCaught = 0, numMaxSizedCaught = 0;
         var caughtFishNames = new List<string>();

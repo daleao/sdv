@@ -103,7 +103,7 @@ public static class Professions
     public static float GetAnglerPriceBonus(Farmer who)
     {
         var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-            .Where(p => !p.Key.IsAnyOf(152, 152, 157) && !p.Value.Contains("trap"))
+            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
 
         var multiplier = 0f;

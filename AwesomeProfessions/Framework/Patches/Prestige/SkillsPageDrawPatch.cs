@@ -124,7 +124,7 @@ internal class SkillsPageDrawPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SkillsPageDrawPatch).MethodNamed(nameof(DrawRibbonsSubroutine)))
+                        typeof(SkillsPageDrawPatch).MethodNamed(nameof(DrawRibbons)))
                 );
         }
         catch (Exception ex)
@@ -151,19 +151,19 @@ internal class SkillsPageDrawPatch : BasePatch
 
         // this will draw only the blue bars
         if ((levelIndex + 1) % 5 != 0)
-            b.Draw(Utility.Prestige.SkillBarTx, new(addedX + x + levelIndex * 36, y - 4 + skillIndex * 56),
+            b.Draw(Utility.Textures.SkillBarTx, new(addedX + x + levelIndex * 36, y - 4 + skillIndex * 56),
                 new(0, 0, 8, 9), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
     }
 
-    private static void DrawRibbonsSubroutine(SkillsPage page, SpriteBatch b)
+    private static void DrawRibbons(SkillsPage page, SpriteBatch b)
     {
         if (!ModEntry.Config.EnablePrestige) return;
 
-        var w = Utility.Prestige.RibbonWidth;
-        var s = Utility.Prestige.RibbonScale;
+        var w = Utility.Textures.RibbonWidth;
+        var s = Utility.Textures.RibbonScale;
         var position =
             new Vector2(
-                page.xPositionOnScreen + page.width + Utility.Prestige.RibbonHorizontalOffset,
+                page.xPositionOnScreen + page.width + Utility.Textures.RibbonHorizontalOffset,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth - 70);
         for (var i = 0; i < 5; ++i)
         {
@@ -181,7 +181,7 @@ internal class SkillsPageDrawPatch : BasePatch
             if (count == 0) continue;
 
             var srcRect = new Rectangle(i * w, (count - 1) * w, w, w);
-            b.Draw(Utility.Prestige.RibbonTx, position, srcRect, Color.White, 0f, Vector2.Zero, s,
+            b.Draw(Utility.Textures.RibbonTx, position, srcRect, Color.White, 0f, Vector2.Zero, s,
                 SpriteEffects.None, 1f);
         }
     }
