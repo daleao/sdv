@@ -57,7 +57,7 @@ internal static class ConsoleCommands
             SetModData);
         ModEntry.ModHelper.ConsoleCommands.Add("wol_events", "List currently subscribed mod events.",
             PrintSubscribedEvents);
-        ModEntry.ModHelper.ConsoleCommands.Add("wol_rerolltreasure", "Forces the current Treasure Hunt to select a new target treasure tile.",
+        ModEntry.ModHelper.ConsoleCommands.Add("wol_rerolltreasure", "Forcefully reset the current Treasure Hunt with a new target treasure tile.",
             RerollTreasureTile);
     }
 
