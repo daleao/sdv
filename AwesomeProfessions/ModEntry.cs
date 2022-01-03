@@ -47,6 +47,23 @@ public class ModEntry : Mod
         // add debug commands
         ConsoleCommands.Register();
 
+        if (Context.IsMultiplayer && !Context.IsMainPlayer)
+        {
+            var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID);
+            var hostMod = host.GetMod(ModManifest.UniqueID);
+            if (hostMod is null)
+            {
+                Log("[Entry] The session host does not have this mod installed. Some features will not work properly.",
+                    LogLevel.Warn);
+            }
+            else if (!hostMod.Version.Equals(ModManifest.Version))
+            {
+                Log(
+                    $"[Entry] The session host has a different mod version. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {ModManifest.Version}",
+                    LogLevel.Warn);
+            }
+        }
+
         if (!Config.EnableDebug) return;
 
         // start FPS counter
