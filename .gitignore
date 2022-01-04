@@ -3,11 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# Reference source files
-StardewValley/
-Stardew Valley/
-SMAPI 3.12.8 installer/
-
 # Windows shortcuts
 *.lnk
 
