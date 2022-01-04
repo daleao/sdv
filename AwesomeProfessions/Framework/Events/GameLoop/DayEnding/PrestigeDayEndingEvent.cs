@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Events;
 using StardewValley;
+using System.Collections.Generic;
+using System.Linq;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
 
 [UsedImplicitly]
 internal class PrestigeDayEndingEvent : DayEndingEvent

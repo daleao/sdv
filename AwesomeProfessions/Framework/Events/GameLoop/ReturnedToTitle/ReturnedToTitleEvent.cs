@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.ReturnedToTitle;
 
 internal abstract class ReturnedToTitleEvent : BaseEvent
 {

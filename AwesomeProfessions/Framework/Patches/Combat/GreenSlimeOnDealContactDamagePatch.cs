@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Monsters;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class GreenSlimeOnDealContactDamagePatch : BasePatch
@@ -41,7 +41,7 @@ internal class GreenSlimeOnDealContactDamagePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack(Utility.Professions.IndexOf("Piper"), (Label) returnLabel,
+                .InsertProfessionCheckForPlayerOnStack(Utility.Professions.IndexOf("Piper"), (Label)returnLabel,
                     true);
         }
         catch (Exception ex)

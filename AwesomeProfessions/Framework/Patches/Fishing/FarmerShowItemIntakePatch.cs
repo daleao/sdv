@@ -1,15 +1,15 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using System;
+using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class FarmerShowItemIntakePatch : BasePatch
@@ -30,7 +30,7 @@ internal class FarmerShowItemIntakePatch : BasePatch
         {
             if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.IsAnyOf(14, 51)) return true; // run original logic
 
-            var toShow = (SObject) who.mostRecentlyGrabbedItem;
+            var toShow = (SObject)who.mostRecentlyGrabbedItem;
             TemporaryAnimatedSprite tempSprite = who.FacingDirection switch
             {
                 2 => who.FarmerSprite.currentAnimationIndex switch

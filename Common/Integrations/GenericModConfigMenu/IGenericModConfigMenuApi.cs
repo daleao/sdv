@@ -1,6 +1,6 @@
-using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
+using System;
 
 namespace TheLion.Stardew.Common.Integrations;
 
@@ -13,6 +13,7 @@ public interface IGenericModConfigMenuApi
     /****
     ** Must be called first
     ****/
+
     /// <summary>Register a mod whose config can be edited through the UI.</summary>
     /// <param name="mod">The mod's manifest.</param>
     /// <param name="reset">Reset the mod's config to its default values.</param>
@@ -21,10 +22,10 @@ public interface IGenericModConfigMenuApi
     /// <remarks>Each mod can only be registered once, unless it's deleted via <see cref="Unregister"/> before calling this again.</remarks>
     void Register(IManifest mod, Action reset, Action save, bool titleScreenOnly = false);
 
-
     /****
     ** Basic options
     ****/
+
     /// <summary>Add a section title at the current position in the form.</summary>
     /// <param name="mod">The mod's manifest.</param>
     /// <param name="text">The title text shown in the form.</param>
@@ -92,6 +93,7 @@ public interface IGenericModConfigMenuApi
     /****
     ** Multi-page management
     ****/
+
     /// <summary>Start a new page in the mod's config UI, or switch to that page if it already exists. All options registered after this will be part of that page.</summary>
     /// <param name="mod">The mod's manifest.</param>
     /// <param name="pageId">The unique page ID.</param>

@@ -1,45 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
-using TheLion.Stardew.Professions.Framework.Events;
+using System;
+using System.Collections.Generic;
+using TheLion.Stardew.Professions.Framework.Events.Custom.SuperMode;
 using TheLion.Stardew.Professions.Framework.TreasureHunt;
 
 namespace TheLion.Stardew.Professions;
 
-public static class ModState
+public class ModState
 {
     // super mode private fields
-    private static int _index = -1;
-    private static bool _isActive;
-    private static int _value;
+    private int _index = -1;
+
+    private bool _isActive;
+    private int _gauge;
 
     // treasure hunts
-    internal static ProspectorHunt ProspectorHunt { get; set; }
-    internal static ScavengerHunt ScavengerHunt { get; set; }
+    internal ProspectorHunt ProspectorHunt { get; set; }
+
+    internal ScavengerHunt ScavengerHunt { get; set; }
 
     // profession perks
-    internal static int DemolitionistExcitedness { get; set; }
-    internal static int SpelunkerLadderStreak { get; set; }
-    internal static int SlimeContactTimer { get; set; }
-    internal static HashSet<int> MonstersStolenFrom { get; set; }
-    internal static Dictionary<GreenSlime, float> PipedSlimeScales { get; set; }
-    internal static HashSet<int> AuxiliaryBullets { get; set; }
-    internal static HashSet<int> BouncedBullets { get; set; }
-    internal static HashSet<int> PiercedBullets { get; set; }
+    internal int DemolitionistExcitedness { get; set; }
+
+    internal int SpelunkerLadderStreak { get; set; }
+    internal int SlimeContactTimer { get; set; }
+    internal HashSet<int> MonstersStolenFrom { get; set; } = new();
+    internal HashSet<int> AuxiliaryBullets { get; set; } = new();
+    internal HashSet<int> BouncedBullets { get; set; } = new();
+    internal HashSet<int> PiercedBullets { get; set; } = new();
+    internal Dictionary<GreenSlime, float> PipedSlimeScales { get; set; } = new();
 
     // super mode properties
-    public static bool ShouldShakeSuperModeGauge { get; set; }
-    public static float SuperModeGaugeAlpha { get; set; }
-    public static Color SuperModeGlowColor { get; set; }
-    public static float SuperModeOverlayAlpha { get; set; }
-    public static Color SuperModeOverlayColor { get; set; }
-    public static string SuperModeSFX { get; set; }
-    public static Dictionary<int, HashSet<long>> ActivePeerSuperModes { get; set; } = new();
-    public static bool UsedDogStatueToday { get; set; }
+    public bool ShouldShakeSuperModeGauge { get; set; }
 
-    public static int SuperModeIndex
+    public float SuperModeGaugeAlpha { get; set; }
+    public Color SuperModeGlowColor { get; set; }
+    public float SuperModeOverlayAlpha { get; set; }
+    public Color SuperModeOverlayColor { get; set; }
+    public string SuperModeSFX { get; set; }
+    public Dictionary<int, HashSet<long>> ActivePeerSuperModes { get; set; } = new();
+    public bool UsedDogStatueToday { get; set; }
+
+    public int SuperModeIndex
     {
         get => _index;
         set
@@ -50,33 +54,33 @@ public static class ModState
         }
     }
 
-    public static int SuperModeGaugeValue
+    public int SuperModeGaugeValue
     {
-        get => _value;
+        get => _gauge;
         set
         {
             if (value == 0)
             {
-                _value = 0;
+                _gauge = 0;
                 SuperModeGaugeReturnedToZero?.Invoke();
             }
             else
             {
-                if (_value == value) return;
+                if (_gauge == value) return;
 
-                if (_value == 0) SuperModeGaugeRaisedAboveZero?.Invoke();
+                if (_gauge == 0) SuperModeGaugeRaisedAboveZero?.Invoke();
                 if (value >= SuperModeGaugeMaxValue) SuperModeGaugeFilled?.Invoke();
-                _value = Math.Min(value, SuperModeGaugeMaxValue);
+                _gauge = Math.Min(value, SuperModeGaugeMaxValue);
             }
         }
     }
 
-    public static int SuperModeGaugeMaxValue =>
+    public int SuperModeGaugeMaxValue =>
         Game1.player.CombatLevel >= 10
             ? Game1.player.CombatLevel * 50
             : 500;
 
-    public static bool IsSuperModeActive
+    public bool IsSuperModeActive
     {
         get => _isActive;
         set
@@ -90,19 +94,15 @@ public static class ModState
     }
 
     // super mode event handlers
-    public static event SuperModeGaugeFilledEventHandler SuperModeGaugeFilled;
-    public static event SuperModeGaugeRaisedAboveZeroEventHandler SuperModeGaugeRaisedAboveZero;
-    public static event SuperModeGaugeReturnedToZeroEventHandler SuperModeGaugeReturnedToZero;
-    public static event SuperModeDisabledEventHandler SuperModeDisabled;
-    public static event SuperModeEnabledEventHandler SuperModeEnabled;
-    public static event SuperModeIndexChangedEventHandler SuperModeIndexChanged;
+    public event SuperModeGaugeFilledEventHandler SuperModeGaugeFilled;
 
-    static ModState()
-    {
-        MonstersStolenFrom = new();
-        PipedSlimeScales = new();
-        AuxiliaryBullets = new();
-        BouncedBullets = new();
-        PiercedBullets = new();
-    }
+    public event SuperModeGaugeRaisedAboveZeroEventHandler SuperModeGaugeRaisedAboveZero;
+
+    public event SuperModeGaugeReturnedToZeroEventHandler SuperModeGaugeReturnedToZero;
+
+    public event SuperModeDisabledEventHandler SuperModeDisabled;
+
+    public event SuperModeEnabledEventHandler SuperModeEnabled;
+
+    public event SuperModeIndexChangedEventHandler SuperModeIndexChanged;
 }

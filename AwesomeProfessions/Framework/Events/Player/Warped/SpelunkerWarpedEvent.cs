@@ -1,9 +1,10 @@
-﻿using System;
-using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Events;
 using StardewValley.Locations;
+using System;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Player.Warped;
 
 internal class SpelunkerWarpedEvent : WarpedEvent
 {
@@ -16,12 +17,14 @@ internal class SpelunkerWarpedEvent : WarpedEvent
 
         if (e.NewLocation is MineShaft)
         {
-            ++ModState.SpelunkerLadderStreak;
+            if (e.NewLocation.NameOrUniqueName == e.OldLocation.NameOrUniqueName) return;
+
+            ++ModEntry.State.Value.SpelunkerLadderStreak;
 
             if (e.Player.HasPrestigedProfession("Spelunker"))
             {
                 var player = e.Player;
-                player.health = Math.Min(player.health + (int) (player.maxHealth * 0.05f), player.maxHealth);
+                player.health = Math.Min(player.health + (int)(player.maxHealth * 0.05f), player.maxHealth);
                 player.Stamina = Math.Min(player.Stamina + player.MaxStamina * 0.05f, player.MaxStamina);
             }
 
@@ -29,7 +32,7 @@ internal class SpelunkerWarpedEvent : WarpedEvent
         }
         else
         {
-            ModState.SpelunkerLadderStreak = 0;
+            ModEntry.State.Value.SpelunkerLadderStreak = 0;
             ModEntry.Subscriber.Unsubscribe(SpelunkerUpdateTickedEvent.GetType());
         }
     }

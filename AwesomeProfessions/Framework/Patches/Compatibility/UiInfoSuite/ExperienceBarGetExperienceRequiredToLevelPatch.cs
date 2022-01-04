@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.UiInfoSuite;
 
 [UsedImplicitly]
 internal class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch
@@ -28,7 +28,7 @@ internal class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch
     {
         if (currentLevel <= 10) return true; // run original logic
 
-        __result = (int) ModEntry.Config.RequiredExpPerExtendedLevel;
+        __result = (int)ModEntry.Config.RequiredExpPerExtendedLevel;
         return false; // don't run original logic
     }
 

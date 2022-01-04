@@ -2,7 +2,7 @@
 using StardewValley;
 using StardewValley.Locations;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Player.Warped;
 
 internal class ProspectorWarpedEvent : WarpedEvent
 {
@@ -11,9 +11,9 @@ internal class ProspectorWarpedEvent : WarpedEvent
     {
         if (!e.IsLocalPlayer) return;
 
-        ModState.ProspectorHunt ??= new();
-        if (ModState.ProspectorHunt.IsActive) ModState.ProspectorHunt.End();
+        ModEntry.State.Value.ProspectorHunt ??= new();
+        if (ModEntry.State.Value.ProspectorHunt.IsActive) ModEntry.State.Value.ProspectorHunt.End();
         if (!Game1.eventUp && e.NewLocation is MineShaft)
-            ModState.ProspectorHunt.TryStartNewHunt(e.NewLocation);
+            ModEntry.State.Value.ProspectorHunt.TryStartNewHunt(e.NewLocation);
     }
 }

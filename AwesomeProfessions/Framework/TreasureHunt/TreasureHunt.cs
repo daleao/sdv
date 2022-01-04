@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewValley;
+using System;
 using TheLion.Stardew.Professions.Framework.Patches.Foraging;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
@@ -10,15 +10,15 @@ public abstract class TreasureHunt
 {
     public bool IsActive => TreasureTile is not null;
     public Vector2? TreasureTile { get; protected set; } = null;
-    
+
     protected string HuntStartedMessage { get; set; }
     protected string HuntFailedMessage { get; set; }
     protected Rectangle IconSourceRect { get; set; }
-    
+
     protected readonly Random Random = new(Guid.NewGuid().GetHashCode());
     protected uint Elapsed;
     protected uint TimeLimit;
-    
+
     private double _accumulatedBonus = 1.0;
 
     /// <summary>Try to start a new hunt at this location.</summary>

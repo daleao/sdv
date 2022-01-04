@@ -1,8 +1,8 @@
-﻿using System;
+﻿using StardewModdingAPI;
+using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using StardewModdingAPI;
-using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -13,11 +13,11 @@ public class ModData
     /// <summary>Easy look-up table for data fields required by each profesion.</summary>
     private static readonly Dictionary<string, List<KeyValuePair<string, string>>> DataFieldsByProfession = new()
     {
-        {"Conservationist", new() {new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0")}},
-        {"Ecologist", new() {new("ItemsForaged", "0")}},
-        {"Gemologist", new() {new("MineralsCollected", "0")}},
-        {"Prospector", new() {new("ProspectorHuntStreak", "0")}},
-        {"Scavenger", new() {new("ScavengerHuntStreak", "0")}}
+        { "Conservationist", new() { new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0") } },
+        { "Ecologist", new() { new("ItemsForaged", "0") } },
+        { "Gemologist", new() { new("MineralsCollected", "0") } },
+        { "Prospector", new() { new("ProspectorHuntStreak", "0") } },
+        { "Scavenger", new() { new("ScavengerHuntStreak", "0") } }
     };
 
     private readonly string _id;

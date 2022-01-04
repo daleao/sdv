@@ -1,4 +1,7 @@
-﻿namespace TheLion.Stardew.Professions.Framework.Events;
+﻿using TheLion.Stardew.Professions.Framework.Events.Display.RenderingHud;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+
+namespace TheLion.Stardew.Professions.Framework.Events.Custom.SuperMode;
 
 public delegate void SuperModeGaugeRaisedAboveZeroEventHandler();
 
@@ -7,13 +10,13 @@ internal class SuperModeGaugeRaisedAboveZeroEvent : BaseEvent
     /// <summary>Hook this event to the event listener.</summary>
     public override void Hook()
     {
-        ModState.SuperModeGaugeRaisedAboveZero += OnSuperModeGaugeRaisedAboveZero;
+        ModEntry.State.Value.SuperModeGaugeRaisedAboveZero += OnSuperModeGaugeRaisedAboveZero;
     }
 
     /// <summary>Unhook this event from the event listener.</summary>
     public override void Unhook()
     {
-        ModState.SuperModeGaugeRaisedAboveZero -= OnSuperModeGaugeRaisedAboveZero;
+        ModEntry.State.Value.SuperModeGaugeRaisedAboveZero -= OnSuperModeGaugeRaisedAboveZero;
     }
 
     /// <summary>Raised when SuperModeGauge is raised from zero to any value greater than zero.</summary>

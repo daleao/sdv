@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class CrabPotDayUpdatePatch : BasePatch
@@ -94,9 +94,9 @@ internal class CrabPotDayUpdatePatch : BasePatch
                     whichFish = GetTrash(r);
                     if (isConservationist)
                     {
-                        ModEntry.Data.Increment<uint>("WaterTrashCollectedThisSeason");
+                        ModEntry.Data.Value.Increment<uint>("WaterTrashCollectedThisSeason");
                         if (who.HasPrestigedProfession("Conservationist") &&
-                            ModEntry.Data.Read<uint>("WaterTrashCollectedThisSeason") %
+                            ModEntry.Data.Value.Read<uint>("WaterTrashCollectedThisSeason") %
                             ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
                             SUtility.improveFriendshipWithEveryoneInRegion(who, 1, 2);
                     }

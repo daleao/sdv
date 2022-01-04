@@ -1,7 +1,7 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 
 internal class SuperModeBarShakeTimerUpdateTickedEvent : UpdateTickedEvent
 {
@@ -16,12 +16,12 @@ internal class SuperModeBarShakeTimerUpdateTickedEvent : UpdateTickedEvent
 
         if (_shakeTimer > 0)
         {
-            ModState.ShouldShakeSuperModeGauge = true;
+            ModEntry.State.Value.ShouldShakeSuperModeGauge = true;
             --_shakeTimer;
         }
         else
         {
-            ModState.ShouldShakeSuperModeGauge = false;
+            ModEntry.State.Value.ShouldShakeSuperModeGauge = false;
         }
 
         --_nextShake;

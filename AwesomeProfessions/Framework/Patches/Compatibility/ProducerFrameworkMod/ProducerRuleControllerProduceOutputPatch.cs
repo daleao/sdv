@@ -1,13 +1,13 @@
-﻿using System;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
+using System;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.ProducerFrameworkMod;
 
 [UsedImplicitly]
 internal class ProducerRuleControllerProduceOutputPatch : BasePatch
@@ -58,7 +58,7 @@ internal class ProducerRuleControllerProduceOutputPatch : BasePatch
         else if (who.IsLocalPlayer && (output.IsForagedMineral() || output.IsGemOrMineral()) &&
                  who.HasProfession("Gemologist"))
         {
-            ModEntry.Data.Increment<uint>("MineralsCollected");
+            ModEntry.Data.Value.Increment<uint>("MineralsCollected");
             if (producer.name != "Crystalarium") output.Quality = Utility.Professions.GetGemologistMineralQuality();
         }
     }

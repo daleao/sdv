@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
 
 [UsedImplicitly]
 internal class TreePerformBushDestroy : BasePatch
@@ -55,7 +55,7 @@ internal class TreePerformBushDestroy : BasePatch
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .Insert(
-                    new[] {isPrestiged},
+                    new[] { isPrestiged },
                     new CodeInstruction(OpCodes.Pop),
                     new CodeInstruction(OpCodes.Ldc_R8, 1.4)
                 );

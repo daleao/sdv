@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
-using TheLion.Stardew.Common.Extensions;
+using System;
+using System.Linq;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 
 internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 {
@@ -27,8 +26,8 @@ internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == _buffID);
         if (buff is not null) return;
 
-        var bonusLadderChance = (ModState.SpelunkerLadderStreak * 0.5f).ToString("0.0");
-        var bonusSpeed = Math.Min(ModState.SpelunkerLadderStreak / 5 + 1, ModEntry.Config.SpelunkerSpeedCap);
+        var bonusLadderChance = (ModEntry.State.Value.SpelunkerLadderStreak * 0.5f).ToString("0.0");
+        var bonusSpeed = Math.Min(ModEntry.State.Value.SpelunkerLadderStreak / 5 + 1, ModEntry.Config.SpelunkerSpeedCap);
         Game1.buffsDisplay.addOtherBuff(
             new(0,
                 0,
@@ -50,7 +49,7 @@ internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
                 sheetIndex = SHEET_INDEX,
                 millisecondsDuration = 0,
                 description =
-                    ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new {bonusLadderChance, bonusSpeed})
+                    ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new { bonusLadderChance, bonusSpeed })
             }
         );
     }

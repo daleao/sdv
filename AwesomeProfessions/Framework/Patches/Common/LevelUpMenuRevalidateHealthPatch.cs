@@ -1,16 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using System;
+using System.Linq;
+using System.Reflection;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Common;
 
 [UsedImplicitly]
 internal class LevelUpMenuRevalidateHealthPatch : BasePatch
@@ -34,7 +34,7 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
         if (farmer.mailReceived.Contains("qiCave")) expectedMaxHealth += 25;
 
         for (var i = 0; i < farmer.combatLevel.Value; ++i)
-            if (!farmer.newLevels.Contains(new((int) SkillType.Combat, i)))
+            if (!farmer.newLevels.Contains(new((int)SkillType.Combat, i)))
                 expectedMaxHealth += 5;
 
         if (Game1.player.HasProfession("Fighter")) expectedMaxHealth += 15;
@@ -56,7 +56,7 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
                          (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond &&
                          !b.isUnderConstruction()))
             {
-                var pond = (FishPond) b;
+                var pond = (FishPond)b;
                 pond.UpdateMaximumOccupancy();
                 pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
             }

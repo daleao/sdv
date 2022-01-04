@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
+using System;
+using System.Linq;
+using System.Reflection;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class MonsterFindPlayerPatch : BasePatch
@@ -17,7 +17,7 @@ internal class MonsterFindPlayerPatch : BasePatch
     internal MonsterFindPlayerPatch()
     {
         Original = RequireMethod<Monster>("findPlayer");
-        Prefix.before = new[] {"Esca.FarmTypeManager"};
+        Prefix.before = new[] { "Esca.FarmTypeManager" };
     }
 
     #region harmony patches
@@ -71,7 +71,7 @@ internal class MonsterFindPlayerPatch : BasePatch
             var distanceToClosestPlayer = double.MaxValue;
             foreach (var farmer in __instance.currentLocation.farmers)
             {
-                if (ModState.ActivePeerSuperModes.TryGetValue(Utility.Professions.IndexOf("Poacher"),
+                if (ModEntry.State.Value.ActivePeerSuperModes.TryGetValue(Utility.Professions.IndexOf("Poacher"),
                         out var peerIDs) && peerIDs.Any(id => id == farmer.UniqueMultiplayerID)) continue;
 
                 var distanceToThisPlayer = __instance.DistanceToCharacter(farmer);
@@ -81,8 +81,8 @@ internal class MonsterFindPlayerPatch : BasePatch
                 distanceToClosestPlayer = distanceToThisPlayer;
             }
 
-            //if (__result.IsLocalPlayer && ModState.IsSuperModeActive &&
-            //    ModState.SuperModeIndex == Util.Professions.IndexOf("Poacher"))
+            //if (__result.IsLocalPlayer && ModEntry.State.Value.IsSuperModeActive &&
+            //    ModEntry.State.Value.SuperModeIndex == Util.Professions.IndexOf("Poacher"))
             //	__result = null;
 
             return false; // run original logic

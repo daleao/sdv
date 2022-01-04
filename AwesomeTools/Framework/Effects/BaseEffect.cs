@@ -238,7 +238,7 @@ internal abstract class BaseEffect
 
         clumps = location switch
         {
-            Forest {log: { }} forest => clumps.Concat(new[] {forest.log}),
+            Forest { log: { } } forest => clumps.Concat(new[] { forest.log }),
             Woods woods when woods.stumps.Any() => clumps.Concat(woods.stumps),
             _ => clumps
         };

@@ -1,5 +1,5 @@
-﻿using System.IO;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace TheLion.Stardew.Professions.Framework.Utility;
 

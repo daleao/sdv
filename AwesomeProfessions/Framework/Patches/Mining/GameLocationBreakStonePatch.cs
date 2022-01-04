@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Mining;
 
 [UsedImplicitly]
 internal class GameLocationBreakStonePatch : BasePatch
@@ -41,7 +41,7 @@ internal class GameLocationBreakStonePatch : BasePatch
                 )
                 .AddLabels(notPrestigedMiner)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
                 )
                 .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Miner"),
                     notPrestigedMiner)
@@ -71,7 +71,7 @@ internal class GameLocationBreakStonePatch : BasePatch
                 .GetOperand(out var isNotGeologist) // copy destination
                 .Return()
                 .Insert( // insert uncoditional branch to skip this check
-                    new CodeInstruction(OpCodes.Br, (Label) isNotGeologist)
+                    new CodeInstruction(OpCodes.Br, (Label)isNotGeologist)
                 )
                 .Retreat()
                 .AddLabels(labels); // restore backed-up labels to inserted branch
@@ -96,7 +96,7 @@ internal class GameLocationBreakStonePatch : BasePatch
                 .GetOperand(out var isNotProspector) // copy destination
                 .Return()
                 .Insert( // insert uncoditional branch to skip this check
-                    new CodeInstruction(OpCodes.Br_S, (Label) isNotProspector)
+                    new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector)
                 );
         }
         catch (Exception ex)

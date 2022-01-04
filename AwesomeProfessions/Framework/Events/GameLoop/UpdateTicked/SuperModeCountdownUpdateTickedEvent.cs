@@ -1,7 +1,7 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 
 internal class SuperModeCountdownUpdateTickedEvent : UpdateTickedEvent
 {
@@ -9,7 +9,7 @@ internal class SuperModeCountdownUpdateTickedEvent : UpdateTickedEvent
     public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
     {
         if (Game1.game1.IsActive && Game1.shouldTimePass() && e.IsMultipleOf(ModEntry.Config.SuperModeDrainFactor))
-            --ModState.SuperModeGaugeValue;
-        if (ModState.SuperModeGaugeValue <= 0) ModEntry.Subscriber.Unsubscribe(GetType());
+            --ModEntry.State.Value.SuperModeGaugeValue;
+        if (ModEntry.State.Value.SuperModeGaugeValue <= 0) ModEntry.Subscriber.Unsubscribe(GetType());
     }
 }

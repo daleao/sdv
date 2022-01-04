@@ -1,7 +1,7 @@
-﻿using System;
-using StardewModdingAPI;
+﻿using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using System;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.AssetEditors;
@@ -27,7 +27,7 @@ public class AchivementsEditor : IAssetEditor
             ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
                                                (Game1.player.IsMale ? "male" : "female"));
         var desc = ModEntry.ModHelper.Translation.Get("prestige.achievement.desc");
-        
+
         const string SHOULD_DISPLAY_BEFORE_EARNED_S = "false";
         const string PREREQUISITE_S = "-1";
         const string HAT_INDEX_S = "";

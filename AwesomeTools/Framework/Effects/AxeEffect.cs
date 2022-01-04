@@ -53,7 +53,7 @@ internal class AxeEffect : BaseEffect
                 return ShouldCut(bush) && UseToolOnTile(tool, tile, who, location);
 
             // clear crops
-            case HoeDirt {crop: { }} dirt:
+            case HoeDirt { crop: { } } dirt:
                 if (Config.ClearDeadCrops && dirt.crop.dead.Value)
                 {
                     return UseToolOnTile(tool, tile, who, location);
@@ -110,7 +110,6 @@ internal class AxeEffect : BaseEffect
     /// <param name="tree">The tree to check.</param>
     private bool ShouldCut(Tree tree)
     {
-
         return tree.growthStage.Value switch
         {
             Tree.seedStage => Config.ClearTreeSeeds, // seed

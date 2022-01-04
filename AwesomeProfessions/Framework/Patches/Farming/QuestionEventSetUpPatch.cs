@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Events;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Farming;
 
 [UsedImplicitly]
 internal class QuestionEventSetUpPatch : BasePatch
@@ -51,7 +51,7 @@ internal class QuestionEventSetUpPatch : BasePatch
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .Insert(
-                    new[] {isNotPrestiged},
+                    new[] { isNotPrestiged },
                     new CodeInstruction(OpCodes.Ldc_R8, 0.0165), // x3 for regular
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );

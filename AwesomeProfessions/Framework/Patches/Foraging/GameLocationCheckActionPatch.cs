@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Network;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
 
 internal class GameLocationCheckActionPatch : BasePatch
 {
@@ -55,7 +55,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .Insert( // check if is foraged mineral and branch if true
                     new CodeInstruction(OpCodes.Call,
                         typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.IsForagedMineral))),
-                    new CodeInstruction(OpCodes.Brtrue_S, (Label) shouldntSetCustomQuality)
+                    new CodeInstruction(OpCodes.Brtrue_S, (Label)shouldntSetCustomQuality)
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_4) // start of objects[key].Quality = 4
@@ -125,7 +125,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 )
                 .Advance()
                 .ReplaceWith( // remove 'not' and set correct branch destination
-                    new(OpCodes.Brfalse_S, (Label) shouldntSetCustomQuality)
+                    new(OpCodes.Brfalse_S, (Label)shouldntSetCustomQuality)
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Call,
@@ -224,9 +224,9 @@ internal class GameLocationCheckActionPatch : BasePatch
     private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
     {
         if (who.HasProfession("Ecologist") && obj.isForage(location) && !obj.IsForagedMineral())
-            ModEntry.Data.Increment<uint>("ItemsForaged");
+            ModEntry.Data.Value.Increment<uint>("ItemsForaged");
         else if (who.HasProfession("Gemologist") && obj.IsForagedMineral())
-            ModEntry.Data.Increment<uint>("MineralsCollected");
+            ModEntry.Data.Value.Increment<uint>("MineralsCollected");
     }
 
     #endregion private methods

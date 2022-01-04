@@ -1,13 +1,13 @@
-﻿using System;
+﻿using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.Automate;
 
 [UsedImplicitly]
 internal class CrabPotMachineGetStatePatch : BasePatch

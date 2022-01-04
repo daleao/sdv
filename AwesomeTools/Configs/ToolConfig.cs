@@ -13,7 +13,7 @@ public class ToolConfig
 
     /// <summary>Whether charging requires a mod key to activate.</summary>
     public bool RequireModkey { get; set; } = true;
-		
+
     /// <summary>The chosen mod key(s).</summary>
     public KeybindList Modkey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 

@@ -1,10 +1,11 @@
-﻿using System.Linq;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using System.Linq;
 using TheLion.Stardew.Common.Extensions;
+using TheLion.Stardew.Professions.Framework.Events.Display.RenderedActiveMenu;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
 
 [UsedImplicitly]
 internal class DebugButtonsChangedEvent : ButtonsChangedEvent

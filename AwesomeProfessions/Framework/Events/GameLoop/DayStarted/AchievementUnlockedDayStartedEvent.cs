@@ -3,7 +3,7 @@ using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.AssetEditors;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
 
 internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
 {

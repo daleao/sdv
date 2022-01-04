@@ -1,7 +1,7 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderedWorld;
 
 internal class SuperModeRenderedWorldEvent : RenderedWorldEvent
 {
@@ -10,6 +10,6 @@ internal class SuperModeRenderedWorldEvent : RenderedWorldEvent
     {
         // draw color tint overlay
         e.SpriteBatch.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds,
-            ModState.SuperModeOverlayColor * ModState.SuperModeOverlayAlpha);
+            ModEntry.State.Value.SuperModeOverlayColor * ModEntry.State.Value.SuperModeOverlayAlpha);
     }
 }

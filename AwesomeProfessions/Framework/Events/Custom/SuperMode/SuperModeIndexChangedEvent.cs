@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI;
+using System;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Custom.SuperMode;
 
 public delegate void SuperModeIndexChangedEventHandler(int newIndex);
 
@@ -11,26 +11,26 @@ internal class SuperModeIndexChangedEvent : BaseEvent
     /// <summary>Hook this event to the event listener.</summary>
     public override void Hook()
     {
-        ModState.SuperModeIndexChanged += OnSuperModeIndexChanged;
+        ModEntry.State.Value.SuperModeIndexChanged += OnSuperModeIndexChanged;
     }
 
     /// <summary>Unhook this event from the event listener.</summary>
     public override void Unhook()
     {
-        ModState.SuperModeIndexChanged -= OnSuperModeIndexChanged;
+        ModEntry.State.Value.SuperModeIndexChanged -= OnSuperModeIndexChanged;
     }
 
     /// <summary>Raised when SuperModeIndex is set to a new value.</summary>
     public void OnSuperModeIndexChanged(int newIndex)
     {
         ModEntry.Subscriber.UnsubscribeSuperModeEvents();
-        ModState.SuperModeGaugeValue = 0;
+        ModEntry.State.Value.SuperModeGaugeValue = 0;
 
         if (newIndex is > 0 and (< 26 or >= 30))
             throw new ArgumentException($"Unexpected Super Mode index {newIndex}.");
 
-        ModEntry.Data.Write("SuperModeIndex", ModState.SuperModeIndex.ToString());
-        if (ModState.SuperModeIndex < 0)
+        ModEntry.Data.Value.Write("SuperModeIndex", ModEntry.State.Value.SuperModeIndex.ToString());
+        if (ModEntry.State.Value.SuperModeIndex < 0)
         {
             ModEntry.Log("Unregistered Super Mode.", LogLevel.Info);
             return;
@@ -40,32 +40,32 @@ internal class SuperModeIndexChangedEvent : BaseEvent
         switch (whichSuperMode)
         {
             case "Brute":
-                ModState.SuperModeGlowColor = Color.OrangeRed;
-                ModState.SuperModeOverlayColor = Color.OrangeRed;
-                ModState.SuperModeSFX = "brute_rage";
+                ModEntry.State.Value.SuperModeGlowColor = Color.OrangeRed;
+                ModEntry.State.Value.SuperModeOverlayColor = Color.OrangeRed;
+                ModEntry.State.Value.SuperModeSFX = "brute_rage";
                 break;
 
             case "Poacher":
-                ModState.SuperModeGlowColor = Color.MediumPurple;
-                ModState.SuperModeOverlayColor = Color.MidnightBlue;
-                ModState.SuperModeSFX = "poacher_ambush";
+                ModEntry.State.Value.SuperModeGlowColor = Color.MediumPurple;
+                ModEntry.State.Value.SuperModeOverlayColor = Color.MidnightBlue;
+                ModEntry.State.Value.SuperModeSFX = "poacher_ambush";
                 break;
 
             case "Desperado":
-                ModState.SuperModeGlowColor = Color.DarkGoldenrod;
-                ModState.SuperModeOverlayColor = Color.SandyBrown;
-                ModState.SuperModeSFX = "desperado_blossom";
+                ModEntry.State.Value.SuperModeGlowColor = Color.DarkGoldenrod;
+                ModEntry.State.Value.SuperModeOverlayColor = Color.SandyBrown;
+                ModEntry.State.Value.SuperModeSFX = "desperado_blossom";
                 break;
 
             case "Piper":
-                ModState.SuperModeGlowColor = Color.LimeGreen;
-                ModState.SuperModeOverlayColor = Color.DarkGreen;
-                ModState.SuperModeSFX = "piper_fluidity";
+                ModEntry.State.Value.SuperModeGlowColor = Color.LimeGreen;
+                ModEntry.State.Value.SuperModeOverlayColor = Color.DarkGreen;
+                ModEntry.State.Value.SuperModeSFX = "piper_fluidity";
                 break;
         }
 
-        ModState.SuperModeGaugeAlpha = 1f;
-        ModState.ShouldShakeSuperModeGauge = false;
+        ModEntry.State.Value.SuperModeGaugeAlpha = 1f;
+        ModEntry.State.Value.ShouldShakeSuperModeGauge = false;
         ModEntry.Subscriber.SubscribeSuperModeEvents();
 
         var key = whichSuperMode.ToLower();

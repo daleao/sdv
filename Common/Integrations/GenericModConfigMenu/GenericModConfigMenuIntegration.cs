@@ -1,6 +1,6 @@
-using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
+using System;
 
 namespace TheLion.Stardew.Common.Integrations;
 
@@ -12,6 +12,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     /*********
     ** Fields
     *********/
+
     /// <summary>The mod's public API.</summary>
     private readonly IGenericModConfigMenuApi ModApi;
 
@@ -27,10 +28,10 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     /// <summary>Save and apply the current config model.</summary>
     private readonly Action SaveAndApply;
 
-
     /*********
     ** Public methods
     *********/
+
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     /// <param name="consumerManifest">The manifest for the mod consuming the API.</param>

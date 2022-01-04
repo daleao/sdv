@@ -5,7 +5,7 @@ using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.Automate;
 
 [UsedImplicitly]
 internal class CrystalariumMachineGetOutputPatch : BasePatch
@@ -39,7 +39,7 @@ internal class CrystalariumMachineGetOutputPatch : BasePatch
         if (!who.IsLocalPlayer || !who.HasProfession("Gemologist") ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
-        ModEntry.Data.Increment<uint>("MineralsCollected");
+        ModEntry.Data.Value.Increment<uint>("MineralsCollected");
     }
 
     #endregion harmony patches

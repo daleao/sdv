@@ -1,18 +1,19 @@
-﻿using System;
+﻿using HarmonyLib;
+using Microsoft.Xna.Framework;
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+using StardewValley;
+using StardewValley.Monsters;
+using StardewValley.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
-using StardewModdingAPI;
-using StardewValley;
-using StardewValley.Monsters;
-using StardewValley.Tools;
 using TheLion.Stardew.Common.Harmony;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
 internal class GameLocationDamageMonsterPatch : BasePatch
 {
@@ -82,7 +83,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 )
                 .AddLabels(notPrestigedFighter)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // arg 10 = Farmer who
                 )
                 .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Fighter"),
                     notPrestigedFighter)
@@ -117,7 +118,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                             .GetBruteBonusDamageMultiplier)))
                 )
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // arg 10 = Farmer who
                 );
         }
         catch (Exception ex)
@@ -127,7 +128,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         /// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f;
-        /// To: if (who is not null && crit && who.IsLocalPlayer && ModState.SuperModeIndex == <poacher_id>) ... *= GetPoacherCritDamageMultiplier;
+        /// To: if (who is not null && crit && who.IsLocalPlayer && SuperModeIndex == <poacher_id>) ... *= GetPoacherCritDamageMultiplier;
 
         try
         {
@@ -148,9 +149,15 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 )
                 .Advance()
                 .ReplaceWith(
-                    new(OpCodes.Call,
+                    new(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(
                             nameof(ModState.SuperModeIndex))) // was Callvirt NetList.Contains
+                )
+                .Insert(
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value)))
                 )
                 .Advance()
                 .Insert(
@@ -201,11 +208,11 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     labels,
                     // prepare arguments
                     new CodeInstruction(OpCodes.Ldloc_S, damageAmount),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = bool isBomb
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = bool isBomb
                     new CodeInstruction(OpCodes.Ldloc_S, didCrit),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 8), // arg 8 = float critMultiplier
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)8), // arg 8 = float critMultiplier
                     new CodeInstruction(OpCodes.Ldloc_2), // local 2 = Monster monster
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
                     new CodeInstruction(OpCodes.Call,
                         typeof(GameLocationDamageMonsterPatch).MethodNamed(nameof(DamageMonsterSubroutine)))
                 )
@@ -231,11 +238,11 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         Monster monster, Farmer who)
     {
         if (damageAmount <= 0 || isBomb ||
-            who is not {IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon}) return;
+            who is not { IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon }) return;
 
         // try to steal
-        if (didCrit && ModState.SuperModeIndex == Utility.Professions.IndexOf("Poacher") &&
-            !ModState.MonstersStolenFrom.Contains(monster.GetHashCode()) && Game1.random.NextDouble() <
+        if (didCrit && ModEntry.State.Value.SuperModeIndex == Utility.Professions.IndexOf("Poacher") &&
+            !ModEntry.State.Value.MonstersStolenFrom.Contains(monster.GetHashCode()) && Game1.random.NextDouble() <
             (weapon.type.Value == MeleeWeapon.dagger ? 0.5 : 0.25))
         {
             var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
@@ -243,29 +250,29 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             var stolen = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
             if (stolen is null || stolen.Name.Contains("Error") || !who.addItemToInventoryBool(stolen)) return;
 
-            ModState.MonstersStolenFrom.Add(monster.GetHashCode());
+            ModEntry.State.Value.MonstersStolenFrom.Add(monster.GetHashCode());
 
             // play sound effect
             ModEntry.SoundBox.Play("poacher_steal");
         }
 
         // try to increment Super Mode gauges
-        if (ModState.IsSuperModeActive) return;
+        if (ModEntry.State.Value.IsSuperModeActive) return;
 
         var increment = 0;
-        if (ModState.SuperModeIndex == Utility.Professions.IndexOf("Brute"))
+        if (ModEntry.State.Value.SuperModeIndex == Utility.Professions.IndexOf("Brute"))
         {
             increment = 2;
             if (monster.Health <= 0) increment *= 2;
             if (weapon.type.Value == MeleeWeapon.club) increment *= 2;
         }
-        else if (ModState.SuperModeIndex == Utility.Professions.IndexOf("Poacher") && didCrit)
+        else if (ModEntry.State.Value.SuperModeIndex == Utility.Professions.IndexOf("Poacher") && didCrit)
         {
-            increment = (int) critMultiplier;
+            increment = (int)critMultiplier;
             if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
         }
 
-        ModState.SuperModeGaugeValue += (int) (increment * ((float) ModState.SuperModeGaugeMaxValue / 500));
+        ModEntry.State.Value.SuperModeGaugeValue += (int)(increment * ((float)ModEntry.State.Value.SuperModeGaugeMaxValue / 500));
     }
 
     #endregion private methods

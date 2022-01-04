@@ -1,15 +1,15 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewModdingAPI;
+using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using StardewModdingAPI;
-using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.Automate;
 
 internal class LoomMachineSetInputPatch : BasePatch
 {

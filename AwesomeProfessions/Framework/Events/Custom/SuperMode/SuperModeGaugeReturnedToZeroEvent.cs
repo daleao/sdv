@@ -1,7 +1,8 @@
 ﻿using StardewValley;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Custom.SuperMode;
 
 public delegate void SuperModeGaugeReturnedToZeroEventHandler();
 
@@ -10,20 +11,20 @@ internal class SuperModeGaugeReturnedToZeroEvent : BaseEvent
     /// <summary>Hook this event to the event listener.</summary>
     public override void Hook()
     {
-        ModState.SuperModeGaugeReturnedToZero += OnSuperModeGaugeReturnedToZero;
+        ModEntry.State.Value.SuperModeGaugeReturnedToZero += OnSuperModeGaugeReturnedToZero;
     }
 
     /// <summary>Unhook this event from the event listener.</summary>
     public override void Unhook()
     {
-        ModState.SuperModeGaugeReturnedToZero -= OnSuperModeGaugeReturnedToZero;
+        ModEntry.State.Value.SuperModeGaugeReturnedToZero -= OnSuperModeGaugeReturnedToZero;
     }
 
     /// <summary>Raised when SuperModeGauge is set to zero.</summary>
     public void OnSuperModeGaugeReturnedToZero()
     {
-        if (!ModState.IsSuperModeActive) return;
-        ModState.IsSuperModeActive = false;
+        if (!ModEntry.State.Value.IsSuperModeActive) return;
+        ModEntry.State.Value.IsSuperModeActive = false;
 
         // stop waiting for gauge to fill up and start waiting for it to raise above zero
         ModEntry.Subscriber.Unsubscribe(typeof(SuperModeGaugeFilledEvent));

@@ -1,14 +1,15 @@
-﻿using System;
+﻿using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class FarmerTakeDamagePatch : BasePatch
@@ -31,7 +32,7 @@ internal class FarmerTakeDamagePatch : BasePatch
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: else if (this.IsLocalPlayer && IsModStateActive && ModStateIndex == <poacher_id>) monsterDamageCapable = false;
+        /// Injected: else if (this.IsLocalPlayer && IsSuperModeActive && SuperModeIndex == <poacher_id>) monsterDamageCapable = false;
 
         var alreadyUndamageableOrNotAmbuscade = iLGenerator.DefineLabel();
         try
@@ -51,12 +52,20 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Call,
                         typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
-                    // check if IsModStateActive
+                    // check if IsSuperModeActive
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.IsSuperModeActive))),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
-                    // check if ModStateIndex == <poacher_id>
+                    // check if SuperModeIndex == <poacher_id>
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperModeIndex))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, Utility.Professions.IndexOf("Poacher")),
                     new CodeInstruction(OpCodes.Bne_Un_S, alreadyUndamageableOrNotAmbuscade),
@@ -72,7 +81,7 @@ internal class FarmerTakeDamagePatch : BasePatch
             return null;
         }
 
-        /// Injected: if (IsModStateActive && ModStateIndex == <brute_id>) health = 1;
+        /// Injected: if (IsSuperModeActive && SuperModeIndex == <brute_id>) health = 1;
         /// After: if (health <= 0)
         /// Before: GetEffectsOfRingMultiplier(863)
 
@@ -94,12 +103,20 @@ internal class FarmerTakeDamagePatch : BasePatch
                 .Advance()
                 .AddLabels(isNotUndyingButMayHaveDailyRevive)
                 .Insert(
-                    // check if IsModStateActive
+                    // check if IsSuperModeActive
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.IsSuperModeActive))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
-                    // check if ModStateIndex == <brute_id>
+                    // check if SuperModeIndex == <brute_id>
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperModeIndex))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, Utility.Professions.IndexOf("Brute")),
                     new CodeInstruction(OpCodes.Bne_Un_S, isNotUndyingButMayHaveDailyRevive),
@@ -119,7 +136,7 @@ internal class FarmerTakeDamagePatch : BasePatch
             return null;
         }
 
-        /// Injected: if (ModStateIndex == <brute_id> && damage > 0) ModStateCountry += 2;
+        /// Injected: if (SuperModeIndex == <brute_id> && damage > 0) SuperModeGaugeValue += 2;
         /// At: end of method (before return)
 
         var dontIncreaseBruteCounterForDamage = iLGenerator.DefineLabel();
@@ -131,8 +148,12 @@ internal class FarmerTakeDamagePatch : BasePatch
                 )
                 .AddLabels(dontIncreaseBruteCounterForDamage) // branch here to skip gauge increment
                 .Insert(
-                    // check if ModStateIndex == <brute_id>
+                    // check if SuperModeIndex == <brute_id>
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperModeIndex))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, Utility.Professions.IndexOf("Brute")),
                     new CodeInstruction(OpCodes.Bne_Un_S, dontIncreaseBruteCounterForDamage),
@@ -142,9 +163,18 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Ble_S, dontIncreaseBruteCounterForDamage),
                     // if so, increment gauge by 2
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Dup),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeValue))),
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0), // <-- increment amount
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeMaxValue))),
                     new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Ldc_R8, 500.0),
@@ -152,7 +182,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Conv_I4),
                     new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertySetter(nameof(ModState.SuperModeGaugeValue)))
                 );
         }

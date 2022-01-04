@@ -1,15 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Events;
+using System;
+using System.Linq;
+using System.Reflection;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Prestige;
 
 [UsedImplicitly]
 internal class GameLocationPerformActionPatch : BasePatch
@@ -34,7 +34,7 @@ internal class GameLocationPerformActionPatch : BasePatch
         {
             string message;
             if (!ModEntry.Config.AllowPrestigeMultiplePerDay &&
-                (ModEntry.Subscriber.IsSubscribed(typeof(PrestigeDayEndingEvent)) || ModState.UsedDogStatueToday))
+                (ModEntry.Subscriber.IsSubscribed(typeof(PrestigeDayEndingEvent)) || ModEntry.State.Value.UsedDogStatueToday))
             {
                 message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.dismiss");
                 Game1.drawObjectDialogue(message);
@@ -51,8 +51,8 @@ internal class GameLocationPerformActionPatch : BasePatch
                 __instance.createQuestionDialogue(message, __instance.createYesNoResponses(), "dogStatue");
                 return false; // don't run original logic
             }
-				
-            if (who.HasAllProfessions() && !ModState.UsedDogStatueToday)
+
+            if (who.HasAllProfessions() && !ModEntry.State.Value.UsedDogStatueToday)
             {
                 message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.what");
                 var options = new Response[]
@@ -64,7 +64,7 @@ internal class GameLocationPerformActionPatch : BasePatch
                                          : string.Empty))
                 };
 
-                if (Enum.GetValues<SkillType>().Any(s => GameLocation.canRespec((int) s)))
+                if (Enum.GetValues<SkillType>().Any(s => GameLocation.canRespec((int)s)))
                     options = options.Concat(new Response[]
                     {
                         new("prestigeRespec",

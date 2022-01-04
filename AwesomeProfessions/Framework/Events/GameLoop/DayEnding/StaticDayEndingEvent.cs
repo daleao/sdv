@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
 
 [UsedImplicitly]
 internal class StaticDayEndingEvent : DayEndingEvent
@@ -9,6 +9,6 @@ internal class StaticDayEndingEvent : DayEndingEvent
     /// <inheritdoc />
     public override void OnDayEnding(object sender, DayEndingEventArgs e)
     {
-        ModState.UsedDogStatueToday = false;
+        ModEntry.State.Value.UsedDogStatueToday = false;
     }
 }

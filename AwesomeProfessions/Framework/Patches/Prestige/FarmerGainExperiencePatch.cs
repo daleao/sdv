@@ -1,9 +1,9 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
+using System;
+using System.Reflection;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Prestige;
@@ -25,13 +25,13 @@ internal class FarmerGainExperiencePatch : BasePatch
     [HarmonyPrefix]
     private static bool FarmerGainExperiencePrefix(Farmer __instance, int which, ref int howMuch)
     {
-        howMuch = (int) (howMuch * ModEntry.Config.BaseSkillExpMultiplier);
+        howMuch = (int)(howMuch * ModEntry.Config.BaseSkillExpMultiplier);
 
         if (!ModEntry.Config.EnablePrestige) return true; // run original logic
 
         try
         {
-            var howMuchAdjusted = (int) (howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
+            var howMuchAdjusted = (int)(howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
                 __instance.NumberOfProfessionsInSkill(which, true)));
             switch (__instance.experiencePoints[which])
             {

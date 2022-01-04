@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
 
 [UsedImplicitly]
 internal class TreeTickUpdatePatch : BasePatch
@@ -33,7 +33,7 @@ internal class TreeTickUpdatePatch : BasePatch
         /// To: Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <lumberjack_id>) ? 1.4 : Game1.getFarmer(lastPlayerToHit).professions.Contains(12) ? 1.25 : 1.0
 
         var i = 0;
-        repeat1:
+    repeat1:
         try
         {
             var isPrestiged = iLGenerator.DefineLabel();
@@ -57,7 +57,7 @@ internal class TreeTickUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .Insert(
-                    new[] {isPrestiged},
+                    new[] { isPrestiged },
                     new CodeInstruction(OpCodes.Pop),
                     new CodeInstruction(OpCodes.Ldc_R8, 1.4)
                 );
@@ -97,7 +97,7 @@ internal class TreeTickUpdatePatch : BasePatch
 
         helper.ReturnToFirst();
         i = 0;
-        repeat2:
+    repeat2:
         try
         {
             var notPrestigedArborist1 = iLGenerator.DefineLabel();

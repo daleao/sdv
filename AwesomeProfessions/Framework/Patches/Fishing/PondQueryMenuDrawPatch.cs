@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,6 +8,9 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
+using System;
+using System.Linq;
+using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -18,7 +18,7 @@ using SUtility = StardewValley.Utility;
 
 // ReSharper disable PossibleLossOfFraction
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class PondQueryMenuDrawPatch : BasePatch
@@ -28,7 +28,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
     {
-        Original = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] {typeof(SpriteBatch)});
+        Original = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] { typeof(SpriteBatch) });
     }
 
     #region harmony patches
@@ -47,7 +47,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
             var fishPondData = ModEntry.ModHelper.Reflection.GetField<FishPondData>(____pond, "_fishPondData")
                 .GetValue();
             if (fishPondData is null) return true; // run original logic
-				
+
             var populationGates = fishPondData.PopulationGates;
             if (populationGates is not null && populationGates.Keys.Max() >= ____pond.lastUnlockedPopulationGate.Value)
                 return true; // run original logic
@@ -61,8 +61,8 @@ internal class PondQueryMenuDrawPatch : BasePatch
                     PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Name"),
                     ____fishItem.DisplayName);
                 var textSize = Game1.smallFont.MeasureString(pondNameText);
-                Game1.DrawBox((int) (Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f),
-                    __instance.yPositionOnScreen - 4 + 128, (int) (textSize.X + 64f), 64);
+                Game1.DrawBox((int)(Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f),
+                    __instance.yPositionOnScreen - 4 + 128, (int)(textSize.X + 64f), 64);
                 SUtility.drawTextWithShadow(b, pondNameText, Game1.smallFont,
                     new(Game1.uiViewport.Width / 2 - textSize.X * 0.5f,
                         __instance.yPositionOnScreen - 4 + 160f - textSize.Y * 0.5f), Color.Black);
@@ -85,25 +85,25 @@ internal class PondQueryMenuDrawPatch : BasePatch
                         __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16 + 128),
                     Game1.textColor);
                 var slotsToDraw = ____pond.maxOccupants.Value;
-					
+
                 var x = 0;
                 var y = 0;
                 for (var i = 0; i < slotsToDraw; ++i)
                 {
-                    var yOffset = (float) Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
+                    var yOffset = (float)Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
                     if (i < ____pond.FishCount)
                         ____fishItem.drawInMenu(b,
                             new(
                                 __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
                                 SLOT_SPACING_F * Math.Min(slotsToDraw, 5) * 4f * 0.5f + SLOT_SPACING_F * 4f * x - 12f,
-                                __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f),
+                                __instance.yPositionOnScreen + (int)(yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f),
                             0.75f, 1f, 0f, StackDrawType.Hide, Color.White, false);
                     else
                         ____fishItem.drawInMenu(b,
                             new(
                                 __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
                                 SLOT_SPACING_F * Math.Min(slotsToDraw, 5) * 4f * 0.5f + SLOT_SPACING_F * 4f * x - 12f,
-                                __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f),
+                                __instance.yPositionOnScreen + (int)(yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f),
                             0.75f, 0.35f, 0f, StackDrawType.Hide, Color.Black, false);
 
                     ++x;
@@ -121,11 +121,11 @@ internal class PondQueryMenuDrawPatch : BasePatch
                 if (hasUnresolvedNeeds)
                 {
                     ModEntry.ModHelper.Reflection.GetMethod(__instance, "drawHorizontalPartition").Invoke(b,
-                        (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
+                        (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
                     SUtility.drawWithShadow(b, Game1.mouseCursors,
                         new(__instance.xPositionOnScreen + 60 + 8f * Game1.dialogueButtonScale / 10f,
                             __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28),
-                        new(412, 495, 5, 4), Color.White, (float) Math.PI / 2f, Vector2.Zero);
+                        new(412, 495, 5, 4), Color.White, (float)Math.PI / 2f, Vector2.Zero);
                     var bringText =
                         Game1.content.LoadString(
                             PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_StatusRequest_Bring"));

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
+using System.Collections.Generic;
+using TheLion.Stardew.Professions.Framework.Events.Input.CursorMoved;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderedActiveMenu;
 
 internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
 {
@@ -15,7 +16,7 @@ internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
     internal DebugRenderedActiveMenuEvent()
     {
         _pixel = new(Game1.graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-        _pixel.SetData(new[] {Color.White});
+        _pixel.SetData(new[] { Color.White });
     }
 
     internal static List<ClickableComponent> ClickableComponents { get; } = new();
@@ -40,7 +41,7 @@ internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
             if (DebugCursorMovedEvent.CursorPosition is null) continue;
 
             var (cursorX, cursorY) = DebugCursorMovedEvent.CursorPosition.GetScaledScreenPixels();
-            if (component.containsPoint((int) cursorX, (int) cursorY)) FocusedComponent = component;
+            if (component.containsPoint((int)cursorX, (int)cursorY)) FocusedComponent = component;
         }
     }
 

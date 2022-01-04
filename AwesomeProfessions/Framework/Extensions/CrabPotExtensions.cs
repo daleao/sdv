@@ -36,8 +36,8 @@ public static class CrabPotExtensions
     public static bool ShouldCatchOceanFish(this CrabPot crabpot, GameLocation location)
     {
         return location is Beach ||
-               location.catchOceanCrabPotFishFromThisSpot((int) crabpot.TileLocation.X,
-                   (int) crabpot.TileLocation.Y);
+               location.catchOceanCrabPotFishFromThisSpot((int)crabpot.TileLocation.X,
+                   (int)crabpot.TileLocation.Y);
     }
 
     /// <summary>Whether the given crab pot instance is holding an object that can only be caught via Luremaster profession.</summary>

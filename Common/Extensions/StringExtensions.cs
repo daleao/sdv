@@ -54,7 +54,7 @@ public static class StringExtensions
 
         var converter = TypeDescriptor.GetConverter(typeof(T));
         if (converter.CanConvertTo(typeof(T)) && converter.CanConvertFrom(typeof(string)))
-            return (T) converter.ConvertFromString(s) ?? throw new InvalidCastException();
+            return (T)converter.ConvertFromString(s) ?? throw new InvalidCastException();
 
         throw new FormatException();
     }
@@ -67,7 +67,7 @@ public static class StringExtensions
         var converter = TypeDescriptor.GetConverter(typeof(T));
         if (converter.CanConvertTo(typeof(T)) && converter.CanConvertFrom(typeof(string)))
         {
-            val = (T) converter.ConvertFromString(s);
+            val = (T)converter.ConvertFromString(s);
             return true;
         }
 
@@ -100,8 +100,8 @@ public static class StringExtensions
     public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this string s, string keyValueSeparator,
         string pairSeparator) where TKey : notnull
     {
-        var pairs = s.Split(new[] {pairSeparator}, StringSplitOptions.RemoveEmptyEntries);
-        return pairs.Select(p => p.Split(new[] {keyValueSeparator}, StringSplitOptions.RemoveEmptyEntries))
+        var pairs = s.Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries);
+        return pairs.Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries))
             .ToDictionary(p => p[0].Parse<TKey>(), p => p[1].Parse<TValue>());
     }
 }

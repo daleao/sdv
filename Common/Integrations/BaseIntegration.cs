@@ -1,5 +1,5 @@
-using System;
 using StardewModdingAPI;
+using System;
 
 namespace TheLion.Stardew.Common.Integrations;
 

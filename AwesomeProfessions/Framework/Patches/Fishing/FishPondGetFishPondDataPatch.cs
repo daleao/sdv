@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
+using System.Linq;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class FishPondGetFishPondDataPatch : BasePatch
@@ -22,10 +22,10 @@ internal class FishPondGetFishPondDataPatch : BasePatch
     private static bool FishPondGetFishPondDataPrefix(ref FishPond __instance, ref FishPondData __result, ref FishPondData ____fishPondData)
     {
         if (__instance.fishType.Value <= 0) return true; // run original logic
-			
+
         var fish_item = __instance.GetFishObject();
         if (!Utility.Objects.LegendaryFishNames.Contains(fish_item.Name)) return true; // run original logic
-			
+
         ____fishPondData = new()
         {
             PopulationGates = null,

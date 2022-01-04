@@ -5,7 +5,7 @@ using StardewValley;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
 
 [UsedImplicitly]
 internal class ObjectCtorPatch : BasePatch
@@ -26,7 +26,7 @@ internal class ObjectCtorPatch : BasePatch
         var owner = Game1.getFarmer(__instance.owner.Value);
         if (__instance.IsWildBerry() && owner.HasProfession("Ecologist"))
             __instance.Edibility =
-                (int) (__instance.Edibility * (owner.HasPrestigedProfession("Ecologist") ? 2f : 1.5f));
+                (int)(__instance.Edibility * (owner.HasPrestigedProfession("Ecologist") ? 2f : 1.5f));
     }
 
     #endregion harmony patches

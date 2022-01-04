@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
+using System;
+using System.IO;
 
 namespace TheLion.Stardew.Professions.Framework.AssetEditors;
 

@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
+using System.Collections.Generic;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.SpaceCore;
 
 [UsedImplicitly]
 internal class NewSkillsPageCtorPatch : BasePatch
@@ -17,7 +17,7 @@ internal class NewSkillsPageCtorPatch : BasePatch
         try
         {
             Original = "SpaceCore.Interface.NewSkillsPage".ToType()
-                .Constructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
+                .Constructor(new[] { typeof(int), typeof(int), typeof(int), typeof(int) });
         }
         catch
         {

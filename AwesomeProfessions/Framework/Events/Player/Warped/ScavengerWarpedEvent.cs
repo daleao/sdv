@@ -1,7 +1,7 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Player.Warped;
 
 internal class ScavengerWarpedEvent : WarpedEvent
 {
@@ -10,10 +10,10 @@ internal class ScavengerWarpedEvent : WarpedEvent
     {
         if (!e.IsLocalPlayer) return;
 
-        ModState.ScavengerHunt ??= new();
-        if (ModState.ScavengerHunt.IsActive) ModState.ScavengerHunt.End();
+        ModEntry.State.Value.ScavengerHunt ??= new();
+        if (ModEntry.State.Value.ScavengerHunt.IsActive) ModEntry.State.Value.ScavengerHunt.End();
         if (!Game1.eventUp && e.NewLocation.IsOutdoors &&
             (ModEntry.Config.AllowScavengerHuntsOnFarm || !e.NewLocation.IsFarm))
-            ModState.ScavengerHunt.TryStartNewHunt(e.NewLocation);
+            ModEntry.State.Value.ScavengerHunt.TryStartNewHunt(e.NewLocation);
     }
 }

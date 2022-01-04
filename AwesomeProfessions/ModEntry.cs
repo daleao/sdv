@@ -1,6 +1,7 @@
-﻿using System;
-using StardewModdingAPI;
+﻿using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 using StardewValley;
+using System;
 using TheLion.Stardew.Professions.Framework;
 using TheLion.Stardew.Professions.Framework.AssetEditors;
 using TheLion.Stardew.Professions.Framework.AssetLoaders;
@@ -10,7 +11,8 @@ namespace TheLion.Stardew.Professions;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    internal static ModData Data { get; set; }
+    internal static PerScreen<ModData> Data { get; private set; }
+    internal static PerScreen<ModState> State { get; private set; }
     internal static ModConfig Config { get; set; }
     internal static EventSubscriber Subscriber { get; private set; }
     internal static SoundBox SoundBox { get; set; }
@@ -25,14 +27,17 @@ public class ModEntry : Mod
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
     {
-        // store references to mod helper and metadata
+        // store references to helper, mod manifest and logger
         ModHelper = helper;
         Manifest = ModManifest;
         Log = Monitor.Log;
 
-        // get configs and mod data
+        // get configs
         Config = helper.ReadConfig<ModConfig>();
-        Data = new(Manifest.UniqueID);
+
+        // initialize per-screen data and state
+        Data = new(() => new ModData(Manifest.UniqueID));
+        State = new(() => new ModState());
 
         // apply harmony patches
         new HarmonyPatcher(Manifest.UniqueID).ApplyAll();
@@ -47,7 +52,7 @@ public class ModEntry : Mod
         // add debug commands
         ConsoleCommands.Register();
 
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
+        if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
         {
             var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID);
             var hostMod = host.GetMod(ModManifest.UniqueID);

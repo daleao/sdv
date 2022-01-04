@@ -1,17 +1,17 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewModdingAPI;
+using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using StardewModdingAPI;
-using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.Automate;
 
 internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
 {
@@ -94,16 +94,16 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
                 output.Quality = SObject.lowQuality;
             }
             else switch (input.ParentSheetIndex)
-            {
-                // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-                case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"):
-                    output.Quality = SObject.lowQuality;
-                    break;
-                // golden mayonnaise keeps giving gives single output but keeps golden quality
-                case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
-                    output.Stack = 1;
-                    break;
-            }
+                {
+                    // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
+                    case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+                        output.Quality = SObject.lowQuality;
+                        break;
+                    // golden mayonnaise keeps giving gives single output but keeps golden quality
+                    case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                        output.Stack = 1;
+                        break;
+                }
         }
 
         var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;

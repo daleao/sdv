@@ -17,7 +17,7 @@ public class ModEntry : Mod
     public static IModRegistry ModRegistry { get; set; }
     public static IReflectionHelper Reflection { get; set; }
     public static Configs.ToolConfig Config { get; set; }
-		
+
     private Framework.Effects.AxeEffect AxeFx { get; set; }
     private Framework.Effects.PickaxeEffect PickaxeFx { get; set; }
 
@@ -158,6 +158,7 @@ public class ModEntry : Mod
                     Monitor.Log("Adding default fifth radius value to Axe configurations.", LogLevel.Info);
                     Config.AxeConfig.RadiusAtEachPowerLevel.Add(5);
                     break;
+
                 case > 5:
                     Monitor.Log("Too many values in configs.json AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
                     Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
@@ -170,6 +171,7 @@ public class ModEntry : Mod
                     Monitor.Log("Adding default fifth radius value to Pickaxe configurations.", LogLevel.Info);
                     Config.PickaxeConfig.RadiusAtEachPowerLevel.Add(5);
                     break;
+
                 case > 5:
                     Monitor.Log("Too many values in configs.json PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.", LogLevel.Warn);
                     Config.PickaxeConfig.RadiusAtEachPowerLevel = Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();

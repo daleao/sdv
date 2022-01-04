@@ -2,7 +2,7 @@
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
 
 [UsedImplicitly]
 internal class DebugRenderedHudEvent : RenderedHudEvent

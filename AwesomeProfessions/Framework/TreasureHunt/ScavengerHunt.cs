@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
-using TheLion.Stardew.Professions.Framework.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
@@ -57,7 +58,7 @@ public class ScavengerHunt : TreasureHunt
         if (TreasureTile is null) return;
 
         location.MakeTileDiggable(TreasureTile.Value);
-        TimeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
+        TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
                             ModEntry.Config.ScavengerHuntHandicap);
         Elapsed = 0;
         ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(),
@@ -107,7 +108,7 @@ public class ScavengerHunt : TreasureHunt
         End();
         var getTreasure = new DelayedAction(200, BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
-        ModEntry.Data.Increment<uint>("ScavengerHuntStreak");
+        ModEntry.Data.Value.Increment<uint>("ScavengerHuntStreak");
     }
 
     /// <inheritdoc/>
@@ -115,7 +116,7 @@ public class ScavengerHunt : TreasureHunt
     {
         End();
         Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-        ModEntry.Data.Write("ScavengerHuntStreak", "0");
+        ModEntry.Data.Value.Write("ScavengerHuntStreak", "0");
     }
 
     #endregion protected methods
@@ -161,7 +162,7 @@ public class ScavengerHunt : TreasureHunt
         Game1.player.completelyStopAnimatingOrDoingAction();
         var treasures = GetTreasureContents();
         Game1.activeClickableMenu = new ItemGrabMenu(treasures).setEssential(true);
-        ((ItemGrabMenu) Game1.activeClickableMenu).source = 3;
+        ((ItemGrabMenu)Game1.activeClickableMenu).source = 3;
     }
 
     /// <summary>Choose the contents of the treasure chest.</summary>
@@ -273,14 +274,14 @@ public class ScavengerHunt : TreasureHunt
 
                         case 2:
                             var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
-                            var streak = ModEntry.Data.Read<uint>("ScavengerHuntStreak");
+                            var streak = ModEntry.Data.Value.Read<uint>("ScavengerHuntStreak");
                             if (Random.NextDouble() < 0.025 * luckModifier &&
                                 !Game1.player.specialItems.Contains(60))
-                                treasures.Add(new MeleeWeapon(15) {specialItem = true}); // forest sword
+                                treasures.Add(new MeleeWeapon(15) { specialItem = true }); // forest sword
 
                             if (Random.NextDouble() < 0.025 * luckModifier &&
                                 !Game1.player.specialItems.Contains(20))
-                                treasures.Add(new MeleeWeapon(20) {specialItem = true}); // elf blade
+                                treasures.Add(new MeleeWeapon(20) { specialItem = true }); // elf blade
 
                             if (Random.NextDouble() < 0.07 * luckModifier)
                                 switch (Random.Next(3))

@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using Netcode;
+﻿using Netcode;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using TheLion.Stardew.Common.Extensions;
+using System.Linq;
+using TheLion.Stardew.Professions.Framework.Events.Display.RenderedWorld;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Custom.SuperMode;
 
 public delegate void SuperModeEnabledEventHandler();
 
@@ -16,38 +17,38 @@ internal class SuperModeEnabledEvent : BaseEvent
     /// <summary>Hook this event to the event listener.</summary>
     public override void Hook()
     {
-        ModState.SuperModeEnabled += OnSuperModeEnabled;
+        ModEntry.State.Value.SuperModeEnabled += OnSuperModeEnabled;
     }
 
     /// <summary>Unhook this event from the event listener.</summary>
     public override void Unhook()
     {
-        ModState.SuperModeEnabled -= OnSuperModeEnabled;
+        ModEntry.State.Value.SuperModeEnabled -= OnSuperModeEnabled;
     }
 
     /// <summary>Raised when IsSuperModeActive is set to true.</summary>
     public void OnSuperModeEnabled()
     {
-        var whichSuperMode = Utility.Professions.NameOf(ModState.SuperModeIndex);
+        var whichSuperMode = Utility.Professions.NameOf(ModEntry.State.Value.SuperModeIndex);
 
         // remove bar shake timer
         ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBuffDisplayUpdateTickedEvent),
             typeof(SuperModeBarShakeTimerUpdateTickedEvent));
-        ModState.ShouldShakeSuperModeGauge = false;
+        ModEntry.State.Value.ShouldShakeSuperModeGauge = false;
 
         // fade in overlay
         ModEntry.Subscriber.Subscribe(new SuperModeRenderedWorldEvent(),
             new SuperModeOverlayFadeInUpdateTickedEvent());
 
         // play sound effect
-        ModEntry.SoundBox.Play(ModState.SuperModeSFX);
+        ModEntry.SoundBox.Play(ModEntry.State.Value.SuperModeSFX);
 
         // add countdown event
         ModEntry.Subscriber.Subscribe(new SuperModeCountdownUpdateTickedEvent());
 
         // display buff
-        var buffID = ModEntry.Manifest.UniqueID.GetHashCode() + ModState.SuperModeIndex + 4;
-        var professionIndex = ModState.SuperModeIndex;
+        var buffID = ModEntry.Manifest.UniqueID.GetHashCode() + ModEntry.State.Value.SuperModeIndex + 4;
+        var professionIndex = ModEntry.State.Value.SuperModeIndex;
         var professionName = Utility.Professions.NameOf(professionIndex);
 
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
@@ -73,17 +74,17 @@ internal class SuperModeEnabledEvent : BaseEvent
                 {
                     which = buffID,
                     sheetIndex = professionIndex + SHEET_INDEX_OFFSET_I,
-                    glow = ModState.SuperModeGlowColor,
+                    glow = ModEntry.State.Value.SuperModeGlowColor,
                     millisecondsDuration =
-                        (int) (ModState.SuperModeGaugeMaxValue * ModEntry.Config.SuperModeDrainFactor / 60f) * 1000,
+                        (int)(ModEntry.State.Value.SuperModeGaugeMaxValue * ModEntry.Config.SuperModeDrainFactor / 60f) * 1000,
                     description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".supermdesc")
                 }
             );
         }
 
         // notify peers
-        ModEntry.ModHelper.Multiplayer.SendMessage(ModState.SuperModeIndex, "SuperModeEnabled",
-            new[] {ModEntry.Manifest.UniqueID});
+        ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.State.Value.SuperModeIndex, "SuperModeEnabled",
+            new[] { ModEntry.Manifest.UniqueID });
 
         switch (whichSuperMode)
         {
@@ -148,7 +149,7 @@ internal class SuperModeEnabledEvent : BaseEvent
                 else greenSlime.hasSpecialItem.Value = true;
             }
 
-            ModState.PipedSlimeScales.Add(greenSlime, greenSlime.Scale);
+            ModEntry.State.Value.PipedSlimeScales.Add(greenSlime, greenSlime.Scale);
         }
 
         var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
@@ -161,8 +162,8 @@ internal class SuperModeEnabledEvent : BaseEvent
             {
                 Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
                 var justCreated = Game1.currentLocation.characters[^1];
-                justCreated.setTrajectory((int) (bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
-                    (int) (bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
+                justCreated.setTrajectory((int)(bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
+                    (int)(bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
                 justCreated.willDestroyObjectsUnderfoot = false;
                 justCreated.moveTowardPlayer(4);
                 justCreated.Scale = 0.75f + Game1.random.Next(-5, 10) / 100f;

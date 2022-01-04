@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer.ModMessageReceived;
 
 internal abstract class ModMessageReceivedEvent : BaseEvent
 {

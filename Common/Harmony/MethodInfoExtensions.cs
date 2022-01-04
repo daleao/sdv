@@ -1,6 +1,6 @@
-﻿using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
+using System.Reflection;
 
 namespace TheLion.Stardew.Common.Harmony;
 

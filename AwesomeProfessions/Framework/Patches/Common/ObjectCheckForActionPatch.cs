@@ -1,16 +1,17 @@
-﻿using System;
+﻿using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Common;
 
 [UsedImplicitly]
 internal class ObjectCheckForActionPatch : BasePatch
@@ -25,7 +26,6 @@ internal class ObjectCheckForActionPatch : BasePatch
 
     /// <summary>Patch to remember object state.</summary>
     [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
     private static bool ObjectCheckForActionPrefix(SObject __instance, ref bool __state)
     {
         __state = __instance.heldObject.Value is not null;
@@ -38,7 +38,7 @@ internal class ObjectCheckForActionPatch : BasePatch
     {
         if (__state && __instance.heldObject.Value is null && __instance.ParentSheetIndex == 128 &&
             who.HasProfession("Ecologist"))
-            ModEntry.Data.Increment<uint>("ItemsForaged");
+            ModEntry.Data.Value.Increment<uint>("ItemsForaged");
     }
 
     /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium.</summary>
@@ -72,13 +72,15 @@ internal class ObjectCheckForActionPatch : BasePatch
                         typeof(SObject).PropertyGetter(nameof(SObject.name))),
                     new CodeInstruction(OpCodes.Ldstr, "Crystalarium"),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)})),
+                        typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) })),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModData>).PropertyGetter(nameof(PerScreen<ModData>.Value))),
                     new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] {typeof(string)})
+                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string) })
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);

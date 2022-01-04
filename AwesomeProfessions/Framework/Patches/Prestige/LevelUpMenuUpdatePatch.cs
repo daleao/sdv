@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Events;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using CollectionExtensions = TheLion.Stardew.Common.Extensions.CollectionExtensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Prestige;
 
 [UsedImplicitly]
 internal class LevelUpMenuUpdatePatch : BasePatch
@@ -23,7 +23,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuUpdatePatch()
     {
-        Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.update), new[] {typeof(GameTime)});
+        Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.update), new[] { typeof(GameTime) });
     }
 
     #region harmony patches
@@ -124,7 +124,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         var shouldProposeFinalQuestion = iLGenerator.DeclareLocal(typeof(bool));
         var shouldCongratulateOnFullPrestige = iLGenerator.DeclareLocal(typeof(bool));
         var i = 0;
-        repeat1:
+    repeat1:
         try
         {
             helper
@@ -157,13 +157,13 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 )
                 .Insert(
                     // branch here if the player already had the chosen profession
-                    new[] {dontGetImmediatePerks},
+                    new[] { dontGetImmediatePerks },
                     // check if current level is above 10 (i.e. prestige level)
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentLevel")),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10),
                     new CodeInstruction(OpCodes.Ble_Un_S, isNotPrestigeLevel), // branch out if not
-                    // add chosenProfession + 100 to player's professions
+                                                                               // add chosenProfession + 100 to player's professions
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 100),
@@ -174,7 +174,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 )
                 .Insert(
                     // branch here if was not prestige level
-                    new[] {isNotPrestigeLevel},
+                    new[] { isNotPrestigeLevel },
                     // load the chosen profession onto the stack
                     new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
                     // check if should propose final question
@@ -246,7 +246,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 )
                 .Insert(
                     // branch here after checking for proposal
-                    new[] {dontProposeFinalQuestion},
+                    new[] { dontProposeFinalQuestion },
                     // check if should congratulate on full prestige
                     new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateOnFullPrestige),
                     new CodeInstruction(OpCodes.Brfalse_S, dontCongratulateOnFullPrestige),
@@ -272,9 +272,9 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
     private static bool ShouldProposeFinalQuestion(int chosenProfession)
     {
-        return ModEntry.Config.EnablePrestige && ModState.SuperModeIndex > 0 &&
+        return ModEntry.Config.EnablePrestige && ModEntry.State.Value.SuperModeIndex > 0 &&
                chosenProfession is >= 26 and < 30 &&
-               ModState.SuperModeIndex != chosenProfession;
+               ModEntry.State.Value.SuperModeIndex != chosenProfession;
     }
 
     private static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
@@ -284,7 +284,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
     private static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateOnFullPrestige)
     {
-        var oldProfessionKey = Utility.Professions.NameOf(ModState.SuperModeIndex).ToLower();
+        var oldProfessionKey = Utility.Professions.NameOf(ModEntry.State.Value.SuperModeIndex).ToLower();
         var oldProfessionDisplayName = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".name.male");
         var oldBuff = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".buff");
         var newProfessionKey = Utility.Professions.NameOf(chosenProfession);
@@ -301,9 +301,9 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                     newProfession = newProfessionDisplayName,
                     newBuff
                 }),
-            Game1.currentLocation.createYesNoResponses(), delegate(Farmer _, string answer)
+            Game1.currentLocation.createYesNoResponses(), delegate (Farmer _, string answer)
             {
-                if (answer == "Yes") ModState.SuperModeIndex = chosenProfession;
+                if (answer == "Yes") ModEntry.State.Value.SuperModeIndex = chosenProfession;
                 if (shouldCongratulateOnFullPrestige) CongratulateOnFullSkillMastery(chosenProfession);
             });
     }
@@ -311,7 +311,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
     private static void CongratulateOnFullSkillMastery(int chosenProfession)
     {
         Game1.drawObjectDialogue(ModEntry.ModHelper.Translation.Get("prestige.levelup.unlocked",
-            new {whichSkill = Farmer.getSkillDisplayNameFromIndex(chosenProfession / 6)}));
+            new { whichSkill = Farmer.getSkillDisplayNameFromIndex(chosenProfession / 6) }));
 
         if (!Game1.player.HasAllProfessions()) return;
 

@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Common;
 
 [UsedImplicitly]
 internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
@@ -44,22 +44,22 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
 
         // clean unnecessary mod data
         if (!professionName.IsAnyOf("Scavenger", "Prospector"))
-            ModEntry.Data.RemoveProfessionData(professionName);
+            ModEntry.Data.Value.RemoveProfessionData(professionName);
 
         // unsubscribe unnecessary events
         ModEntry.Subscriber.UnsubscribeProfessionEvents(professionName);
 
         // unregister Super Mode
-        if (ModState.SuperModeIndex != whichProfession) return;
+        if (ModEntry.State.Value.SuperModeIndex != whichProfession) return;
 
-        var otherSuperModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"}
-            .Except(new[] {professionName}).ToArray();
+        var otherSuperModeProfessions = new[] { "Brute", "Poacher", "Desperado", "Piper" }
+            .Except(new[] { professionName }).ToArray();
         if (Game1.player.HasAnyOfProfessions(otherSuperModeProfessions, out var firstMatch))
-            ModState.SuperModeIndex = Utility.Professions.IndexOf(firstMatch);
+            ModEntry.State.Value.SuperModeIndex = Utility.Professions.IndexOf(firstMatch);
         else
-            ModState.SuperModeIndex = -1;
+            ModEntry.State.Value.SuperModeIndex = -1;
 
-        ModState.SuperModeGaugeValue = 0;
+        ModEntry.State.Value.SuperModeGaugeValue = 0;
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>

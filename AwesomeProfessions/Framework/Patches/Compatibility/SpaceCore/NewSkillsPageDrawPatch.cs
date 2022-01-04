@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using TheLion.Stardew.Professions.Framework.Patches.Prestige;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.SpaceCore;
 
 [UsedImplicitly]
 internal class NewSkillsPageDrawPatch : BasePatch
@@ -23,7 +24,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
         try
         {
             Original = "SpaceCore.Interface.NewSkillsPage".ToType()
-                .MethodNamed("draw", new[] {typeof(SpriteBatch)});
+                .MethodNamed("draw", new[] { typeof(SpriteBatch) });
         }
         catch
         {
@@ -110,7 +111,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
                 .GetOperand(out var resumeExecution)
                 .Advance()
                 .Insert(
-                    new[] {isSkillLevel20},
+                    new[] { isSkillLevel20 },
                     new CodeInstruction(OpCodes.Call, typeof(Color).PropertyGetter(nameof(Color.Cornsilk))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );

@@ -1,16 +1,17 @@
-﻿using System;
+﻿using HarmonyLib;
+using JetBrains.Annotations;
+using Netcode;
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using Netcode;
-using StardewModdingAPI;
-using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Common;
 
 [UsedImplicitly]
 internal class CropHarvestPatch : BasePatch
@@ -77,6 +78,8 @@ internal class CropHarvestPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModData>).PropertyGetter(nameof(PerScreen<ModData>.Value))),
                     new CodeInstruction(OpCodes.Ldstr, "ItemsForaged"),
                     new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = @object
                     new CodeInstruction(OpCodes.Callvirt,
@@ -152,7 +155,7 @@ internal class CropHarvestPatch : BasePatch
                 .GetLabels(out var labels) // copy existing labels
                 .SetLabels(dontIncreaseNumToHarvest) // branch here if shouldn't apply Harvester bonus
                 .Insert( // insert check if junimoHarvester is null
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4),
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
                     new CodeInstruction(OpCodes.Brtrue_S, dontIncreaseNumToHarvest)
                 )
                 .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Harvester"),
@@ -173,7 +176,7 @@ internal class CropHarvestPatch : BasePatch
                     new CodeInstruction(OpCodes.Add)
                 )
                 .Insert(
-                    new[] {dontDuplicateChance},
+                    new[] { dontDuplicateChance },
                     new CodeInstruction(OpCodes.Bge_Un_S, dontIncreaseNumToHarvest)
                 )
                 .InsertBuffer() // insert numToHarvest++

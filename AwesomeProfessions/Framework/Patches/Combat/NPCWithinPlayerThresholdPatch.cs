@@ -1,12 +1,12 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
+using System;
+using System.Reflection;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class NPCWithinPlayerThresholdPatch : BasePatch
@@ -14,7 +14,7 @@ internal class NPCWithinPlayerThresholdPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal NPCWithinPlayerThresholdPatch()
     {
-        Original = RequireMethod<NPC>(nameof(NPC.withinPlayerThreshold), new[] {typeof(int)});
+        Original = RequireMethod<NPC>(nameof(NPC.withinPlayerThreshold), new[] { typeof(int) });
     }
 
     #region harmony patch
@@ -28,8 +28,8 @@ internal class NPCWithinPlayerThresholdPatch : BasePatch
             if (__instance is not Monster) return true; // run original method
 
             var foundPlayer = ModEntry.ModHelper.Reflection.GetMethod(__instance, "findPlayer").Invoke<Farmer>();
-            if (!foundPlayer.IsLocalPlayer || !ModState.IsSuperModeActive ||
-                ModState.SuperModeIndex != Utility.Professions.IndexOf("Poacher"))
+            if (!foundPlayer.IsLocalPlayer || !ModEntry.State.Value.IsSuperModeActive ||
+                ModEntry.State.Value.SuperModeIndex != Utility.Professions.IndexOf("Poacher"))
                 return true; // run original method
 
             __result = false;

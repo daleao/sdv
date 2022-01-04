@@ -1,7 +1,7 @@
 ﻿using StardewModdingAPI.Events;
 using TheLion.Stardew.Professions.Framework.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 
 internal class ArrowPointerUpdateTickedEvent : UpdateTickedEvent
 {

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Mining;
 
 [UsedImplicitly]
 internal class TemporaryAnimatedSpriteCtorPatch : BasePatch

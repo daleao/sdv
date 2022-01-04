@@ -5,7 +5,7 @@ using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.Automate;
 
 [UsedImplicitly]
 internal class GeodeCrusherMachineSetInputPatch : BasePatch
@@ -40,7 +40,7 @@ internal class GeodeCrusherMachineSetInputPatch : BasePatch
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
         machine.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
-        ModEntry.Data.Increment<uint>("MineralsCollected");
+        ModEntry.Data.Value.Increment<uint>("MineralsCollected");
     }
 
     #endregion harmony patches

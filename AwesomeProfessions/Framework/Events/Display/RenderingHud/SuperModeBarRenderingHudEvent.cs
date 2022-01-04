@@ -2,7 +2,7 @@
 using StardewValley;
 using TheLion.Stardew.Professions.Framework.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderingHud;
 
 internal class SuperModeBarRenderingHudEvent : RenderingHudEvent
 {

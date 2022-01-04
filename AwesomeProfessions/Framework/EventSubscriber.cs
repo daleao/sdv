@@ -1,14 +1,22 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewModdingAPI;
+using StardewValley;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using HarmonyLib;
-using StardewModdingAPI;
-using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Events;
+using TheLion.Stardew.Professions.Framework.Events.Custom.SuperMode;
+using TheLion.Stardew.Professions.Framework.Events.Display.RenderingHud;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+using TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
+using TheLion.Stardew.Professions.Framework.Events.Multiplayer.ModMessageReceived;
+using TheLion.Stardew.Professions.Framework.Events.Player.Warped;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework;
@@ -18,12 +26,12 @@ internal class EventSubscriber : IEnumerable<IEvent>
 {
     private static readonly Dictionary<string, List<IEvent>> EventsByProfession = new()
     {
-        {"Conservationist", new() {new ConservationistDayEndingEvent()}},
-        {"Poacher", new() {new PoacherWarpedEvent()}},
-        {"Piper", new() {new PiperWarpedEvent()}},
-        {"Prospector", new() {new ProspectorHuntDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent()}},
-        {"Scavenger", new() {new ScavengerHuntDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent()}},
-        {"Spelunker", new() {new SpelunkerWarpedEvent()}}
+        { "Conservationist", new() { new ConservationistDayEndingEvent() } },
+        { "Poacher", new() { new PoacherWarpedEvent() } },
+        { "Piper", new() { new PiperWarpedEvent() } },
+        { "Prospector", new() { new ProspectorHuntDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent() } },
+        { "Scavenger", new() { new ScavengerHuntDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent() } },
+        { "Spelunker", new() { new SpelunkerWarpedEvent() } }
     };
 
     private readonly List<IEvent> _subscribed = new();
@@ -94,7 +102,7 @@ internal class EventSubscriber : IEnumerable<IEvent>
             .Where(t => t.IsAssignableTo(typeof(IEvent)) && !t.IsAbstract &&
                         t.Name.StartsWith(prefix))
             .Except(except)
-            .Select(t => (IEvent) t.Constructor().Invoke(Array.Empty<object>()))
+            .Select(t => (IEvent)t.Constructor().Invoke(Array.Empty<object>()))
             .ToArray();
         Subscribe(eventsToSubscribe);
     }
@@ -182,10 +190,10 @@ internal class EventSubscriber : IEnumerable<IEvent>
             new SuperModeModMessageReceivedEvent()
         );
 
-        if (!Game1.currentLocation.IsCombatZone() && ModState.SuperModeGaugeValue <= 0) return;
+        if (!Game1.currentLocation.IsCombatZone() && ModEntry.State.Value.SuperModeGaugeValue <= 0) return;
 
         ModEntry.Subscriber.Subscribe(new SuperModeBarRenderingHudEvent());
-        if (ModState.SuperModeGaugeValue >= ModState.SuperModeGaugeMaxValue)
+        if (ModEntry.State.Value.SuperModeGaugeValue >= ModEntry.State.Value.SuperModeGaugeMaxValue)
             ModEntry.Subscriber.Subscribe(new SuperModeBarShakeTimerUpdateTickedEvent());
     }
 

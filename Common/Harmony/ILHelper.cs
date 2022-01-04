@@ -1,12 +1,12 @@
-﻿using System;
+﻿using HarmonyLib;
+using Netcode;
+using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using Netcode;
-using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Common.Harmony;
@@ -267,7 +267,7 @@ public class ILHelper
     {
         if (preserveLabels)
             instruction.labels = Instructions[CurrentIndex].labels;
-			
+
         Instructions[CurrentIndex] = instruction;
         return this;
     }

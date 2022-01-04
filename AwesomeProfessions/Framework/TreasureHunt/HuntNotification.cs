@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
+using System;
 using SUtility = StardewValley.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
@@ -44,7 +44,7 @@ public class HuntNotification : HUDMessage
         {
             var overrideX = titleSafeArea.Left + 16;
             var overrideY = (Game1.uiViewport.Width < 1400 ? -64 : 0) + titleSafeArea.Bottom -
-                            (i + 1) * 64 * 7 / 4 - 21 - (int) Game1.dialogueFont.MeasureString(message).Y;
+                            (i + 1) * 64 * 7 / 4 - 21 - (int)Game1.dialogueFont.MeasureString(message).Y;
             IClickableMenu.drawHoverText(b, message, Game1.dialogueFont, 0, 0, -1, null, -1, null, null, 0, -1, -1,
                 overrideX, overrideY, transparency);
             return;

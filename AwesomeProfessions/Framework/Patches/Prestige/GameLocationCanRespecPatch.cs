@@ -1,11 +1,11 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
+using System;
+using System.Reflection;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Prestige;
 
 [UsedImplicitly]
 internal class GameLocationCanRespecPatch : BasePatch

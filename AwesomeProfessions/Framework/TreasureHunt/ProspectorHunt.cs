@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
-using TheLion.Stardew.Professions.Framework.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
@@ -27,11 +28,11 @@ public class ProspectorHunt : TreasureHunt
     internal override void TryStartNewHunt(GameLocation location)
     {
         if (!location.Objects.Any() || !base.TryStartNewHunt()) return;
-        
+
         TreasureTile = ChooseTreasureTile(location);
         if (TreasureTile is null) return;
 
-        TimeLimit = (uint) (location.Objects.Count() * ModEntry.Config.ProspectorHuntHandicap);
+        TimeLimit = (uint)(location.Objects.Count() * ModEntry.Config.ProspectorHuntHandicap);
         Elapsed = 0;
         ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(),
             new ProspectorHuntUpdateTickedEvent(), new ProspectorHuntRenderedHudEvent());
@@ -73,7 +74,7 @@ public class ProspectorHunt : TreasureHunt
 
         GetStoneTreasure();
         End();
-        ModEntry.Data.Increment<uint>("ProspectorHuntStreak");
+        ModEntry.Data.Value.Increment<uint>("ProspectorHuntStreak");
     }
 
     /// <inheritdoc/>
@@ -81,7 +82,7 @@ public class ProspectorHunt : TreasureHunt
     {
         End();
         Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-        ModEntry.Data.Write("ProspectorHuntStreak", "0");
+        ModEntry.Data.Value.Write("ProspectorHuntStreak", "0");
     }
 
     #endregion protected methods
@@ -94,7 +95,7 @@ public class ProspectorHunt : TreasureHunt
     {
         if (TreasureTile is null) return;
 
-        var mineLevel = ((MineShaft) Game1.currentLocation).mineLevel;
+        var mineLevel = ((MineShaft)Game1.currentLocation).mineLevel;
         Dictionary<int, int> treasuresAndQuantities = new();
 
         if (Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
@@ -199,7 +200,7 @@ public class ProspectorHunt : TreasureHunt
 
                     case 2: // special items
                         var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
-                        var streak = ModEntry.Data.Read<uint>("ProspectorHuntStreak");
+                        var streak = ModEntry.Data.Value.Read<uint>("ProspectorHuntStreak");
                         if (Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
                             treasuresAndQuantities.Add(-1, 1); // femur
 
@@ -221,19 +222,19 @@ public class ProspectorHunt : TreasureHunt
             switch (p.Key)
             {
                 case -1:
-                    Game1.createItemDebris(new MeleeWeapon(31) {specialItem = true},
+                    Game1.createItemDebris(new MeleeWeapon(31) { specialItem = true },
                         new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f),
                         Random.Next(4), Game1.currentLocation);
                     break;
 
                 case -2:
-                    Game1.createItemDebris(new MeleeWeapon(60) {specialItem = true},
+                    Game1.createItemDebris(new MeleeWeapon(60) { specialItem = true },
                         new Vector2(TreasureTile.Value.X, TreasureTile.Value.Y) + new Vector2(32f, 32f),
                         Random.Next(4), Game1.currentLocation);
                     break;
 
                 default:
-                    Game1.createMultipleObjectDebris(p.Key, (int) TreasureTile.Value.X, (int) TreasureTile.Value.Y,
+                    Game1.createMultipleObjectDebris(p.Key, (int)TreasureTile.Value.X, (int)TreasureTile.Value.Y,
                         p.Value, Game1.player.UniqueMultiplayerID, Game1.currentLocation);
                     break;
             }

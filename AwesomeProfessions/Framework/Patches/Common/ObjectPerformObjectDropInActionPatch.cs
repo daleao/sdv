@@ -1,17 +1,18 @@
-﻿using System;
+﻿using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+using StardewValley;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Common;
 
 [UsedImplicitly]
 internal class ObjectPerformObjectDropInActionPatch : BasePatch
@@ -53,16 +54,16 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                 __instance.heldObject.Value.Quality = SObject.lowQuality;
             }
             else switch (dropInItem.ParentSheetIndex)
-            {
-                // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-                case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"):
-                    __instance.heldObject.Value.Quality = SObject.lowQuality;
-                    break;
-                // golden mayonnaise keeps giving gives single output but keeps golden quality
-                case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
-                    __instance.heldObject.Value.Stack = 1;
-                    break;
-            }
+                {
+                    // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
+                    case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+                        __instance.heldObject.Value.Quality = SObject.lowQuality;
+                        break;
+                    // golden mayonnaise keeps giving gives single output but keeps golden quality
+                    case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                        __instance.heldObject.Value.Stack = 1;
+                        break;
+                }
         }
 
         // if the machine doesn't belong to this player, then do nothing further
@@ -134,9 +135,11 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModData>).PropertyGetter(nameof(PerScreen<ModData>.Value))),
                     new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] {typeof(string)})
+                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string) })
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
@@ -153,7 +156,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
 
         helper.ReturnToFirst();
         var i = 0;
-        repeat:
+    repeat:
         try
         {
             var notPrestigedBreeder = iLGenerator.DefineLabel();

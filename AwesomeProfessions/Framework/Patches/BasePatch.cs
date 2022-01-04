@@ -1,8 +1,8 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewModdingAPI;
+using System;
 using System.Linq;
 using System.Reflection;
-using HarmonyLib;
-using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches;

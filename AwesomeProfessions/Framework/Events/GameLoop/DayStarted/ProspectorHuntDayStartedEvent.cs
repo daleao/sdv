@@ -1,12 +1,12 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
 
 internal class ProspectorHuntDayStartedEvent : DayStartedEvent
 {
     /// <inheritdoc />
     public override void OnDayStarted(object sender, DayStartedEventArgs e)
     {
-        if (ModState.ProspectorHunt is not null) ModState.ProspectorHunt.ResetAccumulatedBonus();
+        if (ModEntry.State.Value.ProspectorHunt is not null) ModEntry.State.Value.ProspectorHunt.ResetAccumulatedBonus();
     }
 }

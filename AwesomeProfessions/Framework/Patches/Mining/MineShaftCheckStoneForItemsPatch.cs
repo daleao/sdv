@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Mining;
 
 [UsedImplicitly]
 internal class MineShaftCheckStoneForItemsPatch : BasePatch
@@ -50,7 +50,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                     // restore backed-up labels
                     labels,
                     // prepare profession check
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
                 )
                 .InsertProfessionCheckForPlayerOnStack(Utility.Professions.IndexOf("Spelunker"), isNotSpelunker)
                 .Insert(
@@ -72,7 +72,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
         /// Skipped: if (who.professions.Contains(<geologist_id>)) ...
 
         var i = 0;
-        repeat1:
+    repeat1:
         try
         {
             helper // find index of geologist check
@@ -85,7 +85,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                 .GetOperand(out var isNotGeologist) // copy destination
                 .Return()
                 .Insert( // insert uncoditional branch to skip this check
-                    new CodeInstruction(OpCodes.Br_S, (Label) isNotGeologist)
+                    new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist)
                 )
                 .Retreat()
                 .AddLabels(labels); // restore backed-up labels to inserted branch
@@ -104,7 +104,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
         /// To: random.NextDouble() < <value> * (1.0 + chanceModifier)
 
         i = 0;
-        repeat2:
+    repeat2:
         try
         {
             helper // find index of excavator check

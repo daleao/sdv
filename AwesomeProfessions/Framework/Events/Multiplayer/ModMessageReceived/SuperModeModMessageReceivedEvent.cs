@@ -3,7 +3,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer.ModMessageReceived;
 
 internal class SuperModeModMessageReceivedEvent : ModMessageReceivedEvent
 {
@@ -13,14 +13,14 @@ internal class SuperModeModMessageReceivedEvent : ModMessageReceivedEvent
         if (e.FromModID != ModEntry.Manifest.UniqueID) return;
 
         var key = e.ReadAs<int>();
-        if (!ModState.ActivePeerSuperModes.ContainsKey(key))
-            ModState.ActivePeerSuperModes[key] = new();
+        if (!ModEntry.State.Value.ActivePeerSuperModes.ContainsKey(key))
+            ModEntry.State.Value.ActivePeerSuperModes[key] = new();
 
         switch (e.Type)
         {
             case "SuperModeEnabled":
                 ModEntry.Log($"Player {e.FromPlayerID} enabled Super Mode.", LogLevel.Trace);
-                ModState.ActivePeerSuperModes[key].Add(e.FromPlayerID);
+                ModEntry.State.Value.ActivePeerSuperModes[key].Add(e.FromPlayerID);
                 var glowingColor = Utility.Professions.NameOf(key) switch
                 {
                     "Brute" => Color.OrangeRed,
@@ -34,7 +34,7 @@ internal class SuperModeModMessageReceivedEvent : ModMessageReceivedEvent
 
             case "SuperModeDisabled":
                 ModEntry.Log($"Player {e.FromPlayerID}'s Super Mode has ended.", LogLevel.Trace);
-                ModState.ActivePeerSuperModes[key].Remove(e.FromPlayerID);
+                ModEntry.State.Value.ActivePeerSuperModes[key].Remove(e.FromPlayerID);
                 Game1.getFarmer(e.FromPlayerID).stopGlowing();
                 break;
         }

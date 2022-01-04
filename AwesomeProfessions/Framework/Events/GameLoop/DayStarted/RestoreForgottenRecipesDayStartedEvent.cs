@@ -1,16 +1,16 @@
-﻿using System.Linq;
-using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Events;
 using StardewValley;
+using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
 
 internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
 {
     /// <inheritdoc />
     public override void OnDayStarted(object sender, DayStartedEventArgs e)
     {
-        var forgottenRecipes = ModEntry.Data.Read("ForgottenRecipes").ToDictionary<string, int>(",", ";");
+        var forgottenRecipes = ModEntry.Data.Value.Read("ForgottenRecipes").ToDictionary<string, int>(",", ";");
         if (!forgottenRecipes.Any())
         {
             ModEntry.Subscriber.Unsubscribe(GetType());
@@ -32,7 +32,7 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
             }
         }
 
-        ModEntry.Data.Write("ForgottenRecipes", forgottenRecipes.Any()
+        ModEntry.Data.Value.Write("ForgottenRecipes", forgottenRecipes.Any()
             ? forgottenRecipes.ToString(",", ";")
             : null);
         ModEntry.Subscriber.Unsubscribe(GetType());

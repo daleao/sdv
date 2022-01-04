@@ -1,8 +1,8 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using HarmonyLib;
 
 namespace TheLion.Stardew.Common.Harmony;
 
@@ -76,8 +76,8 @@ public static class SafeReflections
     {
         yield return parent;
         foreach (var t1 in parent.GetNestedTypes(AccessTools.all))
-        foreach (var t2 in GetAllInnerTypes(t1))
-            yield return t2;
+            foreach (var t2 in GetAllInnerTypes(t1))
+                yield return t2;
     }
 
     /// <summary>Get all inner types starting with a given string.</summary>

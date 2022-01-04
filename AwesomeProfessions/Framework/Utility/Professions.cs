@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using StardewModdingAPI;
+﻿using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TheLion.Stardew.Common.Classes;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -22,51 +22,51 @@ public static class Professions
     public static BiMap<string, int> IndexByName { get; } = new()
     {
         // farming
-        {"Rancher", Farmer.rancher}, // 0
-        {"Breeder", Farmer.butcher}, // 2 (coopmaster)
-        {"Producer", Farmer.shepherd}, // 3
+        { "Rancher", Farmer.rancher }, // 0
+        { "Breeder", Farmer.butcher }, // 2 (coopmaster)
+        { "Producer", Farmer.shepherd }, // 3
 
-        {"Harvester", Farmer.tiller}, // 1
-        {"Artisan", Farmer.artisan}, // 4
-        {"Agriculturist", Farmer.agriculturist}, // 5
+        { "Harvester", Farmer.tiller }, // 1
+        { "Artisan", Farmer.artisan }, // 4
+        { "Agriculturist", Farmer.agriculturist }, // 5
 
         // fishing
-        {"Fisher", Farmer.fisher}, // 6
-        {"Angler", Farmer.angler}, // 8
-        {"Aquarist", Farmer.pirate}, // 9
+        { "Fisher", Farmer.fisher }, // 6
+        { "Angler", Farmer.angler }, // 8
+        { "Aquarist", Farmer.pirate }, // 9
 
-        {"Trapper", Farmer.trapper}, // 7
-        {"Luremaster", Farmer.baitmaster}, // 10
-        {"Conservationist", Farmer.mariner}, // 11
+        { "Trapper", Farmer.trapper }, // 7
+        { "Luremaster", Farmer.baitmaster }, // 10
+        { "Conservationist", Farmer.mariner }, // 11
         /// Note: the vanilla game code has mariner and baitmaster IDs mixed up; i.e. effectively mariner is 10 and luremaster is 11.
         /// Since we are completely replacing both professions, we take the opportunity to fix this inconsistency.
 
         // foraging
-        {"Lumberjack", Farmer.forester}, // 12
-        {"Arborist", Farmer.lumberjack}, // 14
-        {"Tapper", Farmer.tapper}, // 15
+        { "Lumberjack", Farmer.forester }, // 12
+        { "Arborist", Farmer.lumberjack }, // 14
+        { "Tapper", Farmer.tapper }, // 15
 
-        {"Forager", Farmer.gatherer}, // 13
-        {"Ecologist", Farmer.botanist}, // 16
-        {"Scavenger", Farmer.tracker}, // 17
+        { "Forager", Farmer.gatherer }, // 13
+        { "Ecologist", Farmer.botanist }, // 16
+        { "Scavenger", Farmer.tracker }, // 17
 
         // mining
-        {"Miner", Farmer.miner}, // 18
-        {"Spelunker", Farmer.blacksmith}, // 20
-        {"Prospector", Farmer.burrower}, // 21 (prospector)
+        { "Miner", Farmer.miner }, // 18
+        { "Spelunker", Farmer.blacksmith }, // 20
+        { "Prospector", Farmer.burrower }, // 21 (prospector)
 
-        {"Blaster", Farmer.geologist}, // 19
-        {"Demolitionist", Farmer.excavator}, // 22
-        {"Gemologist", Farmer.gemologist}, // 23
+        { "Blaster", Farmer.geologist }, // 19
+        { "Demolitionist", Farmer.excavator }, // 22
+        { "Gemologist", Farmer.gemologist }, // 23
 
         // combat
-        {"Fighter", Farmer.fighter}, // 24
-        {"Brute", Farmer.brute}, // 26
-        {"Poacher", Farmer.defender}, // 27
+        { "Fighter", Farmer.fighter }, // 24
+        { "Brute", Farmer.brute }, // 26
+        { "Poacher", Farmer.defender }, // 27
 
-        {"Rascal", Farmer.scout}, // 25
-        {"Piper", Farmer.acrobat}, // 28
-        {"Desperado", Farmer.desperado} // 29
+        { "Rascal", Farmer.scout }, // 25
+        { "Piper", Farmer.acrobat }, // 28
+        { "Desperado", Farmer.desperado } // 29
     };
 
     #endregion look-up table
@@ -95,7 +95,7 @@ public static class Professions
     {
         return Game1.getFarm().buildings.Where(b =>
             (b.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-            b.buildingType.Contains("Deluxe") && ((AnimalHouse) b.indoors.Value).isFull()).Sum(_ => 0.05f);
+            b.buildingType.Contains("Deluxe") && ((AnimalHouse)b.indoors.Value).isFull()).Sum(_ => 0.05f);
     }
 
     /// <summary>Affects the price of fish sold by Angler.</summary>
@@ -135,7 +135,7 @@ public static class Professions
     /// <summary>Affects the price all items sold by Conservationist.</summary>
     public static float GetConservationistPriceMultiplier()
     {
-        return 1f + ModEntry.Data.Read<float>("ActiveTaxBonusPercent");
+        return 1f + ModEntry.Data.Value.Read<float>("ActiveTaxBonusPercent");
     }
 
     /// <summary>Affects the price of animals sold by Breeder.</summary>
@@ -148,7 +148,7 @@ public static class Professions
     /// <summary>Affects the quality of items foraged by Ecologist.</summary>
     public static int GetEcologistForageQuality()
     {
-        var itemsForaged = ModEntry.Data.Read<uint>("ItemsForaged");
+        var itemsForaged = ModEntry.Data.Value.Read<uint>("ItemsForaged");
         return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
             ? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -159,7 +159,7 @@ public static class Professions
     /// <summary>Affects the quality of minerals collected by Gemologist.</summary>
     public static int GetGemologistMineralQuality()
     {
-        var mineralsCollected = ModEntry.Data.Read<uint>("MineralsCollected");
+        var mineralsCollected = ModEntry.Data.Value.Read<uint>("MineralsCollected");
         return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
             ? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -170,7 +170,7 @@ public static class Professions
     /// <summary>Affects that chance that a ladder or shaft will spawn for Spelunker.</summary>
     public static double GetSpelunkerBonusLadderDownChance()
     {
-        return ModState.SpelunkerLadderStreak * 0.005;
+        return ModEntry.State.Value.SpelunkerLadderStreak * 0.005;
     }
 
     /// <summary>Affects the raw damage dealt by Brute.</summary>
@@ -178,13 +178,13 @@ public static class Professions
     public static float GetBruteBonusDamageMultiplier(Farmer who)
     {
         return 1.15f +
-               (who.IsLocalPlayer && ModState.IsSuperModeActive && ModState.SuperModeIndex == IndexOf("Brute")
+               (who.IsLocalPlayer && ModEntry.State.Value.IsSuperModeActive && ModEntry.State.Value.SuperModeIndex == IndexOf("Brute")
                    ? (who.HasPrestigedProfession("Fighter") ? 0.2f : 0.1f) + 0.15f + who.attackIncreaseModifier + // double fighter, brute and ring bonuses
                      (who.CurrentTool is not null
                          ? who.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f // double enchants
                          : 0f)
-                     + ModState.SuperModeGaugeMaxValue / 10 * 0.005f // apply the maximum fury bonus
-                   : ModState.SuperModeGaugeValue / 10 * 0.005f);
+                     + ModEntry.State.Value.SuperModeGaugeMaxValue / 10 * 0.005f // apply the maximum fury bonus
+                   : ModEntry.State.Value.SuperModeGaugeValue / 10 * 0.005f);
     }
 
     /// <summary>Affects the cooldown of special moves performed by prestiged Brute.</summary>
@@ -199,9 +199,9 @@ public static class Professions
     /// <summary>Affecsts the power of critical strikes performed by Poacher.</summary>
     public static float GetPoacherCritDamageMultiplier()
     {
-        return ModState.IsSuperModeActive
-            ? 1f + ModState.SuperModeGaugeMaxValue / 10 * 0.04f // apply the maximum cold blood bonus
-            : 1f + ModState.SuperModeGaugeValue / 10 * 0.04f;
+        return ModEntry.State.Value.IsSuperModeActive
+            ? 1f + ModEntry.State.Value.SuperModeGaugeMaxValue / 10 * 0.04f // apply the maximum cold blood bonus
+            : 1f + ModEntry.State.Value.SuperModeGaugeValue / 10 * 0.04f;
     }
 
     /// <summary>Affects the cooldown special moves performed by prestiged Poacher.</summary>
@@ -227,24 +227,24 @@ public static class Professions
     /// <param name="who">The player.</param>
     public static float GetDesperadoDoubleStrafeChance(Farmer who)
     {
-        var healthPercent = (double) who.health / who.maxHealth;
-        return (float) Math.Min(2 / (healthPercent + 1.5) - 0.75, 0.5f);
+        var healthPercent = (double)who.health / who.maxHealth;
+        return (float)Math.Min(2 / (healthPercent + 1.5) - 0.75, 0.5f);
     }
 
     /// <summary>Affects projectile velocity, knockback, hitbox size and pierce chance for Desperado.</summary>
     public static float GetDesperadoBulletPower()
     {
-        return ModState.IsSuperModeActive
+        return ModEntry.State.Value.IsSuperModeActive
             ? 1f
-            : 1f + ModState.SuperModeGaugeValue / 10 * 0.01f;
+            : 1f + ModEntry.State.Value.SuperModeGaugeValue / 10 * 0.01f;
     }
 
     /// <summary>Affects the maximum number of bonus Slimes that can be attracted by Piper.</summary>
     public static int GetPiperSlimeSpawnAttempts()
     {
-        return ModState.IsSuperModeActive
-            ? ModState.SuperModeGaugeMaxValue / 50 + 1
-            : ModState.SuperModeGaugeValue / 50 + 1;
+        return ModEntry.State.Value.IsSuperModeActive
+            ? ModEntry.State.Value.SuperModeGaugeMaxValue / 50 + 1
+            : ModEntry.State.Value.SuperModeGaugeValue / 50 + 1;
     }
 
     /// <summary>Get the localized pronoun for the currently registered Super Mode buff.</summary>
@@ -254,12 +254,14 @@ public static class Professions
         {
             case LocalizedContentManager.LanguageCode.es:
                 return ModEntry.ModHelper.Translation.Get("pronoun.definite.female");
+
             case LocalizedContentManager.LanguageCode.fr:
             case LocalizedContentManager.LanguageCode.pt:
                 return ModEntry.ModHelper.Translation.Get("pronoun.definite" +
-                                                          (ModState.SuperModeIndex == IndexOf("Poacher")
+                                                          (ModEntry.State.Value.SuperModeIndex == IndexOf("Poacher")
                                                               ? ".male"
                                                               : ".female"));
+
             default:
                 return string.Empty;
         }

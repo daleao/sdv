@@ -1,10 +1,11 @@
-﻿using System.Linq;
-using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
+using System.Linq;
+using TheLion.Stardew.Professions.Framework.Events.Display.RenderingHud;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Player.Warped;
 
 internal class SuperModeWarpedEvent : WarpedEvent
 {
@@ -22,11 +23,11 @@ internal class SuperModeWarpedEvent : WarpedEvent
             ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarFadeOutUpdateTickedEvent),
                 typeof(SuperModeBarShakeTimerUpdateTickedEvent), typeof(SuperModeBarRenderingHudEvent));
 
-            ModState.SuperModeGaugeValue = 0;
-            ModState.SuperModeGaugeAlpha = 1f;
-            ModState.ShouldShakeSuperModeGauge = false;
+            ModEntry.State.Value.SuperModeGaugeValue = 0;
+            ModEntry.State.Value.SuperModeGaugeAlpha = 1f;
+            ModEntry.State.Value.ShouldShakeSuperModeGauge = false;
 
-            var buffID = ModEntry.Manifest.UniqueID.GetHashCode() + ModState.SuperModeIndex + 4;
+            var buffID = ModEntry.Manifest.UniqueID.GetHashCode() + ModEntry.State.Value.SuperModeIndex + 4;
             var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
             if (buff is null) return;
 

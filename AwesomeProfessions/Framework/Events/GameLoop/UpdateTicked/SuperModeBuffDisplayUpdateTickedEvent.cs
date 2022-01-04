@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
+using System.Linq;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 
 internal class SuperModeBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 {
@@ -14,16 +13,16 @@ internal class SuperModeBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
     {
-        if (ModState.SuperModeIndex <= 0)
+        if (ModEntry.State.Value.SuperModeIndex <= 0)
         {
             ModEntry.Subscriber.Unsubscribe(GetType());
             return;
         }
 
-        if (ModState.SuperModeGaugeValue < 10) return;
+        if (ModEntry.State.Value.SuperModeGaugeValue < 10) return;
 
-        var buffID = ModEntry.Manifest.UniqueID.GetHashCode() + ModState.SuperModeIndex;
-        var professionIndex = ModState.SuperModeIndex;
+        var buffID = ModEntry.Manifest.UniqueID.GetHashCode() + ModEntry.State.Value.SuperModeIndex;
+        var professionIndex = ModEntry.State.Value.SuperModeIndex;
         var professionName = Utility.Professions.NameOf(professionIndex);
         var magnitude = GetSuperModePrimaryBuffMagnitude(professionName);
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
@@ -49,7 +48,7 @@ internal class SuperModeBuffDisplayUpdateTickedEvent : UpdateTickedEvent
                     sheetIndex = professionIndex + SHEET_INDEX_OFFSET,
                     millisecondsDuration = 0,
                     description = ModEntry.ModHelper.Translation.Get(professionName.ToLower() + ".buffdesc",
-                        new {magnitude})
+                        new { magnitude })
                 });
     }
 

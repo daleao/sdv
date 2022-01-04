@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Locations;
+using System.Collections.Generic;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions;
@@ -25,10 +25,10 @@ public static class MineShaftExtensions
     public static IEnumerable<Vector2> GetLadderTiles(this MineShaft shaft)
     {
         for (var i = 0; i < shaft.Map.GetLayer("Buildings").LayerWidth; ++i)
-        for (var j = 0; j < shaft.Map.GetLayer("Buildings").LayerHeight; ++j)
-        {
-            var index = shaft.getTileIndexAt(new(i, j), "Buildings");
-            if (index.IsAnyOf(173, 174)) yield return new(i, j);
-        }
+            for (var j = 0; j < shaft.Map.GetLayer("Buildings").LayerHeight; ++j)
+            {
+                var index = shaft.getTileIndexAt(new(i, j), "Buildings");
+                if (index.IsAnyOf(173, 174)) yield return new(i, j);
+            }
     }
 }

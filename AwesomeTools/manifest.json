@@ -1,10 +1,10 @@
 ﻿{
-	"Name": "Chargeable Resource Tools",
-	"Author": "VonLoewe",
-	"Version": "1.2.1",
-	"Description": "Charge your Axe and Pickaxe to unleash a powerful shockwave!",
-	"UniqueID": "thelion.AwesomeTools",
-	"EntryDll": "AwesomeTools.dll",
-	"MinimumApiVersion": "3.13.0",
-	"UpdateKeys": [ "Nexus:7965" ]
+  "Name": "Chargeable Resource Tools",
+  "Author": "VonLoewe",
+  "Version": "1.2.1",
+  "Description": "Charge your Axe and Pickaxe to unleash a powerful shockwave!",
+  "UniqueID": "thelion.AwesomeTools",
+  "EntryDll": "AwesomeTools.dll",
+  "MinimumApiVersion": "3.13.0",
+  "UpdateKeys": [ "Nexus:7965" ]
 }

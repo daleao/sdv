@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using StardewModdingAPI.Utilities;
+﻿using StardewModdingAPI.Utilities;
 using StardewValley;
+using System.Collections.Generic;
+using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;

@@ -1,7 +1,8 @@
 ﻿using JetBrains.Annotations;
 using StardewModdingAPI.Events;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.Player.LevelChanged;
 
 [UsedImplicitly]
 internal class StaticLevelChangedEvent : LevelChangedEvent
@@ -15,7 +16,7 @@ internal class StaticLevelChangedEvent : LevelChangedEvent
         {
             // clean up rogue events and data on skill reset
             ModEntry.Subscriber.CleanUpRogueEvents();
-            ModEntry.Data.CleanUpRogueData();
+            ModEntry.Data.Value.CleanUpRogueData();
         }
         else
         {

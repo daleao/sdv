@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
@@ -72,11 +72,11 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Log($"Farming level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Farming)}", LogLevel.Info);
-        ModEntry.Log($"Fishing level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Fishing)}", LogLevel.Info);
-        ModEntry.Log($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Foraging)}", LogLevel.Info);
-        ModEntry.Log($"Mining level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Mining)}", LogLevel.Info);
-        ModEntry.Log($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Combat)}", LogLevel.Info);
+        ModEntry.Log($"Farming level: {Game1.player.GetUnmodifiedSkillLevel((int)SkillType.Farming)}", LogLevel.Info);
+        ModEntry.Log($"Fishing level: {Game1.player.GetUnmodifiedSkillLevel((int)SkillType.Fishing)}", LogLevel.Info);
+        ModEntry.Log($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel((int)SkillType.Foraging)}", LogLevel.Info);
+        ModEntry.Log($"Mining level: {Game1.player.GetUnmodifiedSkillLevel((int)SkillType.Mining)}", LogLevel.Info);
+        ModEntry.Log($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int)SkillType.Combat)}", LogLevel.Info);
     }
 
     /// <summary>Reset all skills for the local player.</summary>
@@ -194,7 +194,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModState.SuperModeIndex = -1;
+        ModEntry.State.Value.SuperModeIndex = -1;
         var professionsToRemove = Game1.player.professions.ToList();
         foreach (var professionIndex in professionsToRemove)
         {
@@ -205,7 +205,7 @@ internal static class ConsoleCommands
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
-    /// <summary>Set <see cref="ModState.SuperModeGaugeValue" /> to the max value.</summary>
+    /// <summary>Set <see cref="ModEntry.State.Value.SuperModeGaugeValue" /> to the max value.</summary>
     internal static void SetSuperModeGaugeValue(string command, string[] args)
     {
         if (!Context.IsWorldReady)
@@ -214,7 +214,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (ModState.SuperModeIndex < 0)
+        if (ModEntry.State.Value.SuperModeIndex < 0)
         {
             ModEntry.Log("You must have a level 10 combat profession.", LogLevel.Warn);
             return;
@@ -227,12 +227,12 @@ internal static class ConsoleCommands
         }
 
         if (int.TryParse(args[0], out var value))
-            ModState.SuperModeGaugeValue = Math.Min(value, ModState.SuperModeGaugeMaxValue);
+            ModEntry.State.Value.SuperModeGaugeValue = Math.Min(value, ModEntry.State.Value.SuperModeGaugeMaxValue);
         else
             ModEntry.Log("You must specify an integer value.", LogLevel.Warn);
     }
 
-    /// <summary>Set <see cref="ModState.SuperModeGaugeValue" /> to the desired value.</summary>
+    /// <summary>Set <see cref="ModEntry.State.Value.SuperModeGaugeValue" /> to the desired value.</summary>
     internal static void MaxSuperModeGaugeValue(string command, string[] args)
     {
         if (!Context.IsWorldReady)
@@ -241,18 +241,18 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (ModState.SuperModeIndex < 0)
+        if (ModEntry.State.Value.SuperModeIndex < 0)
         {
             ModEntry.Log("You must have a level 10 combat profession.", LogLevel.Warn);
             return;
         }
 
         // first raise above zero, then fill, otherwise fill event won't trigger
-        ModState.SuperModeGaugeValue = 1;
-        ModState.SuperModeGaugeValue = ModState.SuperModeGaugeMaxValue;
+        ModEntry.State.Value.SuperModeGaugeValue = 1;
+        ModEntry.State.Value.SuperModeGaugeValue = ModEntry.State.Value.SuperModeGaugeMaxValue;
     }
 
-    /// <summary>Set <see cref="ModState.SuperModeIndex" /> to a different combat profession, in case you have more than one.</summary>
+    /// <summary>Set <see cref="ModEntry.State.Value.SuperModeIndex" /> to a different combat profession, in case you have more than one.</summary>
     internal static void SetSuperModeIndex(string command, string[] args)
     {
         if (!Context.IsWorldReady)
@@ -279,19 +279,19 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModState.SuperModeIndex = Framework.Utility.Professions.IndexOf(args[0].FirstCharToUpper());
+        ModEntry.State.Value.SuperModeIndex = Framework.Utility.Professions.IndexOf(args[0].FirstCharToUpper());
     }
 
     /// <summary>Print the currently registered Super Mode profession.</summary>
     internal static void PrintSuperModeIndex(string command, string[] args)
     {
-        if (ModState.SuperModeIndex < 0)
+        if (ModEntry.State.Value.SuperModeIndex < 0)
         {
             ModEntry.Log("Not registered to any Super Mode.", LogLevel.Info);
             return;
         }
 
-        var key = Framework.Utility.Professions.NameOf(ModState.SuperModeIndex).ToLower();
+        var key = Framework.Utility.Professions.NameOf(ModEntry.State.Value.SuperModeIndex).ToLower();
         var professionDisplayName = ModEntry.ModHelper.Translation.Get(key + ".name.male");
         var buffName = ModEntry.ModHelper.Translation.Get(key + ".buff");
         ModEntry.Log($"Registered to {professionDisplayName}'s {buffName}.", LogLevel.Info);
@@ -397,8 +397,8 @@ internal static class ConsoleCommands
                 $"\n- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})");
 
         var seasonFish = from specificFishData in fishData.Values
-            where specificFishData.Split('/')[6].Contains(Game1.currentSeason)
-            select specificFishData.Split('/')[0];
+                         where specificFishData.Split('/')[6].Contains(Game1.currentSeason)
+                         select specificFishData.Split('/')[0];
 
         result += "\n\nThe following fish can be caught this season:";
         result = seasonFish.Except(caughtFishNames).Aggregate(result, (current, fish) => current + $"\n- {fish}");
@@ -422,7 +422,7 @@ internal static class ConsoleCommands
         };
         foreach (var field in fields)
         {
-            var value = ModEntry.Data.Read($"{field}");
+            var value = ModEntry.Data.Value.Read($"{field}");
             if (field == "ActiveTaxBonusPercent" && float.TryParse(value, out var pct))
                 value = (pct * 100).ToString(CultureInfo.InvariantCulture) + '%';
 
@@ -499,15 +499,15 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (!ModState.ScavengerHunt.IsActive && !ModState.ProspectorHunt.IsActive)
+        if (!ModEntry.State.Value.ScavengerHunt.IsActive && !ModEntry.State.Value.ProspectorHunt.IsActive)
         {
             ModEntry.Log("There is no Treasure Hunt currently active.", LogLevel.Warn);
             return;
         }
 
-        if (ModState.ScavengerHunt.IsActive)
+        if (ModEntry.State.Value.ScavengerHunt.IsActive)
         {
-            var v = ModState.ScavengerHunt.ChooseTreasureTile(Game1.currentLocation);
+            var v = ModEntry.State.Value.ScavengerHunt.ChooseTreasureTile(Game1.currentLocation);
             if (v is null)
             {
                 ModEntry.Log("Couldn't find a valid treasure tile after 10 tries.", LogLevel.Warn);
@@ -515,22 +515,22 @@ internal static class ConsoleCommands
             }
 
             Game1.currentLocation.MakeTileDiggable(v.Value);
-            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModState.ScavengerHunt, "TreasureTile").SetValue(v);
-            ModEntry.ModHelper.Reflection.GetField<uint>(ModState.ScavengerHunt, "Elapsed").SetValue(0);
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.Value.ScavengerHunt, "TreasureTile").SetValue(v);
+            ModEntry.ModHelper.Reflection.GetField<uint>(ModEntry.State.Value.ScavengerHunt, "Elapsed").SetValue(0);
 
             ModEntry.Log("The Scavenger Hunt was reset.", LogLevel.Info);
         }
-        else if (ModState.ProspectorHunt.IsActive)
+        else if (ModEntry.State.Value.ProspectorHunt.IsActive)
         {
-            var v = ModState.ProspectorHunt.ChooseTreasureTile(Game1.currentLocation);
+            var v = ModEntry.State.Value.ProspectorHunt.ChooseTreasureTile(Game1.currentLocation);
             if (v is null)
             {
                 ModEntry.Log("Couldn't find a valid treasure tile after 10 tries.", LogLevel.Warn);
                 return;
             }
 
-            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModState.ProspectorHunt, "TreasureTile").SetValue(v);
-            ModEntry.ModHelper.Reflection.GetField<int>(ModState.ProspectorHunt, "Elapsed").SetValue(0);
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.Value.ProspectorHunt, "TreasureTile").SetValue(v);
+            ModEntry.ModHelper.Reflection.GetField<int>(ModEntry.State.Value.ProspectorHunt, "Elapsed").SetValue(0);
 
             ModEntry.Log("The Prospector Hunt was reset.", LogLevel.Info);
         }
@@ -571,7 +571,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Data.Write("ItemsForaged", value.ToString());
+        ModEntry.Data.Value.Write("ItemsForaged", value.ToString());
         ModEntry.Log($"ItemsForaged set to {value}.", LogLevel.Info);
     }
 
@@ -584,7 +584,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Data.Write("MineralsCollected", value.ToString());
+        ModEntry.Data.Value.Write("MineralsCollected", value.ToString());
         ModEntry.Log($"MineralsCollected set to {value}.", LogLevel.Info);
     }
 
@@ -597,7 +597,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Data.Write("ProspectorStreak", value.ToString());
+        ModEntry.Data.Value.Write("ProspectorStreak", value.ToString());
         ModEntry.Log($"ProspectorStreak set to {value}.", LogLevel.Info);
     }
 
@@ -610,7 +610,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Data.Write("ScavengerStreak", value.ToString());
+        ModEntry.Data.Value.Write("ScavengerStreak", value.ToString());
         ModEntry.Log($"ScavengerStreak set to {value}.", LogLevel.Info);
     }
 
@@ -623,7 +623,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Data.Write("WaterTrashCollectedThisSeason", value.ToString());
+        ModEntry.Data.Value.Write("WaterTrashCollectedThisSeason", value.ToString());
         ModEntry.Log($"WaterTrashCollectedThisSeason set to {value}.", LogLevel.Info);
     }
 

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
+using System;
+using System.Linq;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 
 internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 {
@@ -21,15 +20,15 @@ internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
     {
-        if (ModState.DemolitionistExcitedness <= 0) ModEntry.Subscriber.Unsubscribe(GetType());
+        if (ModEntry.State.Value.DemolitionistExcitedness <= 0) ModEntry.Subscriber.Unsubscribe(GetType());
 
         if (e.Ticks % 30 == 0)
         {
-            var buffDecay = ModState.DemolitionistExcitedness > 4 ? 2 : 1;
-            ModState.DemolitionistExcitedness = Math.Max(0, ModState.DemolitionistExcitedness - buffDecay);
+            var buffDecay = ModEntry.State.Value.DemolitionistExcitedness > 4 ? 2 : 1;
+            ModEntry.State.Value.DemolitionistExcitedness = Math.Max(0, ModEntry.State.Value.DemolitionistExcitedness - buffDecay);
         }
 
-        var buffID = _buffID + ModState.DemolitionistExcitedness;
+        var buffID = _buffID + ModEntry.State.Value.DemolitionistExcitedness;
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffID);
         if (buff is not null) return;
 
@@ -43,7 +42,7 @@ internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
                 0,
                 0,
                 0,
-                ModState.DemolitionistExcitedness,
+                ModEntry.State.Value.DemolitionistExcitedness,
                 0,
                 0,
                 1,

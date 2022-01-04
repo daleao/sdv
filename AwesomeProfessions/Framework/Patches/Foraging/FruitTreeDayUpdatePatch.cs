@@ -4,7 +4,7 @@ using StardewValley;
 using StardewValley.TerrainFeatures;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
 
 [UsedImplicitly]
 internal class FruitTreeDayUpdatePatch : BasePatch

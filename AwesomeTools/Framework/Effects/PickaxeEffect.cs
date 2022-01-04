@@ -71,7 +71,7 @@ internal class PickaxeEffect : BaseEffect
             {
                 return UseToolOnTile(tool, tile, who, location);
             }
-				
+
             // clear crops
             if (dirt.crop is not null)
             {
@@ -79,7 +79,7 @@ internal class PickaxeEffect : BaseEffect
                 {
                     return UseToolOnTile(tool, tile, who, location);
                 }
-					
+
                 if (Config.ClearLiveCrops && !dirt.crop.dead.Value)
                 {
                     return UseToolOnTile(tool, tile, who, location);

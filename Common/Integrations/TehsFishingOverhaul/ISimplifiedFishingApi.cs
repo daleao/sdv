@@ -1,5 +1,5 @@
-﻿using System;
-using StardewValley;
+﻿using StardewValley;
+using System;
 
 namespace TheLion.Stardew.Professions.Integrations;
 

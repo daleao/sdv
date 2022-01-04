@@ -1,8 +1,8 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewModdingAPI;
+using System;
 using System.Linq;
 using System.Reflection;
-using HarmonyLib;
-using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Patches;
 
@@ -42,9 +42,9 @@ internal class HarmonyPatcher
         ModEntry.Log("[HarmonyPatcher]: Gathering patches...", LogLevel.Trace);
         var patches = AccessTools.GetTypesFromAssembly(Assembly.GetAssembly(typeof(IPatch)))
             .Where(t => t.IsAssignableTo(typeof(IPatch)) && !t.IsAbstract).ToList();
-        
+
         ModEntry.Log($"[HarmonyPatcher]: Found {patches.Count} patch classes. Applying patches...", LogLevel.Trace);
-        foreach (var patch in patches.Select(t => (IPatch) t.Constructor().Invoke(Array.Empty<object>())))
+        foreach (var patch in patches.Select(t => (IPatch)t.Constructor().Invoke(Array.Empty<object>())))
             patch.Apply(Harmony);
 
         var message = $"[HarmonyPatcher]: Done.\nApplied {AppliedPrefixCount}/{TotalPrefixCount} prefixes.";
@@ -52,7 +52,7 @@ internal class HarmonyPatcher
 
         message += $"\nApplied {AppliedPostfixCount}/{TotalPostfixCount} postfixes.";
         if (AppliedPostfixCount < TotalPostfixCount) message += $" {IgnoredPostfixCount} ignored. {FailedPostfixCount} failed.";
-        
+
         message += $"\nApplied {AppliedTranspilerCount}/{TotalTranspilerCount} transpilers.";
         if (AppliedTranspilerCount < TotalTranspilerCount) message += $" {IgnoredTranspilerCount} ignored. {FailedTranspilerCount} failed.";
 

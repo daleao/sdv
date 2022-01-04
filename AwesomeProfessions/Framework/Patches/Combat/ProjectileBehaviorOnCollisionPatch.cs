@@ -8,7 +8,7 @@ using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class ProjectileBehaviorOnCollisionPatch : BasePatch
@@ -29,8 +29,8 @@ internal class ProjectileBehaviorOnCollisionPatch : BasePatch
         if (__instance is not BasicProjectile basic) return;
 
         var hashCode = basic.GetHashCode();
-        ModState.BouncedBullets.Remove(hashCode);
-        if (ModState.AuxiliaryBullets.Remove(hashCode)) return;
+        ModEntry.State.Value.BouncedBullets.Remove(hashCode);
+        if (ModEntry.State.Value.AuxiliaryBullets.Remove(hashCode)) return;
 
         var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
         if (!firer.HasProfession("Rascal")) return;
@@ -39,7 +39,7 @@ internal class ProjectileBehaviorOnCollisionPatch : BasePatch
                 SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
             || ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
             location.debris.Add(new(___currentTileSheetIndex.Value - 1,
-                new((int) ___position.X, (int) ___position.Y), firer.getStandingPosition()));
+                new((int)___position.X, (int)___position.Y), firer.getStandingPosition()));
     }
 
     #endregion harmony patches

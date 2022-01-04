@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Farming;
 
 [UsedImplicitly]
 internal class FarmAnimalDayUpdatePatch : BasePatch
@@ -45,7 +45,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .FindFirst( // find index of FarmAnimal.type.Value.Equals("Sheep")
                     new CodeInstruction(OpCodes.Ldstr, "Sheep"),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)}))
+                        typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) }))
                 )
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
@@ -108,7 +108,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Math).MethodNamed(nameof(Math.Round), new[] {typeof(double)})),
+                        typeof(Math).MethodNamed(nameof(Math.Round), new[] { typeof(double) })),
                     new CodeInstruction(OpCodes.Conv_U1)
                 );
         }
@@ -135,7 +135,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .Return()
                 .Retreat()
                 .Insert( // insert unconditional branch to skip this whole section
-                    new CodeInstruction(OpCodes.Br_S, (Label) resumeExecution2)
+                    new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution2)
                 );
         }
         catch (Exception ex)

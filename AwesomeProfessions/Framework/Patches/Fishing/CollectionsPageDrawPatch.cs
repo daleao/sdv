@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class CollectionsPageDrawPatch : BasePatch
@@ -21,7 +21,7 @@ internal class CollectionsPageDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal CollectionsPageDrawPatch()
     {
-        Original = RequireMethod<CollectionsPage>(nameof(CollectionsPage.draw), new[] {typeof(SpriteBatch)});
+        Original = RequireMethod<CollectionsPage>(nameof(CollectionsPage.draw), new[] { typeof(SpriteBatch) });
     }
 
     #region harmony patches
@@ -72,9 +72,9 @@ internal class CollectionsPageDrawPatch : BasePatch
 
         var currentPage = page.currentPage;
         foreach (var c in from c in page.collections[currentTab][currentPage]
-                 let index = Convert.ToInt32(c.name.Split(' ')[0])
-                 where Game1.player.HasCaughtMaxSized(index)
-                 select c)
+                          let index = Convert.ToInt32(c.name.Split(' ')[0])
+                          where Game1.player.HasCaughtMaxSized(index)
+                          select c)
         {
             var destRect = new Rectangle(c.bounds.Right - Utility.Textures.MaxIconWidth,
                 c.bounds.Bottom - Utility.Textures.MaxIconHeight, Utility.Textures.MaxIconWidth,

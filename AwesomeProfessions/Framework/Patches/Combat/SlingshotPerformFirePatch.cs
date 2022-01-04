@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class SlingshotPerformFirePatch : BasePatch
@@ -56,15 +57,15 @@ internal class SlingshotPerformFirePatch : BasePatch
         var velocity = new Vector2(xVelocity * -1f, yVelocity * -1f);
         var speed = velocity.Length();
         velocity.Normalize();
-        if (who.IsLocalPlayer && ModState.IsSuperModeActive &&
-            ModState.SuperModeIndex == Utility.Professions.IndexOf("Desperado"))
+        if (who.IsLocalPlayer && ModEntry.State.Value.IsSuperModeActive &&
+            ModEntry.State.Value.SuperModeIndex == Utility.Professions.IndexOf("Desperado"))
         {
             // do Death Blossom
             for (var i = 0; i < 7; ++i)
             {
                 velocity.Rotate(45);
                 var blossom = new BasicProjectile(damage, ammunitionIndex, 0, 0,
-                    (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
+                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
                     0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
                     true, location, who, true, collisionBehavior)
                 {
@@ -73,7 +74,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                 };
 
                 location.projectiles.Add(blossom);
-                ModState.AuxiliaryBullets.Add(blossom.GetHashCode());
+                ModEntry.State.Value.AuxiliaryBullets.Add(blossom.GetHashCode());
             }
         }
         else if (Game1.random.NextDouble() < Utility.Professions.GetDesperadoDoubleStrafeChance(who))
@@ -83,7 +84,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                 // do Spreadshot
                 velocity.Rotate(15);
                 var clockwise = new BasicProjectile(damage, ammunitionIndex, 0, 0,
-                    (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
+                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
                     0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
                     true, location, who, true, collisionBehavior)
                 {
@@ -92,11 +93,11 @@ internal class SlingshotPerformFirePatch : BasePatch
                 };
 
                 location.projectiles.Add(clockwise);
-                ModState.AuxiliaryBullets.Add(clockwise.GetHashCode());
+                ModEntry.State.Value.AuxiliaryBullets.Add(clockwise.GetHashCode());
 
                 velocity.Rotate(-30);
                 var anticlockwise = new BasicProjectile(damage, ammunitionIndex, 0, 0,
-                    (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
+                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
                     0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
                     true, location, who, true, collisionBehavior)
                 {
@@ -105,13 +106,13 @@ internal class SlingshotPerformFirePatch : BasePatch
                 };
 
                 location.projectiles.Add(anticlockwise);
-                ModState.AuxiliaryBullets.Add(anticlockwise.GetHashCode());
+                ModEntry.State.Value.AuxiliaryBullets.Add(anticlockwise.GetHashCode());
             }
             else
             {
                 // do double strafe
-                var secondary = new BasicProjectile((int) (damage.Value * 0.6f), ammunitionIndex, 0, 0,
-                    (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
+                var secondary = new BasicProjectile((int)(damage.Value * 0.6f), ammunitionIndex, 0, 0,
+                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
                     0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
                     true, location, who, true, collisionBehavior)
                 {
@@ -124,7 +125,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                     location.projectiles.Add(secondary);
                 });
                 Game1.delayedActions.Add(doubleStrafe);
-                ModState.AuxiliaryBullets.Add(secondary.GetHashCode());
+                ModEntry.State.Value.AuxiliaryBullets.Add(secondary.GetHashCode());
             }
         }
     }
@@ -136,7 +137,7 @@ internal class SlingshotPerformFirePatch : BasePatch
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: if (who.IsLocalPlayer && location.IsCombatZone() && ModStateIndex == <desperado_id> && !IsModStateActive)
+        /// Injected: if (who.IsLocalPlayer && location.IsCombatZone() && SuperModeIndex == <desperado_id> && !IsSuperModeActive)
         ///				v *= GetDesperadoBulletPower();
         ///				if (Game1.currentTime.TotalGameTime.TotalSeconds - this.pullStartTime <= GetDesperadoChargeTime()* breathingRoom) { SuperModeCounter += 10; }
         ///				else { SuperModeCounter += 2 }
@@ -174,13 +175,21 @@ internal class SlingshotPerformFirePatch : BasePatch
                     new CodeInstruction(OpCodes.Call,
                         typeof(GameLocationExtensions).MethodNamed(nameof(GameLocationExtensions.IsCombatZone))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // check if ModStateIndex == <desperado_id>
+                    // check if SuperModeIndex == <desperado_id>
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperModeIndex))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, Utility.Professions.IndexOf("Desperado")),
                     new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution),
                     // check if IsSuperModeActive = true
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.IsSuperModeActive))),
                     new CodeInstruction(OpCodes.Brtrue_S, resumeExecution),
                     // v.X *= GetDesperadoBulletPower()
@@ -226,9 +235,18 @@ internal class SlingshotPerformFirePatch : BasePatch
                     new CodeInstruction(OpCodes.Bgt_S, notQuickShot),
                     // increment Temerity gauge
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Dup),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeValue))),
                     new CodeInstruction(OpCodes.Ldc_R8, 10.0), // <-- increment amount
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeMaxValue))),
                     new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Ldc_R8, 500.0),
@@ -236,17 +254,26 @@ internal class SlingshotPerformFirePatch : BasePatch
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Conv_I4),
                     new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertySetter(nameof(ModState.SuperModeGaugeValue))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .Insert(
-                    new[] {notQuickShot},
+                    new[] { notQuickShot },
                     // increment Temerity gauge
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Dup),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeValue))),
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0), // <-- increment amount
                     new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperModeGaugeMaxValue))),
                     new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Ldc_R8, 500.0),
@@ -254,7 +281,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Conv_I4),
                     new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertySetter(nameof(ModState.SuperModeGaugeValue)))
                 )
                 .AddLabels(resumeExecution); // branch here if is not desperado or can't quick fire

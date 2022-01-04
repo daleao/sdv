@@ -1,7 +1,7 @@
-﻿using System;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
+using System;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -24,11 +24,11 @@ internal class Game1ShouldTimePassPatch : BasePatch
     [HarmonyPrefix]
     private static bool Game1ShouldTimePassPrefix(ref bool __result)
     {
-        if ((ModState.ProspectorHunt is null || !ModState.ProspectorHunt.IsActive ||
+        if ((ModEntry.State.Value.ProspectorHunt is null || !ModEntry.State.Value.ProspectorHunt.IsActive ||
              !Game1.player.HasPrestigedProfession("Prospector")) &&
-            (ModState.ScavengerHunt is null || !ModState.ScavengerHunt.IsActive ||
+            (ModEntry.State.Value.ScavengerHunt is null || !ModEntry.State.Value.ScavengerHunt.IsActive ||
              !Game1.player.HasPrestigedProfession("Scavenger"))) return true; // run original logic
-        
+
         __result = false;
         return false; // don't run original logic
     }

@@ -1,20 +1,19 @@
-﻿using System;
+﻿using HarmonyLib;
+using StardewModdingAPI;
+using StardewValley;
+using StardewValley.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using StardewModdingAPI;
-using StardewValley;
-using StardewValley.Tools;
-using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
 
 internal class GameLocationGetFishPatch : BasePatch
 {
@@ -63,7 +62,7 @@ internal class GameLocationGetFishPatch : BasePatch
                 )
                 .AddLabels(shouldntReroll) // branch here if shouldn't reroll
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
                     new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
                     new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),
                     new CodeInstruction(OpCodes.Call,
