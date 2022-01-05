@@ -103,12 +103,12 @@ internal static class HarmonyPatcher
             var l = instructions.ToList();
             for (int i = 0; i < l.Count; ++i)
             {
-                if (l[i].opcode == OpCodes.Isinst && l[i].operand?.ToString() == "StardewValley.Tools.Pickaxe")
-                {
-                    // inject branch over toolPower += 2
-                    l.Insert(i - 2, new CodeInstruction(OpCodes.Br_S, l[i + 1].operand));
-                    break;
-                }
+                if (l[i].opcode != OpCodes.Isinst ||
+                    l[i].operand?.ToString() != "StardewValley.Tools.Pickaxe") continue;
+                
+                // inject branch over toolPower += 2
+                l.Insert(i - 2, new CodeInstruction(OpCodes.Br_S, l[i + 1].operand));
+                break;
             }
 
             return l.AsEnumerable();
@@ -124,17 +124,15 @@ internal static class HarmonyPatcher
             if (__instance.UpgradeLevel < Tool.copper)
                 return;
 
-            if (__instance is Axe or Pickaxe)
-            {
-                __result.Clear();
+            if (__instance is not (Axe or Pickaxe)) return;
+            
+            __result.Clear();
+            int radius = __instance is Axe ? AxeAffectedTilesRadii[Math.Min(power - 2, 4)] : PickaxeAffectedTilesRadii[Math.Min(power - 2, 4)];
+            if (radius == 0)
+                return;
 
-                int radius = __instance is Axe ? AxeAffectedTilesRadii[Math.Min(power - 2, 4)] : PickaxeAffectedTilesRadii[Math.Min(power - 2, 4)];
-                if (radius == 0)
-                    return;
-
-                var grid = new CircleTileGrid(tileLocation, radius);
-                __result.AddRange(grid);
-            }
+            var grid = new CircleTileGrid(tileLocation, radius);
+            __result.AddRange(grid);
         }
     }
 

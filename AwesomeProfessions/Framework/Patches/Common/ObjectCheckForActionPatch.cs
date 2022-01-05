@@ -36,7 +36,7 @@ internal class ObjectCheckForActionPatch : BasePatch
     [HarmonyPostfix]
     private static void ObjectCheckForActionPostfix(SObject __instance, bool __state, Farmer who)
     {
-        if (__state && __instance.heldObject.Value is null && __instance.ParentSheetIndex == 128 &&
+        if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession("Ecologist"))
             ModEntry.Data.Value.Increment<uint>("ItemsForaged");
     }

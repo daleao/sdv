@@ -30,12 +30,12 @@ internal class CrystalariumMachineGetOutputPatch : BasePatch
     [HarmonyPostfix]
     private static void CrystalariumMachineGetOutputPostfix(object __instance)
     {
-        if (__instance is null) return;
+        if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
         var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
         if (machine?.heldObject.Value is null) return;
 
-        var who = Game1.getFarmer(machine.owner.Value);
+        var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!who.IsLocalPlayer || !who.HasProfession("Gemologist") ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 

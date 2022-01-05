@@ -35,11 +35,13 @@ internal class GeodeCrusherMachineSetInputPatch : BasePatch
         var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
         if (machine?.heldObject.Value is null) return;
 
-        var who = Game1.getFarmer(machine.owner.Value);
+        var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!who.IsLocalPlayer || !who.HasProfession("Gemologist") ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
         machine.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
+        if (!ModEntry.Config.ShouldCountAutomatedHarvests) return;
+
         ModEntry.Data.Value.Increment<uint>("MineralsCollected");
     }
 

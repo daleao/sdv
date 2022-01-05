@@ -29,6 +29,12 @@ public static class SObjectExtensions
                || Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex);
     }
 
+    /// <summary>Whether a given object is a mushroom box.</summary>
+    public static bool IsMushroomBox(this SObject obj)
+    {
+        return obj.bigCraftable.Value && obj.ParentSheetIndex == 128;
+    }
+
     /// <summary>Whether a given object is salmonberry or blackberry.</summary>
     public static bool IsWildBerry(this SObject obj)
     {
@@ -87,7 +93,7 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is algae or seaweed.</summary>
     public static bool IsAlgae(this SObject obj)
     {
-        return obj.ParentSheetIndex.IsAnyOf(152, 153, 157);
+        return obj.ParentSheetIndex is 152 or 153 or 157;
     }
 
     /// <summary>Whether a given object is a trash.</summary>

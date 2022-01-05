@@ -142,7 +142,7 @@ internal static class ConsoleCommands
         if (prestige) args = args.Skip(1).ToArray();
 
         List<int> professionsToAdd = new();
-        foreach (var arg in args)
+        foreach (var arg in args.Select(a => a.ToLower()))
         {
             if (arg == "all")
             {
@@ -267,6 +267,7 @@ internal static class ConsoleCommands
             return;
         }
 
+        args[0] = args[0].ToLower();
         if (!args[0].IsAnyOf("brute", "poacher", "desperado", "piper"))
         {
             ModEntry.Log("You must specify a valid level 10 combat profession.", LogLevel.Warn);
@@ -454,7 +455,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        switch (args[0])
+        switch (args[0].ToLower())
         {
             case "itemsforaged":
                 SetItemsForaged(value);
@@ -477,7 +478,12 @@ internal static class ConsoleCommands
                 break;
 
             default:
-                ModEntry.Log($"'{args[0]}' is not a settable data field.", LogLevel.Warn);
+                var message = $"'{args[0]}' is not a settable data field.\nAvailable data fields:";
+                message += "\n\t- MineralsCollected";
+                message += "\n\t- ItemsForaged";
+                message += "\n\t- ProspectorStreak";
+                message += "\n\t- WaterTrashCollectedThisSeason";
+                ModEntry.Log(message, LogLevel.Warn);
                 break;
         }
     }

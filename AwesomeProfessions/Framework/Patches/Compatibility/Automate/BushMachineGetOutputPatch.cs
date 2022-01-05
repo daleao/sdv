@@ -5,7 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using StardewValley;
 using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Extensions;
+using Object = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.Automate;
 
@@ -27,6 +30,21 @@ internal class BushMachineGetOutputPatch : BasePatch
     }
 
     #region harmony patches
+
+    /// <summary>Patch for automated Berry Bush forage increment.</summary>
+    [HarmonyPostfix]
+    private static void BushMachineGetOutputPostfix(object __instance)
+    {
+        if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
+
+        var machine = ModEntry.ModHelper.Reflection.GetProperty<Object>(__instance, "Machine").GetValue();
+        if (machine is null) return;
+
+        var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
+        if (!who.IsLocalPlayer || !who.HasProfession("Ecologist")) return;
+
+        ModEntry.Data.Value.Increment<uint>("ItemsForaged");
+    }
 
     /// <summary>Patch for automated Berry Bush quality.</summary>
     [HarmonyTranspiler]

@@ -1,13 +1,12 @@
-﻿using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
-using StardewValley;
-using StardewValley.TerrainFeatures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewValley;
+using StardewValley.TerrainFeatures;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
@@ -73,11 +72,9 @@ internal class BushShakePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModData>).PropertyGetter(nameof(PerScreen<ModData>.Value))),
                     new CodeInstruction(OpCodes.Ldstr, "ItemsForaged"),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string) })
+                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] {typeof(string)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseEcologistCounter);

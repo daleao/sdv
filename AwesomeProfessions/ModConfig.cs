@@ -29,6 +29,9 @@ public class ModConfig
     /// <summary>You must mine this many minerals before your mined minerals become iridium-quality.</summary>
     public uint MineralsNeededForBestQuality { get; set; } = 500;
 
+    /// <summary>If enabled, Automated machines will contribute toward ItemsForaged and MineralsCollected.</summary>
+    public bool ShouldCountAutomatedHarvests { get; set; } = false;
+
     /// <summary>The chance that a scavenger or prospector hunt will trigger in the right conditions.</summary>
     public double ChanceToStartTreasureHunt { get; set; } = 0.2;
 
