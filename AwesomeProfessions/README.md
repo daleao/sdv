@@ -26,7 +26,7 @@
         <li><a href="#combat">Combat</a></li>
       </ul>
     </li>
-    <li><a href="#supermode">Super Mode</a></li>
+    <li><a href="#super-mode">Super Mode</a></li>
     <li><a href="#prestige">Prestige</a></li>
     <li><a href="#extended-progression">Extended Progression</a></li>
     <li><a href="#compatibility">Compatibility</a></li>
