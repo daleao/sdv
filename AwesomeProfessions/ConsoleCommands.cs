@@ -473,11 +473,7 @@ internal static class ConsoleCommands
                 break;
 
             default:
-                var message = $"'{args[0]}' is not a settable data field.\nAvailable data fields:";
-                message += "\n\t- MineralsCollected";
-                message += "\n\t- ItemsForaged";
-                message += "\n\t- ProspectorStreak";
-                message += "\n\t- WaterTrashCollectedThisSeason";
+                var message = $"'{args[0]}' is not a settable data field.\n" + GetAvailableDataFields();
                 ModEntry.Log(message, LogLevel.Warn);
                 break;
         }
@@ -557,9 +553,22 @@ internal static class ConsoleCommands
     /// <summary>Tell the dummies how to use the console command.</summary>
     private static string GetUsageForSetModData()
     {
-        var result = "\n\nUsage: wol_setdata <name> <value>";
+        var result = "\n\nUsage: wol_setdata <field> <value>";
         result += "\n\nExample:";
-        result += "\n\twol_setdata itemsforaged 100";
+        result += "\n\twol_setdata ItemsForaged 100";
+        result += "\n\n" + GetAvailableDataFields();
+        return result;
+    }
+
+    /// <summary>Tell the dummies which fields they can set.</summary>
+    private static string GetAvailableDataFields()
+    {
+        var result = "Available data fields:";
+        result += "\n\t- ItemsForaged";
+        result += "\n\t- MineralsCollected";
+        result += "\n\t- ScavengerHuntStreak";
+        result += "\n\t- ProspectorHuntStreak";
+        result += "\n\t- WaterTrashCollectedThisSeason";
         return result;
     }
 

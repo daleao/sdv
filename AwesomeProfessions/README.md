@@ -26,6 +26,7 @@
         <li><a href="#combat">Combat</a></li>
       </ul>
     </li>
+    <li><a href="#supermode">Super Mode</a></li>
     <li><a href="#prestige">Prestige</a></li>
     <li><a href="#extended-progression">Extended Progression</a></li>
     <li><a href="#compatibility">Compatibility</a></li>
@@ -54,13 +55,13 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - Level 5 professions provide simple early-game buffs that benefit most styles of general gameplay.
 - Level 10 professions are more specialized and engaging, providing two bonuses which change the way you play.
 - Professions are more consistent across the board, with several analogous perks and synergies.
-- Combat professions have unique [Ultimates](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode)
-- Lore-friendly multi-profession.
-- Level 20 skills and prestiged professions.
+- _[Optional]_ Lore-friendly multi-profession.
+- _[Optional]_ Level 20 skills and prestiged professions.
 - Lightweight. This mod is built with a dynamic event handling system to avoid overhead.
 - Gender-specific profession title.
 - New icons for most professions, courtesy of [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) (please make sure to [endorse their original](https://www.nexusmods.com/stardewvalley/mods/4163) mod).
 - New sound effects for certain professions.
+- _[Optional]_ Rebalanced Fish Ponds.
 
 ## Professions
 
@@ -133,43 +134,35 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
-The combat tree has received a much more extensive overhaul.  In addition to their primary fixed perks, level 10 combat professions each have a unique "stackable" secondary perk. Once the maximum stacks have been collected, these professions may sacrifice all stacks to activate a powerful [Super Mode](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode) for a short duration. A new bar has been added to the HUD to help you keep track of current stacks. Only a single profession's Super Mode may be registered at any time; if a player gains multiple combat professions from skill reseting, only base perks will apply, and not the stackable secondary perk or Super Mode. The player will prompted during level up whether they wish to replace their current Super Mode with the new professions'.
-
 - **Lv5 - Fighter** - Damage +10% *(+20%)*. +15 HP.
     - _Unchanged from vanilla._
 - **Lv10 - Brute** - Damage +15%. +25 HP. Build fury in combat, further increasing damage. *Non-profession-based damage bonuses also decrease special move cooldown.*
-    - **Fury:**
-        - Damage bonus caps at +40% at Combat level 10.
-		- Fury builds faster if wielding a club.
-    - Unleash all pent-up fury to enter an **Undying Rage:** Doubles all damage bonuses. Immune to passing out.
-        - Doubled damage bonuses include all sources, such as professions, rings and enchantments.
+    - **Fury:** Damage bonus caps at +40% at Combat level 10. Fury builds faster if wielding a club.Unleash all pent-up fury to enter an **Undying Rage.**
 - **Lv10 - Bushwhacker** - +10% crit. chance. Crit. strikes can poach items. Your blood cools in battle, increasing lethality of crit. strikes. *Non-profession-based damage bonuses also decrease special move cooldown.*
     - Monsters can only be poached once.
-    - **Cold Blood:**
-        - Crit. power bonus caps at ×3 at Combat level 10.
-		- Cold blood builds faster if wielding a dagger. Steal chance is also higher with a dagger.
-    - Your cold blood masks your presence, allowing you to mount an **Ambuscade:** Become invisible and untargetable. Back stabs are deadly.
-		- Failing to assassinate an enemy will instantly reveal your position, canceling the effect.
+    - **Cold Blood:** Crit. power bonus caps at ×3 at Combat level 10. Chance to steal is higher and cold blood builds faster if wielding a dagger. Your cold blood masks your presence, allowing you to mount an **Ambuscade.**
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo. *Trick shots stun enemies for 5s.*
-    - In Vanilla, slingshots are unable to hit enemies that are near the Farmer. As a way to improve slingshot combat, this mod also removes the grace period before a shot is allowed to deal damage. All professions are affected.
+    - In Vanilla, slingshots are unable to hit enemies that are near the Farmer. This mod improves slingshot combat by removing this grace period before a shot is allowed to deal damage. All professions are affected.
     -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but can ricochet once._
 - **Lv10 - Desperado** - Fire 50% faster. Chance to fire a double shot *(spread shot)*, based on current HP. Built-up temerity increases projectile cross section and impact power.
-    - **Temerity:**
-        - Projectiles are fired with gradually increasing velocity. Higher velocity projectiles have several properties:
-            - Increased knockback (up to 1.5x).
-            - Chance to pierce through enemies (up to 25%).
-            - Increased hitbox, by affecting the air around them, damaging nearby enemies even if they miss (up to 50% on either side).
-    - Your temerity culminates in one final desperate **Death Blossom:** Enables auto-reload. Fire eight shots around you at once.
+    - **Temerity:**  Projectiles are fired with increasingly more power. Sufficiently powerful projectiles have higher knockback, can damage enemies around them even if they miss, and can even pierce through enemies, damaging others behind them. Temerity builds faster from quick shots (release immediately as soon as the slingshot is charged). Your temerity culminates in one _desperate_ **Death Blossom.**
 - **Lv10 - Slimed Piper** - Slimes damage other enemies and drop more items the more Slimes are raised on the farm. Gathered eubstance attracts more Slimes in dungeons. *Slimes also heal you on contact.*
-    - Slimes cannot damage flying enemies.
-    - Each Slime raised on the farm, either in a hutch or outside, increases the chance for Slimes to drop additional items.
-    - Bonus: immune to the Slimed debuff.
-    - **Eubstance:**
-        - Every dungeon floor can spawn up to 11 additional Slimes.
-    - Spread all gathered Eubstance to nearby Slimes, allowing them to enter a state of **Superfluidity:** Engorge and empower nearby Slimes.
-        - Causes Slimes to grow up to twice their size and gain a proportional damage boost.
-        - Large enough Slimes can hit flying enemies, and break into smaller Slimes if defeated.
-        - Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant.
+    - Slimes cannot damage flying enemies. Each Slime raised on the farm, either in a hutch or outside, increases the chance for Slimes to drop additional items.
+    - _Bonus: immune to the Slimed debuff._
+    - **Eubstance:** Every dungeon floor can spawn a number of additional Slimes. Spread all gathered Eubstance to nearby Slimes, allowing them to enter a state of **Superfluidity.**
+
+## Super Mode
+
+The Combat tree has received a much more extensive overhaul. In addition to their primary fixed perks, level 10 combat professions each have a unique "stackable" secondary perk (Fury, Cold Blood, Temerity, Eubstance). Once the maximum stacks have been collected, these professions may sacrifice all stacks to activate a powerful [Super Mode](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode) for a short duration. A new bar has been added to the HUD to help you keep track of current stacks. Only a single profession's Super Mode may be registered at any time; if a player gains multiple combat professions from skill reseting, only base perks will apply, and not the stackable secondary perk or Super Mode. The player will be prompted during level up whether they wish to replace their current Super Mode with the new professions'.
+
+- **Brute / Amazon - Undying Rage** - Doubles all damage bonuses. Immune to passing out.
+  - Doubled damage bonuses include profession, rings and enchantments.
+- **Bushwhacker - Ambuscade** - Become invisible and untargetable. Back stabs are deadly.
+  - An attack from behind will 1-hit KO. However, a missed back-attack will reveal your position if the target survives, ending the Super Mode.
+- **Desperado - Death Blossom** - Enable auto-reload. Fire in eight directions at once.
+  - Journey of the Prairie King, "IRL".
+- **Slimed Piper / Slime Enchantress - Superfluidity** - Engorge and empower nearby Slimes.
+  - Slimes scale up by a random factor up to twice their original size, with a proportional damage boost. Slimes that grow large enough can hit even flying enemies, and break up into baby Slimes when defeated. Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant. Big Slimes in the area explode immediately.
 
 ## Prestige
 
@@ -179,6 +172,8 @@ Reseting a skill costs 10,000g the first time, 50,000g the second time, and 100,
 Once the ribbon has reached its fourth stage, signaling that all professions have been obtained, its level cap is raised to 20, allowing the farmer to continue developing tool proficiency or max health. Skill level also affects the odds of higher quality crops and fishes, the amount of berries foraged per bush, and the duration of Super Mode and related perks. Non-vanilla skills at the moment are not supported by prestige.
  
 At levels 15 and 20, the farmer can choose a profession to prestige, improving one of its base perks, or, in some cases, granting entirely new ones. These choices can later be changed at the Statue of Prestige, for a cost.
+
+All Prestige features are optional and may be disabled or customized in the configs.
 
 ## Compatbility
 
