@@ -189,11 +189,14 @@ The following mods are fully integrated:
 - PPJA Packs: [Artisan Valley﻿](https://www.nexusmods.com/stardewvalley/mods/1926), [Artisanal Soda Makers](https://www.nexusmods.com/stardewvalley/mods/5173)﻿, [Fizzy Drinks](https://www.nexusmods.com/stardewvalley/mods/5342)﻿, [Fresh Meat﻿](https://www.nexusmods.com/stardewvalley/mods/1721), [Shaved Ice & Frozen Treats](https://www.nexusmods.com/stardewvalley/mods/5388) will all work with Artisan profession.﻿.
 - [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (download the optional translation files to change profession names under skill cheats).
 - [Teh's Fishing Overhaul](https://www.nexusmods.com/stardewvalley/mods/866/)
+- [Mushroom Propagator](https://www.nexusmods.com/stardewvalley/mods/4637)
 - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098)
 - [Vintage Interface](https://www.nexusmods.com/stardewvalley/mods/6654)
 
 The following mods are compatible without integration:
 - [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069)
+- [Craftable Mushroom Boxes](https://www.nexusmods.com/stardewvalley/mods/10296)
+- [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) (just make sure BerryBushQuality and MushroomBoxQuality are disabled to avoid interfering with Ecologist profession; if both mods are installed, those settings should be disabled by default).
 - [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636) (though I don't recommend it if prestige and extended progression options are enabled).
 - Custom SpaceCore skills (e.g. [Luck](https://www.nexusmods.com/stardewvalley/mods/521), [Magic](https://www.nexusmods.com/stardewvalley/mods/2007), [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)) (note that these skills cannot be prestiged).
 
@@ -203,7 +206,6 @@ The mods are **not** compatible:
 - Any mods that change vanilla skills.
 - [Better Crab Pots](https://www.nexusmods.com/stardewvalley/mods/3159), [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767) or any mod that affects Crab Pot behavior.
 - [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but makes Artisan profession redundant; all features are already included). 
-- [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) (mushroom box quality is already included; other features may cause bad interactions with foraging professions).
 - [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (use included prestige or console commands instead).
 - [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (now also included).
 
@@ -245,6 +247,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **PrestigeRespecCost** (integer) - Monetary cost of respecing prestige profession choices for a skill.
 - **ChangeUltCost** (integer) - Monetary cost of changing the combat ultimate.
 - **UseVintageSkillBars** (boolean) - Set to true if you use the Vintage Interface﻿ mod. Makes the skill bars above level 10 a light pink. You can use this with the brown version of Vintage Interface. If you want to use the pink version you will have to recolor the file `assets/menus/skillbars_vintage.png` by yourself.
+- **EnableFishPondRebalance** (boolean) - Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.
 
 ## Console Commands
 
@@ -265,7 +268,7 @@ The mod provides the following console commands, which you can enter in the SMAP
 - **wol_data** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, TrashCollectedThisSeason, ActiveTaxBonusPercent).
 - **wol_setdata** - Set a new value for one of the mod data fields above.
 - **wol_events** - List currently subscribed mod events (for debugging).
-- **wol_resetthehunt** - Forcefully reset the currently active Treasure Hunt with a new target treasure tile.
+- **wol_resetthehunt** - Forcefully reset the currently active Treasure Hunt and choose a new target treasure tile.
 
 ## Recommended Mods
 
