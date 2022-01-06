@@ -81,9 +81,9 @@ internal class CheesePressMachineSetInput : BasePatch
 
         if (consumable.GetType().GetProperty("Sample")?.GetValue(consumable) is not SObject input) return;
 
-        var output = machine.heldObject.Value;
         // large milk gives double output at normal quality
-        if (output.Name.ContainsAnyOf("Large", "L."))
+        var output = machine.heldObject.Value;
+        if (input.Name.ContainsAnyOf("Large", "L."))
         {
             output.Stack = 2;
             output.Quality = SObject.lowQuality;

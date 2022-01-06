@@ -7,6 +7,8 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.UiInfoSuit
 [UsedImplicitly]
 internal class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch
 {
+    private const int EXP_AT_LEVEL_TEN_I = 15000;
+
     /// <summary>Construct an instance.</summary>
     internal ExperienceBarGetExperienceRequiredToLevelPatch()
     {
@@ -26,9 +28,9 @@ internal class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch
     [HarmonyPrefix]
     private static bool GetExperienceRequiredToLevelPrefix(ref int __result, int currentLevel)
     {
-        if (currentLevel <= 10) return true; // run original logic
+        if (currentLevel < 10) return true; // run original logic
 
-        __result = (int)ModEntry.Config.RequiredExpPerExtendedLevel;
+        __result = EXP_AT_LEVEL_TEN_I + (currentLevel - 10 + 1) * (int)ModEntry.Config.RequiredExpPerExtendedLevel;
         return false; // don't run original logic
     }
 

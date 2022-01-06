@@ -416,14 +416,9 @@ internal static class ConsoleCommands
             return;
         }
 
-        var fields = new[]
+        foreach (var field in ModData.ProfessionByDataField.Keys)
         {
-            "ItemsForaged", "MineralsCollected", "ProspectorStreak", "ScavengerStreak",
-            "WaterTrashCollectedThisSeason", "ActiveTaxBonusPercent"
-        };
-        foreach (var field in fields)
-        {
-            var value = ModEntry.Data.Value.Read($"{field}");
+            var value = ModData.Read($"{field}");
             if (field == "ActiveTaxBonusPercent" && float.TryParse(value, out var pct))
                 value = (pct * 100).ToString(CultureInfo.InvariantCulture) + '%';
 
@@ -474,7 +469,7 @@ internal static class ConsoleCommands
                 break;
 
             case "watertrashcollectedthisseason":
-                SetWaterTrashCollectedThisSeason(value);
+                SetTrashCollectedThisSeason(value);
                 break;
 
             default:
@@ -577,7 +572,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Data.Value.Write("ItemsForaged", value.ToString());
+        ModData.Write("ItemsForaged", value.ToString());
         ModEntry.Log($"ItemsForaged set to {value}.", LogLevel.Info);
     }
 
@@ -590,7 +585,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Data.Value.Write("MineralsCollected", value.ToString());
+        ModData.Write("MineralsCollected", value.ToString());
         ModEntry.Log($"MineralsCollected set to {value}.", LogLevel.Info);
     }
 
@@ -603,7 +598,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Data.Value.Write("ProspectorStreak", value.ToString());
+        ModData.Write("ProspectorStreak", value.ToString());
         ModEntry.Log($"ProspectorStreak set to {value}.", LogLevel.Info);
     }
 
@@ -616,12 +611,12 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Data.Value.Write("ScavengerStreak", value.ToString());
+        ModData.Write("ScavengerStreak", value.ToString());
         ModEntry.Log($"ScavengerStreak set to {value}.", LogLevel.Info);
     }
 
-    /// <summary>Set a new value to the WaterTrashCollectedThisSeason data field.</summary>
-    internal static void SetWaterTrashCollectedThisSeason(int value)
+    /// <summary>Set a new value to the TrashCollectedThisSeason data field.</summary>
+    internal static void SetTrashCollectedThisSeason(int value)
     {
         if (!Game1.player.HasProfession("Conservationist"))
         {
@@ -629,8 +624,8 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Data.Value.Write("WaterTrashCollectedThisSeason", value.ToString());
-        ModEntry.Log($"WaterTrashCollectedThisSeason set to {value}.", LogLevel.Info);
+        ModData.Write("TrashCollectedThisSeason", value.ToString());
+        ModEntry.Log($"TrashCollectedThisSeason set to {value}.", LogLevel.Info);
     }
 
     #endregion private methods

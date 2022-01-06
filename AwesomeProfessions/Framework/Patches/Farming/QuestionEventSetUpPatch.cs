@@ -52,7 +52,7 @@ internal class QuestionEventSetUpPatch : BasePatch
                 )
                 .Insert(
                     new[] { isNotPrestiged },
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.0165), // x3 for regular
+                    new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 3), // x3 for regular
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );
         }

@@ -262,7 +262,7 @@ The mod provides the following console commands, which you can enter in the SMAP
 - **player_maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
 - **player_maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
 - **player_fishingprogress** - Check your fishing progress and bonus fish value as Angler.
-- **wol_data** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, WaterTrashCollectedThisSeason, ActiveTaxBonusPercent).
+- **wol_data** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, TrashCollectedThisSeason, ActiveTaxBonusPercent).
 - **wol_setdata** - Set a new value for one of the mod data fields above.
 - **wol_events** - List currently subscribed mod events (for debugging).
 - **wol_resetthehunt** - Forcefully reset the currently active Treasure Hunt with a new target treasure tile.

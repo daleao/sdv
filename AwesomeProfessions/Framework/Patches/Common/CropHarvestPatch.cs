@@ -2,7 +2,6 @@
 using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -76,14 +75,11 @@ internal class CropHarvestPatch : BasePatch
                 .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Ecologist"),
                     dontIncreaseEcologistCounter)
                 .Insert(
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModData>).PropertyGetter(nameof(PerScreen<ModData>.Value))),
                     new CodeInstruction(OpCodes.Ldstr, "ItemsForaged"),
                     new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = @object
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Item).PropertyGetter(nameof(Item.Stack))),
+                    new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModData).GetMethods().First(m => m.Name == "Increment")
                             .MakeGenericMethod(typeof(int)))

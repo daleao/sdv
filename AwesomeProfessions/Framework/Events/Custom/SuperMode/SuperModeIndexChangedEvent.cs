@@ -29,7 +29,7 @@ internal class SuperModeIndexChangedEvent : BaseEvent
         if (newIndex is > 0 and (< 26 or >= 30))
             throw new ArgumentException($"Unexpected Super Mode index {newIndex}.");
 
-        ModEntry.Data.Value.Write("SuperModeIndex", ModEntry.State.Value.SuperModeIndex.ToString());
+        ModData.Write("SuperModeIndex", ModEntry.State.Value.SuperModeIndex.ToString());
         if (ModEntry.State.Value.SuperModeIndex < 0)
         {
             ModEntry.Log("Unregistered Super Mode.", LogLevel.Info);

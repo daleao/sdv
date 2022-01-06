@@ -44,7 +44,7 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
 
         // clean unnecessary mod data
         if (!professionName.IsAnyOf("Scavenger", "Prospector"))
-            ModEntry.Data.Value.RemoveProfessionData(professionName);
+            ModData.CleanUpRogueData();
 
         // unsubscribe unnecessary events
         ModEntry.Subscriber.UnsubscribeProfessionEvents(professionName);

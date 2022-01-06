@@ -16,23 +16,26 @@ internal class ConservationistDayEndingEvent : DayEndingEvent
         if (!ModEntry.ModHelper.Content.AssetEditors.ContainsType(typeof(MailEditor)))
             ModEntry.ModHelper.Content.AssetEditors.Add(new MailEditor());
 
-        uint trashCollectedThisSeason;
-        if (Game1.dayOfMonth != 28 ||
-            (trashCollectedThisSeason = ModEntry.Data.Value.Read<uint>("WaterTrashCollectedThisSeason")) <=
-            0) return;
+        if (Game1.dayOfMonth != 28) return;
 
-        var taxBonusNextSeason =
-            // ReSharper disable once PossibleLossOfFraction
-            Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxLevel / 100f,
-                ModEntry.Config.TaxDeductionCeiling);
-        ModEntry.Data.Value.Write("ActiveTaxBonusPercent",
-            taxBonusNextSeason.ToString(CultureInfo.InvariantCulture));
-        if (taxBonusNextSeason > 0)
+        foreach (var farmer in Game1.getAllFarmers())
         {
-            ModEntry.ModHelper.Content.InvalidateCache(PathUtilities.NormalizeAssetName("Data/mail"));
-            Game1.addMailForTomorrow($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
-        }
+            var trashCollectedThisSeason = ModData.ReadAs<uint>("TrashCollectedThisSeason", farmer);
+            if (trashCollectedThisSeason <= 0) return;
 
-        ModEntry.Data.Value.Write("WaterTrashCollectedThisSeason", "0");
+            var taxBonusNextSeason =
+                // ReSharper disable once PossibleLossOfFraction
+                Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxLevel / 100f,
+                    ModEntry.Config.TaxDeductionCeiling);
+            ModData.Write("ActiveTaxBonusPercent",
+                taxBonusNextSeason.ToString(CultureInfo.InvariantCulture), farmer);
+            if (taxBonusNextSeason > 0)
+            {
+                ModEntry.ModHelper.Content.InvalidateCache(PathUtilities.NormalizeAssetName("Data/mail"));
+                farmer.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
+            }
+
+            ModData.Write("TrashCollectedThisSeason", "0");
+        }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
+using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using Object = StardewValley.Object;
@@ -43,7 +43,7 @@ internal class BushMachineGetOutputPatch : BasePatch
         var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!who.IsLocalPlayer || !who.HasProfession("Ecologist")) return;
 
-        ModEntry.Data.Value.Increment<uint>("ItemsForaged");
+        ModData.Increment<uint>("ItemsForaged", who);
     }
 
     /// <summary>Patch for automated Berry Bush quality.</summary>

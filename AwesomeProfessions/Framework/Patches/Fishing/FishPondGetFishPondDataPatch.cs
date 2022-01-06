@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using System.Linq;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
 
@@ -24,7 +25,7 @@ internal class FishPondGetFishPondDataPatch : BasePatch
         if (__instance.fishType.Value <= 0) return true; // run original logic
 
         var fish_item = __instance.GetFishObject();
-        if (!Utility.Objects.LegendaryFishNames.Contains(fish_item.Name)) return true; // run original logic
+        if (!Objects.LegendaryFishNames.Contains(fish_item.Name)) return true; // run original logic
 
         ____fishPondData = new()
         {

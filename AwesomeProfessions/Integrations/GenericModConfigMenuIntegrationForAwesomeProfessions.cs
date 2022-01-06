@@ -76,8 +76,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Drain factor",
                 () => "Lower numbers make Super Mode last longer.",
-                config => (int) config.SuperModeDrainFactor,
-                (config, value) => config.SuperModeDrainFactor = (uint) value,
+                config => (int)config.SuperModeDrainFactor,
+                (config, value) => config.SuperModeDrainFactor = (uint)value,
                 1,
                 10
             )
@@ -133,8 +133,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Required Experience Per Extended Level",
                 () => "How much skill experience is required for each level-up beyond level 10.",
-                config => (int) config.RequiredExpPerExtendedLevel,
-                (config, value) => config.RequiredExpPerExtendedLevel = (uint) value,
+                config => (int)config.RequiredExpPerExtendedLevel,
+                (config, value) => config.RequiredExpPerExtendedLevel = (uint)value,
                 5000,
                 25000,
                 1000
@@ -143,8 +143,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 () => "Cost of Prestige Respec",
                 () =>
                     "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
-                config => (int) config.PrestigeRespecCost,
-                (config, value) => config.PrestigeRespecCost = (uint) value,
+                config => (int)config.PrestigeRespecCost,
+                (config, value) => config.PrestigeRespecCost = (uint)value,
                 0,
                 100000,
                 10000
@@ -152,8 +152,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Cost of Changing Ultimate",
                 () => "Monetary cost of changing the combat ultimate. Set to 0 to change for free.",
-                config => (int) config.ChangeUltCost,
-                (config, value) => config.ChangeUltCost = (uint) value,
+                config => (int)config.ChangeUltCost,
+                (config, value) => config.ChangeUltCost = (uint)value,
                 0,
                 100000,
                 10000
@@ -164,16 +164,16 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Forages needed for best quality",
                 () => "Ecologists must forage this many items to reach iridium quality.",
-                config => (int) config.ForagesNeededForBestQuality,
-                (config, value) => config.ForagesNeededForBestQuality = (uint) value,
+                config => (int)config.ForagesNeededForBestQuality,
+                (config, value) => config.ForagesNeededForBestQuality = (uint)value,
                 0,
                 1000
             )
             .AddNumberField(
                 () => "Minerals needed for best quality",
                 () => "Gemologists must mine this many minerals to reach iridium quality.",
-                config => (int) config.ForagesNeededForBestQuality,
-                (config, value) => config.ForagesNeededForBestQuality = (uint) value,
+                config => (int)config.ForagesNeededForBestQuality,
+                (config, value) => config.ForagesNeededForBestQuality = (uint)value,
                 0,
                 1000
             );

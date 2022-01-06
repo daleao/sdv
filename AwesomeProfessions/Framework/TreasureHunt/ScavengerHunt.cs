@@ -12,7 +12,6 @@ using TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
 using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
 
@@ -108,7 +107,7 @@ public class ScavengerHunt : TreasureHunt
         End();
         var getTreasure = new DelayedAction(200, BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
-        ModEntry.Data.Value.Increment<uint>("ScavengerHuntStreak");
+        ModData.Increment<uint>("ScavengerHuntStreak");
     }
 
     /// <inheritdoc/>
@@ -116,7 +115,7 @@ public class ScavengerHunt : TreasureHunt
     {
         End();
         Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-        ModEntry.Data.Value.Write("ScavengerHuntStreak", "0");
+        ModData.Write("ScavengerHuntStreak", "0");
     }
 
     #endregion protected methods
@@ -274,7 +273,7 @@ public class ScavengerHunt : TreasureHunt
 
                         case 2:
                             var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
-                            var streak = ModEntry.Data.Value.Read<uint>("ScavengerHuntStreak");
+                            var streak = ModData.ReadAs<uint>("ScavengerHuntStreak");
                             if (Random.NextDouble() < 0.025 * luckModifier &&
                                 !Game1.player.specialItems.Contains(60))
                                 treasures.Add(new MeleeWeapon(15) { specialItem = true }); // forest sword

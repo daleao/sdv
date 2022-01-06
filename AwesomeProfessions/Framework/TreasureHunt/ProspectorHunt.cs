@@ -74,7 +74,7 @@ public class ProspectorHunt : TreasureHunt
 
         GetStoneTreasure();
         End();
-        ModEntry.Data.Value.Increment<uint>("ProspectorHuntStreak");
+        ModData.Increment<uint>("ProspectorHuntStreak");
     }
 
     /// <inheritdoc/>
@@ -82,7 +82,7 @@ public class ProspectorHunt : TreasureHunt
     {
         End();
         Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-        ModEntry.Data.Value.Write("ProspectorHuntStreak", "0");
+        ModData.Write("ProspectorHuntStreak", "0");
     }
 
     #endregion protected methods
@@ -200,7 +200,7 @@ public class ProspectorHunt : TreasureHunt
 
                     case 2: // special items
                         var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
-                        var streak = ModEntry.Data.Value.Read<uint>("ProspectorHuntStreak");
+                        var streak = ModData.ReadAs<uint>("ProspectorHuntStreak");
                         if (Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
                             treasuresAndQuantities.Add(-1, 1); // femur
 

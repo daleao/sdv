@@ -83,7 +83,7 @@ internal class SuperModeEnabledEvent : BaseEvent
         }
 
         // notify peers
-        ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.State.Value.SuperModeIndex, "SuperModeEnabled",
+        ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.State.Value.SuperModeIndex, "SuperMode/Enabled",
             new[] { ModEntry.Manifest.UniqueID });
 
         switch (whichSuperMode)

@@ -1,6 +1,5 @@
 ﻿using StardewModdingAPI;
 using StardewValley;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TheLion.Stardew.Common.Extensions;
@@ -8,217 +7,162 @@ using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions;
 
-public class ModData
+/// <summary>Wrapper to facilitate reading from and writing to the main player's <see cref="ModDataDictionary"/>.</summary>
+public static class ModData
 {
-    /// <summary>Easy look-up table for data fields required by each profesion.</summary>
-    private static readonly Dictionary<string, List<KeyValuePair<string, string>>> DataFieldsByProfession = new()
+    public static readonly Dictionary<string, string> ProfessionByDataField = new()
     {
-        { "Conservationist", new() { new("WaterTrashCollectedThisSeason", "0"), new("ActiveTaxBonusPercent", "0") } },
-        { "Ecologist", new() { new("ItemsForaged", "0") } },
-        { "Gemologist", new() { new("MineralsCollected", "0") } },
-        { "Prospector", new() { new("ProspectorHuntStreak", "0") } },
-        { "Scavenger", new() { new("ScavengerHuntStreak", "0") } }
+        { "ItemsForaged", "Ecologist" },
+        { "MineralsCollected", "Gemologist" },
+        { "ProspectorHuntStreak", "Prospector" },
+        { "ScavengerHuntStreak", "Scavenger" },
+        { "TrashCollectedThisSeason", "Conservationist" },
+        { "ActiveTaxBonusPercent", "Conservationist" }
     };
 
-    private readonly string _id;
-
-    /// <summary>Construct an instance.</summary>
-    internal ModData(string uniqueID)
+    /// <summary>Check if there are rogue data fields and remove them.</summary>
+    public static void CleanUpRogueData()
     {
-        _id = uniqueID;
-    }
-
-    private ModDataDictionary Data { get; set; }
-
-    /// <summary>Load reference to local player's persisted mod data.</summary>
-    public void Load()
-    {
-        if (!Context.IsWorldReady) throw new InvalidOperationException("Tried to load mod data before save file.");
-
-        ModEntry.Log("[ModData]: Loading persisted mod data.", LogLevel.Trace);
-        Data = Game1.player.modData;
-        InitializeDataIfNecessary();
-        ModEntry.Log("[ModData]: Done loading data.", LogLevel.Trace);
-    }
-
-    /// <summary>Unload local player's persisted mod data.</summary>
-    public void Unload()
-    {
-        ModEntry.Log("[ModData]: Unloading mod data.", LogLevel.Trace);
-        Data = null;
-    }
-
-    /// <summary>Initialize all data fields for the local player.</summary>
-    public void InitializeDataIfNecessary()
-    {
-        Data.WriteIfNotExists($"{_id}/Initialized", true.ToString(), out var exists);
-        if (exists)
+        ModEntry.Log("[ModData]: Checking for rogue data fields...", LogLevel.Trace);
+        var data = Game1.player.modData;
+        var count = 0;
+        if (!Context.IsMainPlayer)
         {
-            ModEntry.Log($"[ModData]: Data already initialized for farmer {Game1.player.Name}.", LogLevel.Trace);
+            for (var i = data.Keys.Count() - 1; i >= 0; --i)
+            {
+                var key = data.Keys.ElementAt(i);
+                if (!key.StartsWith(ModEntry.Manifest.UniqueID)) continue;
+
+                data.Remove(key);
+                ++count;
+            }
+        }
+        else
+        {
+            for (var i = data.Keys.Count() - 1; i >= 0; --i)
+            {
+                var key = data.Keys.ElementAt(i);
+                if (!key.StartsWith(ModEntry.Manifest.UniqueID) || key.Contains("SuperModeIndex")) continue;
+
+                var split = key.Split('/');
+                if (split.Length != 3 || !split[1].TryParse<long>(out var id))
+                {
+                    data.Remove(key);
+                    ++count;
+                    continue;
+                }
+
+                var who = Game1.getFarmer(id);
+                if (who is null)
+                {
+                    data.Remove(key);
+                    ++count;
+                    continue;
+                }
+
+                if (Game1.player.HasProfession(ProfessionByDataField[split[2]])) continue;
+
+                data.Remove(key);
+                ++count;
+            }
+        }
+
+        ModEntry.Log($"[ModData]: Found {count} rogue data fields.", LogLevel.Trace);
+    }
+
+    /// <summary>Read a string from the <see cref="ModDataDictionary" />.</summary>
+    /// <param name="field">The field to read from.</param>
+    /// <param name="who">The farmer whose data should be read.</param>
+    public static string Read(string field, Farmer who = null)
+    {
+        who ??= Game1.player;
+        return Game1.MasterPlayer.modData.Read($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}", string.Empty);
+    }
+
+    /// <summary>Read a field from the <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
+    /// <param name="field">The field to read from.</param>
+    /// <param name="who">The farmer whose data should read.</param>
+    public static T ReadAs<T>(string field, Farmer who = null)
+    {
+        who ??= Game1.player;
+        return Game1.MasterPlayer.modData.ReadAs<T>($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}");
+    }
+
+    /// <summary>Write to a field in the <see cref="ModDataDictionary" />, or remove the field if supplied with null.</summary>
+    /// <param name="field">The field to write to.</param>
+    /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
+    /// <param name="who">The farmer whose data should be written.</param>
+    public static void Write(string field, string value, Farmer who = null)
+    {
+        if (Context.IsMultiplayer && !Context.IsMainPlayer)
+        {
+            // request the main player
+            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"Data/Write/{field}",
+                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
             return;
         }
 
-        ModEntry.Log($"[ModData]: Initializing data fields for farmer {Game1.player.Name}...", LogLevel.Trace);
-        foreach (var professionIndex in Game1.player.professions)
-            try
-            {
-                InitializeDataForProfession(Framework.Utility.Professions.NameOf(professionIndex));
-            }
-            catch (IndexOutOfRangeException)
-            {
-                ModEntry.Log($"[ModData]: Unexpected profession index {professionIndex} will be ignored.",
-                    LogLevel.Trace);
-            }
-
-        Data.WriteIfNotExists($"{_id}/SuperModeIndex", "-1");
-        ModEntry.Log("[ModData]: Done initializing data fields for local player.", LogLevel.Trace);
-    }
-
-    /// <summary>Initialize data fields for a profession.</summary>
-    /// <param name="whichProfession">The profession index.</param>
-    public void InitializeDataForProfession(string whichProfession)
-    {
-        if (Data is null)
-        {
-            ModEntry.Log("Mod data was not loaded correctly.", LogLevel.Warn);
-            Load();
-        }
-
-        if (!DataFieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
-
-        fields.ForEach(field => Data.WriteIfNotExists($"{_id}/{field.Key}", $"{field.Value}"));
-        ModEntry.Log($"[ModData]: Initialized data fields for {whichProfession}.", LogLevel.Trace);
-    }
-
-    /// <summary>Clear data entries for a removed profession.</summary>
-    /// <param name="whichProfession">The profession index.</param>
-    public void RemoveProfessionData(string whichProfession)
-    {
-        if (Data is null)
-        {
-            ModEntry.Log("[ModData]: Mod data was not loaded correctly.", LogLevel.Warn);
-            Load();
-        }
-
-        if (!DataFieldsByProfession.TryGetValue(whichProfession, out var fields)) return;
-
-        ModEntry.Log($"[ModData]: Removing data fields for {whichProfession}.", LogLevel.Trace);
-        fields.ForEach(field => Data.Write($"{_id}/{field.Key}", null));
-    }
-
-    /// <summary>Check if there are rogue data feids and remove them.</summary>
-    public void CleanUpRogueData()
-    {
-        if (Data is null)
-        {
-            ModEntry.Log("[ModData]: Mod data was not loaded correctly.", LogLevel.Warn);
-            Load();
-        }
-
-        ModEntry.Log("[ModData]: Checking for rogue data fields...", LogLevel.Trace);
-        var professionsToRemove =
-            from fieldsByProfession in DataFieldsByProfession
-            where !fieldsByProfession.Key.IsAnyOf("Scavenger", "Prospector")
-            from field in fieldsByProfession.Value
-            where Data.ContainsKey(field.Key) && !Game1.player.HasProfession(fieldsByProfession.Key)
-            select fieldsByProfession.Key;
-        foreach (var profession in professionsToRemove) RemoveProfessionData(profession);
-        ModEntry.Log("[ModData]: Done removing rogue data fields.", LogLevel.Trace);
-    }
-
-    /// <summary>Read a field from the <see cref="ModData" /> as string.</summary>
-    /// <param name="field">The field to read from.</param>
-    public string Read(string field)
-    {
-        if (Data is null)
-        {
-            ModEntry.Log("Mod data was not loaded correctly.", LogLevel.Warn);
-            Load();
-        }
-
-        return Data.Read($"{_id}/{field}", string.Empty);
-    }
-
-    /// <summary>Read a field from the <see cref="ModData" /> as <typeparamref name="T" />.</summary>
-    /// <param name="field">The field to read from.</param>
-    public T Read<T>(string field) where T : IComparable
-    {
-        if (Data is null)
-        {
-            ModEntry.Log("Mod data was not loaded correctly.", LogLevel.Warn);
-            Load();
-        }
-
-        return Data.Read<T>($"{_id}/{field}");
-    }
-
-    /// <summary>Write to a field in the <see cref="ModData" />, or remove the field if supplied with null.</summary>
-    /// <param name="field">The field to write to.</param>
-    /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public void Write(string field, string value)
-    {
-        if (Data is null)
-        {
-            ModEntry.Log("Mod data was not loaded correctly.", LogLevel.Warn);
-            Load();
-        }
-
-        Data.Write($"{_id}/{field}", value);
+        who ??= Game1.player;
+        Game1.MasterPlayer.modData.Write($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}", value);
         ModEntry.Log($"[ModData]: Wrote {value} to {field}.", LogLevel.Trace);
     }
 
-    /// <summary>Write to a field in the <see cref="ModData" />, only if it doesn't yet have a value.</summary>
+    /// <summary>Write to a field in the <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public void WriteIfNotExists(string field, string value)
+    /// <param name="who">The farmer whose data should be written.</param>
+    public static bool WriteIfNotExists(string field, string value, Farmer who = null)
     {
-        if (Data is null)
+        who ??= Game1.player;
+        if (Game1.MasterPlayer.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}"))
         {
-            ModEntry.Log("Mod data was not loaded correctly.", LogLevel.Warn);
-            Load();
+            ModEntry.Log($"[ModData]: The data field {field} already existed.", LogLevel.Trace);
+            return true;
         }
 
-        Data.WriteIfNotExists($"{_id}/{field}", value);
-        ModEntry.Log($"[ModData]: Tried initializing {field} with {value}.", LogLevel.Trace);
+        if (Context.IsMultiplayer && !Context.IsMainPlayer)
+            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"Data/Write/{field}",
+                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID }); // request the main player
+        else
+            Write(field, value);
+
+        return false;
     }
 
-    /// <summary>Increment the value of a numeric field in the <see cref="ModData" /> by an arbitrary amount.</summary>
+    /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    public void Increment<T>(string field, T amount)
+    /// <param name="who">The farmer whose data should be incremented.</param>
+    public static void Increment<T>(string field, T amount, Farmer who = null)
     {
-        if (Data is null)
+        if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            ModEntry.Log("Mod data was not loaded correctly.", LogLevel.Warn);
-            Load();
+            // request the main player
+            ModEntry.ModHelper.Multiplayer.SendMessage(amount, $"Data/Increment/{field}",
+                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            return;
         }
 
-        Data.Increment($"{_id}/{field}", amount);
-        ModEntry.Log($"[ModData]: Incremented {field} by {amount}.", LogLevel.Trace);
+        who ??= Game1.player;
+        Game1.MasterPlayer.modData.Increment($"{ModEntry.Manifest.UniqueID}/{Game1.player.UniqueMultiplayerID}/{field}", amount);
+        ModEntry.Log($"[ModData]: Incremented {who.Name}'s {field} by {amount}.", LogLevel.Trace);
     }
 
-    /// <summary>Increment the value of a numeric field in the <see cref="ModData" /> by 1.</summary>
+    /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    public void Increment<T>(string field)
+    /// <param name="who">The farmer whose data should be incremented.</param>
+    public static void Increment<T>(string field, Farmer who = null)
     {
-        if (Data is null)
+        if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            ModEntry.Log("Mod data was not loaded correctly.", LogLevel.Warn);
-            Load();
+            // request the main player
+            ModEntry.ModHelper.Multiplayer.SendMessage(1, $"Data/Increment/{field}",
+                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            return;
         }
 
-        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-        switch (Type.GetTypeCode(typeof(T)))
-        {
-            case TypeCode.Int32:
-                Data.Increment($"{_id}/{field}", 1);
-                break;
-
-            case TypeCode.UInt32:
-                Data.Increment<uint>($"{_id}/{field}", 1);
-                break;
-        }
-
-        ModEntry.Log($"[ModData]: Incremented {field} by 1.", LogLevel.Trace);
+        who ??= Game1.player;
+        Game1.MasterPlayer.modData.Increment($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}", "1".Parse<T>());
+        ModEntry.Log($"[ModData]: Incremented {who.Name}'s {field} by 1.", LogLevel.Trace);
     }
 }

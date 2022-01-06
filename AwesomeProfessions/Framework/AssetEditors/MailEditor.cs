@@ -21,7 +21,7 @@ public class MailEditor : IAssetEditor
 
         // patch mail from the Ferngill Revenue Service
         var data = asset.AsDictionary<string, string>().Data;
-        var taxBonus = ModEntry.Data.Value.Read<float>("ActiveTaxBonusPercent");
+        var taxBonus = ModData.ReadAs<float>("ActiveTaxBonusPercent");
         var key = taxBonus >= ModEntry.Config.TaxDeductionCeiling
             ? "conservationist.mail2"
             : "conservationist.mail1";

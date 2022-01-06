@@ -36,9 +36,12 @@ internal class PropagatorMachineGetOutput : BasePatch
         if (entity is null) return;
 
         var who = Game1.getFarmerMaybeOffline(entity.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.IsLocalPlayer || !who.HasProfession("Ecologist")) return;
+        if (!who.HasProfession("Ecologist")) return;
 
-        ModEntry.Data.Value.Increment("ItemsForaged", -1);
+        if (who.IsLocalPlayer)
+            ModData.Increment("ItemsForaged", -1);
+        else
+            ModData.Increment<uint>("ItemsForaged", who);
     }
 
     #endregion harmony patches

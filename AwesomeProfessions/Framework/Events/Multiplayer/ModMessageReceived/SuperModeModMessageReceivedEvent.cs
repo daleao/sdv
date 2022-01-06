@@ -10,7 +10,7 @@ internal class SuperModeModMessageReceivedEvent : ModMessageReceivedEvent
     /// <inheritdoc />
     public override void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != ModEntry.Manifest.UniqueID) return;
+        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("SuperMode")) return;
 
         var key = e.ReadAs<int>();
         if (!ModEntry.State.Value.ActivePeerSuperModes.ContainsKey(key))
@@ -18,8 +18,8 @@ internal class SuperModeModMessageReceivedEvent : ModMessageReceivedEvent
 
         switch (e.Type)
         {
-            case "SuperModeEnabled":
-                ModEntry.Log($"Player {e.FromPlayerID} enabled Super Mode.", LogLevel.Trace);
+            case "SuperMode/Enabled":
+                ModEntry.Log($"Player {e.FromPlayerID} has enabled Super Mode.", LogLevel.Trace);
                 ModEntry.State.Value.ActivePeerSuperModes[key].Add(e.FromPlayerID);
                 var glowingColor = Utility.Professions.NameOf(key) switch
                 {
@@ -32,7 +32,7 @@ internal class SuperModeModMessageReceivedEvent : ModMessageReceivedEvent
                 Game1.getFarmer(e.FromPlayerID).startGlowing(glowingColor, false, 0.05f);
                 break;
 
-            case "SuperModeDisabled":
+            case "SuperMode/Disabled":
                 ModEntry.Log($"Player {e.FromPlayerID}'s Super Mode has ended.", LogLevel.Trace);
                 ModEntry.State.Value.ActivePeerSuperModes[key].Remove(e.FromPlayerID);
                 Game1.getFarmer(e.FromPlayerID).stopGlowing();

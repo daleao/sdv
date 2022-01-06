@@ -15,19 +15,28 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     public override void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
     {
-        // load persisted mod data
-        ModEntry.Data.Value.Load();
-
         // subscribe player's profession events
         ModEntry.Subscriber.SubscribeEventsForLocalPlayer();
 
-        // load and validate Super Mode
-        ModEntry.Log("Loading persisted Super Mode index.", LogLevel.Trace);
-        var superModeIndex = ModEntry.Data.Value.Read<int>("SuperModeIndex");
+        // load or initialize Super Mode index
+        int superModeIndex;
+        var existed = ModData.WriteIfNotExists("SuperModeIndex", "-1");
+        if (existed)
+        {
+            superModeIndex = ModData.ReadAs<int>("SuperModeIndex");
+            ModEntry.Log("Loading persisted Super Mode index.", LogLevel.Trace);
+        }
+        else
+        {
+            superModeIndex = -1;
+            ModEntry.Log("Initialized Super Mode index with the default value.", LogLevel.Trace);
+        }
+
+        // validate Super Mode index
         switch (superModeIndex)
         {
             case < 0 when Game1.player.professions.Any(p => p is >= 26 and < 30):
-                ModEntry.Log($"Player eligible for Super Mode but currently not registered to any. Setting to a default value.", LogLevel.Warn);
+                ModEntry.Log("Player eligible for Super Mode but currently not registered to any. Setting to a default value.", LogLevel.Warn);
                 ModEntry.State.Value.SuperModeIndex = Game1.player.professions.First(p => p is >= 26 and < 30);
                 break;
 

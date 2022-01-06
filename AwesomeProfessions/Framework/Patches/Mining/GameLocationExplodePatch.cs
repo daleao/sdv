@@ -44,8 +44,6 @@ internal class GameLocationExplodePatch : BasePatch
                 if (!__instance.Name.StartsWith("UndergroundMine"))
                 {
                     var chanceModifier = who.DailyLuck / 2.0 + who.LuckLevel * 0.001 + who.MiningLevel * 0.005;
-                    //var r = new Random((int) tile.X * 1000 + (int) tile.Y + (int) Game1.stats.DaysPlayed +
-                    //                   (int) Game1.uniqueIDForThisGame / 2);
                     var r = new Random(Guid.NewGuid().GetHashCode());
                     if (tileObj.ParentSheetIndex is 343 or 450)
                     {
@@ -71,8 +69,6 @@ internal class GameLocationExplodePatch : BasePatch
                 }
                 else
                 {
-                    //var r = new Random((int) tile.X * 1000 + (int) tile.Y + ((MineShaft) __instance).mineLevel +
-                    //                   (int) Game1.uniqueIDForThisGame / 2);
                     var r = new Random(Guid.NewGuid().GetHashCode());
                     if (r.NextDouble() < 0.25 || isPrestigedBlaster && r.NextDouble() < 0.25)
                     {

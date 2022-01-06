@@ -16,7 +16,7 @@ internal class StaticLevelChangedEvent : LevelChangedEvent
         {
             // clean up rogue events and data on skill reset
             ModEntry.Subscriber.CleanUpRogueEvents();
-            ModEntry.Data.Value.CleanUpRogueData();
+            ModData.CleanUpRogueData();
         }
         else
         {

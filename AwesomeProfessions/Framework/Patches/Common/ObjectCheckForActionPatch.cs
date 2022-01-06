@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -38,7 +37,7 @@ internal class ObjectCheckForActionPatch : BasePatch
     {
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession("Ecologist"))
-            ModEntry.Data.Value.Increment<uint>("ItemsForaged");
+            ModData.Increment<uint>("ItemsForaged");
     }
 
     /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium.</summary>
@@ -74,13 +73,10 @@ internal class ObjectCheckForActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) })),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.Data))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModData>).PropertyGetter(nameof(PerScreen<ModData>.Value))),
                     new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
+                    new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string) })
+                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string), typeof(Farmer) })
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);

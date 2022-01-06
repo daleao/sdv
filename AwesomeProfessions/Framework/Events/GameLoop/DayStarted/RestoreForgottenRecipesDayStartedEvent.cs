@@ -10,7 +10,7 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     public override void OnDayStarted(object sender, DayStartedEventArgs e)
     {
-        var forgottenRecipes = ModEntry.Data.Value.Read("ForgottenRecipes").ToDictionary<string, int>(",", ";");
+        var forgottenRecipes = ModData.Read("ForgottenRecipes").ToDictionary<string, int>(",", ";");
         if (!forgottenRecipes.Any())
         {
             ModEntry.Subscriber.Unsubscribe(GetType());
@@ -32,7 +32,7 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
             }
         }
 
-        ModEntry.Data.Value.Write("ForgottenRecipes", forgottenRecipes.Any()
+        ModData.Write("ForgottenRecipes", forgottenRecipes.Any()
             ? forgottenRecipes.ToString(",", ";")
             : null);
         ModEntry.Subscriber.Unsubscribe(GetType());

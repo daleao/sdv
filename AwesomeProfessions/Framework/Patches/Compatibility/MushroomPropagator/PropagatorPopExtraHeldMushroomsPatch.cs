@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -31,7 +31,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch for automated Propagator forage increment.</summary>
+    /// <summary>Patch for Propagator forage increment.</summary>
     [HarmonyPostfix]
     private static void PropagatorPopExtraHeldMushroomsPostfix(SObject __instance)
     {
@@ -40,10 +40,10 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         var who = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         if (!who.IsLocalPlayer || !who.HasProfession("Ecologist")) return;
 
-        ModEntry.Data.Value.Increment<uint>("ItemsForaged");
+        ModData.Increment<uint>("ItemsForaged");
     }
 
-    /// <summary>Patch for automated Propagator output quality.</summary>
+    /// <summary>Patch for Propagator output quality.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> PropagatorPopExtraHeldMushroomsTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)

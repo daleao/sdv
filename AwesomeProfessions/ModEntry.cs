@@ -11,7 +11,6 @@ namespace TheLion.Stardew.Professions;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    internal static PerScreen<ModData> Data { get; private set; }
     internal static PerScreen<ModState> State { get; private set; }
     internal static ModConfig Config { get; set; }
     internal static EventSubscriber Subscriber { get; private set; }
@@ -35,9 +34,8 @@ public class ModEntry : Mod
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
-        // initialize per-screen data and state
-        Data = new(() => new ModData(Manifest.UniqueID));
-        State = new(() => new ModState());
+        // initialize per-screen state and mod data
+        State = new(() => new());
 
         // apply harmony patches
         new HarmonyPatcher(Manifest.UniqueID).ApplyAll();

@@ -9,19 +9,13 @@ namespace TheLion.Stardew.Common.Classes;
 /// <typeparam name="TReverseKey">Reverse mapping key</typeparam>
 public class BiMap<TForwardKey, TReverseKey> : IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>
 {
-    /// <summary>Construct an instance.</summary>
-    public BiMap()
-    {
-    }
-
     /// <summary>Construct an instance by copying <see cref="KeyValuePairs" /> from a one-way <see cref="IDictionary" />.</summary>
     /// <param name="oneWayMap">A one-way <see cref="IDictionary" />.</param>
     /// <remarks>Throws <see cref="ArgumentException" /> if <paramref name="oneWayMap" /> contains repeated values.</remarks>
     public BiMap(IDictionary<TForwardKey, TReverseKey> oneWayMap)
     {
         Forward = new(oneWayMap);
-        //var reversedOneWayMap = oneWayMap.ToDictionary(p => p.Value, p => p.Key);
-        //Reverse = new Indexer<TReverseKey, TForwardKey>(reversedOneWayMap);
+        Reverse = new();
 
         foreach (var forwardKey in oneWayMap.Keys)
         {
@@ -34,8 +28,8 @@ public class BiMap<TForwardKey, TReverseKey> : IEnumerable<KeyValuePair<TForward
         }
     }
 
-    public Indexer<TForwardKey, TReverseKey> Forward { get; } = new();
-    public Indexer<TReverseKey, TForwardKey> Reverse { get; } = new();
+    public Indexer<TForwardKey, TReverseKey> Forward { get; }
+    public Indexer<TReverseKey, TForwardKey> Reverse { get; }
 
     IEnumerator<KeyValuePair<TForwardKey, TReverseKey>> IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>.
         GetEnumerator()

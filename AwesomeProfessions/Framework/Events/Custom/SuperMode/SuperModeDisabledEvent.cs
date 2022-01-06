@@ -27,7 +27,7 @@ internal class SuperModeDisabledEvent : BaseEvent
         ModEntry.Subscriber.Unsubscribe(typeof(SuperModeCountdownUpdateTickedEvent));
 
         // notify peers
-        ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.State.Value.SuperModeIndex, "SuperModeDisabled",
+        ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.State.Value.SuperModeIndex, "SuperMode/Disabled",
             new[] { ModEntry.Manifest.UniqueID });
 
         // unsubscribe self

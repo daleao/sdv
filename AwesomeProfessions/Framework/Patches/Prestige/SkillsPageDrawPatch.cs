@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Prestige;
 
@@ -151,7 +152,7 @@ internal class SkillsPageDrawPatch : BasePatch
 
         // this will draw only the blue bars
         if ((levelIndex + 1) % 5 != 0)
-            b.Draw(Utility.Textures.SkillBarTx, new(addedX + x + levelIndex * 36, y - 4 + skillIndex * 56),
+            b.Draw(Textures.SkillBarTx, new(addedX + x + levelIndex * 36, y - 4 + skillIndex * 56),
                 new(0, 0, 8, 9), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
     }
 
@@ -159,11 +160,11 @@ internal class SkillsPageDrawPatch : BasePatch
     {
         if (!ModEntry.Config.EnablePrestige) return;
 
-        var w = Utility.Textures.RibbonWidth;
-        var s = Utility.Textures.RibbonScale;
+        var w = Textures.RibbonWidth;
+        var s = Textures.RibbonScale;
         var position =
             new Vector2(
-                page.xPositionOnScreen + page.width + Utility.Textures.RibbonHorizontalOffset,
+                page.xPositionOnScreen + page.width + Textures.RibbonHorizontalOffset,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth - 70);
         for (var i = 0; i < 5; ++i)
         {
@@ -181,7 +182,7 @@ internal class SkillsPageDrawPatch : BasePatch
             if (count == 0) continue;
 
             var srcRect = new Rectangle(i * w, (count - 1) * w, w, w);
-            b.Draw(Utility.Textures.RibbonTx, position, srcRect, Color.White, 0f, Vector2.Zero, s,
+            b.Draw(Textures.RibbonTx, position, srcRect, Color.White, 0f, Vector2.Zero, s,
                 SpriteEffects.None, 1f);
         }
     }

@@ -7,6 +7,7 @@ using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.SpaceCore;
 
@@ -37,11 +38,11 @@ internal class NewSkillsPagePerformHoverActionPatch : BasePatch
 
         if (!ModEntry.Config.EnablePrestige) return;
 
-        var w = Utility.Textures.RibbonWidth;
-        var s = Utility.Textures.RibbonScale;
+        var w = Textures.RibbonWidth;
+        var s = Textures.RibbonScale;
         var bounds =
             new Rectangle(
-                __instance.xPositionOnScreen + __instance.width + Utility.Textures.RibbonHorizontalOffset,
+                __instance.xPositionOnScreen + __instance.width + Textures.RibbonHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth -
                 70, (int)(w * s), (int)(w * s));
 

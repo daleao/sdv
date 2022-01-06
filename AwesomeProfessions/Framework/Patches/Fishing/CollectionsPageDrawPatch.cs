@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
 
@@ -76,10 +77,10 @@ internal class CollectionsPageDrawPatch : BasePatch
                           where Game1.player.HasCaughtMaxSized(index)
                           select c)
         {
-            var destRect = new Rectangle(c.bounds.Right - Utility.Textures.MaxIconWidth,
-                c.bounds.Bottom - Utility.Textures.MaxIconHeight, Utility.Textures.MaxIconWidth,
-                Utility.Textures.MaxIconHeight);
-            b.Draw(Utility.Textures.MaxIconTx, destRect, Color.White);
+            var destRect = new Rectangle(c.bounds.Right - Textures.MaxIconWidth,
+                c.bounds.Bottom - Textures.MaxIconHeight, Textures.MaxIconWidth,
+                Textures.MaxIconHeight);
+            b.Draw(Textures.MaxIconTx, destRect, Color.White);
         }
     }
 

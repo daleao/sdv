@@ -27,7 +27,7 @@ public static class ModDataDictionaryExtensions
     ///     The value of the specified key if it exists, parsed as type <typeparamref name="T" />, or a default value if
     ///     the key doesn't exist or fails to parse.
     /// </returns>
-    public static T Read<T>(this ModDataDictionary data, string key, T defaultValue = default)
+    public static T ReadAs<T>(this ModDataDictionary data, string key, T defaultValue = default)
     {
         return data.TryGetValue(key, out var rawValue) && rawValue.TryParse(out T parsedValue)
             ? parsedValue
@@ -79,7 +79,7 @@ public static class ModDataDictionaryExtensions
     /// <remarks>Credit to <c>Adi Lester</c> (https://stackoverflow.com/questions/8122611/c-sharp-adding-two-generic-values).</remarks>
     public static ModDataDictionary Increment<T>(this ModDataDictionary data, string key, T amount)
     {
-        var num = data.Read<T>(key);
+        var num = data.ReadAs<T>(key);
 
         // declare the parameters
         var paramA = Expression.Parameter(typeof(T), "a");

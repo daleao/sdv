@@ -5,6 +5,7 @@ using StardewValley;
 using StardewValley.Menus;
 using System.Collections.Generic;
 using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.SpaceCore;
 
@@ -60,7 +61,7 @@ internal class NewSkillsPageCtorPatch : BasePatch
 
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 15)
                     {
-                        component.texture = Utility.Textures.SkillBarTx;
+                        component.texture = Textures.SkillBarTx;
                         component.sourceRect = srcRect;
                     }
 
@@ -79,7 +80,7 @@ internal class NewSkillsPageCtorPatch : BasePatch
 
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 20)
                     {
-                        component.texture = Utility.Textures.SkillBarTx;
+                        component.texture = Textures.SkillBarTx;
                         component.sourceRect = srcRect;
                     }
 

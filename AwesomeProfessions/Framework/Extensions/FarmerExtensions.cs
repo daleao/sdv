@@ -232,7 +232,7 @@ public static class FarmerExtensions
 
         if (ModEntry.Config.ForgetRecipesOnSkillReset)
         {
-            var forgottenRecipesDict = ModEntry.Data.Value.Read("ForgottenRecipes").ToDictionary<string, int>(",", ";");
+            var forgottenRecipesDict = ModData.Read("ForgottenRecipes").ToDictionary<string, int>(",", ";");
 
             // remove associated crafting recipes
             foreach (var recipe in farmer.GetCraftingRecipesForSkill(skillType))
@@ -248,7 +248,7 @@ public static class FarmerExtensions
                 farmer.cookingRecipes.Remove(recipe);
             }
 
-            ModEntry.Data.Value.Write("ForgottenRecipes", forgottenRecipesDict.ToString(",", ";"));
+            ModData.Write("ForgottenRecipes", forgottenRecipesDict.ToString(",", ";"));
         }
 
         // revalidate health

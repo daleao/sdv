@@ -9,9 +9,6 @@ internal class StaticReturnedToTitleEvent : ReturnedToTitleEvent
     /// <inheritdoc />
     public override void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
     {
-        // release mod data
-        ModEntry.Data.Value.Unload();
-
         // unsubscribe events
         ModEntry.Subscriber.UnsubscribeLocalPlayerEvents();
 

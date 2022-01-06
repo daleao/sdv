@@ -39,7 +39,7 @@ internal class CrystalariumMachineGetOutputPatch : BasePatch
         if (!who.IsLocalPlayer || !who.HasProfession("Gemologist") ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
-        ModEntry.Data.Value.Increment<uint>("MineralsCollected");
+        ModData.Increment<uint>("MineralsCollected", who);
     }
 
     #endregion harmony patches

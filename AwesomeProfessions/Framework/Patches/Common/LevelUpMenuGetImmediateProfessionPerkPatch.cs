@@ -40,9 +40,6 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
                 pond.UpdateMaximumOccupancy();
             }
 
-        // initialize mod data, assets and helpers
-        ModEntry.Data.Value.InitializeDataForProfession(professionName);
-
         // subscribe events
         ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
 

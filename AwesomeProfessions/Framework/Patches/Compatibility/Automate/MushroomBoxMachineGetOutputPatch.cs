@@ -41,9 +41,9 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
         if (!who.HasProfession("Ecologist")) return true; // run original logic
 
         machine.heldObject.Value.Quality = Utility.Professions.GetEcologistForageQuality();
-        if (!who.IsLocalPlayer || !ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic
+        if (!ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic
 
-        ModEntry.Data.Value.Increment("ItemsForaged", (uint)machine.heldObject.Value.Stack);
+        ModData.Increment("ItemsForaged", who.UniqueMultiplayerID);
         return true; // run original logic
     }
 
