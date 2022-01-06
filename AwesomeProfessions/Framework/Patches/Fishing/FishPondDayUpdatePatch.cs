@@ -6,6 +6,7 @@ using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using System;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Extensions;
 using SObject = StardewValley.Object;
 
@@ -33,6 +34,8 @@ internal class FishPondDayUpdatePatch : BasePatch
     [HarmonyPostfix]
     private static void FishPondDayUpdatePostfix(FishPond __instance)
     {
+        if (!ModEntry.Config.EnableFishPondRebalance) return;
+
         var produce = __instance.output.Value as SObject;
         if (produce is not null && !produce.ParentSheetIndex.IsAnyOf(ROE_INDEX_I, SQUID_INK_INDEX_I)) return;
 

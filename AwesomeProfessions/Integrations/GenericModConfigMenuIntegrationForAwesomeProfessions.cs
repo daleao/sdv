@@ -50,7 +50,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 (config, value) => config.UseVintageSkillBars = value
             )
 
-            // Super Mode
+            // super mode
             .AddSectionTitle(() => "Super Mode Settings")
             .AddKeyBinding(
                 () => "Super Mode key",
@@ -159,7 +159,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 10000
             )
 
-            // main
+            // professions
             .AddSectionTitle(() => "Profession Settings")
             .AddNumberField(
                 () => "Forages needed for best quality",
@@ -193,7 +193,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Chance to start treasure hunt",
                 () => "The chance that your Scavenger or Prospector hunt senses will start tingling.",
-                config => (float)config.ChanceToStartTreasureHunt,
+                config => (float) config.ChanceToStartTreasureHunt,
                 (config, value) => config.ChanceToStartTreasureHunt = value,
                 0f,
                 1f,
@@ -249,16 +249,16 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Trash needed per tax level",
                 () => "Conservationists must collect this much trash for every 1% tax deduction the following season.",
-                config => (int)config.TrashNeededPerTaxLevel,
-                (config, value) => config.TrashNeededPerTaxLevel = (uint)value,
+                config => (int) config.TrashNeededPerTaxLevel,
+                (config, value) => config.TrashNeededPerTaxLevel = (uint) value,
                 10,
                 1000
             )
             .AddNumberField(
                 () => "Trash needed per friendship point",
                 () => "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
-                config => (int)config.TrashNeededPerFriendshipPoint,
-                (config, value) => config.TrashNeededPerFriendshipPoint = (uint)value,
+                config => (int) config.TrashNeededPerFriendshipPoint,
+                (config, value) => config.TrashNeededPerFriendshipPoint = (uint) value,
                 10,
                 1000
             )
@@ -270,6 +270,15 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0f,
                 1f,
                 0.05f
+            )
+
+            // misc
+            .AddSectionTitle(() => "Misc. Settings")
+            .AddCheckbox(
+                () => "Enable Fish Pond Rebalance",
+                () => "Allow Fish Ponds to produce bonus Roe or Ink in proportion to fish population.",
+                config => config.EnableFishPondRebalance,
+                (config, value) => config.EnableFishPondRebalance = value
             );
     }
 }

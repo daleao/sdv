@@ -11,9 +11,6 @@ public class ModConfig
     /// <summary>Mod key used to activate Super Mode. Can be the same as <see cref="Modkey" />.</summary>
     public KeybindList SuperModeKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-    /// <summary>Key used by trigger UI debugging events.</summary>
-    public KeybindList DebugKey { get; set; } = KeybindList.Parse("LeftControl");
-
     /// <summary>Whether Super Mode is activated on <see cref="SuperModeKey" /> hold (as opposed to press).</summary>
     public bool HoldKeyToActivateSuperMode { get; set; } = true;
 
@@ -92,6 +89,12 @@ public class ModConfig
     /// <summary>Enable if using the Vintage Interface mod.</summary>
     public bool UseVintageSkillBars { get; set; } = false;
 
+    /// <summary>Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.</summary>
+    public bool EnableFishPondRebalance { get; set; } = true;
+
     /// <summary>Whether to draw UI element bounding boxes.</summary>
     public bool EnableDebug { get; set; } = false;
+
+    /// <summary>Key used by trigger UI debugging events.</summary>
+    public KeybindList DebugKey { get; set; } = KeybindList.Parse("LeftControl");
 }
