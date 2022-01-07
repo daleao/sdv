@@ -320,7 +320,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                                                (Game1.player.IsMale ? "male" : "female"));
         if (Game1.player.achievements.Contains(name.GetDeterministicHashCode())) return;
 
-        ModEntry.Subscriber.Subscribe(new AchievementUnlockedDayStartedEvent());
+        ModEntry.Subscriber.SubscribeTo(new AchievementUnlockedDayStartedEvent());
     }
 
     #endregion private methods

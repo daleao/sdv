@@ -16,11 +16,11 @@ internal class SuperModeWarpedEvent : WarpedEvent
 
         if (e.NewLocation.IsCombatZone())
         {
-            ModEntry.Subscriber.Subscribe(new SuperModeBarRenderingHudEvent());
+            ModEntry.Subscriber.SubscribeTo(new SuperModeBarRenderingHudEvent());
         }
         else
         {
-            ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarFadeOutUpdateTickedEvent),
+            ModEntry.Subscriber.UnsubscribeFrom(typeof(SuperModeBarFadeOutUpdateTickedEvent),
                 typeof(SuperModeBarShakeTimerUpdateTickedEvent), typeof(SuperModeBarRenderingHudEvent));
 
             ModEntry.State.Value.SuperModeGaugeValue = 0;

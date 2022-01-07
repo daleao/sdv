@@ -10,6 +10,6 @@ internal class SuperModeOverlayFadeOutUpdateTickedEvent : UpdateTickedEvent
     {
         ModEntry.State.Value.SuperModeOverlayAlpha -= 0.01f;
         if (ModEntry.State.Value.SuperModeOverlayAlpha <= 0)
-            ModEntry.Subscriber.Unsubscribe(typeof(SuperModeRenderedWorldEvent), GetType());
+            ModEntry.Subscriber.UnsubscribeFrom(typeof(SuperModeRenderedWorldEvent), GetType());
     }
 }

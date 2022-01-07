@@ -33,8 +33,8 @@ internal class GameLocationExplodePatch : BasePatch
         var isDemolitionist = who.HasProfession("Demolitionist");
         if (!isBlaster && !isDemolitionist) return;
 
-        var grid = new CircleTileGrid(tileLocation, radius);
-        foreach (var tile in grid)
+        var circle = new CircleTileGrid(tileLocation, radius);
+        foreach (var tile in circle.Tiles)
         {
             if (!__instance.objects.TryGetValue(tile, out var tileObj) || !tileObj.IsStone()) continue;
 
@@ -168,7 +168,7 @@ internal class GameLocationExplodePatch : BasePatch
         var distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
         if (distanceFromEpicenter < radius * 2 + 1) ModEntry.State.Value.DemolitionistExcitedness = 6;
         if (distanceFromEpicenter < radius + 1) ModEntry.State.Value.DemolitionistExcitedness += 2;
-        ModEntry.Subscriber.Subscribe(DemolitionistUpdateTickedEvent);
+        ModEntry.Subscriber.SubscribeTo(DemolitionistUpdateTickedEvent);
     }
 
     #endregion harmony patches

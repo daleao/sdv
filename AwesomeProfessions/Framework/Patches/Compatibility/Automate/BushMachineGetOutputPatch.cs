@@ -43,7 +43,7 @@ internal class BushMachineGetOutputPatch : BasePatch
         var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!who.IsLocalPlayer || !who.HasProfession("Ecologist")) return;
 
-        ModData.Increment<uint>("ItemsForaged", who);
+        ModData.Increment<uint>(ModData.KEY_ECOLOGISTITEMSFORAGED_S, who);
     }
 
     /// <summary>Patch for automated Berry Bush quality.</summary>

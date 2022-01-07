@@ -12,14 +12,14 @@ internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
     {
         if (ModEntry.Config.Modkey.JustPressed())
         {
-            ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(), new TrackerRenderedHudEvent());
+            ModEntry.Subscriber.SubscribeTo(new ArrowPointerUpdateTickedEvent(), new TrackerRenderedHudEvent());
         }
         else if (ModEntry.Config.Modkey.GetState() == SButtonState.Released)
         {
-            ModEntry.Subscriber.Unsubscribe(typeof(TrackerRenderedHudEvent));
+            ModEntry.Subscriber.UnsubscribeFrom(typeof(TrackerRenderedHudEvent));
             if (!(ModEntry.Subscriber.IsSubscribed(typeof(ProspectorHuntRenderedHudEvent)) ||
                   ModEntry.Subscriber.IsSubscribed(typeof(ScavengerHuntRenderedHudEvent))))
-                ModEntry.Subscriber.Unsubscribe(typeof(ArrowPointerUpdateTickedEvent));
+                ModEntry.Subscriber.UnsubscribeFrom(typeof(ArrowPointerUpdateTickedEvent));
         }
     }
 }

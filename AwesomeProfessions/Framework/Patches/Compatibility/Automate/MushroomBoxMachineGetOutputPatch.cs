@@ -1,5 +1,8 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
+using StardewModdingAPI;
 using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -32,19 +35,27 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
     [HarmonyPrefix]
     private static bool MushroomBoxMachineGetOutputPrefix(object __instance)
     {
-        if (__instance is null) return true; // run original logic
+        try
+        {
+            if (__instance is null) return true; // run original logic
 
-        var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
-        if (machine?.heldObject.Value is null) return true; // run original logic
+            var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
+            if (machine?.heldObject.Value is null) return true; // run original logic
 
-        var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.HasProfession("Ecologist")) return true; // run original logic
+            var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
+            if (!who.HasProfession("Ecologist")) return true; // run original logic
 
-        machine.heldObject.Value.Quality = Utility.Professions.GetEcologistForageQuality();
-        if (!ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic
+            machine.heldObject.Value.Quality = Utility.Professions.GetEcologistForageQuality();
+            if (!ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic
 
-        ModData.Increment("ItemsForaged", who.UniqueMultiplayerID);
-        return true; // run original logic
+            ModData.Increment(ModData.KEY_ECOLOGISTITEMSFORAGED_S, who.UniqueMultiplayerID);
+            return true; // run original logic
+        }
+        catch (Exception ex)
+        {
+            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            return true; // default to original logic
+        }
     }
 
     #endregion harmony patches

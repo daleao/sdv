@@ -89,9 +89,9 @@ internal class CrabPotDayUpdatePatch : BasePatch
                     whichFish = GetTrash(r);
                     if (isConservationist)
                     {
-                        ModData.Increment<uint>("TrashCollectedThisSeason", who);
+                        ModData.Increment<uint>(ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S, who);
                         if (who.HasPrestigedProfession("Conservationist") &&
-                            ModData.ReadAs<uint>("TrashCollectedThisSeason", who) %
+                            ModData.ReadAs<uint>(ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S, who) %
                             ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
                             SUtility.improveFriendshipWithEveryoneInRegion(who, 1, 2);
                     }

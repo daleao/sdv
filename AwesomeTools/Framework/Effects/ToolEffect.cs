@@ -5,7 +5,6 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,41 +16,36 @@ using SObject = StardewValley.Object;
 namespace TheLion.Stardew.Tools.Framework.Effects;
 
 /// <summary>Applies base effects shared by multiple tools.</summary>
-internal abstract class BaseEffect
+internal abstract class ToolEffect : IEffect
 {
     /// <summary>Whether the Farm Type Manager mod is installed.</summary>
     private readonly bool _hasFarmTypeManager;
 
+    private int _currentRadius;
+
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">Metadata about loaded mods.</param>
-    protected BaseEffect(IModRegistry modRegistry)
+    protected ToolEffect(IModRegistry modRegistry)
     {
         _hasFarmTypeManager = modRegistry.IsLoaded("Esca.FarmTypeManager");
     }
 
-    /// <summary>Apply the tool effect to the given tile.</summary>
-    /// <param name="tile">The tile to modify.</param>
-    /// <param name="tileObj">The object on the tile.</param>
-    /// <param name="tileFeature">The feature on the tile.</param>
-    /// <param name="tool">The tool selected by the player (if any).</param>
-    /// <param name="location">The current location.</param>
-    /// <param name="who">The current player.</param>
+    /// <inheritdoc />
     public abstract bool Apply(Vector2 tile, SObject tileObj, TerrainFeature tileFeature, Tool tool, GameLocation location, Farmer who);
 
     /// <summary>Spreads the tool effect to an area around the player.</summary>
     /// <param name="tool">The tool selected by the player.</param>
     /// <param name="origin">The center of the shockwave (i.e. the tool's tile location).</param>
-    /// <param name="multiplier">Stamina cost multiplier.</param>
-    /// <param name="location">The player's location.</param>
+    /// <param name="radius">The radius of the shockwave.</param>
     /// <param name="who">The player.</param>
-    /// <param name="radii">Array of radii values for each charge level.</param>
-    public virtual void SpreadToolEffect(Tool tool, Vector2 origin, float multiplier, GameLocation location, Farmer who, List<int> radii)
+    public virtual bool DoShockwave(Tool tool, Vector2 origin, int radius, Farmer who)
     {
-        int radius = radii.ElementAtOrDefault(who.toolPower - 1);
-        who.stamina -= (who.toolPower - (tool is Axe ? who.ForagingLevel : who.MiningLevel) * 0.1f) * (who.toolPower - 1) * multiplier;
+        GameLocation location = who.currentLocation;
 
-        CircleTileGrid grid = new(origin, radius, excludeOrigin: true);
-        foreach (var tile in grid)
+        if (ModEntry.Config.ShockwaveDelay <= 0) _currentRadius = radius;
+        var circle = new CircleTileGrid(origin, _currentRadius);
+        var affectedTiles = ModEntry.Config.ShockwaveDelay <= 0 ? circle.Tiles : circle.Outline;
+        foreach (var tile in affectedTiles.Except(new Vector2[] { origin, who.getTileLocation() }))
         {
             TemporarilyFakeInteraction(() =>
             {
@@ -65,8 +59,22 @@ internal abstract class BaseEffect
                 location.terrainFeatures.TryGetValue(tile, out TerrainFeature tileFeature);
                 Apply(tile, tileObj, tileFeature, tool, location, who);
             });
+
+            Vector2 pixelPos = new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize);
+            location.temporarySprites.Add(new TemporaryAnimatedSprite(12, pixelPos, Color.White, 8,
+                Game1.random.NextDouble() < 0.5, 50f));
+            location.temporarySprites.Add(new TemporaryAnimatedSprite(6, pixelPos, Color.White, 8,
+                Game1.random.NextDouble() < 0.5, 30f));
         }
+
+        if (++_currentRadius <= radius)
+            return false;
+
+        _currentRadius = 0;
+        return true;
     }
+
+    #region protected methods
 
     /// <summary>Use a tool on a tile.</summary>
     /// <param name="tool">The tool to use.</param>
@@ -136,9 +144,11 @@ internal abstract class BaseEffect
         {
             foreach (LargeTerrainFeature feature in location.largeTerrainFeatures)
             {
-                if (feature.GetType().FullName == "FarmTypeManager.LargeResourceClump" && feature.getBoundingBox(feature.tilePosition.Value).Intersects(tileArea))
+                if (feature.GetType().FullName == "FarmTypeManager.LargeResourceClump" &&
+                    feature.getBoundingBox(feature.tilePosition.Value).Intersects(tileArea))
                 {
-                    ResourceClump clump = ModEntry.Reflection.GetField<NetRef<ResourceClump>>(feature, "Clump").GetValue().Value;
+                    ResourceClump clump = ModEntry.ModHelper.Reflection
+                        .GetField<NetRef<ResourceClump>>(feature, "Clump").GetValue().Value;
                     applyTool = tool => feature.performToolAction(tool, 0, tile, location);
                     return clump;
                 }
@@ -159,7 +169,8 @@ internal abstract class BaseEffect
         if (tileObj is BreakableContainer)
             return tileObj.performToolAction(tool, location);
 
-        if (!tileObj.bigCraftable.Value && tileObj.Name == "SupplyCrate" && !(tileObj is Chest) && tileObj.performToolAction(tool, location))
+        if (!tileObj.bigCraftable.Value && tileObj.Name == "SupplyCrate" && !(tileObj is Chest) &&
+            tileObj.performToolAction(tool, location))
         {
             tileObj.performRemoveAction(tile, location);
             Game1.currentLocation.Objects.Remove(tile);
@@ -174,7 +185,7 @@ internal abstract class BaseEffect
     /// <param name="animationIds">The animation IDs to detect.</param>
     protected void CancelAnimation(Farmer who, params int[] animationIds)
     {
-        int animationId = ModEntry.Reflection.GetField<int>(who.FarmerSprite, "currentSingleAnimation").GetValue();
+        int animationId = ModEntry.ModHelper.Reflection.GetField<int>(who.FarmerSprite, "currentSingleAnimation").GetValue();
         foreach (int id in animationIds)
         {
             if (id == animationId)
@@ -185,6 +196,10 @@ internal abstract class BaseEffect
             }
         }
     }
+
+    #endregion protected methods
+
+    #region private methods
 
     /// <summary>Temporarily set up the player to interact with a tile, then return it to the original state.</summary>
     /// <param name="action">The action to perform.</param>
@@ -263,4 +278,6 @@ internal abstract class BaseEffect
             _ => tile
         };
     }
+
+    #endregion protected methods
 }

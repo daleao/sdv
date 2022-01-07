@@ -51,6 +51,11 @@ internal class CraftingRecipeCtorPatch : BasePatch
                     { 384, 2 }, // gold ore
                     { 382, 1 } // coal
                 },
+                "Explosive Ammo" => new()
+                {
+                    { 380, 3 }, // iron ore
+                    { 382, 1 } // coal
+                },
                 _ => __instance.recipeList
             };
     }

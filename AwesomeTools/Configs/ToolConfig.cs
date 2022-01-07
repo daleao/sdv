@@ -20,6 +20,6 @@ public class ToolConfig
     /// <summary>How much stamina the shockwave should consume.</summary>
     public float StaminaCostMultiplier { get; set; } = 1.0f;
 
-    /// <summary>The delay in milliseconds between releasing the tool button and triggering the shockwave.</summary>
-    public int ShockwaveDelay { get; set; } = 200;
+    /// <summary>Affects the shockwave travel speed. Lower is faster. Set to 0 for instant.</summary>
+    public uint ShockwaveDelay { get; set; } = 4;
 }

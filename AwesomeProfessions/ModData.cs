@@ -1,6 +1,5 @@
 ﻿using StardewModdingAPI;
 using StardewValley;
-using System.Collections.Generic;
 using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -10,15 +9,12 @@ namespace TheLion.Stardew.Professions;
 /// <summary>Wrapper to facilitate reading from and writing to the main player's <see cref="ModDataDictionary"/>.</summary>
 public static class ModData
 {
-    public static readonly Dictionary<string, string> ProfessionByDataField = new()
-    {
-        { "ItemsForaged", "Ecologist" },
-        { "MineralsCollected", "Gemologist" },
-        { "ProspectorHuntStreak", "Prospector" },
-        { "ScavengerHuntStreak", "Scavenger" },
-        { "TrashCollectedThisSeason", "Conservationist" },
-        { "ActiveTaxBonusPercent", "Conservationist" }
-    };
+    public const string KEY_ECOLOGISTITEMSFORAGED_S = "EcologistItemsForaged";
+    public const string KEY_GEMOLOGISTMINERALSCOLLECTED_S = "GemologistMineralsCollected";
+    public const string KEY_PROSPECTORSTREAK_S = "ProspectorHuntStreak";
+    public const string KEY_SCAVENGERSTREAK_S = "ScavengerHuntStreak";
+    public const string KEY_CONSERVATIONISTTRASHCOLLECTED_S = "ConservationistTrashCollectedThisSeason";
+    public const string KEY_CONSERVATIONISTTAXBONUS_S = "ConservationistActiveTaxBonusPct";
 
     /// <summary>Check if there are rogue data fields and remove them.</summary>
     public static void CleanUpRogueData()
@@ -60,7 +56,9 @@ public static class ModData
                     continue;
                 }
 
-                if (Game1.player.HasProfession(ProfessionByDataField[split[2]])) continue;
+                var field = split[2];
+                var profession = field.SplitCamelCase()[0];
+                if (Game1.player.HasProfession(profession)) continue;
 
                 data.Remove(key);
                 ++count;
@@ -97,7 +95,7 @@ public static class ModData
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
             // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"Data/Write/{field}",
+            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestDataUpdate/Write/{field}",
                 new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
             return;
         }
@@ -121,7 +119,7 @@ public static class ModData
         }
 
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
-            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"Data/Write/{field}",
+            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestDataUpdate/Write/{field}",
                 new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID }); // request the main player
         else
             Write(field, value);
@@ -138,13 +136,13 @@ public static class ModData
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
             // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(amount, $"Data/Increment/{field}",
+            ModEntry.ModHelper.Multiplayer.SendMessage(amount, $"RequestDataUpdate/Increment/{field}",
                 new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
             return;
         }
 
         who ??= Game1.player;
-        Game1.MasterPlayer.modData.Increment($"{ModEntry.Manifest.UniqueID}/{Game1.player.UniqueMultiplayerID}/{field}", amount);
+        Game1.MasterPlayer.modData.Increment($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}", amount);
         ModEntry.Log($"[ModData]: Incremented {who.Name}'s {field} by {amount}.", LogLevel.Trace);
     }
 
@@ -156,7 +154,7 @@ public static class ModData
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
             // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(1, $"Data/Increment/{field}",
+            ModEntry.ModHelper.Multiplayer.SendMessage(1, $"RequestDataUpdate/Increment/{field}",
                 new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
             return;
         }

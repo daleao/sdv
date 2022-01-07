@@ -15,7 +15,7 @@ internal class SuperModeBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     {
         if (ModEntry.State.Value.SuperModeIndex <= 0)
         {
-            ModEntry.Subscriber.Unsubscribe(GetType());
+            ModEntry.Subscriber.UnsubscribeFrom(GetType());
             return;
         }
 

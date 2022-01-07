@@ -17,6 +17,6 @@ internal class SuperModeActivationTimerUpdateTickedEvent : UpdateTickedEvent
 
         if (_superModeActivationTimer > 0) return;
         ModEntry.State.Value.IsSuperModeActive = true;
-        ModEntry.Subscriber.Unsubscribe(GetType());
+        ModEntry.Subscriber.UnsubscribeFrom(GetType());
     }
 }

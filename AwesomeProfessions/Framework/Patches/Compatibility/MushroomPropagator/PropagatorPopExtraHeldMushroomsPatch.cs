@@ -40,7 +40,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         var who = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         if (!who.IsLocalPlayer || !who.HasProfession("Ecologist")) return;
 
-        ModData.Increment<uint>("ItemsForaged");
+        ModData.Increment<uint>(ModData.KEY_ECOLOGISTITEMSFORAGED_S);
     }
 
     /// <summary>Patch for Propagator output quality.</summary>

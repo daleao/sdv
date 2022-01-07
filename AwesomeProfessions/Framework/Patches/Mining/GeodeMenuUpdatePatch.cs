@@ -30,7 +30,7 @@ internal class GeodeMenuUpdatePatch : BasePatch
         var helper = new ILHelper(original, instructions);
 
         /// Injected: if (Game1.player.professions.Contains(<gemologist_id>))
-        ///		Data.IncrementField<uint>("MineralsCollected")
+        ///		Data.IncrementField<uint>("GemologistMineralsCollected")
         ///	After: Game1.stats.GeodesCracked++;
 
         var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
@@ -45,7 +45,7 @@ internal class GeodeMenuUpdatePatch : BasePatch
                 .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Gemologist"),
                     dontIncreaseGemologistCounter)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
+                    new CodeInstruction(OpCodes.Ldstr, ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string), typeof(Farmer) })

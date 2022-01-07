@@ -107,7 +107,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
     - Analogous to Scavenger. Tracks any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items.
     - _Bonus: holding [ModKey](#configs) will highlight all nodes and ladders on-screen._
 - **Lv5 - Blaster** - Bombs are cheaper to craft. Exploded rocks yield 2× *(3×)* as much coal.
-    - New recipe: x2 ore (copper, iron, gold) and x1 coal.
+    - New recipes: x2 ore (copper, iron, gold) and x1 coal.
 - **Lv10 - Demolitionist** - Bomb radius +1. Exploded rocks yield 20% *(40%)* more resources.
     - _Bonus: [Get excited!](https://www.youtube.com/watch?v=0nlJuwO0GDs) when hit by an explosion._
 - **Lv10 - Gemologist** - Progressively identify gems and minerals of higher quality. Crystalariums work 25% *(50%)* faster.
@@ -200,7 +200,8 @@ The mods are **not** compatible:
 
 - Any mods that change vanilla skills.
 - [Better Crab Pots](https://www.nexusmods.com/stardewvalley/mods/3159), [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767) or any mod that affects Crab Pot behavior.
-- [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but makes Artisan profession redundant; all features are already included). 
+- [Better Slingshots](https://www.nexusmods.com/stardewvalley/mods/2067) or any mod that affects Slingshot behavior.
+- - [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but makes Artisan profession redundant; all features are already included). 
 - [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (use included prestige or console commands instead).
 - [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (now also included).
 
@@ -260,7 +261,7 @@ The mod provides the following console commands, which you can enter in the SMAP
 - **player_maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
 - **player_maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
 - **player_fishingprogress** - Check your fishing progress and bonus fish value as Angler.
-- **wol_data** - Check current value of all mod data fields (ItemsForaged, MineralsCollected, ProspectorStreak, ScavengerStreak, TrashCollectedThisSeason, ActiveTaxBonusPercent).
+- **wol_data** - Check current value of all mod data fields (FEcologistItemsForaged, GemologistMineralsCollected, ProspectorHuntStreak, ScavengerHuntStreak, ConservationistTrashCollectedThisSeason, ConservationistActiveTaxBonusPct).
 - **wol_setdata** - Set a new value for one of the mod data fields above.
 - **wol_events** - List currently subscribed mod events (for debugging).
 - **wol_resetthehunt** - Forcefully reset the currently active Treasure Hunt and choose a new target treasure tile.

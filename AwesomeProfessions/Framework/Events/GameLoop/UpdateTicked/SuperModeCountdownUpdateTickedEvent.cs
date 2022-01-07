@@ -10,6 +10,6 @@ internal class SuperModeCountdownUpdateTickedEvent : UpdateTickedEvent
     {
         if (Game1.game1.IsActive && Game1.shouldTimePass() && e.IsMultipleOf(ModEntry.Config.SuperModeDrainFactor))
             --ModEntry.State.Value.SuperModeGaugeValue;
-        if (ModEntry.State.Value.SuperModeGaugeValue <= 0) ModEntry.Subscriber.Unsubscribe(GetType());
+        if (ModEntry.State.Value.SuperModeGaugeValue <= 0) ModEntry.Subscriber.UnsubscribeFrom(GetType());
     }
 }

@@ -3,12 +3,14 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using System;
 using System.Globalization;
+using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.AssetEditors;
+using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
 
-internal class ConservationistDayEndingEvent : DayEndingEvent
+internal class GlobalConservationistDayEndingEvent : DayEndingEvent
 {
     /// <inheritdoc />
     public override void OnDayEnding(object sender, DayEndingEventArgs e)
@@ -18,16 +20,16 @@ internal class ConservationistDayEndingEvent : DayEndingEvent
 
         if (Game1.dayOfMonth != 28) return;
 
-        foreach (var farmer in Game1.getAllFarmers())
+        foreach (var farmer in Game1.getAllFarmers().Where(f => f.HasProfession("Conservationist")))
         {
-            var trashCollectedThisSeason = ModData.ReadAs<uint>("TrashCollectedThisSeason", farmer);
+            var trashCollectedThisSeason = ModData.ReadAs<uint>(ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S, farmer);
             if (trashCollectedThisSeason <= 0) return;
 
             var taxBonusNextSeason =
                 // ReSharper disable once PossibleLossOfFraction
                 Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxLevel / 100f,
                     ModEntry.Config.TaxDeductionCeiling);
-            ModData.Write("ActiveTaxBonusPercent",
+            ModData.Write(ModData.KEY_CONSERVATIONISTTAXBONUS_S,
                 taxBonusNextSeason.ToString(CultureInfo.InvariantCulture), farmer);
             if (taxBonusNextSeason > 0)
             {
@@ -35,7 +37,7 @@ internal class ConservationistDayEndingEvent : DayEndingEvent
                 farmer.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
             }
 
-            ModData.Write("TrashCollectedThisSeason", "0");
+            ModData.Write(ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S, "0");
         }
     }
 }

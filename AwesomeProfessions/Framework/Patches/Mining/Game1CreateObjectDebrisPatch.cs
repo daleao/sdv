@@ -38,7 +38,7 @@ internal class Game1CreateObjectDebrisPatch : BasePatch
                 itemQuality = Utility.Professions.GetGemologistMineralQuality()
             });
 
-            ModData.Increment<uint>("MineralsCollected");
+            ModData.Increment<uint>(ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S);
             return false; // don't run original logic
         }
         catch (Exception ex)

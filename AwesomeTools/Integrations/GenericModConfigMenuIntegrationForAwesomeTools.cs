@@ -50,11 +50,11 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
             )
             .AddNumberField(
                 () => "Shockwave Delay",
-                () => "The delay between releasing the tool button and triggering the shockwave. Adjust this if you find that the shockwave happens to soon or too late.",
-                config => config.ShockwaveDelay,
-                (config, value) => config.ShockwaveDelay = value,
+                () => "Affects the shockwave travel speed. Lower is faster. Set to 0 for instant.",
+                config => (int)config.ShockwaveDelay,
+                (config, value) => config.ShockwaveDelay = (uint)value,
                 0,
-                300
+                10
             )
 
             // keybinds

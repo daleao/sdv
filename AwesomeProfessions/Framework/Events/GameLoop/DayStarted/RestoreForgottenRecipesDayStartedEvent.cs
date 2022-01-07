@@ -13,7 +13,7 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
         var forgottenRecipes = ModData.Read("ForgottenRecipes").ToDictionary<string, int>(",", ";");
         if (!forgottenRecipes.Any())
         {
-            ModEntry.Subscriber.Unsubscribe(GetType());
+            ModEntry.Subscriber.UnsubscribeFrom(GetType());
             return;
         }
 
@@ -35,6 +35,6 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
         ModData.Write("ForgottenRecipes", forgottenRecipes.Any()
             ? forgottenRecipes.ToString(",", ";")
             : null);
-        ModEntry.Subscriber.Unsubscribe(GetType());
+        ModEntry.Subscriber.UnsubscribeFrom(GetType());
     }
 }

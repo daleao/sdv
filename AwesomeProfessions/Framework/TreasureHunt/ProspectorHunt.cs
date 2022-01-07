@@ -34,7 +34,7 @@ public class ProspectorHunt : TreasureHunt
 
         TimeLimit = (uint)(location.Objects.Count() * ModEntry.Config.ProspectorHuntHandicap);
         Elapsed = 0;
-        ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(),
+        ModEntry.Subscriber.SubscribeTo(new ArrowPointerUpdateTickedEvent(),
             new ProspectorHuntUpdateTickedEvent(), new ProspectorHuntRenderedHudEvent());
         Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
     }
@@ -58,7 +58,7 @@ public class ProspectorHunt : TreasureHunt
     /// <inheritdoc/>
     internal override void End()
     {
-        ModEntry.Subscriber.Unsubscribe(typeof(ProspectorHuntUpdateTickedEvent),
+        ModEntry.Subscriber.UnsubscribeFrom(typeof(ProspectorHuntUpdateTickedEvent),
             typeof(ProspectorHuntRenderedHudEvent));
         TreasureTile = null;
     }
@@ -74,7 +74,7 @@ public class ProspectorHunt : TreasureHunt
 
         GetStoneTreasure();
         End();
-        ModData.Increment<uint>("ProspectorHuntStreak");
+        ModData.Increment<uint>(ModData.KEY_PROSPECTORSTREAK_S);
     }
 
     /// <inheritdoc/>
@@ -82,7 +82,7 @@ public class ProspectorHunt : TreasureHunt
     {
         End();
         Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-        ModData.Write("ProspectorHuntStreak", "0");
+        ModData.Write(ModData.KEY_PROSPECTORSTREAK_S, "0");
     }
 
     #endregion protected methods
@@ -200,7 +200,7 @@ public class ProspectorHunt : TreasureHunt
 
                     case 2: // special items
                         var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
-                        var streak = ModData.ReadAs<uint>("ProspectorHuntStreak");
+                        var streak = ModData.ReadAs<uint>(ModData.KEY_PROSPECTORSTREAK_S);
                         if (Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
                             treasuresAndQuantities.Add(-1, 1); // femur
 

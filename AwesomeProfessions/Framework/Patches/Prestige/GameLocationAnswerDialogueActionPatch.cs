@@ -241,7 +241,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                             if (ModEntry.Subscriber.TryGet(typeof(PrestigeDayEndingEvent), out var prestigeDayEnding))
                                 ((PrestigeDayEndingEvent)prestigeDayEnding).SkillsToReset.Enqueue(skillType);
                             else
-                                ModEntry.Subscriber.Subscribe(new PrestigeDayEndingEvent(skillType));
+                                ModEntry.Subscriber.SubscribeTo(new PrestigeDayEndingEvent(skillType));
 
                             // play sound effect
                             ModEntry.SoundBox.Play("dogstatue_prestige");

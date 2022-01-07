@@ -32,19 +32,19 @@ internal class SuperModeEnabledEvent : BaseEvent
         var whichSuperMode = Utility.Professions.NameOf(ModEntry.State.Value.SuperModeIndex);
 
         // remove bar shake timer
-        ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBuffDisplayUpdateTickedEvent),
+        ModEntry.Subscriber.UnsubscribeFrom(typeof(SuperModeBuffDisplayUpdateTickedEvent),
             typeof(SuperModeBarShakeTimerUpdateTickedEvent));
         ModEntry.State.Value.ShouldShakeSuperModeGauge = false;
 
         // fade in overlay
-        ModEntry.Subscriber.Subscribe(new SuperModeRenderedWorldEvent(),
+        ModEntry.Subscriber.SubscribeTo(new SuperModeRenderedWorldEvent(),
             new SuperModeOverlayFadeInUpdateTickedEvent());
 
         // play sound effect
         ModEntry.SoundBox.Play(ModEntry.State.Value.SuperModeSFX);
 
         // add countdown event
-        ModEntry.Subscriber.Subscribe(new SuperModeCountdownUpdateTickedEvent());
+        ModEntry.Subscriber.SubscribeTo(new SuperModeCountdownUpdateTickedEvent());
 
         // display buff
         var buffID = ModEntry.Manifest.UniqueID.GetHashCode() + ModEntry.State.Value.SuperModeIndex + 4;
@@ -83,7 +83,7 @@ internal class SuperModeEnabledEvent : BaseEvent
         }
 
         // notify peers
-        ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.State.Value.SuperModeIndex, "SuperMode/Enabled",
+        ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.State.Value.SuperModeIndex, "ToggledSuperMode/On",
             new[] { ModEntry.Manifest.UniqueID });
 
         switch (whichSuperMode)
@@ -99,8 +99,8 @@ internal class SuperModeEnabledEvent : BaseEvent
         }
 
         // unsubscribe self and wait for disabled
-        ModEntry.Subscriber.Unsubscribe(GetType());
-        ModEntry.Subscriber.Subscribe(new SuperModeDisabledEvent());
+        ModEntry.Subscriber.UnsubscribeFrom(GetType());
+        ModEntry.Subscriber.SubscribeTo(new SuperModeDisabledEvent());
     }
 
     /// <summary>Hide the player from monsters that may have already seen him/her.</summary>
@@ -171,6 +171,6 @@ internal class SuperModeEnabledEvent : BaseEvent
             }
         }
 
-        ModEntry.Subscriber.Subscribe(new SlimeInflationUpdateTickedEvent());
+        ModEntry.Subscriber.SubscribeTo(new SlimeInflationUpdateTickedEvent());
     }
 }

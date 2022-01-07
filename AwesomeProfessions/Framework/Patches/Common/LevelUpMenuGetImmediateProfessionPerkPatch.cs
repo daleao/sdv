@@ -42,6 +42,9 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
 
         // subscribe events
         ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
+        if (professionName == "Conservationist") // request the main player
+            ModEntry.ModHelper.Multiplayer.SendMessage("Conservationist", "RequestEventSubscription",
+                new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
 
         if (whichProfession is >= 26 and < 30 &&
             ModEntry.State.Value.SuperModeIndex < 0) // is level 10 combat profession and Super Mode is not yet registered

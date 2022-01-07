@@ -27,9 +27,9 @@ internal class SuperModeGaugeReturnedToZeroEvent : BaseEvent
         ModEntry.State.Value.IsSuperModeActive = false;
 
         // stop waiting for gauge to fill up and start waiting for it to raise above zero
-        ModEntry.Subscriber.Unsubscribe(typeof(SuperModeGaugeFilledEvent));
-        ModEntry.Subscriber.Subscribe(new SuperModeGaugeRaisedAboveZeroEvent());
+        ModEntry.Subscriber.UnsubscribeFrom(typeof(SuperModeGaugeFilledEvent));
+        ModEntry.Subscriber.SubscribeTo(new SuperModeGaugeRaisedAboveZeroEvent());
         if (!Game1.currentLocation.IsCombatZone())
-            ModEntry.Subscriber.Subscribe(new SuperModeBarFadeOutUpdateTickedEvent());
+            ModEntry.Subscriber.SubscribeTo(new SuperModeBarFadeOutUpdateTickedEvent());
     }
 }

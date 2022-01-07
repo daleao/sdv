@@ -55,7 +55,7 @@ internal class BushShakePatch : BasePatch
         }
 
         /// Injected: if (Game1.player.professions.Contains(<ecologist_id>))
-        ///		Data.IncrementField<uint>("ItemsForaged")
+        ///		Data.IncrementField<uint>("EcologistItemsForaged")
 
         var dontIncreaseEcologistCounter = iLGenerator.DefineLabel();
         try
@@ -70,7 +70,7 @@ internal class BushShakePatch : BasePatch
                 .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Ecologist"),
                     dontIncreaseEcologistCounter)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldstr, "ItemsForaged"),
+                    new CodeInstruction(OpCodes.Ldstr, ModData.KEY_ECOLOGISTITEMSFORAGED_S),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string), typeof(Farmer) })

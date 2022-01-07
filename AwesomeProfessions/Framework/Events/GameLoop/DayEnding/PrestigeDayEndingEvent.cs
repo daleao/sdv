@@ -23,6 +23,6 @@ internal class PrestigeDayEndingEvent : DayEndingEvent
     {
         while (SkillsToReset.Any()) Game1.player.ResetSkill(SkillsToReset.Dequeue());
 
-        ModEntry.Subscriber.Unsubscribe(GetType());
+        ModEntry.Subscriber.UnsubscribeFrom(GetType());
     }
 }

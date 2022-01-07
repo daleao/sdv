@@ -22,8 +22,8 @@ internal class SuperModeGaugeFilledEvent : BaseEvent
     public void OnSuperModeGaugeFilled()
     {
         // stop waiting for gauge to raise above zero and start waiting for it to return to zero
-        ModEntry.Subscriber.Unsubscribe(typeof(SuperModeGaugeRaisedAboveZeroEvent));
-        ModEntry.Subscriber.Subscribe(new SuperModeBarShakeTimerUpdateTickedEvent(),
+        ModEntry.Subscriber.UnsubscribeFrom(typeof(SuperModeGaugeRaisedAboveZeroEvent));
+        ModEntry.Subscriber.SubscribeTo(new SuperModeBarShakeTimerUpdateTickedEvent(),
             new SuperModeGaugeReturnedToZeroEvent(), new SuperModeEnabledEvent());
     }
 }

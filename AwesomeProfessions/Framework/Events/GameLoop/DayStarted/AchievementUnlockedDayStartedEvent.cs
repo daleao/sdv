@@ -20,6 +20,6 @@ internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
         Game1.playSound("achievement");
         Game1.addHUDMessage(new(name, true));
 
-        ModEntry.Subscriber.Unsubscribe(GetType());
+        ModEntry.Subscriber.UnsubscribeFrom(GetType());
     }
 }

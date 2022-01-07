@@ -28,6 +28,6 @@ internal class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
         }
 
         if (!uninflatedSlimes.Any())
-            ModEntry.Subscriber.Unsubscribe(GetType());
+            ModEntry.Subscriber.UnsubscribeFrom(GetType());
     }
 }

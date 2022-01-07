@@ -4,12 +4,12 @@ using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer.ModMessageReceived;
 
-internal class DataModMessageReceivedEvent : ModMessageReceivedEvent
+internal class RequestDataUpdateModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <inheritdoc />
     public override void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("Data")) return;
+        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("RequestDataUpdate")) return;
 
         var split = e.Type.Split('/');
         var operation = split[1];

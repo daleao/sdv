@@ -135,7 +135,7 @@ public static class Professions
     /// <summary>Affects the price all items sold by Conservationist.</summary>
     public static float GetConservationistPriceMultiplier()
     {
-        return 1f + ModData.ReadAs<float>("ActiveTaxBonusPercent");
+        return 1f + ModData.ReadAs<float>(ModData.KEY_CONSERVATIONISTTAXBONUS_S);
     }
 
     /// <summary>Affects the price of animals sold by Breeder.</summary>
@@ -148,7 +148,7 @@ public static class Professions
     /// <summary>Affects the quality of items foraged by Ecologist.</summary>
     public static int GetEcologistForageQuality()
     {
-        var itemsForaged = ModData.ReadAs<uint>("ItemsForaged");
+        var itemsForaged = ModData.ReadAs<uint>(ModData.KEY_ECOLOGISTITEMSFORAGED_S);
         return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
             ? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -159,7 +159,7 @@ public static class Professions
     /// <summary>Affects the quality of minerals collected by Gemologist.</summary>
     public static int GetGemologistMineralQuality()
     {
-        var mineralsCollected = ModData.ReadAs<uint>("MineralsCollected");
+        var mineralsCollected = ModData.ReadAs<uint>(ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S);
         return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
             ? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
                 ? SObject.medQuality

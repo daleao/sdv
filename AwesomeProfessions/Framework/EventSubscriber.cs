@@ -16,6 +16,7 @@ using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
 using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 using TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
 using TheLion.Stardew.Professions.Framework.Events.Multiplayer.ModMessageReceived;
+using TheLion.Stardew.Professions.Framework.Events.Multiplayer.PeerConnected;
 using TheLion.Stardew.Professions.Framework.Events.Player.Warped;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -26,7 +27,7 @@ internal class EventSubscriber : IEnumerable<IEvent>
 {
     private static readonly Dictionary<string, List<IEvent>> EventsByProfession = new()
     {
-        { "Conservationist", new() { new ConservationistDayEndingEvent() } },
+        { "Conservationist", new() { new GlobalConservationistDayEndingEvent() } },
         { "Poacher", new() { new PoacherWarpedEvent() } },
         { "Piper", new() { new PiperWarpedEvent() } },
         { "Prospector", new() { new ProspectorHuntDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent() } },
@@ -58,7 +59,7 @@ internal class EventSubscriber : IEnumerable<IEvent>
 
     /// <summary>Subscribe new events to the event listener.</summary>
     /// <param name="events">Events to be subscribed.</param>
-    internal void Subscribe(params IEvent[] events)
+    internal void SubscribeTo(params IEvent[] events)
     {
         foreach (var e in events)
             if (_subscribed.ContainsType(e.GetType()))
@@ -76,7 +77,7 @@ internal class EventSubscriber : IEnumerable<IEvent>
 
     /// <summary>Unsubscribe events from the event listener.</summary>
     /// <param name="eventTypes">The event types to be unsubscribed.</param>
-    internal void Unsubscribe(params Type[] eventTypes)
+    internal void UnsubscribeFrom(params Type[] eventTypes)
     {
         foreach (var type in eventTypes)
             if (_subscribed.RemoveType(type, out var removed))
@@ -104,7 +105,7 @@ internal class EventSubscriber : IEnumerable<IEvent>
             .Except(except)
             .Select(t => (IEvent)t.Constructor().Invoke(Array.Empty<object>()))
             .ToArray();
-        Subscribe(eventsToSubscribe);
+        SubscribeTo(eventsToSubscribe);
     }
 
     /// <summary>Subscribe the event listener to events required for prestige functionality.</summary>
@@ -116,13 +117,13 @@ internal class EventSubscriber : IEnumerable<IEvent>
             .Where(t => t.Name.StartsWith(prefix))
             .Except(except)
             .ToArray();
-        Unsubscribe(eventsToRemove);
+        UnsubscribeFrom(eventsToRemove);
     }
 
     /// <summary>Subscribe the event listener to all events required by the local player's current professions.</summary>
     internal void SubscribeEventsForLocalPlayer()
     {
-        ModEntry.Log($"[EventSubscriber]: Subscribing dynamic events for farmer {Game1.player.Name}...",
+        ModEntry.Log($"[EventSubscriber]: Subscribing events for farmer {Game1.player.Name}...",
             LogLevel.Trace);
         foreach (var professionIndex in Game1.player.professions)
             try
@@ -135,36 +136,39 @@ internal class EventSubscriber : IEnumerable<IEvent>
                     LogLevel.Trace);
             }
 
-        ModEntry.Log("[EventSubscriber]: Done subscribing profession events.", LogLevel.Trace);
-        Subscribe(new SuperModeIndexChangedEvent());
-        ModEntry.Log("[EventSubscriber]: Done subscribing player events.", LogLevel.Trace);
+        SubscribeTo(new SuperModeIndexChangedEvent());
+        if (Context.IsMainPlayer)
+            SubscribeTo(new HostPeerConnectedEvent());
+        else if (Context.IsMultiplayer)
+            SubscribeTo(new ToggledSuperModeModMessageReceivedEvent());
+        ModEntry.Log("[EventSubscriber]: Done subscribing local player events.", LogLevel.Trace);
     }
 
     /// <summary>Unsubscribe the event listener from all non-static events.</summary>
     internal void UnsubscribeLocalPlayerEvents()
     {
-        ModEntry.Log("[EventSubscriber]: Unsubscribing player dynamic events...", LogLevel.Trace);
+        ModEntry.Log("[EventSubscriber]: Unsubscribing local player events...", LogLevel.Trace);
         var eventsToRemove = _subscribed
             .Where(e => !e.GetType().Name.SplitCamelCase().First().IsAnyOf("Static", "Debug"))
             .Select(subscribed => subscribed.GetType())
-            .AddItem(typeof(SuperModeIndexChangedEvent))
             .ToArray();
-        Unsubscribe(eventsToRemove);
-        ModEntry.Log("[EventSubscriber]: Done unsubscribing player events.", LogLevel.Trace);
+        UnsubscribeFrom(eventsToRemove);
+        ModEntry.Log("[EventSubscriber]: Done unsubscribing local player events.", LogLevel.Trace);
     }
 
     /// <summary>Subscribe the event listener to all events required by a specific profession.</summary>
-    /// <param name="whichProfession">The profession index.</param>
+    /// <param name="whichProfession">The profession name.</param>
     internal void SubscribeEventsForProfession(string whichProfession)
     {
-        if (!EventsByProfession.TryGetValue(whichProfession, out var events)) return;
-
+        if (whichProfession == "Conservationist" && !Context.IsMainPlayer ||
+            !EventsByProfession.TryGetValue(whichProfession, out var events)) return;
+        
         ModEntry.Log($"[EventSubscriber]: Subscribing to {whichProfession} profession events...", LogLevel.Trace);
-        foreach (var e in events) Subscribe(e);
+        foreach (var e in events) SubscribeTo(e);
     }
 
     /// <summary>Unsubscribe the event listener from all events required by a specific profession.</summary>
-    /// <param name="whichProfession">The profession index.</param>
+    /// <param name="whichProfession">The profession name.</param>
     internal void UnsubscribeProfessionEvents(string whichProfession)
     {
         if (!EventsByProfession.TryGetValue(whichProfession, out var events)) return;
@@ -176,25 +180,24 @@ internal class EventSubscriber : IEnumerable<IEvent>
 
         ModEntry.Log($"[EventSubscriber]: Unsubscribing from {whichProfession} profession events...",
             LogLevel.Trace);
-        foreach (var e in events.Except(except)) Unsubscribe(e.GetType());
+        foreach (var e in events.Except(except)) UnsubscribeFrom(e.GetType());
     }
 
     /// <summary>Subscribe the event listener to all events required for Super Mode functionality.</summary>
     internal void SubscribeSuperModeEvents()
     {
         ModEntry.Log("[EventSubscriber]: Subscribing Super Mode events...", LogLevel.Trace);
-        Subscribe(
+        SubscribeTo(
             new SuperModeButtonsChangedEvent(),
             new SuperModeGaugeRaisedAboveZeroEvent(),
-            new SuperModeWarpedEvent(),
-            new SuperModeModMessageReceivedEvent()
+            new SuperModeWarpedEvent()
         );
 
         if (!Game1.currentLocation.IsCombatZone() && ModEntry.State.Value.SuperModeGaugeValue <= 0) return;
 
-        ModEntry.Subscriber.Subscribe(new SuperModeBarRenderingHudEvent());
+        ModEntry.Subscriber.SubscribeTo(new SuperModeBarRenderingHudEvent());
         if (ModEntry.State.Value.SuperModeGaugeValue >= ModEntry.State.Value.SuperModeGaugeMaxValue)
-            ModEntry.Subscriber.Subscribe(new SuperModeBarShakeTimerUpdateTickedEvent());
+            ModEntry.Subscriber.SubscribeTo(new SuperModeBarShakeTimerUpdateTickedEvent());
     }
 
     /// <summary>Unsubscribe the event listener from all events related to Super Mode functionality.</summary>
@@ -217,7 +220,7 @@ internal class EventSubscriber : IEnumerable<IEvent>
                                 prefix == "SuperMode" &&
                                 !Game1.player.HasAnyOfProfessions("Brute", "Poacher", "Piper", "Desperado");
                      })
-                     .Reverse()) Unsubscribe(e.GetType());
+                     .Reverse()) UnsubscribeFrom(e.GetType());
         ModEntry.Log("[EventSubscriber]: Done unsubscribing rogue events.", LogLevel.Trace);
     }
 

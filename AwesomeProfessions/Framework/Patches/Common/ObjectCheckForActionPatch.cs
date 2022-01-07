@@ -37,7 +37,7 @@ internal class ObjectCheckForActionPatch : BasePatch
     {
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession("Ecologist"))
-            ModData.Increment<uint>("ItemsForaged");
+            ModData.Increment<uint>(ModData.KEY_ECOLOGISTITEMSFORAGED_S);
     }
 
     /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium.</summary>
@@ -48,7 +48,7 @@ internal class ObjectCheckForActionPatch : BasePatch
         var helper = new ILHelper(original, instructions);
 
         /// Injected: if (who.professions.Contains(<gemologist_id>) && name.Equals("Crystalarium"))
-        ///		Data.IncrementField<uint>("MineralsCollected")
+        ///		Data.IncrementField<uint>("GemologistMineralsCollected")
         ///	Before: switch (name)
 
         var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
@@ -73,7 +73,7 @@ internal class ObjectCheckForActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) })),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
-                    new CodeInstruction(OpCodes.Ldstr, "MineralsCollected"),
+                    new CodeInstruction(OpCodes.Ldstr, ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string), typeof(Farmer) })

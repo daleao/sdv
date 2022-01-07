@@ -23,15 +23,15 @@ internal class SuperModeDisabledEvent : BaseEvent
     public void OnSuperModeDisabled()
     {
         // remove countdown and fade out overlay
-        ModEntry.Subscriber.Subscribe(new SuperModeOverlayFadeOutUpdateTickedEvent());
-        ModEntry.Subscriber.Unsubscribe(typeof(SuperModeCountdownUpdateTickedEvent));
+        ModEntry.Subscriber.SubscribeTo(new SuperModeOverlayFadeOutUpdateTickedEvent());
+        ModEntry.Subscriber.UnsubscribeFrom(typeof(SuperModeCountdownUpdateTickedEvent));
 
         // notify peers
-        ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.State.Value.SuperModeIndex, "SuperMode/Disabled",
+        ModEntry.ModHelper.Multiplayer.SendMessage(ModEntry.State.Value.SuperModeIndex, "ToggledSuperMode/Off",
             new[] { ModEntry.Manifest.UniqueID });
 
         // unsubscribe self
-        ModEntry.Subscriber.Unsubscribe(GetType());
+        ModEntry.Subscriber.UnsubscribeFrom(GetType());
 
         // remove permanent effects
         if (ModEntry.State.Value.SuperModeIndex != Utility.Professions.IndexOf("Piper")) return;
@@ -41,6 +41,6 @@ internal class SuperModeDisabledEvent : BaseEvent
             slime.DamageToFarmer = (int)Math.Round(slime.DamageToFarmer / slime.Scale);
 
         // degorge
-        ModEntry.Subscriber.Subscribe(new SlimeDeflationUpdateTickedEvent());
+        ModEntry.Subscriber.SubscribeTo(new SlimeDeflationUpdateTickedEvent());
     }
 }

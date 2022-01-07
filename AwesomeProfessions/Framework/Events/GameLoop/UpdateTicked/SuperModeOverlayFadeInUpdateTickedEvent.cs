@@ -8,6 +8,6 @@ internal class SuperModeOverlayFadeInUpdateTickedEvent : UpdateTickedEvent
     public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
     {
         ModEntry.State.Value.SuperModeOverlayAlpha += 0.01f;
-        if (ModEntry.State.Value.SuperModeOverlayAlpha >= 0.3f) ModEntry.Subscriber.Unsubscribe(GetType());
+        if (ModEntry.State.Value.SuperModeOverlayAlpha >= 0.3f) ModEntry.Subscriber.UnsubscribeFrom(GetType());
     }
 }

@@ -63,7 +63,7 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
                                                (Game1.player.IsMale ? "male" : "female"));
         if (Game1.player.achievements.Contains(name.GetDeterministicHashCode())) return;
 
-        ModEntry.Subscriber.Subscribe(new AchievementUnlockedDayStartedEvent());
+        ModEntry.Subscriber.SubscribeTo(new AchievementUnlockedDayStartedEvent());
     }
 
     public static void ResetSuperMode()

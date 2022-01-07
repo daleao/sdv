@@ -23,6 +23,6 @@ internal class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
         if (undeflatedSlimes.Any()) return;
 
         ModEntry.State.Value.PipedSlimeScales.Clear();
-        ModEntry.Subscriber.Unsubscribe(GetType());
+        ModEntry.Subscriber.UnsubscribeFrom(GetType());
     }
 }

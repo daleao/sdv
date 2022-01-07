@@ -30,7 +30,9 @@ internal class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch
     {
         if (currentLevel < 10) return true; // run original logic
 
-        __result = EXP_AT_LEVEL_TEN_I + (currentLevel - 10 + 1) * (int)ModEntry.Config.RequiredExpPerExtendedLevel;
+        __result = currentLevel >= 20
+            ? 0
+            : EXP_AT_LEVEL_TEN_I + (currentLevel - 10 + 1) * (int) ModEntry.Config.RequiredExpPerExtendedLevel;
         return false; // don't run original logic
     }
 

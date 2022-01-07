@@ -28,12 +28,12 @@ internal class SpelunkerWarpedEvent : WarpedEvent
                 player.Stamina = Math.Min(player.Stamina + player.MaxStamina * 0.05f, player.MaxStamina);
             }
 
-            ModEntry.Subscriber.Subscribe(SpelunkerUpdateTickedEvent);
+            ModEntry.Subscriber.SubscribeTo(SpelunkerUpdateTickedEvent);
         }
         else
         {
             ModEntry.State.Value.SpelunkerLadderStreak = 0;
-            ModEntry.Subscriber.Unsubscribe(SpelunkerUpdateTickedEvent.GetType());
+            ModEntry.Subscriber.UnsubscribeFrom(SpelunkerUpdateTickedEvent.GetType());
         }
     }
 }

@@ -21,7 +21,7 @@ internal class SuperModeBarFadeOutUpdateTickedEvent : UpdateTickedEvent
 
         if (_fadeOutTimer > 0) return;
 
-        ModEntry.Subscriber.Unsubscribe(typeof(SuperModeBarRenderingHudEvent), GetType());
+        ModEntry.Subscriber.UnsubscribeFrom(typeof(SuperModeBarRenderingHudEvent), GetType());
         ModEntry.State.Value.SuperModeGaugeAlpha = 1f;
     }
 }

@@ -20,7 +20,7 @@ internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.State.Value.DemolitionistExcitedness <= 0) ModEntry.Subscriber.Unsubscribe(GetType());
+        if (ModEntry.State.Value.DemolitionistExcitedness <= 0) ModEntry.Subscriber.UnsubscribeFrom(GetType());
 
         if (e.Ticks % 30 == 0)
         {

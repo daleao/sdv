@@ -39,9 +39,9 @@ internal class PropagatorMachineGetOutput : BasePatch
         if (!who.HasProfession("Ecologist")) return;
 
         if (who.IsLocalPlayer)
-            ModData.Increment("ItemsForaged", -1);
+            ModData.Increment(ModData.KEY_ECOLOGISTITEMSFORAGED_S, -1);
         else
-            ModData.Increment<uint>("ItemsForaged", who);
+            ModData.Increment<uint>(ModData.KEY_ECOLOGISTITEMSFORAGED_S, who);
     }
 
     #endregion harmony patches

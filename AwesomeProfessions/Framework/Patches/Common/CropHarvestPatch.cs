@@ -60,7 +60,7 @@ internal class CropHarvestPatch : BasePatch
         }
 
         /// Injected: if (Game1.player.professions.Contains(<ecologist_id>))
-        ///		Data.IncrementField("ItemsForaged", amount: @object.Stack)
+        ///		Data.IncrementField("EcologistItemsForaged", amount: @object.Stack)
         ///	After: Game1.stats.ItemsForaged += @object.Stack;
 
         var dontIncreaseEcologistCounter = iLGenerator.DefineLabel();
@@ -75,7 +75,7 @@ internal class CropHarvestPatch : BasePatch
                 .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Ecologist"),
                     dontIncreaseEcologistCounter)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldstr, "ItemsForaged"),
+                    new CodeInstruction(OpCodes.Ldstr, ModData.KEY_ECOLOGISTITEMSFORAGED_S),
                     new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = @object
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Item).PropertyGetter(nameof(Item.Stack))),

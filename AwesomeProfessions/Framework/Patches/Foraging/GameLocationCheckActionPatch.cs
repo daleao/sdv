@@ -224,9 +224,9 @@ internal class GameLocationCheckActionPatch : BasePatch
     private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
     {
         if (who.HasProfession("Ecologist") && obj.isForage(location) && !obj.IsForagedMineral())
-            ModData.Increment<uint>("ItemsForaged");
+            ModData.Increment<uint>(ModData.KEY_ECOLOGISTITEMSFORAGED_S);
         else if (who.HasProfession("Gemologist") && obj.IsForagedMineral())
-            ModData.Increment<uint>("MineralsCollected");
+            ModData.Increment<uint>(ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S);
     }
 
     #endregion private methods

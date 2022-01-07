@@ -20,7 +20,7 @@ internal class PiperWarpedEvent : WarpedEvent
         if (e.NewLocation is not (Woods or VolcanoDungeon or MineShaft) ||
             e.NewLocation is MineShaft shaft1 && shaft1.IsTreasureOrSafeRoom())
         {
-            ModEntry.Subscriber.Unsubscribe(typeof(PiperUpdateTickedEvent));
+            ModEntry.Subscriber.UnsubscribeFrom(typeof(PiperUpdateTickedEvent));
             return;
         }
 
@@ -83,6 +83,6 @@ internal class PiperWarpedEvent : WarpedEvent
 
         ModEntry.Log($"Spawned {spawned} Slimes after {attempts} attempts.", LogLevel.Trace);
 
-        ModEntry.Subscriber.Subscribe(new PiperUpdateTickedEvent());
+        ModEntry.Subscriber.SubscribeTo(new PiperUpdateTickedEvent());
     }
 }

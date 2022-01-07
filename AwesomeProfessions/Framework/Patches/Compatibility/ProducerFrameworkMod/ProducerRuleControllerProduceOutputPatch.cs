@@ -58,7 +58,7 @@ internal class ProducerRuleControllerProduceOutputPatch : BasePatch
         else if (who.IsLocalPlayer && (output.IsForagedMineral() || output.IsGemOrMineral()) &&
                  who.HasProfession("Gemologist"))
         {
-            ModData.Increment<uint>("MineralsCollected", who);
+            ModData.Increment<uint>(ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S, who);
             if (producer.name != "Crystalarium") output.Quality = Utility.Professions.GetGemologistMineralQuality();
         }
     }

@@ -13,13 +13,13 @@ internal class SuperModeButtonsChangedEvent : ButtonsChangedEvent
             ModEntry.State.Value.SuperModeGaugeValue >= ModEntry.State.Value.SuperModeGaugeMaxValue)
         {
             if (ModEntry.Config.HoldKeyToActivateSuperMode)
-                ModEntry.Subscriber.Subscribe(new SuperModeActivationTimerUpdateTickedEvent());
+                ModEntry.Subscriber.SubscribeTo(new SuperModeActivationTimerUpdateTickedEvent());
             else
                 ModEntry.State.Value.IsSuperModeActive = true;
         }
         else if (ModEntry.Config.SuperModeKey.GetState() == SButtonState.Released)
         {
-            ModEntry.Subscriber.Unsubscribe(typeof(SuperModeActivationTimerUpdateTickedEvent));
+            ModEntry.Subscriber.UnsubscribeFrom(typeof(SuperModeActivationTimerUpdateTickedEvent));
         }
     }
 }

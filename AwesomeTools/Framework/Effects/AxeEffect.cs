@@ -9,7 +9,7 @@ using SObject = StardewValley.Object;
 namespace TheLion.Stardew.Tools.Framework.Effects;
 
 /// <summary>Applies Axe-specific effects.</summary>
-internal class AxeEffect : BaseEffect
+internal class AxeEffect : ToolEffect
 {
     public Configs.AxeConfig Config { get; }
 
@@ -77,7 +77,9 @@ internal class AxeEffect : BaseEffect
             }
 
             // big stumps and fallen logs
-            if (Config.ClearDebris && clump is not null && UpgradeLevelsNeededForResource.ContainsKey(clump.parentSheetIndex.Value) && tool.UpgradeLevel >= UpgradeLevelsNeededForResource[clump.parentSheetIndex.Value])
+            if (Config.ClearDebris && clump is not null &&
+                UpgradeLevelsNeededForResource.ContainsKey(clump.parentSheetIndex.Value) && tool.UpgradeLevel >=
+                UpgradeLevelsNeededForResource[clump.parentSheetIndex.Value])
             {
                 return applyTool(tool);
             }
@@ -98,12 +100,11 @@ internal class AxeEffect : BaseEffect
     /// <summary>Spreads the Axe effect to an area around the player.</summary>
     /// <param name="tool">The tool selected by the player.</param>
     /// <param name="origin">The center of the shockwave (i.e. the Axe's tile location).</param>
-    /// <param name="multiplier">Stamina cost multiplier.</param>
-    /// <param name="location">The player's location.</param>
     /// <param name="who">The player.</param>
-    public void SpreadToolEffect(Tool tool, Vector2 origin, float multiplier, GameLocation location, Farmer who)
+    public bool DoShockwave(Tool tool, Vector2 origin, Farmer who)
     {
-        base.SpreadToolEffect(tool, origin, multiplier, location, who, Config.RadiusAtEachPowerLevel);
+        int radius = Config.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
+        return base.DoShockwave(tool, origin, radius, who);
     }
 
     /// <summary>Get whether a given tree should be chopped.</summary>

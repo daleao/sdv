@@ -23,8 +23,8 @@ internal class SuperModeGaugeRaisedAboveZeroEvent : BaseEvent
     public void OnSuperModeGaugeRaisedAboveZero()
     {
         // stop waiting for gauge to return to zero and start waiting for it to fill up
-        ModEntry.Subscriber.Unsubscribe(typeof(SuperModeGaugeReturnedToZeroEvent));
-        ModEntry.Subscriber.Subscribe(new SuperModeBarRenderingHudEvent(),
+        ModEntry.Subscriber.UnsubscribeFrom(typeof(SuperModeGaugeReturnedToZeroEvent));
+        ModEntry.Subscriber.SubscribeTo(new SuperModeBarRenderingHudEvent(),
             new SuperModeBuffDisplayUpdateTickedEvent(), new SuperModeGaugeFilledEvent());
     }
 }

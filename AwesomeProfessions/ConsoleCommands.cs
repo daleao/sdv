@@ -6,7 +6,6 @@ using StardewValley;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -416,17 +415,41 @@ internal static class ConsoleCommands
             return;
         }
 
-        foreach (var field in ModData.ProfessionByDataField.Keys)
-        {
-            var value = ModData.Read($"{field}");
-            if (field == "ActiveTaxBonusPercent" && float.TryParse(value, out var pct))
-                value = (pct * 100).ToString(CultureInfo.InvariantCulture) + '%';
+        string value = ModData.Read(ModData.KEY_ECOLOGISTITEMSFORAGED_S);
+        ModEntry.Log(
+            !string.IsNullOrEmpty(value)
+                ? $"{ModData.KEY_ECOLOGISTITEMSFORAGED_S}: {value} ({ModEntry.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                : $"Mod data does not contain an entry for {ModData.KEY_ECOLOGISTITEMSFORAGED_S}.", LogLevel.Info);
 
-            ModEntry.Log(
-                !string.IsNullOrEmpty(value)
-                    ? $"{field}: {value}"
-                    : $"Mod data does not contain an entry for {field}.", LogLevel.Info);
-        }
+        value = ModData.Read(ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S);
+        ModEntry.Log(
+            !string.IsNullOrEmpty(value)
+                ? $"{ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S}: {value} ({ModEntry.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                : $"Mod data does not contain an entry for {ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S}.", LogLevel.Info);
+
+        value = ModData.Read(ModData.KEY_PROSPECTORSTREAK_S);
+        ModEntry.Log(
+            !string.IsNullOrEmpty(value)
+                ? $"{ModData.KEY_PROSPECTORSTREAK_S}: {value} (affects treasure quality)"
+                : $"Mod data does not contain an entry for {ModData.KEY_PROSPECTORSTREAK_S}.", LogLevel.Info);
+
+        value = ModData.Read(ModData.KEY_SCAVENGERSTREAK_S);
+        ModEntry.Log(
+            !string.IsNullOrEmpty(value)
+                ? $"{ModData.KEY_SCAVENGERSTREAK_S}: {value} (affects treasure quality)"
+                : $"Mod data does not contain an entry for {ModData.KEY_SCAVENGERSTREAK_S}.", LogLevel.Info);
+
+        value = ModData.Read(ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S);
+        ModEntry.Log(
+            !string.IsNullOrEmpty(value)
+                ? $"{ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S}: {value} (expect a {int.Parse(value) / ModEntry.Config.TrashNeededPerTaxLevel}% tax deduction next season)"
+                : $"Mod data does not contain an entry for {ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S}.", LogLevel.Info);
+
+        value = ModData.Read(ModData.KEY_CONSERVATIONISTTAXBONUS_S);
+        ModEntry.Log(
+            !string.IsNullOrEmpty(value)
+                ? $"{ModData.KEY_CONSERVATIONISTTAXBONUS_S}: {float.Parse(value) * 100}%"
+                : $"Mod data does not contain an entry for {ModData.KEY_CONSERVATIONISTTAXBONUS_S}.", LogLevel.Info);
     }
 
     /// <summary>Set a new value to the specified mod data field.</summary>
@@ -452,24 +475,29 @@ internal static class ConsoleCommands
 
         switch (args[0].ToLower())
         {
-            case "itemsforaged":
-                SetItemsForaged(value);
+            case "forages":
+            case "ecologistitemsforaged":
+                SetEcologistItemsForaged(value);
                 break;
 
-            case "mineralscollected":
-                SetMineralsCollected(value);
+            case "minerals":
+            case "gemologistmineralscollected":
+                SetGemologistMineralsCollected(value);
                 break;
 
-            case "scavengerstreak":
-                SetScavengerStreak(value);
+            case "shunt":
+            case "scavengerhuntstreak":
+                SetScavengerHuntStreak(value);
                 break;
 
-            case "prospectorstreak":
-                SetProspectorStreak(value);
+            case "phunt":
+            case "prospectorhuntstreak":
+                SetProspectorHuntStreak(value);
                 break;
 
-            case "watertrashcollectedthisseason":
-                SetTrashCollectedThisSeason(value);
+            case "trash":
+            case "conservationisttrashcollectedthisseason":
+                SetConservationistTrashCollectedThisSeason(value);
                 break;
 
             default:
@@ -554,8 +582,9 @@ internal static class ConsoleCommands
     private static string GetUsageForSetModData()
     {
         var result = "\n\nUsage: wol_setdata <field> <value>";
-        result += "\n\nExample:";
-        result += "\n\twol_setdata ItemsForaged 100";
+        result += "\n\nExamples:";
+        result += "\n\twol_setdata EcologistItemsForaged 100";
+        result += "\n\twol_setdata trash 500";
         result += "\n\n" + GetAvailableDataFields();
         return result;
     }
@@ -564,16 +593,16 @@ internal static class ConsoleCommands
     private static string GetAvailableDataFields()
     {
         var result = "Available data fields:";
-        result += "\n\t- ItemsForaged";
-        result += "\n\t- MineralsCollected";
-        result += "\n\t- ScavengerHuntStreak";
-        result += "\n\t- ProspectorHuntStreak";
-        result += "\n\t- WaterTrashCollectedThisSeason";
+        result += $"\n\t- {ModData.KEY_ECOLOGISTITEMSFORAGED_S} (shortcut 'forages')";
+        result += $"\n\t- {ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S} (shortcut 'minerals')";
+        result += $"\n\t- {ModData.KEY_PROSPECTORSTREAK_S} (shortcut 'phunt')";
+        result += $"\n\t- {ModData.KEY_SCAVENGERSTREAK_S} (shortcut 'shunt')";
+        result += $"\n\t- {ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S} (shortcut 'trash')";
         return result;
     }
 
-    /// <summary>Set a new value to the ItemsForaged data field.</summary>
-    internal static void SetItemsForaged(int value)
+    /// <summary>Set a new value to the EcologistItemsForaged data field.</summary>
+    internal static void SetEcologistItemsForaged(int value)
     {
         if (!Game1.player.HasProfession("Ecologist"))
         {
@@ -581,12 +610,12 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModData.Write("ItemsForaged", value.ToString());
-        ModEntry.Log($"ItemsForaged set to {value}.", LogLevel.Info);
+        ModData.Write(ModData.KEY_ECOLOGISTITEMSFORAGED_S, value.ToString());
+        ModEntry.Log($"Items foraged as Ecologist was set to {value}.", LogLevel.Info);
     }
 
-    /// <summary>Set a new value to the MineralsCollected data field.</summary>
-    internal static void SetMineralsCollected(int value)
+    /// <summary>Set a new value to the GemologistMineralsCollected data field.</summary>
+    internal static void SetGemologistMineralsCollected(int value)
     {
         if (!Game1.player.HasProfession("Gemologist"))
         {
@@ -594,12 +623,12 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModData.Write("MineralsCollected", value.ToString());
-        ModEntry.Log($"MineralsCollected set to {value}.", LogLevel.Info);
+        ModData.Write(ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S, value.ToString());
+        ModEntry.Log($"Minerals collected as Gemologist was set to {value}.", LogLevel.Info);
     }
 
-    /// <summary>Set a new value to the ProspectorStreak data field.</summary>
-    internal static void SetProspectorStreak(int value)
+    /// <summary>Set a new value to the ProspectorHuntStreak data field.</summary>
+    internal static void SetProspectorHuntStreak(int value)
     {
         if (!Game1.player.HasProfession("Prospector"))
         {
@@ -607,12 +636,12 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModData.Write("ProspectorStreak", value.ToString());
-        ModEntry.Log($"ProspectorStreak set to {value}.", LogLevel.Info);
+        ModData.Write(ModData.KEY_PROSPECTORSTREAK_S, value.ToString());
+        ModEntry.Log($"Prospector Hunt was streak set to {value}.", LogLevel.Info);
     }
 
-    /// <summary>Set a new value to the ScavengerStreak data field.</summary>
-    internal static void SetScavengerStreak(int value)
+    /// <summary>Set a new value to the ScavengerHuntStreak data field.</summary>
+    internal static void SetScavengerHuntStreak(int value)
     {
         if (!Game1.player.HasProfession("Scavenger"))
         {
@@ -620,12 +649,12 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModData.Write("ScavengerStreak", value.ToString());
-        ModEntry.Log($"ScavengerStreak set to {value}.", LogLevel.Info);
+        ModData.Write(ModData.KEY_SCAVENGERSTREAK_S, value.ToString());
+        ModEntry.Log($"Scavenger Hunt streak was set to {value}.", LogLevel.Info);
     }
 
-    /// <summary>Set a new value to the TrashCollectedThisSeason data field.</summary>
-    internal static void SetTrashCollectedThisSeason(int value)
+    /// <summary>Set a new value to the ConservationistTrashCollectedThisSeason data field.</summary>
+    internal static void SetConservationistTrashCollectedThisSeason(int value)
     {
         if (!Game1.player.HasProfession("Conservationist"))
         {
@@ -633,8 +662,8 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModData.Write("TrashCollectedThisSeason", value.ToString());
-        ModEntry.Log($"TrashCollectedThisSeason set to {value}.", LogLevel.Info);
+        ModData.Write(ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S, value.ToString());
+        ModEntry.Log($"Conservationist trash collected in the current season was set to {value}.", LogLevel.Info);
     }
 
     #endregion private methods

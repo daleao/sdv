@@ -4,12 +4,13 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 using System.Collections.Generic;
+using System.Linq;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Tools.Framework.Effects;
 
 /// <summary>Applies Pickaxe-specific effects.</summary>
-internal class PickaxeEffect : BaseEffect
+internal class PickaxeEffect : ToolEffect
 {
     public Configs.PickaxeConfig Config { get; }
 
@@ -91,7 +92,9 @@ internal class PickaxeEffect : BaseEffect
         if (Config.BreakBouldersAndMeteorites)
         {
             var clump = GetResourceClumpCoveringTile(location, tile, who, out var applyTool);
-            if (clump is not null && (!UpgradeLevelsNeededForResource.TryGetValue(clump.parentSheetIndex.Value, out int requiredUpgradeLevel) || tool.UpgradeLevel >= requiredUpgradeLevel))
+            if (clump is not null &&
+                (!UpgradeLevelsNeededForResource.TryGetValue(clump.parentSheetIndex.Value,
+                    out int requiredUpgradeLevel) || tool.UpgradeLevel >= requiredUpgradeLevel))
             {
                 return applyTool(tool);
             }
@@ -100,7 +103,8 @@ internal class PickaxeEffect : BaseEffect
         // harvest spawned mine objects
         if (Config.HarvestMineSpawns && location is MineShaft && tileObj?.IsSpawnedObject == true && CheckTileAction(location, tile, who))
         {
-            CancelAnimation(who, FarmerSprite.harvestItemDown, FarmerSprite.harvestItemLeft, FarmerSprite.harvestItemRight, FarmerSprite.harvestItemUp);
+            CancelAnimation(who, FarmerSprite.harvestItemDown, FarmerSprite.harvestItemLeft,
+                FarmerSprite.harvestItemRight, FarmerSprite.harvestItemUp);
             return true;
         }
 
@@ -110,11 +114,10 @@ internal class PickaxeEffect : BaseEffect
     /// <summary>Spreads the Pickaxe effect to an area around the player.</summary>
     /// <param name="tool">The tool selected by the player.</param>
     /// <param name="origin">The center of the shockwave (i.e. the Pickaxe's tile location).</param>
-    /// <param name="multiplier">Stamina cost multiplier.</param>
-    /// <param name="location">The player's location.</param>
     /// <param name="who">The player.</param>
-    public void SpreadToolEffect(Tool tool, Vector2 origin, float multiplier, GameLocation location, Farmer who)
+    public bool DoShockwave(Tool tool, Vector2 origin, Farmer who)
     {
-        base.SpreadToolEffect(tool, origin, multiplier, location, who, Config.RadiusAtEachPowerLevel);
+        int radius = Config.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
+        return base.DoShockwave(tool, origin, radius, who);
     }
 }

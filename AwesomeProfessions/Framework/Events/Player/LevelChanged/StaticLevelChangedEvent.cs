@@ -20,7 +20,7 @@ internal class StaticLevelChangedEvent : LevelChangedEvent
         }
         else
         {
-            ModEntry.Subscriber.Subscribe(new RestoreForgottenRecipesDayStartedEvent());
+            ModEntry.Subscriber.SubscribeTo(new RestoreForgottenRecipesDayStartedEvent());
         }
     }
 }

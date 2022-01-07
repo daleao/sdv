@@ -60,7 +60,7 @@ public class ScavengerHunt : TreasureHunt
         TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
                             ModEntry.Config.ScavengerHuntHandicap);
         Elapsed = 0;
-        ModEntry.Subscriber.Subscribe(new ArrowPointerUpdateTickedEvent(),
+        ModEntry.Subscriber.SubscribeTo(new ArrowPointerUpdateTickedEvent(),
             new ScavengerHuntUpdateTickedEvent(), new ScavengerHuntRenderedHudEvent());
         Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
     }
@@ -86,7 +86,7 @@ public class ScavengerHunt : TreasureHunt
     /// <inheritdoc/>
     internal override void End()
     {
-        ModEntry.Subscriber.Unsubscribe(typeof(ScavengerHuntUpdateTickedEvent),
+        ModEntry.Subscriber.UnsubscribeFrom(typeof(ScavengerHuntUpdateTickedEvent),
             typeof(ProspectorHuntRenderedHudEvent));
         TreasureTile = null;
     }
@@ -107,7 +107,7 @@ public class ScavengerHunt : TreasureHunt
         End();
         var getTreasure = new DelayedAction(200, BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
-        ModData.Increment<uint>("ScavengerHuntStreak");
+        ModData.Increment<uint>(ModData.KEY_SCAVENGERSTREAK_S);
     }
 
     /// <inheritdoc/>
@@ -115,7 +115,7 @@ public class ScavengerHunt : TreasureHunt
     {
         End();
         Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-        ModData.Write("ScavengerHuntStreak", "0");
+        ModData.Write(ModData.KEY_SCAVENGERSTREAK_S, "0");
     }
 
     #endregion protected methods
@@ -273,7 +273,7 @@ public class ScavengerHunt : TreasureHunt
 
                         case 2:
                             var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
-                            var streak = ModData.ReadAs<uint>("ScavengerHuntStreak");
+                            var streak = ModData.ReadAs<uint>(ModData.KEY_SCAVENGERSTREAK_S);
                             if (Random.NextDouble() < 0.025 * luckModifier &&
                                 !Game1.player.specialItems.Contains(60))
                                 treasures.Add(new MeleeWeapon(15) { specialItem = true }); // forest sword

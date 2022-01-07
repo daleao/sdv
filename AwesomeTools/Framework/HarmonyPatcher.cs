@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using TheLion.Stardew.Common.Classes;
+using TheLion.Stardew.Tools.Framework.Events;
 
 namespace TheLion.Stardew.Tools.Framework;
 
@@ -18,13 +19,30 @@ internal static class HarmonyPatcher
     private static readonly List<int> AxeAffectedTilesRadii = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel;
     private static readonly List<int> PickaxeAffectedTilesRadii = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel;
 
-    // Enable Axe power level increase
+    // do shockwave
+    [HarmonyPatch(typeof(Tool), nameof(Tool.endUsing))]
+    internal class ToolEndUsingPatch
+    {
+        [HarmonyPostfix]
+        protected static void Postfix(Farmer who)
+        {
+            Tool tool = who.CurrentTool;
+            if (who.toolPower <= 0 || (tool is not Axe || !ModEntry.AxeFx.Config.EnableAxeCharging) &&
+                (tool is not Pickaxe || !ModEntry.PickaxeFx.Config.EnablePickaxeCharging)) return;
+
+            new UpdateTickedEvent().Hook();
+        }
+    }
+
+    // enable Axe power level increase
     [HarmonyPatch(typeof(Axe), "beginUsing")]
     internal class AxeBeginUsingPatch
     {
+        [HarmonyPrefix]
         protected static bool Prefix(Tool __instance, Farmer who)
         {
-            if (!ModEntry.Config.AxeConfig.EnableAxeCharging || !Utility.ShouldCharge() || __instance.UpgradeLevel < ModEntry.Config.AxeConfig.RequiredUpgradeForCharging)
+            if (!ModEntry.Config.AxeConfig.EnableAxeCharging || !Utility.ShouldCharge() ||
+                __instance.UpgradeLevel < ModEntry.Config.AxeConfig.RequiredUpgradeForCharging)
                 return true; // run original logic
 
             who.Halt();
@@ -56,13 +74,15 @@ internal static class HarmonyPatcher
         }
     }
 
-    // Enable Pickaxe power level increase
+    // enable Pickaxe power level increase
     [HarmonyPatch(typeof(Pickaxe), "beginUsing")]
     internal class PickaxeBeginUsingPatch
     {
+        [HarmonyPrefix]
         protected static bool Prefix(Tool __instance, Farmer who)
         {
-            if (!ModEntry.Config.PickaxeConfig.EnablePickaxeCharging || !Utility.ShouldCharge() || __instance.UpgradeLevel < ModEntry.Config.PickaxeConfig.RequiredUpgradeForCharging)
+            if (!ModEntry.Config.PickaxeConfig.EnablePickaxeCharging || !Utility.ShouldCharge() ||
+                __instance.UpgradeLevel < ModEntry.Config.PickaxeConfig.RequiredUpgradeForCharging)
                 return true; // run original logic
 
             who.Halt();
@@ -94,10 +114,11 @@ internal static class HarmonyPatcher
         }
     }
 
-    // Allow first two power levels on Pickaxe
+    // allow first two power levels on Pickaxe
     [HarmonyPatch(typeof(Farmer), "toolPowerIncrease")]
     internal class FarmerToolPowerIncreasePatch
     {
+        [HarmonyTranspiler]
         protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var l = instructions.ToList();
@@ -115,10 +136,11 @@ internal static class HarmonyPatcher
         }
     }
 
-    // Set affected tiles for Axe and Pickaxe power levels
+    // set affected tiles for Axe and Pickaxe power levels
     [HarmonyPatch(typeof(Tool), "tilesAffected")]
     internal class ToolTileseAffectedPatch
     {
+        [HarmonyPostfix]
         protected static void Postfix(Tool __instance, ref List<Vector2> __result, Vector2 tileLocation, int power)
         {
             if (__instance.UpgradeLevel < Tool.copper)
@@ -127,22 +149,26 @@ internal static class HarmonyPatcher
             if (__instance is not (Axe or Pickaxe)) return;
             
             __result.Clear();
-            int radius = __instance is Axe ? AxeAffectedTilesRadii[Math.Min(power - 2, 4)] : PickaxeAffectedTilesRadii[Math.Min(power - 2, 4)];
+            int radius = __instance is Axe
+                ? AxeAffectedTilesRadii[Math.Min(power - 2, 4)]
+                : PickaxeAffectedTilesRadii[Math.Min(power - 2, 4)];
             if (radius == 0)
                 return;
 
-            var grid = new CircleTileGrid(tileLocation, radius);
-            __result.AddRange(grid);
+            var circle = new CircleTileGrid(tileLocation, radius);
+            __result.AddRange(circle.Tiles);
         }
     }
 
-    // Hide affected tiles overlay for Axe or Pickaxe
+    // hide affected tiles overlay for Axe or Pickaxe
     [HarmonyPatch(typeof(Tool), "draw")]
     internal class ToolDrawPatch
     {
+        [HarmonyPrefix]
         protected static bool Prefix(Tool __instance)
         {
-            return (__instance is not Axe || ModEntry.Config.AxeConfig.ShowAxeAffectedTiles) && (__instance is not Pickaxe || ModEntry.Config.PickaxeConfig.ShowPickaxeAffectedTiles);
+            return (__instance is not Axe || ModEntry.Config.AxeConfig.ShowAxeAffectedTiles) &&
+                   (__instance is not Pickaxe || ModEntry.Config.PickaxeConfig.ShowPickaxeAffectedTiles);
         }
     }
 }
