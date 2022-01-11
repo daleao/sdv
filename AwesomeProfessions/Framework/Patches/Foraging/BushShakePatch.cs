@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
@@ -70,10 +70,10 @@ internal class BushShakePatch : BasePatch
                 .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Ecologist"),
                     dontIncreaseEcologistCounter)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldstr, ModData.KEY_ECOLOGISTITEMSFORAGED_S),
+                    new CodeInstruction(OpCodes.Ldstr, DataField.EcologistItemsForaged.ToString()),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string), typeof(Farmer) })
+                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] {typeof(DataField), typeof(Farmer)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseEcologistCounter);

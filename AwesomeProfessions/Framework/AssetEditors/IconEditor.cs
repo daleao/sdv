@@ -1,12 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-using System;
-using System.IO;
 
 namespace TheLion.Stardew.Professions.Framework.AssetEditors;
 
+/// <summary>Edits <c>LooseSprites/Cursors</c> and <c>TileSheets/BuffIcons</c> with new profession icons.</summary>
 public class IconEditor : IAssetEditor
 {
     private readonly Texture2D _tileSheet =

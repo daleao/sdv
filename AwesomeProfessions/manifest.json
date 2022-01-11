@@ -1,16 +1,21 @@
 ﻿{
   "Name": "Walk Of Life",
   "Author": "VonLoewe",
-  "Version": "1.4.13",
+  "Version": "2.0.0",
   "Description": "An awesome overhaul of Stardew professions.",
   "UniqueID": "thelion.AwesomeProfessions",
   "EntryDll": "AwesomeProfessions.dll",
   "MinimumApiVersion": "3.13.0",
-  "UpdateKeys": [ "Nexus:8111" ],
+  "UpdateKeys": ["Nexus:8111"],
   "Dependencies": [
     {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.8.0",
+      "IsRequired": false
+    },
+    {
       "UniqueID": "spacechase0.GenericModConfigMenu",
-      "MinimumVersion": "1.7.0",
+      "MinimumVersion": "1.8.0",
       "IsRequired": false
     },
     {

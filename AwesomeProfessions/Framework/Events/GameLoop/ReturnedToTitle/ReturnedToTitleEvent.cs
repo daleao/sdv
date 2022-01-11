@@ -4,20 +4,14 @@ namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.ReturnedToTitle;
 
 internal abstract class ReturnedToTitleEvent : BaseEvent
 {
-    /// <inheritdoc />
-    public override void Hook()
-    {
-        ModEntry.ModHelper.Events.GameLoop.ReturnedToTitle += OnReturnedToTitle;
-    }
-
-    /// <inheritdoc />
-    public override void Unhook()
-    {
-        ModEntry.ModHelper.Events.GameLoop.ReturnedToTitle -= OnReturnedToTitle;
-    }
-
     /// <summary>Raised after the game returns to the title screen.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public abstract void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e);
+    public void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
+    {
+        if (enabled.Value || GetType().Name.StartsWith("Static")) OnReturnedToTitleImpl(sender, e);
+    }
+
+    /// <inheritdoc cref="OnReturnedToTitle" />
+    protected abstract void OnReturnedToTitleImpl(object sender, ReturnedToTitleEventArgs e);
 }

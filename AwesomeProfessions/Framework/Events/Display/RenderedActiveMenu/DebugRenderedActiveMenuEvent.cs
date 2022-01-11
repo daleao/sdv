@@ -1,10 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
-using System.Collections.Generic;
-using TheLion.Stardew.Professions.Framework.Events.Input.CursorMoved;
 
 namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderedActiveMenu;
 
@@ -16,14 +15,14 @@ internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
     internal DebugRenderedActiveMenuEvent()
     {
         _pixel = new(Game1.graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-        _pixel.SetData(new[] { Color.White });
+        _pixel.SetData(new[] {Color.White});
     }
 
     internal static List<ClickableComponent> ClickableComponents { get; } = new();
     internal static ClickableComponent FocusedComponent { get; set; }
 
     /// <inheritdoc />
-    public override void OnRenderedActiveMenu(object sender, RenderedActiveMenuEventArgs e)
+    protected override void OnRenderedActiveMenuImpl(object sender, RenderedActiveMenuEventArgs e)
     {
         if (!ModEntry.Config.DebugKey.IsDown()) return;
 
@@ -38,10 +37,10 @@ internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
         foreach (var component in ClickableComponents)
         {
             DrawBorder(component.bounds, 3, Color.Red, e.SpriteBatch);
-            if (DebugCursorMovedEvent.CursorPosition is null) continue;
+            if (ModEntry.State.Value.CursorPosition is null) continue;
 
-            var (cursorX, cursorY) = DebugCursorMovedEvent.CursorPosition.GetScaledScreenPixels();
-            if (component.containsPoint((int)cursorX, (int)cursorY)) FocusedComponent = component;
+            var (cursorX, cursorY) = ModEntry.State.Value.CursorPosition.GetScaledScreenPixels();
+            if (component.containsPoint((int) cursorX, (int) cursorY)) FocusedComponent = component;
         }
     }
 

@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -29,6 +29,20 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         }
     }
 
+    #region private methods
+
+    private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
+    {
+        var who = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
+        if (who.IsLocalPlayer && who.HasProfession("Ecologist")) return Utility.Professions.GetEcologistForageQuality();
+
+        var sourceMushroomQuality =
+            ModEntry.ModHelper.Reflection.GetField<int>(propagator, "SourceMushroomQuality").GetValue();
+        return sourceMushroomQuality;
+    }
+
+    #endregion private methods
+
     #region harmony patches
 
     /// <summary>Patch for Propagator forage increment.</summary>
@@ -40,7 +54,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         var who = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         if (!who.IsLocalPlayer || !who.HasProfession("Ecologist")) return;
 
-        ModData.Increment<uint>(ModData.KEY_ECOLOGISTITEMSFORAGED_S);
+        ModData.Increment<uint>(DataField.EcologistItemsForaged);
     }
 
     /// <summary>Patch for Propagator output quality.</summary>
@@ -66,7 +80,8 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(PropagatorPopExtraHeldMushroomsPatch).MethodNamed(nameof(PopExtraHeldMushroomsSubroutine)))
+                        typeof(PropagatorPopExtraHeldMushroomsPatch).MethodNamed(
+                            nameof(PopExtraHeldMushroomsSubroutine)))
                 )
                 .StripLabels();
         }
@@ -81,17 +96,4 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
     }
 
     #endregion harmony patches
-
-    #region private methods
-
-    private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
-    {
-        var who = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
-        if (who.IsLocalPlayer && who.HasProfession("Ecologist")) return Utility.Professions.GetEcologistForageQuality();
-
-        var sourceMushroomQuality = ModEntry.ModHelper.Reflection.GetField<int>(propagator, "SourceMushroomQuality").GetValue();
-        return sourceMushroomQuality;
-    }
-
-    #endregion private methods
 }

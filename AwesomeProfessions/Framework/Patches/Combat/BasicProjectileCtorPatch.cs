@@ -33,7 +33,7 @@ internal class BasicProjectileCtorPatch : BasePatch
 
         if (!farmer.HasProfession("Rascal") || !ModEntry.Config.Modkey.IsDown()) return;
         ++___bouncesLeft.Value;
-        __instance.damageToFarmer.Value = (int)(__instance.damageToFarmer.Value * 0.6);
+        __instance.damageToFarmer.Value = (int) (__instance.damageToFarmer.Value * 0.6);
     }
 
     #endregion harmony patches

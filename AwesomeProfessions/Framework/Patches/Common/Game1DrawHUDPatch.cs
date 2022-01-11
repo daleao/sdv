@@ -1,16 +1,15 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Common;
@@ -32,7 +31,7 @@ internal class Game1DrawHUDPatch : BasePatch
     {
         if (!Game1.player.HasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
         foreach (var tile in shaft.GetLadderTiles())
-            HUD.DrawTrackingArrowPointer(tile, Color.Lime);
+            ModEntry.State.Value.Indicator.DrawAsTrackingPointer(tile, Color.Lime);
     }
 
     /// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>

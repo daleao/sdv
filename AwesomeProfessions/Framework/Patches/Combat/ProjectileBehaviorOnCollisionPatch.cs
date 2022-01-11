@@ -39,7 +39,7 @@ internal class ProjectileBehaviorOnCollisionPatch : BasePatch
                 SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
             || ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
             location.debris.Add(new(___currentTileSheetIndex.Value - 1,
-                new((int)___position.X, (int)___position.Y), firer.getStandingPosition()));
+                new((int) ___position.X, (int) ___position.Y), firer.getStandingPosition()));
     }
 
     #endregion harmony patches

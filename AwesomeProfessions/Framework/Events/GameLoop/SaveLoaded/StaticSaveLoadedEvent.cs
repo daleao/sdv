@@ -1,11 +1,13 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using TheLion.Stardew.Professions.Framework.SuperMode;
 
 namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.SaveLoaded;
 
@@ -13,47 +15,46 @@ namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.SaveLoaded;
 internal class StaticSaveLoadedEvent : SaveLoadedEvent
 {
     /// <inheritdoc />
-    public override void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
+    protected override void OnSaveLoadedImpl(object sender, SaveLoadedEventArgs e)
     {
-        // subscribe player's profession events
-        ModEntry.Subscriber.SubscribeEventsForLocalPlayer();
+        // enable events
+        ModEntry.EventManager.EnableAllForLocalPlayer();
 
         // load or initialize Super Mode index
-        int superModeIndex;
-        var existed = ModData.WriteIfNotExists("SuperModeIndex", "-1");
-        if (existed)
-        {
-            superModeIndex = ModData.ReadAs<int>("SuperModeIndex");
-            ModEntry.Log("Loading persisted Super Mode index.", LogLevel.Trace);
-        }
-        else
-        {
-            superModeIndex = -1;
-            ModEntry.Log("Initialized Super Mode index with the default value.", LogLevel.Trace);
-        }
+        var superModeIndex = Enum.Parse<SuperModeIndex>(ModData.Read(DataField.SuperModeIndex, defaultValue: "None"));
 
         // validate Super Mode index
         switch (superModeIndex)
         {
-            case < 0 when Game1.player.professions.Any(p => p is >= 26 and < 30):
-                ModEntry.Log("Player eligible for Super Mode but currently not registered to any. Setting to a default value.", LogLevel.Warn);
-                ModEntry.State.Value.SuperModeIndex = Game1.player.professions.First(p => p is >= 26 and < 30);
+            case <= SuperModeIndex.None when Game1.player.professions.Any(p => p is >= 26 and < 30):
+                ModEntry.Log(
+                    "Player eligible for Super Mode but not currently registered to any. Setting to a default value.",
+                    LogLevel.Warn);
+                superModeIndex = (SuperModeIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
+                ModData.Write(DataField.SuperModeIndex, superModeIndex.ToString());
+
                 break;
 
-            case > 0 and < 26 or >= 30:
-                ModEntry.Log($"Unexpected Super Mode index {superModeIndex}. Resetting to a default value.", LogLevel.Warn);
-                ResetSuperMode();
-                break;
+            case > SuperModeIndex.None when !Game1.player.professions.Contains((int) superModeIndex):
+                ModEntry.Log(
+                    $"Missing corresponding profession for {superModeIndex} Super Mode. Resetting to a default value.",
+                    LogLevel.Warn);
+                if (Game1.player.professions.Any(p => p is >= 26 and < 30))
+                {
+                    superModeIndex = (SuperModeIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
+                    ModData.Write(DataField.SuperModeIndex, superModeIndex.ToString());
+                }
+                else
+                {
+                    superModeIndex = SuperModeIndex.None;
+                    ModData.Write(DataField.SuperModeIndex, null);
+                }
 
-            case >= 26 and < 30 when !Game1.player.professions.Contains(superModeIndex):
-                ModEntry.Log($"Missing corresponding profession for Super Mode index {superModeIndex}. Resetting to a default value.", LogLevel.Warn);
-                ResetSuperMode();
-                break;
-
-            default:
-                ModEntry.State.Value.SuperModeIndex = superModeIndex;
                 break;
         }
+
+        // initialize Super Mode
+        if (superModeIndex > SuperModeIndex.None) ModEntry.State.Value.SuperMode = new(superModeIndex);
 
         // check for prestige achievements
         if (!Game1.player.HasAllProfessions()) return;
@@ -63,14 +64,6 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
                                                (Game1.player.IsMale ? "male" : "female"));
         if (Game1.player.achievements.Contains(name.GetDeterministicHashCode())) return;
 
-        ModEntry.Subscriber.SubscribeTo(new AchievementUnlockedDayStartedEvent());
-    }
-
-    public static void ResetSuperMode()
-    {
-        if (Game1.player.professions.Any(p => p is >= 26 and < 30))
-            ModEntry.State.Value.SuperModeIndex = Game1.player.professions.First(p => p is >= 26 and < 30);
-        else
-            ModEntry.State.Value.SuperModeIndex = -1;
+        ModEntry.EventManager.Enable(typeof(AchievementUnlockedDayStartedEvent));
     }
 }

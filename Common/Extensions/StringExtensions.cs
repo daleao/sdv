@@ -18,6 +18,13 @@ public static class StringExtensions
         return candidates.Any(s.Contains);
     }
 
+    /// <summary>Determine if the calling string starts with any of the specified substrings.</summary>
+    /// <param name="candidates">A sequence of strings candidates.</param>
+    public static bool StartsWithAnyOf(this string s, params string[] candidates)
+    {
+        return candidates.Any(s.StartsWith);
+    }
+
     /// <summary>Capitalize the first character in the calling string.</summary>
     public static string FirstCharToUpper(this string s)
     {
@@ -54,7 +61,7 @@ public static class StringExtensions
 
         var converter = TypeDescriptor.GetConverter(typeof(T));
         if (converter.CanConvertTo(typeof(T)) && converter.CanConvertFrom(typeof(string)))
-            return (T)converter.ConvertFromString(s) ?? throw new InvalidCastException();
+            return (T) converter.ConvertFromString(s) ?? throw new InvalidCastException();
 
         throw new FormatException();
     }
@@ -73,7 +80,7 @@ public static class StringExtensions
 
         try
         {
-            result = (T)converter.ConvertFromString(s);
+            result = (T) converter.ConvertFromString(s);
             return true;
         }
         catch
@@ -107,8 +114,8 @@ public static class StringExtensions
     public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this string s, string keyValueSeparator,
         string pairSeparator) where TKey : notnull
     {
-        var pairs = s.Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries);
-        return pairs.Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries))
+        var pairs = s.Split(new[] {pairSeparator}, StringSplitOptions.RemoveEmptyEntries);
+        return pairs.Select(p => p.Split(new[] {keyValueSeparator}, StringSplitOptions.RemoveEmptyEntries))
             .ToDictionary(p => p[0].Parse<TKey>(), p => p[1].Parse<TValue>());
     }
 }

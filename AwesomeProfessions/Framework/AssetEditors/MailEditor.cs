@@ -1,10 +1,11 @@
-﻿using StardewModdingAPI;
+﻿using System;
+using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using System;
 
 namespace TheLion.Stardew.Professions.Framework.AssetEditors;
 
+/// <summary>Edits <c>Data/mail</c> with Conservationist taxation notice.</summary>
 public class MailEditor : IAssetEditor
 {
     /// <inheritdoc />
@@ -21,13 +22,13 @@ public class MailEditor : IAssetEditor
 
         // patch mail from the Ferngill Revenue Service
         var data = asset.AsDictionary<string, string>().Data;
-        var taxBonus = ModData.ReadAs<float>(ModData.KEY_CONSERVATIONISTTAXBONUS_S);
+        var taxBonus = ModData.ReadAs<float>(DataField.ConservationistActiveTaxBonusPct);
         var key = taxBonus >= ModEntry.Config.TaxDeductionCeiling
             ? "conservationist.mail2"
             : "conservationist.mail1";
 
         string message = ModEntry.ModHelper.Translation.Get(key,
-            new { taxBonus = $"{taxBonus:p0}", farmName = Game1.getFarm().Name });
+            new {taxBonus = $"{taxBonus:p0}", farmName = Game1.getFarm().Name});
         data[$"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice"] = message;
     }
 }

@@ -8,18 +8,17 @@ namespace TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
 internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
 {
     /// <inheritdoc />
-    public override void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
+    protected override void OnButtonsChangedImpl(object sender, ButtonsChangedEventArgs e)
     {
         if (ModEntry.Config.Modkey.JustPressed())
         {
-            ModEntry.Subscriber.SubscribeTo(new ArrowPointerUpdateTickedEvent(), new TrackerRenderedHudEvent());
+            ModEntry.EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(TrackerRenderedHudEvent));
         }
         else if (ModEntry.Config.Modkey.GetState() == SButtonState.Released)
         {
-            ModEntry.Subscriber.UnsubscribeFrom(typeof(TrackerRenderedHudEvent));
-            if (!(ModEntry.Subscriber.IsSubscribed(typeof(ProspectorHuntRenderedHudEvent)) ||
-                  ModEntry.Subscriber.IsSubscribed(typeof(ScavengerHuntRenderedHudEvent))))
-                ModEntry.Subscriber.UnsubscribeFrom(typeof(ArrowPointerUpdateTickedEvent));
+            ModEntry.EventManager.Disable(typeof(TrackerRenderedHudEvent));
+            if (!ModEntry.State.Value.ProspectorHunt.IsActive && !ModEntry.State.Value.ScavengerHunt.IsActive)
+                ModEntry.EventManager.Disable(typeof(IndicatorUpdateTickedEvent));
         }
     }
 }

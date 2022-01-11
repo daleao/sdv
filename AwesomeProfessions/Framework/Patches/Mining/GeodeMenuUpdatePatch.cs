@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Mining;
@@ -45,10 +45,10 @@ internal class GeodeMenuUpdatePatch : BasePatch
                 .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Gemologist"),
                     dontIncreaseGemologistCounter)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldstr, ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S),
+                    new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string), typeof(Farmer) })
+                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] {typeof(DataField), typeof(Farmer)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);

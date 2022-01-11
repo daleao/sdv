@@ -1,5 +1,7 @@
-using StardewModdingAPI;
 using System;
+using System.IO;
+using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Integrations;
 
 namespace TheLion.Stardew.Professions.Integrations;
@@ -47,7 +49,14 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 () => "Use Vintage Skill Bars",
                 () => "Enable this option if using the Vintage Interface mod.",
                 config => config.UseVintageSkillBars,
-                (config, value) => config.UseVintageSkillBars = value
+                (config, value) =>
+                {
+                    Framework.Utility.Textures.SuperModeGaugeTx = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud",
+                        value ? "bar_vintage.png" : "bar.png"));
+                    Framework.Utility.Textures.SuperModeGaugeTx = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets",
+                        "menus", value ? "skillbars_vintage.png" : "skillbars.png"));
+                    config.UseVintageSkillBars = value;
+                }
             )
 
             // super mode
@@ -76,10 +85,11 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Drain factor",
                 () => "Lower numbers make Super Mode last longer.",
-                config => (int)config.SuperModeDrainFactor,
-                (config, value) => config.SuperModeDrainFactor = (uint)value,
-                1,
-                10
+                config => (float) config.SuperModeDrainFactor,
+                (config, value) => config.SuperModeDrainFactor = value,
+                1f,
+                10f,
+                0f
             )
 
             // prestige
@@ -133,8 +143,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Required Experience Per Extended Level",
                 () => "How much skill experience is required for each level-up beyond level 10.",
-                config => (int)config.RequiredExpPerExtendedLevel,
-                (config, value) => config.RequiredExpPerExtendedLevel = (uint)value,
+                config => (int) config.RequiredExpPerExtendedLevel,
+                (config, value) => config.RequiredExpPerExtendedLevel = (uint) value,
                 5000,
                 25000,
                 1000
@@ -143,8 +153,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 () => "Cost of Prestige Respec",
                 () =>
                     "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
-                config => (int)config.PrestigeRespecCost,
-                (config, value) => config.PrestigeRespecCost = (uint)value,
+                config => (int) config.PrestigeRespecCost,
+                (config, value) => config.PrestigeRespecCost = (uint) value,
                 0,
                 100000,
                 10000
@@ -152,8 +162,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Cost of Changing Ultimate",
                 () => "Monetary cost of changing the combat ultimate. Set to 0 to change for free.",
-                config => (int)config.ChangeUltCost,
-                (config, value) => config.ChangeUltCost = (uint)value,
+                config => (int) config.ChangeUltCost,
+                (config, value) => config.ChangeUltCost = (uint) value,
                 0,
                 100000,
                 10000
@@ -164,22 +174,21 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Forages needed for best quality",
                 () => "Ecologists must forage this many items to reach iridium quality.",
-                config => (int)config.ForagesNeededForBestQuality,
-                (config, value) => config.ForagesNeededForBestQuality = (uint)value,
+                config => (int) config.ForagesNeededForBestQuality,
+                (config, value) => config.ForagesNeededForBestQuality = (uint) value,
                 0,
                 1000
             )
             .AddNumberField(
                 () => "Minerals needed for best quality",
                 () => "Gemologists must mine this many minerals to reach iridium quality.",
-                config => (int)config.ForagesNeededForBestQuality,
-                (config, value) => config.ForagesNeededForBestQuality = (uint)value,
+                config => (int) config.ForagesNeededForBestQuality,
+                (config, value) => config.ForagesNeededForBestQuality = (uint) value,
                 0,
                 1000
             );
 
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
-        {
             _configMenu.AddCheckbox(
                 () => "Should Count Automated Harvests",
                 () =>
@@ -187,7 +196,6 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 config => config.ShouldCountAutomatedHarvests,
                 (config, value) => config.ShouldCountAutomatedHarvests = value
             );
-        }
 
         _configMenu
             .AddNumberField(

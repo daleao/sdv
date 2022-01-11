@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley.Locations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewValley.Locations;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -46,7 +46,7 @@ internal class SewerGetFishPatch : BasePatch
                 )
                 .GetOperand(out var skipLegendary)
                 .ReplaceWith(
-                    new CodeInstruction(OpCodes.Brfalse_S, chooseLegendary))
+                    new(OpCodes.Brfalse_S, chooseLegendary))
                 .Advance()
                 .AddLabels(chooseLegendary)
                 .Insert(
@@ -59,7 +59,8 @@ internal class SewerGetFishPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding prestiged Angler legendary fish recatch.\nHelper returned {ex}", LogLevel.Error);
+            ModEntry.Log($"Failed while adding prestiged Angler legendary fish recatch.\nHelper returned {ex}",
+                LogLevel.Error);
             return null;
         }
 

@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.UiInfoSuite;
@@ -47,7 +47,8 @@ internal class ExperieneBarDrawExperienceBarPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching to budge Ui Info Suite experience bar skill icon. Helper returned {ex}",
+            ModEntry.Log(
+                $"Failed while patching to budge Ui Info Suite experience bar skill icon. Helper returned {ex}",
                 LogLevel.Error);
             return null;
         }

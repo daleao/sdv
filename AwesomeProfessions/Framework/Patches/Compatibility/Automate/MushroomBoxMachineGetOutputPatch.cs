@@ -26,7 +26,7 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
             // ignored
         }
 
-        Prefix.after = new[] { "Goldenrevolver.ForageFantasy" };
+        Prefix.after = new[] {"Goldenrevolver.ForageFantasy"};
     }
 
     #region harmony patches
@@ -48,7 +48,7 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
             machine.heldObject.Value.Quality = Utility.Professions.GetEcologistForageQuality();
             if (!ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic
 
-            ModData.Increment(ModData.KEY_ECOLOGISTITEMSFORAGED_S, who.UniqueMultiplayerID);
+            ModData.Increment<uint>(DataField.EcologistItemsForaged, who);
             return true; // run original logic
         }
         catch (Exception ex)

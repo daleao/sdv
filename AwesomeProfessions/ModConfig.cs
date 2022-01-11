@@ -18,7 +18,7 @@ public class ModConfig
     public float SuperModeActivationDelay { get; set; } = 1f;
 
     /// <summary>Lower numbers make Super Mode last longer. Should be a number between 1 and 10.</summary>
-    public uint SuperModeDrainFactor { get; set; } = 3;
+    public double SuperModeDrainFactor { get; set; } = 3;
 
     /// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
     public uint ForagesNeededForBestQuality { get; set; } = 500;

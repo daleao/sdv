@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
+﻿using System.Linq;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
-using System.Linq;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;

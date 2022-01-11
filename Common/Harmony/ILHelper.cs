@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
-using Netcode;
-using StardewValley;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using Netcode;
+using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Common.Harmony;
@@ -14,10 +14,22 @@ namespace TheLion.Stardew.Common.Harmony;
 /// <summary>Provides an interface for abstracting common transpiler operations.</summary>
 public class ILHelper
 {
-    private readonly bool _shouldExport;
     private readonly string _exportDir;
     private readonly Stack<int> _indexStack;
+    private readonly bool _shouldExport;
     private MethodBase _original;
+
+    /// <summary>Construct an instance.</summary>
+    /// <param name="enableExport">Whether the instruction list should be saved to disk in case an error is thrown.</param>
+    /// <param name="path">The root path where instruction lists will be saved.</param>
+    public ILHelper(MethodBase original, IEnumerable<CodeInstruction> instructions, bool enableExport = false,
+        string path = "")
+    {
+        _indexStack = new();
+        Attach(original, instructions);
+        _shouldExport = enableExport;
+        _exportDir = Path.Combine(path, "exports");
+    }
 
     /// <summary>Get the contents of the instruction buffer.</summary>
     public List<CodeInstruction> Instructions { get; private set; }
@@ -47,18 +59,6 @@ public class ILHelper
 
             return Instructions.Count - 1;
         }
-    }
-
-    /// <summary>Construct an instance.</summary>
-    /// <param name="enableExport">Whether the instruction list should be saved to disk in case an error is thrown.</param>
-    /// <param name="path">The root path where instruction lists will be saved.</param>
-    public ILHelper(MethodBase original, IEnumerable<CodeInstruction> instructions, bool enableExport = false,
-        string path = "")
-    {
-        _indexStack = new();
-        Attach(original, instructions);
-        _shouldExport = enableExport;
-        _exportDir = Path.Combine(path, "exports");
     }
 
     /// <summary>Attach a new list of code instructions to this instance.</summary>
@@ -379,7 +379,7 @@ public class ILHelper
     /// </summary>
     /// <param name="whichProfession">The profession id.</param>
     /// <param name="branchDestination">The destination <see cref="Label" /> to branch to when the check returns false.</param>
-    /// <param name="useBrtrue">Whether to end on a true-case branch isntead of default false-case branch.</param>
+    /// <param name="useBrtrue">Whether to end on a true-case branch instead of default false-case branch.</param>
     /// <param name="useLongFormBranch">Whether to use a long-form branch instead of default short-form branch.</param>
     public ILHelper InsertProfessionCheckForPlayerOnStack(int whichProfession, Label branchDestination,
         bool useBrtrue = false, bool useLongFormBranch = false)

@@ -1,10 +1,11 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
-using System;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using TheLion.Stardew.Professions.Framework.SuperMode;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
@@ -26,7 +27,7 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
     private static void GreenSlimeCollisionWithFarmerBehaviorPostfix(GreenSlime __instance)
     {
         var who = __instance.Player;
-        if (!who.IsLocalPlayer || ModEntry.State.Value.SuperModeIndex != Utility.Professions.IndexOf("Piper") ||
+        if (!who.IsLocalPlayer || ModEntry.State.Value.SuperMode is not {Index: SuperModeIndex.Piper} superMode ||
             ModEntry.State.Value.SlimeContactTimer > 0) return;
 
         if (who.HasPrestigedProfession("Piper"))
@@ -40,9 +41,9 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
                 new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
         }
 
-        if (!ModEntry.State.Value.IsSuperModeActive)
-            ModEntry.State.Value.SuperModeGaugeValue +=
-                (int)(Game1.random.Next(1, 10) * ((float)ModEntry.State.Value.SuperModeGaugeMaxValue / 500));
+        if (!superMode.IsActive)
+            superMode.Gauge.CurrentValue +=
+                Game1.random.Next(1, 10) * (double) SuperModeGauge.MaxValue / 500;
 
         ModEntry.State.Value.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
     }

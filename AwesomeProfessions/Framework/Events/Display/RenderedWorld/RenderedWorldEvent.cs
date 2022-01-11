@@ -4,20 +4,14 @@ namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderedWorld;
 
 internal abstract class RenderedWorldEvent : BaseEvent
 {
-    /// <inheritdoc />
-    public override void Hook()
-    {
-        ModEntry.ModHelper.Events.Display.RenderedWorld += OnRenderedWorld;
-    }
-
-    /// <inheritdoc />
-    public override void Unhook()
-    {
-        ModEntry.ModHelper.Events.Display.RenderedWorld -= OnRenderedWorld;
-    }
-
     /// <summary>Raised after the game world is drawn to the sprite patch, before it's rendered to the screen.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public abstract void OnRenderedWorld(object sender, RenderedWorldEventArgs e);
+    public void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
+    {
+        if (enabled.Value) OnRenderedWorldImpl(sender, e);
+    }
+
+    /// <inheritdoc cref="OnRenderedWorld" />
+    protected abstract void OnRenderedWorldImpl(object sender, RenderedWorldEventArgs e);
 }

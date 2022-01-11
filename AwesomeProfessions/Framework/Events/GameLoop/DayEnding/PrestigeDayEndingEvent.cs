@@ -1,28 +1,21 @@
-﻿using JetBrains.Annotations;
+﻿using System.Collections.Generic;
+using System.Linq;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Events;
 using StardewValley;
-using System.Collections.Generic;
-using System.Linq;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
 
-[UsedImplicitly]
 internal class PrestigeDayEndingEvent : DayEndingEvent
 {
-    internal PrestigeDayEndingEvent(SkillType skillType)
-    {
-        SkillsToReset.Enqueue(skillType);
-    }
-
     public Queue<SkillType> SkillsToReset { get; } = new();
 
     /// <inheritdoc />
-    public override void OnDayEnding(object sender, DayEndingEventArgs e)
+    protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
     {
         while (SkillsToReset.Any()) Game1.player.ResetSkill(SkillsToReset.Dequeue());
-
-        ModEntry.Subscriber.UnsubscribeFrom(GetType());
+        ModEntry.State.Value.UsedDogStatueToday = false;
+        Disable();
     }
 }

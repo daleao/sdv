@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
-using StardewModdingAPI;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches;
@@ -10,12 +10,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches;
 /// <summary>Base implementation for Harmony patch classes.</summary>
 internal abstract class BasePatch : IPatch
 {
-    protected MethodBase Original { get; set; }
-    protected HarmonyMethod Prefix { get; set; }
-    protected HarmonyMethod Postfix { get; set; }
-    protected HarmonyMethod Transpiler { get; set; }
-    protected HarmonyMethod ReversePatch { get; set; }
-
     /// <summary>Construct an instance.</summary>
     protected BasePatch()
     {
@@ -26,12 +20,18 @@ internal abstract class BasePatch : IPatch
         if (Transpiler is not null) ++HarmonyPatcher.TotalTranspilerCount;
     }
 
+    protected MethodBase Original { get; set; }
+    protected HarmonyMethod Prefix { get; set; }
+    protected HarmonyMethod Postfix { get; set; }
+    protected HarmonyMethod Transpiler { get; set; }
+    protected HarmonyMethod ReversePatch { get; set; }
+
     /// <inheritdoc />
     public virtual void Apply(Harmony harmony)
     {
         if (Original is null)
         {
-            ModEntry.Log($"[Patch]: Ignoring {GetType().Name}. The patch target was not found.", LogLevel.Trace);
+            ModEntry.Log($"[Patch]: Ignoring {GetType().Name}. The patch target was not found.", ModEntry.DefaultLogLevel);
 
             if (Prefix is not null) ++HarmonyPatcher.IgnoredPrefixCount;
             if (Postfix is not null) ++HarmonyPatcher.IgnoredPostfixCount;
@@ -44,7 +44,7 @@ internal abstract class BasePatch : IPatch
         try
         {
             ModEntry.Log($"[Patch]: Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.",
-                LogLevel.Trace);
+                ModEntry.DefaultLogLevel);
             harmony.Patch(Original, Prefix, Postfix, Transpiler);
 
             if (Prefix is not null) ++HarmonyPatcher.AppliedPrefixCount;

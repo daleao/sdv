@@ -1,9 +1,10 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Tools;
-using System;
-using System.Reflection;
+using TheLion.Stardew.Professions.Framework.SuperMode;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
@@ -25,7 +26,7 @@ internal class SlingshotCanAutoFirePatch : BasePatch
         try
         {
             var who = __instance.getLastFarmerToUse();
-            if (who.IsLocalPlayer && ModEntry.State.Value.IsSuperModeActive && ModEntry.State.Value.SuperModeIndex == Utility.Professions.IndexOf("Desperado"))
+            if (who.IsLocalPlayer && ModEntry.State.Value.SuperMode is {Index: SuperModeIndex.Desperado, IsActive: true})
                 __result = true;
             else
                 __result = false;

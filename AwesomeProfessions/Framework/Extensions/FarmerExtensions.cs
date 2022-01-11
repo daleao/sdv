@@ -1,10 +1,10 @@
-﻿using StardewModdingAPI.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
 
@@ -67,12 +67,12 @@ public static class FarmerExtensions
     {
         var otherProfessionsInBranch = (professionIndex % 6) switch
         {
-            0 => new[] { professionIndex + 1 },
-            1 => new[] { professionIndex - 1 },
-            2 => new[] { professionIndex + 1, professionIndex + 2, professionIndex + 3 },
-            3 => new[] { professionIndex - 1, professionIndex + 1, professionIndex + 2 },
-            4 => new[] { professionIndex - 2, professionIndex - 1, professionIndex + 1 },
-            5 => new[] { professionIndex - 3, professionIndex - 2, professionIndex - 1 },
+            0 => new[] {professionIndex + 1},
+            1 => new[] {professionIndex - 1},
+            2 => new[] {professionIndex + 1, professionIndex + 2, professionIndex + 3},
+            3 => new[] {professionIndex - 1, professionIndex + 1, professionIndex + 2},
+            4 => new[] {professionIndex - 2, professionIndex - 1, professionIndex + 1},
+            5 => new[] {professionIndex - 3, professionIndex - 2, professionIndex - 1},
             _ => Array.Empty<int>()
         };
 
@@ -104,7 +104,7 @@ public static class FarmerExtensions
         return farmer.professions.Intersect(allProfessions).Count() == allProfessions.Count();
     }
 
-    /// <summary>Get the last level 5 profession acquired by the farmer in the specified skill.</summary>
+    /// <summary>Get the last 1st-tier profession acquired by the farmer in the specified skill.</summary>
     /// <param name="skill">The skill index.</param>
     /// <returns>The last acquired profession, or -1 if none was found.</returns>
     public static int GetCurrentBranchForSkill(this Farmer farmer, int skill)
@@ -115,7 +115,7 @@ public static class FarmerExtensions
             : lastIndex;
     }
 
-    /// <summary>Get the last level 10 profession acquired by the farmer in the specified skill branch.</summary>
+    /// <summary>Get the last level 2nd-tier profession acquired by the farmer in the specified skill branch.</summary>
     /// <param name="branch">The branch (level 5 profession) index.</param>
     /// <returns>The last acquired profession, or -1 if none was found.</returns>
     public static int GetCurrentProfessionForBranch(this Farmer farmer, int branch)
@@ -154,13 +154,13 @@ public static class FarmerExtensions
     /// <param name="skillType">A skill index (0 to 4).</param>
     public static bool CanResetSkill(this Farmer farmer, SkillType skillType)
     {
-        var isSkillLevelTen = farmer.GetUnmodifiedSkillLevel((int)skillType) == 10;
-        var justLeveledUp = farmer.newLevels.Contains(new((int)skillType, 10));
+        var isSkillLevelTen = farmer.GetUnmodifiedSkillLevel((int) skillType) == 10;
+        var justLeveledUp = farmer.newLevels.Contains(new((int) skillType, 10));
         var hasAtLeastOneButNotAllProfessionsInSkill =
-            farmer.NumberOfProfessionsInSkill((int)skillType, true) is > 0 and < 4;
+            farmer.NumberOfProfessionsInSkill((int) skillType, true) is > 0 and < 4;
         var alreadyResetThisSkill =
-            ModEntry.Subscriber.TryGet(typeof(PrestigeDayEndingEvent), out var prestigeDayEnding) &&
-            ((PrestigeDayEndingEvent)prestigeDayEnding).SkillsToReset.Contains(skillType);
+            ModEntry.EventManager.TryGet<PrestigeDayEndingEvent>(out var prestigeDayEnding) &&
+            prestigeDayEnding.SkillsToReset.Contains(skillType);
 
         return isSkillLevelTen && !justLeveledUp && hasAtLeastOneButNotAllProfessionsInSkill &&
                !alreadyResetThisSkill;
@@ -179,7 +179,7 @@ public static class FarmerExtensions
         var multiplier = ModEntry.Config.SkillResetCostMultiplier;
         if (multiplier <= 0f) return 0;
 
-        var count = farmer.NumberOfProfessionsInSkill((int)skillType, true);
+        var count = farmer.NumberOfProfessionsInSkill((int) skillType, true);
 #pragma warning disable 8509
         var baseCost = count switch
 #pragma warning restore 8509
@@ -189,7 +189,7 @@ public static class FarmerExtensions
             3 => 100000
         };
 
-        return (int)(baseCost * multiplier);
+        return (int) (baseCost * multiplier);
     }
 
     /// <summary>Resets a specific skill level, removing all associated recipes and bonuses but maintaining profession perks.</summary>
@@ -224,15 +224,15 @@ public static class FarmerExtensions
                 return;
         }
 
-        var toRemove = farmer.newLevels.Where(p => p.X == (int)skillType);
+        var toRemove = farmer.newLevels.Where(p => p.X == (int) skillType);
         foreach (var item in toRemove) farmer.newLevels.Remove(item);
 
         // reset skill experience
-        farmer.experiencePoints[(int)skillType] = 0;
+        farmer.experiencePoints[(int) skillType] = 0;
 
         if (ModEntry.Config.ForgetRecipesOnSkillReset)
         {
-            var forgottenRecipesDict = ModData.Read("ForgottenRecipes").ToDictionary<string, int>(",", ";");
+            var forgottenRecipesDict = ModData.Read(DataField.ForgottenRecipesDict).ToDictionary<string, int>(",", ";");
 
             // remove associated crafting recipes
             foreach (var recipe in farmer.GetCraftingRecipesForSkill(skillType))
@@ -248,7 +248,7 @@ public static class FarmerExtensions
                 farmer.cookingRecipes.Remove(recipe);
             }
 
-            ModData.Write("ForgottenRecipes", forgottenRecipesDict.ToString(",", ";"));
+            ModData.Write(DataField.ForgottenRecipesDict, forgottenRecipesDict.ToString(",", ";"));
         }
 
         // revalidate health
@@ -276,8 +276,8 @@ public static class FarmerExtensions
     /// <summary>Get all available Super Mode's not currently registered.</summary>
     public static IEnumerable<int> GetUnchosenSuperModes(this Farmer farmer)
     {
-        var otherSuperModeProfessions = new[] { "Brute", "Poacher", "Desperado", "Piper" }
-            .Select(Utility.Professions.IndexOf).Except(new[] { ModEntry.State.Value.SuperModeIndex });
+        var otherSuperModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"}
+            .Select(Utility.Professions.IndexOf).Except(new[] {(int) ModEntry.State.Value.SuperMode.Index});
         return farmer.professions.Intersect(otherSuperModeProfessions);
     }
 

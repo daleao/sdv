@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Linq;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using System;
-using System.Linq;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Farming;

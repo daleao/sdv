@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Farming;
@@ -45,7 +45,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .FindFirst( // find index of FarmAnimal.type.Value.Equals("Sheep")
                     new CodeInstruction(OpCodes.Ldstr, "Sheep"),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) }))
+                        typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)}))
                 )
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
@@ -69,8 +69,8 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .SetOpCode(OpCodes.Blt_S) // was Brfalse_S
                 .Advance()
                 .ToBufferUntil(
-                    stripLabels: false,
-                    advance: true,
+                    false,
+                    true,
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
                 )
@@ -78,15 +78,15 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_0)
                 )
                 .ReplaceWith(
-                    new CodeInstruction(OpCodes.Ldc_R8, 1.0),
-                    preserveLabels: true
+                    new(OpCodes.Ldc_R8, 1.0),
+                    true
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_1)
                 )
                 .ReplaceWith(
-                    new CodeInstruction(OpCodes.Ldc_R8, 2.0),
-                    preserveLabels: true
+                    new(OpCodes.Ldc_R8, 2.0),
+                    true
                 )
                 .AddLabels(notPrestigedProducer)
                 .InsertBuffer()
@@ -94,7 +94,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3)
                 )
                 .ReplaceWith(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Producer"))
+                    new(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Producer"))
                 )
                 .Return()
                 .Insert(
@@ -108,7 +108,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Math).MethodNamed(nameof(Math.Round), new[] { typeof(double) })),
+                        typeof(Math).MethodNamed(nameof(Math.Round), new[] {typeof(double)})),
                     new CodeInstruction(OpCodes.Conv_U1)
                 );
         }
@@ -135,7 +135,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .Return()
                 .Retreat()
                 .Insert( // insert unconditional branch to skip this whole section
-                    new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution2)
+                    new CodeInstruction(OpCodes.Br_S, (Label) resumeExecution2)
                 );
         }
         catch (Exception ex)

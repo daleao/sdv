@@ -4,20 +4,14 @@ namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 
 internal abstract class UpdateTickedEvent : BaseEvent
 {
-    /// <inheritdoc />
-    public override void Hook()
-    {
-        ModEntry.ModHelper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
-    }
-
-    /// <inheritdoc />
-    public override void Unhook()
-    {
-        ModEntry.ModHelper.Events.GameLoop.UpdateTicked -= OnUpdateTicked;
-    }
-
     /// <summary>Raised after the game state is updated.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public abstract void OnUpdateTicked(object sender, UpdateTickedEventArgs e);
+    public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+    {
+        if (enabled.Value) OnUpdateTickedImpl(sender, e);
+    }
+
+    /// <inheritdoc cref="OnUpdateTicked" />
+    protected abstract void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e);
 }

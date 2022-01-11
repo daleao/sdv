@@ -1,10 +1,11 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-using System;
-using System.Reflection;
+using TheLion.Stardew.Professions.Framework.SuperMode;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
@@ -26,8 +27,8 @@ internal class MonsterWithinPlayerThresholdPatch : BasePatch
         try
         {
             var foundPlayer = ModEntry.ModHelper.Reflection.GetMethod(__instance, "findPlayer").Invoke<Farmer>();
-            if (!foundPlayer.IsLocalPlayer || !ModEntry.State.Value.IsSuperModeActive ||
-                ModEntry.State.Value.SuperModeIndex != Utility.Professions.IndexOf("Poacher"))
+            if (!foundPlayer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not
+                    {Index: SuperModeIndex.Poacher, IsActive: true})
                 return true; // run original method
 
             __result = false;

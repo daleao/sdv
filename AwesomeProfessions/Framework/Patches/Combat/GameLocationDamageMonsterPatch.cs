@@ -1,16 +1,18 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.Sounds;
+using TheLion.Stardew.Professions.Framework.SuperMode;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
@@ -83,7 +85,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 )
                 .AddLabels(notPrestigedFighter)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
                 )
                 .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Fighter"),
                     notPrestigedFighter)
@@ -118,7 +120,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                             .GetBruteBonusDamageMultiplier)))
                 )
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
                 );
         }
         catch (Exception ex)
@@ -128,7 +130,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         /// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f;
-        /// To: if (who is not null && crit && who.IsLocalPlayer && SuperModeIndex == <poacher_id>) ... *= GetPoacherCritDamageMultiplier;
+        /// To: if (who is not null && crit && who.IsLocalPlayer && SuperMode?.Index == <poacher_id>) ... *= GetPoacherCritDamageMultiplier;
 
         try
         {
@@ -150,18 +152,25 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .Advance()
                 .ReplaceWith(
                     new(OpCodes.Callvirt,
-                        typeof(ModState).PropertyGetter(
-                            nameof(ModState.SuperModeIndex))) // was Callvirt NetList.Contains
+                        typeof(SuperMode.SuperMode).PropertyGetter(
+                            nameof(SuperMode.SuperMode.Index))) // was Callvirt NetList.Contains
                 )
                 .Insert(
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    // check if SuperMode is null
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value)))
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
+                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseCritPow),
+                    // push SuperMode onto the stack
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(ModState).PropertyGetter(nameof(ModState.SuperMode)))
                 )
                 .Advance()
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, Utility.Professions.IndexOf("Poacher"))
+                    new CodeInstruction(OpCodes.Ldc_I4_S, (int) SuperModeIndex.Poacher)
                 )
                 .SetOpCode(OpCodes.Bne_Un_S) // was Brfalse_S
                 .AdvanceUntil(
@@ -208,11 +217,11 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     labels,
                     // prepare arguments
                     new CodeInstruction(OpCodes.Ldloc_S, damageAmount),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = bool isBomb
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = bool isBomb
                     new CodeInstruction(OpCodes.Ldloc_S, didCrit),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)8), // arg 8 = float critMultiplier
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 8), // arg 8 = float critMultiplier
                     new CodeInstruction(OpCodes.Ldloc_2), // local 2 = Monster monster
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
                     new CodeInstruction(OpCodes.Call,
                         typeof(GameLocationDamageMonsterPatch).MethodNamed(nameof(DamageMonsterSubroutine)))
                 )
@@ -237,11 +246,11 @@ internal class GameLocationDamageMonsterPatch : BasePatch
     private static void DamageMonsterSubroutine(int damageAmount, bool isBomb, bool didCrit, float critMultiplier,
         Monster monster, Farmer who)
     {
-        if (damageAmount <= 0 || isBomb ||
-            who is not { IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon }) return;
+        if (damageAmount <= 0 || isBomb || who is not {IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon} ||
+            ModEntry.State.Value.SuperMode is not { } superMode) return;
 
         // try to steal
-        if (didCrit && ModEntry.State.Value.SuperModeIndex == Utility.Professions.IndexOf("Poacher") &&
+        if (didCrit && superMode.Index == SuperModeIndex.Poacher &&
             !ModEntry.State.Value.MonstersStolenFrom.Contains(monster.GetHashCode()) && Game1.random.NextDouble() <
             (weapon.type.Value == MeleeWeapon.dagger ? 0.5 : 0.25))
         {
@@ -253,26 +262,31 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             ModEntry.State.Value.MonstersStolenFrom.Add(monster.GetHashCode());
 
             // play sound effect
-            ModEntry.SoundBox.Play("poacher_steal");
+            ModEntry.SoundBox.Play(SFX.PoacherSteal);
         }
 
         // try to increment Super Mode gauges
-        if (ModEntry.State.Value.IsSuperModeActive) return;
+        if (superMode.IsActive) return;
 
         var increment = 0;
-        if (ModEntry.State.Value.SuperModeIndex == Utility.Professions.IndexOf("Brute"))
+        switch (superMode.Index)
         {
-            increment = 2;
-            if (monster.Health <= 0) increment *= 2;
-            if (weapon.type.Value == MeleeWeapon.club) increment *= 2;
-        }
-        else if (ModEntry.State.Value.SuperModeIndex == Utility.Professions.IndexOf("Poacher") && didCrit)
-        {
-            increment = (int)critMultiplier;
-            if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
+            case SuperModeIndex.Brute:
+            {
+                increment = 2;
+                if (monster.Health <= 0) increment *= 2;
+                if (weapon.type.Value == MeleeWeapon.club) increment *= 2;
+                break;
+            }
+            case SuperModeIndex.Poacher when didCrit:
+            {
+                increment = (int) critMultiplier;
+                if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
+                break;
+            }
         }
 
-        ModEntry.State.Value.SuperModeGaugeValue += (int)(increment * ((float)ModEntry.State.Value.SuperModeGaugeMaxValue / 500));
+        superMode.Gauge.CurrentValue += increment * (double) SuperModeGauge.MaxValue / 500;
     }
 
     #endregion private methods

@@ -1,16 +1,17 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.SuperMode;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
@@ -21,9 +22,9 @@ internal class MonsterTakeDamagePatch : BasePatch
     public override void Apply(Harmony harmony)
     {
         var targetMethods = TargetMethods().ToList();
-        ModEntry.Log($"[Patch]: Found {targetMethods.Count} target methods for {GetType().Name}.", LogLevel.Trace);
-        HarmonyPatcher.TotalPrefixCount += (uint)targetMethods.Count - 1;
-        HarmonyPatcher.TotalPostfixCount += (uint)targetMethods.Count - 1;
+        ModEntry.Log($"[Patch]: Found {targetMethods.Count} target methods for {GetType().Name}.", ModEntry.DefaultLogLevel);
+        HarmonyPatcher.TotalPrefixCount += (uint) targetMethods.Count - 1;
+        HarmonyPatcher.TotalPostfixCount += (uint) targetMethods.Count - 1;
 
         foreach (var method in targetMethods)
             try
@@ -37,6 +38,29 @@ internal class MonsterTakeDamagePatch : BasePatch
             }
     }
 
+    #region private methods
+
+    [HarmonyTargetMethods]
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        var methods = from type in AccessTools.AllTypes()
+            where type.IsAssignableTo(typeof(Monster)) && !type.IsAnyOf(
+                typeof(HotHead),
+                typeof(LavaLurk),
+                typeof(Leaper),
+                typeof(MetalHead),
+                typeof(Shooter),
+                typeof(ShadowBrute),
+                typeof(Skeleton),
+                typeof(Spiker))
+            select type.MethodNamed("takeDamage",
+                new[] {typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer)});
+
+        return methods.Where(m => m.DeclaringType == m.ReflectedType);
+    }
+
+    #endregion private methods
+
     #region harmony patches
 
     /// <summary>Patch to add Poacher assassination attempt.</summary>
@@ -46,8 +70,8 @@ internal class MonsterTakeDamagePatch : BasePatch
     {
         try
         {
-            if (damage <= 0 || isBomb || !ModEntry.State.Value.IsSuperModeActive ||
-                ModEntry.State.Value.SuperModeIndex != Utility.Professions.IndexOf("Poacher") ||
+            if (damage <= 0 || isBomb ||
+                ModEntry.State.Value.SuperMode is not {Index: SuperModeIndex.Poacher, IsActive: true} ||
                 who.CurrentTool is not MeleeWeapon weapon || weapon.isOnSpecial) return true; // run original logic
 
             if (__instance is Bug bug && bug.isArmoredBug.Value &&
@@ -80,34 +104,10 @@ internal class MonsterTakeDamagePatch : BasePatch
     [HarmonyPostfix]
     private static void MonsterTakeDamagePostfix(Monster __instance, int damage, bool isBomb, Farmer who)
     {
-        if (damage <= 0 || isBomb || !who.IsLocalPlayer || !ModEntry.State.Value.IsSuperModeActive ||
-            ModEntry.State.Value.SuperModeIndex != Utility.Professions.IndexOf("Poacher") || __instance.Health <= 0)
-            return;
-        ModEntry.State.Value.IsSuperModeActive = false;
+        if (damage > 0 && !isBomb && who.IsLocalPlayer &&
+            ModEntry.State.Value.SuperMode is {Index: SuperModeIndex.Poacher, IsActive: true} &&
+            __instance.Health > 0) ModEntry.State.Value.SuperMode.Deactivate();
     }
 
     #endregion harmony patches
-
-    #region private methods
-
-    [HarmonyTargetMethods]
-    private static IEnumerable<MethodBase> TargetMethods()
-    {
-        var methods = from type in AccessTools.AllTypes()
-                      where type.IsAssignableTo(typeof(Monster)) && !type.IsAnyOf(
-                          typeof(HotHead),
-                          typeof(LavaLurk),
-                          typeof(Leaper),
-                          typeof(MetalHead),
-                          typeof(Shooter),
-                          typeof(ShadowBrute),
-                          typeof(Skeleton),
-                          typeof(Spiker))
-                      select type.MethodNamed("takeDamage",
-                          new[] { typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer) });
-
-        return methods.Where(m => m.DeclaringType == m.ReflectedType);
-    }
-
-    #endregion private methods
 }

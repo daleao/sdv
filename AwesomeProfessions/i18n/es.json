@@ -6,11 +6,13 @@
   "harvester.desc.prestiged": "10% >> 20% de probabilidad de rendimiento adicional de los cultivos cosechados.",
   "agriculturist.name.male": "Agricultor",
   "agriculturist.name.female": "Agricultora",
-  "agriculturist.desc": "Las plantas maduran un 10% mas rápido. Permite cultivos de la más alta calidad de forma orgánica sin fertilizantes.",
+  "agriculturist.desc":
+    "Las plantas maduran un 10% mas rápido. Permite cultivos de la más alta calidad de forma orgánica sin fertilizantes.",
   "agriculturist.desc.prestiged": "Las plantas maduran un 10% >> 20% mas rápido.",
   "artisan.name.male": "Artesano",
   "artisan.name.female": "Artesana",
-  "artisan.desc": "Todas las máquinas artesanales foncionan un 10% más rápido. La calidad del produto final es mejor o igual que la calidad de la materia prima.",
+  "artisan.desc":
+    "Todas las máquinas artesanales foncionan un 10% más rápido. La calidad del produto final es mejor o igual que la calidad de la materia prima.",
   "artisan.desc.prestiged": "Todas las máquinas artesanales foncionan un 10% >> 25% más rápido.",
 
   "rancher.name.male": "Ranchero",
@@ -19,11 +21,13 @@
   "rancher.desc.prestiged": "La amistad con todos los animales crece un 2× >> 3×.",
   "breeder.name.male": "Criador",
   "breeder.name.female": "Criadora",
-  "breeder.desc": "Los animales incuban un 2× más rápido e se reproducem con 3× más frecuencia. Aumenta el valor de los animales con una gran amistad.",
+  "breeder.desc":
+    "Los animales incuban un 2× más rápido e se reproducem con 3× más frecuencia. Aumenta el valor de los animales con una gran amistad.",
   "breeder.desc.prestiged": "Los animales incuban un 2× >> 3×  más rápido e se reproducem con 3× >> 5× más frecuencia.",
   "produtor.name.male": "Productor",
   "produtor.name.female": "Productora",
-  "producer.desc": "Los animales felices producem el 2× a menudo. Los productos de origen animal valen un 5% a más por cada establo ou gallinero lleno.",
+  "producer.desc":
+    "Los animales felices producem el 2× a menudo. Los productos de origen animal valen un 5% a más por cada establo ou gallinero lleno.",
   "producer.desc.prestiged": "Los animales felices producem el 2× >> 3× a menudo.",
 
   // Foraging
@@ -33,7 +37,8 @@
   "forager.desc.prestiged": "20% >> 40% de probabilidad del doble de rendimiento de forrajes.",
   "ecologist.name.male": "Ecologista",
   "ecologist.name.female": "Ecologista",
-  "ecologist.desc": "Las bayas silvestres restauran un 50% más salud y energía. Identifique progresivamente forrajes de mayor calidad.",
+  "ecologist.desc":
+    "Las bayas silvestres restauran un 50% más salud y energía. Identifique progresivamente forrajes de mayor calidad.",
   "ecologist.desc.prestiged": "Wild berries restore 50% >> 100% more health and energy.",
   "scavenger.name.male": "Rastreador",
   "scavenger.name.female": "Rastreadora",
@@ -62,12 +67,14 @@
   "miner.desc.prestiged": "+1 >> +2 menas más por veta.",
   "spelunker.name.male": "Espeleólogo",
   "spelunker.name.female": "Espeleóloga",
-  "spelunker.desc": "La probabilidad de encontrar escaleras y pozos aumenta en un 1% por cada piso de la mina. Velocidad +1 cada cinco pisos.",
+  "spelunker.desc":
+    "La probabilidad de encontrar escaleras y pozos aumenta en un 1% por cada piso de la mina. Velocidad +1 cada cinco pisos.",
   "spelunker.desc.prestiged": "Restaura algo de HP y Aguante en cada nivel de mina.",
   "spelunker.buffdesc": "Probabilidad de escaleras +{{bonusLadderChance}}%. +{{bonusSpeed}} Velocidad.",
   "prospector.name.male": "Buscador",
   "prospector.name.female": "Buscadora",
-  "prospector.desc": "Revela la ubicación de escaleras y vetas mineras. Ocasionalmente rastrea minerales valiosos en piedras comunes.",
+  "prospector.desc":
+    "Revela la ubicación de escaleras y vetas mineras. Ocasionalmente rastrea minerales valiosos en piedras comunes.",
   "prospector.desc.prestiged": "El tiempo se congela durante las búsquedas de prospector.",
   "prospector.huntstarted": "Tus sentidos de Prospector están hormigueando...",
   "prospector.huntfailed": "El hormigueo se desvanece.",
@@ -83,7 +90,8 @@
   "demolitionist.buffdesc": "¡A tope!",
   "gemologist.name.male": "Gemólogo",
   "gemologist.name.female": "Gemóloga",
-  "gemologist.desc": "Identifique progresivamente minerales de mayor calidad. Los cristalarios producem un 25% más rápido.",
+  "gemologist.desc":
+    "Identifique progresivamente minerales de mayor calidad. Los cristalarios producem un 25% más rápido.",
   "gemologist.desc.prestiged": "Los cristalarios producem un  25% >> 50% más rápido.",
 
   // Fishing
@@ -93,11 +101,13 @@
   "fisher.desc.prestiged": "Los peces siempre muerden al instante",
   "angler.name.male": "Pesquero",
   "angler.name.female": "Pesquera",
-  "angler.desc": "Los peces valen un 1% más por cada pez de tamaño máximo capturado y un 5% más por cada pez legendario capturado.",
+  "angler.desc":
+    "Los peces valen un 1% más por cada pez de tamaño máximo capturado y un 5% más por cada pez legendario capturado.",
   "angler.desc.prestiged": "Puede volver a atrapar peces legendarios.",
   "aquarist.name.male": "Acuarista",
   "aquarist.name.female": "Acuarista",
-  "aquarist.desc": "Capacidad máxima del estanque de peces +2. La barra de captura disminuye más lentamente para cada especie de pez que se cría en un estanque.",
+  "aquarist.desc":
+    "Capacidad máxima del estanque de peces +2. La barra de captura disminuye más lentamente para cada especie de pez que se cría en un estanque.",
   "aquarist.desc.prestiged": "Puede criar peces legendarios en estanques de peces.",
 
   "trapper.name.male": "Trampero",
@@ -106,14 +116,18 @@
   "trapper.desc.prestiged": "Las trampas pueden atrapar peces de la mejor calidad.",
   "luremaster.name.male": "As del señuelo",
   "luremaster.name.female": "As del señuelo",
-  "luremaster.desc": "Las trampas para cangrejos ya no producen basura. Utilice diferentes cebos para atraer pescas diferentes.",
+  "luremaster.desc":
+    "Las trampas para cangrejos ya no producen basura. Utilice diferentes cebos para atraer pescas diferentes.",
   "luremaster.desc.prestiged": "60% de probabilidad de conservar el cebo de las trampas para cangrejos.",
   "conservacionist.name.male": "Ambientalista",
   "conservacionist.name.female": "Ambientalista",
-  "conservationist.desc": "Las trampas para cangrejos sin cebo pueden atrapar basura. Gánate las deducciones de impuestos al limpiar las aguas del Valle.",
+  "conservationist.desc":
+    "Las trampas para cangrejos sin cebo pueden atrapar basura. Gánate las deducciones de impuestos al limpiar las aguas del Valle.",
   "conservacionist.desc.prestiged": "Gánate también el favor de los aldeanos al limpiar las aguas del Valle.",
-  "conservationist.mail1": "Estimado @, ^^ Nos complace anunciar que, después de revisar sus actividades ambientales, hemos verificado que es elegible para recibir un beneficio de un {{taxBonus}} de deducción del impuesto sobre la renta, de acuerdo con la sección 501(c)(3) de los Códigos de Impuestos y Contribuciones de Ferngill. Válido durante esta temporada, todos los ingresos imponibles de {{farmName}} se incrementarán en la cantidad antes mencionada. ^^ Guarde esta carta para sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal. ^^ Atentamente, Laura D. Pretto ^ Directora Ejecutiva, Secretaría de la Receta Federal de Ferngill [#]Taxation Notice ",
-  "conservationist.mail2": "Estimado @, ^^ Nos complace anunciar que, después de revisar sus actividades ambientales, hemos verificado que es elegible para recibir el máximo beneficio de un {{taxBonus}} de de deducción del impuesto sobre la renta, de acuerdo con la sección 501(c)(3) de los Códigos de Impuestos y Contribuciones de Ferngill. Válido durante esta temporada, todos los ingresos imponibles de {{farmName}} se incrementarán en la cantidad antes mencionada. ^^ Guarde esta carta para sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal. ^^ Atentamente, Laura D. Pretto ^ Directora Ejecutiva, Secretaría de la Receta Federal de Ferngill [#]Taxation Notice ",
+  "conservationist.mail1":
+    "Estimado @, ^^ Nos complace anunciar que, después de revisar sus actividades ambientales, hemos verificado que es elegible para recibir un beneficio de un {{taxBonus}} de deducción del impuesto sobre la renta, de acuerdo con la sección 501(c)(3) de los Códigos de Impuestos y Contribuciones de Ferngill. Válido durante esta temporada, todos los ingresos imponibles de {{farmName}} se incrementarán en la cantidad antes mencionada. ^^ Guarde esta carta para sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal. ^^ Atentamente, Laura D. Pretto ^ Directora Ejecutiva, Secretaría de la Receta Federal de Ferngill [#]Taxation Notice ",
+  "conservationist.mail2":
+    "Estimado @, ^^ Nos complace anunciar que, después de revisar sus actividades ambientales, hemos verificado que es elegible para recibir el máximo beneficio de un {{taxBonus}} de de deducción del impuesto sobre la renta, de acuerdo con la sección 501(c)(3) de los Códigos de Impuestos y Contribuciones de Ferngill. Válido durante esta temporada, todos los ingresos imponibles de {{farmName}} se incrementarán en la cantidad antes mencionada. ^^ Guarde esta carta para sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal. ^^ Atentamente, Laura D. Pretto ^ Directora Ejecutiva, Secretaría de la Receta Federal de Ferngill [#]Taxation Notice ",
 
   // Combat
   "fighter.name.male": "Luchador",
@@ -123,15 +137,18 @@
   "brute.name.male": "Bestia",
   "brute.name.female": "Amazona",
   "brute.desc": "Daño +15%. +25 HP. Acumula furia durante el combate, aumentando aún más el daño inflingido.",
-  "brute.desc.prestiged": "Las bonificaciones de daño, excepto de profesiones, también reducen el tiempo de recarga de los ataques especiales.",
+  "brute.desc.prestiged":
+    "Las bonificaciones de daño, excepto de profesiones, también reducen el tiempo de recarga de los ataques especiales.",
   "brute.buff": "Furia",
   "brute.buffdesc": "Daño +{{magnitude}}%.",
   "brute.superm": "Fúria Inmortal",
   "brute.supermdesc": "Duplica todas las bonificaciones de daño. Imune a los desmayos.",
   "poacher.name.male": "Guerrillero",
   "poacher.name.female": "Guerrillera",
-  "poacher.desc": "Probabilidad de golpe crítico +10%. Los golpes críticos pueden pinchar objetos. Tu sangre se enfría, aumentando la letalidad de los golpes crítico.",
-  "poacher.desc.prestiged": "Las bonificaciones de daño y probabilidad crítica, excepto de profesiones, también reducen el tiempo de recarga de los ataques especiales.",
+  "poacher.desc":
+    "Probabilidad de golpe crítico +10%. Los golpes críticos pueden pinchar objetos. Tu sangre se enfría, aumentando la letalidad de los golpes crítico.",
+  "poacher.desc.prestiged":
+    "Las bonificaciones de daño y probabilidad crítica, excepto de profesiones, también reducen el tiempo de recarga de los ataques especiales.",
   "poacher.buff": "Sangre Fría",
   "poacher.buffdesc": "Potencia de los golpes críticos ×{{magnitude}}.",
   "poacher.superm": "Emboscada",
@@ -139,11 +156,13 @@
 
   "rascal.name.male": "Bribón",
   "rascal.name.female": "Bribona",
-  "rascal.desc": "Los tirachinas inflingen hasta un 50% má de daño desde la distancia. 60% de probabilidad de recuperar munición.",
+  "rascal.desc":
+    "Los tirachinas inflingen hasta un 50% má de daño desde la distancia. 60% de probabilidad de recuperar munición.",
   "rascal.desc.prestiged": "Los disparos rebotados aturden a los enemigos durante 5 segundos.",
   "desperado.name.male": "Forajido",
   "desperado.name.female": "Forajida",
-  "desperado.desc": "Possibilidad de disparar una ráfaga doble, basado en el HP actual. La temeridad acumulada aumenta la sección éficaz de los tiros y la potencia de impacto.",
+  "desperado.desc":
+    "Possibilidad de disparar una ráfaga doble, basado en el HP actual. La temeridad acumulada aumenta la sección éficaz de los tiros y la potencia de impacto.",
   "desperado.desc.prestiged": "Dispara un 50% más rápido. El tiro doble se convierte en un tiro de escopeta.",
   "desperado.buff": "Temeridad",
   "desperado.buffdesc": "Potencia de los disparos +{{magnitude}}%.",
@@ -151,7 +170,8 @@
   "desperado.supermdesc": "Habilita recarga automática. Dispara ocho tiros a tu alrededor a la vez.",
   "piper.name.male": "Encantador de Babas",
   "piper.name.female": "Encantadora de Babas",
-  "piper.desc": "Las Babas dañan a otros enemigos y producen objetos mejores cuanto más Babas se crean en la granja. La eubstancia recolectada atrae más Babas en las mazmorras.",
+  "piper.desc":
+    "Las Babas dañan a otros enemigos y producen objetos mejores cuanto más Babas se crean en la granja. La eubstancia recolectada atrae más Babas en las mazmorras.",
   "piper.desc.prestiged": "Las Babas también te curan al contacto.",
   "piper.buff": "Eubstancia",
   "piper.buffdesc": "Atrae hasta {{magnitude}} Babas adicionales.",
@@ -159,7 +179,8 @@
   "piper.supermdesc": "Engorda y apodera las Babas cercanas.",
 
   // Prestige
-  "prestige.dogstatue.first": "-Estatua del prestigio-^La estatua puede restablecer una habilidad a cero mientras se mantienen todas las profesiones adquiridas.",
+  "prestige.dogstatue.first":
+    "-Estatua del prestigio-^La estatua puede restablecer una habilidad a cero mientras se mantienen todas las profesiones adquiridas.",
   "prestige.dogstatue.forget": "^Todas las recetas asociadas serán olvidadas.",
   "prestige.dogstatue.offer": "^¿Hacer una ofrenda?",
   "prestige.dogstatue.which": "¿Qué habilidad te gustaría restablecer?",
@@ -168,13 +189,15 @@
   "prestige.dogstatue.what": "-Estatua del prestigio-^...",
   "prestige.dogstatue.respec": "Cambiar las profesiones de prestigio",
   "prestige.dogstatue.changeult": "Cambiar el supermodo de combate",
-  "prestige.dogstatue.replace": "Actualmente registrado {{pronoun}} {{currentBuff}} de {{currentProfession}}. ¿Reemplazar?",
+  "prestige.dogstatue.replace":
+    "Actualmente registrado {{pronoun}} {{currentBuff}} de {{currentProfession}}. ¿Reemplazar?",
   "prestige.dogstatue.choice": "{{choiceBuff}} de {{choiceProfession}}",
   "prestige.dogstatue.fledged": "¡Guau! ¡Guau! (Ahora eres {{pronoun}} {{choiceProfession}} de pleno derecho.)",
   "prestige.skillpage.tooltip": "{{count}}/4 profesiones adquiridas:",
   "prestige.levelup.tooltip:5": "Ya tienes todas las profesiones en esta rama.",
   "prestige.levelup.tooltip:10": "Ya tienes esta profesión.",
-  "prestige.levelup.question": "Actualmente registrado en {{pronoun}} {{oldBuff}} de {{oldProfession}}. ¿Reemplazar con el {{newBuff}} de {{newProfession}}?",
+  "prestige.levelup.question":
+    "Actualmente registrado en {{pronoun}} {{oldBuff}} de {{oldProfession}}. ¿Reemplazar con el {{newBuff}} de {{newProfession}}?",
   "prestige.levelup.unlocked": "Ahora puedes continuar a desarrollar tu habilidad {{whichSkill}} aún más.",
   "prestige.levelup.prestige": "Elige una profesión para prestigiar:",
   "prestige.achievement.name.male": "Manitas",

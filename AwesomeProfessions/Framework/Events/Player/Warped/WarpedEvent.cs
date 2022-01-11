@@ -4,20 +4,14 @@ namespace TheLion.Stardew.Professions.Framework.Events.Player.Warped;
 
 internal abstract class WarpedEvent : BaseEvent
 {
-    /// <inheritdoc />
-    public override void Hook()
-    {
-        ModEntry.ModHelper.Events.Player.Warped += OnWarped;
-    }
-
-    /// <inheritdoc />
-    public override void Unhook()
-    {
-        ModEntry.ModHelper.Events.Player.Warped -= OnWarped;
-    }
-
     /// <summary>Raised after the current player moves to a new location.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public abstract void OnWarped(object sender, WarpedEventArgs e);
+    public void OnWarped(object sender, WarpedEventArgs e)
+    {
+        if (enabled.Value) OnWarpedImpl(sender, e);
+    }
+
+    /// <inheritdoc cref="OnWarped" />
+    protected abstract void OnWarpedImpl(object sender, WarpedEventArgs e);
 }

@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace TheLion.Stardew.Common.Classes;
 
@@ -39,14 +39,14 @@ public class CircleTileGrid
 
             // loop over the first remaining quadrant and mirror matches 3 times
             for (var x = 0; x < _radius; ++x)
-                for (var y = 0; y < _radius; ++y)
-                    if (Contains(new(x, y)))
-                    {
-                        yield return _origin - center + new Vector2(y, x);
-                        yield return _origin - center + new Vector2(y, 2 * _radius - x);
-                        yield return _origin - center + new Vector2(2 * _radius - y, x);
-                        yield return _origin - center + new Vector2(2 * _radius - y, 2 * _radius - x);
-                    }
+            for (var y = 0; y < _radius; ++y)
+                if (Contains(new(x, y)))
+                {
+                    yield return _origin - center + new Vector2(y, x);
+                    yield return _origin - center + new Vector2(y, 2 * _radius - x);
+                    yield return _origin - center + new Vector2(2 * _radius - y, x);
+                    yield return _origin - center + new Vector2(2 * _radius - y, 2 * _radius - x);
+                }
         }
     }
 
@@ -67,14 +67,14 @@ public class CircleTileGrid
 
             // loop over the first remaining quadrant and mirror matches 3 times
             for (var x = 0; x < _radius; ++x)
-                for (var y = 0; y < _radius; ++y)
-                    if (_outlineBoolArray[x, y])
-                    {
-                        yield return _origin - center + new Vector2(y, x);
-                        yield return _origin - center + new Vector2(y, 2 * _radius - x);
-                        yield return _origin - center + new Vector2(2 * _radius - y, x);
-                        yield return _origin - center + new Vector2(2 * _radius - y, 2 * _radius - x);
-                    }
+            for (var y = 0; y < _radius; ++y)
+                if (_outlineBoolArray[x, y])
+                {
+                    yield return _origin - center + new Vector2(y, x);
+                    yield return _origin - center + new Vector2(y, 2 * _radius - x);
+                    yield return _origin - center + new Vector2(2 * _radius - y, x);
+                    yield return _origin - center + new Vector2(2 * _radius - y, 2 * _radius - x);
+                }
         }
     }
 
@@ -110,7 +110,7 @@ public class CircleTileGrid
 
     #region private methods
 
-    /// <summary>Create the circle's outline as a <see cref="bool"/> array.</summary>
+    /// <summary>Create the circle's outline as a <see cref="bool" /> array.</summary>
     protected void GetOutline()
     {
         var outline = new bool[_radius * 2 + 1, _radius * 2 + 1];

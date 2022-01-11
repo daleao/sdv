@@ -28,7 +28,7 @@ internal class TreeUpdateTapperProductPatch : BasePatch
         if (!owner.HasProfession("Tapper")) return;
 
         if (tapper_instance.MinutesUntilReady > 0)
-            tapper_instance.MinutesUntilReady = (int)(tapper_instance.MinutesUntilReady *
+            tapper_instance.MinutesUntilReady = (int) (tapper_instance.MinutesUntilReady *
                                                        (owner.HasPrestigedProfession("Tapper") ? 0.5 : 0.75));
     }
 

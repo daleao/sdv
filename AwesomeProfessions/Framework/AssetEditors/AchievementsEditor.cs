@@ -1,11 +1,12 @@
-﻿using StardewModdingAPI;
+﻿using System;
+using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using System;
 using TheLion.Stardew.Common.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.AssetEditors;
 
+/// <summary>Edits <c></c>Data/achievements<c></c> with Prestige achievements.</summary>
 public class AchivementsEditor : IAssetEditor
 {
     /// <inheritdoc />

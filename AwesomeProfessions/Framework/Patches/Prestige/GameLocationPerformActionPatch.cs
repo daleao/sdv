@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
-using System;
-using System.Linq;
-using System.Reflection;
 using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -34,7 +34,8 @@ internal class GameLocationPerformActionPatch : BasePatch
         {
             string message;
             if (!ModEntry.Config.AllowPrestigeMultiplePerDay &&
-                (ModEntry.Subscriber.IsSubscribed(typeof(PrestigeDayEndingEvent)) || ModEntry.State.Value.UsedDogStatueToday))
+                (ModEntry.EventManager.Get<PrestigeDayEndingEvent>().IsEnabled ||
+                 ModEntry.State.Value.UsedDogStatueToday))
             {
                 message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.dismiss");
                 Game1.drawObjectDialogue(message);
@@ -55,16 +56,19 @@ internal class GameLocationPerformActionPatch : BasePatch
             if (who.HasAllProfessions() && !ModEntry.State.Value.UsedDogStatueToday)
             {
                 message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.what");
-                var options = new Response[]
-                {
-                    new("changeUlt", ModEntry.ModHelper.Translation.Get("prestige.dogstatue.changeult") +
-                                     (ModEntry.Config.ChangeUltCost > 0
-                                         ? ' ' + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost",
-                                             new {cost = ModEntry.Config.ChangeUltCost})
-                                         : string.Empty))
-                };
+                Response[] options = Array.Empty<Response>();
 
-                if (Enum.GetValues<SkillType>().Any(s => GameLocation.canRespec((int)s)))
+                if (ModEntry.State.Value.SuperMode is not null)
+                    options = options.Concat(new Response[]
+                    {
+                        new("changeUlt", ModEntry.ModHelper.Translation.Get("prestige.dogstatue.changeult") +
+                                         (ModEntry.Config.ChangeUltCost > 0
+                                             ? ' ' + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost",
+                                                 new {cost = ModEntry.Config.ChangeUltCost})
+                                             : string.Empty))
+                    }).ToArray();
+
+                if (Enum.GetValues<SkillType>().Any(s => GameLocation.canRespec((int) s)))
                     options = options.Concat(new Response[]
                     {
                         new("prestigeRespec",
@@ -72,7 +76,7 @@ internal class GameLocationPerformActionPatch : BasePatch
                             (ModEntry.Config.PrestigeRespecCost > 0
                                 ? ' ' + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost",
                                     new {cost = ModEntry.Config.PrestigeRespecCost})
-                                : string.Empty)),
+                                : string.Empty))
                     }).ToArray();
 
                 __instance.createQuestionDialogue(message, options, "dogStatue");

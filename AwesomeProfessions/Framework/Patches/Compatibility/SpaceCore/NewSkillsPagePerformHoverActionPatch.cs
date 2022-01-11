@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
+﻿using System.Linq;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
-using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -44,7 +44,7 @@ internal class NewSkillsPagePerformHoverActionPatch : BasePatch
             new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.RibbonHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth -
-                70, (int)(w * s), (int)(w * s));
+                70, (int) (w * s), (int) (w * s));
 
         for (var i = 0; i < 5; ++i)
         {
@@ -63,7 +63,7 @@ internal class NewSkillsPagePerformHoverActionPatch : BasePatch
             var count = professionsForThisSkill.Count;
             if (count == 0) continue;
 
-            ___hoverText = ModEntry.ModHelper.Translation.Get("prestige.skillpage.tooltip", new { count });
+            ___hoverText = ModEntry.ModHelper.Translation.Get("prestige.skillpage.tooltip", new {count});
             ___hoverText = professionsForThisSkill
                 .Select(p => ModEntry.ModHelper.Translation.Get(Utility.Professions.NameOf(p).ToLower() + ".name." +
                                                                 (Game1.player.IsMale ? "male" : "female")))

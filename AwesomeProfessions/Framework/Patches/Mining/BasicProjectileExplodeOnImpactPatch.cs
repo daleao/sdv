@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Projectiles;
-using System;
-using System.Reflection;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 // ReSharper disable PossibleLossOfFraction

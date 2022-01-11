@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using TheLion.Stardew.Common.Integrations;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
@@ -20,7 +20,7 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
         [160] = "TehPers.FishingOverhaul/anglerCaught",
         [163] = "TehPers.FishingOverhaul/legendCaught",
         [682] = "TehPers.FishingOverhaul/mutantCarpCaught",
-        [775] = "TehPers.FishingOverhaul/glacierfishCaught",
+        [775] = "TehPers.FishingOverhaul/glacierfishCaught"
     };
 
     // Conversation topics added by [TFO] Recatchable Legendaries to track delays
@@ -30,20 +30,20 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
         "TehPers.RecatchableLegendaries/anglerDelay",
         "TehPers.RecatchableLegendaries/legendDelay",
         "TehPers.RecatchableLegendaries/mutantCarpDelay",
-        "TehPers.RecatchableLegendaries/glacierfishDelay",
+        "TehPers.RecatchableLegendaries/glacierfishDelay"
     };
 
     private static readonly Func<object, double> getTreasureBaseChance;
     private static readonly Func<object, double> getTreasurePirateFactor;
 
     private readonly ISimplifiedFishingApi _fishingApi;
-    private readonly object _rawFishingApi;
     private readonly IModHelper _helper;
+    private readonly object _rawFishingApi;
 
     /// <summary>
-    /// Lazily initializes the static getter fields. This is done lazily in case Teh's Fishing
-    /// Overhaul isn't loaded and the types do not exist. By using expressions instead of
-    /// reflection, we can avoid most of the overhead of dynamically accessing fields.
+    ///     Lazily initializes the static getter fields. This is done lazily in case Teh's Fishing
+    ///     Overhaul isn't loaded and the types do not exist. By using expressions instead of
+    ///     reflection, we can avoid most of the overhead of dynamically accessing fields.
     /// </summary>
     static TehsFishingOverhaulIntegration()
     {
@@ -121,40 +121,29 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
             {
                 // prestiged status was just lost
                 case (not false, false):
-                    {
-                        // Add flags for all legendary fish that have been caught
-                        foreach (var (id, flag) in legendaryFlags)
-                        {
-                            if (Game1.player.fishCaught.ContainsKey(id) && !Game1.player.mailReceived.Contains(flag))
-                            {
-                                Game1.player.mailReceived.Add(flag);
-                            }
-                        }
+                {
+                    // Add flags for all legendary fish that have been caught
+                    foreach (var (id, flag) in legendaryFlags)
+                        if (Game1.player.fishCaught.ContainsKey(id) && !Game1.player.mailReceived.Contains(flag))
+                            Game1.player.mailReceived.Add(flag);
 
-                        break;
-                    }
+                    break;
+                }
 
                 // has the prestiged status
                 case (_, true):
-                    {
-                        // remove all legendary caught flags so they can be caught again
-                        // note: does not remove the fish from the collections tab
-                        foreach (var flag in legendaryFlags.Values)
-                        {
-                            Game1.player.RemoveMail(flag);
-                        }
+                {
+                    // remove all legendary caught flags so they can be caught again
+                    // note: does not remove the fish from the collections tab
+                    foreach (var flag in legendaryFlags.Values) Game1.player.RemoveMail(flag);
 
-                        // if Recatchable Legendaries is installed, reset the conversation topics
-                        if (_helper.ModRegistry.IsLoaded("TehPers.RecatchableLegendaries"))
-                        {
-                            foreach (var topic in recatchableLegendariesTopics)
-                            {
-                                Game1.player.activeDialogueEvents.Remove(topic);
-                            }
-                        }
+                    // if Recatchable Legendaries is installed, reset the conversation topics
+                    if (_helper.ModRegistry.IsLoaded("TehPers.RecatchableLegendaries"))
+                        foreach (var topic in recatchableLegendariesTopics)
+                            Game1.player.activeDialogueEvents.Remove(topic);
 
-                        break;
-                    }
+                    break;
+                }
             }
 
             // update previous state

@@ -1,6 +1,6 @@
-﻿using StardewModdingAPI;
+﻿using System.Linq;
+using StardewModdingAPI;
 using StardewValley;
-using System.Linq;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -19,8 +19,8 @@ public static class Game1Extensions
                 return true;
             }
 
-        numberOfPlayersWithThisProfession = Game1.getAllFarmers()
-            .Count(player => player.isActive() && player.HasProfession(professionName));
+        numberOfPlayersWithThisProfession = Game1.getOnlineFarmers()
+            .Count(f => f.HasProfession(professionName));
         return numberOfPlayersWithThisProfession > 0;
     }
 }

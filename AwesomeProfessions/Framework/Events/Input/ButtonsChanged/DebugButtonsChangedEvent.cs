@@ -1,8 +1,8 @@
-﻿using JetBrains.Annotations;
+﻿using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Events.Display.RenderedActiveMenu;
 
@@ -12,11 +12,10 @@ namespace TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
 internal class DebugButtonsChangedEvent : ButtonsChangedEvent
 {
     /// <inheritdoc />
-    public override void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
+    protected override async void OnButtonsChangedImpl(object sender, ButtonsChangedEventArgs e)
     {
         if (!ModEntry.Config.DebugKey.IsDown() ||
             !e.Pressed.Any(b => b is SButton.MouseRight or SButton.MouseLeft)) return;
-        ModEntry.Log($"{e.Cursor.GetScaledScreenPixels()}", LogLevel.Debug);
 
         if (DebugRenderedActiveMenuEvent.FocusedComponent is not null)
         {
@@ -43,15 +42,51 @@ internal class DebugButtonsChangedEvent : ButtonsChangedEvent
                 {
                     if (c.getTileLocation() != e.Cursor.Tile) continue;
 
-                    var message = $"{c.Name} ({c.GetType()})";
-                    message = c.GetType().GetFields().Where(f => f.Name != "Name").Aggregate(message,
-                        (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(c)}");
-
-                    if (c is Farmer)
+                    var message = string.Empty;
+                    Farmer who = null;
+                    if (c is Farmer farmer)
                     {
-                        message += "\n\n\tModData:";
-                        message = c.modData.Pairs.Aggregate(message,
-                            (current, pair) => current + $"\n\t\t{pair.Key}: {pair.Value}");
+                        who = farmer;
+                        message += $"[{who.UniqueMultiplayerID}]: ";
+                    }
+
+                    message += $"{c.Name} ({c.GetType()})";
+                    message = c.GetType().GetFields().Where(f => !f.Name.IsAnyOf("UniqueMultiplayerID", "Name"))
+                        .Aggregate(message, (m, f) => m + $"\n\t- {f.Name}: {f.GetValue(c)}");
+
+                    if (who is not null)
+                    {
+                        message += "\n\n\tMod data:";
+                        message = Game1.MasterPlayer.modData.Pairs
+                            .Where(p => p.Key.StartsWith(ModEntry.Manifest.UniqueID) &&
+                                        p.Key.Contains(who.UniqueMultiplayerID.ToString()))
+                            .Aggregate(message,
+                                (m, p) => m + $"\n\t\t- {p.Key}: {p.Value}");
+
+                        var events = "";
+                        if (who.IsLocalPlayer)
+                        {
+                            events = ModEntry.EventManager.GetAllEnabled().Aggregate("",
+                                (current, next) => current + "\n\t\t- " + next.GetType().Name);
+                        }
+                        else if (Context.IsMultiplayer && who.isActive())
+                        {
+                            var peer = ModEntry.ModHelper.Multiplayer.GetConnectedPlayer(who.UniqueMultiplayerID);
+                            if (peer.IsSplitScreen)
+                            {
+                                if (peer.ScreenID.HasValue)
+                                    events = ModEntry.EventManager.GetAllEnabledForScreen(peer.ScreenID.Value).Aggregate("",
+                                        (current, next) => current + "\n\t\t- " + next.GetType().Name);
+                            }
+                            else
+                            {
+                                events = await Utility.Multiplayer.SendRequestAsync("EventsEnabled", "Debug/Request",
+                                    who.UniqueMultiplayerID);
+                            }
+                        }
+
+                        if (!string.IsNullOrEmpty(events)) message += "\n\n\tEvents:" + events;
+                        else message += "\n\nCouldn't read player's subsribed events.";
                     }
 
                     ModEntry.Log(message, LogLevel.Debug);

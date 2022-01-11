@@ -1,15 +1,16 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.SuperMode;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Common;
 
@@ -36,20 +37,22 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
                          (b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                          b is FishPond && !b.isUnderConstruction()))
             {
-                var pond = (FishPond)b;
+                var pond = (FishPond) b;
                 pond.UpdateMaximumOccupancy();
             }
 
         // subscribe events
-        ModEntry.Subscriber.SubscribeEventsForProfession(professionName);
-        if (professionName == "Conservationist") // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage("Conservationist", "RequestEventSubscription",
+        ModEntry.EventManager.EnableAllForProfession(professionName);
+        if (professionName == "Conservationist" && !Context.IsMainPlayer) // request the main player
+            ModEntry.ModHelper.Multiplayer.SendMessage("Conservationist", "RequestEventEnable",
                 new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
 
-        if (whichProfession is >= 26 and < 30 &&
-            ModEntry.State.Value.SuperModeIndex < 0) // is level 10 combat profession and Super Mode is not yet registered
-            // register Super Mode
-            ModEntry.State.Value.SuperModeIndex = whichProfession;
+        if (whichProfession is < 26 or >= 30 || ModEntry.State.Value.SuperMode is not null) return;
+        
+        // register Super Mode
+        var newIndex = (SuperModeIndex) whichProfession;
+        ModEntry.State.Value.SuperMode = new(newIndex);
+        ModData.Write(DataField.SuperModeIndex, newIndex.ToString());
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>

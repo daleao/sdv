@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -54,7 +54,9 @@ internal class FishPondIsLegalFishForPondsPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding prestiged Aquarist permission to raise legendary fish.\nHelper returned {ex}", LogLevel.Error);
+            ModEntry.Log(
+                $"Failed while adding prestiged Aquarist permission to raise legendary fish.\nHelper returned {ex}",
+                LogLevel.Error);
             return null;
         }
 

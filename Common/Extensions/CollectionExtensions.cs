@@ -20,13 +20,6 @@ public static class CollectionExtensions
         return collection.Any(item => item is not null && item.GetType() == type);
     }
 
-    /// <summary>Determine if a collection contains any instance of the given types.</summary>
-    /// <param name="types">The types to search for.</param>
-    public static bool ContainsAnyOfTypes<T>(this ICollection<T> collection, params Type[] types)
-    {
-        return collection.Any(item => item is not null && item.IsAnyOfTypes(types));
-    }
-
     /// <summary>Remove the first instance of a given type from a collection.</summary>
     /// <param name="type">The type to search for.</param>
     /// <param name="removed">The removed instance.</param>

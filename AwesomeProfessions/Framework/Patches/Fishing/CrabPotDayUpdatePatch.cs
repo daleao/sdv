@@ -1,14 +1,14 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
@@ -89,9 +89,9 @@ internal class CrabPotDayUpdatePatch : BasePatch
                     whichFish = GetTrash(r);
                     if (isConservationist)
                     {
-                        ModData.Increment<uint>(ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S, who);
+                        ModData.Increment<uint>(DataField.ConservationistTrashCollectedThisSeason, who);
                         if (who.HasPrestigedProfession("Conservationist") &&
-                            ModData.ReadAs<uint>(ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S, who) %
+                            ModData.ReadAs<uint>(DataField.ConservationistTrashCollectedThisSeason, who) %
                             ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
                             SUtility.improveFriendshipWithEveryoneInRegion(who, 1, 2);
                     }
@@ -281,16 +281,14 @@ internal class CrabPotDayUpdatePatch : BasePatch
         if (isLuremaster && crabpot.HasMagicBait()) return SObject.bestQuality;
 
         var fish = new SObject(whichFish, 1);
-        if (who is null || !who.HasProfession("Trapper") || fish.IsPirateTreasure() || fish.IsAlgae()) return SObject.lowQuality;
+        if (who is null || !who.HasProfession("Trapper") || fish.IsPirateTreasure() || fish.IsAlgae())
+            return SObject.lowQuality;
 
         return who.HasPrestigedProfession("Trapper") && r.NextDouble() < who.FishingLevel / 60.0
-            ?
-            SObject.bestQuality
-            :
-            r.NextDouble() < who.FishingLevel / 30.0
+            ? SObject.bestQuality
+            : r.NextDouble() < who.FishingLevel / 30.0
                 ? SObject.highQuality
-                :
-                r.NextDouble() < who.FishingLevel / 15.0
+                : r.NextDouble() < who.FishingLevel / 15.0
                     ? SObject.medQuality
                     : SObject.lowQuality;
     }

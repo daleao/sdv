@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley.Monsters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewValley.Monsters;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
@@ -24,12 +24,13 @@ internal class GreenSlimeOnDealContactDamagePatch : BasePatch
     /// <summary>Patch to make Piper immune to slimed debuff.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> GreenSlimeOnDealContactDamageTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: if (who.professions.Contains(<piper_id>)) return;
+        /// Injected: if (who.professions.Contains(<piper_id>) && !who.professions.Contains(100 + <piper_id>)) return;
 
+        var resumeExecution = iLGenerator.DefineLabel();
         try
         {
             helper
@@ -38,11 +39,15 @@ internal class GreenSlimeOnDealContactDamagePatch : BasePatch
                 )
                 .GetOperand(out var returnLabel) // get return label
                 .Return()
+                .AddLabels(resumeExecution)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack(Utility.Professions.IndexOf("Piper"), (Label)returnLabel,
-                    true);
+                .InsertProfessionCheckForPlayerOnStack(Utility.Professions.IndexOf("Piper"), resumeExecution)
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
+                )
+                .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Piper"), (Label) returnLabel);
         }
         catch (Exception ex)
         {

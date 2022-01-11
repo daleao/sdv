@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using System;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 

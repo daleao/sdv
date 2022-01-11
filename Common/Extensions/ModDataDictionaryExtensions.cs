@@ -1,6 +1,6 @@
-﻿using StardewValley;
-using System;
+﻿using System;
 using System.Linq.Expressions;
+using StardewValley;
 
 namespace TheLion.Stardew.Common.Extensions;
 

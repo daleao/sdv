@@ -8,7 +8,7 @@ namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.GameLaunched;
 internal class StaticGameLaunchedEvent : GameLaunchedEvent
 {
     /// <inheritdoc />
-    public override void OnGameLaunched(object sender, GameLaunchedEventArgs e)
+    protected override void OnGameLaunchedImpl(object sender, GameLaunchedEventArgs e)
     {
         // add Generic Mod Config Menu integration
         new GenericModConfigMenuIntegrationForAwesomeProfessions(
@@ -26,9 +26,7 @@ internal class StaticGameLaunchedEvent : GameLaunchedEvent
 
         // add Teh's Fishing Overhaul integration
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("TehPers.FishingOverhaul"))
-        {
-            new TehsFishingOverhaulIntegration(modRegistry: ModEntry.ModHelper.ModRegistry, log: ModEntry.Log, helper: ModEntry.ModHelper)
+            new TehsFishingOverhaulIntegration(ModEntry.ModHelper.ModRegistry, ModEntry.Log, ModEntry.ModHelper)
                 .Register();
-        }
     }
 }

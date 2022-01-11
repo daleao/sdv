@@ -1,14 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using TheLion.Stardew.Professions.Framework.SuperMode;
 using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions;
@@ -56,7 +57,8 @@ internal static class ConsoleCommands
             SetModData);
         ModEntry.ModHelper.ConsoleCommands.Add("wol_events", "List currently subscribed mod events.",
             PrintSubscribedEvents);
-        ModEntry.ModHelper.ConsoleCommands.Add("wol_resetthehunt", "Forcefully reset the current Treasure Hunt with a new target treasure tile.",
+        ModEntry.ModHelper.ConsoleCommands.Add("wol_resetthehunt",
+            "Forcefully reset the current Treasure Hunt with a new target treasure tile.",
             RerollTreasureTile);
     }
 
@@ -71,11 +73,12 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.Log($"Farming level: {Game1.player.GetUnmodifiedSkillLevel((int)SkillType.Farming)}", LogLevel.Info);
-        ModEntry.Log($"Fishing level: {Game1.player.GetUnmodifiedSkillLevel((int)SkillType.Fishing)}", LogLevel.Info);
-        ModEntry.Log($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel((int)SkillType.Foraging)}", LogLevel.Info);
-        ModEntry.Log($"Mining level: {Game1.player.GetUnmodifiedSkillLevel((int)SkillType.Mining)}", LogLevel.Info);
-        ModEntry.Log($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int)SkillType.Combat)}", LogLevel.Info);
+        ModEntry.Log($"Farming level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Farming)}", LogLevel.Info);
+        ModEntry.Log($"Fishing level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Fishing)}", LogLevel.Info);
+        ModEntry.Log($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Foraging)}",
+            LogLevel.Info);
+        ModEntry.Log($"Mining level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Mining)}", LogLevel.Info);
+        ModEntry.Log($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Combat)}", LogLevel.Info);
     }
 
     /// <summary>Reset all skills for the local player.</summary>
@@ -108,18 +111,21 @@ internal static class ConsoleCommands
             return;
         }
 
+        var message = $"Farmer {Game1.player.Name}'s professions:";
         foreach (var professionsIndex in Game1.player.professions)
             try
             {
-                ModEntry.Log(
-                    professionsIndex < 100
+                message += "\n\t- " +
+                    (professionsIndex < 100
                         ? $"{Framework.Utility.Professions.NameOf(professionsIndex)}"
-                        : $"{Framework.Utility.Professions.NameOf(professionsIndex - 100)} (P)", LogLevel.Info);
+                        : $"{Framework.Utility.Professions.NameOf(professionsIndex - 100)} (P)");
             }
             catch (IndexOutOfRangeException)
             {
                 ModEntry.Log($"Unknown profession index {professionsIndex}", LogLevel.Info);
             }
+
+        ModEntry.Log(message, LogLevel.Info);
     }
 
     /// <summary>Add specified professions to the local player.</summary>
@@ -149,14 +155,16 @@ internal static class ConsoleCommands
                 if (prestige) range = range.Concat(Enumerable.Range(100, 30)).ToHashSet();
 
                 professionsToAdd.AddRange(range);
-                ModEntry.Log($"Added all {(prestige ? "prestiged " : "")}professions to farmer {Game1.player.Name}.", LogLevel.Info);
+                ModEntry.Log($"Added all {(prestige ? "prestiged " : "")}professions to farmer {Game1.player.Name}.",
+                    LogLevel.Info);
                 break;
             }
 
             var professionName = arg.FirstCharToUpper();
             if (Framework.Utility.Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex))
             {
-                if (!prestige && Game1.player.HasProfession(professionName) || prestige && Game1.player.HasPrestigedProfession(professionName))
+                if (!prestige && Game1.player.HasProfession(professionName) ||
+                    prestige && Game1.player.HasPrestigedProfession(professionName))
                 {
                     ModEntry.Log("You already have this profession.", LogLevel.Warn);
                     continue;
@@ -193,11 +201,12 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.State.Value.SuperModeIndex = -1;
-        var professionsToRemove = Game1.player.professions.ToList();
-        foreach (var professionIndex in professionsToRemove)
+        ModEntry.State.Value.SuperMode = null;
+        ModData.Write(DataField.SuperModeIndex, null);
+        for (var i = Game1.player.professions.Count - 1; i >= 0; --i)
         {
-            Game1.player.professions.Remove(professionIndex);
+            var professionIndex = Game1.player.professions[i];
+            Game1.player.professions.RemoveAt(i);
             LevelUpMenu.removeImmediateProfessionPerk(professionIndex);
         }
 
@@ -213,9 +222,9 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (ModEntry.State.Value.SuperModeIndex < 0)
+        if (ModEntry.State.Value.SuperMode is null)
         {
-            ModEntry.Log("You must have a level 10 combat profession.", LogLevel.Warn);
+            ModEntry.Log("Not registered to any Super Mode.", LogLevel.Warn);
             return;
         }
 
@@ -225,8 +234,8 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (int.TryParse(args[0], out var value))
-            ModEntry.State.Value.SuperModeGaugeValue = Math.Min(value, ModEntry.State.Value.SuperModeGaugeMaxValue);
+        if (double.TryParse(args[0], out var value))
+            ModEntry.State.Value.SuperMode.Gauge.CurrentValue = Math.Min(value, SuperModeGauge.MaxValue);
         else
             ModEntry.Log("You must specify an integer value.", LogLevel.Warn);
     }
@@ -240,18 +249,19 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (ModEntry.State.Value.SuperModeIndex < 0)
+        if (ModEntry.State.Value.SuperMode is null)
         {
-            ModEntry.Log("You must have a level 10 combat profession.", LogLevel.Warn);
+            ModEntry.Log("Not registered to any Super Mode.", LogLevel.Warn);
             return;
         }
 
-        // first raise above zero, then fill, otherwise fill event won't trigger
-        ModEntry.State.Value.SuperModeGaugeValue = 1;
-        ModEntry.State.Value.SuperModeGaugeValue = ModEntry.State.Value.SuperModeGaugeMaxValue;
+        ModEntry.State.Value.SuperMode.Gauge.CurrentValue = SuperModeGauge.MaxValue;
     }
 
-    /// <summary>Set <see cref="ModEntry.State.Value.SuperModeIndex" /> to a different combat profession, in case you have more than one.</summary>
+    /// <summary>
+    ///     Reset the Super Mode instance to a different combat profession's, in case you have more
+    ///     than one.
+    /// </summary>
     internal static void SetSuperModeIndex(string command, string[] args)
     {
         if (!Context.IsWorldReady)
@@ -266,32 +276,39 @@ internal static class ConsoleCommands
             return;
         }
 
-        args[0] = args[0].ToLower();
-        if (!args[0].IsAnyOf("brute", "poacher", "desperado", "piper"))
+        if (!Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
-            ModEntry.Log("You must specify a valid level 10 combat profession.", LogLevel.Warn);
+            ModEntry.Log("You don't have any 2nd-tier combat professions.", LogLevel.Warn);
             return;
         }
 
-        if (!Game1.player.HasProfession(args[0].FirstCharToUpper()))
+        args[0] = args[0].ToLower().FirstCharToUpper();
+        if (!Enum.TryParse<SuperModeIndex>(args[0], out var index))
+        {
+            ModEntry.Log("You must enter a valid 2nd-tier combat profession.", LogLevel.Warn);
+            return;
+        }
+
+        if (!Game1.player.HasProfession(args[0]))
         {
             ModEntry.Log("You don't have this profession.", LogLevel.Warn);
             return;
         }
 
-        ModEntry.State.Value.SuperModeIndex = Framework.Utility.Professions.IndexOf(args[0].FirstCharToUpper());
+        ModEntry.State.Value.SuperMode = new(index);
+        ModData.Write(DataField.SuperModeIndex, index.ToString());
     }
 
     /// <summary>Print the currently registered Super Mode profession.</summary>
     internal static void PrintSuperModeIndex(string command, string[] args)
     {
-        if (ModEntry.State.Value.SuperModeIndex < 0)
+        if (ModEntry.State.Value.SuperMode is null)
         {
             ModEntry.Log("Not registered to any Super Mode.", LogLevel.Info);
             return;
         }
 
-        var key = Framework.Utility.Professions.NameOf(ModEntry.State.Value.SuperModeIndex).ToLower();
+        var key = ModEntry.State.Value.SuperMode.Index;
         var professionDisplayName = ModEntry.ModHelper.Translation.Get(key + ".name.male");
         var buffName = ModEntry.ModHelper.Translation.Get(key + ".buff");
         ModEntry.Log($"Registered to {professionDisplayName}'s {buffName}.", LogLevel.Info);
@@ -394,14 +411,14 @@ internal static class ConsoleCommands
         result = nonMaxSizedCaught.Keys.Aggregate(result,
             (current, fish) =>
                 current +
-                $"\n- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})");
+                $"\n\t- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})");
 
         var seasonFish = from specificFishData in fishData.Values
-                         where specificFishData.Split('/')[6].Contains(Game1.currentSeason)
-                         select specificFishData.Split('/')[0];
+            where specificFishData.Split('/')[6].Contains(Game1.currentSeason)
+            select specificFishData.Split('/')[0];
 
         result += "\n\nThe following fish can be caught this season:";
-        result = seasonFish.Except(caughtFishNames).Aggregate(result, (current, fish) => current + $"\n- {fish}");
+        result = seasonFish.Except(caughtFishNames).Aggregate(result, (current, fish) => current + $"\n\t- {fish}");
 
         ModEntry.Log(result, LogLevel.Info);
     }
@@ -415,41 +432,44 @@ internal static class ConsoleCommands
             return;
         }
 
-        string value = ModData.Read(ModData.KEY_ECOLOGISTITEMSFORAGED_S);
-        ModEntry.Log(
-            !string.IsNullOrEmpty(value)
-                ? $"{ModData.KEY_ECOLOGISTITEMSFORAGED_S}: {value} ({ModEntry.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
-                : $"Mod data does not contain an entry for {ModData.KEY_ECOLOGISTITEMSFORAGED_S}.", LogLevel.Info);
+        var message = $"Farmer {Game1.player.Name}'s mod data:";
+        var value = ModData.Read(DataField.EcologistItemsForaged);
+        message += "\n\t- " +
+            (!string.IsNullOrEmpty(value)
+                ? $"{DataField.EcologistItemsForaged}: {value} ({ModEntry.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                : $"Mod data does not contain an entry for {DataField.EcologistItemsForaged}.");
 
-        value = ModData.Read(ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S);
-        ModEntry.Log(
-            !string.IsNullOrEmpty(value)
-                ? $"{ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S}: {value} ({ModEntry.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
-                : $"Mod data does not contain an entry for {ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S}.", LogLevel.Info);
+        value = ModData.Read(DataField.GemologistMineralsCollected);
+        message += "\n\t- " +
+            (!string.IsNullOrEmpty(value)
+                ? $"{DataField.GemologistMineralsCollected}: {value} ({ModEntry.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                : $"Mod data does not contain an entry for {DataField.GemologistMineralsCollected}.");
 
-        value = ModData.Read(ModData.KEY_PROSPECTORSTREAK_S);
-        ModEntry.Log(
-            !string.IsNullOrEmpty(value)
-                ? $"{ModData.KEY_PROSPECTORSTREAK_S}: {value} (affects treasure quality)"
-                : $"Mod data does not contain an entry for {ModData.KEY_PROSPECTORSTREAK_S}.", LogLevel.Info);
+        value = ModData.Read(DataField.ProspectorHuntStreak);
+        message += "\n\t- " +
+            (!string.IsNullOrEmpty(value)
+                ? $"{DataField.ProspectorHuntStreak}: {value} (affects treasure quality)"
+                : $"Mod data does not contain an entry for {DataField.ProspectorHuntStreak}.");
 
-        value = ModData.Read(ModData.KEY_SCAVENGERSTREAK_S);
-        ModEntry.Log(
-            !string.IsNullOrEmpty(value)
-                ? $"{ModData.KEY_SCAVENGERSTREAK_S}: {value} (affects treasure quality)"
-                : $"Mod data does not contain an entry for {ModData.KEY_SCAVENGERSTREAK_S}.", LogLevel.Info);
+        value = ModData.Read(DataField.ScavengerHuntStreak);
+        message += "\n\t- " +
+            (!string.IsNullOrEmpty(value)
+                ? $"{DataField.ScavengerHuntStreak}: {value} (affects treasure quality)"
+                : $"Mod data does not contain an entry for {DataField.ScavengerHuntStreak}.");
 
-        value = ModData.Read(ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S);
-        ModEntry.Log(
-            !string.IsNullOrEmpty(value)
-                ? $"{ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S}: {value} (expect a {int.Parse(value) / ModEntry.Config.TrashNeededPerTaxLevel}% tax deduction next season)"
-                : $"Mod data does not contain an entry for {ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S}.", LogLevel.Info);
+        value = ModData.Read(DataField.ConservationistTrashCollectedThisSeason);
+        message += "\n\t- " +
+            (!string.IsNullOrEmpty(value)
+                ? $"{DataField.ConservationistTrashCollectedThisSeason}: {value} (expect a {int.Parse(value) / ModEntry.Config.TrashNeededPerTaxLevel}% tax deduction next season)"
+                : $"Mod data does not contain an entry for {DataField.ConservationistTrashCollectedThisSeason}.");
 
-        value = ModData.Read(ModData.KEY_CONSERVATIONISTTAXBONUS_S);
-        ModEntry.Log(
-            !string.IsNullOrEmpty(value)
-                ? $"{ModData.KEY_CONSERVATIONISTTAXBONUS_S}: {float.Parse(value) * 100}%"
-                : $"Mod data does not contain an entry for {ModData.KEY_CONSERVATIONISTTAXBONUS_S}.", LogLevel.Info);
+        value = ModData.Read(DataField.ConservationistActiveTaxBonusPct);
+        message += "\n\t- " + 
+            (!string.IsNullOrEmpty(value)
+                ? $"{DataField.ConservationistActiveTaxBonusPct}: {float.Parse(value) * 100}%"
+                : $"Mod data does not contain an entry for {DataField.ConservationistActiveTaxBonusPct}.");
+
+        ModEntry.Log(message, LogLevel.Info);
     }
 
     /// <summary>Set a new value to the specified mod data field.</summary>
@@ -510,9 +530,10 @@ internal static class ConsoleCommands
     /// <summary>Print the currently subscribed mod events to the console.</summary>
     internal static void PrintSubscribedEvents(string command, string[] args)
     {
-        ModEntry.Log("Currently subscribed events:", LogLevel.Info);
-        foreach (var eventName in ModEntry.Subscriber.Select(e => e.GetType().Name))
-            ModEntry.Log($"{eventName}", LogLevel.Info);
+        var message = "Enabled events:";
+        message = ModEntry.EventManager.GetAllEnabled()
+            .Aggregate(message, (current, next) => current + "\n\t- " + next.GetType().Name);
+        ModEntry.Log(message, LogLevel.Info);
     }
 
     /// <summary>Force a new treasure tile to be selected for the currently active Treasure Hunt.</summary>
@@ -540,7 +561,8 @@ internal static class ConsoleCommands
             }
 
             Game1.currentLocation.MakeTileDiggable(v.Value);
-            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.Value.ScavengerHunt, "TreasureTile").SetValue(v);
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.Value.ScavengerHunt, "TreasureTile")
+                .SetValue(v);
             ModEntry.ModHelper.Reflection.GetField<uint>(ModEntry.State.Value.ScavengerHunt, "Elapsed").SetValue(0);
 
             ModEntry.Log("The Scavenger Hunt was reset.", LogLevel.Info);
@@ -554,7 +576,8 @@ internal static class ConsoleCommands
                 return;
             }
 
-            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.Value.ProspectorHunt, "TreasureTile").SetValue(v);
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.Value.ProspectorHunt, "TreasureTile")
+                .SetValue(v);
             ModEntry.ModHelper.Reflection.GetField<int>(ModEntry.State.Value.ProspectorHunt, "Elapsed").SetValue(0);
 
             ModEntry.Log("The Prospector Hunt was reset.", LogLevel.Info);
@@ -593,11 +616,11 @@ internal static class ConsoleCommands
     private static string GetAvailableDataFields()
     {
         var result = "Available data fields:";
-        result += $"\n\t- {ModData.KEY_ECOLOGISTITEMSFORAGED_S} (shortcut 'forages')";
-        result += $"\n\t- {ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S} (shortcut 'minerals')";
-        result += $"\n\t- {ModData.KEY_PROSPECTORSTREAK_S} (shortcut 'phunt')";
-        result += $"\n\t- {ModData.KEY_SCAVENGERSTREAK_S} (shortcut 'shunt')";
-        result += $"\n\t- {ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S} (shortcut 'trash')";
+        result += $"\n\t- {DataField.EcologistItemsForaged} (shortcut 'forages')";
+        result += $"\n\t- {DataField.GemologistMineralsCollected} (shortcut 'minerals')";
+        result += $"\n\t- {DataField.ProspectorHuntStreak} (shortcut 'phunt')";
+        result += $"\n\t- {DataField.ScavengerHuntStreak} (shortcut 'shunt')";
+        result += $"\n\t- {DataField.ConservationistTrashCollectedThisSeason} (shortcut 'trash')";
         return result;
     }
 
@@ -610,7 +633,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModData.Write(ModData.KEY_ECOLOGISTITEMSFORAGED_S, value.ToString());
+        ModData.Write(DataField.EcologistItemsForaged, value.ToString());
         ModEntry.Log($"Items foraged as Ecologist was set to {value}.", LogLevel.Info);
     }
 
@@ -623,7 +646,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModData.Write(ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S, value.ToString());
+        ModData.Write(DataField.GemologistMineralsCollected, value.ToString());
         ModEntry.Log($"Minerals collected as Gemologist was set to {value}.", LogLevel.Info);
     }
 
@@ -636,7 +659,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModData.Write(ModData.KEY_PROSPECTORSTREAK_S, value.ToString());
+        ModData.Write(DataField.ProspectorHuntStreak, value.ToString());
         ModEntry.Log($"Prospector Hunt was streak set to {value}.", LogLevel.Info);
     }
 
@@ -649,7 +672,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModData.Write(ModData.KEY_SCAVENGERSTREAK_S, value.ToString());
+        ModData.Write(DataField.ScavengerHuntStreak, value.ToString());
         ModEntry.Log($"Scavenger Hunt streak was set to {value}.", LogLevel.Info);
     }
 
@@ -662,7 +685,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModData.Write(ModData.KEY_CONSERVATIONISTTRASHCOLLECTED_S, value.ToString());
+        ModData.Write(DataField.ConservationistTrashCollectedThisSeason, value.ToString());
         ModEntry.Log($"Conservationist trash collected in the current season was set to {value}.", LogLevel.Info);
     }
 

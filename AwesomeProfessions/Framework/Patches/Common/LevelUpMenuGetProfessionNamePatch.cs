@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Menus;
-using System;
-using System.Reflection;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Common;
 

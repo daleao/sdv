@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
+﻿using System.Collections.Generic;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
-using System.Collections.Generic;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Utility;
 
@@ -18,7 +18,7 @@ internal class NewSkillsPageCtorPatch : BasePatch
         try
         {
             Original = "SpaceCore.Interface.NewSkillsPage".ToType()
-                .Constructor(new[] { typeof(int), typeof(int), typeof(int), typeof(int) });
+                .Constructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
         }
         catch
         {

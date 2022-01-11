@@ -1,4 +1,5 @@
-﻿using StardewModdingAPI;
+﻿using System;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -7,13 +8,13 @@ namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer.ModMessageRec
 internal class RequestDataUpdateModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <inheritdoc />
-    public override void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
+    protected override void OnModMessageReceivedImpl(object sender, ModMessageReceivedEventArgs e)
     {
         if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("RequestDataUpdate")) return;
 
         var split = e.Type.Split('/');
         var operation = split[1];
-        var field = split[2];
+        var field = Enum.Parse<DataField>(split[2]);
         var value = e.ReadAs<string>();
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)
@@ -25,12 +26,12 @@ internal class RequestDataUpdateModMessageReceivedEvent : ModMessageReceivedEven
         switch (operation)
         {
             case "Write":
-                ModEntry.Log($"Player {e.FromPlayerID} requested to Write {value} to {field}.", LogLevel.Trace);
+                ModEntry.Log($"Player {e.FromPlayerID} requested to Write {value} to {field}.", ModEntry.DefaultLogLevel);
                 ModData.Write(field, value, who);
                 break;
 
             case "Increment":
-                ModEntry.Log($"Player {e.FromPlayerID} requested to Increment {field} by {value}.", LogLevel.Trace);
+                ModEntry.Log($"Player {e.FromPlayerID} requested to Increment {field} by {value}.", ModEntry.DefaultLogLevel);
                 var parsedValue = e.ReadAs<int>();
                 ModData.Increment(field, parsedValue, who);
                 break;

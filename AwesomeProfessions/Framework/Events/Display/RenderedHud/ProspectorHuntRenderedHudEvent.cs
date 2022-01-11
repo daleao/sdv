@@ -1,22 +1,24 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
-using System;
-using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
 
 internal class ProspectorHuntRenderedHudEvent : RenderedHudEvent
 {
     /// <inheritdoc />
-    public override void OnRenderedHud(object sender, RenderedHudEventArgs e)
+    protected override void OnRenderedHudImpl(object sender, RenderedHudEventArgs e)
     {
-        if (!ModEntry.State.Value.ProspectorHunt.IsActive) return;
+        // track target
+        ModEntry.State.Value.Indicator.DrawAsTrackingPointer(ModEntry.State.Value.ProspectorHunt.TreasureTile.Value,
+            Color.Violet);
 
-        // reveal treasure hunt target
+        // reveal if close enough
         var distanceSquared = (Game1.player.getTileLocation() - ModEntry.State.Value.ProspectorHunt.TreasureTile.Value)
             .LengthSquared();
         if (distanceSquared <= Math.Pow(ModEntry.Config.TreasureDetectionDistance, 2))
-            HUD.DrawArrowPointerOverTarget(ModEntry.State.Value.ProspectorHunt.TreasureTile.Value, Color.Violet);
+            ModEntry.State.Value.Indicator.DrawOverTile(ModEntry.State.Value.ProspectorHunt.TreasureTile.Value,
+                Color.Violet);
     }
 }

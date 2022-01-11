@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
@@ -37,7 +37,7 @@ internal class ObjectCheckForActionPatch : BasePatch
     {
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession("Ecologist"))
-            ModData.Increment<uint>(ModData.KEY_ECOLOGISTITEMSFORAGED_S);
+            ModData.Increment<uint>(DataField.EcologistItemsForaged);
     }
 
     /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium.</summary>
@@ -71,12 +71,12 @@ internal class ObjectCheckForActionPatch : BasePatch
                         typeof(SObject).PropertyGetter(nameof(SObject.name))),
                     new CodeInstruction(OpCodes.Ldstr, "Crystalarium"),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(string).MethodNamed(nameof(string.Equals), new[] { typeof(string) })),
+                        typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)})),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
-                    new CodeInstruction(OpCodes.Ldstr, ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S),
+                    new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] { typeof(string), typeof(Farmer) })
+                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] {typeof(DataField), typeof(Farmer)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);

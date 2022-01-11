@@ -1,8 +1,8 @@
-﻿using StardewModdingAPI.Events;
+﻿using System;
+using System.Linq;
+using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
-using System;
-using System.Linq;
 
 namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 
@@ -10,24 +10,25 @@ internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 {
     private const int SHEET_INDEX = 40;
 
-    private readonly int _buffID;
+    private readonly int _buffId;
 
     /// <summary>Construct an instance.</summary>
     internal SpelunkerBuffDisplayUpdateTickedEvent()
     {
-        _buffID = (ModEntry.Manifest.UniqueID + Utility.Professions.IndexOf("Spelunker")).GetHashCode();
+        _buffId = (ModEntry.Manifest.UniqueID + Utility.Professions.IndexOf("Spelunker")).GetHashCode();
     }
 
     /// <inheritdoc />
-    public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+    protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
         if (Game1.currentLocation is not MineShaft) return;
 
-        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == _buffID);
+        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == _buffId);
         if (buff is not null) return;
 
         var bonusLadderChance = (ModEntry.State.Value.SpelunkerLadderStreak * 0.5f).ToString("0.0");
-        var bonusSpeed = Math.Min(ModEntry.State.Value.SpelunkerLadderStreak / 5 + 1, ModEntry.Config.SpelunkerSpeedCap);
+        var bonusSpeed = Math.Min(ModEntry.State.Value.SpelunkerLadderStreak / 10 + 1,
+            ModEntry.Config.SpelunkerSpeedCap);
         Game1.buffsDisplay.addOtherBuff(
             new(0,
                 0,
@@ -45,11 +46,11 @@ internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
                 "Spelunker",
                 ModEntry.ModHelper.Translation.Get("spelunker.name." + (Game1.player.IsMale ? "male" : "female")))
             {
-                which = _buffID,
+                which = _buffId,
                 sheetIndex = SHEET_INDEX,
                 millisecondsDuration = 0,
                 description =
-                    ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new { bonusLadderChance, bonusSpeed })
+                    ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new {bonusLadderChance, bonusSpeed})
             }
         );
     }

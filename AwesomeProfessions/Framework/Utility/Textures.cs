@@ -1,15 +1,19 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System.IO;
+﻿using System.IO;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TheLion.Stardew.Professions.Framework.Utility;
 
-/// <summary>Holds common non-replacing texture assets.</summary>
+/// <summary>Holds static properties related to non-replacing texture assets.</summary>
 public static class Textures
 {
-    public static Texture2D RibbonTx { get; } = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "sprites", "ribbons.png"));
+    public static Texture2D SuperModeGaugeTx { get; set; } = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud",
+        ModEntry.Config.UseVintageSkillBars ? "bar_vintage.png" : "bar.png"));
 
-    public static Texture2D SkillBarTx { get; } = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets",
+    public static Texture2D SkillBarTx { get; set; } = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets",
         "menus", ModEntry.Config.UseVintageSkillBars ? "skillbars_vintage.png" : "skillbars.png"));
+
+    public static Texture2D RibbonTx { get; } =
+        ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "sprites", "ribbons.png"));
 
     public static Texture2D MaxIconTx { get; } =
         ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "menus", "max.png"));

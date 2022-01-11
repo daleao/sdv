@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
-using System;
 using TheLion.Stardew.Common.Extensions;
 using SObject = StardewValley.Object;
 
@@ -19,7 +19,7 @@ internal class FishPondDayUpdatePatch : BasePatch
     private const int SEAWEED_INDEX_I = 152;
     private const int ALGAE_INDEX_I = 153;
 
-    private static readonly Func<int, double> _productionChanceByValue = x => (double)14765 / (x + 120) + 1.5;
+    private static readonly Func<int, double> _productionChanceByValue = x => (double) 14765 / (x + 120) + 1.5;
 
     /// <summary>Construct an instance.</summary>
     internal FishPondDayUpdatePatch()
@@ -43,7 +43,8 @@ internal class FishPondDayUpdatePatch : BasePatch
         var bonusStack = 0;
         var productionChancePerFish = _productionChanceByValue(fish.Price) / 100;
         for (var i = 0; i < __instance.currentOccupants.Value; ++i)
-            if (r.NextDouble() < productionChancePerFish) ++bonusStack;
+            if (r.NextDouble() < productionChancePerFish)
+                ++bonusStack;
 
         if (bonusStack <= 0) return;
 

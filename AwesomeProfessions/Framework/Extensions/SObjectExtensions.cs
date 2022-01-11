@@ -1,7 +1,7 @@
-﻿using StardewModdingAPI.Utilities;
-using StardewValley;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using StardewModdingAPI.Utilities;
+using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
@@ -25,8 +25,8 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
     public static bool IsAnimalProduct(this SObject obj)
     {
-        return obj.Category.IsAnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.sellAtPierresAndMarnies)
-               || Objects.AnimalDerivedProductIDs.Contains(obj.ParentSheetIndex);
+        return obj.Category.IsAnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.meatCategory, SObject.sellAtPierresAndMarnies)
+               || Objects.AnimalDerivedProductIds.Contains(obj.ParentSheetIndex);
     }
 
     /// <summary>Whether a given object is a mushroom box.</summary>
@@ -62,7 +62,7 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is a resource node or foraged mineral.</summary>
     public static bool IsResourceNode(this SObject obj)
     {
-        return Objects.ResourceNodeIDs.Contains(obj.ParentSheetIndex);
+        return Objects.ResourceNodeIds.Contains(obj.ParentSheetIndex);
     }
 
     /// <summary>Whether a given object is a stone.</summary>

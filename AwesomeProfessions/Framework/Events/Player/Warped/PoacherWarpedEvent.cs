@@ -5,8 +5,8 @@ namespace TheLion.Stardew.Professions.Framework.Events.Player.Warped;
 internal class PoacherWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />
-    public override void OnWarped(object sender, WarpedEventArgs e)
+    protected override void OnWarpedImpl(object sender, WarpedEventArgs e)
     {
-        if (e.IsLocalPlayer) ModEntry.State.Value.MonstersStolenFrom.Clear();
+        if (!e.NewLocation.Equals(e.OldLocation)) ModEntry.State.Value.MonstersStolenFrom.Clear();
     }
 }

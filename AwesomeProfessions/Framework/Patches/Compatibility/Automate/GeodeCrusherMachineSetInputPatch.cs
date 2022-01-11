@@ -36,13 +36,13 @@ internal class GeodeCrusherMachineSetInputPatch : BasePatch
         if (machine?.heldObject.Value is null) return;
 
         var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.IsLocalPlayer || !who.HasProfession("Gemologist") ||
+        if (!who.HasProfession("Gemologist") ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
         machine.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
         if (!ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        ModData.Increment<uint>(ModData.KEY_GEMOLOGISTMINERALSCOLLECTED_S, who);
+        ModData.Increment<uint>(DataField.GemologistMineralsCollected, who);
     }
 
     #endregion harmony patches

@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
-using StardewModdingAPI;
-using StardewValley;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using StardewModdingAPI;
+using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -93,17 +93,22 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
                 output.Stack = 2;
                 output.Quality = SObject.lowQuality;
             }
-            else switch (input.ParentSheetIndex)
+            else
+            {
+                switch (input.ParentSheetIndex)
                 {
                     // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-                    case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+                    case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
+                        "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
                         output.Quality = SObject.lowQuality;
                         break;
                     // golden mayonnaise keeps giving gives single output but keeps golden quality
-                    case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                    case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
+                        "ughitsmegan.goldenmayoForProducerFrameworkMod"):
                         output.Stack = 1;
                         break;
                 }
+            }
         }
 
         var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;

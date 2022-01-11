@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
@@ -6,9 +8,8 @@ using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-using System;
-using System.Reflection;
 using TheLion.Stardew.Professions.Framework.Extensions;
+using TheLion.Stardew.Professions.Framework.SuperMode;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
@@ -41,10 +42,10 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
             var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
             if (!firer.HasProfession("Rascal")) return true; // run original logic
 
-            var damageToMonster = (int)(__instance.damageToFarmer.Value *
+            var damageToMonster = (int) (__instance.damageToFarmer.Value *
                                          Utility.Professions.GetRascalBonusDamageForTravelTime(___travelTime));
 
-            var hasTemerity = ModEntry.State.Value.SuperModeIndex == Utility.Professions.IndexOf("Desperado");
+            var hasTemerity = ModEntry.State.Value.SuperMode?.Index == SuperModeIndex.Desperado;
             var bulletPower = Utility.Professions.GetDesperadoBulletPower();
             if (hasTemerity && Game1.random.NextDouble() < (bulletPower - 1) / 2)
                 ModEntry.State.Value.PiercedBullets.Add(__instance.GetHashCode());
@@ -58,7 +59,8 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
             location.damageMonster(monster.GetBoundingBox(), damageToMonster, damageToMonster + 1, false,
                 knockbackModifier, 0, 0f, 1f, false, firer);
 
-            if (!firer.HasPrestigedProfession("Rascal") || !ModEntry.State.Value.BouncedBullets.Remove(__instance.GetHashCode()))
+            if (!firer.HasPrestigedProfession("Rascal") ||
+                !ModEntry.State.Value.BouncedBullets.Remove(__instance.GetHashCode()))
                 return false; // don't run original logic
 
             monster.stunTime = 5000;

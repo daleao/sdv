@@ -1,13 +1,14 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
 using StardewValley;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
-namespace TheLion.Stardew.Professions.Framework.AssetLoaders;
+namespace TheLion.Stardew.Professions.Framework.Sounds;
 
+/// <summary>Gathers and allows playing custom mod sound assets.</summary>
 public class SoundBox
 {
     /// <summary>Construct an instance.</summary>
@@ -21,7 +22,10 @@ public class SoundBox
                 var soundEffect = SoundEffect.FromStream(fs);
 
                 if (soundEffect is null) throw new FileLoadException();
-                SoundByName.Add(Path.GetFileNameWithoutExtension(file), soundEffect);
+
+                var fileName = Path.GetFileNameWithoutExtension(file);
+                if (Enum.TryParse<SFX>(fileName, out var sfx))
+                    SoundEffectByEnum.Add(sfx, soundEffect);
             }
             catch (Exception ex)
             {
@@ -29,13 +33,15 @@ public class SoundBox
             }
     }
 
-    public Dictionary<string, SoundEffect> SoundByName { get; } = new();
+    public Dictionary<SFX, SoundEffect> SoundEffectByEnum { get; } = new();
 
-    public void Play(string id)
+    /// <summary>Play the specified sound effect.</summary>
+    /// <param name="id">An <see cref="SFX"/> id.</param>
+    public void Play(SFX id)
     {
         try
         {
-            if (SoundByName.TryGetValue(id, out var sfx))
+            if (SoundEffectByEnum.TryGetValue(id, out var sfx))
                 sfx.Play(Game1.options.soundVolumeLevel, 0f, 0f);
             else throw new ContentLoadException();
         }

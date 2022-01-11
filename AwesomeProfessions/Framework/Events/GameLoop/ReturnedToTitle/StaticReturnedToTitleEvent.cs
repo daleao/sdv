@@ -7,12 +7,12 @@ namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.ReturnedToTitle;
 internal class StaticReturnedToTitleEvent : ReturnedToTitleEvent
 {
     /// <inheritdoc />
-    public override void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
+    protected override void OnReturnedToTitleImpl(object sender, ReturnedToTitleEventArgs e)
     {
-        // unsubscribe events
-        ModEntry.Subscriber.UnsubscribeLocalPlayerEvents();
+        // disable events
+        ModEntry.EventManager.DisableAllForLocalPlayer();
 
-        // reset Super Mode
-        if (ModEntry.State.Value.SuperModeIndex > 0) ModEntry.State.Value.SuperModeIndex = -1;
+        // reset mod state
+        ModEntry.State.Value = new();
     }
 }

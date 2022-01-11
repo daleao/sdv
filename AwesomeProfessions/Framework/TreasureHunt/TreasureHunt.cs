@@ -1,13 +1,19 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using StardewValley;
-using System;
 using TheLion.Stardew.Professions.Framework.Patches.Foraging;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
 
 /// <summary>Base class for treasure hunts.</summary>
-public abstract class TreasureHunt
+internal abstract class TreasureHunt
 {
+    protected readonly Random random = new(Guid.NewGuid().GetHashCode());
+
+    private double _accumulatedBonus = 1.0;
+    protected uint elapsed;
+    protected GameLocation huntLocation;
+    protected uint timeLimit;
     public bool IsActive => TreasureTile is not null;
     public Vector2? TreasureTile { get; protected set; } = null;
 
@@ -15,13 +21,7 @@ public abstract class TreasureHunt
     protected string HuntFailedMessage { get; set; }
     protected Rectangle IconSourceRect { get; set; }
 
-    protected readonly Random Random = new(Guid.NewGuid().GetHashCode());
-    protected uint Elapsed;
-    protected uint TimeLimit;
-
-    private double _accumulatedBonus = 1.0;
-
-    /// <summary>Try to start a new hunt at this location.</summary>
+    /// <summary>Try to start a new hunt at the specified location.</summary>
     /// <param name="location">The game location.</param>
     internal abstract void TryStartNewHunt(GameLocation location);
 
@@ -38,7 +38,7 @@ public abstract class TreasureHunt
     {
         if (!Game1ShouldTimePassPatch.Game1ShouldTimePassOriginal(Game1.game1, true)) return;
 
-        if (ticks % 60 == 0 && ++Elapsed > TimeLimit) Fail();
+        if (ticks % 60 == 0 && ++elapsed > timeLimit) Fail();
         else CheckForCompletion();
     }
 
@@ -51,7 +51,7 @@ public abstract class TreasureHunt
     /// <summary>Start a new treasure hunt or adjust the odds for the next attempt.</summary>
     protected bool TryStartNewHunt()
     {
-        if (Random.NextDouble() > ModEntry.Config.ChanceToStartTreasureHunt * _accumulatedBonus)
+        if (random.NextDouble() > ModEntry.Config.ChanceToStartTreasureHunt * _accumulatedBonus)
         {
             _accumulatedBonus *= 1.0 + Game1.player.DailyLuck;
             return false;

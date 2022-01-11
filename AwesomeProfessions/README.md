@@ -57,7 +57,6 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - Professions are more consistent across the board, with several analogous perks and synergies.
 - _[Optional]_ Lore-friendly multi-profession.
 - _[Optional]_ Level 20 skills and prestiged professions.
-- Lightweight. This mod is built with a dynamic event handling system to avoid overhead.
 - Gender-specific profession title.
 - New icons for most professions, courtesy of [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) (please make sure to [endorse their original](https://www.nexusmods.com/stardewvalley/mods/4163) mod).
 - New sound effects for certain professions.
@@ -75,10 +74,10 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
     - Essentially implements [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) (QAP), but exclusively for Artisans. Also adds 5% chance to promote the output quality by one level. In multiplayer, **the bonus production speed applies only to machines crafted by the player with this profession, and only when that player uses the machine**.
 - **Lv5 - Rancher** - Befriend animals 2× *(3×)* quicker.
     - Gain double mood and friendship points from petting. Newborn animals are born with some starting friendship between 150 and 250 (out of 1000 maximum), chosen at random.
-- **Lv10 - Breeder** - Animals incubate 2× *(3×)* faster and breed 3× *(5×)* more frequently. Increase value of animals at high friendship.
-    - Makes mammals three times as likely to give birth and oviparous (egg-laying) animals incubate twice as fast. At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x.
+- **Lv10 - Breeder** - Incubation 2× *(3×)* faster and natural pregnancy 3× *(5×)* more likely. Increase value of animals at high friendship.
+    - At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x. Animal Husbandry: gestation following insemination is also 2x *(3x)* faster.
 - **Lv10 - Producer** - Happy animals produce 2× *(3×)* as frequently. Produce worth 5% more for every full barn or coop.
-    - Note that happiness (mood) is **not** the same as friendship. Also note this will **not** allow certain animals (i.e. cows and chickens) to produce more than once per day. Bonus produce value also applies to artisan goods derived from animal products (i.e. cheeses, mayos and cloth) and to honey (bees are animals). Only deluxe buildings can be considered full. **Note that honey is also considered an animal product.** There is no limit to the scaling. In multiplayer, **the bonus applies only to barns and coops owned by the player with this profession, and only when that player sells the produce**.
+    - Note that happiness (mood) is **not** the same as friendship. Also note this will **not** allow certain animals (i.e. cows and chickens) to produce more than once per day. Bonus produce value also applies to artisan goods derived from animal products (i.e. cheeses, mayos and cloth), honey (bees are animals), and meat (Animal Husbandry or Fresh Meat). Only deluxe buildings can be considered full. **Note that honey is also considered an animal product.** There is no limit to the scaling. In multiplayer, **the bonus applies only to barns and coops owned by the player with this profession, and only when that player sells the produce**.
 
 ### ![](https://i.imgur.com/jf88nPt.png) Foraging
 
@@ -107,7 +106,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
     - Analogous to Scavenger. Tracks any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items.
     - _Bonus: holding [ModKey](#configs) will highlight all nodes and ladders on-screen._
 - **Lv5 - Blaster** - Bombs are cheaper to craft. Exploded rocks yield 2× *(3×)* as much coal.
-    - New recipes: x2 ore (copper, iron, gold) and x1 coal.
+    - New recipes: x2 ore (copper, iron, gold) and x1 coal. New ammo recipe: x3 iron ore and x1 coal.
 - **Lv10 - Demolitionist** - Bomb radius +1. Exploded rocks yield 20% *(40%)* more resources.
     - _Bonus: [Get excited!](https://www.youtube.com/watch?v=0nlJuwO0GDs) when hit by an explosion._
 - **Lv10 - Gemologist** - Progressively identify gems and minerals of higher quality. Crystalariums work 25% *(50%)* faster.
@@ -146,14 +145,14 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
     -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but can ricochet once._
 - **Lv10 - Desperado** - Fire 50% faster. Chance to fire a double shot *(spread shot)*, based on current HP. Built-up temerity increases projectile cross section and impact power.
     - **Temerity:**  Projectiles are fired with increasingly more power. Sufficiently powerful projectiles have higher knockback, can damage enemies around them even if they miss, and can even pierce through enemies, damaging others behind them. Temerity builds faster from quick shots (release immediately as soon as the slingshot is charged). Your temerity culminates in one _desperate_ **Death Blossom.**
-- **Lv10 - Slimed Piper** - Slimes damage other enemies and drop more items the more Slimes are raised on the farm. Gathered eubstance attracts more Slimes in dungeons. *Slimes also heal you on contact.*
+- **Lv10 - Slimed Piper** - Slimes damage other enemies and drop more items the more Slimes are raised on the farm. Gathered eubstance attracts more Slimes in dungeons. *Slimes also heal you on contact. Slimed debuff effect is reversed.*
     - Slimes cannot damage flying enemies. Each Slime raised on the farm, either in a hutch or outside, increases the chance for Slimes to drop additional items.
     - _Bonus: immune to the Slimed debuff._
     - **Eubstance:** Every dungeon floor can spawn a number of additional Slimes. Spread all gathered Eubstance to nearby Slimes, allowing them to enter a state of **Superfluidity.**
 
 ## Super Mode
 
-The Combat tree has received a much more extensive overhaul. In addition to their primary fixed perks, level 10 combat professions each have a unique "stackable" secondary perk (Fury, Cold Blood, Temerity, Eubstance). Once the maximum stacks have been collected, these professions may sacrifice all stacks to activate a powerful [Super Mode](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode) for a short duration. A new bar has been added to the HUD to help you keep track of current stacks. Only a single profession's Super Mode may be registered at any time; if a player gains multiple combat professions from skill reseting, only base perks will apply, and not the stackable secondary perk or Super Mode. The player will be prompted during level up whether they wish to replace their current Super Mode with the new professions'.
+The Combat tree has received a much more extensive overhaul. In addition to their primary fixed perks, 2nd-tier combat professions each have a unique "stackable" secondary perk (Fury, Cold Blood, Temerity, Eubstance). Once the maximum stacks have been collected, these professions may sacrifice all stacks to activate a powerful [Super Mode](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode) for a short duration. A new bar has been added to the HUD to help you keep track of current stacks. Only a single profession's Super Mode may be registered at any time; if a player gains multiple combat professions from skill reseting, only base perks will apply, and not the stackable secondary perk or Super Mode. The player will be prompted during level up whether they wish to replace their current Super Mode with the new professions'.
 
 - **Brute / Amazon - Undying Rage** - Doubles all damage bonuses. Immune to passing out.
   - Doubled damage bonuses include profession, rings and enchantments.
@@ -180,7 +179,8 @@ All Prestige features are optional and may be disabled or customized in the conf
 The following mods are fully integrated:
 
 - [Automate](https://www.nexusmods.com/stardewvalley/mods/1063) (for craftable machines, the machine's owner's professions will apply; for terrain features, i.e. berry bushes, only the session host's professions will apply).
-- [ProducerFrameworkMod](https://www.nexusmods.com/stardewvalley/mods/4970) and [PFMAutomate](https://www.nexusmods.com/stardewvalley/mods/5038) (same rules apply as above).
+- [Producer Framework Mod](https://www.nexusmods.com/stardewvalley/mods/4970) and [PFMAutomate](https://www.nexusmods.com/stardewvalley/mods/5038) (same rules apply as above).
+- [Animal Husbandry Mod](https://www.nexusmods.com/stardewvalley/mods/1538) (with benefits for Breeder and Producer professions).
 - PPJA Packs: [Artisan Valley﻿](https://www.nexusmods.com/stardewvalley/mods/1926), [Artisanal Soda Makers](https://www.nexusmods.com/stardewvalley/mods/5173)﻿, [Fizzy Drinks](https://www.nexusmods.com/stardewvalley/mods/5342)﻿, [Fresh Meat﻿](https://www.nexusmods.com/stardewvalley/mods/1721), [Shaved Ice & Frozen Treats](https://www.nexusmods.com/stardewvalley/mods/5388) will all work with Artisan profession.﻿.
 - [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (download the optional translation files to change profession names under skill cheats).
 - [Teh's Fishing Overhaul](https://www.nexusmods.com/stardewvalley/mods/866/)
@@ -217,7 +217,7 @@ The mods are **not** compatible:
 While the vast majority of professions bonuses are non-configurable, some of the more radical changes have been given configuration options to give the user some degree of control. As such the mod provides the following config options, which can be modified either in-game via Generic Mod Config Menu or by manually editing the configs.json file:
 
 - **Modkey** (keybind) - The Prospector and Scavenger professions use this key to reveal the locations of key objects currently on the screen. If playing on a large screen with wide field of view, this can help locate forageables of mine nodes in large or busy maps. The default key is LeftShift for keyboards and LeftShoulder for controllers.
-- **SuperModeKey** (keybind) - This is the key that activates Super Mode for level 10 combat professions. By default this is the same key as Modkey, but can also be set to a different key.
+- **SuperModeKey** (keybind) - This is the key that activates Super Mode for 2nd-tier combat professions. By default this is the same key as Modkey, but can also be set to a different key.
 - **HoldKeyToActivateSuperMode** (boolean) - If set to true, then Super Mode will be activated after holding the above key for a short amount of time. If set to false, then Super Mode will activate immediately upon pressing the key. This is settings is useful if SuperModeKey is set to a key already bound to a different on-press action, such as if keeping the default keybind settings for Modkey and SuperModeKey, which will allowing tracking on-screen items without activating Super Mode. Default value is true. 
 - **SuperModeActivationDelay** (decimal) - If HoldKeyToActivateSuperMode is set to true, this represents the number of seconds between pressing SuperModeKey and activating Super Mode. Set to a higher value if you use Prospector profession and find yourself accidentally wasting your Super Mode in the Mines.
 - **SuperModeDrainFactor** (integer) - Determines how quickly the Super Mode resource bar drains during Super Mode. This number represents the amount of game update ticks between each tick of the Super Mode resource bar. The default value is 3, which means that 1 point is deduced every 3 / 60 = 0.05 seconds, giving a total Super Mode duration of 0.05 * 500 = 25 seconds. 

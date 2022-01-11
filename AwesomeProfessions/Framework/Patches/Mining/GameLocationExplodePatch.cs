@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using System;
 using TheLion.Stardew.Common.Classes;
 using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -14,8 +14,6 @@ namespace TheLion.Stardew.Professions.Framework.Patches.Mining;
 [UsedImplicitly]
 internal class GameLocationExplodePatch : BasePatch
 {
-    private static readonly DemolitionistBuffDisplayUpdateTickedEvent DemolitionistUpdateTickedEvent = new();
-
     /// <summary>Construct an instance.</summary>
     internal GameLocationExplodePatch()
     {
@@ -50,20 +48,20 @@ internal class GameLocationExplodePatch : BasePatch
                         if ((r.NextDouble() < 0.035 || isPrestigedBlaster && r.NextDouble() < 0.035) &&
                             Game1.stats.DaysPlayed > 1)
                         {
-                            Game1.createObjectDebris(SObject.coal, (int)tile.X, (int)tile.Y,
+                            Game1.createObjectDebris(SObject.coal, (int) tile.X, (int) tile.Y,
                                 who.UniqueMultiplayerID, __instance);
                             if (isPrestigedBlaster)
-                                Game1.createObjectDebris(SObject.coal, (int)tile.X, (int)tile.Y,
+                                Game1.createObjectDebris(SObject.coal, (int) tile.X, (int) tile.Y,
                                     who.UniqueMultiplayerID, __instance);
                         }
                     }
                     else if (r.NextDouble() < 0.05 * (1.0 + chanceModifier) ||
                              isPrestigedBlaster && r.NextDouble() < 0.05 * (1.0 + chanceModifier))
                     {
-                        Game1.createObjectDebris(SObject.coal, (int)tile.X, (int)tile.Y,
+                        Game1.createObjectDebris(SObject.coal, (int) tile.X, (int) tile.Y,
                             who.UniqueMultiplayerID, __instance);
                         if (isPrestigedBlaster)
-                            Game1.createObjectDebris(SObject.coal, (int)tile.X, (int)tile.Y,
+                            Game1.createObjectDebris(SObject.coal, (int) tile.X, (int) tile.Y,
                                 who.UniqueMultiplayerID, __instance);
                     }
                 }
@@ -72,12 +70,12 @@ internal class GameLocationExplodePatch : BasePatch
                     var r = new Random(Guid.NewGuid().GetHashCode());
                     if (r.NextDouble() < 0.25 || isPrestigedBlaster && r.NextDouble() < 0.25)
                     {
-                        Game1.createObjectDebris(SObject.coal, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID,
+                        Game1.createObjectDebris(SObject.coal, (int) tile.X, (int) tile.Y, who.UniqueMultiplayerID,
                             __instance);
                         if (isPrestigedBlaster)
-                            Game1.createObjectDebris(SObject.coal, (int)tile.X, (int)tile.Y,
+                            Game1.createObjectDebris(SObject.coal, (int) tile.X, (int) tile.Y,
                                 who.UniqueMultiplayerID, __instance);
-                        ModEntry.ModHelper.Reflection.GetField<Multiplayer>(typeof(Game1), "multiplayer")
+                        ModEntry.ModHelper.Reflection.GetField<StardewValley.Multiplayer>(typeof(Game1), "multiplayer")
                             .GetValue()
                             .broadcastSprites(__instance,
                                 new TemporaryAnimatedSprite(25,
@@ -96,10 +94,10 @@ internal class GameLocationExplodePatch : BasePatch
 
             if (Objects.ResourceFromStoneId.TryGetValue(tileObj.ParentSheetIndex, out var resourceIndex))
             {
-                Game1.createObjectDebris(resourceIndex, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID,
+                Game1.createObjectDebris(resourceIndex, (int) tile.X, (int) tile.Y, who.UniqueMultiplayerID,
                     __instance);
                 if (isPrestigedDemolitionist)
-                    Game1.createObjectDebris(resourceIndex, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID,
+                    Game1.createObjectDebris(resourceIndex, (int) tile.X, (int) tile.Y, who.UniqueMultiplayerID,
                         __instance);
             }
             else
@@ -107,10 +105,10 @@ internal class GameLocationExplodePatch : BasePatch
                 switch (tileObj.ParentSheetIndex)
                 {
                     case 44: // gem node
-                        Game1.createObjectDebris(Game1.random.Next(1, 8) * 2, (int)tile.X, (int)tile.Y,
+                        Game1.createObjectDebris(Game1.random.Next(1, 8) * 2, (int) tile.X, (int) tile.Y,
                             who.UniqueMultiplayerID, __instance);
                         if (isPrestigedDemolitionist)
-                            Game1.createObjectDebris(Game1.random.Next(1, 8) * 2, (int)tile.X, (int)tile.Y,
+                            Game1.createObjectDebris(Game1.random.Next(1, 8) * 2, (int) tile.X, (int) tile.Y,
                                 who.UniqueMultiplayerID, __instance);
                         break;
 
@@ -118,26 +116,26 @@ internal class GameLocationExplodePatch : BasePatch
                         switch (Game1.random.NextDouble())
                         {
                             case < 0.25:
-                                Game1.createObjectDebris(74, (int)tile.X, (int)tile.Y,
+                                Game1.createObjectDebris(74, (int) tile.X, (int) tile.Y,
                                     who.UniqueMultiplayerID, __instance); // drop prismatic shard
                                 if (isPrestigedDemolitionist)
-                                    Game1.createObjectDebris(74, (int)tile.X, (int)tile.Y,
+                                    Game1.createObjectDebris(74, (int) tile.X, (int) tile.Y,
                                         who.UniqueMultiplayerID, __instance); // drop prismatic shard
                                 break;
 
                             case < 0.6:
-                                Game1.createObjectDebris(765, (int)tile.X, (int)tile.Y,
+                                Game1.createObjectDebris(765, (int) tile.X, (int) tile.Y,
                                     who.UniqueMultiplayerID, __instance); // drop iridium ore
                                 if (isPrestigedDemolitionist)
-                                    Game1.createObjectDebris(765, (int)tile.X, (int)tile.Y,
+                                    Game1.createObjectDebris(765, (int) tile.X, (int) tile.Y,
                                         who.UniqueMultiplayerID, __instance); // drop iridium ore
                                 break;
 
                             default:
-                                Game1.createObjectDebris(764, (int)tile.X, (int)tile.Y,
+                                Game1.createObjectDebris(764, (int) tile.X, (int) tile.Y,
                                     who.UniqueMultiplayerID, __instance); // drop gold ore
                                 if (isPrestigedDemolitionist)
-                                    Game1.createObjectDebris(764, (int)tile.X, (int)tile.Y,
+                                    Game1.createObjectDebris(764, (int) tile.X, (int) tile.Y,
                                         who.UniqueMultiplayerID, __instance); // drop gold ore
                                 break;
                         }
@@ -148,10 +146,10 @@ internal class GameLocationExplodePatch : BasePatch
                         if ((845 <= tileObj.ParentSheetIndex) & (tileObj.ParentSheetIndex <= 847) &&
                             Game1.random.NextDouble() < 0.005)
                         {
-                            Game1.createObjectDebris(827, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID,
+                            Game1.createObjectDebris(827, (int) tile.X, (int) tile.Y, who.UniqueMultiplayerID,
                                 __instance);
                             if (isPrestigedDemolitionist)
-                                Game1.createObjectDebris(827, (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID,
+                                Game1.createObjectDebris(827, (int) tile.X, (int) tile.Y, who.UniqueMultiplayerID,
                                     __instance);
                         }
 
@@ -160,15 +158,13 @@ internal class GameLocationExplodePatch : BasePatch
             }
         }
 
-        if (!who.IsLocalPlayer || !isDemolitionist) return;
-
-        if (!ModEntry.Config.EnableGetExcited) return;
+        if (!who.IsLocalPlayer || !isDemolitionist || !ModEntry.Config.EnableGetExcited) return;
 
         // get excited speed buff
-        var distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
+        var distanceFromEpicenter = (int) (tileLocation - who.getTileLocation()).Length();
         if (distanceFromEpicenter < radius * 2 + 1) ModEntry.State.Value.DemolitionistExcitedness = 6;
         if (distanceFromEpicenter < radius + 1) ModEntry.State.Value.DemolitionistExcitedness += 2;
-        ModEntry.Subscriber.SubscribeTo(DemolitionistUpdateTickedEvent);
+        ModEntry.EventManager.Enable(typeof(DemolitionistBuffDisplayUpdateTickedEvent));
     }
 
     #endregion harmony patches

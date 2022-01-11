@@ -112,8 +112,10 @@
   "conservationist.name.female": "环保主义者",
   "conservationist.desc": "没有诱饵的蟹笼会诱捕垃圾，从水中清除垃圾以税收减免。",
   "conservationist.desc.prestiged": "从水中清除垃圾以获得星露谷村民的青睐。",
-  "conservationist.mail1": "亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)节规定的{{taxBonus}}所得税减免条件。自本季起，{{farmName}}的所有应纳税所得额将退回上述数额。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
-  "conservationist.mail2": "亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)条规定的{{taxBonus}}最高所得税减免条件。自本季起，{{farmName}} 的所有应纳税所得额将退回上述数额。^^^如果您需要解决有关您的财政状况的任何问题，请将此信保存在您的永久记录中。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
+  "conservationist.mail1":
+    "亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)节规定的{{taxBonus}}所得税减免条件。自本季起，{{farmName}}的所有应纳税所得额将退回上述数额。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
+  "conservationist.mail2":
+    "亲爱的 @，^^我们很高兴地通知您，在对您的环保活动进行审查后，我们确定您符合《费尔吉尔税收法典》第501(c)(3)条规定的{{taxBonus}}最高所得税减免条件。自本季起，{{farmName}} 的所有应纳税所得额将退回上述数额。^^^如果您需要解决有关您的财政状况的任何问题，请将此信保存在您的永久记录中。^^此致^敬礼， 劳拉D。普雷托^Ferngill税务局执行董事[#]Taxation Notice",
 
   // Combat
   "fighter.name.male": "战士",

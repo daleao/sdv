@@ -11,12 +11,12 @@ namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer.PeerConnected
 internal class HostPeerConnectedEvent : PeerConnectedEvent
 {
     /// <inheritdoc />
-    public override void OnPeerConnected(object sender, PeerConnectedEventArgs e)
+    protected override void OnPeerConnectedImpl(object sender, PeerConnectedEventArgs e)
     {
-        ModEntry.Subscriber.SubscribeTo(new ToggledSuperModeModMessageReceivedEvent(),
-            new RequestDataUpdateModMessageReceivedEvent(), new RequestEventSubscriptionModMessageReceivedEvent());
+        ModEntry.EventManager.Enable(typeof(ToggledSuperModeModMessageReceivedEvent),
+            typeof(RequestDataUpdateModMessageReceivedEvent), typeof(RequestGlobalEventEnableModMessageReceivedEvent));
 
         if (Game1.getFarmer(e.Peer.PlayerID).HasProfession("Conservationist"))
-            ModEntry.Subscriber.SubscribeTo(new GlobalConservationistDayEndingEvent());
+            ModEntry.EventManager.Enable(typeof(GlobalConservationistDayEndingEvent));
     }
 }

@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
@@ -8,12 +12,9 @@ using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
+using TheLion.Stardew.Professions.Framework.SuperMode;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
 
@@ -43,7 +44,7 @@ internal class ProjectileUpdatePatch : BasePatch
 
         // check if firer is has Desperado Super Mode
         var firer = ___theOneWhoFiredMe.Get(Game1.currentLocation) is Farmer farmer ? farmer : Game1.player;
-        if (!firer.IsLocalPlayer || ModEntry.State.Value.SuperModeIndex != Utility.Professions.IndexOf("Desperado")) return;
+        if (!firer.IsLocalPlayer || ModEntry.State.Value.SuperMode?.Index != SuperModeIndex.Desperado) return;
 
         // check for powered bullet
         var bulletPower = Utility.Professions.GetDesperadoBulletPower() - 1f;
@@ -58,7 +59,7 @@ internal class ProjectileUpdatePatch : BasePatch
         {
             if (!ModEntry.State.Value.PiercedBullets.Remove(projectile.GetHashCode())) return;
 
-            projectile.damageToFarmer.Value = (int)(projectile.damageToFarmer.Value * 0.6f);
+            projectile.damageToFarmer.Value = (int) (projectile.damageToFarmer.Value * 0.6f);
             __result = false;
             return;
         }
@@ -73,12 +74,12 @@ internal class ProjectileUpdatePatch : BasePatch
         var isBulletTravelingVertically = Math.Abs(angle) is >= 45 and <= 135;
         if (isBulletTravelingVertically)
         {
-            newHitbox.Inflate((int)(originalHitbox.Width * bulletPower), 0);
+            newHitbox.Inflate((int) (originalHitbox.Width * bulletPower), 0);
             if (newHitbox.Width <= originalHitbox.Width) return;
         }
         else
         {
-            newHitbox.Inflate(0, (int)(originalHitbox.Height * bulletPower));
+            newHitbox.Inflate(0, (int) (originalHitbox.Height * bulletPower));
             if (newHitbox.Height <= originalHitbox.Height) return;
         }
 
@@ -104,7 +105,7 @@ internal class ProjectileUpdatePatch : BasePatch
         var lerpFactor = (actualDistance - (actualBulletRadius + monsterRadius)) /
                          (extendedBulletRadius - actualBulletRadius);
         var multiplier = MathHelper.Lerp(1f, 0f, lerpFactor);
-        var damage = (int)(projectile.damageToFarmer.Value * multiplier);
+        var damage = (int) (projectile.damageToFarmer.Value * multiplier);
         location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, multiplier + bulletPower, 0,
             0f, 1f, true, firer);
     }
@@ -145,7 +146,7 @@ internal class ProjectileUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(GameLocation).MethodNamed(nameof(GameLocation.doesPositionCollideWithCharacter),
-                            new[] { typeof(Rectangle), typeof(bool) })),
+                            new[] {typeof(Rectangle), typeof(bool)})),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Bgt_Un_S, notTrickShot),
                     // add to bounced bullet set

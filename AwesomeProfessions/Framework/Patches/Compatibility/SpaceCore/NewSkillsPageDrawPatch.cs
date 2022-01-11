@@ -1,14 +1,14 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Patches.Prestige;
@@ -25,7 +25,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
         try
         {
             Original = "SpaceCore.Interface.NewSkillsPage".ToType()
-                .MethodNamed("draw", new[] { typeof(SpriteBatch) });
+                .MethodNamed("draw", new[] {typeof(SpriteBatch)});
         }
         catch
         {
@@ -46,25 +46,26 @@ internal class NewSkillsPageDrawPatch : BasePatch
         /// Injected: DrawExtendedLevelBars(i, j, x, y, addedX, skillLevel, b)
         /// Before: if (i == 9) draw level number ...
 
+        // local variable indices correspond to SpaceCore v1.8.0
         try
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (8)")
+                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (10)")
                 )
                 .GetOperand(out var levelIndex)
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (9)")
+                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (11)")
                 )
                 .GetOperand(out var skillIndex)
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (13)")
+                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (15)")
                 )
                 .GetOperand(out var skillLevel)
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_S, levelIndex),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 9),
-                    new CodeInstruction(OpCodes.Bne_Un)
+                    new CodeInstruction(OpCodes.Ceq)
                 )
                 .StripLabels(out var labels)
                 .Insert(
@@ -112,7 +113,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
                 .GetOperand(out var resumeExecution)
                 .Advance()
                 .Insert(
-                    new[] { isSkillLevel20 },
+                    new[] {isSkillLevel20},
                     new CodeInstruction(OpCodes.Call, typeof(Color).PropertyGetter(nameof(Color.Cornsilk))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );

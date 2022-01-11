@@ -1,14 +1,14 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -20,7 +20,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuDrawPatch()
     {
-        Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.draw), new[] { typeof(SpriteBatch) });
+        Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.draw), new[] {typeof(SpriteBatch)});
     }
 
     #region harmony patches
@@ -82,7 +82,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
                 )
                 .Advance()
                 .GetOperand(out var isNotProfessionChooser)
-                .FindLabel((Label)isNotProfessionChooser)
+                .FindLabel((Label) isNotProfessionChooser)
                 .Retreat()
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),

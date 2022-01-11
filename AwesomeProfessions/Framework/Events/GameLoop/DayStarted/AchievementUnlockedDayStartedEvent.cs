@@ -8,7 +8,7 @@ namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
 internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
 {
     /// <inheritdoc />
-    public override void OnDayStarted(object sender, DayStartedEventArgs e)
+    protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
     {
         if (!ModEntry.ModHelper.Content.AssetEditors.ContainsType(typeof(AchivementsEditor)))
             ModEntry.ModHelper.Content.AssetEditors.Add(new AchivementsEditor());
@@ -20,6 +20,6 @@ internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
         Game1.playSound("achievement");
         Game1.addHUDMessage(new(name, true));
 
-        ModEntry.Subscriber.UnsubscribeFrom(GetType());
+        Disable();
     }
 }

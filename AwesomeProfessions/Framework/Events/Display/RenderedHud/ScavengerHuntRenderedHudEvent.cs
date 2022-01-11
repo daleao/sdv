@@ -1,23 +1,24 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
-using System;
-using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
 
 internal class ScavengerHuntRenderedHudEvent : RenderedHudEvent
 {
     /// <inheritdoc />
-    public override void OnRenderedHud(object sender, RenderedHudEventArgs e)
+    protected override void OnRenderedHudImpl(object sender, RenderedHudEventArgs e)
     {
-        if (!ModEntry.State.Value.ScavengerHunt.IsActive) return;
+        // track target
+        ModEntry.State.Value.Indicator.DrawAsTrackingPointer(ModEntry.State.Value.ScavengerHunt.TreasureTile.Value,
+            Color.Violet);
 
-        // track and reveal treasure hunt target
-        HUD.DrawTrackingArrowPointer(ModEntry.State.Value.ScavengerHunt.TreasureTile.Value, Color.Violet);
+        // reveal if close enough
         var distanceSquared = (Game1.player.getTileLocation() - ModEntry.State.Value.ScavengerHunt.TreasureTile.Value)
             .LengthSquared();
         if (distanceSquared <= Math.Pow(ModEntry.Config.TreasureDetectionDistance, 2))
-            HUD.DrawArrowPointerOverTarget(ModEntry.State.Value.ScavengerHunt.TreasureTile.Value, Color.Violet);
+            ModEntry.State.Value.Indicator.DrawOverTile(ModEntry.State.Value.ScavengerHunt.TreasureTile.Value,
+                Color.Violet);
     }
 }

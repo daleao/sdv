@@ -1,14 +1,14 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
@@ -21,7 +21,7 @@ internal class SkillsPageDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal SkillsPageDrawPatch()
     {
-        Original = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] { typeof(SpriteBatch) });
+        Original = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] {typeof(SpriteBatch)});
     }
 
     #region harmony patches
@@ -97,7 +97,7 @@ internal class SkillsPageDrawPatch : BasePatch
                 .GetOperand(out var resumeExecution)
                 .Advance()
                 .Insert(
-                    new[] { isSkillLevel20 },
+                    new[] {isSkillLevel20},
                     new CodeInstruction(OpCodes.Call, typeof(Color).PropertyGetter(nameof(Color.Cornsilk))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );

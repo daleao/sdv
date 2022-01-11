@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -8,7 +7,7 @@ namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer.ModMessageRec
 internal class ToggledSuperModeModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <inheritdoc />
-    public override void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
+    protected override void OnModMessageReceivedImpl(object sender, ModMessageReceivedEventArgs e)
     {
         if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("ToggledSuperMode")) return;
 
@@ -19,7 +18,7 @@ internal class ToggledSuperModeModMessageReceivedEvent : ModMessageReceivedEvent
         switch (e.Type.Split('/')[1])
         {
             case "On":
-                ModEntry.Log($"Player {e.FromPlayerID} has enabled Super Mode.", LogLevel.Trace);
+                ModEntry.Log($"Player {e.FromPlayerID} has enabled Super Mode.", ModEntry.DefaultLogLevel);
                 ModEntry.State.Value.ActivePeerSuperModes[key].Add(e.FromPlayerID);
                 var glowingColor = Utility.Professions.NameOf(key) switch
                 {
@@ -33,7 +32,7 @@ internal class ToggledSuperModeModMessageReceivedEvent : ModMessageReceivedEvent
                 break;
 
             case "Off":
-                ModEntry.Log($"Player {e.FromPlayerID}'s Super Mode has ended.", LogLevel.Trace);
+                ModEntry.Log($"Player {e.FromPlayerID}'s Super Mode has ended.", ModEntry.DefaultLogLevel);
                 ModEntry.State.Value.ActivePeerSuperModes[key].Remove(e.FromPlayerID);
                 Game1.getFarmer(e.FromPlayerID).stopGlowing();
                 break;

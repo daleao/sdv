@@ -1,14 +1,14 @@
-﻿using StardewModdingAPI.Events;
-using StardewValley;
-using System;
+﻿using System;
 using System.Linq;
+using StardewModdingAPI.Events;
+using StardewValley;
 
 namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 
 internal class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
-    public override void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+    protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
         var uninflatedSlimes = ModEntry.State.Value.PipedSlimeScales.Keys.ToList();
         for (var i = uninflatedSlimes.Count - 1; i >= 0; --i)
@@ -23,11 +23,10 @@ internal class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
                 ModEntry.State.Value.PipedSlimeScales[uninflatedSlimes[i]] * 2f) continue;
 
             uninflatedSlimes[i].DamageToFarmer =
-                (int)Math.Round(uninflatedSlimes[i].DamageToFarmer * uninflatedSlimes[i].Scale);
+                (int) Math.Round(uninflatedSlimes[i].DamageToFarmer * uninflatedSlimes[i].Scale);
             uninflatedSlimes.RemoveAt(i);
         }
 
-        if (!uninflatedSlimes.Any())
-            ModEntry.Subscriber.UnsubscribeFrom(GetType());
+        if (!uninflatedSlimes.Any()) Disable();
     }
 }

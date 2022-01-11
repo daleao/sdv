@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
 using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
 using TheLion.Stardew.Professions.Framework.Extensions;
@@ -16,7 +16,7 @@ using SObject = StardewValley.Object;
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
 
 /// <summary>Manages treasure hunt events for Scavenger professions.</summary>
-public class ScavengerHunt : TreasureHunt
+internal class ScavengerHunt : TreasureHunt
 {
     private readonly IEnumerable<int> _artifactsThatCanBeFound = new HashSet<int>
     {
@@ -57,15 +57,15 @@ public class ScavengerHunt : TreasureHunt
         if (TreasureTile is null) return;
 
         location.MakeTileDiggable(TreasureTile.Value);
-        TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
+        timeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
                             ModEntry.Config.ScavengerHuntHandicap);
-        Elapsed = 0;
-        ModEntry.Subscriber.SubscribeTo(new ArrowPointerUpdateTickedEvent(),
-            new ScavengerHuntUpdateTickedEvent(), new ScavengerHuntRenderedHudEvent());
+        elapsed = 0;
+        ModEntry.EventManager.Enable(typeof(IndicatorUpdateTickedEvent),
+            typeof(ScavengerHuntUpdateTickedEvent), typeof(ScavengerHuntRenderedHudEvent));
         Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     internal override Vector2? ChooseTreasureTile(GameLocation location)
     {
         Vector2 v;
@@ -74,8 +74,8 @@ public class ScavengerHunt : TreasureHunt
         {
             if (failsafe > 10) return null;
 
-            var x = Random.Next(location.Map.DisplayWidth / Game1.tileSize);
-            var y = Random.Next(location.Map.DisplayHeight / Game1.tileSize);
+            var x = random.Next(location.Map.DisplayWidth / Game1.tileSize);
+            var y = random.Next(location.Map.DisplayHeight / Game1.tileSize);
             v = new(x, y);
             ++failsafe;
         } while (!location.IsTileValidForTreasure(v));
@@ -83,10 +83,10 @@ public class ScavengerHunt : TreasureHunt
         return v;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     internal override void End()
     {
-        ModEntry.Subscriber.UnsubscribeFrom(typeof(ScavengerHuntUpdateTickedEvent),
+        ModEntry.EventManager.Disable(typeof(ScavengerHuntUpdateTickedEvent),
             typeof(ProspectorHuntRenderedHudEvent));
         TreasureTile = null;
     }
@@ -95,27 +95,27 @@ public class ScavengerHunt : TreasureHunt
 
     #region protected methods
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void CheckForCompletion()
     {
         if (Game1.player.CurrentTool is not Hoe || !Game1.player.UsingTool) return;
 
-        var actionTile = new Vector2((int)(Game1.player.GetToolLocation().X / Game1.tileSize),
-            (int)(Game1.player.GetToolLocation().Y / Game1.tileSize));
+        var actionTile = new Vector2((int) (Game1.player.GetToolLocation().X / Game1.tileSize),
+            (int) (Game1.player.GetToolLocation().Y / Game1.tileSize));
         if (TreasureTile is null || actionTile != TreasureTile.Value) return;
 
         End();
         var getTreasure = new DelayedAction(200, BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
-        ModData.Increment<uint>(ModData.KEY_SCAVENGERSTREAK_S);
+        ModData.Increment<uint>(DataField.ScavengerHuntStreak);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void Fail()
     {
         End();
         Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-        ModData.Write(ModData.KEY_SCAVENGERSTREAK_S, "0");
+        ModData.Write(DataField.ScavengerHuntStreak, "0");
     }
 
     #endregion protected methods
@@ -161,7 +161,7 @@ public class ScavengerHunt : TreasureHunt
         Game1.player.completelyStopAnimatingOrDoingAction();
         var treasures = GetTreasureContents();
         Game1.activeClickableMenu = new ItemGrabMenu(treasures).setEssential(true);
-        ((ItemGrabMenu)Game1.activeClickableMenu).source = 3;
+        ((ItemGrabMenu) Game1.activeClickableMenu).source = 3;
     }
 
     /// <summary>Choose the contents of the treasure chest.</summary>
@@ -170,160 +170,160 @@ public class ScavengerHunt : TreasureHunt
     {
         List<Item> treasures = new();
         var chance = 1.0;
-        while (Random.NextDouble() <= chance)
+        while (random.NextDouble() <= chance)
         {
             chance *= 0.4f;
-            if (Game1.currentSeason == "spring" && !(Game1.currentLocation is Beach) && Random.NextDouble() < 0.1)
+            if (Game1.currentSeason == "spring" && !(Game1.currentLocation is Beach) && random.NextDouble() < 0.1)
                 treasures.Add(new SObject(273,
-                    Random.Next(2, 6) + (Random.NextDouble() < 0.25 ? 5 : 0))); // rice shoot
+                    random.Next(2, 6) + (random.NextDouble() < 0.25 ? 5 : 0))); // rice shoot
 
-            if (Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
+            if (random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
                 treasures.Add(new SObject(890,
-                    Random.Next(1, 3) + (Random.NextDouble() < 0.25 ? 2 : 0))); // qi beans
+                    random.Next(1, 3) + (random.NextDouble() < 0.25 ? 2 : 0))); // qi beans
 
-            switch (Random.Next(4))
+            switch (random.Next(4))
             {
                 case 0:
                     List<int> possibles = new();
-                    if (Random.NextDouble() < 0.4) possibles.Add(386); // iridium ore
+                    if (random.NextDouble() < 0.4) possibles.Add(386); // iridium ore
 
-                    if (possibles.Count == 0 || Random.NextDouble() < 0.4) possibles.Add(384); // gold ore
+                    if (possibles.Count == 0 || random.NextDouble() < 0.4) possibles.Add(384); // gold ore
 
-                    if (possibles.Count == 0 || Random.NextDouble() < 0.4) possibles.Add(380); // iron ore
+                    if (possibles.Count == 0 || random.NextDouble() < 0.4) possibles.Add(380); // iron ore
 
-                    if (possibles.Count == 0 || Random.NextDouble() < 0.4) possibles.Add(378); // copper ore
+                    if (possibles.Count == 0 || random.NextDouble() < 0.4) possibles.Add(378); // copper ore
 
-                    if (possibles.Count == 0 || Random.NextDouble() < 0.4) possibles.Add(388); // wood
+                    if (possibles.Count == 0 || random.NextDouble() < 0.4) possibles.Add(388); // wood
 
-                    if (possibles.Count == 0 || Random.NextDouble() < 0.4) possibles.Add(390); // stone
+                    if (possibles.Count == 0 || random.NextDouble() < 0.4) possibles.Add(390); // stone
 
                     possibles.Add(382); // coal
-                    treasures.Add(new SObject(possibles.ElementAt(Random.Next(possibles.Count)),
-                        Random.Next(2, 7) *
-                        (!(Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.015) ? 1 : 2)));
-                    if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03) treasures.Last().Stack *= 2;
+                    treasures.Add(new SObject(possibles.ElementAt(random.Next(possibles.Count)),
+                        random.Next(2, 7) *
+                        (!(random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.015) ? 1 : 2)));
+                    if (random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03) treasures.Last().Stack *= 2;
 
                     break;
 
                 case 1:
-                    if (Random.NextDouble() < 0.25 && Game1.player.craftingRecipes.ContainsKey("Wild Bait"))
-                        treasures.Add(new SObject(774, 5 + (Random.NextDouble() < 0.25 ? 5 : 0))); // wild bait
+                    if (random.NextDouble() < 0.25 && Game1.player.craftingRecipes.ContainsKey("Wild Bait"))
+                        treasures.Add(new SObject(774, 5 + (random.NextDouble() < 0.25 ? 5 : 0))); // wild bait
                     else
                         treasures.Add(new SObject(685, 10)); // bait
 
                     break;
 
                 case 2:
-                    if (Random.NextDouble() < 0.1 && Game1.netWorldState.Value.LostBooksFound.Value < 21 &&
+                    if (random.NextDouble() < 0.1 && Game1.netWorldState.Value.LostBooksFound.Value < 21 &&
                         Game1.player.hasOrWillReceiveMail("lostBookFound"))
                         treasures.Add(new SObject(102, 1)); // lost book
                     else if (Game1.player.archaeologyFound.Any()) // artifacts
                         treasures.Add(new SObject(
-                            Random.NextDouble() < 0.5
-                                ? _artifactsThatCanBeFound.ElementAt(Random.Next(_artifactsThatCanBeFound.Count()))
-                                : Random.NextDouble() < 0.25
+                            random.NextDouble() < 0.5
+                                ? _artifactsThatCanBeFound.ElementAt(random.Next(_artifactsThatCanBeFound.Count()))
+                                : random.NextDouble() < 0.25
                                     ? 114
                                     : 535, 1));
                     else
-                        treasures.Add(new SObject(382, Random.Next(1, 3))); // coal
+                        treasures.Add(new SObject(382, random.Next(1, 3))); // coal
 
                     break;
 
                 case 3:
-                    switch (Random.Next(3))
+                    switch (random.Next(3))
                     {
                         case 0:
-                            treasures.Add(new SObject(Random.Next(535, 538), Random.Next(1, 4))); // geodes
-                            if (Random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
+                            treasures.Add(new SObject(random.Next(535, 538), random.Next(1, 4))); // geodes
+                            if (random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
                                 treasures.Last().Stack *= 2;
 
                             break;
 
                         case 1:
-                            switch (Random.Next(4))
+                            switch (random.Next(4))
                             {
                                 case 0: // fire quartz else ruby or emerald
                                     treasures.Add(new SObject(
-                                        Random.NextDouble() < 0.3 ? 82 : Random.NextDouble() < 0.5 ? 64 : 60,
-                                        Random.Next(1, 3)));
+                                        random.NextDouble() < 0.3 ? 82 : random.NextDouble() < 0.5 ? 64 : 60,
+                                        random.Next(1, 3)));
                                     break;
 
                                 case 1: // frozen tear else jade or aquamarine
                                     treasures.Add(new SObject(
-                                        Random.NextDouble() < 0.3 ? 84 : Random.NextDouble() < 0.5 ? 70 : 62,
-                                        Random.Next(1, 3)));
+                                        random.NextDouble() < 0.3 ? 84 : random.NextDouble() < 0.5 ? 70 : 62,
+                                        random.Next(1, 3)));
                                     break;
 
                                 case 2: // earth crystal else amethyst or topaz
                                     treasures.Add(new SObject(
-                                        Random.NextDouble() < 0.3 ? 86 : Random.NextDouble() < 0.5 ? 66 : 68,
-                                        Random.Next(1, 3)));
+                                        random.NextDouble() < 0.3 ? 86 : random.NextDouble() < 0.5 ? 66 : 68,
+                                        random.Next(1, 3)));
                                     break;
 
                                 case 3:
-                                    treasures.Add(Random.NextDouble() < 0.28
+                                    treasures.Add(random.NextDouble() < 0.28
                                         ? new(72, 1) // diamond
-                                        : new SObject(80, Random.Next(1, 3))); // quartz
+                                        : new SObject(80, random.Next(1, 3))); // quartz
                                     break;
                             }
 
-                            if (Random.NextDouble() < 0.05) treasures.Last().Stack *= 2;
+                            if (random.NextDouble() < 0.05) treasures.Last().Stack *= 2;
 
                             break;
 
                         case 2:
                             var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
-                            var streak = ModData.ReadAs<uint>(ModData.KEY_SCAVENGERSTREAK_S);
-                            if (Random.NextDouble() < 0.025 * luckModifier &&
-                                !Game1.player.specialItems.Contains(60))
-                                treasures.Add(new MeleeWeapon(15) { specialItem = true }); // forest sword
+                            var streak = ModData.ReadAs<uint>(DataField.ScavengerHuntStreak);
+                            if (random.NextDouble() < 0.025 * luckModifier &&
+                                !Game1.player.specialItems.Contains(15))
+                                treasures.Add(new MeleeWeapon(15) {specialItem = true}); // forest sword
 
-                            if (Random.NextDouble() < 0.025 * luckModifier &&
+                            if (random.NextDouble() < 0.025 * luckModifier &&
                                 !Game1.player.specialItems.Contains(20))
-                                treasures.Add(new MeleeWeapon(20) { specialItem = true }); // elf blade
+                                treasures.Add(new MeleeWeapon(20) {specialItem = true}); // elf blade
 
-                            if (Random.NextDouble() < 0.07 * luckModifier)
-                                switch (Random.Next(3))
+                            if (random.NextDouble() < 0.07 * luckModifier)
+                                switch (random.Next(3))
                                 {
                                     case 0:
                                         treasures.Add(new Ring(516 +
-                                                               (Random.NextDouble() < Game1.player.LuckLevel / 11f
+                                                               (random.NextDouble() < Game1.player.LuckLevel / 11f
                                                                    ? 1
                                                                    : 0))); // (small) glow ring
                                         break;
 
                                     case 1:
                                         treasures.Add(new Ring(518 +
-                                                               (Random.NextDouble() < Game1.player.LuckLevel / 11f
+                                                               (random.NextDouble() < Game1.player.LuckLevel / 11f
                                                                    ? 1
                                                                    : 0))); // (small) magnet ring
                                         break;
 
                                     case 2:
-                                        treasures.Add(new Ring(Random.Next(529, 535))); // gemstone ring
+                                        treasures.Add(new Ring(random.Next(529, 535))); // gemstone ring
                                         break;
                                 }
 
-                            if (Random.NextDouble() < 0.02 * luckModifier)
+                            if (random.NextDouble() < 0.02 * luckModifier)
                                 treasures.Add(new SObject(166, 1)); // treasure chest
 
-                            if (Random.NextDouble() < 0.01 * luckModifier * Math.Pow(2, streak))
+                            if (random.NextDouble() < 0.005 * luckModifier * Math.Pow(2, streak))
                                 treasures.Add(new SObject(74, 1)); // prismatic shard
 
-                            if (Random.NextDouble() < 0.01 * luckModifier)
+                            if (random.NextDouble() < 0.01 * luckModifier)
                                 treasures.Add(new SObject(126, 1)); // strange doll
 
-                            if (Random.NextDouble() < 0.01 * luckModifier)
+                            if (random.NextDouble() < 0.01 * luckModifier)
                                 treasures.Add(new SObject(127, 1)); // strange doll
 
-                            if (Random.NextDouble() < 0.01 * luckModifier)
+                            if (random.NextDouble() < 0.01 * luckModifier)
                                 treasures.Add(new Ring(527)); // iridium band
 
-                            if (Random.NextDouble() < 0.01 * luckModifier)
-                                treasures.Add(new Boots(Random.Next(504, 514))); // boots
+                            if (random.NextDouble() < 0.01 * luckModifier)
+                                treasures.Add(new Boots(random.Next(504, 514))); // boots
 
                             if (Game1.MasterPlayer.mailReceived.Contains("Farm_Eternal") &&
-                                Random.NextDouble() < 0.01 * luckModifier)
+                                random.NextDouble() < 0.01 * luckModifier)
                                 treasures.Add(new SObject(928, 1)); // golden egg
 
                             if (treasures.Count == 1) treasures.Add(new SObject(72, 1)); // consolation diamond
@@ -335,7 +335,7 @@ public class ScavengerHunt : TreasureHunt
             }
         }
 
-        if (Random.NextDouble() < 0.4)
+        if (random.NextDouble() < 0.4)
             switch (Game1.currentSeason) // forage seeds
             {
                 case "spring":
@@ -355,7 +355,7 @@ public class ScavengerHunt : TreasureHunt
                     break;
             }
         else
-            treasures.Add(new SObject(770, Random.Next(1, 4) * 5)); // wild seeds
+            treasures.Add(new SObject(770, random.Next(1, 4) * 5)); // wild seeds
 
         return treasures;
     }

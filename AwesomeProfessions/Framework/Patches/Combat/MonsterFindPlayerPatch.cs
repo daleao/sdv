@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-using System;
-using System.Linq;
-using System.Reflection;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
@@ -17,7 +17,7 @@ internal class MonsterFindPlayerPatch : BasePatch
     internal MonsterFindPlayerPatch()
     {
         Original = RequireMethod<Monster>("findPlayer");
-        Prefix.before = new[] { "Esca.FarmTypeManager" };
+        Prefix.before = new[] {"Esca.FarmTypeManager"};
     }
 
     #region harmony patches
@@ -72,7 +72,7 @@ internal class MonsterFindPlayerPatch : BasePatch
             foreach (var farmer in __instance.currentLocation.farmers)
             {
                 if (ModEntry.State.Value.ActivePeerSuperModes.TryGetValue(Utility.Professions.IndexOf("Poacher"),
-                        out var peerIDs) && peerIDs.Any(id => id == farmer.UniqueMultiplayerID)) continue;
+                        out var peerIds) && peerIds.Any(id => id == farmer.UniqueMultiplayerID)) continue;
 
                 var distanceToThisPlayer = __instance.DistanceToCharacter(farmer);
                 if (distanceToThisPlayer >= distanceToClosestPlayer) continue;

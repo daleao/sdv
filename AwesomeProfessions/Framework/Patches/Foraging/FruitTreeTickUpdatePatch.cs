@@ -1,12 +1,12 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Harmony;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
@@ -33,7 +33,7 @@ internal class FruitTreeTickUpdatePatch : BasePatch
         /// To: Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <lumberjack_id>) ? 1.4 : Game1.getFarmer(lastPlayerToHit).professions.Contains(12) ? 1.25 : 1.0
 
         var i = 0;
-    repeat:
+        repeat:
         try
         {
             var isPrestiged = iLGenerator.DefineLabel();
@@ -57,7 +57,7 @@ internal class FruitTreeTickUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .Insert(
-                    new[] { isPrestiged },
+                    new[] {isPrestiged},
                     new CodeInstruction(OpCodes.Pop),
                     new CodeInstruction(OpCodes.Ldc_R8, 1.4)
                 );

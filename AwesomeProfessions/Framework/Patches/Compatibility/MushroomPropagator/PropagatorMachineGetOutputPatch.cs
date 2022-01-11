@@ -8,10 +8,10 @@ using SObject = StardewValley.Object;
 namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.MushroomPropagator;
 
 [UsedImplicitly]
-internal class PropagatorMachineGetOutput : BasePatch
+internal class PropagatorMachineGetOutputPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
-    internal PropagatorMachineGetOutput()
+    internal PropagatorMachineGetOutputPatch()
     {
         try
         {
@@ -30,7 +30,7 @@ internal class PropagatorMachineGetOutput : BasePatch
     [HarmonyPostfix]
     private static void PropagatorMachineGetOutputPostfix(object __instance)
     {
-        if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
+        if (__instance is null) return;
 
         var entity = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Entity").GetValue();
         if (entity is null) return;
@@ -38,10 +38,10 @@ internal class PropagatorMachineGetOutput : BasePatch
         var who = Game1.getFarmerMaybeOffline(entity.owner.Value) ?? Game1.MasterPlayer;
         if (!who.HasProfession("Ecologist")) return;
 
-        if (who.IsLocalPlayer)
-            ModData.Increment(ModData.KEY_ECOLOGISTITEMSFORAGED_S, -1);
-        else
-            ModData.Increment<uint>(ModData.KEY_ECOLOGISTITEMSFORAGED_S, who);
+        if (who.IsLocalPlayer && !ModEntry.Config.ShouldCountAutomatedHarvests)
+            ModData.Increment(DataField.EcologistItemsForaged, -1);
+        else if (ModEntry.Config.ShouldCountAutomatedHarvests)
+            ModData.Increment<uint>(DataField.EcologistItemsForaged, who);
     }
 
     #endregion harmony patches

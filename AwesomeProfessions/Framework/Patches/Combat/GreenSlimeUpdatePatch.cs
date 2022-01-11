@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Linq;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Monsters;
-using System;
-using System.Linq;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SUtility = StardewValley.Utility;
 
@@ -20,7 +20,7 @@ internal class GreenSlimeUpdatePatch : BasePatch
     internal GreenSlimeUpdatePatch()
     {
         Original = RequireMethod<GreenSlime>(nameof(GreenSlime.update),
-            new[] { typeof(GameTime), typeof(GameLocation) });
+            new[] {typeof(GameTime), typeof(GameLocation)});
     }
 
     #region harmony patches
@@ -34,7 +34,7 @@ internal class GreenSlimeUpdatePatch : BasePatch
         foreach (var npc in __instance.currentLocation.characters.Where(npc =>
                      npc.IsMonster && npc is not GreenSlime && npc is not BigSlime))
         {
-            var monster = (Monster)npc;
+            var monster = (Monster) npc;
             var monsterBox = monster.GetBoundingBox();
             if (monster.IsInvisible || monster.isInvincible() ||
                 monster.isGlider.Value && __instance.Scale < 1.4f ||
@@ -57,7 +57,7 @@ internal class GreenSlimeUpdatePatch : BasePatch
             var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
                 : SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
-            monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1.0, "slime");
+            monster.takeDamage(damageToMonster, (int) xTrajectory, (int) yTrajectory, false, 1.0, "slime");
             monster.currentLocation.debris.Add(new(damageToMonster,
                 new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f,
                 monster));

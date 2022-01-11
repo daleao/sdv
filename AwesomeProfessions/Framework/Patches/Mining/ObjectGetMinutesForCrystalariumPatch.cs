@@ -23,7 +23,7 @@ internal class ObjectGetMinutesForCrystalariumPatch : BasePatch
     {
         var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         if (owner.HasProfession("Gemologist"))
-            __result = (int)(__result * (owner.HasPrestigedProfession("Gemologist") ? 0.5 : 0.75));
+            __result = (int) (__result * (owner.HasPrestigedProfession("Gemologist") ? 0.5 : 0.75));
     }
 
     #endregion harmony patches
