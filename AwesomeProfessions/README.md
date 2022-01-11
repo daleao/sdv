@@ -105,8 +105,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - **Lv10 - Prospector** - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals. *Time freezes during Scavenger Hunts.*
     - Analogous to Scavenger. Tracks any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items.
     - _Bonus: holding [ModKey](#configs) will highlight all nodes and ladders on-screen._
-- **Lv5 - Blaster** - Bombs are cheaper to craft. Exploded rocks yield 2× *(3×)* as much coal.
-    - New recipes: x2 ore (copper, iron, gold) and x1 coal. New ammo recipe: x3 iron ore and x1 coal.
+- **Lv5 - Blaster** - Craft twice as many explosives. Exploded rocks yield 2× *(3×)* as much coal.
 - **Lv10 - Demolitionist** - Bomb radius +1. Exploded rocks yield 20% *(40%)* more resources.
     - _Bonus: [Get excited!](https://www.youtube.com/watch?v=0nlJuwO0GDs) when hit by an explosion._
 - **Lv10 - Gemologist** - Progressively identify gems and minerals of higher quality. Crystalariums work 25% *(50%)* faster.

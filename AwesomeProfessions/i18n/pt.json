@@ -6,13 +6,11 @@
   "harvester.desc.prestiged": "10% >> 20%  de chance de rendimento extra das safras colhidas.",
   "agriculturist.name.male": "Agricultor",
   "agriculturist.name.female": "Agricultora",
-  "agriculturist.desc":
-    "As safras crescem 10% mais rápido. Permite cultivar produtos da mais alta qualidade organicamente sem fertilizantes.",
+  "agriculturist.desc": "As safras crescem 10% mais rápido. Permite cultivar produtos da mais alta qualidade organicamente sem fertilizantes.",
   "agriculturist.desc.prestiged": "As safras crescem 10% >> 20% mais rápido.",
   "artisan.name.male": "Artesão",
   "artisan.name.female": "Artesã",
-  "artisan.desc":
-    "Todas as máquinas artesanais trabalham 10% mais rápido. A qualidade do produto final é sempre superior ou igual à qualidade da matéria prima.",
+  "artisan.desc": "Todas as máquinas artesanais trabalham 10% mais rápido. A qualidade do produto final é sempre superior ou igual à qualidade da matéria prima.",
   "artisan.desc.prestiged": "Todas las máquinas artesanales foncionan un 10% >> 25% más rápido.",
 
   "rancher.name.male": "Rancheiro",
@@ -21,13 +19,11 @@
   "rancher.desc.prestiged": "Amizade com todos os animais aumenta 2× >> 3× mais rápido.",
   "breeder.name.male": "Criador",
   "breeder.name.female": "Criadora",
-  "breeder.desc":
-    "Animais incubam 2× mais rápido e se reproduzem com 3× maior frequência. Aumenta o valor dos animais com alta amizade.",
-  "breeder.desc.prestiged": "Animais incubam 2× >> 3× mais rápido e se reproduzem com 3× >> 5× maior frequência.",
+  "breeder.desc": "Incubação 2× mais rápida e gravidez natural 3× mais provável. Aumenta o valor dos animais com alta amizade.",
+  "breeder.desc.prestiged": "Incubação 2× >> 3× mais rápida e gravidez natural 3× >> 5× mais provável.",
   "produtor.name.male": "Produtor",
   "produtor.name.female": "Produtora",
-  "producer.desc":
-    "Animais felizes produzem com 2× a frequência. Produtos de origem animal valem 5% a mais para cada celeiro ou galinheiro cheio.",
+  "producer.desc": "Animais felizes produzem com 2× a frequência. Produtos de origem animal valem 5% a mais para cada celeiro ou galinheiro cheio.",
   "producer.desc.prestiged": "Animais felizes produzem com 2× >> 3× a frequência.",
 
   // Foraging
@@ -37,8 +33,7 @@
   "forager.desc.prestiged": "20% >> 40% de chance de dobrar o rendimento de itens forrageados.",
   "ecologist.name.male": "Ecologista",
   "ecologist.name.female": "Ecologista",
-  "ecologist.desc":
-    "Bagas silvestres restauram 50% mais vida e energia. Identifique progressivamente forragens de maior qualidade.",
+  "ecologist.desc": "Bagas silvestres restauram 50% mais vida e energia. Identifique progressivamente forragens de maior qualidade.",
   "ecologist.desc.prestiged": "Bagas silvestres restauram 50% >> 100% mais vida e energia.",
   "scavenger.name.male": "Rastreador",
   "scavenger.name.female": "Rastreadora",
@@ -67,21 +62,19 @@
   "miner.desc.prestiged": "+1 >> +2 minérios por veia.",
   "spelunker.name.male": "Espeleólogo",
   "spelunker.name.female": "Espeleóloga",
-  "spelunker.desc":
-    "A chance de encontrar escadas e poços aumenta em 1% a cada andar da mina. Velocidade +1 a cada cinco andares.",
+  "spelunker.desc": "A chance de encontrar escadas e poços aumenta em 1% a cada andar da mina. Velocidade +1 a cada cinco andares.",
   "spelunker.desc.prestiged": "Restaura um pouco de vida a cada andar da mina.",
   "spelunker.buffdesc": "Chance de escada +{{bonusLadderChance}}%. +{{bonusSpeed}} Velocidade.",
   "prospector.name.male": "Prospector",
   "prospector.name.female": "Prospectora",
-  "prospector.desc":
-    "Revela a localizações de escadas e veias de mineração. Ocasionalmente rastreia minerais valiosos em pedras comuns.",
+  "prospector.desc": "Revela a localizações de escadas e veias de mineração. Ocasionalmente rastreia minerais valiosos em pedras comuns.",
   "prospector.desc.prestiged": "O tempo congela durante as caças de prospector.",
   "prospector.huntstarted": "Seus sentidos do Prospector estão formigando...",
   "prospector.huntfailed": "O formigamento some.",
 
   "blaster.name.male": "Detonador",
   "blaster.name.female": "Detonadora",
-  "blaster.desc": "Bombas são mais fáceis de fabricar. Rochas explodidas produzem 2× mais carvão.",
+  "blaster.desc": "Fabrica explosivos em dobro. Rochas explodidas produzem 2× mais carvão.",
   "blaster.desc.prestiged": "Rochas explodidas produzem 2× >> 3× mais carvão.",
   "demolitionist.name.male": "Demolicionista",
   "demolitionist.name.female": "Demolicionista",
@@ -100,13 +93,11 @@
   "fisher.desc.prestiged": "Peixes mordem instantaneamente.",
   "angler.name.male": "Mestre pescador",
   "angler.name.female": "Mestra pescadora",
-  "angler.desc":
-    "Peixes valem 1% mais para cada peixe de tamanho máximo capturado e 5% mais para cada peixe lendário capturado.",
+  "angler.desc": "Peixes valem 1% mais para cada peixe de tamanho máximo capturado e 5% mais para cada peixe lendário capturado.",
   "angler.desc.prestiged": "Pode repescar peixes lendários.",
   "aquarist.name.male": "Aquarista",
   "aquarist.name.female": "Aquarista",
-  "aquarist.desc":
-    "Capacidade máxima do viveiro de peixes +2. A barra de captura diminui mais devagar para cada espécie de peixe criado em um viveiro.",
+  "aquarist.desc": "Capacidade máxima do viveiro de peixes +2. A barra de captura diminui mais devagar para cada espécie de peixe criado em um viveiro.",
   "aquarist.desc.prestiged": "Pode criar peixes lendários em viveiros.",
 
   "trapper.name.male": "Armadilheiro",
@@ -121,10 +112,8 @@
   "conservacionist.name.female": "Ambientalista",
   "conservationist.desc": "Covos sem isca podem prender lixo. Ganhe deduções fiscais ao limpar as águas do Vale.",
   "conservationist.desc.prestiged": "Ganhe também favor com os aldeões ao limpar as águas do Vale.",
-  "conservationist.mail1":
-    "Caro @, ^^ Temos o prazer de anunciar que, após análise das suas atividades ambientalistas, verificamos que você se qualifica para receber um benefício de dedução de {{taxBonus}} do imposto de renda, de acordo com a seção 501(c)(3) dos Códigos de Receita de Tributos e Contribuições de Ferngill. Válido durante esta temporada, todos os rendimentos tributáveis ​​de {{farmName}} serão aumentados pelo valor supracitado. ^^ Mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões relativas à sua situação fiscal. ^^ Atenciosamente, Laura D. Pretto ^ Diretora Executiva, Secretaría da Receita Federal de Ferngill [#]Taxation Notice ",
-  "conservationist.mail2":
-    "Caro @, ^^ Temos o prazer de anunciar que, após análise das suas atividades ambientalistas, verificamos que você se qualifica para receber o benefício de dedução máximo de {{taxBonus}} do imposto de renda, de acordo com a seção 501(c)(3) dos Códigos de Receita de Tributos e Contribuições de Ferngill. Válido durante esta temporada, todos os rendimentos tributáveis ​​de {{farmName}} serão aumentados pelo valor supracitado. ^^ Mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões relativas à sua situação fiscal. ^^ Atenciosamente, Laura D. Pretto ^ Diretora Executiva, Secretaría da Receita Federal de Ferngill [#]Taxation Notice ",
+  "conservationist.mail1": "Caro @, ^^ Temos o prazer de anunciar que, após análise das suas atividades ambientalistas, verificamos que você se qualifica para receber um benefício de dedução de {{taxBonus}} do imposto de renda, de acordo com a seção 501(c)(3) dos Códigos de Receita de Tributos e Contribuições de Ferngill. Válido durante esta temporada, todos os rendimentos tributáveis ​​de {{farmName}} serão aumentados pelo valor supracitado. ^^ Mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões relativas à sua situação fiscal. ^^ Atenciosamente, Laura D. Pretto ^ Diretora Executiva, Secretaría da Receita Federal de Ferngill [#]Taxation Notice ",
+  "conservationist.mail2": "Caro @, ^^ Temos o prazer de anunciar que, após análise das suas atividades ambientalistas, verificamos que você se qualifica para receber o benefício de dedução máximo de {{taxBonus}} do imposto de renda, de acordo com a seção 501(c)(3) dos Códigos de Receita de Tributos e Contribuições de Ferngill. Válido durante esta temporada, todos os rendimentos tributáveis ​​de {{farmName}} serão aumentados pelo valor supracitado. ^^ Mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões relativas à sua situação fiscal. ^^ Atenciosamente, Laura D. Pretto ^ Diretora Executiva, Secretaría da Receita Federal de Ferngill [#]Taxation Notice ",
 
   // Combat
   "fighter.name.male": "Guerreiro",
@@ -134,18 +123,15 @@
   "brute.name.male": "Bárbaro",
   "brute.name.female": "Amazona",
   "brute.desc": "Dano +15%. +25 HP. Acumula fúria durante o combate, aumentando ainda mais o dano causado.",
-  "brute.desc.prestiged":
-    "Os bônus de dano, exceto de profissões, também reduzem o tempo de recarga dos golpes especiais.",
+  "brute.desc.prestiged": "Os bônus de dano, exceto de profissões, também reduzem o tempo de recarga dos golpes especiais.",
   "brute.buff": "Fúria",
   "brute.buffdesc": "Dano +{{magnitude}}.",
   "brute.superm": "Fúria Imorredora",
   "brute.supermdesc": "Dobra todos os bônus de dano. Imune a desmaio.",
   "poacher.name.male": "Guerrilheiro",
   "poacher.name.female": "Guerrilheira",
-  "poacher.desc":
-    "Chance crítica +10%. Ataques críticos podem afanar ítens. Seu sangue resfria, aumentando a letalidade dos ataques críticos.",
-  "poacher.desc.prestiged":
-    "Os bônus de dano chance e dano crítico, exceto de profissões, também reduzem o tempo de recarga dos golpes especiais.",
+  "poacher.desc": "Chance crítica +10%. Ataques críticos podem afanar ítens. Seu sangue resfria, aumentando a letalidade dos ataques críticos.",
+  "poacher.desc.prestiged": "Os bônus de dano chance e dano crítico, exceto de profissões, também reduzem o tempo de recarga dos golpes especiais.",
   "poacher.buff": "Sangue Frio",
   "poacher.buffdesc": "Potência do ataque crítico ×{{magnitude}}.",
   "poacher.superm": "Emboscada",
@@ -157,8 +143,7 @@
   "rascal.desc.prestiged": "Tiros ricocheteados atordoam os inimigos por 5 segundos.",
   "desperado.name.male": "Foragido",
   "desperado.name.female": "Foragida",
-  "desperado.desc":
-    "Dispara 50% mais rápido. Chance de disparar uma rajada dupla, com base na HP atual. A temeridade acumulada aumenta a seção de choque dos tiros e a potência de impacto.",
+  "desperado.desc": "Dispara 50% mais rápido. Chance de disparar uma rajada dupla, com base na HP atual. A temeridade acumulada aumenta a seção de choque dos tiros e a potência de impacto.",
   "desperado.desc.prestiged": "Rajada dupla se torna disparo triplo.",
   "desperado.buff": "Temeridade",
   "desperado.buffdesc": "Potência dos disparos +{{magnitude}}%.",
@@ -166,17 +151,15 @@
   "desperado.supermdesc": "Habilita a recarga automática. Dispara oito tiros ao redor de uma só vez.",
   "piper.name.male": "Encantador de Gosmas",
   "piper.name.female": "Encantadora de Gosmas",
-  "piper.desc":
-    "As Gosmas danificam outros inimigos e produzem ítens melhores quanto mais Gosmas são criadas na fazenda. A Eubstância acumulada faz atrair mais Gosmas nas masmorras.",
-  "piper.desc.prestiged": "As Gosmas também te curam ao contato.",
+  "piper.desc": "As Gosmas danificam outros inimigos e produzem ítens melhores quanto mais Gosmas são criadas na fazenda. A Eubstância acumulada faz atrair mais Gosmas nas masmorras.",
+  "piper.desc.prestiged": "As Gosmas também te curam ao contato. O efeito Coberto de Gosma se inverte.",
   "piper.buff": "Eubstância",
   "piper.buffdesc": "Atrai até {{magnitude}} Gosmas adicionais.",
   "piper.superm": "Superfluidez",
   "piper.supermdesc": "Dilata e empodera as Gosmas ao redor.",
 
   // Prestige
-  "prestige.dogstatue.first":
-    "-Estátua do Prestígio-^A estátua pode zerar o nível de uma habilidade mantendo todas as profissões adquiridas.",
+  "prestige.dogstatue.first": "-Estátua do Prestígio-^A estátua pode zerar o nível de uma habilidade mantendo todas as profissões adquiridas.",
   "prestige.dogstatue.forget": "^Todas as receitas associadas serão esquecidas.",
   "prestige.dogstatue.offer": "^Fazer uma oferenda?",
   "prestige.dogstatue.which": "Qual habilidade você gostaria de zerar?",
@@ -185,15 +168,13 @@
   "prestige.dogstatue.what": "-Estátua do Prestígio-^...",
   "prestige.dogstatue.respec": "Mudar as profissões prestigiadas",
   "prestige.dogstatue.changeult": "Mudar o modo supremo de combate",
-  "prestige.dogstatue.replace":
-    "Atualmente registrado {{pronoun}} {{currentBuff}} de {{currentProfession}}. Deseja trocar?",
+  "prestige.dogstatue.replace": "Atualmente registrado {{pronoun}} {{currentBuff}} de {{currentProfession}}. Deseja trocar?",
   "prestige.dogstatue.choice": "{{choiceBuff}} de {{choiceProfession}}",
   "prestige.dogstatue.fledged": "*au* *au* (Você agora é {{pronoun}} {{choiceProfession}} completo.)",
   "prestige.skillpage.tooltip": "{{count}} / 4 profissões adquiridas:",
   "prestige.levelup.tooltip:5": "Você já possui todas as profissões neste ramo.",
   "prestige.levelup.tooltip:10": "Você já possui esta profissão.",
-  "prestige.levelup.question":
-    "Atualmente registrado {{pronoun}} {{oldBuff}} de {{oldProfession}}. Deseja trocar pela(o) {{newBuff}} de {{newProfession}}?",
+  "prestige.levelup.question": "Atualmente registrado {{pronoun}} {{oldBuff}} de {{oldProfession}}. Deseja trocar pela(o) {{newBuff}} de {{newProfession}}?",
   "prestige.levelup.unlocked": "Você agora pode continuar desenvolvendo a sua habilidade {{whichSkill}} ainda mais.",
   "prestige.levelup.prestige": "Escolha uma profissão para prestigiar:",
   "prestige.achievement.name.male": "João-faz-tudo",
