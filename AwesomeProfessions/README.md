@@ -204,11 +204,13 @@ The mods are **not** compatible:
 - [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (use included prestige or console commands instead).
 - [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (now also included).
 
+Not compatible with Android version of the game.
+
 ## Installation
 
 - You can install this mod on an existing save; all perks will be retroactively applied upon loading a saved game.
 - To install simply drop the extracted folder onto your mods folder.
-- To update make sure to delete the old version first and only then install the new version.
+- To update **make sure to delete the old version** first and only then install the new version.
 - There are no dependencies outside of SMAPI.
 
 ## Configs
