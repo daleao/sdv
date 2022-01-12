@@ -12,7 +12,6 @@ using TheLion.Stardew.Professions.Framework.Events;
 using TheLion.Stardew.Professions.Framework.Events.Display;
 using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 using TheLion.Stardew.Professions.Framework.Events.Input;
-using TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
 using TheLion.Stardew.Professions.Framework.Events.Multiplayer;
 using TheLion.Stardew.Professions.Framework.Events.Player;
 using TheLion.Stardew.Professions.Framework.Extensions;

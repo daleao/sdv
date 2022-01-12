@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.UiInfoSuite;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility;
 
 [UsedImplicitly]
 internal class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch

@@ -6,7 +6,7 @@ using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Professions.Framework.Events.Display;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
+namespace TheLion.Stardew.Professions.Framework.Events.Input;
 
 [UsedImplicitly]
 internal class DebugButtonsChangedEvent : ButtonsChangedEvent

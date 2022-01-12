@@ -7,7 +7,7 @@ using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.ProducerFrameworkMod;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility;
 
 [UsedImplicitly]
 internal class ProducerRuleControllerProduceOutputPatch : BasePatch

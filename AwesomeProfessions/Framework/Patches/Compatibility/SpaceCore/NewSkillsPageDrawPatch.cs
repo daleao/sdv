@@ -14,7 +14,7 @@ using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Patches.Prestige;
 using TheLion.Stardew.Professions.Framework.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.SpaceCore;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility;
 
 [UsedImplicitly]
 internal class NewSkillsPageDrawPatch : BasePatch

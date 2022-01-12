@@ -5,7 +5,7 @@ using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility.AnimalHusbandryMod;
+namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility;
 
 [UsedImplicitly]
 internal class FarmAnimalExtensionsSetDaysUntilBirthPatch : BasePatch
