@@ -1,9 +1,9 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+using TheLion.Stardew.Professions.Framework.Events.Display;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
+namespace TheLion.Stardew.Professions.Framework.Events.Input;
 
 internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
 {

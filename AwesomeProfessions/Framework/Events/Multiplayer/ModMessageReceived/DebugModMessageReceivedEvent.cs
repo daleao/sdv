@@ -4,7 +4,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer.ModMessageReceived;
+namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 [UsedImplicitly]
 internal class DebugModMessageReceivedEvent : ModMessageReceivedEvent

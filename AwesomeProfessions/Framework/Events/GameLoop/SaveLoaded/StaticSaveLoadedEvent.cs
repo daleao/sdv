@@ -5,11 +5,10 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.SuperMode;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.SaveLoaded;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 [UsedImplicitly]
 internal class StaticSaveLoadedEvent : SaveLoadedEvent

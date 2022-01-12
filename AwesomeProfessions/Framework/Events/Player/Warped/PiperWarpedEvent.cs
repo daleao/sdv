@@ -4,10 +4,10 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Player.Warped;
+namespace TheLion.Stardew.Professions.Framework.Events.Player;
 
 internal class PiperWarpedEvent : WarpedEvent
 {

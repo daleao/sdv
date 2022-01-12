@@ -11,7 +11,7 @@ using StardewValley;
 using StardewValley.Menus;
 using TheLion.Stardew.Common.Extensions;
 using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.SuperMode;
 using CollectionExtensions = TheLion.Stardew.Common.Extensions.CollectionExtensions;

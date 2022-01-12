@@ -3,7 +3,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using TheLion.Stardew.Common.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.DayStarted;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
 {

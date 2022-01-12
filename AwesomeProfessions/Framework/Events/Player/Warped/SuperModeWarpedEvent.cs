@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using StardewModdingAPI.Events;
-using StardewValley;
-using TheLion.Stardew.Professions.Framework.Events.Display.RenderingHud;
+﻿using StardewModdingAPI.Events;
+using TheLion.Stardew.Professions.Framework.Events.Display;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Player.Warped;
+namespace TheLion.Stardew.Professions.Framework.Events.Player;
 
 internal class SuperModeWarpedEvent : WarpedEvent
 {

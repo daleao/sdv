@@ -4,7 +4,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 {

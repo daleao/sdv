@@ -43,6 +43,7 @@ public class ModEntry : Mod
 
         // hook events
         new GameLaunchedEvent().Hook();
+        new UpdateTickedEvent().Hook();
 
         // create and patch Harmony instance
         var harmony = new Harmony(ModManifest.UniqueID);

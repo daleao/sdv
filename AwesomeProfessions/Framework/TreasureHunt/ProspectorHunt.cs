@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
-using TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+using TheLion.Stardew.Professions.Framework.Events.Display;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
 namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
@@ -169,10 +169,10 @@ internal class ProspectorHunt : TreasureHunt
 
     #endregion private methods
 
-    #region internal methods
+    #region public methods
 
     /// <summary>Construct an instance.</summary>
-    internal ProspectorHunt()
+    public ProspectorHunt()
     {
         HuntStartedMessage = ModEntry.ModHelper.Translation.Get("prospector.huntstarted");
         HuntFailedMessage = ModEntry.ModHelper.Translation.Get("prospector.huntfailed");
@@ -180,7 +180,7 @@ internal class ProspectorHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    internal override void TryStartNewHunt(GameLocation location)
+    public override void TryStartNewHunt(GameLocation location)
     {
         if (!location.Objects.Any() || !base.TryStartNewHunt()) return;
 
@@ -196,7 +196,7 @@ internal class ProspectorHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    internal override Vector2? ChooseTreasureTile(GameLocation location)
+    public override Vector2? ChooseTreasureTile(GameLocation location)
     {
         Vector2 v;
         var failsafe = 0;
@@ -211,14 +211,14 @@ internal class ProspectorHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    internal override void End()
+    public override void End()
     {
         ModEntry.EventManager.Disable(typeof(ProspectorHuntUpdateTickedEvent),
             typeof(ProspectorHuntRenderedHudEvent));
         TreasureTile = null;
     }
 
-    #endregion internal methods
+    #endregion public methods
 
     #region protected methods
 

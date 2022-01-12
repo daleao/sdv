@@ -9,7 +9,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Sounds;
 using TheLion.Stardew.Professions.Framework.SuperMode;

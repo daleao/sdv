@@ -8,8 +8,8 @@ using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
-using TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+using TheLion.Stardew.Professions.Framework.Events.Display;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
@@ -37,10 +37,10 @@ internal class ScavengerHunt : TreasureHunt
         588 // palm fossil
     };
 
-    #region internal methods
+    #region public methods
 
     /// <summary>Construct an instance.</summary>
-    internal ScavengerHunt()
+    public ScavengerHunt()
     {
         HuntStartedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntstarted");
         HuntFailedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntfailed");
@@ -49,7 +49,7 @@ internal class ScavengerHunt : TreasureHunt
 
     /// <summary>Try to start a new scavenger hunt at this location.</summary>
     /// <param name="location">The game location.</param>
-    internal override void TryStartNewHunt(GameLocation location)
+    public override void TryStartNewHunt(GameLocation location)
     {
         if (!base.TryStartNewHunt()) return;
 
@@ -66,7 +66,7 @@ internal class ScavengerHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    internal override Vector2? ChooseTreasureTile(GameLocation location)
+    public override Vector2? ChooseTreasureTile(GameLocation location)
     {
         Vector2 v;
         var failsafe = 0;
@@ -84,14 +84,14 @@ internal class ScavengerHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    internal override void End()
+    public override void End()
     {
         ModEntry.EventManager.Disable(typeof(ScavengerHuntUpdateTickedEvent),
             typeof(ProspectorHuntRenderedHudEvent));
         TreasureTile = null;
     }
 
-    #endregion internal methods
+    #endregion public methods
 
     #region protected methods
 

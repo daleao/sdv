@@ -6,16 +6,16 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using TheLion.Stardew.Professions.Framework.Events.Display.RenderedWorld;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
-using TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
-using TheLion.Stardew.Professions.Framework.Events.Player.Warped;
+using TheLion.Stardew.Professions.Framework.Events.Display;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop;
+using TheLion.Stardew.Professions.Framework.Events.Input;
+using TheLion.Stardew.Professions.Framework.Events.Player;
 using TheLion.Stardew.Professions.Framework.Sounds;
 
 namespace TheLion.Stardew.Professions.Framework.SuperMode;
 
 /// <summary>Main handler for Super Mode functionality.</summary>
-public class SuperMode
+internal class SuperMode
 {
     private const int BUFF_SHEET_INDEX_OFFSET_I = 10, SUPERMODE_SHEET_INDEX_OFFSET_I = 22, BASE_ACTIVATION_DELAY_I = 60;
 

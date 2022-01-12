@@ -5,7 +5,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderedActiveMenu;
+namespace TheLion.Stardew.Professions.Framework.Events.Display;
 
 internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
 {

@@ -4,7 +4,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Events.Display.RenderedActiveMenu;
+using TheLion.Stardew.Professions.Framework.Events.Display;
 
 namespace TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
 

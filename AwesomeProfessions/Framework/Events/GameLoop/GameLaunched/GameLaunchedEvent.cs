@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.GameLaunched;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal abstract class GameLaunchedEvent : BaseEvent
 {

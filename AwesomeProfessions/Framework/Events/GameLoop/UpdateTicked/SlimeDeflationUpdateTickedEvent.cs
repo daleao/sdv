@@ -2,7 +2,7 @@
 using System.Linq;
 using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
 {

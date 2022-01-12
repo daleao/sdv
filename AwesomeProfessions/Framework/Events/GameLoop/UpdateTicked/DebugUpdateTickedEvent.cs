@@ -2,7 +2,7 @@
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 [UsedImplicitly]
 internal class DebugUpdateTickedEvent : UpdateTickedEvent

@@ -5,7 +5,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class PrestigeDayEndingEvent : DayEndingEvent
 {

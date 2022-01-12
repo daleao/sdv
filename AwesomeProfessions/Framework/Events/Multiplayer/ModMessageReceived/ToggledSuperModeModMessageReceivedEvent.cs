@@ -2,7 +2,7 @@
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer.ModMessageReceived;
+namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 internal class ToggledSuperModeModMessageReceivedEvent : ModMessageReceivedEvent
 {

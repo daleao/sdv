@@ -6,7 +6,7 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
 using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.DayEnding;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 namespace TheLion.Stardew.Professions.Framework.Extensions;
 

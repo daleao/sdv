@@ -2,7 +2,7 @@
 using StardewModdingAPI.Events;
 using TheLion.Stardew.Professions.Integrations;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.GameLaunched;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 [UsedImplicitly]
 internal class StaticGameLaunchedEvent : GameLaunchedEvent

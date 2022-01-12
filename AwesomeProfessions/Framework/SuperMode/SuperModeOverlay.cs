@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Events.Display.RenderedWorld;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+using TheLion.Stardew.Professions.Framework.Events.Display;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 namespace TheLion.Stardew.Professions.Framework.SuperMode;
 
 /// <summary>Fullscreen tinted overlay activated during Super Mode.</summary>
-public class SuperModeOverlay
+internal class SuperModeOverlay
 {
     private const float MAX_OPACITY_F = 0.3f;
 
@@ -33,7 +33,7 @@ public class SuperModeOverlay
 
     /// <summary>Draw the overlay over the world.</summary>
     /// <param name="b">A <see cref="SpriteBatch" /> to draw to.</param>
-    /// <remarks>This should be called from a <see cref="Events.Display.RenderedWorld.RenderedWorldEvent" />.</remarks>
+    /// <remarks>This should be called from a <see cref="RenderedWorldEvent" />.</remarks>
     public void Draw(SpriteBatch b)
     {
         b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, _color * _opacity);

@@ -23,18 +23,18 @@ internal abstract class TreasureHunt
 
     /// <summary>Try to start a new hunt at the specified location.</summary>
     /// <param name="location">The game location.</param>
-    internal abstract void TryStartNewHunt(GameLocation location);
+    public abstract void TryStartNewHunt(GameLocation location);
 
     /// <summary>Select a random tile and make sure it is a valid treasure target.</summary>
     /// <param name="location">The game location.</param>
-    internal abstract Vector2? ChooseTreasureTile(GameLocation location);
+    public abstract Vector2? ChooseTreasureTile(GameLocation location);
 
     /// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
-    internal abstract void End();
+    public abstract void End();
 
     /// <summary>Check for completion or failure on every update tick.</summary>
     /// <param name="ticks">The number of ticks elapsed since the game started.</param>
-    internal void Update(uint ticks)
+    public void Update(uint ticks)
     {
         if (!Game1ShouldTimePassPatch.Game1ShouldTimePassOriginal(Game1.game1, true)) return;
 
@@ -43,7 +43,7 @@ internal abstract class TreasureHunt
     }
 
     /// <summary>Reset the accumulated bonus chance to trigger a new hunt.</summary>
-    internal void ResetAccumulatedBonus()
+    public void ResetAccumulatedBonus()
     {
         _accumulatedBonus = 1.0;
     }

@@ -2,7 +2,7 @@
 using StardewValley;
 using TheLion.Stardew.Professions.Framework.TreasureHunt;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Player.Warped;
+namespace TheLion.Stardew.Professions.Framework.Events.Player;
 
 internal class ScavengerWarpedEvent : WarpedEvent
 {

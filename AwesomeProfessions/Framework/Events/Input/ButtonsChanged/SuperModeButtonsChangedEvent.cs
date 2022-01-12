@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
+namespace TheLion.Stardew.Professions.Framework.Events.Input;
 
 internal class SuperModeButtonsChangedEvent : ButtonsChangedEvent
 {

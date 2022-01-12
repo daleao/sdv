@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class SuperModeBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 {

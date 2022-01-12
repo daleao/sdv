@@ -2,7 +2,7 @@
 using StardewValley;
 using TheLion.Stardew.Professions.Framework.Patches.Foraging;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
+namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class PiperUpdateTickedEvent : UpdateTickedEvent
 {

@@ -9,7 +9,7 @@ using StardewValley;
 namespace TheLion.Stardew.Professions.Framework.Sounds;
 
 /// <summary>Gathers and allows playing custom mod sound assets.</summary>
-public class SoundBox
+internal class SoundBox
 {
     /// <summary>Construct an instance.</summary>
     public SoundBox(string modPath)

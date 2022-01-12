@@ -2,16 +2,16 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Events.Display.RenderingHud;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop.UpdateTicked;
-using TheLion.Stardew.Professions.Framework.Events.Input.ButtonsChanged;
+using TheLion.Stardew.Professions.Framework.Events.Display;
+using TheLion.Stardew.Professions.Framework.Events.GameLoop;
+using TheLion.Stardew.Professions.Framework.Events.Input;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Patches.Foraging;
 
 namespace TheLion.Stardew.Professions.Framework.SuperMode;
 
 /// <summary>HUD component to show the player their current Super Stat value.</summary>
-public class SuperModeGauge
+internal class SuperModeGauge
 {
     private const int MAX_BAR_HEIGHT_I = 168,
         TEXTURE_HEIGHT_I = 46,
@@ -64,7 +64,7 @@ public class SuperModeGauge
 
     /// <summary>Draw the gauge and all it's components to the HUD.</summary>
     /// <param name="b">A <see cref="SpriteBatch" /> to draw to.</param>
-    /// <remarks>This should be called from a <see cref="Events.Display.RenderingHud.RenderingHudEvent" />.</remarks>
+    /// <remarks>This should be called from a <see cref="RenderingHudEvent" />.</remarks>
     public void Draw(SpriteBatch b)
     {
         if (_opacity <= 0f) return;

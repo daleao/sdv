@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Tools;
 
@@ -7,6 +8,8 @@ namespace TheLion.Stardew.Tools.Framework.Events;
 
 internal class UpdateTickedEvent : IEvent
 {
+    internal static PerScreen<bool> Enabled { get; }= new();
+
     /// <inheritdoc />
     public void Hook()
     {
@@ -24,6 +27,8 @@ internal class UpdateTickedEvent : IEvent
     /// <param name="e">The event arguments.</param>
     public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
     {
+        if (!Enabled.Value) return;
+
         Farmer who = Game1.player;
         if (who.FarmerSprite.isOnToolAnimation()) return;
 
@@ -45,6 +50,6 @@ internal class UpdateTickedEvent : IEvent
                 break;
         }
 
-        if (doneShockwave) Unhook();
+        if (doneShockwave) Enabled.Value = false;
     }
 }

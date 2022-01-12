@@ -4,7 +4,7 @@ using StardewValley.Locations;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.TreasureHunt;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Player.Warped;
+namespace TheLion.Stardew.Professions.Framework.Events.Player;
 
 internal class ProspectorWarpedEvent : WarpedEvent
 {

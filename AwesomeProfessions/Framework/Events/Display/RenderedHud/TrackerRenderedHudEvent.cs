@@ -5,7 +5,7 @@ using StardewValley;
 using StardewValley.Locations;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderedHud;
+namespace TheLion.Stardew.Professions.Framework.Events.Display;
 
 internal class TrackerRenderedHudEvent : RenderedHudEvent
 {

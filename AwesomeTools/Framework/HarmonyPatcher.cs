@@ -30,7 +30,7 @@ internal static class HarmonyPatcher
             if (who.toolPower <= 0 || (tool is not Axe || !ModEntry.AxeFx.Config.EnableAxeCharging) &&
                 (tool is not Pickaxe || !ModEntry.PickaxeFx.Config.EnablePickaxeCharging)) return;
 
-            new UpdateTickedEvent().Hook();
+            UpdateTickedEvent.Enabled.Value = true;
         }
     }
 

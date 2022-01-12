@@ -1,7 +1,7 @@
 ﻿using System;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Integrations;
+namespace TheLion.Stardew.Common.Integrations;
 
 public interface ISimplifiedFishingApi
 {

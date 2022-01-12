@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Display.RenderedWorld;
+namespace TheLion.Stardew.Professions.Framework.Events.Display;
 
 internal class SuperModeActiveRenderedWorldEvent : RenderedWorldEvent
 {

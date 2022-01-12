@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Input.CursorMoved;
+namespace TheLion.Stardew.Professions.Framework.Events.Input;
 
 internal abstract class CursorMovedEvent : BaseEvent
 {
