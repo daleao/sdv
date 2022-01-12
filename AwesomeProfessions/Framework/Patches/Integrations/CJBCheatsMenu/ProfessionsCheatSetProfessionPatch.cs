@@ -8,7 +8,7 @@ using StardewModdingAPI;
 using StardewValley;
 using TheLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Compatibility;
+namespace TheLion.Stardew.Professions.Framework.Patches.Integrations;
 
 [UsedImplicitly]
 internal class ProfessionsCheatSetProfessionPatch : BasePatch
