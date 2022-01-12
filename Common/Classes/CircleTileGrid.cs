@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace TheLion.Stardew.Common.Classes;
@@ -106,6 +107,43 @@ public class CircleTileGrid
                 return false;
 
         return true;
+    }
+
+    /// <summary>Get a string representation of the complete tile grid.</summary>
+    public new string ToString()
+    {
+        var s = new StringBuilder().AppendLine();
+        var height = _outlineBoolArray.GetLength(0);
+        var width = _outlineBoolArray.GetLength(1);
+        for (var i = 0; i < height; ++i)
+        {
+            var first = 0;
+            var last = width;
+            for (var j = 0; j < width; ++j)
+            {
+                if (!_outlineBoolArray[i, j]) continue;
+                first = j;
+                break;
+            }
+
+            for (var j = width - 1; j >= 0; --j)
+            {
+                if (!_outlineBoolArray[i, j]) continue;
+                last = j;
+                break;
+            }
+
+            var toggle = false;
+            for (var j = 0; j < width; ++j)
+            {
+                if (j == first || j == last + 1) toggle = !toggle;
+                s.Append(toggle ? 'x' : ' ').Append(' ');
+            }
+
+            s.AppendLine();
+        }
+
+        return s.ToString();
     }
 
     #region private methods

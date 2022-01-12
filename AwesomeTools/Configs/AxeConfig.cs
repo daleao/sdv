@@ -12,10 +12,7 @@ public class AxeConfig
     public int RequiredUpgradeForCharging { get; set; } = 1;
 
     /// <summary>The radius of affected tiles at each upgrade level.</summary>
-    public List<int> RadiusAtEachPowerLevel { get; set; } = new List<int>() { 1, 2, 3, 4 };
-
-    /// <summary>Whether to show affected tiles overlay while charging.</summary>
-    public bool ShowAxeAffectedTiles { get; set; } = true;
+    public List<int> RadiusAtEachPowerLevel { get; set; } = new() {1, 2, 3, 4};
 
     /// <summary>Whether to clear fruit tree seeds.</summary>
     public bool ClearFruitTreeSeeds { get; set; } = false;
@@ -52,4 +49,7 @@ public class AxeConfig
 
     /// <summary>Whether to clear debris like twigs, giant stumps, fallen logs and weeds.</summary>
     public bool ClearDebris { get; set; } = true;
+
+    /// <summary>Whether to play the shockwave animation when the charged Axe is released.</summary>
+    public bool PlayShockwaveAnimation { get; set; } = true;
 }

@@ -1,4 +1,5 @@
 ﻿using StardewModdingAPI.Events;
+using TheLion.Stardew.Tools.Integrations;
 
 namespace TheLion.Stardew.Tools.Framework.Events;
 
@@ -22,17 +23,14 @@ internal class GameLaunchedEvent : IEvent
     public void OnGameLaunched(object sender, GameLaunchedEventArgs e)
     {
         // add Generic Mod Config Menu integration
-        new Integrations.GenericModConfigMenuIntegrationForAwesomeTools(
+        new GenericModConfigMenuIntegrationForAwesomeTools(
             getConfig: () => ModEntry.Config,
             reset: () =>
             {
-                ModEntry.Config = new Configs.ToolConfig();
+                ModEntry.Config = new();
                 ModEntry.ModHelper.WriteConfig(ModEntry.Config);
             },
-            saveAndApply: () =>
-            {
-                ModEntry.ModHelper.WriteConfig(ModEntry.Config);
-            },
+            saveAndApply: () => { ModEntry.ModHelper.WriteConfig(ModEntry.Config); },
             log: ModEntry.Log,
             modRegistry: ModEntry.ModHelper.ModRegistry,
             manifest: ModEntry.Manifest

@@ -240,7 +240,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
 
                         // prepare to prestige at night
                         var prestigeDayEndingEvent = ModEntry.EventManager.Get<PrestigeDayEndingEvent>();
-                        prestigeDayEndingEvent.SkillsToReset.Enqueue(skillType);
+                        prestigeDayEndingEvent.SkillsToReset.Value.Enqueue(skillType);
                         prestigeDayEndingEvent.Enable();
 
                         // play sound effect

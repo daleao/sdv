@@ -1,15 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using StardewModdingAPI.Events;
-using StardewModdingAPI.Utilities;
+﻿using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Tools;
 
 namespace TheLion.Stardew.Tools.Framework.Events;
 
 internal class UpdateTickedEvent : IEvent
 {
-    internal static PerScreen<bool> Enabled { get; }= new();
-
     /// <inheritdoc />
     public void Hook()
     {
@@ -27,29 +22,8 @@ internal class UpdateTickedEvent : IEvent
     /// <param name="e">The event arguments.</param>
     public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
     {
-        if (!Enabled.Value) return;
-
-        Farmer who = Game1.player;
-        if (who.FarmerSprite.isOnToolAnimation()) return;
-
-        if (ModEntry.Config.ShockwaveDelay > 0 && !e.IsMultipleOf(ModEntry.Config.ShockwaveDelay)) return;
-
-        Tool tool = who.CurrentTool;
-        Vector2 actionTile = new((int)(who.GetToolLocation().X / Game1.tileSize), (int)(who.GetToolLocation().Y / Game1.tileSize));
-        bool doneShockwave = false;
-        switch (tool)
-        {
-            case Axe:
-                who.Stamina -= who.toolPower - who.ForagingLevel * 0.1f * (who.toolPower - 1) * ModEntry.Config.StaminaCostMultiplier;
-                doneShockwave = ModEntry.AxeFx.DoShockwave(tool, actionTile, who);
-                break;
-
-            case Pickaxe:
-                who.Stamina -= who.toolPower - who.MiningLevel * 0.1f * (who.toolPower - 1) * ModEntry.Config.StaminaCostMultiplier;
-                doneShockwave = ModEntry.PickaxeFx.DoShockwave(tool, actionTile, who);
-                break;
-        }
-
-        if (doneShockwave) Enabled.Value = false;
+        if (ModEntry.Shockwave.Value is null ||
+            ModEntry.Config.TicksBetweenWaves > 0 && !e.IsMultipleOf(ModEntry.Config.TicksBetweenWaves)) return;
+        ModEntry.Shockwave.Value.Update(Game1.currentGameTime.TotalGameTime.TotalMilliseconds);
     }
 }

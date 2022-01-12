@@ -1,6 +1,6 @@
 ﻿namespace TheLion.Stardew.Tools.Framework.Events;
 
-/// <summary>Interface for dynamic events.</summary>
+/// <summary>Interface for an event that can be hooked or unhooked.</summary>
 internal interface IEvent
 {
     /// <summary>Hook this event to the event listener.</summary>

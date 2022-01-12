@@ -7,6 +7,7 @@ using TheLion.Stardew.Common.Classes;
 using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Utility;
+using Multiplayer = StardewValley.Multiplayer;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Professions.Framework.Patches.Mining;
@@ -75,7 +76,7 @@ internal class GameLocationExplodePatch : BasePatch
                         if (isPrestigedBlaster)
                             Game1.createObjectDebris(SObject.coal, (int) tile.X, (int) tile.Y,
                                 who.UniqueMultiplayerID, __instance);
-                        ModEntry.ModHelper.Reflection.GetField<StardewValley.Multiplayer>(typeof(Game1), "multiplayer")
+                        ModEntry.ModHelper.Reflection.GetField<Multiplayer>(typeof(Game1), "multiplayer")
                             .GetValue()
                             .broadcastSprites(__instance,
                                 new TemporaryAnimatedSprite(25,

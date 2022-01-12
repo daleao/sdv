@@ -1,109 +1,90 @@
-﻿using Microsoft.Xna.Framework;
-using StardewModdingAPI;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
+using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
-using System.Collections.Generic;
-using System.Linq;
+using TheLion.Stardew.Tools.Configs;
+using TheLion.Stardew.Tools.Framework.Extensions;
 using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Tools.Framework.Effects;
 
-/// <summary>Applies Pickaxe-specific effects.</summary>
-internal class PickaxeEffect : ToolEffect
+/// <summary>Applies Pickaxe effects.</summary>
+internal class PickaxeEffect : IEffect
 {
-    public Configs.PickaxeConfig Config { get; }
+    /// <summary>Construct an instance.</summary>
+    public PickaxeEffect(PickaxeConfig config)
+    {
+        Config = config;
+    }
+
+    public PickaxeConfig Config { get; }
 
     /// <summary>The Pickaxe upgrade levels needed to break supported resource clumps.</summary>
-    /// <remarks>Derived from <see cref="ResourceClump.performToolAction"/>.</remarks>
+    /// <remarks>Derived from <see cref="ResourceClump.performToolAction" />.</remarks>
     private IDictionary<int, int> UpgradeLevelsNeededForResource { get; } = new Dictionary<int, int>
     {
         [ResourceClump.meteoriteIndex] = Tool.gold,
         [ResourceClump.boulderIndex] = Tool.steel
     };
 
-    /// <summary>Construct an instance.</summary>
-    /// <param name="config">The effect settings.</param>
-    /// <param name="modRegistry">Metadata about loaded mods.</param>
-    public PickaxeEffect(Configs.PickaxeConfig config, IModRegistry modRegistry)
-        : base(modRegistry)
-    {
-        Config = config;
-    }
-
-    /// <inheritdoc/>
-    public override bool Apply(Vector2 tile, SObject tileObj, TerrainFeature tileFeature, Tool tool, GameLocation location, Farmer who)
+    /// <inheritdoc />
+    public bool Apply(Vector2 tile, SObject tileObj, TerrainFeature tileFeature, Tool tool,
+        GameLocation location, Farmer who)
     {
         // clear debris
-        if (Config.ClearDebris && (IsStone(tileObj) || IsWeed(tileObj)))
-        {
-            return UseToolOnTile(tool, tile, who, location);
-        }
+        if (Config.ClearDebris && (tileObj.IsStone() || tileObj.IsWeed()))
+            return tool.UseOnTile(tile, location, who);
 
         // break mine containers
         if (Config.BreakMineContainers && tileObj is not null)
-        {
             return TryBreakContainer(tile, tileObj, tool, location);
-        }
 
         // clear placed objects
         if (Config.ClearObjects && tileObj is not null)
-        {
-            return UseToolOnTile(tool, tile, who, location);
-        }
+            return tool.UseOnTile(tile, location, who);
 
         // clear placed paths & flooring
         if (Config.ClearFlooring && tileFeature is Flooring)
-        {
-            return UseToolOnTile(tool, tile, who, location);
-        }
+            return tool.UseOnTile(tile, location, who);
 
         // clear bushes
         if (Config.ClearBushes && tileFeature is Bush)
-        {
-            return UseToolOnTile(tool, tile, who, location);
-        }
+            return tool.UseOnTile(tile, location, who);
 
         // handle dirt
         if (tileFeature is HoeDirt dirt)
         {
             // clear tilled dirt
             if (dirt.crop is null && Config.ClearDirt)
-            {
-                return UseToolOnTile(tool, tile, who, location);
-            }
+                return tool.UseOnTile(tile, location, who);
 
             // clear crops
             if (dirt.crop is not null)
             {
                 if (Config.ClearDeadCrops && dirt.crop.dead.Value)
-                {
-                    return UseToolOnTile(tool, tile, who, location);
-                }
+                    return tool.UseOnTile(tile, location, who);
 
                 if (Config.ClearLiveCrops && !dirt.crop.dead.Value)
-                {
-                    return UseToolOnTile(tool, tile, who, location);
-                }
+                    return tool.UseOnTile(tile, location, who);
             }
         }
 
         // clear boulders / meteorites
         if (Config.BreakBouldersAndMeteorites)
         {
-            var clump = GetResourceClumpCoveringTile(location, tile, who, out var applyTool);
+            var clump = location.GetResourceClumpCoveringTile(tile, who, out var applyTool);
             if (clump is not null &&
                 (!UpgradeLevelsNeededForResource.TryGetValue(clump.parentSheetIndex.Value,
-                    out int requiredUpgradeLevel) || tool.UpgradeLevel >= requiredUpgradeLevel))
-            {
-                return applyTool(tool);
-            }
+                    out var requiredUpgradeLevel) || tool.UpgradeLevel >= requiredUpgradeLevel)) return applyTool(tool);
         }
 
         // harvest spawned mine objects
-        if (Config.HarvestMineSpawns && location is MineShaft && tileObj?.IsSpawnedObject == true && CheckTileAction(location, tile, who))
+        if (Config.HarvestMineSpawns && location is MineShaft && tileObj?.IsSpawnedObject == true &&
+            location.checkAction(new((int)tile.X, (int)tile.Y), Game1.viewport, who))
         {
-            CancelAnimation(who, FarmerSprite.harvestItemDown, FarmerSprite.harvestItemLeft,
+            who.CancelAnimation(FarmerSprite.harvestItemDown, FarmerSprite.harvestItemLeft,
                 FarmerSprite.harvestItemRight, FarmerSprite.harvestItemUp);
             return true;
         }
@@ -111,13 +92,25 @@ internal class PickaxeEffect : ToolEffect
         return false;
     }
 
-    /// <summary>Spreads the Pickaxe effect to an area around the player.</summary>
-    /// <param name="tool">The tool selected by the player.</param>
-    /// <param name="origin">The center of the shockwave (i.e. the Pickaxe's tile location).</param>
-    /// <param name="who">The player.</param>
-    public bool DoShockwave(Tool tool, Vector2 origin, Farmer who)
+    #region private methods
+
+    /// <summary>Break open a container using a tool, if applicable.</summary>
+    /// <param name="tile">The tile position</param>
+    /// <param name="tileObj">The object on the tile.</param>
+    /// <param name="tool">The tool selected by the player (if any).</param>
+    /// <param name="location">The current location.</param>
+    private static bool TryBreakContainer(Vector2 tile, SObject tileObj, Tool tool, GameLocation location)
     {
-        int radius = Config.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
-        return base.DoShockwave(tool, origin, radius, who);
+        if (tileObj is BreakableContainer)
+            return tileObj.performToolAction(tool, location);
+
+        if (tileObj.bigCraftable.Value || tileObj.Name != "SupplyCrate" || tileObj is Chest ||
+            !tileObj.performToolAction(tool, location)) return false;
+
+        tileObj.performRemoveAction(tile, location);
+        Game1.currentLocation.Objects.Remove(tile);
+        return true;
     }
+
+    #endregion private methods
 }

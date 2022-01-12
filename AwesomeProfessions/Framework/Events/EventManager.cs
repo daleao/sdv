@@ -197,7 +197,7 @@ internal class EventManager
         ModEntry.Log("[EventManager]: Enabling base Super Mode events...", ModEntry.DefaultLogLevel);
         Enable(typeof(SuperModeWarpedEvent));
 
-        if (!Game1.currentLocation.IsCombatZone()) return;
+        if (!Game1.currentLocation.IsCombatZone() || !ModEntry.Config.EnableSuperMode) return;
 
         Enable(typeof(SuperModeGaugeRenderingHudEvent));
     }

@@ -5,7 +5,7 @@ using SObject = StardewValley.Object;
 
 namespace TheLion.Stardew.Tools.Framework.Effects;
 
-/// <summary>Interface for tool effects.</summary>
+/// <summary>Interface for applying a tool's effects.</summary>
 internal interface IEffect
 {
     /// <summary>Apply the tool effect to the given tile.</summary>
@@ -15,5 +15,6 @@ internal interface IEffect
     /// <param name="tool">The tool selected by the player (if any).</param>
     /// <param name="location">The current location.</param>
     /// <param name="who">The current player.</param>
-    public bool Apply(Vector2 tile, SObject tileObj, TerrainFeature tileFeature, Tool tool, GameLocation location, Farmer who);
+    public bool Apply(Vector2 tile, SObject tileObj, TerrainFeature tileFeature, Tool tool, GameLocation location,
+        Farmer who);
 }

@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using TheLion.Stardew.Common.Integrations;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Integrations;
 
@@ -37,8 +38,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
         _configMenu
             .Register()
 
-            // main mod settings
-            .AddSectionTitle(() => "Mod Settings")
+            // general mod settings
+            .AddSectionTitle(() => "General Settings")
             .AddKeyBinding(
                 () => "Mod Key",
                 () => "The key used by Prospector and Scavenger professions.",
@@ -51,16 +52,28 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 config => config.UseVintageSkillBars,
                 (config, value) =>
                 {
-                    Framework.Utility.Textures.SuperModeGaugeTx = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud",
+                    Textures.SuperModeGaugeTx = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud",
                         value ? "bar_vintage.png" : "bar.png"));
-                    Framework.Utility.Textures.SuperModeGaugeTx = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets",
+                    Textures.SuperModeGaugeTx = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets",
                         "menus", value ? "skillbars_vintage.png" : "skillbars.png"));
                     config.UseVintageSkillBars = value;
                 }
             )
+            .AddCheckbox(
+                () => "Enable Fish Pond Rebalance",
+                () => "Allow Fish Ponds to produce bonus Roe or Ink in proportion to fish population.",
+                config => config.EnableFishPondRebalance,
+                (config, value) => config.EnableFishPondRebalance = value
+            )
 
             // super mode
             .AddSectionTitle(() => "Super Mode Settings")
+            .AddCheckbox(
+                () => "Enable Super Mode",
+                () => "Must be enabled to allow activating Super Mode. Super Stat continues to apply.",
+                config => config.EnableSuperMode,
+                (config, value) => config.EnableSuperMode = value
+            )
             .AddKeyBinding(
                 () => "Super Mode key",
                 () => "The key used to activate Super Mode.",
@@ -161,7 +174,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             )
             .AddNumberField(
                 () => "Cost of Changing Ultimate",
-                () => "Monetary cost of changing the combat ultimate. Set to 0 to change for free.",
+                () => "Monetary cost of changing the combat Super Mode. Set to 0 to change for free.",
                 config => (int) config.ChangeUltCost,
                 (config, value) => config.ChangeUltCost = (uint) value,
                 0,
@@ -278,15 +291,6 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0f,
                 1f,
                 0.05f
-            )
-
-            // misc
-            .AddSectionTitle(() => "Misc. Settings")
-            .AddCheckbox(
-                () => "Enable Fish Pond Rebalance",
-                () => "Allow Fish Ponds to produce bonus Roe or Ink in proportion to fish population.",
-                config => config.EnableFishPondRebalance,
-                (config, value) => config.EnableFishPondRebalance = value
             );
     }
 }

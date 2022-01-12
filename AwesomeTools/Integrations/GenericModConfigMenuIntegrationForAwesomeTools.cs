@@ -1,6 +1,7 @@
-using StardewModdingAPI;
 using System;
+using StardewModdingAPI;
 using TheLion.Stardew.Common.Integrations;
+using TheLion.Stardew.Tools.Configs;
 
 namespace TheLion.Stardew.Tools.Integrations;
 
@@ -8,7 +9,7 @@ namespace TheLion.Stardew.Tools.Integrations;
 internal class GenericModConfigMenuIntegrationForAwesomeTools
 {
     /// <summary>The Generic Mod Config Menu integration.</summary>
-    private readonly GenericModConfigMenuIntegration<Configs.ToolConfig> _configMenu;
+    private readonly GenericModConfigMenuIntegration<ToolConfig> _configMenu;
 
     /// <summary>API for fetching metadata about loaded mods.</summary>
     private readonly IModRegistry _modRegistry;
@@ -20,10 +21,11 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
     /// <param name="reset">Reset the config model to the default values.</param>
     /// <param name="saveAndApply">Save and apply the current config model.</param>
     /// <param name="log">Encapsulates monitoring and logging.</param>
-    public GenericModConfigMenuIntegrationForAwesomeTools(IModRegistry modRegistry, IManifest manifest, Func<Configs.ToolConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
+    public GenericModConfigMenuIntegrationForAwesomeTools(IModRegistry modRegistry, IManifest manifest,
+        Func<ToolConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
     {
         _modRegistry = modRegistry;
-        _configMenu = new GenericModConfigMenuIntegration<Configs.ToolConfig>(modRegistry, manifest, log, getConfig, reset, saveAndApply);
+        _configMenu = new(modRegistry, manifest, log, getConfig, reset, saveAndApply);
     }
 
     /// <summary>Register the config menu if available.</summary>
@@ -39,6 +41,12 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
 
             // main
             .AddSectionTitle(() => "Main")
+            .AddCheckbox(
+                () => "Hide Affected Tiles",
+                () => "Whether to hide affected tiles overlay while charging.",
+                config => config.HideAffectedTiles,
+                (config, value) => config.HideAffectedTiles = value
+            )
             .AddNumberField(
                 () => "Stamina Consumption Multiplier",
                 () => "Adjusts the stamina cost of charging.",
@@ -51,8 +59,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
             .AddNumberField(
                 () => "Shockwave Delay",
                 () => "Affects the shockwave travel speed. Lower is faster. Set to 0 for instant.",
-                config => (int)config.ShockwaveDelay,
-                (config, value) => config.ShockwaveDelay = (uint)value,
+                config => (int) config.TicksBetweenWaves,
+                (config, value) => config.TicksBetweenWaves = (uint) value,
                 0,
                 10
             )
@@ -71,6 +79,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 config => config.Modkey,
                 (config, value) => config.Modkey = value
             )
+
+            // page links
             .AddPageLink("axe", () => "Axe Options", () => "Go to Axe options")
             .AddPageLink("pickaxe", () => "Pickaxe Options", () => "Go to Pickaxe options")
 
@@ -124,25 +134,17 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 10
             );
 
-        if (Framework.Utility.HasHigherLevelToolMod(_modRegistry, out string whichMod))
-        {
+        if (ModEntry.HasToolMod)
             _configMenu.AddNumberField(
-                () => whichMod + " Radius",
+                () => ModEntry.ToolMod + " Radius",
                 () => "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
                 config => config.AxeConfig.RadiusAtEachPowerLevel[3],
                 (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = value,
                 0,
                 10
             );
-        }
 
         _configMenu
-            .AddCheckbox(
-                () => "Show Axe Affected Tiles",
-                () => "Whether to show affected tiles overlay while charging.",
-                config => config.AxeConfig.ShowAxeAffectedTiles,
-                (config, value) => config.AxeConfig.ShowAxeAffectedTiles = value
-            )
             .AddCheckbox(
                 () => "Clear Fruit Tree Seeds",
                 () => "Whether to clear fruit tree seeds.",
@@ -215,6 +217,12 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 config => config.AxeConfig.ClearDebris,
                 (config, value) => config.AxeConfig.ClearDebris = value
             )
+            .AddCheckbox(
+                () => "Play Shockwave Animation",
+                () => "Whether to play the shockwave animation when the charged Axe is released.",
+                config => config.AxeConfig.PlayShockwaveAnimation,
+                (config, value) => config.AxeConfig.PlayShockwaveAnimation = value
+            )
 
             // pickaxe options
             .AddPage("pickaxe", () => "Pickaxe Options")
@@ -266,25 +274,17 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 10
             );
 
-        if (Framework.Utility.HasHigherLevelToolMod(_modRegistry, out whichMod))
-        {
+        if (ModEntry.HasToolMod)
             _configMenu.AddNumberField(
-                () => whichMod + " Radius",
+                () => ModEntry.ToolMod + " Radius",
                 () => "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
-                config => config.AxeConfig.RadiusAtEachPowerLevel[3],
-                (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = value,
+                config => config.PickaxeConfig.RadiusAtEachPowerLevel[3],
+                (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[3] = value,
                 0,
                 10
             );
-        }
 
         _configMenu
-            .AddCheckbox(
-                () => "Show Pickaxe Affected Tiles",
-                () => "Whether to show affected tiles overlay while charging.",
-                config => config.PickaxeConfig.ShowPickaxeAffectedTiles,
-                (config, value) => config.PickaxeConfig.ShowPickaxeAffectedTiles = value
-            )
             .AddCheckbox(
                 () => "Break Boulders and Meteorites",
                 () => "Whether to break boulders and meteorites.",
@@ -344,6 +344,12 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 () => "Whether to clear debris like stones, boulders and weeds.",
                 config => config.PickaxeConfig.ClearDebris,
                 (config, value) => config.PickaxeConfig.ClearDebris = value
+            )
+            .AddCheckbox(
+                () => "Play Shockwave Animation",
+                () => "Whether to play the shockwave animation when the charged Pickaxe is released.",
+                config => config.PickaxeConfig.PlayShockwaveAnimation,
+                (config, value) => config.PickaxeConfig.PlayShockwaveAnimation = value
             );
     }
 }

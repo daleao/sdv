@@ -7,6 +7,7 @@ using TheLion.Stardew.Professions.Framework.Events.GameLoop;
 using TheLion.Stardew.Professions.Framework.Events.Input;
 using TheLion.Stardew.Professions.Framework.Extensions;
 using TheLion.Stardew.Professions.Framework.Patches.Foraging;
+using TheLion.Stardew.Professions.Framework.Utility;
 
 namespace TheLion.Stardew.Professions.Framework.SuperMode;
 
@@ -28,7 +29,7 @@ internal class SuperModeGauge
     private bool _shake;
 
     /// <summary>The texture that will be used to draw the gauge.</summary>
-    public static Texture2D Texture { get; } = Utility.Textures.SuperModeGaugeTx;
+    public static Texture2D Texture { get; } = Textures.SuperModeGaugeTx;
 
     /// <summary>The current value of the player's Super Mode gauge.</summary>
     public double CurrentValue
@@ -224,6 +225,7 @@ internal class SuperModeGauge
     /// <summary>Raised when SuperModeGauge is set to the max value.</summary>
     private void OnGaugeFilled()
     {
+        if (!ModEntry.Config.EnableSuperMode) return;
         ModEntry.EventManager.Enable(typeof(SuperModeButtonsChangedEvent),
             typeof(SuperModeGaugeShakeUpdateTickedEvent));
     }
@@ -231,8 +233,8 @@ internal class SuperModeGauge
     /// <summary>Raised when SuperModeGauge is raised from zero to any value greater than zero.</summary>
     private void OnGaugeRaisedAboveZero()
     {
-        ModEntry.EventManager.Enable(typeof(SuperModeBuffDisplayUpdateTickedEvent),
-            typeof(SuperModeGaugeRenderingHudEvent));
+        ModEntry.EventManager.Enable(typeof(SuperModeBuffDisplayUpdateTickedEvent));
+        if (ModEntry.Config.EnableSuperMode) ModEntry.EventManager.Enable(typeof(SuperModeGaugeRenderingHudEvent));
     }
 
     /// <summary>Raised when SuperModeGauge is set to zero.</summary>
@@ -241,7 +243,8 @@ internal class SuperModeGauge
         ModEntry.EventManager.Disable(typeof(SuperModeBuffDisplayUpdateTickedEvent));
 
         if (ModEntry.State.Value.SuperMode.IsActive) ModEntry.State.Value.SuperMode.Deactivate();
-        if (Game1.currentLocation.IsCombatZone()) return;
+        
+        if (Game1.currentLocation.IsCombatZone() || !ModEntry.Config.EnableSuperMode) return;
 
         ModEntry.EventManager.Enable(typeof(SuperModeGaugeFadeOutUpdateTickedEvent));
     }

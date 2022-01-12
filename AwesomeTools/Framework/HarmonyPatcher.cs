@@ -1,14 +1,13 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
 using TheLion.Stardew.Common.Classes;
-using TheLion.Stardew.Tools.Framework.Events;
 
 namespace TheLion.Stardew.Tools.Framework;
 
@@ -26,11 +25,26 @@ internal static class HarmonyPatcher
         [HarmonyPostfix]
         protected static void Postfix(Farmer who)
         {
-            Tool tool = who.CurrentTool;
-            if (who.toolPower <= 0 || (tool is not Axe || !ModEntry.AxeFx.Config.EnableAxeCharging) &&
-                (tool is not Pickaxe || !ModEntry.PickaxeFx.Config.EnablePickaxeCharging)) return;
+            var tool = who.CurrentTool;
+            if (who.toolPower <= 0 || tool is not (Axe or Pickaxe)) return;
 
-            UpdateTickedEvent.Enabled.Value = true;
+            var radius = 1;
+            switch (tool)
+            {
+                case Axe:
+                    who.Stamina -= who.toolPower - who.ForagingLevel * 0.1f * (who.toolPower - 1) *
+                        ModEntry.Config.StaminaCostMultiplier;
+                    radius = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
+                    break;
+
+                case Pickaxe:
+                    who.Stamina -= who.toolPower - who.MiningLevel * 0.1f * (who.toolPower - 1) *
+                        ModEntry.Config.StaminaCostMultiplier;
+                    radius = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
+                    break;
+            }
+
+            ModEntry.Shockwave.Value = new(radius, who, Game1.currentGameTime.TotalGameTime.TotalMilliseconds);
         }
     }
 
@@ -41,7 +55,8 @@ internal static class HarmonyPatcher
         [HarmonyPrefix]
         protected static bool Prefix(Tool __instance, Farmer who)
         {
-            if (!ModEntry.Config.AxeConfig.EnableAxeCharging || !Utility.ShouldCharge() ||
+            if (!ModEntry.Config.AxeConfig.EnableAxeCharging ||
+                ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown() ||
                 __instance.UpgradeLevel < ModEntry.Config.AxeConfig.RequiredUpgradeForCharging)
                 return true; // run original logic
 
@@ -81,7 +96,8 @@ internal static class HarmonyPatcher
         [HarmonyPrefix]
         protected static bool Prefix(Tool __instance, Farmer who)
         {
-            if (!ModEntry.Config.PickaxeConfig.EnablePickaxeCharging || !Utility.ShouldCharge() ||
+            if (!ModEntry.Config.PickaxeConfig.EnablePickaxeCharging ||
+                ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown() ||
                 __instance.UpgradeLevel < ModEntry.Config.PickaxeConfig.RequiredUpgradeForCharging)
                 return true; // run original logic
 
@@ -122,13 +138,13 @@ internal static class HarmonyPatcher
         protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var l = instructions.ToList();
-            for (int i = 0; i < l.Count; ++i)
+            for (var i = 0; i < l.Count; ++i)
             {
                 if (l[i].opcode != OpCodes.Isinst ||
                     l[i].operand?.ToString() != "StardewValley.Tools.Pickaxe") continue;
-                
+
                 // inject branch over toolPower += 2
-                l.Insert(i - 2, new CodeInstruction(OpCodes.Br_S, l[i + 1].operand));
+                l.Insert(i - 2, new(OpCodes.Br_S, l[i + 1].operand));
                 break;
             }
 
@@ -147,9 +163,9 @@ internal static class HarmonyPatcher
                 return;
 
             if (__instance is not (Axe or Pickaxe)) return;
-            
+
             __result.Clear();
-            int radius = __instance is Axe
+            var radius = __instance is Axe
                 ? AxeAffectedTilesRadii[Math.Min(power - 2, 4)]
                 : PickaxeAffectedTilesRadii[Math.Min(power - 2, 4)];
             if (radius == 0)
@@ -167,8 +183,7 @@ internal static class HarmonyPatcher
         [HarmonyPrefix]
         protected static bool Prefix(Tool __instance)
         {
-            return (__instance is not Axe || ModEntry.Config.AxeConfig.ShowAxeAffectedTiles) &&
-                   (__instance is not Pickaxe || ModEntry.Config.PickaxeConfig.ShowPickaxeAffectedTiles);
+            return __instance is Axe or Pickaxe && !ModEntry.Config.HideAffectedTiles;
         }
     }
 }

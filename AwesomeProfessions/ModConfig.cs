@@ -8,18 +8,6 @@ public class ModConfig
     /// <summary>Mod key used by Prospector and Scavenger professions.</summary>
     public KeybindList Modkey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-    /// <summary>Mod key used to activate Super Mode. Can be the same as <see cref="Modkey" />.</summary>
-    public KeybindList SuperModeKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
-
-    /// <summary>Whether Super Mode is activated on <see cref="SuperModeKey" /> hold (as opposed to press).</summary>
-    public bool HoldKeyToActivateSuperMode { get; set; } = true;
-
-    /// <summary>How long <see cref="SuperModeKey" /> should be held to activate Super Mode, in seconds.</summary>
-    public float SuperModeActivationDelay { get; set; } = 1f;
-
-    /// <summary>Lower numbers make Super Mode last longer. Should be a number between 1 and 10.</summary>
-    public double SuperModeDrainFactor { get; set; } = 3;
-
     /// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
     public uint ForagesNeededForBestQuality { get; set; } = 500;
 
@@ -59,6 +47,21 @@ public class ModConfig
     /// <summary>The maximum tax deduction percentage allowed by the Ferngill Revenue Service.</summary>
     public float TaxDeductionCeiling { get; set; } = 0.25f;
 
+    /// <summary>Required to allow Super Mode activation. Super Stat continues to apply.</summary>
+    public bool EnableSuperMode { get; set; } = true;
+
+    /// <summary>Mod key used to activate Super Mode. Can be the same as <see cref="Modkey" />.</summary>
+    public KeybindList SuperModeKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+
+    /// <summary>Whether Super Mode is activated on <see cref="SuperModeKey" /> hold (as opposed to press).</summary>
+    public bool HoldKeyToActivateSuperMode { get; set; } = true;
+
+    /// <summary>How long <see cref="SuperModeKey" /> should be held to activate Super Mode, in seconds.</summary>
+    public float SuperModeActivationDelay { get; set; } = 1f;
+
+    /// <summary>Lower numbers make Super Mode last longer. Should be a number between 1 and 10.</summary>
+    public double SuperModeDrainFactor { get; set; } = 3;
+
     /// <summary>Whether to apply prestige changes.</summary>
     public bool EnablePrestige { get; set; } = true;
 
@@ -83,7 +86,7 @@ public class ModConfig
     /// <summary>Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
     public uint PrestigeRespecCost { get; set; } = 20000;
 
-    /// <summary>Monetary cost of changing the combat ultimate. Set to 0 to change for free.</summary>
+    /// <summary>Monetary cost of changing the combat Super Mode. Set to 0 to change for free.</summary>
     public uint ChangeUltCost { get; set; } = 0;
 
     /// <summary>Enable if using the Vintage Interface mod.</summary>

@@ -591,13 +591,15 @@ internal static class ConsoleCommands
     /// <summary>Tell the dummies how to use the console command.</summary>
     private static string GetUsageForAddProfessions()
     {
-        var result = "\n\nUsage: player_addprofessions <argument1> <argument2> ... <argumentN>";
-        result += "\nAvailable arguments:";
+        var result = "\n\nUsage: player_addprofessions [--prestige] <profession1> <profession2> ... <professionN>";
+        result += "\n\nParameters:";
+        result += "\n\t<profession>\t- one of the modded profession names, or 'all'";
+        result += "\n\nOptional flags:";
         result +=
-            "\n\t'<profession>' - get the specified profession.";
-        result += "\n\t'all' - get all professions.";
-        result += "\n\nExample:";
+            "\n\t--prestige, -p\t- add the prestiged versions of the specified professions (will automatically add the base versions as well)";
+        result += "\n\nExamples:";
         result += "\n\tplayer_addprofessions artisan brute";
+        result += "\n\tplayer_addprofessions -p all";
         return result;
     }
 
@@ -605,6 +607,9 @@ internal static class ConsoleCommands
     private static string GetUsageForSetModData()
     {
         var result = "\n\nUsage: wol_setdata <field> <value>";
+        result += "\n\nParameters:";
+        result += "\n\t<field>\t- the name of the field";
+        result += "\\n\t<value>\t- the desired new value";
         result += "\n\nExamples:";
         result += "\n\twol_setdata EcologistItemsForaged 100";
         result += "\n\twol_setdata trash 500";

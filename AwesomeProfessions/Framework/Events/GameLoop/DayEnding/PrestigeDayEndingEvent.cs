@@ -2,6 +2,7 @@
 using System.Linq;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using TheLion.Stardew.Professions.Framework.Extensions;
 
@@ -9,12 +10,12 @@ namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class PrestigeDayEndingEvent : DayEndingEvent
 {
-    public Queue<SkillType> SkillsToReset { get; } = new();
+    public PerScreen<Queue<SkillType>> SkillsToReset { get; } = new();
 
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
     {
-        while (SkillsToReset.Any()) Game1.player.ResetSkill(SkillsToReset.Dequeue());
+        while (SkillsToReset.Value.Any()) Game1.player.ResetSkill(SkillsToReset.Value.Dequeue());
         ModEntry.State.Value.UsedDogStatueToday = false;
         Disable();
     }

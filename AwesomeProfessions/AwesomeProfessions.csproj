@@ -11,10 +11,6 @@
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<Optimize>false</Optimize>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<Compile Remove="resources\**" />
 		<EmbeddedResource Remove="resources\**" />

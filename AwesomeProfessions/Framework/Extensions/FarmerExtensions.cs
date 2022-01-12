@@ -160,7 +160,7 @@ public static class FarmerExtensions
             farmer.NumberOfProfessionsInSkill((int) skillType, true) is > 0 and < 4;
         var alreadyResetThisSkill =
             ModEntry.EventManager.TryGet<PrestigeDayEndingEvent>(out var prestigeDayEnding) &&
-            prestigeDayEnding.SkillsToReset.Contains(skillType);
+            prestigeDayEnding.SkillsToReset.Value.Contains(skillType);
 
         return isSkillLevelTen && !justLeveledUp && hasAtLeastOneButNotAllProfessionsInSkill &&
                !alreadyResetThisSkill;
