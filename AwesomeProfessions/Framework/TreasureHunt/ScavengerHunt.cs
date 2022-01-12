@@ -60,8 +60,8 @@ internal class ScavengerHunt : TreasureHunt
         timeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
                             ModEntry.Config.ScavengerHuntHandicap);
         elapsed = 0;
-        ModEntry.EventManager.Enable(typeof(IndicatorUpdateTickedEvent),
-            typeof(ScavengerHuntUpdateTickedEvent), typeof(ScavengerHuntRenderedHudEvent));
+        ModEntry.EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(ScavengerHuntRenderedHudEvent),
+            typeof(ScavengerHuntUpdateTickedEvent));
         Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
     }
 
@@ -86,8 +86,7 @@ internal class ScavengerHunt : TreasureHunt
     /// <inheritdoc />
     public override void End()
     {
-        ModEntry.EventManager.Disable(typeof(ScavengerHuntUpdateTickedEvent),
-            typeof(ProspectorHuntRenderedHudEvent));
+        ModEntry.EventManager.Disable(typeof(ScavengerHuntRenderedHudEvent), typeof(ScavengerHuntUpdateTickedEvent));
         TreasureTile = null;
     }
 

@@ -190,8 +190,8 @@ internal class ProspectorHunt : TreasureHunt
         huntLocation = location;
         timeLimit = (uint) (location.Objects.Count() * ModEntry.Config.ProspectorHuntHandicap);
         elapsed = 0;
-        ModEntry.EventManager.Enable(typeof(IndicatorUpdateTickedEvent),
-            typeof(ProspectorHuntUpdateTickedEvent), typeof(ProspectorHuntRenderedHudEvent));
+        ModEntry.EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(ProspectorHuntRenderedHudEvent),
+            typeof(ProspectorHuntUpdateTickedEvent));
         Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
     }
 
@@ -213,8 +213,7 @@ internal class ProspectorHunt : TreasureHunt
     /// <inheritdoc />
     public override void End()
     {
-        ModEntry.EventManager.Disable(typeof(ProspectorHuntUpdateTickedEvent),
-            typeof(ProspectorHuntRenderedHudEvent));
+        ModEntry.EventManager.Disable(typeof(ProspectorHuntRenderedHudEvent), typeof(ProspectorHuntUpdateTickedEvent));
         TreasureTile = null;
     }
 
