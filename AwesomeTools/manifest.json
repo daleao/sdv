@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Chargeable Resource Tools",
   "Author": "VonLoewe",
-  "Version": "2.0.0",
+  "Version": "2.0.1",
   "Description": "Charge your Axe and Pickaxe to unleash a powerful shockwave!",
   "UniqueID": "thelion.AwesomeTools",
   "EntryDll": "AwesomeTools.dll",

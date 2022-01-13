@@ -183,7 +183,7 @@ internal static class HarmonyPatcher
         [HarmonyPrefix]
         protected static bool Prefix(Tool __instance)
         {
-            return __instance is Axe or Pickaxe && !ModEntry.Config.HideAffectedTiles;
+            return !ModEntry.Config.HideAffectedTiles;
         }
     }
 }
