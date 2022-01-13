@@ -6,10 +6,10 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Common.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
+namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class FarmerShowItemIntakePatch : BasePatch

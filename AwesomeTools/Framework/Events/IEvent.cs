@@ -1,4 +1,4 @@
-﻿namespace TheLion.Stardew.Tools.Framework.Events;
+﻿namespace DaLion.Stardew.Tools.Framework.Events;
 
 /// <summary>Interface for an event that can be hooked or unhooked.</summary>
 internal interface IEvent

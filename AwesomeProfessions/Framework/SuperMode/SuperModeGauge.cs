@@ -2,14 +2,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Events.Display;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop;
-using TheLion.Stardew.Professions.Framework.Events.Input;
-using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.Patches.Foraging;
-using TheLion.Stardew.Professions.Framework.Utility;
+using DaLion.Stardew.Professions.Framework.Events.Display;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Events.Input;
+using DaLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Patches.Foraging;
+using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.SuperMode;
+namespace DaLion.Stardew.Professions.Framework.SuperMode;
 
 /// <summary>HUD component to show the player their current Super Stat value.</summary>
 internal class SuperModeGauge

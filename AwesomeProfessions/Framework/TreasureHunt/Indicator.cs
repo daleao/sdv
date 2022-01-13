@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
+namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
 
 /// <summary>Pointer for highlighting on-screen and off-screen objects of interest for tracker professions.</summary>
 internal class Indicator

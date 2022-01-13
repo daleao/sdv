@@ -3,11 +3,11 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using TheLion.Stardew.Tools.Configs;
-using TheLion.Stardew.Tools.Framework.Extensions;
+using DaLion.Stardew.Tools.Configs;
+using DaLion.Stardew.Tools.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Tools.Framework.Effects;
+namespace DaLion.Stardew.Tools.Framework.Effects;
 
 /// <summary>Applies Axe effects.</summary>
 internal class AxeEffect : IEffect

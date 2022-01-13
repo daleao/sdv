@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TheLion.Stardew.Professions.Framework.Utility;
+namespace DaLion.Stardew.Professions.Framework.Utility;
 
 /// <summary>Holds static properties related to object classification.</summary>
 public static class Objects

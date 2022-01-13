@@ -6,9 +6,9 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
-using TheLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Farming;
+namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
 
 [UsedImplicitly]
 internal class HoeDirtApplySpeedIncreases : BasePatch

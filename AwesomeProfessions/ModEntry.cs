@@ -2,11 +2,11 @@
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework;
-using TheLion.Stardew.Professions.Framework.AssetEditors;
-using TheLion.Stardew.Professions.Framework.Sounds;
+using DaLion.Stardew.Professions.Framework;
+using DaLion.Stardew.Professions.Framework.AssetEditors;
+using DaLion.Stardew.Professions.Framework.Sounds;
 
-namespace TheLion.Stardew.Professions;
+namespace DaLion.Stardew.Professions;
 
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod

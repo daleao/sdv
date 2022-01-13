@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
-namespace TheLion.Stardew.Professions.Framework.AssetEditors;
+namespace DaLion.Stardew.Professions.Framework.AssetEditors;
 
 /// <summary>Edits <c>LooseSprites/Cursors</c> and <c>TileSheets/BuffIcons</c> with new profession icons.</summary>
 public class IconEditor : IAssetEditor

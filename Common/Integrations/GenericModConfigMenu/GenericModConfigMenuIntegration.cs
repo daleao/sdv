@@ -2,7 +2,7 @@ using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
-namespace TheLion.Stardew.Common.Integrations;
+namespace DaLion.Stardew.Common.Integrations;
 
 /// <summary>Handles the logic for integrating with the Generic Mod Configuration Menu mod.</summary>
 /// <typeparam name="TConfig">The mod configuration type.</typeparam>

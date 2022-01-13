@@ -2,11 +2,11 @@
 using System.Linq;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Utility;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Extensions;
+namespace DaLion.Stardew.Professions.Framework.Extensions;
 
 public static class SObjectExtensions
 {

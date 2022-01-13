@@ -1,4 +1,4 @@
-﻿namespace TheLion.Stardew.Professions;
+﻿namespace DaLion.Stardew.Professions;
 
 public enum DataField
 {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Events.Display;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Events.Display;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
-namespace TheLion.Stardew.Professions.Framework.SuperMode;
+namespace DaLion.Stardew.Professions.Framework.SuperMode;
 
 /// <summary>Fullscreen tinted overlay activated during Super Mode.</summary>
 internal class SuperModeOverlay

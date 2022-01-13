@@ -9,10 +9,10 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.SuperMode;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Common;
+namespace DaLion.Stardew.Professions.Framework.Patches.Common;
 
 [UsedImplicitly]
 internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch

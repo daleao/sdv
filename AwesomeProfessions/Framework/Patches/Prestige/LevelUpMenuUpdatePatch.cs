@@ -9,14 +9,14 @@ using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop;
-using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.SuperMode;
-using CollectionExtensions = TheLion.Stardew.Common.Extensions.CollectionExtensions;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.SuperMode;
+using CollectionExtensions = DaLion.Stardew.Common.Extensions.CollectionExtensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Prestige;
+namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 [UsedImplicitly]
 internal class LevelUpMenuUpdatePatch : BasePatch

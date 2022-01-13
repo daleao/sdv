@@ -6,10 +6,10 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
-using TheLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Common.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
+namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class FishPondDayUpdatePatch : BasePatch

@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer;
+namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 internal abstract class PeerDisconnectedEvent : BaseEvent
 {

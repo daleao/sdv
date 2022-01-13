@@ -3,9 +3,9 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
-using TheLion.Stardew.Professions.Framework.Utility;
+using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
+namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class FishPondGetFishPondDataPatch : BasePatch

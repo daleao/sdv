@@ -2,10 +2,10 @@ using System;
 using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
-using TheLion.Stardew.Common.Integrations;
-using TheLion.Stardew.Professions.Framework.Utility;
+using DaLion.Stardew.Common.Integrations;
+using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace TheLion.Stardew.Professions.Integrations;
+namespace DaLion.Stardew.Professions.Integrations;
 
 /// <summary>Constructs the GenericModConfigMenu integration for Awesome Tools.</summary>
 internal class GenericModConfigMenuIntegrationForAwesomeProfessions

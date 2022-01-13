@@ -5,10 +5,10 @@ using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
-namespace TheLion.Stardew.Professions.Framework.Extensions;
+namespace DaLion.Stardew.Professions.Framework.Extensions;
 
 public static class FarmerExtensions
 {

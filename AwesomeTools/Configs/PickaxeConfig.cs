@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using DaLion.Stardew.Tools.Framework;
 
-namespace TheLion.Stardew.Tools.Configs;
+namespace DaLion.Stardew.Tools.Configs;
 
 /// <summary>Configuration for the pickaxe shockwave.</summary>
 public class PickaxeConfig
@@ -9,7 +10,7 @@ public class PickaxeConfig
     public bool EnablePickaxeCharging { get; set; } = true;
 
     /// <summary>Pickaxe must be at least this level to charge. Must be greater than zero.</summary>
-    public int RequiredUpgradeForCharging { get; set; } = 1;
+    public UpgradeLevel RequiredUpgradeForCharging { get; set; } = UpgradeLevel.Copper;
 
     /// <summary>The radius of affected tiles at each upgrade level.</summary>
     public List<int> RadiusAtEachPowerLevel { get; set; } = new() {1, 2, 3, 4};

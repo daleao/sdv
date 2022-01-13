@@ -6,11 +6,11 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class GreenSlimeGetExtraDropItemsPatch : BasePatch

@@ -1,7 +1,7 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
+namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class SuperModeGaugeCountdownUpdateTickedEvent : UpdateTickedEvent
 {

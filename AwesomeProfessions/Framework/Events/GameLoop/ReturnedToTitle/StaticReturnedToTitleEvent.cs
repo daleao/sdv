@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
+namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 [UsedImplicitly]
 internal class StaticReturnedToTitleEvent : ReturnedToTitleEvent

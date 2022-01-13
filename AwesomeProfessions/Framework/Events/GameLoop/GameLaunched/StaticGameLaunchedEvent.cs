@@ -1,8 +1,8 @@
 ﻿using JetBrains.Annotations;
 using StardewModdingAPI.Events;
-using TheLion.Stardew.Professions.Integrations;
+using DaLion.Stardew.Professions.Integrations;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
+namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 [UsedImplicitly]
 internal class StaticGameLaunchedEvent : GameLaunchedEvent

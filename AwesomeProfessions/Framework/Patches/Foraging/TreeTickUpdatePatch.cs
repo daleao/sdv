@@ -7,9 +7,9 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
-using TheLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
+namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
 
 [UsedImplicitly]
 internal class TreeTickUpdatePatch : BasePatch

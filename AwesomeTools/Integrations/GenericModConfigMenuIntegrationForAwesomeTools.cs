@@ -1,9 +1,9 @@
 using System;
 using StardewModdingAPI;
-using TheLion.Stardew.Common.Integrations;
-using TheLion.Stardew.Tools.Configs;
+using DaLion.Stardew.Common.Integrations;
+using DaLion.Stardew.Tools.Configs;
 
-namespace TheLion.Stardew.Tools.Integrations;
+namespace DaLion.Stardew.Tools.Integrations;
 
 /// <summary>Constructs the GenericModConfigMenu integration for Awesome Tools.</summary>
 internal class GenericModConfigMenuIntegrationForAwesomeTools
@@ -39,8 +39,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
         _configMenu
             .Register()
 
-            // main
-            .AddSectionTitle(() => "Main")
+            // general
+            .AddSectionTitle(() => "General")
             .AddCheckbox(
                 () => "Hide Affected Tiles",
                 () => "Whether to hide affected tiles overlay while charging.",
@@ -94,19 +94,19 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 (config, value) => config.AxeConfig.EnableAxeCharging = value
             )
             .AddNumberField(
-                () => "Required Upgrade Level",
+                () => "Required Upgrade For Charging",
                 () => "Your Axe must be at least this level in order to charge.",
                 config => config.AxeConfig.RequiredUpgradeForCharging,
                 (config, value) => config.AxeConfig.RequiredUpgradeForCharging = value,
-                0,
-                5
+                1,
+                ModEntry.HasToolMod ? 5 : 4
             )
             .AddNumberField(
                 () => "Copper Radius",
                 () => "The radius of affected tiles for the Copper Axe.",
                 config => config.AxeConfig.RadiusAtEachPowerLevel[0],
                 (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[0] = value,
-                0,
+                1,
                 10
             )
             .AddNumberField(
@@ -114,7 +114,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 () => "The radius of affected tiles for the Steel Axe.",
                 config => config.AxeConfig.RadiusAtEachPowerLevel[1],
                 (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[1] = value,
-                0,
+                1,
                 10
             )
             .AddNumberField(
@@ -122,7 +122,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 () => "The radius of affected tiles for the Gold Axe.",
                 config => config.AxeConfig.RadiusAtEachPowerLevel[2],
                 (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[2] = value,
-                0,
+                1,
                 10
             )
             .AddNumberField(
@@ -130,7 +130,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 () => "The radius of affected tiles for the Iridium Axe.",
                 config => config.AxeConfig.RadiusAtEachPowerLevel[3],
                 (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = value,
-                0,
+                1,
                 10
             );
 
@@ -140,7 +140,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 () => "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
                 config => config.AxeConfig.RadiusAtEachPowerLevel[3],
                 (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = value,
-                0,
+                1,
                 10
             );
 
@@ -234,19 +234,19 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 (config, value) => config.PickaxeConfig.EnablePickaxeCharging = value
             )
             .AddNumberField(
-                () => "Required Upgrade Level",
+                () => "Required Upgrade For Charging",
                 () => "Your Pickaxe must be at least this level in order to charge.",
                 config => config.PickaxeConfig.RequiredUpgradeForCharging,
                 (config, value) => config.PickaxeConfig.RequiredUpgradeForCharging = value,
-                0,
-                5
+                1,
+                ModEntry.HasToolMod ? 5 : 4
             )
             .AddNumberField(
                 () => "Copper Radius",
                 () => "The radius of affected tiles for the Copper Pickaxe.",
                 config => config.PickaxeConfig.RadiusAtEachPowerLevel[0],
                 (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[0] = value,
-                0,
+                1,
                 10
             )
             .AddNumberField(
@@ -254,7 +254,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 () => "The radius of affected tiles for the Steel Pickaxe.",
                 config => config.PickaxeConfig.RadiusAtEachPowerLevel[1],
                 (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[1] = value,
-                0,
+                1,
                 10
             )
             .AddNumberField(
@@ -262,7 +262,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 () => "The radius of affected tiles for the Gold Pickaxe.",
                 config => config.PickaxeConfig.RadiusAtEachPowerLevel[2],
                 (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[2] = value,
-                0,
+                1,
                 10
             )
             .AddNumberField(
@@ -270,7 +270,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 () => "The radius of affected tiles for the Iridium Pickaxe.",
                 config => config.PickaxeConfig.RadiusAtEachPowerLevel[3],
                 (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[3] = value,
-                0,
+                1,
                 10
             );
 
@@ -280,7 +280,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 () => "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
                 config => config.PickaxeConfig.RadiusAtEachPowerLevel[3],
                 (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[3] = value,
-                0,
+                1,
                 10
             );
 

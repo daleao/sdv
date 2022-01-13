@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace DaLion.Stardew.Professions.Framework.Patches;
 
 /// <summary>Interface for Harmony patch classes.</summary>
 internal interface IPatch

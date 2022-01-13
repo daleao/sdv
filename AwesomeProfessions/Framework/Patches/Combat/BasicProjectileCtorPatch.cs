@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Projectiles;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class BasicProjectileCtorPatch : BasePatch

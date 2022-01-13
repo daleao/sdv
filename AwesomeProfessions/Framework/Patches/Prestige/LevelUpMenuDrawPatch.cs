@@ -9,10 +9,10 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Prestige;
+namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 [UsedImplicitly]
 internal class LevelUpMenuDrawPatch : BasePatch

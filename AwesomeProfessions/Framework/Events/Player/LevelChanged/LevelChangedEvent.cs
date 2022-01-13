@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Player;
+namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
 internal abstract class LevelChangedEvent : BaseEvent
 {

@@ -6,11 +6,11 @@ using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Network;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
+namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
 
 internal class GameLocationCheckActionPatch : BasePatch
 {

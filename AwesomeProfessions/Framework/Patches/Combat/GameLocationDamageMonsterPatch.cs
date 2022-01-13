@@ -10,12 +10,12 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Sounds;
-using TheLion.Stardew.Professions.Framework.SuperMode;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Sounds;
+using DaLion.Stardew.Professions.Framework.SuperMode;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 internal class GameLocationDamageMonsterPatch : BasePatch
 {

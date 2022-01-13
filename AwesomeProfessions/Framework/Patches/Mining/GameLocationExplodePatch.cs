@@ -3,14 +3,14 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using TheLion.Stardew.Common.Classes;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop;
-using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.Utility;
+using DaLion.Stardew.Common.Classes;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Utility;
 using Multiplayer = StardewValley.Multiplayer;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Mining;
+namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
 
 [UsedImplicitly]
 internal class GameLocationExplodePatch : BasePatch

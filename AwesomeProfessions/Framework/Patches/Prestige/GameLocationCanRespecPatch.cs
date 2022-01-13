@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Prestige;
+namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 [UsedImplicitly]
 internal class GameLocationCanRespecPatch : BasePatch

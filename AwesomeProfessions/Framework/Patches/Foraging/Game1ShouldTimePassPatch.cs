@@ -2,10 +2,10 @@
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
+namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
 
 [UsedImplicitly]
 internal class Game1ShouldTimePassPatch : BasePatch

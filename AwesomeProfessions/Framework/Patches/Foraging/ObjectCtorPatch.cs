@@ -2,10 +2,10 @@
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Foraging;
+namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
 
 [UsedImplicitly]
 internal class ObjectCtorPatch : BasePatch

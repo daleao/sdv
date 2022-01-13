@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace TheLion.Stardew.Common.Extensions;
+namespace DaLion.Stardew.Common.Extensions;
 
 public static class StringExtensions
 {

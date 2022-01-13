@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Farming;
+namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
 
 [UsedImplicitly]
 internal class ObjectLoadDisplayNamePatch : BasePatch

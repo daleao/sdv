@@ -3,7 +3,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.AssetEditors;
+namespace DaLion.Stardew.Professions.Framework.AssetEditors;
 
 /// <summary>Edits <c>Data/mail</c> with Conservationist taxation notice.</summary>
 public class MailEditor : IAssetEditor

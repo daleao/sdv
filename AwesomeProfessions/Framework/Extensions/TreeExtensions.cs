@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using TheLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Common.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Extensions;
+namespace DaLion.Stardew.Professions.Framework.Extensions;
 
 public static class TreeExtensions
 {

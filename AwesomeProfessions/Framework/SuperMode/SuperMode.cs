@@ -6,13 +6,13 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using TheLion.Stardew.Professions.Framework.Events.Display;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop;
-using TheLion.Stardew.Professions.Framework.Events.Input;
-using TheLion.Stardew.Professions.Framework.Events.Player;
-using TheLion.Stardew.Professions.Framework.Sounds;
+using DaLion.Stardew.Professions.Framework.Events.Display;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Events.Input;
+using DaLion.Stardew.Professions.Framework.Events.Player;
+using DaLion.Stardew.Professions.Framework.Sounds;
 
-namespace TheLion.Stardew.Professions.Framework.SuperMode;
+namespace DaLion.Stardew.Professions.Framework.SuperMode;
 
 /// <summary>Main handler for Super Mode functionality.</summary>
 internal class SuperMode

@@ -4,10 +4,10 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
-using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.SuperMode;
+using DaLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch

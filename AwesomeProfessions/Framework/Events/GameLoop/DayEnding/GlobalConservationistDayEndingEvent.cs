@@ -4,11 +4,11 @@ using System.Linq;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.AssetEditors;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.AssetEditors;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
+namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class GlobalConservationistDayEndingEvent : DayEndingEvent
 {

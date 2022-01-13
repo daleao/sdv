@@ -2,9 +2,9 @@
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Common.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.AssetEditors;
+namespace DaLion.Stardew.Professions.Framework.AssetEditors;
 
 /// <summary>Edits <c></c>Data/achievements<c></c> with Prestige achievements.</summary>
 public class AchivementsEditor : IAssetEditor

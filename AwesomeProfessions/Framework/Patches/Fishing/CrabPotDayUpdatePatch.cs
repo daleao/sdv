@@ -9,13 +9,13 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.Utility;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Utility;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
+namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class CrabPotDayUpdatePatch : BasePatch

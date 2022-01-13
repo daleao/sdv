@@ -1,4 +1,4 @@
-﻿namespace TheLion.Stardew.Professions.Framework.SuperMode;
+﻿namespace DaLion.Stardew.Professions.Framework.SuperMode;
 
 public enum SuperModeIndex
 {

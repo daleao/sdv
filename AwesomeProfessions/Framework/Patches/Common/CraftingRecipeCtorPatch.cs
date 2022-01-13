@@ -1,10 +1,10 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Common;
+namespace DaLion.Stardew.Professions.Framework.Patches.Common;
 
 [UsedImplicitly]
 internal class CraftingRecipeCtorPatch : BasePatch

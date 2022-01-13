@@ -6,11 +6,11 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Extensions;
 using Object = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Integrations;
+namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
 
 [UsedImplicitly]
 internal class BushMachineGetOutputPatch : BasePatch

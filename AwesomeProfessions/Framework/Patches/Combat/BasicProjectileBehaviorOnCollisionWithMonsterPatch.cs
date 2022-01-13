@@ -8,10 +8,10 @@ using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.SuperMode;
+using DaLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch

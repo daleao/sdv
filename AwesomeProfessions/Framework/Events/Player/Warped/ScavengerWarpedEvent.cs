@@ -1,8 +1,8 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.TreasureHunt;
+using DaLion.Stardew.Professions.Framework.TreasureHunt;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Player;
+namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
 internal class ScavengerWarpedEvent : WarpedEvent
 {

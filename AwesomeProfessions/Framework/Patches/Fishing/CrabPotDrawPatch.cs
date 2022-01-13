@@ -8,9 +8,9 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
-using TheLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Common.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
+namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class CrabPotDrawPatch : BasePatch

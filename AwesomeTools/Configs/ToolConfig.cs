@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Utilities;
 
-namespace TheLion.Stardew.Tools.Configs;
+namespace DaLion.Stardew.Tools.Configs;
 
 /// <summary>The mod user-defined settings.</summary>
 public class ToolConfig

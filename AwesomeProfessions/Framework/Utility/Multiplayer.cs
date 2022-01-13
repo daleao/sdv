@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace TheLion.Stardew.Professions.Framework.Utility;
+namespace DaLion.Stardew.Professions.Framework.Utility;
 
 public static class Multiplayer
 {

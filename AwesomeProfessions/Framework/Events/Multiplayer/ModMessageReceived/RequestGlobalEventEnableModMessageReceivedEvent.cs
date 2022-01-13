@@ -1,9 +1,9 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Multiplayer;
+namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 internal class RequestGlobalEventEnableModMessageReceivedEvent : ModMessageReceivedEvent
 {

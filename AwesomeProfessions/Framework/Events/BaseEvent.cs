@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Utilities;
 
-namespace TheLion.Stardew.Professions.Framework.Events;
+namespace DaLion.Stardew.Professions.Framework.Events;
 
 /// <summary>Base implementation for an event wrapper allowing dynamic enabling/disabling of events.</summary>
 internal abstract class BaseEvent : IEvent

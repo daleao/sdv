@@ -9,12 +9,12 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.Patches.Prestige;
-using TheLion.Stardew.Professions.Framework.Utility;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Patches.Prestige;
+using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Integrations;
+namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
 
 [UsedImplicitly]
 internal class NewSkillsPageDrawPatch : BasePatch

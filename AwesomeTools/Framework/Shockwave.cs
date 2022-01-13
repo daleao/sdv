@@ -5,10 +5,10 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-using TheLion.Stardew.Common.Classes;
-using TheLion.Stardew.Tools.Framework.Extensions;
+using DaLion.Stardew.Common.Classes;
+using DaLion.Stardew.Tools.Framework.Extensions;
 
-namespace TheLion.Stardew.Tools.Framework.Effects;
+namespace DaLion.Stardew.Tools.Framework.Effects;
 
 /// <summary>Spreads a tool's effect across all tiles in a circular area.</summary>
 internal class Shockwave

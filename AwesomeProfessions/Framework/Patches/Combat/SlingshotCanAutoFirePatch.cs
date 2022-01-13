@@ -4,9 +4,9 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Tools;
-using TheLion.Stardew.Professions.Framework.SuperMode;
+using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class SlingshotCanAutoFirePatch : BasePatch

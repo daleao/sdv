@@ -2,7 +2,7 @@ using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
-namespace TheLion.Stardew.Common.Integrations;
+namespace DaLion.Stardew.Common.Integrations;
 
 /// <summary>The API provided by the Generic Mod Config Menu mod.</summary>
 public interface IGenericModConfigMenuApi

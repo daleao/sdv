@@ -8,9 +8,9 @@ using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Common;
+namespace DaLion.Stardew.Professions.Framework.Patches.Common;
 
 [UsedImplicitly]
 internal class LevelUpMenuRevalidateHealthPatch : BasePatch

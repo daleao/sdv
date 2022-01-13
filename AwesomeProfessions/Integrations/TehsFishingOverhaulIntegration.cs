@@ -5,11 +5,11 @@ using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-using TheLion.Stardew.Common.Integrations;
-using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.Utility;
+using DaLion.Stardew.Common.Integrations;
+using DaLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace TheLion.Stardew.Professions.Integrations;
+namespace DaLion.Stardew.Professions.Integrations;
 
 internal class TehsFishingOverhaulIntegration : BaseIntegration
 {

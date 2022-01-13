@@ -7,9 +7,9 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using TheLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
+namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class BobberBarUpdatePatch : BasePatch

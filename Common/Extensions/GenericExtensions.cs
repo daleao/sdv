@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace TheLion.Stardew.Common.Extensions;
+namespace DaLion.Stardew.Common.Extensions;
 
 public static class GeneralExtensions
 {

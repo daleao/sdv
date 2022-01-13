@@ -2,7 +2,7 @@
 using StardewModdingAPI;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Extensions;
+namespace DaLion.Stardew.Professions.Framework.Extensions;
 
 public static class Game1Extensions
 {

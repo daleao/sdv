@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
-using TheLion.Stardew.Professions.Framework.Events.Display;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Events.Display;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
+namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
 
 /// <summary>Manages treasure hunt events for Prospector profession.</summary>
 internal class ProspectorHunt : TreasureHunt

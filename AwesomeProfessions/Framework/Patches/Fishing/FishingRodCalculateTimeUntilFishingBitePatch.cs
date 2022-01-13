@@ -1,9 +1,9 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
+namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class FishingRodCalculateTimeUntilFishingBitePatch : BasePatch

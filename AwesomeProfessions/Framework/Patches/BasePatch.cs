@@ -3,9 +3,9 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using StardewModdingAPI;
-using TheLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Common.Harmony;
 
-namespace TheLion.Stardew.Professions.Framework.Patches;
+namespace DaLion.Stardew.Professions.Framework.Patches;
 
 /// <summary>Base implementation for Harmony patch classes.</summary>
 internal abstract class BasePatch : IPatch

@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Utilities;
 
-namespace TheLion.Stardew.Professions;
+namespace DaLion.Stardew.Professions;
 
 /// <summary>The mod user-defined settings.</summary>
 public class ModConfig

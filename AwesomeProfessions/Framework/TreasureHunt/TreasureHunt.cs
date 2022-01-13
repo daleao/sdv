@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Patches.Foraging;
+using DaLion.Stardew.Professions.Framework.Patches.Foraging;
 
-namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
+namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
 
 /// <summary>Base class for treasure hunts.</summary>
 internal abstract class TreasureHunt

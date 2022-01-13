@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace TheLion.Stardew.Professions.Framework.Utility;
+namespace DaLion.Stardew.Professions.Framework.Utility;
 
 /// <summary>Holds static properties related to non-replacing texture assets.</summary>
 public static class Textures

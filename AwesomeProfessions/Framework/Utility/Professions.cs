@@ -5,15 +5,15 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
-using TheLion.Stardew.Common.Classes;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Extensions;
-using TheLion.Stardew.Professions.Framework.SuperMode;
+using DaLion.Stardew.Common.Classes;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.SuperMode;
 using SObject = StardewValley.Object;
 
 // ReSharper disable PossibleLossOfFraction
 
-namespace TheLion.Stardew.Professions.Framework.Utility;
+namespace DaLion.Stardew.Professions.Framework.Utility;
 
 /// <summary>Holds static properties and methods related to specific professions.</summary>
 public static class Professions

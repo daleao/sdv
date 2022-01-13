@@ -2,7 +2,7 @@
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace TheLion.Stardew.Common.Classes;
+namespace DaLion.Stardew.Common.Classes;
 
 public class CircleTileGrid
 {

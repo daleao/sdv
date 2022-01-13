@@ -3,9 +3,9 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
-using TheLion.Stardew.Professions.Framework.Utility;
+using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Prestige;
+namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 [UsedImplicitly]
 internal class SkillsPageCtorPatch : BasePatch

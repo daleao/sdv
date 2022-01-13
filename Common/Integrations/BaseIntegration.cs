@@ -1,7 +1,7 @@
 using System;
 using StardewModdingAPI;
 
-namespace TheLion.Stardew.Common.Integrations;
+namespace DaLion.Stardew.Common.Integrations;
 
 /// <summary>The base implementation for a mod integration.</summary>
 /// <remarks>Credit to <c>Pathoschild</c>.</remarks>

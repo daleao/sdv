@@ -1,7 +1,7 @@
 ﻿using System;
 using StardewValley;
 
-namespace TheLion.Stardew.Tools.Framework.Extensions;
+namespace DaLion.Stardew.Tools.Framework.Extensions;
 
 public static class FarmerExtensions
 {

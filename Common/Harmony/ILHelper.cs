@@ -7,9 +7,9 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using Netcode;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Common.Extensions;
 
-namespace TheLion.Stardew.Common.Harmony;
+namespace DaLion.Stardew.Common.Harmony;
 
 /// <summary>Provides an interface for abstracting common transpiler operations.</summary>
 public class ILHelper

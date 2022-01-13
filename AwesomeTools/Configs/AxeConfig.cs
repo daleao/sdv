@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using DaLion.Stardew.Tools.Framework;
 
-namespace TheLion.Stardew.Tools.Configs;
+namespace DaLion.Stardew.Tools.Configs;
 
 /// <summary>Configuration for the axe shockwave.</summary>
 public class AxeConfig
@@ -9,7 +10,7 @@ public class AxeConfig
     public bool EnableAxeCharging { get; set; } = true;
 
     /// <summary>Axe must be at least this level to charge.</summary>
-    public int RequiredUpgradeForCharging { get; set; } = 1;
+    public UpgradeLevel RequiredUpgradeForCharging { get; set; } = UpgradeLevel.Copper;
 
     /// <summary>The radius of affected tiles at each upgrade level.</summary>
     public List<int> RadiusAtEachPowerLevel { get; set; } = new() {1, 2, 3, 4};

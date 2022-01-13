@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Input;
+namespace DaLion.Stardew.Professions.Framework.Events.Input;
 
 [UsedImplicitly]
 internal class DebugCursorMovedEvent : CursorMovedEvent

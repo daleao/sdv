@@ -6,11 +6,11 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Tools;
-using TheLion.Stardew.Tools.Configs;
-using TheLion.Stardew.Tools.Framework.Effects;
-using TheLion.Stardew.Tools.Framework.Events;
+using DaLion.Stardew.Tools.Configs;
+using DaLion.Stardew.Tools.Framework.Effects;
+using DaLion.Stardew.Tools.Framework.Events;
 
-namespace TheLion.Stardew.Tools;
+namespace DaLion.Stardew.Tools;
 
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod

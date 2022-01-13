@@ -4,11 +4,11 @@ using Netcode;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class ProjectileBehaviorOnCollisionPatch : BasePatch

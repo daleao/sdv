@@ -7,10 +7,10 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.SuperMode;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Combat;
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 [UsedImplicitly]
 internal class FarmerTakeDamagePatch : BasePatch

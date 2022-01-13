@@ -1,8 +1,8 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Patches.Foraging;
+using DaLion.Stardew.Professions.Framework.Patches.Foraging;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
+namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class PiperUpdateTickedEvent : UpdateTickedEvent
 {

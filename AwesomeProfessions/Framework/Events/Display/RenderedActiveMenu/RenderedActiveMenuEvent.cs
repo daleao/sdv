@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Display;
+namespace DaLion.Stardew.Professions.Framework.Events.Display;
 
 internal abstract class RenderedActiveMenuEvent : BaseEvent
 {

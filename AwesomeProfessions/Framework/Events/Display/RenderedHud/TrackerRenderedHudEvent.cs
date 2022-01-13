@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Display;
+namespace DaLion.Stardew.Professions.Framework.Events.Display;
 
 internal class TrackerRenderedHudEvent : RenderedHudEvent
 {

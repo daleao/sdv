@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Patches;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Patches;
 
-namespace TheLion.Stardew.Professions.Framework;
+namespace DaLion.Stardew.Professions.Framework;
 
 /// <summary>Unified entry point for applying Harmony patches.</summary>
 internal class HarmonyPatcher

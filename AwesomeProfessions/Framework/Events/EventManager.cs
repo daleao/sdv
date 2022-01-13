@@ -6,17 +6,17 @@ using HarmonyLib;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Common.Harmony;
-using TheLion.Stardew.Professions.Framework.Events;
-using TheLion.Stardew.Professions.Framework.Events.Display;
-using TheLion.Stardew.Professions.Framework.Events.GameLoop;
-using TheLion.Stardew.Professions.Framework.Events.Input;
-using TheLion.Stardew.Professions.Framework.Events.Multiplayer;
-using TheLion.Stardew.Professions.Framework.Events.Player;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Events;
+using DaLion.Stardew.Professions.Framework.Events.Display;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Events.Input;
+using DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+using DaLion.Stardew.Professions.Framework.Events.Player;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework;
+namespace DaLion.Stardew.Professions.Framework;
 
 /// <summary>Manages dynamic subscribing and unsubscribing of events for modded professions.</summary>
 internal class EventManager

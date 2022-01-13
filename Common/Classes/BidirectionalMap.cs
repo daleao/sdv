@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace TheLion.Stardew.Common.Classes;
+namespace DaLion.Stardew.Common.Classes;
 
 /// <summary>Represents a collection of forward/reverse key pairs with bidirectional mapping.</summary>
 /// <typeparam name="TForwardKey">Forward mapping key.</typeparam>

@@ -5,7 +5,7 @@ using StardewValley;
 using StardewValley.Menus;
 using SUtility = StardewValley.Utility;
 
-namespace TheLion.Stardew.Professions.Framework.TreasureHunt;
+namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
 
 /// <summary>HUD message for treasure hunts.</summary>
 internal class HuntNotification : HUDMessage

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Display;
+namespace DaLion.Stardew.Professions.Framework.Events.Display;
 
 internal class ProspectorHuntRenderedHudEvent : RenderedHudEvent
 {

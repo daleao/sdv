@@ -3,10 +3,10 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Events.Display;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Events.Display;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Input;
+namespace DaLion.Stardew.Professions.Framework.Events.Input;
 
 [UsedImplicitly]
 internal class DebugButtonsChangedEvent : ButtonsChangedEvent

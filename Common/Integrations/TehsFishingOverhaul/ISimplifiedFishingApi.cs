@@ -1,7 +1,7 @@
 ﻿using System;
 using StardewValley;
 
-namespace TheLion.Stardew.Common.Integrations;
+namespace DaLion.Stardew.Common.Integrations;
 
 public interface ISimplifiedFishingApi
 {

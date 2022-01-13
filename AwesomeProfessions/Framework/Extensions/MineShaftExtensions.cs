@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Locations;
-using TheLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Common.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Extensions;
+namespace DaLion.Stardew.Professions.Framework.Extensions;
 
 public static class MineShaftExtensions
 {

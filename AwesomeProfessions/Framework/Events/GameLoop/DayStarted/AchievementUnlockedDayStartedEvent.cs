@@ -1,9 +1,9 @@
 ﻿using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.AssetEditors;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.AssetEditors;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
+namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
 {

@@ -2,7 +2,7 @@
 using HarmonyLib;
 using JetBrains.Annotations;
 
-namespace TheLion.Stardew.Common.Harmony;
+namespace DaLion.Stardew.Common.Harmony;
 
 public static class MethodInfoExtensions
 {

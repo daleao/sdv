@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Prestige;
+namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 [UsedImplicitly]
 internal class FarmerCheckForLevelGainPatch : BasePatch

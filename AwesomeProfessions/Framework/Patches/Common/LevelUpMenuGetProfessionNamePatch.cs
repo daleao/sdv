@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Menus;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Common;
+namespace DaLion.Stardew.Professions.Framework.Patches.Common;
 
 [UsedImplicitly]
 internal class LevelUpMenuGetProfessionNamePatch : BasePatch

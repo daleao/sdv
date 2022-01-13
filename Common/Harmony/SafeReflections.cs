@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 
-namespace TheLion.Stardew.Common.Harmony;
+namespace DaLion.Stardew.Common.Harmony;
 
 /// <remarks>Credit to <c>Pardeike</c>.</remarks>
 public static class SafeReflections

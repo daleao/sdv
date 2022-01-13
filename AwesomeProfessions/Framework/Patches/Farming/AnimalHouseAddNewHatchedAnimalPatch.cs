@@ -3,9 +3,9 @@ using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Farming;
+namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
 
 [UsedImplicitly]
 internal class AnimalHouseAddNewHatchedAnimalPatch : BasePatch

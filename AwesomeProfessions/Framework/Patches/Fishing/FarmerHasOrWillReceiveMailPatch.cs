@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
+namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class FarmerHasOrWillReceiveMailPatch : BasePatch

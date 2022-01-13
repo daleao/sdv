@@ -3,7 +3,7 @@ using StardewValley;
 using StardewValley.TerrainFeatures;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Tools.Framework.Effects;
+namespace DaLion.Stardew.Tools.Framework.Effects;
 
 /// <summary>Interface for applying a tool's effects.</summary>
 internal interface IEffect

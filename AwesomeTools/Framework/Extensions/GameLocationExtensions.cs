@@ -7,7 +7,7 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 
-namespace TheLion.Stardew.Tools.Framework.Extensions;
+namespace DaLion.Stardew.Tools.Framework.Extensions;
 
 public static class GameLocationExtensions
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace TheLion.Stardew.Common.Extensions;
+namespace DaLion.Stardew.Common.Extensions;
 
 public static class Vector2Extensions
 {

@@ -7,9 +7,9 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Tools;
-using TheLion.Stardew.Common.Classes;
+using DaLion.Stardew.Common.Classes;
 
-namespace TheLion.Stardew.Tools.Framework;
+namespace DaLion.Stardew.Tools.Framework;
 
 /// <summary>Patches the game code to implement modded tool behavior.</summary>
 [UsedImplicitly]
@@ -57,7 +57,7 @@ internal static class HarmonyPatcher
         {
             if (!ModEntry.Config.AxeConfig.EnableAxeCharging ||
                 ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown() ||
-                __instance.UpgradeLevel < ModEntry.Config.AxeConfig.RequiredUpgradeForCharging)
+                __instance.UpgradeLevel < (int)ModEntry.Config.AxeConfig.RequiredUpgradeForCharging)
                 return true; // run original logic
 
             who.Halt();
@@ -98,7 +98,7 @@ internal static class HarmonyPatcher
         {
             if (!ModEntry.Config.PickaxeConfig.EnablePickaxeCharging ||
                 ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown() ||
-                __instance.UpgradeLevel < ModEntry.Config.PickaxeConfig.RequiredUpgradeForCharging)
+                __instance.UpgradeLevel < (int)ModEntry.Config.PickaxeConfig.RequiredUpgradeForCharging)
                 return true; // run original logic
 
             who.Halt();

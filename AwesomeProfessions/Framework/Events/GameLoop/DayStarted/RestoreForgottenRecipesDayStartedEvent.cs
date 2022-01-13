@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using StardewModdingAPI.Events;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Common.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
+namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
 {

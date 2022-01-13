@@ -1,8 +1,8 @@
 ﻿using StardewModdingAPI.Events;
-using TheLion.Stardew.Professions.Framework.Events.Display;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Events.Display;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions.Framework.Events.Player;
+namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
 internal class SuperModeWarpedEvent : WarpedEvent
 {

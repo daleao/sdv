@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using StardewModdingAPI;
 using StardewValley.Monsters;
-using TheLion.Stardew.Professions.Framework.SuperMode;
-using TheLion.Stardew.Professions.Framework.TreasureHunt;
+using DaLion.Stardew.Professions.Framework.SuperMode;
+using DaLion.Stardew.Professions.Framework.TreasureHunt;
 
-namespace TheLion.Stardew.Professions;
+namespace DaLion.Stardew.Professions;
 
 internal class ModState
 {

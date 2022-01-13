@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using StardewValley;
 
-namespace TheLion.Stardew.Common.Extensions;
+namespace DaLion.Stardew.Common.Extensions;
 
 /// <summary>Provides extension methods for reading and writing values in <see cref="ModDataDictionary" /> fields.</summary>
 public static class ModDataDictionaryExtensions

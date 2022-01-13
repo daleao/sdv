@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using HarmonyLib;
 
-namespace TheLion.Stardew.Common.Extensions;
+namespace DaLion.Stardew.Common.Extensions;
 
 public static class CodeInstructionListExtensions
 {

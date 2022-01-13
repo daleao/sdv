@@ -1,6 +1,6 @@
 ﻿using StardewModdingAPI.Events;
 
-namespace TheLion.Stardew.Professions.Framework.Events.GameLoop;
+namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 internal class ProspectorHuntUpdateTickedEvent : UpdateTickedEvent
 {

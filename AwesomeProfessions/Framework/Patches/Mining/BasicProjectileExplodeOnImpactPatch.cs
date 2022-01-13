@@ -5,11 +5,11 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Projectiles;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
 // ReSharper disable PossibleLossOfFraction
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Mining;
+namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
 
 [UsedImplicitly]
 internal class BasicProjectileExplodeOnImpact : BasePatch

@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using StardewModdingAPI;
 using StardewValley;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace TheLion.Stardew.Professions;
+namespace DaLion.Stardew.Professions;
 
 /// <summary>Wrapper to facilitate reading from and writing to the main player's <see cref="ModDataDictionary" />.</summary>
 public static class ModData

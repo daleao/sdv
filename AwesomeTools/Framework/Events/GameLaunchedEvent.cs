@@ -1,7 +1,7 @@
 ﻿using StardewModdingAPI.Events;
-using TheLion.Stardew.Tools.Integrations;
+using DaLion.Stardew.Tools.Integrations;
 
-namespace TheLion.Stardew.Tools.Framework.Events;
+namespace DaLion.Stardew.Tools.Framework.Events;
 
 internal class GameLaunchedEvent : IEvent
 {

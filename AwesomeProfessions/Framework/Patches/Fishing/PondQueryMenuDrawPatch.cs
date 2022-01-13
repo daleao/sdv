@@ -11,14 +11,14 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
-using TheLion.Stardew.Common.Extensions;
-using TheLion.Stardew.Professions.Framework.Extensions;
+using DaLion.Stardew.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Extensions;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
 // ReSharper disable PossibleLossOfFraction
 
-namespace TheLion.Stardew.Professions.Framework.Patches.Fishing;
+namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 [UsedImplicitly]
 internal class PondQueryMenuDrawPatch : BasePatch

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace TheLion.Stardew.Professions.Framework.Sounds;
+namespace DaLion.Stardew.Professions.Framework.Sounds;
 
 /// <summary>Gathers and allows playing custom mod sound assets.</summary>
 internal class SoundBox

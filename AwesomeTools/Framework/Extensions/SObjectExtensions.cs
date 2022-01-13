@@ -1,7 +1,7 @@
 ﻿using StardewValley.Objects;
 using SObject = StardewValley.Object;
 
-namespace TheLion.Stardew.Tools.Framework.Extensions;
+namespace DaLion.Stardew.Tools.Framework.Extensions;
 
 public static class SObjectExtensions
 {
