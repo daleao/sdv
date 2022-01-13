@@ -17,7 +17,7 @@ internal class Shockwave
 
     private readonly IEffect _effect;
     private readonly Tool _tool;
-    private readonly Vector2 _origin;
+    private readonly Vector2 _epicenter;
     private readonly GameLocation _location;
     private readonly Farmer _farmer;
     private readonly List<CircleTileGrid> _tileGrids = new();
@@ -42,18 +42,18 @@ internal class Shockwave
             Pickaxe => new PickaxeEffect(ModEntry.Config.PickaxeConfig)
         };
 
-        _origin = new((int) (_farmer.GetToolLocation().X / Game1.tileSize),
+        _epicenter = new((int) (_farmer.GetToolLocation().X / Game1.tileSize),
             (int) (_farmer.GetToolLocation().Y / Game1.tileSize));
         _finalRadius = radius;
 
         if (ModEntry.Config.TicksBetweenWaves <= 0)
         {
-            _tileGrids.Add(new(_origin, _finalRadius));
+            _tileGrids.Add(new(_epicenter, _finalRadius));
             _currentRadius = _finalRadius;
         }
         else
         {
-            for (var i = 0; i < _finalRadius; ++i) _tileGrids.Add(new(_origin, i + 1));
+            for (var i = 0; i < _finalRadius; ++i) _tileGrids.Add(new(_epicenter, i + 1));
         }
 
         _millisecondsWhenReleased = milliseconds;
@@ -76,12 +76,12 @@ internal class Shockwave
             affectedTiles = _tileGrids[0].Tiles;
         }
         
-        foreach (var tile in affectedTiles.Except(new[] {_origin, _farmer.getTileLocation()}))
+        foreach (var tile in affectedTiles.Except(new[] {_epicenter, _farmer.getTileLocation()}))
         {
             _farmer.TemporarilyFakeInteraction(() =>
             {
                 // face tile to avoid game skipping interaction
-                GetRadialAdjacentTile(_origin, tile, out var adjacentTile, out var facingDirection);
+                GetRadialAdjacentTile(_epicenter, tile, out var adjacentTile, out var facingDirection);
                 _farmer.Position = adjacentTile * Game1.tileSize;
                 _farmer.FacingDirection = facingDirection;
 
@@ -116,13 +116,13 @@ internal class Shockwave
     ///     Get the tile coordinate which is adjacent to the given <paramref name="tile" /> along a radial line from the
     ///     player.
     /// </summary>
-    /// <param name="origin">The tile containing the player.</param>
+    /// <param name="epicenter">The tile containing the player.</param>
     /// <param name="tile">The tile to face.</param>
     /// <param name="adjacent">The tile radially adjacent to the <paramref name="tile" />.</param>
     /// <param name="facingDirection">The direction to face.</param>
-    private static void GetRadialAdjacentTile(Vector2 origin, Vector2 tile, out Vector2 adjacent, out int facingDirection)
+    private static void GetRadialAdjacentTile(Vector2 epicenter, Vector2 tile, out Vector2 adjacent, out int facingDirection)
     {
-        facingDirection = Utility.getDirectionFromChange(tile, origin);
+        facingDirection = Utility.getDirectionFromChange(tile, epicenter);
         adjacent = facingDirection switch
         {
             Game1.up => new(tile.X, tile.Y + 1),
