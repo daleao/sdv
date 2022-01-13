@@ -50,9 +50,7 @@ public class ModEntry : Mod
         harmony.PatchAll(Assembly.GetExecutingAssembly());
 
         // add debug commands
-        Helper.ConsoleCommands.Add("player_settoolsupgrade",
-            "Set the upgrade level of all upgradeable tools in the player's inventory." + GetCommandUsage(),
-            SetToolsUpgrade);
+        ConsoleCommands.Register(helper);
     }
 
     #region private methods
@@ -164,69 +162,9 @@ public class ModEntry : Mod
         Helper.WriteConfig(Config);
     }
 
-    /// <summary>Set the upgrade level of all upgradeable tools in the player's inventory.</summary>
-    /// <param name="command">The console command.</param>
-    /// <param name="args">The supplied arguments.</param>
-    private void SetToolsUpgrade(string command, string[] args)
-    {
-        if (args.Length < 1)
-        {
-            Log("Missing argument." + GetCommandUsage(), LogLevel.Info);
-            return;
-        }
-
-        var upgradeLevel = args[0] switch
-        {
-            "copper" => 1,
-            "steel" => 2,
-            "gold" => 3,
-            "iridium" => 4,
-            "prismatic" => 5,
-            "radioactive" => 5,
-            _ => -1
-        };
-
-        if (upgradeLevel < 0)
-        {
-            if (int.TryParse(args[0], out var i) && i <= 5)
-            {
-                upgradeLevel = i;
-            }
-            else
-            {
-                Log("Invalid argument." + GetSetToolsUsage(), LogLevel.Info);
-                return;
-            }
-        }
-
-        if (upgradeLevel == 5 && !HasToolMod)
-        {
-            Log("You must have either 'Prismatic Tools' or 'Radioactive Tools' installed to set this upgrade level.",
-                LogLevel.Warn);
-            return;
-        }
-
-        foreach (var item in Game1.player.Items)
-            if (item is Axe or Hoe or Pickaxe or WateringCan)
-                (item as Tool).UpgradeLevel = upgradeLevel;
-    }
-
-    /// <summary>Tell the dummies how to use the console command.</summary>
-    private string GetSetToolsUsage()
-    {
-        var result = "\n\nUsage: player_upgradetools <level>";
-        result += "\n\nParameters:";
-        result += "\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'";
-        if (Helper.ModRegistry.IsLoaded("stokastic.PrismaticTools"))
-            result += ", 'prismatic'";
-        else if (Helper.ModRegistry.IsLoaded("kakashigr.RadioactiveTools")) result += ", 'radioactive'";
-
-        return result;
-    }
-
     /// <summary>Check if either Prismatic or Radioactive Tools mod is installed.</summary>
     /// <returns>Returns the name of the installed mod, or 'None' if neither is installed.</returns>
-    public static string CheckForPrismaticOrRadioactiveTools()
+    private static string CheckForPrismaticOrRadioactiveTools()
     {
         return ModHelper.ModRegistry.IsLoaded("stokastic.PrismaticTools")
             ? "Prismatic"

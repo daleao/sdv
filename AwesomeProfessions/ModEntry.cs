@@ -49,7 +49,7 @@ public class ModEntry : Mod
         SoundBox = new(helper.DirectoryPath); // sound assets
 
         // add debug commands
-        ConsoleCommands.Register();
+        ConsoleCommands.Register(helper);
 
         if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
         {

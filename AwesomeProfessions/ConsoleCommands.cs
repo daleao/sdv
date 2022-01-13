@@ -16,48 +16,48 @@ namespace DaLion.Stardew.Professions;
 
 internal static class ConsoleCommands
 {
-    internal static void Register()
+    internal static void Register(IModHelper helper)
     {
-        ModEntry.ModHelper.ConsoleCommands.Add("player_skills", "List the player's current skill levels.",
+        helper.ConsoleCommands.Add("player_skills", "List the player's current skill levels.",
             PrintLocalPlayerSkillLevels);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_resetskills", "Reset all player's skills.",
+        helper.ConsoleCommands.Add("player_resetskills", "Reset all player's skills.",
             ResetLocalPlayerSkills);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_professions", "List the player's current professions.",
+        helper.ConsoleCommands.Add("player_professions", "List the player's current professions.",
             PrintLocalPlayerProfessions);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_addprofessions",
+        helper.ConsoleCommands.Add("player_addprofessions",
             "Add the specified professions to the local player, without affecting skill levels." +
             GetUsageForAddProfessions(),
             AddProfessionsToLocalPlayer);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_resetprofessions",
+        helper.ConsoleCommands.Add("player_resetprofessions",
             "Reset all skills and professions for the local player.",
             ResetLocalPlayerProfessions);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_setultvalue",
+        helper.ConsoleCommands.Add("player_setultvalue",
             "Set the Super Mode meter to the desired value.",
             SetSuperModeGaugeValue);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_readyult", "Max-out the Super Mode meter.",
+        helper.ConsoleCommands.Add("player_readyult", "Max-out the Super Mode meter.",
             MaxSuperModeGaugeValue);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_chooseult",
+        helper.ConsoleCommands.Add("player_chooseult",
             "Change the currently registered Super Mode profession.",
             SetSuperModeIndex);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_whichult",
+        helper.ConsoleCommands.Add("player_whichult",
             "Check the currently registered Super Mode profession.",
             PrintSuperModeIndex);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_maxanimalfriendship",
+        helper.ConsoleCommands.Add("player_maxanimalfriendship",
             "Max-out the friendship of all owned animals.",
             MaxAnimalFriendship);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_maxanimalmood", "Max-out the mood of all owned animals.",
+        helper.ConsoleCommands.Add("player_maxanimalmood", "Max-out the mood of all owned animals.",
             MaxAnimalMood);
-        ModEntry.ModHelper.ConsoleCommands.Add("player_fishingprogress",
+        helper.ConsoleCommands.Add("player_fishingprogress",
             "Check your fishing progress as Angler.",
             PrintFishingAudit);
-        ModEntry.ModHelper.ConsoleCommands.Add("wol_data",
+        helper.ConsoleCommands.Add("wol_data",
             "Check the current value of all mod data fields." + GetUsageForSetModData(),
             PrintModData);
-        ModEntry.ModHelper.ConsoleCommands.Add("wol_setdata", "Set a new value for a mod data field.",
+        helper.ConsoleCommands.Add("wol_setdata", "Set a new value for a mod data field.",
             SetModData);
-        ModEntry.ModHelper.ConsoleCommands.Add("wol_events", "List currently subscribed mod events.",
+        helper.ConsoleCommands.Add("wol_events", "List currently subscribed mod events.",
             PrintSubscribedEvents);
-        ModEntry.ModHelper.ConsoleCommands.Add("wol_resetthehunt",
+        helper.ConsoleCommands.Add("wol_resetthehunt",
             "Forcefully reset the current Treasure Hunt with a new target treasure tile.",
             RerollTreasureTile);
     }
