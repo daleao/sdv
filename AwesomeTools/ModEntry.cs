@@ -66,13 +66,13 @@ public class ModEntry : Mod
                 LogLevel.Warn);
             Config.AxeConfig.RadiusAtEachPowerLevel = new() {1, 2, 3, 4};
         }
-        else if (Config.AxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
+        else if (Config.AxeConfig.RadiusAtEachPowerLevel.Any(i => i <= 0))
         {
             Log(
-                "Illegal negative value for shockwave radius in AxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with zero.",
+                "Illegal negative value for shockwave radius in AxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with ones.",
                 LogLevel.Warn);
             Config.AxeConfig.RadiusAtEachPowerLevel =
-                Config.AxeConfig.RadiusAtEachPowerLevel.Select(x => x < 0 ? 0 : x).ToList();
+                Config.AxeConfig.RadiusAtEachPowerLevel.Select(i => i <= 0 ? 1 : i).ToList();
         }
 
         if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count < 4)
@@ -81,13 +81,13 @@ public class ModEntry : Mod
                 LogLevel.Warn);
             Config.PickaxeConfig.RadiusAtEachPowerLevel = new() {1, 2, 3, 4};
         }
-        else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
+        else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Any(i => i <= 0))
         {
             Log(
                 "Illegal negative value for shockwave radius in PickaxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with zero.",
                 LogLevel.Warn);
             Config.PickaxeConfig.RadiusAtEachPowerLevel =
-                Config.PickaxeConfig.RadiusAtEachPowerLevel.Select(x => x < 0 ? 0 : x).ToList();
+                Config.PickaxeConfig.RadiusAtEachPowerLevel.Select(i => i <= 0 ? 1 : i).ToList();
         }
 
         if (Config.RequireModkey && !Config.Modkey.IsBound)
@@ -194,7 +194,7 @@ public class ModEntry : Mod
             }
             else
             {
-                Log("Invalid argument." + GetCommandUsage(), LogLevel.Info);
+                Log("Invalid argument." + GetSetToolsUsage(), LogLevel.Info);
                 return;
             }
         }
@@ -212,7 +212,7 @@ public class ModEntry : Mod
     }
 
     /// <summary>Tell the dummies how to use the console command.</summary>
-    private string GetCommandUsage()
+    private string GetSetToolsUsage()
     {
         var result = "\n\nUsage: player_upgradetools <level>";
         result += "\n\nParameters:";

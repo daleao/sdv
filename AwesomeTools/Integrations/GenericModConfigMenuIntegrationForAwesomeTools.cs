@@ -2,6 +2,8 @@ using System;
 using StardewModdingAPI;
 using DaLion.Stardew.Common.Integrations;
 using DaLion.Stardew.Tools.Configs;
+using DaLion.Stardew.Tools.Framework;
+using HarmonyLib;
 
 namespace DaLion.Stardew.Tools.Integrations;
 
@@ -31,6 +33,9 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
     /// <summary>Register the config menu if available.</summary>
     public void Register()
     {
+        var allowedUpgrades = new[] {"Copper", "Steel", "Gold", "Iridium"};
+        if (ModEntry.HasToolMod) allowedUpgrades.AddToArray("Radioactive_Prismatic");
+
         // get config menu
         if (!_configMenu.IsLoaded)
             return;
@@ -93,13 +98,13 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 config => config.AxeConfig.EnableAxeCharging,
                 (config, value) => config.AxeConfig.EnableAxeCharging = value
             )
-            .AddNumberField(
-                () => "Required Upgrade For Charging",
+            .AddDropdown(
+                () => "Min. Upgrade For Charging",
                 () => "Your Axe must be at least this level in order to charge.",
-                config => config.AxeConfig.RequiredUpgradeForCharging,
-                (config, value) => config.AxeConfig.RequiredUpgradeForCharging = value,
-                1,
-                ModEntry.HasToolMod ? 5 : 4
+                config => config.AxeConfig.RequiredUpgradeForCharging.ToString(),
+                (config, value) => config.AxeConfig.RequiredUpgradeForCharging = Enum.Parse<UpgradeLevel>(value),
+                allowedUpgrades,
+                value => value == "Prismatic_Radioactive" ? ModEntry.ToolMod : value
             )
             .AddNumberField(
                 () => "Copper Radius",
@@ -233,13 +238,13 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 config => config.PickaxeConfig.EnablePickaxeCharging,
                 (config, value) => config.PickaxeConfig.EnablePickaxeCharging = value
             )
-            .AddNumberField(
-                () => "Required Upgrade For Charging",
+            .AddDropdown(
+                () => "Min. Upgrade For Charging",
                 () => "Your Pickaxe must be at least this level in order to charge.",
-                config => config.PickaxeConfig.RequiredUpgradeForCharging,
-                (config, value) => config.PickaxeConfig.RequiredUpgradeForCharging = value,
-                1,
-                ModEntry.HasToolMod ? 5 : 4
+                config => config.PickaxeConfig.RequiredUpgradeForCharging.ToString(),
+                (config, value) => config.PickaxeConfig.RequiredUpgradeForCharging = Enum.Parse<UpgradeLevel>(value),
+                allowedUpgrades,
+                value => value == "Prismatic_Radioactive" ? ModEntry.ToolMod : value
             )
             .AddNumberField(
                 () => "Copper Radius",
