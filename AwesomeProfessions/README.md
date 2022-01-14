@@ -181,11 +181,12 @@ The following mods are fully integrated:
 - [Producer Framework Mod](https://www.nexusmods.com/stardewvalley/mods/4970) and [PFMAutomate](https://www.nexusmods.com/stardewvalley/mods/5038) (same rules apply as above).
 - [Animal Husbandry Mod](https://www.nexusmods.com/stardewvalley/mods/1538) (with benefits for Breeder and Producer professions).
 - PPJA Packs: [Artisan Valley﻿](https://www.nexusmods.com/stardewvalley/mods/1926), [Artisanal Soda Makers](https://www.nexusmods.com/stardewvalley/mods/5173)﻿, [Fizzy Drinks](https://www.nexusmods.com/stardewvalley/mods/5342)﻿, [Fresh Meat﻿](https://www.nexusmods.com/stardewvalley/mods/1721), [Shaved Ice & Frozen Treats](https://www.nexusmods.com/stardewvalley/mods/5388) will all work with Artisan profession.﻿.
-- [CJB Cheats Menu] (https://www.nexusmods.com/stardewvalley/mods/4) (download the optional translation files to change profession names under skill cheats).
-- [Teh's Fishing Overhaul](https://www.nexusmods.com/stardewvalley/mods/866/)
-- [Mushroom Propagator](https://www.nexusmods.com/stardewvalley/mods/4637)
+- [Better Artisan Good Icons](https://www.nexusmods.com/stardewvalley/mods/2080)﻿ (some flower meads have unique icons).
+- [CJB Cheats Menu](https://www.nexusmods.com/stardewvalley/mods/4) (download the optional translation files to change profession names under skill cheats).
+- [Teh's Fishing Overhaul](https://www.nexusmods.com/stardewvalley/mods/866/) (the optional Recatchable Legendaries file is also compatible).
+- [Mushroom Propagator](https://www.nexusmods.com/stardewvalley/mods/4637) (applies Ecologist perks).
+- [Vintage Interface](https://www.nexusmods.com/stardewvalley/mods/6654) (enable via configs).﻿
 - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098)
-- [Vintage Interface](https://www.nexusmods.com/stardewvalley/mods/6654)
 
 The following mods are compatible without integration:
 - [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069)
@@ -291,6 +292,8 @@ The mod provides the following console commands, which you can enter in the SMAP
 - [PiknikKey](https://forums.nexusmods.com/index.php?/user/97782533-piknikkey/) for Chinese translation.
 - [lacerta143](https://www.nexusmods.com/stardewvalley/users/38094530) for Korean translation.
 - [TehPers](https://www.nexusmods.com/stardewvalley/users/3994776) for TFO integration.
+- [Goldenrevolver](https://www.nexusmods.com/stardewvalley/users/5347339) for ForageFantasy integration and troubleshooting support.﻿
+- [SilentOak](https://www.nexusmods.com/stardewvalley/users/66352491) for BAGI mead integration.
 - [Pathoschild](https://www.nexusmods.com/stardewvalley/users/1552317) for SMAPI support.
 - **ConcernedApe** for Stardew Valley.
 - [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.
