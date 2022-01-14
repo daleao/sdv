@@ -6,8 +6,6 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using SObject = StardewValley.Object;
-
 #endregion using directives
 
 /// <summary>Loads custom mod sprites.</summary>
@@ -61,13 +59,15 @@ internal static class Textures
     {
         sourceRectangle = preserveIndex switch
         {
-            597 => new(16, 0, 16, 16), // blue jazz
-            595 => new(64, 0, 16, 16), // fairy rose
             376 => new(48, 0, 16, 16), // poppy
-            593 => new(32, 0, 16, 16), // summer spangle
-            591 => new(0, 0, 16, 16), // tulip
+            402 => new(0, 16, 16, 16), // sweet pea
+            418 => new(16, 16, 16, 16), // crocus
             421 => new(32, 0, 16, 16), // sunflower
-            _ => default
+            591 => new(0, 0, 16, 16), // tulip
+            593 => new(32, 0, 16, 16), // summer spangle
+            595 => new(64, 0, 16, 16), // fairy rose
+            597 => new(16, 0, 16, 16), // blue jazz
+            _ => new(32, 16, 16, 16)
         };
 
         return sourceRectangle != default;
