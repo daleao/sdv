@@ -98,13 +98,13 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 (config, value) => config.Modkey = value
             )
             .AddCheckbox(
-                () => "Hold-to-activate",
+                () => "Hold-To-Activate",
                 () => "If enabled, Super Mode will activate by holding the above key.",
                 config => config.HoldKeyToActivateSuperMode,
                 (config, value) => config.HoldKeyToActivateSuperMode = value
             )
             .AddNumberField(
-                () => "Activation delay",
+                () => "Activation Delay",
                 () => "How long the key should be held before activating Super Mode, in seconds.",
                 config => config.SuperModeActivationDelay,
                 (config, value) => config.SuperModeActivationDelay = value,
@@ -113,13 +113,22 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0.2f
             )
             .AddNumberField(
-                () => "Drain factor",
-                () => "Lower numbers make Super Mode last longer.",
+                () => "Gain Factor",
+                () => "Affects the rate at which one builds the Super Mode gauge. Increase this if you feel the gauge raises too slowly.",
+                config => config.SuperModeGainFactor,
+                (config, value) => config.SuperModeGainFactor = value,
+                1f,
+                10f,
+                0.5f
+            )
+            .AddNumberField(
+                () => "Drain Factor",
+                () => "Affects the rate at which the Super Mode gauge depletes during Super Mode. Lower numbers make Super Mode last longer.",
                 config => (float) config.SuperModeDrainFactor,
                 (config, value) => config.SuperModeDrainFactor = value,
                 1f,
                 10f,
-                0f
+                0.5f
             )
 
             // prestige

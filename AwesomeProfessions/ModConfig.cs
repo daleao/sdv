@@ -63,12 +63,13 @@ public class ModConfig
     /// <summary>How long <see cref="SuperModeKey" /> should be held to activate Super Mode, in seconds.</summary>
     public float SuperModeActivationDelay { get; set; } = 1f;
 
+    /// <summary>Affects the rate at which one builds the Super Mode gauge. Increase this if you feel the gauge raises too slowly.</summary>
     public float SuperModeGainFactor { get; set; } = 1f;
 
-    /// <summary>Lower numbers make Super Mode last longer. Should be a number between 1 and 10.</summary>
-    public double SuperModeDrainFactor { get; set; } = 3;
+    /// <summary>Affects the rate at which the Super Mode gauge depletes during Super Mode. Increase this to make Super Mode last longer..</summary>
+    public double SuperModeDrainFactor { get; set; } = 3.0;
 
-    /// <summary>Whether to apply prestige changes.</summary>
+    /// <summary>Required to apply prestige changes.</summary>
     public bool EnablePrestige { get; set; } = true;
 
     /// <summary>Multiplies the base skill reset cost. Set to 0 to reset for free.</summary>
