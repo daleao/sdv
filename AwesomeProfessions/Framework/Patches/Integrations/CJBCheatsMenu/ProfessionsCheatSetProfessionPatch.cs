@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -6,9 +10,12 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class ProfessionsCheatSetProfessionPatch : BasePatch
@@ -44,7 +51,7 @@ internal class ProfessionsCheatSetProfessionPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
                 )
-                .SetOperand(Utility.Professions.IndexOf("Brute"));
+                .SetOperand(Professions.IndexOf("Brute"));
         }
         catch (Exception ex)
         {

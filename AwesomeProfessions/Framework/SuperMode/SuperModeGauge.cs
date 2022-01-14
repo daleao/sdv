@@ -1,15 +1,20 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.SuperMode;
+
+#region using directives
+
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Events.Display;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Events.Input;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.Patches.Foraging;
-using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.SuperMode;
+using AssetLoaders;
+using Events.Display;
+using Events.GameLoop;
+using Events.Input;
+using Extensions;
+using Patches.Foraging;
+
+#endregion using directives
 
 /// <summary>HUD component to show the player their current Super Stat value.</summary>
 internal class SuperModeGauge
@@ -27,6 +32,8 @@ internal class SuperModeGauge
         _fadeOutTimer = FADE_OUT_DELAY_I + FADE_OUT_DURATION_I;
     private float _opacity = 1f;
     private bool _shake;
+
+    #region properties
 
     /// <summary>The texture that will be used to draw the gauge.</summary>
     public static Texture2D Texture { get; } = Textures.SuperModeGaugeTx;
@@ -62,6 +69,10 @@ internal class SuperModeGauge
         Game1.player.CombatLevel >= 10
             ? Game1.player.CombatLevel * 50
             : 500;
+
+    #endregion properties
+
+    #region public methods
 
     /// <summary>Draw the gauge and all it's components to the HUD.</summary>
     /// <param name="b">A <see cref="SpriteBatch" /> to draw to.</param>
@@ -220,7 +231,9 @@ internal class SuperModeGauge
         _opacity = 1f;
     }
 
-    #region event handlers
+    #endregion public methods
+
+    #region private methods
 
     /// <summary>Raised when SuperModeGauge is set to the max value.</summary>
     private void OnGaugeFilled()
@@ -249,5 +262,5 @@ internal class SuperModeGauge
         ModEntry.EventManager.Enable(typeof(SuperModeGaugeFadeOutUpdateTickedEvent));
     }
 
-    #endregion event handlers
+    #endregion private methods
 }

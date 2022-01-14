@@ -1,8 +1,12 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Common.Extensions;
+
+#region using directives
+
+using System;
 using System.Linq.Expressions;
 using StardewValley;
 
-namespace DaLion.Stardew.Common.Extensions;
+#endregion using directives
 
 /// <summary>Provides extension methods for reading and writing values in <see cref="ModDataDictionary" /> fields.</summary>
 public static class ModDataDictionaryExtensions

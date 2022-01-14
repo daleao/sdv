@@ -1,10 +1,16 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+
+#region using directives
+
+using System;
 using System.Linq;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 {
@@ -15,7 +21,7 @@ internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     /// <summary>Construct an instance.</summary>
     internal SpelunkerBuffDisplayUpdateTickedEvent()
     {
-        _buffId = (ModEntry.Manifest.UniqueID + Utility.Professions.IndexOf("Spelunker")).GetHashCode();
+        _buffId = (ModEntry.Manifest.UniqueID + Professions.IndexOf("Spelunker")).GetHashCode();
     }
 
     /// <inheritdoc />

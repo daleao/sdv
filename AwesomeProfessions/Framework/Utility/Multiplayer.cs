@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿namespace DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Utility;
+#region using directives
+
+using System.Threading.Tasks;
+
+#endregion using directives
 
 public static class Multiplayer
 {

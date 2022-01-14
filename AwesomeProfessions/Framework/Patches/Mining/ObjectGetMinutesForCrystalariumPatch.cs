@@ -1,10 +1,16 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Extensions;
+
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+#endregion using directives
 
 [UsedImplicitly]
 internal class ObjectGetMinutesForCrystalariumPatch : BasePatch

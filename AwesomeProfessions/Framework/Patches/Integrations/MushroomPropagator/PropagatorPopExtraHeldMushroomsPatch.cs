@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -6,11 +10,14 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Stardew.Common.Harmony;
+using Extensions;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+#endregion using directives
 
 [UsedImplicitly]
 internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
@@ -28,20 +35,6 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
             // ignored
         }
     }
-
-    #region private methods
-
-    private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
-    {
-        var who = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
-        if (who.IsLocalPlayer && who.HasProfession("Ecologist")) return Utility.Professions.GetEcologistForageQuality();
-
-        var sourceMushroomQuality =
-            ModEntry.ModHelper.Reflection.GetField<int>(propagator, "SourceMushroomQuality").GetValue();
-        return sourceMushroomQuality;
-    }
-
-    #endregion private methods
 
     #region harmony patches
 
@@ -70,7 +63,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Ecologist")) // find index of ecologist check
+                .FindProfessionCheck(Professions.IndexOf("Ecologist")) // find index of ecologist check
                 .Retreat()
                 .GetLabels(out var labels)
                 .RemoveUntil(
@@ -96,4 +89,18 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
     }
 
     #endregion harmony patches
+
+    #region injected subroutines
+
+    private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
+    {
+        var who = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
+        if (who.IsLocalPlayer && who.HasProfession("Ecologist")) return Professions.GetEcologistForageQuality();
+
+        var sourceMushroomQuality =
+            ModEntry.ModHelper.Reflection.GetField<int>(propagator, "SourceMushroomQuality").GetValue();
+        return sourceMushroomQuality;
+    }
+
+    #endregion injected subroutines
 }

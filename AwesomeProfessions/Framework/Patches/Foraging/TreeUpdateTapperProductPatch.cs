@@ -1,11 +1,17 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Extensions;
+
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+#endregion using directives
 
 [UsedImplicitly]
 internal class TreeUpdateTapperProductPatch : BasePatch

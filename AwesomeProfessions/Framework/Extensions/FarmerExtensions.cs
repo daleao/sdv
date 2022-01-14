@@ -1,14 +1,21 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Extensions;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
-namespace DaLion.Stardew.Professions.Framework.Extensions;
+using Common.Extensions;
+using Events.GameLoop;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 public static class FarmerExtensions
 {
@@ -16,7 +23,7 @@ public static class FarmerExtensions
     /// <param name="professionName">The name of the profession.</param>
     public static bool HasProfession(this Farmer farmer, string professionName)
     {
-        return Utility.Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex) &&
+        return Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex) &&
                farmer.professions.Contains(professionIndex);
     }
 
@@ -24,7 +31,7 @@ public static class FarmerExtensions
     /// <param name="professionIndex">The index of the profession.</param>
     public static bool HasProfession(this Farmer farmer, int professionIndex)
     {
-        return Utility.Professions.IndexByName.Contains(professionIndex) &&
+        return Professions.IndexByName.Contains(professionIndex) &&
                farmer.professions.Contains(professionIndex);
     }
 
@@ -32,7 +39,7 @@ public static class FarmerExtensions
     /// <param name="professionName">The name of the profession.</param>
     public static bool HasPrestigedProfession(this Farmer farmer, string professionName)
     {
-        return Utility.Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex) &&
+        return Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex) &&
                farmer.professions.Contains(100 + professionIndex);
     }
 
@@ -41,7 +48,7 @@ public static class FarmerExtensions
     public static bool HasAnyOfProfessions(this Farmer farmer, params string[] professionNames)
     {
         return professionNames.Any(p =>
-            Utility.Professions.IndexByName.Forward.TryGetValue(p, out var professionIndex) &&
+            Professions.IndexByName.Forward.TryGetValue(p, out var professionIndex) &&
             farmer.professions.Contains(professionIndex));
     }
 
@@ -51,7 +58,7 @@ public static class FarmerExtensions
     public static bool HasAnyOfProfessions(this Farmer farmer, string[] professionNames, out string firstMatch)
     {
         firstMatch = professionNames.FirstOrDefault(p =>
-            Utility.Professions.IndexByName.Forward.TryGetValue(p, out var professionIndex) &&
+            Professions.IndexByName.Forward.TryGetValue(p, out var professionIndex) &&
             farmer.professions.Contains(professionIndex));
         return firstMatch is not null;
     }
@@ -277,7 +284,7 @@ public static class FarmerExtensions
     public static IEnumerable<int> GetUnchosenSuperModes(this Farmer farmer)
     {
         var otherSuperModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"}
-            .Select(Utility.Professions.IndexOf).Except(new[] {(int) ModEntry.State.Value.SuperMode.Index});
+            .Select(Professions.IndexOf).Except(new[] {(int) ModEntry.State.Value.SuperMode.Index});
         return farmer.professions.Intersect(otherSuperModeProfessions);
     }
 

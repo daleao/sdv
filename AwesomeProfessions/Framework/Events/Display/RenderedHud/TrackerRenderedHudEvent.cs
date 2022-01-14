@@ -1,11 +1,16 @@
-﻿using System.Linq;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Display;
+
+#region using directives
+
+using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Display;
+using Extensions;
+
+#endregion using directives
 
 internal class TrackerRenderedHudEvent : RenderedHudEvent
 {

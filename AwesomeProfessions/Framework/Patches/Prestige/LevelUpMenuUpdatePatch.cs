@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -9,14 +13,17 @@ using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.SuperMode;
-using CollectionExtensions = DaLion.Stardew.Common.Extensions.CollectionExtensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+using Stardew.Common.Extensions;
+using Stardew.Common.Harmony;
+using Events.GameLoop;
+using Extensions;
+using SuperMode;
+
+using CollectionExtensions = Stardew.Common.Extensions.CollectionExtensions;
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class LevelUpMenuUpdatePatch : BasePatch
@@ -269,7 +276,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
     #endregion harmony patches
 
-    #region private methods
+    #region injected subroutines
 
     private static bool ShouldProposeFinalQuestion(int chosenProfession)
     {
@@ -288,10 +295,10 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         var oldProfessionKey = ModEntry.State.Value.SuperMode.Index.ToString().ToLower();
         var oldProfessionDisplayName = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".name.male");
         var oldBuff = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".buff");
-        var newProfessionKey = Utility.Professions.NameOf(chosenProfession);
+        var newProfessionKey = Professions.NameOf(chosenProfession);
         var newProfessionDisplayName = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".name.male");
         var newBuff = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".buff");
-        var pronoun = Utility.Professions.GetBuffPronoun();
+        var pronoun = Professions.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(
             ModEntry.ModHelper.Translation.Get("prestige.levelup.question",
                 new
@@ -330,5 +337,5 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         ModEntry.EventManager.Enable(typeof(AchievementUnlockedDayStartedEvent));
     }
 
-    #endregion private methods
+    #endregion injected subroutines
 }

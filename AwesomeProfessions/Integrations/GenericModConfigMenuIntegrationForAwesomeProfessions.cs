@@ -1,11 +1,14 @@
-using System;
-using System.IO;
-using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
-using DaLion.Stardew.Common.Integrations;
-using DaLion.Stardew.Professions.Framework.Utility;
-
 namespace DaLion.Stardew.Professions.Integrations;
+
+#region using directives
+
+using System;
+using StardewModdingAPI;
+
+using Framework.AssetLoaders;
+using Common.Integrations;
+
+#endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration for Awesome Tools.</summary>
 internal class GenericModConfigMenuIntegrationForAwesomeProfessions
@@ -49,16 +52,30 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddCheckbox(
                 () => "Use Vintage Skill Bars",
                 () => "Enable this option if using the Vintage Interface mod.",
-                config => config.UseVintageSkillBars,
+                config => config.UseVintageInterface,
                 (config, value) =>
                 {
-                    Textures.SuperModeGaugeTx = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud",
-                        value ? "bar_vintage.png" : "bar.png"));
-                    Textures.SuperModeGaugeTx = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets",
-                        "menus", value ? "skillbars_vintage.png" : "skillbars.png"));
-                    config.UseVintageSkillBars = value;
+                    config.UseVintageInterface = value;
+                    Textures.ReloadGauge();
+                    Textures.ReloadSkillBars();
                 }
-            )
+            );
+
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("cat.betterartisangoodicons"))
+            _configMenu.AddDropdown(
+                    () => "Honey Mead Style",
+                    () => "The visual style for different honey mead icons, if using BetterArtisanGoodIcons.",
+                    config => config.HoneyMeadStyle,
+                    (config, value) =>
+                    {
+                        config.HoneyMeadStyle = value;
+                        Textures.ReloadHoneyMead();
+                    },
+                    new[] {"ColoredBottles", "ColoredCaps"},
+                    value => value
+            );
+        
+        _configMenu
             .AddCheckbox(
                 () => "Enable Fish Pond Rebalance",
                 () => "Allow Fish Ponds to produce bonus Roe or Ink in proportion to fish population.",

@@ -1,9 +1,13 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+
+#region using directives
+
+using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+#endregion using directives
 
 internal class RequestDataUpdateModMessageReceivedEvent : ModMessageReceivedEvent
 {

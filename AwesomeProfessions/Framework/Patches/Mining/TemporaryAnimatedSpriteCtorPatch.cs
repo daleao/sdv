@@ -1,10 +1,15 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class TemporaryAnimatedSpriteCtorPatch : BasePatch

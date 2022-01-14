@@ -1,7 +1,12 @@
-﻿using StardewModdingAPI.Events;
-using DaLion.Stardew.Tools.Integrations;
+﻿namespace DaLion.Stardew.Tools.Framework.Events;
 
-namespace DaLion.Stardew.Tools.Framework.Events;
+#region using directives
+
+using StardewModdingAPI.Events;
+
+using Integrations;
+
+#endregion using directives
 
 internal class GameLaunchedEvent : IEvent
 {

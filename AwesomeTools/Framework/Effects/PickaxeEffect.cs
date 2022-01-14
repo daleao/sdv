@@ -1,14 +1,20 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Tools.Framework.Effects;
+
+#region using directives
+
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
-using DaLion.Stardew.Tools.Configs;
-using DaLion.Stardew.Tools.Framework.Extensions;
+
+using Configs;
+using Extensions;
+
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Tools.Framework.Effects;
+#endregion using directives
 
 /// <summary>Applies Pickaxe effects.</summary>
 internal class PickaxeEffect : IEffect

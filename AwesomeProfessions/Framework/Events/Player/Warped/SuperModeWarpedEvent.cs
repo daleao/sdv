@@ -1,8 +1,13 @@
-﻿using StardewModdingAPI.Events;
-using DaLion.Stardew.Professions.Framework.Events.Display;
-using DaLion.Stardew.Professions.Framework.Extensions;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Player;
+#region using directives
+
+using StardewModdingAPI.Events;
+
+using Display;
+using Extensions;
+
+#endregion using directives
 
 internal class SuperModeWarpedEvent : WarpedEvent
 {

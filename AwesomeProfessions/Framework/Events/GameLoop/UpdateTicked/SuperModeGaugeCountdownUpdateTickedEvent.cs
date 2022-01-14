@@ -1,7 +1,11 @@
-﻿using StardewModdingAPI.Events;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+
+#region using directives
+
+using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+#endregion using directives
 
 internal class SuperModeGaugeCountdownUpdateTickedEvent : UpdateTickedEvent
 {

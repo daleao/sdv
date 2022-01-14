@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using System;
 using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -6,10 +10,12 @@ using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Monsters;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Extensions;
+
 using SUtility = StardewValley.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+#endregion using directives
 
 [UsedImplicitly]
 internal class GreenSlimeUpdatePatch : BasePatch

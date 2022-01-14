@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,9 +11,12 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class TreePerformTreeFallPatch : BasePatch
@@ -39,11 +46,11 @@ internal class TreePerformTreeFallPatch : BasePatch
             var isPrestiged = iLGenerator.DefineLabel();
             var resumeExecution = iLGenerator.DefineLabel();
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Lumberjack"), true)
+                .FindProfessionCheck(Professions.IndexOf("Lumberjack"), true)
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Lumberjack")),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 100 + Professions.IndexOf("Lumberjack")),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
                     new CodeInstruction(OpCodes.Brtrue_S, isPrestiged)

@@ -1,9 +1,13 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.AssetEditors;
+
+#region using directives
+
+using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.AssetEditors;
+#endregion using directives
 
 /// <summary>Edits <c>Data/mail</c> with Conservationist taxation notice.</summary>
 public class MailEditor : IAssetEditor

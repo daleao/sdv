@@ -1,9 +1,14 @@
-﻿using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using DaLion.Stardew.Professions.Framework.Events.Display;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Input;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Input;
+#region using directives
+
+using StardewModdingAPI;
+using StardewModdingAPI.Events;
+
+using Display;
+using GameLoop;
+
+#endregion using directives
 
 internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
 {

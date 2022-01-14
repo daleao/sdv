@@ -1,7 +1,11 @@
-﻿using JetBrains.Annotations;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Input;
+
+#region using directives
+
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Input;
+#endregion using directives
 
 [UsedImplicitly]
 internal class DebugCursorMovedEvent : CursorMovedEvent

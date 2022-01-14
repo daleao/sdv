@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,13 +13,15 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.Utility;
+
+using Stardew.Common.Extensions;
+using Extensions;
+
+using Objects = Utility.Objects;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+#endregion using directives
 
 [UsedImplicitly]
 internal class CrabPotDayUpdatePatch : BasePatch

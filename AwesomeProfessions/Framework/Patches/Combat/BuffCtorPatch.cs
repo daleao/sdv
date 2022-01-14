@@ -1,8 +1,13 @@
-﻿using JetBrains.Annotations;
-using StardewValley;
-using DaLion.Stardew.Professions.Framework.Extensions;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+#region using directives
+
+using JetBrains.Annotations;
+using StardewValley;
+
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class BuffCtorPatch : BasePatch

@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+
+#region using directives
+
+using System.Collections.Generic;
 using System.Linq;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using Extensions;
+
+#endregion using directives
 
 internal class PrestigeDayEndingEvent : DayEndingEvent
 {

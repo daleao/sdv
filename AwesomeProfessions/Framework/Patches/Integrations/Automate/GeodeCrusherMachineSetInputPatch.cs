@@ -1,11 +1,18 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Stardew.Common.Harmony;
+using Extensions;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+#endregion using directives
 
 [UsedImplicitly]
 internal class GeodeCrusherMachineSetInputPatch : BasePatch
@@ -39,7 +46,7 @@ internal class GeodeCrusherMachineSetInputPatch : BasePatch
         if (!who.HasProfession("Gemologist") ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
-        machine.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
+        machine.heldObject.Value.Quality = Professions.GetGemologistMineralQuality();
         if (!ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
         ModData.Increment<uint>(DataField.GemologistMineralsCollected, who);

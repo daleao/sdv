@@ -1,12 +1,17 @@
-﻿using System.Linq;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class FishPondUpdateMaximumOccupancyPatch : BasePatch

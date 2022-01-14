@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,9 +11,12 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class FarmAnimalDayUpdatePatch : BasePatch
@@ -94,7 +101,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3)
                 )
                 .ReplaceWith(
-                    new(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Producer"))
+                    new(OpCodes.Ldc_I4_S, 100 + Professions.IndexOf("Producer"))
                 )
                 .Return()
                 .Insert(

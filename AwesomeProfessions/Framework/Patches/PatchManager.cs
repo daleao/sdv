@@ -1,17 +1,22 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework;
+
+#region using directives
+
+using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Patches;
 
-namespace DaLion.Stardew.Professions.Framework;
+using Common.Harmony;
+using Patches;
+
+#endregion using directives
 
 /// <summary>Unified entry point for applying Harmony patches.</summary>
-internal class HarmonyPatcher
+internal class PatchManager
 {
     /// <summary>Construct an instance.</summary>
-    internal HarmonyPatcher(string uniqueID)
+    internal PatchManager(string uniqueID)
     {
         Harmony = new(uniqueID);
     }

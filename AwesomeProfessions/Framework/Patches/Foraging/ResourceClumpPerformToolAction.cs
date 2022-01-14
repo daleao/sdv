@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,9 +11,12 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class ResourceClumpPerformToolAction : BasePatch
@@ -41,7 +48,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Lumberjack"))
+                .FindProfessionCheck(Professions.IndexOf("Lumberjack"))
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10)
                 )
@@ -50,7 +57,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
                 )
-                .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Lumberjack"),
+                .InsertProfessionCheckForPlayerOnStack(100 + Professions.IndexOf("Lumberjack"),
                     notPrestigedLumberjack)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_I4_S, 11),
@@ -68,7 +75,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
                 )
-                .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Lumberjack"),
+                .InsertProfessionCheckForPlayerOnStack(100 + Professions.IndexOf("Lumberjack"),
                     resumeExecution2)
                 .InsertDiceRoll()
                 .Insert(

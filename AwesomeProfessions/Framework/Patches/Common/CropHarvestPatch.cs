@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,9 +12,12 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class CropHarvestPatch : BasePatch
@@ -48,8 +55,8 @@ internal class CropHarvestPatch : BasePatch
                 )
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
-                        typeof(Utility.Professions).MethodNamed(
-                            nameof(Utility.Professions.GetEcologistForageQuality)))
+                        typeof(Professions).MethodNamed(
+                            nameof(Professions.GetEcologistForageQuality)))
                 );
         }
         catch (Exception ex)
@@ -72,7 +79,7 @@ internal class CropHarvestPatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Ecologist"),
+                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Ecologist"),
                     dontIncreaseEcologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldstr, DataField.EcologistItemsForaged.ToString()),
@@ -105,7 +112,7 @@ internal class CropHarvestPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3),
                     new CodeInstruction(OpCodes.Blt_S)
                 )
-                .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Agriculturist"), isAgriculturist,
+                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Agriculturist"), isAgriculturist,
                     true)
                 .AdvanceUntil( // find start of dice roll
                     new CodeInstruction(OpCodes.Ldloc_S, random2)
@@ -154,7 +161,7 @@ internal class CropHarvestPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4),
                     new CodeInstruction(OpCodes.Brtrue_S, dontIncreaseNumToHarvest)
                 )
-                .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Harvester"),
+                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Harvester"),
                     dontIncreaseNumToHarvest)
                 .Insert( // insert dice roll
                     new CodeInstruction(OpCodes.Ldloc_S, r2),
@@ -164,7 +171,7 @@ internal class CropHarvestPatch : BasePatch
                     // double chance if prestiged
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Harvester")),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 100 + Professions.IndexOf("Harvester")),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
                     new CodeInstruction(OpCodes.Brfalse_S, dontDuplicateChance),

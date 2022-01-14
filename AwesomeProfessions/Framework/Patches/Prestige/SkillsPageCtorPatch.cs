@@ -1,11 +1,16 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+using AssetLoaders;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class SkillsPageCtorPatch : BasePatch

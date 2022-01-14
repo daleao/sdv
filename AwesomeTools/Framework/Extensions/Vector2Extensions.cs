@@ -1,7 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿namespace DaLion.Stardew.Tools.Framework.Extensions;
+
+#region using directives
+
+using Microsoft.Xna.Framework;
 using StardewValley;
 
-namespace DaLion.Stardew.Tools.Framework.Extensions;
+#endregion using directives
 
 public static class Vector2Extensions
 {

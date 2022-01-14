@@ -1,10 +1,14 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Common.Harmony;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 
-namespace DaLion.Stardew.Common.Harmony;
+#endregion using directives
 
 /// <remarks>Credit to <c>Pardeike</c>.</remarks>
 public static class SafeReflections
@@ -18,7 +22,8 @@ public static class SafeReflections
     /// <summary>Get a constructor and assert that it was found.</summary>
     public static ConstructorInfo Constructor(this Type type)
     {
-        return AccessTools.Constructor(type) ?? throw new($"Cannot find constructor for type {type.FullName}.");
+        return AccessTools.Constructor(type) ??
+               throw new MissingMethodException($"Cannot find constructor for type {type.FullName}.");
     }
 
     /// <summary>Get a constructor and assert that it was found.</summary>
@@ -26,7 +31,8 @@ public static class SafeReflections
     public static ConstructorInfo Constructor(this Type type, Type[] parameters)
     {
         return AccessTools.Constructor(type, parameters) ??
-               throw new($"Cannot find constructor {parameters.Description()} for type {type.FullName}.");
+               throw new MissingMethodException(
+                   $"Cannot find constructor {parameters.Description()} for type {type.FullName}.");
     }
 
     /// <summary>Get a method and assert that it was found.</summary>
@@ -34,7 +40,7 @@ public static class SafeReflections
     public static MethodInfo MethodNamed(this Type type, string name)
     {
         return AccessTools.Method(type, name) ??
-               throw new($"Cannot find method named {name} in type {type.FullName}.");
+               throw new MissingMethodException($"Cannot find method named {name} in type {type.FullName}.");
     }
 
     /// <summary>Get a method and assert that it was found.</summary>
@@ -43,7 +49,8 @@ public static class SafeReflections
     public static MethodInfo MethodNamed(this Type type, string name, Type[] parameters)
     {
         return AccessTools.Method(type, name, parameters) ??
-               throw new($"Cannot find method {name} {parameters.Description()} in type {type.FullName}.");
+               throw new MissingMethodException(
+                   $"Cannot find method {name} {parameters.Description()} in type {type.FullName}.");
     }
 
     /// <summary>Get a field and assert that it was found.</summary>
@@ -51,7 +58,7 @@ public static class SafeReflections
     public static FieldInfo Field(this Type type, string name)
     {
         return AccessTools.Field(type, name) ??
-               throw new($"Cannot find field {name} in type {type.FullName}.");
+               throw new MissingFieldException($"Cannot find field {name} in type {type.FullName}.");
     }
 
     /// <summary>Get a property getter and assert that it was found.</summary>
@@ -59,7 +66,7 @@ public static class SafeReflections
     public static MethodInfo PropertyGetter(this Type type, string name)
     {
         return AccessTools.Property(type, name)?.GetGetMethod(true) ??
-               throw new($"Cannot find property getter {name} in type {type.FullName}.");
+               throw new MissingMethodException($"Cannot find property getter {name} in type {type.FullName}.");
     }
 
     /// <summary>Get a property setter and assert that it was found.</summary>
@@ -67,7 +74,7 @@ public static class SafeReflections
     public static MethodInfo PropertySetter(this Type type, string name)
     {
         return AccessTools.Property(type, name)?.GetSetMethod(true) ??
-               throw new($"Cannot find property getter {name} in type {type.FullName}.");
+               throw new MissingMethodException($"Cannot find property getter {name} in type {type.FullName}.");
     }
 
     /// <summary>Get all inner types of a given type.</summary>
@@ -89,7 +96,8 @@ public static class SafeReflections
             .Where(m => prefix == "*" || m.Name.StartsWith(prefix))
             .ToList();
         if (!methods.Any())
-            throw new($"Cannot find method starting with {prefix} in any inner type of {type.FullName}.");
+            throw new MissingMethodException(
+                $"Cannot find method starting with {prefix} in any inner type of {type.FullName}.");
         return methods;
     }
 }

@@ -1,9 +1,14 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
-using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+using SuperMode;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class DustSpiritBehaviorAtGameTickPatch : BasePatch

@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -8,12 +12,14 @@ using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
-using DaLion.Stardew.Professions.Framework.Events.Display;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Events.Display;
+using Events.GameLoop;
+using Extensions;
+
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
+#endregion using directives
 
 /// <summary>Manages treasure hunt events for Scavenger professions.</summary>
 internal class ScavengerHunt : TreasureHunt

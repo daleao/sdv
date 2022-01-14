@@ -1,9 +1,14 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
+
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+#endregion using directives
 
 [UsedImplicitly]
 internal class ObjectLoadDisplayNamePatch : BasePatch

@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -12,11 +16,14 @@ using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+using Stardew.Common.Extensions;
+using Stardew.Common.Harmony;
+using SuperMode;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class ProjectileUpdatePatch : BasePatch
@@ -47,7 +54,7 @@ internal class ProjectileUpdatePatch : BasePatch
         if (!firer.IsLocalPlayer || ModEntry.State.Value.SuperMode?.Index != SuperModeIndex.Desperado) return;
 
         // check for powered bullet
-        var bulletPower = Utility.Professions.GetDesperadoBulletPower() - 1f;
+        var bulletPower = Professions.GetDesperadoBulletPower() - 1f;
         if (bulletPower <= 0f) return;
 
         // check if current power makes a difference for cross section

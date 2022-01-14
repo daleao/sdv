@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Common.Classes;
+
+#region using directives
+
+using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace DaLion.Stardew.Common.Classes;
+#endregion using directives
 
 public class CircleTileGrid
 {

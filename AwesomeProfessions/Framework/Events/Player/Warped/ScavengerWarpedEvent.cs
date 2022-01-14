@@ -1,8 +1,13 @@
-﻿using StardewModdingAPI.Events;
-using StardewValley;
-using DaLion.Stardew.Professions.Framework.TreasureHunt;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Player;
+#region using directives
+
+using StardewModdingAPI.Events;
+using StardewValley;
+
+using TreasureHunt;
+
+#endregion using directives
 
 internal class ScavengerWarpedEvent : WarpedEvent
 {

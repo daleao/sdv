@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Tools.Framework;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -7,9 +11,10 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Tools;
-using DaLion.Stardew.Common.Classes;
 
-namespace DaLion.Stardew.Tools.Framework;
+using Common.Classes;
+
+#endregion using directives
 
 /// <summary>Patches the game code to implement modded tool behavior.</summary>
 [UsedImplicitly]

@@ -1,25 +1,28 @@
-﻿using System;
+﻿// ReSharper disable PossibleLossOfFraction
+namespace DaLion.Stardew.Professions.Framework.Utility;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
-using DaLion.Stardew.Common.Classes;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.SuperMode;
+
+using Common.Classes;
+using Common.Extensions;
+using Extensions;
+using SuperMode;
+
 using SObject = StardewValley.Object;
 
-// ReSharper disable PossibleLossOfFraction
-
-namespace DaLion.Stardew.Professions.Framework.Utility;
+#endregion using directives
 
 /// <summary>Holds static properties and methods related to specific professions.</summary>
 public static class Professions
 {
-    #region look-up table
-
     public static BiMap<string, int> IndexByName { get; } = new()
     {
         // farming
@@ -69,8 +72,6 @@ public static class Professions
         {"Piper", Farmer.acrobat}, // 28
         {"Desperado", Farmer.desperado} // 29
     };
-
-    #endregion look-up table
 
     #region public methods
 

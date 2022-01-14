@@ -1,8 +1,12 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Common.Extensions;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DaLion.Stardew.Common.Extensions;
+#endregion using directives
 
 public static class CollectionExtensions
 {

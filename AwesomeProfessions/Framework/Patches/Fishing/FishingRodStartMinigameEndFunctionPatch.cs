@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,9 +11,10 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+using Stardew.Common.Harmony;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class FishingRodStartMinigameEndFunctionPatch : BasePatch

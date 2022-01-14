@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Common.Harmony;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,9 +11,10 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using Netcode;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
 
-namespace DaLion.Stardew.Common.Harmony;
+using Extensions;
+
+#endregion using directives
 
 /// <summary>Provides an interface for abstracting common transpiler operations.</summary>
 public class ILHelper

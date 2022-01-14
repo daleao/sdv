@@ -1,6 +1,10 @@
-﻿using StardewModdingAPI.Events;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Input;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Input;
+#region using directives
+
+using StardewModdingAPI.Events;
+
+#endregion using directives
 
 internal class SuperModeButtonsChangedEvent : ButtonsChangedEvent
 {

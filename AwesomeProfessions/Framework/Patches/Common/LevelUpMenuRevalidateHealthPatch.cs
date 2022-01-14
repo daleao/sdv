@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+
+#region using directives
+
+using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -8,9 +12,10 @@ using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class LevelUpMenuRevalidateHealthPatch : BasePatch

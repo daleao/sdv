@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,13 +11,15 @@ using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.Utility;
+
+using Stardew.Common.Harmony;
+using Extensions;
+using Utility;
+
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+#endregion using directives
 
 internal class GameLocationGetFishPatch : BasePatch
 {

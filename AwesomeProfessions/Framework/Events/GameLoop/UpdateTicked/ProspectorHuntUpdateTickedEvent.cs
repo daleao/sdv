@@ -1,6 +1,10 @@
-﻿using StardewModdingAPI.Events;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+#region using directives
+
+using StardewModdingAPI.Events;
+
+#endregion using directives
 
 internal class ProspectorHuntUpdateTickedEvent : UpdateTickedEvent
 {

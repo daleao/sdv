@@ -1,9 +1,13 @@
-﻿using StardewModdingAPI.Events;
-using StardewValley;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.AssetEditors;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+#region using directives
+
+using StardewModdingAPI.Events;
+using StardewValley;
+using Common.Extensions;
+using AssetEditors;
+
+#endregion using directives
 
 internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
 {

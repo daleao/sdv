@@ -1,8 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+
+#region using directives
+
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 internal class ToggledSuperModeModMessageReceivedEvent : ModMessageReceivedEvent
 {
@@ -20,7 +26,7 @@ internal class ToggledSuperModeModMessageReceivedEvent : ModMessageReceivedEvent
             case "On":
                 ModEntry.Log($"Player {e.FromPlayerID} has enabled Super Mode.", ModEntry.DefaultLogLevel);
                 ModEntry.State.Value.ActivePeerSuperModes[key].Add(e.FromPlayerID);
-                var glowingColor = Utility.Professions.NameOf(key) switch
+                var glowingColor = Professions.NameOf(key) switch
                 {
                     "Brute" => Color.OrangeRed,
                     "Poacher" => Color.MediumPurple,

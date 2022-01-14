@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,9 +11,12 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class FarmAnimalPetPatch : BasePatch
@@ -76,7 +83,7 @@ internal class FarmAnimalPetPatch : BasePatch
         {
             helper
                 .FindProfessionCheck(
-                    Utility.Professions.IndexOf("Rancher")) // go back and find the inserted rancher check
+                    Professions.IndexOf("Rancher")) // go back and find the inserted rancher check
                 .Retreat() // reatreat until Ldarg_1 Farmer who
                 .ToBufferUntil( // copy to buffer the entire sections which increases happiness and mood
                     new CodeInstruction(OpCodes.Callvirt,
@@ -84,9 +91,9 @@ internal class FarmAnimalPetPatch : BasePatch
                 )
                 .InsertBuffer() // paste it in-place
                 .FindProfessionCheck(
-                    Utility.Professions.IndexOf("Rancher"), true) // advance until the second rancher check
+                    Professions.IndexOf("Rancher"), true) // advance until the second rancher check
                 .Advance()
-                .SetOperand(100 + Utility.Professions.IndexOf("Rancher")) // replace rancher with prestiged rancher
+                .SetOperand(100 + Professions.IndexOf("Rancher")) // replace rancher with prestiged rancher
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetFieldBase<byte, NetByte>).MethodNamed("set_Value"))

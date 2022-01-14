@@ -1,16 +1,20 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+
+#region using directives
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Projectiles;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Extensions;
+
+#endregion using directives
 
 // ReSharper disable PossibleLossOfFraction
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
-
 [UsedImplicitly]
 internal class BasicProjectileExplodeOnImpact : BasePatch
 {

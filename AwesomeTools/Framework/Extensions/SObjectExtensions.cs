@@ -1,7 +1,11 @@
-﻿using StardewValley.Objects;
+﻿namespace DaLion.Stardew.Tools.Framework.Extensions;
+
+#region using directives
+
+using StardewValley.Objects;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Tools.Framework.Extensions;
+#endregion using directives
 
 public static class SObjectExtensions
 {

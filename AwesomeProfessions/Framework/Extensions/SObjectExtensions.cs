@@ -1,12 +1,18 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Professions.Framework.Extensions;
+
+#region using directives
+
+using System.Collections.Generic;
 using System.Linq;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Utility;
+
+using Common.Extensions;
+
+using Objects = Utility.Objects;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Extensions;
+#endregion using directives
 
 public static class SObjectExtensions
 {

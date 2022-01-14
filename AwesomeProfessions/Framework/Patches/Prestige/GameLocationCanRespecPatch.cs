@@ -1,11 +1,15 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+
+#region using directives
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+#endregion using directive
 
 [UsedImplicitly]
 internal class GameLocationCanRespecPatch : BasePatch

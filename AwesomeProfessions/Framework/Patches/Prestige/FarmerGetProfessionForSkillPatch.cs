@@ -1,9 +1,14 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class FarmerGetProfessionForSkill : BasePatch

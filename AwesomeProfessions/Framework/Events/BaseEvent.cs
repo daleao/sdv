@@ -1,6 +1,10 @@
-﻿using StardewModdingAPI.Utilities;
+﻿namespace DaLion.Stardew.Professions.Framework.Events;
 
-namespace DaLion.Stardew.Professions.Framework.Events;
+#region using directives
+
+using StardewModdingAPI.Utilities;
+
+#endregion using directives
 
 /// <summary>Base implementation for an event wrapper allowing dynamic enabling/disabling of events.</summary>
 internal abstract class BaseEvent : IEvent

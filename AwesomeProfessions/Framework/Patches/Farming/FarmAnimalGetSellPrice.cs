@@ -1,12 +1,19 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+
+#region using directives
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+using Extensions;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class FarmAnimalGetSellPricePatch : BasePatch
@@ -29,7 +36,7 @@ internal class FarmAnimalGetSellPricePatch : BasePatch
             var owner = Game1.getFarmerMaybeOffline(__instance.ownerID.Value) ?? Game1.MasterPlayer;
             if (!owner.HasProfession("Breeder")) return true; // run original logic
 
-            adjustedFriendship = Utility.Professions.GetProducerAdjustedFriendship(__instance);
+            adjustedFriendship = Professions.GetProducerAdjustedFriendship(__instance);
         }
         catch (Exception ex)
         {

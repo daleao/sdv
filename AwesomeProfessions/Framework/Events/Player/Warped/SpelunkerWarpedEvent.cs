@@ -1,10 +1,15 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Player;
+
+#region using directives
+
+using System;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Player;
+using GameLoop;
+using Extensions;
+
+#endregion using directives
 
 internal class SpelunkerWarpedEvent : WarpedEvent
 {

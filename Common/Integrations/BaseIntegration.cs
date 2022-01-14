@@ -1,7 +1,11 @@
+namespace DaLion.Stardew.Common.Integrations;
+
+#region using directives
+
 using System;
 using StardewModdingAPI;
 
-namespace DaLion.Stardew.Common.Integrations;
+#endregion using directives
 
 /// <summary>The base implementation for a mod integration.</summary>
 /// <remarks>Credit to <c>Pathoschild</c>.</remarks>

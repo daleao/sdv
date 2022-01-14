@@ -1,6 +1,10 @@
-﻿using StardewModdingAPI.Utilities;
+﻿namespace DaLion.Stardew.Tools.Configs;
 
-namespace DaLion.Stardew.Tools.Configs;
+#region using directives
+
+using StardewModdingAPI.Utilities;
+
+#endregion using directives
 
 /// <summary>The mod user-defined settings.</summary>
 public class ToolConfig

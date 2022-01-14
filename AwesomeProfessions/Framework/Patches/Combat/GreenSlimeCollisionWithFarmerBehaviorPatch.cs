@@ -1,13 +1,18 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using System;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+using Extensions;
+using SuperMode;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
@@ -32,7 +37,7 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
 
         if (who.HasPrestigedProfession("Piper"))
         {
-            var healed = __instance.DamageToFarmer / 3;
+            var healed = __instance.DamageToFarmer / 2;
             healed += Game1.random.Next(Math.Min(-1, -healed / 8), Math.Max(1, healed / 8));
             healed = Math.Max(healed, 1);
 
@@ -43,7 +48,7 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
 
         if (!superMode.IsActive)
             superMode.Gauge.CurrentValue +=
-                Game1.random.Next(1, 10) * (double) SuperModeGauge.MaxValue / 500;
+                Game1.random.Next(1, 5) * ModEntry.Config.SuperModeGainFactor * (double) SuperModeGauge.MaxValue / 500;
 
         ModEntry.State.Value.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
     }

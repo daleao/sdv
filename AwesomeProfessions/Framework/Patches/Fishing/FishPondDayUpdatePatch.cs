@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -6,10 +10,12 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
-using DaLion.Stardew.Common.Extensions;
+
+using Stardew.Common.Extensions;
+
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+#endregion using directives
 
 [UsedImplicitly]
 internal class FishPondDayUpdatePatch : BasePatch

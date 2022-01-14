@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -11,15 +15,16 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Stardew.Common.Extensions;
+using Extensions;
+
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
+#endregion using directives
+
 // ReSharper disable PossibleLossOfFraction
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
-
 [UsedImplicitly]
 internal class PondQueryMenuDrawPatch : BasePatch
 {

@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -6,9 +10,12 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class GameLocationBreakStonePatch : BasePatch
@@ -35,7 +42,7 @@ internal class GameLocationBreakStonePatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Miner"))
+                .FindProfessionCheck(Professions.IndexOf("Miner"))
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Stloc_1)
                 )
@@ -43,7 +50,7 @@ internal class GameLocationBreakStonePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Miner"),
+                .InsertProfessionCheckForPlayerOnStack(100 + Professions.IndexOf("Miner"),
                     notPrestigedMiner)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_I4_1),

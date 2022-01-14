@@ -1,13 +1,20 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Player;
+
+#region using directives
+
+using System;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Player;
+using GameLoop;
+using Extensions;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 internal class PiperWarpedEvent : WarpedEvent
 {
@@ -23,7 +30,7 @@ internal class PiperWarpedEvent : WarpedEvent
             return;
         }
 
-        var attempts = Utility.Professions.GetPiperSlimeSpawnAttempts();
+        var attempts = Professions.GetPiperSlimeSpawnAttempts();
         var spawned = 0;
         var r = new Random(Guid.NewGuid().GetHashCode());
         while (attempts-- > 0 || spawned < 1)

@@ -1,14 +1,19 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+
+#region using directives
+
+using System;
 using System.Linq;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using Common.Extensions;
+using Extensions;
+using SuperMode;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class StaticSaveLoadedEvent : SaveLoadedEvent

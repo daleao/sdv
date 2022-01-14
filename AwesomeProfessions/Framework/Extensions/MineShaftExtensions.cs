@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Professions.Framework.Extensions;
+
+#region using directives
+
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Locations;
-using DaLion.Stardew.Common.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Extensions;
+using Common.Extensions;
+
+#endregion using directives
 
 public static class MineShaftExtensions
 {

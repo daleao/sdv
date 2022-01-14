@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,12 +17,15 @@ using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+using Stardew.Common.Extensions;
+using Stardew.Common.Harmony;
+using Extensions;
+using SuperMode;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class SlingshotPerformFirePatch : BasePatch
@@ -77,7 +84,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                 ModEntry.State.Value.AuxiliaryBullets.Add(blossom.GetHashCode());
             }
         }
-        else if (Game1.random.NextDouble() < Utility.Professions.GetDesperadoDoubleStrafeChance(who))
+        else if (Game1.random.NextDouble() < Professions.GetDesperadoDoubleStrafeChance(who))
         {
             if (who.HasPrestigedProfession("Desperado"))
             {
@@ -136,7 +143,7 @@ internal class SlingshotPerformFirePatch : BasePatch
 
         /// Injected: if (who.IsLocalPlayer && location.IsCombatZone() && SuperMode.Index == <desperado_id> && !IsSuperModeActive)
         ///				v *= GetDesperadoBulletPower();
-        ///				if (Game1.currentTime.TotalGameTime.TotalSeconds - this.pullStartTime <= GetDesperadoChargeTime()* breathingRoom) { SuperModeCounter += 10; }
+        ///				if (Game1.currentTime.TotalGameTime.TotalSeconds - this.pullStartTime <= GetDesperadoChargeTime()* breathingRoom) { SuperModeCounter += 8; }
         ///				else { SuperModeCounter += 2 }
         /// Before: if (ammunition.Category == -5) collisionSound = "slimedead";
 
@@ -188,7 +195,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(nameof(SuperMode.SuperMode.Index))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Index))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, (int)SuperModeIndex.Desperado),
                     new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution),
                     // check if SuperMode.IsActive
@@ -199,7 +206,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(nameof(SuperMode.SuperMode.IsActive))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.IsActive))),
                     new CodeInstruction(OpCodes.Brtrue_S, resumeExecution),
                     // v.X *= GetDesperadoBulletPower()
                     new CodeInstruction(OpCodes.Ldloca_S, velocity),
@@ -208,7 +215,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldind_R4),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Utility.Professions).MethodNamed(nameof(Utility.Professions.GetDesperadoBulletPower))),
+                        typeof(Professions).MethodNamed(nameof(Professions.GetDesperadoBulletPower))),
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Stind_R4),
                     // v.Y *= GetDesperadoBulletPower()
@@ -218,7 +225,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldind_R4),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Utility.Professions).MethodNamed(nameof(Utility.Professions.GetDesperadoBulletPower))),
+                        typeof(Professions).MethodNamed(nameof(Professions.GetDesperadoBulletPower))),
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Stind_R4),
                     // check for quick shot (i.e. sling shot charge time <= required charge time * handicap)
@@ -248,11 +255,17 @@ internal class SlingshotPerformFirePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(nameof(SuperMode.SuperMode.Gauge))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Gauge))),
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.CurrentValue))),
-                    new CodeInstruction(OpCodes.Ldc_R8, 10.0), // <-- increment amount
+                    new CodeInstruction(OpCodes.Ldc_R8, 8.0), // <-- increment amount
+                    // increment by config factor
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(ModConfig).PropertyGetter(nameof(ModConfig.SuperModeGainFactor))),
+                    new CodeInstruction(OpCodes.Conv_R8),
+                    new CodeInstruction(OpCodes.Mul),
+                    // scale for extended levels
                     new CodeInstruction(OpCodes.Call,
                         typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.MaxValue))),
                     new CodeInstruction(OpCodes.Conv_R8),
@@ -274,11 +287,17 @@ internal class SlingshotPerformFirePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(nameof(SuperMode.SuperMode.Gauge))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Gauge))),
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.CurrentValue))),
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0), // <-- increment amount
+                    // increment by config factor
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(ModConfig).PropertyGetter(nameof(ModConfig.SuperModeGainFactor))),
+                    new CodeInstruction(OpCodes.Conv_R8),
+                    new CodeInstruction(OpCodes.Mul),
+                    // scale for extended levels
                     new CodeInstruction(OpCodes.Call,
                         typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.MaxValue))),
                     new CodeInstruction(OpCodes.Conv_R8),

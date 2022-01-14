@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -9,10 +13,11 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+using Stardew.Common.Harmony;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class LevelUpMenuDrawPatch : BasePatch
@@ -103,7 +108,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
 
     #endregion harmony patches
 
-    #region private methods
+    #region injected subroutines
 
     private static string GetChooseProfessionText(LevelUpMenu menu)
     {
@@ -155,5 +160,5 @@ internal class LevelUpMenuDrawPatch : BasePatch
         }
     }
 
-    #endregion private methods
+    #endregion injected subroutines
 }

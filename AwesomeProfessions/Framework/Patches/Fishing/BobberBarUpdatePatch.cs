@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,9 +11,12 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class BobberBarUpdatePatch : BasePatch
@@ -47,14 +54,14 @@ internal class BobberBarUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Stfld)
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Aquarist"), (Label) resumeExecution)
+                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Aquarist"), (Label) resumeExecution)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).Field("distanceFromCatching")),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Utility.Professions).MethodNamed(nameof(Utility.Professions
+                        typeof(Professions).MethodNamed(nameof(Professions
                             .GetAquaristBonusCatchingBarSpeed))),
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Stfld, typeof(BobberBar).Field("distanceFromCatching"))

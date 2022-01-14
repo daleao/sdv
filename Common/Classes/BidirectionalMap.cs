@@ -1,8 +1,12 @@
+namespace DaLion.Stardew.Common.Classes;
+
+#region using directives
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace DaLion.Stardew.Common.Classes;
+#endregion using directives
 
 /// <summary>Represents a collection of forward/reverse key pairs with bidirectional mapping.</summary>
 /// <typeparam name="TForwardKey">Forward mapping key.</typeparam>
@@ -36,8 +40,7 @@ public class BiMap<TForwardKey, TReverseKey> : IEnumerable<KeyValuePair<TForward
     public Indexer<TForwardKey, TReverseKey> Forward { get; } = new();
     public Indexer<TReverseKey, TForwardKey> Reverse { get; } = new();
 
-    IEnumerator<KeyValuePair<TForwardKey, TReverseKey>> IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>.
-        GetEnumerator()
+    IEnumerator<KeyValuePair<TForwardKey, TReverseKey>> IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>.GetEnumerator()
     {
         return Forward.GetEnumerator();
     }

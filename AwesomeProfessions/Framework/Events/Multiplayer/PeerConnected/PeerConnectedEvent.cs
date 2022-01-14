@@ -1,6 +1,10 @@
-﻿using StardewModdingAPI.Events;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+#region using directives
+
+using StardewModdingAPI.Events;
+
+#endregion using directives
 
 internal abstract class PeerConnectedEvent : BaseEvent
 {

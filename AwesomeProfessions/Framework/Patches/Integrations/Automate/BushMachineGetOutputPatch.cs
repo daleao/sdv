@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -6,11 +10,14 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Stardew.Common.Harmony;
+using Extensions;
+
+using Professions = Utility.Professions;
 using Object = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+#endregion using directives
 
 [UsedImplicitly]
 internal class BushMachineGetOutputPatch : BasePatch
@@ -59,15 +66,15 @@ internal class BushMachineGetOutputPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Ecologist")) // find index of ecologist check
+                .FindProfessionCheck(Professions.IndexOf("Ecologist")) // find index of ecologist check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_4) // quality = 4
                 )
                 .GetLabels(out var labels) // backup branch labels
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
-                        typeof(Utility.Professions).MethodNamed(
-                            nameof(Utility.Professions.GetEcologistForageQuality)))
+                        typeof(Professions).MethodNamed(
+                            nameof(Professions.GetEcologistForageQuality)))
                 )
                 .AddLabels(labels); // restore backed-up labels
         }

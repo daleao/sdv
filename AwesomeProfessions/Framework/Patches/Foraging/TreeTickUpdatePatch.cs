@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,9 +11,12 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class TreeTickUpdatePatch : BasePatch
@@ -39,11 +46,11 @@ internal class TreeTickUpdatePatch : BasePatch
             var isPrestiged = iLGenerator.DefineLabel();
             var resumeExecution = iLGenerator.DefineLabel();
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Lumberjack"), true)
+                .FindProfessionCheck(Professions.IndexOf("Lumberjack"), true)
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Lumberjack")),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 100 + Professions.IndexOf("Lumberjack")),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
                     new CodeInstruction(OpCodes.Brtrue_S, isPrestiged)
@@ -74,7 +81,7 @@ internal class TreeTickUpdatePatch : BasePatch
 
         // find the Arborist profession check
         helper
-            .FindProfessionCheck(Utility.Professions.IndexOf("Arborist"), true)
+            .FindProfessionCheck(Professions.IndexOf("Arborist"), true)
             .RetreatUntil(
                 new CodeInstruction(OpCodes.Ldarg_0)
             )
@@ -87,7 +94,7 @@ internal class TreeTickUpdatePatch : BasePatch
 
         // copy these instructions and replace Arborist check for prestiged Arborist check
         var checkForArboristInstructions = helper.Buffer;
-        checkForArboristInstructions[5] = new(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Arborist"));
+        checkForArboristInstructions[5] = new(OpCodes.Ldc_I4_S, 100 + Professions.IndexOf("Arborist"));
 
         /// From: numHardwood++;
         /// To: numHardwood += Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <arborist_id>) ? 2 : 1;
@@ -105,7 +112,7 @@ internal class TreeTickUpdatePatch : BasePatch
             var resumeExecution1 = iLGenerator.DefineLabel();
             var resumeExecution2 = iLGenerator.DefineLabel();
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Arborist"), true)
+                .FindProfessionCheck(Professions.IndexOf("Arborist"), true)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Add)
@@ -119,7 +126,7 @@ internal class TreeTickUpdatePatch : BasePatch
                 )
                 .Advance()
                 .AddLabels(resumeExecution1)
-                .FindProfessionCheck(Utility.Professions.IndexOf("Arborist"), true)
+                .FindProfessionCheck(Professions.IndexOf("Arborist"), true)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.25f),
                     new CodeInstruction(OpCodes.Mul)

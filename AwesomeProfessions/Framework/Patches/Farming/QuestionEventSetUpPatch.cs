@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -6,9 +10,12 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Events;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class QuestionEventSetUpPatch : BasePatch
@@ -44,8 +51,8 @@ internal class QuestionEventSetUpPatch : BasePatch
                 .Advance()
                 .AddLabels(resumeExecution) // branch here to resume execution
                 .Retreat()
-                .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Breeder"), isNotBreeder)
-                .InsertProfessionCheckForLocalPlayer(100 + Utility.Professions.IndexOf("Breeder"), isNotPrestiged)
+                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Breeder"), isNotBreeder)
+                .InsertProfessionCheckForLocalPlayer(100 + Professions.IndexOf("Breeder"), isNotPrestiged)
                 .Insert( // if player is breeder load adjusted pregancy chance
                     new CodeInstruction(OpCodes.Ldc_R8, 0.0275), // x5 for prestiged
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)

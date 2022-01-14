@@ -1,8 +1,13 @@
-﻿using StardewModdingAPI.Events;
-using StardewValley;
-using DaLion.Stardew.Professions.Framework.Patches.Foraging;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+#region using directives
+
+using StardewModdingAPI.Events;
+using StardewValley;
+
+using Patches.Foraging;
+
+#endregion using directives
 
 internal class PiperUpdateTickedEvent : UpdateTickedEvent
 {

@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -6,11 +10,14 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Stardew.Common.Harmony;
+using Extensions;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+#endregion using directives
 
 [UsedImplicitly]
 internal class ObjectCheckForActionPatch : BasePatch
@@ -63,7 +70,7 @@ internal class ObjectCheckForActionPatch : BasePatch
                     // prepare profession check
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack(Utility.Professions.IndexOf("Gemologist"),
+                .InsertProfessionCheckForPlayerOnStack(Professions.IndexOf("Gemologist"),
                     dontIncreaseGemologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),

@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+
+#region using directives
+
+using System.Collections.Generic;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+using Stardew.Common.Harmony;
+using AssetLoaders;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class NewSkillsPageCtorPatch : BasePatch

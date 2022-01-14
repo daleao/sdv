@@ -1,9 +1,15 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+
+#region using directives
+
+using System;
 using System.Linq;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 {
@@ -14,7 +20,7 @@ internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     /// <summary>Construct an instance.</summary>
     internal DemolitionistBuffDisplayUpdateTickedEvent()
     {
-        _buffId = (ModEntry.Manifest.UniqueID + Utility.Professions.IndexOf("Demolitionist")).GetHashCode();
+        _buffId = (ModEntry.Manifest.UniqueID + Professions.IndexOf("Demolitionist")).GetHashCode();
     }
 
     /// <inheritdoc />

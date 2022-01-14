@@ -1,10 +1,15 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+using Stardew.Common.Extensions;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class CraftingRecipeCtorPatch : BasePatch

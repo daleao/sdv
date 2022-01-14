@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -6,9 +10,12 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Farming;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class HoeDirtApplySpeedIncreases : BasePatch
@@ -34,9 +41,9 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Agriculturist"))
+                .FindProfessionCheck(Professions.IndexOf("Agriculturist"))
                 .Advance()
-                .FindProfessionCheck(Utility.Professions.IndexOf("Agriculturist"))
+                .FindProfessionCheck(Professions.IndexOf("Agriculturist"))
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.1f)
                 )
@@ -44,7 +51,7 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1)
                 )
-                .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Agriculturist"),
+                .InsertProfessionCheckForPlayerOnStack(100 + Professions.IndexOf("Agriculturist"),
                     notPrestigedAgriculturist)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.2f),

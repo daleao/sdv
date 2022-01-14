@@ -1,9 +1,13 @@
-﻿using JetBrains.Annotations;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Display;
+
+#region using directives
+
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Display;
+#endregion using directives
 
 [UsedImplicitly]
 internal class DebugRenderedHudEvent : RenderedHudEvent

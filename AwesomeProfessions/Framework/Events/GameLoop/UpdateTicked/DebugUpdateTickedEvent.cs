@@ -1,8 +1,12 @@
-﻿using JetBrains.Annotations;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+
+#region using directives
+
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+#endregion using directives
 
 [UsedImplicitly]
 internal class DebugUpdateTickedEvent : UpdateTickedEvent

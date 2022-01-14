@@ -1,11 +1,16 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+
+#region using directives
+
+using System;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+using Stardew.Common.Harmony;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class FarmAnimalExtensionsSetDaysUntilBirthPatch : BasePatch

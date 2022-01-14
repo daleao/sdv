@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,10 +13,13 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+using Stardew.Common.Harmony;
+using SuperMode;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
@@ -29,7 +36,7 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
     [HarmonyPostfix]
     private static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
     {
-        if (!Utility.Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
+        if (!Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
 
         // add immediate perks
         if (professionName == "Aquarist")
@@ -71,7 +78,7 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
                 )
-                .SetOperand(Utility.Professions.IndexOf("Brute"));
+                .SetOperand(Professions.IndexOf("Brute"));
         }
         catch (Exception ex)
         {

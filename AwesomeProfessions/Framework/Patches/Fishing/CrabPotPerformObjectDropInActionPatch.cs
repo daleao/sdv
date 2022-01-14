@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -6,9 +10,12 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Objects;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class CrabPotPerformObjectDropInActionPatch : BasePatch
@@ -33,7 +40,7 @@ internal class CrabPotPerformObjectDropInActionPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Conservationist"))
+                .FindProfessionCheck(Professions.IndexOf("Conservationist"))
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldloc_1)
                 )

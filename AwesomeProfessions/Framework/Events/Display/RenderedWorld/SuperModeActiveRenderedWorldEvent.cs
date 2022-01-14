@@ -1,6 +1,10 @@
-﻿using StardewModdingAPI.Events;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Display;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Display;
+#region using directives
+
+using StardewModdingAPI.Events;
+
+#endregion using directives
 
 internal class SuperModeActiveRenderedWorldEvent : RenderedWorldEvent
 {

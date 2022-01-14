@@ -1,10 +1,15 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.AssetEditors;
+
+#region using directives
+
+using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.AssetEditors;
+using Common.Extensions;
+
+#endregion using directives
 
 /// <summary>Edits <c></c>Data/achievements<c></c> with Prestige achievements.</summary>
 public class AchivementsEditor : IAssetEditor

@@ -1,9 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿namespace DaLion.Stardew.Tools.Framework.Effects;
+
+#region using directives
+
+using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Tools.Framework.Effects;
+#endregion using directives
 
 /// <summary>Interface for applying a tool's effects.</summary>
 internal interface IEffect

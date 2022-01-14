@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -6,12 +10,15 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Stardew.Common.Extensions;
+using Stardew.Common.Harmony;
+using Extensions;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+#endregion using directives
 
 [UsedImplicitly]
 internal class ObjectPerformObjectDropInActionPatch : BasePatch
@@ -76,7 +83,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
         if (__instance.name == "Geode Crusher" && who.HasProfession("Gemologist") &&
             (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
         {
-            __instance.heldObject.Value.Quality = Utility.Professions.GetGemologistMineralQuality();
+            __instance.heldObject.Value.Quality = Professions.GetGemologistMineralQuality();
         }
         else if (__instance.IsArtisanMachine() && who.HasProfession("Artisan") && dropInItem is SObject dropIn)
         {
@@ -134,7 +141,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Gemologist"),
+                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Gemologist"),
                     dontIncreaseGemologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
@@ -163,7 +170,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
             var notPrestigedBreeder = iLGenerator.DefineLabel();
             var resumeExecution = iLGenerator.DefineLabel();
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Breeder"), true)
+                .FindProfessionCheck(Professions.IndexOf("Breeder"), true)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldloc_0)
                 )
@@ -182,7 +189,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_2)
                 )
                 .ReplaceWith(
-                    new(OpCodes.Ldc_I4_S, 100 + Utility.Professions.IndexOf("Breeder"))
+                    new(OpCodes.Ldc_I4_S, 100 + Professions.IndexOf("Breeder"))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)

@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+
+#region using directives
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -6,7 +10,9 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
@@ -25,9 +31,9 @@ internal class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
     {
         try
         {
-            if (!Utility.Professions.IndexByName.Contains(whichProfession)) return true; // run original logic
+            if (!Professions.IndexByName.Contains(whichProfession)) return true; // run original logic
 
-            __result = ModEntry.ModHelper.Translation.Get(Utility.Professions.NameOf(whichProfession) + ".name." +
+            __result = ModEntry.ModHelper.Translation.Get(Professions.NameOf(whichProfession) + ".name." +
                                                           (Game1.player.IsMale ? "male" : "female"));
             return false; // don't run original logic
         }

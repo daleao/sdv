@@ -1,20 +1,22 @@
+namespace DaLion.Stardew.Tools.Integrations;
+
+#region using directives
+
 using System;
 using StardewModdingAPI;
-using DaLion.Stardew.Common.Integrations;
-using DaLion.Stardew.Tools.Configs;
-using DaLion.Stardew.Tools.Framework;
 using HarmonyLib;
 
-namespace DaLion.Stardew.Tools.Integrations;
+using Common.Integrations;
+using Configs;
+using Framework;
+
+#endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration for Awesome Tools.</summary>
 internal class GenericModConfigMenuIntegrationForAwesomeTools
 {
     /// <summary>The Generic Mod Config Menu integration.</summary>
     private readonly GenericModConfigMenuIntegration<ToolConfig> _configMenu;
-
-    /// <summary>API for fetching metadata about loaded mods.</summary>
-    private readonly IModRegistry _modRegistry;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
@@ -26,7 +28,6 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
     public GenericModConfigMenuIntegrationForAwesomeTools(IModRegistry modRegistry, IManifest manifest,
         Func<ToolConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
     {
-        _modRegistry = modRegistry;
         _configMenu = new(modRegistry, manifest, log, getConfig, reset, saveAndApply);
     }
 
@@ -34,7 +35,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
     public void Register()
     {
         var allowedUpgrades = new[] {"Copper", "Steel", "Gold", "Iridium"};
-        if (ModEntry.HasToolMod) allowedUpgrades.AddToArray("Radioactive_Prismatic");
+        if (ModEntry.HasMoonMod) allowedUpgrades.AddRangeToArray(new[] {"Radioactive", "Mythicite"});
 
         // get config menu
         if (!_configMenu.IsLoaded)
@@ -104,7 +105,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 config => config.AxeConfig.RequiredUpgradeForCharging.ToString(),
                 (config, value) => config.AxeConfig.RequiredUpgradeForCharging = Enum.Parse<UpgradeLevel>(value),
                 allowedUpgrades,
-                value => value == "Prismatic_Radioactive" ? ModEntry.ToolMod : value
+                value => value
             )
             .AddNumberField(
                 () => "Copper Radius",
@@ -139,15 +140,24 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 10
             );
 
-        if (ModEntry.HasToolMod)
-            _configMenu.AddNumberField(
-                () => ModEntry.ToolMod + " Radius",
-                () => "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
-                config => config.AxeConfig.RadiusAtEachPowerLevel[3],
-                (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[3] = value,
-                1,
-                10
-            );
+        if (ModEntry.HasMoonMod)
+            _configMenu
+                .AddNumberField(
+                    () => "Radioactive Radius",
+                    () => "The radius of affected tiles for the Radioactive Axe.",
+                    config => config.AxeConfig.RadiusAtEachPowerLevel[4],
+                    (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[4] = value,
+                    1,
+                    10
+                )
+                .AddNumberField(
+                    () => "Mythicite Radius",
+                    () => "The radius of affected tiles for the Mythicite Axe.",
+                    config => config.AxeConfig.RadiusAtEachPowerLevel[5],
+                    (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[5] = value,
+                    1,
+                    10
+                );
 
         _configMenu
             .AddCheckbox(
@@ -244,7 +254,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 config => config.PickaxeConfig.RequiredUpgradeForCharging.ToString(),
                 (config, value) => config.PickaxeConfig.RequiredUpgradeForCharging = Enum.Parse<UpgradeLevel>(value),
                 allowedUpgrades,
-                value => value == "Prismatic_Radioactive" ? ModEntry.ToolMod : value
+                value => value
             )
             .AddNumberField(
                 () => "Copper Radius",
@@ -279,15 +289,24 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 10
             );
 
-        if (ModEntry.HasToolMod)
-            _configMenu.AddNumberField(
-                () => ModEntry.ToolMod + " Radius",
-                () => "The radius of affected tiles if using mods like Prismatic or Radioactive Tools.",
-                config => config.PickaxeConfig.RadiusAtEachPowerLevel[3],
-                (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[3] = value,
-                1,
-                10
-            );
+        if (ModEntry.HasMoonMod)
+            _configMenu
+                .AddNumberField(
+                    () => "Radioactive Radius",
+                    () => "The radius of affected tiles for the Radioactive Pickaxe.",
+                    config => config.PickaxeConfig.RadiusAtEachPowerLevel[4],
+                    (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[4] = value,
+                    1,
+                    10
+                )
+                .AddNumberField(
+                    () => "Mythicite Radius",
+                    () => "The radius of affected tiles for the Mythicite Pickaxe.",
+                    config => config.PickaxeConfig.RadiusAtEachPowerLevel[5],
+                    (config, value) => config.PickaxeConfig.RadiusAtEachPowerLevel[5] = value,
+                    1,
+                    10
+                );
 
         _configMenu
             .AddCheckbox(

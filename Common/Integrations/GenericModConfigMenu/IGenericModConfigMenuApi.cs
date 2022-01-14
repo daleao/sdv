@@ -1,8 +1,12 @@
+namespace DaLion.Stardew.Common.Integrations;
+
+#region using directives
+
 using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
-namespace DaLion.Stardew.Common.Integrations;
+#endregion using directives
 
 /// <summary>The API provided by the Generic Mod Config Menu mod.</summary>
 public interface IGenericModConfigMenuApi

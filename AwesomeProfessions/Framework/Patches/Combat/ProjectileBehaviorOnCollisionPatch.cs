@@ -1,14 +1,20 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Stardew.Common.Extensions;
+using Extensions;
+
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+#endregion using directives
 
 [UsedImplicitly]
 internal class ProjectileBehaviorOnCollisionPatch : BasePatch

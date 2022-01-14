@@ -1,12 +1,17 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+
+#region using directives
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class FarmerGainExperiencePatch : BasePatch

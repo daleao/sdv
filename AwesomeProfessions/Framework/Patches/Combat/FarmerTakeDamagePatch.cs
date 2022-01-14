@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,10 +11,11 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+using Stardew.Common.Harmony;
+using SuperMode;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class FarmerTakeDamagePatch : BasePatch
@@ -69,7 +74,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(nameof(SuperMode.SuperMode.Index))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Index))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, (int) SuperModeIndex.Poacher),
                     new CodeInstruction(OpCodes.Bne_Un_S, alreadyUndamageableOrNotAmbuscade),
                     // check if SuperMode.IsActive
@@ -80,7 +85,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(nameof(SuperMode.SuperMode.IsActive))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.IsActive))),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
                     // set monsterDamageCapable = false
                     new CodeInstruction(OpCodes.Ldc_I4_0),
@@ -132,7 +137,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(nameof(SuperMode.SuperMode.Index))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Index))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, (int) SuperModeIndex.Brute),
                     new CodeInstruction(OpCodes.Bne_Un_S, isNotUndyingButMayHaveDailyRevive),
                     // check if SuperMode.IsActive
@@ -143,7 +148,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(nameof(SuperMode.SuperMode.IsActive))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.IsActive))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
                     // set health back to 1
                     new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Farmer this
@@ -189,7 +194,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(nameof(SuperMode.SuperMode.Index))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Index))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, (int) SuperModeIndex.Brute),
                     new CodeInstruction(OpCodes.Bne_Un_S, dontIncreaseBruteCounterForDamage),
                     // check if farmer received any damage
@@ -204,11 +209,17 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(nameof(SuperMode.SuperMode.Gauge))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Gauge))),
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.CurrentValue))),
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0), // <-- increment amount
+                    // increment by config factor
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(ModConfig).PropertyGetter(nameof(ModConfig.SuperModeGainFactor))),
+                    new CodeInstruction(OpCodes.Conv_R8),
+                    new CodeInstruction(OpCodes.Mul),
+                    // scale for extended levels
                     new CodeInstruction(OpCodes.Call,
                         typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.MaxValue))),
                     new CodeInstruction(OpCodes.Conv_R8),

@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,12 +14,15 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Sounds;
-using DaLion.Stardew.Professions.Framework.SuperMode;
+
+using Stardew.Common.Harmony;
+using AssetLoaders;
+using SuperMode;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+#endregion using directives
 
 internal class GameLocationDamageMonsterPatch : BasePatch
 {
@@ -50,7 +57,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             helper
                 .FindProfessionCheck(Farmer.scout) // find index of scout check
                 .Advance()
-                .SetOperand(Utility.Professions.IndexOf("Poacher")) // replace with Poacher check
+                .SetOperand(Professions.IndexOf("Poacher")) // replace with Poacher check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_S) // start of critChance += critChance * 0.5f
                 )
@@ -78,7 +85,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Fighter"),
+                .FindProfessionCheck(Professions.IndexOf("Fighter"),
                     true) // find index of brute check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.1f) // brute damage multiplier
@@ -87,7 +94,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack(100 + Utility.Professions.IndexOf("Fighter"),
+                .InsertProfessionCheckForPlayerOnStack(100 + Professions.IndexOf("Fighter"),
                     notPrestigedFighter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.2f),
@@ -109,14 +116,14 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Brute"),
+                .FindProfessionCheck(Professions.IndexOf("Brute"),
                     true) // find index of brute check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.15f) // brute damage multiplier
                 )
                 .ReplaceWith( // replace with custom multiplier
                     new(OpCodes.Call,
-                        typeof(Utility.Professions).MethodNamed(nameof(Utility.Professions
+                        typeof(Professions).MethodNamed(nameof(Professions
                             .GetBruteBonusDamageMultiplier)))
                 )
                 .Insert(
@@ -152,8 +159,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .Advance()
                 .ReplaceWith(
                     new(OpCodes.Callvirt,
-                        typeof(SuperMode.SuperMode).PropertyGetter(
-                            nameof(SuperMode.SuperMode.Index))) // was Callvirt NetList.Contains
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Index))) // was Callvirt NetList.Contains
                 )
                 .Insert(
                     // check if SuperMode is null
@@ -178,8 +184,8 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 )
                 .ReplaceWith(
                     new(OpCodes.Call,
-                        typeof(Utility.Professions).MethodNamed(
-                            nameof(Utility.Professions.GetPoacherCritDamageMultiplier)))
+                        typeof(Professions).MethodNamed(
+                            nameof(Professions.GetPoacherCritDamageMultiplier)))
                 );
         }
         catch (Exception ex)
@@ -241,7 +247,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
 
     #endregion harmony patches
 
-    #region private methods
+    #region injected subroutines
 
     private static void DamageMonsterSubroutine(int damageAmount, bool isBomb, bool didCrit, float critMultiplier,
         Monster monster, Farmer who)
@@ -269,6 +275,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         if (superMode.IsActive) return;
 
         var increment = 0;
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (superMode.Index)
         {
             case SuperModeIndex.Brute:
@@ -278,16 +285,29 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 if (weapon.type.Value == MeleeWeapon.club) increment *= 2;
                 break;
             }
-            case SuperModeIndex.Poacher when didCrit:
+            case SuperModeIndex.Poacher:
             {
-                increment = (int) critMultiplier;
+                increment = 2;
+                if (didCrit) increment *= (int) critMultiplier;
                 if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
+                break;
+            }
+            case SuperModeIndex.Piper:
+            {
+                increment = monster switch
+                {
+                    GreenSlime => 4,
+                    BigSlime => 8,
+                    _ => 0
+                };
+                
+                if (monster.Health <= 0) increment *= 2;
                 break;
             }
         }
 
-        superMode.Gauge.CurrentValue += increment * (double) SuperModeGauge.MaxValue / 500;
+        superMode.Gauge.CurrentValue += increment * ModEntry.Config.SuperModeGainFactor * (double) SuperModeGauge.MaxValue / 500;
     }
 
-    #endregion private methods
+    #endregion injected subroutines
 }

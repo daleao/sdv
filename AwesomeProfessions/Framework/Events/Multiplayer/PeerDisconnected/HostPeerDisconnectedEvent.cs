@@ -1,10 +1,15 @@
-﻿using JetBrains.Annotations;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+
+#region using directives
+
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+using GameLoop;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class HostPeerDisconnectedEvent : PeerDisconnectedEvent

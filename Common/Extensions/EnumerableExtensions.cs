@@ -1,7 +1,11 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Common.Extensions;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 
-namespace DaLion.Stardew.Common.Extensions;
+#endregion using directives
 
 public static class EnumerableExtensions
 {

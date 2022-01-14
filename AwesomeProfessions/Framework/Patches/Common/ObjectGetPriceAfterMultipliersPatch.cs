@@ -1,13 +1,20 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+
+#region using directives
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Extensions;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+#endregion using directives
 
 [UsedImplicitly]
 internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
@@ -52,9 +59,9 @@ internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
 
                 // professions
                 if (player.HasProfession("Producer") && __instance.IsAnimalProduct())
-                    multiplier += Utility.Professions.GetProducerPriceBonus(player);
+                    multiplier += Professions.GetProducerPriceBonus(player);
                 if (player.HasProfession("Angler") && __instance.IsFish())
-                    multiplier += Utility.Professions.GetAnglerPriceBonus(player);
+                    multiplier += Professions.GetAnglerPriceBonus(player);
 
                 // events
                 else if (player.eventsSeen.Contains(2120303) && __instance.IsWildBerry())
@@ -64,7 +71,7 @@ internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
 
                 // tax bonus
                 if (player.IsLocalPlayer && player.HasProfession("Conservationist"))
-                    multiplier *= Utility.Professions.GetConservationistPriceMultiplier();
+                    multiplier *= Professions.GetConservationistPriceMultiplier();
 
                 saleMultiplier = Math.Max(saleMultiplier, multiplier);
             }

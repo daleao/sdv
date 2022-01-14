@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
-using DaLion.Stardew.Tools.Framework;
+﻿namespace DaLion.Stardew.Tools.Configs;
 
-namespace DaLion.Stardew.Tools.Configs;
+#region using directives
+
+using System.Collections.Generic;
+
+using Framework;
+
+#endregion using directives
 
 /// <summary>Configuration for the axe shockwave.</summary>
 public class AxeConfig

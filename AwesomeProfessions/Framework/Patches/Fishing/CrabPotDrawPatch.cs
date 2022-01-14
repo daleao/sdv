@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -8,9 +12,10 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
-using DaLion.Stardew.Common.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+using Stardew.Common.Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class CrabPotDrawPatch : BasePatch

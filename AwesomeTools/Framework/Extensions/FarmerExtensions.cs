@@ -1,7 +1,11 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Tools.Framework.Extensions;
+
+#region using directives
+
+using System;
 using StardewValley;
 
-namespace DaLion.Stardew.Tools.Framework.Extensions;
+#endregion using directives
 
 public static class FarmerExtensions
 {

@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,9 +11,12 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class GeodeMenuUpdatePatch : BasePatch
@@ -42,7 +49,7 @@ internal class GeodeMenuUpdatePatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer(Utility.Professions.IndexOf("Gemologist"),
+                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Gemologist"),
                     dontIncreaseGemologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),

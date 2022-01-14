@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.SuperMode;
+
+#region using directives
+
+using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Netcode;
@@ -6,13 +10,15 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using DaLion.Stardew.Professions.Framework.Events.Display;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Events.Input;
-using DaLion.Stardew.Professions.Framework.Events.Player;
-using DaLion.Stardew.Professions.Framework.Sounds;
+using Events.Display;
+using Events.GameLoop;
+using Events.Input;
+using Events.Player;
+using AssetLoaders;
 
-namespace DaLion.Stardew.Professions.Framework.SuperMode;
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 /// <summary>Main handler for Super Mode functionality.</summary>
 internal class SuperMode
@@ -30,11 +36,41 @@ internal class SuperMode
                 "Tried to initialize empty or illegal Super Mode.");
 
         Index = index;
-        Init();
+        Gauge = new();
+        Overlay = new(Index);
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+        switch (Index)
+        {
+            case SuperModeIndex.Brute:
+                GlowColor = Color.OrangeRed;
+                ActivationSfx = SFX.BruteRage;
+                break;
+
+            case SuperModeIndex.Poacher:
+                GlowColor = Color.MediumPurple;
+                ActivationSfx = SFX.PoacherAmbush;
+                break;
+
+            case SuperModeIndex.Piper:
+                GlowColor = Color.LimeGreen;
+                ActivationSfx = SFX.PiperFluidity;
+                break;
+
+            case SuperModeIndex.Desperado:
+                GlowColor = Color.DarkGoldenrod;
+                ActivationSfx = SFX.DesperadoBlossom;
+                break;
+        }
 
         // enable events
         ModEntry.EventManager.EnableAllForSuperMode();
         if (Index == SuperModeIndex.Piper) ModEntry.EventManager.Enable(typeof(PiperWarpedEvent));
+
+        var key = Index.ToString().ToLower();
+        var professionDisplayName = ModEntry.ModHelper.Translation.Get(key + ".name.male");
+        var buffName = ModEntry.ModHelper.Translation.Get(key + ".buff");
+        ModEntry.Log($"Initialized Super Mode as {professionDisplayName}'s {buffName}.", ModEntry.DefaultLogLevel);
     }
 
     ~SuperMode()
@@ -49,6 +85,8 @@ internal class SuperMode
     public SuperModeOverlay Overlay { get; private set; }
     public Color GlowColor { get; private set; }
     public SFX ActivationSfx { get; private set; }
+
+    #region public methods
 
     /// <summary>Activate Super Mode for the local player.</summary>
     public void Activate()
@@ -69,7 +107,7 @@ internal class SuperMode
         // add Super Mode buff
         var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Index + 4;
         var professionIndex = (int) ModEntry.State.Value.SuperMode.Index;
-        var professionName = Utility.Professions.NameOf(professionIndex);
+        var professionName = Professions.NameOf(professionIndex);
 
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff is null)
@@ -186,7 +224,7 @@ internal class SuperMode
         if (Gauge.CurrentValue < 10.0) return;
 
         var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Index;
-        var professionName = Utility.Professions.NameOf((int) Index);
+        var professionName = Professions.NameOf((int) Index);
         var magnitude = GetBuffMagnitude();
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff == null)
@@ -215,61 +253,9 @@ internal class SuperMode
                 });
     }
 
+    #endregion public methods
+
     #region private methods
-
-    /// <summary>Initialize private fields following an index change.</summary>
-    private void Init()
-    {
-        Gauge = new();
-        Overlay = new(Index);
-
-        switch (Index)
-        {
-            case SuperModeIndex.Brute:
-                GlowColor = Color.OrangeRed;
-                ActivationSfx = SFX.BruteRage;
-                break;
-
-            case SuperModeIndex.Poacher:
-                GlowColor = Color.MediumPurple;
-                ActivationSfx = SFX.PoacherAmbush;
-                break;
-
-            case SuperModeIndex.Piper:
-                GlowColor = Color.LimeGreen;
-                ActivationSfx = SFX.PiperFluidity;
-                break;
-
-            case SuperModeIndex.Desperado:
-                GlowColor = Color.DarkGoldenrod;
-                ActivationSfx = SFX.DesperadoBlossom;
-                break;
-        }
-
-        var key = Index.ToString().ToLower();
-        var professionDisplayName = ModEntry.ModHelper.Translation.Get(key + ".name.male");
-        var buffName = ModEntry.ModHelper.Translation.Get(key + ".buff");
-        ModEntry.Log($"Initialized Super Mode as {professionDisplayName}'s {buffName}.", ModEntry.DefaultLogLevel);
-    }
-
-    /// <summary>Get the current magnitude of the Super Mode buff to display.</summary>
-    private string GetBuffMagnitude()
-    {
-#pragma warning disable CS8509
-        return Index switch
-#pragma warning restore CS8509
-        {
-            SuperModeIndex.Brute => ((Utility.Professions.GetBruteBonusDamageMultiplier(Game1.player) - 1.15) * 100f)
-                .ToString("0.0"),
-            SuperModeIndex.Poacher => Utility.Professions.GetPoacherCritDamageMultiplier().ToString("0.0"),
-            SuperModeIndex.Piper => Utility.Professions.GetPiperSlimeSpawnAttempts().ToString("0"),
-            SuperModeIndex.Desperado => ((Utility.Professions.GetDesperadoBulletPower() - 1f) * 100f).ToString("0.0")
-        };
-    }
-
-    #endregion private methods
-
-    #region private static methods
 
     /// <summary>Hide the player from monsters that may have already seen him/her.</summary>
     private static void ActivateForPoacher()
@@ -342,5 +328,20 @@ internal class SuperMode
         ModEntry.EventManager.Enable(typeof(SlimeInflationUpdateTickedEvent));
     }
 
-    #endregion private static methods
+    /// <summary>Get the current magnitude of the Super Mode buff to display.</summary>
+    private string GetBuffMagnitude()
+    {
+#pragma warning disable CS8509
+        return Index switch
+#pragma warning restore CS8509
+        {
+            SuperModeIndex.Brute => ((Professions.GetBruteBonusDamageMultiplier(Game1.player) - 1.15) * 100f)
+                .ToString("0.0"),
+            SuperModeIndex.Poacher => Professions.GetPoacherCritDamageMultiplier().ToString("0.0"),
+            SuperModeIndex.Piper => Professions.GetPiperSlimeSpawnAttempts().ToString("0"),
+            SuperModeIndex.Desperado => ((Professions.GetDesperadoBulletPower() - 1f) * 100f).ToString("0.0")
+        };
+    }
+
+    #endregion private methods
 }

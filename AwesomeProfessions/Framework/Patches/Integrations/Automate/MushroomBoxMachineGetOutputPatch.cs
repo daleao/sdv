@@ -1,14 +1,21 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+
+#region using directives
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Stardew.Common.Harmony;
+using Extensions;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+#endregion using directives
 
 [UsedImplicitly]
 internal class MushroomBoxMachineGetOutputPatch : BasePatch
@@ -45,7 +52,7 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
             var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
             if (!who.HasProfession("Ecologist")) return true; // run original logic
 
-            machine.heldObject.Value.Quality = Utility.Professions.GetEcologistForageQuality();
+            machine.heldObject.Value.Quality = Professions.GetEcologistForageQuality();
             if (!ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic
 
             ModData.Increment<uint>(DataField.EcologistItemsForaged, who);

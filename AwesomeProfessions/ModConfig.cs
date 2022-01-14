@@ -1,6 +1,10 @@
-﻿using StardewModdingAPI.Utilities;
+﻿namespace DaLion.Stardew.Professions;
 
-namespace DaLion.Stardew.Professions;
+#region using directives
+
+using StardewModdingAPI.Utilities;
+
+#endregion using directives
 
 /// <summary>The mod user-defined settings.</summary>
 public class ModConfig
@@ -59,6 +63,8 @@ public class ModConfig
     /// <summary>How long <see cref="SuperModeKey" /> should be held to activate Super Mode, in seconds.</summary>
     public float SuperModeActivationDelay { get; set; } = 1f;
 
+    public float SuperModeGainFactor { get; set; } = 1f;
+
     /// <summary>Lower numbers make Super Mode last longer. Should be a number between 1 and 10.</summary>
     public double SuperModeDrainFactor { get; set; } = 3;
 
@@ -90,7 +96,10 @@ public class ModConfig
     public uint ChangeUltCost { get; set; } = 0;
 
     /// <summary>Enable if using the Vintage Interface mod.</summary>
-    public bool UseVintageSkillBars { get; set; } = false;
+    public bool UseVintageInterface { get; set; } = false;
+
+    /// <summary>The visual style for different honey mead icons, if using BetterArtisanGoodIcons. Allowed values: 'ColoredBottles', 'ColoredCaps'.</summary>
+    public string HoneyMeadStyle { get; set; } = "ColoredBottles";
 
     /// <summary>Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.</summary>
     public bool EnableFishPondRebalance { get; set; } = true;

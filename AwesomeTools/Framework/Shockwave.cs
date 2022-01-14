@@ -1,14 +1,17 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Tools.Framework.Effects;
+
+#region using directives
+
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-using DaLion.Stardew.Common.Classes;
-using DaLion.Stardew.Tools.Framework.Extensions;
+using Common.Classes;
+using Extensions;
 
-namespace DaLion.Stardew.Tools.Framework.Effects;
+#endregion using directives
 
 /// <summary>Spreads a tool's effect across all tiles in a circular area.</summary>
 internal class Shockwave

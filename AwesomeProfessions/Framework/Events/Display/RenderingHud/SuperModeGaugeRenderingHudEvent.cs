@@ -1,7 +1,11 @@
-﻿using StardewModdingAPI.Events;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Display;
+
+#region using directives
+
+using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Display;
+#endregion using directives
 
 internal class SuperModeGaugeRenderingHudEvent : RenderingHudEvent
 {

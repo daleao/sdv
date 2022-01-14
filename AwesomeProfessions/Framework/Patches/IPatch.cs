@@ -1,6 +1,10 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches;
 
-namespace DaLion.Stardew.Professions.Framework.Patches;
+#region using directives
+
+using HarmonyLib;
+
+#endregion using directives
 
 /// <summary>Interface for Harmony patch classes.</summary>
 internal interface IPatch

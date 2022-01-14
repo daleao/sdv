@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+
+#region using directives
+
+using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -6,10 +10,11 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+using Events.GameLoop;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class GameLocationPerformActionPatch : BasePatch

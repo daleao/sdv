@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+    
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -9,11 +13,12 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+using Stardew.Common.Harmony;
+using AssetLoaders;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class SkillsPageDrawPatch : BasePatch
@@ -140,9 +145,9 @@ internal class SkillsPageDrawPatch : BasePatch
 
     #endregion harmony patches
 
-    #region private methods
+    #region injected subroutines
 
-    private static void DrawExtendedLevelBars(int levelIndex, int skillIndex, int x, int y, int addedX,
+    internal static void DrawExtendedLevelBars(int levelIndex, int skillIndex, int x, int y, int addedX,
         int skillLevel, SpriteBatch b)
     {
         if (!ModEntry.Config.EnablePrestige) return;
@@ -156,15 +161,13 @@ internal class SkillsPageDrawPatch : BasePatch
                 new(0, 0, 8, 9), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
     }
 
-    private static void DrawRibbons(SkillsPage page, SpriteBatch b)
+    internal static void DrawRibbons(SkillsPage page, SpriteBatch b)
     {
         if (!ModEntry.Config.EnablePrestige) return;
 
-        var w = Textures.RibbonWidth;
-        var s = Textures.RibbonScale;
         var position =
             new Vector2(
-                page.xPositionOnScreen + page.width + Textures.RibbonHorizontalOffset,
+                page.xPositionOnScreen + page.width + Textures.RIBBON_HORIZONTAL_OFFSET_I,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth - 70);
         for (var i = 0; i < 5; ++i)
         {
@@ -181,11 +184,12 @@ internal class SkillsPageDrawPatch : BasePatch
             var count = Game1.player.NumberOfProfessionsInSkill(skillIndex, true);
             if (count == 0) continue;
 
-            var srcRect = new Rectangle(i * w, (count - 1) * w, w, w);
-            b.Draw(Textures.RibbonTx, position, srcRect, Color.White, 0f, Vector2.Zero, s,
+            var srcRect = new Rectangle(i * Textures.RIBBON_WIDTH_I, (count - 1) * Textures.RIBBON_WIDTH_I,
+                Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I);
+            b.Draw(Textures.RibbonTx, position, srcRect, Color.White, 0f, Vector2.Zero, Textures.RIBBON_SCALE_F,
                 SpriteEffects.None, 1f);
         }
     }
 
-    #endregion private methods
+    #endregion injected subroutines
 }

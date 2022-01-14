@@ -1,9 +1,14 @@
-﻿using System.Linq;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+
+#region using directives
+
+using System.Linq;
 using StardewModdingAPI.Events;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using Common.Extensions;
+
+#endregion using directives
 
 internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
 {

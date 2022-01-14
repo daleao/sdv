@@ -1,12 +1,19 @@
-﻿using System.Linq;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Input;
+
+#region using directives
+
+using System.Linq;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Events.Display;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Input;
+using Common.Extensions;
+using Display;
+
+using Multiplayer = Utility.Multiplayer;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class DebugButtonsChangedEvent : ButtonsChangedEvent
@@ -80,7 +87,7 @@ internal class DebugButtonsChangedEvent : ButtonsChangedEvent
                             }
                             else
                             {
-                                events = await Utility.Multiplayer.SendRequestAsync("EventsEnabled", "Debug/Request",
+                                events = await Multiplayer.SendRequestAsync("EventsEnabled", "Debug/Request",
                                     who.UniqueMultiplayerID);
                             }
                         }

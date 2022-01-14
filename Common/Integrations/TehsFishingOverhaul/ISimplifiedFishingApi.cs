@@ -1,7 +1,11 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Common.Integrations;
+
+#region using directives
+
+using System;
 using StardewValley;
 
-namespace DaLion.Stardew.Common.Integrations;
+#endregion using directives
 
 public interface ISimplifiedFishingApi
 {

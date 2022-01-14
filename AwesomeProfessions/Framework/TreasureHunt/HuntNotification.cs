@@ -1,11 +1,16 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
+
+#region using directives
+
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
+
 using SUtility = StardewValley.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
+#endregion using directives
 
 /// <summary>HUD message for treasure hunts.</summary>
 internal class HuntNotification : HUDMessage

@@ -4,9 +4,13 @@ using System.IO;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
+namespace DaLion.Stardew.Professions.Framework.AssetLoaders;
+
+#region using directives
+
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Sounds;
+#endregion using directives
 
 /// <summary>Gathers and allows playing custom mod sound assets.</summary>
 internal class SoundBox

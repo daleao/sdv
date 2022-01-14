@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -6,11 +10,14 @@ using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Network;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Stardew.Common.Harmony;
+using Extensions;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+#endregion using directives
 
 internal class GameLocationCheckActionPatch : BasePatch
 {
@@ -62,8 +69,8 @@ internal class GameLocationCheckActionPatch : BasePatch
                 )
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
-                        typeof(Utility.Professions).MethodNamed(
-                            nameof(Utility.Professions.GetEcologistForageQuality)))
+                        typeof(Professions).MethodNamed(
+                            nameof(Professions.GetEcologistForageQuality)))
                 );
         }
         catch (Exception ex)
@@ -108,7 +115,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .AdvanceUntil( // find repeated botanist check
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist)
                 )
-                .SetOperand(Utility.Professions.IndexOf("Gemologist")) // replace with gemologist check
+                .SetOperand(Professions.IndexOf("Gemologist")) // replace with gemologist check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
@@ -129,11 +136,11 @@ internal class GameLocationCheckActionPatch : BasePatch
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Utility.Professions).MethodNamed(
-                            nameof(Utility.Professions.GetEcologistForageQuality)))
+                        typeof(Professions).MethodNamed(
+                            nameof(Professions.GetEcologistForageQuality)))
                 )
                 .SetOperand(
-                    typeof(Utility.Professions).MethodNamed(nameof(Utility.Professions
+                    typeof(Professions).MethodNamed(nameof(Professions
                         .GetGemologistMineralQuality))); // set correct custom quality method call
         }
         catch (Exception ex)
@@ -179,7 +186,7 @@ internal class GameLocationCheckActionPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Utility.Professions.IndexOf("Forager"))
+                .FindProfessionCheck(Professions.IndexOf("Forager"))
                 .Retreat()
                 .ToBufferUntil(
                     true,
@@ -192,9 +199,9 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .AddLabels(notPrestigedForager)
                 .InsertBuffer()
                 .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, Utility.Professions.IndexOf("Forager"))
+                    new CodeInstruction(OpCodes.Ldc_I4_S, Professions.IndexOf("Forager"))
                 )
-                .SetOperand(100 + Utility.Professions.IndexOf("Forager"))
+                .SetOperand(100 + Professions.IndexOf("Forager"))
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )

@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Professions.Framework.Extensions;
+
+#region using directives
+
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
@@ -6,11 +10,13 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using DaLion.Stardew.Common.Extensions;
 using xTile.Dimensions;
+
+using Common.Extensions;
+
 using SUtility = StardewValley.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Extensions;
+#endregion using directives
 
 public static class GameLocationExtensions
 {

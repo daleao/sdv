@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
@@ -6,9 +10,12 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+using Extensions;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
@@ -28,12 +35,12 @@ internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
     {
         try
         {
-            if (!Utility.Professions.IndexByName.Contains(professionName)) return true; // run original logic
+            if (!Professions.IndexByName.Contains(professionName)) return true; // run original logic
 
             descriptions.Add(ModEntry.ModHelper.Translation.Get(professionName + ".name." +
                                                                 (Game1.player.IsMale ? "male" : "female")));
 
-            var professionIndex = Utility.Professions.IndexOf(professionName);
+            var professionIndex = Professions.IndexOf(professionName);
             var skillIndex = professionIndex / 6;
             var currentLevel = Game1.player.GetUnmodifiedSkillLevel(skillIndex);
             descriptions.AddRange(ModEntry.ModHelper.Translation

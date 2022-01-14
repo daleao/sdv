@@ -1,12 +1,17 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions;
+
+#region using directives
+
+using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework;
-using DaLion.Stardew.Professions.Framework.AssetEditors;
-using DaLion.Stardew.Professions.Framework.Sounds;
 
-namespace DaLion.Stardew.Professions;
+using Framework;
+using Framework.AssetEditors;
+using Framework.AssetLoaders;
+
+#endregion using directives
 
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
@@ -14,7 +19,7 @@ public class ModEntry : Mod
     internal static ModConfig Config { get; set; }
     internal static PerScreen<ModState> State { get; private set; }
     internal static EventManager EventManager { get; private set; }
-    internal static SoundBox SoundBox { get; set; }
+    internal static SoundBox SoundBox { get; private set; }
 
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
@@ -42,14 +47,14 @@ public class ModEntry : Mod
         EventManager = new(helper.Events);
 
         // apply harmony patches
-        new HarmonyPatcher(Manifest.UniqueID).ApplyAll();
+        new PatchManager(Manifest.UniqueID).ApplyAll();
 
         // get mod assets
-        helper.Content.AssetEditors.Add(new IconEditor()); // sprite assets
+        helper.Content.AssetEditors.Add(new IconEditor()); // edit vanilla sprites
         SoundBox = new(helper.DirectoryPath); // sound assets
 
         // add debug commands
-        ConsoleCommands.Register(helper);
+        ConsoleCommands.Register(helper.ConsoleCommands);
 
         if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
         {

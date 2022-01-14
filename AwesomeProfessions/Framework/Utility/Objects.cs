@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Utility;
+#region using directives
+
+using System.Collections.Generic;
+
+#endregion using directives
 
 /// <summary>Holds static properties related to object classification.</summary>
 public static class Objects
 {
-    #region look-up tables
-
     /// <summary>Look-up table for different types of bait by id.</summary>
     public static Dictionary<int, string> BaitById { get; } = new()
     {
@@ -87,10 +89,6 @@ public static class Objects
         {534, new[] {"0.005", "1", "1"}}, // ruby ring
         {890, new[] {"0.03", "1", "3"}} // qi bean
     };
-
-    #endregion look-up tables
-
-    #region hash sets
 
     /// <summary>Hash list of artisan machines.</summary>
     public static readonly IEnumerable<string> ArtisanMachines = new HashSet<string>
@@ -200,6 +198,4 @@ public static class Objects
         "Radioactive Carp", // qi extended
         "Pufferchick" // stardew aquarium
     };
-
-    #endregion hash sets
 }

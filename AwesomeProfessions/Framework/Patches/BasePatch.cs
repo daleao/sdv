@@ -1,11 +1,16 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches;
+
+#region using directives
+
+using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using StardewModdingAPI;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches;
+using Stardew.Common.Harmony;
+
+#endregion using directives
 
 /// <summary>Base implementation for Harmony patch classes.</summary>
 internal abstract class BasePatch : IPatch
@@ -15,9 +20,10 @@ internal abstract class BasePatch : IPatch
     {
         (Prefix, Postfix, Transpiler) = GetHarmonyMethods();
 
-        if (Prefix is not null) ++HarmonyPatcher.TotalPrefixCount;
-        if (Postfix is not null) ++HarmonyPatcher.TotalPostfixCount;
-        if (Transpiler is not null) ++HarmonyPatcher.TotalTranspilerCount;
+        if (Prefix is not null) ++PatchManager.TotalPrefixCount;
+        if (Postfix is not null) ++PatchManager.TotalPostfixCount;
+        if (Transpiler is not null) ++PatchManager.TotalTranspilerCount;
+        if (ReversePatch is not null) ++PatchManager.TotalReversePatchCount;
     }
 
     protected MethodBase Original { get; set; }
@@ -33,10 +39,10 @@ internal abstract class BasePatch : IPatch
         {
             ModEntry.Log($"[Patch]: Ignoring {GetType().Name}. The patch target was not found.", ModEntry.DefaultLogLevel);
 
-            if (Prefix is not null) ++HarmonyPatcher.IgnoredPrefixCount;
-            if (Postfix is not null) ++HarmonyPatcher.IgnoredPostfixCount;
-            if (Transpiler is not null) ++HarmonyPatcher.IgnoredTranspilerCount;
-            if (ReversePatch is not null) ++HarmonyPatcher.FailedReversePatchCount;
+            if (Prefix is not null) ++PatchManager.IgnoredPrefixCount;
+            if (Postfix is not null) ++PatchManager.IgnoredPostfixCount;
+            if (Transpiler is not null) ++PatchManager.IgnoredTranspilerCount;
+            if (ReversePatch is not null) ++PatchManager.FailedReversePatchCount;
 
             return;
         }
@@ -47,14 +53,14 @@ internal abstract class BasePatch : IPatch
                 ModEntry.DefaultLogLevel);
             harmony.Patch(Original, Prefix, Postfix, Transpiler);
 
-            if (Prefix is not null) ++HarmonyPatcher.AppliedPrefixCount;
-            if (Postfix is not null) ++HarmonyPatcher.AppliedPostfixCount;
-            if (Transpiler is not null) ++HarmonyPatcher.AppliedTranspilerCount;
+            if (Prefix is not null) ++PatchManager.AppliedPrefixCount;
+            if (Postfix is not null) ++PatchManager.AppliedPostfixCount;
+            if (Transpiler is not null) ++PatchManager.AppliedTranspilerCount;
 
             if (ReversePatch is null) return;
 
             harmony.CreateReversePatcher(Original, ReversePatch).Patch();
-            ++HarmonyPatcher.AppliedReversePatchCount;
+            ++PatchManager.AppliedReversePatchCount;
         }
         catch (Exception ex)
         {
@@ -62,10 +68,10 @@ internal abstract class BasePatch : IPatch
                 $"[Patch]: Failed to patch {Original.DeclaringType}::{Original.Name}.\nHarmony returned {ex}",
                 LogLevel.Error);
 
-            if (Prefix is not null) ++HarmonyPatcher.FailedPrefixCount;
-            if (Postfix is not null) ++HarmonyPatcher.FailedPostfixCount;
-            if (Transpiler is not null) ++HarmonyPatcher.FailedTranspilerCount;
-            if (ReversePatch is not null) ++HarmonyPatcher.FailedReversePatchCount;
+            if (Prefix is not null) ++PatchManager.FailedPrefixCount;
+            if (Postfix is not null) ++PatchManager.FailedPostfixCount;
+            if (Transpiler is not null) ++PatchManager.FailedTranspilerCount;
+            if (ReversePatch is not null) ++PatchManager.FailedReversePatchCount;
         }
     }
 

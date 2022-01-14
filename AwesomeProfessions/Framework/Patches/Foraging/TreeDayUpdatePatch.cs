@@ -1,10 +1,15 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class TreeDayUpdatePatch : BasePatch

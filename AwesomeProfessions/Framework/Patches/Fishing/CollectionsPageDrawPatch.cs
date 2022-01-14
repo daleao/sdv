@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,11 +14,12 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+using Stardew.Common.Harmony;
+using AssetLoaders;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class CollectionsPageDrawPatch : BasePatch
@@ -64,7 +69,7 @@ internal class CollectionsPageDrawPatch : BasePatch
 
     #endregion harmony patches
 
-    #region private methods
+    #region injected subroutines
 
     private static void DrawMaxIcons(CollectionsPage page, SpriteBatch b)
     {
@@ -77,12 +82,12 @@ internal class CollectionsPageDrawPatch : BasePatch
                  where Game1.player.HasCaughtMaxSized(index)
                  select c)
         {
-            var destRect = new Rectangle(c.bounds.Right - Textures.MaxIconWidth,
-                c.bounds.Bottom - Textures.MaxIconHeight, Textures.MaxIconWidth,
-                Textures.MaxIconHeight);
+            var destRect = new Rectangle(c.bounds.Right - Textures.MAX_ICON_WIDTH_I,
+                c.bounds.Bottom - Textures.MAX_ICON_HEIGHT_I, Textures.MAX_ICON_WIDTH_I,
+                Textures.MAX_ICON_HEIGHT_I);
             b.Draw(Textures.MaxIconTx, destRect, Color.White);
         }
     }
 
-    #endregion private methods
+    #endregion injected subroutines
 }

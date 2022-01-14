@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -6,10 +10,12 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
+
+using Stardew.Common.Extensions;
+
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+#endregion using directives
 
 [UsedImplicitly]
 internal class FarmerShowItemIntakePatch : BasePatch

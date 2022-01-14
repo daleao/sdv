@@ -1,9 +1,13 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Display;
+
+#region using directives
+
+using System;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Display;
+#endregion using directives
 
 internal class ProspectorHuntRenderedHudEvent : RenderedHudEvent
 {

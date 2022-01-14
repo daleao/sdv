@@ -1,7 +1,11 @@
-﻿using StardewModdingAPI.Events;
+﻿namespace DaLion.Stardew.Tools.Framework.Events;
+
+#region using directives
+
+using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace DaLion.Stardew.Tools.Framework.Events;
+#endregion using directives
 
 internal class UpdateTickedEvent : IEvent
 {

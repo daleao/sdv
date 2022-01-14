@@ -1,8 +1,13 @@
-﻿using JetBrains.Annotations;
-using StardewModdingAPI.Events;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Player;
+#region using directives
+
+using JetBrains.Annotations;
+using StardewModdingAPI.Events;
+
+using GameLoop;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class PrestigeLevelChangedEvent : LevelChangedEvent

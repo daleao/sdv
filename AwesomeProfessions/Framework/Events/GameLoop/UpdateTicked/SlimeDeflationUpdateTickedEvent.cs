@@ -1,8 +1,12 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+
+#region using directives
+
+using System;
 using System.Linq;
 using StardewModdingAPI.Events;
 
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+#endregion using directives
 
 internal class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
 {

@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -6,17 +10,20 @@ using HarmonyLib;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Events;
-using DaLion.Stardew.Professions.Framework.Events.Display;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Events.Input;
-using DaLion.Stardew.Professions.Framework.Events.Multiplayer;
-using DaLion.Stardew.Professions.Framework.Events.Player;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework;
+using Common.Extensions;
+using Common.Harmony;
+using Events;
+using Events.Display;
+using Events.GameLoop;
+using Events.Input;
+using Events.Multiplayer;
+using Events.Player;
+using Extensions;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 /// <summary>Manages dynamic subscribing and unsubscribing of events for modded professions.</summary>
 internal class EventManager
@@ -137,7 +144,7 @@ internal class EventManager
         foreach (var professionIndex in Game1.player.professions)
             try
             {
-                EnableAllForProfession(Utility.Professions.NameOf(professionIndex));
+                EnableAllForProfession(Professions.NameOf(professionIndex));
             }
             catch (IndexOutOfRangeException)
             {

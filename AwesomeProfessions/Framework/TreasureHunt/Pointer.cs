@@ -1,13 +1,17 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
+
+#region using directives
+
+using System;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
+#endregion using directives
 
 /// <summary>Pointer for highlighting on-screen and off-screen objects of interest for tracker professions.</summary>
-internal class Indicator
+internal class Pointer
 {
     private const float MAX_STEP_F = 3f, MIN_STEP_F = -3f;
 

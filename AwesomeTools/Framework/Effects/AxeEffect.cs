@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Tools.Framework.Effects;
+
+#region using directives
+
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using DaLion.Stardew.Tools.Configs;
-using DaLion.Stardew.Tools.Framework.Extensions;
+
+using Configs;
+using Extensions;
+
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Tools.Framework.Effects;
+#endregion using directives
 
 /// <summary>Applies Axe effects.</summary>
 internal class AxeEffect : IEffect
@@ -84,6 +90,8 @@ internal class AxeEffect : IEffect
         return false;
     }
 
+    #region private methods
+
     /// <summary>Get whether a given tree should be chopped.</summary>
     /// <param name="tree">The tree to check.</param>
     private bool ShouldCut(Tree tree)
@@ -114,4 +122,6 @@ internal class AxeEffect : IEffect
     {
         return Config.ClearBushes;
     }
+
+    #endregion private methods
 }

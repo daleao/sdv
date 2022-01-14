@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,9 +11,12 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+using Stardew.Common.Harmony;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class MineShaftCheckStoneForItemsPatch : BasePatch
@@ -52,11 +59,11 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                     // prepare profession check
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack(Utility.Professions.IndexOf("Spelunker"), isNotSpelunker)
+                .InsertProfessionCheckForPlayerOnStack(Professions.IndexOf("Spelunker"), isNotSpelunker)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Utility.Professions).MethodNamed(nameof(Utility.Professions
+                        typeof(Professions).MethodNamed(nameof(Professions
                             .GetSpelunkerBonusLadderDownChance))),
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Stloc_3)

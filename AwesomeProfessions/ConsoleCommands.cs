@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -7,57 +11,60 @@ using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.SuperMode;
-using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions;
+using Common.Extensions;
+using Framework.Extensions;
+using Framework.SuperMode;
+using Framework.Utility;
+
+#endregion using directives
 
 internal static class ConsoleCommands
 {
-    internal static void Register(IModHelper helper)
+    /// <summary>Register all internally defined console commands.</summary>
+    /// <param name="helper">The console command API.</param>
+    internal static void Register(ICommandHelper helper)
     {
-        helper.ConsoleCommands.Add("player_skills", "List the player's current skill levels.",
+        helper.Add("player_skills", "List the player's current skill levels.",
             PrintLocalPlayerSkillLevels);
-        helper.ConsoleCommands.Add("player_resetskills", "Reset all player's skills.",
+        helper.Add("player_resetskills", "Reset all player's skills.",
             ResetLocalPlayerSkills);
-        helper.ConsoleCommands.Add("player_professions", "List the player's current professions.",
+        helper.Add("player_professions", "List the player's current professions.",
             PrintLocalPlayerProfessions);
-        helper.ConsoleCommands.Add("player_addprofessions",
+        helper.Add("player_addprofessions",
             "Add the specified professions to the local player, without affecting skill levels." +
             GetUsageForAddProfessions(),
             AddProfessionsToLocalPlayer);
-        helper.ConsoleCommands.Add("player_resetprofessions",
+        helper.Add("player_resetprofessions",
             "Reset all skills and professions for the local player.",
             ResetLocalPlayerProfessions);
-        helper.ConsoleCommands.Add("player_setultvalue",
+        helper.Add("player_setultvalue",
             "Set the Super Mode meter to the desired value.",
             SetSuperModeGaugeValue);
-        helper.ConsoleCommands.Add("player_readyult", "Max-out the Super Mode meter.",
+        helper.Add("player_readyult", "Max-out the Super Mode meter.",
             MaxSuperModeGaugeValue);
-        helper.ConsoleCommands.Add("player_chooseult",
+        helper.Add("player_chooseult",
             "Change the currently registered Super Mode profession.",
             SetSuperModeIndex);
-        helper.ConsoleCommands.Add("player_whichult",
+        helper.Add("player_whichult",
             "Check the currently registered Super Mode profession.",
             PrintSuperModeIndex);
-        helper.ConsoleCommands.Add("player_maxanimalfriendship",
+        helper.Add("player_maxanimalfriendship",
             "Max-out the friendship of all owned animals.",
             MaxAnimalFriendship);
-        helper.ConsoleCommands.Add("player_maxanimalmood", "Max-out the mood of all owned animals.",
+        helper.Add("player_maxanimalmood", "Max-out the mood of all owned animals.",
             MaxAnimalMood);
-        helper.ConsoleCommands.Add("player_fishingprogress",
+        helper.Add("player_fishingprogress",
             "Check your fishing progress as Angler.",
             PrintFishingAudit);
-        helper.ConsoleCommands.Add("wol_data",
+        helper.Add("wol_data",
             "Check the current value of all mod data fields." + GetUsageForSetModData(),
             PrintModData);
-        helper.ConsoleCommands.Add("wol_setdata", "Set a new value for a mod data field.",
+        helper.Add("wol_setdata", "Set a new value for a mod data field.",
             SetModData);
-        helper.ConsoleCommands.Add("wol_events", "List currently subscribed mod events.",
+        helper.Add("wol_events", "List currently subscribed mod events.",
             PrintSubscribedEvents);
-        helper.ConsoleCommands.Add("wol_resetthehunt",
+        helper.Add("wol_resetthehunt",
             "Forcefully reset the current Treasure Hunt with a new target treasure tile.",
             RerollTreasureTile);
     }
@@ -117,8 +124,8 @@ internal static class ConsoleCommands
             {
                 message += "\n\t- " +
                     (professionsIndex < 100
-                        ? $"{Framework.Utility.Professions.NameOf(professionsIndex)}"
-                        : $"{Framework.Utility.Professions.NameOf(professionsIndex - 100)} (P)");
+                        ? $"{Professions.NameOf(professionsIndex)}"
+                        : $"{Professions.NameOf(professionsIndex - 100)} (P)");
             }
             catch (IndexOutOfRangeException)
             {
@@ -161,7 +168,7 @@ internal static class ConsoleCommands
             }
 
             var professionName = arg.FirstCharToUpper();
-            if (Framework.Utility.Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex))
+            if (Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex))
             {
                 if (!prestige && Game1.player.HasProfession(professionName) ||
                     prestige && Game1.player.HasPrestigedProfession(professionName))
@@ -173,7 +180,7 @@ internal static class ConsoleCommands
                 professionsToAdd.Add(professionIndex);
                 if (prestige) professionsToAdd.Add(100 + professionIndex);
                 ModEntry.Log(
-                    $"Added {Framework.Utility.Professions.NameOf(professionIndex)}{(prestige ? " (P)" : "")} profession to farmer {Game1.player.Name}.",
+                    $"Added {Professions.NameOf(professionIndex)}{(prestige ? " (P)" : "")} profession to farmer {Game1.player.Name}.",
                     LogLevel.Info);
             }
             else
@@ -630,7 +637,7 @@ internal static class ConsoleCommands
     }
 
     /// <summary>Set a new value to the EcologistItemsForaged data field.</summary>
-    internal static void SetEcologistItemsForaged(int value)
+    private static void SetEcologistItemsForaged(int value)
     {
         if (!Game1.player.HasProfession("Ecologist"))
         {
@@ -643,7 +650,7 @@ internal static class ConsoleCommands
     }
 
     /// <summary>Set a new value to the GemologistMineralsCollected data field.</summary>
-    internal static void SetGemologistMineralsCollected(int value)
+    private static void SetGemologistMineralsCollected(int value)
     {
         if (!Game1.player.HasProfession("Gemologist"))
         {
@@ -656,7 +663,7 @@ internal static class ConsoleCommands
     }
 
     /// <summary>Set a new value to the ProspectorHuntStreak data field.</summary>
-    internal static void SetProspectorHuntStreak(int value)
+    private static void SetProspectorHuntStreak(int value)
     {
         if (!Game1.player.HasProfession("Prospector"))
         {
@@ -669,7 +676,7 @@ internal static class ConsoleCommands
     }
 
     /// <summary>Set a new value to the ScavengerHuntStreak data field.</summary>
-    internal static void SetScavengerHuntStreak(int value)
+    private static void SetScavengerHuntStreak(int value)
     {
         if (!Game1.player.HasProfession("Scavenger"))
         {
@@ -682,7 +689,7 @@ internal static class ConsoleCommands
     }
 
     /// <summary>Set a new value to the ConservationistTrashCollectedThisSeason data field.</summary>
-    internal static void SetConservationistTrashCollectedThisSeason(int value)
+    private static void SetConservationistTrashCollectedThisSeason(int value)
     {
         if (!Game1.player.HasProfession("Conservationist"))
         {

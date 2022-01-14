@@ -1,11 +1,16 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+
+#region using directives
+
+using System;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+using Stardew.Common.Harmony;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class Game1ShouldTimePassPatch : BasePatch
@@ -15,7 +20,7 @@ internal class Game1ShouldTimePassPatch : BasePatch
     {
         Original = RequireMethod<Game1>(nameof(Game1.shouldTimePass));
         ReversePatch = new(GetType().MethodNamed(nameof(Game1ShouldTimePassOriginal)));
-        ++HarmonyPatcher.TotalReversePatchCount;
+        ++PatchManager.TotalReversePatchCount;
     }
 
     #region harmony patches

@@ -1,8 +1,12 @@
-﻿using System.Reflection;
+﻿namespace DaLion.Stardew.Common.Harmony;
+
+#region using directives
+
+using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 
-namespace DaLion.Stardew.Common.Harmony;
+#endregion using directives
 
 public static class MethodInfoExtensions
 {

@@ -1,9 +1,14 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+using Extensions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class SlingshotGetRequiredChargeTimePatch : BasePatch

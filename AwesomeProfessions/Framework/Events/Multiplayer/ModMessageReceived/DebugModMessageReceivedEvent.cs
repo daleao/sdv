@@ -1,10 +1,16 @@
-﻿using System.Linq;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+
+#region using directives
+
+using System.Linq;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+using Multiplayer = Utility.Multiplayer;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class DebugModMessageReceivedEvent : ModMessageReceivedEvent
@@ -43,7 +49,7 @@ internal class DebugModMessageReceivedEvent : ModMessageReceivedEvent
 
             case "Response":
                 ModEntry.Log($"Player {e.FromPlayerID} responded to {command} debug information.", LogLevel.Debug);
-                Utility.Multiplayer.ResponseReceived.TrySetResult(e.ReadAs<string>());
+                Multiplayer.ResponseReceived.TrySetResult(e.ReadAs<string>());
 
                 break;
         }

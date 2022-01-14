@@ -1,4 +1,7 @@
 ﻿#nullable enable
+namespace DaLion.Stardew.Common.Extensions;
+
+#region using directives
 
 using System;
 using System.Collections.Generic;
@@ -7,7 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace DaLion.Stardew.Common.Extensions;
+#endregion using directives
 
 public static class StringExtensions
 {

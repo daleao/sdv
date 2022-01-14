@@ -1,11 +1,16 @@
-﻿using System.Linq;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+
+#region using directives
+
+using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
-using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+using Objects = Utility.Objects;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class FishPondGetFishPondDataPatch : BasePatch

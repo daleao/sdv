@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -6,9 +10,12 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-using DaLion.Stardew.Professions.Framework.Extensions;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+using Extensions;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class MonsterFindPlayerPatch : BasePatch
@@ -71,7 +78,7 @@ internal class MonsterFindPlayerPatch : BasePatch
             var distanceToClosestPlayer = double.MaxValue;
             foreach (var farmer in __instance.currentLocation.farmers)
             {
-                if (ModEntry.State.Value.ActivePeerSuperModes.TryGetValue(Utility.Professions.IndexOf("Poacher"),
+                if (ModEntry.State.Value.ActivePeerSuperModes.TryGetValue(Professions.IndexOf("Poacher"),
                         out var peerIds) && peerIds.Any(id => id == farmer.UniqueMultiplayerID)) continue;
 
                 var distanceToThisPlayer = __instance.DistanceToCharacter(farmer);

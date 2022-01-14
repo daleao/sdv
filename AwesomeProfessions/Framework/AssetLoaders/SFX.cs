@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Sounds;
+﻿namespace DaLion.Stardew.Professions.Framework.AssetLoaders;
 
 public enum SFX
 {

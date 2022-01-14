@@ -1,13 +1,20 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+
+#region using directives
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Extensions;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+#endregion using directives
 
 [UsedImplicitly]
 internal class Game1CreateObjectDebrisPatch : BasePatch
@@ -35,7 +42,7 @@ internal class Game1CreateObjectDebrisPatch : BasePatch
             location.debris.Add(new(objectIndex, new(xTile * 64 + 32, yTile * 64 + 32),
                 who.getStandingPosition())
             {
-                itemQuality = Utility.Professions.GetGemologistMineralQuality()
+                itemQuality = Professions.GetGemologistMineralQuality()
             });
 
             ModData.Increment<uint>(DataField.GemologistMineralsCollected);

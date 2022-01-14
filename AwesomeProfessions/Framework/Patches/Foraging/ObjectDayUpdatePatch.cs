@@ -1,10 +1,17 @@
-﻿using HarmonyLib;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+
+#region using directives
+
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Extensions;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Foraging;
+#endregion using directives
 
 [UsedImplicitly]
 internal class ObjectDayUpdatePatch : BasePatch
@@ -25,7 +32,7 @@ internal class ObjectDayUpdatePatch : BasePatch
             !Game1.MasterPlayer.HasProfession("Ecologist"))
             return;
 
-        __instance.heldObject.Value.Quality = Utility.Professions.GetEcologistForageQuality();
+        __instance.heldObject.Value.Quality = Professions.GetEcologistForageQuality();
     }
 
     #endregion harmony patches

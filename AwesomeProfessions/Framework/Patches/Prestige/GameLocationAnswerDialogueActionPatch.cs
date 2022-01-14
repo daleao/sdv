@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,13 +12,16 @@ using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
-using DaLion.Stardew.Common.Extensions;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.Sounds;
-using DaLion.Stardew.Professions.Framework.SuperMode;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+using Stardew.Common.Extensions;
+using AssetLoaders;
+using Events.GameLoop;
+using Extensions;
+using SuperMode;
+
+using Professions = Utility.Professions;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class GameLocationAnswerDialogueActionPatch : BasePatch
@@ -153,14 +160,14 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                     var currentProfessionDisplayName =
                         ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".name.male");
                     var currentBuff = ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".buff");
-                    var pronoun = Utility.Professions.GetBuffPronoun();
+                    var pronoun = Professions.GetBuffPronoun();
                     var message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.replace",
                         new {pronoun, currentProfession = currentProfessionDisplayName, currentBuff});
 
                     var choices = (
                         from superMode in Game1.player.GetUnchosenSuperModes()
                         orderby superMode
-                        let choiceProfessionKey = Utility.Professions.NameOf(superMode).ToLower()
+                        let choiceProfessionKey = Professions.NameOf(superMode).ToLower()
                         let choiceProfessionDisplayName =
                             ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".name.male")
                         let choiceBuff = ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".buff")

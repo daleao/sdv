@@ -1,23 +1,25 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Tools;
+
+#region using directives
+
+using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-using StardewValley;
-using StardewValley.Tools;
-using DaLion.Stardew.Tools.Configs;
-using DaLion.Stardew.Tools.Framework.Effects;
-using DaLion.Stardew.Tools.Framework.Events;
 
-namespace DaLion.Stardew.Tools;
+using Configs;
+using Framework.Effects;
+using Framework.Events;
+
+#endregion using directives
 
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
     internal static ToolConfig Config { get; set; }
-    internal static string ToolMod { get; private set; } = "None";
-    internal static bool HasToolMod => ToolMod != "None";
+    internal static bool HasMoonMod { get; private set; }
 
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
@@ -34,8 +36,8 @@ public class ModEntry : Mod
         Manifest = ModManifest;
         Log = Monitor.Log;
 
-        // check for tool mods
-        ToolMod = CheckForPrismaticOrRadioactiveTools();
+        // check for Moon Misadventures mod
+        HasMoonMod = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");
 
         // get and verify configs
         Config = Helper.ReadConfig<ToolConfig>();
@@ -108,36 +110,36 @@ public class ModEntry : Mod
             Config.TicksBetweenWaves = 4;
         }
 
-        if (HasToolMod)
+        if (HasMoonMod)
         {
-            Log("Prismatic or Radioactive Tools detected.", LogLevel.Info);
+            Log("Moon Misadventures detected.", LogLevel.Info);
 
             switch (Config.AxeConfig.RadiusAtEachPowerLevel.Count)
             {
-                case < 5:
-                    Log("Adding default fifth radius value to Axe configurations.", LogLevel.Info);
-                    Config.AxeConfig.RadiusAtEachPowerLevel.Add(5);
+                case < 6:
+                    Log("Setting default radius values for higher Axe upgrades.", LogLevel.Info);
+                    Config.AxeConfig.RadiusAtEachPowerLevel.AddRange(new[] {5, 6});
                     break;
 
-                case > 5:
+                case > 6:
                     Log("Too many values in AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.",
                         LogLevel.Warn);
-                    Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
+                    Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(6).ToList();
                     break;
             }
 
             switch (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count)
             {
-                case < 5:
-                    Log("Adding default fifth radius value to Pickaxe configurations.", LogLevel.Info);
-                    Config.PickaxeConfig.RadiusAtEachPowerLevel.Add(5);
+                case < 6:
+                    Log("Setting default radius values for higher Pickaxe upgrades.", LogLevel.Info);
+                    Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRange(new[] {5, 6});
                     break;
 
-                case > 5:
+                case > 6:
                     Log("Too many values in PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.",
                         LogLevel.Warn);
                     Config.PickaxeConfig.RadiusAtEachPowerLevel =
-                        Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
+                        Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(6).ToList();
                     break;
             }
         }
@@ -160,17 +162,6 @@ public class ModEntry : Mod
         }
 
         Helper.WriteConfig(Config);
-    }
-
-    /// <summary>Check if either Prismatic or Radioactive Tools mod is installed.</summary>
-    /// <returns>Returns the name of the installed mod, or 'None' if neither is installed.</returns>
-    private static string CheckForPrismaticOrRadioactiveTools()
-    {
-        return ModHelper.ModRegistry.IsLoaded("stokastic.PrismaticTools")
-            ? "Prismatic"
-            : ModHelper.ModRegistry.IsLoaded("kakashigr.RadioactiveTools")
-                ? "Radioactive"
-                : "None";
     }
 
     #endregion private methods

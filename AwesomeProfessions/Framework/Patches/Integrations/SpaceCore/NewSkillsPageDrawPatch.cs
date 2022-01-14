@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,14 +11,12 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Menus;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.Patches.Prestige;
-using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+using Stardew.Common.Harmony;
+using Prestige;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class NewSkillsPageDrawPatch : BasePatch
@@ -51,21 +53,21 @@ internal class NewSkillsPageDrawPatch : BasePatch
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (10)")
+                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (8)")
                 )
                 .GetOperand(out var levelIndex)
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (11)")
+                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (9)")
                 )
                 .GetOperand(out var skillIndex)
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (15)")
+                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (13)")
                 )
                 .GetOperand(out var skillLevel)
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_S, levelIndex),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 9),
-                    new CodeInstruction(OpCodes.Ceq)
+                    new CodeInstruction(OpCodes.Bne_Un)
                 )
                 .StripLabels(out var labels)
                 .Insert(
@@ -78,7 +80,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
                     new CodeInstruction(OpCodes.Ldarg_1), // load b
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SkillsPageDrawPatch).MethodNamed(nameof(DrawExtendedLevelBars)))
+                        typeof(SkillsPageDrawPatch).MethodNamed(nameof(SkillsPageDrawPatch.DrawExtendedLevelBars)))
                 );
         }
         catch (Exception ex)
@@ -141,7 +143,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SkillsPageDrawPatch).MethodNamed(nameof(DrawRibbons)))
+                        typeof(SkillsPageDrawPatch).MethodNamed(nameof(SkillsPageDrawPatch.DrawRibbons)))
                 );
         }
         catch (Exception ex)
@@ -155,53 +157,4 @@ internal class NewSkillsPageDrawPatch : BasePatch
     }
 
     #endregion harmony patches
-
-    #region private methods
-
-    private static void DrawExtendedLevelBars(int levelIndex, int skillIndex, int x, int y, int addedX,
-        int skillLevel, SpriteBatch b)
-    {
-        if (!ModEntry.Config.EnablePrestige) return;
-
-        var drawBlue = skillLevel > levelIndex + 10;
-        if (!drawBlue) return;
-
-        // this will draw only the blue bars
-        if ((levelIndex + 1) % 5 != 0)
-            b.Draw(Textures.SkillBarTx, new(addedX + x + levelIndex * 36, y - 4 + skillIndex * 56),
-                new(0, 0, 8, 9), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
-    }
-
-    private static void DrawRibbons(IClickableMenu page, SpriteBatch b)
-    {
-        if (!ModEntry.Config.EnablePrestige) return;
-
-        var w = Textures.RibbonWidth;
-        var s = Textures.RibbonScale;
-        var position =
-            new Vector2(
-                page.xPositionOnScreen + page.width + Textures.RibbonHorizontalOffset,
-                page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth - 70);
-        for (var i = 0; i < 5; ++i)
-        {
-            position.Y += 56;
-
-            // need to do this bullshit switch because mining and fishing are inverted in the skills page
-            var skillIndex = i switch
-            {
-                1 => 3,
-                3 => 1,
-                _ => i
-            };
-
-            var count = Game1.player.NumberOfProfessionsInSkill(skillIndex, true);
-            if (count == 0) continue;
-
-            var srcRect = new Rectangle(i * w, (count - 1) * w, w, w);
-            b.Draw(Textures.RibbonTx, position, srcRect, Color.White, 0f, Vector2.Zero, s,
-                SpriteEffects.None, 1f);
-        }
-    }
-
-    #endregion private methods
 }

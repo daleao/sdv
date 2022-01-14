@@ -1,16 +1,23 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-using DaLion.Stardew.Common.Harmony;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+using Stardew.Common.Harmony;
 
+#endregion using directives
+
+[UsedImplicitly]
 internal class GreenSlimeDrawPatch : BasePatch
 {
     /// <summary>Construct an instance.<w/ summary>
@@ -102,7 +109,7 @@ internal class GreenSlimeDrawPatch : BasePatch
 
     #endregion harmony patches
 
-    #region private methods
+    #region injected subroutines
 
     private static Vector2 GetAntennaeOffset(GreenSlime slime)
     {
@@ -122,5 +129,5 @@ internal class GreenSlimeDrawPatch : BasePatch
         return new(x, y);
     }
 
-    #endregion private methods
+    #endregion injected subroutines
 }

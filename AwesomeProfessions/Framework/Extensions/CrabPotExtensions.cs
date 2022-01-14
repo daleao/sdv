@@ -1,9 +1,14 @@
-﻿using StardewValley;
+﻿namespace DaLion.Stardew.Professions.Framework.Extensions;
+
+#region using directives
+
+using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
-using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Framework.Extensions;
+using Objects = Utility.Objects;
+
+#endregion using directives
 
 public static class CrabPotExtensions
 {

@@ -1,7 +1,11 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Common.Extensions;
+
+#region using directives
+
+using System;
 using Microsoft.Xna.Framework;
 
-namespace DaLion.Stardew.Common.Extensions;
+#endregion using directives
 
 public static class Vector2Extensions
 {

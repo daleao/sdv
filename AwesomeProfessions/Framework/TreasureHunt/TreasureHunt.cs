@@ -1,25 +1,33 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
+
+#region using directives
+
+using System;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using DaLion.Stardew.Professions.Framework.Patches.Foraging;
 
-namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
+using Patches.Foraging;
+
+#endregion using directives
 
 /// <summary>Base class for treasure hunts.</summary>
 internal abstract class TreasureHunt
 {
-    protected readonly Random random = new(Guid.NewGuid().GetHashCode());
-
-    private double _accumulatedBonus = 1.0;
     protected uint elapsed;
-    protected GameLocation huntLocation;
     protected uint timeLimit;
+    protected GameLocation huntLocation;
+    protected readonly Random random = new(Guid.NewGuid().GetHashCode());
+    
+    private double _accumulatedBonus = 1.0;
+    
     public bool IsActive => TreasureTile is not null;
     public Vector2? TreasureTile { get; protected set; } = null;
 
     protected string HuntStartedMessage { get; set; }
     protected string HuntFailedMessage { get; set; }
     protected Rectangle IconSourceRect { get; set; }
+
+    #region public methods
 
     /// <summary>Try to start a new hunt at the specified location.</summary>
     /// <param name="location">The game location.</param>
@@ -48,6 +56,10 @@ internal abstract class TreasureHunt
         _accumulatedBonus = 1.0;
     }
 
+    #endregion public methods
+
+    #region protected methods
+
     /// <summary>Start a new treasure hunt or adjust the odds for the next attempt.</summary>
     protected bool TryStartNewHunt()
     {
@@ -66,4 +78,6 @@ internal abstract class TreasureHunt
 
     /// <summary>End the hunt unsuccessfully.</summary>
     protected abstract void Fail();
+
+    #endregion protected methods
 }

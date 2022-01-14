@@ -7,5 +7,6 @@ public enum UpgradeLevel
     Steel,
     Gold,
     Iridium,
-    Prismatic_Radioactive
+    Radioactive,
+    Mythicite
 }

@@ -1,8 +1,13 @@
-﻿using HarmonyLib;
-using JetBrains.Annotations;
-using DaLion.Stardew.Common.Harmony;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+#region using directives
+
+using HarmonyLib;
+using JetBrains.Annotations;
+
+using Stardew.Common.Harmony;
+
+#endregion using directives
 
 [UsedImplicitly]
 internal class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch

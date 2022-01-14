@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -8,11 +12,14 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
-using DaLion.Stardew.Common.Harmony;
-using DaLion.Stardew.Professions.Framework.Extensions;
+
+using Stardew.Common.Harmony;
+using Extensions;
+
+using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+#endregion using directives
 
 [UsedImplicitly]
 internal class Game1DrawHUDPatch : BasePatch
@@ -58,7 +65,7 @@ internal class Game1DrawHUDPatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S)
                 )
-                .SetOperand(Utility.Professions.IndexOf("Prospector")) // change to prospector check
+                .SetOperand(Professions.IndexOf("Prospector")) // change to prospector check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse)
                 )

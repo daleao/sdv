@@ -1,7 +1,11 @@
-﻿using StardewValley;
+﻿namespace DaLion.Stardew.Professions.Framework.Extensions;
+
+#region using directives
+
+using StardewValley;
 using StardewValley.Monsters;
 
-namespace DaLion.Stardew.Professions.Framework.Extensions;
+#endregion using directives
 
 public static class MonsterExtensions
 {

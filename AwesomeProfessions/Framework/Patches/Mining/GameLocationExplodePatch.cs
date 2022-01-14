@@ -1,16 +1,22 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+
+#region using directives
+
+using System;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using DaLion.Stardew.Common.Classes;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.Utility;
+
+using Stardew.Common.Classes;
+using Events.GameLoop;
+using Extensions;
+using Utility;
+
 using Multiplayer = StardewValley.Multiplayer;
 using SObject = StardewValley.Object;
 
-namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+#endregion using directives
 
 [UsedImplicitly]
 internal class GameLocationExplodePatch : BasePatch

@@ -1,15 +1,20 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Integrations;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-using DaLion.Stardew.Common.Integrations;
-using DaLion.Stardew.Professions.Framework.Extensions;
-using DaLion.Stardew.Professions.Framework.Utility;
 
-namespace DaLion.Stardew.Professions.Integrations;
+using Common.Integrations;
+using Framework.Extensions;
+using Framework.Utility;
+
+#endregion using directives
 
 internal class TehsFishingOverhaulIntegration : BaseIntegration
 {

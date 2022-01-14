@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Display;
+
+#region using directives
+
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Display;
+#endregion using directives
 
 internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
 {

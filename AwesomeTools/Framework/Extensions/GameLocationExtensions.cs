@@ -1,4 +1,8 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Tools.Framework.Extensions;
+
+#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -7,7 +11,7 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 
-namespace DaLion.Stardew.Tools.Framework.Extensions;
+#endregion using directives
 
 public static class GameLocationExtensions
 {

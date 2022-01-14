@@ -1,8 +1,12 @@
-﻿using System.Linq;
+﻿namespace DaLion.Stardew.Professions.Framework.Extensions;
+
+#region using directives
+
+using System.Linq;
 using StardewModdingAPI;
 using StardewValley;
 
-namespace DaLion.Stardew.Professions.Framework.Extensions;
+#endregion using directives
 
 public static class Game1Extensions
 {

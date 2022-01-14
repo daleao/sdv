@@ -1,6 +1,10 @@
-﻿using StardewModdingAPI.Events;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
-namespace DaLion.Stardew.Professions.Framework.Events.Player;
+#region using directives
+
+using StardewModdingAPI.Events;
+
+#endregion using directives
 
 internal abstract class LevelChangedEvent : BaseEvent
 {
