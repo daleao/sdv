@@ -570,7 +570,7 @@ internal static class ConsoleCommands
             Game1.currentLocation.MakeTileDiggable(v.Value);
             ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.Value.ScavengerHunt, "TreasureTile")
                 .SetValue(v);
-            ModEntry.ModHelper.Reflection.GetField<uint>(ModEntry.State.Value.ScavengerHunt, "Elapsed").SetValue(0);
+            ModEntry.ModHelper.Reflection.GetField<uint>(ModEntry.State.Value.ScavengerHunt, "elapsed").SetValue(0);
 
             ModEntry.Log("The Scavenger Hunt was reset.", LogLevel.Info);
         }

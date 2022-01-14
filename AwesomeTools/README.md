@@ -58,7 +58,7 @@ This section describes the configurable settings provided in configs.json:
 
 This mod uses Harmony to patch the behavior of Axe and Pickaxe. Any mods that also directly patch Tool behavior might be incompatible.
 
-- Compatible with [Prismatic Tools](https://www.nexusmods.com/stardewvalley/mods/2428) and [Radioactive Tools](https://www.nexusmods.com/stardewvalley/mods/7630).
+- Compatible with [Moon Misadventures](https://www.nexusmods.com/stardewvalley/mods/10612).
 - Compatible with [Harvest Moon FoMT-like Watering Can And Hoe Area](https://www.nexusmods.com/stardewvalley/mods/7851).
 - Compatible with [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098).
 

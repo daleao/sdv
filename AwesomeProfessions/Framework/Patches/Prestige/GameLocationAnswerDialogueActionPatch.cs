@@ -38,7 +38,8 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
     [HarmonyPrefix]
     private static bool GameLocationAnswerDialogueActionPrefix(GameLocation __instance, string questionAndAnswer)
     {
-        if (!ModEntry.Config.EnablePrestige || !questionAndAnswer.Contains("dogStatue") &&
+        if (!ModEntry.Config.EnablePrestige ||
+            (!questionAndAnswer.Contains("dogStatue") || questionAndAnswer.Contains("No")) &&
             !questionAndAnswer.ContainsAnyOf("prestigeRespec_", "skillReset_"))
             return true; // run original logic
 

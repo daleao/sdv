@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Tools;
+﻿using System;
+
+namespace DaLion.Stardew.Tools;
 
 #region using directives
 
@@ -40,42 +42,25 @@ internal static class ConsoleCommands
             return;
         }
 
-        var upgradeLevel = args[0].ToLower() switch
-        {
-            "copper" => 1,
-            "steel" => 2,
-            "gold" => 3,
-            "iridium" => 4,
-            "prismatic" => 5,
-            "radioactive" => 5,
-            _ => -1
-        };
+        var success = Enum.TryParse<Framework.UpgradeLevel>(args[0], out var upgradeLevel);
 
-        if (upgradeLevel < 0)
+        if (!success)
         {
-            if (int.TryParse(args[0], out var i) && i <= 5)
-            {
-                upgradeLevel = i;
-            }
-            else
-            {
-                ModEntry.Log("Invalid argument." + GetUpgradeToolsUsage(), LogLevel.Warn);
-                return;
-            }
+            ModEntry.Log("Invalid argument." + GetUpgradeToolsUsage(), LogLevel.Warn);
+            return;
         }
 
-        if (upgradeLevel == 5 && !ModEntry.HasMoonMod)
+        if (upgradeLevel > Framework.UpgradeLevel.Iridium && !ModEntry.HasMoonMod)
         {
-            ModEntry.Log("You must have either 'Prismatic Tools' or 'Radioactive Tools' installed to set this upgrade level.",
-                LogLevel.Warn);
+            ModEntry.Log("You must have 'Moon Misadventures' mod installed to set this upgrade level.", LogLevel.Warn);
             return;
         }
 
         foreach (var item in Game1.player.Items)
             if (item is Axe or Hoe or Pickaxe or WateringCan)
-                (item as Tool).UpgradeLevel = upgradeLevel;
+                (item as Tool).UpgradeLevel = (int) upgradeLevel;
 
-        ModEntry.Log($"Upgraded all tools to {args[0]}", LogLevel.Info);
+        ModEntry.Log($"Upgraded all tools to {upgradeLevel}.", LogLevel.Info);
     }
 
     /// <summary>Add the specified enchantment to the player's current tool.</summary>
@@ -138,9 +123,8 @@ internal static class ConsoleCommands
         var result = "\n\nUsage: player_upgradetools <level>";
         result += "\n\nParameters:";
         result += "\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'";
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("stokastic.PrismaticTools"))
-            result += ", 'prismatic'";
-        else if (ModEntry.ModHelper.ModRegistry.IsLoaded("kakashigr.RadioactiveTools")) result += ", 'radioactive'";
+        if (ModEntry.HasMoonMod)
+            result += ", 'radioactive', 'mythicite'";
 
         result += "\n\nExample:";
         result += "\n\t- player_upgradetools iridium";

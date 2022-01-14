@@ -15,7 +15,7 @@ using Extensions;
 
 internal class PrestigeDayEndingEvent : DayEndingEvent
 {
-    public PerScreen<Queue<SkillType>> SkillsToReset { get; } = new();
+    public PerScreen<Queue<SkillType>> SkillsToReset { get; } = new(() => new());
 
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)

@@ -16,7 +16,7 @@ internal class ModState
     internal SuperMode SuperMode { get; set; }
     internal TreasureHunt ScavengerHunt { get; set; } = new ScavengerHunt();
     internal TreasureHunt ProspectorHunt { get; set; } = new ProspectorHunt();
-    internal Pointer Indicator { get; set; } = new();
+    internal Pointer Pointer { get; set; } = new();
     internal bool UsedDogStatueToday { get; set; }
     internal int DemolitionistExcitedness { get; set; }
     internal int SpelunkerLadderStreak { get; set; }

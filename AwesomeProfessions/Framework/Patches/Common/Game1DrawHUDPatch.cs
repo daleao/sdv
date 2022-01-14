@@ -38,7 +38,7 @@ internal class Game1DrawHUDPatch : BasePatch
     {
         if (!Game1.player.HasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
         foreach (var tile in shaft.GetLadderTiles())
-            ModEntry.State.Value.Indicator.DrawAsTrackingPointer(tile, Color.Lime);
+            ModEntry.State.Value.Pointer.DrawAsTrackingPointer(tile, Color.Lime);
     }
 
     /// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>

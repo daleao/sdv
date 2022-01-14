@@ -19,11 +19,11 @@ internal class ScavengerHuntRenderedHudEvent : RenderedHudEvent
         var treasureTile = ModEntry.State.Value.ScavengerHunt.TreasureTile.Value;
 
         // track target
-        ModEntry.State.Value.Indicator.DrawAsTrackingPointer(treasureTile, Color.Violet);
+        ModEntry.State.Value.Pointer.DrawAsTrackingPointer(treasureTile, Color.Violet);
 
         // reveal if close enough
         var distanceSquared = (Game1.player.getTileLocation() - treasureTile).LengthSquared();
         if (distanceSquared <= Math.Pow(ModEntry.Config.TreasureDetectionDistance, 2))
-            ModEntry.State.Value.Indicator.DrawOverTile(treasureTile, Color.Violet);
+            ModEntry.State.Value.Pointer.DrawOverTile(treasureTile, Color.Violet);
     }
 }

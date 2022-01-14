@@ -65,6 +65,8 @@ internal class ScavengerHunt : TreasureHunt
         location.MakeTileDiggable(TreasureTile.Value);
         timeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
                             ModEntry.Config.ScavengerHuntHandicap);
+        timeLimit = Math.Max(timeLimit, 30);
+
         elapsed = 0;
         ModEntry.EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(ScavengerHuntRenderedHudEvent),
             typeof(ScavengerHuntUpdateTickedEvent));

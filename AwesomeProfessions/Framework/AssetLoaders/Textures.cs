@@ -54,7 +54,7 @@ internal static class Textures
     internal static void ReloadHoneyMead()
     {
         HoneyMeadTx = ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "objects",
-            ModEntry.Config.HoneyMeadStyle.ToLower() + ".png"));
+            "mead-" + ModEntry.Config.HoneyMeadStyle.ToLower() + ".png"));
     }
 
     internal static bool TryGetMeadSourceRect(int preserveIndex, out Rectangle sourceRectangle)
