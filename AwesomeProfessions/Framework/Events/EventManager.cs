@@ -25,7 +25,7 @@ using Professions = Utility.Professions;
 
 #endregion using directives
 
-/// <summary>Manages dynamic subscribing and unsubscribing of events for modded professions.</summary>
+/// <summary>Manages dynamic enabling and disabling of events for modded professions.</summary>
 internal class EventManager
 {
     private static readonly Dictionary<string, List<IEvent>> EventsByProfession = new()
@@ -113,7 +113,7 @@ internal class EventManager
     }
 
     /// <summary>Disable events from the event listener.</summary>
-    /// <param name="eventTypes">The event types to be unsubscribed.</param>
+    /// <param name="eventTypes">The event types to be disabled.</param>
     internal void Disable(params Type[] eventTypes)
     {
         foreach (var type in eventTypes)
@@ -156,7 +156,7 @@ internal class EventManager
             Enable(typeof(HostPeerConnectedEvent), typeof(HostPeerDisconnectedEvent));
         else if (Context.IsMultiplayer)
             Enable(typeof(ToggledSuperModeModMessageReceivedEvent));
-        ModEntry.Log("[EventManager]: Done subscribing local player events.", ModEntry.DefaultLogLevel);
+        ModEntry.Log("[EventManager]: Done enabling local player events.", ModEntry.DefaultLogLevel);
     }
 
     /// <summary>Disable all non-static events.</summary>
@@ -165,10 +165,10 @@ internal class EventManager
         ModEntry.Log("[EventManager]:  local player events...", ModEntry.DefaultLogLevel);
         var eventsToRemove = _events
             .Where(e => !e.GetType().Name.SplitCamelCase().First().IsAnyOf("Static", "Debug"))
-            .Select(subscribed => subscribed.GetType())
+            .Select(e => e.GetType())
             .ToArray();
         Disable(eventsToRemove);
-        ModEntry.Log("[EventManager]: Done unsubscribing local player events.", ModEntry.DefaultLogLevel);
+        ModEntry.Log("[EventManager]: Done disabling local player events.", ModEntry.DefaultLogLevel);
     }
 
     /// <summary>Enable all events required by the specified profession.</summary>
@@ -212,7 +212,7 @@ internal class EventManager
     /// <summary>Disable all events related to Super Mode functionality.</summary>
     internal void DisableAllForSuperMode()
     {
-        ModEntry.Log("[EventManager]: Unsubscribing Super Mode events...", ModEntry.DefaultLogLevel);
+        ModEntry.Log("[EventManager]: Disabling Super Mode events...", ModEntry.DefaultLogLevel);
         DisableAllStartingWith("SuperMode");
     }
 

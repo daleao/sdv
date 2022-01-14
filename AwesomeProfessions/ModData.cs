@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System;
 using System.Linq;
 using StardewModdingAPI;
 using StardewValley;
@@ -33,7 +34,7 @@ public static class ModData
             for (var i = data.Keys.Count() - 1; i >= 0; --i)
             {
                 var key = data.Keys.ElementAt(i);
-                if (!key.StartsWith(ModEntry.Manifest.UniqueID) || key.Contains("SuperModeIndex")) continue;
+                if (!key.StartsWith(ModEntry.Manifest.UniqueID)) continue;
 
                 var split = key.Split('/');
                 if (split.Length != 3 || !split[1].TryParse<long>(out var id))
@@ -43,7 +44,7 @@ public static class ModData
                     continue;
                 }
 
-                var who = Game1.getFarmer(id);
+                var who = Game1.getFarmerMaybeOffline(id);
                 if (who is null)
                 {
                     data.Remove(key);
@@ -51,8 +52,16 @@ public static class ModData
                     continue;
                 }
 
-                var field = split[2];
-                var profession = field.SplitCamelCase()[0];
+                if (!Enum.TryParse<DataField>(split[2], out var field))
+                {
+                    data.Remove(key);
+                    ++count;
+                    continue;
+                }
+
+                if (field is DataField.ForgottenRecipesDict or DataField.SuperModeIndex) continue;
+
+                var profession = field.ToString().SplitCamelCase()[0];
                 if (Game1.player.HasProfession(profession)) continue;
 
                 data.Remove(key);
