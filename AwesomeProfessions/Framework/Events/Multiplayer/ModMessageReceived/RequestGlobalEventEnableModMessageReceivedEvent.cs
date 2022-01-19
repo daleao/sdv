@@ -2,7 +2,6 @@
 
 #region using directives
 
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -21,15 +20,15 @@ internal class RequestGlobalEventEnableModMessageReceivedEvent : ModMessageRecei
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)
         {
-            ModEntry.Log($"Unknown player {e.FromPlayerID} requested {which} event subscription.", LogLevel.Warn);
+            Log.W($"Unknown player {e.FromPlayerID} requested {which} event subscription.");
             return;
         }
 
         switch (which)
         {
             case "Conservationist":
-                ModEntry.Log($"Player {e.FromPlayerID} requested {which} event subscription.", ModEntry.DefaultLogLevel);
-                ModEntry.EventManager.Enable(typeof(GlobalConservationistDayEndingEvent));
+                Log.D($"Player {e.FromPlayerID} requested {which} event subscription.");
+                EventManager.Enable(typeof(GlobalConservationistDayEndingEvent));
                 break;
         }
     }

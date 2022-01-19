@@ -8,13 +8,11 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -48,7 +46,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Professions.IndexOf("Lumberjack"))
+                .FindProfessionCheck("Lumberjack".ToProfessionIndex())
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10)
                 )
@@ -57,7 +55,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
                 )
-                .InsertProfessionCheckForPlayerOnStack(100 + Professions.IndexOf("Lumberjack"),
+                .InsertProfessionCheckForPlayerOnStack("Lumberjack".ToProfessionIndex() + 100,
                     notPrestigedLumberjack)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_I4_S, 11),
@@ -75,7 +73,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
                 )
-                .InsertProfessionCheckForPlayerOnStack(100 + Professions.IndexOf("Lumberjack"),
+                .InsertProfessionCheckForPlayerOnStack("Lumberjack".ToProfessionIndex() + 100,
                     resumeExecution2)
                 .InsertDiceRoll()
                 .Insert(
@@ -87,8 +85,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
             return null;
         }
 

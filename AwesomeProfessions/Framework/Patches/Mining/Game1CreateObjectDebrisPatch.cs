@@ -6,12 +6,10 @@ using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 
 using Extensions;
 
-using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -42,7 +40,7 @@ internal class Game1CreateObjectDebrisPatch : BasePatch
             location.debris.Add(new(objectIndex, new(xTile * 64 + 32, yTile * 64 + 32),
                 who.getStandingPosition())
             {
-                itemQuality = Professions.GetGemologistMineralQuality()
+                itemQuality = who.GetGemologistMineralQuality()
             });
 
             ModData.Increment<uint>(DataField.GemologistMineralsCollected);
@@ -50,7 +48,7 @@ internal class Game1CreateObjectDebrisPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }

@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 
-using Objects = Utility.Objects;
+using ObjectLookups = Utility.ObjectLookups;
 
 #endregion using directives
 
@@ -31,7 +31,7 @@ internal class FishPondGetFishPondDataPatch : BasePatch
         if (__instance.fishType.Value <= 0) return;
 
         var fishName = __instance.GetFishObject().Name;
-        if (!Objects.LegendaryFishNames.Contains(fishName)) return;
+        if (!ObjectLookups.LegendaryFishNames.Contains(fishName)) return;
 
         if (____fishPondData is not null)
         {

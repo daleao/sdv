@@ -8,7 +8,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -21,7 +21,7 @@ internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     /// <summary>Construct an instance.</summary>
     internal SpelunkerBuffDisplayUpdateTickedEvent()
     {
-        _buffId = (ModEntry.Manifest.UniqueID + Professions.IndexOf("Spelunker")).GetHashCode();
+        _buffId = (ModEntry.Manifest.UniqueID + "Spelunker".ToProfessionIndex()).GetHashCode();
     }
 
     /// <inheritdoc />

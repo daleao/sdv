@@ -8,12 +8,10 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley.Events;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -51,9 +49,9 @@ internal class QuestionEventSetUpPatch : BasePatch
                 .Advance()
                 .AddLabels(resumeExecution) // branch here to resume execution
                 .Retreat()
-                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Breeder"), isNotBreeder)
-                .InsertProfessionCheckForLocalPlayer(100 + Professions.IndexOf("Breeder"), isNotPrestiged)
-                .Insert( // if player is breeder load adjusted pregancy chance
+                .InsertProfessionCheckForLocalPlayer("Breeder".ToProfessionIndex(), isNotBreeder)
+                .InsertProfessionCheckForLocalPlayer("Breeder".ToProfessionIndex() + 100, isNotPrestiged)
+                .Insert( // if player is breeder load adjusted pregnancy chance
                     new CodeInstruction(OpCodes.Ldc_R8, 0.0275), // x5 for prestiged
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
@@ -65,8 +63,7 @@ internal class QuestionEventSetUpPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding Breeder bonus animal pregnancy chance.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding Breeder bonus animal pregnancy chance.\nHelper returned {ex}");
             return null;
         }
 

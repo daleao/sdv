@@ -18,6 +18,6 @@ internal class HostPeerDisconnectedEvent : PeerDisconnectedEvent
     protected override void OnPeerDisconnectedImpl(object sender, PeerDisconnectedEventArgs e)
     {
         if (!Game1.game1.DoesAnyPlayerHaveProfession("Conservationist", out _))
-            ModEntry.EventManager.Disable(typeof(GlobalConservationistDayEndingEvent));
+            EventManager.Disable(typeof(GlobalConservationistDayEndingEvent));
     }
 }

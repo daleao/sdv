@@ -17,13 +17,13 @@ internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
     {
         if (ModEntry.Config.Modkey.JustPressed())
         {
-            ModEntry.EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(TrackerRenderedHudEvent));
+            EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(TrackerRenderedHudEvent));
         }
         else if (ModEntry.Config.Modkey.GetState() == SButtonState.Released)
         {
-            ModEntry.EventManager.Disable(typeof(TrackerRenderedHudEvent));
+            EventManager.Disable(typeof(TrackerRenderedHudEvent));
             if (!ModEntry.State.Value.ProspectorHunt.IsActive && !ModEntry.State.Value.ScavengerHunt.IsActive)
-                ModEntry.EventManager.Disable(typeof(IndicatorUpdateTickedEvent));
+                EventManager.Disable(typeof(IndicatorUpdateTickedEvent));
         }
     }
 }

@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
-using StardewModdingAPI;
 
 using Stardew.Common.Harmony;
 
@@ -37,7 +36,7 @@ internal abstract class BasePatch : IPatch
     {
         if (Original is null)
         {
-            ModEntry.Log($"[Patch]: Ignoring {GetType().Name}. The patch target was not found.", ModEntry.DefaultLogLevel);
+            Log.D($"[Patch]: Ignoring {GetType().Name}. The patch target was not found.");
 
             if (Prefix is not null) ++PatchManager.IgnoredPrefixCount;
             if (Postfix is not null) ++PatchManager.IgnoredPostfixCount;
@@ -49,8 +48,7 @@ internal abstract class BasePatch : IPatch
 
         try
         {
-            ModEntry.Log($"[Patch]: Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.",
-                ModEntry.DefaultLogLevel);
+            Log.D($"[Patch]: Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.");
             harmony.Patch(Original, Prefix, Postfix, Transpiler);
 
             if (Prefix is not null) ++PatchManager.AppliedPrefixCount;
@@ -64,9 +62,7 @@ internal abstract class BasePatch : IPatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"[Patch]: Failed to patch {Original.DeclaringType}::{Original.Name}.\nHarmony returned {ex}",
-                LogLevel.Error);
+            Log.E($"[Patch]: Failed to patch {Original.DeclaringType}::{Original.Name}.\nHarmony returned {ex}");
 
             if (Prefix is not null) ++PatchManager.FailedPrefixCount;
             if (Postfix is not null) ++PatchManager.FailedPostfixCount;

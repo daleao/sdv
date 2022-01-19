@@ -8,13 +8,11 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 
 using Stardew.Common.Harmony;
 using Extensions;
 
-using Professions = Utility.Professions;
 using Object = StardewValley.Object;
 
 #endregion using directives
@@ -61,27 +59,29 @@ internal class BushMachineGetOutputPatch : BasePatch
         var helper = new ILHelper(original, instructions);
 
         /// From: int quality = Game1.player.professions.Contains(<ecologist_id>) ? 4 : 0);
-        /// To: int quality = Game1.player.professions.Contains(<ecologist_id>) ? GetEcologist : 0);
+        /// To: int quality = Game1.player.professions.Contains(<ecologist_id>) ? GetEcologistForageQuality : 0);
 
         try
         {
             helper
-                .FindProfessionCheck(Professions.IndexOf("Ecologist")) // find index of ecologist check
+                .FindProfessionCheck("Ecologist".ToProfessionIndex()) // find index of ecologist check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_4) // quality = 4
                 )
                 .GetLabels(out var labels) // backup branch labels
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
-                        typeof(Professions).MethodNamed(
-                            nameof(Professions.GetEcologistForageQuality)))
+                        typeof(FarmerExtensions).MethodNamed(
+                            nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
-                .AddLabels(labels); // restore backed-up labels
+                .Insert(
+                    labels: labels, // restore backed-up labels
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player)))
+                );
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching automated Berry Bush quality.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching automated Berry Bush quality.\nHelper returned {ex}");
             return null;
         }
 

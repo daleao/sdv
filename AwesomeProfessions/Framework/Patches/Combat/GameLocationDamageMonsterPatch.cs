@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Monsters;
@@ -17,9 +16,9 @@ using StardewValley.Tools;
 
 using Stardew.Common.Harmony;
 using AssetLoaders;
+using Extensions;
 using SuperMode;
 
-using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -57,7 +56,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             helper
                 .FindProfessionCheck(Farmer.scout) // find index of scout check
                 .Advance()
-                .SetOperand(Professions.IndexOf("Poacher")) // replace with Poacher check
+                .SetOperand("Poacher".ToProfessionIndex()) // replace with Poacher check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_S) // start of critChance += critChance * 0.5f
                 )
@@ -71,9 +70,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while moving modded bonus crit chance from Scout to Poacher.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while moving modded bonus crit chance from Scout to Poacher.\nHelper returned {ex}");
             return null;
         }
 
@@ -85,7 +82,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Professions.IndexOf("Fighter"),
+                .FindProfessionCheck("Fighter".ToProfessionIndex(),
                     true) // find index of brute check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.1f) // brute damage multiplier
@@ -94,7 +91,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack(100 + Professions.IndexOf("Fighter"),
+                .InsertProfessionCheckForPlayerOnStack("Fighter".ToProfessionIndex() + 100,
                     notPrestigedFighter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.2f),
@@ -105,8 +102,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching prestiged Fighter bonus damage.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching prestiged Fighter bonus damage.\nHelper returned {ex}");
             return null;
         }
 
@@ -116,14 +112,14 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Professions.IndexOf("Brute"),
+                .FindProfessionCheck("Brute".ToProfessionIndex(),
                     true) // find index of brute check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.15f) // brute damage multiplier
                 )
                 .ReplaceWith( // replace with custom multiplier
                     new(OpCodes.Call,
-                        typeof(Professions).MethodNamed(nameof(Professions
+                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions
                             .GetBruteBonusDamageMultiplier)))
                 )
                 .Insert(
@@ -132,7 +128,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching modded Brute bonus damage.\nHelper returned {ex}", LogLevel.Error);
+            Log.E($"Failed while patching modded Brute bonus damage.\nHelper returned {ex}");
             return null;
         }
 
@@ -184,15 +180,16 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 )
                 .ReplaceWith(
                     new(OpCodes.Call,
-                        typeof(Professions).MethodNamed(
-                            nameof(Professions.GetPoacherCritDamageMultiplier)))
+                        typeof(FarmerExtensions).MethodNamed(
+                            nameof(FarmerExtensions.GetPoacherCritDamageMultiplier)))
+                )
+                .Insert(
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player)))
                 );
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while moving modded bonus crit damage from Desperado to Poacher.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while moving modded bonus crit damage from Desperado to Poacher.\nHelper returned {ex}");
             return null;
         }
 
@@ -210,7 +207,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (8)")
                 )
                 .GetOperand(out var damageAmount)
-                .FindFirst( // monter.Health <= 0
+                .FindFirst( // monster.Health <= 0
                     new CodeInstruction(OpCodes.Ldloc_2),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Monster).PropertyGetter(nameof(Monster.Health))),
@@ -236,9 +233,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood gauges.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood gauges.\nHelper returned {ex}");
             return null;
         }
 
@@ -268,7 +263,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             ModEntry.State.Value.MonstersStolenFrom.Add(monster.GetHashCode());
 
             // play sound effect
-            ModEntry.SoundBox.Play(SFX.PoacherSteal);
+            SoundBox.Play(SFX.PoacherSteal);
         }
 
         // try to increment Super Mode gauges

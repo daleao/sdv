@@ -47,9 +47,7 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
 
         if (farmer.maxHealth != expectedMaxHealth)
         {
-            ModEntry.Log(
-                $"Fixing max health of {farmer.Name}.\nCurrent: {farmer.maxHealth}\nExpected: {expectedMaxHealth}",
-                LogLevel.Warn);
+            Log.W($"Fixing max health of {farmer.Name}.\nCurrent: {farmer.maxHealth}\nExpected: {expectedMaxHealth}");
             farmer.maxHealth = expectedMaxHealth;
             farmer.health = Math.Min(farmer.maxHealth, farmer.health);
         }
@@ -68,7 +66,7 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return false; // don't run original logic
         }
 

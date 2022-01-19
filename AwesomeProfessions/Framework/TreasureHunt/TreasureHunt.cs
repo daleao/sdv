@@ -13,19 +13,18 @@ using Patches.Foraging;
 /// <summary>Base class for treasure hunts.</summary>
 internal abstract class TreasureHunt
 {
+    public bool IsActive => TreasureTile is not null;
+    public Vector2? TreasureTile { get; protected set; } = null;
+    
     protected uint elapsed;
     protected uint timeLimit;
+    protected string huntStartedMessage;
+    protected string huntFailedMessage;
+    protected Rectangle iconSourceRect;
     protected GameLocation huntLocation;
     protected readonly Random random = new(Guid.NewGuid().GetHashCode());
     
     private double _accumulatedBonus = 1.0;
-    
-    public bool IsActive => TreasureTile is not null;
-    public Vector2? TreasureTile { get; protected set; } = null;
-
-    protected string HuntStartedMessage { get; set; }
-    protected string HuntFailedMessage { get; set; }
-    protected Rectangle IconSourceRect { get; set; }
 
     #region public methods
 
@@ -37,8 +36,8 @@ internal abstract class TreasureHunt
     /// <param name="location">The game location.</param>
     public abstract Vector2? ChooseTreasureTile(GameLocation location);
 
-    /// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
-    public abstract void End();
+    /// <summary>End the hunt unsuccessfully.</summary>
+    public abstract void Fail();
 
     /// <summary>Check for completion or failure on every update tick.</summary>
     /// <param name="ticks">The number of ticks elapsed since the game started.</param>
@@ -76,8 +75,8 @@ internal abstract class TreasureHunt
     /// <summary>Check if the player has found the treasure tile.</summary>
     protected abstract void CheckForCompletion();
 
-    /// <summary>End the hunt unsuccessfully.</summary>
-    protected abstract void Fail();
+    /// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
+    protected abstract void End();
 
     #endregion protected methods
 }

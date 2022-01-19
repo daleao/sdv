@@ -1,0 +1,36 @@
+﻿namespace DaLion.Stardew.Professions;
+
+public enum Profession
+{
+    Unknown = -1,
+    Rancher,
+    Harvester,
+    Breeder,
+    Producer,
+    Artisan,
+    Agriculturist,
+    Fisher,
+    Trapper,
+    Angler,
+    Aquarist,
+    Luremaster,
+    Conservationist,
+    Lumberjack,
+    Forager,
+    Arborist,
+    Tapper,
+    Ecologist,
+    Scavenger,
+    Miner,
+    Blaster,
+    Spelunker,
+    Prospector,
+    Demolitionist,
+    Gemologist,
+    Fighter,
+    Rascal,
+    Brute,
+    Poacher,
+    Piper,
+    Desperado
+}

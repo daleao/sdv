@@ -8,13 +8,11 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 
 using Stardew.Common.Harmony;
 using Extensions;
 
-using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -63,7 +61,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Professions.IndexOf("Ecologist")) // find index of ecologist check
+                .FindProfessionCheck("Ecologist".ToProfessionIndex()) // find index of ecologist check
                 .Retreat()
                 .GetLabels(out var labels)
                 .RemoveUntil(
@@ -80,8 +78,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching Blueberry's Mushroom Propagator output quality.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching Blueberry's Mushroom Propagator output quality.\nHelper returned {ex}");
             return null;
         }
 
@@ -95,7 +92,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
     private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
     {
         var who = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
-        if (who.IsLocalPlayer && who.HasProfession("Ecologist")) return Professions.GetEcologistForageQuality();
+        if (who.IsLocalPlayer && who.HasProfession("Ecologist")) return who.GetEcologistForageQuality();
 
         var sourceMushroomQuality =
             ModEntry.ModHelper.Reflection.GetField<int>(propagator, "SourceMushroomQuality").GetValue();

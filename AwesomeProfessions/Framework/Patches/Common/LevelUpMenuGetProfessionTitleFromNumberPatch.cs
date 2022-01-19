@@ -6,11 +6,10 @@ using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -31,15 +30,15 @@ internal class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
     {
         try
         {
-            if (!Professions.IndexByName.Contains(whichProfession)) return true; // run original logic
+            if (!Enum.IsDefined(typeof(Profession), whichProfession)) return true; // run original logic
 
-            __result = ModEntry.ModHelper.Translation.Get(Professions.NameOf(whichProfession) + ".name." +
+            __result = ModEntry.ModHelper.Translation.Get(whichProfession.ToProfessionName() + ".name." +
                                                           (Game1.player.IsMale ? "male" : "female"));
             return false; // don't run original logic
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }

@@ -4,7 +4,6 @@
 
 using System.Linq;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -24,19 +23,19 @@ internal class DebugModMessageReceivedEvent : ModMessageReceivedEvent
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)
         {
-            ModEntry.Log($"Unknown player {e.FromPlayerID} sent debug {command} message.", LogLevel.Warn);
+            Log.W($"Unknown player {e.FromPlayerID} sent debug {command} message.");
             return;
         }
 
         switch (command)
         {
             case "Request":
-                ModEntry.Log($"Player {e.FromPlayerID} requested debug information.", LogLevel.Debug);
+                Log.D($"Player {e.FromPlayerID} requested debug information.");
                 var what = e.ReadAs<string>();
                 switch (what)
                 {
                     case "EventsEnabled":
-                        var response = ModEntry.EventManager.GetAllEnabled()
+                        var response = EventManager.GetAllEnabled()
                             .Aggregate("", (current, next) => current + "\n\t- " + next.GetType().Name);
                         ModEntry.ModHelper.Multiplayer.SendMessage(response, "Debug/Response",
                             new[] {ModEntry.Manifest.UniqueID},
@@ -48,7 +47,7 @@ internal class DebugModMessageReceivedEvent : ModMessageReceivedEvent
                 break;
 
             case "Response":
-                ModEntry.Log($"Player {e.FromPlayerID} responded to {command} debug information.", LogLevel.Debug);
+                Log.D($"Player {e.FromPlayerID} responded to {command} debug information.");
                 Multiplayer.ResponseReceived.TrySetResult(e.ReadAs<string>());
 
                 break;

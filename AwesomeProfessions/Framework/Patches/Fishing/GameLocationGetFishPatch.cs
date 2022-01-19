@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
 
@@ -47,7 +46,7 @@ internal class GameLocationGetFishPatch : BasePatch
         var shuffleMethod = typeof(SUtility).GetMethods().Where(mi => mi.Name == "Shuffle").ElementAtOrDefault(1);
         if (shuffleMethod is null)
         {
-            ModEntry.Log($"Failed to acquire {typeof(SUtility)}::Shuffle method.", LogLevel.Error);
+            Log.E($"Failed to acquire {typeof(SUtility)}::Shuffle method.");
             return null;
         }
 
@@ -86,7 +85,7 @@ internal class GameLocationGetFishPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}", LogLevel.Error);
+            Log.E($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}");
             return null;
         }
 
@@ -101,7 +100,7 @@ internal class GameLocationGetFishPatch : BasePatch
     {
         return currentFish is > 166 and < 173 or 152 or 153 or 157
                && who.CurrentTool is FishingRod rod
-               && Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
+               && ObjectLookups.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
                && baitName != "Magnet"
                && who.HasProfession("Fisher") && !hasRerolled;
     }

@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 
 using Stardew.Common.Harmony;
 
@@ -52,9 +51,7 @@ internal class ExperieneBarDrawExperienceBarPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while patching to budge Ui Info Suite experience bar skill icon. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching to budge Ui Info Suite experience bar skill icon. Helper returned {ex}");
             return null;
         }
 

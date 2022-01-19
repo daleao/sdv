@@ -21,7 +21,7 @@ internal class ModState
     internal int DemolitionistExcitedness { get; set; }
     internal int SpelunkerLadderStreak { get; set; }
     internal int SlimeContactTimer { get; set; }
-    internal Dictionary<int, HashSet<long>> ActivePeerSuperModes { get; set; } = new();
+    internal Dictionary<SuperModeIndex, HashSet<long>> ActivePeerSuperModes { get; set; } = new();
     internal HashSet<int> MonstersStolenFrom { get; set; } = new();
     internal HashSet<int> AuxiliaryBullets { get; set; } = new();
     internal HashSet<int> BouncedBullets { get; set; } = new();

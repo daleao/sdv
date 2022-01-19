@@ -9,7 +9,6 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
@@ -27,7 +26,7 @@ internal class MonsterTakeDamagePatch : BasePatch
     public override void Apply(Harmony harmony)
     {
         var targetMethods = TargetMethods().ToList();
-        ModEntry.Log($"[Patch]: Found {targetMethods.Count} target methods for {GetType().Name}.", ModEntry.DefaultLogLevel);
+        Log.D($"[Patch]: Found {targetMethods.Count} target methods for {GetType().Name}.");
         PatchManager.TotalPrefixCount += (uint) targetMethods.Count - 1;
         PatchManager.TotalPostfixCount += (uint) targetMethods.Count - 1;
 
@@ -77,7 +76,7 @@ internal class MonsterTakeDamagePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }

@@ -6,13 +6,11 @@ using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 
 using Stardew.Common.Harmony;
 using Extensions;
 
-using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -52,7 +50,7 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
             var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
             if (!who.HasProfession("Ecologist")) return true; // run original logic
 
-            machine.heldObject.Value.Quality = Professions.GetEcologistForageQuality();
+            machine.heldObject.Value.Quality = who.GetEcologistForageQuality();
             if (!ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic
 
             ModData.Increment<uint>(DataField.EcologistItemsForaged, who);
@@ -60,7 +58,7 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }

@@ -1,0 +1,15 @@
+{
+    "Name": "Pulverized Iridium",
+    "Description": "Made from pure iridium. Can be used to make greese.",
+    "Category": "Crafting",
+    "Edibility": -300,
+    "Price": 300,
+    "IsColored": false,
+    "Recipe": null,
+    "NameLocalization": {
+
+    },
+    "DescriptionLocalization": {
+
+    }
+}

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
+
 using Events.Display;
 using Events.GameLoop;
 using Extensions;
@@ -23,9 +24,9 @@ internal class ProspectorHunt : TreasureHunt
     /// <summary>Construct an instance.</summary>
     public ProspectorHunt()
     {
-        HuntStartedMessage = ModEntry.ModHelper.Translation.Get("prospector.huntstarted");
-        HuntFailedMessage = ModEntry.ModHelper.Translation.Get("prospector.huntfailed");
-        IconSourceRect = new(48, 672, 16, 16);
+        huntStartedMessage = ModEntry.ModHelper.Translation.Get("prospector.huntstarted");
+        huntFailedMessage = ModEntry.ModHelper.Translation.Get("prospector.huntfailed");
+        iconSourceRect = new(48, 672, 16, 16);
     }
 
     /// <inheritdoc />
@@ -39,9 +40,9 @@ internal class ProspectorHunt : TreasureHunt
         huntLocation = location;
         timeLimit = (uint) (location.Objects.Count() * ModEntry.Config.ProspectorHuntHandicap);
         elapsed = 0;
-        ModEntry.EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(ProspectorHuntRenderedHudEvent),
+        EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(ProspectorHuntRenderedHudEvent),
             typeof(ProspectorHuntUpdateTickedEvent));
-        Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
+        Game1.addHUDMessage(new HuntNotification(huntStartedMessage, iconSourceRect));
     }
 
     /// <inheritdoc />
@@ -51,7 +52,8 @@ internal class ProspectorHunt : TreasureHunt
         var failsafe = 0;
         do
         {
-            if (failsafe > 10) return null;
+            if (failsafe > 69) return null;
+
             v = location.Objects.Keys.ElementAtOrDefault(random.Next(location.Objects.Keys.Count()));
             ++failsafe;
         } while (!location.Objects.TryGetValue(v, out var obj) || !obj.IsStone() || obj.IsResourceNode());
@@ -60,10 +62,11 @@ internal class ProspectorHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    public override void End()
+    public override void Fail()
     {
-        ModEntry.EventManager.Disable(typeof(ProspectorHuntRenderedHudEvent), typeof(ProspectorHuntUpdateTickedEvent));
-        TreasureTile = null;
+        End();
+        Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
+        ModData.Write(DataField.ProspectorHuntStreak, "0");
     }
 
     #endregion public methods
@@ -76,17 +79,20 @@ internal class ProspectorHunt : TreasureHunt
         if (TreasureTile is null || Game1.currentLocation.Objects.ContainsKey(TreasureTile.Value)) return;
 
         GetStoneTreasure();
-        ((MineShaft) huntLocation).createLadderDown((int) TreasureTile.Value.X, (int) TreasureTile.Value.Y);
+
+        var shaft = (MineShaft) huntLocation;
+        if (shaft.shouldCreateLadderOnThisLevel() && !shaft.GetLadderTiles().Any())
+            shaft.createLadderDown((int) TreasureTile.Value.X, (int) TreasureTile.Value.Y);
+        
         End();
         ModData.Increment<uint>(DataField.ProspectorHuntStreak);
     }
 
     /// <inheritdoc />
-    protected override void Fail()
+    protected override void End()
     {
-        End();
-        Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-        ModData.Write(DataField.ProspectorHuntStreak, "0");
+        EventManager.Disable(typeof(ProspectorHuntRenderedHudEvent), typeof(ProspectorHuntUpdateTickedEvent));
+        TreasureTile = null;
     }
 
     #endregion protected methods
@@ -99,7 +105,7 @@ internal class ProspectorHunt : TreasureHunt
     {
         if (TreasureTile is null) return;
 
-        var mineLevel = ((MineShaft)Game1.currentLocation).mineLevel;
+        var mineLevel = ((MineShaft)huntLocation).mineLevel;
         Dictionary<int, int> treasuresAndQuantities = new();
 
         if (random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))

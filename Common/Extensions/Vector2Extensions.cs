@@ -3,6 +3,7 @@
 #region using directives
 
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -34,5 +35,30 @@ public static class Vector2Extensions
         v.Y = sin * tx + cos * ty;
 
         return v;
+    }
+
+    /// <summary>Get the 4-connected neighbors of the calling <see cref="Vector2"/>.</summary>
+    /// <param name="w">The width of the region.</param>
+    /// <param name="h">The height of the region.</param>
+    public static IEnumerable<Vector2> GetFourNeighbours(this Vector2 v, int w, int h)
+    {
+        var (x, y) = v;
+        if (x > 0) yield return new(x - 1, y);
+        if (x < w - 1) yield return new(x + 1, y);
+        if (y > 0) yield return new(x, y - 1);
+        if (y < h - 1) yield return new(x, y + 1);
+    }
+
+    /// <summary>Get the 8-connected neighbors of the calling <see cref="Vector2"/>.</summary>
+    /// <param name="w">The width of the region.</param>
+    /// <param name="h">The height of the region.</param>
+    public static IEnumerable<Vector2> GetEightNeighbours(this Vector2 v, int w, int h)
+    {
+        var (x, y) = v;
+        if (x > 0 && y > 0) yield return new(x - 1, y - 1);
+        if (x > 0 && y < h - 1) yield return new(x - 1, y + 1);
+        if (x < w - 1 && y > 0) yield return new(x + 1, y - 1);
+        if (x < w - 1 && y < h - 1) yield return new(x + 1, y + 1);
+        foreach (var neighbour in GetFourNeighbours(v, w, h)) yield return neighbour;
     }
 }

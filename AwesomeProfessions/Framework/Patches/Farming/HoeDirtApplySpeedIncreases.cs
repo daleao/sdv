@@ -8,12 +8,10 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley.TerrainFeatures;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -28,6 +26,7 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
 
     #region harmony patches
 
+    /// <summary>Patch to increase prestiged Agriculturist crop growth speed.</summary>
     [HarmonyTranspiler]
     protected static IEnumerable<CodeInstruction> HoeDirtApplySpeedIncreasesTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
@@ -41,9 +40,9 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Professions.IndexOf("Agriculturist"))
+                .FindProfessionCheck("Agriculturist".ToProfessionIndex())
                 .Advance()
-                .FindProfessionCheck(Professions.IndexOf("Agriculturist"))
+                .FindProfessionCheck("Agriculturist".ToProfessionIndex())
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.1f)
                 )
@@ -51,7 +50,7 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1)
                 )
-                .InsertProfessionCheckForPlayerOnStack(100 + Professions.IndexOf("Agriculturist"),
+                .InsertProfessionCheckForPlayerOnStack("Agriculturist".ToProfessionIndex() + 100,
                     notPrestigedAgriculturist)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.2f),
@@ -62,8 +61,7 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching prestiged Agriculturist bonus.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching prestiged Agriculturist bonus.\nHelper returned {ex}");
             return null;
         }
 

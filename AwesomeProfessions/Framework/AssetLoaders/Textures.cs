@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 internal static class Textures
 {
     public const int RIBBON_WIDTH_I = 22,
-        RIBBON_HORIZONTAL_OFFSET_I = -99,
+        RIBBON_HORIZONTAL_OFFSET_I = -92,
         MAX_ICON_WIDTH_I = 38,
         MAX_ICON_HEIGHT_I = 18;
     public const float RIBBON_SCALE_F = 1.8f;

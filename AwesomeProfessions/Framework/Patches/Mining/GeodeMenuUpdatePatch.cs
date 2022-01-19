@@ -8,13 +8,11 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -49,21 +47,21 @@ internal class GeodeMenuUpdatePatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Gemologist"),
+                .InsertProfessionCheckForLocalPlayer("Gemologist".ToProfessionIndex(),
                     dontIncreaseGemologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] {typeof(DataField), typeof(Farmer)})
+                        typeof(ModData)
+                            .MethodNamed(nameof(ModData.Increment), new[] {typeof(DataField), typeof(Farmer)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding Gemologist counter increment.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
             return null;
         }
 

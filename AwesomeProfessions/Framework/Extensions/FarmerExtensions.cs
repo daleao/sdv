@@ -1,19 +1,25 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Extensions;
+﻿// ReSharper disable PossibleLossOfFraction
+namespace DaLion.Stardew.Professions.Framework.Extensions;
 
 #region using directives
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using StardewValley.Buildings;
 using StardewValley.Menus;
 
 using Common.Extensions;
 using Events.GameLoop;
+using SuperMode;
+using Utility;
 
-using Professions = Utility.Professions;
+using Professions = Utility.Localization;
+using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -23,15 +29,15 @@ public static class FarmerExtensions
     /// <param name="professionName">The name of the profession.</param>
     public static bool HasProfession(this Farmer farmer, string professionName)
     {
-        return Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex) &&
-               farmer.professions.Contains(professionIndex);
+        return Enum.TryParse<Profession>(professionName, out var profession) &&
+               farmer.professions.Contains((int) profession);
     }
 
     /// <summary>Whether the farmer has a particular profession.</summary>
     /// <param name="professionIndex">The index of the profession.</param>
     public static bool HasProfession(this Farmer farmer, int professionIndex)
     {
-        return Professions.IndexByName.Contains(professionIndex) &&
+        return Enum.TryParse<Profession>(professionIndex.ToString(), out _) &&
                farmer.professions.Contains(professionIndex);
     }
 
@@ -39,17 +45,17 @@ public static class FarmerExtensions
     /// <param name="professionName">The name of the profession.</param>
     public static bool HasPrestigedProfession(this Farmer farmer, string professionName)
     {
-        return Professions.IndexByName.Forward.TryGetValue(professionName, out var professionIndex) &&
-               farmer.professions.Contains(100 + professionIndex);
+        return Enum.TryParse<Profession>(professionName, out var profession) &&
+               farmer.professions.Contains((int) profession + 100);
     }
 
     /// <summary>Whether the farmer has any of the specified professions.</summary>
     /// <param name="professionNames">Sequence of profession names.</param>
     public static bool HasAnyOfProfessions(this Farmer farmer, params string[] professionNames)
     {
-        return professionNames.Any(p =>
-            Professions.IndexByName.Forward.TryGetValue(p, out var professionIndex) &&
-            farmer.professions.Contains(professionIndex));
+        return professionNames.Any(name =>
+            Enum.TryParse<Profession>(name, out var profession) &&
+            farmer.professions.Contains((int) profession));
     }
 
     /// <summary>Whether the farmer has any of the specified professions.</summary>
@@ -57,9 +63,9 @@ public static class FarmerExtensions
     /// <param name="firstMatch">The first profession acquired by the player among the specified profession names.</param>
     public static bool HasAnyOfProfessions(this Farmer farmer, string[] professionNames, out string firstMatch)
     {
-        firstMatch = professionNames.FirstOrDefault(p =>
-            Professions.IndexByName.Forward.TryGetValue(p, out var professionIndex) &&
-            farmer.professions.Contains(professionIndex));
+        firstMatch = professionNames.FirstOrDefault(name =>
+            Enum.TryParse<Profession>(name, out var profession) &&
+            farmer.professions.Contains((int) profession));
         return firstMatch is not null;
     }
 
@@ -166,7 +172,7 @@ public static class FarmerExtensions
         var hasAtLeastOneButNotAllProfessionsInSkill =
             farmer.NumberOfProfessionsInSkill((int) skillType, true) is > 0 and < 4;
         var alreadyResetThisSkill =
-            ModEntry.EventManager.TryGet<PrestigeDayEndingEvent>(out var prestigeDayEnding) &&
+            EventManager.TryGet<PrestigeDayEndingEvent>(out var prestigeDayEnding) &&
             prestigeDayEnding.SkillsToReset.Value.Contains(skillType);
 
         return isSkillLevelTen && !justLeveledUp && hasAtLeastOneButNotAllProfessionsInSkill &&
@@ -281,11 +287,9 @@ public static class FarmerExtensions
     }
 
     /// <summary>Get all available Super Mode's not currently registered.</summary>
-    public static IEnumerable<int> GetUnchosenSuperModes(this Farmer farmer)
+    public static IEnumerable<SuperModeIndex> GetUnchosenSuperModes(this Farmer farmer)
     {
-        var otherSuperModeProfessions = new[] {"Brute", "Poacher", "Desperado", "Piper"}
-            .Select(Professions.IndexOf).Except(new[] {(int) ModEntry.State.Value.SuperMode.Index});
-        return farmer.professions.Intersect(otherSuperModeProfessions);
+        return farmer.professions.Where(p => Enum.IsDefined(typeof(SuperModeIndex), p)).Cast<SuperModeIndex>();
     }
 
     /// <summary>Whether the farmer has caught the specified fish at max size.</summary>
@@ -303,5 +307,157 @@ public static class FarmerExtensions
 
         var dataFields = specificFishData.Split('/');
         return farmer.fishCaught[index][1] >= Convert.ToInt32(dataFields[4]);
+    }
+
+    /// <summary>Affects the price of produce sold by Producer.</summary>
+    /// <param name="who">The player.</param>
+    public static float GetProducerPriceBonus(this Farmer farmer)
+    {
+        return Game1.getFarm().buildings.Where(b =>
+            (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+            b.buildingType.Contains("Deluxe") && ((AnimalHouse)b.indoors.Value).isFull()).Sum(_ => 0.05f);
+    }
+
+    /// <summary>Affects the price of fish sold by Angler.</summary>
+    /// <param name="who">The player.</param>
+    public static float GetAnglerPriceBonus(this Farmer farmer)
+    {
+        var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
+            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
+            .ToDictionary(p => p.Key, p => p.Value);
+
+        var multiplier = 0f;
+        foreach (var (key, value) in farmer.fishCaught.Pairs)
+        {
+            if (!fishData.TryGetValue(key, out var specificFishData)) continue;
+
+            var dataFields = specificFishData.Split('/');
+            if (ObjectLookups.LegendaryFishNames.Contains(dataFields[0]))
+                multiplier += 0.05f;
+            else if (value[1] >= Convert.ToInt32(dataFields[4]))
+                multiplier += 0.01f;
+        }
+
+        return multiplier;
+    }
+
+    /// <summary>Compensates the decay of the "catching" bar for Aquarist.</summary>
+    public static float GetAquaristBonusCatchingBarSpeed(this Farmer farmer)
+    {
+        var fishTypes = Game1.getFarm().buildings
+            .Where(b => (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond pond &&
+                        pond.fishType.Value > 0)
+            .Cast<FishPond>()
+            .Select(pond => pond.fishType.Value);
+
+        return Math.Min(fishTypes.Distinct().Count() * 0.000165f, 0.002f);
+    }
+
+    /// <summary>Affects the price all items sold by Conservationist.</summary>
+    public static float GetConservationistPriceMultiplier(this Farmer farmer)
+    {
+        return 1f + ModData.ReadAs<float>(DataField.ConservationistActiveTaxBonusPct, farmer);
+    }
+
+    /// <summary>Affects the quality of items foraged by Ecologist.</summary>
+    public static int GetEcologistForageQuality(this Farmer farmer)
+    {
+        var itemsForaged = ModData.ReadAs<uint>(DataField.EcologistItemsForaged, farmer);
+        return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
+            ? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2
+                ? SObject.medQuality
+                : SObject.highQuality
+            : SObject.bestQuality;
+    }
+
+    /// <summary>Affects the quality of minerals collected by Gemologist.</summary>
+    public static int GetGemologistMineralQuality(this Farmer farmer)
+    {
+        var mineralsCollected = ModData.ReadAs<uint>(DataField.GemologistMineralsCollected, farmer);
+        return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
+            ? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
+                ? SObject.medQuality
+                : SObject.highQuality
+            : SObject.bestQuality;
+    }
+
+    /// <summary>Affects that chance that a ladder or shaft will spawn for Spelunker.</summary>
+    public static double GetSpelunkerBonusLadderDownChance(this Farmer farmer)
+    {
+        if (!farmer.IsLocalPlayer) return 0.0;
+        return ModEntry.State.Value.SpelunkerLadderStreak * 0.005;
+    }
+
+    /// <summary>Affects the raw damage dealt by Brute.</summary>
+    /// <param name="who">The player.</param>
+    public static float GetBruteBonusDamageMultiplier(this Farmer farmer)
+    {
+        var multiplier = 1.15f;
+        if (!farmer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not { Index: SuperModeIndex.Brute } superMode)
+            return multiplier;
+
+        multiplier += superMode.IsActive
+            ? (farmer.HasPrestigedProfession("Fighter") ? 0.2f : 0.1f) + 0.15f + farmer.attackIncreaseModifier + // double fighter, brute and ring bonuses
+              (farmer.CurrentTool is not null
+                  ? farmer.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f // double enchants
+                  : 0f)
+              + SuperModeGauge.MaxValue / 10 * 0.005f // apply the maximum fury bonus
+            : (int) superMode.Gauge.CurrentValue / 10 * 0.005f; // apply current fury bonus
+
+        return multiplier;
+    }
+
+    /// <summary>Affects the cooldown of special moves performed by prestiged Brute.</summary>
+    /// <param name="who">The player.</param>
+    public static float GetPrestigedBruteCooldownReduction(this Farmer farmer)
+    {
+        return 1f - farmer.attackIncreaseModifier + (farmer.CurrentTool is not null
+            ? farmer.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f
+            : 0f);
+    }
+
+    /// <summary>Affects the power of critical strikes performed by Poacher.</summary>
+    public static float GetPoacherCritDamageMultiplier(this Farmer farmer)
+    {
+        if (!farmer.IsLocalPlayer) return 1f;
+
+        return ModEntry.State.Value.SuperMode.IsActive
+            ? 1f + SuperModeGauge.MaxValue / 10 * 0.04f // apply the maximum cold blood bonus
+            : 1f + (int) ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 10 * 0.04f; // apply current cold blood bonus
+    }
+
+    /// <summary>Affects the cooldown special moves performed by prestiged Poacher.</summary>
+    /// <param name="who">The player.</param>
+    public static float GetPrestigedPoacherCooldownReduction(this Farmer farmer)
+    {
+        return 1f - farmer.critChanceModifier + farmer.critPowerModifier + (farmer.CurrentTool is not null
+            ? farmer.CurrentTool.GetEnchantmentLevel<AquamarineEnchantment>() +
+              farmer.CurrentTool.GetEnchantmentLevel<JadeEnchantment>() * 0.1f
+            : 0f);
+    }
+
+    /// <summary>Affects the maximum number of bonus Slimes that can be attracted by Piper.</summary>
+    public static int GetPiperSlimeSpawnAttempts(this Farmer farmer)
+    {
+        if (!farmer.IsLocalPlayer) return 0;
+
+        return ModEntry.State.Value.SuperMode.IsActive
+            ? SuperModeGauge.MaxValue / 50 + 1 // apply the maximum eubstance bonus
+            : (int) ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 50 + 1; // apply current eubstance bonus
+    }
+
+    /// <summary>Affects the chance to shoot twice consecutively for Desperado.</summary>
+    /// <param name="who">The player.</param>
+    public static float GetDesperadoDoubleStrafeChance(this Farmer farmer)
+    {
+        var healthPercent = (double) farmer.health / farmer.maxHealth;
+        return (float) Math.Min(2 / (healthPercent + 1.5) - 0.75, 0.5f);
+    }
+
+    /// <summary>Affects projectile velocity, knockback, hitbox size and pierce chance for Desperado.</summary>
+    public static float GetDesperadoBulletPower(this Farmer farmer)
+    {
+        if (!farmer.IsLocalPlayer || ModEntry.State.Value.SuperMode.IsActive) return 1f;
+        return 1f + (int)ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 10 * 0.01f;
     }
 }

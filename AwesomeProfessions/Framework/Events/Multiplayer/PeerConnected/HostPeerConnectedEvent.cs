@@ -17,10 +17,10 @@ internal class HostPeerConnectedEvent : PeerConnectedEvent
     /// <inheritdoc />
     protected override void OnPeerConnectedImpl(object sender, PeerConnectedEventArgs e)
     {
-        ModEntry.EventManager.Enable(typeof(ToggledSuperModeModMessageReceivedEvent),
+        EventManager.Enable(typeof(ToggledSuperModeModMessageReceivedEvent),
             typeof(RequestDataUpdateModMessageReceivedEvent), typeof(RequestGlobalEventEnableModMessageReceivedEvent));
 
         if (Game1.getFarmer(e.Peer.PlayerID).HasProfession("Conservationist"))
-            ModEntry.EventManager.Enable(typeof(GlobalConservationistDayEndingEvent));
+            EventManager.Enable(typeof(GlobalConservationistDayEndingEvent));
     }
 }

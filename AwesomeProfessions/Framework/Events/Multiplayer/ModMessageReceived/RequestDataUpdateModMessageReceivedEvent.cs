@@ -3,7 +3,6 @@
 #region using directives
 
 using System;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -23,19 +22,19 @@ internal class RequestDataUpdateModMessageReceivedEvent : ModMessageReceivedEven
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)
         {
-            ModEntry.Log($"Unknown player {e.FromPlayerID} tried to change the mod data.", LogLevel.Warn);
+            Log.W($"Unknown player {e.FromPlayerID} tried to change the mod data.");
             return;
         }
 
         switch (operation)
         {
             case "Write":
-                ModEntry.Log($"Player {e.FromPlayerID} requested to Write {value} to {field}.", ModEntry.DefaultLogLevel);
+                Log.D($"Player {e.FromPlayerID} requested to Write {value} to {field}.");
                 ModData.Write(field, value, who);
                 break;
 
             case "Increment":
-                ModEntry.Log($"Player {e.FromPlayerID} requested to Increment {field} by {value}.", ModEntry.DefaultLogLevel);
+                Log.D($"Player {e.FromPlayerID} requested to Increment {field} by {value}.");
                 var parsedValue = e.ReadAs<int>();
                 ModData.Increment(field, parsedValue, who);
                 break;

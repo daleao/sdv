@@ -18,15 +18,12 @@ public class ModEntry : Mod
 {
     internal static ModConfig Config { get; set; }
     internal static PerScreen<ModState> State { get; private set; }
-    internal static EventManager EventManager { get; private set; }
-    internal static SoundBox SoundBox { get; private set; }
 
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
     internal static Action<string, LogLevel> Log { get; private set; }
 
     internal static FrameRateCounter FpsCounter { get; private set; }
-    internal static LogLevel DefaultLogLevel { get; private set; } = LogLevel.Trace;
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -43,15 +40,17 @@ public class ModEntry : Mod
         // initialize per-screen state
         State = new(() => new());
 
-        // initialize events
-        EventManager = new(helper.Events);
+        // initialize mod events
+        EventManager.Init(Helper.Events);
 
         // apply harmony patches
-        new PatchManager(Manifest.UniqueID).ApplyAll();
+        PatchManager.ApplyAll(Manifest.UniqueID);
 
-        // get mod assets
-        helper.Content.AssetEditors.Add(new IconEditor()); // edit vanilla sprites
-        SoundBox = new(helper.DirectoryPath); // sound assets
+        // edit game sprites
+        helper.Content.AssetEditors.Add(new IconEditor());
+        
+        // load sound effects
+        SoundBox.Load(helper.DirectoryPath);
 
         // add debug commands
         ConsoleCommands.Register(helper.ConsoleCommands);
@@ -70,8 +69,6 @@ public class ModEntry : Mod
         }
 
         if (!Config.EnableDebug) return;
-
-        DefaultLogLevel = LogLevel.Debug;
 
         // start FPS counter
         FpsCounter = new(GameRunner.instance);

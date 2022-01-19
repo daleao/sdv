@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
 using Common.Classes;
@@ -107,8 +106,7 @@ internal class Shockwave
 
         if (_currentRadius++ < _finalRadius) return;
 
-        if (ModEntry.Config.EnableDebug)
-            ModEntry.Log(_tileGrids[^1].ToString(), LogLevel.Debug);
+        if (ModEntry.Config.EnableDebug) Log.D(_tileGrids[^1].ToString());
 
         ModEntry.Shockwave.Value = null;
     }

@@ -30,12 +30,12 @@ internal class SpelunkerWarpedEvent : WarpedEvent
                 player.Stamina = Math.Min(player.Stamina + player.MaxStamina * 0.05f, player.MaxStamina);
             }
 
-            ModEntry.EventManager.Enable(typeof(SpelunkerBuffDisplayUpdateTickedEvent));
+            EventManager.Enable(typeof(SpelunkerBuffDisplayUpdateTickedEvent));
         }
         else if (e.OldLocation is MineShaft)
         {
             ModEntry.State.Value.SpelunkerLadderStreak = 0;
-            ModEntry.EventManager.Disable(typeof(SpelunkerBuffDisplayUpdateTickedEvent));
+            EventManager.Disable(typeof(SpelunkerBuffDisplayUpdateTickedEvent));
         }
     }
 }

@@ -9,7 +9,6 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
 
@@ -99,8 +98,7 @@ internal class GreenSlimeDrawPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching inflated Green Slime sprite.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching inflated Green Slime sprite.\nHelper returned {ex}");
             return null;
         }
 

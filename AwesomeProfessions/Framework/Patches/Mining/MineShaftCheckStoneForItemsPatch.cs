@@ -8,13 +8,11 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -59,11 +57,12 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                     // prepare profession check
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack(Professions.IndexOf("Spelunker"), isNotSpelunker)
+                .InsertProfessionCheckForPlayerOnStack("Spelunker".ToProfessionIndex(), isNotSpelunker)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Professions).MethodNamed(nameof(Professions
+                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions
                             .GetSpelunkerBonusLadderDownChance))),
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Stloc_3)
@@ -71,8 +70,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding Spelunker bonus ladder down chance.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding Spelunker bonus ladder down chance.\nHelper returned {ex}");
             return null;
         }
 
@@ -99,8 +97,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while removing vanilla Geologist paired gem chance.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while removing vanilla Geologist paired gem chance.\nHelper returned {ex}");
             return null;
         }
 
@@ -123,8 +120,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while removing vanilla Excavator double geode chance.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while removing vanilla Excavator double geode chance.\nHelper returned {ex}");
             return null;
         }
 
@@ -145,8 +141,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
             return null;
         }
 

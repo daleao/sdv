@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-using StardewModdingAPI;
 using StardewValley;
 
 using Stardew.Common.Harmony;
@@ -62,8 +61,7 @@ internal class LoomMachineSetInputPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching modded Artisan behavior for automated Loom.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching modded Artisan behavior for automated Loom.\nHelper returned {ex}");
             return null;
         }
 

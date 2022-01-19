@@ -6,7 +6,6 @@ using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley.Tools;
 
 using SuperMode;
@@ -39,7 +38,7 @@ internal class SlingshotCanAutoFirePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }

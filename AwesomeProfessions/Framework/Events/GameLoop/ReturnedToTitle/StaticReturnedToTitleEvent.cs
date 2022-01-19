@@ -14,7 +14,7 @@ internal class StaticReturnedToTitleEvent : ReturnedToTitleEvent
     protected override void OnReturnedToTitleImpl(object sender, ReturnedToTitleEventArgs e)
     {
         // disable events
-        ModEntry.EventManager.DisableAllForLocalPlayer();
+        EventManager.DisableAllForLocalPlayer();
 
         // reset mod state
         ModEntry.State.Value = new();

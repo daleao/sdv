@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
 
@@ -39,7 +38,7 @@ internal class GameLocationPerformActionPatch : BasePatch
         {
             string message;
             if (!ModEntry.Config.AllowPrestigeMultiplePerDay &&
-                (ModEntry.EventManager.Get<PrestigeDayEndingEvent>().IsEnabled ||
+                (EventManager.Get<PrestigeDayEndingEvent>().IsEnabled ||
                  ModEntry.State.Value.UsedDogStatueToday))
             {
                 message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.dismiss");
@@ -94,7 +93,7 @@ internal class GameLocationPerformActionPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }

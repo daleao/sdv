@@ -8,7 +8,6 @@ using Framework;
 
 #endregion using directives
 
-/// <summary>Configuration for the axe shockwave.</summary>
 public class AxeConfig
 {
     /// <summary>Enables charging the Axe.</summary>

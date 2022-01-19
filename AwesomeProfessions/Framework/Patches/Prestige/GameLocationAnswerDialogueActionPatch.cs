@@ -9,7 +9,6 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Input;
-using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewValley;
 
@@ -19,7 +18,7 @@ using Events.GameLoop;
 using Extensions;
 using SuperMode;
 
-using Professions = Utility.Professions;
+using Localization = Utility.Localization;
 
 #endregion using directives
 
@@ -161,21 +160,21 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                     var currentProfessionDisplayName =
                         ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".name.male");
                     var currentBuff = ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".buff");
-                    var pronoun = Professions.GetBuffPronoun();
+                    var pronoun = Localization.GetBuffPronoun();
                     var message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.replace",
                         new {pronoun, currentProfession = currentProfessionDisplayName, currentBuff});
 
                     var choices = (
-                        from superMode in Game1.player.GetUnchosenSuperModes()
-                        orderby superMode
-                        let choiceProfessionKey = Professions.NameOf(superMode).ToLower()
+                        from superModeIndex in Game1.player.GetUnchosenSuperModes()
+                        orderby superModeIndex
+                        let choiceProfessionKey = superModeIndex.ToString().ToLower()
                         let choiceProfessionDisplayName =
                             ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".name.male")
                         let choiceBuff = ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".buff")
                         let choice =
                             ModEntry.ModHelper.Translation.Get("prestige.dogstatue.choice",
                                 new {choiceProfession = choiceProfessionDisplayName, choiceBuff})
-                        select new Response("Choice_" + superMode, choice)).ToList();
+                        select new Response("Choice_" + superModeIndex, choice)).ToList();
 
                     choices.Add(new Response("Cancel", Game1.content.LoadString("Strings\\Lexicon:QuestionDialogue_No"))
                         .SetHotKey(Keys.Escape));
@@ -192,7 +191,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         ModData.Write(DataField.SuperModeIndex, newIndex.ToString());
 
                         // play sound effect
-                        ModEntry.SoundBox.Play(SFX.DogStatuePrestige);
+                        SoundBox.Play(SFX.DogStatuePrestige);
 
                         // tell the player
                         var choiceProfessionKey = newIndex.ToString().ToLower();
@@ -247,12 +246,12 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         }
 
                         // prepare to prestige at night
-                        var prestigeDayEndingEvent = ModEntry.EventManager.Get<PrestigeDayEndingEvent>();
+                        var prestigeDayEndingEvent = EventManager.Get<PrestigeDayEndingEvent>();
                         prestigeDayEndingEvent.SkillsToReset.Value.Enqueue(skillType);
                         prestigeDayEndingEvent.Enable();
 
                         // play sound effect
-                        ModEntry.SoundBox.Play(SFX.DogStatuePrestige);
+                        SoundBox.Play(SFX.DogStatuePrestige);
 
                         // tell the player
                         Game1.drawObjectDialogue(
@@ -276,7 +275,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                             Game1.player.newLevels.Add(new((int) skillType, 20));
 
                         // play sound effect
-                        ModEntry.SoundBox.Play(SFX.DogStatuePrestige);
+                        SoundBox.Play(SFX.DogStatuePrestige);
 
                         // tell the player
                         Game1.drawObjectDialogue(
@@ -297,7 +296,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }

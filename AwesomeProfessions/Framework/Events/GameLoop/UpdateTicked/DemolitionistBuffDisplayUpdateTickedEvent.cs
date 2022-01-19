@@ -7,7 +7,7 @@ using System.Linq;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -20,7 +20,7 @@ internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     /// <summary>Construct an instance.</summary>
     internal DemolitionistBuffDisplayUpdateTickedEvent()
     {
-        _buffId = (ModEntry.Manifest.UniqueID + Professions.IndexOf("Demolitionist")).GetHashCode();
+        _buffId = (ModEntry.Manifest.UniqueID + "Demolitionist".ToProfessionIndex()).GetHashCode();
     }
 
     /// <inheritdoc />

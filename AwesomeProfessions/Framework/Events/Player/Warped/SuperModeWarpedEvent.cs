@@ -16,7 +16,7 @@ internal class SuperModeWarpedEvent : WarpedEvent
     {
         if (e.NewLocation.Equals(e.OldLocation) || e.NewLocation.GetType() == e.OldLocation.GetType()) return;
 
-        if (e.NewLocation.IsCombatZone() && ModEntry.Config.EnableSuperMode) ModEntry.EventManager.Enable(typeof(SuperModeGaugeRenderingHudEvent));
+        if (e.NewLocation.IsCombatZone() && ModEntry.Config.EnableSuperMode) EventManager.Enable(typeof(SuperModeGaugeRenderingHudEvent));
         else ModEntry.State.Value.SuperMode.Gauge.CurrentValue = 0.0;
     }
 }

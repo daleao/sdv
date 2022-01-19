@@ -15,6 +15,6 @@ internal class PrestigeLevelChangedEvent : LevelChangedEvent
     /// <inheritdoc />
     protected override void OnLevelChangedImpl(object sender, LevelChangedEventArgs e)
     {
-        ModEntry.EventManager.Enable(typeof(RestoreForgottenRecipesDayStartedEvent));
+        EventManager.Enable(typeof(RestoreForgottenRecipesDayStartedEvent));
     }
 }

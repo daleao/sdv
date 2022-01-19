@@ -87,11 +87,11 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
             )
 
             // page links
-            .AddPageLink("axe", () => "Axe Options", () => "Go to Axe options")
-            .AddPageLink("pickaxe", () => "Pickaxe Options", () => "Go to Pickaxe options")
+            .AddPageLink("Axe", () => "Axe Options", () => "Go to Axe options")
+            .AddPageLink("pickAxe", () => "Pickaxe Options", () => "Go to Pickaxe options")
 
-            // axe options
-            .AddPage("axe", () => "Axe Options")
+            // Axe options
+            .AddPage("Axe", () => "Axe Options")
             .AddPageLink(string.Empty, () => "Back to Main Page")
             .AddCheckbox(
                 () => "Enable Axe Charging",
@@ -239,8 +239,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 (config, value) => config.AxeConfig.PlayShockwaveAnimation = value
             )
 
-            // pickaxe options
-            .AddPage("pickaxe", () => "Pickaxe Options")
+            // pickAxe options
+            .AddPage("pickAxe", () => "Pickaxe Options")
             .AddPageLink(string.Empty, () => "Back to Main Page")
             .AddCheckbox(
                 () => "Enable Pickaxe Charging",

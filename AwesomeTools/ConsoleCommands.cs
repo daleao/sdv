@@ -32,13 +32,13 @@ internal static class ConsoleCommands
     {
         if (!Context.IsWorldReady)
         {
-            ModEntry.Log("You must load a save first.", LogLevel.Warn);
+            Log.W("You must load a save first.");
             return;
         }
 
         if (args.Length < 1)
         {
-            ModEntry.Log("Missing argument." + GetUpgradeToolsUsage(), LogLevel.Warn);
+            Log.W("Missing argument." + GetUpgradeToolsUsage());
             return;
         }
 
@@ -46,13 +46,13 @@ internal static class ConsoleCommands
 
         if (!success)
         {
-            ModEntry.Log("Invalid argument." + GetUpgradeToolsUsage(), LogLevel.Warn);
+            Log.W("Invalid argument." + GetUpgradeToolsUsage());
             return;
         }
 
         if (upgradeLevel > Framework.UpgradeLevel.Iridium && !ModEntry.HasMoonMod)
         {
-            ModEntry.Log("You must have 'Moon Misadventures' mod installed to set this upgrade level.", LogLevel.Warn);
+            Log.W("You must have 'Moon Misadventures' mod installed to set this upgrade level.");
             return;
         }
 
@@ -60,7 +60,7 @@ internal static class ConsoleCommands
             if (item is Axe or Hoe or Pickaxe or WateringCan)
                 (item as Tool).UpgradeLevel = (int) upgradeLevel;
 
-        ModEntry.Log($"Upgraded all tools to {upgradeLevel}.", LogLevel.Info);
+        Log.I($"Upgraded all tools to {upgradeLevel}.");
     }
 
     /// <summary>Add the specified enchantment to the player's current tool.</summary>
@@ -70,14 +70,14 @@ internal static class ConsoleCommands
     {
         if (!Context.IsWorldReady)
         {
-            ModEntry.Log("You must load a save first.", LogLevel.Warn);
+            Log.W("You must load a save first.");
             return;
         }
 
         var tool = Game1.player.CurrentTool;
         if (tool is null)
         {
-            ModEntry.Log("You must select a tool first.", LogLevel.Warn);
+            Log.W("You must select a tool first.");
             return;
         }
 
@@ -99,18 +99,18 @@ internal static class ConsoleCommands
 
         if (enchantment is null)
         {
-            ModEntry.Log($"Unknown enchantment type {args[0]}. Please enter a valid tool enchantment.", LogLevel.Warn);
+            Log.W($"Unknown enchantment type {args[0]}. Please enter a valid tool enchantment.");
             return;
         }
 
         if (!enchantment.CanApplyTo(tool))
         {
-            ModEntry.Log($"Cannot apply {enchantment.GetDisplayName()} Enchantment to {tool.DisplayName}.", LogLevel.Warn);
+            Log.W($"Cannot apply {enchantment.GetDisplayName()} Enchantment to {tool.DisplayName}.");
             return;
         }
 
         tool.enchantments.Add(enchantment);
-        ModEntry.Log($"Added {enchantment.GetDisplayName()} Enchantment to {tool.DisplayName}.", LogLevel.Info);
+        Log.I($"Added {enchantment.GetDisplayName()} Enchantment to {tool.DisplayName}.");
     }
 
     #endregion command handlers

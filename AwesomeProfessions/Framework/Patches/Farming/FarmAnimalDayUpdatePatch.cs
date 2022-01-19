@@ -9,12 +9,10 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
-using StardewModdingAPI;
 using StardewValley;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -92,7 +90,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_1)
                 )
                 .ReplaceWith(
-                    new(OpCodes.Ldc_R8, 2.0),
+                    new(OpCodes.Ldc_R8, 1.75),
                     true
                 )
                 .AddLabels(notPrestigedProducer)
@@ -101,7 +99,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3)
                 )
                 .ReplaceWith(
-                    new(OpCodes.Ldc_I4_S, 100 + Professions.IndexOf("Producer"))
+                    new(OpCodes.Ldc_I4_S, "Producer".ToProfessionIndex() + 100)
                 )
                 .Return()
                 .Insert(
@@ -121,8 +119,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching modded Producer produce frequency.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching modded Producer produce frequency.\nHelper returned {ex}");
             return null;
         }
 
@@ -147,9 +144,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}");
             return null;
         }
 

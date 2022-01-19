@@ -8,13 +8,11 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -54,14 +52,14 @@ internal class BobberBarUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Stfld)
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Aquarist"), (Label) resumeExecution)
+                .InsertProfessionCheckForLocalPlayer("Aquarist".ToProfessionIndex(), (Label) resumeExecution)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).Field("distanceFromCatching")),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Professions).MethodNamed(nameof(Professions
+                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions
                             .GetAquaristBonusCatchingBarSpeed))),
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Stfld, typeof(BobberBar).Field("distanceFromCatching"))
@@ -69,7 +67,7 @@ internal class BobberBarUpdatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching Aquarist catching bar loss. Helper returned {ex}", LogLevel.Error);
+            Log.E($"Failed while patching Aquarist catching bar loss. Helper returned {ex}");
             return null;
         }
 

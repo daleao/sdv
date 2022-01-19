@@ -100,10 +100,10 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 - **Lv5 - Miner** - +1 *(+2)* ore per ore vein.
     - _Unchanged from vanilla._
-- **Lv10 - Spelunker** - Chance to find ladders and shafts increases with every mine level. +1 speed every 5 levels. *Also recover some health and stamina with every mine level.*
+- **Lv10 - Spelunker** - Chance to find ladders and shafts increases with every mine level. +1 speed every 10 levels. *Also recover some health and stamina with every mine level.*
     - Plus 0.5% ladder chance per level. Bonus ladder chance resets every time you leave the mines. **This includes taking the stairs back to the mine entrance.**
 - **Lv10 - Prospector** - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals. *Time freezes during Scavenger Hunts.*
-    - Analogous to Scavenger. Tracks any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items.
+    - Analogous to Scavenger. Tracks any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items. Completing a hunt automatically reveals a ladder.
     - _Bonus: holding [ModKey](#configs) will highlight all nodes and ladders on-screen._
 - **Lv5 - Blaster** - Craft twice as many explosives. Exploded rocks yield 2× *(3×)* as much coal.
 - **Lv10 - Demolitionist** - Bomb radius +1. Exploded rocks yield 20% *(40%)* more resources.

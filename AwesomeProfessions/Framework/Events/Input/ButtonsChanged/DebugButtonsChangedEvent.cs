@@ -31,7 +31,7 @@ internal class DebugButtonsChangedEvent : ButtonsChangedEvent
             var message = $"[{component.myID}]: {name} ({component.GetType().Name})";
             message = component.GetType().GetFields().Where(f => !f.Name.IsAnyOf("myID", "name")).Aggregate(message,
                 (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(component)}");
-            ModEntry.Log(message, LogLevel.Debug);
+            Log.D(message);
         }
         else
         {
@@ -40,7 +40,7 @@ internal class DebugButtonsChangedEvent : ButtonsChangedEvent
                 var message = $"[{o.ParentSheetIndex}]: {o.Name} ({o.GetType().Name})";
                 message = o.GetType().GetFields().Where(f => !f.Name.IsAnyOf("ParentSheetIndex", "Name"))
                     .Aggregate(message, (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(o)}");
-                ModEntry.Log(message, LogLevel.Debug);
+                Log.D(message);
             }
             else
             {
@@ -73,7 +73,7 @@ internal class DebugButtonsChangedEvent : ButtonsChangedEvent
                         var events = "";
                         if (who.IsLocalPlayer)
                         {
-                            events = ModEntry.EventManager.GetAllEnabled().Aggregate("",
+                            events = EventManager.GetAllEnabled().Aggregate("",
                                 (current, next) => current + "\n\t\t- " + next.GetType().Name);
                         }
                         else if (Context.IsMultiplayer && who.isActive())
@@ -82,7 +82,7 @@ internal class DebugButtonsChangedEvent : ButtonsChangedEvent
                             if (peer.IsSplitScreen)
                             {
                                 if (peer.ScreenID.HasValue)
-                                    events = ModEntry.EventManager.GetAllEnabledForScreen(peer.ScreenID.Value).Aggregate("",
+                                    events = EventManager.GetAllEnabledForScreen(peer.ScreenID.Value).Aggregate("",
                                         (current, next) => current + "\n\t\t- " + next.GetType().Name);
                             }
                             else
@@ -96,8 +96,7 @@ internal class DebugButtonsChangedEvent : ButtonsChangedEvent
                         else message += "\n\nCouldn't read player's subsribed events.";
                     }
 
-                    ModEntry.Log(message, LogLevel.Debug);
-
+                    Log.D(message);
                     break;
                 }
             }

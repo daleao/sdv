@@ -15,7 +15,6 @@ using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
 
-using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -83,7 +82,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
         if (__instance.name == "Geode Crusher" && who.HasProfession("Gemologist") &&
             (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
         {
-            __instance.heldObject.Value.Quality = Professions.GetGemologistMineralQuality();
+            __instance.heldObject.Value.Quality = who.GetGemologistMineralQuality();
         }
         else if (__instance.IsArtisanMachine() && who.HasProfession("Artisan") && dropInItem is SObject dropIn)
         {
@@ -141,21 +140,21 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer(Professions.IndexOf("Gemologist"),
+                .InsertProfessionCheckForLocalPlayer("Gemologist".ToProfessionIndex(),
                     dontIncreaseGemologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData).MethodNamed(nameof(ModData.Increment), new[] {typeof(DataField), typeof(Farmer)})
+                        typeof(ModData)
+                            .MethodNamed(nameof(ModData.Increment), new[] {typeof(DataField), typeof(Farmer)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding Gemologist counter increment.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
             return null;
         }
 
@@ -170,7 +169,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
             var notPrestigedBreeder = iLGenerator.DefineLabel();
             var resumeExecution = iLGenerator.DefineLabel();
             helper
-                .FindProfessionCheck(Professions.IndexOf("Breeder"), true)
+                .FindProfessionCheck("Breeder".ToProfessionIndex(), true)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldloc_0)
                 )
@@ -189,7 +188,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_2)
                 )
                 .ReplaceWith(
-                    new(OpCodes.Ldc_I4_S, 100 + Professions.IndexOf("Breeder"))
+                    new(OpCodes.Ldc_I4_S, "Breeder".ToProfessionIndex() + 100)
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
@@ -205,8 +204,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding prestiged Breeder incubation bonus.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding prestiged Breeder incubation bonus.\nHelper returned {ex}");
             return null;
         }
 

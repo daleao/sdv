@@ -13,12 +13,12 @@ using Framework.Extensions;
 #endregion using directives
 
 /// <summary>Wrapper to facilitate reading from and writing to the main player's <see cref="ModDataDictionary" />.</summary>
-public static class ModData
+internal static class ModData
 {
     /// <summary>Check if there are rogue data fields and remove them.</summary>
-    public static void CleanUpRogueData()
+    internal static void CleanUpRogueData()
     {
-        ModEntry.Log("[ModData]: Checking for rogue data fields...", ModEntry.DefaultLogLevel);
+        Log.D("[ModData]: Checking for rogue data fields...");
         var data = Game1.player.modData;
         var count = 0;
         if (!Context.IsMainPlayer)
@@ -68,14 +68,14 @@ public static class ModData
                 ++count;
             }
 
-        ModEntry.Log($"[ModData]: Found {count} rogue data fields.", ModEntry.DefaultLogLevel);
+        Log.D($"[ModData]: Found {count} rogue data fields.");
     }
 
     /// <summary>Read a string from the <see cref="ModDataDictionary" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="who">The farmer whose data should be read.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string Read(DataField field, Farmer who = null, string defaultValue = "")
+    internal static string Read(DataField field, Farmer who = null, string defaultValue = "")
     {
         who ??= Game1.player;
         return Game1.MasterPlayer.modData.Read($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}",
@@ -86,7 +86,7 @@ public static class ModData
     /// <param name="field">The field to read from.</param>
     /// <param name="who">The farmer whose data should read.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadAs<T>(DataField field, Farmer who = null, T defaultValue = default)
+    internal static T ReadAs<T>(DataField field, Farmer who = null, T defaultValue = default)
     {
         who ??= Game1.player;
         return Game1.MasterPlayer.modData.ReadAs($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}",
@@ -97,7 +97,7 @@ public static class ModData
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
     /// <param name="who">The farmer whose data should be written.</param>
-    public static void Write(DataField field, string value, Farmer who = null)
+    internal static void Write(DataField field, string value, Farmer who = null)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -109,19 +109,19 @@ public static class ModData
 
         who ??= Game1.player;
         Game1.MasterPlayer.modData.Write($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}", value);
-        ModEntry.Log($"[ModData]: Wrote {value} to {who.Name}'s {field}.", ModEntry.DefaultLogLevel);
+        Log.D($"[ModData]: Wrote {value} to {who.Name}'s {field}.");
     }
 
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
     /// <param name="who">The farmer whose data should be written.</param>
-    public static bool WriteIfNotExists(DataField field, string value, Farmer who = null)
+    internal static bool WriteIfNotExists(DataField field, string value, Farmer who = null)
     {
         who ??= Game1.player;
         if (Game1.MasterPlayer.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}"))
         {
-            ModEntry.Log($"[ModData]: The data field {field} already existed.", ModEntry.DefaultLogLevel);
+            Log.D($"[ModData]: The data field {field} already existed.");
             return true;
         }
 
@@ -129,8 +129,7 @@ public static class ModData
             ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestDataUpdate/Write/{field}",
                 new[] {ModEntry.Manifest.UniqueID},
                 new[] {Game1.MasterPlayer.UniqueMultiplayerID}); // request the main player
-        else
-            Write(field, value);
+        else Write(field, value);
 
         return false;
     }
@@ -139,7 +138,7 @@ public static class ModData
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
     /// <param name="who">The farmer whose data should be incremented.</param>
-    public static void Increment<T>(DataField field, T amount, Farmer who = null)
+    internal static void Increment<T>(DataField field, T amount, Farmer who = null)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -151,13 +150,13 @@ public static class ModData
 
         who ??= Game1.player;
         Game1.MasterPlayer.modData.Increment($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}", amount);
-        ModEntry.Log($"[ModData]: Incremented {who.Name}'s {field} by {amount}.", ModEntry.DefaultLogLevel);
+        Log.D($"[ModData]: Incremented {who.Name}'s {field} by {amount}.");
     }
 
     /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="who">The farmer whose data should be incremented.</param>
-    public static void Increment<T>(DataField field, Farmer who = null)
+    internal static void Increment<T>(DataField field, Farmer who = null)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -170,6 +169,6 @@ public static class ModData
         who ??= Game1.player;
         Game1.MasterPlayer.modData.Increment($"{ModEntry.Manifest.UniqueID}/{who.UniqueMultiplayerID}/{field}",
             "1".Parse<T>());
-        ModEntry.Log($"[ModData]: Incremented {who.Name}'s {field} by 1.", ModEntry.DefaultLogLevel);
+        Log.D($"[ModData]: Incremented {who.Name}'s {field} by 1.");
     }
 }

@@ -9,7 +9,7 @@ using StardewValley;
 using Stardew.Common.Harmony;
 using Extensions;
 
-using Professions = Utility.Professions;
+using Professions = Utility.Localization;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -46,7 +46,7 @@ internal class GeodeCrusherMachineSetInputPatch : BasePatch
         if (!who.HasProfession("Gemologist") ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
-        machine.heldObject.Value.Quality = Professions.GetGemologistMineralQuality();
+        machine.heldObject.Value.Quality = who.GetGemologistMineralQuality();
         if (!ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
         ModData.Increment<uint>(DataField.GemologistMineralsCollected, who);

@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
 
@@ -47,8 +46,7 @@ internal class FishingRodStartMinigameEndFunctionPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}");
             return null;
         }
 

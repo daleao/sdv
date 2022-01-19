@@ -9,6 +9,7 @@
     <Import_RootNamespace>DaLion.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Tiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BidirectionalMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CollectionExtensions.cs" />

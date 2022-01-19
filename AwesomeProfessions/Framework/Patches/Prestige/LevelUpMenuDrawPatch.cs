@@ -10,7 +10,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -70,8 +69,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching level up menu choose profession text. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching level up menu choose profession text. Helper returned {ex}");
             return null;
         }
 
@@ -98,8 +96,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching level up menu prestige ribbon draw. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching level up menu prestige ribbon draw. Helper returned {ex}");
             return null;
         }
 

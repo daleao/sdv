@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley.Menus;
 
 using Stardew.Common.Harmony;
@@ -56,8 +55,7 @@ internal class LevelUpMenuCtorPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching profession choices above level 10. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching profession choices above level 10. Helper returned {ex}");
             return null;
         }
 

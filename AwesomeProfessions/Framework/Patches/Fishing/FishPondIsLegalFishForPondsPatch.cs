@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 
@@ -59,9 +58,7 @@ internal class FishPondIsLegalFishForPondsPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while adding prestiged Aquarist permission to raise legendary fish.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding prestiged Aquarist permission to raise legendary fish.\nHelper returned {ex}");
             return null;
         }
 

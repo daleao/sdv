@@ -48,9 +48,9 @@ internal class ScavengerHunt : TreasureHunt
     /// <summary>Construct an instance.</summary>
     public ScavengerHunt()
     {
-        HuntStartedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntstarted");
-        HuntFailedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntfailed");
-        IconSourceRect = new(80, 656, 16, 16);
+        huntStartedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntstarted");
+        huntFailedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntfailed");
+        iconSourceRect = new(80, 656, 16, 16);
     }
 
     /// <summary>Try to start a new scavenger hunt at this location.</summary>
@@ -68,9 +68,9 @@ internal class ScavengerHunt : TreasureHunt
         timeLimit = Math.Max(timeLimit, 30);
 
         elapsed = 0;
-        ModEntry.EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(ScavengerHuntRenderedHudEvent),
+        EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(ScavengerHuntRenderedHudEvent),
             typeof(ScavengerHuntUpdateTickedEvent));
-        Game1.addHUDMessage(new HuntNotification(HuntStartedMessage, IconSourceRect));
+        Game1.addHUDMessage(new HuntNotification(huntStartedMessage, iconSourceRect));
     }
 
     /// <inheritdoc />
@@ -80,7 +80,7 @@ internal class ScavengerHunt : TreasureHunt
         var failsafe = 0;
         do
         {
-            if (failsafe > 10) return null;
+            if (failsafe > 69) return null;
 
             var x = random.Next(location.Map.DisplayWidth / Game1.tileSize);
             var y = random.Next(location.Map.DisplayHeight / Game1.tileSize);
@@ -89,13 +89,20 @@ internal class ScavengerHunt : TreasureHunt
         } while (!location.IsTileValidForTreasure(v));
 
         return v;
+
+        //var candidates = Tiles.FloodFill(Game1.player.getTileLocation(), location.Map.DisplayWidth / Game1.tileSize,
+        //    location.Map.DisplayHeight / Game1.tileSize, location.IsTileValidForTreasure);
+        //if (candidates.Count > 0) return candidates.ElementAt(random.Next(candidates.Count));
+
+        //return null;
     }
 
     /// <inheritdoc />
-    public override void End()
+    public override void Fail()
     {
-        ModEntry.EventManager.Disable(typeof(ScavengerHuntRenderedHudEvent), typeof(ScavengerHuntUpdateTickedEvent));
-        TreasureTile = null;
+        End();
+        Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
+        ModData.Write(DataField.ScavengerHuntStreak, "0");
     }
 
     #endregion public methods
@@ -118,11 +125,10 @@ internal class ScavengerHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    protected override void Fail()
+    protected override void End()
     {
-        End();
-        Game1.addHUDMessage(new HuntNotification(HuntFailedMessage));
-        ModData.Write(DataField.ScavengerHuntStreak, "0");
+        EventManager.Disable(typeof(ScavengerHuntRenderedHudEvent), typeof(ScavengerHuntUpdateTickedEvent));
+        TreasureTile = null;
     }
 
     #endregion protected methods
@@ -354,11 +360,11 @@ internal class ScavengerHunt : TreasureHunt
                     break;
 
                 case "fall":
-                    treasures.Add(new SObject(496, 1));
+                    treasures.Add(new SObject(497, 1));
                     break;
 
                 case "winter":
-                    treasures.Add(new SObject(496, 1));
+                    treasures.Add(new SObject(498, 1));
                     break;
             }
         else

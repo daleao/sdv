@@ -9,14 +9,12 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 
 using Stardew.Common.Harmony;
 using Extensions;
 
-using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -65,7 +63,7 @@ internal class Game1DrawHUDPatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S)
                 )
-                .SetOperand(Professions.IndexOf("Prospector")) // change to prospector check
+                .SetOperand("Prospector".ToProfessionIndex()) // change to prospector check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse)
                 )
@@ -83,8 +81,7 @@ internal class Game1DrawHUDPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}");
             return null;
         }
 
@@ -116,8 +113,7 @@ internal class Game1DrawHUDPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}");
             return null;
         }
 

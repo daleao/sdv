@@ -9,10 +9,10 @@ using StardewModdingAPI.Utilities;
 /// <summary>The mod user-defined settings.</summary>
 public class ToolConfig
 {
-    /// <summary>The Axe features to enable.</summary>
+    /// <summary>The Axe configuration settings.</summary>
     public AxeConfig AxeConfig { get; set; } = new();
 
-    /// <summary>The Pickaxe features to enable.</summary>
+    /// <summary>The Pickaxe configuration settings.</summary>
     public PickaxeConfig PickaxeConfig { get; set; } = new();
 
     /// <summary>Whether charging requires a mod key to activate.</summary>

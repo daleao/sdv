@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
@@ -94,8 +93,7 @@ internal class FarmerTakeDamagePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding Poacher untargetability during Super Mode.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding Poacher untargetability during Super Mode.\nHelper returned {ex}");
             return null;
         }
 
@@ -161,8 +159,7 @@ internal class FarmerTakeDamagePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding Brute Super Mode immortality.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding Brute Super Mode immortality.\nHelper returned {ex}");
             return null;
         }
 
@@ -233,8 +230,7 @@ internal class FarmerTakeDamagePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding Brute Fury gauge for damage taken.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding Brute Fury gauge for damage taken.\nHelper returned {ex}");
             return null;
         }
 

@@ -8,8 +8,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
-
 using Stardew.Common.Harmony;
 
 #endregion using directives
@@ -55,8 +53,7 @@ internal class CrabPotMachineGetStatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}");
             return null;
         }
 

@@ -9,7 +9,6 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
@@ -17,7 +16,7 @@ using StardewValley.Objects;
 using Stardew.Common.Extensions;
 using Extensions;
 
-using Objects = Utility.Objects;
+using ObjectLookups = Utility.ObjectLookups;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
@@ -121,7 +120,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }
@@ -185,7 +184,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
         foreach (var key in keys)
         {
             var specificFishDataFields = fishData[Convert.ToInt32(key)].Split('/');
-            if (Objects.LegendaryFishNames.Contains(specificFishDataFields[0])) continue;
+            if (ObjectLookups.LegendaryFishNames.Contains(specificFishDataFields[0])) continue;
 
             var specificFishLocation = Convert.ToInt32(rawFishDataWithLocation[key]);
             if (!crabpot.HasMagicBait() &&
@@ -259,7 +258,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
     /// <param name="who">The player.</param>
     private static int ChoosePirateTreasure(Random r, Farmer who)
     {
-        var keys = Objects.TrapperPirateTreasureTable.Keys.ToArray();
+        var keys = ObjectLookups.TrapperPirateTreasureTable.Keys.ToArray();
         SUtility.Shuffle(r, keys);
         foreach (var key in keys)
         {
@@ -275,7 +274,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
     /// <param name="index">The treasure item index.</param>
     private static double GetChanceForThisTreasure(int index)
     {
-        return Convert.ToDouble(Objects.TrapperPirateTreasureTable[index][0]);
+        return Convert.ToDouble(ObjectLookups.TrapperPirateTreasureTable[index][0]);
     }
 
     /// <summary>Get the quality for the chosen catch.</summary>
@@ -310,7 +309,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
 
         return crabpot.HasWildBait() && r.NextDouble() < 0.25 + who.DailyLuck / 2.0
             ? 2
-            : Objects.TrapperPirateTreasureTable.TryGetValue(whichFish, out var treasureData)
+            : ObjectLookups.TrapperPirateTreasureTable.TryGetValue(whichFish, out var treasureData)
                 ? r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1)
                 : 1;
     }

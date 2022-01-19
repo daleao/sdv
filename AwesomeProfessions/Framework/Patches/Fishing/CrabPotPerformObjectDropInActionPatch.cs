@@ -8,12 +8,10 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley.Objects;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -40,7 +38,7 @@ internal class CrabPotPerformObjectDropInActionPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Professions.IndexOf("Conservationist"))
+                .FindProfessionCheck("Conservationist".ToProfessionIndex())
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldloc_1)
                 )
@@ -53,8 +51,7 @@ internal class CrabPotPerformObjectDropInActionPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while removing Conservationist bait restriction.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while removing Conservationist bait restriction.\nHelper returned {ex}");
             return null;
         }
 

@@ -5,6 +5,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
+
 using Events.Display;
 using Events.GameLoop;
 
@@ -48,7 +49,7 @@ internal class SuperModeOverlay
     {
         if (_opacity < MAX_OPACITY_F) _opacity += 0.01f;
         if (_opacity >= MAX_OPACITY_F)
-            ModEntry.EventManager.Disable(typeof(SuperModeOverlayFadeInUpdateTickedEvent));
+            EventManager.Disable(typeof(SuperModeOverlayFadeInUpdateTickedEvent));
     }
 
     /// <summary>Gradually decrease the overlay's opacity.</summary>
@@ -56,7 +57,7 @@ internal class SuperModeOverlay
     {
         if (_opacity > 0) _opacity -= 0.01f;
         if (_opacity <= 0)
-            ModEntry.EventManager.Disable(typeof(SuperModeActiveRenderedWorldEvent),
+            EventManager.Disable(typeof(SuperModeActiveRenderedWorldEvent),
                 typeof(SuperModeOverlayFadeOutUpdateTickedEvent));
     }
 }

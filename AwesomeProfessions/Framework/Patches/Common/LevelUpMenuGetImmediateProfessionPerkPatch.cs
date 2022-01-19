@@ -15,9 +15,8 @@ using StardewValley.Buildings;
 using StardewValley.Menus;
 
 using Stardew.Common.Harmony;
+using Extensions;
 using SuperMode;
-
-using Professions = Utility.Professions;
 
 #endregion using directives
 
@@ -36,7 +35,9 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
     [HarmonyPostfix]
     private static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
     {
-        if (!Professions.IndexByName.TryGetReverseValue(whichProfession, out var professionName)) return;
+        if (!Enum.IsDefined(typeof(Profession), whichProfession)) return;
+
+        var professionName = whichProfession.ToProfessionName();
 
         // add immediate perks
         if (professionName == "Aquarist")
@@ -49,7 +50,7 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
             }
 
         // subscribe events
-        ModEntry.EventManager.EnableAllForProfession(professionName);
+        EventManager.EnableAllForProfession(professionName);
         if (professionName == "Conservationist" && !Context.IsMainPlayer) // request the main player
             ModEntry.ModHelper.Multiplayer.SendMessage("Conservationist", "RequestEventEnable",
                 new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
@@ -78,12 +79,11 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
                 )
-                .SetOperand(Professions.IndexOf("Brute"));
+                .SetOperand("Brute".ToProfessionIndex());
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}");
             return null;
         }
 

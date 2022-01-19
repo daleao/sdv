@@ -2,7 +2,7 @@
   "Name": "Chargeable Resource Tools",
   "Author": "DaLion",
   "Version": "2.1.0",
-  "Description": "Charge your Axe and Pickaxe to unleash a powerful shockwave!",
+  "Description": "Charge your Axe and Pickaxe to unleash a powerful shockwave.",
   "UniqueID": "DaLion.AwesomeTools",
   "EntryDll": "AwesomeTools.dll",
   "MinimumApiVersion": "3.13.0",

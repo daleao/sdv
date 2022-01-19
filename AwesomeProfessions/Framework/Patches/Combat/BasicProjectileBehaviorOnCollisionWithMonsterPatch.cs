@@ -7,7 +7,6 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Network;
@@ -15,8 +14,6 @@ using StardewValley.Projectiles;
 
 using Extensions;
 using SuperMode;
-
-using Professions = Utility.Professions;
 
 #endregion using directives
 
@@ -49,11 +46,11 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
             var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
             if (!firer.HasProfession("Rascal")) return true; // run original logic
 
-            var damageToMonster = (int) (__instance.damageToFarmer.Value *
-                                         Professions.GetRascalBonusDamageForTravelTime(___travelTime));
+            var damageToMonster =
+                (int) (__instance.damageToFarmer.Value * GetRascalBonusDamageForTravelTime(___travelTime));
 
             var hasTemerity = ModEntry.State.Value.SuperMode?.Index == SuperModeIndex.Desperado;
-            var bulletPower = Professions.GetDesperadoBulletPower();
+            var bulletPower = firer.GetDesperadoBulletPower();
             if (hasTemerity && Game1.random.NextDouble() < (bulletPower - 1) / 2)
                 ModEntry.State.Value.PiercedBullets.Add(__instance.GetHashCode());
             else
@@ -82,10 +79,21 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }
 
     #endregion harmony patches
+
+    #region private methods
+
+    public static float GetRascalBonusDamageForTravelTime(int travelTime)
+    {
+        const int MAX_TRAVEL_TIME_I = 800;
+        if (travelTime > MAX_TRAVEL_TIME_I) return 1.5f;
+        return 1f + 0.5f / MAX_TRAVEL_TIME_I * travelTime;
+    }
+
+    #endregion private methods
 }

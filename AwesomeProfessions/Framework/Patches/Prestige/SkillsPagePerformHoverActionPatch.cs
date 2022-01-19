@@ -13,8 +13,6 @@ using Stardew.Common.Extensions;
 using AssetLoaders;
 using Extensions;
 
-using Professions = Utility.Professions;
-
 #endregion using directives
 
 [UsedImplicitly]
@@ -63,7 +61,7 @@ internal class SkillsPagePerformHoverActionPatch : BasePatch
 
             ___hoverText = ModEntry.ModHelper.Translation.Get("prestige.skillpage.tooltip", new {count});
             ___hoverText = professionsForThisSkill
-                .Select(p => ModEntry.ModHelper.Translation.Get(Professions.NameOf(p).ToLower() + ".name." +
+                .Select(p => ModEntry.ModHelper.Translation.Get(p.ToProfessionName().ToLower() + ".name." +
                                                                 (Game1.player.IsMale ? "male" : "female")))
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
         }

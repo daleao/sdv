@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-using StardewModdingAPI;
 using StardewValley;
 
 using Stardew.Common.Extensions;
@@ -71,9 +70,7 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while patching modded Artisan behavior to generic Automate machines.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching modded Artisan behavior to generic Automate machines.\nHelper returned {ex}");
             return null;
         }
 

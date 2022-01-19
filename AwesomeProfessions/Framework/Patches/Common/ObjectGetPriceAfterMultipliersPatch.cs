@@ -6,12 +6,9 @@ using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 
 using Extensions;
-
-using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -59,9 +56,9 @@ internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
 
                 // professions
                 if (player.HasProfession("Producer") && __instance.IsAnimalProduct())
-                    multiplier += Professions.GetProducerPriceBonus(player);
+                    multiplier += player.GetProducerPriceBonus();
                 if (player.HasProfession("Angler") && __instance.IsFish())
-                    multiplier += Professions.GetAnglerPriceBonus(player);
+                    multiplier += player.GetAnglerPriceBonus();
 
                 // events
                 else if (player.eventsSeen.Contains(2120303) && __instance.IsWildBerry())
@@ -71,14 +68,14 @@ internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
 
                 // tax bonus
                 if (player.IsLocalPlayer && player.HasProfession("Conservationist"))
-                    multiplier *= Professions.GetConservationistPriceMultiplier();
+                    multiplier *= player.GetConservationistPriceMultiplier();
 
                 saleMultiplier = Math.Max(saleMultiplier, multiplier);
             }
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
 

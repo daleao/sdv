@@ -9,7 +9,7 @@ using StardewValley;
 
 using Common.Extensions;
 
-using Objects = Utility.Objects;
+using ObjectLookups = Utility.ObjectLookups;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -25,14 +25,14 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is an artisan good.</summary>
     public static bool IsArtisanMachine(this SObject obj)
     {
-        return Objects.ArtisanMachines.Contains(obj?.name);
+        return ObjectLookups.ArtisanMachines.Contains(obj?.name);
     }
 
     /// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
     public static bool IsAnimalProduct(this SObject obj)
     {
         return obj.Category.IsAnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.meatCategory, SObject.sellAtPierresAndMarnies)
-               || Objects.AnimalDerivedProductIds.Contains(obj.ParentSheetIndex);
+               || ObjectLookups.AnimalDerivedProductIds.Contains(obj.ParentSheetIndex);
     }
 
     /// <summary>Whether a given object is a mushroom box.</summary>
@@ -68,7 +68,7 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is a resource node or foraged mineral.</summary>
     public static bool IsResourceNode(this SObject obj)
     {
-        return Objects.ResourceNodeIds.Contains(obj.ParentSheetIndex);
+        return ObjectLookups.ResourceNodeIds.Contains(obj.ParentSheetIndex);
     }
 
     /// <summary>Whether a given object is a stone.</summary>
@@ -111,7 +111,7 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is typically found in pirate treasure.</summary>
     public static bool IsPirateTreasure(this SObject obj)
     {
-        return Objects.TrapperPirateTreasureTable.ContainsKey(obj.ParentSheetIndex);
+        return ObjectLookups.TrapperPirateTreasureTable.ContainsKey(obj.ParentSheetIndex);
     }
 
     /// <summary>Whether the player should track a given object.</summary>

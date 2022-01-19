@@ -10,7 +10,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Monsters;
@@ -19,9 +18,8 @@ using StardewValley.Projectiles;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
+using Extensions;
 using SuperMode;
-
-using Professions = Utility.Professions;
 
 #endregion using directives
 
@@ -54,7 +52,7 @@ internal class ProjectileUpdatePatch : BasePatch
         if (!firer.IsLocalPlayer || ModEntry.State.Value.SuperMode?.Index != SuperModeIndex.Desperado) return;
 
         // check for powered bullet
-        var bulletPower = Professions.GetDesperadoBulletPower() - 1f;
+        var bulletPower = firer.GetDesperadoBulletPower() - 1f;
         if (bulletPower <= 0f) return;
 
         // check if current power makes a difference for cross section
@@ -172,8 +170,7 @@ internal class ProjectileUpdatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching prestiged Rascal trick shot.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching prestiged Rascal trick shot.\nHelper returned {ex}");
             return null;
         }
 

@@ -9,12 +9,10 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
-using StardewModdingAPI;
 using StardewValley;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -71,9 +69,7 @@ internal class FarmAnimalPetPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}");
             return null;
         }
 
@@ -83,7 +79,7 @@ internal class FarmAnimalPetPatch : BasePatch
         {
             helper
                 .FindProfessionCheck(
-                    Professions.IndexOf("Rancher")) // go back and find the inserted rancher check
+                    "Rancher".ToProfessionIndex()) // go back and find the inserted rancher check
                 .Retreat() // reatreat until Ldarg_1 Farmer who
                 .ToBufferUntil( // copy to buffer the entire sections which increases happiness and mood
                     new CodeInstruction(OpCodes.Callvirt,
@@ -91,9 +87,9 @@ internal class FarmAnimalPetPatch : BasePatch
                 )
                 .InsertBuffer() // paste it in-place
                 .FindProfessionCheck(
-                    Professions.IndexOf("Rancher"), true) // advance until the second rancher check
+                    "Rancher".ToProfessionIndex(), true) // advance until the second rancher check
                 .Advance()
-                .SetOperand(100 + Professions.IndexOf("Rancher")) // replace rancher with prestiged rancher
+                .SetOperand("Rancher".ToProfessionIndex()) // replace rancher with prestiged rancher
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetFieldBase<byte, NetByte>).MethodNamed("set_Value"))
@@ -104,9 +100,7 @@ internal class FarmAnimalPetPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while adding prestiged Rancher friendship bonuses.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding prestiged Rancher friendship bonuses.\nHelper returned {ex}");
             return null;
         }
 

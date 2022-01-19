@@ -10,7 +10,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
 using StardewValley.Menus;
 
 using Stardew.Common.Harmony;
@@ -85,9 +84,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while patching to draw SpaceCore skills page extended level bars. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching to draw SpaceCore skills page extended level bars. Helper returned {ex}");
             return null;
         }
 
@@ -122,8 +119,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching to draw max skill level with different color. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching to draw max skill level with different color. Helper returned {ex}");
             return null;
         }
 
@@ -148,8 +144,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching to draw skills page prestige ribbons. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching to draw skills page prestige ribbons. Helper returned {ex}");
             return null;
         }
 

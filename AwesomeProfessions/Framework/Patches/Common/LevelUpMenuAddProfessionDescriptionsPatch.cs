@@ -7,13 +7,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 
 using Extensions;
-
-using Professions = Utility.Professions;
 
 #endregion using directives
 
@@ -35,12 +32,12 @@ internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
     {
         try
         {
-            if (!Professions.IndexByName.Contains(professionName)) return true; // run original logic
+            if (!Enum.IsDefined(typeof(Profession), professionName)) return true; // run original logic
 
             descriptions.Add(ModEntry.ModHelper.Translation.Get(professionName + ".name." +
                                                                 (Game1.player.IsMale ? "male" : "female")));
 
-            var professionIndex = Professions.IndexOf(professionName);
+            var professionIndex = professionName.ToProfessionIndex();
             var skillIndex = professionIndex / 6;
             var currentLevel = Game1.player.GetUnmodifiedSkillLevel(skillIndex);
             descriptions.AddRange(ModEntry.ModHelper.Translation
@@ -55,7 +52,7 @@ internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }

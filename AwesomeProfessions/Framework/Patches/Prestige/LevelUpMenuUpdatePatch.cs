@@ -10,7 +10,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -21,7 +20,7 @@ using Extensions;
 using SuperMode;
 
 using CollectionExtensions = Stardew.Common.Extensions.CollectionExtensions;
-using Professions = Utility.Professions;
+using Localization = Utility.Localization;
 
 #endregion using directives
 
@@ -70,9 +69,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while patching level 15 profession choices. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching level 15 profession choices. Helper returned {ex}");
             return null;
         }
 
@@ -111,9 +108,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession. Helper returned {ex}");
             return null;
         }
 
@@ -204,9 +199,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while patching level up profession redundancy and injecting dialogues. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching level up profession redundancy and injecting dialogues. Helper returned {ex}");
             return null;
         }
 
@@ -266,8 +259,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while injecting level up profession final question. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while injecting level up profession final question. Helper returned {ex}");
             return null;
         }
 
@@ -295,10 +287,10 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         var oldProfessionKey = ModEntry.State.Value.SuperMode.Index.ToString().ToLower();
         var oldProfessionDisplayName = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".name.male");
         var oldBuff = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".buff");
-        var newProfessionKey = Professions.NameOf(chosenProfession);
+        var newProfessionKey = chosenProfession.ToProfessionName();
         var newProfessionDisplayName = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".name.male");
         var newBuff = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".buff");
-        var pronoun = Professions.GetBuffPronoun();
+        var pronoun = Localization.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(
             ModEntry.ModHelper.Translation.Get("prestige.levelup.question",
                 new
@@ -334,7 +326,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                                                (Game1.player.IsMale ? "male" : "female"));
         if (Game1.player.achievements.Contains(name.GetDeterministicHashCode())) return;
 
-        ModEntry.EventManager.Enable(typeof(AchievementUnlockedDayStartedEvent));
+        EventManager.Enable(typeof(AchievementUnlockedDayStartedEvent));
     }
 
     #endregion injected subroutines

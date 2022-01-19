@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿using DaLion.Stardew.Professions.Framework.SuperMode;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
@@ -12,8 +14,6 @@ using StardewValley;
 using StardewValley.Monsters;
 
 using Extensions;
-
-using Professions = Utility.Professions;
 
 #endregion using directives
 
@@ -78,7 +78,7 @@ internal class MonsterFindPlayerPatch : BasePatch
             var distanceToClosestPlayer = double.MaxValue;
             foreach (var farmer in __instance.currentLocation.farmers)
             {
-                if (ModEntry.State.Value.ActivePeerSuperModes.TryGetValue(Professions.IndexOf("Poacher"),
+                if (ModEntry.State.Value.ActivePeerSuperModes.TryGetValue(SuperModeIndex.Poacher,
                         out var peerIds) && peerIds.Any(id => id == farmer.UniqueMultiplayerID)) continue;
 
                 var distanceToThisPlayer = __instance.DistanceToCharacter(farmer);
@@ -96,7 +96,7 @@ internal class MonsterFindPlayerPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}", LogLevel.Error);
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
     }

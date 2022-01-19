@@ -49,26 +49,27 @@ internal class SuperModeGauge
             if (value <= 0)
             {
                 _value = 0;
-                OnGaugeReturnedToZero();
+                OnReturnedToZero();
             }
             else
             {
-                if (_value == 0f) OnGaugeRaisedAboveZero();
+                if (_value == 0f) OnRaisedAboveZero();
 
-                if (value >= MaxValue) OnGaugeFilled();
+                if (value >= MaxValue) OnFilled();
 
                 _value = Math.Min(value, MaxValue);
             }
         }
     }
 
-    public bool IsFull => CurrentValue >= MaxValue;
-
     /// <summary>The maximum value of the player's Super Mode gauge.</summary>
     public static int MaxValue =>
         Game1.player.CombatLevel >= 10
             ? Game1.player.CombatLevel * 50
             : 500;
+    
+    /// <summary>Whether the gauge is full.</summary>
+    public bool IsFull => CurrentValue >= MaxValue;
 
     #endregion properties
 
@@ -144,6 +145,7 @@ internal class SuperModeGauge
             1f
         );
 
+        // draw fill
         var ratio = CurrentValue / MaxValue;
         var srcHeight = (int) (TEXTURE_HEIGHT_I * ratio) - 2;
         var destHeight = (int) (MAX_BAR_HEIGHT_I * ratio);
@@ -194,6 +196,22 @@ internal class SuperModeGauge
         CurrentValue -= amount;
     }
 
+    /// <summary>Gradually reduce the gauge's opacity value.</summary>
+    public void FadeOut()
+    {
+        --_fadeOutTimer;
+        if (_fadeOutTimer >= FADE_OUT_DURATION_I) return;
+
+        var ratio = (float)_fadeOutTimer / FADE_OUT_DURATION_I;
+        _opacity = (float)(-1.0 / (1.0 + Math.Exp(12.0 * ratio - 6.0)) + 1.0);
+        if (_fadeOutTimer > 0) return;
+
+        EventManager.Disable(typeof(SuperModeGaugeFadeOutUpdateTickedEvent),
+            typeof(SuperModeGaugeRenderingHudEvent));
+        _fadeOutTimer = FADE_OUT_DELAY_I + FADE_OUT_DURATION_I;
+        _opacity = 1f;
+    }
+
     /// <summary>Countdown the gauge shake timer .</summary>
     public void UpdateShake()
     {
@@ -215,51 +233,35 @@ internal class SuperModeGauge
         }
     }
 
-    /// <summary>Gradually reduce the gauge's opacity value.</summary>
-    public void FadeOut()
-    {
-        --_fadeOutTimer;
-        if (_fadeOutTimer >= FADE_OUT_DURATION_I) return;
-
-        var ratio = (float) _fadeOutTimer / FADE_OUT_DURATION_I;
-        _opacity = (float) (-1.0 / (1.0 + Math.Exp(12.0 * ratio - 6.0)) + 1.0);
-        if (_fadeOutTimer > 0) return;
-
-        ModEntry.EventManager.Disable(typeof(SuperModeGaugeFadeOutUpdateTickedEvent),
-            typeof(SuperModeGaugeRenderingHudEvent));
-        _fadeOutTimer = FADE_OUT_DELAY_I + FADE_OUT_DURATION_I;
-        _opacity = 1f;
-    }
-
     #endregion public methods
 
     #region private methods
 
     /// <summary>Raised when SuperModeGauge is set to the max value.</summary>
-    private void OnGaugeFilled()
+    private void OnFilled()
     {
         if (!ModEntry.Config.EnableSuperMode) return;
-        ModEntry.EventManager.Enable(typeof(SuperModeButtonsChangedEvent),
+        EventManager.Enable(typeof(SuperModeButtonsChangedEvent),
             typeof(SuperModeGaugeShakeUpdateTickedEvent));
     }
 
     /// <summary>Raised when SuperModeGauge is raised from zero to any value greater than zero.</summary>
-    private void OnGaugeRaisedAboveZero()
+    private void OnRaisedAboveZero()
     {
-        ModEntry.EventManager.Enable(typeof(SuperModeBuffDisplayUpdateTickedEvent));
-        if (ModEntry.Config.EnableSuperMode) ModEntry.EventManager.Enable(typeof(SuperModeGaugeRenderingHudEvent));
+        EventManager.Enable(typeof(SuperModeBuffDisplayUpdateTickedEvent));
+        if (ModEntry.Config.EnableSuperMode) EventManager.Enable(typeof(SuperModeGaugeRenderingHudEvent));
     }
 
     /// <summary>Raised when SuperModeGauge is set to zero.</summary>
-    private void OnGaugeReturnedToZero()
+    private void OnReturnedToZero()
     {
-        ModEntry.EventManager.Disable(typeof(SuperModeBuffDisplayUpdateTickedEvent));
+        EventManager.Disable(typeof(SuperModeBuffDisplayUpdateTickedEvent));
 
         if (ModEntry.State.Value.SuperMode.IsActive) ModEntry.State.Value.SuperMode.Deactivate();
         
         if (Game1.currentLocation.IsCombatZone() || !ModEntry.Config.EnableSuperMode) return;
 
-        ModEntry.EventManager.Enable(typeof(SuperModeGaugeFadeOutUpdateTickedEvent));
+        EventManager.Enable(typeof(SuperModeGaugeFadeOutUpdateTickedEvent));
     }
 
     #endregion private methods

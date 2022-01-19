@@ -11,7 +11,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Network;
@@ -22,8 +21,6 @@ using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
 using SuperMode;
-
-using Professions = Utility.Professions;
 
 #endregion using directives
 
@@ -84,7 +81,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                 ModEntry.State.Value.AuxiliaryBullets.Add(blossom.GetHashCode());
             }
         }
-        else if (Game1.random.NextDouble() < Professions.GetDesperadoDoubleStrafeChance(who))
+        else if (Game1.random.NextDouble() < who.GetDesperadoDoubleStrafeChance())
         {
             if (who.HasPrestigedProfession("Desperado"))
             {
@@ -214,8 +211,9 @@ internal class SlingshotPerformFirePatch : BasePatch
                         typeof(Vector2).Field(nameof(Vector2.X))),
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldind_R4),
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Professions).MethodNamed(nameof(Professions.GetDesperadoBulletPower))),
+                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions.GetDesperadoBulletPower))),
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Stind_R4),
                     // v.Y *= GetDesperadoBulletPower()
@@ -224,8 +222,9 @@ internal class SlingshotPerformFirePatch : BasePatch
                         typeof(Vector2).Field(nameof(Vector2.Y))),
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldind_R4),
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Professions).MethodNamed(nameof(Professions.GetDesperadoBulletPower))),
+                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions.GetDesperadoBulletPower))),
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Stind_R4),
                     // check for quick shot (i.e. sling shot charge time <= required charge time * handicap)
@@ -312,9 +311,7 @@ internal class SlingshotPerformFirePatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while injecting modded Desperado ammunition damage modifier, Temerity gauge and quick shots.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while injecting modded Desperado ammunition damage modifier, Temerity gauge and quick shots.\nHelper returned {ex}");
             return null;
         }
 

@@ -104,7 +104,7 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
         // add Fisher perks
         _fishingApi.ModifyChanceForFish(
             (who, chance) => who.CurrentTool is FishingRod rod &&
-                             Objects.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
+                             ObjectLookups.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
                              && baitName != "Magnet"
                              && who.HasProfession("Fisher")
                 ? 1 - Math.Pow(1 - chance, 2.0)

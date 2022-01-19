@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 
 #endregion using directives
 
+/// <summary>Represent a circular arrangement of tiles.</summary>
 public class CircleTileGrid
 {
     private readonly Vector2 _origin;
@@ -34,7 +35,7 @@ public class CircleTileGrid
 
             var center = new Vector2(_radius, _radius); // the center of the circle in the grid reference
 
-            // get the central axes
+            // get the central Axes
             for (var i = 0; i < _radius * 2 + 1; ++i)
                 if (i != _radius)
                 {
@@ -95,7 +96,7 @@ public class CircleTileGrid
         if (point.X == 0 || point.Y == 0 || point.X == _radius * 2 || point.Y == _radius * 2)
             return _outlineBoolArray[point.Y, point.X];
 
-        // handle central axes
+        // handle central Axes
         if (point.X == _radius || point.Y == _radius) return true;
 
         // handle remaining outline points

@@ -10,13 +10,15 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
+
+using AssetLoaders;
 using Events.Display;
 using Events.GameLoop;
 using Events.Input;
 using Events.Player;
-using AssetLoaders;
+using Extensions;
 
-using Professions = Utility.Professions;
+using Professions = Utility.Localization;
 
 #endregion using directives
 
@@ -31,15 +33,7 @@ internal class SuperMode
     /// <param name="index">The currently registered Super Mode profession's index.</param>
     public SuperMode(SuperModeIndex index)
     {
-        if (index <= SuperModeIndex.None)
-            throw new ArgumentOutOfRangeException(nameof(index), index,
-                "Tried to initialize empty or illegal Super Mode.");
-
         Index = index;
-        Gauge = new();
-        Overlay = new(Index);
-
-        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (Index)
         {
             case SuperModeIndex.Brute:
@@ -61,30 +55,38 @@ internal class SuperMode
                 GlowColor = Color.DarkGoldenrod;
                 ActivationSfx = SFX.DesperadoBlossom;
                 break;
+            case SuperModeIndex.None:
+            default:
+                throw new ArgumentOutOfRangeException(nameof(index), index,
+                    "Tried to initialize empty or illegal Super Mode.");
         }
 
-        // enable events
-        ModEntry.EventManager.EnableAllForSuperMode();
-        if (Index == SuperModeIndex.Piper) ModEntry.EventManager.Enable(typeof(PiperWarpedEvent));
+        Gauge = new();
+        Overlay = new(Index);
 
+        // enable events
+        EnableEvents();
+        if (Index == SuperModeIndex.Piper) EventManager.Enable(typeof(PiperWarpedEvent));
+
+        // log
         var key = Index.ToString().ToLower();
         var professionDisplayName = ModEntry.ModHelper.Translation.Get(key + ".name.male");
         var buffName = ModEntry.ModHelper.Translation.Get(key + ".buff");
-        ModEntry.Log($"Initialized Super Mode as {professionDisplayName}'s {buffName}.", ModEntry.DefaultLogLevel);
+        Log.D($"Initialized Super Mode as {professionDisplayName}'s {buffName}.");
     }
 
     ~SuperMode()
     {
-        ModEntry.EventManager.DisableAllForSuperMode();
-        if (Index == SuperModeIndex.Piper) ModEntry.EventManager.Disable(typeof(PiperWarpedEvent));
+        DisableEvents();
+        if (Index == SuperModeIndex.Piper) EventManager.Disable(typeof(PiperWarpedEvent));
     }
 
     public bool IsActive { get; private set; }
     public SuperModeIndex Index { get; }
-    public SuperModeGauge Gauge { get; private set; }
-    public SuperModeOverlay Overlay { get; private set; }
-    public Color GlowColor { get; private set; }
-    public SFX ActivationSfx { get; private set; }
+    public SuperModeGauge Gauge { get; }
+    public SuperModeOverlay Overlay { get; }
+    public Color GlowColor { get; }
+    public SFX ActivationSfx { get; }
 
     #region public methods
 
@@ -94,20 +96,20 @@ internal class SuperMode
         IsActive = true;
 
         // fade in overlay and begin countdown
-        ModEntry.EventManager.Enable(typeof(SuperModeActiveRenderedWorldEvent),
+        EventManager.Enable(typeof(SuperModeActiveRenderedWorldEvent),
             typeof(SuperModeGaugeCountdownUpdateTickedEvent), typeof(SuperModeOverlayFadeInUpdateTickedEvent));
 
         // stop displaying super stat buff, awaiting activation and shaking gauge
-        ModEntry.EventManager.Disable(typeof(SuperModeBuffDisplayUpdateTickedEvent),
+        EventManager.Disable(typeof(SuperModeBuffDisplayUpdateTickedEvent),
             typeof(SuperModeButtonsChangedEvent), typeof(SuperModeGaugeShakeUpdateTickedEvent));
 
         // play sound effect
-        ModEntry.SoundBox.Play(ModEntry.State.Value.SuperMode.ActivationSfx);
+        SoundBox.Play(ModEntry.State.Value.SuperMode.ActivationSfx);
 
         // add Super Mode buff
         var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Index + 4;
-        var professionIndex = (int) ModEntry.State.Value.SuperMode.Index;
-        var professionName = Professions.NameOf(professionIndex);
+        var professionIndex = (int) Index;
+        var professionName = Index.ToString();
 
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff is null)
@@ -162,10 +164,10 @@ internal class SuperMode
         IsActive = false;
 
         // fade out overlay
-        ModEntry.EventManager.Enable(typeof(SuperModeOverlayFadeOutUpdateTickedEvent));
+        EventManager.Enable(typeof(SuperModeOverlayFadeOutUpdateTickedEvent));
 
         // stop gauge countdown
-        ModEntry.EventManager.Disable(typeof(SuperModeGaugeCountdownUpdateTickedEvent));
+        EventManager.Disable(typeof(SuperModeGaugeCountdownUpdateTickedEvent));
 
         // remove buff if necessary
         var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Index + 4;
@@ -187,7 +189,7 @@ internal class SuperMode
             slime.DamageToFarmer = (int) Math.Round(slime.DamageToFarmer / slime.Scale);
 
         // de-gorge
-        ModEntry.EventManager.Enable(typeof(SlimeDeflationUpdateTickedEvent));
+        EventManager.Enable(typeof(SlimeDeflationUpdateTickedEvent));
     }
 
     /// <summary>Handle changes to <see cref="ModConfig.SuperModKey" />.</summary>
@@ -196,14 +198,14 @@ internal class SuperMode
         if (ModEntry.Config.SuperModeKey.JustPressed() && Gauge.IsFull && !IsActive)
         {
             if (ModEntry.Config.HoldKeyToActivateSuperMode)
-                ModEntry.EventManager.Enable(typeof(SuperModeInputUpdateTickedEvent));
+                EventManager.Enable(typeof(SuperModeInputUpdateTickedEvent));
             else
                 Activate();
         }
         else if (ModEntry.Config.SuperModeKey.GetState() == SButtonState.Released)
         {
             _activationTimer = (int) (BASE_ACTIVATION_DELAY_I * ModEntry.Config.SuperModeActivationDelay);
-            ModEntry.EventManager.Disable(typeof(SuperModeInputUpdateTickedEvent));
+            EventManager.Disable(typeof(SuperModeInputUpdateTickedEvent));
         }
     }
 
@@ -215,7 +217,7 @@ internal class SuperMode
 
         Activate();
         _activationTimer = (int) (BASE_ACTIVATION_DELAY_I * ModEntry.Config.SuperModeActivationDelay);
-        ModEntry.EventManager.Disable(typeof(SuperModeInputUpdateTickedEvent));
+        EventManager.Disable(typeof(SuperModeInputUpdateTickedEvent));
     }
 
     /// <summary>Add the Super Stat buff associated with this Super Mode index to the local player.</summary>
@@ -224,7 +226,7 @@ internal class SuperMode
         if (Gauge.CurrentValue < 10.0) return;
 
         var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Index;
-        var professionName = Professions.NameOf((int) Index);
+        var professionName = Index.ToString();
         var magnitude = GetBuffMagnitude();
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff == null)
@@ -256,6 +258,44 @@ internal class SuperMode
     #endregion public methods
 
     #region private methods
+
+    /// <summary>Enflate Slimes and apply mutations.</summary>
+    private static void ActivateForPiper()
+    {
+        foreach (var greenSlime in Game1.currentLocation.characters.OfType<GreenSlime>()
+                     .Where(slime => slime.Scale < 2f))
+        {
+            if (Game1.random.NextDouble() <= 0.012 + Game1.player.team.AverageDailyLuck() / 10.0)
+            {
+                if (Game1.currentLocation is MineShaft && Game1.player.team.SpecialOrderActive("Wizard2"))
+                    greenSlime.makePrismatic();
+                else greenSlime.hasSpecialItem.Value = true;
+            }
+
+            ModEntry.State.Value.PipedSlimeScales.Add(greenSlime, greenSlime.Scale);
+        }
+
+        var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
+        for (var i = bigSlimes.Count - 1; i >= 0; --i)
+        {
+            bigSlimes[i].Health = 0;
+            bigSlimes[i].deathAnimation();
+            var toCreate = Game1.random.Next(2, 5);
+            while (toCreate-- > 0)
+            {
+                Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
+                var justCreated = Game1.currentLocation.characters[^1];
+                justCreated.setTrajectory((int)(bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
+                    (int)(bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
+                justCreated.willDestroyObjectsUnderfoot = false;
+                justCreated.moveTowardPlayer(4);
+                justCreated.Scale = 0.75f + Game1.random.Next(-5, 10) / 100f;
+                justCreated.currentLocation = Game1.currentLocation;
+            }
+        }
+
+        EventManager.Enable(typeof(SlimeInflationUpdateTickedEvent));
+    }
 
     /// <summary>Hide the player from monsters that may have already seen him/her.</summary>
     private static void ActivateForPoacher()
@@ -290,42 +330,20 @@ internal class SuperMode
         }
     }
 
-    /// <summary>Enflate Slimes and apply mutations.</summary>
-    private static void ActivateForPiper()
+    /// <summary>Enable all events required for Super Mode functionality.</summary>
+    private static void EnableEvents()
     {
-        foreach (var greenSlime in Game1.currentLocation.characters.OfType<GreenSlime>()
-                     .Where(slime => slime.Scale < 2f))
-        {
-            if (Game1.random.NextDouble() <= 0.012 + Game1.player.team.AverageDailyLuck() / 10.0)
-            {
-                if (Game1.currentLocation is MineShaft && Game1.player.team.SpecialOrderActive("Wizard2"))
-                    greenSlime.makePrismatic();
-                else greenSlime.hasSpecialItem.Value = true;
-            }
+        EventManager.Enable(typeof(SuperModeWarpedEvent));
 
-            ModEntry.State.Value.PipedSlimeScales.Add(greenSlime, greenSlime.Scale);
-        }
+        if (!Game1.currentLocation.IsCombatZone() || !ModEntry.Config.EnableSuperMode) return;
 
-        var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
-        for (var i = bigSlimes.Count - 1; i >= 0; --i)
-        {
-            bigSlimes[i].Health = 0;
-            bigSlimes[i].deathAnimation();
-            var toCreate = Game1.random.Next(2, 5);
-            while (toCreate-- > 0)
-            {
-                Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
-                var justCreated = Game1.currentLocation.characters[^1];
-                justCreated.setTrajectory((int) (bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
-                    (int) (bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
-                justCreated.willDestroyObjectsUnderfoot = false;
-                justCreated.moveTowardPlayer(4);
-                justCreated.Scale = 0.75f + Game1.random.Next(-5, 10) / 100f;
-                justCreated.currentLocation = Game1.currentLocation;
-            }
-        }
+        EventManager.Enable(typeof(SuperModeGaugeRenderingHudEvent));
+    }
 
-        ModEntry.EventManager.Enable(typeof(SlimeInflationUpdateTickedEvent));
+    /// <summary>Disable all events related to Super Mode functionality.</summary>
+    private static void DisableEvents()
+    {
+        EventManager.DisableAllStartingWith("SuperMode");
     }
 
     /// <summary>Get the current magnitude of the Super Mode buff to display.</summary>
@@ -335,11 +353,11 @@ internal class SuperMode
         return Index switch
 #pragma warning restore CS8509
         {
-            SuperModeIndex.Brute => ((Professions.GetBruteBonusDamageMultiplier(Game1.player) - 1.15) * 100f)
+            SuperModeIndex.Brute => ((Game1.player.GetBruteBonusDamageMultiplier() - 1.15) * 100f)
                 .ToString("0.0"),
-            SuperModeIndex.Poacher => Professions.GetPoacherCritDamageMultiplier().ToString("0.0"),
-            SuperModeIndex.Piper => Professions.GetPiperSlimeSpawnAttempts().ToString("0"),
-            SuperModeIndex.Desperado => ((Professions.GetDesperadoBulletPower() - 1f) * 100f).ToString("0.0")
+            SuperModeIndex.Poacher => Game1.player.GetPoacherCritDamageMultiplier().ToString("0.0"),
+            SuperModeIndex.Piper => Game1.player.GetPiperSlimeSpawnAttempts().ToString("0"),
+            SuperModeIndex.Desperado => ((Game1.player.GetDesperadoBulletPower() - 1f) * 100f).ToString("0.0")
         };
     }
 

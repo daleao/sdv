@@ -12,8 +12,6 @@ using StardewValley.Monsters;
 using GameLoop;
 using Extensions;
 
-using Professions = Utility.Professions;
-
 #endregion using directives
 
 internal class PiperWarpedEvent : WarpedEvent
@@ -26,11 +24,11 @@ internal class PiperWarpedEvent : WarpedEvent
         if (e.NewLocation is not (Woods or VolcanoDungeon or MineShaft) ||
             e.NewLocation is MineShaft shaft1 && shaft1.IsTreasureOrSafeRoom())
         {
-            ModEntry.EventManager.Disable(typeof(PiperUpdateTickedEvent));
+            EventManager.Disable(typeof(PiperUpdateTickedEvent));
             return;
         }
 
-        var attempts = Professions.GetPiperSlimeSpawnAttempts();
+        var attempts = e.Player.GetPiperSlimeSpawnAttempts();
         var spawned = 0;
         var r = new Random(Guid.NewGuid().GetHashCode());
         while (attempts-- > 0 || spawned < 1)
@@ -87,8 +85,8 @@ internal class PiperWarpedEvent : WarpedEvent
             --attempts;
         }
 
-        ModEntry.Log($"Spawned {spawned} Slimes after {attempts} attempts.", ModEntry.DefaultLogLevel);
+        Log.D($"Spawned {spawned} Slimes after {attempts} attempts.");
 
-        ModEntry.EventManager.Enable(typeof(PiperUpdateTickedEvent));
+        EventManager.Enable(typeof(PiperUpdateTickedEvent));
     }
 }

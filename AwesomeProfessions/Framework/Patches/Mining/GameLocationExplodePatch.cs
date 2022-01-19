@@ -99,7 +99,7 @@ internal class GameLocationExplodePatch : BasePatch
             if (Game1.random.NextDouble() >= 0.20 &&
                 (!isPrestigedDemolitionist || Game1.random.NextDouble() >= 0.20)) continue;
 
-            if (Objects.ResourceFromStoneId.TryGetValue(tileObj.ParentSheetIndex, out var resourceIndex))
+            if (ObjectLookups.ResourceFromStoneId.TryGetValue(tileObj.ParentSheetIndex, out var resourceIndex))
             {
                 Game1.createObjectDebris(resourceIndex, (int) tile.X, (int) tile.Y, who.UniqueMultiplayerID,
                     __instance);
@@ -171,7 +171,7 @@ internal class GameLocationExplodePatch : BasePatch
         var distanceFromEpicenter = (int) (tileLocation - who.getTileLocation()).Length();
         if (distanceFromEpicenter < radius * 2 + 1) ModEntry.State.Value.DemolitionistExcitedness = 6;
         if (distanceFromEpicenter < radius + 1) ModEntry.State.Value.DemolitionistExcitedness += 2;
-        ModEntry.EventManager.Enable(typeof(DemolitionistBuffDisplayUpdateTickedEvent));
+        EventManager.Enable(typeof(DemolitionistBuffDisplayUpdateTickedEvent));
     }
 
     #endregion harmony patches

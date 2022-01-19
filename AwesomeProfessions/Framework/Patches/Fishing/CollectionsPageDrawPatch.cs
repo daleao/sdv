@@ -11,7 +11,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -59,8 +58,7 @@ internal class CollectionsPageDrawPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching to draw collections page MAX icons. Helper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching to draw collections page MAX icons. Helper returned {ex}");
             return null;
         }
 

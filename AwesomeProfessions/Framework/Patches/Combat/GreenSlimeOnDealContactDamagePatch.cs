@@ -8,12 +8,10 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley.Monsters;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -50,15 +48,15 @@ internal class GreenSlimeOnDealContactDamagePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack(Professions.IndexOf("Piper"), resumeExecution)
+                .InsertProfessionCheckForPlayerOnStack("Piper".ToProfessionIndex(), resumeExecution)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack(100 + Professions.IndexOf("Piper"), (Label) returnLabel);
+                .InsertProfessionCheckForPlayerOnStack("Piper".ToProfessionIndex() + 100, (Label) returnLabel);
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding Piper slime debuff immunity.\nHelper returned {ex}", LogLevel.Error);
+            Log.E($"Failed while adding Piper slime debuff immunity.\nHelper returned {ex}");
             return null;
         }
 

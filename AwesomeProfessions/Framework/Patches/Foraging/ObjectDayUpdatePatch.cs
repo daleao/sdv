@@ -8,7 +8,6 @@ using StardewValley;
 
 using Extensions;
 
-using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -32,7 +31,7 @@ internal class ObjectDayUpdatePatch : BasePatch
             !Game1.MasterPlayer.HasProfession("Ecologist"))
             return;
 
-        __instance.heldObject.Value.Quality = Professions.GetEcologistForageQuality();
+        __instance.heldObject.Value.Quality = Game1.MasterPlayer.GetEcologistForageQuality();
     }
 
     #endregion harmony patches

@@ -13,14 +13,8 @@ using Patches;
 #endregion using directives
 
 /// <summary>Unified entry point for applying Harmony patches.</summary>
-internal class PatchManager
+internal static class PatchManager
 {
-    /// <summary>Construct an instance.</summary>
-    internal PatchManager(string uniqueID)
-    {
-        Harmony = new(uniqueID);
-    }
-
     internal static uint TotalPrefixCount { get; set; }
     internal static uint TotalPostfixCount { get; set; }
     internal static uint TotalTranspilerCount { get; set; }
@@ -38,18 +32,18 @@ internal class PatchManager
     internal static uint FailedTranspilerCount { get; set; }
     internal static uint FailedReversePatchCount { get; set; }
 
-    private Harmony Harmony { get; }
-
     /// <summary>Instantiate and apply one of every <see cref="IPatch" /> class in the assembly using reflection.</summary>
-    internal void ApplyAll()
+    internal static void ApplyAll(string uniqueID)
     {
-        ModEntry.Log("[HarmonyPatcher]: Gathering patches...", ModEntry.DefaultLogLevel);
+        var harmony = new Harmony(uniqueID);
+
+        Log.D("[HarmonyPatcher]: Gathering patches...");
         var patches = AccessTools.GetTypesFromAssembly(Assembly.GetAssembly(typeof(IPatch)))
             .Where(t => t.IsAssignableTo(typeof(IPatch)) && !t.IsAbstract).ToList();
 
-        ModEntry.Log($"[HarmonyPatcher]: Found {patches.Count} patch classes. Applying patches...", ModEntry.DefaultLogLevel);
+        Log.D($"[HarmonyPatcher]: Found {patches.Count} patch classes. Applying patches...");
         foreach (var patch in patches.Select(t => (IPatch) t.Constructor().Invoke(Array.Empty<object>())))
-            patch.Apply(Harmony);
+            patch.Apply(harmony);
 
         var message = $"[HarmonyPatcher]: Done.\nApplied {AppliedPrefixCount}/{TotalPrefixCount} prefixes.";
         if (AppliedPrefixCount < TotalPrefixCount)
@@ -67,6 +61,6 @@ internal class PatchManager
         if (AppliedReversePatchCount < TotalReversePatchCount)
             message += $" {IgnoredReversePatchCount} ignored. {FailedReversePatchCount} failed.";
 
-        ModEntry.Log(message, ModEntry.DefaultLogLevel);
+        Log.D(message);
     }
 }

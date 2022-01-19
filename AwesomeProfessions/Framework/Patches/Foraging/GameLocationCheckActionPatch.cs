@@ -7,14 +7,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Network;
 
 using Stardew.Common.Harmony;
 using Extensions;
 
-using Professions = Utility.Professions;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -69,14 +67,16 @@ internal class GameLocationCheckActionPatch : BasePatch
                 )
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
-                        typeof(Professions).MethodNamed(
-                            nameof(Professions.GetEcologistForageQuality)))
+                        typeof(FarmerExtensions).MethodNamed(
+                            nameof(FarmerExtensions.GetEcologistForageQuality)))
+                )
+                .Insert(
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player)))
                 );
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while patching modded Ecologist forage quality.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while patching modded Ecologist forage quality.\nHelper returned {ex}");
             return null;
         }
 
@@ -115,7 +115,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .AdvanceUntil( // find repeated botanist check
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist)
                 )
-                .SetOperand(Professions.IndexOf("Gemologist")) // replace with gemologist check
+                .SetOperand("Gemologist".ToProfessionIndex()) // replace with gemologist check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
@@ -136,17 +136,17 @@ internal class GameLocationCheckActionPatch : BasePatch
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Professions).MethodNamed(
-                            nameof(Professions.GetEcologistForageQuality)))
+                        typeof(FarmerExtensions).MethodNamed(
+                            nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
                 .SetOperand(
-                    typeof(Professions).MethodNamed(nameof(Professions
-                        .GetGemologistMineralQuality))); // set correct custom quality method call
+                    typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions
+                        .GetGemologistMineralQuality))
+                ); // set correct custom quality method call
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding modded Gemologist foraged mineral quality.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding modded Gemologist foraged mineral quality.\nHelper returned {ex}");
             return null;
         }
 
@@ -173,8 +173,7 @@ internal class GameLocationCheckActionPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}");
             return null;
         }
 
@@ -186,7 +185,7 @@ internal class GameLocationCheckActionPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(Professions.IndexOf("Forager"))
+                .FindProfessionCheck("Forager".ToProfessionIndex())
                 .Retreat()
                 .ToBufferUntil(
                     true,
@@ -199,9 +198,9 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .AddLabels(notPrestigedForager)
                 .InsertBuffer()
                 .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, Professions.IndexOf("Forager"))
+                    new CodeInstruction(OpCodes.Ldc_I4_S, "Forager".ToProfessionIndex())
                 )
-                .SetOperand(100 + Professions.IndexOf("Forager"))
+                .SetOperand("Forager".ToProfessionIndex() + 100)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
@@ -216,8 +215,7 @@ internal class GameLocationCheckActionPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding prestiged Foraged double forage bonus.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding prestiged Foraged double forage bonus.\nHelper returned {ex}");
             return null;
         }
 

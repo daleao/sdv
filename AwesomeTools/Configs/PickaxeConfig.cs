@@ -8,7 +8,6 @@ using Framework;
 
 #endregion using directives
 
-/// <summary>Configuration for the pickaxe shockwave.</summary>
 public class PickaxeConfig
 {
     /// <summary>Enables charging the Pickaxe.</summary>

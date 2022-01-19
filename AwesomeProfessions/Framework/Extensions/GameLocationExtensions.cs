@@ -83,9 +83,13 @@ public static class GameLocationExtensions
     /// <param name="location">The game location.</param>
     public static bool IsTileValidForTreasure(this GameLocation location, Vector2 tile)
     {
-        var noSpawn = location.doesTileHaveProperty((int) tile.X, (int) tile.Y, "NoSpawn", "Back");
-        return string.IsNullOrEmpty(noSpawn) && location.isTileLocationTotallyClearAndPlaceable(tile) &&
-               IsTileClearOfDebris(location, tile) && !location.isBehindBush(tile) && !location.isBehindTree(tile);
+        return (!location.objects.TryGetValue(tile, out var o) || o == null) &&
+               location.doesTileHaveProperty((int) tile.X, (int) tile.Y, "Spawnable", "Back") != null &&
+               !location.doesEitherTileOrTileIndexPropertyEqual((int) tile.X, (int) tile.Y, "Spawnable", "Back", "F") &&
+               location.isTileLocationTotallyClearAndPlaceable(tile) &&
+               location.getTileIndexAt((int) tile.X, (int) tile.Y, "AlwaysFront") == -1 &&
+               location.getTileIndexAt((int) tile.X, (int) tile.Y, "Front") == -1 && !location.isBehindBush(tile) &&
+               !location.isBehindTree(tile);
     }
 
     /// <summary>Check if a tile is clear of debris.</summary>

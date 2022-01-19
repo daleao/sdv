@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley.Locations;
 
 using Stardew.Common.Harmony;
@@ -64,8 +63,7 @@ internal class MountainGetFishPatch : BasePatch
         }
         catch (Exception ex)
         {
-            ModEntry.Log($"Failed while adding prestiged Angler legendary fish recatch.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while adding prestiged Angler legendary fish recatch.\nHelper returned {ex}");
             return null;
         }
 

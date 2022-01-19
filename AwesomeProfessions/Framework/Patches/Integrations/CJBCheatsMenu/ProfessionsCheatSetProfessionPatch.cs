@@ -8,12 +8,10 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewValley;
 
 using Stardew.Common.Harmony;
-
-using Professions = Utility.Professions;
+using Extensions;
 
 #endregion using directives
 
@@ -51,13 +49,11 @@ internal class ProfessionsCheatSetProfessionPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
                 )
-                .SetOperand(Professions.IndexOf("Brute"));
+                .SetOperand("Brute".ToProfessionIndex());
         }
         catch (Exception ex)
         {
-            ModEntry.Log(
-                $"Failed while moving CJB Profession Cheat health bonus from Defender to Brute.\nHelper returned {ex}",
-                LogLevel.Error);
+            Log.E($"Failed while moving CJB Profession Cheat health bonus from Defender to Brute.\nHelper returned {ex}");
             return null;
         }
 

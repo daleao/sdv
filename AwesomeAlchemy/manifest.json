@@ -1,0 +1,27 @@
+﻿{
+  "Name": "Trial Of Grasses",
+  "Author": "DaLion",
+  "Version": "0.1.0",
+  "Description": "An awesome new alchemy skill inspired by The Witcher.",
+  "UniqueID": "DaLion.AwesomeAlchemy",
+  "EntryDll": "AwesomeAlchemy.dll",
+  "MinimumApiVersion": "3.13.0",
+  "UpdateKeys": ["Nexus:10657"],
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.8.1",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.DynamicGameAssets",
+      "MinimumVersion": "1.4.1",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "MinimumVersion": "1.8.0",
+      "IsRequired": false
+    }
+  ]
+}

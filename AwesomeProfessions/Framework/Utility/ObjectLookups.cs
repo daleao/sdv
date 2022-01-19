@@ -6,8 +6,7 @@ using System.Collections.Generic;
 
 #endregion using directives
 
-/// <summary>Holds static properties related to object classification.</summary>
-public static class Objects
+public static class ObjectLookups
 {
     /// <summary>Look-up table for different types of bait by id.</summary>
     public static Dictionary<int, string> BaitById { get; } = new()
