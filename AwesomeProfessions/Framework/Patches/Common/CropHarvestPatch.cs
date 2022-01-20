@@ -87,7 +87,7 @@ internal class CropHarvestPatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer("Ecologist".ToProfessionIndex(),
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Ecologist,
                     dontIncreaseEcologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldstr, DataField.EcologistItemsForaged.ToString()),
@@ -118,7 +118,7 @@ internal class CropHarvestPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3),
                     new CodeInstruction(OpCodes.Blt_S)
                 )
-                .InsertProfessionCheckForLocalPlayer("Agriculturist".ToProfessionIndex(), isAgriculturist,
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Agriculturist, isAgriculturist,
                     true)
                 .AdvanceUntil( // find start of dice roll
                     new CodeInstruction(OpCodes.Ldloc_S, random2)
@@ -166,7 +166,7 @@ internal class CropHarvestPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
                     new CodeInstruction(OpCodes.Brtrue_S, dontIncreaseNumToHarvest)
                 )
-                .InsertProfessionCheckForLocalPlayer("Harvester".ToProfessionIndex(),
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Harvester,
                     dontIncreaseNumToHarvest)
                 .Insert( // insert dice roll
                     new CodeInstruction(OpCodes.Ldloc_S, r2),
@@ -176,7 +176,7 @@ internal class CropHarvestPatch : BasePatch
                     // double chance if prestiged
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, "Harvester".ToProfessionIndex() + 100),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, (int) Profession.Harvester + 100),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
                     new CodeInstruction(OpCodes.Brfalse_S, dontDuplicateChance),

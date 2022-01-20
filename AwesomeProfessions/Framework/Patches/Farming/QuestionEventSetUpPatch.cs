@@ -49,8 +49,8 @@ internal class QuestionEventSetUpPatch : BasePatch
                 .Advance()
                 .AddLabels(resumeExecution) // branch here to resume execution
                 .Retreat()
-                .InsertProfessionCheckForLocalPlayer("Breeder".ToProfessionIndex(), isNotBreeder)
-                .InsertProfessionCheckForLocalPlayer("Breeder".ToProfessionIndex() + 100, isNotPrestiged)
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Breeder, isNotBreeder)
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Breeder + 100, isNotPrestiged)
                 .Insert( // if player is breeder load adjusted pregnancy chance
                     new CodeInstruction(OpCodes.Ldc_R8, 0.0275), // x5 for prestiged
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)

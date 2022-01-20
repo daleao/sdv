@@ -33,7 +33,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Framework\Mixtures\" />
 	  <Folder Include="Framework\Events\" />
 	  <Folder Include="Framework\Patches\" />
 	</ItemGroup>

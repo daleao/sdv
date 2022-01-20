@@ -74,7 +74,7 @@ internal class BushShakePatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
-                .InsertProfessionCheckForLocalPlayer("Ecologist".ToProfessionIndex(),
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Ecologist,
                     dontIncreaseEcologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldstr, DataField.EcologistItemsForaged.ToString()),

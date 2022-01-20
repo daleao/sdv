@@ -40,9 +40,9 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
         try
         {
             helper
-                .FindProfessionCheck("Agriculturist".ToProfessionIndex())
+                .FindProfessionCheck((int) Profession.Agriculturist)
                 .Advance()
-                .FindProfessionCheck("Agriculturist".ToProfessionIndex())
+                .FindProfessionCheck((int) Profession.Agriculturist)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.1f)
                 )
@@ -50,7 +50,7 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1)
                 )
-                .InsertProfessionCheckForPlayerOnStack("Agriculturist".ToProfessionIndex() + 100,
+                .InsertProfessionCheckForPlayerOnStack((int) Profession.Agriculturist + 100,
                     notPrestigedAgriculturist)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.2f),

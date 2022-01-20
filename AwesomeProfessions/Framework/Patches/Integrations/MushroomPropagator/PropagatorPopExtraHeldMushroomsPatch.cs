@@ -61,7 +61,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck("Ecologist".ToProfessionIndex()) // find index of ecologist check
+                .FindProfessionCheck((int) Profession.Ecologist) // find index of ecologist check
                 .Retreat()
                 .GetLabels(out var labels)
                 .RemoveUntil(

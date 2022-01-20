@@ -44,11 +44,11 @@ internal class FruitTreePerformToolAction : BasePatch
             var isPrestiged = iLGenerator.DefineLabel();
             var resumeExecution = iLGenerator.DefineLabel();
             helper
-                .FindProfessionCheck("Lumberjack".ToProfessionIndex(), true)
+                .FindProfessionCheck((int) Profession.Lumberjack, true)
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, "Lumberjack".ToProfessionIndex() + 100),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, (int) Profession.Lumberjack + 100),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
                     new CodeInstruction(OpCodes.Brtrue_S, isPrestiged)

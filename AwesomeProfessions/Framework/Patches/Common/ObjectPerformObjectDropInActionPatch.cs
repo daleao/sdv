@@ -140,7 +140,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer("Gemologist".ToProfessionIndex(),
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Gemologist,
                     dontIncreaseGemologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
@@ -169,7 +169,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
             var notPrestigedBreeder = iLGenerator.DefineLabel();
             var resumeExecution = iLGenerator.DefineLabel();
             helper
-                .FindProfessionCheck("Breeder".ToProfessionIndex(), true)
+                .FindProfessionCheck((int) Profession.Breeder, true)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldloc_0)
                 )
@@ -188,7 +188,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_2)
                 )
                 .ReplaceWith(
-                    new(OpCodes.Ldc_I4_S, "Breeder".ToProfessionIndex() + 100)
+                    new(OpCodes.Ldc_I4_S, (int) Profession.Breeder + 100)
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)

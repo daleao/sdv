@@ -38,7 +38,7 @@ internal class CrabPotPerformObjectDropInActionPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck("Conservationist".ToProfessionIndex())
+                .FindProfessionCheck((int) Profession.Conservationist)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldloc_1)
                 )

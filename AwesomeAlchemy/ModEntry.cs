@@ -3,7 +3,6 @@
 #region using directives
 
 using System;
-
 using StardewModdingAPI;
 
 #endregion using directives

@@ -46,7 +46,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
         try
         {
             helper
-                .FindProfessionCheck("Lumberjack".ToProfessionIndex())
+                .FindProfessionCheck((int) Profession.Lumberjack)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10)
                 )
@@ -55,7 +55,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
                 )
-                .InsertProfessionCheckForPlayerOnStack("Lumberjack".ToProfessionIndex() + 100,
+                .InsertProfessionCheckForPlayerOnStack((int) Profession.Lumberjack + 100,
                     notPrestigedLumberjack)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_I4_S, 11),
@@ -73,7 +73,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
                 )
-                .InsertProfessionCheckForPlayerOnStack("Lumberjack".ToProfessionIndex() + 100,
+                .InsertProfessionCheckForPlayerOnStack((int) Profession.Lumberjack + 100,
                     resumeExecution2)
                 .InsertDiceRoll()
                 .Insert(

@@ -44,11 +44,11 @@ internal class TreeTickUpdatePatch : BasePatch
             var isPrestiged = iLGenerator.DefineLabel();
             var resumeExecution = iLGenerator.DefineLabel();
             helper
-                .FindProfessionCheck("Lumberjack".ToProfessionIndex(), true)
+                .FindProfessionCheck((int) Profession.Lumberjack, true)
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, "Lumberjack".ToProfessionIndex() + 100),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, (int) Profession.Lumberjack + 100),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
                     new CodeInstruction(OpCodes.Brtrue_S, isPrestiged)
@@ -78,7 +78,7 @@ internal class TreeTickUpdatePatch : BasePatch
 
         // find the Arborist profession check
         helper
-            .FindProfessionCheck("Arborist".ToProfessionIndex(), true)
+            .FindProfessionCheck((int) Profession.Arborist, true)
             .RetreatUntil(
                 new CodeInstruction(OpCodes.Ldarg_0)
             )
@@ -91,7 +91,7 @@ internal class TreeTickUpdatePatch : BasePatch
 
         // copy these instructions and replace Arborist check for prestiged Arborist check
         var checkForArboristInstructions = helper.Buffer;
-        checkForArboristInstructions[5] = new(OpCodes.Ldc_I4_S, "Arborist".ToProfessionIndex() + 100);
+        checkForArboristInstructions[5] = new(OpCodes.Ldc_I4_S, (int) Profession.Arborist + 100);
 
         /// From: numHardwood++;
         /// To: numHardwood += Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <arborist_id>) ? 2 : 1;
@@ -109,7 +109,7 @@ internal class TreeTickUpdatePatch : BasePatch
             var resumeExecution1 = iLGenerator.DefineLabel();
             var resumeExecution2 = iLGenerator.DefineLabel();
             helper
-                .FindProfessionCheck("Arborist".ToProfessionIndex(), true)
+                .FindProfessionCheck((int) Profession.Arborist, true)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Add)
@@ -123,7 +123,7 @@ internal class TreeTickUpdatePatch : BasePatch
                 )
                 .Advance()
                 .AddLabels(resumeExecution1)
-                .FindProfessionCheck("Arborist".ToProfessionIndex(), true)
+                .FindProfessionCheck((int) Profession.Arborist, true)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.25f),
                     new CodeInstruction(OpCodes.Mul)

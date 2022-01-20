@@ -1,4 +1,7 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+﻿using StardewModdingAPI;
+using StardewValley.TerrainFeatures;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
 
 #region using directives
 
@@ -42,13 +45,12 @@ internal class BushMachineGetOutputPatch : BasePatch
     {
         if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        var machine = ModEntry.ModHelper.Reflection.GetProperty<Object>(__instance, "Machine").GetValue();
-        if (machine is null) return;
+        var machine = ModEntry.ModHelper.Reflection.GetProperty<Bush>(__instance, "Machine").GetValue();
+        if (machine is null || machine.size.Value == 3) return;
 
-        var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.HasProfession("Ecologist")) return;
+        if (!Context.IsMainPlayer || !Game1.player.HasProfession("Ecologist")) return;
 
-        ModData.Increment<uint>(DataField.EcologistItemsForaged, who);
+        ModData.Increment<uint>(DataField.EcologistItemsForaged);
     }
 
     /// <summary>Patch for automated Berry Bush quality.</summary>
@@ -64,7 +66,7 @@ internal class BushMachineGetOutputPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck("Ecologist".ToProfessionIndex()) // find index of ecologist check
+                .FindProfessionCheck((int) Profession.Ecologist) // find index of ecologist check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_4) // quality = 4
                 )

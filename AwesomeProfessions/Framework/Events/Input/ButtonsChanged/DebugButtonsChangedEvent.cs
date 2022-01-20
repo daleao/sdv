@@ -93,7 +93,7 @@ internal class DebugButtonsChangedEvent : ButtonsChangedEvent
                         }
 
                         if (!string.IsNullOrEmpty(events)) message += "\n\n\tEvents:" + events;
-                        else message += "\n\nCouldn't read player's subsribed events.";
+                        else message += "\n\nCouldn't read player's enabled events.";
                     }
 
                     Log.D(message);

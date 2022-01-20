@@ -79,7 +79,7 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
                 )
-                .SetOperand("Brute".ToProfessionIndex());
+                .SetOperand((int) Profession.Brute);
         }
         catch (Exception ex)
         {

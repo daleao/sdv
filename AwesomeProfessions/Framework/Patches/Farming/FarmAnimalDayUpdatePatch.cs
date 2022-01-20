@@ -99,7 +99,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3)
                 )
                 .ReplaceWith(
-                    new(OpCodes.Ldc_I4_S, "Producer".ToProfessionIndex() + 100)
+                    new(OpCodes.Ldc_I4_S, (int) Profession.Producer + 100)
                 )
                 .Return()
                 .Insert(

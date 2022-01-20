@@ -9,9 +9,6 @@ using StardewModdingAPI.Utilities;
 /// <summary>The mod user-defined settings.</summary>
 public class ModConfig
 {
-    /// <summary>Mod key used by Prospector and Scavenger professions.</summary>
-    public KeybindList Modkey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
-
     /// <summary>Whether to draw UI element bounding boxes.</summary>
     public bool EnableDebug { get; set; } = false;
 

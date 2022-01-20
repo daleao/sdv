@@ -115,7 +115,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .AdvanceUntil( // find repeated botanist check
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist)
                 )
-                .SetOperand("Gemologist".ToProfessionIndex()) // replace with gemologist check
+                .SetOperand((int) Profession.Gemologist) // replace with gemologist check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
@@ -185,7 +185,7 @@ internal class GameLocationCheckActionPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck("Forager".ToProfessionIndex())
+                .FindProfessionCheck((int) Profession.Forager)
                 .Retreat()
                 .ToBufferUntil(
                     true,
@@ -198,9 +198,9 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .AddLabels(notPrestigedForager)
                 .InsertBuffer()
                 .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, "Forager".ToProfessionIndex())
+                    new CodeInstruction(OpCodes.Ldc_I4_S, (int) Profession.Forager)
                 )
-                .SetOperand("Forager".ToProfessionIndex() + 100)
+                .SetOperand((int) Profession.Forager + 100)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )

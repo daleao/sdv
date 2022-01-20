@@ -56,7 +56,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             helper
                 .FindProfessionCheck(Farmer.scout) // find index of scout check
                 .Advance()
-                .SetOperand("Poacher".ToProfessionIndex()) // replace with Poacher check
+                .SetOperand((int) Profession.Poacher) // replace with Poacher check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_S) // start of critChance += critChance * 0.5f
                 )
@@ -82,7 +82,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck("Fighter".ToProfessionIndex(),
+                .FindProfessionCheck((int) Profession.Fighter,
                     true) // find index of brute check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.1f) // brute damage multiplier
@@ -91,7 +91,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack("Fighter".ToProfessionIndex() + 100,
+                .InsertProfessionCheckForPlayerOnStack((int) Profession.Fighter + 100,
                     notPrestigedFighter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.2f),
@@ -112,7 +112,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck("Brute".ToProfessionIndex(),
+                .FindProfessionCheck((int) Profession.Brute,
                     true) // find index of brute check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.15f) // brute damage multiplier

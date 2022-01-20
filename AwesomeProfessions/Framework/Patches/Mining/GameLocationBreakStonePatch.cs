@@ -40,7 +40,7 @@ internal class GameLocationBreakStonePatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck("Miner".ToProfessionIndex())
+                .FindProfessionCheck((int) Profession.Miner)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Stloc_1)
                 )
@@ -48,7 +48,7 @@ internal class GameLocationBreakStonePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack("Miner".ToProfessionIndex() + 100,
+                .InsertProfessionCheckForPlayerOnStack((int) Profession.Miner + 100,
                     notPrestigedMiner)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_I4_1),

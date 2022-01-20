@@ -52,7 +52,7 @@ internal class BobberBarUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Stfld)
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer("Aquarist".ToProfessionIndex(), (Label) resumeExecution)
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Aquarist, (Label) resumeExecution)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_0),

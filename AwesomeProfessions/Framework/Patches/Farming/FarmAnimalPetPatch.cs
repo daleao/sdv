@@ -78,18 +78,16 @@ internal class FarmAnimalPetPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck(
-                    "Rancher".ToProfessionIndex()) // go back and find the inserted rancher check
+                .FindProfessionCheck((int) Profession.Rancher) // go back and find the inserted rancher check
                 .Retreat() // reatreat until Ldarg_1 Farmer who
                 .ToBufferUntil( // copy to buffer the entire sections which increases happiness and mood
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetFieldBase<byte, NetByte>).MethodNamed("set_Value"))
                 )
                 .InsertBuffer() // paste it in-place
-                .FindProfessionCheck(
-                    "Rancher".ToProfessionIndex(), true) // advance until the second rancher check
+                .FindProfessionCheck((int) Profession.Rancher, true) // advance until the second rancher check
                 .Advance()
-                .SetOperand("Rancher".ToProfessionIndex()) // replace rancher with prestiged rancher
+                .SetOperand((int) Profession.Rancher) // replace rancher with prestiged rancher
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetFieldBase<byte, NetByte>).MethodNamed("set_Value"))

@@ -68,7 +68,7 @@ internal class ObjectCheckForActionPatch : BasePatch
                     // prepare profession check
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack("Gemologist".ToProfessionIndex(),
+                .InsertProfessionCheckForPlayerOnStack((int) Profession.Gemologist,
                     dontIncreaseGemologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),

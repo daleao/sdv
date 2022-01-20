@@ -21,7 +21,7 @@ internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     /// <summary>Construct an instance.</summary>
     internal SpelunkerBuffDisplayUpdateTickedEvent()
     {
-        _buffId = (ModEntry.Manifest.UniqueID + "Spelunker".ToProfessionIndex()).GetHashCode();
+        _buffId = (ModEntry.Manifest.UniqueID + (int) Profession.Spelunker).GetHashCode();
     }
 
     /// <inheritdoc />

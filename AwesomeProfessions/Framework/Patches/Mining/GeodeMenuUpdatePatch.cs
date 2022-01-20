@@ -47,7 +47,7 @@ internal class GeodeMenuUpdatePatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer("Gemologist".ToProfessionIndex(),
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Gemologist,
                     dontIncreaseGemologistCounter)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),

@@ -48,11 +48,11 @@ internal class GreenSlimeOnDealContactDamagePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack("Piper".ToProfessionIndex(), resumeExecution)
+                .InsertProfessionCheckForPlayerOnStack((int) Profession.Piper, resumeExecution)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack("Piper".ToProfessionIndex() + 100, (Label) returnLabel);
+                .InsertProfessionCheckForPlayerOnStack((int) Profession.Piper + 100, (Label) returnLabel);
         }
         catch (Exception ex)
         {

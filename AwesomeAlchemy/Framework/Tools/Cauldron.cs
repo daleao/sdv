@@ -1,22 +1,21 @@
-﻿using StardewValley;
+﻿namespace DaLion.Stardew.Alchemy.Framework.Tools;
 
-namespace DaLion.Stardew.Alchemy.Framework.Tools
+using StardewValley;
+
+public class Cauldron : Tool
 {
-    public class Cauldron : Tool
+    public override Item getOne()
     {
-        public override Item getOne()
-        {
-            return null;
-        }
+        return null;
+    }
 
-        protected override string loadDescription()
-        {
-            return string.Empty;
-        }
+    protected override string loadDescription()
+    {
+        return string.Empty;
+    }
 
-        protected override string loadDisplayName()
-        {
-            return string.Empty;
-        }
+    protected override string loadDisplayName()
+    {
+        return string.Empty;
     }
 }
