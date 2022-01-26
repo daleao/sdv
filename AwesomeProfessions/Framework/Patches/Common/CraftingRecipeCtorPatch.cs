@@ -26,20 +26,20 @@ internal class CraftingRecipeCtorPatch : BasePatch
     [HarmonyPostfix]
     private static void CraftingRecipeCtorPostfix(ref CraftingRecipe __instance)
     {
-        if (__instance.name == "Tapper" && Game1.player.HasProfession("Tapper"))
+        if (__instance.name == "Tapper" && Game1.player.HasProfession(Profession.Tapper))
             __instance.recipeList = new()
             {
                 { 388, 25 }, // wood
                 { 334, 1 } // copper bar
             };
-        else if (__instance.name == "Heavy Tapper" && Game1.player.HasProfession("Tapper"))
+        else if (__instance.name == "Heavy Tapper" && Game1.player.HasProfession(Profession.Tapper))
             __instance.recipeList = new()
             {
                 { 709, 20 }, // hardwood
                 { 337, 1 }, // iridium bar
                 { 909, 1 } // radioactive ore
             };
-        else if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession("Blaster"))
+        else if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
             __instance.numberProducedPerCraft *= 2;
     }
 

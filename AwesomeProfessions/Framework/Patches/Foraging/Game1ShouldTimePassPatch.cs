@@ -30,9 +30,9 @@ internal class Game1ShouldTimePassPatch : BasePatch
     private static bool Game1ShouldTimePassPrefix(ref bool __result)
     {
         if ((ModEntry.State.Value.ProspectorHunt is null || !ModEntry.State.Value.ProspectorHunt.IsActive ||
-             !Game1.player.HasPrestigedProfession("Prospector")) &&
+             !Game1.player.HasProfession(Profession.Prospector, true)) &&
             (ModEntry.State.Value.ScavengerHunt is null || !ModEntry.State.Value.ScavengerHunt.IsActive ||
-             !Game1.player.HasPrestigedProfession("Scavenger"))) return true; // run original logic
+             !Game1.player.HasProfession(Profession.Scavenger))) return true; // run original logic
 
         __result = false;
         return false; // don't run original logic

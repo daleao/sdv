@@ -32,17 +32,16 @@ internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
     {
         try
         {
-            if (!Enum.IsDefined(typeof(Profession), professionName)) return true; // run original logic
+            if (!Enum.TryParse<Profession>(professionName, out var profession)) return true; // run original logic
 
             descriptions.Add(ModEntry.ModHelper.Translation.Get(professionName + ".name." +
                                                                 (Game1.player.IsMale ? "male" : "female")));
 
-            var professionIndex = professionName.ToProfessionIndex();
-            var skillIndex = professionIndex / 6;
+            var skillIndex = (int) profession / 6;
             var currentLevel = Game1.player.GetUnmodifiedSkillLevel(skillIndex);
             descriptions.AddRange(ModEntry.ModHelper.Translation
                 .Get(professionName + ".desc" +
-                     (Game1.player.HasPrestigedProfession(professionName) ||
+                     (Game1.player.HasProfession(profession, true) ||
                       Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10
                          ? ".prestiged"
                          : string.Empty)).ToString()

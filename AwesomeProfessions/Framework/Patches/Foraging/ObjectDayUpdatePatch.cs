@@ -28,7 +28,7 @@ internal class ObjectDayUpdatePatch : BasePatch
     private static void ObjectDayUpdatePostfix(SObject __instance)
     {
         if (!__instance.IsMushroomBox() || __instance.heldObject.Value is null ||
-            !Game1.MasterPlayer.HasProfession("Ecologist"))
+            !Game1.MasterPlayer.HasProfession(Profession.Ecologist))
             return;
 
         __instance.heldObject.Value.Quality = Game1.MasterPlayer.GetEcologistForageQuality();

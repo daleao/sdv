@@ -41,13 +41,10 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
 
         // add immediate perks
         if (professionName == "Aquarist")
-            foreach (var b in Game1.getFarm().buildings.Where(b =>
-                         (b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-                         b is FishPond && !b.isUnderConstruction()))
-            {
-                var pond = (FishPond) b;
+            foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
+                         (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+                         !p.isUnderConstruction()))
                 pond.UpdateMaximumOccupancy();
-            }
 
         // subscribe events
         EventManager.EnableAllForProfession(professionName);

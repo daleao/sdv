@@ -18,8 +18,6 @@ using Events.Input;
 using Events.Player;
 using Extensions;
 
-using Professions = Utility.Localization;
-
 #endregion using directives
 
 /// <summary>Main handler for Super Mode functionality.</summary>
@@ -306,25 +304,16 @@ internal class SuperMode
             monster.focusedOnFarmers = false;
             switch (monster)
             {
-                case DustSpirit dustSpirit:
-                    ModEntry.ModHelper.Reflection.GetField<bool>(dustSpirit, "chargingFarmer").SetValue(false);
-                    ModEntry.ModHelper.Reflection.GetField<bool>(dustSpirit, "seenFarmer").SetValue(false);
+                case AngryRoger:
+                case DustSpirit:
+                case Ghost:
+                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "chargingFarmer").SetValue(false);
+                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "seenFarmer").SetValue(false);
                     break;
 
-                case AngryRoger angryRoger:
-                    ModEntry.ModHelper.Reflection.GetField<NetBool>(angryRoger, "seenPlayer").GetValue().Set(false);
-                    break;
-
-                case Bat bat:
-                    ModEntry.ModHelper.Reflection.GetField<NetBool>(bat, "seenPlayer").GetValue().Set(false);
-                    break;
-
-                case Ghost ghost:
-                    ModEntry.ModHelper.Reflection.GetField<NetBool>(ghost, "seenPlayer").GetValue().Set(false);
-                    break;
-
-                case RockGolem rockGolem:
-                    ModEntry.ModHelper.Reflection.GetField<NetBool>(rockGolem, "seenPlayer").GetValue().Set(false);
+                case Bat:
+                case RockGolem:
+                    ModEntry.ModHelper.Reflection.GetField<NetBool>(monster, "seenPlayer").GetValue().Set(false);
                     break;
             }
         }

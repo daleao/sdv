@@ -80,7 +80,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         try
         {
             helper
-                .FindFirst( // find index of checking if the player has the the first level 5 profesion in the skill
+                .FindFirst( // find index of checking if the player has the the first level 5 profession in the skill
                     new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentSkill")),

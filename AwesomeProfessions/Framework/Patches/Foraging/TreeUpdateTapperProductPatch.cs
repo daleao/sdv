@@ -31,11 +31,11 @@ internal class TreeUpdateTapperProductPatch : BasePatch
         if (tapper_instance is null) return;
 
         var owner = Game1.getFarmerMaybeOffline(tapper_instance.owner.Value) ?? Game1.MasterPlayer;
-        if (!owner.HasProfession("Tapper")) return;
+        if (!owner.HasProfession(Profession.Tapper)) return;
 
         if (tapper_instance.MinutesUntilReady > 0)
             tapper_instance.MinutesUntilReady = (int) (tapper_instance.MinutesUntilReady *
-                                                       (owner.HasPrestigedProfession("Tapper") ? 0.5 : 0.75));
+                                                       (owner.HasProfession(Profession.Tapper, true) ? 0.5 : 0.75));
     }
 
     #endregion harmony patches

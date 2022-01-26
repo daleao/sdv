@@ -36,7 +36,7 @@ internal class BasicProjectileCtorPatch : BasePatch
 
         __instance.ignoreTravelGracePeriod.Value = true;
 
-        if (!farmer.HasProfession("Rascal") || !ModEntry.Config.Modkey.IsDown()) return;
+        if (!farmer.HasProfession(Profession.Rascal) || !ModEntry.Config.Modkey.IsDown()) return;
         ++___bouncesLeft.Value;
         __instance.damageToFarmer.Value = (int) (__instance.damageToFarmer.Value * 0.6);
     }

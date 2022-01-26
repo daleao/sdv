@@ -93,14 +93,14 @@ internal class CheesePressMachineSetInput : BasePatch
         }
 
         var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.HasProfession("Artisan")) return;
+        if (!who.HasProfession(Profession.Artisan)) return;
 
         output.Quality = input.Quality;
         if (output.Quality < SObject.bestQuality &&
             new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
 
-        if (who.HasPrestigedProfession("Artisan"))
+        if (who.HasProfession(Profession.Artisan, true))
             machine.MinutesUntilReady -= machine.MinutesUntilReady / 4;
         else
             machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;

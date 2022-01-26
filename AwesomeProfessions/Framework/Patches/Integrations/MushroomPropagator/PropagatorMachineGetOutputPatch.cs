@@ -42,7 +42,7 @@ internal class PropagatorMachineGetOutputPatch : BasePatch
         if (entity is null) return;
 
         var who = Game1.getFarmerMaybeOffline(entity.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.HasProfession("Ecologist")) return;
+        if (!who.HasProfession(Profession.Ecologist)) return;
 
         if (who.IsLocalPlayer && !ModEntry.Config.ShouldCountAutomatedHarvests)
             ModData.Increment(DataField.EcologistItemsForaged, -1);

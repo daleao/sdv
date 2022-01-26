@@ -34,7 +34,7 @@ internal class Game1DrawHUDPatch : BasePatch
     [HarmonyPostfix]
     private static void Game1DrawHUDPostfix()
     {
-        if (!Game1.player.HasProfession("Prospector") || Game1.currentLocation is not MineShaft shaft) return;
+        if (!Game1.player.HasProfession(Profession.Prospector) || Game1.currentLocation is not MineShaft shaft) return;
         foreach (var tile in shaft.GetLadderTiles())
             ModEntry.State.Value.Pointer.DrawAsTrackingPointer(tile, Color.Lime);
     }
@@ -114,6 +114,34 @@ internal class Game1DrawHUDPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}");
+            return null;
+        }
+
+        /// Injected: if (!player.professions.Contains(<prospector_id>)) return
+        /// Before panning tracker
+
+        var drawPanningTracker = iLGenerator.DefineLabel();
+        try
+        {
+            helper
+                .FindLast(
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.currentLocation))),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(GameLocation).Field(nameof(GameLocation.orePanPoint))),
+                    new CodeInstruction(OpCodes.Call, typeof(Point).PropertyGetter(nameof(Point.Zero))),
+                    new CodeInstruction(OpCodes.Box)
+                )
+                .StripLabels(out var labels)
+                .AddLabels(drawPanningTracker)
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Prospector, drawPanningTracker, useBrtrue: true)
+                .Insert(
+                    new CodeInstruction(OpCodes.Ret)
+                )
+                .Return(2)
+                .SetLabels(labels);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed while patching Prospector restriction for panning tacker. Helper returned {ex}");
             return null;
         }
 

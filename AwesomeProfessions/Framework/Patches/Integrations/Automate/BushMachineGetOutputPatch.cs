@@ -48,7 +48,7 @@ internal class BushMachineGetOutputPatch : BasePatch
         var machine = ModEntry.ModHelper.Reflection.GetProperty<Bush>(__instance, "Machine").GetValue();
         if (machine is null || machine.size.Value == 3) return;
 
-        if (!Context.IsMainPlayer || !Game1.player.HasProfession("Ecologist")) return;
+        if (!Context.IsMainPlayer || !Game1.player.HasProfession(Profession.Ecologist)) return;
 
         ModData.Increment<uint>(DataField.EcologistItemsForaged);
     }

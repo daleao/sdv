@@ -63,7 +63,7 @@
   "spelunker.name.male": "Spelunker",
   "spelunker.name.female": "Spelunker",
   "spelunker.desc": "Chance to find ladders and shafts increases with every mine level. +1 speed every 5 levels.",
-  "spelunker.desc.prestiged": "Also restore some HP and Stamina with every mine level.",
+  "spelunker.desc.prestiged": "Also restore some health and energy with every mine level.",
   "spelunker.buffdesc": "Ladder chance +{{bonusLadderChance}}%. +{{bonusSpeed}} Speed.",
   "prospector.name.male": "Prospector",
   "prospector.name.female": "Prospector",
@@ -143,7 +143,7 @@
   "rascal.desc.prestiged": "Trick shots stun enemies for 5s.",
   "desperado.name.male": "Desperado",
   "desperado.name.female": "Desperada",
-  "desperado.desc": "Fire 50% faster. Chance to fire a double shot, based on current HP. Built-up Temerity increases projectile cross-section and impact power.",
+  "desperado.desc": "Fire 50% faster. Chance to fire a double shot, based on current health. Built-up Temerity increases projectile cross-section and impact power.",
   "desperado.desc.prestiged": "Double shot becomes a spread shot.",
   "desperado.buff": "Temerity",
   "desperado.buffdesc": "Ammo cross-section and impact power +{{magnitude}}%.",
@@ -159,7 +159,7 @@
   "piper.supermdesc": "Engorges and empowers nearby Slimes.",
 
   // Prestige
-  "prestige.dogstatue.first": "-Statue Of Prestige-^The statue can reset a skill's level while keeping all acquired professions.",
+  "prestige.dogstatue.first": "-Statue Of Prestige-^The statue can reset a skill's level while preserving all acquired professions.",
   "prestige.dogstatue.forget": "^All associated recipes will be forgotten.",
   "prestige.dogstatue.offer": "^Make an offering?",
   "prestige.dogstatue.which": "Which skill would you like to reset?",

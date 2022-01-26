@@ -77,7 +77,7 @@ internal class LoomMachineSetInputPatch : BasePatch
         if (!machine.heldObject.Value.IsArtisanGood()) return;
 
         var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.HasProfession("Artisan")) return;
+        if (!who.HasProfession(Profession.Artisan)) return;
 
         var output = machine.heldObject.Value;
         if (consumable.GetType().GetProperty("Sample")?.GetValue(consumable) is SObject input)
@@ -87,7 +87,7 @@ internal class LoomMachineSetInputPatch : BasePatch
             new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
 
-        if (who.HasPrestigedProfession("Artisan"))
+        if (who.HasProfession(Profession.Artisan, true))
             machine.MinutesUntilReady -= machine.MinutesUntilReady / 4;
         else
             machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;

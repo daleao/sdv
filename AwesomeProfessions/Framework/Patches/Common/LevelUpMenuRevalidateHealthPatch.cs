@@ -3,6 +3,7 @@
 #region using directives
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -13,6 +14,7 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 
+using Stardew.Common.Extensions;
 using Extensions;
 
 #endregion using directives
@@ -38,12 +40,12 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
         var expectedMaxHealth = 100;
         if (farmer.mailReceived.Contains("qiCave")) expectedMaxHealth += 25;
 
-        for (var i = 0; i < farmer.combatLevel.Value; ++i)
+        for (var i = 1; i <= farmer.combatLevel.Value; ++i)
             if (!farmer.newLevels.Contains(new((int) SkillType.Combat, i)))
                 expectedMaxHealth += 5;
 
-        if (Game1.player.HasProfession("Fighter")) expectedMaxHealth += 15;
-        if (Game1.player.HasProfession("Brute")) expectedMaxHealth += 25;
+        if (Game1.player.HasProfession(Profession.Fighter)) expectedMaxHealth += 15;
+        if (Game1.player.HasProfession(Profession.Brute)) expectedMaxHealth += 25;
 
         if (farmer.maxHealth != expectedMaxHealth)
         {
@@ -54,14 +56,19 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
 
         try
         {
-            // revalidate fish pond capacity
-            foreach (var b in Game1.getFarm().buildings.Where(b =>
-                         (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond &&
-                         !b.isUnderConstruction()))
+            foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
+                         (p.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+                         !p.isUnderConstruction()))
             {
-                var pond = (FishPond) b;
+                // revalidate fish pond capacity
                 pond.UpdateMaximumOccupancy();
                 pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
+
+                // revalidate fish pond quality rating
+                var qualityRatingByFishPond = new Dictionary<int, int>();
+                var thisFishPond = pond.GetCenterTile().ToString().GetDeterministicHashCode();
+                qualityRatingByFishPond[thisFishPond] = pond.FishCount; // default to lowest quality = 1
+                ModData.Write(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"), farmer);
             }
         }
         catch (Exception ex)

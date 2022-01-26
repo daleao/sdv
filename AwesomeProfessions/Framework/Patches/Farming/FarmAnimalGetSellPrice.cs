@@ -31,7 +31,7 @@ internal class FarmAnimalGetSellPricePatch : BasePatch
         try
         {
             var owner = Game1.getFarmerMaybeOffline(__instance.ownerID.Value) ?? Game1.MasterPlayer;
-            if (!owner.HasProfession("Breeder")) return true; // run original logic
+            if (!owner.HasProfession(Profession.Breeder)) return true; // run original logic
 
             adjustedFriendship = __instance.GetProducerAdjustedFriendship();
         }

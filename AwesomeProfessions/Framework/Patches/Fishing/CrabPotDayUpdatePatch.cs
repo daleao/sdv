@@ -42,14 +42,14 @@ internal class CrabPotDayUpdatePatch : BasePatch
         try
         {
             var who = Game1.getFarmerMaybeOffline(__instance.owner.Value);
-            var isConservationist = who?.HasProfession("Conservationist") == true;
+            var isConservationist = who?.HasProfession(Profession.Conservationist) == true;
             if (__instance.bait.Value is null && !isConservationist || __instance.heldObject.Value is not null)
                 return false; // don't run original logic
 
             var r = new Random(Guid.NewGuid().GetHashCode());
             var fishData =
                 Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
-            var isLuremaster = who?.HasProfession("Luremaster") == true;
+            var isLuremaster = who?.HasProfession(Profession.Luremaster) == true;
             var whichFish = -1;
             if (__instance.bait.Value is not null)
             {
@@ -95,7 +95,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
                     if (isConservationist)
                     {
                         ModData.Increment<uint>(DataField.ConservationistTrashCollectedThisSeason, who);
-                        if (who.HasPrestigedProfession("Conservationist") &&
+                        if (who.HasProfession(Profession.Conservationist, true) &&
                             ModData.ReadAs<uint>(DataField.ConservationistTrashCollectedThisSeason, who) %
                             ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
                             SUtility.improveFriendshipWithEveryoneInRegion(who, 1, 2);
@@ -286,10 +286,10 @@ internal class CrabPotDayUpdatePatch : BasePatch
         if (isLuremaster && crabpot.HasMagicBait()) return SObject.bestQuality;
 
         var fish = new SObject(whichFish, 1);
-        if (who is null || !who.HasProfession("Trapper") || fish.IsPirateTreasure() || fish.IsAlgae())
+        if (who is null || !who.HasProfession(Profession.Trapper) || fish.IsPirateTreasure() || fish.IsAlgae())
             return SObject.lowQuality;
 
-        return who.HasPrestigedProfession("Trapper") && r.NextDouble() < who.FishingLevel / 60.0
+        return who.HasProfession(Profession.Trapper, true) && r.NextDouble() < who.FishingLevel / 60.0
             ? SObject.bestQuality
             : r.NextDouble() < who.FishingLevel / 30.0
                 ? SObject.highQuality

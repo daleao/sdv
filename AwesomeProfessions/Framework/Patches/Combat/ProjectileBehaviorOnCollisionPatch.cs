@@ -39,7 +39,7 @@ internal class ProjectileBehaviorOnCollisionPatch : BasePatch
         if (ModEntry.State.Value.AuxiliaryBullets.Remove(hashCode)) return;
 
         var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
-        if (!firer.HasProfession("Rascal")) return;
+        if (!firer.HasProfession(Profession.Rascal)) return;
 
         if ((___currentTileSheetIndex.Value - 1).IsAnyOf(SObject.copper, SObject.iron, SObject.gold,
                 SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6

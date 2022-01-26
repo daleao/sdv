@@ -41,7 +41,7 @@ internal class ObjectCheckForActionPatch : BasePatch
     private static void ObjectCheckForActionPostfix(SObject __instance, bool __state, Farmer who)
     {
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
-            who.HasProfession("Ecologist"))
+            who.HasProfession(Profession.Ecologist))
             ModData.Increment<uint>(DataField.EcologistItemsForaged);
     }
 

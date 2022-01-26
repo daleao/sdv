@@ -21,8 +21,6 @@ using Events.Multiplayer;
 using Events.Player;
 using Extensions;
 
-using Professions = Utility.Localization;
-
 #endregion using directives
 
 /// <summary>Manages dynamic enabling and disabling of events for modded professions.</summary>
@@ -49,7 +47,10 @@ internal static class EventManager
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IEvent)))
             .Where(t => t.IsAssignableTo(typeof(IEvent)) && !t.IsAbstract)
             .ToList();
-        if (!ModEntry.Config.EnableDebug) events = events.Where(t => !t.Name.StartsWith("Debug")).ToList();
+
+#if RELEASE
+        events = events.Where(t => !t.Name.StartsWith("Debug")).ToList();
+#endif
 
         Log.D($"[EventManager]: Found {events.Count} event classes. Initializing events...");
         foreach (var e in events.Select(t => (IEvent)t.Constructor().Invoke(Array.Empty<object>())))
@@ -76,12 +77,10 @@ internal static class EventManager
         modEvents.Player.Warped += RunWarpedEvents;
 
         Log.D("[EventManager]: Event initialization complete.");
-        
-        // enable debug if necessary
-        if (!ModEntry.Config.EnableDebug) return;
-        
-        Log.D("[EventManager]: Enabling debug events...");
+
+#if DEBUG
         EnableAllStartingWith("Debug");
+#endif
     }
 
     internal static IList<IEvent> Events => _events.AsReadOnly();
@@ -186,8 +185,8 @@ internal static class EventManager
         if (!EventsByProfession.TryGetValue(professionName, out var events)) return;
 
         List<IEvent> except = new();
-        if (professionName == "Prospector" && Game1.player.HasProfession("Scavenger") ||
-            professionName == "Scavenger" && Game1.player.HasProfession("Prospector"))
+        if (professionName == "Prospector" && Game1.player.HasProfession(Profession.Scavenger) ||
+            professionName == "Scavenger" && Game1.player.HasProfession(Profession.Prospector))
             except.Add(new TrackerButtonsChangedEvent());
 
         Log.D($"[EventManager]: Disabling {professionName} events...");
@@ -257,7 +256,7 @@ internal static class EventManager
         return _events.Cast<BaseEvent>().Where(e => e.IsEnabledForScreen(screenId));
     }
 
-    #region event runners
+#region event runners
 
     // display events
     private static void RunRenderedActiveMenuEvents(object sender, RenderedActiveMenuEventArgs e)
@@ -360,5 +359,5 @@ internal static class EventManager
             warpedEvent.OnWarped(sender, e);
     }
 
-    #endregion event runners
+#endregion event runners
 }

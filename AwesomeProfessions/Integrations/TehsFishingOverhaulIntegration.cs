@@ -106,7 +106,7 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
             (who, chance) => who.CurrentTool is FishingRod rod &&
                              ObjectLookups.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
                              && baitName != "Magnet"
-                             && who.HasProfession("Fisher")
+                             && who.HasProfession(Profession.Fisher)
                 ? 1 - Math.Pow(1 - chance, 2.0)
                 : chance);
 
@@ -121,7 +121,7 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
         _helper.Events.GameLoop.UpdateTicking += (_, _) =>
         {
             // check the state of the prestiged angler profession
-            var hasPrestigedAngler = Game1.player.HasPrestigedProfession("Angler");
+            var hasPrestigedAngler = Game1.player.HasProfession(Profession.Angler, true);
             switch (hadPrestigedAngler, hasPrestigedAngler)
             {
                 // prestiged status was just lost

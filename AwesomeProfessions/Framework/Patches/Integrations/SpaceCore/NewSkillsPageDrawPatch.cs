@@ -136,6 +136,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
                 )
                 .StripLabels(out var labels) // backup and remove branch labels
                 .Insert(
+                    labels,
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Call,

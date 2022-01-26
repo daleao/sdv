@@ -30,13 +30,14 @@ internal class FishPondIsLegalFishForPondsPatch : BasePatch
     /// <summary>Patch for prestiged Aquarist to raise legendary fish.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> FishPondIsLegalFishForPondsTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
         /// From: if (fish_item.HasContextTag("fish_legendary")) ...
-        /// To: if (fish_item.HasContextTag("fish_legendary") && !Game1.player.HasPrestigedProfession("Aquarist"))
+        /// To: if (fish_item.HasContextTag("fish_legendary") && !who.HasPrestigedProfession("Aquarist"))
 
+        var checkProfession = ilGenerator.DefineLabel();
         try
         {
             helper
@@ -46,14 +47,13 @@ internal class FishPondIsLegalFishForPondsPatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
-                .GetOperand(out var notLegal)
+                .GetOperand(out var resumeExecution)
                 .Advance()
                 .Insert(
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldstr, "Aquarist"),
+                    new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions.HasPrestigedProfession))),
-                    new CodeInstruction(OpCodes.Brtrue_S, notLegal)
+                        typeof(FishPondIsLegalFishForPondsPatch).MethodNamed(nameof(IsLegalFishForPondsSubroutine))),
+                    new CodeInstruction(OpCodes.Brtrue_S, resumeExecution)
                 );
         }
         catch (Exception ex)
@@ -66,4 +66,14 @@ internal class FishPondIsLegalFishForPondsPatch : BasePatch
     }
 
     #endregion harmony patches
+
+    #region injected subroutines
+
+    private static bool IsLegalFishForPondsSubroutine(FishPond pond)
+    {
+        var who = Game1.getFarmerMaybeOffline(pond.owner.Value) ?? Game1.MasterPlayer;
+        return who.HasProfession(Profession.Aquarist, true);
+    }
+
+    #endregion injected subroutines
 }

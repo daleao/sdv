@@ -37,33 +37,33 @@ internal class MeleeWeaponDoAnimateSpecialMovePatch : BasePatch
         switch (__instance.type.Value)
         {
             case MeleeWeapon.dagger:
-                if (who.HasPrestigedProfession("Brute"))
+                if (who.HasProfession(Profession.Brute, true))
                     MeleeWeapon.daggerCooldown =
                         (int) (MeleeWeapon.daggerCooldown *
                                who.GetPrestigedBruteCooldownReduction());
-                else if (who.HasPrestigedProfession("Poacher"))
+                else if (who.HasProfession(Profession.Poacher, true))
                     MeleeWeapon.daggerCooldown =
                         (int) (MeleeWeapon.daggerCooldown *
                                who.GetPrestigedPoacherCooldownReduction());
                 break;
 
             case MeleeWeapon.club:
-                if (who.HasPrestigedProfession("Brute"))
+                if (who.HasProfession(Profession.Brute, true))
                     MeleeWeapon.clubCooldown =
                         (int) (MeleeWeapon.clubCooldown *
                                who.GetPrestigedBruteCooldownReduction());
-                else if (who.HasPrestigedProfession("Poacher"))
+                else if (who.HasProfession(Profession.Poacher, true))
                     MeleeWeapon.clubCooldown =
                         (int) (MeleeWeapon.clubCooldown *
                                who.GetPrestigedPoacherCooldownReduction());
                 break;
 
             case MeleeWeapon.defenseSword:
-                if (who.HasPrestigedProfession("Brute"))
+                if (who.HasProfession(Profession.Brute, true))
                     MeleeWeapon.defenseCooldown =
                         (int) (MeleeWeapon.defenseCooldown *
                                who.GetPrestigedBruteCooldownReduction());
-                else if (who.HasPrestigedProfession("Poacher"))
+                else if (who.HasProfession(Profession.Poacher, true))
                     MeleeWeapon.defenseCooldown =
                         (int) (MeleeWeapon.defenseCooldown *
                                who.GetPrestigedPoacherCooldownReduction());

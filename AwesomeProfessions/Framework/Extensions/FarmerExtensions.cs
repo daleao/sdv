@@ -18,7 +18,6 @@ using Events.GameLoop;
 using SuperMode;
 using Utility;
 
-using Professions = Utility.Localization;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -26,27 +25,10 @@ using SObject = StardewValley.Object;
 public static class FarmerExtensions
 {
     /// <summary>Whether the farmer has a particular profession.</summary>
-    /// <param name="professionName">The name of the profession.</param>
-    public static bool HasProfession(this Farmer farmer, string professionName)
+    /// <param name="profession">The index of the profession.</param>
+    public static bool HasProfession(this Farmer farmer, Profession profession, bool prestiged = false)
     {
-        return Enum.TryParse<Profession>(professionName, out var profession) &&
-               farmer.professions.Contains((int) profession);
-    }
-
-    /// <summary>Whether the farmer has a particular profession.</summary>
-    /// <param name="professionIndex">The index of the profession.</param>
-    public static bool HasProfession(this Farmer farmer, int professionIndex)
-    {
-        return Enum.TryParse<Profession>(professionIndex.ToString(), out _) &&
-               farmer.professions.Contains(professionIndex);
-    }
-
-    /// <summary>Whether the farmer has prestiged a particular profession.</summary>
-    /// <param name="professionName">The name of the profession.</param>
-    public static bool HasPrestigedProfession(this Farmer farmer, string professionName)
-    {
-        return Enum.TryParse<Profession>(professionName, out var profession) &&
-               farmer.professions.Contains((int) profession + 100);
+        return farmer.professions.Contains((int) profession + (prestiged ? 100 : 0));
     }
 
     /// <summary>Whether the farmer has any of the specified professions.</summary>
@@ -310,7 +292,6 @@ public static class FarmerExtensions
     }
 
     /// <summary>Affects the price of produce sold by Producer.</summary>
-    /// <param name="who">The player.</param>
     public static float GetProducerPriceBonus(this Farmer farmer)
     {
         return Game1.getFarm().buildings.Where(b =>
@@ -319,7 +300,6 @@ public static class FarmerExtensions
     }
 
     /// <summary>Affects the price of fish sold by Angler.</summary>
-    /// <param name="who">The player.</param>
     public static float GetAnglerPriceBonus(this Farmer farmer)
     {
         var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
@@ -389,7 +369,6 @@ public static class FarmerExtensions
     }
 
     /// <summary>Affects the raw damage dealt by Brute.</summary>
-    /// <param name="who">The player.</param>
     public static float GetBruteBonusDamageMultiplier(this Farmer farmer)
     {
         var multiplier = 1.15f;
@@ -397,7 +376,7 @@ public static class FarmerExtensions
             return multiplier;
 
         multiplier += superMode.IsActive
-            ? (farmer.HasPrestigedProfession("Fighter") ? 0.2f : 0.1f) + 0.15f + farmer.attackIncreaseModifier + // double fighter, brute and ring bonuses
+            ? (farmer.HasProfession(Profession.Fighter, true) ? 0.2f : 0.1f) + 0.15f + farmer.attackIncreaseModifier + // double fighter, brute and ring bonuses
               (farmer.CurrentTool is not null
                   ? farmer.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f // double enchants
                   : 0f)
@@ -408,7 +387,6 @@ public static class FarmerExtensions
     }
 
     /// <summary>Affects the cooldown of special moves performed by prestiged Brute.</summary>
-    /// <param name="who">The player.</param>
     public static float GetPrestigedBruteCooldownReduction(this Farmer farmer)
     {
         return 1f - farmer.attackIncreaseModifier + (farmer.CurrentTool is not null
@@ -427,7 +405,6 @@ public static class FarmerExtensions
     }
 
     /// <summary>Affects the cooldown special moves performed by prestiged Poacher.</summary>
-    /// <param name="who">The player.</param>
     public static float GetPrestigedPoacherCooldownReduction(this Farmer farmer)
     {
         return 1f - farmer.critChanceModifier + farmer.critPowerModifier + (farmer.CurrentTool is not null
@@ -447,7 +424,6 @@ public static class FarmerExtensions
     }
 
     /// <summary>Affects the chance to shoot twice consecutively for Desperado.</summary>
-    /// <param name="who">The player.</param>
     public static float GetDesperadoDoubleStrafeChance(this Farmer farmer)
     {
         var healthPercent = (double) farmer.health / farmer.maxHealth;

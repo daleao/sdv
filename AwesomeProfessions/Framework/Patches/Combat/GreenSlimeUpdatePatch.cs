@@ -35,7 +35,7 @@ internal class GreenSlimeUpdatePatch : BasePatch
     [HarmonyPostfix]
     private static void GreenSlimeUpdatePostfix(GreenSlime __instance, GameLocation location)
     {
-        if (!location.DoesAnyPlayerHereHaveProfession("Piper")) return;
+        if (!location.DoesAnyPlayerHereHaveProfession(Profession.Piper)) return;
 
         foreach (var npc in __instance.currentLocation.characters.Where(npc =>
                      npc.IsMonster && npc is not GreenSlime && npc is not BigSlime))

@@ -11,7 +11,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.Buildings;
 using StardewValley.Menus;
 
 using Stardew.Common.Extensions;
@@ -42,12 +41,12 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
 
         // remove immediate perks
         if (professionName == "Aquarist")
-            foreach (var b in Game1.getFarm().buildings.Where(b =>
-                         (b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-                         b is FishPond && !b.isUnderConstruction() && b.maxOccupants.Value > 10))
+            foreach (var pond in Game1.getFarm().buildings.Where(p =>
+                         (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+                         !p.isUnderConstruction() && p.maxOccupants.Value > 10))
             {
-                b.maxOccupants.Set(10);
-                b.currentOccupants.Value = Math.Min(b.currentOccupants.Value, b.maxOccupants.Value);
+                pond.maxOccupants.Set(10);
+                pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
             }
 
         // clean unnecessary mod data

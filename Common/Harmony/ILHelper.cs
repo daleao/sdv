@@ -103,7 +103,7 @@ public class ILHelper
         var reversedInstructions = Instructions.Clone();
         reversedInstructions.Reverse();
 
-        var index = Instructions.Count - reversedInstructions.IndexOf(pattern.Reverse().ToArray()) - 1;
+        var index = Instructions.Count - reversedInstructions.IndexOf(pattern.Reverse().ToArray()) - pattern.Length;
         if (index < 0)
         {
             if (_shouldExport) Export(pattern.ToList());
@@ -661,6 +661,7 @@ public class ILHelper
     {
         if (number > byte.MaxValue)
             throw new ArgumentException($"Profession index is too large. Should be less than {byte.MaxValue}.");
+
         return number switch
         {
             0 => new(OpCodes.Ldc_I4_0),

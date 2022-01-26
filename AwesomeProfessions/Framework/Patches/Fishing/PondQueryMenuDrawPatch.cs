@@ -27,7 +27,7 @@ using SUtility = StardewValley.Utility;
 [UsedImplicitly]
 internal class PondQueryMenuDrawPatch : BasePatch
 {
-    private const float SLOT_SPACING_F = 12f;
+    private const float AQUARIST_SLOT_SPACING_F = 12f, REGULAR_SLOT_SPACING_F = 13f;
 
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
@@ -37,7 +37,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch to adjust fish pond UI for Aquarist increased max capacity.</summary>
+    /// <summary>Patch to adjust fish pond query menu for Aquarist increased max capacity.</summary>
     [HarmonyPrefix]
     private static bool PondQueryMenuDrawPrefix(PondQueryMenu __instance, float ____age,
         ref Rectangle ____confirmationBoxRectangle, string ____confirmationText, bool ___confirmingEmpty,
@@ -46,7 +46,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
         try
         {
             var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
-            if (!owner.HasProfession("Aquarist")) return true; // run original logic
+            if (!owner.HasProfession(Profession.Aquarist)) return true; // run original logic
 
             var fishPondData = ModEntry.ModHelper.Reflection.GetField<FishPondData>(____pond, "_fishPondData")
                 .GetValue();
@@ -88,27 +88,22 @@ internal class PondQueryMenuDrawPatch : BasePatch
                     new(__instance.xPositionOnScreen + PondQueryMenu.width / 2 - textSize.X * 0.5f,
                         __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16 + 128),
                     Game1.textColor);
+                
                 var slotsToDraw = ____pond.maxOccupants.Value;
-
                 var x = 0;
                 var y = 0;
                 for (var i = 0; i < slotsToDraw; ++i)
                 {
                     var yOffset = (float) Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
+                    var xPos = __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
+                        AQUARIST_SLOT_SPACING_F * Math.Min(slotsToDraw, 5) * 4f * 0.5f + AQUARIST_SLOT_SPACING_F * 4f * x - 12f;
+                    var yPos = __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * AQUARIST_SLOT_SPACING_F + 275.2f;
                     if (i < ____pond.FishCount)
-                        ____fishItem.drawInMenu(b,
-                            new(
-                                __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
-                                SLOT_SPACING_F * Math.Min(slotsToDraw, 5) * 4f * 0.5f + SLOT_SPACING_F * 4f * x - 12f,
-                                __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f),
-                            0.75f, 1f, 0f, StackDrawType.Hide, Color.White, false);
+                        ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide, Color.White,
+                            false);
                     else
-                        ____fishItem.drawInMenu(b,
-                            new(
-                                __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
-                                SLOT_SPACING_F * Math.Min(slotsToDraw, 5) * 4f * 0.5f + SLOT_SPACING_F * 4f * x - 12f,
-                                __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f),
-                            0.75f, 0.35f, 0f, StackDrawType.Hide, Color.Black, false);
+                        ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 0.35f, 0f, StackDrawType.Hide, Color.Black,
+                            false);
 
                     ++x;
                     if (x != 6) continue;
@@ -204,6 +199,57 @@ internal class PondQueryMenuDrawPatch : BasePatch
         {
             Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
+        }
+    }
+
+    /// <summary>Patch to draw pond fish quality stars in query menu.</summary>
+    [HarmonyPostfix]
+    private static void FishPondQueryMenuDrawPostfix(PondQueryMenu __instance, bool ___confirmingEmpty, float ____age, FishPond ____pond,
+        SpriteBatch b)
+    {
+        if (___confirmingEmpty) return;
+
+        var (numBestQuality, numHighQuality, numMedQuality) = ____pond.GetAllFishQualities();
+        if (numBestQuality == 0 && numHighQuality == 0 && numMedQuality == 0) return;
+
+        var who = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
+        var xOffset = who.HasProfession(Profession.Aquarist) ? 12f : 32f;
+        var slotSpacing = who.HasProfession(Profession.Aquarist) ? AQUARIST_SLOT_SPACING_F : REGULAR_SLOT_SPACING_F;
+        
+        var slotsToDraw = ____pond.maxOccupants.Value;
+        var x = 0;
+        var y = 0;
+        for (var i = 0; i < slotsToDraw; ++i)
+        {
+            var yOffset = (float) Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
+            var xPos = __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
+                slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f + slotSpacing * 4f * x - 12f;
+            var yPos = __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * slotSpacing + 275.2f;
+
+            var quality = numBestQuality-- > 0
+                ? SObject.bestQuality
+                : numHighQuality-- > 0
+                    ? SObject.highQuality
+                    : numMedQuality-- > 0
+                        ? SObject.medQuality
+                        : SObject.lowQuality;
+            if (quality <= SObject.lowQuality) break;
+
+            Rectangle qualityRect = quality < SObject.bestQuality
+                ? new(338 + (quality - 1) * 8, 400, 8, 8)
+                : new(346, 392, 8, 8);
+            yOffset = quality < SObject.bestQuality
+                ? 0f
+                : (float) ((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) +
+                            1f) * 0.05f);
+            b.Draw(Game1.mouseCursors, new(xPos + xOffset, yPos + yOffset + 50f), qualityRect, Color.White,
+                0f, new(4f, 4f), 3f * 0.75f * (1f + yOffset), SpriteEffects.None, 0.9f);
+
+            ++x;
+            if (x != (who.HasProfession(Profession.Aquarist) ? 6 : 5)) continue;
+
+            x = 0;
+            ++y;
         }
     }
 

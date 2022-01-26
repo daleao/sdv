@@ -32,7 +32,7 @@ internal class GreenSlimeGetExtraDropItemsPatch : BasePatch
     /// <summary>Patch Slime drop table for Piper.</summary>
     private static void GreenSlimeGetExtraDropItemsPostfix(GreenSlime __instance, ref List<Item> __result)
     {
-        if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession("Piper", out var pipers) ||
+        if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession(Profession.Piper, out var pipers) ||
             !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;
 
         var slimeCount =

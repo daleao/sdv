@@ -41,7 +41,7 @@ internal class SlingshotPerformFirePatch : BasePatch
     [HarmonyPostfix]
     private static void SlingshotPerformFirePostfix(GameLocation location, Farmer who)
     {
-        if (!who.HasProfession("Desperado") ||
+        if (!who.HasProfession(Profession.Desperado) ||
             location.projectiles.LastOrDefault() is not BasicProjectile mainProjectile) return;
 
         // get bullet properties
@@ -83,7 +83,7 @@ internal class SlingshotPerformFirePatch : BasePatch
         }
         else if (Game1.random.NextDouble() < who.GetDesperadoDoubleStrafeChance())
         {
-            if (who.HasPrestigedProfession("Desperado"))
+            if (who.HasProfession(Profession.Desperado, true))
             {
                 // do spreadshot
                 velocity.Rotate(15);

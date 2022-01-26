@@ -34,8 +34,8 @@ internal class GameLocationExplodePatch : BasePatch
     private static void GameLocationExplodePostfix(GameLocation __instance, Vector2 tileLocation, int radius,
         Farmer who)
     {
-        var isBlaster = who.HasProfession("Blaster");
-        var isDemolitionist = who.HasProfession("Demolitionist");
+        var isBlaster = who.HasProfession(Profession.Blaster);
+        var isDemolitionist = who.HasProfession(Profession.Demolitionist);
         if (!isBlaster && !isDemolitionist) return;
 
         var circle = new CircleTileGrid(tileLocation, radius);
@@ -45,7 +45,7 @@ internal class GameLocationExplodePatch : BasePatch
 
             if (isBlaster)
             {
-                var isPrestigedBlaster = who.HasPrestigedProfession("Blaster");
+                var isPrestigedBlaster = who.HasProfession(Profession.Blaster, true);
                 if (!__instance.Name.StartsWith("UndergroundMine"))
                 {
                     var chanceModifier = who.DailyLuck / 2.0 + who.LuckLevel * 0.001 + who.MiningLevel * 0.005;
@@ -95,7 +95,7 @@ internal class GameLocationExplodePatch : BasePatch
 
             if (!isDemolitionist) continue;
 
-            var isPrestigedDemolitionist = who.HasPrestigedProfession("Demolitionist");
+            var isPrestigedDemolitionist = who.HasProfession(Profession.Demolitionist, true);
             if (Game1.random.NextDouble() >= 0.20 &&
                 (!isPrestigedDemolitionist || Game1.random.NextDouble() >= 0.20)) continue;
 

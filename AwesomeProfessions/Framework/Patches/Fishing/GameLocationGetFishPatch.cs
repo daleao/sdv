@@ -102,7 +102,7 @@ internal class GameLocationGetFishPatch : BasePatch
                && who.CurrentTool is FishingRod rod
                && ObjectLookups.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
                && baitName != "Magnet"
-               && who.HasProfession("Fisher") && !hasRerolled;
+               && who.HasProfession(Profession.Fisher) && !hasRerolled;
     }
 
     #endregion private methods

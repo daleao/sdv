@@ -14,8 +14,6 @@ using Stardew.Common.Harmony;
 using AssetLoaders;
 using Extensions;
 
-using Professions = Utility.Localization;
-
 #endregion using directives
 
 [UsedImplicitly]

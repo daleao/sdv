@@ -42,7 +42,7 @@ internal class CrystalariumMachineGetOutputPatch : BasePatch
         if (machine?.heldObject.Value is null) return;
 
         var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.HasProfession("Gemologist") ||
+        if (!who.HasProfession(Profession.Gemologist) ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
         ModData.Increment<uint>(DataField.GemologistMineralsCollected, who);

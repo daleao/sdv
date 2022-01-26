@@ -23,7 +23,7 @@ internal class SpelunkerWarpedEvent : WarpedEvent
         {
             ++ModEntry.State.Value.SpelunkerLadderStreak;
 
-            if (e.Player.HasPrestigedProfession("Spelunker"))
+            if (e.Player.HasProfession(Profession.Spelunker, true))
             {
                 var player = e.Player;
                 player.health = Math.Min(player.health + (int) (player.maxHealth * 0.05f), player.maxHealth);

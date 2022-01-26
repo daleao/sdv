@@ -39,12 +39,9 @@ internal static class ConsoleCommands
         helper.Add("player_resetprofessions",
             "Reset all skills and professions for the local player.",
             ResetLocalPlayerProfessions);
-        helper.Add("player_setultvalue",
-            "Set the Super Mode meter to the desired value.",
+        helper.Add("player_readyult", "Max-out the Super Mode meter, or set it to the specified percentage.",
             SetSuperModeGaugeValue);
-        helper.Add("player_readyult", "Max-out the Super Mode meter.",
-            MaxSuperModeGaugeValue);
-        helper.Add("player_chooseult",
+        helper.Add("player_changeult",
             "Change the currently registered Super Mode profession.",
             SetSuperModeIndex);
         helper.Add("player_whichult",
@@ -169,8 +166,8 @@ internal static class ConsoleCommands
             var professionName = arg.FirstCharToUpper();
             if (Enum.TryParse<Profession>(professionName, out var profession))
             {
-                if (!prestige && Game1.player.HasProfession(professionName) ||
-                    prestige && Game1.player.HasPrestigedProfession(professionName))
+                if (!prestige && Game1.player.HasProfession(profession) ||
+                    prestige && Game1.player.HasProfession(profession, true))
                 {
                     Log.W("You already have this profession.");
                     continue;
@@ -218,7 +215,7 @@ internal static class ConsoleCommands
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
-    /// <summary>Set <see cref="ModEntry.State.Value.SuperModeGaugeValue" /> to the max value.</summary>
+    /// <summary>Set <see cref="ModEntry.State.Value.SuperModeGaugeValue" /> to the desired value, or max it out if no value is specified.</summary>
     internal static void SetSuperModeGaugeValue(string command, string[] args)
     {
         if (!Context.IsWorldReady)
@@ -233,34 +230,25 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (!args.Any() || args.Length > 1)
+        if (!args.Any())
         {
-            Log.W("You must specify a single value.");
+            ModEntry.State.Value.SuperMode.Gauge.CurrentValue = SuperModeGauge.MaxValue;
             return;
         }
 
-        if (double.TryParse(args[0], out var value))
-            ModEntry.State.Value.SuperMode.Gauge.CurrentValue = Math.Min(value, SuperModeGauge.MaxValue);
-        else
-            Log.W("You must specify an integer value.");
-    }
-
-    /// <summary>Set <see cref="ModEntry.State.Value.SuperModeGaugeValue" /> to the desired value.</summary>
-    internal static void MaxSuperModeGaugeValue(string command, string[] args)
-    {
-        if (!Context.IsWorldReady)
+        if (args.Length > 1)
         {
-            Log.W("You must load a save first.");
+            Log.W("Too many arguments. Specify a single value between 0 and 100.");
             return;
         }
 
-        if (ModEntry.State.Value.SuperMode is null)
+        if (!int.TryParse(args[0], out var value) || value is < 0 or > 100)
         {
-            Log.W("Not registered to any Super Mode.");
+            Log.W("Bad arguments. Specify an integer value between 0 and 100.");
             return;
         }
 
-        ModEntry.State.Value.SuperMode.Gauge.CurrentValue = SuperModeGauge.MaxValue;
+        ModEntry.State.Value.SuperMode.Gauge.CurrentValue = SuperModeGauge.MaxValue * (double)value / 100;
     }
 
     /// <summary>
@@ -294,7 +282,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (!Game1.player.HasProfession(args[0]))
+        if (!Game1.player.HasProfession((Profession) index))
         {
             Log.W("You don't have this profession.");
             return;
@@ -387,9 +375,9 @@ internal static class ConsoleCommands
         var caughtFishNames = new List<string>();
         var nonMaxSizedCaught = new Dictionary<string, Tuple<int, int>>();
         var result = string.Empty;
-        foreach (var p in Game1.player.fishCaught.Pairs)
+        foreach (var (key, value) in Game1.player.fishCaught.Pairs)
         {
-            if (!fishData.TryGetValue(p.Key, out var specificFishData)) continue;
+            if (!fishData.TryGetValue(key, out var specificFishData)) continue;
 
             var dataFields = specificFishData.Split('/');
             if (ObjectLookups.LegendaryFishNames.Contains(dataFields[0]))
@@ -398,17 +386,17 @@ internal static class ConsoleCommands
             }
             else
             {
-                if (p.Value[1] >= Convert.ToInt32(dataFields[4]))
+                if (value[1] >= Convert.ToInt32(dataFields[4]))
                     ++numMaxSizedCaught;
                 else
                     nonMaxSizedCaught.Add(dataFields[0],
-                        new(p.Value[1], Convert.ToInt32(dataFields[4])));
+                        new(value[1], Convert.ToInt32(dataFields[4])));
             }
 
             caughtFishNames.Add(dataFields[0]);
         }
 
-        var priceMultiplier = Game1.player.HasProfession("Angler")
+        var priceMultiplier = Game1.player.HasProfession(Profession.Angler)
             ? (numMaxSizedCaught + numMaxSizedCaught * 5).ToString() + '%'
             : "Zero. You're not an Angler.";
         result +=
@@ -637,7 +625,7 @@ internal static class ConsoleCommands
     /// <summary>Set a new value to the EcologistItemsForaged data field.</summary>
     private static void SetEcologistItemsForaged(int value)
     {
-        if (!Game1.player.HasProfession("Ecologist"))
+        if (!Game1.player.HasProfession(Profession.Ecologist))
         {
             Log.W("You must have the Ecologist profession.");
             return;
@@ -650,7 +638,7 @@ internal static class ConsoleCommands
     /// <summary>Set a new value to the GemologistMineralsCollected data field.</summary>
     private static void SetGemologistMineralsCollected(int value)
     {
-        if (!Game1.player.HasProfession("Gemologist"))
+        if (!Game1.player.HasProfession(Profession.Gemologist))
         {
             Log.W("You must have the Gemologist profession.");
             return;
@@ -663,7 +651,7 @@ internal static class ConsoleCommands
     /// <summary>Set a new value to the ProspectorHuntStreak data field.</summary>
     private static void SetProspectorHuntStreak(int value)
     {
-        if (!Game1.player.HasProfession("Prospector"))
+        if (!Game1.player.HasProfession(Profession.Prospector))
         {
             Log.W("You must have the Prospector profession.");
             return;
@@ -676,7 +664,7 @@ internal static class ConsoleCommands
     /// <summary>Set a new value to the ScavengerHuntStreak data field.</summary>
     private static void SetScavengerHuntStreak(int value)
     {
-        if (!Game1.player.HasProfession("Scavenger"))
+        if (!Game1.player.HasProfession(Profession.Scavenger))
         {
             Log.W("You must have the Scavenger profession.");
             return;
@@ -689,7 +677,7 @@ internal static class ConsoleCommands
     /// <summary>Set a new value to the ConservationistTrashCollectedThisSeason data field.</summary>
     private static void SetConservationistTrashCollectedThisSeason(int value)
     {
-        if (!Game1.player.HasProfession("Conservationist"))
+        if (!Game1.player.HasProfession(Profession.Conservationist))
         {
             Log.W("You must have the Conservationist profession.");
             return;

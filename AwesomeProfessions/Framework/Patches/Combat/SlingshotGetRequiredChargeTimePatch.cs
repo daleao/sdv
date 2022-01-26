@@ -26,7 +26,7 @@ internal class SlingshotGetRequiredChargeTimePatch : BasePatch
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
         var firer = __instance.getLastFarmerToUse();
-        if (!firer.HasProfession("Desperado")) return;
+        if (!firer.HasProfession(Profession.Desperado)) return;
         __result *= 0.5f;
     }
 

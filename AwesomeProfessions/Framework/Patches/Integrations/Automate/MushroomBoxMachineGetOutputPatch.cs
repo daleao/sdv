@@ -48,7 +48,7 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
             if (machine?.heldObject.Value is null) return true; // run original logic
 
             var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-            if (!who.HasProfession("Ecologist")) return true; // run original logic
+            if (!who.HasProfession(Profession.Ecologist)) return true; // run original logic
 
             machine.heldObject.Value.Quality = who.GetEcologistForageQuality();
             if (!ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic

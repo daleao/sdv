@@ -42,7 +42,7 @@ internal class MonsterFindPlayerPatch : BasePatch
 
             // Slimes prefer Pipers
             if (__instance is GreenSlime &&
-                __instance.currentLocation.DoesAnyPlayerHereHaveProfession("Piper", out var pipers))
+                __instance.currentLocation.DoesAnyPlayerHereHaveProfession(Profession.Piper, out var pipers))
             {
                 var distanceToClosestPiper = double.MaxValue;
                 foreach (var piper in pipers)

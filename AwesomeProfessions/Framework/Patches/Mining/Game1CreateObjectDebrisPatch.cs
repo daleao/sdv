@@ -34,7 +34,7 @@ internal class Game1CreateObjectDebrisPatch : BasePatch
         try
         {
             var who = Game1.getFarmer(whichPlayer);
-            if (!who.HasProfession("Gemologist") || !new SObject(objectIndex, 1).IsGemOrMineral())
+            if (!who.HasProfession(Profession.Gemologist) || !new SObject(objectIndex, 1).IsGemOrMineral())
                 return true; // run original logic
 
             location.debris.Add(new(objectIndex, new(xTile * 64 + 32, yTile * 64 + 32),

@@ -117,9 +117,9 @@ public static class SObjectExtensions
     /// <summary>Whether the player should track a given object.</summary>
     public static bool ShouldBeTracked(this SObject obj)
     {
-        return Game1.player.HasProfession("Scavenger") &&
+        return Game1.player.HasProfession(Profession.Scavenger) &&
                (obj.IsSpawnedObject && !obj.IsForagedMineral() || obj.IsArtifactSpot())
-               || Game1.player.HasProfession("Prospector") &&
+               || Game1.player.HasProfession(Profession.Prospector) &&
                (obj.IsStone() && obj.IsResourceNode() || obj.IsForagedMineral());
     }
 }

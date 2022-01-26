@@ -44,7 +44,7 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
             if (n is not Monster monster) return true; // run original logic
 
             var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
-            if (!firer.HasProfession("Rascal")) return true; // run original logic
+            if (!firer.HasProfession(Profession.Rascal)) return true; // run original logic
 
             var damageToMonster =
                 (int) (__instance.damageToFarmer.Value * GetRascalBonusDamageForTravelTime(___travelTime));
@@ -72,7 +72,7 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
                     (double) SuperModeGauge.MaxValue / 500;
 
             // stun if prestiged Rascal
-            if (!firer.HasPrestigedProfession("Rascal")) return false; // don't run original logic
+            if (!firer.HasProfession(Profession.Rascal, true)) return false; // don't run original logic
 
             monster.stunTime = 5000;
             return false; // don't run original logic

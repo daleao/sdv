@@ -33,12 +33,6 @@ internal class FishPondGetFishPondDataPatch : BasePatch
         var fishName = __instance.GetFishObject().Name;
         if (!ObjectLookups.LegendaryFishNames.Contains(fishName)) return;
 
-        if (____fishPondData is not null)
-        {
-            ____fishPondData.SpawnTime = fishName.Contains("Legend") ? 10 : 7;
-            return;
-        }
-
         ____fishPondData = new()
         {
             PopulationGates = null,

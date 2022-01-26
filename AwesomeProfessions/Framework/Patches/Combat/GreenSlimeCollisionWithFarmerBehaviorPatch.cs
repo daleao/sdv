@@ -35,7 +35,7 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
         if (!who.IsLocalPlayer || ModEntry.State.Value.SuperMode is not {Index: SuperModeIndex.Piper} superMode ||
             ModEntry.State.Value.SlimeContactTimer > 0) return;
 
-        if (who.HasPrestigedProfession("Piper"))
+        if (who.HasProfession(Profession.Piper, true))
         {
             var healed = __instance.DamageToFarmer / 2;
             healed += Game1.random.Next(Math.Min(-1, -healed / 8), Math.Max(1, healed / 8));

@@ -88,7 +88,7 @@ internal class CrabPotCheckForActionPatch : BasePatch
             ___lidFlapping = true;
             ___lidFlapTimer = 60f;
 
-            if (!who.HasPrestigedProfession("Luremaster") || Game1.random.NextDouble() > 0.6)
+            if (!who.HasProfession(Profession.Luremaster, true) || Game1.random.NextDouble() > 0.6)
                 __instance.bait.Value = null;
 
             who.animateOnce(279 + who.FacingDirection);

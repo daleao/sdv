@@ -55,9 +55,9 @@ internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
                 var multiplier = 1f;
 
                 // professions
-                if (player.HasProfession("Producer") && __instance.IsAnimalProduct())
+                if (player.HasProfession(Profession.Producer) && __instance.IsAnimalProduct())
                     multiplier += player.GetProducerPriceBonus();
-                if (player.HasProfession("Angler") && __instance.IsFish())
+                if (player.HasProfession(Profession.Angler) && __instance.IsFish())
                     multiplier += player.GetAnglerPriceBonus();
 
                 // events
@@ -67,7 +67,7 @@ internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
                     multiplier *= 5f;
 
                 // tax bonus
-                if (player.IsLocalPlayer && player.HasProfession("Conservationist"))
+                if (player.IsLocalPlayer && player.HasProfession(Profession.Conservationist))
                     multiplier *= player.GetConservationistPriceMultiplier();
 
                 saleMultiplier = Math.Max(saleMultiplier, multiplier);

@@ -162,16 +162,20 @@ The Combat tree has received a much more extensive overhaul. In addition to thei
 - **Slimed Piper / Slime Enchantress - Superfluidity** - Engorge and empower nearby Slimes.
   - Slimes scale up by a random factor up to twice their original size, with a proportional damage boost. Slimes that grow large enough can hit even flying enemies, and break up into baby Slimes when defeated. Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant. Big Slimes in the area explode immediately.
 
+Once all 20 professions have been acquired, the Statue of Prestige may be used to switch Super Modes at will.
+
+Super Modes can be disabled in the configs if desired.
+
 ## Prestige
 
 The [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) has been replaced by the Statue of Prestige, which is capable of reseting level 10 skills, for a price. A skill reset preserves all related professions, and (optionally) forgets all related recipes. The farmer can use this to eventually acquire all 30 professions simultaneously.
 Reseting a skill costs 10,000g the first time, 50,000g the second time, and 100,000g the last time (values are configurable). The ribbon in the skills page of the game menu reflects the number of professions acquired in each skill.
 
-Once the ribbon has reached its fourth stage, signaling that all professions have been obtained, its level cap is raised to 20, allowing the farmer to continue developing tool proficiency or max health. Skill level also affects the odds of higher quality crops and fishes, the amount of berries foraged per bush, and the duration of Super Mode and related perks. Non-vanilla skills at the moment are not supported by prestige.
+Once the ribbon has reached its fourth stage, signaling that all professions have been obtained, its level cap is raised to 20, allowing the farmer to continue developing tool proficiency or max health. Skill level also affects the odds of higher quality crops and fishes, the amount of berries foraged per bush, and the duration of Super Mode and related perks.
  
 At levels 15 and 20, the farmer can choose a profession to prestige, improving one of its base perks, or, in some cases, granting entirely new ones. These choices can later be changed at the Statue of Prestige, for a cost.
 
-All Prestige features are optional and may be disabled or customized in the configs.
+All Prestige features are optional and may be disabled or customized in the configs. Non-vanilla skills at the moment are not supported by prestige.
 
 ## Compatbility
 
@@ -265,9 +269,8 @@ The mod provides the following console commands, which you can enter in the SMAP
 - **player_professions** - List the player's current professions.
 - **player_addprofessions** - Add the specified professions to the local player.
 - **player_resetprofessions** - Reset all skills and professions for the local player.
-- **player_setultvalue** - Set the Super Mode value to the desired number.
-- **player_readyult** - Max-out the Super Mode meter.
-- **player_setultindex** - Change the Super Mode profession to the desired index.
+- **player_readyult** - Max-out the Super Mode meter, or set it to the specified value (between 0 and 100).
+- **player_changeult** - Change the Super Mode profession to the desired profession.
 - **player_whichult** - Check the currently registered Super Mode profession.
 - **player_maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
 - **player_maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.

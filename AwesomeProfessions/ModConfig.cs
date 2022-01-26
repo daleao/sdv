@@ -105,9 +105,6 @@ public class ModConfig
     /// <summary>Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.</summary>
     public bool EnableFishPondRebalance { get; set; } = true;
 
-    /// <summary>Whether to draw UI element bounding boxes.</summary>
-    public bool EnableDebug { get; set; } = false;
-
     /// <summary>Key used by trigger UI debugging events.</summary>
     public KeybindList DebugKey { get; set; } = KeybindList.Parse("LeftControl");
 }

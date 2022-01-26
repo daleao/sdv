@@ -27,8 +27,8 @@ internal class TemporaryAnimatedSpriteCtorPatch : BasePatch
     [HarmonyPostfix]
     private static void TemporaryAnimatedSpriteCtorPostfix(ref TemporaryAnimatedSprite __instance, Farmer owner)
     {
-        if (owner.HasProfession("Demolitionist")) ++__instance.bombRadius;
-        if (owner.HasPrestigedProfession("Demolitionist")) ++__instance.bombRadius;
+        if (owner.HasProfession(Profession.Demolitionist)) ++__instance.bombRadius;
+        if (owner.HasProfession(Profession.Demolitionist, true)) ++__instance.bombRadius;
     }
 
     #endregion harmony patches

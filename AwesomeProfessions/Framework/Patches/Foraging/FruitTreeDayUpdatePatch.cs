@@ -26,7 +26,7 @@ internal class FruitTreeDayUpdatePatch : BasePatch
     [HarmonyPostfix]
     private static void FruitTreeDayUpdatePostfix(ref FruitTree __instance)
     {
-        if (Game1.game1.DoesAnyPlayerHaveProfession("Arborist", out _) &&
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Arborist, out _) &&
             __instance.daysUntilMature.Value % 4 == 0)
             --__instance.daysUntilMature.Value;
     }

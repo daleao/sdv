@@ -20,7 +20,7 @@ internal class HostPeerConnectedEvent : PeerConnectedEvent
         EventManager.Enable(typeof(ToggledSuperModeModMessageReceivedEvent),
             typeof(RequestDataUpdateModMessageReceivedEvent), typeof(RequestGlobalEventEnableModMessageReceivedEvent));
 
-        if (Game1.getFarmer(e.Peer.PlayerID).HasProfession("Conservationist"))
+        if (Game1.getFarmer(e.Peer.PlayerID).HasProfession(Profession.Conservationist))
             EventManager.Enable(typeof(GlobalConservationistDayEndingEvent));
     }
 }

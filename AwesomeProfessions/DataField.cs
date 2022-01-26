@@ -9,5 +9,6 @@ public enum DataField
     ConservationistTrashCollectedThisSeason,
     ConservationistActiveTaxBonusPct,
     ForgottenRecipesDict,
-    SuperModeIndex
+    SuperModeIndex,
+    QualityRatingByFishPond
 }

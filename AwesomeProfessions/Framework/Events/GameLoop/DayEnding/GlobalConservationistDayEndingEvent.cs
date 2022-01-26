@@ -25,7 +25,7 @@ internal class GlobalConservationistDayEndingEvent : DayEndingEvent
 
         if (Game1.dayOfMonth != 28) return;
 
-        foreach (var farmer in Game1.getAllFarmers().Where(f => f.HasProfession("Conservationist")))
+        foreach (var farmer in Game1.getAllFarmers().Where(f => f.HasProfession(Profession.Conservationist)))
         {
             var trashCollectedThisSeason =
                 ModData.ReadAs<uint>(DataField.ConservationistTrashCollectedThisSeason, farmer);

@@ -28,7 +28,7 @@ internal class AnimalHouseAddNewHatchedAnimalPatch : BasePatch
     private static void AnimalHouseAddNewHatchedAnimalPostfix(AnimalHouse __instance)
     {
         var who = Game1.getFarmer(__instance.getBuilding().owner.Value);
-        if (!who.HasProfession("Rancher")) return;
+        if (!who.HasProfession(Profession.Rancher)) return;
 
         var a = __instance.Animals?.Values.Last();
         if (a is null || a.age.Value != 0 || a.friendshipTowardFarmer.Value != 0) return;

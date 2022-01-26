@@ -38,7 +38,7 @@ public static class ModDataDictionaryExtensions
             : defaultValue;
     }
 
-    /// <summary>Write a value to the <see cref="ModDataDictionary" />, or remove the key if supplied with null.</summary>
+    /// <summary>Write a string value to the <see cref="ModDataDictionary" />, or remove the corresponding key if supplied with a null or empty string.</summary>
     /// <param name="data">The <see cref="ModDataDictionary" />.</param>
     /// <param name="key">The dictionary key to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the key.</param>

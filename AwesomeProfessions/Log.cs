@@ -16,7 +16,11 @@ public static class Log
     /// <param name="message">The message.</param>
     public static void D(string message)
     {
-        ModEntry.Log(message, ModEntry.Config.EnableDebug ? LogLevel.Debug : LogLevel.Trace);
+#if DEBUG
+        ModEntry.Log(message, LogLevel.Debug);
+#elif RELEASE
+        ModEntry.Log(message, LogLevel.Trace);
+#endif
     }
 
     /// <summary>Log a message as error.</summary>

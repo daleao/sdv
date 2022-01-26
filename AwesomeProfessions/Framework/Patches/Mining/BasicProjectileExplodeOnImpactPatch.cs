@@ -31,11 +31,11 @@ internal class BasicProjectileExplodeOnImpact : BasePatch
     {
         try
         {
-            if (who is not Farmer farmer || !farmer.HasProfession("Demolitionist"))
+            if (who is not Farmer farmer || !farmer.HasProfession(Profession.Demolitionist))
                 return true; // run original logic
 
             location.explode(new(x / Game1.tileSize, y / Game1.tileSize),
-                farmer.HasPrestigedProfession("Demolitionist") ? 4 : 3, farmer);
+                farmer.HasProfession(Profession.Demolitionist) ? 4 : 3, farmer);
             return false; // don't run original logic
         }
         catch (Exception ex)

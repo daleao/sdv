@@ -163,7 +163,8 @@ internal class CropHarvestPatch : BasePatch
                 .GetLabels(out var labels) // copy existing labels
                 .SetLabels(dontIncreaseNumToHarvest) // branch here if shouldn't apply Harvester bonus
                 .Insert( // insert check if junimoHarvester is null
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
+                    labels,
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4),
                     new CodeInstruction(OpCodes.Brtrue_S, dontIncreaseNumToHarvest)
                 )
                 .InsertProfessionCheckForLocalPlayer((int) Profession.Harvester,
@@ -172,24 +173,19 @@ internal class CropHarvestPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloc_S, r2),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Random).MethodNamed(nameof(Random.NextDouble))),
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.1),
-                    // double chance if prestiged
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, (int) Profession.Harvester + 100),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontDuplicateChance),
+                    new CodeInstruction(OpCodes.Ldc_R8, 0.1)
+                )
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Harvester + 100,
+                    dontDuplicateChance) // double chance if prestiged
+                .Insert(
                     new CodeInstruction(OpCodes.Ldc_R8, 0.1),
                     new CodeInstruction(OpCodes.Add)
                 )
                 .Insert(
-                    new[] { dontDuplicateChance },
+                    new[] {dontDuplicateChance},
                     new CodeInstruction(OpCodes.Bge_Un_S, dontIncreaseNumToHarvest)
                 )
-                .InsertBuffer() // insert numToHarvest++
-                .Return(3) // return to first inserted instruction
-                .SetLabels(labels); // restore original labels to this segment
+                .InsertBuffer(); // insert numToHarvest++
         }
         catch (Exception ex)
         {

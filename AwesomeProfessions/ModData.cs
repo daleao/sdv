@@ -59,9 +59,9 @@ internal static class ModData
                     continue;
                 }
 
-                if (field is DataField.ForgottenRecipesDict or DataField.SuperModeIndex) continue;
+                if (field >= DataField.ForgottenRecipesDict) continue;
 
-                var profession = field.ToString().SplitCamelCase()[0];
+                var profession = Enum.Parse<Profession>(field.ToString().SplitCamelCase()[0]);
                 if (Game1.player.HasProfession(profession)) continue;
 
                 data.Remove(key);
@@ -93,7 +93,7 @@ internal static class ModData
             defaultValue);
     }
 
-    /// <summary>Write to a field in the <see cref="ModDataDictionary" />, or remove the field if supplied with null.</summary>
+    /// <summary>Write to a field in the <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
     /// <param name="who">The farmer whose data should be written.</param>

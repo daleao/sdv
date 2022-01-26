@@ -43,7 +43,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         if (__instance is null) return;
 
         var who = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.IsLocalPlayer || !who.HasProfession("Ecologist")) return;
+        if (!who.IsLocalPlayer || !who.HasProfession(Profession.Ecologist)) return;
 
         ModData.Increment<uint>(DataField.EcologistItemsForaged);
     }
@@ -92,7 +92,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
     private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
     {
         var who = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
-        if (who.IsLocalPlayer && who.HasProfession("Ecologist")) return who.GetEcologistForageQuality();
+        if (who.IsLocalPlayer && who.HasProfession(Profession.Ecologist)) return who.GetEcologistForageQuality();
 
         var sourceMushroomQuality =
             ModEntry.ModHelper.Reflection.GetField<int>(propagator, "SourceMushroomQuality").GetValue();

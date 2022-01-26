@@ -30,9 +30,9 @@ internal class ObjectCtorPatch : BasePatch
     private static void ObjectCtorPostfix(ref SObject __instance)
     {
         var owner = Game1.getFarmer(__instance.owner.Value);
-        if (__instance.IsWildBerry() && owner.HasProfession("Ecologist"))
+        if (__instance.IsWildBerry() && owner.HasProfession(Profession.Ecologist))
             __instance.Edibility =
-                (int) (__instance.Edibility * (owner.HasPrestigedProfession("Ecologist") ? 2f : 1.5f));
+                (int) (__instance.Edibility * (owner.HasProfession(Profession.Ecologist, true) ? 2f : 1.5f));
     }
 
     #endregion harmony patches

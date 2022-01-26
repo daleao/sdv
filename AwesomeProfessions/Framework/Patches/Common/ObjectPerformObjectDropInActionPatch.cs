@@ -79,12 +79,12 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
         // if the machine doesn't belong to this player, then do nothing further
         if (Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID) return;
 
-        if (__instance.name == "Geode Crusher" && who.HasProfession("Gemologist") &&
+        if (__instance.name == "Geode Crusher" && who.HasProfession(Profession.Gemologist) &&
             (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
         {
             __instance.heldObject.Value.Quality = who.GetGemologistMineralQuality();
         }
-        else if (__instance.IsArtisanMachine() && who.HasProfession("Artisan") && dropInItem is SObject dropIn)
+        else if (__instance.IsArtisanMachine() && who.HasProfession(Profession.Artisan) && dropInItem is SObject dropIn)
         {
             // produce cares about input quality with low chance for upgrade
             __instance.heldObject.Value.Quality = dropIn.Quality;
@@ -93,7 +93,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                 __instance.heldObject.Value.Quality +=
                     dropIn.Quality == SObject.highQuality ? 2 : 1;
 
-            if (who.HasPrestigedProfession("Artisan"))
+            if (who.HasProfession(Profession.Artisan, true))
                 __instance.MinutesUntilReady -= __instance.MinutesUntilReady / 4;
             else
                 __instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;

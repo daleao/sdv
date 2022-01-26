@@ -68,10 +68,10 @@ public class ModEntry : Mod
                     LogLevel.Warn);
         }
 
-        if (!Config.EnableDebug) return;
-
+#if DEBUG
         // start FPS counter
         FpsCounter = new(GameRunner.instance);
         helper.Reflection.GetMethod(FpsCounter, "LoadContent").Invoke();
+#endif
     }
 }

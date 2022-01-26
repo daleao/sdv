@@ -45,7 +45,7 @@ internal class ProducerRuleControllerProduceOutputPatch : BasePatch
         if (!output.IsArtisanGood()) return;
 
         if (Context.IsMultiplayer && producer.owner.Value != who.UniqueMultiplayerID ||
-            !who.HasProfession("Artisan"))
+            !who.HasProfession(Profession.Artisan))
         {
             output.Quality = SObject.lowQuality;
             return;
@@ -56,7 +56,7 @@ internal class ProducerRuleControllerProduceOutputPatch : BasePatch
             new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
 
-        if (who.HasPrestigedProfession("Artisan"))
+        if (who.HasProfession(Profession.Artisan, true))
             producer.MinutesUntilReady -= producer.MinutesUntilReady / 4;
         else
             producer.MinutesUntilReady -= producer.MinutesUntilReady / 10;

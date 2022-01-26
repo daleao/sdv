@@ -9,7 +9,6 @@ using StardewValley;
 using Stardew.Common.Harmony;
 using Extensions;
 
-using Professions = Utility.Localization;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -43,7 +42,7 @@ internal class GeodeCrusherMachineSetInputPatch : BasePatch
         if (machine?.heldObject.Value is null) return;
 
         var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.HasProfession("Gemologist") ||
+        if (!who.HasProfession(Profession.Gemologist) ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
         machine.heldObject.Value.Quality = who.GetGemologistMineralQuality();

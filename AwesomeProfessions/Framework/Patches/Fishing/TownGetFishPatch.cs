@@ -54,12 +54,9 @@ internal class TownGetFishPatch : BasePatch
                 .Advance()
                 .AddLabels(checkSeason)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, 4), // arg 4 = Farmer who
-                    new CodeInstruction(OpCodes.Ldstr, "Angler"),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions.HasPrestigedProfession))),
-                    new CodeInstruction(OpCodes.Brfalse_S, skipLegendary)
-                );
+                    new CodeInstruction(OpCodes.Ldarg_S, 4) // arg 4 = Farmer who
+                )
+                .InsertProfessionCheckForPlayerOnStack((int)Profession.Angler + 100, (Label)skipLegendary);
         }
         catch (Exception ex)
         {

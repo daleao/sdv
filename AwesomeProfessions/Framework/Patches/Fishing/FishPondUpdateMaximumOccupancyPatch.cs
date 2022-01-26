@@ -10,6 +10,7 @@ using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 
 using Extensions;
+using Utility;
 
 #endregion using directives
 
@@ -29,13 +30,21 @@ internal class FishPondUpdateMaximumOccupancyPatch : BasePatch
     private static void FishPondUpdateMaximumOccupancyPostfix(ref FishPond __instance,
         FishPondData ____fishPondData)
     {
-        if (__instance is null || ____fishPondData is null) return;
+        if (__instance is null) return;
 
-        var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
-        if (owner.HasProfession("Aquarist") && (____fishPondData.PopulationGates is null ||
-                                                __instance.lastUnlockedPopulationGate.Value >=
-                                                ____fishPondData.PopulationGates.Keys.Max()))
-            __instance.maxOccupants.Set(12);
+        var fishName = __instance.GetFishObject().Name;
+        if (ObjectLookups.LegendaryFishNames.Contains(fishName))
+        {
+            __instance.maxOccupants.Set(6);
+        }
+        else if (____fishPondData is not null)
+        {
+            var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
+            if (owner.HasProfession(Profession.Aquarist) && (____fishPondData.PopulationGates is null ||
+                                                              __instance.lastUnlockedPopulationGate.Value >=
+                                                              ____fishPondData.PopulationGates.Keys.Max()))
+                __instance.maxOccupants.Set(12);
+        }
     }
 
     #endregion harmony patches
