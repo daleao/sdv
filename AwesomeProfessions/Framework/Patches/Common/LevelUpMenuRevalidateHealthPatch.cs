@@ -64,11 +64,14 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
                 pond.UpdateMaximumOccupancy();
                 pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
 
+                if (!ModEntry.Config.EnableFishPondRebalance) return false;
+
                 // revalidate fish pond quality rating
                 var qualityRatingByFishPond = new Dictionary<int, int>();
                 var thisFishPond = pond.GetCenterTile().ToString().GetDeterministicHashCode();
                 qualityRatingByFishPond[thisFishPond] = pond.FishCount; // default to lowest quality = 1
-                ModData.Write(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"), farmer);
+                ModData.WriteIfNotExists(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"),
+                    farmer);
             }
         }
         catch (Exception ex)

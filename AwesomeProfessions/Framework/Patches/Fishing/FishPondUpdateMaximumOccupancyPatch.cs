@@ -40,9 +40,7 @@ internal class FishPondUpdateMaximumOccupancyPatch : BasePatch
         else if (____fishPondData is not null)
         {
             var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
-            if (owner.HasProfession(Profession.Aquarist) && (____fishPondData.PopulationGates is null ||
-                                                              __instance.lastUnlockedPopulationGate.Value >=
-                                                              ____fishPondData.PopulationGates.Keys.Max()))
+            if (owner.HasProfession(Profession.Aquarist) && __instance.HasUnlockedFinalPopulationGate())
                 __instance.maxOccupants.Set(12);
         }
     }

@@ -33,7 +33,7 @@ internal class FishingRodPullFishFromWaterPatch : BasePatch
     [HarmonyPrefix]
     private static bool FishingRodPullFishFromWaterPrefix(FishingRod __instance, ref int fishQuality, bool fromFishPond)
     {
-        if (!fromFishPond) return true; // run original logic
+        if (!ModEntry.Config.EnableFishPondRebalance || !fromFishPond) return true; // run original logic
 
         var who = __instance.getLastFarmerToUse();
         var (x, y) = ModEntry.ModHelper.Reflection.GetMethod(__instance, "calculateBobberTile").Invoke<Vector2>();

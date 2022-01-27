@@ -27,7 +27,10 @@ using SUtility = StardewValley.Utility;
 [UsedImplicitly]
 internal class PondQueryMenuDrawPatch : BasePatch
 {
-    private const float AQUARIST_SLOT_SPACING_F = 12f, REGULAR_SLOT_SPACING_F = 13f;
+    private const float AQUARIST_SLOT_SPACING_F = 12f,
+        REGULAR_SLOT_SPACING_F = 13f,
+        AQUARIST_X_OFFSET_F = 12f,
+        REGULAR_X_OFFSET_F = 32f;
 
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
@@ -192,7 +195,9 @@ internal class PondQueryMenuDrawPatch : BasePatch
                 }
             }
 
-            __instance.drawMouse(b);
+            if (!ModEntry.Config.EnableFishPondRebalance || ___confirmingEmpty)
+                __instance.drawMouse(b);
+
             return false; // don't run original logic
         }
         catch (Exception ex)
@@ -207,15 +212,24 @@ internal class PondQueryMenuDrawPatch : BasePatch
     private static void FishPondQueryMenuDrawPostfix(PondQueryMenu __instance, bool ___confirmingEmpty, float ____age, FishPond ____pond,
         SpriteBatch b)
     {
-        if (___confirmingEmpty) return;
+        if (!ModEntry.Config.EnableFishPondRebalance || ___confirmingEmpty) return;
 
         var (numBestQuality, numHighQuality, numMedQuality) = ____pond.GetAllFishQualities();
         if (numBestQuality == 0 && numHighQuality == 0 && numMedQuality == 0) return;
 
         var who = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
-        var xOffset = who.HasProfession(Profession.Aquarist) ? 12f : 32f;
-        var slotSpacing = who.HasProfession(Profession.Aquarist) ? AQUARIST_SLOT_SPACING_F : REGULAR_SLOT_SPACING_F;
-        
+        float slotSpacing, xOffset;
+        if (who.HasProfession(Profession.Aquarist) && ____pond.HasUnlockedFinalPopulationGate())
+        {
+            slotSpacing = AQUARIST_SLOT_SPACING_F;
+            xOffset = AQUARIST_X_OFFSET_F;
+        }
+        else
+        {
+            slotSpacing = REGULAR_SLOT_SPACING_F;
+            xOffset = REGULAR_X_OFFSET_F;
+        }
+
         var slotsToDraw = ____pond.maxOccupants.Value;
         var x = 0;
         var y = 0;
@@ -251,6 +265,8 @@ internal class PondQueryMenuDrawPatch : BasePatch
             x = 0;
             ++y;
         }
+
+        __instance.drawMouse(b);
     }
 
     #endregion harmony patches

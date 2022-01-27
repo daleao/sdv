@@ -29,6 +29,8 @@ internal class FishPondAddFishToPondPatch : BasePatch
     [HarmonyPostfix]
     private static void FishPondOnFisTypeChangedPostfix(FishPond __instance, SObject fish)
     {
+        if (!ModEntry.Config.EnableFishPondRebalance) return;
+
         var who = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         var qualityRatingByFishPond =
             ModData.Read(DataField.QualityRatingByFishPond, who).ToDictionary<int, int>(",", ";");

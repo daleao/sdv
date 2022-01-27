@@ -3,9 +3,11 @@
 #region using directives
 
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
+using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using StardewValley.Objects;
 
@@ -23,6 +25,13 @@ public static class FishPondExtensions
     private const int ALGAE_INDEX_I = 153;
 
     private static readonly Func<int, double> _productionChanceByValue = x => (double) 14765 / (x + 120) + 1.5;
+
+    public static bool HasUnlockedFinalPopulationGate(this FishPond pond)
+    {
+        var fishPondData = ModEntry.ModHelper.Reflection.GetField<FishPondData>(pond, "_fishPondData").GetValue();
+        return fishPondData?.PopulationGates is null ||
+               pond.lastUnlockedPopulationGate.Value >= fishPondData.PopulationGates.Keys.Max();
+    }
 
     /// <summary>Increase Roe/Ink stack and quality based on population size and average quality.</summary>
     public static void AddBonusRoeAmountAndQuality(this FishPond pond)
@@ -68,6 +77,7 @@ public static class FishPondExtensions
                 produce.preserve.Value = SObject.PreserveType.Roe;
                 produce.preservedParentSheetIndex.Value = pond.fishType.Value;
                 produce.Price += Convert.ToInt32(split[1]) / 2;
+                produce.Stack = bonusStack;
             }
 
             produce.Quality = quality;
