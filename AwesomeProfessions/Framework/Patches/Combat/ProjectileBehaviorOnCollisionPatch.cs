@@ -32,9 +32,9 @@ internal class ProjectileBehaviorOnCollisionPatch : BasePatch
     private static void ProjectileBehaviorOnCollisionPostfix(Projectile __instance, NetInt ___currentTileSheetIndex,
         NetPosition ___position, NetCharacterRef ___theOneWhoFiredMe, GameLocation location)
     {
-        if (__instance is not BasicProjectile basic) return;
+        if (__instance is not BasicProjectile projectile) return;
 
-        var hashCode = basic.GetHashCode();
+        var hashCode = projectile.GetHashCode();
         ModEntry.State.Value.BouncedBullets.Remove(hashCode);
         if (ModEntry.State.Value.AuxiliaryBullets.Remove(hashCode)) return;
 

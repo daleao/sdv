@@ -12,7 +12,12 @@ internal class SuperModeGaugeRenderingHudEvent : RenderingHudEvent
     /// <inheritdoc />
     protected override void OnRenderingHudImpl(object sender, RenderingHudEventArgs e)
     {
-        if (!Game1.eventUp)
-            ModEntry.State.Value.SuperMode.Gauge.Draw(e.SpriteBatch);
+        if (ModEntry.State.Value.SuperMode is null)
+        {
+            Disable();
+            return;
+        }
+
+        if (!Game1.eventUp) ModEntry.State.Value.SuperMode.Gauge.Draw(e.SpriteBatch);
     }
 }

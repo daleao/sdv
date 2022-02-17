@@ -10,6 +10,12 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal class StaticReturnedToTitleEvent : ReturnedToTitleEvent
 {
+    /// <summary>Construct an instance.</summary>
+    internal StaticReturnedToTitleEvent()
+    {
+        Enable();
+    }
+
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object sender, ReturnedToTitleEventArgs e)
     {

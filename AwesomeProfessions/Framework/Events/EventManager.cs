@@ -26,13 +26,13 @@ using Extensions;
 /// <summary>Manages dynamic enabling and disabling of events for modded professions.</summary>
 internal static class EventManager
 {
-    private static readonly Dictionary<string, List<IEvent>> EventsByProfession = new()
+    private static readonly Dictionary<Profession, List<Type>> EventsByProfession = new()
     {
-        {"Conservationist", new() {new GlobalConservationistDayEndingEvent()}},
-        {"Poacher", new() {new PoacherWarpedEvent()}},
-        {"Prospector", new() {new ProspectorHuntDayStartedEvent(), new ProspectorWarpedEvent(), new TrackerButtonsChangedEvent()}},
-        {"Scavenger", new() {new ScavengerHuntDayStartedEvent(), new ScavengerWarpedEvent(), new TrackerButtonsChangedEvent()}},
-        {"Spelunker", new() {new SpelunkerWarpedEvent()}}
+        {Profession.Conservationist, new() {typeof(GlobalConservationistDayEndingEvent)}},
+        {Profession.Piper, new() {typeof(PiperWarpedEvent)}},
+        {Profession.Prospector, new() {typeof(ProspectorHuntDayStartedEvent), typeof(ProspectorWarpedEvent), typeof(TrackerButtonsChangedEvent)}},
+        {Profession.Scavenger, new() {typeof(ScavengerHuntDayStartedEvent), typeof(ScavengerWarpedEvent), typeof(TrackerButtonsChangedEvent)}},
+        {Profession.Spelunker, new() {typeof(SpelunkerWarpedEvent)}}
     };
 
     private static readonly List<IEvent> _events = new();
@@ -73,6 +73,7 @@ internal static class EventManager
         modEvents.Input.CursorMoved += RunCursorMovedEvents;
         modEvents.Multiplayer.ModMessageReceived += RunModMessageReceivedEvents;
         modEvents.Multiplayer.PeerConnected += RunPeerConnectedEvents;
+        modEvents.Multiplayer.PeerDisconnected += RunPeerDisconnectedEvents;
         modEvents.Player.LevelChanged += RunLevelChangedEvents;
         modEvents.Player.Warped += RunWarpedEvents;
 
@@ -140,18 +141,26 @@ internal static class EventManager
         foreach (var professionIndex in Game1.player.professions)
             try
             {
-                EnableAllForProfession(professionIndex.ToProfessionName());
+                EnableAllForProfession((Profession) professionIndex);
             }
             catch (IndexOutOfRangeException)
             {
                 Log.D($"[EventManager]: Unexpected profession index {professionIndex} will be ignored.");
             }
 
-        if (Context.IsMainPlayer)
-            Enable(typeof(HostPeerConnectedEvent), typeof(HostPeerDisconnectedEvent));
-        else if (Context.IsMultiplayer)
+        if (Context.IsMultiplayer)
+        {
+            Log.D("[EventManager] Enabling Multiplayer events...");
             Enable(typeof(ToggledSuperModeModMessageReceivedEvent));
-        
+            if (Context.IsMainPlayer)
+               Enable(typeof(HostPeerConnectedEvent), typeof(HostPeerDisconnectedEvent));
+        }
+
+        Log.D("[EventManager] Enabling other events...");
+        Enable(typeof(MonsterFindPlayerUpdateTickedEvent));
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
+            Enable(typeof(VerifyHudThemeWarpedEvent));
+
         Log.D("[EventManager]: Done enabling local player events.");
     }
 
@@ -168,29 +177,31 @@ internal static class EventManager
     }
 
     /// <summary>Enable all events required by the specified profession.</summary>
-    /// <param name="professionName">A profession name.</param>
-    internal static void EnableAllForProfession(string professionName)
+    /// <param name="profession">A profession.</param>
+    internal static void EnableAllForProfession(Profession profession)
     {
-        if (professionName == "Conservationist" && !Context.IsMainPlayer ||
-            !EventsByProfession.TryGetValue(professionName, out var events)) return;
+        if (profession == Profession.Conservationist && !Context.IsMainPlayer ||
+            !EventsByProfession.TryGetValue(profession, out var events)) return;
 
-        Log.D($"[EventManager]: Enabling events for {professionName}...");
-        Enable(events.Select(e => e.GetType()).ToArray());
+        Log.D($"[EventManager]: Enabling events for {profession}...");
+        Enable(events.ToArray());
+        if (profession == Profession.Piper && Game1.player.currentLocation.IsCombatZone())
+            Enable(typeof(PiperButtonsChangedEvent), typeof(PiperUpdateTickedEvent));
     }
 
     /// <summary>Disable all events related to the specified profession.</summary>
     /// <param name="professionName">A profession name.</param>
-    internal static void DisableAllForProfession(string professionName)
+    internal static void DisableAllForProfession(Profession profession)
     {
-        if (!EventsByProfession.TryGetValue(professionName, out var events)) return;
+        if (!EventsByProfession.TryGetValue(profession, out var events)) return;
 
-        List<IEvent> except = new();
-        if (professionName == "Prospector" && Game1.player.HasProfession(Profession.Scavenger) ||
-            professionName == "Scavenger" && Game1.player.HasProfession(Profession.Prospector))
-            except.Add(new TrackerButtonsChangedEvent());
+        List<Type> except = new();
+        if (profession == Profession.Prospector && Game1.player.HasProfession(Profession.Scavenger) ||
+            profession == Profession.Scavenger && Game1.player.HasProfession(Profession.Prospector))
+            except.Add(typeof(TrackerButtonsChangedEvent));
 
-        Log.D($"[EventManager]: Disabling {professionName} events...");
-        Disable(events.Except(except).Select(e => e.GetType()).ToArray());
+        Log.D($"[EventManager]: Disabling {profession} events...");
+        Disable(events.Except(except).ToArray());
     }
 
 
@@ -242,6 +253,13 @@ internal static class EventManager
     {
         got = Get<T>();
         return got is not null;
+    }
+
+    /// <summary>Check if the specified event type is enabled.</summary>
+    /// <typeparam name="T">A type implementing <see cref="IEvent"/>.</typeparam>
+    internal static bool IsEnabled<T>() where T : IEvent
+    {
+        return TryGet<T>(out var got) && got.IsEnabled;
     }
 
     /// <summary>Enumerate all currently enabled events.</summary>
@@ -346,6 +364,12 @@ internal static class EventManager
             peerConnectedEvent.OnPeerConnected(sender, e);
     }
 
+    private static void RunPeerDisconnectedEvents(object sender, PeerDisconnectedEventArgs e)
+    {
+        foreach (var peerDisconnectedEvent in _events.OfType<PeerDisconnectedEvent>())
+            peerDisconnectedEvent.OnPeerDisconnected(sender, e);
+    }
+
     // player events
     private static void RunLevelChangedEvents(object sender, LevelChangedEventArgs e)
     {
@@ -359,5 +383,5 @@ internal static class EventManager
             warpedEvent.OnWarped(sender, e);
     }
 
-#endregion event runners
+    #endregion event runners
 }

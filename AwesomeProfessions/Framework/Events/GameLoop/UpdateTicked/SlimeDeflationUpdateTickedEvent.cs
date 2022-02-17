@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using StardewModdingAPI.Events;
 
@@ -13,20 +12,8 @@ internal class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        var undeflatedSlimes = ModEntry.State.Value.PipedSlimeScales.Keys.ToList();
-        for (var i = undeflatedSlimes.Count - 1; i >= 0; --i)
-        {
-            undeflatedSlimes[i].Scale = Math.Max(undeflatedSlimes[i].Scale / 1.1f,
-                ModEntry.State.Value.PipedSlimeScales[undeflatedSlimes[i]]);
-            if (!(undeflatedSlimes[i].Scale <= ModEntry.State.Value.PipedSlimeScales[undeflatedSlimes[i]])) continue;
+        foreach (var piped in ModEntry.State.Value.SuperfluidSlimes.Where(p => p.BuffTimer <= 0)) piped.Deflate();
 
-            undeflatedSlimes[i].willDestroyObjectsUnderfoot = false;
-            undeflatedSlimes.RemoveAt(i);
-        }
-
-        if (undeflatedSlimes.Any()) return;
-
-        ModEntry.State.Value.PipedSlimeScales.Clear();
-        Disable();
+        if (!ModEntry.State.Value.SuperfluidSlimes.Any()) Disable();
     }
 }

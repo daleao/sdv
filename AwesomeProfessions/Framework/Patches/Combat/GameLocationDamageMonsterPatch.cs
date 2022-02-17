@@ -49,7 +49,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         var helper = new ILHelper(original, instructions);
 
         /// From: if (who.professions.Contains(<scout_id>) critChance += critChance * 0.5f;
-        /// To: if (who.professions.Contains(<poacher_id>) critChance += 0.1f;
+        /// To: if (who.professions.Contains(<poacher_id>) critChance *= 2f;
 
         try
         {
@@ -62,11 +62,9 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 )
                 .Advance()
                 .Remove() // was Ldarg_S critChance
-                .ReplaceWith( // was Ldc_R4 0.5
-                    new(OpCodes.Ldc_R4, 0.1f)
-                )
-                .Advance()
-                .Remove(); // was Mul
+                .SetOperand(2f) // was 0.5f
+                .Advance(2)
+                .Remove(); // was Add
         }
         catch (Exception ex)
         {
@@ -133,7 +131,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         /// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f;
-        /// To: if (who is not null && crit && who.IsLocalPlayer && SuperMode?.Index == <poacher_id>) ... *= GetPoacherCritDamageMultiplier;
+        /// To: if (who is not null && crit && who.IsLocalPlayer && SuperMode is PoacherColdBlood) ... *= GetPoacherCritDamageMultiplier;
 
         try
         {
@@ -153,28 +151,15 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     new(OpCodes.Brfalse_S, dontIncreaseCritPow) // was Ldc_I4_S <desperado id>
                 )
                 .Advance()
-                .ReplaceWith(
-                    new(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Index))) // was Callvirt NetList.Contains
-                )
+                .Remove(2) // was Callvirt NetList.Contains
                 .Insert(
-                    // check if SuperMode is null
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt, typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseCritPow),
-                    // push SuperMode onto the stack
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(ModState).PropertyGetter(nameof(ModState.SuperMode)))
+                    new CodeInstruction(OpCodes.Isinst, typeof(PoacherColdBlood)),
+                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseCritPow)
                 )
-                .Advance()
-                .Insert(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, (int) SuperModeIndex.Poacher)
-                )
-                .SetOpCode(OpCodes.Bne_Un_S) // was Brfalse_S
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 2f) // desperado critical damage multiplier
                 )
@@ -251,19 +236,24 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             ModEntry.State.Value.SuperMode is not { } superMode) return;
 
         // try to steal
-        if (didCrit && superMode.Index == SuperModeIndex.Poacher &&
-            !ModEntry.State.Value.MonstersStolenFrom.Contains(monster.GetHashCode()) && Game1.random.NextDouble() <
-            (weapon.type.Value == MeleeWeapon.dagger ? 0.5 : 0.25))
+        if (didCrit && superMode is PoacherColdBlood)
         {
-            var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
-                .Concat(monster.getExtraDropItems()).ToList();
-            var stolen = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
-            if (stolen is null || stolen.Name.Contains("Error") || !who.addItemToInventoryBool(stolen)) return;
+            var alreadyStoleFromThisMonster = monster.ReadDataAs<bool>("Stolen");
+            if (!alreadyStoleFromThisMonster &&
+                Game1.random.NextDouble() < (weapon.type.Value == MeleeWeapon.dagger ? 0.5 : 0.25))
+            {
+                var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
+                    .Concat(monster.getExtraDropItems()).ToList();
+                var itemToSteal = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
+                if (itemToSteal is not null && !itemToSteal.Name.Contains("Error") &&
+                    who.addItemToInventoryBool(itemToSteal))
+                {
+                    monster.WriteData("Stolen", bool.TrueString);
 
-            ModEntry.State.Value.MonstersStolenFrom.Add(monster.GetHashCode());
-
-            // play sound effect
-            SoundBox.Play(SFX.PoacherSteal);
+                    // play sound effect
+                    SoundBank.Play(SFX.PoacherSteal);
+                }
+            }
         }
 
         // try to increment Super Mode gauges
@@ -271,37 +261,53 @@ internal class GameLocationDamageMonsterPatch : BasePatch
 
         var increment = 0;
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-        switch (superMode.Index)
+        switch (superMode)
         {
-            case SuperModeIndex.Brute:
+            case BruteFury:
             {
                 increment = 2;
                 if (monster.Health <= 0) increment *= 2;
                 if (weapon.type.Value == MeleeWeapon.club) increment *= 2;
                 break;
             }
-            case SuperModeIndex.Poacher:
+            case PoacherColdBlood:
             {
                 increment = 2;
                 if (didCrit) increment *= (int) critMultiplier;
                 if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
                 break;
             }
-            case SuperModeIndex.Piper:
+            case PiperEubstance when monster.IsSlime() && monster.currentLocation.characters
+                .OfType<Monster>().Any(m => !m.IsSlime()):
             {
+#pragma warning disable CS8509
                 increment = monster switch
+#pragma warning restore CS8509
                 {
                     GreenSlime => 4,
                     BigSlime => 8,
-                    _ => 0
                 };
-                
-                if (monster.Health <= 0) increment *= 2;
+
+                if (monster.Health <= 0)
+                {
+                    increment *= 2;
+                    if (who.HasProfession(Profession.Piper, true))
+                    {
+                        var healed = (int) (who.maxHealth * 0.025f);
+                        who.health = Math.Min(who.health + healed, who.maxHealth);
+                        monster.currentLocation.debris.Add(new(healed,
+                            new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
+
+                        who.Stamina = Math.Min(who.Stamina + who.Stamina * 0.01f, who.MaxStamina);
+                    }
+                }
+
                 break;
             }
         }
 
-        superMode.Gauge.CurrentValue += increment * ModEntry.Config.SuperModeGainFactor * (double) SuperModeGauge.MaxValue / 500;
+        superMode.Gauge.CurrentValue += increment * ModEntry.Config.SuperModeGainFactor *
+            (double) SuperModeGauge.MaxValue / SuperModeGauge.INITIAL_MAX_VALUE_I;
     }
 
     #endregion injected subroutines

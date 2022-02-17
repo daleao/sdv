@@ -7,8 +7,6 @@ using System.Linq;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Extensions;
-
 #endregion using directives
 
 internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent

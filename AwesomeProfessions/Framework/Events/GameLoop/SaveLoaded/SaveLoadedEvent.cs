@@ -16,7 +16,7 @@ internal abstract class SaveLoadedEvent : BaseEvent
     /// <param name="e">The event data.</param>
     public void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
     {
-        if (enabled.Value || GetType().Name.StartsWith("Static")) OnSaveLoadedImpl(sender, e);
+        if (enabled.Value) OnSaveLoadedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnSaveLoaded" />

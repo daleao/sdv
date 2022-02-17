@@ -3,14 +3,15 @@
 #region using directives
 
 using StardewModdingAPI.Events;
+using StardewValley;
 
 #endregion using directives
 
-internal class SuperModeBuffDisplayUpdateTickedEvent : UpdateTickedEvent
+internal class HostPrestigeTreasureHuntUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        ModEntry.State.Value.SuperMode.AddBuff();
+        Game1.gameTimeInterval = 0;
     }
 }

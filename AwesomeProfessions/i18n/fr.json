@@ -130,7 +130,7 @@
   "brute.supermdesc": "Double tous les bonus de dégâts. Immunisé contre l'évanouissement.",
   "poacher.name.male": "Débroussailleur",
   "poacher.name.female": "Débroussailleuse",
-  "poacher.desc": "+10 % de chance de coup critique. Les coups critiques font braconner des objets. Ton sang se refroidit, en augmentant la létalité des coups critiques.",
+  "poacher.desc": "Chance de coup critique ×2. Les coups critiques font braconner des objets. Ton sang se refroidit au combat, en augmentant la létalité des coups critiques.",
   "poacher.desc.prestiged": "Les bonus de chance et puissance des coups critiques, à l'exception des professions, réduisent également le temps de recharge des attaques spéciales.",
   "poacher.buff": "Sang Froid",
   "poacher.buffdesc": "Puissance des coups critiques ×{{magnitude}}.",

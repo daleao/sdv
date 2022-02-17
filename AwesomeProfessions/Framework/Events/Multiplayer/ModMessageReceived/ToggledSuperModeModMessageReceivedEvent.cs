@@ -1,12 +1,12 @@
-﻿using DaLion.Stardew.Professions.Framework.SuperMode;
-
-namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 #region using directives
 
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
+
+using SuperMode;
 
 #endregion using directives
 
@@ -24,17 +24,18 @@ internal class ToggledSuperModeModMessageReceivedEvent : ModMessageReceivedEvent
         switch (e.Type.Split('/')[1])
         {
             case "On":
-                Log.D($"Player {e.FromPlayerID} has enabled Super Mode.");
+                Log.D($"Player {e.FromPlayerID} has activated Super Mode.");
                 ModEntry.State.Value.ActivePeerSuperModes[key].Add(e.FromPlayerID);
                 var glowingColor = key switch
                 {
                     SuperModeIndex.Brute => Color.OrangeRed,
                     SuperModeIndex.Poacher => Color.MediumPurple,
                     SuperModeIndex.Desperado => Color.DarkGoldenrod,
-                    SuperModeIndex.Piper => Color.LimeGreen,
                     _ => Color.White
                 };
-                Game1.getFarmer(e.FromPlayerID).startGlowing(glowingColor, false, 0.05f);
+
+                if (glowingColor != Color.White)
+                    Game1.getFarmer(e.FromPlayerID).startGlowing(glowingColor, false, 0.05f);
                 break;
 
             case "Off":

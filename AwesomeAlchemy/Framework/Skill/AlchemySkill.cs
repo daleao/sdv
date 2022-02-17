@@ -17,7 +17,7 @@ public class AlchemySkill : SpaceCore.Skills.Skill
 
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string GetName()
     {
         return string.Empty;
@@ -40,6 +40,6 @@ public class AlchemySkill : SpaceCore.Skills.Skill
 
     public int GetLevel()
     {
-        return Skills.GetSkillLevel()
+        return Skills.GetSkillLevel();
     }
 }

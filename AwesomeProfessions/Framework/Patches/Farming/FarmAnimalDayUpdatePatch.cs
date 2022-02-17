@@ -12,7 +12,6 @@ using Netcode;
 using StardewValley;
 
 using Stardew.Common.Harmony;
-using Extensions;
 
 #endregion using directives
 
@@ -32,7 +31,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
     ///     produce quality boosts.
     /// </summary>
     [HarmonyTranspiler]
-    protected static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(
+    private static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

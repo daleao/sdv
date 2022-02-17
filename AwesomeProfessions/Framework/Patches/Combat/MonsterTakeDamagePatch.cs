@@ -52,7 +52,7 @@ internal class MonsterTakeDamagePatch : BasePatch
         try
         {
             if (damage <= 0 || isBomb ||
-                ModEntry.State.Value.SuperMode is not {Index: SuperModeIndex.Poacher, IsActive: true} ||
+                ModEntry.State.Value.SuperMode is not PoacherColdBlood {IsActive: true} ||
                 who.CurrentTool is not MeleeWeapon weapon || weapon.isOnSpecial) return true; // run original logic
 
             if (__instance is Bug bug && bug.isArmoredBug.Value &&
@@ -86,7 +86,7 @@ internal class MonsterTakeDamagePatch : BasePatch
     private static void MonsterTakeDamagePostfix(Monster __instance, int damage, bool isBomb, Farmer who)
     {
         if (damage > 0 && !isBomb && who.IsLocalPlayer &&
-            ModEntry.State.Value.SuperMode is {Index: SuperModeIndex.Poacher, IsActive: true} &&
+            ModEntry.State.Value.SuperMode is PoacherColdBlood {IsActive: true} &&
             __instance.Health > 0) ModEntry.State.Value.SuperMode.Deactivate();
     }
 

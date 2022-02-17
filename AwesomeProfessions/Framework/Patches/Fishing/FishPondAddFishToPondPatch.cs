@@ -31,9 +31,9 @@ internal class FishPondAddFishToPondPatch : BasePatch
     {
         if (!ModEntry.Config.EnableFishPondRebalance) return;
 
-        var who = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
+        var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         var qualityRatingByFishPond =
-            ModData.Read(DataField.QualityRatingByFishPond, who).ToDictionary<int, int>(",", ";");
+            ModData.Read(DataField.QualityRatingByFishPond, owner).ToDictionary<int, int>(",", ";");
         var thisFishPond = __instance.GetCenterTile().ToString().GetDeterministicHashCode();
         qualityRatingByFishPond.TryGetValue(thisFishPond, out var currentRating);
         qualityRatingByFishPond[thisFishPond] = currentRating +
@@ -41,7 +41,7 @@ internal class FishPondAddFishToPondPatch : BasePatch
                                                     fish.Quality == SObject.bestQuality
                                                         ? fish.Quality - 1
                                                         : fish.Quality);
-        ModData.Write(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"), who);
+        ModData.Write(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"), owner);
     }
 
     #endregion harmony patches

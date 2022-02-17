@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Stardew.Professions;
 
-public enum DataField
+internal enum DataField
 {
     EcologistItemsForaged,
     GemologistMineralsCollected,

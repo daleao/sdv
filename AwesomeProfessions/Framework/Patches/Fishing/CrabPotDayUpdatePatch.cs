@@ -41,15 +41,15 @@ internal class CrabPotDayUpdatePatch : BasePatch
     {
         try
         {
-            var who = Game1.getFarmerMaybeOffline(__instance.owner.Value);
-            var isConservationist = who?.HasProfession(Profession.Conservationist) == true;
+            var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
+            var isConservationist = owner.HasProfession(Profession.Conservationist);
             if (__instance.bait.Value is null && !isConservationist || __instance.heldObject.Value is not null)
                 return false; // don't run original logic
 
             var r = new Random(Guid.NewGuid().GetHashCode());
             var fishData =
                 Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
-            var isLuremaster = who?.HasProfession(Profession.Luremaster) == true;
+            var isLuremaster = owner.HasProfession(Profession.Luremaster);
             var whichFish = -1;
             if (__instance.bait.Value is not null)
             {
@@ -57,7 +57,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
                 {
                     if (__instance.HasMagnet())
                     {
-                        whichFish = ChoosePirateTreasure(r, who);
+                        whichFish = ChoosePirateTreasure(r, owner);
                     }
                     else if (Game1.random.NextDouble() < CHANCE_TO_CATCH_FISH_D)
                     {
@@ -94,11 +94,11 @@ internal class CrabPotDayUpdatePatch : BasePatch
                     whichFish = GetTrash(r);
                     if (isConservationist)
                     {
-                        ModData.Increment<uint>(DataField.ConservationistTrashCollectedThisSeason, who);
-                        if (who.HasProfession(Profession.Conservationist, true) &&
-                            ModData.ReadAs<uint>(DataField.ConservationistTrashCollectedThisSeason, who) %
+                        ModData.Increment<uint>(DataField.ConservationistTrashCollectedThisSeason, owner);
+                        if (owner.HasProfession(Profession.Conservationist, true) &&
+                            ModData.ReadAs<uint>(DataField.ConservationistTrashCollectedThisSeason, owner) %
                             ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
-                            SUtility.improveFriendshipWithEveryoneInRegion(who, 1, 2);
+                            SUtility.improveFriendshipWithEveryoneInRegion(owner, 1, 2);
                     }
                 }
                 else
@@ -108,10 +108,10 @@ internal class CrabPotDayUpdatePatch : BasePatch
             }
             else
             {
-                fishQuality = GetTrapFishQuality(whichFish, who, r, __instance, isLuremaster);
+                fishQuality = GetTrapFishQuality(whichFish, owner, r, __instance, isLuremaster);
             }
 
-            var fishQuantity = GetTrapFishQuantity(__instance, whichFish, who, r);
+            var fishQuantity = GetTrapFishQuantity(__instance, whichFish, owner, r);
             __instance.heldObject.Value = new(whichFish, fishQuantity, quality: fishQuality);
             __instance.tileIndexToShow = 714;
             __instance.readyForHarvest.Value = true;
@@ -255,14 +255,14 @@ internal class CrabPotDayUpdatePatch : BasePatch
 
     /// <summary>Choose a treasure from the pirate treasure loot table.</summary>
     /// <param name="r">Random number generator.</param>
-    /// <param name="who">The player.</param>
-    private static int ChoosePirateTreasure(Random r, Farmer who)
+    /// <param name="owner">The player.</param>
+    private static int ChoosePirateTreasure(Random r, Farmer owner)
     {
         var keys = ObjectLookups.TrapperPirateTreasureTable.Keys.ToArray();
         SUtility.Shuffle(r, keys);
         foreach (var key in keys)
         {
-            if (key == 890 && !who.team.SpecialOrderRuleActive("DROP_QI_BEANS")) continue;
+            if (key == 890 && !owner.team.SpecialOrderRuleActive("DROP_QI_BEANS")) continue;
 
             if (r.NextDouble() < GetChanceForThisTreasure(key)) return key;
         }
@@ -279,21 +279,21 @@ internal class CrabPotDayUpdatePatch : BasePatch
 
     /// <summary>Get the quality for the chosen catch.</summary>
     /// <param name="whichFish">The chosen catch.</param>
-    /// <param name="who">The owner of the crab pot.</param>
+    /// <param name="owner">The owner of the crab pot.</param>
     /// <param name="r">Random number generator.</param>
-    private static int GetTrapFishQuality(int whichFish, Farmer who, Random r, CrabPot crabpot, bool isLuremaster)
+    private static int GetTrapFishQuality(int whichFish, Farmer owner, Random r, CrabPot crabpot, bool isLuremaster)
     {
         if (isLuremaster && crabpot.HasMagicBait()) return SObject.bestQuality;
 
         var fish = new SObject(whichFish, 1);
-        if (who is null || !who.HasProfession(Profession.Trapper) || fish.IsPirateTreasure() || fish.IsAlgae())
+        if (owner is null || !owner.HasProfession(Profession.Trapper) || fish.IsPirateTreasure() || fish.IsAlgae())
             return SObject.lowQuality;
 
-        return who.HasProfession(Profession.Trapper, true) && r.NextDouble() < who.FishingLevel / 60.0
+        return owner.HasProfession(Profession.Trapper, true) && r.NextDouble() < owner.FishingLevel / 60.0
             ? SObject.bestQuality
-            : r.NextDouble() < who.FishingLevel / 30.0
+            : r.NextDouble() < owner.FishingLevel / 30.0
                 ? SObject.highQuality
-                : r.NextDouble() < who.FishingLevel / 15.0
+                : r.NextDouble() < owner.FishingLevel / 15.0
                     ? SObject.medQuality
                     : SObject.lowQuality;
     }
@@ -301,13 +301,13 @@ internal class CrabPotDayUpdatePatch : BasePatch
     /// <summary>Get initial stack for the chosen stack.</summary>
     /// <param name="crabpot">The crab pot instance.</param>
     /// <param name="whichFish">The chosen fish</param>
-    /// <param name="who">The player.</param>
+    /// <param name="owner">The player.</param>
     /// <param name="r">Random number generator.</param>
-    private static int GetTrapFishQuantity(CrabPot crabpot, int whichFish, Farmer who, Random r)
+    private static int GetTrapFishQuantity(CrabPot crabpot, int whichFish, Farmer owner, Random r)
     {
-        if (who is null) return 1;
+        if (owner is null) return 1;
 
-        return crabpot.HasWildBait() && r.NextDouble() < 0.25 + who.DailyLuck / 2.0
+        return crabpot.HasWildBait() && r.NextDouble() < 0.25 + owner.DailyLuck / 2.0
             ? 2
             : ObjectLookups.TrapperPirateTreasureTable.TryGetValue(whichFish, out var treasureData)
                 ? r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1)

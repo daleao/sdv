@@ -12,6 +12,7 @@ public static class Localization
     /// <summary>Get the localized pronoun for the currently registered Super Mode buff.</summary>
     public static string GetBuffPronoun()
     {
+        // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
         switch (LocalizedContentManager.CurrentLanguageCode)
         {
             case LocalizedContentManager.LanguageCode.es:
@@ -20,8 +21,7 @@ public static class Localization
             case LocalizedContentManager.LanguageCode.fr:
             case LocalizedContentManager.LanguageCode.pt:
                 return ModEntry.ModHelper.Translation.Get("pronoun.definite" +
-                                                          (ModEntry.State.Value.SuperMode.Index ==
-                                                           SuperModeIndex.Poacher
+                                                          (ModEntry.State.Value.SuperMode is PoacherColdBlood
                                                               ? ".male"
                                                               : ".female"));
 

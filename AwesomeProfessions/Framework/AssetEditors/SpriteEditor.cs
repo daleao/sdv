@@ -12,7 +12,7 @@ using StardewModdingAPI.Utilities;
 #endregion using directives
 
 /// <summary>Edits <c>LooseSprites/Cursors</c> and <c>TileSheets/BuffIcons</c> with new profession icons.</summary>
-public class IconEditor : IAssetEditor
+public class SpriteEditor : IAssetEditor
 {
     private readonly Texture2D _tileSheet =
         ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "sprites", "tilesheet.png"));

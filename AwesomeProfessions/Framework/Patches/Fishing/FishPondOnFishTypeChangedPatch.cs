@@ -28,12 +28,12 @@ internal class FishPondOnFishTypeChangedPatch : BasePatch
     {
         if (!ModEntry.Config.EnableFishPondRebalance) return;
 
-        var who = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
+        var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         var qualityRatingByFishPond =
-            ModData.Read(DataField.QualityRatingByFishPond, who).ToDictionary<int, int>(",", ";");
+            ModData.Read(DataField.QualityRatingByFishPond, owner).ToDictionary<int, int>(",", ";");
         var thisFishPond = __instance.GetCenterTile().ToString().GetDeterministicHashCode();
-        qualityRatingByFishPond.Remove(thisFishPond);
-        ModData.Write(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"), who);
+        if (qualityRatingByFishPond.Remove(thisFishPond))
+            ModData.Write(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"), owner);
     }
 
     #endregion harmony patches

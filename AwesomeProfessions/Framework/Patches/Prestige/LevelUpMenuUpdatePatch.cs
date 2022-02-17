@@ -306,7 +306,16 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 if (answer == "Yes")
                 {
                     var newIndex = (SuperModeIndex) chosenProfession;
-                    ModEntry.State.Value.SuperMode = new(newIndex);
+                    ModEntry.State.Value.SuperMode =
+#pragma warning disable CS8509
+                        ModEntry.State.Value.SuperMode = newIndex switch
+#pragma warning restore CS8509
+                        {
+                            SuperModeIndex.Brute => new BruteFury(),
+                            SuperModeIndex.Poacher => new PoacherColdBlood(),
+                            SuperModeIndex.Piper => new PiperEubstance(),
+                            SuperModeIndex.Desperado => new DesperadoTemerity()
+                        };
                     ModData.Write(DataField.SuperModeIndex, newIndex.ToString());
                 }
 

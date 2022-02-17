@@ -15,15 +15,15 @@ internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
     /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object sender, ButtonsChangedEventArgs e)
     {
-        if (ModEntry.Config.Modkey.JustPressed())
+        if (ModEntry.Config.ModKey.JustPressed())
         {
-            EventManager.Enable(typeof(IndicatorUpdateTickedEvent), typeof(TrackerRenderedHudEvent));
+            EventManager.Enable(typeof(PointerUpdateTickedEvent), typeof(TrackerRenderedHudEvent));
         }
-        else if (ModEntry.Config.Modkey.GetState() == SButtonState.Released)
+        else if (ModEntry.Config.ModKey.GetState() == SButtonState.Released)
         {
             EventManager.Disable(typeof(TrackerRenderedHudEvent));
             if (!ModEntry.State.Value.ProspectorHunt.IsActive && !ModEntry.State.Value.ScavengerHunt.IsActive)
-                EventManager.Disable(typeof(IndicatorUpdateTickedEvent));
+                EventManager.Disable(typeof(PointerUpdateTickedEvent));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.Automate;
 
 #region using directives
 
@@ -47,13 +47,13 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
             var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
             if (machine?.heldObject.Value is null) return true; // run original logic
 
-            var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-            if (!who.HasProfession(Profession.Ecologist)) return true; // run original logic
+            var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
+            if (!owner.HasProfession(Profession.Ecologist)) return true; // run original logic
 
-            machine.heldObject.Value.Quality = who.GetEcologistForageQuality();
+            machine.heldObject.Value.Quality = owner.GetEcologistForageQuality();
             if (!ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic
 
-            ModData.Increment<uint>(DataField.EcologistItemsForaged, who);
+            ModData.Increment<uint>(DataField.EcologistItemsForaged, owner);
             return true; // run original logic
         }
         catch (Exception ex)

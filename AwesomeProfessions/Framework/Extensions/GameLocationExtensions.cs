@@ -18,10 +18,10 @@ using SUtility = StardewValley.Utility;
 
 #endregion using directives
 
-public static class GameLocationExtensions
+internal static class GameLocationExtensions
 {
-    /// <summary>Whether any farmer in the game location has a specific profession.</summary>
-    /// <param name="professionName">The name of the profession.</param>
+    /// <summary>Whether any farmer in this location has a specific profession.</summary>
+    /// <param name="profession">The profession.</param>
     public static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, Profession profession)
     {
         if (!Context.IsMultiplayer && location.Equals(Game1.currentLocation))
@@ -29,8 +29,8 @@ public static class GameLocationExtensions
         return location.farmers.Any(farmer => farmer.HasProfession(profession));
     }
 
-    /// <summary>Whether any farmer in the game location has a specific profession.</summary>
-    /// <param name="professionName">The name of the profession.</param>
+    /// <summary>Whether any farmer in this location has a specific profession.</summary>
+    /// <param name="profession">The profession.</param>
     /// <param name="farmers">All the farmer instances in the location with the given profession.</param>
     public static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, Profession profession,
         out IList<Farmer> farmers)
@@ -46,7 +46,7 @@ public static class GameLocationExtensions
         return farmers.Any();
     }
 
-    /// <summary>Get the raw fish data for the game location and current game season.</summary>
+    /// <summary>Get the raw fish data for this location during the current game season.</summary>
     public static string[] GetRawFishDataForCurrentSeason(this GameLocation location)
     {
         var locationData =
@@ -55,7 +55,7 @@ public static class GameLocationExtensions
             .Split(' ');
     }
 
-    /// <summary>Get the raw fish data for the game location and all seasons.</summary>
+    /// <summary>Get the raw fish data for this location including all seasons.</summary>
     public static string[] GetRawFishDataForAllSeasons(this GameLocation location)
     {
         var locationData =
@@ -70,17 +70,18 @@ public static class GameLocationExtensions
         return allSeasonFish.ToArray();
     }
 
-    /// <summary>Whether the game location can spawn enemies.</summary>
-    public static bool IsCombatZone(this GameLocation location)
+    /// <summary>Whether this location can spawn enemies.</summary>
+    public static bool IsCombatZone(this GameLocation location, bool dungeonsOnly = false)
     {
-        return location is MineShaft or Woods or VolcanoDungeon ||
-               location.NameOrUniqueName.ContainsAnyOf("CrimsonBadlands", "DeepWoods", "RidgeForest",
-                   "SpiritRealm") || location.characters.OfType<Monster>().Any();
+        return location is MineShaft shaft && !shaft.IsTreasureOrSafeRoom() ||
+               location is Woods or IslandSecret or IslandWest or VolcanoDungeon ||
+               location.NameOrUniqueName.ContainsAnyOf("CrimsonBadlands", "DeepWoods", "RidgeForest", "SpiritRealm",
+                   "AsteroidsDungeon") ||
+               !dungeonsOnly && location.characters.OfType<Monster>().Any() && location is not SlimeHutch;
     }
 
     /// <summary>Check if a tile on a map is valid for spawning diggable treasure.</summary>
     /// <param name="tile">The tile to check.</param>
-    /// <param name="location">The game location.</param>
     public static bool IsTileValidForTreasure(this GameLocation location, Vector2 tile)
     {
         return (!location.objects.TryGetValue(tile, out var o) || o == null) &&
@@ -94,7 +95,6 @@ public static class GameLocationExtensions
 
     /// <summary>Check if a tile is clear of debris.</summary>
     /// <param name="tile">The tile to check.</param>
-    /// <param name="location">The game location.</param>
     public static bool IsTileClearOfDebris(this GameLocation location, Vector2 tile)
     {
         return (from debris in location.debris
@@ -105,12 +105,12 @@ public static class GameLocationExtensions
 
     /// <summary>Force a tile to be affected by the hoe.</summary>
     /// <param name="tile">The tile to change.</param>
-    /// <param name="location">The game location.</param>
     public static bool MakeTileDiggable(this GameLocation location, Vector2 tile)
     {
-        if (location.doesTileHaveProperty((int) tile.X, (int) tile.Y, "Diggable", "Back") is not null) return true;
+        var (x, y) = tile;
+        if (location.doesTileHaveProperty((int) x, (int) y, "Diggable", "Back") is not null) return true;
 
-        var digSpot = new Location((int) tile.X * Game1.tileSize, (int) tile.Y * Game1.tileSize);
+        var digSpot = new Location((int) x * Game1.tileSize, (int) y * Game1.tileSize);
         location.Map.GetLayer("Back").PickTile(digSpot, Game1.viewport.Size).Properties["Diggable"] = true;
         return false;
     }

@@ -60,7 +60,7 @@ internal class GameLocationPerformActionPatch : BasePatch
             if (who.HasAllProfessions() && !ModEntry.State.Value.UsedDogStatueToday)
             {
                 message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.what");
-                Response[] options = Array.Empty<Response>();
+                var options = Array.Empty<Response>();
 
                 if (ModEntry.State.Value.SuperMode is not null)
                     options = options.Concat(new Response[]

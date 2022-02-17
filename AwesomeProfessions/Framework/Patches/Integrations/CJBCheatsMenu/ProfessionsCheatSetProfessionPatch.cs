@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.CJBCheatsMenu;
 
 #region using directives
 
@@ -11,7 +11,6 @@ using JetBrains.Annotations;
 using StardewValley;
 
 using Stardew.Common.Harmony;
-using Extensions;
 
 #endregion using directives
 

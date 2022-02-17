@@ -19,11 +19,8 @@
 	<Import Project="..\Common\Common.projitems" Label="Shared" Condition="Exists('..\Common\Common.projitems')" />
 
 	<ItemGroup>
-		<Compile Remove="Framework\Patches\Integrations\NewFolder\**" />
 		<Compile Remove="resources\**" />
-		<EmbeddedResource Remove="Framework\Patches\Integrations\NewFolder\**" />
 		<EmbeddedResource Remove="resources\**" />
-		<None Remove="Framework\Patches\Integrations\NewFolder\**" />
 		<None Remove="resources\**" />
 	</ItemGroup>
 </Project>

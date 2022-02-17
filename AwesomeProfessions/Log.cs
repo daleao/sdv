@@ -1,6 +1,12 @@
-﻿namespace DaLion.Stardew.Professions;
+﻿using System.Diagnostics;
+
+namespace DaLion.Stardew.Professions;
+
+#region using directives
 
 using StardewModdingAPI;
+
+#endregion using directives
 
 /// <summary>Wrapper for SMAPI's <see cref="IMonitor.Log"/>.</summary>
 public static class Log
@@ -14,13 +20,10 @@ public static class Log
 
     /// <summary>Log a message as debug.</summary>
     /// <param name="message">The message.</param>
+    [Conditional("DEBUG")]
     public static void D(string message)
     {
-#if DEBUG
         ModEntry.Log(message, LogLevel.Debug);
-#elif RELEASE
-        ModEntry.Log(message, LogLevel.Trace);
-#endif
     }
 
     /// <summary>Log a message as error.</summary>

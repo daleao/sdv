@@ -17,6 +17,12 @@ using SuperMode;
 [UsedImplicitly]
 internal class StaticSaveLoadedEvent : SaveLoadedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    internal StaticSaveLoadedEvent()
+    {
+        Enable();
+    }
+
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object sender, SaveLoadedEventArgs e)
     {
@@ -53,7 +59,19 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
         }
 
         // initialize Super Mode
-        if (superModeIndex > SuperModeIndex.None) ModEntry.State.Value.SuperMode = new(superModeIndex);
+        if (superModeIndex > SuperModeIndex.None)
+        {
+            ModEntry.State.Value.SuperMode =
+#pragma warning disable CS8509
+                ModEntry.State.Value.SuperMode = superModeIndex switch
+#pragma warning restore CS8509
+                {
+                    SuperModeIndex.Brute => new BruteFury(),
+                    SuperModeIndex.Poacher => new PoacherColdBlood(),
+                    SuperModeIndex.Piper => new PiperEubstance(),
+                    SuperModeIndex.Desperado => new DesperadoTemerity()
+                };
+        }
 
         // check for prestige achievements
         if (!Game1.player.HasAllProfessions()) return;

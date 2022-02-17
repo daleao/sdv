@@ -10,7 +10,7 @@ using ObjectLookups = Utility.ObjectLookups;
 
 #endregion using directives
 
-public static class CrabPotExtensions
+internal static class CrabPotExtensions
 {
     /// <summary>Whether the crab pot instance is using magnet as bait.</summary>
     public static bool HasMagnet(this CrabPot crabpot)

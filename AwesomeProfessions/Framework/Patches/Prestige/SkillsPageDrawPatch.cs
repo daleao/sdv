@@ -14,8 +14,8 @@ using StardewValley;
 using StardewValley.Menus;
 
 using Stardew.Common.Harmony;
-using AssetLoaders;
 using Extensions;
+using Utility;
 
 #endregion using directives
 

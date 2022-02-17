@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
@@ -11,6 +12,7 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
+using StardewValley.TerrainFeatures;
 
 using Stardew.Common.Harmony;
 using Extensions;
@@ -30,13 +32,22 @@ internal class Game1DrawHUDPatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch for Prospector to track ladders and shafts.</summary>
+    /// <summary>Patch for Prospector to track ladders and shafts + Scavenger to track berry bushes.</summary>
     [HarmonyPostfix]
     private static void Game1DrawHUDPostfix()
     {
-        if (!Game1.player.HasProfession(Profession.Prospector) || Game1.currentLocation is not MineShaft shaft) return;
-        foreach (var tile in shaft.GetLadderTiles())
-            ModEntry.State.Value.Pointer.DrawAsTrackingPointer(tile, Color.Lime);
+        // track ladders and shafts as Prospector
+        if (Game1.player.HasProfession(Profession.Prospector) && Game1.currentLocation is MineShaft shaft)
+            foreach (var tile in shaft.GetLadderTiles())
+                ModEntry.State.Value.Pointer.DrawAsTrackingPointer(tile, Color.Lime);
+        
+        // track berry bushes as Scavenger
+        else if (Game1.player.HasProfession(Profession.Scavenger) && Game1.currentLocation is {IsOutdoors: true} outdoors)
+            foreach (var bush in outdoors.largeTerrainFeatures.OfType<Bush>().Where(b =>
+                         !b.townBush.Value && b.tileSheetOffset.Value == 1 &&
+                         b.inBloom(Game1.GetSeasonForLocation(outdoors), Game1.dayOfMonth)))
+                ModEntry.State.Value.Pointer.DrawAsTrackingPointer(bush.tilePosition.Value, Color.Yellow);
+
     }
 
     /// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>

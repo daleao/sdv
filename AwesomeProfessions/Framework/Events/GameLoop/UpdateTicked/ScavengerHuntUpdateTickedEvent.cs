@@ -3,6 +3,9 @@
 #region using directives
 
 using StardewModdingAPI.Events;
+using StardewValley;
+
+using Extensions;
 
 #endregion using directives
 
@@ -12,5 +15,6 @@ internal class ScavengerHuntUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
         ModEntry.State.Value.ScavengerHunt.Update(e.Ticks);
+        if (Game1.player.HasProfession(Profession.Scavenger, true)) Game1.gameTimeInterval = 0;
     }
 }

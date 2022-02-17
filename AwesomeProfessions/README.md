@@ -162,7 +162,7 @@ The Combat tree has received a much more extensive overhaul. In addition to thei
 - **Slimed Piper / Slime Enchantress - Superfluidity** - Engorge and empower nearby Slimes.
   - Slimes scale up by a random factor up to twice their original size, with a proportional damage boost. Slimes that grow large enough can hit even flying enemies, and break up into baby Slimes when defeated. Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant. Big Slimes in the area explode immediately.
 
-Once all 20 professions have been acquired, the Statue of Prestige may be used to switch Super Modes at will.
+Once all 30 professions have been acquired, the Statue of Prestige may be used to switch Super Modes at will.
 
 Super Modes can be disabled in the configs if desired.
 

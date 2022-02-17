@@ -217,9 +217,9 @@ internal class PondQueryMenuDrawPatch : BasePatch
         var (numBestQuality, numHighQuality, numMedQuality) = ____pond.GetAllFishQualities();
         if (numBestQuality == 0 && numHighQuality == 0 && numMedQuality == 0) return;
 
-        var who = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
+        var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
         float slotSpacing, xOffset;
-        if (who.HasProfession(Profession.Aquarist) && ____pond.HasUnlockedFinalPopulationGate())
+        if (owner.HasProfession(Profession.Aquarist) && ____pond.HasUnlockedFinalPopulationGate())
         {
             slotSpacing = AQUARIST_SLOT_SPACING_F;
             xOffset = AQUARIST_X_OFFSET_F;
@@ -260,7 +260,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
                 0f, new(4f, 4f), 3f * 0.75f * (1f + yOffset), SpriteEffects.None, 0.9f);
 
             ++x;
-            if (x != (who.HasProfession(Profession.Aquarist) ? 6 : 5)) continue;
+            if (x != (owner.HasProfession(Profession.Aquarist) ? 6 : 5)) continue;
 
             x = 0;
             ++y;

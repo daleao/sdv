@@ -22,7 +22,7 @@ internal class GreenSlimeDrawPatch : BasePatch
     /// <summary>Construct an instance.<w/ summary>
     internal GreenSlimeDrawPatch()
     {
-        Original = null;
+        //Original = RequireMethod<GreenSlime>(nameof(GreenSlime.draw));
     }
 
     #region harmony patches

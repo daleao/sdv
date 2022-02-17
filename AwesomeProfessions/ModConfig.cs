@@ -10,7 +10,7 @@ using StardewModdingAPI.Utilities;
 public class ModConfig
 {
     /// <summary>Mod key used by Prospector and Scavenger professions.</summary>
-    public KeybindList Modkey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+    public KeybindList ModKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
     /// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
     public uint ForagesNeededForBestQuality { get; set; } = 500;
@@ -42,6 +42,9 @@ public class ModConfig
     /// <summary>Toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
     public bool EnableGetExcited { get; set; } = true;
 
+    /// <summary>If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.</summary>
+    public float AnglerMultiplierCeiling { get; set; } = 1f;
+
     /// <summary>You must collect this many junk items from crab pots for every 1% of tax deduction next season.</summary>
     public uint TrashNeededPerTaxLevel { get; set; } = 100;
 
@@ -54,7 +57,7 @@ public class ModConfig
     /// <summary>Required to allow Super Mode activation. Super Stat continues to apply.</summary>
     public bool EnableSuperMode { get; set; } = true;
 
-    /// <summary>Mod key used to activate Super Mode. Can be the same as <see cref="Modkey" />.</summary>
+    /// <summary>Mod key used to activate Super Mode. Can be the same as <see cref="ModKey" />.</summary>
     public KeybindList SuperModeKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
     /// <summary>Whether Super Mode is activated on <see cref="SuperModeKey" /> hold (as opposed to press).</summary>
@@ -96,7 +99,7 @@ public class ModConfig
     /// <summary>Monetary cost of changing the combat Super Mode. Set to 0 to change for free.</summary>
     public uint ChangeUltCost { get; set; } = 0;
 
-    /// <summary>Enable if using the Vintage Interface mod.</summary>
+    /// <summary>Enable if using the Vintage Interface v2 mod.</summary>
     public bool UseVintageInterface { get; set; } = false;
 
     /// <summary>The visual style for different honey mead icons, if using BetterArtisanGoodIcons. Allowed values: 'ColoredBottles', 'ColoredCaps'.</summary>
@@ -104,6 +107,12 @@ public class ModConfig
 
     /// <summary>Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.</summary>
     public bool EnableFishPondRebalance { get; set; } = true;
+
+    /// <summary>Replicates SVE's config setting of the same name.</summary>
+    public bool UseGaldoranhemeAllTimes { get; set; } = false;
+    
+    /// <summary>Replicates SVE's config setting of the same name.</summary>
+    public bool DisableGaldoranTheme { get; set; } = false;
 
     /// <summary>Key used by trigger UI debugging events.</summary>
     public KeybindList DebugKey { get; set; } = KeybindList.Parse("LeftControl");

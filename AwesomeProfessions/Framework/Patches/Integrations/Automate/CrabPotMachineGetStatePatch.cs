@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.Automate;
 
 #region using directives
 
@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Stardew.Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
-using Stardew.Common.Harmony;
 
 #endregion using directives
 

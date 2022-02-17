@@ -49,15 +49,11 @@ internal class ProjectileUpdatePatch : BasePatch
 
         // check if firer is has Desperado Super Mode
         var firer = ___theOneWhoFiredMe.Get(Game1.currentLocation) is Farmer farmer ? farmer : Game1.player;
-        if (!firer.IsLocalPlayer || ModEntry.State.Value.SuperMode?.Index != SuperModeIndex.Desperado) return;
+        if (!firer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not DesperadoTemerity) return;
 
         // check for powered bullet
-        var bulletPower = firer.GetDesperadoBulletPower() - 1f;
+        var bulletPower = firer.GetDesperadoShootingPower() - 1f;
         if (bulletPower <= 0f) return;
-
-        // check if current power makes a difference for cross section
-        var originalHitbox = __instance.getBoundingBox();
-        if (originalHitbox.Width * bulletPower < 1f) return;
 
         // check if already collided
         if (__result)
@@ -75,6 +71,7 @@ internal class ProjectileUpdatePatch : BasePatch
         if (angle > 180) angle -= 360;
 
         // check for extended collision
+        var originalHitbox = __instance.getBoundingBox();
         var newHitbox = new Rectangle(originalHitbox.X, originalHitbox.Y, originalHitbox.Width, originalHitbox.Height);
         var isBulletTravelingVertically = Math.Abs(angle) is >= 45 and <= 135;
         if (isBulletTravelingVertically)

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
 
-using AssetLoaders;
+using Utility;
 
 #endregion using directives
 

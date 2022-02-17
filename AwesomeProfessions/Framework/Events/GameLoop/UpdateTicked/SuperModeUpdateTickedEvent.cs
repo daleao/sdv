@@ -6,11 +6,11 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-internal class IndicatorUpdateTickedEvent : UpdateTickedEvent
+internal class SuperModeUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        ModEntry.State.Value.Pointer.Update(e.Ticks);
+        if (ModEntry.Config.SuperModeKey.IsDown()) ModEntry.State.Value.SuperMode.Update();
     }
 }

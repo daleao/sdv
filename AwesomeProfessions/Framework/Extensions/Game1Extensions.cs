@@ -8,7 +8,7 @@ using StardewValley;
 
 #endregion using directives
 
-public static class Game1Extensions
+internal static class Game1Extensions
 {
     /// <summary>Whether any farmer in the current game session has a specific profession.</summary>
     /// <param name="professionName">The name of the profession.</param>

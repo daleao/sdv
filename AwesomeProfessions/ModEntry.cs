@@ -46,11 +46,12 @@ public class ModEntry : Mod
         // apply harmony patches
         PatchManager.ApplyAll(Manifest.UniqueID);
 
-        // edit game sprites
-        helper.Content.AssetEditors.Add(new IconEditor());
-        
+        // register asset editors / loaders
+        helper.Content.AssetEditors.Add(new SpriteEditor());
+        helper.Content.AssetLoaders.Add(new TextureLoader());
+
         // load sound effects
-        SoundBox.Load(helper.DirectoryPath);
+        SoundBank.LoadCollection(helper.DirectoryPath);
 
         // add debug commands
         ConsoleCommands.Register(helper.ConsoleCommands);

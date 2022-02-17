@@ -6,7 +6,7 @@ using System;
 
 #endregion using directives
 
-public static class StringExtensions
+internal static class StringExtensions
 {
     /// <summary>Get the index of a given profession by name.</summary>
     public static int ToProfessionIndex(this string professionName)

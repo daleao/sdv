@@ -49,27 +49,23 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
             var damageToMonster =
                 (int) (__instance.damageToFarmer.Value * GetRascalBonusDamageForTravelTime(___travelTime));
 
-            var hasTemerity = ModEntry.State.Value.SuperMode?.Index == SuperModeIndex.Desperado;
-            var bulletPower = firer.GetDesperadoBulletPower();
+            var hasTemerity = firer.IsLocalPlayer && ModEntry.State.Value.SuperMode is DesperadoTemerity;
+            var bulletPower = hasTemerity ? firer.GetDesperadoShootingPower() : 1f;
             if (hasTemerity && Game1.random.NextDouble() < (bulletPower - 1) / 2)
                 ModEntry.State.Value.PiercedBullets.Add(__instance.GetHashCode());
             else
                 ModEntry.ModHelper.Reflection.GetMethod(__instance, "explosionAnimation")?.Invoke(location);
 
-            var knockbackModifier =
-                firer.IsLocalPlayer && hasTemerity
-                    ? bulletPower
-                    : 1f;
             location.damageMonster(monster.GetBoundingBox(), damageToMonster, damageToMonster + 1, false,
-                knockbackModifier, 0, 0f, 1f, false, firer);
+                bulletPower, 0, 0f, 1f, false, firer);
 
             // check for trick shot
             if (!ModEntry.State.Value.BouncedBullets.Remove(__instance.GetHashCode())) return false; // don't run original logic
 
             // give a bonus to Desperados
             if (hasTemerity)
-                ModEntry.State.Value.SuperMode.Gauge.CurrentValue += 8 * ModEntry.Config.SuperModeGainFactor *
-                    (double) SuperModeGauge.MaxValue / 500;
+                ModEntry.State.Value.SuperMode.Gauge.CurrentValue += 6 * ModEntry.Config.SuperModeGainFactor *
+                    (double) SuperModeGauge.MaxValue / SuperModeGauge.INITIAL_MAX_VALUE_I;
 
             // stun if prestiged Rascal
             if (!firer.HasProfession(Profession.Rascal, true)) return false; // don't run original logic

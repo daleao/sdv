@@ -11,7 +11,6 @@ using JetBrains.Annotations;
 using StardewValley.Events;
 
 using Stardew.Common.Harmony;
-using Extensions;
 
 #endregion using directives
 

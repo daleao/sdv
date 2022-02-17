@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using Netcode;
 using StardewValley;
 
 using Stardew.Common.Harmony;

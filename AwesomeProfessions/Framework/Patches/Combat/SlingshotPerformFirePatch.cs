@@ -11,7 +11,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
@@ -62,7 +61,7 @@ internal class SlingshotPerformFirePatch : BasePatch
         var velocity = new Vector2(xVelocity * -1f, yVelocity * -1f);
         var speed = velocity.Length();
         velocity.Normalize();
-        if (who.IsLocalPlayer && ModEntry.State.Value.SuperMode is {Index: SuperModeIndex.Poacher, IsActive: true})
+        if (who.IsLocalPlayer && ModEntry.State.Value.SuperMode is PoacherColdBlood {IsActive: true})
         {
             // do Death Blossom
             for (var i = 0; i < 7; ++i)
@@ -134,27 +133,22 @@ internal class SlingshotPerformFirePatch : BasePatch
     /// <summary>Patch to increment Desperado Temerity gauge + add Desperado quick fire projectile velocity bonus.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> SlingshotPerformFireTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: if (who.IsLocalPlayer && location.IsCombatZone() && SuperMode.Index == <desperado_id> && !IsSuperModeActive)
-        ///				v *= GetDesperadoBulletPower();
-        ///				if (Game1.currentTime.TotalGameTime.TotalSeconds - this.pullStartTime <= GetDesperadoChargeTime()* breathingRoom) { SuperModeCounter += 8; }
-        ///				else { SuperModeCounter += 2 }
+        /// Injected: PerformFireSubroutine(this, damage, velocityTowardPoint, location, who)
         /// Before: if (ammunition.Category == -5) collisionSound = "slimedead";
 
-        var notQuickShot = iLGenerator.DefineLabel();
-        var resumeExecution = iLGenerator.DefineLabel();
-        var chargeTime = iLGenerator.DeclareLocal(typeof(TimeSpan));
         try
         {
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Stloc_S, $"{typeof(int)} (5)")
                 )
+                .GetOperand(out var damage)
                 .FindNext(
-                    new CodeInstruction(OpCodes.Ldloca_S)
+                    new CodeInstruction(OpCodes.Ldloca_S, $"{typeof(Vector2)} (3)")
                 )
                 .GetOperand(out var velocity) // copy reference to local 3 = v (velocity)
                 .FindFirst( // find index of ammunition.Category
@@ -166,148 +160,15 @@ internal class SlingshotPerformFirePatch : BasePatch
                 .Insert(
                     // restore backed-up labels
                     labels,
-                    // check if who.IsLocalPlayer)
-                    new CodeInstruction(OpCodes.Ldarg_2), // arg 2 = Farmer who
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // check if location.IsCombatZone
+                    // load arguments
+                    new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Slingshot instance
+                    new CodeInstruction(OpCodes.Ldloca_S, damage),
+                    new CodeInstruction(OpCodes.Ldloca_S, velocity),
                     new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = GameLocation location
+                    new CodeInstruction(OpCodes.Ldarg_2), // arg 2 = Farmer who
                     new CodeInstruction(OpCodes.Call,
-                        typeof(GameLocationExtensions).MethodNamed(nameof(GameLocationExtensions.IsCombatZone))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // check if SuperMode is null
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // check if SuperMode.Index == <desperado_id>
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Index))),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, (int)SuperModeIndex.Desperado),
-                    new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution),
-                    // check if SuperMode.IsActive
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.IsActive))),
-                    new CodeInstruction(OpCodes.Brtrue_S, resumeExecution),
-                    // v.X *= GetDesperadoBulletPower()
-                    new CodeInstruction(OpCodes.Ldloca_S, velocity),
-                    new CodeInstruction(OpCodes.Ldflda,
-                        typeof(Vector2).Field(nameof(Vector2.X))),
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldind_R4),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions.GetDesperadoBulletPower))),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Stind_R4),
-                    // v.Y *= GetDesperadoBulletPower()
-                    new CodeInstruction(OpCodes.Ldloca_S, velocity),
-                    new CodeInstruction(OpCodes.Ldflda,
-                        typeof(Vector2).Field(nameof(Vector2.Y))),
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldind_R4),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions.GetDesperadoBulletPower))),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Stind_R4),
-                    // check for quick shot (i.e. sling shot charge time <= required charge time * handicap)
-                    new CodeInstruction(OpCodes.Ldsfld,
-                        typeof(Game1).Field(nameof(Game1.currentGameTime))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(GameTime).PropertyGetter(nameof(GameTime.TotalGameTime))),
-                    new CodeInstruction(OpCodes.Stloc_S, chargeTime),
-                    new CodeInstruction(OpCodes.Ldloca_S, chargeTime),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(TimeSpan).PropertyGetter(nameof(TimeSpan.TotalSeconds))),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld,
-                        typeof(Slingshot).Field(nameof(Slingshot.pullStartTime))),
-                    new CodeInstruction(OpCodes.Sub),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Slingshot).MethodNamed(nameof(Slingshot.GetRequiredChargeTime))),
-                    new CodeInstruction(OpCodes.Ldc_R4, QUICK_FIRE_HANDICAP_F), // <-- handicap
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Bgt_S, notQuickShot),
-                    // increment Temerity gauge
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Gauge))),
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.CurrentValue))),
-                    new CodeInstruction(OpCodes.Ldc_R8, 8.0), // <-- increment amount
-                    // increment by config factor
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(ModConfig).PropertyGetter(nameof(ModConfig.SuperModeGainFactor))),
-                    new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Mul),
-                    // scale for extended levels
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.MaxValue))),
-                    new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Ldc_R8, 500.0),
-                    new CodeInstruction(OpCodes.Div),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperModeGauge).PropertySetter(nameof(SuperModeGauge.CurrentValue))),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
-                .Insert(
-                    new[] {notQuickShot},
-                    // increment Temerity gauge
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Gauge))),
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.CurrentValue))),
-                    new CodeInstruction(OpCodes.Ldc_R8, 2.0), // <-- increment amount
-                    // increment by config factor
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(ModConfig).PropertyGetter(nameof(ModConfig.SuperModeGainFactor))),
-                    new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Mul),
-                    // scale for extended levels
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.MaxValue))),
-                    new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Ldc_R8, 500.0),
-                    new CodeInstruction(OpCodes.Div),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperModeGauge).PropertySetter(nameof(SuperModeGauge.CurrentValue)))
-                )
-                .AddLabels(resumeExecution); // branch here if is not desperado or can't quick fire
+                        typeof(SlingshotPerformFirePatch).MethodNamed(nameof(PerformFireSubroutine)))
+                );
         }
         catch (Exception ex)
         {
@@ -319,4 +180,26 @@ internal class SlingshotPerformFirePatch : BasePatch
     }
 
     #endregion harmony patches
+
+    #region injected subroutines
+
+    private static void PerformFireSubroutine(Slingshot slingshot, ref int damage, ref Vector2 velocity, GameLocation location, Farmer who)
+    {
+        if (!who.IsLocalPlayer || ModEntry.State.Value.SuperMode is not DesperadoTemerity {IsActive: false} ||
+            !location.IsCombatZone()) return;
+
+        var bulletPower = who.GetDesperadoShootingPower();
+        velocity *= bulletPower;
+        damage = (int) (damage * bulletPower / 5);
+
+        var increment = 12 - 10 * who.health / who.maxHealth;
+        if (Game1.currentGameTime.TotalGameTime.TotalSeconds - slingshot.pullStartTime <=
+            slingshot.GetRequiredChargeTime() * QUICK_FIRE_HANDICAP_F)
+            increment += 6;
+
+        ModEntry.State.Value.SuperMode.Gauge.CurrentValue += increment * ModEntry.Config.SuperModeGainFactor *
+            (double) SuperModeGauge.MaxValue / SuperModeGauge.INITIAL_MAX_VALUE_I;
+    }
+
+    #endregion injected subroutines
 }

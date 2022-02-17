@@ -6,11 +6,11 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-internal class SuperModeInputUpdateTickedEvent : UpdateTickedEvent
+internal class PointerUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        ModEntry.State.Value.SuperMode.UpdateInput();
+        ModEntry.State.Value.Pointer.Update(e.Ticks);
     }
 }

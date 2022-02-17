@@ -37,10 +37,10 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
     {
         if (!Enum.IsDefined(typeof(Profession), whichProfession)) return;
 
-        var professionName = whichProfession.ToProfessionName();
+        var profession = (Profession) whichProfession;
 
         // remove immediate perks
-        if (professionName == "Aquarist")
+        if (profession == Profession.Aquarist)
             foreach (var pond in Game1.getFarm().buildings.Where(p =>
                          (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                          !p.isUnderConstruction() && p.maxOccupants.Value > 10))
@@ -49,21 +49,25 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
                 pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
             }
 
-        // clean unnecessary mod data
-        if (!professionName.IsAnyOf("Scavenger", "Prospector"))
-            ModData.CleanUpRogueData();
-
         // unsubscribe unnecessary events
-        EventManager.DisableAllForProfession(professionName);
+        EventManager.DisableAllForProfession(profession);
 
         // unregister Super Mode
-        if (ModEntry.State.Value.SuperMode?.Index != (SuperModeIndex)whichProfession) return;
+        if (ModEntry.State.Value.SuperMode?.Index != (SuperModeIndex) whichProfession) return;
 
         if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
             var firstIndex = (SuperModeIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
             ModData.Write(DataField.SuperModeIndex, firstIndex.ToString());
-            ModEntry.State.Value.SuperMode = new(firstIndex);
+#pragma warning disable CS8509
+            ModEntry.State.Value.SuperMode = firstIndex switch
+#pragma warning restore CS8509
+            {
+                SuperModeIndex.Brute => new BruteFury(),
+                SuperModeIndex.Poacher => new PoacherColdBlood(),
+                SuperModeIndex.Piper => new PiperEubstance(),
+                SuperModeIndex.Desperado => new DesperadoTemerity()
+            };
         }
         else
         {

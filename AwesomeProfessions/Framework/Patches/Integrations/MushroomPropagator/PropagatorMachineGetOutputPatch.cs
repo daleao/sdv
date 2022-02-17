@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.MushroomPropagator;
 
 #region using directives
 
@@ -41,13 +41,13 @@ internal class PropagatorMachineGetOutputPatch : BasePatch
         var entity = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Entity").GetValue();
         if (entity is null) return;
 
-        var who = Game1.getFarmerMaybeOffline(entity.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.HasProfession(Profession.Ecologist)) return;
+        var owner = Game1.getFarmerMaybeOffline(entity.owner.Value) ?? Game1.MasterPlayer;
+        if (!owner.HasProfession(Profession.Ecologist)) return;
 
-        if (who.IsLocalPlayer && !ModEntry.Config.ShouldCountAutomatedHarvests)
+        if (owner.IsLocalPlayer && !ModEntry.Config.ShouldCountAutomatedHarvests)
             ModData.Increment(DataField.EcologistItemsForaged, -1);
         else if (ModEntry.Config.ShouldCountAutomatedHarvests)
-            ModData.Increment<uint>(DataField.EcologistItemsForaged, who);
+            ModData.Increment<uint>(DataField.EcologistItemsForaged, owner);
     }
 
     #endregion harmony patches

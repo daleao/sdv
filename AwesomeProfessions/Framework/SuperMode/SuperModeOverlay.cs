@@ -16,23 +16,14 @@ internal class SuperModeOverlay
 {
     private const float MAX_OPACITY_F = 0.3f;
 
-    public Color _color;
-    public float _opacity;
+    private float _opacity;
+    private readonly Color _color;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="index">The currently registered Super Mode profession's index.</param>
-    public SuperModeOverlay(SuperModeIndex index)
+    public SuperModeOverlay(Color color)
     {
-#pragma warning disable CS8509
-        _color = index switch
-#pragma warning restore CS8509
-        {
-            SuperModeIndex.Brute => Color.OrangeRed,
-            SuperModeIndex.Poacher => Color.MidnightBlue,
-            SuperModeIndex.Piper => Color.DarkGreen,
-            SuperModeIndex.Desperado => Color.SandyBrown
-        };
-
+        _color = color;
         _opacity = 0f;
     }
 
@@ -57,7 +48,7 @@ internal class SuperModeOverlay
     {
         if (_opacity > 0) _opacity -= 0.01f;
         if (_opacity <= 0)
-            EventManager.Disable(typeof(SuperModeActiveRenderedWorldEvent),
+            EventManager.Disable(typeof(SuperModeActiveOverlayRenderedWorldEvent),
                 typeof(SuperModeOverlayFadeOutUpdateTickedEvent));
     }
 }

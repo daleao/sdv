@@ -14,21 +14,21 @@ using System.Text.RegularExpressions;
 
 public static class StringExtensions
 {
-    /// <summary>Determine if the calling string contains any of the specified substrings.</summary>
+    /// <summary>Determine if the string instance contains any of the specified substrings.</summary>
     /// <param name="candidates">A sequence of strings candidates.</param>
     public static bool ContainsAnyOf(this string s, params string[] candidates)
     {
         return candidates.Any(s.Contains);
     }
 
-    /// <summary>Determine if the calling string starts with any of the specified substrings.</summary>
+    /// <summary>Determine if the string instance starts with any of the specified substrings.</summary>
     /// <param name="candidates">A sequence of strings candidates.</param>
     public static bool StartsWithAnyOf(this string s, params string[] candidates)
     {
         return candidates.Any(s.StartsWith);
     }
 
-    /// <summary>Capitalize the first character in the calling string.</summary>
+    /// <summary>Capitalize the first character in the string instance.</summary>
     public static string FirstCharToUpper(this string s)
     {
         return string.IsNullOrEmpty(s)
@@ -36,7 +36,7 @@ public static class StringExtensions
             : s.First().ToString().ToUpper() + s[1..];
     }
 
-    /// <summary>Removes invalid file name or path characters from the calling string.</summary>
+    /// <summary>Removes invalid file name or path characters from the string instance.</summary>
     public static string RemoveInvalidChars(this string s)
     {
         var invalidChars = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
@@ -49,7 +49,7 @@ public static class StringExtensions
         return Regex.Split(s, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)").Where(r => !string.IsNullOrEmpty(r)).ToArray();
     }
 
-    /// <summary>Truncate the calling string to a <paramref name="maxLength" />, ending with elipses.</summary>
+    /// <summary>Truncate the string instance to a <paramref name="maxLength" />, ending with ellipses.</summary>
     public static string Truncate(this string s, int maxLength, string truncationSuffix = "…")
     {
         return s.Length > maxLength
@@ -57,7 +57,7 @@ public static class StringExtensions
             : s;
     }
 
-    /// <summary>Parse the calling string to a generic type.</summary>
+    /// <summary>Parse the string instance to a generic type.</summary>
     public static T Parse<T>(this string s)
     {
         if (s is null) throw new ArgumentNullException();
@@ -69,7 +69,7 @@ public static class StringExtensions
         throw new FormatException();
     }
 
-    /// <summary>Try to parse the calling string to a generic type.</summary>
+    /// <summary>Try to parse the instance to a generic type.</summary>
     /// <param name="result">Parsed <typeparamref name="T" />-type object if successful, else default.</param>
     /// <returns>True if parse was successful, otherwise false.</returns>
     public static bool TryParse<T>(this string s, out T? result)

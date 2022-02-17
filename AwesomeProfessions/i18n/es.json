@@ -130,7 +130,7 @@
   "brute.supermdesc": "Duplica todas las bonificaciones de daño. Imune a los desmayos.",
   "poacher.name.male": "Guerrillero",
   "poacher.name.female": "Guerrillera",
-  "poacher.desc": "Probabilidad de golpe crítico +10%. Los golpes críticos pueden pinchar objetos. Tu sangre se enfría, aumentando la letalidad de los golpes crítico.",
+  "poacher.desc": "Probabilidad de golpe crítico ×2. Los golpes críticos pueden pinchar objetos. Tu sangre se enfría durante el combate, aumentando la letalidad de los golpes crítico.",
   "poacher.desc.prestiged": "Las bonificaciones de daño y probabilidad crítica, excepto de profesiones, también reducen el tiempo de recarga de los ataques especiales.",
   "poacher.buff": "Sangre Fría",
   "poacher.buffdesc": "Potencia de los golpes críticos ×{{magnitude}}.",

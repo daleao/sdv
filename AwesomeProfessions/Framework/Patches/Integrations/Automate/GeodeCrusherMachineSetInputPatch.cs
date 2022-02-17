@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.Automate;
 
 #region using directives
 
@@ -41,14 +41,14 @@ internal class GeodeCrusherMachineSetInputPatch : BasePatch
         var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
         if (machine?.heldObject.Value is null) return;
 
-        var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.HasProfession(Profession.Gemologist) ||
+        var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
+        if (!owner.HasProfession(Profession.Gemologist) ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
-        machine.heldObject.Value.Quality = who.GetGemologistMineralQuality();
+        machine.heldObject.Value.Quality = owner.GetGemologistMineralQuality();
         if (!ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        ModData.Increment<uint>(DataField.GemologistMineralsCollected, who);
+        ModData.Increment<uint>(DataField.GemologistMineralsCollected, owner);
     }
 
     #endregion harmony patches

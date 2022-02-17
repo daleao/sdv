@@ -37,18 +37,18 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
     {
         if (!Enum.IsDefined(typeof(Profession), whichProfession)) return;
 
-        var professionName = whichProfession.ToProfessionName();
+        var profession = (Profession) whichProfession;
 
         // add immediate perks
-        if (professionName == "Aquarist")
+        if (profession == Profession.Aquarist)
             foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
                          (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                          !p.isUnderConstruction()))
                 pond.UpdateMaximumOccupancy();
 
         // subscribe events
-        EventManager.EnableAllForProfession(professionName);
-        if (professionName == "Conservationist" && !Context.IsMainPlayer) // request the main player
+        EventManager.EnableAllForProfession(profession);
+        if (profession == Profession.Conservationist && !Context.IsMainPlayer) // request the main player
             ModEntry.ModHelper.Multiplayer.SendMessage("Conservationist", "RequestEventEnable",
                 new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
 
@@ -56,7 +56,16 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
         
         // register Super Mode
         var newIndex = (SuperModeIndex) whichProfession;
-        ModEntry.State.Value.SuperMode = new(newIndex);
+        ModEntry.State.Value.SuperMode =
+#pragma warning disable CS8509
+            ModEntry.State.Value.SuperMode = newIndex switch
+#pragma warning restore CS8509
+            {
+                SuperModeIndex.Brute => new BruteFury(),
+                SuperModeIndex.Poacher => new PoacherColdBlood(),
+                SuperModeIndex.Piper => new PiperEubstance(),
+                SuperModeIndex.Desperado => new DesperadoTemerity()
+            };
         ModData.Write(DataField.SuperModeIndex, newIndex.ToString());
     }
 

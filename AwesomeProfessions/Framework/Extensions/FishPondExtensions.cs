@@ -17,7 +17,7 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
-public static class FishPondExtensions
+internal static class FishPondExtensions
 {
     private const int ROE_INDEX_I = 812;
     private const int SQUID_INK_INDEX_I = 814;
@@ -93,9 +93,9 @@ public static class FishPondExtensions
     /// <summary>Determine which quality should be deducted from the total quality rating after fishing in this pond.</summary>
     public static int GetLowestFishQuality(this FishPond pond)
     {
-        var who = Game1.getFarmerMaybeOffline(pond.owner.Value) ?? Game1.MasterPlayer;
+        var owner = Game1.getFarmerMaybeOffline(pond.owner.Value) ?? Game1.MasterPlayer;
         var qualityRatingByFishPond =
-            ModData.Read(DataField.QualityRatingByFishPond, who).ToDictionary<int, int>(",", ";");
+            ModData.Read(DataField.QualityRatingByFishPond, owner).ToDictionary<int, int>(",", ";");
         var thisFishPond = pond.GetCenterTile().ToString().GetDeterministicHashCode();
         qualityRatingByFishPond.TryGetValue(thisFishPond, out var qualityRatingForThisFishPond);
 
@@ -120,9 +120,9 @@ public static class FishPondExtensions
     /// <summary>Determine the amount of fish of each quality currently in this pond.</summary>
     public static (int, int, int) GetAllFishQualities(this FishPond pond)
     {
-        var who = Game1.getFarmerMaybeOffline(pond.owner.Value) ?? Game1.MasterPlayer;
+        var owner = Game1.getFarmerMaybeOffline(pond.owner.Value) ?? Game1.MasterPlayer;
         var qualityRatingByFishPond =
-            ModData.Read(DataField.QualityRatingByFishPond, who).ToDictionary<int, int>(",", ";");
+            ModData.Read(DataField.QualityRatingByFishPond, owner).ToDictionary<int, int>(",", ";");
         var thisFishPond = pond.GetCenterTile().ToString().GetDeterministicHashCode();
         qualityRatingByFishPond.TryGetValue(thisFishPond, out var qualityRatingForThisFishPond);
 
@@ -142,9 +142,9 @@ public static class FishPondExtensions
     /// <param name="r">A random number generator.</param>
     private static int GetRoeQuality(this FishPond pond, Random r)
     {
-        var who = Game1.getFarmerMaybeOffline(pond.owner.Value) ?? Game1.MasterPlayer;
+        var owner = Game1.getFarmerMaybeOffline(pond.owner.Value) ?? Game1.MasterPlayer;
         var qualityRatingByFishPond =
-            ModData.Read(DataField.QualityRatingByFishPond, who).ToDictionary<int, int>(",", ";");
+            ModData.Read(DataField.QualityRatingByFishPond, owner).ToDictionary<int, int>(",", ";");
         var thisFishPond = pond.GetCenterTile().ToString().GetDeterministicHashCode();
         qualityRatingByFishPond.TryGetValue(thisFishPond, out var qualityRatingForThisFishPond);
 

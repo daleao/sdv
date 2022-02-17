@@ -24,7 +24,7 @@ internal class GreenSlimeGetExtraDropItemsPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeGetExtraDropItemsPatch()
     {
-        Original = RequireMethod<GreenSlime>(nameof(GreenSlime.getExtraDropItems));
+        //Original = RequireMethod<GreenSlime>(nameof(GreenSlime.getExtraDropItems));
     }
 
     #region harmony patches

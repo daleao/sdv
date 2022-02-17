@@ -9,14 +9,14 @@ using System.Linq;
 
 public static class GeneralExtensions
 {
-    /// <summary>Determine if the calling object is equivalent to any of the objects in a sequence.</summary>
+    /// <summary>Determine if the instance is equivalent to any of the objects in a sequence.</summary>
     /// <param name="candidates">A sequence of <typeparamref name="T" /> objects.</param>
     public static bool IsAnyOf<T>(this T item, params T[] candidates)
     {
         return candidates.Contains(item);
     }
 
-    /// <summary>Determine if the calling object is equivalent to any of the objects in a sequence.</summary>
+    /// <summary>Determine if the instance is equivalent to any of the objects in a sequence.</summary>
     /// <param name="candidates">A sequence of <typeparamref name="T" /> objects.</param>
     public static bool IsAnyOf<T>(this T item, IEnumerable<T> candidates)
     {

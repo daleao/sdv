@@ -7,7 +7,7 @@ using StardewValley;
 
 #endregion
 
-public static class FarmAnimalExtensions
+internal static class FarmAnimalExtensions
 {
     /// <summary>Affects the price of animals sold by Breeder.</summary>
     public static double GetProducerAdjustedFriendship(this FarmAnimal animal)

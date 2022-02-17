@@ -6,12 +6,10 @@ using System;
 using Microsoft.Xna.Framework;
 using StardewValley;
 
-using Patches.Foraging;
-
 #endregion using directives
 
 /// <summary>Base class for treasure hunts.</summary>
-internal abstract class TreasureHunt
+internal abstract class TreasureHunt : ITreasureHunt
 {
     public bool IsActive => TreasureTile is not null;
     public Vector2? TreasureTile { get; protected set; } = null;
@@ -28,32 +26,26 @@ internal abstract class TreasureHunt
 
     #region public methods
 
-    /// <summary>Try to start a new hunt at the specified location.</summary>
-    /// <param name="location">The game location.</param>
-    public abstract void TryStartNewHunt(GameLocation location);
+    /// <inheritdoc />
+    public void ResetAccumulatedBonus()
+    {
+        _accumulatedBonus = 1.0;
+    }
 
-    /// <summary>Select a random tile and make sure it is a valid treasure target.</summary>
-    /// <param name="location">The game location.</param>
-    public abstract Vector2? ChooseTreasureTile(GameLocation location);
-
-    /// <summary>End the hunt unsuccessfully.</summary>
-    public abstract void Fail();
-
-    /// <summary>Check for completion or failure on every update tick.</summary>
-    /// <param name="ticks">The number of ticks elapsed since the game started.</param>
+    /// <inheritdoc />
     public void Update(uint ticks)
     {
-        if (!Game1ShouldTimePassPatch.Game1ShouldTimePassOriginal(Game1.game1, true)) return;
+        if (!Game1.game1.IsActive || !Game1.shouldTimePass()) return;
 
         if (ticks % 60 == 0 && ++elapsed > timeLimit) Fail();
         else CheckForCompletion();
     }
 
-    /// <summary>Reset the accumulated bonus chance to trigger a new hunt.</summary>
-    public void ResetAccumulatedBonus()
-    {
-        _accumulatedBonus = 1.0;
-    }
+    /// <inheritdoc />
+    public abstract void Fail();
+
+    /// <inheritdoc />
+    public abstract void TryStartNewHunt(GameLocation location);
 
     #endregion public methods
 
@@ -72,11 +64,15 @@ internal abstract class TreasureHunt
         return true;
     }
 
+    /// <summary>Select a random tile and make sure it is a valid treasure target.</summary>
+    /// <param name="location">The game location.</param>
+    protected abstract Vector2? ChooseTreasureTile(GameLocation location);
+
     /// <summary>Check if the player has found the treasure tile.</summary>
     protected abstract void CheckForCompletion();
 
-    /// <summary>Reset treasure tile and unsubscribe treasure hunt update event.</summary>
-    protected abstract void End();
+    /// <summary>Reset treasure tile and release treasure hunt update event.</summary>
+    protected abstract void End(bool successful);
 
     #endregion protected methods
 }

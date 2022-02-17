@@ -7,12 +7,19 @@ using StardewValley.Monsters;
 
 #endregion using directives
 
-public static class MonsterExtensions
+internal static class MonsterExtensions
 {
-    /// <summary>Get the distance between the calling monster and any character.</summary>
-    /// <param name="npc">The target character.</param>
-    public static double DistanceToCharacter(this Monster m, Character npc)
+    /// <summary>Whether the monster instance is close enough to see the given player.</summary>
+    /// <param name="player">The target player.</param>
+    public static bool IsWithinPlayerThreshold(this Monster monster, Farmer player = null)
     {
-        return (npc.Position - m.Position).LengthSquared();
+        player ??= Game1.player;
+        return monster.DistanceToCharacter(player) <= monster.moveTowardPlayerThreshold.Value;
+    }
+
+    /// <summary>Whether the monster is an instance of <see cref="GreenSlime"/> or <see cref="BigSlime"/></summary>
+    public static bool IsSlime(this Monster monster)
+    {
+        return monster is GreenSlime or BigSlime;
     }
 }

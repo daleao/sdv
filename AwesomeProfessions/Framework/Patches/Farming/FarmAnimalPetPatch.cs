@@ -12,7 +12,6 @@ using Netcode;
 using StardewValley;
 
 using Stardew.Common.Harmony;
-using Extensions;
 
 #endregion using directives
 

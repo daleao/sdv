@@ -33,8 +33,7 @@ internal class NPCWithinPlayerThresholdPatch : BasePatch
             if (__instance is not Monster) return true; // run original method
 
             var foundPlayer = ModEntry.ModHelper.Reflection.GetMethod(__instance, "findPlayer").Invoke<Farmer>();
-            if (!foundPlayer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not
-                    {Index: SuperModeIndex.Poacher, IsActive: true})
+            if (!foundPlayer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not PoacherColdBlood {IsActive: true})
                 return true; // run original method
 
             __result = false;

@@ -11,7 +11,7 @@ using StardewValley;
 #endregion using directives
 
 /// <summary>Pointer for highlighting on-screen and off-screen objects of interest for tracker professions.</summary>
-internal class Pointer
+internal class HudPointer
 {
     private const float MAX_STEP_F = 3f, MIN_STEP_F = -3f;
 
@@ -26,7 +26,7 @@ internal class Pointer
     /// <param name="color">The color of the indicator.</param>
     public void DrawAsTrackingPointer(Vector2 target, Color color)
     {
-        if (StardewValley.Utility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
+        if (Utility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
 
         var vpBounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
         Vector2 onScreenPosition = default;

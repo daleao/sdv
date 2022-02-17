@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using HarmonyLib;
 using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
 
@@ -27,28 +25,19 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch to increment Piper Eubstance gauge and heal on contact with slime.</summary>
+    /// <summary>Patch to increment Piper Eubstance gauge on contact with Slime.</summary>
     [HarmonyPostfix]
     private static void GreenSlimeCollisionWithFarmerBehaviorPostfix(GreenSlime __instance)
     {
+        if (!__instance.currentLocation.IsCombatZone()) return;
+
         var who = __instance.Player;
-        if (!who.IsLocalPlayer || ModEntry.State.Value.SuperMode is not {Index: SuperModeIndex.Piper} superMode ||
+        if (!who.IsLocalPlayer || ModEntry.State.Value.SuperMode is not PiperEubstance eubstance ||
             ModEntry.State.Value.SlimeContactTimer > 0) return;
 
-        if (who.HasProfession(Profession.Piper, true))
-        {
-            var healed = __instance.DamageToFarmer / 2;
-            healed += Game1.random.Next(Math.Min(-1, -healed / 8), Math.Max(1, healed / 8));
-            healed = Math.Max(healed, 1);
-
-            who.health = Math.Min(who.health + healed, who.maxHealth);
-            __instance.currentLocation.debris.Add(new(healed,
-                new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
-        }
-
-        if (!superMode.IsActive)
-            superMode.Gauge.CurrentValue +=
-                Game1.random.Next(1, 5) * ModEntry.Config.SuperModeGainFactor * (double) SuperModeGauge.MaxValue / 500;
+        if (!eubstance.IsActive)
+            eubstance.Gauge.CurrentValue +=
+                Game1.random.Next(1, 4) * ModEntry.Config.SuperModeGainFactor * (double) SuperModeGauge.MaxValue / SuperModeGauge.INITIAL_MAX_VALUE_I;
 
         ModEntry.State.Value.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
     }

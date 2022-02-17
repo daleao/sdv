@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.MushroomPropagator;
 
 #region using directives
 
@@ -42,8 +42,8 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
     {
         if (__instance is null) return;
 
-        var who = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.IsLocalPlayer || !who.HasProfession(Profession.Ecologist)) return;
+        var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
+        if (!owner.IsLocalPlayer || !owner.HasProfession(Profession.Ecologist)) return;
 
         ModData.Increment<uint>(DataField.EcologistItemsForaged);
     }
@@ -91,8 +91,8 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
 
     private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
     {
-        var who = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
-        if (who.IsLocalPlayer && who.HasProfession(Profession.Ecologist)) return who.GetEcologistForageQuality();
+        var owner = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
+        if (owner.IsLocalPlayer && owner.HasProfession(Profession.Ecologist)) return owner.GetEcologistForageQuality();
 
         var sourceMushroomQuality =
             ModEntry.ModHelper.Reflection.GetField<int>(propagator, "SourceMushroomQuality").GetValue();

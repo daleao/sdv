@@ -32,7 +32,7 @@ internal class SpelunkerWarpedEvent : WarpedEvent
 
             EventManager.Enable(typeof(SpelunkerBuffDisplayUpdateTickedEvent));
         }
-        else if (e.OldLocation is MineShaft)
+        else if (e.NewLocation is not MineShaft && e.OldLocation is MineShaft)
         {
             ModEntry.State.Value.SpelunkerLadderStreak = 0;
             EventManager.Disable(typeof(SpelunkerBuffDisplayUpdateTickedEvent));

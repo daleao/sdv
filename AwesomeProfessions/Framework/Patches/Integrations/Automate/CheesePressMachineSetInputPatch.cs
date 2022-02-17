@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.Automate;
 
 #region using directives
 
@@ -92,15 +92,15 @@ internal class CheesePressMachineSetInput : BasePatch
             output.Quality = SObject.lowQuality;
         }
 
-        var who = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        if (!who.HasProfession(Profession.Artisan)) return;
+        var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
+        if (!owner.HasProfession(Profession.Artisan)) return;
 
         output.Quality = input.Quality;
         if (output.Quality < SObject.bestQuality &&
             new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
 
-        if (who.HasProfession(Profession.Artisan, true))
+        if (owner.HasProfession(Profession.Artisan, true))
             machine.MinutesUntilReady -= machine.MinutesUntilReady / 4;
         else
             machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;

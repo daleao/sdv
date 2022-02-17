@@ -3,10 +3,13 @@ namespace DaLion.Stardew.Professions.Integrations;
 #region using directives
 
 using System;
+using System.IO;
+using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
+using StardewValley;
 
-using Framework.AssetLoaders;
 using Common.Integrations;
+using Framework.Utility;
 
 #endregion using directives
 
@@ -46,18 +49,18 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddKeyBinding(
                 () => "Mod Key",
                 () => "The key used by Prospector and Scavenger professions.",
-                config => config.Modkey,
-                (config, value) => config.Modkey = value
+                config => config.ModKey,
+                (config, value) => config.ModKey = value
             )
             .AddCheckbox(
-                () => "Use Vintage Skill Bars",
-                () => "Enable this option if using the Vintage Interface mod.",
+                () => "Use Vintage UI Elements",
+                () => "Enable this option if using the Vintage Interface v2 mod.",
                 config => config.UseVintageInterface,
                 (config, value) =>
                 {
                     config.UseVintageInterface = value;
-                    Textures.ReloadGauge();
-                    Textures.ReloadSkillBars();
+                    Textures.SuperModeGaugeTx = Game1.content.Load<Texture2D>(Path.Combine(ModEntry.Manifest.UniqueID, "SuperModeGauge"));
+                    Textures.SkillBarTx = Game1.content.Load<Texture2D>(Path.Combine(ModEntry.Manifest.UniqueID, "SkillBars"));
                 }
             );
 
@@ -69,7 +72,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                     (config, value) =>
                     {
                         config.HoneyMeadStyle = value;
-                        Textures.ReloadHoneyMead();
+                        Textures.HoneyMeadTx = Game1.content.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/BetterHoneyMeadIcons");
                     },
                     new[] {"ColoredBottles", "ColoredCaps"},
                     value => value
@@ -94,8 +97,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddKeyBinding(
                 () => "Super Mode key",
                 () => "The key used to activate Super Mode.",
-                config => config.Modkey,
-                (config, value) => config.Modkey = value
+                config => config.ModKey,
+                (config, value) => config.ModKey = value
             )
             .AddCheckbox(
                 () => "Hold-To-Activate",
@@ -294,6 +297,15 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 (config, value) => config.EnableGetExcited = value
             )
             .AddNumberField(
+                () => "Angler multiplier ceiling",
+                () => "If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.",
+                config => config.AnglerMultiplierCeiling,
+                (config, value) => config.AnglerMultiplierCeiling = value,
+                0.5f,
+                2f,
+                0.1f
+            )
+            .AddNumberField(
                 () => "Trash needed per tax level",
                 () => "Conservationists must collect this much trash for every 1% tax deduction the following season.",
                 config => (int) config.TrashNeededPerTaxLevel,
@@ -317,6 +329,24 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0f,
                 1f,
                 0.05f
+            );
+
+        if (!ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP")) return;
+
+        _configMenu
+            // SVE
+            .AddSectionTitle(() => "SVE Settings")
+            .AddCheckbox(
+                () => "Use Galdoran Theme All Times",
+                () => "Replicates SVE's config settings of the same name.",
+                config => config.UseGaldoranhemeAllTimes,
+                (config, value) => config.UseGaldoranhemeAllTimes = value
+            )
+            .AddCheckbox(
+                () => "Disable Galdoran Theme",
+                () => "Replicates SVE's config settings of the same name.",
+                config => config.DisableGaldoranTheme,
+                (config, value) => config.DisableGaldoranTheme = value
             );
     }
 }

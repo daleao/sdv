@@ -8,8 +8,6 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 
-using Extensions;
-
 #endregion using directives
 
 internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent

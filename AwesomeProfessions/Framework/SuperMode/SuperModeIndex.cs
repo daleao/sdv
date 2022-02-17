@@ -1,8 +1,8 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.SuperMode;
 
-public enum SuperModeIndex
+internal enum SuperModeIndex
 {
-    None,
+    None = -1,
     Brute = 26,
     Poacher = 27,
     Piper = 28,

@@ -18,19 +18,19 @@ internal static class PatchManager
     internal static uint TotalPrefixCount { get; set; }
     internal static uint TotalPostfixCount { get; set; }
     internal static uint TotalTranspilerCount { get; set; }
-    internal static uint TotalReversePatchCount { get; set; }
+    //internal static uint TotalReversePatchCount { get; set; }
     internal static uint AppliedPrefixCount { get; set; }
     internal static uint AppliedPostfixCount { get; set; }
     internal static uint AppliedTranspilerCount { get; set; }
-    internal static uint AppliedReversePatchCount { get; set; }
+    //internal static uint AppliedReversePatchCount { get; set; }
     internal static uint IgnoredPrefixCount { get; set; }
     internal static uint IgnoredPostfixCount { get; set; }
     internal static uint IgnoredTranspilerCount { get; set; }
-    internal static uint IgnoredReversePatchCount { get; set; }
+    //internal static uint IgnoredReversePatchCount { get; set; }
     internal static uint FailedPrefixCount { get; set; }
     internal static uint FailedPostfixCount { get; set; }
     internal static uint FailedTranspilerCount { get; set; }
-    internal static uint FailedReversePatchCount { get; set; }
+    //internal static uint FailedReversePatchCount { get; set; }
 
     /// <summary>Instantiate and apply one of every <see cref="IPatch" /> class in the assembly using reflection.</summary>
     internal static void ApplyAll(string uniqueID)
@@ -57,9 +57,9 @@ internal static class PatchManager
         if (AppliedTranspilerCount < TotalTranspilerCount)
             message += $" {IgnoredTranspilerCount} ignored. {FailedTranspilerCount} failed.";
 
-        message += $"\nApplied {AppliedReversePatchCount}/{TotalReversePatchCount} reverse patches.";
-        if (AppliedReversePatchCount < TotalReversePatchCount)
-            message += $" {IgnoredReversePatchCount} ignored. {FailedReversePatchCount} failed.";
+        //message += $"\nApplied {AppliedReversePatchCount}/{TotalReversePatchCount} reverse patches.";
+        //if (AppliedReversePatchCount < TotalReversePatchCount)
+        //    message += $" {IgnoredReversePatchCount} ignored. {FailedReversePatchCount} failed.";
 
         Log.D(message);
     }

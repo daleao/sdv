@@ -7,20 +7,21 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 
-using AssetLoaders;
 using Events.Display;
 using Events.GameLoop;
 using Events.Input;
 using Extensions;
-using Patches.Foraging;
+using Utility;
 
 #endregion using directives
 
 /// <summary>HUD component to show the player their current Super Stat value.</summary>
 internal class SuperModeGauge
 {
-    private const int MAX_BAR_HEIGHT_I = 168,
-        TEXTURE_HEIGHT_I = 46,
+    public const int INITIAL_MAX_VALUE_I = 500;
+
+    private const int INITIAL_BAR_HEIGHT_I = 168,
+        TEXTURE_HEIGHT_I = 56,
         TICKS_BETWEEN_SHAKES_I = 120,
         SHAKE_DURATION_I = 15,
         FADE_OUT_DELAY_I = 180,
@@ -30,13 +31,20 @@ internal class SuperModeGauge
         _shakeTimer = SHAKE_DURATION_I,
         _nextShake = TICKS_BETWEEN_SHAKES_I,
         _fadeOutTimer = FADE_OUT_DELAY_I + FADE_OUT_DURATION_I;
+
     private float _opacity = 1f;
     private bool _shake;
+    private readonly Color _color;
+
+    public SuperModeGauge(Color color)
+    {
+        _color = color;
+    }
 
     #region properties
 
     /// <summary>The texture that will be used to draw the gauge.</summary>
-    public static Texture2D Texture { get; } = Textures.SuperModeGaugeTx;
+    public static Texture2D Texture => Textures.SuperModeGaugeTx;
 
     /// <summary>The current value of the player's Super Mode gauge.</summary>
     public double CurrentValue
@@ -49,11 +57,11 @@ internal class SuperModeGauge
             if (value <= 0)
             {
                 _value = 0;
-                OnReturnedToZero();
+                OnEmptied();
             }
             else
             {
-                if (_value == 0f) OnRaisedAboveZero();
+                if (_value == 0f) OnRaisedFromZero();
 
                 if (value >= MaxValue) OnFilled();
 
@@ -66,10 +74,19 @@ internal class SuperModeGauge
     public static int MaxValue =>
         Game1.player.CombatLevel >= 10
             ? Game1.player.CombatLevel * 50
-            : 500;
-    
+            : INITIAL_MAX_VALUE_I;
+
+    /// <summary>The current percentage value of the player's Super Mode gauge.</summary>
+    public float PercentFill => (float) (CurrentValue / MaxValue);
+
     /// <summary>Whether the gauge is full.</summary>
     public bool IsFull => CurrentValue >= MaxValue;
+
+    /// <summary>Whether the gauge is empty.</summary>
+    public bool IsEmpty => CurrentValue == 0;
+
+    /// <summary>Whether the gauge is being drawn.</summary>
+    public bool IsVisible => EventManager.IsEnabled<SuperModeGaugeRenderingHudEvent>();
 
     #endregion properties
 
@@ -83,19 +100,20 @@ internal class SuperModeGauge
         if (_opacity <= 0f) return;
 
         var isSuperModeActive = ModEntry.State.Value.SuperMode.IsActive;
-
+        var bonusLevelHeight = (MaxValue - INITIAL_MAX_VALUE_I) * 0.2;
+        
         // get bar position
         var topOfBar = new Vector2(
             Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Right - 56,
-            Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 200
+            Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 16 - TEXTURE_HEIGHT_I * 4 - (float) bonusLevelHeight
         );
 
         if (Game1.isOutdoorMapSmallerThanViewport())
             topOfBar.X = Math.Min(topOfBar.X,
                 -Game1.viewport.X + Game1.currentLocation.map.Layers[0].LayerWidth * 64 - 48);
 
-        if (Game1.showingHealth) topOfBar.X -= 100;
-        else topOfBar.X -= 44;
+        if (Game1.showingHealth) topOfBar.X -= 112;
+        else topOfBar.X -= 56;
 
         // shake horizontally if full and on stand-by, if active also shake vertically
         if (_shake || isSuperModeActive)
@@ -104,11 +122,12 @@ internal class SuperModeGauge
             if (isSuperModeActive) topOfBar.Y += Game1.random.Next(-3, 4);
         }
 
-        // draw bar in thirds for flexibility
+        // draw bar in thirds so that it may grow with combat level
         Rectangle srcRect, destRect;
 
         // top
-        srcRect = new(0, 0, 9, 16);
+        var width = 12;
+        srcRect = new(0, 0, width, 16);
         b.Draw(
             Texture,
             topOfBar,
@@ -121,9 +140,24 @@ internal class SuperModeGauge
             1f
         );
 
+        // draw top 'S'
+        b.Draw(
+            Texture,
+            topOfBar + new Vector2(16, -212 + TEXTURE_HEIGHT_I * 4),
+            new(13, 3 , 4, 5),
+            _color,
+            0f,
+            Vector2.Zero,
+            Game1.pixelZoom,
+            SpriteEffects.None,
+            1f
+        );
+
         // middle
-        srcRect = new(0, 16, 9, 16);
-        destRect = new((int) topOfBar.X, (int) (topOfBar.Y + 64f), 36, 56);
+        var srcY = 16;
+        srcRect = new(0, srcY, width, 20);
+        destRect = new((int) topOfBar.X, (int) (topOfBar.Y + srcY * 4f), width * 4,
+            16 + (TEXTURE_HEIGHT_I - 32) * 4 + (int) Math.Ceiling(bonusLevelHeight));
         b.Draw(
             Texture,
             destRect,
@@ -132,10 +166,11 @@ internal class SuperModeGauge
         );
 
         // bottom
-        srcRect = new(0, 30, 9, 16);
+        srcY = TEXTURE_HEIGHT_I - 16;
+        srcRect = new(0, srcY, width, 16);
         b.Draw(
             Texture,
-            new(topOfBar.X, topOfBar.Y + 120f),
+            new(topOfBar.X, topOfBar.Y + srcY * 4f + (float) bonusLevelHeight),
             srcRect,
             Color.White * _opacity,
             0f,
@@ -146,13 +181,16 @@ internal class SuperModeGauge
         );
 
         // draw fill
-        var ratio = CurrentValue / MaxValue;
-        var srcHeight = (int) (TEXTURE_HEIGHT_I * ratio) - 2;
-        var destHeight = (int) (MAX_BAR_HEIGHT_I * ratio);
+        var fillPct = CurrentValue / MaxValue;
+        var fullBarHeight = INITIAL_BAR_HEIGHT_I + bonusLevelHeight;
+        var srcHeight = (int) (42 * fillPct);
+        var destHeight = (int) (fullBarHeight * fillPct);
 
-        srcRect = new(10, TEXTURE_HEIGHT_I - srcHeight, 3, srcHeight);
-        destRect = new((int) topOfBar.X + 12, (int) topOfBar.Y + 8 + (MAX_BAR_HEIGHT_I - destHeight), 12,
-            destHeight);
+        width = 6;
+        srcY = TEXTURE_HEIGHT_I - 2 - srcHeight;
+        srcRect = new(12, srcY, width, srcHeight);
+        destRect = new((int) topOfBar.X + 12,
+            (int) (topOfBar.Y + (TEXTURE_HEIGHT_I - 44) * 4 + (float) fullBarHeight - destHeight), width * 4, destHeight);
 
         b.Draw(
             Texture,
@@ -165,35 +203,33 @@ internal class SuperModeGauge
             1f
         );
 
-        // draw hover text
-        if (Game1.getOldMouseX() >= topOfBar.X && Game1.getOldMouseY() >= topOfBar.Y &&
-            Game1.getOldMouseX() < topOfBar.X + 24f)
-            Game1.drawWithBorder( Math.Max(0, (int) CurrentValue) + "/" + 500, Color.Black * 0f,
-                Color.White,
-                topOfBar + new Vector2(0f - Game1.dialogueFont.MeasureString("999/999").X - 32f, 64f));
-
-        if (Math.Abs(ratio - 1f) >= 0.002f && !isSuperModeActive) return;
-
         // draw top shadow
-        destRect.Height = 2;
+        destRect.Height = 4;
         b.Draw(
             Game1.staminaRect,
             destRect,
-            srcRect,
+            Game1.staminaRect.Bounds,
             Color.Black * 0.3f,
             0f,
             Vector2.Zero,
             SpriteEffects.None,
             1f
         );
+
+        // draw hover text
+        if (Game1.getOldMouseX() >= topOfBar.X && Game1.getOldMouseY() >= topOfBar.Y &&
+            Game1.getOldMouseX() < topOfBar.X + 36f)
+            Game1.drawWithBorder( Math.Max(0, (int) CurrentValue) + "/" + MaxValue, Color.Black * 0f,
+                Color.White,
+                topOfBar + new Vector2(0f - Game1.dialogueFont.MeasureString("999/999").X - 32f, 64f));
     }
 
     /// <summary>Countdown the gauge value.</summary>
     /// <param name="amount">Milliseconds to deduct.</param>
     public void Countdown(double amount)
     {
-        if (!Game1.game1.IsActive && Game1ShouldTimePassPatch.Game1ShouldTimePassOriginal(Game1.game1, true)) return;
-        CurrentValue -= amount;
+        if (Game1.game1.IsActive && Game1.shouldTimePass())
+            CurrentValue -= amount;
     }
 
     /// <summary>Gradually reduce the gauge's opacity value.</summary>
@@ -215,7 +251,7 @@ internal class SuperModeGauge
     /// <summary>Countdown the gauge shake timer .</summary>
     public void UpdateShake()
     {
-        if (!Game1.game1.IsActive && Game1ShouldTimePassPatch.Game1ShouldTimePassOriginal(Game1.game1, true)) return;
+        if (!Game1.game1.IsActive || !Game1.shouldTimePass()) return;
 
         if (_shakeTimer > 0)
         {
@@ -237,31 +273,31 @@ internal class SuperModeGauge
 
     #region private methods
 
+    /// <summary>Raised when SuperModeGauge is raised from zero to any value greater than zero.</summary>
+    private void OnRaisedFromZero()
+    {
+        if (ModEntry.Config.EnableSuperMode)
+            EventManager.Enable(typeof(SuperModeButtonsChangedEvent), typeof(SuperModeGaugeRenderingHudEvent),
+                typeof(SuperModeUpdateTickedEvent));
+    }
+
     /// <summary>Raised when SuperModeGauge is set to the max value.</summary>
     private void OnFilled()
     {
-        if (!ModEntry.Config.EnableSuperMode) return;
-        EventManager.Enable(typeof(SuperModeButtonsChangedEvent),
-            typeof(SuperModeGaugeShakeUpdateTickedEvent));
-    }
-
-    /// <summary>Raised when SuperModeGauge is raised from zero to any value greater than zero.</summary>
-    private void OnRaisedAboveZero()
-    {
-        EventManager.Enable(typeof(SuperModeBuffDisplayUpdateTickedEvent));
-        if (ModEntry.Config.EnableSuperMode) EventManager.Enable(typeof(SuperModeGaugeRenderingHudEvent));
+        if (ModEntry.Config.EnableSuperMode) EventManager.Enable(typeof(SuperModeGaugeShakeUpdateTickedEvent));
     }
 
     /// <summary>Raised when SuperModeGauge is set to zero.</summary>
-    private void OnReturnedToZero()
+    private void OnEmptied()
     {
-        EventManager.Disable(typeof(SuperModeBuffDisplayUpdateTickedEvent));
+        EventManager.Disable(typeof(SuperModeButtonsChangedEvent), typeof(SuperModeGaugeShakeUpdateTickedEvent),
+            typeof(SuperModeUpdateTickedEvent));
+        _shake = false;
 
         if (ModEntry.State.Value.SuperMode.IsActive) ModEntry.State.Value.SuperMode.Deactivate();
         
-        if (Game1.currentLocation.IsCombatZone() || !ModEntry.Config.EnableSuperMode) return;
-
-        EventManager.Enable(typeof(SuperModeGaugeFadeOutUpdateTickedEvent));
+        if (!Game1.currentLocation.IsCombatZone())
+            EventManager.Enable(typeof(SuperModeGaugeFadeOutUpdateTickedEvent));
     }
 
     #endregion private methods

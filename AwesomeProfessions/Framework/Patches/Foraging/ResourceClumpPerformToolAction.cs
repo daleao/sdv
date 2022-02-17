@@ -12,7 +12,6 @@ using StardewValley;
 using StardewValley.TerrainFeatures;
 
 using Stardew.Common.Harmony;
-using Extensions;
 
 #endregion using directives
 

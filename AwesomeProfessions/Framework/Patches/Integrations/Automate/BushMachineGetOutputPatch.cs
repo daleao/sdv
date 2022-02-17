@@ -1,7 +1,4 @@
-﻿using StardewModdingAPI;
-using StardewValley.TerrainFeatures;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.Automate;
 
 #region using directives
 
@@ -11,12 +8,12 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
+using StardewModdingAPI;
 using StardewValley;
+using StardewValley.TerrainFeatures;
 
 using Stardew.Common.Harmony;
 using Extensions;
-
-using Object = StardewValley.Object;
 
 #endregion using directives
 

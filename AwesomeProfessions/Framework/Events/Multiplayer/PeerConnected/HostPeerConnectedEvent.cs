@@ -18,7 +18,8 @@ internal class HostPeerConnectedEvent : PeerConnectedEvent
     protected override void OnPeerConnectedImpl(object sender, PeerConnectedEventArgs e)
     {
         EventManager.Enable(typeof(ToggledSuperModeModMessageReceivedEvent),
-            typeof(RequestDataUpdateModMessageReceivedEvent), typeof(RequestGlobalEventEnableModMessageReceivedEvent));
+            typeof(RequestDataUpdateModMessageReceivedEvent), typeof(RequestGlobalEventEnableModMessageReceivedEvent),
+            typeof(RequestTimeStopModMessageReceivedEvent));
 
         if (Game1.getFarmer(e.Peer.PlayerID).HasProfession(Profession.Conservationist))
             EventManager.Enable(typeof(GlobalConservationistDayEndingEvent));

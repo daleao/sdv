@@ -12,7 +12,7 @@ using Common.Extensions;
 
 #endregion using directives
 
-public static class MineShaftExtensions
+internal static class MineShaftExtensions
 {
     /// <summary>Whether the current mine level is a safe level; i.e. shouldn't spawn any monsters.</summary>
     /// <param name="shaft">The <see cref="MineShaft" /> instance.</param>

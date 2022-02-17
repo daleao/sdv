@@ -11,7 +11,6 @@ using JetBrains.Annotations;
 using StardewValley.TerrainFeatures;
 
 using Stardew.Common.Harmony;
-using Extensions;
 
 #endregion using directives
 
@@ -28,12 +27,13 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
 
     /// <summary>Patch to increase prestiged Agriculturist crop growth speed.</summary>
     [HarmonyTranspiler]
-    protected static IEnumerable<CodeInstruction> HoeDirtApplySpeedIncreasesTranspiler(
+    private static IEnumerable<CodeInstruction> HoeDirtApplySpeedIncreasesTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: if (who.professions.Contains(100 + <agriculturist_id>)) speedIncrease += 0.1f;
+        /// From: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += 0.1f;
+        /// To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += who.professions.Contains(100 + <agriculturist_id>)) ? 0.2f : 0.1f;
 
         var notPrestigedAgriculturist = iLGenerator.DefineLabel();
         var resumeExecution = iLGenerator.DefineLabel();
@@ -42,7 +42,7 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
             helper
                 .FindProfessionCheck((int) Profession.Agriculturist)
                 .Advance()
-                .FindProfessionCheck((int) Profession.Agriculturist)
+                .FindProfessionCheck((int) Profession.Agriculturist, true)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.1f)
                 )

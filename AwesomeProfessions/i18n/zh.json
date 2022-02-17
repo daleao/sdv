@@ -130,7 +130,7 @@
   "brute.supermdesc": "伤害加成翻倍，对昏倒免疫。",
   "poacher.name.male": "游侠",
   "poacher.name.female": "游侠",
-  "poacher.desc": "暴击率+10%。暴击时可能偷猎物品。提高暴击力量。",
+  "poacher.desc": "暴击率×2。暴击时可能偷猎物品。提高暴击力量。",
   "poacher.desc.prestiged": "非技能性暴击，攻击或暴击，力量加成也会减少相同数量的特殊攻击冷却时间。",
   "poacher.buff": "冷血",
   "poacher.buffdesc": "暴击力量×{{magnitude}}。",

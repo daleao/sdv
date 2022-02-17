@@ -41,9 +41,9 @@ internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
         foreach (var component in ClickableComponents)
         {
             DrawBorder(component.bounds, 3, Color.Red, e.SpriteBatch);
-            if (ModEntry.State.Value.CursorPosition is null) continue;
+            if (ModEntry.State.Value.DebugCursorPosition is null) continue;
 
-            var (cursorX, cursorY) = ModEntry.State.Value.CursorPosition.GetScaledScreenPixels();
+            var (cursorX, cursorY) = ModEntry.State.Value.DebugCursorPosition.GetScaledScreenPixels();
             if (component.containsPoint((int) cursorX, (int) cursorY)) FocusedComponent = component;
         }
     }

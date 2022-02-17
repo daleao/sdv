@@ -12,6 +12,7 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using StardewValley.Monsters;
 
 using Common.Extensions;
 using Events.GameLoop;
@@ -22,7 +23,7 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
-public static class FarmerExtensions
+internal static class FarmerExtensions
 {
     /// <summary>Whether the farmer has a particular profession.</summary>
     /// <param name="profession">The index of the profession.</param>
@@ -291,55 +292,54 @@ public static class FarmerExtensions
         return farmer.fishCaught[index][1] >= Convert.ToInt32(dataFields[4]);
     }
 
-    /// <summary>Affects the price of produce sold by Producer.</summary>
+    /// <summary>The price bonus applied to animal produce sold by Producer.</summary>
     public static float GetProducerPriceBonus(this Farmer farmer)
     {
         return Game1.getFarm().buildings.Where(b =>
             (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-            b.buildingType.Contains("Deluxe") && ((AnimalHouse)b.indoors.Value).isFull()).Sum(_ => 0.05f);
+            b.buildingType.Contains("Deluxe") && ((AnimalHouse) b.indoors.Value).isFull()).Sum(_ => 0.05f);
     }
 
-    /// <summary>Affects the price of fish sold by Angler.</summary>
+    /// <summary>The price bonus applied to fish sold by Angler.</summary>
     public static float GetAnglerPriceBonus(this Farmer farmer)
     {
         var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
             .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
 
-        var multiplier = 0f;
+        var bonus = 0f;
         foreach (var (key, value) in farmer.fishCaught.Pairs)
         {
             if (!fishData.TryGetValue(key, out var specificFishData)) continue;
 
             var dataFields = specificFishData.Split('/');
             if (ObjectLookups.LegendaryFishNames.Contains(dataFields[0]))
-                multiplier += 0.05f;
+                bonus += 0.05f;
             else if (value[1] >= Convert.ToInt32(dataFields[4]))
-                multiplier += 0.01f;
+                bonus += 0.01f;
         }
 
-        return multiplier;
+        return Math.Min(bonus, ModEntry.Config.AnglerMultiplierCeiling);
     }
 
-    /// <summary>Compensates the decay of the "catching" bar for Aquarist.</summary>
+    /// <summary>The amount of "catching" bar to compensate for Aquarist.</summary>
     public static float GetAquaristBonusCatchingBarSpeed(this Farmer farmer)
     {
         var fishTypes = Game1.getFarm().buildings
-            .Where(b => (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) && b is FishPond pond &&
-                        pond.fishType.Value > 0)
-            .Cast<FishPond>()
+            .OfType<FishPond>()
+            .Where(pond => (pond.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) && pond.fishType.Value > 0)
             .Select(pond => pond.fishType.Value);
 
         return Math.Min(fishTypes.Distinct().Count() * 0.000165f, 0.002f);
     }
 
-    /// <summary>Affects the price all items sold by Conservationist.</summary>
+    /// <summary>The price bonus applied to all items sold by Conservationist.</summary>
     public static float GetConservationistPriceMultiplier(this Farmer farmer)
     {
         return 1f + ModData.ReadAs<float>(DataField.ConservationistActiveTaxBonusPct, farmer);
     }
 
-    /// <summary>Affects the quality of items foraged by Ecologist.</summary>
+    /// <summary>The quality of items foraged by Ecologist.</summary>
     public static int GetEcologistForageQuality(this Farmer farmer)
     {
         var itemsForaged = ModData.ReadAs<uint>(DataField.EcologistItemsForaged, farmer);
@@ -350,7 +350,7 @@ public static class FarmerExtensions
             : SObject.bestQuality;
     }
 
-    /// <summary>Affects the quality of minerals collected by Gemologist.</summary>
+    /// <summary>The quality of minerals collected by Gemologist.</summary>
     public static int GetGemologistMineralQuality(this Farmer farmer)
     {
         var mineralsCollected = ModData.ReadAs<uint>(DataField.GemologistMineralsCollected, farmer);
@@ -361,32 +361,32 @@ public static class FarmerExtensions
             : SObject.bestQuality;
     }
 
-    /// <summary>Affects that chance that a ladder or shaft will spawn for Spelunker.</summary>
+    /// <summary>The bonus chance to spawn a ladder or shaft for Spelunker.</summary>
     public static double GetSpelunkerBonusLadderDownChance(this Farmer farmer)
     {
         if (!farmer.IsLocalPlayer) return 0.0;
         return ModEntry.State.Value.SpelunkerLadderStreak * 0.005;
     }
 
-    /// <summary>Affects the raw damage dealt by Brute.</summary>
+    /// <summary>The multiplier to all damage dealt by Brute.</summary>
     public static float GetBruteBonusDamageMultiplier(this Farmer farmer)
     {
         var multiplier = 1.15f;
-        if (!farmer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not { Index: SuperModeIndex.Brute } superMode)
+        if (!farmer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not BruteFury fury)
             return multiplier;
 
-        multiplier += superMode.IsActive
+        multiplier += fury.IsActive
             ? (farmer.HasProfession(Profession.Fighter, true) ? 0.2f : 0.1f) + 0.15f + farmer.attackIncreaseModifier + // double fighter, brute and ring bonuses
               (farmer.CurrentTool is not null
                   ? farmer.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f // double enchants
                   : 0f)
               + SuperModeGauge.MaxValue / 10 * 0.005f // apply the maximum fury bonus
-            : (int) superMode.Gauge.CurrentValue / 10 * 0.005f; // apply current fury bonus
+            : (int) fury.Gauge.CurrentValue / 10 * 0.005f; // apply current fury bonus
 
         return multiplier;
     }
 
-    /// <summary>Affects the cooldown of special moves performed by prestiged Brute.</summary>
+    /// <summary>The reduction to cooldown of special moves performed by prestiged Brute.</summary>
     public static float GetPrestigedBruteCooldownReduction(this Farmer farmer)
     {
         return 1f - farmer.attackIncreaseModifier + (farmer.CurrentTool is not null
@@ -394,17 +394,15 @@ public static class FarmerExtensions
             : 0f);
     }
 
-    /// <summary>Affects the power of critical strikes performed by Poacher.</summary>
+    /// <summary>The multiplier applied to critical damage performed by Poacher.</summary>
     public static float GetPoacherCritDamageMultiplier(this Farmer farmer)
     {
-        if (!farmer.IsLocalPlayer) return 1f;
-
         return ModEntry.State.Value.SuperMode.IsActive
             ? 1f + SuperModeGauge.MaxValue / 10 * 0.04f // apply the maximum cold blood bonus
             : 1f + (int) ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 10 * 0.04f; // apply current cold blood bonus
     }
 
-    /// <summary>Affects the cooldown special moves performed by prestiged Poacher.</summary>
+    /// <summary>The reduction to cooldown of special moves performed by prestiged Poacher.</summary>
     public static float GetPrestigedPoacherCooldownReduction(this Farmer farmer)
     {
         return 1f - farmer.critChanceModifier + farmer.critPowerModifier + (farmer.CurrentTool is not null
@@ -413,27 +411,35 @@ public static class FarmerExtensions
             : 0f);
     }
 
-    /// <summary>Affects the maximum number of bonus Slimes that can be attracted by Piper.</summary>
-    public static int GetPiperSlimeSpawnAttempts(this Farmer farmer)
+    /// <summary>Enumerate the Slimes currently inhabiting owned Slimes Hutches.</summary>
+    public static IEnumerable<GreenSlime> GetRaisedSlimes(this Farmer farmer)
     {
-        if (!farmer.IsLocalPlayer) return 0;
-
-        return ModEntry.State.Value.SuperMode.IsActive
-            ? SuperModeGauge.MaxValue / 50 + 1 // apply the maximum eubstance bonus
-            : (int) ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 50 + 1; // apply current eubstance bonus
+        return Game1.getFarm().buildings
+            .Where(b => (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+                        b.indoors.Value is SlimeHutch && !b.isUnderConstruction())
+            .SelectMany(b => b.indoors.Value.characters.OfType<GreenSlime>());
     }
 
-    /// <summary>Affects the chance to shoot twice consecutively for Desperado.</summary>
+    /// <summary>The bonus attack frequency of Slimes affected by Piper.</summary>
+    public static float GetPiperSlimeAttackSpeed(this Farmer farmer)
+    {
+        return ModEntry.State.Value.SuperMode.IsActive
+            ? 1f + SuperModeGauge.MaxValue / 10 * 0.01f // apply the maximum eubstance in super mode
+            : 1f + (float) ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 10 * 0.01f; // apply the current eubstance bonus
+    }
+
+    /// <summary>The chance to fire a free consecutive shot for Desperado.</summary>
     public static float GetDesperadoDoubleStrafeChance(this Farmer farmer)
     {
         var healthPercent = (double) farmer.health / farmer.maxHealth;
         return (float) Math.Min(2 / (healthPercent + 1.5) - 0.75, 0.5f);
     }
 
-    /// <summary>Affects projectile velocity, knockback, hitbox size and pierce chance for Desperado.</summary>
-    public static float GetDesperadoBulletPower(this Farmer farmer)
+    /// <summary>The Desperado's shooting power, which affects charging speed, projectile velocity, knock-back, hit-box and pierce chance.</summary>
+    public static float GetDesperadoShootingPower(this Farmer farmer)
     {
-        if (!farmer.IsLocalPlayer || ModEntry.State.Value.SuperMode.IsActive) return 1f;
-        return 1f + (int)ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 10 * 0.01f;
+        return ModEntry.State.Value.SuperMode.IsActive
+            ? 1f // disable temerity bonus in super mode
+            : 1f + (float) ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 10 * 0.01f; // apply the current temerity bonus
     }
 }

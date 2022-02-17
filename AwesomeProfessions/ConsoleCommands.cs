@@ -115,6 +115,12 @@ internal static class ConsoleCommands
             return;
         }
 
+        if (!Game1.player.professions.Any())
+        {
+            Log.I($"Farmer {Game1.player.Name} doesn't have any professions.");
+            return;
+        }
+
         var message = $"Farmer {Game1.player.Name}'s professions:";
         foreach (var professionsIndex in Game1.player.professions)
             try
@@ -215,7 +221,7 @@ internal static class ConsoleCommands
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
-    /// <summary>Set <see cref="ModEntry.State.Value.SuperModeGaugeValue" /> to the desired value, or max it out if no value is specified.</summary>
+    /// <summary>Set <see cref="SuperModeGauge.Value" /> to the desired value, or max it out if no value is specified.</summary>
     internal static void SetSuperModeGaugeValue(string command, string[] args)
     {
         if (!Context.IsWorldReady)
@@ -288,7 +294,15 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.State.Value.SuperMode = new(index);
+#pragma warning disable CS8509
+        ModEntry.State.Value.SuperMode = index switch
+#pragma warning restore CS8509
+        {
+            SuperModeIndex.Brute => new BruteFury(),
+            SuperModeIndex.Poacher => new PoacherColdBlood(),
+            SuperModeIndex.Piper => new PiperEubstance(),
+            SuperModeIndex.Desperado => new DesperadoTemerity()
+        };
         ModData.Write(DataField.SuperModeIndex, index.ToString());
     }
 
@@ -546,7 +560,7 @@ internal static class ConsoleCommands
 
         if (ModEntry.State.Value.ScavengerHunt.IsActive)
         {
-            var v = ModEntry.State.Value.ScavengerHunt.ChooseTreasureTile(Game1.currentLocation);
+            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.State.Value.ScavengerHunt, "ChooseTreasureTile").Invoke<Vector2?>(Game1.currentLocation);
             if (v is null)
             {
                 Log.W("Couldn't find a valid treasure tile after 10 tries.");
@@ -562,7 +576,7 @@ internal static class ConsoleCommands
         }
         else if (ModEntry.State.Value.ProspectorHunt.IsActive)
         {
-            var v = ModEntry.State.Value.ProspectorHunt.ChooseTreasureTile(Game1.currentLocation);
+            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.State.Value.ProspectorHunt, "ChooseTreasureTile").Invoke<Vector2?>(Game1.currentLocation);
             if (v is null)
             {
                 Log.W("Couldn't find a valid treasure tile after 10 tries.");
