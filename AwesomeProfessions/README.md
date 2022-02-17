@@ -189,7 +189,8 @@ The following mods are fully integrated:
 - [CJB Cheats Menu](https://www.nexusmods.com/stardewvalley/mods/4) (download the optional translation files to change profession names under skill cheats).
 - [Teh's Fishing Overhaul](https://www.nexusmods.com/stardewvalley/mods/866/) (the optional Recatchable Legendaries file is also compatible).
 - [Mushroom Propagator](https://www.nexusmods.com/stardewvalley/mods/4637) (applies Ecologist perks).
-- [Vintage Interface](https://www.nexusmods.com/stardewvalley/mods/6654) (enable via configs).﻿
+- [Vintage Interface](https://www.nexusmods.com/stardewvalley/mods/6654) (enable via configs).
+- [Stardew Valley Expanded](https://www.nexusmods.com/stardewvalley/mods/3753) (provides a compatible Galdoran-theme Super Mode bar if SVE is installed).﻿
 - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098)
 
 The following mods are compatible without integration:
@@ -259,6 +260,10 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **RequiredExpPerExtendedLevel** (integer) - How much skill experience is required for each level up beyond 10.
 - **PrestigeRespecCost** (integer) - Monetary cost of respecing prestige profession choices for a skill.
 - **ChangeUltCost** (integer) - Monetary cost of changing the combat ultimate.
+
+### SVE Configs:
+- **UseGaldoranThemeAllTimes** (boolean) - Replicates SVE's config settings of the same name.
+- **DisableGaldoranTheme** (boolean) - Replicates SVE's config settings of the same name.
 
 ## Console Commands
 
