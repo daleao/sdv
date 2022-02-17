@@ -54,7 +54,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
                     // check if this.IsLocalPlayer
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
                     // check if SuperMode is PoacherColdBlood
@@ -143,7 +143,7 @@ internal class FarmerTakeDamagePatch : BasePatch
             return null;
         }
 
-        /// Injected: if (SuperMode is BruteFury && damage > 0) SuperModeGauge.Value += 2;
+        /// Injected: if (SuperMode is BruteFury && damage > 0) SuperMode.ChargeValue += 2;
         /// At: end of method (before return)
 
         var dontIncreaseBruteCounterForDamage = iLGenerator.DefineLabel();
@@ -174,11 +174,9 @@ internal class FarmerTakeDamagePatch : BasePatch
                         typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Gauge))),
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.CurrentValue))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.ChargeValue))),
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0), // <-- increment amount
                     // scale by config factor
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.Config))),
@@ -187,15 +185,15 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Mul),
                     // scale for extended levels
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.MaxValue))),
+                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.MaxValue))),
                     new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Ldc_R8, (double) SuperModeGauge.INITIAL_MAX_VALUE_I),
+                    new CodeInstruction(OpCodes.Ldc_R8, (double) SuperMode.INITIAL_MAX_VALUE_I),
                     new CodeInstruction(OpCodes.Div),
                     new CodeInstruction(OpCodes.Mul),
                     // increment
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperModeGauge).PropertySetter(nameof(SuperModeGauge.CurrentValue)))
+                        typeof(SuperMode).PropertySetter(nameof(SuperMode.ChargeValue)))
                 );
         }
         catch (Exception ex)

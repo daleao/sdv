@@ -9,7 +9,7 @@ using StardewValley;
 
 #endregion using directives
 
-/// <summary>Loads custom mod sprites.</summary>
+/// <summary>Caches custom mod textures and related functions.</summary>
 internal static class Textures
 {
     public const int RIBBON_WIDTH_I = 22,

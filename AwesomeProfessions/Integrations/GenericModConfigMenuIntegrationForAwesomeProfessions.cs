@@ -339,8 +339,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddCheckbox(
                 () => "Use Galdoran Theme All Times",
                 () => "Replicates SVE's config settings of the same name.",
-                config => config.UseGaldoranhemeAllTimes,
-                (config, value) => config.UseGaldoranhemeAllTimes = value
+                config => config.UseGaldoranThemeAllTimes,
+                (config, value) => config.UseGaldoranThemeAllTimes = value
             )
             .AddCheckbox(
                 () => "Disable Galdoran Theme",

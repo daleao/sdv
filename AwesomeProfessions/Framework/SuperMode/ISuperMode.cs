@@ -13,13 +13,16 @@ using AssetLoaders;
 internal interface ISuperMode : IDisposable
 {
     #region public properties
+    public double ChargeValue { get; set; }
+    public float PercentCharge { get; }
+    public bool IsFullyCharged { get; }
+    public bool IsEmpty { get; }
     public bool IsActive { get; }
+    public SuperModeIndex Index { get; }
     public SuperModeGauge Gauge { get; }
     public SuperModeOverlay Overlay { get; }
-
     public SFX ActivationSfx { get; }
     public Color GlowColor { get; }
-    public SuperModeIndex Index { get; }
 
     #endregion public properties
 
@@ -34,8 +37,11 @@ internal interface ISuperMode : IDisposable
     /// <summary>Detect and handle activation input.</summary>
     public void CheckForActivation();
 
-    /// <summary>Update internal activation state.</summary>
-    public void Update();
+    /// <summary>UpdateInput internal activation state.</summary>
+    public void UpdateInput();
+
+    /// <summary>Countdown the charge value.</summary>
+    public void Countdown(double amount);
 
     /// <summary>Add the Super Stat buff to the player.</summary> />
     public void AddBuff();

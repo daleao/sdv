@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+﻿using StardewModdingAPI.Utilities;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
 
 #region using directives
 
@@ -40,7 +42,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
         /// Injected: if (who.professions.Contains(<spelunker_id>) chanceForLadderDown += Util.Professions.GetSpelunkerBonusLadderDownChance()
         /// After: if (EnemyCount == 0) chanceForLadderDown += 0.04;
 
-        var isNotSpelunker = iLGenerator.DefineLabel();
+        var resumeExecution = iLGenerator.DefineLabel();
         try
         {
             helper
@@ -50,20 +52,28 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                 )
                 .Retreat()
                 .StripLabels(out var labels) // backup and remove branch labels
-                .AddLabels(isNotSpelunker) // branch here to resume execution
+                .AddLabels(resumeExecution) // branch here to resume execution
                 .Insert(
                     // restore backed-up labels
                     labels,
+                    // check for local player
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     // prepare profession check
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Spelunker, isNotSpelunker)
+                .InsertProfessionCheckForPlayerOnStack((int) Profession.Spelunker, resumeExecution)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions
-                            .GetSpelunkerBonusLadderDownChance))),
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(ModState).PropertyGetter(nameof(ModState.SpelunkerLadderStreak))),
+                    new CodeInstruction(OpCodes.Ldc_R8, 0.005),
+                    new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Stloc_3)
                 );

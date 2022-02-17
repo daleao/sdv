@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
@@ -18,7 +19,11 @@ using Extensions;
 /// <summary>Base class for handling Super Mode activation.</summary>
 internal abstract class SuperMode : ISuperMode
 {
-    private int _activationTimer = -1;
+    public const int INITIAL_MAX_VALUE_I = 500;
+
+    private int _activationTimer;
+    private double _chargeValue;
+
     private static int _ActivationTimerMax => (int)(ModEntry.Config.SuperModeActivationDelay * 60);
 
     /// <summary>Construct an instance.</summary>
@@ -43,6 +48,45 @@ internal abstract class SuperMode : ISuperMode
     public abstract SFX ActivationSfx { get; }
     public abstract Color GlowColor { get; }
     public abstract SuperModeIndex Index { get; }
+
+
+    public double ChargeValue
+    {
+        get => _chargeValue;
+        set
+        {
+            if (Math.Abs(_chargeValue - value) < 0.01) return;
+
+            if (value <= 0)
+            {
+                _chargeValue = 0;
+                OnEmptied();
+            }
+            else
+            {
+                if (_chargeValue == 0f) OnRaisedFromZero();
+
+                if (value > _chargeValue)
+                {
+                    OnRaised();
+                    if (value >= MaxValue) OnFullyCharged();
+                }
+
+                _chargeValue = Math.Min(value, MaxValue);
+            }
+        }
+    }
+
+    public static int MaxValue =>
+        Game1.player.CombatLevel >= 10
+            ? Game1.player.CombatLevel * 50
+            : INITIAL_MAX_VALUE_I;
+
+    public float PercentCharge => (float)(ChargeValue / MaxValue);
+
+    public bool IsFullyCharged => ChargeValue >= MaxValue;
+
+    public bool IsEmpty => ChargeValue == 0;
 
     #endregion public properties
 
@@ -103,7 +147,7 @@ internal abstract class SuperMode : ISuperMode
     }
 
     /// <inheritdoc />
-    public void Update()
+    public void UpdateInput()
     {
         if (!Game1.game1.IsActive || !Game1.shouldTimePass() || Game1.eventUp || Game1.player.UsingTool ||
             _activationTimer <= 0) return;
@@ -112,6 +156,13 @@ internal abstract class SuperMode : ISuperMode
         if (_activationTimer > 0) return;
 
         Activate();
+    }
+
+    /// <inheritdoc />
+    public void Countdown(double amount)
+    {
+        if (Game1.game1.IsActive && Game1.shouldTimePass())
+            ChargeValue -= amount;
     }
 
     /// <inheritdoc />
@@ -124,7 +175,7 @@ internal abstract class SuperMode : ISuperMode
     /// <summary>Check whether all activation conditions are met.</summary>
     protected virtual bool CanActivate()
     {
-        return !IsActive && Gauge.IsFull;
+        return !IsActive && IsFullyCharged;
     }
 
     /// <summary>Enable all events required for Super Mode functionality.</summary>
@@ -136,9 +187,41 @@ internal abstract class SuperMode : ISuperMode
     }
 
     /// <summary>Disable all events related to Super Mode functionality.</summary>
-    protected void DisableEvents()
+    protected virtual void DisableEvents()
     {
         EventManager.DisableAllStartingWith("SuperMode");
+    }
+
+    /// <summary>Raised when charge value value increases.</summary>
+    protected virtual void OnRaised()
+    {
+    }
+
+    /// <summary>Raised when charge value is raised from zero to any value greater than zero.</summary>
+    protected virtual void OnRaisedFromZero()
+    {
+        if (ModEntry.Config.EnableSuperMode)
+            EventManager.Enable(typeof(SuperModeButtonsChangedEvent), typeof(SuperModeGaugeRenderingHudEvent),
+                typeof(SuperModeUpdateTickedEvent));
+    }
+
+    /// <summary>Raised when charge value is set to the max value.</summary>
+    protected virtual void OnFullyCharged()
+    {
+        if (ModEntry.Config.EnableSuperMode) EventManager.Enable(typeof(SuperModeGaugeShakeUpdateTickedEvent));
+    }
+
+    /// <summary>Raised when charge value is set to zero.</summary>
+    protected virtual void OnEmptied()
+    {
+        EventManager.Disable(typeof(SuperModeButtonsChangedEvent), typeof(SuperModeGaugeShakeUpdateTickedEvent),
+            typeof(SuperModeUpdateTickedEvent));
+        Gauge.ForceStopShake();
+
+        if (ModEntry.State.Value.SuperMode.IsActive) ModEntry.State.Value.SuperMode.Deactivate();
+
+        if (!Game1.currentLocation.IsCombatZone())
+            EventManager.Enable(typeof(SuperModeGaugeFadeOutUpdateTickedEvent));
     }
 
     #endregion protected methods

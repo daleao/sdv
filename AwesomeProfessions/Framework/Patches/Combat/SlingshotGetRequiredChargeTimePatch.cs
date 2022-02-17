@@ -28,7 +28,7 @@ internal class SlingshotGetRequiredChargeTimePatch : BasePatch
         var firer = __instance.getLastFarmerToUse();
         if (!firer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not DesperadoTemerity) return;
         
-        __result *= 1f - ModEntry.State.Value.SuperMode.Gauge.PercentFill;
+        __result *= 1f - ModEntry.State.Value.SuperMode.PercentCharge;
     }
 
     #endregion harmony patches

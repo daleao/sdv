@@ -17,7 +17,7 @@ internal sealed class DesperadoTemerity : SuperMode
     /// <summary>Construct an instance.</summary>
     internal DesperadoTemerity()
     {
-        Gauge = new(Color.DarkGoldenrod);
+        Gauge = new(this, Color.DarkGoldenrod);
         Overlay = new(Color.SandyBrown);
         EnableEvents();
     }
@@ -61,7 +61,7 @@ internal sealed class DesperadoTemerity : SuperMode
                     which = buffId,
                     sheetIndex = 51,
                     glow = GlowColor,
-                    millisecondsDuration = (int) (SuperModeGauge.MaxValue * ModEntry.Config.SuperModeDrainFactor * 10),
+                    millisecondsDuration = (int) (SuperMode.MaxValue * ModEntry.Config.SuperModeDrainFactor * 10),
                     description = ModEntry.ModHelper.Translation.Get("desperado.supermdesc")
                 }
             );
@@ -71,10 +71,10 @@ internal sealed class DesperadoTemerity : SuperMode
     /// <inheritdoc />
     public override void AddBuff()
     {
-        if (Gauge.CurrentValue < 10.0) return;
+        if (ChargeValue < 10.0) return;
 
         var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) SuperModeIndex.Desperado;
-        var magnitude = Game1.player.GetDesperadoShootingPower().ToString("0.0");
+        var magnitude = GetShootingPower().ToString("0.0");
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff == null)
             Game1.buffsDisplay.addOtherBuff(
@@ -99,6 +99,14 @@ internal sealed class DesperadoTemerity : SuperMode
                     millisecondsDuration = 0,
                     description = ModEntry.ModHelper.Translation.Get("desperado.buffdesc", new {magnitude})
                 });
+    }
+
+    /// <summary>The Desperado's shooting power, which affects charging speed, projectile velocity, knock-back, hit-box and pierce chance.</summary>
+    public float GetShootingPower()
+    {
+        return IsActive
+            ? 1f // disable temerity bonus in super mode
+            : 1f + (float) ChargeValue / 10 * 0.01f; // apply the current temerity bonus
     }
 
     #endregion public methods

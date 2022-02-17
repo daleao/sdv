@@ -151,10 +151,10 @@
   "desperado.supermdesc": "自动换弹。同时向八个方向射击。",
   "piper.name.male": "史莱姆操纵者",
   "piper.name.female": "史莱姆女巫",
-  "piper.desc": "史莱姆会攻击其他怪物并且掉落更好的物品。根据你农场的史莱姆数量，在矿洞中产生额外的史莱姆。",
-  "piper.desc.prestiged": "史莱姆也会在接触时治愈你。史莱姆效果反转。",
+  "piper.desc": "在危险区域吸引史莱姆。 所有史莱姆都能伤害其他敌人。 凝聚力会强化友方史莱姆。",
+  "piper.desc.prestiged": "击败史莱姆时恢复健康和能量。史莱姆效果反转。",
   "piper.buff": "物质",
-  "piper.buffdesc": "吸引{{magnitude}}额外的史莱姆。",
+  "piper.buffdesc": "史莱姆攻击速度+{{magnitude}}%。",
   "piper.superm": "超流体",
   "piper.supermdesc": "使附近的史莱姆变大并增加它们的伤害。",
 

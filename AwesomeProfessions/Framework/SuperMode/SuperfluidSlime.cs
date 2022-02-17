@@ -11,7 +11,7 @@ using StardewValley;
 /// <summary>Wrapper for Slimes affected by Piper's Superfluidity.</summary>
 internal class SuperfluidSlime
 {
-    private static int _MillisecondsDuration => (int) (SuperModeGauge.MaxValue * ModEntry.Config.SuperModeDrainFactor * 10);
+    private static int _MillisecondsDuration => (int) (SuperMode.MaxValue * ModEntry.Config.SuperModeDrainFactor * 10);
     
     public GreenSlime Instance { get; }
     public Farmer TheOneWhoPipedMe { get; }

@@ -59,8 +59,13 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - _[Optional]_ Level 20 skills and prestiged professions.
 - Gender-specific profession title.
 - New icons for most professions, courtesy of [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) (please make sure to [endorse their original](https://www.nexusmods.com/stardewvalley/mods/4163) mod).
-- New sound effects for certain professions.
+- New sound effects and visuals for certain professions.
+- Integration with Automate and several other popular mods.
+- HUD elements compatible with SVE's Galdora and [Vintage Interface v2﻿](https://www.nexusmods.com/stardewvalley/mods/4697).
 - _[Optional]_ Rebalanced Fish Ponds.
+    - Fish Ponds preserve fish quality. The quality of new fish will be inerited from the parent.
+    - Roe / ink production quantity scales with population, and production chance scales inversely with fish value. This means cheap fish will produce tons of cheap row, and expensive fish will some times produce super valuable roe.
+    - Intended for use with the new Aquarist profession.
 
 ## Professions
 
@@ -189,7 +194,7 @@ The following mods are fully integrated:
 - [CJB Cheats Menu](https://www.nexusmods.com/stardewvalley/mods/4) (download the optional translation files to change profession names under skill cheats).
 - [Teh's Fishing Overhaul](https://www.nexusmods.com/stardewvalley/mods/866/) (the optional Recatchable Legendaries file is also compatible).
 - [Mushroom Propagator](https://www.nexusmods.com/stardewvalley/mods/4637) (applies Ecologist perks).
-- [Vintage Interface](https://www.nexusmods.com/stardewvalley/mods/6654) (enable via configs).
+- [Vintage Interface v2](https://www.nexusmods.com/stardewvalley/mods/4697) (enable via configs).
 - [Stardew Valley Expanded](https://www.nexusmods.com/stardewvalley/mods/3753) (provides a compatible Galdoran-theme Super Mode bar if SVE is installed).﻿
 - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098)
 

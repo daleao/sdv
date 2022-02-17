@@ -151,7 +151,7 @@
   "desperado.supermdesc": "Enables auto-reload. Fire in eight directions at once.",
   "piper.name.male": "Slimed Piper",
   "piper.name.female": "Slime Enchantress",
-  "piper.desc": "Attract new Slimes in dangerous maps. All Slimes damage other enemies. Gather Eubstance to empower ally Slimes.",
+  "piper.desc": "Attract new Slimes in dangerous areas. All Slimes damage other enemies. Gather Eubstance to empower ally Slimes.",
   "piper.desc.prestiged": "Defeating a Slime recovers some health and energy. Slimed debuff's effect is reversed.",
   "piper.buff": "Eubstance",
   "piper.buffdesc": "Slime attack speed +{{magnitude}}%.",

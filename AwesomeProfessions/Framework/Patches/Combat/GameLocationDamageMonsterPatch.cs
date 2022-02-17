@@ -104,9 +104,11 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             return null;
         }
 
-        /// From: if (who is not null && who.professions.Contains(<brute_id>) ... *= 1.15f;
-        /// To: if (who is not null && who.professions.Contains(<brute_id>) ... *= GetBruteBonusDamageMultiplier(who);
+        /// Injected: if (who.IsLocalPlayer && ModEntry.State.Value.SuperMode is BruteFury fury) ... += fury.GetBonusDamageMultiplier(who)
+        /// After: if (who is not null && who.professions.Contains(<brute_id>) ... *= 1.15f;
 
+        resumeExecution = iLGenerator.DefineLabel();
+        var bruteFury = iLGenerator.DeclareLocal(typeof(BruteFury));
         try
         {
             helper
@@ -115,13 +117,29 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.15f) // brute damage multiplier
                 )
-                .ReplaceWith( // replace with custom multiplier
-                    new(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions
-                            .GetBruteBonusDamageMultiplier)))
-                )
+                .Advance()
+                .AddLabels(resumeExecution)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
+                    // check for local player
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Call, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                    // check for Brute Fury
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
+                    new CodeInstruction(OpCodes.Isinst, typeof(BruteFury)),
+                    new CodeInstruction(OpCodes.Stloc_S, bruteFury),
+                    new CodeInstruction(OpCodes.Ldloc_S, bruteFury),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                    // increase damage bonus
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10),
+                    new CodeInstruction(OpCodes.Ldloc_S, bruteFury),
+                    new CodeInstruction(OpCodes.Call, typeof(BruteFury).MethodNamed(nameof(BruteFury.GetBonusDamageMultiplier))),
+                    new CodeInstruction(OpCodes.Add)
                 );
         }
         catch (Exception ex)
@@ -131,8 +149,9 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         /// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f;
-        /// To: if (who is not null && crit && who.IsLocalPlayer && SuperMode is PoacherColdBlood) ... *= GetPoacherCritDamageMultiplier;
+        /// To: if (who is not null && crit && who.IsLocalPlayer && SuperMode is PoacherColdBlood poacherColdBlood) ... *= poacherColdBlood.GetCritDamageMultiplier();
 
+        var poacherColdBlood = iLGenerator.DeclareLocal(typeof(PoacherColdBlood));
         try
         {
             helper
@@ -153,11 +172,14 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .Advance()
                 .Remove(2) // was Callvirt NetList.Contains
                 .Insert(
+                    // check for Poacher Cold Blood
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt, typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
                     new CodeInstruction(OpCodes.Isinst, typeof(PoacherColdBlood)),
+                    new CodeInstruction(OpCodes.Stloc_S, poacherColdBlood),
+                    new CodeInstruction(OpCodes.Ldloc_S, poacherColdBlood),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseCritPow)
                 )
                 .AdvanceUntil(
@@ -165,11 +187,10 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 )
                 .ReplaceWith(
                     new(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(
-                            nameof(FarmerExtensions.GetPoacherCritDamageMultiplier)))
+                        typeof(PoacherColdBlood).MethodNamed(nameof(PoacherColdBlood.GetCritDamageMultiplier)))
                 )
                 .Insert(
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player)))
+                    new CodeInstruction(OpCodes.Ldloc_S, poacherColdBlood)
                 );
         }
         catch (Exception ex)
@@ -306,8 +327,8 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             }
         }
 
-        superMode.Gauge.CurrentValue += increment * ModEntry.Config.SuperModeGainFactor *
-            (double) SuperModeGauge.MaxValue / SuperModeGauge.INITIAL_MAX_VALUE_I;
+        superMode.ChargeValue += increment * ModEntry.Config.SuperModeGainFactor *
+            (double) SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
     }
 
     #endregion injected subroutines

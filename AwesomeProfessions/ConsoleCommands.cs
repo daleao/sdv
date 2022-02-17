@@ -238,7 +238,7 @@ internal static class ConsoleCommands
 
         if (!args.Any())
         {
-            ModEntry.State.Value.SuperMode.Gauge.CurrentValue = SuperModeGauge.MaxValue;
+            ModEntry.State.Value.SuperMode.ChargeValue = SuperMode.MaxValue;
             return;
         }
 
@@ -254,7 +254,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.State.Value.SuperMode.Gauge.CurrentValue = SuperModeGauge.MaxValue * (double)value / 100;
+        ModEntry.State.Value.SuperMode.ChargeValue = SuperMode.MaxValue * (double)value / 100;
     }
 
     /// <summary>

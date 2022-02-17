@@ -1,4 +1,5 @@
-﻿namespace DaLion.Stardew.Professions.Framework.SuperMode;
+﻿// ReSharper disable PossibleLossOfFraction
+namespace DaLion.Stardew.Professions.Framework.SuperMode;
 
 #region using directives
 
@@ -17,7 +18,7 @@ internal sealed class BruteFury : SuperMode
     /// <summary>Construct an instance.</summary>
     internal BruteFury()
     {
-        Gauge = new(Color.OrangeRed);
+        Gauge = new(this, Color.OrangeRed);
         Overlay = new(Color.OrangeRed);
         EnableEvents();
     }
@@ -61,7 +62,7 @@ internal sealed class BruteFury : SuperMode
                     which = buffId,
                     sheetIndex = 48,
                     glow = GlowColor,
-                    millisecondsDuration = (int) (SuperModeGauge.MaxValue * ModEntry.Config.SuperModeDrainFactor * 10),
+                    millisecondsDuration = (int) (SuperMode.MaxValue * ModEntry.Config.SuperModeDrainFactor * 10),
                     description = ModEntry.ModHelper.Translation.Get("brute.supermdesc")
                 }
             );
@@ -71,10 +72,10 @@ internal sealed class BruteFury : SuperMode
     /// <inheritdoc />
     public override void AddBuff()
     {
-        if (Gauge.CurrentValue < 10.0) return;
+        if (ChargeValue < 10.0) return;
 
         var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) SuperModeIndex.Brute;
-        var magnitude = ((Game1.player.GetBruteBonusDamageMultiplier() - 1.15) * 100f).ToString("0.0");
+        var magnitude = ((GetBonusDamageMultiplier(Game1.player) - 1.15) * 100f).ToString("0.0");
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff == null)
             Game1.buffsDisplay.addOtherBuff(
@@ -99,6 +100,22 @@ internal sealed class BruteFury : SuperMode
                     millisecondsDuration = 0,
                     description = ModEntry.ModHelper.Translation.Get("brute.buffdesc", new {magnitude})
                 });
+    }
+
+    /// <summary>The multiplier to all damage dealt by Brute.</summary>
+    public float GetBonusDamageMultiplier(Farmer farmer)
+    {
+        var multiplier = (int) ChargeValue / 10 * 0.005f; // apply current fury bonus
+        if (!IsActive) return multiplier;
+
+        multiplier *= 2; // double fury bonus
+        multiplier += 0.15f; // double brute bonus
+        multiplier += farmer.HasProfession(Profession.Fighter, true) ? 0.2f : 0.1f; // double fighter bonus
+        multiplier += farmer.attackIncreaseModifier; // double ring bonus
+        if (farmer.CurrentTool is not null)
+            multiplier += farmer.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f; // double enchant bonus
+
+        return multiplier;
     }
 
     #endregion public methods

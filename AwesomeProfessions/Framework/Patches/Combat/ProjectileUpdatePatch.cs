@@ -49,10 +49,10 @@ internal class ProjectileUpdatePatch : BasePatch
 
         // check if firer is has Desperado Super Mode
         var firer = ___theOneWhoFiredMe.Get(Game1.currentLocation) is Farmer farmer ? farmer : Game1.player;
-        if (!firer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not DesperadoTemerity) return;
+        if (!firer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not DesperadoTemerity desperadoTemerity) return;
 
         // check for powered bullet
-        var bulletPower = firer.GetDesperadoShootingPower() - 1f;
+        var bulletPower = desperadoTemerity.GetShootingPower() - 1f;
         if (bulletPower <= 0f) return;
 
         // check if already collided

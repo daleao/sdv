@@ -50,7 +50,7 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
                 (int) (__instance.damageToFarmer.Value * GetRascalBonusDamageForTravelTime(___travelTime));
 
             var hasTemerity = firer.IsLocalPlayer && ModEntry.State.Value.SuperMode is DesperadoTemerity;
-            var bulletPower = hasTemerity ? firer.GetDesperadoShootingPower() : 1f;
+            var bulletPower = hasTemerity ? (ModEntry.State.Value.SuperMode as DesperadoTemerity)!.GetShootingPower() : 1f;
             if (hasTemerity && Game1.random.NextDouble() < (bulletPower - 1) / 2)
                 ModEntry.State.Value.PiercedBullets.Add(__instance.GetHashCode());
             else
@@ -64,8 +64,8 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
 
             // give a bonus to Desperados
             if (hasTemerity)
-                ModEntry.State.Value.SuperMode.Gauge.CurrentValue += 6 * ModEntry.Config.SuperModeGainFactor *
-                    (double) SuperModeGauge.MaxValue / SuperModeGauge.INITIAL_MAX_VALUE_I;
+                ModEntry.State.Value.SuperMode.ChargeValue += 6 * ModEntry.Config.SuperModeGainFactor *
+                    (double) SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
 
             // stun if prestiged Rascal
             if (!firer.HasProfession(Profession.Rascal, true)) return false; // don't run original logic

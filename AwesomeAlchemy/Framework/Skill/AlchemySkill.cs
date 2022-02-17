@@ -7,7 +7,7 @@ namespace DaLion.Stardew.Alchemy.Framework.Skill;
 
 public class AlchemySkill : SpaceCore.Skills.Skill
 {
-    internal static readonly string InternalName { get; } = ModEntry.Manifest.UniqueID + ".AlchemySkill";
+    internal static string InternalName { get; } = ModEntry.Manifest.UniqueID + ".AlchemySkill";
 
     public AlchemySkill()
         : base(_internalName)

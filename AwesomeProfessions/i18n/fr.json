@@ -151,10 +151,10 @@
   "desperado.supermdesc": "Active le rechargement automatique. Tire en huit directions autour de toi à la fois.",
   "piper.name.male": "Enchanteur de Slimes",
   "piper.name.female": "Enchanteresse de Slimes",
-  "piper.desc": "Les Slimes endommagent les autres ennemis et laissent tomber de meilleurs objets plus des Slimes sont élevés dans la ferme. L'eubstance collecté fait attirer plus de Slimes dans les donjons.",
-  "piper.desc.prestiged": "Les Slimes vous soignent également au contact. L'effet Englué(e) est inversé.",
+  "piper.desc": "Attirez des Slimes dans des zones dangereuses. Tous les Slimes endommagent les autres ennemis. Rassemblez de l'Eubstance pour renforcer les Slimes alliés.",
+  "piper.desc.prestiged": "Récuperez de la santé et de l'énergie lors de l'élimination d'un Slime. L'effet Englué(e) est inversé.",
   "piper.buff": "Eubstance",
-  "piper.buffdesc": "Attire jusqu'à {{magnitude}} Slimes supplémentaires.",
+  "piper.buffdesc": "Vitesse d'attaque des Slimes +{{magnitude}}%.",
   "piper.superm": "Superfluidité",
   "piper.supermdesc": "Engorge et renforce les Slimes à proximité.",
 

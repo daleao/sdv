@@ -1,4 +1,5 @@
-﻿namespace DaLion.Stardew.Professions.Framework.SuperMode;
+﻿// ReSharper disable PossibleLossOfFraction
+namespace DaLion.Stardew.Professions.Framework.SuperMode;
 
 #region using directives
 
@@ -19,7 +20,7 @@ internal sealed class PoacherColdBlood : SuperMode
     /// <summary>Construct an instance.</summary>
     internal PoacherColdBlood()
     {
-        Gauge = new(Color.MediumPurple);
+        Gauge = new(this, Color.MediumPurple);
         Overlay = new(Color.MidnightBlue);
         EnableEvents();
     }
@@ -83,7 +84,7 @@ internal sealed class PoacherColdBlood : SuperMode
                     which = buffId,
                     sheetIndex = 49,
                     glow = GlowColor,
-                    millisecondsDuration = (int) (SuperModeGauge.MaxValue * ModEntry.Config.SuperModeDrainFactor * 10),
+                    millisecondsDuration = (int) (SuperMode.MaxValue * ModEntry.Config.SuperModeDrainFactor * 10),
                     description = ModEntry.ModHelper.Translation.Get("poacher.supermdesc")
                 }
             );
@@ -93,10 +94,10 @@ internal sealed class PoacherColdBlood : SuperMode
     /// <inheritdoc />
     public override void AddBuff()
     {
-        if (Gauge.CurrentValue < 10.0) return;
+        if (ChargeValue < 10.0) return;
 
         var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) SuperModeIndex.Poacher;
-        var magnitude = Game1.player.GetPoacherCritDamageMultiplier().ToString("0.0");
+        var magnitude = GetCritDamageMultiplier().ToString("0.0");
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff == null)
             Game1.buffsDisplay.addOtherBuff(
@@ -121,6 +122,14 @@ internal sealed class PoacherColdBlood : SuperMode
                     millisecondsDuration = 0,
                     description = ModEntry.ModHelper.Translation.Get("poacher.buffdesc", new {magnitude})
                 });
+    }
+
+    /// <summary>The multiplier applied to critical damage performed by Poacher.</summary>
+    public float GetCritDamageMultiplier()
+    {
+        return IsActive
+            ? 1f + MaxValue / 10 * 0.04f // apply the maximum cold blood bonus
+            : 1f + (int) ChargeValue / 10 * 0.04f; // apply current cold blood bonus
     }
 
     #endregion public methods

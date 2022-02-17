@@ -22,6 +22,6 @@ internal class SuperModeActiveUpdateTickedEvent : UpdateTickedEvent
 
         var amount = Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds /
                      (ModEntry.Config.SuperModeDrainFactor * 10);
-        ModEntry.State.Value.SuperMode.Gauge.Countdown(amount);
+        ModEntry.State.Value.SuperMode.Countdown(amount);
     }
 }

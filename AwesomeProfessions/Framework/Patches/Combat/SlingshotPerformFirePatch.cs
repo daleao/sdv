@@ -185,10 +185,10 @@ internal class SlingshotPerformFirePatch : BasePatch
 
     private static void PerformFireSubroutine(Slingshot slingshot, ref int damage, ref Vector2 velocity, GameLocation location, Farmer who)
     {
-        if (!who.IsLocalPlayer || ModEntry.State.Value.SuperMode is not DesperadoTemerity {IsActive: false} ||
+        if (!who.IsLocalPlayer || ModEntry.State.Value.SuperMode is not DesperadoTemerity {IsActive: false} desperadoTemerity ||
             !location.IsCombatZone()) return;
 
-        var bulletPower = who.GetDesperadoShootingPower();
+        var bulletPower = desperadoTemerity.GetShootingPower();
         velocity *= bulletPower;
         damage = (int) (damage * bulletPower / 5);
 
@@ -197,8 +197,8 @@ internal class SlingshotPerformFirePatch : BasePatch
             slingshot.GetRequiredChargeTime() * QUICK_FIRE_HANDICAP_F)
             increment += 6;
 
-        ModEntry.State.Value.SuperMode.Gauge.CurrentValue += increment * ModEntry.Config.SuperModeGainFactor *
-            (double) SuperModeGauge.MaxValue / SuperModeGauge.INITIAL_MAX_VALUE_I;
+        ModEntry.State.Value.SuperMode.ChargeValue += increment * ModEntry.Config.SuperModeGainFactor *
+            (double) SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
     }
 
     #endregion injected subroutines

@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿using DaLion.Stardew.Professions.Framework.SuperMode;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
@@ -65,7 +67,12 @@ internal class GreenSlimeUpdatePatch : BasePatch
             monster.takeDamage((int) damageToMonster, (int) xTrajectory, (int) yTrajectory, false, 1.0, "slime");
             monster.currentLocation.debris.Add(new((int) damageToMonster,
                 new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f, monster));
-            monster.setInvincibleCountdown((int) (INITIAL_INVINCIBILITY_TIMER_I * (1f - closestPiper.GetPiperSlimeAttackSpeed() / 2f)));
+
+            var invincibleCountdown = INITIAL_INVINCIBILITY_TIMER_I;
+            if (ModEntry.State.Value.SuperMode is PiperEubstance eubstance)
+                invincibleCountdown = (int) (invincibleCountdown * (1f - eubstance.GetBonusSlimeAttackSpeed() / 2f));
+            
+            monster.setInvincibleCountdown(invincibleCountdown);
         }
     }
 

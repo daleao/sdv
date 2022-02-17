@@ -151,10 +151,10 @@
   "desperado.supermdesc": "자동으로 장전합니다. 한 번에 주변으로 여덟 개의 탄약을 발사합니다.",
   "piper.name.male": "슬라임부리미",
   "piper.name.female": "슬라임부리미",
-  "piper.desc": "슬라임이 다른 적을 공격하고, 농장에서 기르는 슬라임으로부터 더 많은 아이템을 얻을 수 있습니다. 응집하면 던전에서 더 많은 슬라임을 부릴 수 있습니다.",
-  "piper.desc.prestiged": "인접한 슬라임이 당신을 회복시킵니다. 슬라임 효과가 역전됩니다.",
+  "piper.desc": "위험한 지역에서 슬라임을 유인하세요. 모든 슬라임은 다른 적에게 피해를 줄 수 있습니다. 응집력은 아군 슬라임을 강화합니다.",
+  "piper.desc.prestiged": "슬라임을 물리칠 때 건강과 에너지를 회복하십시오. 슬라임 효과가 역전됩니다.",
   "piper.buff": "응집",
-  "piper.buffdesc": "{{magnitude}} 마리의 슬라임을 더 부립니다.",
+  "piper.buffdesc": "슬라임 공격 속도 +{{magnitude}}%.",
   "piper.superm": "초유동성",
   "piper.supermdesc": "가까운 슬라임을 강하게 합니다.",
 

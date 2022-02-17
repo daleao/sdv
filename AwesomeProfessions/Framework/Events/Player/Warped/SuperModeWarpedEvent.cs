@@ -24,7 +24,7 @@ internal class SuperModeWarpedEvent : WarpedEvent
         }
         else
         {
-            ModEntry.State.Value.SuperMode.Gauge.CurrentValue = 0.0;
+            ModEntry.State.Value.SuperMode.ChargeValue = 0.0;
             EventManager.Disable(typeof(SuperModeGaugeRenderingHudEvent));
         }
     }

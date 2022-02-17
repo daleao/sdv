@@ -109,7 +109,7 @@ public class ModConfig
     public bool EnableFishPondRebalance { get; set; } = true;
 
     /// <summary>Replicates SVE's config setting of the same name.</summary>
-    public bool UseGaldoranhemeAllTimes { get; set; } = false;
+    public bool UseGaldoranThemeAllTimes { get; set; } = false;
     
     /// <summary>Replicates SVE's config setting of the same name.</summary>
     public bool DisableGaldoranTheme { get; set; } = false;

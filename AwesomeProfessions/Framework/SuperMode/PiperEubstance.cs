@@ -22,7 +22,7 @@ internal sealed class PiperEubstance : SuperMode
     /// <summary>Construct an instance.</summary>
     internal PiperEubstance()
     {
-        Gauge = new(Color.LimeGreen);
+        Gauge = new(this, Color.LimeGreen);
         Overlay = new(Color.DarkGreen);
         EnableEvents();
     }
@@ -40,7 +40,7 @@ internal sealed class PiperEubstance : SuperMode
     /// <inheritdoc />
     public override void Activate()
     {
-        if (Gauge.CurrentValue < _InflationCost)
+        if (ChargeValue < _InflationCost)
         {
             Game1.playSound("cancel");
             return;
@@ -52,9 +52,9 @@ internal sealed class PiperEubstance : SuperMode
         {
             if (slime.Scale >= 2f) continue;
 
-            if (Gauge.CurrentValue < _InflationCost) break;
+            if (ChargeValue < _InflationCost) break;
 
-            Gauge.CurrentValue -= _InflationCost;
+            ChargeValue -= _InflationCost;
 
             if (Game1.random.NextDouble() <= 0.012 + Game1.player.team.AverageDailyLuck() / 10.0)
             {
@@ -97,10 +97,10 @@ internal sealed class PiperEubstance : SuperMode
     /// <inheritdoc />
     public override void AddBuff()
     {
-        if (Gauge.CurrentValue < 10.0) return;
+        if (ChargeValue < 10.0) return;
 
         var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int)SuperModeIndex.Piper;
-        var magnitude = Game1.player.GetPiperSlimeAttackSpeed().ToString("0.0");
+        var magnitude = GetBonusSlimeAttackSpeed().ToString("0.0");
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff == null)
             Game1.buffsDisplay.addOtherBuff(
@@ -127,6 +127,23 @@ internal sealed class PiperEubstance : SuperMode
                 });
     }
 
+    /// <summary>The bonus attack frequency of Slimes affected by Eubstance.</summary>
+    public float GetBonusSlimeAttackSpeed()
+    {
+        return IsActive
+            // ReSharper disable once PossibleLossOfFraction
+            ? 1f + MaxValue / 10 * 0.01f // apply the maximum eubstance in super mode
+            : 1f + (float) ChargeValue / 10 * 0.01f; // apply the current eubstance bonus
+    }
+
+    /// <summary>The bonus movement speed of Slimes affected by Eubstance.</summary>
+    public int GetBonusSlimeMovementSpeed()
+    {
+        return IsActive
+            ? 1
+            : (int) (ChargeValue / 200);
+    }
+
     #endregion public methods
 
     #region protected methods
@@ -134,8 +151,26 @@ internal sealed class PiperEubstance : SuperMode
     /// <inheritdoc />
     protected override bool CanActivate()
     {
-        return !Gauge.IsEmpty && Game1.player.currentLocation.characters.OfType<Monster>()
+        return !IsEmpty && Game1.player.currentLocation.characters.OfType<Monster>()
             .Any(m => m.IsSlime() && m.IsWithinPlayerThreshold());
+    }
+
+    /// <inheritdoc />
+    protected override void OnRaised()
+    {
+        foreach (var slime in Game1.player.currentLocation.characters.OfType<GreenSlime>())
+            slime.addedSpeed = GetBonusSlimeMovementSpeed();
+    }
+
+    /// <inheritdoc />
+    protected override void OnEmptied()
+    {
+        base.OnEmptied();
+        foreach (var slime in Game1.player.currentLocation.characters.OfType<GreenSlime>())
+        {
+            slime.addedSpeed = 0;
+            slime.focusedOnFarmers = false;
+        }
     }
 
     #endregion protected methods

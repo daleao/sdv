@@ -37,7 +37,8 @@ internal class FishPondSpawnFishPatch : BasePatch
         var qualityRatingByFishPond =
             ModData.Read(DataField.QualityRatingByFishPond, owner).ToDictionary<int, int>(",", ";");
         var thisFishPond = __instance.GetCenterTile().ToString().GetDeterministicHashCode();
-        
+        if (!qualityRatingByFishPond.ContainsKey(thisFishPond)) return;
+
         var (numBestQuality, numHighQuality, numMedQuality) = __instance.GetAllFishQualities();
         if (numBestQuality == 0 && numHighQuality == 0 && numMedQuality == 0)
         {

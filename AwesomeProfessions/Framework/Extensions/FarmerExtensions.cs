@@ -361,45 +361,12 @@ internal static class FarmerExtensions
             : SObject.bestQuality;
     }
 
-    /// <summary>The bonus chance to spawn a ladder or shaft for Spelunker.</summary>
-    public static double GetSpelunkerBonusLadderDownChance(this Farmer farmer)
-    {
-        if (!farmer.IsLocalPlayer) return 0.0;
-        return ModEntry.State.Value.SpelunkerLadderStreak * 0.005;
-    }
-
-    /// <summary>The multiplier to all damage dealt by Brute.</summary>
-    public static float GetBruteBonusDamageMultiplier(this Farmer farmer)
-    {
-        var multiplier = 1.15f;
-        if (!farmer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not BruteFury fury)
-            return multiplier;
-
-        multiplier += fury.IsActive
-            ? (farmer.HasProfession(Profession.Fighter, true) ? 0.2f : 0.1f) + 0.15f + farmer.attackIncreaseModifier + // double fighter, brute and ring bonuses
-              (farmer.CurrentTool is not null
-                  ? farmer.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f // double enchants
-                  : 0f)
-              + SuperModeGauge.MaxValue / 10 * 0.005f // apply the maximum fury bonus
-            : (int) fury.Gauge.CurrentValue / 10 * 0.005f; // apply current fury bonus
-
-        return multiplier;
-    }
-
     /// <summary>The reduction to cooldown of special moves performed by prestiged Brute.</summary>
     public static float GetPrestigedBruteCooldownReduction(this Farmer farmer)
     {
         return 1f - farmer.attackIncreaseModifier + (farmer.CurrentTool is not null
             ? farmer.CurrentTool.GetEnchantmentLevel<RubyEnchantment>() * 0.1f
             : 0f);
-    }
-
-    /// <summary>The multiplier applied to critical damage performed by Poacher.</summary>
-    public static float GetPoacherCritDamageMultiplier(this Farmer farmer)
-    {
-        return ModEntry.State.Value.SuperMode.IsActive
-            ? 1f + SuperModeGauge.MaxValue / 10 * 0.04f // apply the maximum cold blood bonus
-            : 1f + (int) ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 10 * 0.04f; // apply current cold blood bonus
     }
 
     /// <summary>The reduction to cooldown of special moves performed by prestiged Poacher.</summary>
@@ -420,26 +387,10 @@ internal static class FarmerExtensions
             .SelectMany(b => b.indoors.Value.characters.OfType<GreenSlime>());
     }
 
-    /// <summary>The bonus attack frequency of Slimes affected by Piper.</summary>
-    public static float GetPiperSlimeAttackSpeed(this Farmer farmer)
-    {
-        return ModEntry.State.Value.SuperMode.IsActive
-            ? 1f + SuperModeGauge.MaxValue / 10 * 0.01f // apply the maximum eubstance in super mode
-            : 1f + (float) ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 10 * 0.01f; // apply the current eubstance bonus
-    }
-
     /// <summary>The chance to fire a free consecutive shot for Desperado.</summary>
     public static float GetDesperadoDoubleStrafeChance(this Farmer farmer)
     {
         var healthPercent = (double) farmer.health / farmer.maxHealth;
         return (float) Math.Min(2 / (healthPercent + 1.5) - 0.75, 0.5f);
-    }
-
-    /// <summary>The Desperado's shooting power, which affects charging speed, projectile velocity, knock-back, hit-box and pierce chance.</summary>
-    public static float GetDesperadoShootingPower(this Farmer farmer)
-    {
-        return ModEntry.State.Value.SuperMode.IsActive
-            ? 1f // disable temerity bonus in super mode
-            : 1f + (float) ModEntry.State.Value.SuperMode.Gauge.CurrentValue / 10 * 0.01f; // apply the current temerity bonus
     }
 }

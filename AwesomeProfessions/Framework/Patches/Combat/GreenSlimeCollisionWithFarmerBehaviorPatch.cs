@@ -36,8 +36,8 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
             ModEntry.State.Value.SlimeContactTimer > 0) return;
 
         if (!eubstance.IsActive)
-            eubstance.Gauge.CurrentValue +=
-                Game1.random.Next(1, 4) * ModEntry.Config.SuperModeGainFactor * (double) SuperModeGauge.MaxValue / SuperModeGauge.INITIAL_MAX_VALUE_I;
+            eubstance.ChargeValue +=
+                Game1.random.Next(1, 4) * ModEntry.Config.SuperModeGainFactor * (double) SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
 
         ModEntry.State.Value.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
     }

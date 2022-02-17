@@ -151,10 +151,10 @@
   "desperado.supermdesc": "Habilita a recarga automática. Dispara oito tiros ao redor de uma só vez.",
   "piper.name.male": "Encantador de Gosmas",
   "piper.name.female": "Encantadora de Gosmas",
-  "piper.desc": "As Gosmas danificam outros inimigos e produzem ítens melhores quanto mais Gosmas são criadas na fazenda. A Eubstância acumulada faz atrair mais Gosmas nas masmorras.",
-  "piper.desc.prestiged": "As Gosmas também te curam ao contato. O efeito Coberto de Gosma se inverte.",
+  "piper.desc": "Atrae Gosmas em lugares perigosos. Todas as Gosmas danificam outros inimigos. Colete Eubstância para empoderar as Gosmas aliadas.",
+  "piper.desc.prestiged": "Recupera vida e energia ao eliminar uma Gosma. O efeito Coberto de Gosma se inverte.",
   "piper.buff": "Eubstância",
-  "piper.buffdesc": "Atrai até {{magnitude}} Gosmas adicionais.",
+  "piper.buffdesc": "Velocidade de ataque das Gosmas +{{magnitude}}%.",
   "piper.superm": "Superfluidez",
   "piper.supermdesc": "Dilata e empodera as Gosmas ao redor.",
 

@@ -29,10 +29,10 @@ public class TextureLoader : IAssetLoader
         return textureName switch
         {
             "SuperModeGauge" => ModEntry.ModHelper.Content.Load<T>(Path.Combine("assets", "hud",
-                ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP") &&
+                Context.IsWorldReady && ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP") &&
                 !ModEntry.Config.DisableGaldoranTheme &&
                 (Game1.currentLocation.NameOrUniqueName.IsAnyOf("Custom_CastleVillageOutpost", "Custom_CrimsonBadlands",
-                    "Custom_IridiumQuarry", "Custom_TreasureCave") || ModEntry.Config.UseGaldoranhemeAllTimes)
+                    "Custom_IridiumQuarry", "Custom_TreasureCave") || ModEntry.Config.UseGaldoranThemeAllTimes)
                     ?
                     "gauge_galdora.png"
                     : ModEntry.Config.UseVintageInterface
