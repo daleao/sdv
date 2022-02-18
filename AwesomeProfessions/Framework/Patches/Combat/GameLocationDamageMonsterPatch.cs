@@ -136,8 +136,8 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloc_S, bruteFury),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     // increase damage bonus
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10),
                     new CodeInstruction(OpCodes.Ldloc_S, bruteFury),
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10),
                     new CodeInstruction(OpCodes.Call, typeof(BruteFury).MethodNamed(nameof(BruteFury.GetBonusDamageMultiplier))),
                     new CodeInstruction(OpCodes.Add)
                 );

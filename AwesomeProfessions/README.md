@@ -49,7 +49,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 - Rebalanced and reworked [almost] every profession to be an equally unique and attractive choice.
 - Each profession targets a specific style of gameplay, some which were not viable in vanilla (e.g. ranching).
-- No more ~~boring~~ uninspiring flat value bonuses.
+- No more ~~boring~~ uninspiring +X% sell price bonuses.
 - Bomberman mining; Thief/Assassin combat; epic slingshots; command an army of giant Slimes.
 - Scaling end-game objectives.
 - Level 5 professions provide simple early-game buffs that benefit most styles of general gameplay.
@@ -156,7 +156,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ## Super Mode
 
-The Combat tree has received a much more extensive overhaul. In addition to their primary fixed perks, 2nd-tier combat professions each have a unique "stackable" secondary perk (Fury, Cold Blood, Temerity, Eubstance). Once the maximum stacks have been collected, these professions may sacrifice all stacks to activate a powerful [Super Mode](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode) for a short duration. A new bar has been added to the HUD to help you keep track of current stacks. Only a single profession's Super Mode may be registered at any time; if a player gains multiple combat professions from skill reseting, only base perks will apply, and not the stackable secondary perk or Super Mode. The player will be prompted during level up whether they wish to replace their current Super Mode with the new professions'.
+The Combat tree has received a much more extensive overhaul. In addition to their primary fixed perks, 2nd-tier combat professions each have a unique "stackable" secondary perk (Fury, Cold Blood, Temerity, Eubstance). Once the maximum stacks have been collected, these professions may sacrifice some or all stacks to activate a powerful [Super Mode](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode) for a short duration. A new bar has been added to the HUD to help you keep track of current stacks. Only a single profession's Super Mode may be registered at any time; if a player gains multiple combat professions from skill reseting, only base perks will apply, and not the stackable secondary perk or Super Mode. The player will be prompted during level up whether they wish to replace their current Super Mode with the new professions'.
 
 - **Brute / Amazon - Undying Rage** - Doubles all damage bonuses. Immune to passing out.
   - Doubled damage bonuses include profession, rings and enchantments.
