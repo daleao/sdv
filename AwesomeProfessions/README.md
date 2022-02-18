@@ -141,7 +141,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
     - _Unchanged from vanilla._
 - **Lv10 - Brute** - Damage +15%. +25 HP. Build fury in combat, further increasing damage. *Non-profession-based damage bonuses also decrease special move cooldown.*
     - **Fury:** Damage bonus caps at +40% at Combat level 10. Fury builds faster if wielding a club.Unleash all pent-up fury to enter an **Undying Rage.**
-- **Lv10 - Bushwhacker** - +10% crit. chance. Crit. strikes can poach items. Your blood cools in battle, increasing lethality of crit. strikes. *Non-profession-based damage bonuses also decrease special move cooldown.*
+- **Lv10 - Bushwhacker** - Crit. chance x2. Crit. strikes can poach items. Your blood cools in battle, increasing lethality of crit. strikes. *Non-profession-based damage bonuses also decrease special move cooldown.*
     - Monsters can only be poached once.
     - **Cold Blood:** Crit. power bonus caps at ×3 at Combat level 10. Chance to steal is higher and cold blood builds faster if wielding a dagger. Your cold blood masks your presence, allowing you to mount an **Ambuscade.**
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo. *Trick shots stun enemies for 5s.*
