@@ -97,8 +97,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddKeyBinding(
                 () => "Super Mode key",
                 () => "The key used to activate Super Mode.",
-                config => config.ModKey,
-                (config, value) => config.ModKey = value
+                config => config.SuperModeKey,
+                (config, value) => config.SuperModeKey = value
             )
             .AddCheckbox(
                 () => "Hold-To-Activate",

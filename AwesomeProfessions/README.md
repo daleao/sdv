@@ -149,10 +149,10 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
     -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but can ricochet once._
 - **Lv10 - Desperado** - Fire 50% faster. Chance to fire a double shot *(spread shot)*, based on current HP. Built-up temerity increases projectile cross section and impact power.
     - **Temerity:**  Projectiles are fired with increasingly more power. Sufficiently powerful projectiles have higher knockback, can damage enemies around them even if they miss, and can even pierce through enemies, damaging others behind them. Temerity builds faster from quick shots (release immediately as soon as the slingshot is charged). Your temerity culminates in one _desperate_ **Death Blossom.**
-- **Lv10 - Slimed Piper** - Slimes damage other enemies and drop more items the more Slimes are raised on the farm. Gathered eubstance attracts more Slimes in dungeons. *Slimes also heal you on contact. Slimed debuff effect is reversed.*
-    - Slimes cannot damage flying enemies. Each Slime raised on the farm, either in a hutch or outside, increases the chance for Slimes to drop additional items.
+- **Lv10 - Slimed Piper** - Attract new Slimes in dangerous areas. All Slimes damage other enemies. Gather Eubstance to empower ally Slimes. *Defeating a Slime recovers some health and energy. Slimed debuff effect is reversed.*
+    - Each Slime raised in a hutch adds a chance to spawn an extra Slime in dungeons, up to the number of enemies on the map. The chance is diminishing, starting at 100% for the first Slime and dropping to 33% at Slime number 40 (two full hutches). Spawned Slimes and regular wild Slimes all will obey the Farmer; by default they start off in Passive behavior, huddling around the Farmer to protect from enemies. Quicky tapping the [ModKey](#configs) twice will toggle Aggressive behavior, commanding all Slimes to instead target the nearest approaching enemy. Slimes can only damage flying enemies while jumping. **Slimes will still damage the Farmer, so a Slime Charmer ring is recommended.**
     - _Bonus: immune to the Slimed debuff._
-    - **Eubstance:** Every dungeon floor can spawn a number of additional Slimes. Spread all gathered Eubstance to nearby Slimes, allowing them to enter a state of **Superfluidity.**
+    - **Eubstance:** Increase the attack speed and movement speed of ally Slimes. Spread all gathered Eubstance to nearby Slimes, allowing them to enter a state of **Superfluidity.**
 
 ## Super Mode
 
