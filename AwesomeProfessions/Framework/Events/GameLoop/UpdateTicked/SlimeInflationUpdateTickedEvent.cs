@@ -12,7 +12,7 @@ internal class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        var uninflatedSlimes = ModEntry.State.Value.SuperfluidSlimes.Where(p => !p.DoneInflating).ToHashSet();
+        var uninflatedSlimes = ModEntry.State.Value.SuperfluidSlimes.Where(p => !p.DoneInflating).ToArray();
         if (!uninflatedSlimes.Any())
         {
             Disable();

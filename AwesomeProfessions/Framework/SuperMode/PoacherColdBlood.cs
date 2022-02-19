@@ -4,19 +4,25 @@ namespace DaLion.Stardew.Professions.Framework.SuperMode;
 #region using directives
 
 using System.Linq;
+using System.Reflection;
 using Netcode;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Menus;
 using StardewValley.Monsters;
 
+using Common.Extensions;
 using AssetLoaders;
-using Extensions;
 
 #endregion using directives
 
 /// <summary>Handles Poacher Cold Blood activation.</summary>
 internal sealed class PoacherColdBlood : SuperMode
 {
+    private static readonly FieldInfo _ChargingFarmer = typeof(LevelUpMenu).Field("chargingFarmer");
+    private static readonly FieldInfo _SeenFarmer = typeof(LevelUpMenu).Field("seenFarmer");
+    private static readonly FieldInfo _SeenPlayer = typeof(LevelUpMenu).Field("seenPlayer");
+
     /// <summary>Construct an instance.</summary>
     internal PoacherColdBlood()
     {
@@ -47,20 +53,19 @@ internal sealed class PoacherColdBlood : SuperMode
             switch (monster)
             {
                 case AngryRoger:
-                case DustSpirit:
-                case Ghost:
-                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "chargingFarmer").SetValue(false);
-                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "seenFarmer").SetValue(false);
-                    break;
-
                 case Bat:
+                case Ghost:
                 case RockGolem:
-                    ModEntry.ModHelper.Reflection.GetField<NetBool>(monster, "seenPlayer").GetValue().Set(false);
+                    ((NetBool) _SeenPlayer.GetValue(monster))!.Value = false;
+                    break;
+                case DustSpirit:
+                    _SeenFarmer.SetValue(monster, false);
+                    _ChargingFarmer.SetValue(monster, false);
                     break;
             }
         }
 
-        var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int)SuperModeIndex.Poacher + 4;
+        var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) SuperModeIndex.Poacher + 4;
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff is null)
         {

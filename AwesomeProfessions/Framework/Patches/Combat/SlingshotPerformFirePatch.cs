@@ -28,6 +28,13 @@ internal class SlingshotPerformFirePatch : BasePatch
 {
     private const float QUICK_FIRE_HANDICAP_F = 1.2f;
 
+    private static readonly FieldInfo _XVelocity = typeof(BasicProjectile).Field("xVelocity");
+    private static readonly FieldInfo _YVelocity = typeof(BasicProjectile).Field("yVelocity");
+    private static readonly FieldInfo _CurrentTileSheetIndex = typeof(BasicProjectile).Field("currentTileSheetIndex");
+    private static readonly FieldInfo _Position = typeof(BasicProjectile).Field("position");
+    private static readonly FieldInfo _CollisionSound = typeof(BasicProjectile).Field("collisionSound");
+    private static readonly FieldInfo _CollisionBehavior = typeof(BasicProjectile).Field("collisionBehavior");
+
     /// <summary>Construct an instance.</summary>
     internal SlingshotPerformFirePatch()
     {
@@ -45,18 +52,12 @@ internal class SlingshotPerformFirePatch : BasePatch
 
         // get bullet properties
         var damage = mainProjectile.damageToFarmer;
-        var xVelocity = ModEntry.ModHelper.Reflection.GetField<NetFloat>(mainProjectile, "xVelocity").GetValue()
-            .Value;
-        var yVelocity = ModEntry.ModHelper.Reflection.GetField<NetFloat>(mainProjectile, "yVelocity").GetValue()
-            .Value;
-        var ammunitionIndex = ModEntry.ModHelper.Reflection
-            .GetField<NetInt>(mainProjectile, "currentTileSheetIndex").GetValue().Value;
-        var startingPosition = ModEntry.ModHelper.Reflection.GetField<NetPosition>(mainProjectile, "position")
-            .GetValue().Value;
-        var collisionSound = ModEntry.ModHelper.Reflection.GetField<NetString>(mainProjectile, "collisionSound")
-            .GetValue().Value;
-        var collisionBehavior = ModEntry.ModHelper.Reflection
-            .GetField<BasicProjectile.onCollisionBehavior>(mainProjectile, "collisionBehavior").GetValue();
+        var xVelocity = ((NetFloat) _XVelocity.GetValue(mainProjectile))!.Value;
+        var yVelocity = ((NetFloat) _YVelocity.GetValue(mainProjectile))!.Value;
+        var ammunitionIndex = ((NetInt) _CurrentTileSheetIndex.GetValue(mainProjectile))!.Value;
+        var startingPosition = ((NetPosition) _Position.GetValue(mainProjectile))!.Value;
+        var collisionSound = ((NetString) _CollisionSound.GetValue(mainProjectile))!.Value;
+        var collisionBehavior = (BasicProjectile.onCollisionBehavior) _CollisionBehavior.GetValue(mainProjectile);
 
         var velocity = new Vector2(xVelocity * -1f, yVelocity * -1f);
         var speed = velocity.Length();
@@ -198,7 +199,7 @@ internal class SlingshotPerformFirePatch : BasePatch
             increment += 6;
 
         ModEntry.State.Value.SuperMode.ChargeValue += increment * ModEntry.Config.SuperModeGainFactor *
-            (double) SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
+            SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
     }
 
     #endregion injected subroutines

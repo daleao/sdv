@@ -10,14 +10,14 @@ using StardewValley.Locations;
 
 #endregion using directives
 
-internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
+internal class SpelunkerUpdateTickedEvent : UpdateTickedEvent
 {
     private const int SHEET_INDEX = 40;
 
     private readonly int _buffId;
 
     /// <summary>Construct an instance.</summary>
-    internal SpelunkerBuffDisplayUpdateTickedEvent()
+    internal SpelunkerUpdateTickedEvent()
     {
         _buffId = (ModEntry.Manifest.UniqueID + (int) Profession.Spelunker).GetHashCode();
     }
@@ -32,7 +32,7 @@ internal class SpelunkerBuffDisplayUpdateTickedEvent : UpdateTickedEvent
 
         var bonusLadderChance = (ModEntry.State.Value.SpelunkerLadderStreak * 0.5f).ToString("0.0");
         var bonusSpeed = Math.Min(ModEntry.State.Value.SpelunkerLadderStreak / 10 + 1,
-            ModEntry.Config.SpelunkerSpeedCap);
+            (int) ModEntry.Config.SpelunkerSpeedCap);
         Game1.buffsDisplay.addOtherBuff(
             new(0,
                 0,

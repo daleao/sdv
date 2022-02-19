@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
 
@@ -20,6 +21,8 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
 {
+    private static FieldInfo _SourceMushroomQuality;
+
     /// <summary>Construct an instance.</summary>
     internal PropagatorPopExtraHeldMushroomsPatch()
     {
@@ -94,8 +97,8 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         var owner = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
         if (owner.IsLocalPlayer && owner.HasProfession(Profession.Ecologist)) return owner.GetEcologistForageQuality();
 
-        var sourceMushroomQuality =
-            ModEntry.ModHelper.Reflection.GetField<int>(propagator, "SourceMushroomQuality").GetValue();
+        _SourceMushroomQuality ??= propagator.GetType().Field("SourceMushroomQuality");
+        var sourceMushroomQuality = (int) _SourceMushroomQuality.GetValue(propagator)!;
         return sourceMushroomQuality;
     }
 

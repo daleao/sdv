@@ -38,7 +38,7 @@ internal sealed class BruteFury : SuperMode
     {
         base.Activate();
 
-        var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int)SuperModeIndex.Brute + 4;
+        var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) SuperModeIndex.Brute + 4;
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff is null)
         {

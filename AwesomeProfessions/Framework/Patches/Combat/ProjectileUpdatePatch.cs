@@ -18,7 +18,6 @@ using StardewValley.Projectiles;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
-using Extensions;
 using SuperMode;
 
 #endregion using directives
@@ -26,6 +25,8 @@ using SuperMode;
 [UsedImplicitly]
 internal class ProjectileUpdatePatch : BasePatch
 {
+    private static readonly FieldInfo _DamagesMonsters = typeof(Projectile).Field("damagesMonsters");
+
     /// <summary>Construct an instance.</summary>
     internal ProjectileUpdatePatch()
     {
@@ -43,8 +44,7 @@ internal class ProjectileUpdatePatch : BasePatch
         if (__instance is not BasicProjectile projectile) return;
 
         // check if damages monsters
-        var damagesMonsters = ModEntry.ModHelper.Reflection.GetField<NetBool>(__instance, "damagesMonsters")
-            .GetValue().Value;
+        var damagesMonsters = (bool) _DamagesMonsters.GetValue(__instance)!;
         if (!damagesMonsters) return;
 
         // check if firer is has Desperado Super Mode

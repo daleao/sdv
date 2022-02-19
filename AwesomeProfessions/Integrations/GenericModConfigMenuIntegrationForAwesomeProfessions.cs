@@ -118,7 +118,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Gain Factor",
                 () => "Affects the rate at which one builds the Super Mode gauge. Increase this if you feel the gauge raises too slowly.",
-                config => config.SuperModeGainFactor,
+                config => (float) config.SuperModeGainFactor,
                 (config, value) => config.SuperModeGainFactor = value,
                 1f,
                 10f,
@@ -153,7 +153,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0.2f
             )
             .AddCheckbox(
-                () => "Forget Recipes On Skill Reset",
+                () => "Forget Recipes on Skill Reset",
                 () => "Disable this to keep all skill recipes upon reseting.",
                 config => config.ForgetRecipesOnSkillReset,
                 (config, value) => config.ForgetRecipesOnSkillReset = value
@@ -214,7 +214,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             // professions
             .AddSectionTitle(() => "Profession Settings")
             .AddNumberField(
-                () => "Forages needed for best quality",
+                () => "Forages Needed for Best Quality",
                 () => "Ecologists must forage this many items to reach iridium quality.",
                 config => (int) config.ForagesNeededForBestQuality,
                 (config, value) => config.ForagesNeededForBestQuality = (uint) value,
@@ -222,7 +222,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 1000
             )
             .AddNumberField(
-                () => "Minerals needed for best quality",
+                () => "Minerals Needed for Best Quality",
                 () => "Gemologists must mine this many minerals to reach iridium quality.",
                 config => (int) config.ForagesNeededForBestQuality,
                 (config, value) => config.ForagesNeededForBestQuality = (uint) value,
@@ -241,7 +241,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
 
         _configMenu
             .AddNumberField(
-                () => "Chance to start treasure hunt",
+                () => "Chance to Start Treasure Hunt",
                 () => "The chance that your Scavenger or Prospector hunt senses will start tingling.",
                 config => (float) config.ChanceToStartTreasureHunt,
                 (config, value) => config.ChanceToStartTreasureHunt = value,
@@ -250,13 +250,13 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0.05f
             )
             .AddCheckbox(
-                () => "Allow Scavenger hunts on farm",
+                () => "Allow Scavenger Hunts on Farm",
                 () => "Whether a Scavenger Hunt can trigger while entering a farm map.",
                 config => config.AllowScavengerHuntsOnFarm,
                 (config, value) => config.AllowScavengerHuntsOnFarm = value
             )
             .AddNumberField(
-                () => "Scavenger Hunt handicap",
+                () => "Scavenger Hunt Handicap",
                 () => "Increase this number if you find that Scavenger hunts end too quickly.",
                 config => config.ScavengerHuntHandicap,
                 (config, value) => config.ScavengerHuntHandicap = value,
@@ -265,7 +265,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0.5f
             )
             .AddNumberField(
-                () => "Prospector Hunt handicap",
+                () => "Prospector Hunt Handicap",
                 () => "Increase this number if you find that Prospector hunts end too quickly.",
                 config => config.ProspectorHuntHandicap,
                 (config, value) => config.ProspectorHuntHandicap = value,
@@ -274,7 +274,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0.5f
             )
             .AddNumberField(
-                () => "Treasure detection distance",
+                () => "Treasure Detection Distance",
                 () => "How close you must be to the treasure tile to reveal it's location, in tiles.",
                 config => config.TreasureDetectionDistance,
                 (config, value) => config.TreasureDetectionDistance = value,
@@ -283,10 +283,10 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0.5f
             )
             .AddNumberField(
-                () => "Spelunker speed cap",
+                () => "Spelunker Speed Cap",
                 () => "The maximum speed a Spelunker can reach in the mines.",
-                config => config.SpelunkerSpeedCap,
-                (config, value) => config.SpelunkerSpeedCap = value,
+                config => (int) config.SpelunkerSpeedCap,
+                (config, value) => config.SpelunkerSpeedCap = (uint) value,
                 1,
                 10
             )
@@ -296,8 +296,14 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 config => config.EnableGetExcited,
                 (config, value) => config.EnableGetExcited = value
             )
+            .AddCheckbox(
+                () => "Seaweed Is Junk",
+                () => "Whether Seaweed and Algae are considered junk for fishing purposes.",
+                config => config.SeaweedIsJunk,
+                (config, value) => config.SeaweedIsJunk = value
+            )
             .AddNumberField(
-                () => "Angler multiplier ceiling",
+                () => "Angler Multiplier Ceiling",
                 () => "If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.",
                 config => config.AnglerMultiplierCeiling,
                 (config, value) => config.AnglerMultiplierCeiling = value,
@@ -306,7 +312,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0.1f
             )
             .AddNumberField(
-                () => "Trash needed per tax level",
+                () => "Trash Needed Per Tax Level",
                 () => "Conservationists must collect this much trash for every 1% tax deduction the following season.",
                 config => (int) config.TrashNeededPerTaxLevel,
                 (config, value) => config.TrashNeededPerTaxLevel = (uint) value,
@@ -314,7 +320,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 1000
             )
             .AddNumberField(
-                () => "Trash needed per friendship point",
+                () => "Trash Needed Per Friendship Point",
                 () => "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
                 config => (int) config.TrashNeededPerFriendshipPoint,
                 (config, value) => config.TrashNeededPerFriendshipPoint = (uint) value,
@@ -322,7 +328,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 1000
             )
             .AddNumberField(
-                () => "Tax deduction ceiling",
+                () => "Tax Deduction Ceiling",
                 () => "The maximum tax deduction allowed by the Ferngill Revenue Service.",
                 config => config.TaxDeductionCeiling,
                 (config, value) => config.TaxDeductionCeiling = value,

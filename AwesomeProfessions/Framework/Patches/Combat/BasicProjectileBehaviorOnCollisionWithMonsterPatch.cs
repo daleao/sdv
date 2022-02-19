@@ -1,4 +1,5 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿#nullable enable
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
@@ -12,6 +13,7 @@ using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 
+using Stardew.Common.Extensions;
 using Extensions;
 using SuperMode;
 
@@ -20,6 +22,8 @@ using SuperMode;
 [UsedImplicitly]
 internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
 {
+    private static readonly MethodInfo _ExplosionAnimation = typeof(BasicProjectile).MethodNamed("explosionAnimation");
+
     /// <summary>Construct an instance.</summary>
     internal BasicProjectileBehaviorOnCollisionWithMonsterPatch()
     {
@@ -54,7 +58,7 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
             if (hasTemerity && Game1.random.NextDouble() < (bulletPower - 1) / 2)
                 ModEntry.State.Value.PiercedBullets.Add(__instance.GetHashCode());
             else
-                ModEntry.ModHelper.Reflection.GetMethod(__instance, "explosionAnimation")?.Invoke(location);
+                _ExplosionAnimation.Invoke(__instance, new object?[] {location});
 
             location.damageMonster(monster.GetBoundingBox(), damageToMonster, damageToMonster + 1, false,
                 bulletPower, 0, 0f, 1f, false, firer);
@@ -65,7 +69,7 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
             // give a bonus to Desperados
             if (hasTemerity)
                 ModEntry.State.Value.SuperMode.ChargeValue += 6 * ModEntry.Config.SuperModeGainFactor *
-                    (double) SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
+                    SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
 
             // stun if prestiged Rascal
             if (!firer.HasProfession(Profession.Rascal, true)) return false; // don't run original logic

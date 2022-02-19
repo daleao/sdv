@@ -26,23 +26,15 @@ internal class PiperWarpedEvent : WarpedEvent
     {
         if (e.NewLocation.Equals(e.OldLocation)) return;
 
-        foreach (var piped in ModEntry.State.Value.PipedSlimes)
-            piped.takeDamage(piped.Health, 0, 0, false, 0, e.Player);
         ModEntry.State.Value.PipedSlimes.Clear();
-
-        if (!e.NewLocation.IsCombatZone())
-        {
-            EventManager.Disable(typeof(PiperButtonsChangedEvent), typeof(PiperUpdateTickedEvent));
-            return;
-        }
-
+        EventManager.Disable(typeof(PiperButtonsChangedEvent), typeof(PiperUpdateTickedEvent));
         if (!e.NewLocation.IsCombatZone(true)) return;
 
         // get valid tiles for spawning
-        var validTiles = new HashSet<Vector2>();
-        int playerx = Game1.player.getTileX(), playery = Game1.player.getTileY();
-        for (var i = playery - 10; i < playery + 10; ++i)
-            for (var j = playerx - 10; j < playerx + 10; ++j)
+        int playerx = Game1.player.getTileX(), playery = Game1.player.getTileY(), validCount = 0;
+        var validTiles = new Vector2[64];
+        for (var i = playery - 7; i < playery + 7; ++i)
+            for (var j = playerx - 7; j < playerx + 7; ++j)
             {
                 var tile = new Vector2(j, i);
                 if (!e.NewLocation.isTileOnMap(tile) ||
@@ -54,12 +46,14 @@ internal class PiperWarpedEvent : WarpedEvent
                     if (!shaft.isTileClearForMineObjects(tile)) continue;
                 }
                 
-                validTiles.Add(tile);
+                validTiles[validCount++] = tile;
             }
 
+        if (!validTiles.Any()) return;
+
         var r = new Random(Guid.NewGuid().GetHashCode());
-        var raisedSlimes = e.Player.GetRaisedSlimes().ToHashSet();
-        var chance = _pipeChance(raisedSlimes.Count);
+        var raisedSlimes = e.Player.GetRaisedSlimes().ToArray();
+        var chance = _pipeChance(raisedSlimes.Length);
         var enemyCount = Game1.player.currentLocation.characters.OfType<Monster>().Count(m => !m.IsSlime());
         var pipedCount = 0;
         foreach (var tamedSlime in raisedSlimes)
@@ -116,14 +110,14 @@ internal class PiperWarpedEvent : WarpedEvent
             }
 
             // spawn
-            pipedSlime.setTileLocation(validTiles.ElementAt(r.Next(validTiles.Count)));
+            pipedSlime.setTileLocation(validTiles.ElementAt(r.Next(validTiles.Length)));
             e.NewLocation.characters.Add(pipedSlime);
             ModEntry.State.Value.PipedSlimes.Add(pipedSlime);
             ++pipedCount;
             if (pipedCount >= enemyCount) break;
         }
 
-        Log.D($"Spawned {pipedCount} Slimes after {raisedSlimes.Count} attempts.");
+        Log.D($"Spawned {pipedCount} Slimes after {raisedSlimes.Length} attempts.");
 
         if (pipedCount > 0 || e.NewLocation.characters.Any(npc => npc is GreenSlime))
             EventManager.Enable(typeof(PiperButtonsChangedEvent), typeof(PiperUpdateTickedEvent));

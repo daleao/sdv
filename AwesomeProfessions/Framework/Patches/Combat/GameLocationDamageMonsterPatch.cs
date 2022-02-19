@@ -14,6 +14,7 @@ using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using AssetLoaders;
 using Extensions;
@@ -328,7 +329,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         superMode.ChargeValue += increment * ModEntry.Config.SuperModeGainFactor *
-            (double) SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
+            SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
     }
 
     #endregion injected subroutines

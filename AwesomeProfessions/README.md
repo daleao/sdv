@@ -230,45 +230,46 @@ While the vast majority of professions bonuses are non-configurable, some of the
 
 ### General Configs
 - **Modkey** (keybind) - The Prospector and Scavenger professions use this key to reveal the locations of key objects currently on the screen. If playing on a large screen with wide field of view, this can help locate forageables of mine nodes in large or busy maps. The default key is LeftShift for keyboards and LeftShoulder for controllers.
-- **UseVintageSkillBars** (boolean) - Set to true if you use the Vintage Interface﻿ mod. Makes the skill bars above level 10 a light pink. You can use this with the brown version of Vintage Interface. If you want to use the pink version you will have to recolor the file `assets/menus/skillbars_vintage.png` by yourself.
-- **EnableFishPondRebalance** (boolean) - Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.
+- **UseVintageSkillBars** (bool) - Set to true if you use the Vintage Interface﻿ mod. Makes the skill bars above level 10 a light pink. You can use this with the brown version of Vintage Interface. If you want to use the pink version you will have to recolor the file `assets/menus/skillbars_vintage.png` by yourself.
+- **EnableFishPondRebalance** (bool) - Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.
 
 ### Profession Configs
-- **ForagesNeededForBestQuality** (integer) - Determines the number of items foraged from the ground, bushes or mushroom boxes, required to reach permanent iridium-quality forage as an Ecologist. Default is 500.
-- **MineralsNeededForBestQuality** (integer) - As above. Determines the number of minerals (gems or foraged minerals) mined or collected from geode crushers or crystalariums, required to reach permanent iridium-quality minerals as a Gemologist. Default it 500.
-- **ChanceToStartTreasureHunt** (decimal) - The percent chance of triggering a treasure hunt when entering a new map as Prospector or Scavenger. Note that this only affects that chance the game will try to start a treasure hunt, and the actual chance is slightly lower as the game might fail to choose a valid treasure tile. Increase this value if you don't see enough treasure hunts, or decrease it if you find treasure hunts cumbersome and don't want to lose your streak. Default is 0.2 (20%).
-- **AllowScavengerHuntsOnFarm** (boolean) - Whether a Scavenger Hunt can trigger while entering a farm map.
-- **ScavengerHuntHandicap** (decimal) - This number multiplies the Scavener Hunt time limit. Increase this number if you find that Scavenger hunts end too quickly.
-- **ProspectorHuntHandicap** (decimal) - This number multiplies the Prospector Hunt time limit. Increase this number if you find that Prospector hunts end too quickly.
-- **TreasureDetectionDistance** (decimal) - Represents the minimum number of adjacent tiles between the player and the treasure tile before the treasure tile will be revealed by a floating arrow. Increase this value is you find treasure hunts too difficult. Default is 3.
-- **SpelunkerSpeedCap** (integer) - The maximum speed bonus a Spelunker can reach (values above 10 may cause problems).
+- **ForagesNeededForBestQuality** (uint) - Determines the number of items foraged from the ground, bushes or mushroom boxes, required to reach permanent iridium-quality forage as an Ecologist. Default is 500.
+- **MineralsNeededForBestQuality** (uint) - As above. Determines the number of minerals (gems or foraged minerals) mined or collected from geode crushers or crystalariums, required to reach permanent iridium-quality minerals as a Gemologist. Default is 500.
+- **ChanceToStartTreasureHunt** (float) - The percent chance of triggering a treasure hunt when entering a new map as Prospector or Scavenger. Note that this only affects that chance the game will try to start a treasure hunt, and the actual chance is slightly lower as the game might fail to choose a valid treasure tile. Increase this value if you don't see enough treasure hunts, or decrease it if you find treasure hunts cumbersome and don't want to lose your streak. Default is 0.2 (20%).
+- **AllowScavengerHuntsOnFarm** (bool) - Whether a Scavenger Hunt can trigger while entering a farm map.
+- **ScavengerHuntHandicap** (float) - This number multiplies the Scavener Hunt time limit. Increase this number if you find that Scavenger hunts end too quickly.
+- **ProspectorHuntHandicap** (float) - This number multiplies the Prospector Hunt time limit. Increase this number if you find that Prospector hunts end too quickly.
+- **TreasureDetectionDistance** (float) - Represents the minimum number of adjacent tiles between the player and the treasure tile before the treasure tile will be revealed by a floating arrow. Increase this value is you find treasure hunts too difficult. Default is 3.
+- **SpelunkerSpeedCap** (uint) - The maximum speed bonus a Spelunker can reach (values above 10 may cause problems).
 - **EnableGetExcited** (bool) - Toggles the Get Excited buff when a Demolitionist is hit by an explosion.
-- **TrashNeededPerTaxLevel** (integer) - Represents the number of trash items the Conservationist must collect in order to gain a 1% tax deduction the following season. Use this value to balance your game if you use or don't use Automate. Default is 100.
-- **TrashNeededPerFriendshipPoint** (integer) - Represents the number of trash items the Prestiged Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
-- **TaxDeductionCeiling** (decimal) - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
+- **SeaweedIsJunk** (bool) - Whether Seaweed and Algae are considered junk for fishing purposes.
+- **TrashNeededPerTaxLevel** (uint) - Represents the number of trash items the Conservationist must collect in order to gain a 1% tax deduction the following season. Use this value to balance your game if you use or don't use Automate. Default is 100.
+- **TrashNeededPerFriendshipPoint** (uint) - Represents the number of trash items the Prestiged Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
+- **TaxDeductionCeiling** (float) - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
 
 ### Super Mode Configs
-- **EnableSuperMode** (boolean) - Required to allow Super Mode activation. Super Stat continues to apply.
+- **EnableSuperMode** (bool) - Required to allow Super Mode activation. Super Stat continues to apply.
 - **SuperModeKey** (keybind) - This is the key that activates Super Mode for 2nd-tier combat professions. By default this is the same key as Modkey, but can also be set to a different key.
-- **HoldKeyToActivateSuperMode** (boolean) - If set to true, then Super Mode will be activated after holding the above key for a short amount of time. If set to false, then Super Mode will activate immediately upon pressing the key. Useful if you are running out of keys to bind, or just want to prevent accidental activation of Super Mode. Default value is true. 
-- **SuperModeActivationDelay** (decimal) - If HoldKeyToActivateSuperMode is set to true, this represents the number of seconds between pressing SuperModeKey and activating Super Mode. Set to a higher value if you use Prospector profession and find yourself accidentally wasting your Super Mode in the Mines.
-- **SuperModeGainFactor** (decimal) - Determines how quickly the Super Mode resource bar fills up.
-- **SuperModeDrainFactor** (decimal) - Determines how quickly the Super Mode resource bar drains during Super Mode. The base duration is 15 seconds. Higher numbers make Super Mode last longer.
+- **HoldKeyToActivateSuperMode** (bool) - If set to true, then Super Mode will be activated after holding the above key for a short amount of time. If set to false, then Super Mode will activate immediately upon pressing the key. Useful if you are running out of keys to bind, or just want to prevent accidental activation of Super Mode. Default value is true. 
+- **SuperModeActivationDelay** (float) - If HoldKeyToActivateSuperMode is set to true, this represents the number of seconds between pressing SuperModeKey and activating Super Mode. Set to a higher value if you use Prospector profession and find yourself accidentally wasting your Super Mode in the Mines.
+- **SuperModeGainFactor** (double) - Determines how quickly the Super Mode resource bar fills up.
+- **SuperModeDrainFactor** (double) - Determines how quickly the Super Mode resource bar drains during Super Mode. The base duration is 15 seconds. Higher numbers make Super Mode last longer.
 
 ### Prestige Configs
-- **EnablePrestige** (boolean) - Whether to apply prestige changes.
-- **SkillResetCostMultiplier** (decimal) - Multiplies the base skill reset cost. Set to 0 to prestige for free.
-- **ForgetRecipesOnSkillReset** (boolean) - Wether reseting a skill also clears all associated recipes.
-- **AllowPrestigeMultiplePerDay** (boolean) - Whether the player can use the Statue of Prestige more than once per day.
-- **BaseSkillExpMultiplier** (decimal) - Multiplies all skill experience gained from the start of the game.
-- **BonusSkillExpPerReset** (decimal) - Multiplies all skill experience gained after each respective skill reset.
-- **RequiredExpPerExtendedLevel** (integer) - How much skill experience is required for each level up beyond 10.
-- **PrestigeRespecCost** (integer) - Monetary cost of respecing prestige profession choices for a skill.
-- **ChangeUltCost** (integer) - Monetary cost of changing the combat ultimate.
+- **EnablePrestige** (bool) - Whether to apply prestige changes.
+- **SkillResetCostMultiplier** (float) - Multiplies the base skill reset cost. Set to 0 to prestige for free.
+- **ForgetRecipesOnSkillReset** (bool) - Wether reseting a skill also clears all associated recipes.
+- **AllowPrestigeMultiplePerDay** (bool) - Whether the player can use the Statue of Prestige more than once per day.
+- **BaseSkillExpMultiplier** (float) - Multiplies all skill experience gained from the start of the game.
+- **BonusSkillExpPerReset** (float) - Multiplies all skill experience gained after each respective skill reset.
+- **RequiredExpPerExtendedLevel** (uint) - How much skill experience is required for each level up beyond 10.
+- **PrestigeRespecCost** (uint) - Monetary cost of respecing prestige profession choices for a skill.
+- **ChangeUltCost** (uint) - Monetary cost of changing the combat ultimate.
 
 ### SVE Configs:
-- **UseGaldoranThemeAllTimes** (boolean) - Replicates SVE's config settings of the same name.
-- **DisableGaldoranTheme** (boolean) - Replicates SVE's config settings of the same name.
+- **UseGaldoranThemeAllTimes** (bool) - Replicates SVE's config settings of the same name.
+- **DisableGaldoranTheme** (bool) - Replicates SVE's config settings of the same name.
 
 ## Console Commands
 

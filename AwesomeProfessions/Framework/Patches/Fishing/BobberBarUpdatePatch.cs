@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
 

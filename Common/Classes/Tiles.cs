@@ -18,14 +18,14 @@ public static class Tiles
     /// <param name="height">The height of the region.</param>
     /// <param name="predicate">The boundary condition.</param>
     /// <returns>The set of points belonging to the region, as <see cref="Vector2"/>.</returns>
-    public static ISet<Vector2> FloodFill(Vector2 origin, int width, int height, Func<Vector2, bool> predicate)
+    public static IEnumerable<Vector2> FloodFill(Vector2 origin, int width, int height, Func<Vector2, bool> predicate)
     {
         if (origin.X <= 0) origin = new(origin.X + 1, origin.Y);
         else if (origin.Y <= 0) origin = new(origin.X, origin.Y + 1);
         else if (origin.X >= width - 1) origin = new(origin.X - 1, origin.Y);
         else if (origin.Y >= height - 1) origin = new(origin.X, origin.Y - 1);
 
-        var result = new HashSet<Vector2>();
+        var result = new List<Vector2>();
         var visited = new HashSet<Vector2>();
         var toVisit = new Queue<Vector2>();
         toVisit.Enqueue(origin);

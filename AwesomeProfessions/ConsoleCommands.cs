@@ -161,8 +161,8 @@ internal static class ConsoleCommands
         {
             if (arg == "all")
             {
-                var range = Enumerable.Range(0, 30).ToHashSet();
-                if (prestige) range = range.Concat(Enumerable.Range(100, 30)).ToHashSet();
+                var range = Enumerable.Range(0, 30).ToArray();
+                if (prestige) range = range.Concat(Enumerable.Range(100, 30)).ToArray();
 
                 professionsToAdd.AddRange(range);
                 Log.I($"Added all {(prestige ? "prestiged " : "")}professions to farmer {Game1.player.Name}.");

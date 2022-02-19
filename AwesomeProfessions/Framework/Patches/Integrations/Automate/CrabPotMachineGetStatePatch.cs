@@ -10,6 +10,8 @@ using DaLion.Stardew.Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
 
+using Stardew.Common.Extensions;
+
 #endregion using directives
 
 [UsedImplicitly]

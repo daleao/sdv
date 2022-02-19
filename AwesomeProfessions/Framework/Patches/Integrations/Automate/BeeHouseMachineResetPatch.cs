@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.Automate;
 
 #region using directives
 
@@ -8,23 +8,28 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewValley;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
 
-using SObject = StardewValley.Object;
-
 #endregion using directives
 
 [UsedImplicitly]
-internal class ObjectPerformDropDownActionPatch : BasePatch
+internal class BeeHouseMachineResetPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
-    internal ObjectPerformDropDownActionPatch()
+    internal BeeHouseMachineResetPatch()
     {
-        Original = RequireMethod<SObject>(nameof(SObject.performDropDownAction));
+        try
+        {
+            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.BeeHouseMachine".ToType()
+                .MethodNamed("Reset");
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     #region harmony patches
@@ -36,9 +41,9 @@ internal class ObjectPerformDropDownActionPatch : BasePatch
     {
         var helper = new ILHelper(original, instructions);
 
-        /// From: minutesUntilReady.Value = Utility.CalculateMinutesUntilMorning(Game1.timeOfDay, 4);
-        /// To: minutesUntilReady.Value = Utility.CalculateMinutesUntilMorning(Game1.timeOfDay, this.DoesOwnerHaveProfession(<producer_id>)
-        ///     ? this.DoesOwnerHaveProfession(100 + <producer_id>
+        /// From: machine.MinutesUntilReady = Utility.CalculateMinutesUntilMorning(Game1.timeOfDay, 4);
+        /// To: machine.MinutesUntilReady = Utility.CalculateMinutesUntilMorning(Game1.timeOfDay, machine.DoesOwnerHaveProfession(<producer_id>)
+        ///     ? machine.DoesOwnerHaveProfession(100 + <producer_id>
         ///         ? 1
         ///         : 2
         ///     : 4);
@@ -52,18 +57,18 @@ internal class ObjectPerformDropDownActionPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_4),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Utility).MethodNamed(nameof(Utility.CalculateMinutesUntilMorning),
+                        typeof(StardewValley.Utility).MethodNamed(nameof(StardewValley.Utility.CalculateMinutesUntilMorning),
                             new[] { typeof(int), typeof(int) }))
                 )
                 .AddLabels(isNotProducer)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldloc_0), // local 0 = SObject machine
                     new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = Profession.Producer
                     new CodeInstruction(OpCodes.Ldc_I4_0), // false for not prestiged
                     new CodeInstruction(OpCodes.Call,
                         typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotProducer),
-                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Ldc_I4_3),
                     new CodeInstruction(OpCodes.Ldc_I4_1), // true for prestiged
                     new CodeInstruction(OpCodes.Call,
@@ -82,7 +87,7 @@ internal class ObjectPerformDropDownActionPatch : BasePatch
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching bee house production speed for Producers.\nHelper returned {ex}");
+            Log.E($"Failed while patching automated Bee House production speed for Producers.\nHelper returned {ex}");
             return null;
         }
 

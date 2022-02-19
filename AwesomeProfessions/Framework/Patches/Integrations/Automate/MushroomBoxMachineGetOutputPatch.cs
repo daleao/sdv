@@ -8,7 +8,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
-using Stardew.Common.Harmony;
+using Stardew.Common.Extensions;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -18,6 +18,8 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal class MushroomBoxMachineGetOutputPatch : BasePatch
 {
+    private static MethodInfo _GetMachine;
+
     /// <summary>Construct an instance.</summary>
     internal MushroomBoxMachineGetOutputPatch()
     {
@@ -44,7 +46,8 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
         {
             if (__instance is null) return true; // run original logic
 
-            var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
+            _GetMachine ??= __instance.GetType().PropertyGetter("Machine");
+            var machine = (SObject) _GetMachine.Invoke(__instance, null);
             if (machine?.heldObject.Value is null) return true; // run original logic
 
             var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;

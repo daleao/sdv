@@ -7,6 +7,8 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Monsters;
 
+using SuperMode;
+
 #endregion using directives
 
 internal class SuperModeActiveUpdateTickedEvent : UpdateTickedEvent
@@ -14,14 +16,28 @@ internal class SuperModeActiveUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        if (!Game1.currentLocation.characters.OfType<Monster>().Any())
+        if (ModEntry.State.Value.SuperMode is PiperEubstance)
         {
-            ModEntry.State.Value.SuperMode.Deactivate();
-            return;
-        }
+            if (!ModEntry.State.Value.SuperfluidSlimes.Any())
+            {
+                Disable();
+                return;
+            }
 
-        var amount = Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds /
-                     (ModEntry.Config.SuperModeDrainFactor * 10);
-        ModEntry.State.Value.SuperMode.Countdown(amount);
+            var amount = Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds;
+            foreach (var piped in ModEntry.State.Value.SuperfluidSlimes) piped.Countdown(amount);
+        }
+        else
+        {
+            if (!Game1.currentLocation.characters.OfType<Monster>().Any())
+            {
+                ModEntry.State.Value.SuperMode.Deactivate();
+                return;
+            }
+
+            var amount = Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds /
+                         (ModEntry.Config.SuperModeDrainFactor * 10);
+            ModEntry.State.Value.SuperMode.Countdown(amount);
+        }
     }
 }

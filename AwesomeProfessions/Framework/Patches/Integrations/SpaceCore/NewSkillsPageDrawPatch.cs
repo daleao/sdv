@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Menus;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Prestige;
 

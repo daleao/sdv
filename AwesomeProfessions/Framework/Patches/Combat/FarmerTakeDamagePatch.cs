@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using SuperMode;
 
@@ -181,7 +182,6 @@ internal class FarmerTakeDamagePatch : BasePatch
                     // scale by config factor
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Callvirt, typeof(ModConfig).PropertyGetter(nameof(ModConfig.SuperModeGainFactor))),
-                    new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Mul),
                     // scale for extended levels
                     new CodeInstruction(OpCodes.Call,

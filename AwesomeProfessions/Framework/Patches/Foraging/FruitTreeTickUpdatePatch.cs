@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewValley.TerrainFeatures;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 
 #endregion using directives

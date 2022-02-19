@@ -22,6 +22,8 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
 {
+    private static MethodInfo _GetSample;
+
     /// <summary>Construct an instance.</summary>
     internal GenericObjectMachineGenericPullRecipePatch()
     {
@@ -87,7 +89,8 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
     {
         if (!machine.IsArtisanMachine() || !machine.heldObject.Value.IsArtisanGood()) return;
 
-        if (consumable.GetType().GetProperty("Sample")?.GetValue(consumable) is not SObject input) return;
+        _GetSample ??= consumable.GetType().PropertyGetter("Sample");
+        if (_GetSample.Invoke(consumable, null) is not SObject input) return;
 
         var output = machine.heldObject.Value;
         if (machine.name == "Mayonnaise Machine")

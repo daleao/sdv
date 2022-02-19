@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using StardewValley.Locations;
 using StardewValley.Objects;
 
 using Stardew.Common.Extensions;
@@ -25,7 +26,7 @@ using SUtility = StardewValley.Utility;
 [UsedImplicitly]
 internal class CrabPotDayUpdatePatch : BasePatch
 {
-    private const double CHANCE_TO_CATCH_FISH_D = 0.25, CHANCE_TO_CATCH_TRASH_D = 0.5;
+    private const double CHANCE_TO_CATCH_FISH_D = 0.25;
 
     /// <summary>Construct an instance.</summary>
     internal CrabPotDayUpdatePatch()
@@ -89,10 +90,10 @@ internal class CrabPotDayUpdatePatch : BasePatch
             var fishQuality = 0;
             if (whichFish < 0)
             {
-                if (__instance.bait.Value is not null || isConservationist && r.NextDouble() < CHANCE_TO_CATCH_TRASH_D)
+                if (__instance.bait.Value is not null || isConservationist)
                 {
-                    whichFish = GetTrash(r);
-                    if (isConservationist)
+                    whichFish = GetTrash(__instance.TileLocation, location, r);
+                    if (isConservationist && whichFish.IsTrash())
                     {
                         ModData.Increment<uint>(DataField.ConservationistTrashCollectedThisSeason, owner);
                         if (owner.HasProfession(Profession.Conservationist, true) &&
@@ -143,13 +144,13 @@ internal class CrabPotDayUpdatePatch : BasePatch
     /// <summary>Whether the current fishing location and game time match the specific fish data.</summary>
     /// <param name="specificFishData">Raw game file data for this fish.</param>
     /// <param name="specificFishLocation">The fishing location index for this fish.</param>
-    /// <param name="crabpot">The crab pot instance.</param>
-    /// <param name="location">The location of the crab pot.</param>
+    /// <param name="tileLocation">The crab pot tile location.</param>
+    /// <param name="location">The game location of the crab pot.</param>
     private static bool IsCorrectLocationAndTimeForThisFish(string[] specificFishData, int specificFishLocation,
-        Vector2 tileLocation, GameLocation gameLocation)
+        Vector2 tileLocation, GameLocation location)
     {
         var specificFishSpawnTimes = specificFishData[5].Split(' ');
-        if (specificFishLocation == -1 || gameLocation.getFishingLocation(tileLocation) == specificFishLocation)
+        if (specificFishLocation == -1 || specificFishLocation == location.getFishingLocation(tileLocation))
             for (var t = 0; t < specificFishSpawnTimes.Length; t += 2)
                 if (Game1.timeOfDay >= Convert.ToInt32(specificFishSpawnTimes[t]) &&
                     Game1.timeOfDay < Convert.ToInt32(specificFishSpawnTimes[t + 1]))
@@ -173,7 +174,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
     /// <param name="crabpot">The crab pot instance.</param>
     /// <param name="fishData">Raw fish data from the game files.</param>
     /// <param name="rawFishDataWithLocation">Dictionary of pre-select fish and their fishing locations.</param>
-    /// <param name="location">The location of the crab pot.</param>
+    /// <param name="location">The game location of the crab pot.</param>
     /// <param name="r">Random number generator.</param>
     private static int ChooseFish(CrabPot crabpot, Dictionary<int, string> fishData,
         Dictionary<string, string> rawFishDataWithLocation, GameLocation location, Random r)
@@ -196,7 +197,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
             if (r.NextDouble() > GetChanceForThisFish(specificFishDataFields)) continue;
 
             var whichFish = Convert.ToInt32(key);
-            if (!whichFish.IsAnyOf(152, 153, 157)) return whichFish; // if isn't algae
+            if (!whichFish.IsAlgae()) return whichFish; // if isn't algae
 
             if (counter != 0) return -1; // if already rerolled
             ++counter;
@@ -215,7 +216,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
     /// <summary>Choose amongst a pre-select list of shellfish.</summary>
     /// <param name="crabpot">The crab pot instance.</param>
     /// <param name="fishData">Raw fish data from the game files.</param>
-    /// <param name="location">The location of the crab pot.</param>
+    /// <param name="location">The game location of the crab pot.</param>
     /// <param name="r">Random number generator.</param>
     /// <param name="isLuremaster">Whether the owner of the crab pot is luremaster.</param>
     private static int ChooseTrapFish(CrabPot crabpot, Dictionary<int, string> fishData, GameLocation location,
@@ -316,9 +317,22 @@ internal class CrabPotDayUpdatePatch : BasePatch
 
     /// <summary>Get random trash.</summary>
     /// <param name="r">Random number generator.</param>
-    private static int GetTrash(Random r)
+    /// <param name="tileLocation">The crab pot tile location.</param>
+    /// <param name="location">The game location of the crab pot.</param>
+    private static int GetTrash(Vector2 tileLocation, GameLocation location, Random r)
     {
-        return r.Next(168, 173);
+        if (r.NextDouble() < 1.0 / 3.0)
+        {
+            return location switch
+            {
+                Beach or IslandSouth or IslandWest when location.getFishingLocation(tileLocation) == 1 => 152,
+                MineShaft or Sewer or BugLand or _ when location.NameOrUniqueName == "WitchSwamp" => r.Next(2) == 0 ? 153 : 157,
+                _ => 153
+            };
+
+        }
+
+        return r.Next(167, 173);
     }
 
     #endregion private methods

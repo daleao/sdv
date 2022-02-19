@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using StardewValley;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
 
@@ -18,6 +19,8 @@ using SObject = StardewValley.Object;
 
 internal class LoomMachineSetInputPatch : BasePatch
 {
+    private static MethodInfo _GetSample;
+
     /// <summary>Construct an instance.</summary>
     internal LoomMachineSetInputPatch()
     {
@@ -79,8 +82,9 @@ internal class LoomMachineSetInputPatch : BasePatch
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.HasProfession(Profession.Artisan)) return;
 
+        _GetSample ??= consumable.GetType().PropertyGetter("Sample");
         var output = machine.heldObject.Value;
-        if (consumable.GetType().GetProperty("Sample")?.GetValue(consumable) is SObject input)
+        if (_GetSample.Invoke(consumable, null) is SObject input)
             output.Quality = input.Quality;
 
         if (output.Quality < SObject.bestQuality &&

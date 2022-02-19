@@ -61,7 +61,7 @@ internal class MonsterFindPlayerUpdateTickedEvent : UpdateTickedEvent
                 if (isPiped && ModEntry.State.Value.PipeMode == TargetMode.Aggressive)
                 {
                     var otherMonsters = monster.currentLocation.characters.OfType<Monster>()
-                        .Where(m => !m.IsSlime() && m.IsWithinPlayerThreshold()).ToHashSet();
+                        .Where(m => !m.IsSlime() && m.IsWithinPlayerThreshold()).ToArray();
                     if (otherMonsters.Any())
                     {
                         var closestTarget = theOneWhoPipedMe.GetClosestCharacter(out _, otherMonsters);

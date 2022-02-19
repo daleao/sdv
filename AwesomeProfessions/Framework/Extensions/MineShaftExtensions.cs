@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
@@ -14,14 +15,15 @@ using Common.Extensions;
 
 internal static class MineShaftExtensions
 {
+    private static readonly FieldInfo _NetIsTreasureRoom = typeof(MineShaft).Field("netIsTreasureRoom");
+
     /// <summary>Whether the current mine level is a safe level; i.e. shouldn't spawn any monsters.</summary>
     /// <param name="shaft">The <see cref="MineShaft" /> instance.</param>
     public static bool IsTreasureOrSafeRoom(this MineShaft shaft)
     {
         return shaft.mineLevel <= 120 && shaft.mineLevel % 10 == 0 ||
                shaft.mineLevel == 220 && Game1.player.secretNotesSeen.Contains(10) &&
-               !Game1.player.mailReceived.Contains("qiCave") || ModEntry.ModHelper.Reflection
-                   .GetField<NetBool>(shaft, "netIsTreasureRoom").GetValue().Value;
+               !Game1.player.mailReceived.Contains("qiCave") || ((NetBool) _NetIsTreasureRoom.GetValue(shaft))!.Value;
     }
 
     /// <summary>Find all tiles in a mine map containing either a ladder or shaft.</summary>

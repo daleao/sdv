@@ -10,6 +10,7 @@ using HarmonyLib;
 using StardewValley;
 using StardewValley.Network;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
 

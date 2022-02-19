@@ -25,8 +25,7 @@ using SObject = StardewValley.Object;
 /// <summary>Manages treasure hunt events for Scavenger professions.</summary>
 internal class ScavengerHunt : TreasureHunt
 {
-    private readonly IEnumerable<int> _artifactsThatCanBeFound = new HashSet<int>
-    {
+    private readonly int[] _artifactsThatCanBeFound = {
         100, // chipped amphora
         101, // arrowhead
         103, // ancient doll
@@ -247,7 +246,7 @@ internal class ScavengerHunt : TreasureHunt
                     else if (Game1.player.archaeologyFound.Any()) // artifacts
                         treasures.Add(new SObject(
                             random.NextDouble() < 0.5
-                                ? _artifactsThatCanBeFound.ElementAt(random.Next(_artifactsThatCanBeFound.Count()))
+                                ? _artifactsThatCanBeFound[random.Next(_artifactsThatCanBeFound.Length)]
                                 : random.NextDouble() < 0.25
                                     ? 114
                                     : 535, 1));

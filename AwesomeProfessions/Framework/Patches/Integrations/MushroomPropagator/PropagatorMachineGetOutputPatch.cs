@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.MushroomPropagator;
+﻿using System.Reflection;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.MushroomPropagator;
 
 #region using directives
 
@@ -6,7 +8,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
-using Stardew.Common.Harmony;
+using Stardew.Common.Extensions;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -16,6 +18,8 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal class PropagatorMachineGetOutputPatch : BasePatch
 {
+    private static MethodInfo _GetEntity;
+
     /// <summary>Construct an instance.</summary>
     internal PropagatorMachineGetOutputPatch()
     {
@@ -38,7 +42,8 @@ internal class PropagatorMachineGetOutputPatch : BasePatch
     {
         if (__instance is null) return;
 
-        var entity = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Entity").GetValue();
+        _GetEntity ??= __instance.GetType().PropertyGetter("Entity");
+        var entity = (SObject) _GetEntity.Invoke(__instance, null);
         if (entity is null) return;
 
         var owner = Game1.getFarmerMaybeOffline(entity.owner.Value) ?? Game1.MasterPlayer;

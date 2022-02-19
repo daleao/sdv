@@ -14,7 +14,6 @@ using StardewValley.Monsters;
 using StardewValley.Tools;
 
 using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
 using SuperMode;
 
 #endregion using directives
@@ -22,6 +21,8 @@ using SuperMode;
 [UsedImplicitly]
 internal class MonsterTakeDamagePatch : BasePatch
 {
+    private static readonly FieldInfo _ShellGone = typeof(RockCrab).Field("shellGone");
+
     /// <inheritdoc />
     public override void Apply(Harmony harmony)
     {
@@ -58,8 +59,8 @@ internal class MonsterTakeDamagePatch : BasePatch
             if (__instance is Bug bug && bug.isArmoredBug.Value &&
                 !weapon.hasEnchantmentOfType<BugKillerEnchantment>() // skip armored bugs
                 || __instance is LavaCrab && __instance.Sprite.currentFrame % 4 == 0 // skip shelled lava crabs
-                || __instance is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !ModEntry.ModHelper
-                    .Reflection.GetField<NetBool>(crab, "shellGone").GetValue().Value // skip shelled rock crabs
+                || __instance is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 &&
+                !((NetBool) _ShellGone.GetValue(crab))!.Value // skip shelled Rock Crabs
                 || __instance is LavaLurk lurk &&
                 lurk.currentState.Value == LavaLurk.State.Submerged // skip submerged lava lurks
                 || __instance is Spiker // skip spikers

@@ -29,11 +29,11 @@ internal class ModState
     internal ITreasureHunt ScavengerHunt { get; set; } = new ScavengerHunt();
     internal ITreasureHunt ProspectorHunt { get; set; } = new ProspectorHunt();
     internal HudPointer Pointer { get; set; } = new();
-    internal HashSet<int> AuxiliaryBullets { get; } = new();
-    internal HashSet<int> BouncedBullets { get; } = new();
-    internal HashSet<int> PiercedBullets { get; } = new();
-    internal HashSet<GreenSlime> PipedSlimes { get; } = new();
-    internal HashSet<SuperfluidSlime> SuperfluidSlimes { get; } = new();
+    internal HashSet<int> AuxiliaryBullets { get; } = new(); // only add - remove
+    internal HashSet<int> BouncedBullets { get; } = new(); // only add - remove
+    internal HashSet<int> PiercedBullets { get; } = new(); // only add - remove
+    internal HashSet<GreenSlime> PipedSlimes { get; } = new(); // only add - clear
+    internal HashSet<SuperfluidSlime> SuperfluidSlimes { get; } = new(); // add - remove - linq
     internal Dictionary<long, Farmer> FakeFarmers { get; } = new();
     internal Dictionary<SuperModeIndex, HashSet<long>> ActivePeerSuperModes { get; } = new();
     internal TargetMode PipeMode { get; set; }

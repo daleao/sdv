@@ -10,8 +10,9 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
-using Extensions;
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
+using Extensions;
 
 using SObject = StardewValley.Object;
 
@@ -89,7 +90,7 @@ internal class ObjectDayUpdatePatch : BasePatch
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching bee house production speed for Producers.\nHelper returned {ex}");
+            Log.E($"Failed while patching Bee House production speed for Producers.\nHelper returned {ex}");
             return null;
         }
 

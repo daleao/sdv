@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 
 #endregion using directives

@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
 
@@ -21,6 +22,9 @@ using Extensions;
 [UsedImplicitly]
 internal class LevelUpMenuDrawPatch : BasePatch
 {
+    private static readonly FieldInfo _CurrentLevel = typeof(LevelUpMenu).Field("currentLevel");
+    private static readonly FieldInfo _ProfessionsToChoose = typeof(LevelUpMenu).Field("professionsToChoose");
+
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuDrawPatch()
     {
@@ -109,7 +113,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
 
     private static string GetChooseProfessionText(LevelUpMenu menu)
     {
-        var currentLevel = ModEntry.ModHelper.Reflection.GetField<int>(menu, "currentLevel").GetValue();
+        var currentLevel = (int) _CurrentLevel.GetValue(menu)!;
         return currentLevel > 10
             ? ModEntry.ModHelper.Translation.Get("prestige.levelup.prestige")
             : Game1.content.LoadString("Strings\\UI:LevelUp_ChooseProfession");
@@ -119,11 +123,10 @@ internal class LevelUpMenuDrawPatch : BasePatch
     {
         if (!ModEntry.Config.EnablePrestige || !menu.isProfessionChooser) return;
 
-        var currentLevel = ModEntry.ModHelper.Reflection.GetField<int>(menu, "currentLevel").GetValue();
+        var currentLevel = (int) _CurrentLevel.GetValue(menu)!;
         if (currentLevel > 10) return;
 
-        var professionsToChoose = ModEntry.ModHelper.Reflection.GetField<List<int>>(menu, "professionsToChoose")
-            .GetValue();
+        var professionsToChoose = (List<int>) _ProfessionsToChoose.GetValue(menu)!;
         var leftProfession = professionsToChoose[0];
         var rightProfession = professionsToChoose[1];
 

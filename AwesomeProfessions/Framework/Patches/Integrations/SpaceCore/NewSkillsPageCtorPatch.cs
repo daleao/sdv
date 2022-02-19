@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
 
-using Stardew.Common.Harmony;
+using Stardew.Common.Extensions;
 using Utility;
 
 #endregion using directives
@@ -44,7 +44,7 @@ internal class NewSkillsPageCtorPatch : BasePatch
 
         __instance.width += 64;
 
-        if (__instance.GetType().GetField("skillBars")?.GetValue(__instance) is not List<ClickableTextureComponent>
+        if (__instance.GetType().Field("skillBars").GetValue(__instance) is not List<ClickableTextureComponent>
             skillBars) return;
 
         var srcRect = new Rectangle(16, 0, 14, 9);

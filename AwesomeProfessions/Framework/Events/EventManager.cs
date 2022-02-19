@@ -12,7 +12,6 @@ using StardewModdingAPI.Events;
 using StardewValley;
 
 using Common.Extensions;
-using Common.Harmony;
 using Events;
 using Events.Display;
 using Events.GameLoop;

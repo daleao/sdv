@@ -1,6 +1,4 @@
-﻿using StardewModdingAPI.Utilities;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Mining;
 
 #region using directives
 
@@ -10,11 +8,12 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Locations;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
-using Extensions;
 
 #endregion using directives
 
@@ -39,7 +38,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: if (who.professions.Contains(<spelunker_id>) chanceForLadderDown += Util.Professions.GetSpelunkerBonusLadderDownChance()
+        /// Injected: if (who.professions.Contains(<spelunker_id>) chanceForLadderDown += ModEntry.State.Value.SpelunkerLadderStreak * 0.005;
         /// After: if (EnemyCount == 0) chanceForLadderDown += 0.04;
 
         var resumeExecution = iLGenerator.DefineLabel();
@@ -72,6 +71,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                         typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(ModState).PropertyGetter(nameof(ModState.SpelunkerLadderStreak))),
+                    new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Ldc_R8, 0.005),
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Add),

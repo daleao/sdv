@@ -85,8 +85,8 @@ internal sealed class PiperEubstance : SuperMode
             }
         }
 
-        EventManager.Enable(typeof(PiperEubstanceActiveUpdateTickedEvent), typeof(SlimeInflationUpdateTickedEvent),
-            typeof(SlimeDeflationUpdateTickedEvent));
+        EventManager.Enable(typeof(SlimeInflationUpdateTickedEvent), typeof(SlimeDeflationUpdateTickedEvent),
+            typeof(SuperModeActiveUpdateTickedEvent));
     }
 
     /// <inheritdoc />
@@ -99,7 +99,7 @@ internal sealed class PiperEubstance : SuperMode
     {
         if (ChargeValue < 10.0) return;
 
-        var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int)SuperModeIndex.Piper;
+        var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) SuperModeIndex.Piper;
         var magnitude = GetBonusSlimeAttackSpeed().ToString("0.0");
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == buffId);
         if (buff == null)
@@ -153,13 +153,6 @@ internal sealed class PiperEubstance : SuperMode
     {
         return !IsEmpty && Game1.player.currentLocation.characters.OfType<Monster>()
             .Any(m => m.IsSlime() && m.IsWithinPlayerThreshold());
-    }
-
-    /// <inheritdoc />
-    protected override void OnRaised()
-    {
-        foreach (var slime in Game1.player.currentLocation.characters.OfType<GreenSlime>())
-            slime.addedSpeed = GetBonusSlimeMovementSpeed();
     }
 
     /// <inheritdoc />

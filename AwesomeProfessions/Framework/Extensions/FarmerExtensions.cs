@@ -233,14 +233,16 @@ internal static class FarmerExtensions
             // remove associated crafting recipes
             foreach (var recipe in farmer.GetCraftingRecipesForSkill(skillType))
             {
-                forgottenRecipesDict.Add(recipe, farmer.craftingRecipes[recipe]);
+                if (!forgottenRecipesDict.TryAdd(recipe, farmer.craftingRecipes[recipe]))
+                    forgottenRecipesDict[recipe] += farmer.craftingRecipes[recipe];
                 farmer.craftingRecipes.Remove(recipe);
             }
 
             // remove associated cooking recipes
             foreach (var recipe in farmer.GetCookingRecipesForSkill(skillType))
             {
-                forgottenRecipesDict.Add(recipe, farmer.cookingRecipes[recipe]);
+                if (!forgottenRecipesDict.TryAdd(recipe, farmer.cookingRecipes[recipe]))
+                    forgottenRecipesDict[recipe] += farmer.craftingRecipes[recipe];
                 farmer.cookingRecipes.Remove(recipe);
             }
 

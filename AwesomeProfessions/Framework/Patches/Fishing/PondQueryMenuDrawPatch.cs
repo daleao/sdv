@@ -1,4 +1,5 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+﻿#nullable enable
+namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 #region using directives
 
@@ -16,6 +17,7 @@ using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 
 using Stardew.Common.Extensions;
+using Stardew.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -31,6 +33,11 @@ internal class PondQueryMenuDrawPatch : BasePatch
         REGULAR_SLOT_SPACING_F = 13f,
         AQUARIST_X_OFFSET_F = 12f,
         REGULAR_X_OFFSET_F = 32f;
+
+    private static readonly FieldInfo _FishPondData = typeof(FishPond).Field("_fishPondData");
+    private static readonly MethodInfo _GetDisplayedText = typeof(PondQueryMenu).MethodNamed("getDisplayedText");
+    private static readonly MethodInfo _MeasureExtraTextHeight = typeof(PondQueryMenu).MethodNamed("measureExtraTextHeight");
+    private static readonly MethodInfo _DrawHorizontalPartition = typeof(PondQueryMenu).MethodNamed("drawHorizontalPartition");
 
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
@@ -51,8 +58,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
             var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
             if (!owner.HasProfession(Profession.Aquarist)) return true; // run original logic
 
-            var fishPondData = ModEntry.ModHelper.Reflection.GetField<FishPondData>(____pond, "_fishPondData")
-                .GetValue();
+            var fishPondData = (FishPondData?) _FishPondData.GetValue(____pond);
             if (fishPondData is null) return true; // run original logic
 
             var populationGates = fishPondData.PopulationGates;
@@ -73,14 +79,12 @@ internal class PondQueryMenuDrawPatch : BasePatch
                 SUtility.drawTextWithShadow(b, pondNameText, Game1.smallFont,
                     new(Game1.uiViewport.Width / 2 - textSize.X * 0.5f,
                         __instance.yPositionOnScreen - 4 + 160f - textSize.Y * 0.5f), Color.Black);
-                var displayedText = ModEntry.ModHelper.Reflection.GetMethod(__instance, "getDisplayedText")
-                    .Invoke<string>();
+                var displayedText = (string) _GetDisplayedText.Invoke(__instance, null)!;
                 var extraHeight = 0;
                 if (hasUnresolvedNeeds)
                     extraHeight += 116;
 
-                var extraTextHeight = ModEntry.ModHelper.Reflection.GetMethod(__instance, "measureExtraTextHeight")
-                    .Invoke<int>(displayedText);
+                var extraTextHeight = (int) _MeasureExtraTextHeight.Invoke(__instance, null)!;
                 Game1.drawDialogueBox(__instance.xPositionOnScreen, __instance.yPositionOnScreen + 128,
                     PondQueryMenu.width, PondQueryMenu.height - 128 + extraHeight + extraTextHeight, false, true);
                 var populationText = Game1.content.LoadString(
@@ -122,8 +126,8 @@ internal class PondQueryMenuDrawPatch : BasePatch
                         (hasUnresolvedNeeds ? 32 : 48) - textSize.Y), Game1.textColor);
                 if (hasUnresolvedNeeds)
                 {
-                    ModEntry.ModHelper.Reflection.GetMethod(__instance, "drawHorizontalPartition").Invoke(b,
-                        (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
+                    _DrawHorizontalPartition.Invoke(__instance, new object?[]
+                        {b, (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f)});
                     SUtility.drawWithShadow(b, Game1.mouseCursors,
                         new(__instance.xPositionOnScreen + 60 + 8f * Game1.dialogueButtonScale / 10f,
                             __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28),
@@ -150,13 +154,13 @@ internal class PondQueryMenuDrawPatch : BasePatch
                         new(iconX,
                             __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 4),
                         Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet,
-                            ____pond.neededItem.Value.ParentSheetIndex, 16, 16), Color.Black * 0.4f, 0f,
+                            ____pond.neededItem.Value?.ParentSheetIndex ?? 0, 16, 16), Color.Black * 0.4f, 0f,
                         Vector2.Zero, 4f, SpriteEffects.None, 1f);
                     b.Draw(Game1.objectSpriteSheet,
                         new(iconX + 4f,
                             __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight),
                         Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet,
-                            ____pond.neededItem.Value.ParentSheetIndex, 16, 16), Color.White, 0f, Vector2.Zero, 4f,
+                            ____pond.neededItem.Value?.ParentSheetIndex ?? 0, 16, 16), Color.White, 0f, Vector2.Zero, 4f,
                         SpriteEffects.None, 1f);
                     if (____pond.neededItemCount.Value > 1)
                         SUtility.drawTinyDigits(____pond.neededItemCount.Value, b,

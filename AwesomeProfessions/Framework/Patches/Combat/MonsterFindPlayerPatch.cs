@@ -32,7 +32,7 @@ internal class MonsterFindPlayerPatch : BasePatch
     {
         try
         {
-            __result = Game1.getFarmer(__instance.ReadDataAs<long>("Player", Game1.player.UniqueMultiplayerID));
+            __result = Game1.getFarmer(__instance.ReadDataAs("Player", Game1.player.UniqueMultiplayerID));
             return false; // don't run original logic
         }
         catch (Exception ex)

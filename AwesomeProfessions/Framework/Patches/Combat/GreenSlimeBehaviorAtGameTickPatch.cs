@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿using DaLion.Stardew.Professions.Framework.SuperMode;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
@@ -33,8 +35,11 @@ internal class GreenSlimeBehaviorAtGameTickPatch : BasePatch
             __instance.WriteData("Jumping", timeLeft <= 0 ? null : timeLeft.ToString());
         }
 
-        if (__instance.Player.HasProfession(Profession.Piper))
-            ___readyToJump = -1;
+        if (!__instance.Player.HasProfession(Profession.Piper)) return;
+        
+        ___readyToJump = -1;
+        if (ModEntry.State.Value.SuperMode is PiperEubstance eubstance)
+            __instance.addedSpeed = eubstance.GetBonusSlimeMovementSpeed() + (__instance.isGlowing ? 2 : 0);
     }
 
     #endregion harmony patches

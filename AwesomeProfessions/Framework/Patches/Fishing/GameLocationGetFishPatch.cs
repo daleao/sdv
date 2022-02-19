@@ -8,9 +8,11 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
 using Utility;
@@ -20,6 +22,7 @@ using SUtility = StardewValley.Utility;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class GameLocationGetFishPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
@@ -98,7 +101,7 @@ internal class GameLocationGetFishPatch : BasePatch
 
     private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
     {
-        return currentFish is > 166 and < 173 or 152 or 153 or 157
+        return (currentFish is > 166 and < 173 || ModEntry.Config.SeaweedIsJunk && currentFish.IsAlgae())
                && who.CurrentTool is FishingRod rod
                && ObjectLookups.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
                && baitName != "Magnet"

@@ -22,7 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GenericExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\MethodInfoExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Harmony\SafeReflections.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SafeReflections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BaseIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\GenericModConfigMenuIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuAPI.cs" />

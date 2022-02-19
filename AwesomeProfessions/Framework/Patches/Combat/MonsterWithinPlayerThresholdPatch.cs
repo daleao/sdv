@@ -9,6 +9,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Monsters;
 
+using Extensions;
 using SuperMode;
 
 #endregion using directives
@@ -30,8 +31,8 @@ internal class MonsterWithinPlayerThresholdPatch : BasePatch
     {
         try
         {
-            var foundPlayer = ModEntry.ModHelper.Reflection.GetMethod(__instance, "findPlayer").Invoke<Farmer>();
-            if (!foundPlayer.IsLocalPlayer || ModEntry.State.Value.SuperMode is not PoacherColdBlood {IsActive: true})
+            var player = Game1.getFarmer(__instance.ReadDataAs("Player", Game1.player.UniqueMultiplayerID));
+            if (!player.IsLocalPlayer || ModEntry.State.Value.SuperMode is not PoacherColdBlood {IsActive: true})
                 return true; // run original method
 
             __result = false;

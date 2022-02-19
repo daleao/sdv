@@ -61,6 +61,9 @@ internal class DebugButtonsChangedEvent : ButtonsChangedEvent
                     message = c.GetType().GetFields().Where(f => !f.Name.IsAnyOf("UniqueMultiplayerID", "Name"))
                         .Aggregate(message, (m, f) => m + $"\n\t- {f.Name}: {f.GetValue(c)}");
 
+                    message +=
+                        $"\n\n\tCurrent location: {c.currentLocation.NameOrUniqueName} ({c.currentLocation.GetType().Name})";
+
                     if (who is not null)
                     {
                         message += "\n\n\tMod data:";

@@ -12,6 +12,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
 
@@ -20,6 +21,8 @@ using Extensions;
 [UsedImplicitly]
 internal class BushMachineGetOutputPatch : BasePatch
 {
+    private static MethodInfo _GetMachine;
+
     /// <summary>Construct an instance.</summary>
     internal BushMachineGetOutputPatch()
     {
@@ -42,7 +45,8 @@ internal class BushMachineGetOutputPatch : BasePatch
     {
         if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        var machine = ModEntry.ModHelper.Reflection.GetProperty<Bush>(__instance, "Machine").GetValue();
+        _GetMachine ??= __instance.GetType().PropertyGetter("Machine");
+        var machine = (Bush) _GetMachine.Invoke(__instance, null);
         if (machine is null || machine.size.Value == 3) return;
 
         if (!Context.IsMainPlayer || !Game1.player.HasProfession(Profession.Ecologist)) return;

@@ -2,11 +2,12 @@
 
 #region using directives
 
+using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
-using Stardew.Common.Harmony;
+using Stardew.Common.Extensions;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -16,6 +17,8 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal class GeodeCrusherMachineSetInputPatch : BasePatch
 {
+    private static MethodInfo _GetMachine;
+
     /// <summary>Construct an instance.</summary>
     internal GeodeCrusherMachineSetInputPatch()
     {
@@ -38,7 +41,8 @@ internal class GeodeCrusherMachineSetInputPatch : BasePatch
     {
         if (__instance is null) return;
 
-        var machine = ModEntry.ModHelper.Reflection.GetProperty<SObject>(__instance, "Machine").GetValue();
+        _GetMachine ??= __instance.GetType().PropertyGetter("Machine");
+        var machine = (SObject) _GetMachine.Invoke(__instance, null);
         if (machine?.heldObject.Value is null) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;

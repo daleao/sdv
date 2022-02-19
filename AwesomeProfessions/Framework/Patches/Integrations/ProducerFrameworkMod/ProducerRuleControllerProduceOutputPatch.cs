@@ -8,7 +8,8 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 
-using Stardew.Common.Harmony;
+
+using Stardew.Common.Extensions;
 using Extensions;
 
 using SObject = StardewValley.Object;

@@ -30,7 +30,7 @@ internal static class CharacterExtensions
         IEnumerable<T> candidates = null, Func<T, bool> predicate = null) where T : Character
     {
         predicate ??= _ => true;
-        candidates ??= character.currentLocation?.characters.OfType<T>().Where(c => predicate(c)).ToHashSet();
+        candidates ??= character.currentLocation?.characters.OfType<T>().Where(c => predicate(c)).ToArray();
         distanceToClosestCharacter = double.MaxValue;
         if (candidates is null) return null;
 

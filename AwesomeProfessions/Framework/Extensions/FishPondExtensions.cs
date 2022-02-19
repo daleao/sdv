@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
@@ -25,10 +26,11 @@ internal static class FishPondExtensions
     private const int ALGAE_INDEX_I = 153;
 
     private static readonly Func<int, double> _productionChanceByValue = x => (double) 14765 / (x + 120) + 1.5;
+    private static readonly FieldInfo _FishPondData = typeof(FishPond).Field("_fishPondData");
 
     public static bool HasUnlockedFinalPopulationGate(this FishPond pond)
     {
-        var fishPondData = ModEntry.ModHelper.Reflection.GetField<FishPondData>(pond, "_fishPondData").GetValue();
+        var fishPondData = (FishPondData) _FishPondData.GetValue(pond);
         return fishPondData?.PopulationGates is null ||
                pond.lastUnlockedPopulationGate.Value >= fishPondData.PopulationGates.Keys.Max();
     }

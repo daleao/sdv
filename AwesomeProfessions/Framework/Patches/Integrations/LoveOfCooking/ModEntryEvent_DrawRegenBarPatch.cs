@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 
+using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using SuperMode;
 

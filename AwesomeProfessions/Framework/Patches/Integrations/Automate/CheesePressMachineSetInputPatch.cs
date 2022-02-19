@@ -19,6 +19,8 @@ using SObject = StardewValley.Object;
 
 internal class CheesePressMachineSetInput : BasePatch
 {
+    private static MethodInfo _GetSample;
+
     /// <summary>Construct an instance.</summary>
     internal CheesePressMachineSetInput()
     {
@@ -82,7 +84,8 @@ internal class CheesePressMachineSetInput : BasePatch
     {
         if (!machine.heldObject.Value.IsArtisanGood()) return;
 
-        if (consumable.GetType().GetProperty("Sample")?.GetValue(consumable) is not SObject input) return;
+        _GetSample ??= consumable.GetType().PropertyGetter("Sample");
+        if (_GetSample.Invoke(consumable, null) is not SObject input) return;
 
         // large milk gives double output at normal quality
         var output = machine.heldObject.Value;

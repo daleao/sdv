@@ -37,10 +37,13 @@ public class ModConfig
     public float TreasureDetectionDistance { get; set; } = 3f;
 
     /// <summary>The maximum speed bonus a Spelunker can reach.</summary>
-    public int SpelunkerSpeedCap { get; set; } = 10;
+    public uint SpelunkerSpeedCap { get; set; } = 10;
 
     /// <summary>Toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
     public bool EnableGetExcited { get; set; } = true;
+
+    /// <summary>Whether Seaweed and Algae are considered junk for fishing purposes.</summary>
+    public bool SeaweedIsJunk { get; set; } = true;
 
     /// <summary>If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.</summary>
     public float AnglerMultiplierCeiling { get; set; } = 1f;
@@ -67,7 +70,7 @@ public class ModConfig
     public float SuperModeActivationDelay { get; set; } = 1f;
 
     /// <summary>Affects the rate at which one builds the Super Mode gauge. Increase this if you feel the gauge raises too slowly.</summary>
-    public float SuperModeGainFactor { get; set; } = 1f;
+    public double SuperModeGainFactor { get; set; } = 1f;
 
     /// <summary>Affects the rate at which the Super Mode gauge depletes during Super Mode. Increase this to make Super Mode last longer..</summary>
     public double SuperModeDrainFactor { get; set; } = 3.0;
