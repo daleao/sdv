@@ -32,7 +32,7 @@ internal class PiperWarpedEvent : WarpedEvent
 
         // get valid tiles for spawning
         int playerx = Game1.player.getTileX(), playery = Game1.player.getTileY(), validCount = 0;
-        var validTiles = new Vector2[64];
+        var validTiles = new Vector2[196];
         for (var i = playery - 7; i < playery + 7; ++i)
             for (var j = playerx - 7; j < playerx + 7; ++j)
             {
@@ -110,7 +110,7 @@ internal class PiperWarpedEvent : WarpedEvent
             }
 
             // spawn
-            pipedSlime.setTileLocation(validTiles.ElementAt(r.Next(validTiles.Length)));
+            pipedSlime.setTileLocation(validTiles[r.Next(validTiles.Length)]);
             e.NewLocation.characters.Add(pipedSlime);
             ModEntry.State.Value.PipedSlimes.Add(pipedSlime);
             ++pipedCount;

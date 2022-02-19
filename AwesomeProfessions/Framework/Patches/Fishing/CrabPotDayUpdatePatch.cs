@@ -321,18 +321,29 @@ internal class CrabPotDayUpdatePatch : BasePatch
     /// <param name="location">The game location of the crab pot.</param>
     private static int GetTrash(Vector2 tileLocation, GameLocation location, Random r)
     {
-        if (r.NextDouble() < 1.0 / 3.0)
-        {
-            return location switch
-            {
-                Beach or IslandSouth or IslandWest when location.getFishingLocation(tileLocation) == 1 => 152,
-                MineShaft or Sewer or BugLand or _ when location.NameOrUniqueName == "WitchSwamp" => r.Next(2) == 0 ? 153 : 157,
-                _ => 153
-            };
+        if (r.NextDouble() > 1.0 / 3.0) return r.Next(167, 173);
 
+        int trash;
+        switch (location)
+        {
+            case Beach:
+            case IslandSouth:
+            case IslandWest when location.getFishingLocation(tileLocation) == 1:
+                trash = 152; // seaweed
+                break;
+            case MineShaft:
+            case Sewer:
+            case BugLand:
+                trash = r.Next(2) == 0 ? 153 : 157; // green or white algae
+                break;
+            default:
+                if (location.NameOrUniqueName == "WithSwamp") trash = r.Next(2) == 0 ? 153 : 157;
+                else trash = 153; // green algae
+                break;
         }
 
-        return r.Next(167, 173);
+        return trash;
+
     }
 
     #endregion private methods

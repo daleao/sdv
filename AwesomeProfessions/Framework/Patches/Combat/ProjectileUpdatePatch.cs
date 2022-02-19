@@ -44,7 +44,7 @@ internal class ProjectileUpdatePatch : BasePatch
         if (__instance is not BasicProjectile projectile) return;
 
         // check if damages monsters
-        var damagesMonsters = (bool) _DamagesMonsters.GetValue(__instance)!;
+        var damagesMonsters = ((NetBool) _DamagesMonsters.GetValue(__instance)!).Value;
         if (!damagesMonsters) return;
 
         // check if firer is has Desperado Super Mode

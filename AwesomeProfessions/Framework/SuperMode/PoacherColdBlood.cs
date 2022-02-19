@@ -4,14 +4,11 @@ namespace DaLion.Stardew.Professions.Framework.SuperMode;
 #region using directives
 
 using System.Linq;
-using System.Reflection;
 using Netcode;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewValley.Menus;
 using StardewValley.Monsters;
 
-using Common.Extensions;
 using AssetLoaders;
 
 #endregion using directives
@@ -19,10 +16,6 @@ using AssetLoaders;
 /// <summary>Handles Poacher Cold Blood activation.</summary>
 internal sealed class PoacherColdBlood : SuperMode
 {
-    private static readonly FieldInfo _ChargingFarmer = typeof(LevelUpMenu).Field("chargingFarmer");
-    private static readonly FieldInfo _SeenFarmer = typeof(LevelUpMenu).Field("seenFarmer");
-    private static readonly FieldInfo _SeenPlayer = typeof(LevelUpMenu).Field("seenPlayer");
-
     /// <summary>Construct an instance.</summary>
     internal PoacherColdBlood()
     {
@@ -53,14 +46,16 @@ internal sealed class PoacherColdBlood : SuperMode
             switch (monster)
             {
                 case AngryRoger:
-                case Bat:
                 case Ghost:
+                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "seenPlayer").SetValue(false);
+                    break;
+                case Bat:
                 case RockGolem:
-                    ((NetBool) _SeenPlayer.GetValue(monster))!.Value = false;
+                    ModEntry.ModHelper.Reflection.GetField<NetBool>(monster, "seenPlayer").GetValue().Value = false;
                     break;
                 case DustSpirit:
-                    _SeenFarmer.SetValue(monster, false);
-                    _ChargingFarmer.SetValue(monster, false);
+                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "seenFarmer").SetValue(false);
+                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "chargingFarmer").SetValue(false);
                     break;
             }
         }
