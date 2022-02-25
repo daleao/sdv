@@ -62,11 +62,10 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - New sound effects and visuals for certain professions.
 - Integration with Automate and several other popular mods.
 - HUD elements compatible with SVE's Galdora and [Vintage Interface v2﻿](https://www.nexusmods.com/stardewvalley/mods/4697).
-- _[Optional]_ Rebalanced Fish Ponds.
-    - Fish Ponds preserve fish quality. The quality of new fish will be inerited from the parent.
-    - Roe/ink quality takes after fish quality.
-    - Roe/ink production quantity scales with population, and production chance scales inversely with fish value. This means cheap fish will produce tons of cheap row, and expensive fish will some times produce super valuable roe.
-    - Intended for use with the new Aquarist profession.
+- _[Optional]_ Rebalanced Fish Ponds:
+    - Fish Ponds preserve the quality of fish placed inside. The quality of newly spawned fish will be inerited from a randomly chosen parent. Fishing from a pond always removes the lowest-quality fish first.
+    - The quality of produced roe/ink is based on the average quality of the fish inside the pond. Each fish in the pond has a chance to add one roe/ink to the produce stack. However, this chance depends on the value of the fish (higher value fish have **lower** production chance). This means that cheap fish will produce tons of cheap roe, while more expensive fish will produce less but more valuable roe.
+    - These features are intended to balance the new Aquarist profession.
 
 ## Professions
 
@@ -144,7 +143,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
     - **Fury:** Damage bonus caps at +40% at Combat level 10. Fury builds faster if wielding a club.Unleash all pent-up fury to enter an **Undying Rage.**
 - **Lv10 - Bushwhacker** - Crit. chance x2. Crit. strikes can poach items. Your blood cools in battle, increasing lethality of crit. strikes. *Non-profession-based damage bonuses also decrease special move cooldown.*
     - Monsters can only be poached once.
-    - **Cold Blood:** Crit. power bonus caps at ×3 at Combat level 10. Chance to steal is higher and cold blood builds faster if wielding a dagger. Your cold blood masks your presence, allowing you to mount an **Ambuscade.**
+    - **Cold Blood:** Crit. power bonus caps at ×2 at Combat level 10. Chance to steal is higher and cold blood builds faster if wielding a dagger. Your cold blood masks your presence, allowing you to mount an **Ambuscade.**
 - **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo. *Trick shots stun enemies for 5s.*
     - In Vanilla, slingshots are unable to hit enemies that are near the Farmer. This mod improves slingshot combat by removing this grace period before a shot is allowed to deal damage. All professions are affected.
     -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but can ricochet once._

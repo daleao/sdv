@@ -74,7 +74,7 @@ internal static class GameLocationExtensions
     public static bool IsCombatZone(this GameLocation location, bool dungeonsOnly = false)
     {
         return location is MineShaft shaft && !shaft.IsTreasureOrSafeRoom() ||
-               location is Woods or BugLand or IslandSecret or IslandWest or VolcanoDungeon ||
+               location is Woods or BugLand or VolcanoDungeon ||
                location.NameOrUniqueName.ContainsAnyOf("CrimsonBadlands", "DeepWoods", "Highlands", "RidgeForest",
                    "SpiritRealm", "AsteroidsDungeon") ||
                !dungeonsOnly && location.characters.OfType<Monster>().Any() && location is not SlimeHutch;

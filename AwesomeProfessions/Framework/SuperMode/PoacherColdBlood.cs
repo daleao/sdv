@@ -1,7 +1,4 @@
 ﻿// ReSharper disable PossibleLossOfFraction
-
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-
 namespace DaLion.Stardew.Professions.Framework.SuperMode;
 
 #region using directives

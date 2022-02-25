@@ -22,7 +22,7 @@ public class ModConfig
     public bool ShouldCountAutomatedHarvests { get; set; } = false;
 
     /// <summary>The chance that a scavenger or prospector hunt will trigger in the right conditions.</summary>
-    public double ChanceToStartTreasureHunt { get; set; } = 0.2;
+    public double ChanceToStartTreasureHunt { get; set; } = 0.1;
 
     /// <summary>Whether a Scavenger Hunt can trigger while entering a farm map.</summary>
     public bool AllowScavengerHuntsOnFarm { get; set; } = false;
