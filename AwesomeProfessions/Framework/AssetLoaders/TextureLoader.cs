@@ -19,7 +19,7 @@ public class TextureLoader : IAssetLoader
     {
         return asset.AssetName.Contains(ModEntry.Manifest.UniqueID) &&
                asset.AssetName.ContainsAnyOf("SuperModeGauge", "SkillBars", "PrestigeRibbons", "MaxFishSizeIcon",
-                   "BetterHoneyMeadIcons");
+                   "BetterHoneyMeadIcons", "HudPointer");
     }
 
     /// <inheritdoc />
@@ -44,6 +44,7 @@ public class TextureLoader : IAssetLoader
             "MaxFishSizeIcon" => ModEntry.ModHelper.Content.Load<T>(Path.Combine("assets", "menus", "max.png")),
             "BetterHoneyMeadIcons" => ModEntry.ModHelper.Content.Load<T>(Path.Combine("assets", "objects",
                 "mead-" + ModEntry.Config.HoneyMeadStyle.ToLower() + ".png")),
+            "HudPointer" => ModEntry.ModHelper.Content.Load<T>(Path.Combine("assets", "hud", "pointer.png")),
             _ => throw new InvalidOperationException($"Unexpected asset '{asset.AssetName}'.")
         };
     }

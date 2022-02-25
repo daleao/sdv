@@ -54,6 +54,7 @@ internal class ProfessionsCheatSetProfessionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while moving CJB Profession Cheat health bonus from Defender to Brute.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

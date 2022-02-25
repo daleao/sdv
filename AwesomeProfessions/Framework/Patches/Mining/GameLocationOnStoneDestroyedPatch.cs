@@ -47,6 +47,7 @@ internal class GameLocationOnStoneDestroyedPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

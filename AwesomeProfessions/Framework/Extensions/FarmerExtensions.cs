@@ -228,7 +228,7 @@ internal static class FarmerExtensions
 
         if (ModEntry.Config.ForgetRecipesOnSkillReset)
         {
-            var forgottenRecipesDict = ModData.Read(DataField.ForgottenRecipesDict).ToDictionary<string, int>(",", ";");
+            var forgottenRecipesDict = Game1.player.ReadData(DataField.ForgottenRecipesDict).ToDictionary<string, int>(",", ";");
 
             // remove associated crafting recipes
             foreach (var recipe in farmer.GetCraftingRecipesForSkill(skillType))
@@ -246,7 +246,7 @@ internal static class FarmerExtensions
                 farmer.cookingRecipes.Remove(recipe);
             }
 
-            ModData.Write(DataField.ForgottenRecipesDict, forgottenRecipesDict.ToString(",", ";"));
+            Game1.player.WriteData(DataField.ForgottenRecipesDict, forgottenRecipesDict.ToString(",", ";"));
         }
 
         // revalidate health
@@ -302,11 +302,21 @@ internal static class FarmerExtensions
             b.buildingType.Contains("Deluxe") && ((AnimalHouse) b.indoors.Value).isFull()).Sum(_ => 0.05f);
     }
 
+    /// <summary>The bonus catching bar speed for prestiged Fisher.</summary>
+    public static float GetFisherBonusCatchingBarSpeed(this Farmer farmer, int whichFish)
+    {
+        return farmer.fishCaught.TryGetValue(whichFish, out var caughtData)
+            ? caughtData[0] >= ModEntry.Config.FishNeededForInstantCatch
+                ? 1f
+                : Math.Max(caughtData[0] * (0.1f / ModEntry.Config.FishNeededForInstantCatch) * 0.0002f, 0.002f)
+            : 0.002f;
+    }
+
     /// <summary>The price bonus applied to fish sold by Angler.</summary>
     public static float GetAnglerPriceBonus(this Farmer farmer)
     {
         var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
+            .Where(p => !p.Key.IsAlgae() && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
 
         var bonus = 0f;
@@ -325,7 +335,7 @@ internal static class FarmerExtensions
     }
 
     /// <summary>The amount of "catching" bar to compensate for Aquarist.</summary>
-    public static float GetAquaristBonusCatchingBarSpeed(this Farmer farmer)
+    public static float GetAquaristCatchingBarCompensation(this Farmer farmer)
     {
         var fishTypes = Game1.getFarm().buildings
             .OfType<FishPond>()
@@ -338,13 +348,13 @@ internal static class FarmerExtensions
     /// <summary>The price bonus applied to all items sold by Conservationist.</summary>
     public static float GetConservationistPriceMultiplier(this Farmer farmer)
     {
-        return 1f + ModData.ReadAs<float>(DataField.ConservationistActiveTaxBonusPct, farmer);
+        return 1f + farmer.ReadDataAs<float>(DataField.ConservationistActiveTaxBonusPct);
     }
 
     /// <summary>The quality of items foraged by Ecologist.</summary>
     public static int GetEcologistForageQuality(this Farmer farmer)
     {
-        var itemsForaged = ModData.ReadAs<uint>(DataField.EcologistItemsForaged, farmer);
+        var itemsForaged = farmer.ReadDataAs<uint>(DataField.EcologistItemsForaged);
         return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
             ? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -355,7 +365,7 @@ internal static class FarmerExtensions
     /// <summary>The quality of minerals collected by Gemologist.</summary>
     public static int GetGemologistMineralQuality(this Farmer farmer)
     {
-        var mineralsCollected = ModData.ReadAs<uint>(DataField.GemologistMineralsCollected, farmer);
+        var mineralsCollected = farmer.ReadDataAs<uint>(DataField.GemologistMineralsCollected);
         return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
             ? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -394,5 +404,94 @@ internal static class FarmerExtensions
     {
         var healthPercent = (double) farmer.health / farmer.maxHealth;
         return (float) Math.Min(2 / (healthPercent + 1.5) - 0.75, 0.5f);
+    }
+
+    /// <summary>Read a string from the <see cref="ModDataDictionary" />.</summary>
+    /// <param name="field">The field to read from.</param>
+    /// <param name="defaultValue">The default value to return if the field does not exist.</param>
+    internal static string ReadData(this Farmer farmer, DataField field, string defaultValue = "")
+    {
+        return Game1.MasterPlayer.modData.Read($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
+            defaultValue);
+    }
+
+    /// <summary>Read a field from the <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
+    /// <param name="field">The field to read from.</param>
+    /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
+    internal static T ReadDataAs<T>(this Farmer farmer, DataField field, T defaultValue = default)
+    {
+        return Game1.MasterPlayer.modData.ReadAs($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
+            defaultValue);
+    }
+
+    /// <summary>Write to a field in the <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
+    /// <param name="field">The field to write to.</param>
+    /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
+    internal static void WriteData(this Farmer farmer, DataField field, string value)
+    {
+        if (Context.IsMultiplayer && !Context.IsMainPlayer)
+        {
+            // request the main player
+            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestUpdateData/Write/{field}",
+                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            return;
+        }
+
+        Game1.player.modData.Write($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}", value);
+        Log.D($"[ModData]: Wrote {value} to {farmer.Name}'s {field}.");
+    }
+
+    /// <summary>Write to a field in the <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
+    /// <param name="field">The field to write to.</param>
+    /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
+    internal static bool WriteDataIfNotExists(this Farmer farmer, DataField field, string value)
+    {
+        if (Game1.MasterPlayer.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}"))
+        {
+            Log.D($"[ModData]: The data field {field} already existed.");
+            return true;
+        }
+
+        if (Context.IsMultiplayer && !Context.IsMainPlayer)
+            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestUpdateData/Write/{field}",
+                new[] { ModEntry.Manifest.UniqueID },
+                new[] { Game1.MasterPlayer.UniqueMultiplayerID }); // request the main player
+        else Game1.player.WriteData(field, value);
+
+        return false;
+    }
+
+    /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
+    /// <param name="field">The field to update.</param>
+    /// <param name="amount">Amount to increment by.</param>
+    internal static void IncrementData<T>(this Farmer farmer, DataField field, T amount)
+    {
+        if (Context.IsMultiplayer && !Context.IsMainPlayer)
+        {
+            // request the main player
+            ModEntry.ModHelper.Multiplayer.SendMessage(amount, $"RequestUpdateData/Increment/{field}",
+                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            return;
+        }
+
+        Game1.player.modData.Increment($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}", amount);
+        Log.D($"[ModData]: Incremented {farmer.Name}'s {field} by {amount}.");
+    }
+
+    /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by 1.</summary>
+    /// <param name="field">The field to update.</param>
+    internal static void IncrementData<T>(this Farmer farmer, DataField field)
+    {
+        if (Context.IsMultiplayer && !Context.IsMainPlayer)
+        {
+            // request the main player
+            ModEntry.ModHelper.Multiplayer.SendMessage(1, $"RequestUpdateData/Increment/{field}",
+                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            return;
+        }
+
+        Game1.player.modData.Increment($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
+            "1".Parse<T>());
+        Log.D($"[ModData]: Incremented {farmer.Name}'s {field} by 1.");
     }
 }

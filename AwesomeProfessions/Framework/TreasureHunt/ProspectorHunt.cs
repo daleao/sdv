@@ -34,7 +34,7 @@ internal class ProspectorHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
-        ModData.Write(DataField.ProspectorHuntStreak, "0");
+        Game1.player.WriteData(DataField.ProspectorHuntStreak, "0");
         End(false);
     }
 
@@ -56,7 +56,7 @@ internal class ProspectorHunt : TreasureHunt
             !Game1.player.HasProfession(Profession.Prospector, true)) return;
         
         Framework.Utility.Multiplayer.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
-        ModEntry.ModHelper.Multiplayer.SendMessage(string.Empty, "RequestTimeStop/Enable",
+        ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOn", "RequestEvent",
             new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
     }
 
@@ -89,9 +89,9 @@ internal class ProspectorHunt : TreasureHunt
 
         var shaft = (MineShaft) huntLocation;
         if (shaft.shouldCreateLadderOnThisLevel() && !shaft.GetLadderTiles().Any())
-            shaft.createLadderDown((int) TreasureTile.Value.X, (int) TreasureTile.Value.Y);
+            shaft.createLadderDown((int) TreasureTile!.Value.X, (int) TreasureTile!.Value.Y);
 
-        ModData.Increment<uint>(DataField.ProspectorHuntStreak);
+        Game1.player.IncrementData<uint>(DataField.ProspectorHuntStreak);
         End(true);
     }
 
@@ -106,7 +106,7 @@ internal class ProspectorHunt : TreasureHunt
         Framework.Utility.Multiplayer.SendPublicChat(successful
             ? $"{Game1.player.Name} has found the treasure!"
             : $"{Game1.player.Name} failed to find the treasure.");
-        ModEntry.ModHelper.Multiplayer.SendMessage(string.Empty, "RequestTimeStop/Disable",
+        ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOff", "RequestEvent",
             new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
     }
 
@@ -223,7 +223,7 @@ internal class ProspectorHunt : TreasureHunt
 
                     case 2: // special items
                         var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
-                        var streak = ModData.ReadAs<uint>(DataField.ProspectorHuntStreak);
+                        var streak = Game1.player.ReadDataAs<uint>(DataField.ProspectorHuntStreak);
                         if (random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
                             treasuresAndQuantities.Add(-1, 1); // femur
 

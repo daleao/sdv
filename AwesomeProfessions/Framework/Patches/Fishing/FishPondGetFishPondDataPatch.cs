@@ -25,7 +25,7 @@ internal class FishPondGetFishPondDataPatch : BasePatch
 
     /// <summary>Patch to get fish pond data for legendary fish.</summary>
     [HarmonyPostfix]
-    private static void FishPondGetFishPondDataPostfix(ref FishPond __instance, ref FishPondData __result,
+    private static void FishPondGetFishPondDataPostfix(FishPond __instance, ref FishPondData __result,
         ref FishPondData ____fishPondData)
     {
         if (__instance.fishType.Value <= 0) return;

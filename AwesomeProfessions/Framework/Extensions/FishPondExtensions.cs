@@ -92,25 +92,27 @@ internal static class FishPondExtensions
         pond.output.Value = produce;
     }
 
+    /// <summary>Determine the amount of fish of each quality currently in this pond.</summary>
+    public static (int, int, int) GetFishQualities(this FishPond pond, int qualityRating = -1)
+    {
+        if (qualityRating < 0) qualityRating = pond.ReadDataAs<int>("QualityRating");
+
+        var numBestQuality = qualityRating / 4096; // 16^3
+        qualityRating -= numBestQuality * 4096;
+
+        var numHighQuality = qualityRating / 256; // 16^2
+        qualityRating -= numHighQuality * 256;
+
+        var numMedQuality = qualityRating / 16;
+
+        return (numBestQuality, numHighQuality, numMedQuality);
+    }
+
     /// <summary>Determine which quality should be deducted from the total quality rating after fishing in this pond.</summary>
     public static int GetLowestFishQuality(this FishPond pond)
     {
-        var owner = Game1.getFarmerMaybeOffline(pond.owner.Value) ?? Game1.MasterPlayer;
-        var qualityRatingByFishPond =
-            ModData.Read(DataField.QualityRatingByFishPond, owner).ToDictionary<int, int>(",", ";");
-        var thisFishPond = pond.GetCenterTile().ToString().GetDeterministicHashCode();
-        qualityRatingByFishPond.TryGetValue(thisFishPond, out var qualityRatingForThisFishPond);
-
-        var currentRating = qualityRatingForThisFishPond;
-        var numBestQuality = currentRating / 4096; // 16^3
-        currentRating -= numBestQuality * 4096;
-
-        var numHighQuality = currentRating / 256; // 16^2
-        currentRating -= numHighQuality * 256;
-
-        var numMedQuality = currentRating / 16;
-
-        return numBestQuality + numHighQuality + numMedQuality < pond.FishCount
+        var (numBestQuality, numHighQuality, numMedQuality) = GetFishQualities(pond);
+        return numBestQuality + numHighQuality + numMedQuality < pond.FishCount + 1 // fish pond count has already been deducted at this point, so we consider +1
             ? SObject.lowQuality
             : numMedQuality > 0
                 ? SObject.medQuality
@@ -119,47 +121,13 @@ internal static class FishPondExtensions
                     : SObject.bestQuality;
     }
 
-    /// <summary>Determine the amount of fish of each quality currently in this pond.</summary>
-    public static (int, int, int) GetAllFishQualities(this FishPond pond)
-    {
-        var owner = Game1.getFarmerMaybeOffline(pond.owner.Value) ?? Game1.MasterPlayer;
-        var qualityRatingByFishPond =
-            ModData.Read(DataField.QualityRatingByFishPond, owner).ToDictionary<int, int>(",", ";");
-        var thisFishPond = pond.GetCenterTile().ToString().GetDeterministicHashCode();
-        qualityRatingByFishPond.TryGetValue(thisFishPond, out var qualityRatingForThisFishPond);
-
-        var currentRating = qualityRatingForThisFishPond;
-        var numBestQuality = currentRating / 4096; // 16^3
-        currentRating -= numBestQuality * 4096;
-
-        var numHighQuality = currentRating / 256; // 16^2
-        currentRating -= numHighQuality * 256;
-
-        var numMedQuality = currentRating / 16;
-
-        return (numBestQuality, numHighQuality, numMedQuality);
-    }
 
     /// <summary>Choose the quality value for today's produce by parsing stored quality rating data.</summary>
     /// <param name="r">A random number generator.</param>
     private static int GetRoeQuality(this FishPond pond, Random r)
     {
-        var owner = Game1.getFarmerMaybeOffline(pond.owner.Value) ?? Game1.MasterPlayer;
-        var qualityRatingByFishPond =
-            ModData.Read(DataField.QualityRatingByFishPond, owner).ToDictionary<int, int>(",", ";");
-        var thisFishPond = pond.GetCenterTile().ToString().GetDeterministicHashCode();
-        qualityRatingByFishPond.TryGetValue(thisFishPond, out var qualityRatingForThisFishPond);
-
-        var currentRating = qualityRatingForThisFishPond;
-        var numBestQuality = currentRating / 4096; // 16^3
-        currentRating -= numBestQuality * 4096;
-
-        var numHighQuality = currentRating / 256; // 16^2
-        currentRating -= numHighQuality * 256;
-
-        var numMedQuality = currentRating / 16;
-
-        var roll = r.Next(pond.FishCount + 1);
+        var (numBestQuality, numHighQuality, numMedQuality) = GetFishQualities(pond);
+        var roll = r.Next(pond.FishCount);
         return roll < numBestQuality
             ? SObject.bestQuality
             : roll < numBestQuality + numHighQuality

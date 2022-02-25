@@ -29,7 +29,7 @@ internal class BasicProjectileCtorPatch : BasePatch
 
     /// <summary>Patch for all classes to eliminate travel grace period + add Rascal trick shot.</summary>
     [HarmonyPostfix]
-    private static void BasicProjectileCtorPostfix(BasicProjectile __instance, ref NetInt ___bouncesLeft,
+    private static void BasicProjectileCtorPostfix(BasicProjectile __instance, NetInt ___bouncesLeft,
         bool damagesMonsters, Character firer)
     {
         if (!damagesMonsters || firer is not Farmer farmer) return;

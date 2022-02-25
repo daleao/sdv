@@ -53,6 +53,7 @@ internal class ExperieneBarDrawExperienceBarPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to budge Ui Info Suite experience bar skill icon. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

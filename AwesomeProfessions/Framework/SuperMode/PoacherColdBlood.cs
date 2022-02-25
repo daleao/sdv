@@ -1,4 +1,7 @@
 ﻿// ReSharper disable PossibleLossOfFraction
+
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+
 namespace DaLion.Stardew.Professions.Framework.SuperMode;
 
 #region using directives
@@ -6,6 +9,7 @@ namespace DaLion.Stardew.Professions.Framework.SuperMode;
 using System.Linq;
 using Netcode;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
 
@@ -89,6 +93,23 @@ internal sealed class PoacherColdBlood : SuperMode
                 }
             );
         }
+
+        if (Context.IsMainPlayer)
+            ModEntry.HostState.PoachersInAmbush.Add(Game1.player.UniqueMultiplayerID);
+        else
+            ModEntry.ModHelper.Multiplayer.SendMessage("ActivatedAmbush", "RequestUpdateHostState",
+                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+    }
+
+    /// <inheritdoc />
+    public override void Deactivate()
+    {
+        base.Deactivate();
+        if (Context.IsMainPlayer)
+            ModEntry.HostState.PoachersInAmbush.Remove(Game1.player.UniqueMultiplayerID);
+        else
+            ModEntry.ModHelper.Multiplayer.SendMessage("DeactivatedAmbush", "RequestUpdateHostState",
+                new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
     }
 
     /// <inheritdoc />

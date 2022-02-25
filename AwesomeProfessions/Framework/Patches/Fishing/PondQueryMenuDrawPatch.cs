@@ -50,7 +50,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
     /// <summary>Patch to adjust fish pond query menu for Aquarist increased max capacity.</summary>
     [HarmonyPrefix]
     private static bool PondQueryMenuDrawPrefix(PondQueryMenu __instance, float ____age,
-        ref Rectangle ____confirmationBoxRectangle, string ____confirmationText, bool ___confirmingEmpty,
+        Rectangle ____confirmationBoxRectangle, string ____confirmationText, bool ___confirmingEmpty,
         string ___hoverText, SObject ____fishItem, FishPond ____pond, SpriteBatch b)
     {
         try
@@ -218,7 +218,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
     {
         if (!ModEntry.Config.EnableFishPondRebalance || ___confirmingEmpty) return;
 
-        var (numBestQuality, numHighQuality, numMedQuality) = ____pond.GetAllFishQualities();
+        var (numBestQuality, numHighQuality, numMedQuality) = ____pond.GetFishQualities();
         if (numBestQuality == 0 && numHighQuality == 0 && numMedQuality == 0) return;
 
         var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;

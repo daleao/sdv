@@ -7,6 +7,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 
 using Common.Extensions;
+using Extensions;
 
 #endregion using directives
 
@@ -15,7 +16,7 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
     {
-        var forgottenRecipes = ModData.Read(DataField.ForgottenRecipesDict).ToDictionary<string, int>(",", ";");
+        var forgottenRecipes = Game1.player.ReadData(DataField.ForgottenRecipesDict).ToDictionary<string, int>(",", ";");
         if (!forgottenRecipes.Any())
         {
             Disable();
@@ -37,7 +38,7 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
             }
         }
 
-        ModData.Write(DataField.ForgottenRecipesDict, forgottenRecipes.Any()
+        Game1.player.WriteData(DataField.ForgottenRecipesDict, forgottenRecipes.Any()
             ? forgottenRecipes.ToString(",", ";")
             : null);
         Disable();

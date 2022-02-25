@@ -38,8 +38,6 @@ internal class GreenSlimeBehaviorAtGameTickPatch : BasePatch
         if (!__instance.Player.HasProfession(Profession.Piper)) return;
         
         ___readyToJump = -1;
-        if (ModEntry.State.Value.SuperMode is PiperEubstance eubstance)
-            __instance.addedSpeed = eubstance.GetBonusSlimeMovementSpeed() + (__instance.isGlowing ? 2 : 0);
     }
 
     #endregion harmony patches

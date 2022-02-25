@@ -25,7 +25,7 @@ internal class DustSpiritBehaviorAtGameTickPatch : BasePatch
     [HarmonyPostfix]
     private static void DustSpiritBehaviorAtGameTickPostfix(DustSpirit __instance, ref bool ___seenFarmer)
     {
-        if (!__instance.Player.IsLocalPlayer || ModEntry.State.Value.SuperMode is not
+        if (!__instance.Player.IsLocalPlayer || ModEntry.PlayerState.Value.SuperMode is not
                 PoacherColdBlood {IsActive: true}) return;
         ___seenFarmer = false;
     }

@@ -48,7 +48,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.IsLocalPlayer || !owner.HasProfession(Profession.Ecologist)) return;
 
-        ModData.Increment<uint>(DataField.EcologistItemsForaged);
+        Game1.player.IncrementData<uint>(DataField.EcologistItemsForaged);
     }
 
     /// <summary>Patch for Propagator output quality.</summary>
@@ -82,6 +82,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching Blueberry's Mushroom Propagator output quality.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

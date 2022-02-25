@@ -32,7 +32,7 @@ internal class TreeDayUpdatePatch : BasePatch
 
     /// <summary>Patch to increase Abrorist non-fruit tree growth odds.</summary>
     [HarmonyPostfix]
-    private static void TreeDayUpdatePostfix(ref Tree __instance, int __state)
+    private static void TreeDayUpdatePostfix(Tree __instance, int __state)
     {
         var anyPlayerIsArborist = Game1.game1.DoesAnyPlayerHaveProfession(Profession.Arborist, out var n);
         if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !__instance.CanGrow()) return;

@@ -162,7 +162,7 @@ internal static class HarmonyPatcher
     internal class ToolTileseAffectedPatch
     {
         [HarmonyPostfix]
-        protected static void Postfix(Tool __instance, ref List<Vector2> __result, Vector2 tileLocation, int power, Farmer who)
+        protected static void Postfix(Tool __instance, List<Vector2> __result, Vector2 tileLocation, int power)
         {
             if (__instance.UpgradeLevel < Tool.copper)
                 return;

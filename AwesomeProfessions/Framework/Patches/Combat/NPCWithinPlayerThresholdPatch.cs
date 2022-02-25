@@ -33,8 +33,8 @@ internal class NPCWithinPlayerThresholdPatch : BasePatch
         {
             if (__instance is not Monster) return true; // run original method
 
-            var player = Game1.getFarmer(__instance.ReadDataAs("Player", Game1.player.UniqueMultiplayerID));
-            if (!player.IsLocalPlayer || ModEntry.State.Value.SuperMode is not PoacherColdBlood {IsActive: true})
+            var player = Game1.getFarmer(__instance.ReadDataAs("Target", Game1.player.UniqueMultiplayerID));
+            if (!player.IsLocalPlayer || ModEntry.PlayerState.Value.SuperMode is not PoacherColdBlood {IsActive: true})
                 return true; // run original method
 
             __result = false;

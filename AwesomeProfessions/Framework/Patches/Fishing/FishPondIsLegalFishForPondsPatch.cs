@@ -38,7 +38,6 @@ internal class FishPondIsLegalFishForPondsPatch : BasePatch
         /// From: if (fish_item.HasContextTag("fish_legendary")) ...
         /// To: if (fish_item.HasContextTag("fish_legendary") && !owner.HasPrestigedProfession("Aquarist"))
 
-        var checkProfession = ilGenerator.DefineLabel();
         try
         {
             helper
@@ -60,6 +59,7 @@ internal class FishPondIsLegalFishForPondsPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Aquarist permission to raise legendary fish.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

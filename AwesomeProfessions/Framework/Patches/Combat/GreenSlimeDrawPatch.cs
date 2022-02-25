@@ -30,7 +30,7 @@ internal class GreenSlimeDrawPatch : BasePatch
 
     /// <summary>Patch to fix Green Slime eye and antenna position when inflated.</summary>
     private static IEnumerable<CodeInstruction> GreenSlimeDrawTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator iLGenerator, MethodBase original)
+        ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -100,6 +100,7 @@ internal class GreenSlimeDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching inflated Green Slime sprite.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

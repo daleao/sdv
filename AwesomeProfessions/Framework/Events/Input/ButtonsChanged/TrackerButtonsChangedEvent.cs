@@ -22,7 +22,7 @@ internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
         else if (ModEntry.Config.ModKey.GetState() == SButtonState.Released)
         {
             EventManager.Disable(typeof(TrackerRenderedHudEvent));
-            if (!ModEntry.State.Value.ProspectorHunt.IsActive && !ModEntry.State.Value.ScavengerHunt.IsActive)
+            if (!ModEntry.PlayerState.Value.ProspectorHunt.IsActive && !ModEntry.PlayerState.Value.ScavengerHunt.IsActive)
                 EventManager.Disable(typeof(PointerUpdateTickedEvent));
         }
     }

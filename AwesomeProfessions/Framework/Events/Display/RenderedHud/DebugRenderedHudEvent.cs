@@ -20,12 +20,12 @@ internal class DebugRenderedHudEvent : RenderedHudEvent
         // show FPS counter
         ModEntry.FpsCounter?.Draw(Game1.currentGameTime);
 
-        if (ModEntry.State.Value.DebugCursorPosition is null) return;
+        if (ModEntry.DebugCursorPosition is null) return;
 
         var coords =
-            $"X: {ModEntry.State.Value.DebugCursorPosition.Tile.X} Tile / {ModEntry.State.Value.DebugCursorPosition.GetScaledAbsolutePixels().X} Absolute";
+            $"X: {ModEntry.DebugCursorPosition.Tile.X} Tile / {ModEntry.DebugCursorPosition.GetScaledAbsolutePixels().X} Absolute";
         coords +=
-            $"\nY: {ModEntry.State.Value.DebugCursorPosition.Tile.Y} Tile / {ModEntry.State.Value.DebugCursorPosition.GetScaledAbsolutePixels().Y} Absolute";
+            $"\nY: {ModEntry.DebugCursorPosition.Tile.Y} Tile / {ModEntry.DebugCursorPosition.GetScaledAbsolutePixels().Y} Absolute";
 
         // draw cursor coordinates
         e.SpriteBatch.DrawString(Game1.dialogueFont, coords, new(33f, 82f), Color.Black);

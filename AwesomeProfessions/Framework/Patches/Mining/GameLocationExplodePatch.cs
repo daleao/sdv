@@ -172,8 +172,8 @@ internal class GameLocationExplodePatch : BasePatch
 
         // get excited speed buff
         var distanceFromEpicenter = (int) (tileLocation - who.getTileLocation()).Length();
-        if (distanceFromEpicenter < radius * 2 + 1) ModEntry.State.Value.DemolitionistExcitedness = 6;
-        if (distanceFromEpicenter < radius + 1) ModEntry.State.Value.DemolitionistExcitedness += 2;
+        if (distanceFromEpicenter < radius * 2 + 1) ModEntry.PlayerState.Value.DemolitionistExcitedness = 6;
+        if (distanceFromEpicenter < radius + 1) ModEntry.PlayerState.Value.DemolitionistExcitedness += 2;
         EventManager.Enable(typeof(DemolitionistBuffDisplayUpdateTickedEvent));
     }
 

@@ -56,6 +56,7 @@ internal class CrabPotMachineGetStatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

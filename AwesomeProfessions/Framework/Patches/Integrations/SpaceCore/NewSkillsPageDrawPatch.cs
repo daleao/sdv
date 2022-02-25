@@ -41,7 +41,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> NewSkillsPageDrawTranspiler(
         IEnumerable<CodeInstruction> instructions,
-        ILGenerator iLGenerator, MethodBase original)
+        ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -86,13 +86,14 @@ internal class NewSkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw SpaceCore skills page extended level bars. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
         /// From: (addedSkill ? Color.LightGreen : Color.Cornsilk)
         /// To: (addedSkill ? Color.LightGreen : skillLevel == 20 ? Color.Grey : Color.SandyBrown)
 
-        var isSkillLevel20 = iLGenerator.DefineLabel();
+        var isSkillLevel20 = generator.DefineLabel();
         try
         {
             helper
@@ -121,6 +122,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw max skill level with different color. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
@@ -147,6 +149,7 @@ internal class NewSkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw skills page prestige ribbons. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

@@ -60,7 +60,7 @@ internal class SuperModeGauge
     {
         if (_opacity <= 0f) return;
 
-        var isSuperModeActive = ModEntry.State.Value.SuperMode.IsActive;
+        var isSuperModeActive = ModEntry.PlayerState.Value.SuperMode.IsActive;
         var bonusLevelHeight = (SuperMode.MaxValue - SuperMode.INITIAL_MAX_VALUE_I) * 0.2;
         
         // get bar position

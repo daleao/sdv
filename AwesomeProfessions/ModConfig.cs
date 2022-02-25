@@ -45,6 +45,9 @@ public class ModConfig
     /// <summary>Whether Seaweed and Algae are considered junk for fishing purposes.</summary>
     public bool SeaweedIsJunk { get; set; } = true;
 
+    /// <summary>You must catch this many fish of a given species to achieve instant catch.</summary>
+    public uint FishNeededForInstantCatch { get; set; } = 500;
+
     /// <summary>If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.</summary>
     public float AnglerMultiplierCeiling { get; set; } = 1f;
 
@@ -88,9 +91,10 @@ public class ModConfig
     public bool AllowPrestigeMultiplePerDay { get; set; } = false;
 
     /// <summary>Multiplies all skill experience gained from the start of the game.</summary>
-    public float BaseSkillExpMultiplier { get; set; } = 1f;
+    /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat.</remarks>
+    public float[] BaseSkillExpMultiplierPerSkill { get; set; } = {1f, 1f, 1f, 1f, 1f};
 
-    /// <summary>Multiplies all skill experience gained after each respective prestige.</summary>
+    /// <summary>Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.</summary>
     public float BonusSkillExpPerReset { get; set; } = 0.1f;
 
     /// <summary>How much skill experience is required for each level up beyond 10.</summary>

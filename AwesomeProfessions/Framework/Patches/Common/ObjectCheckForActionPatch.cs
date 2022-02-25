@@ -43,13 +43,13 @@ internal class ObjectCheckForActionPatch : BasePatch
     {
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession(Profession.Ecologist))
-            ModData.Increment<uint>(DataField.EcologistItemsForaged);
+            Game1.player.IncrementData<uint>(DataField.EcologistItemsForaged);
     }
 
     /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium + increase production frequency of Producer Bee House.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> ObjectCheckForActionTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -57,7 +57,7 @@ internal class ObjectCheckForActionPatch : BasePatch
         ///		Data.IncrementField<uint>("GemologistMineralsCollected")
         ///	Before: switch (name)
 
-        var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
+        var dontIncreaseGemologistCounter = generator.DefineLabel();
         try
         {
             helper
@@ -79,11 +79,11 @@ internal class ObjectCheckForActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)})),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
+                    new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
-                    new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData)
-                            .MethodNamed(nameof(ModData.Increment), new[] {typeof(DataField), typeof(Farmer)})
+                        typeof(FarmerExtensions)
+                            .MethodNamed(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
@@ -91,6 +91,7 @@ internal class ObjectCheckForActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
@@ -101,9 +102,9 @@ internal class ObjectCheckForActionPatch : BasePatch
         ///         : 2
         ///     : 4);
 
-        var isNotProducer = iLGenerator.DefineLabel();
-        var isNotPrestiged = iLGenerator.DefineLabel();
-        var resumeExecution = iLGenerator.DefineLabel();
+        var isNotProducer = generator.DefineLabel();
+        var isNotPrestiged = generator.DefineLabel();
+        var resumeExecution = generator.DefineLabel();
         try
         {
             helper
@@ -141,6 +142,7 @@ internal class ObjectCheckForActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching bee house production speed for Producers.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

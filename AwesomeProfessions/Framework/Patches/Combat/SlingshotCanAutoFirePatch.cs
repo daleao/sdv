@@ -30,7 +30,7 @@ internal class SlingshotCanAutoFirePatch : BasePatch
         try
         {
             var who = __instance.getLastFarmerToUse();
-            if (who.IsLocalPlayer && ModEntry.State.Value.SuperMode is DesperadoTemerity {IsActive: true})
+            if (who.IsLocalPlayer && ModEntry.PlayerState.Value.SuperMode is DesperadoTemerity {IsActive: true})
                 __result = true;
             else
                 __result = false;

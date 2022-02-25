@@ -14,7 +14,7 @@ internal class ProspectorHuntUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        ModEntry.State.Value.ProspectorHunt.Update(e.Ticks);
+        ModEntry.PlayerState.Value.ProspectorHunt.Update(e.Ticks);
         if (Game1.player.HasProfession(Profession.Prospector, true)) Game1.gameTimeInterval = 0;
     }
 }

@@ -56,7 +56,7 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
             machine.heldObject.Value.Quality = owner.GetEcologistForageQuality();
             if (!ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic
 
-            ModData.Increment<uint>(DataField.EcologistItemsForaged, owner);
+            owner.IncrementData<uint>(DataField.EcologistItemsForaged);
             return true; // run original logic
         }
         catch (Exception ex)

@@ -34,15 +34,15 @@ internal class PlantCropsAbilityCheckSpeedGroPatch : BasePatch
     /// <summary>Patch to apply prestiged Agriculturist crop growth bonus to Better Junimos.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> PlantCropsAbilityCheckSpeedGroTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
         /// From: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += 0.1f;
         /// To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += who.professions.Contains(100 + <agriculturist_id>)) ? 0.2f : 0.1f;
 
-        var notPrestigedAgriculturist = iLGenerator.DefineLabel();
-        var resumeExecution = iLGenerator.DefineLabel();
+        var notPrestigedAgriculturist = generator.DefineLabel();
+        var resumeExecution = generator.DefineLabel();
         try
         {
             helper
@@ -68,6 +68,7 @@ internal class PlantCropsAbilityCheckSpeedGroPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching prestiged Agriculturist crop growth bonus to Better Junimos.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

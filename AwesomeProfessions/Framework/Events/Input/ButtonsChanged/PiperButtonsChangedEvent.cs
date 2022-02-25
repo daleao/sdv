@@ -14,13 +14,13 @@ internal class PiperButtonsChangedEvent : ButtonsChangedEvent
     {
         if (!ModEntry.Config.ModKey.JustPressed()) return;
 
-        ++ModEntry.State.Value.KeyPressAccumulator;
-        if (ModEntry.State.Value.KeyPressAccumulator <= 1) return;
+        ++ModEntry.PlayerState.Value.KeyPressAccumulator;
+        if (ModEntry.PlayerState.Value.KeyPressAccumulator <= 1) return;
 
-        ModEntry.State.Value.PipeMode = 1 - ModEntry.State.Value.PipeMode;
+        ModEntry.PlayerState.Value.PipeMode = 1 - ModEntry.PlayerState.Value.PipeMode;
         Game1.playSound("objectiveComplete");
-        Log.D($"Toggled {ModEntry.State.Value.PipeMode} targeting mode.");
+        Log.D($"Toggled {ModEntry.PlayerState.Value.PipeMode} targeting mode.");
 
-        ModEntry.State.Value.KeyPressAccumulator = 0;
+        ModEntry.PlayerState.Value.KeyPressAccumulator = 0;
     }
 }

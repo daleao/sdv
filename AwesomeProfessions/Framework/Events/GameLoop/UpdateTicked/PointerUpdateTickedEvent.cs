@@ -11,6 +11,6 @@ internal class PointerUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        ModEntry.State.Value.Pointer.Update(e.Ticks);
+        ModEntry.PlayerState.Value.Pointer.Update(e.Ticks);
     }
 }

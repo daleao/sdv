@@ -19,12 +19,12 @@ internal class SuperModeWarpedEvent : WarpedEvent
         if (e.NewLocation.IsCombatZone() && ModEntry.Config.EnableSuperMode)
         {
             EventManager.Enable(typeof(SuperModeGaugeRenderingHudEvent));
-            if (ModEntry.State.Value.SuperMode is {IsActive: true} superMode)
+            if (ModEntry.PlayerState.Value.SuperMode is {IsActive: true} superMode)
                 superMode.Deactivate();
         }
         else
         {
-            ModEntry.State.Value.SuperMode.ChargeValue = 0.0;
+            ModEntry.PlayerState.Value.SuperMode.ChargeValue = 0.0;
             EventManager.Disable(typeof(SuperModeGaugeRenderingHudEvent));
         }
     }

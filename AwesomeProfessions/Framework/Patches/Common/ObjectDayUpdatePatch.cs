@@ -40,7 +40,7 @@ internal class ObjectDayUpdatePatch : BasePatch
     /// <summary>Patch to increase production frequency of Producer Bee House.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> ObjectDayUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator iLGenerator, MethodBase original)
+        ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -51,9 +51,9 @@ internal class ObjectDayUpdatePatch : BasePatch
         ///         : 2
         ///     : 4);
 
-        var isNotProducer = iLGenerator.DefineLabel();
-        var isNotPrestiged = iLGenerator.DefineLabel();
-        var resumeExecution = iLGenerator.DefineLabel();
+        var isNotProducer = generator.DefineLabel();
+        var isNotPrestiged = generator.DefineLabel();
+        var resumeExecution = generator.DefineLabel();
         try
         {
             helper
@@ -91,6 +91,7 @@ internal class ObjectDayUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching Bee House production speed for Producers.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

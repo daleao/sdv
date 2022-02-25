@@ -34,7 +34,7 @@ internal class SkillsPageDrawPatch : BasePatch
     /// <summary>Patch to overlay skill bars above skill level 10 + draw prestige ribbons on the skills page.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> SkillsPageDrawTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator iLGenerator, MethodBase original)
+        ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -74,13 +74,14 @@ internal class SkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw skills page extended level bars. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
         /// From: (addedSkill ? Color.LightGreen : Color.Cornsilk)
         /// To: (addedSkill ? Color.LightGreen : skillLevel == 20 ? Color.Grey : Color.SandyBrown)
 
-        var isSkillLevel20 = iLGenerator.DefineLabel();
+        var isSkillLevel20 = generator.DefineLabel();
         try
         {
             helper
@@ -109,6 +110,7 @@ internal class SkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw max skill level with different color. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
@@ -135,6 +137,7 @@ internal class SkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw skills page prestige ribbons. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

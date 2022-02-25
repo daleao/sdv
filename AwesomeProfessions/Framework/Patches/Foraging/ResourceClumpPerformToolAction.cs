@@ -30,7 +30,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
     /// <summary>Patch to add bonus wood for prestiged Lumberjack.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> ResourceClumpPerformToolActionTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -40,9 +40,9 @@ internal class ResourceClumpPerformToolAction : BasePatch
         /// Injected: if (t.getLastFarmerToUse().professions.Contains(100 + <lumberjack_id>) && Game1.NextDouble() < 0.5) numChunks++;
         /// Before: numChunks++;
 
-        var notPrestigedLumberjack = iLGenerator.DefineLabel();
-        var resumeExecution1 = iLGenerator.DefineLabel();
-        var resumeExecution2 = iLGenerator.DefineLabel();
+        var notPrestigedLumberjack = generator.DefineLabel();
+        var resumeExecution1 = generator.DefineLabel();
+        var resumeExecution2 = generator.DefineLabel();
         try
         {
             helper
@@ -86,6 +86,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

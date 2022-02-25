@@ -38,7 +38,7 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
     /// </summary>
     [HarmonyPrefix]
     private static bool BasicProjectileBehaviorOnCollisionWithMonsterPrefix(BasicProjectile __instance,
-        ref NetBool ___damagesMonsters, NetCharacterRef ___theOneWhoFiredMe, int ___travelTime, ref NPC n,
+        NetBool ___damagesMonsters, NetCharacterRef ___theOneWhoFiredMe, int ___travelTime, NPC n,
         GameLocation location)
     {
         try
@@ -53,10 +53,10 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
             var damageToMonster =
                 (int) (__instance.damageToFarmer.Value * GetRascalBonusDamageForTravelTime(___travelTime));
 
-            var hasTemerity = firer.IsLocalPlayer && ModEntry.State.Value.SuperMode is DesperadoTemerity;
-            var bulletPower = hasTemerity ? (ModEntry.State.Value.SuperMode as DesperadoTemerity)!.GetShootingPower() : 1f;
+            var hasTemerity = firer.IsLocalPlayer && ModEntry.PlayerState.Value.SuperMode is DesperadoTemerity;
+            var bulletPower = hasTemerity ? (ModEntry.PlayerState.Value.SuperMode as DesperadoTemerity)!.GetShootingPower() : 1f;
             if (hasTemerity && Game1.random.NextDouble() < (bulletPower - 1) / 2)
-                ModEntry.State.Value.PiercedBullets.Add(__instance.GetHashCode());
+                ModEntry.PlayerState.Value.PiercedBullets.Add(__instance.GetHashCode());
             else
                 _ExplosionAnimation.Invoke(__instance, new object?[] {location});
 
@@ -64,11 +64,11 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
                 bulletPower, 0, 0f, 1f, false, firer);
 
             // check for trick shot
-            if (!ModEntry.State.Value.BouncedBullets.Remove(__instance.GetHashCode())) return false; // don't run original logic
+            if (!ModEntry.PlayerState.Value.BouncedBullets.Remove(__instance.GetHashCode())) return false; // don't run original logic
 
             // give a bonus to Desperados
             if (hasTemerity)
-                ModEntry.State.Value.SuperMode.ChargeValue += 6 * ModEntry.Config.SuperModeGainFactor *
+                ModEntry.PlayerState.Value.SuperMode.ChargeValue += 6 * ModEntry.Config.SuperModeGainFactor *
                     SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
 
             // stun if prestiged Rascal

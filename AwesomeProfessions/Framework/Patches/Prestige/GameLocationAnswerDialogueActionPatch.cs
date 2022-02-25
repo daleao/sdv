@@ -156,7 +156,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                 }
                 case "dogStatue_changeUlt":
                 {
-                    var currentProfessionKey = ModEntry.State.Value.SuperMode.Index.ToString().ToLower();
+                    var currentProfessionKey = ModEntry.PlayerState.Value.SuperMode.Index.ToString().ToLower();
                     var currentProfessionDisplayName =
                         ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".name.male");
                     var currentBuff = ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".buff");
@@ -179,17 +179,17 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                     choices.Add(new Response("Cancel", Game1.content.LoadString("Strings\\Lexicon:QuestionDialogue_No"))
                         .SetHotKey(Keys.Escape));
 
-                    __instance.createQuestionDialogue(message, choices.ToArray(), (GameLocation.afterQuestionBehavior)delegate(Farmer _, string choice)
+                    __instance.createQuestionDialogue(message, choices.ToArray(), delegate(Farmer _, string choice)
                     {
                         if (choice == "Cancel") return;
 
                         Game1.player.Money = Math.Max(0, Game1.player.Money - (int)ModEntry.Config.ChangeUltCost);
 
                         // change super mode
-                        var newIndex = (SuperModeIndex) int.Parse(choice.Split("_")[1]);
-                        ModEntry.State.Value.SuperMode =
+                        var newIndex = Enum.Parse<SuperModeIndex>(choice.Split("_")[1]);
+                        ModEntry.PlayerState.Value.SuperMode =
 #pragma warning disable CS8509
-                            ModEntry.State.Value.SuperMode = newIndex switch
+                            ModEntry.PlayerState.Value.SuperMode = newIndex switch
 #pragma warning restore CS8509
                             {
                                 SuperModeIndex.Brute => new BruteFury(),
@@ -197,7 +197,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                                 SuperModeIndex.Piper => new PiperEubstance(),
                                 SuperModeIndex.Desperado => new DesperadoTemerity()
                             };
-                        ModData.Write(DataField.SuperModeIndex, newIndex.ToString());
+                        Game1.player.WriteData(DataField.SuperModeIndex, newIndex.ToString());
 
                         // play sound effect
                         SoundBank.Play((SFX)SFX.DogStatuePrestige);
@@ -216,7 +216,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
                         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
-                        ModEntry.State.Value.UsedDogStatueToday = true;
+                        ModEntry.PlayerState.Value.UsedDogStatueToday = true;
                     });
                     return false; // don't run original logic
                 }
@@ -294,7 +294,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
                         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
-                        ModEntry.State.Value.UsedDogStatueToday = true;
+                        ModEntry.PlayerState.Value.UsedDogStatueToday = true;
                     }
 
                     break;

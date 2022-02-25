@@ -11,6 +11,6 @@ internal class SuperModeGaugeShakeUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        ModEntry.State.Value.SuperMode.Gauge.UpdateShake();
+        ModEntry.PlayerState.Value.SuperMode.Gauge.UpdateShake();
     }
 }

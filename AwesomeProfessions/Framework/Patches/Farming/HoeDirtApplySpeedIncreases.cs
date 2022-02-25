@@ -28,15 +28,15 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
     /// <summary>Patch to increase prestiged Agriculturist crop growth speed.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> HoeDirtApplySpeedIncreasesTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
         /// From: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += 0.1f;
         /// To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += who.professions.Contains(100 + <agriculturist_id>)) ? 0.2f : 0.1f;
 
-        var notPrestigedAgriculturist = iLGenerator.DefineLabel();
-        var resumeExecution = iLGenerator.DefineLabel();
+        var notPrestigedAgriculturist = generator.DefineLabel();
+        var resumeExecution = generator.DefineLabel();
         try
         {
             helper
@@ -62,6 +62,7 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching prestiged Agriculturist bonus.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

@@ -55,7 +55,7 @@ internal static class ModData
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
             // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestDataUpdate/Write/{field}",
+            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestUpdateData/Write/{field}",
                 new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
             return;
         }
@@ -79,7 +79,7 @@ internal static class ModData
         }
 
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
-            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestDataUpdate/Write/{field}",
+            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestUpdateData/Write/{field}",
                 new[] {ModEntry.Manifest.UniqueID},
                 new[] {Game1.MasterPlayer.UniqueMultiplayerID}); // request the main player
         else Write(field, value);
@@ -96,7 +96,7 @@ internal static class ModData
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
             // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(amount, $"RequestDataUpdate/Increment/{field}",
+            ModEntry.ModHelper.Multiplayer.SendMessage(amount, $"RequestUpdateData/Increment/{field}",
                 new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
             return;
         }
@@ -114,7 +114,7 @@ internal static class ModData
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
             // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(1, $"RequestDataUpdate/Increment/{field}",
+            ModEntry.ModHelper.Multiplayer.SendMessage(1, $"RequestUpdateData/Increment/{field}",
                 new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
             return;
         }

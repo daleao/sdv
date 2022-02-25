@@ -34,28 +34,20 @@ internal class FishingRodPullFishFromWaterPatch : BasePatch
 
     /// <summary>Patch to decrement total Fish Pond quality rating.</summary>
     [HarmonyPrefix]
-    private static bool FishingRodPullFishFromWaterPrefix(FishingRod __instance, ref int fishQuality, bool fromFishPond)
+    private static bool FishingRodPullFishFromWaterPrefix(FishingRod __instance, int whichFish, ref int fishQuality, bool fromFishPond)
     {
-        if (!ModEntry.Config.EnableFishPondRebalance || !fromFishPond) return true; // run original logic
+        if (!ModEntry.Config.EnableFishPondRebalance || !fromFishPond || whichFish.IsTrash()) return true; // run original logic
 
-        var who = __instance.getLastFarmerToUse();
         var (x, y) = (Vector2) _CalculateBobberTile.Invoke(__instance, null)!;
         var pond = Game1.getFarm().buildings.OfType<FishPond>().FirstOrDefault(p =>
             x > p.tileX.Value && x < p.tileX.Value + p.tilesWide.Value - 1 &&
             y > p.tileY.Value && y < p.tileY.Value + p.tilesHigh.Value - 1);
         if (pond is null) return true; // run original logic
 
-        var qualityRatingByFishPond =
-            ModData.Read(DataField.QualityRatingByFishPond, who).ToDictionary<int, int>(",", ";");
-        var thisFishPond = pond.GetCenterTile().ToString().GetDeterministicHashCode();
+        var qualityRating = pond.ReadDataAs<int>("QualityRating");
         var lowestQuality = pond.GetLowestFishQuality();
-        qualityRatingByFishPond.TryGetValue(thisFishPond, out var currentRating);
-        qualityRatingByFishPond[thisFishPond] = currentRating -
-                                                (int) Math.Pow(16,
-                                                    lowestQuality == SObject.bestQuality
-                                                        ? lowestQuality - 1
-                                                        : lowestQuality);
-        ModData.Write(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"), who);
+        qualityRating -= (int) Math.Pow(16, lowestQuality == SObject.bestQuality ? lowestQuality - 1 : lowestQuality);
+        pond.WriteData("QualityRating", qualityRating.ToString());
 
         fishQuality = lowestQuality;
         return true; // run original logic

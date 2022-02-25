@@ -49,16 +49,16 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
         // subscribe events
         EventManager.EnableAllForProfession(profession);
         if (profession == Profession.Conservationist && !Context.IsMainPlayer) // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage("Conservationist", "RequestEventEnable",
+            ModEntry.ModHelper.Multiplayer.SendMessage("Conservationism", "RequestEvent",
                 new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
 
-        if (whichProfession is < 26 or >= 30 || ModEntry.State.Value.SuperMode is not null) return;
+        if (whichProfession is < 26 or >= 30 || ModEntry.PlayerState.Value.SuperMode is not null) return;
         
         // register Super Mode
         var newIndex = (SuperModeIndex) whichProfession;
-        ModEntry.State.Value.SuperMode =
+        ModEntry.PlayerState.Value.SuperMode =
 #pragma warning disable CS8509
-            ModEntry.State.Value.SuperMode = newIndex switch
+            ModEntry.PlayerState.Value.SuperMode = newIndex switch
 #pragma warning restore CS8509
             {
                 SuperModeIndex.Brute => new BruteFury(),
@@ -66,7 +66,7 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
                 SuperModeIndex.Piper => new PiperEubstance(),
                 SuperModeIndex.Desperado => new DesperadoTemerity()
             };
-        ModData.Write(DataField.SuperModeIndex, newIndex.ToString());
+        Game1.player.WriteData(DataField.SuperModeIndex, newIndex.ToString());
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>
@@ -90,6 +90,7 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

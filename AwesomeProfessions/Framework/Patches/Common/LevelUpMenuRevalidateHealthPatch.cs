@@ -3,7 +3,6 @@
 #region using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -14,7 +13,6 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 
-using Stardew.Common.Extensions;
 using Extensions;
 
 #endregion using directives
@@ -44,8 +42,8 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
             if (!farmer.newLevels.Contains(new((int) SkillType.Combat, i)))
                 expectedMaxHealth += 5;
 
-        if (Game1.player.HasProfession(Profession.Fighter)) expectedMaxHealth += 15;
-        if (Game1.player.HasProfession(Profession.Brute)) expectedMaxHealth += 25;
+        if (farmer.HasProfession(Profession.Fighter)) expectedMaxHealth += 15;
+        if (farmer.HasProfession(Profession.Brute)) expectedMaxHealth += 25;
 
         if (farmer.maxHealth != expectedMaxHealth)
         {
@@ -67,11 +65,7 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
                 if (!ModEntry.Config.EnableFishPondRebalance) return false;
 
                 // revalidate fish pond quality rating
-                var qualityRatingByFishPond = new Dictionary<int, int>();
-                var thisFishPond = pond.GetCenterTile().ToString().GetDeterministicHashCode();
-                qualityRatingByFishPond[thisFishPond] = pond.FishCount; // default to lowest quality = 1
-                ModData.WriteIfNotExists(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"),
-                    farmer);
+                pond.WriteDataIfNotExists("QualityRating", pond.FishCount.ToString()); // default to lowest quality = 1
             }
         }
         catch (Exception ex)

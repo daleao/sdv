@@ -28,14 +28,14 @@ internal class GameLocationBreakStonePatch : BasePatch
     /// <summary>Patch to remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> GameLocationBreakStoneTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
         /// Injected: if (who.professions.Contains(100 + <miner_id>) addedOres++;
         /// After: int addedOres = (who.professions.Contains(<miner_id>) ? 1 : 0);
 
-        var notPrestigedMiner = iLGenerator.DefineLabel();
+        var notPrestigedMiner = generator.DefineLabel();
         try
         {
             helper
@@ -57,6 +57,7 @@ internal class GameLocationBreakStonePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Miner extra ores.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
@@ -82,6 +83,7 @@ internal class GameLocationBreakStonePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Geologist paired gems.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
@@ -104,6 +106,7 @@ internal class GameLocationBreakStonePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

@@ -52,7 +52,7 @@ internal class GeodeCrusherMachineSetInputPatch : BasePatch
         machine.heldObject.Value.Quality = owner.GetGemologistMineralQuality();
         if (!ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        ModData.Increment<uint>(DataField.GemologistMineralsCollected, owner);
+        owner.IncrementData<uint>(DataField.GemologistMineralsCollected);
     }
 
     #endregion harmony patches

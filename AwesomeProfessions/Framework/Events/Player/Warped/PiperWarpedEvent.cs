@@ -1,11 +1,13 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.Player;
+﻿using System.Collections.Generic;
+
+namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
 #region using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
@@ -26,27 +28,30 @@ internal class PiperWarpedEvent : WarpedEvent
     {
         if (e.NewLocation.Equals(e.OldLocation)) return;
 
-        ModEntry.State.Value.PipedSlimes.Clear();
+        ModEntry.PlayerState.Value.PipedSlimes.Clear();
         EventManager.Disable(typeof(PiperButtonsChangedEvent), typeof(PiperUpdateTickedEvent));
-        if (!e.NewLocation.IsCombatZone(true)) return;
+        if (!e.NewLocation.IsCombatZone(true) || e.NewLocation is MineShaft shaft1 && shaft1.isLevelSlimeArea()) return;
+
+        var enemyCount = Game1.player.currentLocation.characters.OfType<Monster>().Count(m => !m.IsSlime());
+        if (enemyCount <= 0) return;
 
         // get valid tiles for spawning
-        int playerx = Game1.player.getTileX(), playery = Game1.player.getTileY(), validCount = 0;
-        var validTiles = new Vector2[196];
-        for (var i = playery - 7; i < playery + 7; ++i)
-            for (var j = playerx - 7; j < playerx + 7; ++j)
+        int playerx = Game1.player.getTileX(), playery = Game1.player.getTileY();
+        var validTiles = new List<Vector2>();
+        for (var i = playery - 5; i <= playery + 5; ++i)
+            for (var j = playerx - 5; j <= playerx + 5; ++j)
             {
                 var tile = new Vector2(j, i);
                 if (!e.NewLocation.isTileOnMap(tile) ||
                     !e.NewLocation.isTileLocationTotallyClearAndPlaceable(tile)) continue;
                 
-                if (e.NewLocation is MineShaft shaft)
+                if (e.NewLocation is MineShaft shaft2)
                 {
-                    shaft.checkForMapAlterations(j, i);
-                    if (!shaft.isTileClearForMineObjects(tile)) continue;
+                    shaft2.checkForMapAlterations(j, i);
+                    if (!shaft2.isTileClearForMineObjects(tile)) continue;
                 }
                 
-                validTiles[validCount++] = tile;
+                validTiles.Add(tile);
             }
 
         if (!validTiles.Any()) return;
@@ -54,7 +59,6 @@ internal class PiperWarpedEvent : WarpedEvent
         var r = new Random(Guid.NewGuid().GetHashCode());
         var raisedSlimes = e.Player.GetRaisedSlimes().ToArray();
         var chance = _pipeChance(raisedSlimes.Length);
-        var enemyCount = Game1.player.currentLocation.characters.OfType<Monster>().Count(m => !m.IsSlime());
         var pipedCount = 0;
         foreach (var tamedSlime in raisedSlimes)
         {
@@ -110,9 +114,9 @@ internal class PiperWarpedEvent : WarpedEvent
             }
 
             // spawn
-            pipedSlime.setTileLocation(validTiles[r.Next(validTiles.Length)]);
+            pipedSlime.setTileLocation(validTiles[r.Next(validTiles.Count)]);
             e.NewLocation.characters.Add(pipedSlime);
-            ModEntry.State.Value.PipedSlimes.Add(pipedSlime);
+            ModEntry.PlayerState.Value.PipedSlimes.Add(pipedSlime);
             ++pipedCount;
             if (pipedCount >= enemyCount) break;
         }

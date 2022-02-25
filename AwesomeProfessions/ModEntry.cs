@@ -17,13 +17,15 @@ using Framework.AssetLoaders;
 public class ModEntry : Mod
 {
     internal static ModConfig Config { get; set; }
-    internal static PerScreen<ModState> State { get; private set; }
+    internal static PerScreen<PlayerState> PlayerState { get; private set; }
+    internal static HostState HostState { get; private set; }
 
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
     internal static Action<string, LogLevel> Log { get; private set; }
 
     internal static FrameRateCounter FpsCounter { get; private set; }
+    internal static ICursorPosition DebugCursorPosition { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -37,8 +39,9 @@ public class ModEntry : Mod
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
-        // initialize per-screen state
-        State = new(() => new());
+        // initialize mod state
+        PlayerState = new(() => new());
+        if (Context.IsMainPlayer) HostState = new();
 
         // initialize mod events
         EventManager.Init(Helper.Events);

@@ -47,6 +47,7 @@ internal class FishingRodStartMinigameEndFunctionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

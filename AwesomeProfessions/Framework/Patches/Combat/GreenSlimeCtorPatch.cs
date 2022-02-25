@@ -28,7 +28,7 @@ internal class GreenSlimeCtorPatch : BasePatch
     {
         var who = __instance.Player;
         if (!who.IsLocalPlayer ||
-            ModEntry.State.Value.SuperMode is not PiperEubstance {ChargeValue: > 0} eubstance) return;
+            ModEntry.PlayerState.Value.SuperMode is not PiperEubstance {ChargeValue: > 0} eubstance) return;
 
         __instance.addedSpeed += (int) (eubstance.PercentCharge / 0.33f);
     }

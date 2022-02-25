@@ -23,7 +23,7 @@ internal class FishingRodCalculateTimeUntilFishingBitePatch : BasePatch
 
     /// <summary>Patch to reduce prestiged Fisher nibble delay.</summary>
     [HarmonyPrefix]
-    private static bool FishingRodCalculateTimeUntilFishingBitePrefux(FishingRod __instance, ref float __result)
+    private static bool FishingRodCalculateTimeUntilFishingBitePrefix(FishingRod __instance, ref float __result)
     {
         var who = __instance.getLastFarmerToUse();
         if (!who.HasProfession(Profession.Fisher, true)) return true; // run original logic

@@ -38,7 +38,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
 
     /// <summary>Patch for Trapper fish quality + Luremaster bait mechanics + Conservationist trash collection mechanics.</summary>
     [HarmonyPrefix]
-    private static bool CrabPotDayUpdatePrefix(ref CrabPot __instance, GameLocation location)
+    private static bool CrabPotDayUpdatePrefix(CrabPot __instance, GameLocation location)
     {
         try
         {
@@ -95,9 +95,9 @@ internal class CrabPotDayUpdatePatch : BasePatch
                     whichFish = GetTrash(__instance.TileLocation, location, r);
                     if (isConservationist && whichFish.IsTrash())
                     {
-                        ModData.Increment<uint>(DataField.ConservationistTrashCollectedThisSeason, owner);
+                        owner.IncrementData<uint>(DataField.ConservationistTrashCollectedThisSeason);
                         if (owner.HasProfession(Profession.Conservationist, true) &&
-                            ModData.ReadAs<uint>(DataField.ConservationistTrashCollectedThisSeason, owner) %
+                            owner.ReadDataAs<uint>(DataField.ConservationistTrashCollectedThisSeason) %
                             ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
                             SUtility.improveFriendshipWithEveryoneInRegion(owner, 1, 2);
                     }
@@ -146,17 +146,20 @@ internal class CrabPotDayUpdatePatch : BasePatch
     /// <param name="specificFishLocation">The fishing location index for this fish.</param>
     /// <param name="tileLocation">The crab pot tile location.</param>
     /// <param name="location">The game location of the crab pot.</param>
+    /// <remarks>The time portion is commented out because doesn't make sense for crab pots that only update once during the night.</remarks>
     private static bool IsCorrectLocationAndTimeForThisFish(string[] specificFishData, int specificFishLocation,
         Vector2 tileLocation, GameLocation location)
     {
-        var specificFishSpawnTimes = specificFishData[5].Split(' ');
-        if (specificFishLocation == -1 || specificFishLocation == location.getFishingLocation(tileLocation))
-            for (var t = 0; t < specificFishSpawnTimes.Length; t += 2)
-                if (Game1.timeOfDay >= Convert.ToInt32(specificFishSpawnTimes[t]) &&
-                    Game1.timeOfDay < Convert.ToInt32(specificFishSpawnTimes[t + 1]))
-                    return true;
+        return specificFishLocation == -1 || specificFishLocation == location.getFishingLocation(tileLocation);
+        
+        //var specificFishSpawnTimes = specificFishData[5].Split(' ');
+        //if (specificFishLocation == -1 || specificFishLocation == location.getFishingLocation(tileLocation))
+        //    for (var t = 0; t < specificFishSpawnTimes.Length; t += 2)
+        //        if (Game1.timeOfDay >= Convert.ToInt32(specificFishSpawnTimes[t]) &&
+        //            Game1.timeOfDay < Convert.ToInt32(specificFishSpawnTimes[t + 1]))
+        //            return true;
 
-        return false;
+        //return false;
     }
 
     /// <summary>Whether the current weather matches the specific fish data.</summary>

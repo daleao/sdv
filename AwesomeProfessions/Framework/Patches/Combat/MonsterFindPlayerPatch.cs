@@ -1,4 +1,7 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿using System.Linq;
+using StardewModdingAPI;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
@@ -32,7 +35,11 @@ internal class MonsterFindPlayerPatch : BasePatch
     {
         try
         {
-            __result = Game1.getFarmer(__instance.ReadDataAs("Player", Game1.player.UniqueMultiplayerID));
+            var targetId = __instance.ReadDataAs("Target", Game1.player.UniqueMultiplayerID);
+            __result = ModEntry.HostState.FakeFarmers.TryGetValue(targetId, out var fakeFarmer)
+                ? fakeFarmer
+                : Game1.getFarmer(targetId);
+        
             return false; // don't run original logic
         }
         catch (Exception ex)

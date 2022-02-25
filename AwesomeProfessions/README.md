@@ -64,7 +64,8 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - HUD elements compatible with SVE's Galdora and [Vintage Interface v2﻿](https://www.nexusmods.com/stardewvalley/mods/4697).
 - _[Optional]_ Rebalanced Fish Ponds.
     - Fish Ponds preserve fish quality. The quality of new fish will be inerited from the parent.
-    - Roe / ink production quantity scales with population, and production chance scales inversely with fish value. This means cheap fish will produce tons of cheap row, and expensive fish will some times produce super valuable roe.
+    - Roe/ink quality takes after fish quality.
+    - Roe/ink production quantity scales with population, and production chance scales inversely with fish value. This means cheap fish will produce tons of cheap row, and expensive fish will some times produce super valuable roe.
     - Intended for use with the new Aquarist profession.
 
 ## Professions
@@ -201,6 +202,7 @@ The following mods are fully integrated:
 The following mods are compatible without integration:
 - [Multi Yield Crops](https://www.nexusmods.com/stardewvalley/mods/6069)
 - [Craftable Mushroom Boxes](https://www.nexusmods.com/stardewvalley/mods/10296)
+- [Better Beehouses](https://www.nexusmods.com/stardewvalley/mods/10996) (the mod author already handled compatibility).
 - [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) (just make sure BerryBushQuality and MushroomBoxQuality are disabled to avoid interfering with Ecologist profession; if both mods are installed, those settings should be disabled by default).
 - [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636) (though I don't recommend it if prestige and extended progression options are enabled).
 - Custom SpaceCore skills (e.g. [Luck](https://www.nexusmods.com/stardewvalley/mods/521), [Magic](https://www.nexusmods.com/stardewvalley/mods/2007), [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)) (note that these skills cannot be prestiged).
@@ -213,7 +215,8 @@ The mods are **not** compatible:
 - [Better Slingshots](https://www.nexusmods.com/stardewvalley/mods/2067) or any mod that affects Slingshot behavior.
 - - [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but makes Artisan profession redundant; all features are already included). 
 - [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (use included prestige or console commands instead).
-- [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (now also included).
+- [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (already a mod feature).
+- [Quality Fish Ponds](https://www.nexusmods.com/stardewvalley/mods/11021) because this mod already does the same thing.
 
 Not compatible with Android version of the game.
 
@@ -261,8 +264,8 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **SkillResetCostMultiplier** (float) - Multiplies the base skill reset cost. Set to 0 to prestige for free.
 - **ForgetRecipesOnSkillReset** (bool) - Wether reseting a skill also clears all associated recipes.
 - **AllowPrestigeMultiplePerDay** (bool) - Whether the player can use the Statue of Prestige more than once per day.
-- **BaseSkillExpMultiplier** (float) - Multiplies all skill experience gained from the start of the game.
-- **BonusSkillExpPerReset** (float) - Multiplies all skill experience gained after each respective skill reset.
+- **BaseSkillExpMultiplier** (float array) - Multiplies all skill experience gained from the start of the game (in order: Farming, Fishing, Foraging, Mining, Combat).
+- **BonusSkillExpPerReset** (float) - Cumulative bonus that multiplies a skill's experience gain after each respective skill reset..
 - **RequiredExpPerExtendedLevel** (uint) - How much skill experience is required for each level up beyond 10.
 - **PrestigeRespecCost** (uint) - Monetary cost of respecing prestige profession choices for a skill.
 - **ChangeUltCost** (uint) - Monetary cost of changing the combat ultimate.

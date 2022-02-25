@@ -103,6 +103,7 @@ internal class MeleeWeaponDoAnimateSpecialMovePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Acrobat cooldown reduction.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

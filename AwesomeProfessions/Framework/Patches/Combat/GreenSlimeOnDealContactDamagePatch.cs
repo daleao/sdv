@@ -28,13 +28,13 @@ internal class GreenSlimeOnDealContactDamagePatch : BasePatch
     /// <summary>Patch to make Piper immune to slimed debuff.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> GreenSlimeOnDealContactDamageTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
         /// Injected: if (who.professions.Contains(<piper_id>) && !who.professions.Contains(100 + <piper_id>)) return;
 
-        var resumeExecution = iLGenerator.DefineLabel();
+        var resumeExecution = generator.DefineLabel();
         try
         {
             helper
@@ -56,6 +56,7 @@ internal class GreenSlimeOnDealContactDamagePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Piper slime debuff immunity.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

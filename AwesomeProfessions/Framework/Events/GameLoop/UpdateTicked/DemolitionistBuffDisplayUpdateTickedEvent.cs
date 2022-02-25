@@ -24,16 +24,16 @@ internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.State.Value.DemolitionistExcitedness <= 0) Disable();
+        if (ModEntry.PlayerState.Value.DemolitionistExcitedness <= 0) Disable();
 
         if (e.Ticks % 30 == 0)
         {
-            var buffDecay = ModEntry.State.Value.DemolitionistExcitedness > 4 ? 2 : 1;
-            ModEntry.State.Value.DemolitionistExcitedness =
-                Math.Max(0, ModEntry.State.Value.DemolitionistExcitedness - buffDecay);
+            var buffDecay = ModEntry.PlayerState.Value.DemolitionistExcitedness > 4 ? 2 : 1;
+            ModEntry.PlayerState.Value.DemolitionistExcitedness =
+                Math.Max(0, ModEntry.PlayerState.Value.DemolitionistExcitedness - buffDecay);
         }
 
-        var buffId = _buffId + ModEntry.State.Value.DemolitionistExcitedness;
+        var buffId = _buffId + ModEntry.PlayerState.Value.DemolitionistExcitedness;
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == buffId);
         if (buff is not null) return;
 
@@ -47,7 +47,7 @@ internal class DemolitionistBuffDisplayUpdateTickedEvent : UpdateTickedEvent
                 0,
                 0,
                 0,
-                ModEntry.State.Value.DemolitionistExcitedness,
+                ModEntry.PlayerState.Value.DemolitionistExcitedness,
                 0,
                 0,
                 1,

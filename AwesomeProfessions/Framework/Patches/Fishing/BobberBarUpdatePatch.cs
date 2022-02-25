@@ -31,11 +31,42 @@ internal class BobberBarUpdatePatch : BasePatch
     /// <summary>Patch to slow-down catching bar decrease for Aquarist.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> BobberBarUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
-        MethodBase original)
+        ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: if (Game1.player.professions.Contains(<aquarist_id>) distanceFromCatching -= GetAquaristBonusCatchingBarSpeed();
+        ///// From: distanceFromCatching += 0.002f;
+        ///// To: distanceFromCatching +=  Game1.player.professions.Contains(100 + <fished_id>)) ? GetFisherBonusCatchingBarSpeed() : 0.002f;
+
+        //var isNotPrestigedFisher = generator.DefineLabel();
+        //var resumeExecution = generator.DefineLabel();
+        //try
+        //{
+        //    helper
+        //        .FindFirst(
+        //            new CodeInstruction(OpCodes.Ldc_R4, 0.002f)
+        //        )
+        //        .AddLabels(isNotPrestigedFisher)
+        //        .InsertProfessionCheckForLocalPlayer((int) Profession.Fisher + 100, isNotPrestigedFisher)
+        //        .Insert(
+        //            new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
+        //            new CodeInstruction(OpCodes.Ldarg_0),
+        //            new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).Field("whichFish")),
+        //            new CodeInstruction(OpCodes.Call,
+        //                typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions
+        //                    .GetFisherBonusCatchingBarSpeed))),
+        //            new CodeInstruction(OpCodes.Br_S, resumeExecution)
+        //        )
+        //        .Advance()
+        //        .AddLabels(resumeExecution);
+        //}
+        //catch (Exception ex)
+        //{
+        //    Log.E($"Failed while patching Fisher catching bar gain. Helper returned {ex}");
+        //    return null;
+        //}
+
+        /// Injected: if (Game1.player.professions.Contains(<aquarist_id>)) distanceFromCatching += GetAquaristCatchingBarCompensation();
         /// After: distanceFromCatching -= ((whichBobber == 694 || beginnersRod) ? 0.002f : 0.003f);
 
         try
@@ -47,13 +78,13 @@ internal class BobberBarUpdatePatch : BasePatch
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
-                .GetOperand(out var resumeExecution)
+                .GetOperand(out var isNotAquarist)
                 .Return()
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Stfld)
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Aquarist, (Label) resumeExecution)
+                .InsertProfessionCheckForLocalPlayer((int) Profession.Aquarist, (Label) isNotAquarist)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_0),
@@ -61,7 +92,7 @@ internal class BobberBarUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Call,
                         typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions
-                            .GetAquaristBonusCatchingBarSpeed))),
+                            .GetAquaristCatchingBarCompensation))),
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Stfld, typeof(BobberBar).Field("distanceFromCatching"))
                 );
@@ -69,6 +100,7 @@ internal class BobberBarUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching Aquarist catching bar loss. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

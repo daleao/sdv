@@ -9,6 +9,8 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
 
+using Common.Extensions;
+
 #endregion using directives
 
 internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
@@ -40,24 +42,11 @@ internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
 
         foreach (var component in ClickableComponents)
         {
-            DrawBorder(component.bounds, 3, Color.Red, e.SpriteBatch);
-            if (ModEntry.State.Value.DebugCursorPosition is null) continue;
+            component.bounds.DrawBorder(_pixel, 3, Color.Red, e.SpriteBatch);
+            if (ModEntry.DebugCursorPosition is null) continue;
 
-            var (cursorX, cursorY) = ModEntry.State.Value.DebugCursorPosition.GetScaledScreenPixels();
+            var (cursorX, cursorY) = ModEntry.DebugCursorPosition.GetScaledScreenPixels();
             if (component.containsPoint((int) cursorX, (int) cursorY)) FocusedComponent = component;
         }
-    }
-
-    /// <summary>Draw a border around a rectangle object.</summary>
-    /// <param name="r">The rectangle.</param>
-    /// <param name="thickness">Border thickness.</param>
-    /// <param name="color">Border color.</param>
-    /// <param name="b"><see cref="SpriteBatch" /> to draw to.</param>
-    private void DrawBorder(Rectangle r, int thickness, Color color, SpriteBatch b)
-    {
-        b.Draw(_pixel, new Rectangle(r.X, r.Y, r.Width, thickness), color); // top line
-        b.Draw(_pixel, new Rectangle(r.X, r.Y, thickness, r.Height), color); // left line
-        b.Draw(_pixel, new Rectangle(r.X + r.Width - thickness, r.Y, thickness, r.Height), color); // right line
-        b.Draw(_pixel, new Rectangle(r.X, r.Y + r.Height - thickness, r.Width, thickness), color); // bottom line
     }
 }

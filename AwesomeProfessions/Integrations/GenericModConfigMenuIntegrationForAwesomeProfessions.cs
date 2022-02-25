@@ -165,17 +165,53 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 (config, value) => config.AllowPrestigeMultiplePerDay = value
             )
             .AddNumberField(
-                () => "Base Skill Experience Multiplier",
+                () => "Base Farming Experience Multiplier",
                 () => "Multiplies all skill experience gained from the start of the game.",
-                config => config.BaseSkillExpMultiplier,
-                (config, value) => config.BaseSkillExpMultiplier = value,
+                config => config.BaseSkillExpMultiplierPerSkill[0],
+                (config, value) => config.BaseSkillExpMultiplierPerSkill[0] = value,
+                0.2f,
+                2f,
+                0.2f
+            )
+            .AddNumberField(
+                () => "Base Fishing Experience Multiplier",
+                () => "Multiplies all skill experience gained from the start of the game.",
+                config => config.BaseSkillExpMultiplierPerSkill[1],
+                (config, value) => config.BaseSkillExpMultiplierPerSkill[1] = value,
+                0.2f,
+                2f,
+                0.2f
+            )
+            .AddNumberField(
+                () => "Base Foraging Experience Multiplier",
+                () => "Multiplies all skill experience gained from the start of the game.",
+                config => config.BaseSkillExpMultiplierPerSkill[2],
+                (config, value) => config.BaseSkillExpMultiplierPerSkill[2] = value,
+                0.2f,
+                2f,
+                0.2f
+            )
+            .AddNumberField(
+                () => "Base Mining Experience Multiplier",
+                () => "Multiplies all skill experience gained from the start of the game.",
+                config => config.BaseSkillExpMultiplierPerSkill[3],
+                (config, value) => config.BaseSkillExpMultiplierPerSkill[3] = value,
+                0.2f,
+                2f,
+                0.2f
+            )
+            .AddNumberField(
+                () => "Base Combat Experience Multiplier",
+                () => "Multiplies all skill experience gained from the start of the game.",
+                config => config.BaseSkillExpMultiplierPerSkill[4],
+                (config, value) => config.BaseSkillExpMultiplierPerSkill[4] = value,
                 0.2f,
                 2f,
                 0.2f
             )
             .AddNumberField(
                 () => "Bonus Skill Experience Per Reset",
-                () => "Multiplies all skill experience gained after each respective reset.",
+                () => "Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.",
                 config => config.BonusSkillExpPerReset,
                 (config, value) => config.BonusSkillExpPerReset = value,
                 0f,
@@ -224,8 +260,8 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddNumberField(
                 () => "Minerals Needed for Best Quality",
                 () => "Gemologists must mine this many minerals to reach iridium quality.",
-                config => (int) config.ForagesNeededForBestQuality,
-                (config, value) => config.ForagesNeededForBestQuality = (uint) value,
+                config => (int) config.MineralsNeededForBestQuality,
+                (config, value) => config.MineralsNeededForBestQuality = (uint) value,
                 0,
                 1000
             );

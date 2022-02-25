@@ -33,21 +33,21 @@ internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
         var saleMultiplier = 1f;
         try
         {
-            foreach (var player in Game1.getAllFarmers())
+            foreach (var farmer in Game1.getAllFarmers())
             {
                 if (Game1.player.useSeparateWallets)
                 {
                     if (specificPlayerID == -1)
                     {
-                        if (player.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !player.isActive())
+                        if (farmer.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !farmer.isActive())
                             continue;
                     }
-                    else if (player.UniqueMultiplayerID != specificPlayerID)
+                    else if (farmer.UniqueMultiplayerID != specificPlayerID)
                     {
                         continue;
                     }
                 }
-                else if (!player.isActive())
+                else if (!farmer.isActive())
                 {
                     continue;
                 }
@@ -55,20 +55,20 @@ internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
                 var multiplier = 1f;
 
                 // professions
-                if (player.HasProfession(Profession.Producer) && __instance.IsAnimalProduct())
-                    multiplier += player.GetProducerPriceBonus();
-                if (player.HasProfession(Profession.Angler) && __instance.IsFish())
-                    multiplier += player.GetAnglerPriceBonus();
+                if (farmer.HasProfession(Profession.Producer) && __instance.IsAnimalProduct())
+                    multiplier += farmer.GetProducerPriceBonus();
+                if (farmer.HasProfession(Profession.Angler) && __instance.IsFish())
+                    multiplier += farmer.GetAnglerPriceBonus();
 
                 // events
-                else if (player.eventsSeen.Contains(2120303) && __instance.IsWildBerry())
+                else if (farmer.eventsSeen.Contains(2120303) && __instance.IsWildBerry())
                     multiplier *= 3f;
-                else if (player.eventsSeen.Contains(3910979) && __instance.IsSpringOnion())
+                else if (farmer.eventsSeen.Contains(3910979) && __instance.IsSpringOnion())
                     multiplier *= 5f;
 
                 // tax bonus
-                if (player.IsLocalPlayer && player.HasProfession(Profession.Conservationist))
-                    multiplier *= player.GetConservationistPriceMultiplier();
+                if (farmer.IsLocalPlayer && farmer.HasProfession(Profession.Conservationist))
+                    multiplier *= farmer.GetConservationistPriceMultiplier();
 
                 saleMultiplier = Math.Max(saleMultiplier, multiplier);
             }

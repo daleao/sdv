@@ -21,7 +21,7 @@ public static class Localization
             case LocalizedContentManager.LanguageCode.fr:
             case LocalizedContentManager.LanguageCode.pt:
                 return ModEntry.ModHelper.Translation.Get("pronoun.definite" +
-                                                          (ModEntry.State.Value.SuperMode is PoacherColdBlood
+                                                          (ModEntry.PlayerState.Value.SuperMode is PoacherColdBlood
                                                               ? ".male"
                                                               : ".female"));
 

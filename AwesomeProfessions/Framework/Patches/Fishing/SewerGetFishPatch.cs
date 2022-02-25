@@ -30,14 +30,14 @@ internal class SewerGetFishPatch : BasePatch
     /// <summary>Patch for prestiged Angler to recatch Mutant Carp.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> SewerGetFishTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
         /// From: if (!who.fishCaught.ContainsKey(<legendary_fish_id>)) ...
         /// To: if (!who.fishCaught.ContainsKey(<legendary_fish_id>) || !who.HasPrestigedProfession("Angler") ...
 
-        var chooseLegendary = iLGenerator.DefineLabel();
+        var chooseLegendary = generator.DefineLabel();
         try
         {
             helper
@@ -60,6 +60,7 @@ internal class SewerGetFishPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Angler legendary fish recatch.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

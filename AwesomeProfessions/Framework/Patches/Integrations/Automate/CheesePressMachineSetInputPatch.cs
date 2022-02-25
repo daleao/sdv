@@ -70,6 +70,7 @@ internal class CheesePressMachineSetInput : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded Artisan behavior for automated Cheese Press.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

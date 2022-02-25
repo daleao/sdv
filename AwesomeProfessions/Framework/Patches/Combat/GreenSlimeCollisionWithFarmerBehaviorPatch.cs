@@ -32,14 +32,14 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
         if (!__instance.currentLocation.IsCombatZone()) return;
 
         var who = __instance.Player;
-        if (!who.IsLocalPlayer || ModEntry.State.Value.SuperMode is not PiperEubstance eubstance ||
-            ModEntry.State.Value.SlimeContactTimer > 0) return;
+        if (!who.IsLocalPlayer || ModEntry.PlayerState.Value.SuperMode is not PiperEubstance eubstance ||
+            ModEntry.PlayerState.Value.SlimeContactTimer > 0) return;
 
         if (!eubstance.IsActive)
             eubstance.ChargeValue +=
                 Game1.random.Next(1, 4) * ModEntry.Config.SuperModeGainFactor * SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
 
-        ModEntry.State.Value.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
+        ModEntry.PlayerState.Value.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
     }
 
     #endregion harmony patches

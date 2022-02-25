@@ -27,7 +27,7 @@ internal class FishPondUpdateMaximumOccupancyPatch : BasePatch
 
     /// <summary>Patch for Aquarist increased max fish pond capacity.</summary>
     [HarmonyPostfix]
-    private static void FishPondUpdateMaximumOccupancyPostfix(ref FishPond __instance,
+    private static void FishPondUpdateMaximumOccupancyPostfix(FishPond __instance,
         FishPondData ____fishPondData)
     {
         if (__instance is null) return;

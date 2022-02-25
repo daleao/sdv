@@ -30,7 +30,7 @@ internal class GreenSlimeGetExtraDropItemsPatch : BasePatch
     #region harmony patches
 
     /// <summary>Patch Slime drop table for Piper.</summary>
-    private static void GreenSlimeGetExtraDropItemsPostfix(GreenSlime __instance, ref List<Item> __result)
+    private static void GreenSlimeGetExtraDropItemsPostfix(GreenSlime __instance, List<Item> __result)
     {
         if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession(Profession.Piper, out var pipers) ||
             !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;

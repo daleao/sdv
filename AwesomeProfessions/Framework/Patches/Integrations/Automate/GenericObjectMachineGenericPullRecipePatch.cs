@@ -75,6 +75,7 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded Artisan behavior to generic Automate machines.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

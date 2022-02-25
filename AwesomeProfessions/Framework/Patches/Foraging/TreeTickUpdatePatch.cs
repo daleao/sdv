@@ -30,7 +30,7 @@ internal class TreeTickUpdatePatch : BasePatch
     /// <summary>Patch to add bonus wood for prestiged Lumberjack.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> TreeTickUpdateTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -41,8 +41,8 @@ internal class TreeTickUpdatePatch : BasePatch
         repeat1:
         try
         {
-            var isPrestiged = iLGenerator.DefineLabel();
-            var resumeExecution = iLGenerator.DefineLabel();
+            var isPrestiged = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindProfessionCheck((int) Profession.Lumberjack, true)
                 .Advance()
@@ -70,6 +70,7 @@ internal class TreeTickUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
@@ -104,10 +105,10 @@ internal class TreeTickUpdatePatch : BasePatch
         repeat2:
         try
         {
-            var notPrestigedArborist1 = iLGenerator.DefineLabel();
-            var notPrestigedArborist2 = iLGenerator.DefineLabel();
-            var resumeExecution1 = iLGenerator.DefineLabel();
-            var resumeExecution2 = iLGenerator.DefineLabel();
+            var notPrestigedArborist1 = generator.DefineLabel();
+            var notPrestigedArborist2 = generator.DefineLabel();
+            var resumeExecution1 = generator.DefineLabel();
+            var resumeExecution2 = generator.DefineLabel();
             helper
                 .FindProfessionCheck((int) Profession.Arborist, true)
                 .RetreatUntil(
@@ -141,6 +142,7 @@ internal class TreeTickUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Arborist bonus hardwood.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

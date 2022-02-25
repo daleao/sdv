@@ -62,7 +62,7 @@ internal class SlingshotPerformFirePatch : BasePatch
         var velocity = new Vector2(xVelocity * -1f, yVelocity * -1f);
         var speed = velocity.Length();
         velocity.Normalize();
-        if (who.IsLocalPlayer && ModEntry.State.Value.SuperMode is PoacherColdBlood {IsActive: true})
+        if (who.IsLocalPlayer && ModEntry.PlayerState.Value.SuperMode is PoacherColdBlood {IsActive: true})
         {
             // do Death Blossom
             for (var i = 0; i < 7; ++i)
@@ -78,7 +78,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                 };
 
                 location.projectiles.Add(blossom);
-                ModEntry.State.Value.AuxiliaryBullets.Add(blossom.GetHashCode());
+                ModEntry.PlayerState.Value.AuxiliaryBullets.Add(blossom.GetHashCode());
             }
         }
         else if (Game1.random.NextDouble() < who.GetDesperadoDoubleStrafeChance())
@@ -97,7 +97,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                 };
 
                 location.projectiles.Add(clockwise);
-                ModEntry.State.Value.AuxiliaryBullets.Add(clockwise.GetHashCode());
+                ModEntry.PlayerState.Value.AuxiliaryBullets.Add(clockwise.GetHashCode());
 
                 velocity.Rotate(-30);
                 var anticlockwise = new BasicProjectile(damage, ammunitionIndex, 0, 0,
@@ -110,7 +110,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                 };
 
                 location.projectiles.Add(anticlockwise);
-                ModEntry.State.Value.AuxiliaryBullets.Add(anticlockwise.GetHashCode());
+                ModEntry.PlayerState.Value.AuxiliaryBullets.Add(anticlockwise.GetHashCode());
             }
             else
             {
@@ -126,7 +126,7 @@ internal class SlingshotPerformFirePatch : BasePatch
 
                 DelayedAction doubleStrafe = new(50, () => { location.projectiles.Add(secondary); });
                 Game1.delayedActions.Add(doubleStrafe);
-                ModEntry.State.Value.AuxiliaryBullets.Add(secondary.GetHashCode());
+                ModEntry.PlayerState.Value.AuxiliaryBullets.Add(secondary.GetHashCode());
             }
         }
     }
@@ -174,6 +174,7 @@ internal class SlingshotPerformFirePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while injecting modded Desperado ammunition damage modifier, Temerity gauge and quick shots.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
@@ -186,19 +187,19 @@ internal class SlingshotPerformFirePatch : BasePatch
 
     private static void PerformFireSubroutine(Slingshot slingshot, ref int damage, ref Vector2 velocity, GameLocation location, Farmer who)
     {
-        if (!who.IsLocalPlayer || ModEntry.State.Value.SuperMode is not DesperadoTemerity {IsActive: false} desperadoTemerity ||
+        if (!who.IsLocalPlayer || ModEntry.PlayerState.Value.SuperMode is not DesperadoTemerity {IsActive: false} desperadoTemerity ||
             !location.IsCombatZone()) return;
 
         var bulletPower = desperadoTemerity.GetShootingPower();
         velocity *= bulletPower;
-        damage = (int) (damage * bulletPower / 5);
+        damage *= (int) (1 + (bulletPower - 1) / 2.5);
 
         var increment = 12 - 10 * who.health / who.maxHealth;
         if (Game1.currentGameTime.TotalGameTime.TotalSeconds - slingshot.pullStartTime <=
             slingshot.GetRequiredChargeTime() * QUICK_FIRE_HANDICAP_F)
             increment += 6;
 
-        ModEntry.State.Value.SuperMode.ChargeValue += increment * ModEntry.Config.SuperModeGainFactor *
+        ModEntry.PlayerState.Value.SuperMode.ChargeValue += increment * ModEntry.Config.SuperModeGainFactor *
             SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
     }
 

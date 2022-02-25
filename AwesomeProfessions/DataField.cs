@@ -10,5 +10,5 @@ internal enum DataField
     ConservationistActiveTaxBonusPct,
     ForgottenRecipesDict,
     SuperModeIndex,
-    QualityRatingByFishPond
+    FishPondQualityDict,
 }

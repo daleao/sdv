@@ -35,8 +35,8 @@ internal class ProjectileBehaviorOnCollisionPatch : BasePatch
         if (__instance is not BasicProjectile projectile) return;
 
         var hashCode = projectile.GetHashCode();
-        ModEntry.State.Value.BouncedBullets.Remove(hashCode);
-        if (ModEntry.State.Value.AuxiliaryBullets.Remove(hashCode)) return;
+        ModEntry.PlayerState.Value.BouncedBullets.Remove(hashCode);
+        if (ModEntry.PlayerState.Value.AuxiliaryBullets.Remove(hashCode)) return;
 
         var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
         if (!firer.HasProfession(Profession.Rascal)) return;

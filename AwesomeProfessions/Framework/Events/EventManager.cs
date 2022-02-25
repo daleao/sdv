@@ -27,7 +27,7 @@ internal static class EventManager
 {
     private static readonly Dictionary<Profession, List<Type>> EventsByProfession = new()
     {
-        {Profession.Conservationist, new() {typeof(GlobalConservationistDayEndingEvent)}},
+        {Profession.Conservationist, new() {typeof(HostConservationismDayEndingEvent)}},
         {Profession.Piper, new() {typeof(PiperWarpedEvent)}},
         {Profession.Prospector, new() {typeof(ProspectorHuntDayStartedEvent), typeof(ProspectorWarpedEvent), typeof(TrackerButtonsChangedEvent)}},
         {Profession.Scavenger, new() {typeof(ScavengerHuntDayStartedEvent), typeof(ScavengerWarpedEvent), typeof(TrackerButtonsChangedEvent)}},
@@ -67,6 +67,7 @@ internal static class EventManager
         modEvents.GameLoop.GameLaunched += RunGameLaunchedEvents;
         modEvents.GameLoop.ReturnedToTitle += RunReturnedToTitleEvents;
         modEvents.GameLoop.SaveLoaded += RunSaveLoadedEvents;
+        modEvents.GameLoop.Saving += RunSavingEvents;
         modEvents.GameLoop.UpdateTicked += RunUpdateTickedEvents;
         modEvents.Input.ButtonsChanged += RunButtonsChangedEvents;
         modEvents.Input.CursorMoved += RunCursorMovedEvents;
@@ -147,16 +148,17 @@ internal static class EventManager
                 Log.D($"[EventManager]: Unexpected profession index {professionIndex} will be ignored.");
             }
 
+        Log.D("[EventManager] Enabling other events...");
+        if (Context.IsMainPlayer)
+            Enable(typeof(MonsterFindPlayerUpdateTickedEvent));
+
         if (Context.IsMultiplayer)
         {
-            Log.D("[EventManager] Enabling Multiplayer events...");
             Enable(typeof(ToggledSuperModeModMessageReceivedEvent));
             if (Context.IsMainPlayer)
                Enable(typeof(HostPeerConnectedEvent), typeof(HostPeerDisconnectedEvent));
         }
 
-        Log.D("[EventManager] Enabling other events...");
-        Enable(typeof(MonsterFindPlayerUpdateTickedEvent));
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
             Enable(typeof(VerifyHudThemeWarpedEvent));
 
@@ -329,6 +331,12 @@ internal static class EventManager
     {
         foreach (var saveLoadedEvent in _events.OfType<SaveLoadedEvent>())
             saveLoadedEvent.OnSaveLoaded(sender, e);
+    }
+
+    private static void RunSavingEvents(object sender, SavingEventArgs e)
+    {
+        foreach (var savingEvent in _events.OfType<SavingEvent>())
+            savingEvent.OnSaving(sender, e);
     }
 
     private static void RunUpdateTickedEvents(object sender, UpdateTickedEventArgs e)

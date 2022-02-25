@@ -25,7 +25,7 @@ internal class TemporaryAnimatedSpriteCtorPatch : BasePatch
 
     /// <summary>Patch to increase Demolitionist bomb radius.</summary>
     [HarmonyPostfix]
-    private static void TemporaryAnimatedSpriteCtorPostfix(ref TemporaryAnimatedSprite __instance, Farmer owner)
+    private static void TemporaryAnimatedSpriteCtorPostfix(TemporaryAnimatedSprite __instance, Farmer owner)
     {
         if (owner.HasProfession(Profession.Demolitionist)) ++__instance.bombRadius;
         if (owner.HasProfession(Profession.Demolitionist, true)) ++__instance.bombRadius;

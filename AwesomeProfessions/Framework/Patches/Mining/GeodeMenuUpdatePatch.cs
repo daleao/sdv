@@ -13,6 +13,7 @@ using StardewValley.Menus;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -30,7 +31,7 @@ internal class GeodeMenuUpdatePatch : BasePatch
     /// <summary>Patch to increment Gemologist counter for geodes cracked at Clint's.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> GeodeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator iLGenerator, MethodBase original)
+        ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -38,7 +39,7 @@ internal class GeodeMenuUpdatePatch : BasePatch
         ///		Data.IncrementField<uint>("GemologistMineralsCollected")
         ///	After: Game1.stats.GeodesCracked++;
 
-        var dontIncreaseGemologistCounter = iLGenerator.DefineLabel();
+        var dontIncreaseGemologistCounter = generator.DefineLabel();
         try
         {
             helper
@@ -50,11 +51,11 @@ internal class GeodeMenuUpdatePatch : BasePatch
                 .InsertProfessionCheckForLocalPlayer((int) Profession.Gemologist,
                     dontIncreaseGemologistCounter)
                 .Insert(
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
-                    new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModData)
-                            .MethodNamed(nameof(ModData.Increment), new[] {typeof(DataField), typeof(Farmer)})
+                        typeof(FarmerExtensions)
+                            .MethodNamed(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
@@ -62,6 +63,7 @@ internal class GeodeMenuUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

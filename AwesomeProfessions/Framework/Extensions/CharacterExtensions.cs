@@ -21,10 +21,11 @@ internal static class CharacterExtensions
         return (character.getTileLocation() - other.getTileLocation()).Length();
     }
 
-    /// <summary>Find the closest <typeparam name="T"> character to this instance in the current <see cref="GameLocation"/>.</summary>
+    /// <summary>Find the closest character to this instance in the current <see cref="GameLocation"/>. </summary>
+    /// <typeparam name="T">A subtype of <see cref="Character"/>.</typeparam>
     /// <param name="distanceToClosestCharacter">The distance to the returned character, or <see cref="double.MaxValue"/> if none was found.</param>
     /// <param name="candidates">The candidate characters, if already available.</param>
-    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates (ignore candidates for which the predicate returns <c>True</c>.</param>
     [CanBeNull]
     public static T GetClosestCharacter<T>(this Character character, out double distanceToClosestCharacter,
         IEnumerable<T> candidates = null, Func<T, bool> predicate = null) where T : Character
@@ -42,6 +43,32 @@ internal static class CharacterExtensions
 
             closest = candidate;
             distanceToClosestCharacter = distanceToThisCandidate;
+        }
+
+        return closest;
+    }
+
+    /// <summary>Find the closest farmer to this instance in the current <see cref="GameLocation"/>. </summary>
+    /// <param name="distanceToClosestFarmer">The distance to the returned farmer, or <see cref="double.MaxValue"/> if none was found.</param>
+    /// <param name="candidates">The candidate farmers, if already available.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    [CanBeNull]
+    public static Farmer GetClosestFarmer(this Character character, out double distanceToClosestFarmer,
+        IEnumerable<Farmer> candidates = null, Func<Farmer, bool> predicate = null)
+    {
+        predicate ??= _ => true;
+        candidates ??= character.currentLocation?.farmers.Where(f => predicate(f)).ToArray();
+        distanceToClosestFarmer = double.MaxValue;
+        if (candidates is null) return null;
+
+        Farmer closest = null;
+        foreach (var candidate in candidates)
+        {
+            var distanceToThisCandidate = character.DistanceToCharacter(candidate);
+            if (distanceToThisCandidate >= distanceToClosestFarmer) continue;
+
+            closest = candidate;
+            distanceToClosestFarmer = distanceToThisCandidate;
         }
 
         return closest;
@@ -69,7 +96,7 @@ internal static class CharacterExtensions
     internal static void WriteData(this Character character, string field, string value)
     {
         character.modData.Write($"{ModEntry.Manifest.UniqueID}/{field}", value);
-        Log.D($"[ModData]: Wrote {value} to {character.Name}'s {field}.");
+        //Log.D($"[ModData]: Wrote {value} to {character.Name}'s {field}.");
     }
 
     /// <summary>Write to a field in this character's <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
@@ -79,7 +106,7 @@ internal static class CharacterExtensions
     {
         if (character.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{field}"))
         {
-            Log.D($"[ModData]: The data field {field} already existed.");
+            //Log.D($"[ModData]: The data field {field} already existed.");
             return true;
         }
         
@@ -93,7 +120,7 @@ internal static class CharacterExtensions
     internal static void IncrementData<T>(this Character character, string field, T amount)
     {
         character.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}", amount);
-        Log.D($"[ModData]: Incremented {character.Name}'s {field} by {amount}.");
+        //Log.D($"[ModData]: Incremented {character.Name}'s {field} by {amount}.");
     }
 
     /// <summary>Increment the value of a numeric field in this character's <see cref="ModDataDictionary" /> by 1.</summary>
@@ -102,6 +129,6 @@ internal static class CharacterExtensions
     {
         Game1.MasterPlayer.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}",
             "1".Parse<T>());
-        Log.D($"[ModData]: Incremented {character.Name}'s {field} by 1.");
+        //Log.D($"[ModData]: Incremented {character.Name}'s {field} by 1.");
     }
 }

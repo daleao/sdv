@@ -62,6 +62,6 @@ internal class SuperfluidSlime
 
         Instance.DamageToFarmer = OriginalDamage;
         Instance.willDestroyObjectsUnderfoot = false;
-        ModEntry.State.Value.SuperfluidSlimes.Remove(this);
+        ModEntry.PlayerState.Value.SuperfluidSlimes.Remove(this);
     }
 }

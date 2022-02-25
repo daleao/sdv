@@ -45,7 +45,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
     /// </summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator iLGenerator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -70,14 +70,15 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while moving modded bonus crit chance from Scout to Poacher.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
         /// From: if (who is not null && who.professions.Contains(<fighter_id>) ... *= 1.1f;
         /// To: if (who is not null && who.professions.Contains(<fighter_id>) ... *= who.professions.Contains(100 + <fighter_id>) ? 1.2f : 1.1f;
 
-        var notPrestigedFighter = iLGenerator.DefineLabel();
-        var resumeExecution = iLGenerator.DefineLabel();
+        var notPrestigedFighter = generator.DefineLabel();
+        var resumeExecution = generator.DefineLabel();
         try
         {
             helper
@@ -102,14 +103,15 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching prestiged Fighter bonus damage.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
-        /// Injected: if (who.IsLocalPlayer && ModEntry.State.Value.SuperMode is BruteFury fury) ... += fury.GetBonusDamageMultiplier(who)
+        /// Injected: if (who.IsLocalPlayer && ModEntry.PlayerState.Value.SuperMode is BruteFury fury) ... += fury.GetBonusDamageMultiplier(who)
         /// After: if (who is not null && who.professions.Contains(<brute_id>) ... *= 1.15f;
 
-        resumeExecution = iLGenerator.DefineLabel();
-        var bruteFury = iLGenerator.DeclareLocal(typeof(BruteFury));
+        resumeExecution = generator.DefineLabel();
+        var bruteFury = generator.DeclareLocal(typeof(BruteFury));
         try
         {
             helper
@@ -127,11 +129,11 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     // check for Brute Fury
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
                     new CodeInstruction(OpCodes.Isinst, typeof(BruteFury)),
                     new CodeInstruction(OpCodes.Stloc_S, bruteFury),
                     new CodeInstruction(OpCodes.Ldloc_S, bruteFury),
@@ -146,13 +148,14 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded Brute bonus damage.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
         /// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f;
         /// To: if (who is not null && crit && who.IsLocalPlayer && SuperMode is PoacherColdBlood poacherColdBlood) ... *= poacherColdBlood.GetCritDamageMultiplier();
 
-        var poacherColdBlood = iLGenerator.DeclareLocal(typeof(PoacherColdBlood));
+        var poacherColdBlood = generator.DeclareLocal(typeof(PoacherColdBlood));
         try
         {
             helper
@@ -174,10 +177,10 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .Remove(2) // was Callvirt NetList.Contains
                 .Insert(
                     // check for Poacher Cold Blood
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
+                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
                     new CodeInstruction(OpCodes.Isinst, typeof(PoacherColdBlood)),
                     new CodeInstruction(OpCodes.Stloc_S, poacherColdBlood),
                     new CodeInstruction(OpCodes.Ldloc_S, poacherColdBlood),
@@ -197,6 +200,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while moving modded bonus crit damage from Desperado to Poacher.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
@@ -241,6 +245,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood gauges.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
@@ -255,7 +260,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         Monster monster, Farmer who)
     {
         if (damageAmount <= 0 || isBomb || who is not {IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon} ||
-            ModEntry.State.Value.SuperMode is not { } superMode) return;
+            ModEntry.PlayerState.Value.SuperMode is not { } superMode) return;
 
         // try to steal
         if (didCrit && superMode is PoacherColdBlood)

@@ -24,7 +24,7 @@ internal class CraftingRecipeCtorPatch : BasePatch
 
     /// <summary>Patch for cheaper crafting recipes for Blaster and Tapper.</summary>
     [HarmonyPostfix]
-    private static void CraftingRecipeCtorPostfix(ref CraftingRecipe __instance)
+    private static void CraftingRecipeCtorPostfix(CraftingRecipe __instance)
     {
         if (__instance.name == "Tapper" && Game1.player.HasProfession(Profession.Tapper))
             __instance.recipeList = new()

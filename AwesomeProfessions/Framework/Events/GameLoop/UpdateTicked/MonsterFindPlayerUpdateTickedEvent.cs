@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using StardewModdingAPI;
@@ -10,7 +11,6 @@ using StardewValley;
 using StardewValley.Monsters;
 
 using Extensions;
-using SuperMode;
 
 #endregion using directives
 
@@ -21,60 +21,96 @@ internal class MonsterFindPlayerUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
         if (!e.IsOneSecond) return;
-
-        foreach (var monster in Game1.player.currentLocation.characters.OfType<Monster>().Where(m => m.IsWithinPlayerThreshold()))
+        
+        if (!Context.IsMultiplayer)
         {
-            if (monster.currentLocation is null || !Context.IsMultiplayer && monster is not GreenSlime)
+            var playerId = Game1.player.UniqueMultiplayerID;
+            var location = Game1.player.currentLocation;
+            foreach (var monster in location.characters.OfType<Monster>())
             {
-                monster.WriteData("Player", null);
-                continue;
-            }
-
-            Farmer target = null;
-            if (monster is GreenSlime slime)
-            {
-                Farmer theOneWhoPipedMe = null;
-                var isPiped = false;
-                switch (Context.IsMultiplayer)
+                Farmer target;
+                if (monster is GreenSlime && Game1.player.HasProfession(Profession.Piper))
                 {
-                    case false when Game1.player.HasProfession(Profession.Piper):
-                        theOneWhoPipedMe = Game1.player;
-                        isPiped = true;
-                        slime.WriteData("Piper", Game1.player.UniqueMultiplayerID.ToString());
-                        break;
-                    case true when slime.currentLocation.DoesAnyPlayerHereHaveProfession(Profession.Piper, out var pipers):
+                    if (ModEntry.HostState.AggressivePipers.Contains(playerId))
                     {
-                        theOneWhoPipedMe = Game1.getFarmer(slime.ReadDataAs<long>("Piper"));
-                        if (theOneWhoPipedMe is null)
+                        var otherMonsters = location.characters.OfType<Monster>()
+                            .Where(m => !m.IsSlime() && m.IsWithinPlayerThreshold()).ToArray();
+                        if (otherMonsters.Any())
                         {
-                            var closestPiper = slime.GetClosestCharacter(out _, pipers,
-                                f => slime.IsWithinPlayerThreshold(f));
-                            theOneWhoPipedMe = closestPiper;
-                            slime.WriteData("Piper", closestPiper?.UniqueMultiplayerID.ToString());
-                        }
+                            var closestTarget = Game1.player.GetClosestCharacter(out _, otherMonsters)!;
 
-                        if (theOneWhoPipedMe is not null) isPiped = true;
-                        break;
-                    }
-                }
-
-                if (isPiped && ModEntry.State.Value.PipeMode == TargetMode.Aggressive)
-                {
-                    var otherMonsters = monster.currentLocation.characters.OfType<Monster>()
-                        .Where(m => !m.IsSlime() && m.IsWithinPlayerThreshold()).ToArray();
-                    if (otherMonsters.Any())
-                    {
-                        var closestTarget = theOneWhoPipedMe.GetClosestCharacter(out _, otherMonsters);
-                        if (closestTarget is not null)
-                        {
-                            if (!ModEntry.State.Value.FakeFarmers.TryGetValue(theOneWhoPipedMe.UniqueMultiplayerID,
-                                    out var fakeFarmer))
-                                fakeFarmer = ModEntry.State.Value.FakeFarmers[theOneWhoPipedMe.UniqueMultiplayerID] =
-                                    new();
-
-                            fakeFarmer.currentLocation = closestTarget.currentLocation;
+                            if (!ModEntry.HostState.FakeFarmers.TryGetValue(playerId + 1, out var fakeFarmer))
+                            {
+                                fakeFarmer = ModEntry.HostState.FakeFarmers[playerId + 1] =
+                                    new() {UniqueMultiplayerID = playerId + 1};
+                                Log.D($"Created fake farmer with id {playerId + 1}.");
+                            }
+                            fakeFarmer.currentLocation = location;
                             fakeFarmer.Position = closestTarget.Position;
                             target = fakeFarmer;
+                        }
+                        else
+                        {
+                            target = Game1.player;
+                        }
+                    }
+                    else
+                    {
+                        target = Game1.player;
+                    }
+                }
+                else
+                {
+                    target = Game1.player;
+                }
+
+                monster.WriteData("Target", target?.UniqueMultiplayerID.ToString());
+            }
+
+            return;
+        }
+
+        var checkedLocations = new HashSet<GameLocation>();
+        foreach (var farmer in Game1.getAllFarmers())
+        {
+            var location = farmer.currentLocation;
+            if (checkedLocations.Contains(location)) continue;
+
+            foreach (var monster in location.characters.OfType<Monster>())
+            {
+                Farmer target;
+                if (monster is GreenSlime slime1 && location.DoesAnyPlayerHereHaveProfession(Profession.Piper, out var pipers))
+                {
+                    var theOneWhoPipedMe = Game1.getFarmer(slime1.ReadDataAs<long>("Piper"));
+                    if (theOneWhoPipedMe is null)
+                    {
+                        theOneWhoPipedMe =
+                            slime1.GetClosestFarmer(out _, pipers, f => slime1.IsWithinPlayerThreshold(f))!;
+                        slime1.WriteData("Piper", theOneWhoPipedMe.UniqueMultiplayerID.ToString());
+                    }
+
+                    var piperId = theOneWhoPipedMe.UniqueMultiplayerID;
+                    if (ModEntry.HostState.AggressivePipers.Contains(piperId))
+                    {
+                        var otherMonsters = location.characters.OfType<Monster>()
+                            .Where(m => !m.IsSlime() && m.IsWithinPlayerThreshold(theOneWhoPipedMe)).ToArray();
+                        if (otherMonsters.Any())
+                        {
+                            var closestTarget = theOneWhoPipedMe.GetClosestCharacter(out _, otherMonsters)!;
+
+                            if (!ModEntry.HostState.FakeFarmers.TryGetValue(piperId + 1, out var fakeFarmer))
+                            {
+                                fakeFarmer = ModEntry.HostState.FakeFarmers[piperId + 1] =
+                                    new() {UniqueMultiplayerID = piperId + 1};
+                                Log.D($"Created fake farmer with id {piperId + 1}.");
+                            }
+                            fakeFarmer.currentLocation = location;
+                            fakeFarmer.Position = closestTarget.Position;
+                            target = fakeFarmer;
+                        }
+                        else
+                        {
+                            target = theOneWhoPipedMe;
                         }
                     }
                     else
@@ -84,17 +120,16 @@ internal class MonsterFindPlayerUpdateTickedEvent : UpdateTickedEvent
                 }
                 else
                 {
-                    target = theOneWhoPipedMe;
+                    target = monster.GetClosestFarmer(out _,
+                        predicate: f => !ModEntry.HostState.FakeFarmers.ContainsKey(f.UniqueMultiplayerID) &&
+                                        !ModEntry.HostState.PoachersInAmbush.Contains(f.UniqueMultiplayerID));
+                    if (monster is GreenSlime slime2) slime2.WriteData("Piper", null);
                 }
-            }
-            else
-            {
-                target = monster.GetClosestCharacter<Farmer>(out _,
-                    predicate: f => !ModEntry.State.Value.ActivePeerSuperModes.TryGetValue(SuperModeIndex.Poacher, out var peerIds) ||
-                                    peerIds.All(id => id != f.UniqueMultiplayerID));
+
+                monster.WriteData("Target", target?.UniqueMultiplayerID.ToString());
             }
 
-            monster.WriteData("Player", target?.UniqueMultiplayerID.ToString());
+            checkedLocations.Add(location);
         }
     }
 }

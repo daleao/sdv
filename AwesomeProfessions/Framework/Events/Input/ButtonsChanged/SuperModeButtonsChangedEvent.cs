@@ -11,6 +11,6 @@ internal class SuperModeButtonsChangedEvent : ButtonsChangedEvent
     /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object sender, ButtonsChangedEventArgs e)
     {
-        ModEntry.State.Value.SuperMode.CheckForActivation();
+        ModEntry.PlayerState.Value.SuperMode.CheckForActivation();
     }
 }

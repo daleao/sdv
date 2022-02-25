@@ -74,6 +74,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching level up menu choose profession text. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
@@ -101,6 +102,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching level up menu prestige ribbon draw. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

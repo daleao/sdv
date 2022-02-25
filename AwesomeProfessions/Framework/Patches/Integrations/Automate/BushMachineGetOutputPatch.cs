@@ -51,7 +51,7 @@ internal class BushMachineGetOutputPatch : BasePatch
 
         if (!Context.IsMainPlayer || !Game1.player.HasProfession(Profession.Ecologist)) return;
 
-        ModData.Increment<uint>(DataField.EcologistItemsForaged);
+        Game1.player.IncrementData<uint>(DataField.EcologistItemsForaged);
     }
 
     /// <summary>Patch for automated Berry Bush quality.</summary>
@@ -85,6 +85,7 @@ internal class BushMachineGetOutputPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching automated Berry Bush quality.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

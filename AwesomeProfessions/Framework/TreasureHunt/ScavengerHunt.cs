@@ -57,7 +57,7 @@ internal class ScavengerHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
-        ModData.Write(DataField.ScavengerHuntStreak, "0");
+        Game1.player.WriteData(DataField.ScavengerHuntStreak, "0");
         End(false);
     }
 
@@ -82,7 +82,7 @@ internal class ScavengerHunt : TreasureHunt
             !Game1.player.HasProfession(Profession.Scavenger, true)) return;
         
         Framework.Utility.Multiplayer.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
-        ModEntry.ModHelper.Multiplayer.SendMessage(string.Empty, "RequestTimeStop/Enable",
+        ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOn", "RequestEvent",
             new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
     }
 
@@ -125,7 +125,7 @@ internal class ScavengerHunt : TreasureHunt
 
         var getTreasure = new DelayedAction(200, BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
-        ModData.Increment<uint>(DataField.ScavengerHuntStreak);
+        Game1.player.IncrementData<uint>(DataField.ScavengerHuntStreak);
         End(true);
     }
 
@@ -140,7 +140,7 @@ internal class ScavengerHunt : TreasureHunt
         Framework.Utility.Multiplayer.SendPublicChat(successful
             ? $"{Game1.player.Name} has found the treasure!"
             : $"{Game1.player.Name} failed to find the treasure.");
-        ModEntry.ModHelper.Multiplayer.SendMessage(string.Empty, "RequestTimeStop/Disable",
+        ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOff", "RequestEvent",
             new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
     }
 
@@ -299,7 +299,7 @@ internal class ScavengerHunt : TreasureHunt
 
                         case 2:
                             var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
-                            var streak = ModData.ReadAs<uint>(DataField.ScavengerHuntStreak);
+                            var streak = Game1.player.ReadDataAs<uint>(DataField.ScavengerHuntStreak);
                             if (random.NextDouble() < 0.025 * luckModifier &&
                                 !Game1.player.specialItems.Contains(15))
                                 treasures.Add(new MeleeWeapon(15) {specialItem = true}); // forest sword

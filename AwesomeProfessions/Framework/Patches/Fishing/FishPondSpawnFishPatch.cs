@@ -33,21 +33,15 @@ internal class FishPondSpawnFishPatch : BasePatch
     {
         if (!ModEntry.Config.EnableFishPondRebalance) return;
 
-        var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
-        var qualityRatingByFishPond =
-            ModData.Read(DataField.QualityRatingByFishPond, owner).ToDictionary<int, int>(",", ";");
-        var thisFishPond = __instance.GetCenterTile().ToString().GetDeterministicHashCode();
-        if (!qualityRatingByFishPond.ContainsKey(thisFishPond)) return;
-
-        var (numBestQuality, numHighQuality, numMedQuality) = __instance.GetAllFishQualities();
+        var qualityRating = __instance.ReadDataAs<int>("QualityRating");
+        var (numBestQuality, numHighQuality, numMedQuality) = __instance.GetFishQualities(qualityRating);
         if (numBestQuality == 0 && numHighQuality == 0 && numMedQuality == 0)
         {
-            ++qualityRatingByFishPond[thisFishPond];
-            ModData.Write(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"), owner);
+            __instance.WriteData("QualityRating", (++qualityRating).ToString());
             return;
         }
 
-        var roll = Game1.random.Next(__instance.FishCount + 1);
+        var roll = Game1.random.Next(__instance.FishCount - 1); // fish pond count has already been incremented at this point, so we consider -1;
         var fishlingQuality = roll < numBestQuality
             ? SObject.bestQuality
             : roll < numBestQuality + numHighQuality
@@ -55,9 +49,10 @@ internal class FishPondSpawnFishPatch : BasePatch
                 : roll < numBestQuality + numHighQuality + numMedQuality
                     ? SObject.medQuality
                     : SObject.lowQuality;
-        qualityRatingByFishPond[thisFishPond] += (int) Math.Pow(16,
+
+        qualityRating += (int) Math.Pow(16,
             fishlingQuality == SObject.bestQuality ? fishlingQuality - 1 : fishlingQuality);
-        ModData.Write(DataField.QualityRatingByFishPond, qualityRatingByFishPond.ToString(",", ";"), owner);
+        __instance.WriteData("QualityRating", qualityRating.ToString());
     }
 
     #endregion harmony patches

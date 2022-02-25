@@ -17,7 +17,7 @@ using Extensions;
 /// <summary>Handles Piper Eubstance activation.</summary>
 internal sealed class PiperEubstance : SuperMode
 {
-    private static int _InflationCost => (int) (50 * 3 / ModEntry.Config.SuperModeDrainFactor);
+    private static int _InflationCost => (int) (100 * 3 / ModEntry.Config.SuperModeDrainFactor);
 
     /// <summary>Construct an instance.</summary>
     internal PiperEubstance()
@@ -46,6 +46,7 @@ internal sealed class PiperEubstance : SuperMode
             return;
         }
 
+        EventManager.Disable(typeof(SuperModeGaugeShakeUpdateTickedEvent));
         SoundBank.Play(ActivationSfx);
         foreach (var slime in Game1.player.currentLocation.characters.OfType<GreenSlime>()
                      .Where(s => s.IsWithinPlayerThreshold()))
@@ -63,7 +64,7 @@ internal sealed class PiperEubstance : SuperMode
                 else slime.hasSpecialItem.Value = true;
             }
 
-            ModEntry.State.Value.SuperfluidSlimes.Add(new(slime, Game1.player));
+            ModEntry.PlayerState.Value.SuperfluidSlimes.Add(new(slime, Game1.player));
         }
 
         var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
@@ -134,14 +135,6 @@ internal sealed class PiperEubstance : SuperMode
             // ReSharper disable once PossibleLossOfFraction
             ? 1f + MaxValue / 10 * 0.01f // apply the maximum eubstance in super mode
             : 1f + (float) ChargeValue / 10 * 0.01f; // apply the current eubstance bonus
-    }
-
-    /// <summary>The bonus movement speed of Slimes affected by Eubstance.</summary>
-    public int GetBonusSlimeMovementSpeed()
-    {
-        return IsActive
-            ? 1
-            : (int) (ChargeValue / 200);
     }
 
     #endregion public methods

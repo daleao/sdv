@@ -109,7 +109,7 @@ internal abstract class SuperMode : ISuperMode
         SoundBank.Play(ActivationSfx);
 
         // notify peers
-        ModEntry.ModHelper.Multiplayer.SendMessage(Index, "ToggledSuperMode/On",
+        ModEntry.ModHelper.Multiplayer.SendMessage("Active", "ToggledSuperMode",
             new[] { ModEntry.Manifest.UniqueID });
     }
 
@@ -128,7 +128,7 @@ internal abstract class SuperMode : ISuperMode
         Game1.player.stopGlowing();
 
         // notify peers
-        ModEntry.ModHelper.Multiplayer.SendMessage(GetType().ToString(), "ToggledSuperMode/Off",
+        ModEntry.ModHelper.Multiplayer.SendMessage("Inactive", "ToggledSuperMode",
             new[] { ModEntry.Manifest.UniqueID });
     }
 
@@ -218,7 +218,7 @@ internal abstract class SuperMode : ISuperMode
             typeof(SuperModeUpdateTickedEvent));
         Gauge.ForceStopShake();
 
-        if (ModEntry.State.Value.SuperMode.IsActive) ModEntry.State.Value.SuperMode.Deactivate();
+        if (ModEntry.PlayerState.Value.SuperMode.IsActive) ModEntry.PlayerState.Value.SuperMode.Deactivate();
 
         if (!Game1.currentLocation.IsCombatZone())
             EventManager.Enable(typeof(SuperModeGaugeFadeOutUpdateTickedEvent));

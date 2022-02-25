@@ -45,15 +45,15 @@ internal static class PatchManager
         foreach (var patch in patches.Select(t => (IPatch) t.Constructor().Invoke(Array.Empty<object>())))
             patch.Apply(harmony);
 
-        var message = $"[HarmonyPatcher]: Done.\nApplied {AppliedPrefixCount}/{TotalPrefixCount} prefixes.";
+        var message = $"[HarmonyPatcher]: Done.\n\t- Applied {AppliedPrefixCount}/{TotalPrefixCount} prefixes.";
         if (AppliedPrefixCount < TotalPrefixCount)
             message += $" {IgnoredPrefixCount} ignored. {FailedPrefixCount} failed.";
 
-        message += $"\nApplied {AppliedPostfixCount}/{TotalPostfixCount} postfixes.";
+        message += $"\n\t- Applied {AppliedPostfixCount}/{TotalPostfixCount} postfixes.";
         if (AppliedPostfixCount < TotalPostfixCount)
             message += $" {IgnoredPostfixCount} ignored. {FailedPostfixCount} failed.";
 
-        message += $"\nApplied {AppliedTranspilerCount}/{TotalTranspilerCount} transpilers.";
+        message += $"\n\t- Applied {AppliedTranspilerCount}/{TotalTranspilerCount} transpilers.";
         if (AppliedTranspilerCount < TotalTranspilerCount)
             message += $" {IgnoredTranspilerCount} ignored. {FailedTranspilerCount} failed.";
 

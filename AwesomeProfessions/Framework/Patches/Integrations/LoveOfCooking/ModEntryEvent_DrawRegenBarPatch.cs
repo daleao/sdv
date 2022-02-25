@@ -43,7 +43,7 @@ internal class ModEntryEvent_DrawRegenBarPatch : BasePatch
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Inject: if (ModEntry.State.Value.SuperMode?.Gauge.IsVisible) topOfBar.X -= 56f;
+        /// Inject: if (ModEntry.PlayerState.Value.SuperMode?.Gauge.IsVisible) topOfBar.X -= 56f;
         /// Before: e.SpriteBatch.Draw( ... )
 
         var resumeExecution = ilGenerator.DefineLabel();
@@ -67,19 +67,19 @@ internal class ModEntryEvent_DrawRegenBarPatch : BasePatch
                     labels,
                     // check if SuperMode is null
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     // check if SuperMode.Gauge.IsVisible
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.State))),
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<ModState>).PropertyGetter(nameof(PerScreen<ModState>.Value))),
+                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(ModState).PropertyGetter(nameof(ModState.SuperMode))),
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(SuperMode).PropertyGetter(nameof(SuperMode.Gauge))),
                     new CodeInstruction(OpCodes.Call,
@@ -96,6 +96,7 @@ internal class ModEntryEvent_DrawRegenBarPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while moving Love Of Cooking's food regen bar.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

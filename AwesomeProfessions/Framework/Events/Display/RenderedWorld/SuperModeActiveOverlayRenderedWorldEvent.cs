@@ -11,12 +11,12 @@ internal class SuperModeActiveOverlayRenderedWorldEvent : RenderedWorldEvent
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object sender, RenderedWorldEventArgs e)
     {
-        if (ModEntry.State.Value.SuperMode is null)
+        if (ModEntry.PlayerState.Value.SuperMode is null)
         {
             Disable();
             return;
         }
 
-        ModEntry.State.Value.SuperMode.Overlay.Draw(e.SpriteBatch);
+        ModEntry.PlayerState.Value.SuperMode.Overlay.Draw(e.SpriteBatch);
     }
 }

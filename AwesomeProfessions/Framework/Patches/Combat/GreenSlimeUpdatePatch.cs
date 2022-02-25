@@ -71,7 +71,7 @@ internal class GreenSlimeUpdatePatch : BasePatch
                 new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f, monster));
 
             var invincibleCountdown = INITIAL_INVINCIBILITY_TIMER_I;
-            if (ModEntry.State.Value.SuperMode is PiperEubstance eubstance)
+            if (ModEntry.PlayerState.Value.SuperMode is PiperEubstance eubstance)
                 invincibleCountdown = (int) (invincibleCountdown * (1f - eubstance.GetBonusSlimeAttackSpeed() / 2f));
             
             monster.setInvincibleCountdown(invincibleCountdown);

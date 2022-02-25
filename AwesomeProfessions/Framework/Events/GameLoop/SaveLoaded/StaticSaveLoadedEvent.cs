@@ -2,11 +2,12 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using JetBrains.Annotations;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Buildings;
 
 using Common.Extensions;
 using Extensions;
@@ -30,15 +31,15 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
         EventManager.EnableAllForLocalPlayer();
 
         // load or initialize Super Mode index
-        var superModeIndex = Enum.Parse<SuperModeIndex>(ModData.Read(DataField.SuperModeIndex, defaultValue: "None"));
+        var superModeIndex = Game1.player.ReadDataAs(DataField.SuperModeIndex, SuperModeIndex.None);
 
         // validate Super Mode index
         switch (superModeIndex)
         {
-            case <= SuperModeIndex.None when Game1.player.professions.Any(p => p is >= 26 and < 30):
+            case SuperModeIndex.None when Game1.player.professions.Any(p => p is >= 26 and < 30):
                 Log.W("Player eligible for Super Mode but not currently registered to any. Setting to a default value.");
                 superModeIndex = (SuperModeIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
-                ModData.Write(DataField.SuperModeIndex, superModeIndex.ToString());
+                Game1.player.WriteData(DataField.SuperModeIndex, superModeIndex.ToString());
 
                 break;
 
@@ -47,12 +48,12 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
                 if (Game1.player.professions.Any(p => p is >= 26 and < 30))
                 {
                     superModeIndex = (SuperModeIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
-                    ModData.Write(DataField.SuperModeIndex, superModeIndex.ToString());
+                    Game1.player.WriteData(DataField.SuperModeIndex, superModeIndex.ToString());
                 }
                 else
                 {
                     superModeIndex = SuperModeIndex.None;
-                    ModData.Write(DataField.SuperModeIndex, null);
+                    Game1.player.WriteData(DataField.SuperModeIndex, null);
                 }
 
                 break;
@@ -61,9 +62,9 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
         // initialize Super Mode
         if (superModeIndex > SuperModeIndex.None)
         {
-            ModEntry.State.Value.SuperMode =
+            ModEntry.PlayerState.Value.SuperMode =
 #pragma warning disable CS8509
-                ModEntry.State.Value.SuperMode = superModeIndex switch
+                ModEntry.PlayerState.Value.SuperMode = superModeIndex switch
 #pragma warning restore CS8509
                 {
                     SuperModeIndex.Brute => new BruteFury(),
@@ -74,13 +75,26 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
         }
 
         // check for prestige achievements
-        if (!Game1.player.HasAllProfessions()) return;
+        if (Game1.player.HasAllProfessions())
+        {
+            string name =
+                ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
+                                                   (Game1.player.IsMale ? "male" : "female"));
+            if (Game1.player.achievements.Contains(name.GetDeterministicHashCode())) return;
 
-        string name =
-            ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
-                                               (Game1.player.IsMale ? "male" : "female"));
-        if (Game1.player.achievements.Contains(name.GetDeterministicHashCode())) return;
+            EventManager.Enable(typeof(AchievementUnlockedDayStartedEvent));
+        }
 
-        EventManager.Enable(typeof(AchievementUnlockedDayStartedEvent));
+        // restore fish pond quality data
+        if (ModEntry.Config.EnableFishPondRebalance && Context.IsMainPlayer)
+        {
+            var pondQualityDict = Game1.player.ReadData(DataField.FishPondQualityDict).ToDictionary<int, int>(',', ';');
+            foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p => !p.isUnderConstruction()))
+            {
+                var pondId = pond.GetCenterTile().ToString().GetDeterministicHashCode();
+                if (pondQualityDict.TryGetValue(pondId, out var qualityRating))
+                    pond.WriteData("QualityRating", qualityRating.ToString());
+            }
+        }
     }
 }

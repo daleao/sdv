@@ -53,14 +53,14 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
         EventManager.DisableAllForProfession(profession);
 
         // unregister Super Mode
-        if (ModEntry.State.Value.SuperMode?.Index != (SuperModeIndex) whichProfession) return;
+        if (ModEntry.PlayerState.Value.SuperMode?.Index != (SuperModeIndex) whichProfession) return;
 
         if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
             var firstIndex = (SuperModeIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
-            ModData.Write(DataField.SuperModeIndex, firstIndex.ToString());
+            Game1.player.WriteData(DataField.SuperModeIndex, firstIndex.ToString());
 #pragma warning disable CS8509
-            ModEntry.State.Value.SuperMode = firstIndex switch
+            ModEntry.PlayerState.Value.SuperMode = firstIndex switch
 #pragma warning restore CS8509
             {
                 SuperModeIndex.Brute => new BruteFury(),
@@ -71,8 +71,8 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
         }
         else
         {
-            ModData.Write(DataField.SuperModeIndex, null);
-            ModEntry.State.Value.SuperMode = null;
+            Game1.player.WriteData(DataField.SuperModeIndex, null);
+            ModEntry.PlayerState.Value.SuperMode = null;
         }
     }
 
@@ -97,6 +97,7 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

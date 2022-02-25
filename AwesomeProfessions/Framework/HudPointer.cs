@@ -19,7 +19,7 @@ internal class HudPointer
 
     /// <summary>The texture that will be used to draw the indicator.</summary>
     public Texture2D Texture { get; } =
-        ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "hud", "pointer.png"));
+        Game1.content.Load<Texture2D>(Path.Combine(ModEntry.Manifest.UniqueID, "HudPointer"));
 
     /// <summary>Draw the indicator at the edge of the screen, pointing to a target off-screen.</summary>
     /// <param name="target">The target tile to point to.</param>
@@ -71,8 +71,8 @@ internal class HudPointer
         if ((int) onScreenPosition.X == vpBounds.Right - 8 && (int) onScreenPosition.Y == vpBounds.Bottom - 8)
             rotation -= (float) Math.PI / 4f;
 
-        var srcRect = new Rectangle(0, 0, 5, 4);
-        var safePos = StardewValley.Utility.makeSafe(
+        var srcRect = new Rectangle(0, 0, Texture.Width, Texture.Height);
+        var safePos = Utility.makeSafe(
             renderSize: new(srcRect.Width * Game1.pixelZoom, srcRect.Height * Game1.pixelZoom),
             renderPos: onScreenPosition
         );
@@ -96,12 +96,12 @@ internal class HudPointer
     /// <remarks>Credit to <c>Bpendragon</c>.</remarks>
     public void DrawOverTile(Vector2 target, Color color)
     {
-        if (!StardewValley.Utility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
+        if (!Utility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
 
         var srcRect = new Rectangle(0, 0, 5, 4);
         var targetPixel = new Vector2(target.X * 64f + 32f, target.Y * 64f + 32f + _height);
         var adjustedPixel = Game1.GlobalToLocal(Game1.viewport, targetPixel);
-        adjustedPixel = StardewValley.Utility.ModifyCoordinatesForUIScale(adjustedPixel);
+        adjustedPixel = Utility.ModifyCoordinatesForUIScale(adjustedPixel);
 
         Game1.spriteBatch.Draw(
             Texture,

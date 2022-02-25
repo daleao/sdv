@@ -15,6 +15,8 @@ using Stardew.Common.Harmony;
 /// <summary>Base implementation for Harmony patch classes.</summary>
 internal abstract class BasePatch : IPatch
 {
+    protected static bool transpilationFailed;
+
     /// <summary>Construct an instance.</summary>
     protected BasePatch()
     {
@@ -54,7 +56,18 @@ internal abstract class BasePatch : IPatch
 
             if (Prefix is not null) ++PatchManager.AppliedPrefixCount;
             if (Postfix is not null) ++PatchManager.AppliedPostfixCount;
-            if (Transpiler is not null) ++PatchManager.AppliedTranspilerCount;
+            if (Transpiler is not null)
+            {
+                if (transpilationFailed)
+                {
+                    ++PatchManager.FailedTranspilerCount;
+                    transpilationFailed = false;
+                }
+                else
+                {
+                    ++PatchManager.AppliedTranspilerCount;
+                }
+            }
 
             //if (ReversePatch is null) return;
 

@@ -65,6 +65,7 @@ internal class LoomMachineSetInputPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded Artisan behavior for automated Loom.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

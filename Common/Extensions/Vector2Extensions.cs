@@ -25,7 +25,7 @@ public static class Vector2Extensions
     }
 
     /// <summary>Rotates the instance by <paramref name="degrees" />.</summary>
-    public static Vector2 Rotate(this ref Vector2 v, double degrees)
+    public static Vector2 Rotate(this Vector2 v, double degrees)
     {
         var sin = (float) Math.Sin(degrees * Math.PI / 180);
         var cos = (float) Math.Cos(degrees * Math.PI / 180);

@@ -30,7 +30,7 @@ internal class FarmAnimalPetPatch : BasePatch
     /// <summary>Patch for Rancher to combine Shepherd and Coopmaster friendship bonus.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> FarmAnimalPetTranspiler(IEnumerable<CodeInstruction> instructions,
-        MethodBase original)
+        ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -69,36 +69,39 @@ internal class FarmAnimalPetPatch : BasePatch
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}");
+            Log.E(
+                $"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 
-        /// Injected: if (who.professions.Contains(100 + <rancher_id>) repeat happiness and mood increase...
+        /// From: friendshipTowardFarmer.Value = Math.Min(1000, (int)friendshipTowardFarmer + 15);
+        /// To: friendshipTowardFarmer.Value = Math.Min(1000, (int)friendshipTowardFarmer + 15 + (who.professions.Contains(<rancher_id> + 100) ? 15 : 0));
 
+        var isNotPrestigedRancher = generator.DefineLabel();
         try
         {
             helper
                 .FindProfessionCheck((int) Profession.Rancher) // go back and find the inserted rancher check
-                .Retreat() // reatreat until Ldarg_1 Farmer who
-                .ToBufferUntil( // copy to buffer the entire sections which increases happiness and mood
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(NetFieldBase<byte, NetByte>).MethodNamed("set_Value"))
-                )
-                .InsertBuffer() // paste it in-place
-                .FindProfessionCheck((int) Profession.Rancher, true) // advance until the second rancher check
-                .Advance()
-                .SetOperand((int) Profession.Rancher) // replace rancher with prestiged rancher
                 .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(NetFieldBase<byte, NetByte>).MethodNamed("set_Value"))
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 15),
+                    new CodeInstruction(OpCodes.Add)
                 )
-                .Advance()
-                .StripLabels(out var labels)
-                .AddLabels(labels[0]);
+                .Advance(2)
+                .AddLabels(isNotPrestigedRancher)
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_1)
+                )
+                .InsertProfessionCheckForPlayerOnStack((int) Profession.Rancher + 100, isNotPrestigedRancher)
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 15),
+                    new CodeInstruction(OpCodes.Add)
+                );
         }
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Rancher friendship bonuses.\nHelper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

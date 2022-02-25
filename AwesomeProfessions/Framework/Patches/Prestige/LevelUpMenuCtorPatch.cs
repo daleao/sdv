@@ -57,6 +57,7 @@ internal class LevelUpMenuCtorPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching profession choices above level 10. Helper returned {ex}");
+            transpilationFailed = true;
             return null;
         }
 

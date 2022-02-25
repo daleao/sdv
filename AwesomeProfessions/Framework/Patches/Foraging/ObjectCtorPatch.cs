@@ -27,7 +27,7 @@ internal class ObjectCtorPatch : BasePatch
 
     /// <summary>Patch for Ecologist wild berry recovery.</summary>
     [HarmonyPostfix]
-    private static void ObjectCtorPostfix(ref SObject __instance)
+    private static void ObjectCtorPostfix(SObject __instance)
     {
         var owner = Game1.getFarmer(__instance.owner.Value);
         if (__instance.IsWildBerry() && owner.HasProfession(Profession.Ecologist))

@@ -50,9 +50,9 @@ internal class PropagatorMachineGetOutputPatch : BasePatch
         if (!owner.HasProfession(Profession.Ecologist)) return;
 
         if (owner.IsLocalPlayer && !ModEntry.Config.ShouldCountAutomatedHarvests)
-            ModData.Increment(DataField.EcologistItemsForaged, -1);
+            Game1.player.IncrementData(DataField.EcologistItemsForaged, -1);
         else if (ModEntry.Config.ShouldCountAutomatedHarvests)
-            ModData.Increment<uint>(DataField.EcologistItemsForaged, owner);
+            owner.IncrementData<uint>(DataField.EcologistItemsForaged);
     }
 
     #endregion harmony patches

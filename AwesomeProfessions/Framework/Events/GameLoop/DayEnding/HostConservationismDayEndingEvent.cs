@@ -15,7 +15,7 @@ using Extensions;
 
 #endregion using directives
 
-internal class GlobalConservationistDayEndingEvent : DayEndingEvent
+internal class HostConservationismDayEndingEvent : DayEndingEvent
 {
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
@@ -28,22 +28,22 @@ internal class GlobalConservationistDayEndingEvent : DayEndingEvent
         foreach (var farmer in Game1.getAllFarmers().Where(f => f.HasProfession(Profession.Conservationist)))
         {
             var trashCollectedThisSeason =
-                ModData.ReadAs<uint>(DataField.ConservationistTrashCollectedThisSeason, farmer);
+                farmer.ReadDataAs<uint>(DataField.ConservationistTrashCollectedThisSeason);
             if (trashCollectedThisSeason <= 0) return;
 
             var taxBonusNextSeason =
                 // ReSharper disable once PossibleLossOfFraction
                 Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxLevel / 100f,
                     ModEntry.Config.TaxDeductionCeiling);
-            ModData.Write(DataField.ConservationistActiveTaxBonusPct,
-                taxBonusNextSeason.ToString(CultureInfo.InvariantCulture), farmer);
+            farmer.WriteData(DataField.ConservationistActiveTaxBonusPct,
+                taxBonusNextSeason.ToString(CultureInfo.InvariantCulture));
             if (taxBonusNextSeason > 0)
             {
                 ModEntry.ModHelper.Content.InvalidateCache(PathUtilities.NormalizeAssetName("Data/mail"));
                 farmer.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
             }
 
-            ModData.Write(DataField.ConservationistTrashCollectedThisSeason, "0", farmer);
+            farmer.WriteData(DataField.ConservationistTrashCollectedThisSeason, "0");
         }
     }
 }

@@ -12,8 +12,8 @@ internal class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        foreach (var piped in ModEntry.State.Value.SuperfluidSlimes.Where(p => p.BuffTimer <= 0)) piped.Deflate();
+        foreach (var piped in ModEntry.PlayerState.Value.SuperfluidSlimes.Where(p => p.BuffTimer <= 0)) piped.Deflate();
 
-        if (!ModEntry.State.Value.SuperfluidSlimes.Any()) Disable();
+        if (!ModEntry.PlayerState.Value.SuperfluidSlimes.Any()) Disable();
     }
 }

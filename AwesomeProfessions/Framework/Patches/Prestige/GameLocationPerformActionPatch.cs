@@ -39,7 +39,7 @@ internal class GameLocationPerformActionPatch : BasePatch
             string message;
             if (!ModEntry.Config.AllowPrestigeMultiplePerDay &&
                 (EventManager.Get<PrestigeDayEndingEvent>().IsEnabled ||
-                 ModEntry.State.Value.UsedDogStatueToday))
+                 ModEntry.PlayerState.Value.UsedDogStatueToday))
             {
                 message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.dismiss");
                 Game1.drawObjectDialogue(message);
@@ -57,12 +57,12 @@ internal class GameLocationPerformActionPatch : BasePatch
                 return false; // don't run original logic
             }
 
-            if (who.HasAllProfessions() && !ModEntry.State.Value.UsedDogStatueToday)
+            if (who.HasAllProfessions() && !ModEntry.PlayerState.Value.UsedDogStatueToday)
             {
                 message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.what");
                 var options = Array.Empty<Response>();
 
-                if (ModEntry.State.Value.SuperMode is not null)
+                if (ModEntry.PlayerState.Value.SuperMode is not null)
                     options = options.Concat(new Response[]
                     {
                         new("changeUlt", ModEntry.ModHelper.Translation.Get("prestige.dogstatue.changeult") +

@@ -11,6 +11,6 @@ internal class SuperModeOverlayFadeOutUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        ModEntry.State.Value.SuperMode.Overlay.FadeOut();
+        ModEntry.PlayerState.Value.SuperMode.Overlay.FadeOut();
     }
 }
