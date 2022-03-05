@@ -38,30 +38,24 @@ internal class SkillsPageDrawPatch : BasePatch
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: DrawExtendedLevelBars(i, j, x, y, addedX, skillLevel, b)
+        /// Injected: DrawExtendedLevelBars(levelIndex, skillIndex, x, y, addedX, skillLevel, b)
         /// Before: if (i == 9) draw level number ...
 
+        var skillIndex = helper.Locals[4];
+        var skillLevel = helper.Locals[8];
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (4)")
-                )
-                .GetOperand(out var j)
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (8)")
-                )
-                .GetOperand(out var skillLevel)
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_3),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 9),
                     new CodeInstruction(OpCodes.Bne_Un)
                 )
                 .StripLabels(out var labels)
-                .Insert(
+                .InsertWithLabels(
                     labels,
-                    new CodeInstruction(OpCodes.Ldloc_3), // load i (profession index)
-                    new CodeInstruction(OpCodes.Ldloc_S, j), // load j (skill index)
+                    new CodeInstruction(OpCodes.Ldloc_3), // load levelIndex
+                    new CodeInstruction(OpCodes.Ldloc_S, skillIndex),
                     new CodeInstruction(OpCodes.Ldloc_0), // load x
                     new CodeInstruction(OpCodes.Ldloc_1), // load y
                     new CodeInstruction(OpCodes.Ldloc_2), // load addedX
@@ -88,11 +82,6 @@ internal class SkillsPageDrawPatch : BasePatch
                 .FindNext(
                     new CodeInstruction(OpCodes.Call, typeof(Color).PropertyGetter(nameof(Color.SandyBrown)))
                 )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldloc_S)
-                )
-                .GetOperand(out var skillLevel)
-                .Return()
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 20),
@@ -101,7 +90,7 @@ internal class SkillsPageDrawPatch : BasePatch
                 .Advance()
                 .GetOperand(out var resumeExecution)
                 .Advance()
-                .Insert(
+                .InsertWithLabels(
                     new[] {isSkillLevel20},
                     new CodeInstruction(OpCodes.Call, typeof(Color).PropertyGetter(nameof(Color.Cornsilk))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
@@ -126,7 +115,7 @@ internal class SkillsPageDrawPatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt, typeof(string).PropertyGetter(nameof(string.Length)))
                 )
                 .StripLabels(out var labels) // backup and remove branch labels
-                .Insert(
+                .InsertWithLabels(
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_1),

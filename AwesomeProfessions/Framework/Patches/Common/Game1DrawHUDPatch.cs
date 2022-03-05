@@ -48,7 +48,6 @@ internal class Game1DrawHUDPatch : BasePatch
                          !b.townBush.Value && b.tileSheetOffset.Value == 1 &&
                          b.inBloom(Game1.GetSeasonForLocation(outdoors), Game1.dayOfMonth)))
                 ModEntry.PlayerState.Value.Pointer.DrawAsTrackingPointer(bush.tilePosition.Value, Color.Yellow);
-
     }
 
     /// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>
@@ -67,10 +66,11 @@ internal class Game1DrawHUDPatch : BasePatch
             helper
                 .FindProfessionCheck(Farmer.tracker) // find index of tracker check
                 .Retreat()
-                .ToBufferUntil(
-                    new CodeInstruction(OpCodes.Brfalse) // copy profession check
+                .GetInstructionsUntil(
+                    out var got,
+                    pattern: new CodeInstruction(OpCodes.Brfalse) // copy profession check
                 )
-                .InsertBuffer() // paste
+                .Insert(got) // paste
                 .Return()
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S)
@@ -83,7 +83,7 @@ internal class Game1DrawHUDPatch : BasePatch
                     new(OpCodes.Brtrue_S, isProspector) // change !(A && B) to !(A || B)
                 )
                 .Advance()
-                .StripLabels() // strip repeated label
+                .RemoveLabels() // remove repeated label
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Call,
                         typeof(Game1).PropertyGetter(nameof(Game1.currentLocation)))
@@ -146,12 +146,11 @@ internal class Game1DrawHUDPatch : BasePatch
                 )
                 .StripLabels(out var labels)
                 .AddLabels(drawPanningTracker)
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Prospector, drawPanningTracker, useBrtrue: true)
+                .InsertProfessionCheck((int) Profession.Prospector, labels)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brtrue_S, drawPanningTracker),
                     new CodeInstruction(OpCodes.Ret)
-                )
-                .Return(2)
-                .SetLabels(labels);
+                );
         }
         catch (Exception ex)
         {

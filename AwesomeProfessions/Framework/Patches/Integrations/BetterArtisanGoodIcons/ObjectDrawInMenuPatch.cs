@@ -42,7 +42,7 @@ internal class ObjectDrawInMenuPatch : BasePatch
         float scaleSize, float transparency, float layerDepth, StackDrawType drawStackNumber, Color color, bool drawShadow)
     {
         if (__instance is not {ParentSheetIndex: 459, preservedParentSheetIndex.Value: > 0} mead ||
-            !Textures.TryGetMeadSourceRect(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
+            !Textures.TryGetSourceRectForMead(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
 
         if (drawShadow)
         {

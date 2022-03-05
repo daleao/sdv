@@ -6,7 +6,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
 
-using SuperMode;
+using Extensions;
 
 #endregion using directives
 
@@ -26,9 +26,9 @@ internal class SlingshotGetRequiredChargeTimePatch : BasePatch
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
         var firer = __instance.getLastFarmerToUse();
-        if (!firer.IsLocalPlayer || ModEntry.PlayerState.Value.SuperMode is not DesperadoTemerity) return;
+        if (!firer.IsLocalPlayer || !firer.HasProfession(Profession.Desperado)) return;
         
-        __result *= 1f - ModEntry.PlayerState.Value.SuperMode.PercentCharge;
+        __result *= 0.5f;
     }
 
     #endregion harmony patches

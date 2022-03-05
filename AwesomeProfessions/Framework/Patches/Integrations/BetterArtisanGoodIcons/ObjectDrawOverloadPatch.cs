@@ -37,7 +37,7 @@ internal class ObjectDrawOverloadPatch : BasePatch
         float layerDepth, float alpha = 1f)
     {
         if (__instance is not {ParentSheetIndex: 459, preservedParentSheetIndex.Value: > 0} mead ||
-            !Textures.TryGetMeadSourceRect(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
+            !Textures.TryGetSourceRectForMead(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
 
         if (__instance.isTemporarilyInvisible || Game1.eventUp && Game1.CurrentEvent.isTileWalkedOn(xNonTile / 64, yNonTile / 64))
             return false; // don't run original logic

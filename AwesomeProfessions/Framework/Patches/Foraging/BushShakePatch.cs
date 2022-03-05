@@ -51,7 +51,7 @@ internal class BushShakePatch : BasePatch
                         typeof(FarmerExtensions).MethodNamed(
                             nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
-                .Insert(
+                .InsertWithLabels(
                     labels: labels, // restore backed-up labels
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player)))
                 );
@@ -76,9 +76,9 @@ internal class BushShakePatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Ecologist,
-                    dontIncreaseEcologistCounter)
+                .InsertProfessionCheck((int) Profession.Ecologist)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldstr, DataField.EcologistItemsForaged.ToString()),
                     new CodeInstruction(OpCodes.Call,

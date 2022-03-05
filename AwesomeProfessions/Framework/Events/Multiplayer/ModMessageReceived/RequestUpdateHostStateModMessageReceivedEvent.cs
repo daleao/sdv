@@ -24,16 +24,6 @@ internal class RequestUpdateHostStateModMessageReceivedEvent : ModMessageReceive
         var operation = e.ReadAs<string>();
         switch (operation)
         {
-            case "ToggledAggressiveTargeting":
-                Log.D($"{who.Name} toggled aggressive piping mode.");
-                ModEntry.HostState.AggressivePipers.Add(e.FromPlayerID);
-                break;
-
-            case "ToggledPassiveTargeting":
-                Log.D($"{who.Name} toggled passive piping mode.");
-                ModEntry.HostState.AggressivePipers.Remove(e.FromPlayerID);
-                break;
-
             case "ActivatedAmbush":
                 Log.D($"{who.Name} is mounting an ambush.");
                 ModEntry.HostState.PoachersInAmbush.Add(e.FromPlayerID);
@@ -41,7 +31,7 @@ internal class RequestUpdateHostStateModMessageReceivedEvent : ModMessageReceive
 
             case "DeactivatedAmbush":
                 Log.D($"{who.Name}' ambush has ended.");
-                ModEntry.HostState.AggressivePipers.Remove(e.FromPlayerID);
+                ModEntry.HostState.PoachersInAmbush.Remove(e.FromPlayerID);
                 break;
         }
     }

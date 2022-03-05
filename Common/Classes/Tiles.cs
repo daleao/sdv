@@ -1,4 +1,4 @@
-﻿namespace DaLion.Common.Classes;
+﻿namespace DaLion.Stardew.Common.Classes;
 
 #region using directives
 

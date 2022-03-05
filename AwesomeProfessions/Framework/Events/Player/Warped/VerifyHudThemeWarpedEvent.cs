@@ -18,7 +18,7 @@ internal class VerifyHudThemeWarpedEvent : WarpedEvent
     {
         if (e.NewLocation.Equals(e.OldLocation) || e.NewLocation.GetType() == e.OldLocation.GetType()) return;
 
-        if (e.NewLocation.IsCombatZone() && ModEntry.Config.EnableSuperMode)
-            Textures.SuperModeGaugeTx = Game1.content.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/SuperModeGauge"); ;
+        if (e.NewLocation.IsDungeon())
+            Textures.UltimateMeterTx = Game1.content.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter"); ;
     }
 }

@@ -4,43 +4,38 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-using Netcode;
-using StardewValley;
 
 using Extensions;
 
 #endregion using directives
 
-/// <summary>Provides an interface for abstracting common transpiler operations.</summary>
+/// <summary>Provides an interface for abstracting common transpilation operations.</summary>
 public class ILHelper
 {
-    private readonly string _exportDir;
-    private readonly Stack<int> _indexStack;
-    private readonly bool _shouldExport;
-    private MethodBase _original;
+    private readonly Stack<int> _indexStack = new();
 
     /// <summary>Construct an instance.</summary>
-    /// <param name="enableExport">Whether the instruction list should be saved to disk in case an error is thrown.</param>
-    /// <param name="path">The root path where instruction lists will be saved.</param>
-    public ILHelper(MethodBase original, IEnumerable<CodeInstruction> instructions, bool enableExport = false,
-        string path = "")
+    /// <param name="original">A <see cref="MethodBase"/> representation of the original method.</param>
+    /// <param name="instructions">The <see cref="CodeInstruction"/>s to be modified.</param>
+    public ILHelper(MethodBase original, IEnumerable<CodeInstruction> instructions)
     {
-        _indexStack = new();
-        Attach(original, instructions);
-        _shouldExport = enableExport;
-        _exportDir = Path.Combine(path, "exports");
+        Original = original;
+        Instructions = instructions.ToList();
+        Locals = Instructions.Where(insn => (insn.IsLdloc() || insn.IsStloc()) && insn.operand is not null)
+            .Select(insn => (LocalBuilder) insn.operand)
+            .ToHashSet()
+            .ToDictionary(lb => lb.LocalIndex, lb => lb);
+
+        _indexStack.Push(0);
     }
 
-    /// <summary>Get the contents of the instruction buffer.</summary>
-    public List<CodeInstruction> Instructions { get; private set; }
-
-    /// <summary>Get the contents of the instruction buffer.</summary>
-    public List<CodeInstruction> Buffer { get; private set; }
+    public MethodBase Original { get; }
+    public List<CodeInstruction> Instructions { get; }
+    public Dictionary<int, LocalBuilder> Locals { get; }
 
     /// <summary>The index currently at the top of the index stack.</summary>
     public int CurrentIndex
@@ -66,31 +61,14 @@ public class ILHelper
         }
     }
 
-    /// <summary>Attach a new list of code instructions to this instance.</summary>
-    /// <param name="original"><see cref="MethodBase" /> representation of the original method.</param>
-    /// <param name="instructions">Collection of <see cref="CodeInstruction" /> objects.</param>
-    public ILHelper Attach(MethodBase original, IEnumerable<CodeInstruction> instructions)
-    {
-        _original = original;
-        Instructions = instructions.ToList();
-
-        if (_indexStack.Count > 0) _indexStack.Clear();
-        _indexStack.Push(0);
-
-        return this;
-    }
-
     /// <summary>Find the first occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
     /// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
     public ILHelper FindFirst(params CodeInstruction[] pattern)
     {
         var index = Instructions.IndexOf(pattern);
         if (index < 0)
-        {
-            if (_shouldExport) Export(pattern.ToList());
             throw new IndexOutOfRangeException(
                 $"Couldn't find instruction pattern.\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
-        }
 
         _indexStack.Push(index);
         return this;
@@ -105,11 +83,8 @@ public class ILHelper
 
         var index = Instructions.Count - reversedInstructions.IndexOf(pattern.Reverse().ToArray()) - pattern.Length;
         if (index < 0)
-        {
-            if (_shouldExport) Export(pattern.ToList());
             throw new IndexOutOfRangeException(
                 $"Couldn't find instruction pattern:\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
-        }
 
         _indexStack.Push(index);
         return this;
@@ -121,20 +96,14 @@ public class ILHelper
     {
         var index = Instructions.IndexOf(pattern, CurrentIndex + 1);
         if (index < 0)
-        {
-            if (_shouldExport) Export(pattern.ToList());
             throw new IndexOutOfRangeException(
                 $"Couldn't find instruction pattern:\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
-        }
 
         _indexStack.Push(index);
         return this;
     }
 
-    /// <summary>
-    ///     Find the previous occurrence of a pattern in the active code instruction list and move the index pointer to
-    ///     it.
-    /// </summary>
+    /// <summary>Find the previous occurrence of a pattern in the active code instruction list and move the index pointer to it.</summary>
     /// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
     public ILHelper FindPrevious(params CodeInstruction[] pattern)
     {
@@ -145,11 +114,8 @@ public class ILHelper
                     reversedInstructions.IndexOf(pattern.Reverse().ToArray(), Instructions.Count - CurrentIndex) -
                     pattern.Length;
         if (index >= Instructions.Count)
-        {
-            if (_shouldExport) Export(pattern.ToList());
             throw new IndexOutOfRangeException(
                 $"Couldn't find instruction pattern:\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
-        }
 
         _indexStack.Push(index);
         return this;
@@ -162,37 +128,10 @@ public class ILHelper
     {
         var index = Instructions.IndexOf(label, fromCurrentIndex ? CurrentIndex + 1 : 0);
         if (index < 0)
-        {
-            if (_shouldExport) Export(label);
             throw new IndexOutOfRangeException($"Couldn't find label: {label}.");
-        }
 
         _indexStack.Push(index);
         return this;
-    }
-
-    /// <summary>
-    ///     Find the first or next occurrence of the pattern corresponding to `player.professions.Contains()` in the
-    ///     active code instruction list and move the index pointer to it.
-    /// </summary>
-    /// <param name="whichProfession">The profession id.</param>
-    /// <param name="fromCurrentIndex">Whether to begin search from currently pointed index.</param>
-    public ILHelper FindProfessionCheck(int whichProfession, bool fromCurrentIndex = false)
-    {
-        if (fromCurrentIndex)
-            return FindNext(
-                new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-                LoadConstantIntegerIL(whichProfession),
-                new CodeInstruction(OpCodes.Callvirt,
-                    typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
-            );
-
-        return FindFirst(
-            new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-            LoadConstantIntegerIL(whichProfession),
-            new CodeInstruction(OpCodes.Callvirt,
-                typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
-        );
     }
 
     /// <summary>Move the index pointer forward an integer number of steps.</summary>
@@ -213,13 +152,6 @@ public class ILHelper
         return FindNext(pattern);
     }
 
-    /// <summary>Alias for <see cref="FindLabel(Label, bool)" /> with parameter <c>fromCurrentIndex = true</c>.</summary>
-    /// <param name="label">The <see cref="Label" /> object to match.</param>
-    public ILHelper AdvanceUntilLabel(Label label)
-    {
-        return FindLabel(label, true);
-    }
-
     /// <summary>Move the index pointer backward an integer number of steps.</summary>
     /// <param name="steps">Number of steps by which to move the index pointer.</param>
     public ILHelper Retreat(int steps = 1)
@@ -234,36 +166,79 @@ public class ILHelper
         return FindPrevious(pattern);
     }
 
-    /// <summary>Return the index pointer to a previous state.</summary>
-    /// <param name="count">Number of index changes to discard.</param>
-    public ILHelper Return(int count = 1)
+    /// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
+    /// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
+    /// <remarks>The instruction at the current address is pushed forward, such that the index pointer continues to point to the same instruction after insertion.</remarks>
+    public ILHelper Insert(params CodeInstruction[] instructions)
     {
-        for (var i = 0; i < count; ++i) _indexStack.Pop();
+        Instructions.InsertRange(CurrentIndex, instructions);
+        _indexStack.Push(CurrentIndex + instructions.Length);
         return this;
     }
 
-    /// <summary>Move the index pointer to a specific index.</summary>
-    /// <param name="index">The index to move to.</param>
-    public ILHelper GoTo(int index)
+    /// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
+    /// <param name="labels">Any labels to add at the start of the insertion.</param>
+    /// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
+    /// <remarks>The instruction at the current address is pushed forward, such that the index pointer continues to point to the same instruction after insertion.</remarks>
+    public ILHelper InsertWithLabels(Label[] labels, params CodeInstruction[] instructions)
     {
-        if (index < 0) throw new IndexOutOfRangeException("Can't go to a negative index.");
-
-        if (index > LastIndex) throw new IndexOutOfRangeException("New index is out of range.");
-
-        _indexStack.Push(index);
+        instructions[0].labels.AddRange(labels);
+        Instructions.InsertRange(CurrentIndex, instructions);
+        _indexStack.Push(CurrentIndex + instructions.Length);
         return this;
     }
 
-    /// <summary>Move the index pointer to index zero.</summary>
-    public ILHelper ReturnToFirst()
+    /// <summary>Get code instructions starting from the currently pointed index. </summary>
+    /// <param name="instructions">The got code instructions.</param>
+    /// <param name="count">Number of code instructions to get.</param>
+    /// <param name="advance">Whether to advance the index pointer.</param>
+    public ILHelper GetInstructions(out CodeInstruction[] instructions, int count = 1, bool removeLabels = false, bool advance = false)
     {
-        return GoTo(0);
+        instructions = Instructions.GetRange(CurrentIndex, count).Clone().ToArray();
+        if (removeLabels)
+            foreach (var insn in instructions)
+                insn.labels.Clear();
+        if (advance) _indexStack.Push(_indexStack.Peek() + count);
+        return this;
     }
 
-    /// <summary>Move the index pointer to the last index.</summary>
-    public ILHelper AdvanceToLast()
+    /// <summary>Get code instructions starting from the currently pointed index up to and including the first instruction in the specified pattern.</summary>
+    /// <param name="instructions">The got code instructions.</param>
+    /// <param name="advance">Whether to advance the index pointer.</param>
+    /// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
+    public ILHelper GetInstructionsUntil(out CodeInstruction[] instructions, bool removeLabels = false, bool advance = false, params CodeInstruction[] pattern)
     {
-        return GoTo(LastIndex);
+        AdvanceUntil(pattern);
+
+        var endIndex = _indexStack.Pop() + 1;
+        var count = endIndex - CurrentIndex;
+        instructions = Instructions.GetRange(CurrentIndex, count).Clone().ToArray();
+        if (removeLabels)
+            foreach (var insn in instructions)
+                insn.labels.Clear();
+        if (advance) _indexStack.Push(_indexStack.Peek() + count);
+        return this;
+    }
+
+    /// <summary>Remove code instructions starting from the currently pointed index.</summary>
+    /// <param name="count">Number of code instructions to remove.</param>
+    public ILHelper Remove(int count = 1)
+    {
+        if (CurrentIndex + count > LastIndex) throw new IndexOutOfRangeException("Can't remove item out of range.");
+
+        Instructions.RemoveRange(CurrentIndex, count);
+        return this;
+    }
+
+    /// <summary>Remove code instructions starting from the currently pointed index up to and including the first instruction in the specified pattern.</summary>
+    /// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
+    public ILHelper RemoveUntil(params CodeInstruction[] pattern)
+    {
+        AdvanceUntil(pattern);
+        var endIndex = _indexStack.Pop() + 1;
+        var count = endIndex - CurrentIndex;
+        Instructions.RemoveRange(CurrentIndex, count);
+        return this;
     }
 
     /// <summary>Replace the code instruction at the currently pointed index.</summary>
@@ -277,242 +252,25 @@ public class ILHelper
         return this;
     }
 
-    /// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
-    /// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
-    /// <remarks>
-    ///     The instruction originally at this location is pushed forward. After insertion, the index pointer still points
-    ///     to this same instruction.
-    /// </remarks>
-    public ILHelper Insert(params CodeInstruction[] instructions)
+    /// <summary>Add one or more labels to the code instruction at the currently pointed index.</summary>
+    /// <param name="labels">A sequence of <see cref="Label" /> objects to add.</param>
+    public ILHelper AddLabels(params Label[] labels)
     {
-        Instructions.InsertRange(CurrentIndex, instructions);
-        _indexStack.Push(CurrentIndex + instructions.Length);
+        Instructions[CurrentIndex].labels.AddRange(labels);
         return this;
     }
 
-    /// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
-    /// <param name="labels">Any labels to add at the start of the insertion.</param>
-    /// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
-    /// <remarks>
-    ///     The instruction originally at this location is pushed forward. After insertion, the index pointer still points
-    ///     to this same instruction.
-    /// </remarks>
-    public ILHelper Insert(Label[] labels, params CodeInstruction[] instructions)
+    /// <summary>Remove labels from the code instruction at the currently pointed index.</summary>
+    public ILHelper RemoveLabels()
     {
-        instructions[0].labels.AddRange(labels);
-        Instructions.InsertRange(CurrentIndex, instructions);
-        _indexStack.Push(CurrentIndex + instructions.Length);
+        Instructions[CurrentIndex].labels.Clear();
         return this;
     }
 
-    /// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
-    /// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
-    /// <remarks>
-    ///     The instruction originally at this location is pushed forward. After insertion, the index pointer still points
-    ///     to this same instruction.
-    /// </remarks>
-    public ILHelper Insert(ICollection<CodeInstruction> instructions)
+    /// <summary>Replace the labels of the code instruction at the currently pointed index.</summary>
+    public ILHelper SetLabels(params Label[] labels)
     {
-        Instructions.InsertRange(CurrentIndex, instructions);
-        _indexStack.Push(CurrentIndex + instructions.Count);
-        return this;
-    }
-
-    /// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
-    /// ///
-    /// <param name="labels">Any labels to add at the start of the insertion.</param>
-    /// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
-    /// <remarks>
-    ///     The instruction originally at this location is pushed forward. After insertion, the index pointer still points
-    ///     to this same instruction.
-    /// </remarks>
-    public ILHelper Insert(Label[] labels, ICollection<CodeInstruction> instructions)
-    {
-        instructions.First().labels.AddRange(labels);
-        Instructions.InsertRange(CurrentIndex, instructions);
-        _indexStack.Push(CurrentIndex + instructions.Count);
-        return this;
-    }
-
-    /// <summary>Insert the buffer contents at the currently pointed index.</summary>
-    public ILHelper InsertBuffer()
-    {
-        Insert(Buffer.Clone());
-        return this;
-    }
-
-    /// <summary>Insert a subset of the buffer contents at the currently pointed index.</summary>
-    /// <param name="index">The starting index.</param>
-    /// <param name="length">The subset length.</param>
-    public ILHelper InsertBuffer(int index, int length)
-    {
-        Insert(Buffer.Clone().GetRange(index, length));
-        return this;
-    }
-
-    /// <summary>
-    ///     Insert a sequence of code instructions at the currently pointed index to test if the local player has a given
-    ///     profession.
-    /// </summary>
-    /// <param name="whichProfession">The profession id.</param>
-    /// <param name="branchDestination">The destination <see cref="Label" /> to branch to when the check returns false.</param>
-    /// <param name="useBrtrue">Whether to end on a true-case branch isntead of default false-case branch.</param>
-    /// <param name="useLongFormBranch">Whether to use a long-form branch instead of default short-form branch.</param>
-    public ILHelper InsertProfessionCheckForLocalPlayer(int whichProfession, Label branchDestination,
-        bool useBrtrue = false, bool useLongFormBranch = false)
-    {
-        var branchOpCode = useBrtrue switch
-        {
-            true when useLongFormBranch => OpCodes.Brtrue,
-            true => OpCodes.Brtrue_S,
-            _ => useLongFormBranch ? OpCodes.Brfalse : OpCodes.Brfalse_S
-        };
-
-        return Insert(
-            new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
-            new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-            LoadConstantIntegerIL(whichProfession),
-            new CodeInstruction(OpCodes.Callvirt,
-                typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
-            new CodeInstruction(branchOpCode, branchDestination)
-        );
-    }
-
-    /// <summary>
-    ///     Insert a sequence of code instructions at the currently pointed index to test if the player at the top of the
-    ///     stack has a given profession.
-    /// </summary>
-    /// <param name="whichProfession">The profession id.</param>
-    /// <param name="branchDestination">The destination <see cref="Label" /> to branch to when the check returns false.</param>
-    /// <param name="useBrtrue">Whether to end on a true-case branch instead of default false-case branch.</param>
-    /// <param name="useLongFormBranch">Whether to use a long-form branch instead of default short-form branch.</param>
-    public ILHelper InsertProfessionCheckForPlayerOnStack(int whichProfession, Label branchDestination,
-        bool useBrtrue = false, bool useLongFormBranch = false)
-    {
-        var branchOpCode = useBrtrue switch
-        {
-            true when useLongFormBranch => OpCodes.Brtrue,
-            true => OpCodes.Brtrue_S,
-            _ => useLongFormBranch ? OpCodes.Brfalse : OpCodes.Brfalse_S
-        };
-
-        return Insert(
-            new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
-            LoadConstantIntegerIL(whichProfession),
-            new CodeInstruction(OpCodes.Callvirt,
-                typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
-            new CodeInstruction(branchOpCode, branchDestination)
-        );
-    }
-
-    /// <summary>Insert a sequence of code instructions at the currently pointed index to roll a random double.</summary>
-    public ILHelper InsertDiceRoll()
-    {
-        return Insert(
-            new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.random))),
-            new CodeInstruction(OpCodes.Callvirt, typeof(Random).MethodNamed(nameof(Random.NextDouble)))
-        );
-    }
-
-    /// <summary>Insert a sequence of code instructions at the currently pointed index to roll a random integer.</summary>
-    /// <param name="minValue">The lower limit, inclusive.</param>
-    /// <param name="maxValue">The upper limit, inclusive.</param>
-    public ILHelper InsertDiceRoll(int minValue, int maxValue)
-    {
-        return Insert(
-            new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.random))),
-            LoadConstantIntegerIL(minValue),
-            LoadConstantIntegerIL(maxValue + 1),
-            new CodeInstruction(OpCodes.Callvirt, typeof(Random).MethodNamed(nameof(Random.Next)))
-        );
-    }
-
-    /// <summary>Remove code instructions starting from the currently pointed index.</summary>
-    /// <param name="count">Number of code instructions to remove.</param>
-    public ILHelper Remove(int count = 1)
-    {
-        if (CurrentIndex + count > LastIndex) throw new IndexOutOfRangeException("Can't remove item out of range.");
-
-        Instructions.RemoveRange(CurrentIndex, count);
-        return this;
-    }
-
-    /// <summary>Remove code instructions starting from the currently pointed index until a specific pattern is found.</summary>
-    /// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
-    public ILHelper RemoveUntil(params CodeInstruction[] pattern)
-    {
-        AdvanceUntil(pattern);
-
-        var endIndex = _indexStack.Pop() + 1;
-        var count = endIndex - CurrentIndex;
-        Instructions.RemoveRange(CurrentIndex, count);
-
-        return this;
-    }
-
-    /// <summary>Remove code instructions starting from the currently pointed index until a specific label is found.</summary>
-    /// <param name="label">The <see cref="Label" /> object to match.</param>
-    public ILHelper RemoveUntilLabel(Label label)
-    {
-        AdvanceUntilLabel(label);
-
-        var endIndex = _indexStack.Pop() + 1;
-        var count = endIndex - CurrentIndex;
-        Instructions.RemoveRange(CurrentIndex, count);
-
-        return this;
-    }
-
-    /// <summary>Copy code instructions starting from the currently pointed index to the buffer.</summary>
-    /// <param name="count">Number of code instructions to copy.</param>
-    /// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
-    /// <param name="advance">Whether to advance the index pointer.</param>
-    public ILHelper ToBuffer(int count = 1, bool stripLabels = false, bool advance = false)
-    {
-        Buffer = Instructions.GetRange(CurrentIndex, count).Clone();
-
-        if (stripLabels) StripBufferLabels();
-
-        if (advance) _indexStack.Push(CurrentIndex + count);
-
-        return this;
-    }
-
-    /// <summary>
-    ///     Copy code instructions starting from the currently pointed index until a specific pattern is found to the
-    ///     buffer.
-    /// </summary>
-    /// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
-    public ILHelper ToBufferUntil(params CodeInstruction[] pattern)
-    {
-        AdvanceUntil(pattern);
-
-        var endIndex = _indexStack.Pop() + 1;
-        var count = endIndex - CurrentIndex;
-        Buffer = Instructions.GetRange(CurrentIndex, count).Clone();
-
-        return this;
-    }
-
-    /// <summary>
-    ///     Copy code instructions starting from the currently pointed index until a specific pattern is found to the
-    ///     buffer.
-    /// </summary>
-    /// <param name="stripLabels">Whether to remove the labels from the copied instructions.</param>
-    /// <param name="advance">Whether to advance the index pointer.</param>
-    /// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
-    public ILHelper ToBufferUntil(bool stripLabels, bool advance, params CodeInstruction[] pattern)
-    {
-        AdvanceUntil(pattern);
-
-        var endIndex = _indexStack.Pop() + 1;
-        var count = endIndex - CurrentIndex;
-        Buffer = Instructions.GetRange(CurrentIndex, count).Clone();
-
-        if (stripLabels) StripBufferLabels();
-
-        if (advance) _indexStack.Push(endIndex);
-
+        Instructions[CurrentIndex].labels = labels.ToList();
         return this;
     }
 
@@ -524,57 +282,12 @@ public class ILHelper
         return this;
     }
 
-    /// <summary>Add one or more labels to the code instruction at the currently pointed index.</summary>
-    /// <param name="labels">A sequence of <see cref="Label" /> objects to add.</param>
-    public ILHelper AddLabels(params Label[] labels)
-    {
-        Instructions[CurrentIndex].labels.AddRange(labels);
-        return this;
-    }
-
-    /// <summary>Add one or more labels to the code instruction at the currently pointed index.</summary>
-    /// <param name="labels">A sequence of <see cref="Label" /> objects to add.</param>
-    public ILHelper AddLabels(ICollection<Label> labels)
-    {
-        Instructions[CurrentIndex].labels.AddRange(labels);
-        return this;
-    }
-
-    /// <summary>Set the labels of the code instruction at the currently pointed index.</summary>
-    /// <param name="labels">A list of <see cref="Label" /> objects.</param>
-    public ILHelper SetLabels(params Label[] labels)
-    {
-        Instructions[CurrentIndex].labels = labels.ToList();
-        return this;
-    }
-
-    /// <summary>Set the labels of the code instruction at the currently pointed index.</summary>
-    /// <param name="labels">A list of <see cref="Label" /> objects.</param>
-    public ILHelper SetLabels(ICollection<Label> labels)
-    {
-        Instructions[CurrentIndex].labels = labels.ToList();
-        return this;
-    }
-
-    /// <summary>Remove labels from the code instruction at the currently pointed index.</summary>
-    public ILHelper StripLabels()
-    {
-        Instructions[CurrentIndex].labels.Clear();
-        return this;
-    }
-
     /// <summary>Remove labels from the code instruction at the currently pointed index.</summary>
     public ILHelper StripLabels(out Label[] labels)
     {
         GetLabels(out labels);
-        Instructions[CurrentIndex].labels.Clear();
-        return this;
-    }
-
-    /// <summary>Remove any labels from code instructions currently in the buffer.</summary>
-    private void StripBufferLabels()
-    {
-        foreach (var instruction in Buffer) instruction.labels.Clear();
+        return RemoveLabels();
+       
     }
 
     /// <summary>Return the opcode of the code instruction at the currently pointed index.</summary>
@@ -609,6 +322,27 @@ public class ILHelper
         return this;
     }
 
+    /// <summary>Return the index pointer to a previous state.</summary>
+    /// <param name="count">Number of index changes to discard.</param>
+    public ILHelper Return(int count = 1)
+    {
+        for (var i = 0; i < count; ++i) _indexStack.Pop();
+        return this;
+    }
+
+    /// <summary>Move the index pointer to a specific index.</summary>
+    /// <param name="index">The index to move to.</param>
+    public ILHelper GoTo(int index)
+    {
+        if (index < 0) throw new IndexOutOfRangeException("Can't go to a negative index.");
+
+        if (index > LastIndex) throw new IndexOutOfRangeException("New index is out of range.");
+
+        _indexStack.Push(index);
+        return this;
+
+    }
+
     /// <summary>Reset the current instance.</summary>
     public ILHelper Clear()
     {
@@ -623,57 +357,5 @@ public class ILHelper
         var result = Instructions.Clone();
         Clear();
         return result.AsEnumerable();
-    }
-
-    /// <summary>Export the failed search target and active code instruction list to a text file.</summary>
-    public void Export(List<CodeInstruction> pattern)
-    {
-        if (!Directory.Exists(_exportDir)) Directory.CreateDirectory(_exportDir);
-
-        var path = Path.Combine(_exportDir,
-            ($"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil").RemoveInvalidChars());
-        using var writer = File.CreateText(path);
-        writer.WriteLine("Searching for:");
-        pattern.ForEach(l => writer.WriteLine(l.ToString()));
-        writer.WriteLine("\n <-- START OF INSTRUCTION LIST -->\n");
-        Instructions.ForEach(l => writer.WriteLine(l.ToString()));
-        writer.WriteLine("\n<-- END OF INSTRUCTION LIST -->");
-    }
-
-    /// <summary>Export the failed search target and active code instruction list to a text file.</summary>
-    public void Export(Label label)
-    {
-        if (!Directory.Exists(_exportDir)) Directory.CreateDirectory(_exportDir);
-
-        var path = Path.Combine(_exportDir,
-            ($"{_original.DeclaringType}.{_original.Name}".Replace('.', '_') + ".cil").RemoveInvalidChars());
-        using var writer = File.CreateText(path);
-        writer.WriteLine("Searching for:\n");
-        writer.WriteLine(label.ToString());
-        writer.WriteLine("\n <-- START OF INSTRUCTION LIST -->\n");
-        Instructions.ForEach(l => writer.WriteLine(l.ToString()));
-        writer.WriteLine("\n<-- END OF INSTRUCTION LIST -->");
-    }
-
-    /// <summary>Get the corresponding IL code instruction which loads a given integer.</summary>
-    /// <param name="number">An integer.</param>
-    private static CodeInstruction LoadConstantIntegerIL(int number)
-    {
-        if (number > byte.MaxValue)
-            throw new ArgumentException($"Profession index is too large. Should be less than {byte.MaxValue}.");
-
-        return number switch
-        {
-            0 => new(OpCodes.Ldc_I4_0),
-            1 => new(OpCodes.Ldc_I4_1),
-            2 => new(OpCodes.Ldc_I4_2),
-            3 => new(OpCodes.Ldc_I4_3),
-            4 => new(OpCodes.Ldc_I4_4),
-            5 => new(OpCodes.Ldc_I4_5),
-            6 => new(OpCodes.Ldc_I4_6),
-            7 => new(OpCodes.Ldc_I4_7),
-            8 => new(OpCodes.Ldc_I4_8),
-            _ => new(OpCodes.Ldc_I4_S, number)
-        };
     }
 }

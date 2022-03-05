@@ -62,7 +62,7 @@ internal class GameLocationPerformActionPatch : BasePatch
                 message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.what");
                 var options = Array.Empty<Response>();
 
-                if (ModEntry.PlayerState.Value.SuperMode is not null)
+                if (ModEntry.PlayerState.Value.RegisteredUltimate is not null)
                     options = options.Concat(new Response[]
                     {
                         new("changeUlt", ModEntry.ModHelper.Translation.Get("prestige.dogstatue.changeult") +

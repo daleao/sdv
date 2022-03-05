@@ -13,7 +13,7 @@ using StardewModdingAPI.Utilities;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
-using SuperMode;
+using Ultimate;
 
 #endregion using directives
 
@@ -36,14 +36,14 @@ internal class ModEntryEvent_DrawRegenBarPatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch for Propagator output quality.</summary>
+    /// <summary>Patch to displace food bar.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> PropagatorPopExtraHeldMushroomsTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Inject: if (ModEntry.PlayerState.Value.SuperMode?.Gauge.IsVisible) topOfBar.X -= 56f;
+        /// Inject: if (ModEntry.PlayerState.Value.RegisteredUltimate?.Meter.IsVisible) topOfBar.X -= 56f;
         /// Before: e.SpriteBatch.Draw( ... )
 
         var resumeExecution = ilGenerator.DefineLabel();
@@ -55,7 +55,7 @@ internal class ModEntryEvent_DrawRegenBarPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloca_S, $"{typeof(Vector2)} (7)")
                 )
                 .Advance()
-                .ToBuffer(3)
+                .GetInstructions(out var got, 3)
                 .FindFirst(
                     new CodeInstruction(OpCodes.Nop),
                     new CodeInstruction(OpCodes.Ldarg_2)
@@ -63,30 +63,30 @@ internal class ModEntryEvent_DrawRegenBarPatch : BasePatch
                 .Advance()
                 .StripLabels(out var labels)
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertWithLabels(
                     labels,
-                    // check if SuperMode is null
+                    // check if RegisteredUltimate is null
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // check if SuperMode.Gauge.IsVisible
+                    // check if RegisteredUltimate.Meter.IsVisible
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.Gauge))),
+                        typeof(Ultimate).PropertyGetter(nameof(Ultimate.Meter))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SuperModeGauge).PropertyGetter(nameof(SuperModeGauge.IsVisible))),
+                        typeof(UltimateMeter).PropertyGetter(nameof(UltimateMeter.IsVisible))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution)
                 )
-                .InsertBuffer() // loads topOfBar.X
+                .Insert(got) // loads topOfBar.X
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_R4, 56f),
                     new CodeInstruction(OpCodes.Sub),

@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley.TerrainFeatures;
 
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -35,7 +36,7 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
         /// From: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += 0.1f;
         /// To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += who.professions.Contains(100 + <agriculturist_id>)) ? 0.2f : 0.1f;
 
-        var notPrestigedAgriculturist = generator.DefineLabel();
+        var isNotPrestiged = generator.DefineLabel();
         var resumeExecution = generator.DefineLabel();
         try
         {
@@ -46,13 +47,13 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.1f)
                 )
-                .AddLabels(notPrestigedAgriculturist)
+                .AddLabels(isNotPrestiged)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1)
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Agriculturist + 100,
-                    notPrestigedAgriculturist)
+                .InsertProfessionCheck((int) Profession.Agriculturist + 100, forLocalPlayer: false)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R4, 0.2f),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )

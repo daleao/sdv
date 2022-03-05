@@ -12,6 +12,7 @@ using StardewValley;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -56,7 +57,7 @@ internal class FeedingBasketOverridesDoFunctionPatch : BasePatch
                         typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.isCoopDweller)))
                 )
                 .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(double)} (7)"),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[7]),
                     new CodeInstruction(OpCodes.Ldsfld),
                     new CodeInstruction(OpCodes.Ldfld)
                 )
@@ -69,17 +70,23 @@ internal class FeedingBasketOverridesDoFunctionPatch : BasePatch
                     new CodeInstruction(OpCodes.Nop)
                 )
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 5)
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 5) // arg 5 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Rancher, (Label) isNotRancher)
-                .ToBufferUntil(
-                    new CodeInstruction(OpCodes.Stloc_S, $"{typeof(double)} (7)")
+                .InsertProfessionCheck((int) Profession.Rancher, forLocalPlayer: false)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotRancher)
                 )
-                .InsertBuffer()
+                .GetInstructionsUntil(out var got,
+                    pattern: new CodeInstruction(OpCodes.Stloc_S, $"{typeof(double)} (7)")
+                )
+                .Insert(got)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 5)
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Rancher + 100, isNotPrestiged)
+                .InsertProfessionCheck((int) Profession.Rancher + 100, forLocalPlayer: false)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged)
+                )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Nop)
                 )

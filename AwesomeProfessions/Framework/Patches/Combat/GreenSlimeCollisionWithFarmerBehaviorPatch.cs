@@ -8,7 +8,7 @@ using StardewValley;
 using StardewValley.Monsters;
 
 using Extensions;
-using SuperMode;
+using Ultimate;
 
 #endregion using directives
 
@@ -25,20 +25,18 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch to increment Piper Eubstance gauge on contact with Slime.</summary>
+    /// <summary>Patch to increment Piper Ultimate meter on contact with Slime.</summary>
     [HarmonyPostfix]
     private static void GreenSlimeCollisionWithFarmerBehaviorPostfix(GreenSlime __instance)
     {
-        if (!__instance.currentLocation.IsCombatZone()) return;
+        if (!__instance.currentLocation.IsDungeon()) return;
 
         var who = __instance.Player;
-        if (!who.IsLocalPlayer || ModEntry.PlayerState.Value.SuperMode is not PiperEubstance eubstance ||
+        if (!who.IsLocalPlayer ||
+            ModEntry.PlayerState.Value.RegisteredUltimate is not Pandemonia {IsActive: false} pandemonium ||
             ModEntry.PlayerState.Value.SlimeContactTimer > 0) return;
 
-        if (!eubstance.IsActive)
-            eubstance.ChargeValue +=
-                Game1.random.Next(1, 4) * ModEntry.Config.SuperModeGainFactor * SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
-
+        pandemonium.ChargeValue += Game1.random.Next(1, 4);
         ModEntry.PlayerState.Value.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
     }
 

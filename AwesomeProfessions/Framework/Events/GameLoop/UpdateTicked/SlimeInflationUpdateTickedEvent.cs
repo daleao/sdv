@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+﻿using DaLion.Stardew.Professions.Framework.Extensions;
+
+namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 #region using directives
 
@@ -12,13 +14,13 @@ internal class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        var uninflatedSlimes = ModEntry.PlayerState.Value.SuperfluidSlimes.Where(p => !p.DoneInflating).ToArray();
-        if (!uninflatedSlimes.Any())
+        var uninflated = ModEntry.PlayerState.Value.PipedSlimes.Where(s => !s.ReadDataAs<bool>("DoneInflating")).ToArray();
+        if (!uninflated.Any())
         {
             Disable();
             return;
         }
 
-        foreach (var piped in uninflatedSlimes) piped.Inflate();
+        foreach (var piped in uninflated) piped.Inflate();
     }
 }

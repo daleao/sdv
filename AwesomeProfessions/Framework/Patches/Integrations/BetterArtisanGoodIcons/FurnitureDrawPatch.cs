@@ -37,21 +37,21 @@ internal class FurnitureDrawPatch : BasePatch
         float alpha = 1f)
     {
         if (__instance.heldObject.Value is not {ParentSheetIndex: 459, preservedParentSheetIndex.Value: > 0} mead ||
-            !Textures.TryGetMeadSourceRect(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
+            !Textures.TryGetSourceRectForMead(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
 
         // draw the furniture
         if (x == -1)
         {
             spriteBatch.Draw(
-                Furniture.furnitureTexture,
-                Game1.GlobalToLocal(Game1.viewport, ___drawPosition),
-                __instance.sourceRect.Value,
-                Color.White * alpha,
-                0f,
-                Vector2.Zero,
-                4f,
-                __instance.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                __instance.furniture_type.Value == 12
+                texture: Furniture.furnitureTexture,
+                position: Game1.GlobalToLocal(Game1.viewport, ___drawPosition),
+                sourceRectangle: __instance.sourceRect.Value,
+                color: Color.White * alpha,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                scale: 4f,
+                effects: __instance.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                layerDepth: __instance.furniture_type.Value == 12
                     ? 0f
                     : (__instance.boundingBox.Bottom - 8) / 10000f
             );
@@ -59,16 +59,18 @@ internal class FurnitureDrawPatch : BasePatch
         else
         {
             spriteBatch.Draw(
-                Furniture.furnitureTexture,
-                Game1.GlobalToLocal(Game1.viewport,
-                    new Vector2(x * 64, y * 64 - (__instance.sourceRect.Height * 4 - __instance.boundingBox.Height))),
-                __instance.sourceRect.Value,
-                Color.White * alpha,
-                0f,
-                Vector2.Zero,
-                4f,
-                __instance.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                __instance.furniture_type.Value == 12
+                texture: Furniture.furnitureTexture,
+                position: Game1.GlobalToLocal(Game1.viewport,
+                    globalPosition: new Vector2(
+                        x: x * 64,
+                        y: y * 64 - (__instance.sourceRect.Height * 4 - __instance.boundingBox.Height))),
+                sourceRectangle: __instance.sourceRect.Value,
+                color: Color.White * alpha,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                scale: 4f,
+                effects: __instance.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                layerDepth: __instance.furniture_type.Value == 12
                     ? 0f
                     : (__instance.boundingBox.Bottom - 8) / 10000f
             );
@@ -76,32 +78,34 @@ internal class FurnitureDrawPatch : BasePatch
 
         // draw shadow
         spriteBatch.Draw(
-            Game1.shadowTexture,
-            Game1.GlobalToLocal(Game1.viewport,
-                new Vector2(__instance.boundingBox.Value.Center.X - 32,
-                    __instance.boundingBox.Value.Center.Y - (__instance.drawHeldObjectLow.Value ? 32 : 85))) +
-            new Vector2(32f, 53.3333321f),
-            Game1.shadowTexture.Bounds,
-            Color.White * alpha,
-            0f,
-            new(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y),
-            4f,
-            SpriteEffects.None, __instance.boundingBox.Value.Bottom / 10000f
+            texture: Game1.shadowTexture,
+            position: Game1.GlobalToLocal(Game1.viewport, 
+                globalPosition: new Vector2(
+                    x: __instance.boundingBox.Value.Center.X - 32,
+                    y: __instance.boundingBox.Value.Center.Y - (__instance.drawHeldObjectLow.Value ? 32 : 85))) +
+                new Vector2(32f, 53.3333321f),
+            sourceRectangle: Game1.shadowTexture.Bounds,
+            color: Color.White * alpha,
+            rotation: 0f,
+            origin: new(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y),
+            scale: 4f,
+            effects: SpriteEffects.None, __instance.boundingBox.Value.Bottom / 10000f
         );
         
         // draw the held item
         spriteBatch.Draw(
-            Textures.HoneyMeadTx,
-            Game1.GlobalToLocal(Game1.viewport,
-                new Vector2(__instance.boundingBox.Value.Center.X - 32,
-                    __instance.boundingBox.Value.Center.Y - (__instance.drawHeldObjectLow.Value ? 32 : 85))),
+            texture: Textures.HoneyMeadTx,
+            position: Game1.GlobalToLocal(Game1.viewport,
+                globalPosition: new Vector2(
+                    x: __instance.boundingBox.Value.Center.X - 32,
+                    y: __instance.boundingBox.Value.Center.Y - (__instance.drawHeldObjectLow.Value ? 32 : 85))),
             sourceRect,
-            Color.White * alpha,
-            0f,
-            Vector2.Zero,
-            4f,
-            SpriteEffects.None,
-            (__instance.boundingBox.Value.Bottom + 1) / 10000f
+            color: Color.White * alpha,
+            rotation: 0f,
+            origin: Vector2.Zero,
+            scale: 4f,
+            effects: SpriteEffects.None,
+            layerDepth: (__instance.boundingBox.Value.Bottom + 1) / 10000f
         );
         
         return false; // run original logic

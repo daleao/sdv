@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Monsters;
 
@@ -23,7 +24,7 @@ internal class GreenSlimeDrawPatch : BasePatch
     /// <summary>Construct an instance.<w/ summary>
     internal GreenSlimeDrawPatch()
     {
-        //Original = RequireMethod<GreenSlime>(nameof(GreenSlime.draw));
+        //Original = RequireMethod<GreenSlime>(nameof(GreenSlime.draw), new[] {typeof(SpriteBatch)});
     }
 
     #region harmony patches
@@ -37,56 +38,37 @@ internal class GreenSlimeDrawPatch : BasePatch
         /// Injected: antenna position += GetAntennaOffset(this)
         ///			  eyes position += GetEyesOffset(this)
 
+        var drawInstructions = new CodeInstruction[]
+        {
+            new(OpCodes.Ldarg_1),
+            new(OpCodes.Ldarg_0),
+            new(OpCodes.Callvirt,
+                typeof(Character).PropertyGetter(nameof(Character.Sprite))),
+            new(OpCodes.Callvirt,
+                typeof(AnimatedSprite).PropertyGetter(nameof(AnimatedSprite.Texture))),
+            new(OpCodes.Ldarg_0),
+            new(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.viewport))),
+            new(OpCodes.Call,
+                typeof(Character).MethodNamed(nameof(Character.getLocalPosition)))
+        };
+
         try
         {
             helper
-                .FindFirst( // find main sprite draw call
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Character).PropertyGetter(nameof(Character.Sprite))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(AnimatedSprite).PropertyGetter(nameof(AnimatedSprite.Texture))),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.viewport))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Character).MethodNamed(nameof(Character.getLocalPosition)))
-                )
-                .FindNext( // find antenna draw call
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Character).PropertyGetter(nameof(Character.Sprite))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(AnimatedSprite).PropertyGetter(nameof(AnimatedSprite.Texture))),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.viewport))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Character).MethodNamed(nameof(Character.getLocalPosition)))
-                )
+                .FindFirst(drawInstructions) // the main sprite draw call
+                .FindNext(drawInstructions) // find antenna draw call
                 .AdvanceUntil( // advance until end of position argument
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (5)")
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[5])
                 )
                 .Retreat()
-                .ToBuffer(advance: true) // copy vector addition instruction
+                .GetInstructions(out var got, advance: true) // copy vector addition instruction
                 .Insert( // insert custom offset
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(GreenSlimeDrawPatch).MethodNamed(nameof(GetAntennaeOffset)))
                 )
-                .InsertBuffer() // insert addition
-                .FindNext( // find eyes draw call
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Character).PropertyGetter(nameof(Character.Sprite))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(AnimatedSprite).PropertyGetter(nameof(AnimatedSprite.Texture))),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.viewport))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Character).MethodNamed(nameof(Character.getLocalPosition)))
-                )
+                .Insert(got) // insert addition
+                .FindNext(drawInstructions) // find eyes draw call
                 .AdvanceUntil( // advance until end of position argument
                     new CodeInstruction(OpCodes.Ldc_I4_S, 32)
                 )
@@ -95,7 +77,7 @@ internal class GreenSlimeDrawPatch : BasePatch
                     new CodeInstruction(OpCodes.Call,
                         typeof(GreenSlimeDrawPatch).MethodNamed(nameof(GetEyesOffset)))
                 )
-                .InsertBuffer(); // insert addition
+                .Insert(got); // insert addition
         }
         catch (Exception ex)
         {

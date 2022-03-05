@@ -1,21 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.Design;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
 #region using directives
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 
 using Extensions;
-using GameLoop;
-using Input;
 
 #endregion using directives
 
@@ -28,9 +27,16 @@ internal class PiperWarpedEvent : WarpedEvent
     {
         if (e.NewLocation.Equals(e.OldLocation)) return;
 
-        ModEntry.PlayerState.Value.PipedSlimes.Clear();
-        EventManager.Disable(typeof(PiperButtonsChangedEvent), typeof(PiperUpdateTickedEvent));
-        if (!e.NewLocation.IsCombatZone(true) || e.NewLocation is MineShaft shaft1 && shaft1.isLevelSlimeArea()) return;
+        var isDungeon = e.NewLocation.IsDungeon();
+        var hasMonsters = e.NewLocation.HasMonsters();
+        if (!isDungeon && !hasMonsters)
+        {
+            EventManager.Disable(typeof(PiperUpdateTickedEvent));
+            return;
+        }
+        
+        if (!isDungeon || e.NewLocation is MineShaft shaft1 && shaft1.isLevelSlimeArea())
+            return;
 
         var enemyCount = Game1.player.currentLocation.characters.OfType<Monster>().Count(m => !m.IsSlime());
         if (enemyCount <= 0) return;
@@ -88,7 +94,7 @@ internal class PiperWarpedEvent : WarpedEvent
                     };
                     break;
                 }
-                case IslandWest or VolcanoDungeon:
+                case VolcanoDungeon:
                 {
                     pipedSlime = new(Vector2.Zero, 0);
                     pipedSlime.makeTigerSlime();
@@ -116,7 +122,6 @@ internal class PiperWarpedEvent : WarpedEvent
             // spawn
             pipedSlime.setTileLocation(validTiles[r.Next(validTiles.Count)]);
             e.NewLocation.characters.Add(pipedSlime);
-            ModEntry.PlayerState.Value.PipedSlimes.Add(pipedSlime);
             ++pipedCount;
             if (pipedCount >= enemyCount) break;
         }
@@ -124,6 +129,6 @@ internal class PiperWarpedEvent : WarpedEvent
         Log.D($"Spawned {pipedCount} Slimes after {raisedSlimes.Length} attempts.");
 
         if (pipedCount > 0 || e.NewLocation.characters.Any(npc => npc is GreenSlime))
-            EventManager.Enable(typeof(PiperButtonsChangedEvent), typeof(PiperUpdateTickedEvent));
+            EventManager.Enable(typeof(PiperUpdateTickedEvent));
     }
 }

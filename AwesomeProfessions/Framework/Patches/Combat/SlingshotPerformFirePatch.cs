@@ -3,37 +3,28 @@
 #region using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using Netcode;
+using Microsoft.Xna.Framework.Audio;
 using StardewValley;
-using StardewValley.Network;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 
 using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
 using Extensions;
-using SuperMode;
+using Ultimate;
+
+using SoundBank = AssetLoaders.SoundBank;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal class SlingshotPerformFirePatch : BasePatch
 {
-    private const float QUICK_FIRE_HANDICAP_F = 1.2f;
-
-    private static readonly FieldInfo _XVelocity = typeof(BasicProjectile).Field("xVelocity");
-    private static readonly FieldInfo _YVelocity = typeof(BasicProjectile).Field("yVelocity");
-    private static readonly FieldInfo _CurrentTileSheetIndex = typeof(BasicProjectile).Field("currentTileSheetIndex");
-    private static readonly FieldInfo _Position = typeof(BasicProjectile).Field("position");
-    private static readonly FieldInfo _CollisionSound = typeof(BasicProjectile).Field("collisionSound");
-    private static readonly FieldInfo _CollisionBehavior = typeof(BasicProjectile).Field("collisionBehavior");
+    private static readonly FieldInfo _CanPlaySound = typeof(Slingshot).Field("canPlaySound");
+    private static readonly MethodInfo _UpdateAimPos = typeof(Slingshot).MethodNamed("updateAimPos");
 
     /// <summary>Construct an instance.</summary>
     internal SlingshotPerformFirePatch()
@@ -43,165 +34,219 @@ internal class SlingshotPerformFirePatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch to perform Desperado Super Mode.</summary>
-    [HarmonyPostfix]
-    private static void SlingshotPerformFirePostfix(GameLocation location, Farmer who)
+    /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and Ultimate.</summary>
+    [HarmonyPrefix]
+    private static bool SlingshotPerformFirePrefix(Slingshot __instance, GameLocation location, Farmer who)
     {
-        if (!who.HasProfession(Profession.Desperado) ||
-            location.projectiles.LastOrDefault() is not BasicProjectile mainProjectile) return;
+        if (__instance.attachments[0] is null)
+        {
+            Game1.showRedMessage(Game1.content.LoadString("Strings\\StringsFromCSFiles:Slingshot.cs.14254"));
+            _CanPlaySound.SetValue(__instance, true);
+            return false; // don't run original logic
+        }
 
-        // get bullet properties
-        var damage = mainProjectile.damageToFarmer;
-        var xVelocity = ((NetFloat) _XVelocity.GetValue(mainProjectile))!.Value;
-        var yVelocity = ((NetFloat) _YVelocity.GetValue(mainProjectile))!.Value;
-        var ammunitionIndex = ((NetInt) _CurrentTileSheetIndex.GetValue(mainProjectile))!.Value;
-        var startingPosition = ((NetPosition) _Position.GetValue(mainProjectile))!.Value;
-        var collisionSound = ((NetString) _CollisionSound.GetValue(mainProjectile))!.Value;
-        var collisionBehavior = (BasicProjectile.onCollisionBehavior) _CollisionBehavior.GetValue(mainProjectile);
+        var backArmDistance = __instance.GetBackArmDistance(who);
+        if (backArmDistance <= 4 || (bool) _CanPlaySound.GetValue(__instance)!)
+            return false; // don't run original logic
 
-        var velocity = new Vector2(xVelocity * -1f, yVelocity * -1f);
+        // calculate projectile velocity
+        _UpdateAimPos.Invoke(__instance, null);
+        var mouseX = __instance.aimPos.X;
+        var mouseY = __instance.aimPos.Y;
+        var shootOrigin = __instance.GetShootOrigin(who);
+        var (x, y) = Utility.getVelocityTowardPoint(shootOrigin, __instance.AdjustForHeight(new(mouseX, mouseY)),
+            (15 + Game1.random.Next(4, 6)) * (1f + who.weaponSpeedModifier));
+
+        // calculate base ammo strength and properties
+        var ammo = __instance.attachments[0].getOne();
+        if (--__instance.attachments[0].Stack <= 0)
+            __instance.attachments[0] = null;
+
+        var damageBase = ammo.ParentSheetIndex switch
+        {
+            388 => 2, // wood
+            390 => 5, // stone
+            378 => 10, // copper ore
+            380 => 20, // iron ore
+            384 => 30, // gold ore
+            386 => 50, // iridium ore
+            909 => 75, // radioactive ore
+            382 => 15, // coal
+            441 => 20, // explosive
+            _ => 1
+        };
+
+        BasicProjectile.onCollisionBehavior collisionBehavior;
+        string collisionSound;
+        if (ammo.ParentSheetIndex == 441)
+        {
+            collisionBehavior = BasicProjectile.explodeOnImpact;
+            collisionSound = "explosion";
+        }
+        else
+        {
+            collisionBehavior = null;
+            collisionSound = ammo.Category == -4 ? "slimedead" : "hammer";
+            ++ammo.ParentSheetIndex;
+        }
+
+        // calculate bonus ammo strength
+        var damageMod = __instance.InitialParentTileIndex switch
+        {
+            33 => 2f,
+            34 => 4f,
+            _ => 1f
+        };
+
+        if (who.HasProfession(Profession.Rascal))
+            damageMod *= who.HasProfession(Profession.Rascal, true) ? 1.5f : 1.25f;
+
+        damageMod *= 1f + who.attackIncreaseModifier;
+
+        // check for quick-shot
+        var didQuickShot = Game1.currentGameTime.TotalGameTime.TotalSeconds - __instance.pullStartTime <=
+                           __instance.GetRequiredChargeTime() + 0.1;
+        if (didQuickShot) damageMod *= 0.8f;
+
+        // calculate overcharge
+        var overcharge = 1f;
+        if (who.HasProfession(Profession.Desperado) && !__instance.CanAutoFire())
+            overcharge += __instance.GetDesperadoOvercharge(who);
+
+        // adjust velocity
+        if (overcharge > 1f)
+        {
+            x *= overcharge;
+            y *= overcharge;
+            who.stopJittering();
+            SoundBank.DesperadoChargeSound.Stop(AudioStopOptions.Immediate);
+        }
+        
+        if (Game1.options.useLegacySlingshotFiring)
+        {
+            x *= -1f;
+            y *= -1f;
+        }
+
+        // calculate bounces
+        var bounces = 0;
+        if (who.HasProfession(Profession.Rascal) && ModEntry.Config.ModKey.IsDown())
+        {
+            ++bounces;
+            damageMod *= 0.6f;
+        }
+
+        // add main projectile
+        var startingPosition = shootOrigin - new Vector2(32f, 32f);
+        var damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod * overcharge;
+        var projectile = new BasicProjectile((int) damage, ammo.ParentSheetIndex, bounces, 0,
+            (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition,
+            collisionSound, "", false, true, location, who, true, collisionBehavior)
+        {
+            IgnoreLocationCollision = Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null,
+            ignoreTravelGracePeriod =
+            {
+                Value = true
+            }
+        };
+        location.projectiles.Add(projectile);
+        if (overcharge > 1f)
+            ModEntry.PlayerState.Value.OverchargedBullets[projectile.GetHashCode()] = overcharge;
+
+        // add auxiliary projectiles
+        var velocity = new Vector2(x, y);
         var speed = velocity.Length();
         velocity.Normalize();
-        if (who.IsLocalPlayer && ModEntry.PlayerState.Value.SuperMode is PoacherColdBlood {IsActive: true})
+        if (who.IsLocalPlayer && ModEntry.PlayerState.Value.RegisteredUltimate is DeathBlossom { IsActive: true })
         {
             // do Death Blossom
             for (var i = 0; i < 7; ++i)
             {
-                velocity.Rotate(45);
-                var blossom = new BasicProjectile(damage, ammunitionIndex, 0, 0,
-                    (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
-                    0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
+                damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
+                velocity = velocity.Rotate(45);
+                var blossom = new BasicProjectile((int) damage, ammo.ParentSheetIndex, 0, 0,
+                    (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+                    velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
                     true, location, who, true, collisionBehavior)
                 {
                     IgnoreLocationCollision =
-                        Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null
+                        Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null,
+                    ignoreTravelGracePeriod =
+                    {
+                        Value = true
+                    }
                 };
 
                 location.projectiles.Add(blossom);
-                ModEntry.PlayerState.Value.AuxiliaryBullets.Add(blossom.GetHashCode());
+                ModEntry.PlayerState.Value.BlossomBullets.Add(blossom.GetHashCode());
             }
         }
-        else if (Game1.random.NextDouble() < who.GetDesperadoDoubleStrafeChance())
+        else if (overcharge >= 1.5f && who.HasProfession(Profession.Desperado, true) && __instance.attachments[0].Stack >= 2)
         {
-            if (who.HasProfession(Profession.Desperado, true))
+            // do spreadshot
+            var angle = (int) (MathHelper.Lerp(1f, 0.5f, (overcharge - 1.5f) * 2f) * 15);
+            damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
+            velocity = velocity.Rotate(angle);
+            var clockwise = new BasicProjectile((int) damage, ammo.ParentSheetIndex, 0, 0,
+                (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+                velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
+                true, location, who, true, collisionBehavior)
             {
-                // do spreadshot
-                velocity.Rotate(15);
-                var clockwise = new BasicProjectile(damage, ammunitionIndex, 0, 0,
-                    (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
-                    0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
-                    true, location, who, true, collisionBehavior)
+                IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
+                                          Game1.currentMinigame is not null,
+                ignoreTravelGracePeriod =
                 {
-                    IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
-                                              Game1.currentMinigame is not null
-                };
+                    Value = true
+                }
+            };
+            location.projectiles.Add(clockwise);
 
-                location.projectiles.Add(clockwise);
-                ModEntry.PlayerState.Value.AuxiliaryBullets.Add(clockwise.GetHashCode());
-
-                velocity.Rotate(-30);
-                var anticlockwise = new BasicProjectile(damage, ammunitionIndex, 0, 0,
-                    (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
-                    0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
-                    true, location, who, true, collisionBehavior)
-                {
-                    IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
-                                              Game1.currentMinigame is not null
-                };
-
-                location.projectiles.Add(anticlockwise);
-                ModEntry.PlayerState.Value.AuxiliaryBullets.Add(anticlockwise.GetHashCode());
-            }
-            else
+            damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
+            velocity = velocity.Rotate(-2 * angle);
+            var anticlockwise = new BasicProjectile((int) damage, ammo.ParentSheetIndex, 0, 0,
+                (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+                velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
+                true, location, who, true, collisionBehavior)
             {
-                // do double strafe
-                var secondary = new BasicProjectile((int) (damage.Value * 0.6f), ammunitionIndex, 0, 0,
-                    (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), 0f - velocity.X * speed,
-                    0f - velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
-                    true, location, who, true, collisionBehavior)
+                IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
+                                          Game1.currentMinigame is not null,
+                ignoreTravelGracePeriod =
                 {
-                    IgnoreLocationCollision =
-                        Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null
-                };
+                    Value = true
+                }
+            };
+            location.projectiles.Add(anticlockwise);
 
-                DelayedAction doubleStrafe = new(50, () => { location.projectiles.Add(secondary); });
-                Game1.delayedActions.Add(doubleStrafe);
-                ModEntry.PlayerState.Value.AuxiliaryBullets.Add(secondary.GetHashCode());
-            }
+            __instance.attachments[0].Stack -= 2;
+            if (__instance.attachments[0].Stack <= 0)
+                __instance.attachments[0] = null;
         }
-    }
-
-    /// <summary>Patch to increment Desperado Temerity gauge + add Desperado quick fire projectile velocity bonus.</summary>
-    [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> SlingshotPerformFireTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
-    {
-        var helper = new ILHelper(original, instructions);
-
-        /// Injected: PerformFireSubroutine(this, damage, velocityTowardPoint, location, who)
-        /// Before: if (ammunition.Category == -5) collisionSound = "slimedead";
-
-        try
+        else if (who.HasProfession(Profession.Desperado) && didQuickShot && __instance.attachments[0].Stack >= 1)
         {
-            helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Stloc_S, $"{typeof(int)} (5)")
-                )
-                .GetOperand(out var damage)
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldloca_S, $"{typeof(Vector2)} (3)")
-                )
-                .GetOperand(out var velocity) // copy reference to local 3 = v (velocity)
-                .FindFirst( // find index of ammunition.Category
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Item).PropertyGetter(nameof(Item.Category)))
-                )
-                .Retreat()
-                .StripLabels(out var labels) // backup and remove branch labels
-                .Insert(
-                    // restore backed-up labels
-                    labels,
-                    // load arguments
-                    new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Slingshot instance
-                    new CodeInstruction(OpCodes.Ldloca_S, damage),
-                    new CodeInstruction(OpCodes.Ldloca_S, velocity),
-                    new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = GameLocation location
-                    new CodeInstruction(OpCodes.Ldarg_2), // arg 2 = Farmer who
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(SlingshotPerformFirePatch).MethodNamed(nameof(PerformFireSubroutine)))
-                );
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed while injecting modded Desperado ammunition damage modifier, Temerity gauge and quick shots.\nHelper returned {ex}");
-            transpilationFailed = true;
-            return null;
+            // do double strafe
+            damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod * 0.6f;
+            var secondary = new BasicProjectile((int) damage, ammo.ParentSheetIndex, 0, 0,
+                (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+                velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
+                true, location, who, true, collisionBehavior)
+            {
+                IgnoreLocationCollision =
+                    Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null,
+                ignoreTravelGracePeriod =
+                {
+                    Value = true
+                }
+            };
+            DelayedAction doubleStrafe = new(50, () => { location.projectiles.Add(secondary); });
+            Game1.delayedActions.Add(doubleStrafe);
+
+            if (--__instance.attachments[0].Stack <= 0)
+                __instance.attachments[0] = null;
         }
 
-        return helper.Flush();
+        _CanPlaySound.SetValue(__instance, true);
+        return false; // don't run original logic
     }
 
     #endregion harmony patches
-
-    #region injected subroutines
-
-    private static void PerformFireSubroutine(Slingshot slingshot, ref int damage, ref Vector2 velocity, GameLocation location, Farmer who)
-    {
-        if (!who.IsLocalPlayer || ModEntry.PlayerState.Value.SuperMode is not DesperadoTemerity {IsActive: false} desperadoTemerity ||
-            !location.IsCombatZone()) return;
-
-        var bulletPower = desperadoTemerity.GetShootingPower();
-        velocity *= bulletPower;
-        damage *= (int) (1 + (bulletPower - 1) / 2.5);
-
-        var increment = 12 - 10 * who.health / who.maxHealth;
-        if (Game1.currentGameTime.TotalGameTime.TotalSeconds - slingshot.pullStartTime <=
-            slingshot.GetRequiredChargeTime() * QUICK_FIRE_HANDICAP_F)
-            increment += 6;
-
-        ModEntry.PlayerState.Value.SuperMode.ChargeValue += increment * ModEntry.Config.SuperModeGainFactor *
-            SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
-    }
-
-    #endregion injected subroutines
 }

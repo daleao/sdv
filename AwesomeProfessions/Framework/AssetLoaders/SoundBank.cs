@@ -17,6 +17,8 @@ internal static class SoundBank
     /// <summary>The library of playable sounds.</summary>
     internal static Dictionary<SFX, SoundEffect> Collection { get; } = new();
 
+    internal static ICue DesperadoChargeSound { get; set; }
+
     /// <summary>Construct an instance.</summary>
     internal static void LoadCollection(string modPath)
     {

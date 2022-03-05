@@ -29,10 +29,11 @@ internal class ObjectDayUpdatePatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch to add quality to Ecologist Mushroom Boxes.</summary>
+    /// <summary>Patch to increment object age + add quality to Ecologist Mushroom Boxes.</summary>
     [HarmonyPostfix]
     private static void ObjectDayUpdatePostfix(SObject __instance)
     {
+        if (__instance.IsBeeHouse()) __instance.IncrementData<int>("Age");
         if (__instance.IsMushroomBox() && __instance.heldObject.Value is not null && Game1.MasterPlayer.HasProfession(Profession.Ecologist))
             __instance.heldObject.Value.Quality = Game1.MasterPlayer.GetEcologistForageQuality();
     }

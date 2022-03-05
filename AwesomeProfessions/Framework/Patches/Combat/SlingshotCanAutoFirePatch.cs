@@ -8,7 +8,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
 
-using SuperMode;
+using Ultimate;
 
 #endregion using directives
 
@@ -23,14 +23,14 @@ internal class SlingshotCanAutoFirePatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch to allow auto-fire during Desperado Super Mode.</summary>
+    /// <summary>Patch to allow auto-fire during Desperado Ultimate.</summary>
     [HarmonyPrefix]
     private static bool SlingshotCanAutoFirePrefix(Slingshot __instance, ref bool __result)
     {
         try
         {
             var who = __instance.getLastFarmerToUse();
-            if (who.IsLocalPlayer && ModEntry.PlayerState.Value.SuperMode is DesperadoTemerity {IsActive: true})
+            if (who.IsLocalPlayer && ModEntry.PlayerState.Value.RegisteredUltimate is DeathBlossom {IsActive: true})
                 __result = true;
             else
                 __result = false;

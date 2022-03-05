@@ -37,7 +37,7 @@ internal class ObjectDrawWhenHeldPatch : BasePatch
     private static bool ObjectDrawWhenHeldPrefix(SObject __instance, SpriteBatch spriteBatch, Vector2 objectPosition, Farmer f)
     {
         if (__instance is not {ParentSheetIndex: 459, preservedParentSheetIndex.Value: > 0} mead ||
-            !Textures.TryGetMeadSourceRect(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
+            !Textures.TryGetSourceRectForMead(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
 
         spriteBatch.Draw(
             texture: Textures.HoneyMeadTx,

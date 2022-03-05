@@ -28,15 +28,22 @@ internal static class FishPondExtensions
     private static readonly Func<int, double> _productionChanceByValue = x => (double) 14765 / (x + 120) + 1.5;
     private static readonly FieldInfo _FishPondData = typeof(FishPond).Field("_fishPondData");
 
-    public static bool HasUnlockedFinalPopulationGate(this FishPond pond)
+    /// <summary>Whether the instance's population has been fully unlocked.</summary>
+    internal static bool HasUnlockedFinalPopulationGate(this FishPond pond)
     {
         var fishPondData = (FishPondData) _FishPondData.GetValue(pond);
         return fishPondData?.PopulationGates is null ||
                pond.lastUnlockedPopulationGate.Value >= fishPondData.PopulationGates.Keys.Max();
     }
 
+    /// <summary>Whether a legendary fish lives in this pond.</summary>
+    internal static bool IsLegendaryPond(this FishPond pond)
+    {
+        return pond.GetFishObject().IsLegendaryFish();
+    }
+
     /// <summary>Increase Roe/Ink stack and quality based on population size and average quality.</summary>
-    public static void AddBonusRoeAmountAndQuality(this FishPond pond)
+    internal static void AddBonusRoeAmountAndQuality(this FishPond pond)
     {
         var produce = pond.output.Value as SObject;
         if (produce is not null && !produce.ParentSheetIndex.IsAnyOf(ROE_INDEX_I, SQUID_INK_INDEX_I)) return;
@@ -93,9 +100,9 @@ internal static class FishPondExtensions
     }
 
     /// <summary>Determine the amount of fish of each quality currently in this pond.</summary>
-    public static (int, int, int) GetFishQualities(this FishPond pond, int qualityRating = -1)
+    internal static (int, int, int) GetFishQualities(this FishPond pond, int qualityRating = -1, bool forFamily = false)
     {
-        if (qualityRating < 0) qualityRating = pond.ReadDataAs<int>("QualityRating");
+        if (qualityRating < 0) qualityRating = pond.ReadDataAs<int>(forFamily ? "FamilyQualityRating" : "QualityRating");
 
         var numBestQuality = qualityRating / 4096; // 16^3
         qualityRating -= numBestQuality * 4096;
@@ -109,10 +116,11 @@ internal static class FishPondExtensions
     }
 
     /// <summary>Determine which quality should be deducted from the total quality rating after fishing in this pond.</summary>
-    public static int GetLowestFishQuality(this FishPond pond)
+    internal static int GetLowestFishQuality(this FishPond pond, int qualityRating = -1, bool forFamily = false)
     {
-        var (numBestQuality, numHighQuality, numMedQuality) = GetFishQualities(pond);
-        return numBestQuality + numHighQuality + numMedQuality < pond.FishCount + 1 // fish pond count has already been deducted at this point, so we consider +1
+        var (numBestQuality, numHighQuality, numMedQuality) = GetFishQualities(pond, qualityRating, forFamily);
+        var familyCount = pond.ReadDataAs<int>("FamilyCount");
+        return numBestQuality + numHighQuality + numMedQuality < (forFamily ? familyCount : pond.FishCount - familyCount + 1) // fish pond count has already been deducted at this point, so we consider +1
             ? SObject.lowQuality
             : numMedQuality > 0
                 ? SObject.medQuality
@@ -121,12 +129,19 @@ internal static class FishPondExtensions
                     : SObject.bestQuality;
     }
 
-
     /// <summary>Choose the quality value for today's produce by parsing stored quality rating data.</summary>
     /// <param name="r">A random number generator.</param>
     private static int GetRoeQuality(this FishPond pond, Random r)
     {
-        var (numBestQuality, numHighQuality, numMedQuality) = GetFishQualities(pond);
+        var (numBestQuality, numHighQuality, numMedQuality) = pond.GetFishQualities();
+        if (pond.IsLegendaryPond())
+        {
+            var (numBestFamilyQuality, numHighFamilyQuality, numMedFamilyQuality) = pond.GetFishQualities(forFamily: true);
+            numBestQuality += numBestFamilyQuality;
+            numHighQuality += numHighFamilyQuality;
+            numMedQuality += numMedFamilyQuality;
+        }
+
         var roll = r.Next(pond.FishCount);
         return roll < numBestQuality
             ? SObject.bestQuality

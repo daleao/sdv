@@ -24,16 +24,27 @@ internal class FishPondAddFishToPondPatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch to increment total Fish Pond quality rating.</summary>
+    /// <summary>Patch to distinguish extended family pairs + increment total Fish Pond quality rating.</summary>
     [HarmonyPostfix]
-    private static void FishPondOnFisTypeChangedPostfix(FishPond __instance, SObject fish)
+    private static void FishPondAddFishToPondPostfix(FishPond __instance, SObject fish)
     {
         if (!ModEntry.Config.EnableFishPondRebalance) return;
 
-        var qualityRating = __instance.ReadDataAs<int>("QualityRating");
-        qualityRating += (int) Math.Pow(16, fish.Quality == SObject.bestQuality ? fish.Quality - 1 : fish.Quality);
-        __instance.WriteData("QualityRating", qualityRating.ToString());
-    }
+        if (fish.IsLegendaryFish() && fish.ParentSheetIndex != __instance.fishType.Value)
+        {
+            __instance.IncrementData<int>("FamilyCount");
 
+            var familyQualityRating = __instance.ReadDataAs<int>("FamilyQualityRating");
+            familyQualityRating += (int) Math.Pow(16, fish.Quality == SObject.bestQuality ? fish.Quality - 1 : fish.Quality);
+            __instance.WriteData("FamilyQualityRating", familyQualityRating.ToString());
+        }
+        else
+        {
+            var qualityRating = __instance.ReadDataAs<int>("QualityRating");
+            qualityRating += (int) Math.Pow(16, fish.Quality == SObject.bestQuality ? fish.Quality - 1 : fish.Quality);
+            __instance.WriteData("QualityRating", qualityRating.ToString());
+        }
+    }
+    
     #endregion harmony patches
 }

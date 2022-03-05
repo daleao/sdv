@@ -39,8 +39,9 @@ internal class GameLocationCheckActionPatch : BasePatch
         var helper = new ILHelper(original, instructions);
 
         /// From: if (who.professions.Contains(<botanist_id>) && objects[key].isForage()) objects[key].Quality = 4
-        /// To: if (who.professions.Contains(<ecologist_id>) && objects[key].isForage() && !IsForagedMineral(objects[key]) objects[key].Quality = GetEcologistForageQuality()
+        /// To: if (who.professions.Contains(<ecologist_id>) && objects[key].isForage() && !IsForagedMineral(objects[key]) objects[key].Quality = Game1.player.GetEcologistForageQuality()
 
+        CodeInstruction[] got;
         try
         {
             helper
@@ -48,8 +49,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0) // start of objects[key].isForage() check
                 )
-                .ToBufferUntil( // copy objects[key]
-                    new CodeInstruction(OpCodes.Callvirt,
+                .GetInstructionsUntil(out got, pattern: new CodeInstruction(OpCodes.Callvirt, // copy objects[key]
                         typeof(OverlaidDictionary).PropertyGetter("Item"))
                 )
                 .AdvanceUntil(
@@ -57,14 +57,14 @@ internal class GameLocationCheckActionPatch : BasePatch
                 )
                 .GetOperand(out var shouldntSetCustomQuality) // copy failed check branch destination
                 .Advance()
-                .InsertBuffer() // insert objects[key]
+                .Insert(got) // insert objects[key]
                 .Insert( // check if is foraged mineral and branch if true
                     new CodeInstruction(OpCodes.Call,
                         typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.IsForagedMineral))),
-                    new CodeInstruction(OpCodes.Brtrue_S, (Label) shouldntSetCustomQuality)
+                    new CodeInstruction(OpCodes.Brtrue_S, shouldntSetCustomQuality)
                 )
                 .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_4) // start of objects[key].Quality = 4
+                    new CodeInstruction(OpCodes.Ldc_I4_4) // end of objects[key].Quality = 4
                 )
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
@@ -90,9 +90,7 @@ internal class GameLocationCheckActionPatch : BasePatch
             helper
                 .FindProfessionCheck(Farmer.botanist) // return to botanist check
                 .Retreat() // retreat to start of check
-                .ToBufferUntil( // copy entire section until done setting quality
-                    true,
-                    false,
+                .GetInstructionsUntil(out got, true, false, // copy entire section until done setting quality
                     new CodeInstruction(OpCodes.Br_S)
                 )
                 .AdvanceUntil( // change previous section branch destinations to injected section
@@ -111,9 +109,8 @@ internal class GameLocationCheckActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Br_S)
                 )
                 .Advance()
-                .InsertBuffer() // insert copy
+                .InsertWithLabels(new[] {gemologistCheck}, got) // insert copy with destination label for branches from previous section
                 .Return()
-                .AddLabels(gemologistCheck) // add destination label for branches from previous section
                 .AdvanceUntil( // find repeated botanist check
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist)
                 )
@@ -164,7 +161,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
                 )
                 .Advance()
-                .InsertBuffer(5, 4) // SObject objects[key]
+                .Insert(got.SubArray(5, 4)) // SObject objects[key]
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_3)
@@ -184,23 +181,21 @@ internal class GameLocationCheckActionPatch : BasePatch
         /// From: if (random.NextDouble() < 0.2)
         /// To: if (random.NextDouble() < who.professions.Contains(100 + <forager_id>) ? 0.4 : 0.2
 
-        var notPrestigedForager = generator.DefineLabel();
+        var isNotPrestiged = generator.DefineLabel();
         var resumeExecution = generator.DefineLabel();
         try
         {
             helper
                 .FindProfessionCheck((int) Profession.Forager)
                 .Retreat()
-                .ToBufferUntil(
-                    true,
-                    true,
+                .GetInstructionsUntil(out got, true, true,
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R8, 0.2)
                 )
-                .AddLabels(notPrestigedForager)
-                .InsertBuffer()
+                .AddLabels(isNotPrestiged)
+                .Insert(got)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S, (int) Profession.Forager)
                 )
@@ -208,7 +203,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
-                .SetOperand(notPrestigedForager)
+                .SetOperand(isNotPrestiged)
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_R8, 0.4),

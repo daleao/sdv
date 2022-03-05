@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley.Locations;
 
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -55,7 +56,10 @@ internal class MountainGetFishPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int)Profession.Angler + 100, (Label)skipLegendary);
+                .InsertProfessionCheck((int) Profession.Angler + 100, forLocalPlayer: false)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, skipLegendary)
+                );
         }
         catch (Exception ex)
         {

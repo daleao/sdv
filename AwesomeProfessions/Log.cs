@@ -20,10 +20,14 @@ public static class Log
 
     /// <summary>Log a message as debug.</summary>
     /// <param name="message">The message.</param>
-    [Conditional("DEBUG")]
+    //[Conditional("DEBUG")]
     public static void D(string message)
     {
+#if DEBUG
         ModEntry.Log(message, LogLevel.Debug);
+#elif RELEASE
+        ModEntry.Log(message, LogLevel.Trace);
+#endif
     }
 
     /// <summary>Log a message as error.</summary>

@@ -113,10 +113,7 @@ internal class Shockwave
 
     #region private methods
 
-    /// <summary>
-    ///     Get the tile coordinate which is adjacent to the given <paramref name="tile" /> along a radial line from the
-    ///     player.
-    /// </summary>
+    /// <summary>Get the tile coordinate which is adjacent to the given <paramref name="tile" /> along a radial line from the player.</summary>
     /// <param name="epicenter">The tile containing the player.</param>
     /// <param name="tile">The tile to face.</param>
     /// <param name="adjacent">The tile radially adjacent to the <paramref name="tile" />.</param>

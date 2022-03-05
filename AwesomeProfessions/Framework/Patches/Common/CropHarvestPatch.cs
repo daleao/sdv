@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
+using StardewModdingAPI;
 using StardewValley;
 
 using Stardew.Common.Extensions;
@@ -37,9 +38,6 @@ internal class CropHarvestPatch : BasePatch
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
-
-        var mb = original.GetMethodBody() ??
-                 throw new ArgumentNullException($"{original.Name} method body returned null.");
 
         /// From: @object.Quality = 4
         /// To: @object.Quality = GetEcologistForageQuality()
@@ -75,9 +73,9 @@ internal class CropHarvestPatch : BasePatch
         var mi = typeof(FarmerExtensions)
                      .GetMember("IncrementData*", BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Static)
                      .Cast<MethodInfo>()
-                     .FirstOrDefault(mi => mi.GetParameters().Length == 3) ??
+                     .FirstOrDefault(mi => mi.GetParameters().Length == 3)?
+                     .MakeGenericMethod(typeof(uint)) ??
                  throw new MissingMethodException("Increment method not found.");
-        mi = mi.MakeGenericMethod(typeof(uint));
 
         var dontIncreaseEcologistCounter = generator.DefineLabel();
         try
@@ -88,9 +86,9 @@ internal class CropHarvestPatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Ecologist,
-                    dontIncreaseEcologistCounter)
+                .InsertProfessionCheck((int) Profession.Ecologist)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
                     new CodeInstruction(OpCodes.Ldstr, DataField.EcologistItemsForaged.ToString()),
                     new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = @object
                     new CodeInstruction(OpCodes.Callvirt,
@@ -110,8 +108,8 @@ internal class CropHarvestPatch : BasePatch
         /// From: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
         /// To: if (Game1.player.professions.Contains(<agriculturist_id>) || fertilizerQualityLevel >= 3) && random2.NextDouble() < chanceForGoldQuality / 2.0)
 
-        var fertilizerQualityLevel = mb.LocalVariables[8];
-        var random2 = mb.LocalVariables[9];
+        var fertilizerQualityLevel = helper.Locals[8];
+        var random2 = helper.Locals[9];
         var isAgriculturist = generator.DefineLabel();
         try
         {
@@ -120,8 +118,10 @@ internal class CropHarvestPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3),
                     new CodeInstruction(OpCodes.Blt_S)
                 )
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Agriculturist, isAgriculturist,
-                    true)
+                .InsertProfessionCheck((int) Profession.Agriculturist)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brtrue_S, isAgriculturist)
+                )
                 .AdvanceUntil( // find start of dice roll
                     new CodeInstruction(OpCodes.Ldloc_S, random2)
                 )
@@ -134,61 +134,65 @@ internal class CropHarvestPatch : BasePatch
             return null;
         }
 
-        /// Injected: if (junimoHarvester is null && Game1.player.professions.Contains(<harvester_id>) && r.NextDouble() <
-        ///		Game1.player.professions.Contains(100 + <harverster_id>) ? 0.2 : 0.1)
+        /// Injected: if ((junimoHarvester is null || ModEntry.ModHelper.ModRegistry.IsLoaded("BetterJunimos")) && Game1.player.professions.Contains(<harvester_id>) &&
+        ///     r.NextDouble() < 0.1 + (Game1.player.professions.Contains(100 + <harverster_id>) ? 0.1 : 0))
         ///		numToHarvest++
 
-        var numToHarvest = mb.LocalVariables[6];
+        var numToHarvest = helper.Locals[6];
+        var continueToHarvesterCheck = generator.DefineLabel();
         var dontIncreaseNumToHarvest = generator.DefineLabel();
-        var dontDuplicateChance = generator.DefineLabel();
+        var isNotPrestiged = generator.DefineLabel();
         try
         {
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldloc_S, numToHarvest) // find index of numToHarvest++
                 )
-                .ToBufferUntil( // copy this segment
+                .GetInstructionsUntil( // copy this segment
+                    out var got,
                     true,
                     false,
                     new CodeInstruction(OpCodes.Stloc_S, numToHarvest)
                 )
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldloc_S, random2) // find an instance of accessing the rng
-                )
-                .GetOperand(out var r2) // copy operand object
-                .FindLast( // find end of chanceForExtraCrops while loop
+                .AdvanceUntil( // find end of chanceForExtraCrops while loop
                     new CodeInstruction(OpCodes.Ldfld,
                         typeof(Crop).Field(nameof(Crop.chanceForExtraCrops)))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0) // beginning of the next segment
                 )
-                .GetLabels(out var labels) // copy existing labels
-                .SetLabels(dontIncreaseNumToHarvest) // branch here if shouldn't apply Harvester bonus
-                .Insert( // insert check if junimoHarvester is null
+                .StripLabels(out var labels) // copy existing labels
+                .AddLabels(dontIncreaseNumToHarvest) // branch here if shouldn't apply Harvester bonus
+                .InsertWithLabels( // insert check if junimoHarvester is null
                     labels,
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4),
-                    new CodeInstruction(OpCodes.Brtrue_S, dontIncreaseNumToHarvest)
-                )
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Harvester,
-                    dontIncreaseNumToHarvest)
-                .Insert( // insert dice roll
-                    new CodeInstruction(OpCodes.Ldloc_S, r2),
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = bool junimoHarvester
+                    new CodeInstruction(OpCodes.Brfalse_S, continueToHarvesterCheck),
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.ModHelper))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Random).MethodNamed(nameof(Random.NextDouble))),
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.1)
+                        typeof(IModHelper).PropertyGetter(nameof(IModHelper.ModRegistry))),
+                    new CodeInstruction(OpCodes.Ldstr, "hawkfalcon.BetterJunimos"),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(IModRegistry).MethodNamed(nameof(IModRegistry.IsLoaded))),
+                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseNumToHarvest)
                 )
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Harvester + 100,
-                    dontDuplicateChance) // double chance if prestiged
+                .InsertProfessionCheck((int) Profession.Harvester, new[] {continueToHarvesterCheck})
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseNumToHarvest),
+                    new CodeInstruction(OpCodes.Ldloc_S, random2)
+                )
+                .InsertDiceRoll(0.1, forStaticRandom: false)
+                .InsertProfessionCheck((int) Profession.Harvester + 100)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                    // double chance if prestiged
                     new CodeInstruction(OpCodes.Ldc_R8, 0.1),
                     new CodeInstruction(OpCodes.Add)
                 )
-                .Insert(
-                    new[] {dontDuplicateChance},
+                .InsertWithLabels(
+                    new[] {isNotPrestiged},
                     new CodeInstruction(OpCodes.Bge_Un_S, dontIncreaseNumToHarvest)
                 )
-                .InsertBuffer(); // insert numToHarvest++
+                .Insert(got); // insert numToHarvest++
         }
         catch (Exception ex)
         {

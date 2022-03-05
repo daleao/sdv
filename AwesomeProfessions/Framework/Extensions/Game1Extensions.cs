@@ -13,7 +13,7 @@ internal static class Game1Extensions
     /// <summary>Whether any farmer in the current game session has a specific profession.</summary>
     /// <param name="professionName">The name of the profession.</param>
     /// <param name="numberOfPlayersWithThisProfession">How many players have this profession.</param>
-    public static bool DoesAnyPlayerHaveProfession(this Game1 game1, Profession profession,
+    internal static bool DoesAnyPlayerHaveProfession(this Game1 game1, Profession profession,
         out int numberOfPlayersWithThisProfession)
     {
         if (!Context.IsMultiplayer)

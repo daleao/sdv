@@ -60,23 +60,23 @@ public class ModConfig
     /// <summary>The maximum tax deduction percentage allowed by the Ferngill Revenue Service.</summary>
     public float TaxDeductionCeiling { get; set; } = 0.25f;
 
-    /// <summary>Required to allow Super Mode activation. Super Stat continues to apply.</summary>
-    public bool EnableSuperMode { get; set; } = true;
+    /// <summary>Required to allow Ultimate activation. Super Stat continues to apply.</summary>
+    public bool EnableUltimates { get; set; } = true;
 
-    /// <summary>Mod key used to activate Super Mode. Can be the same as <see cref="ModKey" />.</summary>
-    public KeybindList SuperModeKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+    /// <summary>Mod key used to activate Ultimate. Can be the same as <see cref="ModKey" />.</summary>
+    public KeybindList UltimateKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-    /// <summary>Whether Super Mode is activated on <see cref="SuperModeKey" /> hold (as opposed to press).</summary>
-    public bool HoldKeyToActivateSuperMode { get; set; } = true;
+    /// <summary>Whether Ultimate is activated on <see cref="UltimateKey" /> hold (as opposed to press).</summary>
+    public bool HoldKeyToActivateUltimate { get; set; } = true;
 
-    /// <summary>How long <see cref="SuperModeKey" /> should be held to activate Super Mode, in seconds.</summary>
-    public float SuperModeActivationDelay { get; set; } = 1f;
+    /// <summary>How long <see cref="UltimateKey" /> should be held to activate Ultimate, in seconds.</summary>
+    public float UltimateActivationDelay { get; set; } = 1f;
 
-    /// <summary>Affects the rate at which one builds the Super Mode gauge. Increase this if you feel the gauge raises too slowly.</summary>
-    public double SuperModeGainFactor { get; set; } = 1f;
+    /// <summary>Affects the rate at which one builds the Ultimate meter. Increase this if you feel the gauge raises too slowly.</summary>
+    public double UltimateGainFactor { get; set; } = 1.0;
 
-    /// <summary>Affects the rate at which the Super Mode gauge depletes during Super Mode. Increase this to make Super Mode last longer..</summary>
-    public double SuperModeDrainFactor { get; set; } = 3.0;
+    /// <summary>Affects the rate at which the Ultimate meter depletes during Ultimate. Increase this to make Ultimate last longer..</summary>
+    public double UltimateDrainFactor { get; set; } = 1.0;
 
     /// <summary>Required to apply prestige changes.</summary>
     public bool EnablePrestige { get; set; } = true;
@@ -103,17 +103,26 @@ public class ModConfig
     /// <summary>Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
     public uint PrestigeRespecCost { get; set; } = 20000;
 
-    /// <summary>Monetary cost of changing the combat Super Mode. Set to 0 to change for free.</summary>
+    /// <summary>Monetary cost of changing the combat Ultimate. Set to 0 to change for free.</summary>
     public uint ChangeUltCost { get; set; } = 0;
-
-    /// <summary>Enable if using the Vintage Interface v2 mod.</summary>
-    public bool UseVintageInterface { get; set; } = false;
 
     /// <summary>The visual style for different honey mead icons, if using BetterArtisanGoodIcons. Allowed values: 'ColoredBottles', 'ColoredCaps'.</summary>
     public string HoneyMeadStyle { get; set; } = "ColoredBottles";
 
     /// <summary>Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.</summary>
     public bool EnableFishPondRebalance { get; set; } = true;
+
+    /// <summary>Increases the health of all monsters.</summary>
+    public float MonsterHealthMultiplier { get; set; } = 1f;
+
+    /// <summary>Increases the damage dealt by all monsters.</summary>
+    public float MonsterDamageMultiplier { get; set; } = 1f;
+
+    /// <summary>Increases the resistance of all monsters.</summary>
+    public float MonsterDefenseMultiplier { get; set; } = 1f;
+
+    /// <summary>Enable if using the Vintage Interface v2 mod.</summary>
+    public bool UseVintageInterface { get; set; } = false;
 
     /// <summary>Replicates SVE's config setting of the same name.</summary>
     public bool UseGaldoranThemeAllTimes { get; set; } = false;

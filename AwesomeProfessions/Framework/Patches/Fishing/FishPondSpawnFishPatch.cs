@@ -33,11 +33,19 @@ internal class FishPondSpawnFishPatch : BasePatch
     {
         if (!ModEntry.Config.EnableFishPondRebalance) return;
 
-        var qualityRating = __instance.ReadDataAs<int>("QualityRating");
+        var forFamily = false;
+        if (__instance.IsLegendaryPond())
+        {
+            var familyCount = __instance.ReadDataAs<int>("FamilyCount");
+            if (familyCount > 0 && Game1.random.NextDouble() < (double) familyCount / __instance.FishCount)
+                forFamily = true;
+        }
+
+        var qualityRating = __instance.ReadDataAs<int>(forFamily ? "FamilyQualityRating" : "QualityRating");
         var (numBestQuality, numHighQuality, numMedQuality) = __instance.GetFishQualities(qualityRating);
         if (numBestQuality == 0 && numHighQuality == 0 && numMedQuality == 0)
         {
-            __instance.WriteData("QualityRating", (++qualityRating).ToString());
+            __instance.WriteData(forFamily ? "FamilyQualityRating" : "QualityRating", (++qualityRating).ToString());
             return;
         }
 
@@ -52,7 +60,7 @@ internal class FishPondSpawnFishPatch : BasePatch
 
         qualityRating += (int) Math.Pow(16,
             fishlingQuality == SObject.bestQuality ? fishlingQuality - 1 : fishlingQuality);
-        __instance.WriteData("QualityRating", qualityRating.ToString());
+        __instance.WriteData(forFamily ? "FamilyQualityRating" : "QualityRating", qualityRating.ToString());
     }
 
     #endregion harmony patches

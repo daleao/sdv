@@ -3,14 +3,15 @@
 #region using directives
 
 using StardewValley;
-using SuperMode;
+
+using Ultimate;
 
 #endregion using directives
 
-public static class Localization
+internal static class Localization
 {
-    /// <summary>Get the localized pronoun for the currently registered Super Mode buff.</summary>
-    public static string GetBuffPronoun()
+    /// <summary>Get the localized pronoun for the currently registered Ultimate buff.</summary>
+    internal static string GetBuffPronoun()
     {
         // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
         switch (LocalizedContentManager.CurrentLanguageCode)
@@ -21,7 +22,7 @@ public static class Localization
             case LocalizedContentManager.LanguageCode.fr:
             case LocalizedContentManager.LanguageCode.pt:
                 return ModEntry.ModHelper.Translation.Get("pronoun.definite" +
-                                                          (ModEntry.PlayerState.Value.SuperMode is PoacherColdBlood
+                                                          (ModEntry.PlayerState.Value.RegisteredUltimate is Ambush
                                                               ? ".male"
                                                               : ".female"));
 

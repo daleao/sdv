@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -43,6 +44,7 @@ internal class InseminationSyringeOverridesDoFunctionPatch : BasePatch
         /// Injected: if (who.professions.Contains(<breeder_id>)) daysUntilBirth /= who.professions.Contains(<breeder_id> + 100) ? 3.0 : 2.0
         /// Before: PregnancyController.AddPregnancy(animal, daysUtillBirth);
 
+        var daysUntilBirth = helper.Locals[5];
         var isNotBreeder = generator.DefineLabel();
         var isNotPrestiged = generator.DefineLabel();
         var resumeDivision = generator.DefineLabel();
@@ -50,36 +52,34 @@ internal class InseminationSyringeOverridesDoFunctionPatch : BasePatch
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (5)")
-                )
-                .GetOperand(out var daysUntilBirth)
-                .FindNext(
                     new CodeInstruction(OpCodes.Ldloc_1),
                     new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
                     new CodeInstruction(OpCodes.Call)
                 )
                 .StripLabels(out var labels)
                 .AddLabels(isNotBreeder)
-                .Insert(
+                .InsertWithLabels(
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 5) // arg 5 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Breeder, isNotBreeder)
+                .InsertProfessionCheck((int) Profession.Breeder, forLocalPlayer: false)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder),
                     new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
                     new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 5)
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Breeder + 100, isNotPrestiged)
+                .InsertProfessionCheck((int) Profession.Breeder + 100, forLocalPlayer: false)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R8, 3.0),
                     new CodeInstruction(OpCodes.Br_S, resumeDivision)
                 )
-                .Insert(
+                .InsertWithLabels(
                     new[] {isNotPrestiged},
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0)
                 )
-                .Insert(
+                .InsertWithLabels(
                     new[] {resumeDivision},
                     new CodeInstruction(OpCodes.Div),
                     new CodeInstruction(OpCodes.Call,

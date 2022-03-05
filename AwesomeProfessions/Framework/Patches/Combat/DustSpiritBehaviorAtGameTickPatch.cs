@@ -6,7 +6,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
 
-using SuperMode;
+using Ultimate;
 
 #endregion using directives
 
@@ -21,12 +21,12 @@ internal class DustSpiritBehaviorAtGameTickPatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch to hide Poacher from Dust Spirits during Super Mode.</summary>
+    /// <summary>Patch to hide Poacher from Dust Spirits during Ultimate.</summary>
     [HarmonyPostfix]
     private static void DustSpiritBehaviorAtGameTickPostfix(DustSpirit __instance, ref bool ___seenFarmer)
     {
-        if (!__instance.Player.IsLocalPlayer || ModEntry.PlayerState.Value.SuperMode is not
-                PoacherColdBlood {IsActive: true}) return;
+        if (!__instance.Player.IsLocalPlayer || ModEntry.PlayerState.Value.RegisteredUltimate is not
+                Ambush {IsActive: true}) return;
         ___seenFarmer = false;
     }
 

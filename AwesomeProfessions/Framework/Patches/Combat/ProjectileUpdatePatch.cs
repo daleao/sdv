@@ -18,7 +18,6 @@ using StardewValley.Projectiles;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
-using SuperMode;
 
 #endregion using directives
 
@@ -35,7 +34,7 @@ internal class ProjectileUpdatePatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch for increased Desperado bullet cross-section.</summary>
+    /// <summary>Patch for overcharged bullet cross-section.</summary>
     [HarmonyPostfix]
     private static void ProjectileUpdatePostfix(Projectile __instance, ref bool __result, NetPosition ___position,
         NetCharacterRef ___theOneWhoFiredMe, NetFloat ___xVelocity, NetFloat ___yVelocity, GameLocation location)
@@ -47,13 +46,12 @@ internal class ProjectileUpdatePatch : BasePatch
         var damagesMonsters = ((NetBool) _DamagesMonsters.GetValue(__instance)!).Value;
         if (!damagesMonsters) return;
 
-        // check if firer is has Desperado Super Mode
-        var firer = ___theOneWhoFiredMe.Get(Game1.currentLocation) is Farmer farmer ? farmer : Game1.player;
-        if (!firer.IsLocalPlayer || ModEntry.PlayerState.Value.SuperMode is not DesperadoTemerity desperadoTemerity) return;
+        // check for overcharge
+        if (!ModEntry.PlayerState.Value.OverchargedBullets.TryGetValue(__instance.GetHashCode(), out var overcharge))
+            return;
 
-        // check for powered bullet
-        var bulletPower = desperadoTemerity.GetShootingPower() - 1f;
-        if (bulletPower <= 0f) return;
+        var bulletPower = 1f + overcharge;
+        var firer = ___theOneWhoFiredMe.Get(Game1.currentLocation) as Farmer ?? Game1.player;
 
         // check if already collided
         if (__result)
@@ -112,7 +110,7 @@ internal class ProjectileUpdatePatch : BasePatch
             0f, 1f, true, firer);
     }
 
-    /// <summary>Patch for prestiged Rascal trick shot.</summary>
+    /// <summary>Patch to detect bounced bullets.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> ProjectileUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)

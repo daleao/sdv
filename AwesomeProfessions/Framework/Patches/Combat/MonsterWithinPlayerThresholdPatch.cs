@@ -10,7 +10,7 @@ using StardewValley;
 using StardewValley.Monsters;
 
 using Extensions;
-using SuperMode;
+using Ultimate;
 
 #endregion using directives
 
@@ -25,14 +25,14 @@ internal class MonsterWithinPlayerThresholdPatch : BasePatch
 
     #region harmony patch
 
-    /// <summary>Patch to make Poacher invisible in Super Mode.</summary>
+    /// <summary>Patch to make Poacher invisible in Ultimate.</summary>
     [HarmonyPrefix]
     private static bool MonsterWithinPlayerThresholdPrefix(Monster __instance, ref bool __result)
     {
         try
         {
             var player = Game1.getFarmer(__instance.ReadDataAs("Target", Game1.player.UniqueMultiplayerID));
-            if (!player.IsLocalPlayer || ModEntry.PlayerState.Value.SuperMode is not PoacherColdBlood {IsActive: true})
+            if (!player.IsLocalPlayer || ModEntry.PlayerState.Value.RegisteredUltimate is not Ambush {IsActive: true})
                 return true; // run original method
 
             __result = false;

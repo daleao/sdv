@@ -18,7 +18,7 @@ using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using AssetLoaders;
 using Extensions;
-using SuperMode;
+using Ultimate;
 
 using SObject = StardewValley.Object;
 
@@ -41,7 +41,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
 
     /// <summary>
     ///     Patch to move critical chance bonus from Scout to Poacher + patch Brute damage bonus + move critical damage
-    ///     bonus from Desperado to Poacher + increment Brute Fury and Poacher Cold Blood gauges + perform Poacher steal.
+    ///     bonus from Desperado to Poacher Ambush + perform Poacher steal and Piper buff actions + increment Piper Ultimate meter.
     /// </summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(
@@ -50,22 +50,14 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         var helper = new ILHelper(original, instructions);
 
         /// From: if (who.professions.Contains(<scout_id>) critChance += critChance * 0.5f;
-        /// To: if (who.professions.Contains(<poacher_id>) critChance *= 2f;
+        /// To: if (who.professions.Contains(<poacher_id>) critChance += critChance * 0.5f;
 
         try
         {
             helper
                 .FindProfessionCheck(Farmer.scout) // find index of scout check
                 .Advance()
-                .SetOperand((int) Profession.Poacher) // replace with Poacher check
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldarg_S) // start of critChance += critChance * 0.5f
-                )
-                .Advance()
-                .Remove() // was Ldarg_S critChance
-                .SetOperand(2f) // was 0.5f
-                .Advance(2)
-                .Remove(); // was Add
+                .SetOperand((int) Profession.Poacher); // replace with Poacher check
         }
         catch (Exception ex)
         {
@@ -77,7 +69,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         /// From: if (who is not null && who.professions.Contains(<fighter_id>) ... *= 1.1f;
         /// To: if (who is not null && who.professions.Contains(<fighter_id>) ... *= who.professions.Contains(100 + <fighter_id>) ? 1.2f : 1.1f;
 
-        var notPrestigedFighter = generator.DefineLabel();
+        var isNotPrestiged = generator.DefineLabel();
         var resumeExecution = generator.DefineLabel();
         try
         {
@@ -87,13 +79,13 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.1f) // brute damage multiplier
                 )
-                .AddLabels(notPrestigedFighter)
+                .AddLabels(isNotPrestiged)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Fighter + 100,
-                    notPrestigedFighter)
+                .InsertProfessionCheck((int) Profession.Fighter + 100, forLocalPlayer: false)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R4, 1.2f),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
@@ -107,41 +99,38 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             return null;
         }
 
-        /// Injected: if (who.IsLocalPlayer && ModEntry.PlayerState.Value.SuperMode is BruteFury fury) ... += fury.GetBonusDamageMultiplier(who)
-        /// After: if (who is not null && who.professions.Contains(<brute_id>) ... *= 1.15f;
+        /// From: if (who is not null && who.professions.Contains(<brute_id>)) ... *= 1.15f;
+        /// From: if (who is not null && who.IsLocalPlayer && who.professions.Contains(<brute_id>)) ... *= 1f + ModEntry.PlayerState.Value.BruteRageCounter * 0.01f;
 
-        resumeExecution = generator.DefineLabel();
-        var bruteFury = generator.DeclareLocal(typeof(BruteFury));
         try
         {
             helper
                 .FindProfessionCheck((int) Profession.Brute,
                     true) // find index of brute check
+                .Retreat(2)
+                .GetOperand(out var dontBuffDamage)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, dontBuffDamage),
+                    // check for local player
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer)))
+                )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.15f) // brute damage multiplier
                 )
+                .SetOperand(1f)
                 .Advance()
-                .AddLabels(resumeExecution)
                 .Insert(
-                    // check for local player
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
-                    new CodeInstruction(OpCodes.Call, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // check for Brute Fury
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
+                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>
+                            .Value))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(BruteFury)),
-                    new CodeInstruction(OpCodes.Stloc_S, bruteFury),
-                    new CodeInstruction(OpCodes.Ldloc_S, bruteFury),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // increase damage bonus
-                    new CodeInstruction(OpCodes.Ldloc_S, bruteFury),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10),
-                    new CodeInstruction(OpCodes.Call, typeof(BruteFury).MethodNamed(nameof(BruteFury.GetBonusDamageMultiplier))),
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.BruteRageCounter))),
+                    new CodeInstruction(OpCodes.Conv_R4),
+                    new CodeInstruction(OpCodes.Ldc_R4, Frenzy.PCT_INCREMENT_PER_RAGE_F),
+                    new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Add)
                 );
         }
@@ -153,53 +142,60 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         /// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f;
-        /// To: if (who is not null && crit && who.IsLocalPlayer && SuperMode is PoacherColdBlood poacherColdBlood) ... *= poacherColdBlood.GetCritDamageMultiplier();
+        /// To: if (who is not null && who.IsLocalPlayer && crit && ModEntry.PlayerState.Value.RegisteredUltimate is Ambush ambush && ambush.ShouldBuffCritPow()) ... *= 2f;
 
-        var poacherColdBlood = generator.DeclareLocal(typeof(PoacherColdBlood));
+        var ambush = generator.DeclareLocal(typeof(Ambush));
         try
         {
             helper
                 .FindProfessionCheck(Farmer.desperado, true) // find index of desperado check
-                .AdvanceUntil(
+                .RetreatUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
-                .GetOperand(out var dontIncreaseCritPow)
-                .Return()
+                .GetOperand(out var dontBuffCritPow)
+                .RetreatUntil(
+                    new CodeInstruction(OpCodes.Ldnull)
+                )
                 .ReplaceWith(
-                    new(OpCodes.Callvirt,
-                        typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))) // was Ldfld Farmer.professions
+                    new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow)
                 )
                 .Advance()
                 .ReplaceWith(
-                    new(OpCodes.Brfalse_S, dontIncreaseCritPow) // was Ldc_I4_S <desperado id>
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // was cgt ; arg 10 = Farmer who
                 )
                 .Advance()
-                .Remove(2) // was Callvirt NetList.Contains
                 .Insert(
-                    // check for Poacher Cold Blood
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                    new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow)
+                )
+                .Advance()
+                .Remove() // was and
+                .Advance()
+                .Insert(
+                    // check for ambush
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(PoacherColdBlood)),
-                    new CodeInstruction(OpCodes.Stloc_S, poacherColdBlood),
-                    new CodeInstruction(OpCodes.Ldloc_S, poacherColdBlood),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseCritPow)
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                    new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
+                    new CodeInstruction(OpCodes.Stloc_S, ambush),
+                    new CodeInstruction(OpCodes.Ldloc_S, ambush),
+                    new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow),
+                    // check for crit. pow. buff
+                    new CodeInstruction(OpCodes.Ldloc_S, ambush),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(Ambush).MethodNamed(nameof(Ambush.ShouldBuffCritPower))),
+                    new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow)
                 )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_R4, 2f) // desperado critical damage multiplier
-                )
-                .ReplaceWith(
-                    new(OpCodes.Call,
-                        typeof(PoacherColdBlood).MethodNamed(nameof(PoacherColdBlood.GetCritDamageMultiplier)))
-                )
-                .Insert(
-                    new CodeInstruction(OpCodes.Ldloc_S, poacherColdBlood)
+                .RemoveUntil(
+                    new CodeInstruction(OpCodes.Brfalse_S)
                 );
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while moving modded bonus crit damage from Desperado to Poacher.\nHelper returned {ex}");
+            Log.E($"Failed while moving Desperado bonus crit damage to Poacher after-ult.\nHelper returned {ex}");
             transpilationFailed = true;
             return null;
         }
@@ -207,17 +203,11 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         /// Injected: DamageMonsterSubroutine(damageAmount, isBomb, crit, critMultiplier, monster, who);
         ///	Before: if (monster.Health <= 0)
 
+        var didCrit = helper.Locals[7];
+        var damageAmount = helper.Locals[8];
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(bool)} (7)")
-                )
-                .GetOperand(out var didCrit) // copy reference to local 7 = Crit (whether player performed a crit)
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, $"{typeof(int)} (8)")
-                )
-                .GetOperand(out var damageAmount)
                 .FindFirst( // monster.Health <= 0
                     new CodeInstruction(OpCodes.Ldloc_2),
                     new CodeInstruction(OpCodes.Callvirt,
@@ -226,9 +216,8 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     new CodeInstruction(OpCodes.Bgt)
                 )
                 .StripLabels(out var labels) // backup and remove branch labels
-                .Insert(
-                    // restore backed-up labels
-                    labels,
+                .InsertWithLabels(
+                    labels, // restore backed-up labels
                     // prepare arguments
                     new CodeInstruction(OpCodes.Ldloc_S, damageAmount),
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = bool isBomb
@@ -238,9 +227,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
                     new CodeInstruction(OpCodes.Call,
                         typeof(GameLocationDamageMonsterPatch).MethodNamed(nameof(DamageMonsterSubroutine)))
-                )
-                .Return()
-                .AddLabels(labels);
+                );
         }
         catch (Exception ex)
         {
@@ -259,82 +246,151 @@ internal class GameLocationDamageMonsterPatch : BasePatch
     private static void DamageMonsterSubroutine(int damageAmount, bool isBomb, bool didCrit, float critMultiplier,
         Monster monster, Farmer who)
     {
-        if (damageAmount <= 0 || isBomb || who is not {IsLocalPlayer: true, CurrentTool: MeleeWeapon weapon} ||
-            ModEntry.PlayerState.Value.SuperMode is not { } superMode) return;
+        if (damageAmount <= 0 || isBomb || !who.IsLocalPlayer) return;
 
-        // try to steal
-        if (didCrit && superMode is PoacherColdBlood)
+        var r = new Random(Guid.NewGuid().GetHashCode());
+
+        // record last time in combat
+        if (who.HasProfession(Profession.Brute))
         {
-            var alreadyStoleFromThisMonster = monster.ReadDataAs<bool>("Stolen");
-            if (!alreadyStoleFromThisMonster &&
-                Game1.random.NextDouble() < (weapon.type.Value == MeleeWeapon.dagger ? 0.5 : 0.25))
+            ModEntry.PlayerState.Value.SecondsSinceLastCombat = 0;
+            
+            if (who.CurrentTool is MeleeWeapon weapon &&
+                ModEntry.PlayerState.Value.RegisteredUltimate is Frenzy frenzy && monster.Health <= 0)
             {
-                var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
-                    .Concat(monster.getExtraDropItems()).ToList();
-                var itemToSteal = drops.ElementAtOrDefault(Game1.random.Next(drops.Count))?.getOne();
-                if (itemToSteal is not null && !itemToSteal.Name.Contains("Error") &&
-                    who.addItemToInventoryBool(itemToSteal))
+                if (frenzy.IsActive)
                 {
-                    monster.WriteData("Stolen", bool.TrueString);
+                    // lifesteal
+                    //var healed = (int) (monster.MaxHealth * 0.01f);
+                    //who.health = Math.Min(who.health + healed, who.maxHealth);
+                    //who.currentLocation.debris.Add(new(healed,
+                    //    new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
 
-                    // play sound effect
-                    SoundBank.Play(SFX.PoacherSteal);
+                    // increment kill count
+                    ++ModEntry.PlayerState.Value.BruteKillCounter;
+                }
+                else
+                {
+                    // increment ultimate
+                    frenzy.ChargeValue += weapon.type.Value == MeleeWeapon.club ? 3 : 2; // more if wielding a club
                 }
             }
         }
 
-        // try to increment Super Mode gauges
-        if (superMode.IsActive) return;
-
-        var increment = 0;
-        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-        switch (superMode)
+        // try to steal
+        if (who.HasProfession(Profession.Poacher))
         {
-            case BruteFury:
+            if (who.CurrentTool is MeleeWeapon weapon && didCrit)
             {
-                increment = 2;
-                if (monster.Health <= 0) increment *= 2;
-                if (weapon.type.Value == MeleeWeapon.club) increment *= 2;
-                break;
-            }
-            case PoacherColdBlood:
-            {
-                increment = 2;
-                if (didCrit) increment *= (int) critMultiplier;
-                if (weapon.type.Value == MeleeWeapon.dagger) increment *= 2;
-                break;
-            }
-            case PiperEubstance when monster.IsSlime() && monster.currentLocation.characters
-                .OfType<Monster>().Any(m => !m.IsSlime()):
-            {
-#pragma warning disable CS8509
-                increment = monster switch
-#pragma warning restore CS8509
+                if (!monster.ReadDataAs<bool>("Stolen") &&
+                    Game1.random.NextDouble() < 0.15)
                 {
-                    GreenSlime => 4,
-                    BigSlime => 8,
-                };
-
-                if (monster.Health <= 0)
-                {
-                    increment *= 2;
-                    if (who.HasProfession(Profession.Piper, true))
+                    var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
+                        .Concat(monster.getExtraDropItems()).ToList();
+                    var itemToSteal = drops.ElementAtOrDefault(r.Next(drops.Count))?.getOne();
+                    if (itemToSteal is not null && !itemToSteal.Name.Contains("Error") &&
+                        who.addItemToInventoryBool(itemToSteal))
                     {
-                        var healed = (int) (who.maxHealth * 0.025f);
-                        who.health = Math.Min(who.health + healed, who.maxHealth);
-                        monster.currentLocation.debris.Add(new(healed,
-                            new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
+                        monster.WriteData("Stolen", bool.TrueString);
 
-                        who.Stamina = Math.Min(who.Stamina + who.Stamina * 0.01f, who.MaxStamina);
+                        // play sound effect
+                        SoundBank.Play(SFX.PoacherSteal);
+
+                        // if prestiged, reset cooldown
+                        if (who.HasProfession(Profession.Poacher, true))
+                        {
+                            MeleeWeapon.attackSwordCooldown = 0;
+                            MeleeWeapon.daggerCooldown = 0;
+                            MeleeWeapon.clubCooldown = 0;
+                        }
                     }
                 }
 
-                break;
+                // increment Poacher ultimate meter
+                if (ModEntry.PlayerState.Value.RegisteredUltimate is Ambush { IsActive: false } ambush1)
+                    ambush1.ChargeValue += critMultiplier;
             }
+
+            if (ModEntry.PlayerState.Value.RegisteredUltimate is Ambush { IsActive: true } ambush2)
+                ambush2.Deactivate();
         }
 
-        superMode.ChargeValue += increment * ModEntry.Config.SuperModeGainFactor *
-            SuperMode.MaxValue / SuperMode.INITIAL_MAX_VALUE_I;
+        if (!monster.IsSlime() || monster.Health > 0 || !who.HasProfession(Profession.Piper)) return;
+
+        // add Piper buffs
+        if (r.NextDouble() < 0.16667 + who.DailyLuck / 2.0)
+        {
+            var applied = ModEntry.PlayerState.Value.AppliedPiperBuffs;
+            var whatToBuff = r.Next(applied.Length);
+            if (whatToBuff is not (3 or 6))
+            {
+                switch (whatToBuff)
+                {
+                    case 8:
+                        applied[8] += 8;
+                        break;
+                    case 7:
+                        applied[7] += 10;
+                        break;
+                    default:
+                        ++applied[whatToBuff];
+                        break;
+                }
+
+                var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Profession.Piper;
+                Game1.buffsDisplay.removeOtherBuff(buffId);
+                Game1.buffsDisplay.addOtherBuff(new(
+                    applied[0], applied[1], applied[2], applied[3], applied[4], applied[5],
+                    applied[6], applied[7], applied[8], applied[9],
+                    applied[10], applied[11],
+                    5,
+                    "Piper",
+                    ModEntry.ModHelper.Translation.Get("piper.name." + (who.IsMale ? "male" : "female")))
+                {
+                    which = buffId,
+                    sheetIndex = 38,
+                    millisecondsDuration = 300000,
+                    description = ModEntry.ModHelper.Translation.Get("piper.buffdesc", new
+                    {
+                        farming = applied[0],
+                        fishing = applied[1],
+                        foraging = applied[5],
+                        mining = applied[2],
+                        attack = applied[11],
+                        defense = applied[10],
+                        luck = applied[4],
+                        speed = applied[9],
+                        energy = applied[7],
+                        magnetic = applied[8]
+                    })
+                });
+            }
+        }
+        
+        // heal if prestiged
+        if (who.HasProfession(Profession.Piper, true) && r.NextDouble() < 0.333)
+        {
+                var healed = (int) (monster.MaxHealth * 0.025f);
+                who.health = Math.Min(who.health + healed, who.maxHealth);
+                who.currentLocation.debris.Add(new(healed,
+                    new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
+
+                who.Stamina = Math.Min(who.Stamina + who.Stamina * 0.01f, who.MaxStamina);
+        }
+
+        // increment ultimate meter
+        if (ModEntry.PlayerState.Value.RegisteredUltimate is Pandemonia {IsActive: false} pandemonium)
+        {
+#pragma warning disable CS8509
+            var increment = monster switch
+#pragma warning restore CS8509
+            {
+                GreenSlime slime => 4 * slime.Scale,
+                BigSlime => 8,
+            };
+
+            pandemonium.ChargeValue += increment + r.Next(-2, 3);
+        }
     }
 
     #endregion injected subroutines

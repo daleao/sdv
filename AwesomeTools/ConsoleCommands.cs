@@ -1,9 +1,8 @@
-﻿using System;
-
-namespace DaLion.Stardew.Tools;
+﻿namespace DaLion.Stardew.Tools;
 
 #region using directives
 
+using System;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
@@ -42,9 +41,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        var success = Enum.TryParse<Framework.UpgradeLevel>(args[0], out var upgradeLevel);
-
-        if (!success)
+        if (!Enum.TryParse<Framework.UpgradeLevel>(args[0], true, out var upgradeLevel))
         {
             Log.W("Invalid argument." + GetUpgradeToolsUsage());
             return;
@@ -83,7 +80,15 @@ internal static class ConsoleCommands
 
         BaseEnchantment enchantment = args[0].ToLower() switch
         {
-            "auto-hook" => new AutoHookEnchantment(),
+            // weapon enchants
+            "artful" => new ArchaeologistEnchantment(),
+            "bugkiller" => new BugKillerEnchantment(),
+            "crusader" => new CrusaderEnchantment(),
+            "vampiric" => new VampiricEnchantment(),
+            "haymaker" => new HaymakerEnchantment(),
+            "magic" or "starburst" => new MagicEnchantment(), // not implemented
+            // tool enchants
+            "auto-hook" or "autohook" => new AutoHookEnchantment(),
             "archaeologist" => new ArchaeologistEnchantment(),
             "bottomless" => new BottomlessEnchantment(),
             "efficient" => new EfficientToolEnchantment(),
@@ -99,18 +104,18 @@ internal static class ConsoleCommands
 
         if (enchantment is null)
         {
-            Log.W($"Unknown enchantment type {args[0]}. Please enter a valid tool enchantment.");
+            Log.W($"Unknown enchantment type {args[0]}. Please enter a valid enchantment.");
             return;
         }
 
         if (!enchantment.CanApplyTo(tool))
         {
-            Log.W($"Cannot apply {enchantment.GetDisplayName()} Enchantment to {tool.DisplayName}.");
+            Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
             return;
         }
 
         tool.enchantments.Add(enchantment);
-        Log.I($"Added {enchantment.GetDisplayName()} Enchantment to {tool.DisplayName}.");
+        Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
     }
 
     #endregion command handlers

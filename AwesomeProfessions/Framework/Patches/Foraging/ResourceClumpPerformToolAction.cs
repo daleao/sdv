@@ -13,6 +13,7 @@ using StardewValley.TerrainFeatures;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -40,7 +41,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
         /// Injected: if (t.getLastFarmerToUse().professions.Contains(100 + <lumberjack_id>) && Game1.NextDouble() < 0.5) numChunks++;
         /// Before: numChunks++;
 
-        var notPrestigedLumberjack = generator.DefineLabel();
+        var isNotPrestiged = generator.DefineLabel();
         var resumeExecution1 = generator.DefineLabel();
         var resumeExecution2 = generator.DefineLabel();
         try
@@ -50,14 +51,14 @@ internal class ResourceClumpPerformToolAction : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10)
                 )
-                .AddLabels(notPrestigedLumberjack)
+                .AddLabels(isNotPrestiged)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Lumberjack + 100,
-                    notPrestigedLumberjack)
+                .InsertProfessionCheck((int) Profession.Lumberjack + 100, forLocalPlayer: false)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 11),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution1)
                 )
@@ -73,11 +74,12 @@ internal class ResourceClumpPerformToolAction : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Lumberjack + 100,
-                    resumeExecution2)
-                .InsertDiceRoll()
+                .InsertProfessionCheck((int) Profession.Lumberjack + 100, forLocalPlayer: false)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.5),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2)
+                )
+                .InsertDiceRoll(0.5)
+                .Insert(
                     new CodeInstruction(OpCodes.Bgt_S, resumeExecution2),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Add)

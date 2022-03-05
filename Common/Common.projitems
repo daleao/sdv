@@ -12,10 +12,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Tiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BidirectionalMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CollectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\KeybindListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\RectangleExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Vector2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />

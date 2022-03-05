@@ -27,6 +27,8 @@ internal class FishPondOnFishTypeChangedPatch : BasePatch
     {
         if (!ModEntry.Config.EnableFishPondRebalance) return;
         __instance.WriteData("QualityRating", null);
+        __instance.WriteData("FamilyQualityRating", null);
+        __instance.WriteData("FamilyCount", null);
     }
 
     #endregion harmony patches

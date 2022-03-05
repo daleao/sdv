@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley.Monsters;
 
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -47,11 +48,15 @@ internal class GreenSlimeOnDealContactDamagePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Piper, resumeExecution)
+                .InsertProfessionCheck((int) Profession.Piper, forLocalPlayer: false)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Piper + 100, (Label) returnLabel);
+                .InsertProfessionCheck((int) Profession.Piper + 100, forLocalPlayer: false)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, returnLabel)
+                );
         }
         catch (Exception ex)
         {

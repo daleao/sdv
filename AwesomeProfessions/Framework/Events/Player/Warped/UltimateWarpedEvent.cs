@@ -1,0 +1,29 @@
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Player;
+
+#region using directives
+
+using StardewModdingAPI.Events;
+
+using Display;
+using Extensions;
+
+#endregion using directives
+
+internal class UltimateWarpedEvent : WarpedEvent
+{
+    /// <inheritdoc />
+    protected override void OnWarpedImpl(object sender, WarpedEventArgs e)
+    {
+        if (e.NewLocation.Equals(e.OldLocation) || e.NewLocation.GetType() == e.OldLocation.GetType()) return;
+
+        if (e.NewLocation.IsDungeon())
+        {
+            EventManager.Enable(typeof(UltimateMeterRenderingHudEvent));
+        }
+        else
+        {
+            ModEntry.PlayerState.Value.RegisteredUltimate.ChargeValue = 0.0;
+            EventManager.Disable(typeof(UltimateMeterRenderingHudEvent));
+        }
+    }
+}

@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
@@ -22,7 +23,7 @@ internal static class GameLocationExtensions
 {
     /// <summary>Whether any farmer in this location has a specific profession.</summary>
     /// <param name="profession">The profession.</param>
-    public static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, Profession profession)
+    internal static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, Profession profession)
     {
         if (!Context.IsMultiplayer && location.Equals(Game1.currentLocation))
             return Game1.player.HasProfession(profession);
@@ -32,7 +33,7 @@ internal static class GameLocationExtensions
     /// <summary>Whether any farmer in this location has a specific profession.</summary>
     /// <param name="profession">The profession.</param>
     /// <param name="farmers">All the farmer instances in the location with the given profession.</param>
-    public static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, Profession profession,
+    internal static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, Profession profession,
         out IList<Farmer> farmers)
     {
         farmers = new List<Farmer>();
@@ -46,8 +47,18 @@ internal static class GameLocationExtensions
         return farmers.Any();
     }
 
+    /// <summary>Find a character with the specified hash code.</summary>
+    /// <typeparam name="T">A subtype of <see cref="Character"/>.</typeparam>
+    /// <param name="hash">An integer hash code.</param>
+    [CanBeNull]
+    internal static bool FindCharacterByHash<T>(this GameLocation location, int hash, out T character) where T : Character
+    {
+        character = location.characters.OfType<T>().FirstOrDefault(c => c.GetHashCode() == hash);
+        return character is not null;
+    }
+
     /// <summary>Get the raw fish data for this location during the current game season.</summary>
-    public static string[] GetRawFishDataForCurrentSeason(this GameLocation location)
+    internal static string[] GetRawFishDataForCurrentSeason(this GameLocation location)
     {
         var locationData =
             Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
@@ -56,7 +67,7 @@ internal static class GameLocationExtensions
     }
 
     /// <summary>Get the raw fish data for this location including all seasons.</summary>
-    public static string[] GetRawFishDataForAllSeasons(this GameLocation location)
+    internal static string[] GetRawFishDataForAllSeasons(this GameLocation location)
     {
         var locationData =
             Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
@@ -70,19 +81,24 @@ internal static class GameLocationExtensions
         return allSeasonFish.ToArray();
     }
 
-    /// <summary>Whether this location can spawn enemies.</summary>
-    public static bool IsCombatZone(this GameLocation location, bool dungeonsOnly = false)
+    /// <summary>Whether this location can is a dungeon.</summary>
+    internal static bool IsDungeon(this GameLocation location)
     {
         return location is MineShaft shaft && !shaft.IsTreasureOrSafeRoom() ||
-               location is Woods or BugLand or VolcanoDungeon ||
+               location is BugLand or VolcanoDungeon ||
                location.NameOrUniqueName.ContainsAnyOf("CrimsonBadlands", "DeepWoods", "Highlands", "RidgeForest",
-                   "SpiritRealm", "AsteroidsDungeon") ||
-               !dungeonsOnly && location.characters.OfType<Monster>().Any() && location is not SlimeHutch;
+                   "SpiritRealm", "AsteroidsDungeon");
+    }
+
+    /// <summary>Whether this location has spawned enemies.</summary>
+    internal static bool HasMonsters(this GameLocation location)
+    {
+        return location.characters.OfType<Monster>().Any() && location is not SlimeHutch;
     }
 
     /// <summary>Check if a tile on a map is valid for spawning diggable treasure.</summary>
     /// <param name="tile">The tile to check.</param>
-    public static bool IsTileValidForTreasure(this GameLocation location, Vector2 tile)
+    internal static bool IsTileValidForTreasure(this GameLocation location, Vector2 tile)
     {
         return (!location.objects.TryGetValue(tile, out var o) || o == null) &&
                location.doesTileHaveProperty((int) tile.X, (int) tile.Y, "Spawnable", "Back") != null &&
@@ -95,7 +111,7 @@ internal static class GameLocationExtensions
 
     /// <summary>Check if a tile is clear of debris.</summary>
     /// <param name="tile">The tile to check.</param>
-    public static bool IsTileClearOfDebris(this GameLocation location, Vector2 tile)
+    internal static bool IsTileClearOfDebris(this GameLocation location, Vector2 tile)
     {
         return (from debris in location.debris
             where debris.item is not null && debris.Chunks.Count > 0
@@ -105,7 +121,7 @@ internal static class GameLocationExtensions
 
     /// <summary>Force a tile to be affected by the hoe.</summary>
     /// <param name="tile">The tile to change.</param>
-    public static bool MakeTileDiggable(this GameLocation location, Vector2 tile)
+    internal static bool MakeTileDiggable(this GameLocation location, Vector2 tile)
     {
         var (x, y) = tile;
         if (location.doesTileHaveProperty((int) x, (int) y, "Diggable", "Back") is not null) return true;

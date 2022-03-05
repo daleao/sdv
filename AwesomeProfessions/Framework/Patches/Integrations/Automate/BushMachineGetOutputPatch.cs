@@ -77,7 +77,7 @@ internal class BushMachineGetOutputPatch : BasePatch
                         typeof(FarmerExtensions).MethodNamed(
                             nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
-                .Insert(
+                .InsertWithLabels(
                     labels: labels, // restore backed-up labels
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player)))
                 );

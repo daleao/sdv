@@ -38,7 +38,7 @@ internal class ObjectDrawPatch : BasePatch
     {
         if (!__instance.bigCraftable.Value || !__instance.readyForHarvest.Value ||
             __instance.heldObject.Value is not {ParentSheetIndex: 459, preservedParentSheetIndex.Value: > 0} mead ||
-            !Textures.TryGetMeadSourceRect(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
+            !Textures.TryGetSourceRectForMead(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
 
         if (__instance.isTemporarilyInvisible) return false; // don't run original logic
 

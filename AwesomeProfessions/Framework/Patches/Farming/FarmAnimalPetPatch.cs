@@ -8,11 +8,10 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using Netcode;
 using StardewValley;
 
-using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -65,7 +64,7 @@ internal class FarmAnimalPetPatch : BasePatch
                 .RemoveUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
-                .StripLabels();
+                .RemoveLabels();
         }
         catch (Exception ex)
         {
@@ -78,7 +77,7 @@ internal class FarmAnimalPetPatch : BasePatch
         /// From: friendshipTowardFarmer.Value = Math.Min(1000, (int)friendshipTowardFarmer + 15);
         /// To: friendshipTowardFarmer.Value = Math.Min(1000, (int)friendshipTowardFarmer + 15 + (who.professions.Contains(<rancher_id> + 100) ? 15 : 0));
 
-        var isNotPrestigedRancher = generator.DefineLabel();
+        var isNotPrestiged = generator.DefineLabel();
         try
         {
             helper
@@ -88,12 +87,13 @@ internal class FarmAnimalPetPatch : BasePatch
                     new CodeInstruction(OpCodes.Add)
                 )
                 .Advance(2)
-                .AddLabels(isNotPrestigedRancher)
+                .AddLabels(isNotPrestiged)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_1)
+                    new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Rancher + 100, isNotPrestigedRancher)
+                .InsertProfessionCheck((int) Profession.Rancher + 100, forLocalPlayer: false)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 15),
                     new CodeInstruction(OpCodes.Add)
                 );

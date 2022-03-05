@@ -26,8 +26,8 @@
         <li><a href="#combat">Combat</a></li>
       </ul>
     </li>
-    <li><a href="#super-mode">Super Mode</a></li>
     <li><a href="#prestige">Prestige</a></li>
+    <li><a href="#ultimates">Ultimates</a></li>
     <li><a href="#extended-progression">Extended Progression</a></li>
     <li><a href="#compatibility">Compatibility</a></li>
     <li><a href="#installation">Installation</a></li>
@@ -47,6 +47,7 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 ## Features
 
+Profession-related features:
 - Rebalanced and reworked [almost] every profession to be an equally unique and attractive choice.
 - Each profession targets a specific style of gameplay, some which were not viable in vanilla (e.g. ranching).
 - No more ~~boring~~ uninspiring +X% sell price bonuses.
@@ -60,12 +61,22 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 - Gender-specific profession title.
 - New icons for most professions, courtesy of [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) (please make sure to [endorse their original](https://www.nexusmods.com/stardewvalley/mods/4163) mod).
 - New sound effects and visuals for certain professions.
-- Integration with Automate and several other popular mods.
 - HUD elements compatible with SVE's Galdora and [Vintage Interface v2﻿](https://www.nexusmods.com/stardewvalley/mods/4697).
+
+Skill-related features:
+- Combat level 5 and 10 also reward 5 HP. At level 10 the player will have 200 health instead of 190.
+
+Other balancing features:
+- Improved slingshot combat. Enemies can be hit even if they are near the player.
+- Improved effects of building the defense stat. No longer soft-caps at 50% damage reduction.
+- Bee Houses and Tappers upgrade quality once a year, just like Fruit Trees.
+- Meads take after the honey type. Matching [BAGI](https://www.nexusmods.com/stardewvalley/mods/2080) ﻿icons are provided for vanilla flowers.
 - _[Optional]_ Rebalanced Fish Ponds:
     - Fish Ponds preserve the quality of fish placed inside. The quality of newly spawned fish will be inerited from a randomly chosen parent. Fishing from a pond always removes the lowest-quality fish first.
     - The quality of produced roe/ink is based on the average quality of the fish inside the pond. Each fish in the pond has a chance to add one roe/ink to the produce stack. However, this chance depends on the value of the fish (higher value fish have **lower** production chance). This means that cheap fish will produce tons of cheap roe, while more expensive fish will produce less but more valuable roe.
     - These features are intended to balance the new Aquarist profession.
+
+Integration is provided for Automate and several popular mods. See the [compatibility](#compatibility) section for details.
 
 ## Professions
 
@@ -139,50 +150,53 @@ Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too
 
 - **Lv5 - Fighter** - Damage +10% *(+20%)*. +15 HP.
     - _Unchanged from vanilla._
-- **Lv10 - Brute** - Damage +15%. +25 HP. Build fury in combat, further increasing damage. *Non-profession-based damage bonuses also decrease special move cooldown.*
-    - **Fury:** Damage bonus caps at +40% at Combat level 10. Fury builds faster if wielding a club.Unleash all pent-up fury to enter an **Undying Rage.**
-- **Lv10 - Bushwhacker** - Crit. chance x2. Crit. strikes can poach items. Your blood cools in battle, increasing lethality of crit. strikes. *Non-profession-based damage bonuses also decrease special move cooldown.*
+- **Lv10 - Brute** - Taking damage builds rage, improving combat prowess. +25 HP. *Rage also grants attack speed.*
+    - You may want to consider building defense bonuses. In vanilla, defense has a soft cap, not allowing damage reduction beyond 50%. This mod removes that cap, making defense more effective.
+    - **Rage:** Damage +1% per stack. Max 100 stacks. *Attack speed +0.5% per stack*.
+- **Lv10 - Bushwhacker** - Crit. chance +50%. Crit. strikes can poach items. *Successfully poaching an item refunds special move cooldown.*
     - Monsters can only be poached once.
-    - **Cold Blood:** Crit. power bonus caps at ×2 at Combat level 10. Chance to steal is higher and cold blood builds faster if wielding a dagger. Your cold blood masks your presence, allowing you to mount an **Ambuscade.**
-- **Lv 5 - Rascal** - Slingshots deal up to 50% more damage from afar. 60% chance to recover spent ammo. *Trick shots stun enemies for 5s.*
-    - In Vanilla, slingshots are unable to hit enemies that are near the Farmer. This mod improves slingshot combat by removing this grace period before a shot is allowed to deal damage. All professions are affected.
+- **Lv 5 - Rascal** - Slingshots damage +25% *(+50%)*. 60% chance to recover spent ammo. *Trick shots stun enemies for 5s.*
+    - In vanilla, slingshot projectiles have a short "grace period" during which it will ignore collision with enemies. This mod removes that grace period, allowing projectiles to hit enemies immediately in front of the Farmer. All professions are affected.
     -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but can ricochet once._
-- **Lv10 - Desperado** - Fire 50% faster. Chance to fire a double shot *(spread shot)*, based on current HP. Built-up temerity increases projectile cross section and impact power.
-    - **Temerity:**  Projectiles are fired with increasingly more power. Sufficiently powerful projectiles have higher knockback, can damage enemies around them even if they miss, and can even pierce through enemies, damaging others behind them. Temerity builds faster from quick shots (release immediately as soon as the slingshot is charged). Your temerity culminates in one _desperate_ **Death Blossom.**
-- **Lv10 - Slimed Piper** - Attract new Slimes in dangerous areas. All Slimes damage other enemies. Gather Eubstance to empower ally Slimes. *Defeating a Slime recovers some health and energy. Slimed debuff effect is reversed.*
-    - Each Slime raised in a hutch adds a chance to spawn an extra Slime in dungeons, up to the number of enemies on the map. The chance is diminishing, starting at 100% for the first Slime and dropping to 33% at Slime number 40 (two full hutches). Spawned Slimes and regular wild Slimes all will obey the Farmer; by default they start off in Passive behavior, huddling around the Farmer to protect from enemies. Quicky tapping the [ModKey](#configs) twice will toggle Aggressive behavior, commanding all Slimes to instead target the nearest approaching enemy. Slimes can only damage flying enemies while jumping. **Slimes will still damage the Farmer, so a Slime Charmer ring is recommended.**
-    - _Bonus: immune to the Slimed debuff._
-    - **Eubstance:** Increase the attack speed and movement speed of ally Slimes. Spread all gathered Eubstance to nearby Slimes, allowing them to enter a state of **Superfluidity.**
-
-## Super Mode
-
-The Combat tree has received a much more extensive overhaul. In addition to their primary fixed perks, 2nd-tier combat professions each have a unique "stackable" secondary perk (Fury, Cold Blood, Temerity, Eubstance). Once the maximum stacks have been collected, these professions may sacrifice some or all stacks to activate a powerful [Super Mode](https://tvtropes.org/pmwiki/pmwiki.php/Main/SuperMode) for a short duration. A new bar has been added to the HUD to help you keep track of current stacks. Only a single profession's Super Mode may be registered at any time; if a player gains multiple combat professions from skill reseting, only base perks will apply, and not the stackable secondary perk or Super Mode. The player will be prompted during level up whether they wish to replace their current Super Mode with the new professions'.
-
-- **Brute / Amazon - Undying Rage** - Doubles all damage bonuses. Immune to passing out.
-  - Doubled damage bonuses include profession, rings and enchantments.
-- **Bushwhacker - Ambuscade** - Become invisible and untargetable. Back stabs are deadly.
-  - An attack from behind will 1-hit KO. However, a missed back-attack will reveal your position if the target survives, ending the Super Mode.
-- **Desperado - Death Blossom** - Enable auto-reload. Fire in eight directions at once.
-  - Journey of the Prairie King, "IRL".
-- **Slimed Piper / Slime Enchantress - Superfluidity** - Engorge and empower nearby Slimes.
-  - Slimes scale up by a random factor up to twice their original size, with a proportional damage boost. Slimes that grow large enough can hit even flying enemies, and break up into baby Slimes when defeated. Low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert Slimes to prismatic variant. Big Slimes in the area explode immediately.
-
-Once all 30 professions have been acquired, the Statue of Prestige may be used to switch Super Modes at will.
-
-Super Modes can be disabled in the configs if desired.
+- **Lv10 - Desperado** - Charge slingshot 50% faster. Can overcharge slingshots for more power, or quick-release for a double-shot. *Overcharged shots become spreadshots.*
+    - **Overcharge:** Continue to hold the tool button to reveal the overcharge meter.
+    - **Quick-shots:** Release the shot as soon as it completes charging to perform double-shots.
+    - **Spreadhots:** Fire three projectiles in a cone. Requires at overcharging at least half the bar. The higher the bar the narrower the cone. 
+- **Lv10 - Slimed Piper** - Attract more Slimes in dangerous areas. Chance to gain a random buff when a Slime is defeated. *Chance to also recover some health and energy when a Slime is defeated.*
+    - Each Slime raised in a hutch adds a chance to spawn an extra Slime in dungeons, up to the number of enemies on the map.
+    - Buffs are the same as food/drink buffs (skill levels, attack, defense, speed, luck, max energy, magnetism). Lasts 5 minutes and stacks indefinitely, refreshing the duration each time.
+    - _Bonus: immune to the Slimed debuff, even without a Slime Charmer ring._
 
 ## Prestige
 
 The [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) has been replaced by the Statue of Prestige, which is capable of reseting level 10 skills, for a price. A skill reset preserves all related professions, and (optionally) forgets all related recipes. The farmer can use this to eventually acquire all 30 professions simultaneously.
 Reseting a skill costs 10,000g the first time, 50,000g the second time, and 100,000g the last time (values are configurable). The ribbon in the skills page of the game menu reflects the number of professions acquired in each skill.
 
-Once the ribbon has reached its fourth stage, signaling that all professions have been obtained, its level cap is raised to 20, allowing the farmer to continue developing tool proficiency or max health. Skill level also affects the odds of higher quality crops and fishes, the amount of berries foraged per bush, and the duration of Super Mode and related perks.
+Once the ribbon has reached its fourth stage, signaling that all professions have been obtained, its level cap is raised to 20, allowing the farmer to continue developing tool proficiency or max health. Skill level also affects the odds of higher quality crops and fishes, the amount of berries foraged per bush, and the duration of Ultimate and related perks.
  
 At levels 15 and 20, the farmer can choose a profession to prestige, improving one of its base perks, or, in some cases, granting entirely new ones. These choices can later be changed at the Statue of Prestige, for a cost.
 
 All Prestige features are optional and may be disabled or customized in the configs. Non-vanilla skills at the moment are not supported by prestige.
 
-## Compatbility
+## Ultimates
+
+Each level 10 Combat profession is also granted an Ultimate ability. This ability must be charged by performing certain actions during combat. The current charge state is revealed by a new HUD bar next Health. The player can only have a single Ultimate ability registered at any time; i.e. acquiring all combat professions via skill reseting will not grant additional Ultimates beyond the first. The overnight level-up menu will prompt the player if they wish to replace their current Ultimate ability with the new professions'.
+
+- **Brute / Amazon - Undying Frenzy** - Doubles rage accumulation for 15s. Immune to passing out. When the effect ends, recovers 5% health for every enemy slain while the buff was active.
+- **Bushwhacker - Ambuscade** - Become invisible and untargetable for 30s. Effect ends prematurely if the player attacks an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration.
+- **Desperado - Death Blossom** - Enable auto-reload for 15s. Fire in eight directions at once.
+  - Journey of the Prairie King, "IRL".
+- **Slimed Piper / Slime Enchantress - Pandemonia** - Charm nearby Slimes for 30s. Charmed Slimes increase in size and power and will seek out other enemies. Enemies hit will aggro onto the Slime.
+  - Slimes scale up factor is random, up to twice the original size. Slimes gain a proportional damage and health boost.
+  - If defeated, engorged Slimes break up into smaller baby Slimes.
+  - There is also a low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert the Slime to prismatic variant.
+  - Nearby Big Slimes explode immediately.
+
+Once all 30 professions have been acquired, the Statue of Prestige may be used to switch Ultimates at will.
+
+Ultimates can be disabled via a config setting if desired.
+
+## Compatibility
 
 The following mods are fully integrated:
 
@@ -195,7 +209,7 @@ The following mods are fully integrated:
 - [Teh's Fishing Overhaul](https://www.nexusmods.com/stardewvalley/mods/866/) (the optional Recatchable Legendaries file is also compatible).
 - [Mushroom Propagator](https://www.nexusmods.com/stardewvalley/mods/4637) (applies Ecologist perks).
 - [Vintage Interface v2](https://www.nexusmods.com/stardewvalley/mods/4697) (enable via configs).
-- [Stardew Valley Expanded](https://www.nexusmods.com/stardewvalley/mods/3753) (provides a compatible Galdoran-theme Super Mode bar if SVE is installed).﻿
+- [Stardew Valley Expanded](https://www.nexusmods.com/stardewvalley/mods/3753) (provides a compatible Galdoran-theme Ultimate bar if SVE is installed).﻿
 - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098)
 
 The following mods are compatible without integration:
@@ -250,13 +264,13 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **TrashNeededPerFriendshipPoint** (uint) - Represents the number of trash items the Prestiged Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
 - **TaxDeductionCeiling** (float) - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
 
-### Super Mode Configs
-- **EnableSuperMode** (bool) - Required to allow Super Mode activation. Super Stat continues to apply.
-- **SuperModeKey** (keybind) - This is the key that activates Super Mode for 2nd-tier combat professions. By default this is the same key as Modkey, but can also be set to a different key.
-- **HoldKeyToActivateSuperMode** (bool) - If set to true, then Super Mode will be activated after holding the above key for a short amount of time. If set to false, then Super Mode will activate immediately upon pressing the key. Useful if you are running out of keys to bind, or just want to prevent accidental activation of Super Mode. Default value is true. 
-- **SuperModeActivationDelay** (float) - If HoldKeyToActivateSuperMode is set to true, this represents the number of seconds between pressing SuperModeKey and activating Super Mode. Set to a higher value if you use Prospector profession and find yourself accidentally wasting your Super Mode in the Mines.
-- **SuperModeGainFactor** (double) - Determines how quickly the Super Mode resource bar fills up.
-- **SuperModeDrainFactor** (double) - Determines how quickly the Super Mode resource bar drains during Super Mode. The base duration is 15 seconds. Higher numbers make Super Mode last longer.
+### Ultimate Configs
+- **EnableUltimate** (bool) - Required to allow Ultimate activation. Super Stat continues to apply.
+- **UltimateKey** (keybind) - This is the key that activates Ultimate for 2nd-tier combat professions. By default this is the same key as Modkey, but can also be set to a different key.
+- **HoldKeyToActivateUltimate** (bool) - If set to true, then Ultimate will be activated after holding the above key for a short amount of time. If set to false, then Ultimate will activate immediately upon pressing the key. Useful if you are running out of keys to bind, or just want to prevent accidental activation of Ultimate. Default value is true. 
+- **UltimateActivationDelay** (float) - If HoldKeyToActivateUltimate is set to true, this represents the number of seconds between pressing UltimateKey and activating Ultimate. Set to a higher value if you use Prospector profession and find yourself accidentally wasting your Ultimate in the Mines.
+- **UltimateGainFactor** (double) - Determines how quickly the Ultimate meter fills up.
+- **UltimateDrainFactor** (double) - Determines how quickly the Ultimate meter drains while active. The base duration is 15 seconds. Higher numbers make Ultimate last longer.
 
 ### Prestige Configs
 - **EnablePrestige** (bool) - Whether to apply prestige changes.
@@ -282,9 +296,9 @@ The mod provides the following console commands, which you can enter in the SMAP
 - **player_professions** - List the player's current professions.
 - **player_addprofessions** - Add the specified professions to the local player.
 - **player_resetprofessions** - Reset all skills and professions for the local player.
-- **player_readyult** - Max-out the Super Mode meter, or set it to the specified value (between 0 and 100).
-- **player_changeult** - Change the Super Mode profession to the desired profession.
-- **player_whichult** - Check the currently registered Super Mode profession.
+- **player_readyult** - Max-out the Ultimate meter, or set it to the specified value (between 0 and 100).
+- **player_changeult** - Change the Ultimate profession to the desired profession.
+- **player_whichult** - Check the currently registered Ultimate profession.
 - **player_maxanimalfriendship** - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
 - **player_maxanimalmood** - Max-out the mood of all owned animals, which affects production frequency as Producer.
 - **player_fishingprogress** - Check your fishing progress and bonus fish value as Angler.

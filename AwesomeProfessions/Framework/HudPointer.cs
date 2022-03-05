@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.TreasureHunt;
+﻿namespace DaLion.Stardew.Professions.Framework;
 
 #region using directives
 
@@ -7,6 +7,8 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
+
+using SUtility = StardewValley.Utility;
 
 #endregion using directives
 
@@ -26,7 +28,7 @@ internal class HudPointer
     /// <param name="color">The color of the indicator.</param>
     public void DrawAsTrackingPointer(Vector2 target, Color color)
     {
-        if (Utility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
+        if (SUtility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
 
         var vpBounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
         Vector2 onScreenPosition = default;
@@ -72,7 +74,7 @@ internal class HudPointer
             rotation -= (float) Math.PI / 4f;
 
         var srcRect = new Rectangle(0, 0, Texture.Width, Texture.Height);
-        var safePos = Utility.makeSafe(
+        var safePos = SUtility.makeSafe(
             renderSize: new(srcRect.Width * Game1.pixelZoom, srcRect.Height * Game1.pixelZoom),
             renderPos: onScreenPosition
         );
@@ -96,12 +98,12 @@ internal class HudPointer
     /// <remarks>Credit to <c>Bpendragon</c>.</remarks>
     public void DrawOverTile(Vector2 target, Color color)
     {
-        if (!Utility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
+        if (!SUtility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
 
         var srcRect = new Rectangle(0, 0, 5, 4);
         var targetPixel = new Vector2(target.X * 64f + 32f, target.Y * 64f + 32f + _height);
         var adjustedPixel = Game1.GlobalToLocal(Game1.viewport, targetPixel);
-        adjustedPixel = Utility.ModifyCoordinatesForUIScale(adjustedPixel);
+        adjustedPixel = SUtility.ModifyCoordinatesForUIScale(adjustedPixel);
 
         Game1.spriteBatch.Draw(
             Texture,

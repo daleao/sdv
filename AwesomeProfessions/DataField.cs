@@ -9,6 +9,8 @@ internal enum DataField
     ConservationistTrashCollectedThisSeason,
     ConservationistActiveTaxBonusPct,
     ForgottenRecipesDict,
-    SuperModeIndex,
+    UltimateIndex,
     FishPondQualityDict,
+    FishPondFamilyQualityDict,
+    FishPondFamilyCountDict
 }

@@ -27,11 +27,13 @@ internal static class EventManager
 {
     private static readonly Dictionary<Profession, List<Type>> EventsByProfession = new()
     {
+        {Profession.Brute, new() {typeof(BruteUpdateTickedEvent)}},
         {Profession.Conservationist, new() {typeof(HostConservationismDayEndingEvent)}},
         {Profession.Piper, new() {typeof(PiperWarpedEvent)}},
         {Profession.Prospector, new() {typeof(ProspectorHuntDayStartedEvent), typeof(ProspectorWarpedEvent), typeof(TrackerButtonsChangedEvent)}},
         {Profession.Scavenger, new() {typeof(ScavengerHuntDayStartedEvent), typeof(ScavengerWarpedEvent), typeof(TrackerButtonsChangedEvent)}},
-        {Profession.Spelunker, new() {typeof(SpelunkerWarpedEvent)}}
+        {Profession.Spelunker, new() {typeof(SpelunkerWarpedEvent)}},
+        {Profession.Desperado, new() {typeof(DesperadoUpdateTickedEvent)}}
     };
 
     private static readonly List<IEvent> _events = new();
@@ -106,7 +108,7 @@ internal static class EventManager
             }
 
             e.Enable();
-            Log.D($"[EventManager]: Hooked {type.Name}.");
+            Log.D($"[EventManager]: Enabled {type.Name}.");
         }
     }
 
@@ -130,7 +132,7 @@ internal static class EventManager
             }
 
             e.Disable();
-            Log.D($"[EventManager]: Unhooked {type.Name}.");
+            Log.D($"[EventManager]: Disabled {type.Name}.");
         }
     }
 
@@ -149,12 +151,9 @@ internal static class EventManager
             }
 
         Log.D("[EventManager] Enabling other events...");
-        if (Context.IsMainPlayer)
-            Enable(typeof(MonsterFindPlayerUpdateTickedEvent));
-
         if (Context.IsMultiplayer)
         {
-            Enable(typeof(ToggledSuperModeModMessageReceivedEvent));
+            Enable(typeof(ToggledUltimateModMessageReceivedEvent));
             if (Context.IsMainPlayer)
                Enable(typeof(HostPeerConnectedEvent), typeof(HostPeerDisconnectedEvent));
         }
@@ -186,15 +185,16 @@ internal static class EventManager
 
         Log.D($"[EventManager]: Enabling events for {profession}...");
         Enable(events.ToArray());
-        if (profession == Profession.Piper && Game1.player.currentLocation.IsCombatZone())
-            Enable(typeof(PiperButtonsChangedEvent), typeof(PiperUpdateTickedEvent));
     }
 
     /// <summary>Disable all events related to the specified profession.</summary>
-    /// <param name="professionName">A profession name.</param>
+    /// <param name="profession">A profession.</param>
     internal static void DisableAllForProfession(Profession profession)
     {
-        if (!EventsByProfession.TryGetValue(profession, out var events)) return;
+        if (profession == Profession.Conservationist && Game1.game1.DoesAnyPlayerHaveProfession(Profession.Conservationist, out _)
+            || !EventsByProfession.TryGetValue(profession, out var events)) return;
+
+        if (profession == Profession.Spelunker) events.Add(typeof(SpelunkerUpdateTickedEvent));
 
         List<Type> except = new();
         if (profession == Profession.Prospector && Game1.player.HasProfession(Profession.Scavenger) ||
@@ -213,14 +213,14 @@ internal static class EventManager
     internal static void EnableAllStartingWith(string prefix, params Type[] except)
     {
         Log.D($"[EventManager]: Searching for '{prefix}' events to be enabled...");
-        var toBeHooked = _events
+        var toBeEnabled = _events
             .Select(e => e.GetType())
             .Where(t => t.Name.StartsWith(prefix))
             .Except(except)
             .ToArray();
 
-        Log.D($"Found {toBeHooked.Length} events. Hooking...");
-        Enable(toBeHooked);
+        Log.D($"Found {toBeEnabled.Length} events. Enabling...");
+        Enable(toBeEnabled);
     }
 
     /// <summary>Disable all event types starting with the specified prefix.</summary>
@@ -228,15 +228,15 @@ internal static class EventManager
     /// <param name="except">Types to be excluded, if any.</param>
     internal static void DisableAllStartingWith(string prefix, params Type[] except)
     {
-        Log.D($"[EventManager]: Searching for '{prefix}' events to be unhooked...");
-        var toBeUnhooked = _events
+        Log.D($"[EventManager]: Searching for '{prefix}' events to be disabled...");
+        var toBeDisabled = _events
             .Select(e => e.GetType())
             .Where(t => t.Name.StartsWith(prefix))
             .Except(except)
             .ToArray();
 
-        Log.D($"Found {toBeUnhooked.Length} events. Unhooking...");
-        Disable(toBeUnhooked);
+        Log.D($"Found {toBeDisabled.Length} events. Disabling...");
+        Disable(toBeDisabled);
     }
 
     /// <summary>Get an event instance of the specified event type.</summary>

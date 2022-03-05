@@ -16,7 +16,7 @@ using Stardew.Common.Extensions;
 using AssetLoaders;
 using Events.GameLoop;
 using Extensions;
-using SuperMode;
+using Ultimate;
 
 using Localization = Utility.Localization;
 
@@ -156,7 +156,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                 }
                 case "dogStatue_changeUlt":
                 {
-                    var currentProfessionKey = ModEntry.PlayerState.Value.SuperMode.Index.ToString().ToLower();
+                    var currentProfessionKey = ModEntry.PlayerState.Value.RegisteredUltimate.Index.ToString().ToLower();
                     var currentProfessionDisplayName =
                         ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".name.male");
                     var currentBuff = ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".buff");
@@ -165,18 +165,18 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         new {pronoun, currentProfession = currentProfessionDisplayName, currentBuff});
 
                     var choices = (
-                        from superModeIndex in Game1.player.GetUnchosenSuperModes()
+                        from superModeIndex in Game1.player.GetUnchosenUltimates()
                         orderby superModeIndex
                         let choiceProfessionKey = superModeIndex.ToString().ToLower()
                         let choiceProfessionDisplayName =
                             ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".name.male")
-                        let choiceBuff = ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".buff")
+                        let choiceBuff = ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".ulti")
                         let choice =
                             ModEntry.ModHelper.Translation.Get("prestige.dogstatue.choice",
                                 new {choiceProfession = choiceProfessionDisplayName, choiceBuff})
                         select new Response("Choice_" + superModeIndex, choice)).ToList();
 
-                    choices.Add(new Response("Cancel", Game1.content.LoadString("Strings\\Lexicon:QuestionDialogue_No"))
+                    choices.Add(new Response("Cancel", ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cancel"))
                         .SetHotKey(Keys.Escape));
 
                     __instance.createQuestionDialogue(message, choices.ToArray(), delegate(Farmer _, string choice)
@@ -185,19 +185,19 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
 
                         Game1.player.Money = Math.Max(0, Game1.player.Money - (int)ModEntry.Config.ChangeUltCost);
 
-                        // change super mode
-                        var newIndex = Enum.Parse<SuperModeIndex>(choice.Split("_")[1]);
-                        ModEntry.PlayerState.Value.SuperMode =
+                        // change ultimate
+                        var newIndex = Enum.Parse<UltimateIndex>(choice.Split("_")[1]);
+                        ModEntry.PlayerState.Value.RegisteredUltimate =
 #pragma warning disable CS8509
-                            ModEntry.PlayerState.Value.SuperMode = newIndex switch
+                            ModEntry.PlayerState.Value.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
                             {
-                                SuperModeIndex.Brute => new BruteFury(),
-                                SuperModeIndex.Poacher => new PoacherColdBlood(),
-                                SuperModeIndex.Piper => new PiperEubstance(),
-                                SuperModeIndex.Desperado => new DesperadoTemerity()
+                                UltimateIndex.Brute => new Frenzy(),
+                                UltimateIndex.Poacher => new Ambush(),
+                                UltimateIndex.Piper => new Pandemonia(),
+                                UltimateIndex.Desperado => new DeathBlossom()
                             };
-                        Game1.player.WriteData(DataField.SuperModeIndex, newIndex.ToString());
+                        Game1.player.WriteData(DataField.UltimateIndex, newIndex.ToString());
 
                         // play sound effect
                         SoundBank.Play((SFX)SFX.DogStatuePrestige);
@@ -217,6 +217,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
                         ModEntry.PlayerState.Value.UsedDogStatueToday = true;
+                        EventManager.Enable(typeof(PrestigeDayStartedEvent));
                     });
                     return false; // don't run original logic
                 }
@@ -226,18 +227,8 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                     var skillName = questionAndAnswer.Split('_')[1];
                     if (skillName == "cancel") return false; // don't run original logic
 
-                    // get skill type
-#pragma warning disable CS8509
-                    var skillType = skillName switch
-#pragma warning restore CS8509
-                    {
-                        "farming" => SkillType.Farming,
-                        "fishing" => SkillType.Fishing,
-                        "foraging" => SkillType.Foraging,
-                        "mining" => SkillType.Mining,
-                        "combat" => SkillType.Combat
-                    };
-
+                    // get skill type and do action
+                    var skillType = Enum.Parse<SkillType>(skillName, true);
                     if (questionAndAnswer.Contains("skillReset_"))
                     {
                         var cost = Game1.player.GetResetCost(skillType);
@@ -295,6 +286,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
                         ModEntry.PlayerState.Value.UsedDogStatueToday = true;
+                        EventManager.Enable(typeof(PrestigeDayStartedEvent));
                     }
 
                     break;

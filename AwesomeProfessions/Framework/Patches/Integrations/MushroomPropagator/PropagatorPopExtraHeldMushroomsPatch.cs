@@ -70,14 +70,14 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
                 .RemoveUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_4)
                 )
-                .Insert(
+                .InsertWithLabels(
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(PropagatorPopExtraHeldMushroomsPatch).MethodNamed(
                             nameof(PopExtraHeldMushroomsSubroutine)))
                 )
-                .StripLabels();
+                .RemoveLabels();
         }
         catch (Exception ex)
         {

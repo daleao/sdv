@@ -17,7 +17,7 @@ using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Events.GameLoop;
 using Extensions;
-using SuperMode;
+using Ultimate;
 
 using CollectionExtensions = Stardew.Common.Extensions.CollectionExtensions;
 using Localization = Utility.Localization;
@@ -160,7 +160,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Stfld)
                 )
-                .Insert(
+                .InsertWithLabels(
                     // branch here if the player already had the chosen profession
                     new[] {dontGetImmediatePerks},
                     // check if current level is above 10 (i.e. prestige level)
@@ -177,7 +177,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Add)))
                 )
-                .Insert(
+                .InsertWithLabels(
                     // branch here if was not prestige level
                     new[] {isNotPrestigeLevel},
                     // load the chosen profession onto the stack
@@ -219,7 +219,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         try
         {
             helper
-                .ReturnToFirst()
+                .GoTo(0)
                 .Insert(
                     // initialize shouldProposeFinalQuestion local variable to false
                     new CodeInstruction(OpCodes.Ldc_I4_0),
@@ -235,7 +235,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 .StripLabels(out var labels) // backup and remove branch labels
                 .AddLabels(dontCongratulateOnFullPrestige,
                     resumeExecution) // branch here after checking for congratulate or after proposing final question
-                .Insert(
+                .InsertWithLabels(
                     // restore backed-up labels
                     labels,
                     // check if should propose the final question
@@ -248,7 +248,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                         typeof(LevelUpMenuUpdatePatch).MethodNamed(nameof(ProposeFinalQuestion))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
-                .Insert(
+                .InsertWithLabels(
                     // branch here after checking for proposal
                     new[] {dontProposeFinalQuestion},
                     // check if should congratulate on full prestige
@@ -277,8 +277,8 @@ internal class LevelUpMenuUpdatePatch : BasePatch
     private static bool ShouldProposeFinalQuestion(int chosenProfession)
     {
         return ModEntry.Config.EnablePrestige && chosenProfession is >= 26 and < 30 &&
-               ModEntry.PlayerState.Value.SuperMode is not null &&
-               (int) ModEntry.PlayerState.Value.SuperMode.Index != chosenProfession;
+               ModEntry.PlayerState.Value.RegisteredUltimate is not null &&
+               (int) ModEntry.PlayerState.Value.RegisteredUltimate.Index != chosenProfession;
     }
 
     private static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
@@ -288,12 +288,12 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
     private static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
     {
-        var oldProfessionKey = ModEntry.PlayerState.Value.SuperMode.Index.ToString().ToLower();
+        var oldProfessionKey = ModEntry.PlayerState.Value.RegisteredUltimate.Index.ToString().ToLower();
         var oldProfessionDisplayName = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".name.male");
-        var oldBuff = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".buff");
-        var newProfessionKey = chosenProfession.ToProfessionName();
+        var oldUlt = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".ulti");
+        var newProfessionKey = chosenProfession.ToProfessionName().ToLower();
         var newProfessionDisplayName = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".name.male");
-        var newBuff = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".buff");
+        var newUlt = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".ulti");
         var pronoun = Localization.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(
             ModEntry.ModHelper.Translation.Get("prestige.levelup.question",
@@ -301,26 +301,26 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 {
                     pronoun,
                     oldProfession = oldProfessionDisplayName,
-                    oldBuff,
+                    oldBuff = oldUlt,
                     newProfession = newProfessionDisplayName,
-                    newBuff
+                    newBuff = newUlt
                 }),
             Game1.currentLocation.createYesNoResponses(), delegate(Farmer _, string answer)
             {
                 if (answer == "Yes")
                 {
-                    var newIndex = (SuperModeIndex) chosenProfession;
-                    ModEntry.PlayerState.Value.SuperMode =
+                    var newIndex = (UltimateIndex) chosenProfession;
+                    ModEntry.PlayerState.Value.RegisteredUltimate =
 #pragma warning disable CS8509
-                        ModEntry.PlayerState.Value.SuperMode = newIndex switch
+                        ModEntry.PlayerState.Value.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
                         {
-                            SuperModeIndex.Brute => new BruteFury(),
-                            SuperModeIndex.Poacher => new PoacherColdBlood(),
-                            SuperModeIndex.Piper => new PiperEubstance(),
-                            SuperModeIndex.Desperado => new DesperadoTemerity()
+                            UltimateIndex.Brute => new Frenzy(),
+                            UltimateIndex.Poacher => new Ambush(),
+                            UltimateIndex.Piper => new Pandemonia(),
+                            UltimateIndex.Desperado => new DeathBlossom()
                         };
-                    Game1.player.WriteData(DataField.SuperModeIndex, newIndex.ToString());
+                    Game1.player.WriteData(DataField.UltimateIndex, newIndex.ToString());
                 }
 
                 if (shouldCongratulateFullSkillMastery) CongratulateOnFullSkillMastery(chosenProfession);

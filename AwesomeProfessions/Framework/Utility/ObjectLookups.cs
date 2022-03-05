@@ -6,10 +6,10 @@ using System.Collections.Generic;
 
 #endregion using directives
 
-public static class ObjectLookups
+internal static class ObjectLookups
 {
     /// <summary>Look-up table for different types of bait by id.</summary>
-    public static Dictionary<int, string> BaitById { get; } = new()
+    internal static Dictionary<int, string> BaitById { get; } = new()
     {
         {685, "Bait"},
         {703, "Magnet"},
@@ -18,7 +18,7 @@ public static class ObjectLookups
     };
 
     /// <summary>Look-up table for what resource should spawn from a given stone.</summary>
-    public static Dictionary<int, int> ResourceFromStoneId { get; } = new()
+    internal static Dictionary<int, int> ResourceFromStoneId { get; } = new()
     {
         // stone
         {668, 390},
@@ -61,7 +61,7 @@ public static class ObjectLookups
     };
 
     /// <summary>Look-up table for trappable treasure items using magnet.</summary>
-    public static Dictionary<int, string[]> TrapperPirateTreasureTable { get; } = new()
+    internal static Dictionary<int, string[]> TrapperPirateTreasureTable { get; } = new()
     {
         {14, new[] {"0.003", "1", "1"}}, // neptune's glaive
         {51, new[] {"0.003", "1", "1"}}, // broken trident
@@ -90,7 +90,7 @@ public static class ObjectLookups
     };
 
     /// <summary>Hash list of artisan machines.</summary>
-    public static readonly IEnumerable<string> ArtisanMachines = new HashSet<string>
+    internal static readonly IEnumerable<string> ArtisanMachines = new HashSet<string>
     {
         "Alembic", // artisan valley
         "Artisanal Soda Maker", // artisanal soda makers
@@ -131,7 +131,7 @@ public static class ObjectLookups
     };
 
     /// <summary>Hash list of ids corresponding to animal produce or derived artisan goods.</summary>
-    public static readonly IEnumerable<int> AnimalDerivedProductIds = new HashSet<int>
+    internal static readonly IEnumerable<int> AnimalDerivedProductIds = new HashSet<int>
     {
         107, // dinosaur egg
         306, // mayonnaise
@@ -145,7 +145,7 @@ public static class ObjectLookups
     };
 
     /// <summary>Hash list of stone ids corresponding to resource nodes.</summary>
-    public static readonly IEnumerable<int> ResourceNodeIds = new HashSet<int>
+    internal static readonly IEnumerable<int> ResourceNodeIds = new HashSet<int>
     {
         // ores
         751, // copper node
@@ -183,7 +183,7 @@ public static class ObjectLookups
     };
 
     /// <summary>Hash list of fish names corresponding to legendary fish.</summary>
-    public static readonly IEnumerable<string> LegendaryFishNames = new HashSet<string>
+    internal static readonly IEnumerable<string> LegendaryFishNames = new HashSet<string>
     {
         "Crimsonfish", // vanilla
         "Angler", // vanilla
@@ -196,5 +196,20 @@ public static class ObjectLookups
         "Glacierfish Jr.", // qi extended
         "Radioactive Carp", // qi extended
         "Pufferchick" // stardew aquarium
+    };
+
+    /// <summary>Dictionary of extended family pair by legendary fish id.</summary>
+    internal static readonly Dictionary<int, int> ExtendedFamilyPairs = new()
+    {
+        { 159, 898 },
+        { 160, 899 },
+        { 163, 900 },
+        { 682, 901 },
+        { 775, 902 },
+        { 898, 159 },
+        { 899, 160 },
+        { 900, 163 },
+        { 901, 682 },
+        { 902, 775 }
     };
 }

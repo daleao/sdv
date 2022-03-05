@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
@@ -13,6 +14,7 @@ using StardewValley.TerrainFeatures;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -61,7 +63,7 @@ internal class TreeTickUpdatePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
-                .Insert(
+                .InsertWithLabels(
                     new[] {isPrestiged},
                     new CodeInstruction(OpCodes.Pop),
                     new CodeInstruction(OpCodes.Ldc_R8, 1.4)
@@ -78,21 +80,30 @@ internal class TreeTickUpdatePatch : BasePatch
         if (++i < 2) goto repeat1;
 
         // find the Arborist profession check
-        helper
-            .FindProfessionCheck((int) Profession.Arborist, true)
-            .RetreatUntil(
-                new CodeInstruction(OpCodes.Ldarg_0)
-            )
-            .ToBufferUntil(
-                true,
-                false,
-                new CodeInstruction(OpCodes.Callvirt,
-                    typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
-            );
+        CodeInstruction[] checkForArboristInstructions;
+        try
+        {
+            helper
+                .FindProfessionCheck((int) Profession.Arborist, true)
+                .RetreatUntil(
+                    new CodeInstruction(OpCodes.Ldarg_0)
+                )
+                .GetInstructionsUntil(out checkForArboristInstructions, true, false,
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
+                );
 
-        // copy these instructions and replace Arborist check for prestiged Arborist check
-        var checkForArboristInstructions = helper.Buffer;
-        checkForArboristInstructions[5] = new(OpCodes.Ldc_I4_S, (int) Profession.Arborist + 100);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed while getting instructions for Arborist check.\nHelper returned {ex}");
+            transpilationFailed = true;
+            return null;
+        }
+
+        // replace Arborist check for prestiged Arborist check
+        var checkForPrestigedArboristInstructions = checkForArboristInstructions;
+        checkForPrestigedArboristInstructions[5] = new(OpCodes.Ldc_I4_S, (int) Profession.Arborist + 100);
 
         /// From: numHardwood++;
         /// To: numHardwood += Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <arborist_id>) ? 2 : 1;
@@ -100,7 +111,7 @@ internal class TreeTickUpdatePatch : BasePatch
         /// From: numHardwood += (int) (numHardwood * 0.25f + 0.9f);
         /// To: numHardwood += (int) (numHardwood * (Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <arborist_id>) ? 0.5f : 0.25f) + 0.9f);
 
-        helper.ReturnToFirst();
+        helper.GoTo(0);
         i = 0;
         repeat2:
         try
@@ -116,7 +127,7 @@ internal class TreeTickUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Add)
                 )
                 .AddLabels(notPrestigedArborist1)
-                .Insert(checkForArboristInstructions)
+                .Insert(checkForPrestigedArboristInstructions)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, notPrestigedArborist1),
                     new CodeInstruction(OpCodes.Ldc_I4_2),
@@ -130,7 +141,7 @@ internal class TreeTickUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Mul)
                 )
                 .AddLabels(notPrestigedArborist2)
-                .Insert(checkForArboristInstructions)
+                .Insert(checkForPrestigedArboristInstructions)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, notPrestigedArborist2),
                     new CodeInstruction(OpCodes.Ldc_R4, 0.5f),

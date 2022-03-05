@@ -26,51 +26,7 @@ internal class MeleeWeaponDoAnimateSpecialMovePatch : BasePatch
     }
 
     #region harmony patches
-
-    /// <summary>Patch to reduce special move cooldown for prestiged Brute and Poacher.</summary>
-    [HarmonyPostfix]
-    private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
-    {
-        var who = __instance.getLastFarmerToUse();
-        if (!who.IsLocalPlayer) return;
-
-        switch (__instance.type.Value)
-        {
-            case MeleeWeapon.dagger:
-                if (who.HasProfession(Profession.Brute, true))
-                    MeleeWeapon.daggerCooldown =
-                        (int) (MeleeWeapon.daggerCooldown *
-                               who.GetPrestigedBruteCooldownReduction());
-                else if (who.HasProfession(Profession.Poacher, true))
-                    MeleeWeapon.daggerCooldown =
-                        (int) (MeleeWeapon.daggerCooldown *
-                               who.GetPrestigedPoacherCooldownReduction());
-                break;
-
-            case MeleeWeapon.club:
-                if (who.HasProfession(Profession.Brute, true))
-                    MeleeWeapon.clubCooldown =
-                        (int) (MeleeWeapon.clubCooldown *
-                               who.GetPrestigedBruteCooldownReduction());
-                else if (who.HasProfession(Profession.Poacher, true))
-                    MeleeWeapon.clubCooldown =
-                        (int) (MeleeWeapon.clubCooldown *
-                               who.GetPrestigedPoacherCooldownReduction());
-                break;
-
-            case MeleeWeapon.defenseSword:
-                if (who.HasProfession(Profession.Brute, true))
-                    MeleeWeapon.defenseCooldown =
-                        (int) (MeleeWeapon.defenseCooldown *
-                               who.GetPrestigedBruteCooldownReduction());
-                else if (who.HasProfession(Profession.Poacher, true))
-                    MeleeWeapon.defenseCooldown =
-                        (int) (MeleeWeapon.defenseCooldown *
-                               who.GetPrestigedPoacherCooldownReduction());
-                break;
-        }
-    }
-
+    
     /// <summary>Patch to remove Acrobat cooldown reduction.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> MeleeWeaponDoAnimateSpecialMoveTranspiler(

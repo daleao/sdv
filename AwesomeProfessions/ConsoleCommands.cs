@@ -15,7 +15,7 @@ using StardewValley.Menus;
 using Common.Extensions;
 using Framework;
 using Framework.Extensions;
-using Framework.SuperMode;
+using Framework.Ultimate;
 using Framework.Utility;
 
 #endregion using directives
@@ -39,14 +39,14 @@ internal static class ConsoleCommands
         helper.Add("player_resetprofessions",
             "Reset all skills and professions for the local player.",
             ResetLocalPlayerProfessions);
-        helper.Add("player_readyult", "Max-out the Super Mode meter, or set it to the specified percentage.",
-            SetSuperModeGaugeValue);
-        helper.Add("player_changeult",
-            "Change the currently registered Super Mode profession.",
-            SetSuperModeIndex);
+        helper.Add("player_readyult", "Max-out the Ultimate meter, or set it to the specified percentage.",
+            SetUltimateChargeValue);
+        helper.Add("player_registerult",
+            "Change the currently registered Ultimate.",
+            SetUltimateIndex);
         helper.Add("player_whichult",
-            "Check the currently registered Super Mode profession.",
-            PrintSuperModeIndex);
+            "Check the currently registered Ultimate.",
+            PrintUltimateIndex);
         helper.Add("player_maxanimalfriendship",
             "Max-out the friendship of all owned animals.",
             MaxAnimalFriendship);
@@ -94,16 +94,70 @@ internal static class ConsoleCommands
             return;
         }
 
-        Game1.player.FarmingLevel = 0;
-        Game1.player.FishingLevel = 0;
-        Game1.player.ForagingLevel = 0;
-        Game1.player.MiningLevel = 0;
-        Game1.player.CombatLevel = 0;
-        for (var i = 0; i < 5; ++i) Game1.player.experiencePoints[i] = 0;
+        if (!args.Any())
+        {
+            Game1.player.FarmingLevel = 0;
+            Game1.player.FishingLevel = 0;
+            Game1.player.ForagingLevel = 0;
+            Game1.player.MiningLevel = 0;
+            Game1.player.CombatLevel = 0;
+            Game1.player.LuckLevel = 0;
+            for (var i = 0; i < 5; ++i)
+            {
+                Game1.player.experiencePoints[i] = 0;
 
-        Game1.player.craftingRecipes.Clear();
-        Game1.player.cookingRecipes.Clear();
-        LevelUpMenu.RevalidateHealth(Game1.player);
+                foreach (var recipe in Game1.player.GetCraftingRecipesForSkill((SkillType) i))
+                    Game1.player.craftingRecipes.Remove(recipe);
+
+                foreach (var recipe in Game1.player.GetCookingRecipesForSkill((SkillType) i))
+                    Game1.player.cookingRecipes.Remove(recipe);
+            }
+
+            Game1.player.craftingRecipes.Clear();
+            Game1.player.cookingRecipes.Clear();
+            LevelUpMenu.RevalidateHealth(Game1.player);
+        }
+        else
+            foreach (var arg in args)
+            {
+                if (!Enum.TryParse<SkillType>(arg, true, out var skillType))
+                {
+                    Log.W($"Ignoring unknown skill {arg}.");
+                    continue;
+                }
+
+                // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+                switch (skillType)
+                {
+                    case SkillType.Farming:
+                        Game1.player.FarmingLevel = 0;
+                        break;
+                    case SkillType.Fishing:
+                        Game1.player.FishingLevel = 0;
+                        break;
+                    case SkillType.Foraging:
+                        Game1.player.ForagingLevel = 0;
+                        break;
+                    case SkillType.Mining:
+                        Game1.player.MiningLevel = 0;
+                        break;
+                    case SkillType.Combat:
+                        Game1.player.CombatLevel = 0;
+                        break;
+                    case SkillType.Luck:
+                        Game1.player.LuckLevel = 0;
+                        break;
+                }
+
+                Game1.player.experiencePoints[(int) skillType] = 0;
+
+                foreach (var recipe in Game1.player.GetCraftingRecipesForSkill(skillType))
+                    Game1.player.craftingRecipes.Remove(recipe);
+
+                foreach (var recipe in Game1.player.GetCookingRecipesForSkill(skillType))
+                    Game1.player.cookingRecipes.Remove(recipe);
+            }
+
     }
 
     /// <summary>List the current professions of the local player.</summary>
@@ -123,17 +177,22 @@ internal static class ConsoleCommands
 
         var message = $"Farmer {Game1.player.Name}'s professions:";
         foreach (var professionsIndex in Game1.player.professions)
+        {
+            string name;
             try
             {
-                message += "\n\t- " +
-                    (professionsIndex < 100
-                        ? $"{professionsIndex.ToProfessionName()}"
-                        : $"{(professionsIndex - 100).ToProfessionName()} (P)");
+                name = professionsIndex < 100
+                    ? $"{professionsIndex.ToProfessionName()}"
+                    : $"{(professionsIndex - 100).ToProfessionName()} (P)";
+
             }
-            catch (IndexOutOfRangeException)
+            catch (ArgumentException)
             {
-                Log.I($"Unknown profession index {professionsIndex}");
+                name = $"Unknown mod profession {professionsIndex}";
             }
+
+            message += "\n\t- " + name;
+        }
 
         Log.I(message);
     }
@@ -169,25 +228,23 @@ internal static class ConsoleCommands
                 break;
             }
 
-            var professionName = arg.FirstCharToUpper();
-            if (Enum.TryParse<Profession>(professionName, out var profession))
-            {
-                if (!prestige && Game1.player.HasProfession(profession) ||
-                    prestige && Game1.player.HasProfession(profession, true))
-                {
-                    Log.W("You already have this profession.");
-                    continue;
-                }
+            if (!Enum.TryParse<Profession>(arg, true, out var profession))
+                profession = GetProfessionFromLocalizedName(arg.FirstCharToUpper());
 
-                professionsToAdd.Add((int) profession);
-                if (prestige) professionsToAdd.Add((int) profession + 100);
-                Log.I(
-                    $"Added {profession.ToString()}{(prestige ? " (P)" : "")} profession to farmer {Game1.player.Name}.");
-            }
-            else
-            {
+            if (profession == Profession.Unknown)
                 Log.W($"Ignoring unknown profession {arg}.");
+            
+            if (!prestige && Game1.player.HasProfession(profession) ||
+                prestige && Game1.player.HasProfession(profession, true))
+            {
+                Log.W("You already have this profession.");
+                continue;
             }
+
+            professionsToAdd.Add((int) profession);
+            if (prestige) professionsToAdd.Add((int) profession + 100);
+            Log.I(
+                $"Added {profession}{(prestige ? " (P)" : "")} profession to farmer {Game1.player.Name}.");
         }
 
         LevelUpMenu levelUpMenu = new();
@@ -209,8 +266,8 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.PlayerState.Value.SuperMode = null;
-        Game1.player.WriteData(DataField.SuperModeIndex, null);
+        ModEntry.PlayerState.Value.RegisteredUltimate = null;
+        Game1.player.WriteData(DataField.UltimateIndex, null);
         for (var i = Game1.player.professions.Count - 1; i >= 0; --i)
         {
             var professionIndex = Game1.player.professions[i];
@@ -221,8 +278,8 @@ internal static class ConsoleCommands
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
-    /// <summary>Set <see cref="SuperModeGauge.Value" /> to the desired value, or max it out if no value is specified.</summary>
-    internal static void SetSuperModeGaugeValue(string command, string[] args)
+    /// <summary>Set <see cref="UltimateMeter.Value" /> to the desired value, or max it out if no value is specified.</summary>
+    internal static void SetUltimateChargeValue(string command, string[] args)
     {
         if (!Context.IsWorldReady)
         {
@@ -230,15 +287,15 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (ModEntry.PlayerState.Value.SuperMode is null)
+        if (ModEntry.PlayerState.Value.RegisteredUltimate is null)
         {
-            Log.W("Not registered to any Super Mode.");
+            Log.W("Not registered to an Ultimate.");
             return;
         }
 
         if (!args.Any())
         {
-            ModEntry.PlayerState.Value.SuperMode.ChargeValue = SuperMode.MaxValue;
+            ModEntry.PlayerState.Value.RegisteredUltimate.ChargeValue = Ultimate.MaxValue;
             return;
         }
 
@@ -254,14 +311,14 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.PlayerState.Value.SuperMode.ChargeValue = SuperMode.MaxValue * (double)value / 100;
+        ModEntry.PlayerState.Value.RegisteredUltimate.ChargeValue = Ultimate.MaxValue * (double)value / 100;
     }
 
     /// <summary>
-    ///     Reset the Super Mode instance to a different combat profession's, in case you have more
+    ///     Reset the Ultimate instance to a different combat profession's, in case you have more
     ///     than one.
     /// </summary>
-    internal static void SetSuperModeIndex(string command, string[] args)
+    internal static void SetUltimateIndex(string command, string[] args)
     {
         if (!Context.IsWorldReady)
         {
@@ -282,7 +339,7 @@ internal static class ConsoleCommands
         }
 
         args[0] = args[0].ToLower().FirstCharToUpper();
-        if (!Enum.TryParse<SuperModeIndex>(args[0], out var index))
+        if (!Enum.TryParse<UltimateIndex>(args[0], true, out var index))
         {
             Log.W("You must enter a valid 2nd-tier combat profession.");
             return;
@@ -295,29 +352,29 @@ internal static class ConsoleCommands
         }
 
 #pragma warning disable CS8509
-        ModEntry.PlayerState.Value.SuperMode = index switch
+        ModEntry.PlayerState.Value.RegisteredUltimate = index switch
 #pragma warning restore CS8509
         {
-            SuperModeIndex.Brute => new BruteFury(),
-            SuperModeIndex.Poacher => new PoacherColdBlood(),
-            SuperModeIndex.Piper => new PiperEubstance(),
-            SuperModeIndex.Desperado => new DesperadoTemerity()
+            UltimateIndex.Brute => new Frenzy(),
+            UltimateIndex.Poacher => new Ambush(),
+            UltimateIndex.Piper => new Pandemonia(),
+            UltimateIndex.Desperado => new DeathBlossom()
         };
-        Game1.player.WriteData(DataField.SuperModeIndex, index.ToString());
+        Game1.player.WriteData(DataField.UltimateIndex, index.ToString());
     }
 
-    /// <summary>Print the currently registered Super Mode profession.</summary>
-    internal static void PrintSuperModeIndex(string command, string[] args)
+    /// <summary>Print the currently registered Ultimate.</summary>
+    internal static void PrintUltimateIndex(string command, string[] args)
     {
-        if (ModEntry.PlayerState.Value.SuperMode is null)
+        if (ModEntry.PlayerState.Value.RegisteredUltimate is null)
         {
-            Log.I("Not registered to any Super Mode.");
+            Log.I("Not registered to an Ultimate.");
             return;
         }
 
-        var key = ModEntry.PlayerState.Value.SuperMode.Index;
+        var key = ModEntry.PlayerState.Value.RegisteredUltimate.Index.ToString().ToLower();
         var professionDisplayName = ModEntry.ModHelper.Translation.Get(key + ".name.male");
-        var buffName = ModEntry.ModHelper.Translation.Get(key + ".buff");
+        var buffName = ModEntry.ModHelper.Translation.Get(key + ".ulti");
         Log.I($"Registered to {professionDisplayName}'s {buffName}.");
     }
 
@@ -699,6 +756,103 @@ internal static class ConsoleCommands
 
         Game1.player.WriteData(DataField.ConservationistTrashCollectedThisSeason, value.ToString());
         Log.I($"Conservationist trash collected in the current season was set to {value}.");
+    }
+
+    /// <summary>Get a profession corresponding to the localized profession name.</summary>
+    /// <param name="professionName">A localized string.</param>
+    private static Profession GetProfessionFromLocalizedName(string professionName)
+    {
+        if (professionName == ModEntry.ModHelper.Translation.Get("rancher.name.male") ||
+            professionName == ModEntry.ModHelper.Translation.Get("rancher.name.female"))
+            return Profession.Rancher;
+        if (professionName == ModEntry.ModHelper.Translation.Get("harvester.name.male") ||
+            professionName == ModEntry.ModHelper.Translation.Get("harvester.name.female"))
+            return Profession.Harvester;
+        if (professionName == ModEntry.ModHelper.Translation.Get("agriculturist.name.male") ||
+            professionName == ModEntry.ModHelper.Translation.Get("agriculturist.name.female"))
+            return Profession.Agriculturist;
+        if (professionName == ModEntry.ModHelper.Translation.Get("artisan.name.male") ||
+            professionName == ModEntry.ModHelper.Translation.Get("artisan.name.female"))
+            return Profession.Artisan;
+        if (professionName == ModEntry.ModHelper.Translation.Get("breeder.name.male") ||
+            professionName == ModEntry.ModHelper.Translation.Get("breeder.name.female"))
+            return Profession.Breeder;
+        if (professionName == ModEntry.ModHelper.Translation.Get("producer.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("producer.name.female"))
+            return Profession.Producer;
+        if (professionName == ModEntry.ModHelper.Translation.Get("fisher.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("fisher.name.female"))
+            return Profession.Fisher;
+        if (professionName == ModEntry.ModHelper.Translation.Get("trapper.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("trapper.name.female"))
+            return Profession.Trapper;
+        if (professionName == ModEntry.ModHelper.Translation.Get("angler.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("angler.name.female"))
+            return Profession.Angler;
+        if (professionName == ModEntry.ModHelper.Translation.Get("aquarist.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("aquarist.name.female"))
+            return Profession.Aquarist;
+        if (professionName == ModEntry.ModHelper.Translation.Get("luremaster.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("luremaster.name.female"))
+            return Profession.Luremaster;
+        if (professionName == ModEntry.ModHelper.Translation.Get("conservationist.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("conservationist.name.female"))
+            return Profession.Conservationist;
+        if (professionName == ModEntry.ModHelper.Translation.Get("forager.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("forager.name.female"))
+            return Profession.Forager;
+        if (professionName == ModEntry.ModHelper.Translation.Get("lumberjack.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("lumberjack.name.female"))
+            return Profession.Lumberjack;
+        if (professionName == ModEntry.ModHelper.Translation.Get("ecologist.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("ecologist.name.female"))
+            return Profession.Ecologist;
+        if (professionName == ModEntry.ModHelper.Translation.Get("scavenger.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("scavenger.name.female"))
+            return Profession.Scavenger;
+        if (professionName == ModEntry.ModHelper.Translation.Get("arborist.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("arborist.name.female"))
+            return Profession.Arborist;
+        if (professionName == ModEntry.ModHelper.Translation.Get("tapper.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("tapper.name.female"))
+            return Profession.Tapper;
+        if (professionName == ModEntry.ModHelper.Translation.Get("miner.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("miner.name.female"))
+            return Profession.Miner;
+        if (professionName == ModEntry.ModHelper.Translation.Get("blaster.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("blaster.name.female"))
+            return Profession.Blaster;
+        if (professionName == ModEntry.ModHelper.Translation.Get("spelunker.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("spelunker.name.female"))
+            return Profession.Spelunker;
+        if (professionName == ModEntry.ModHelper.Translation.Get("prospector.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("prospector.name.female"))
+            return Profession.Prospector;
+        if (professionName == ModEntry.ModHelper.Translation.Get("demolitionist.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("demolitionist.name.female"))
+            return Profession.Demolitionist;
+        if (professionName == ModEntry.ModHelper.Translation.Get("gemologist.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("gemologist.name.female"))
+            return Profession.Gemologist;
+        if (professionName == ModEntry.ModHelper.Translation.Get("fighter.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("fighter.name.female"))
+            return Profession.Fighter;
+        if (professionName == ModEntry.ModHelper.Translation.Get("rascal.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("rascal.name.female"))
+            return Profession.Rascal;
+        if (professionName == ModEntry.ModHelper.Translation.Get("brute.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("brute.name.female"))
+            return Profession.Brute;
+        if (professionName == ModEntry.ModHelper.Translation.Get("poacher.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("poacher.name.female"))
+            return Profession.Poacher;
+        if (professionName == ModEntry.ModHelper.Translation.Get("piper.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("piper.name.female"))
+            return Profession.Piper;
+        if (professionName == ModEntry.ModHelper.Translation.Get("desperado.name.male") ||
+                 professionName == ModEntry.ModHelper.Translation.Get("desperado.name.female"))
+            return Profession.Desperado;
+        return Profession.Unknown;
     }
 
     #endregion private methods

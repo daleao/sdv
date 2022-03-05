@@ -73,9 +73,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .Remove()
                 .SetOpCode(OpCodes.Blt_S) // was Brfalse_S
                 .Advance()
-                .ToBufferUntil(
-                    false,
-                    true,
+                .GetInstructionsUntil(out var got, false, true,
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
                 )
@@ -94,7 +92,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                     true
                 )
                 .AddLabels(notPrestigedProducer)
-                .InsertBuffer()
+                .Insert(got)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_3)
                 )

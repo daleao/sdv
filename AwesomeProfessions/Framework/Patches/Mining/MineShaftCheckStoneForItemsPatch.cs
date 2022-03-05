@@ -14,6 +14,7 @@ using StardewValley.Locations;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -52,7 +53,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                 .Retreat()
                 .StripLabels(out var labels) // backup and remove branch labels
                 .AddLabels(resumeExecution) // branch here to resume execution
-                .Insert(
+                .InsertWithLabels(
                     // restore backed-up labels
                     labels,
                     // check for local player
@@ -62,8 +63,9 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                     // prepare profession check
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Spelunker, resumeExecution)
+                .InsertProfessionCheck((int) Profession.Spelunker, forLocalPlayer: false)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
@@ -100,11 +102,10 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                 )
                 .GetOperand(out var isNotGeologist) // copy destination
                 .Return()
-                .Insert( // insert uncoditional branch to skip this check
+                .InsertWithLabels( // insert unconditional branch to skip this check and restore backed-up labels to this branch
+                    labels,
                     new CodeInstruction(OpCodes.Br_S, (Label) isNotGeologist)
-                )
-                .Retreat()
-                .AddLabels(labels); // restore backed-up labels to inserted branch
+                );
         }
         catch (Exception ex)
         {

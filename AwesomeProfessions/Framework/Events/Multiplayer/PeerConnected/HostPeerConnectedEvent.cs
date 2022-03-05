@@ -17,7 +17,7 @@ internal class HostPeerConnectedEvent : PeerConnectedEvent
     /// <inheritdoc />
     protected override void OnPeerConnectedImpl(object sender, PeerConnectedEventArgs e)
     {
-        EventManager.Enable(typeof(ToggledSuperModeModMessageReceivedEvent),
+        EventManager.Enable(typeof(ToggledUltimateModMessageReceivedEvent),
             typeof(RequestGlobalEventModMessageReceivedEvent), typeof(RequestUpdateDataModMessageReceivedEvent),
             typeof(RequestUpdateHostStateModMessageReceivedEvent));
 

@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+﻿using Netcode;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Common;
 
 #region using directives
 
@@ -46,7 +48,7 @@ internal class ObjectCheckForActionPatch : BasePatch
             Game1.player.IncrementData<uint>(DataField.EcologistItemsForaged);
     }
 
-    /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium + increase production frequency of Producer Bee House.</summary>
+    /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium + increase Honey quality with age + increase production frequency of Producer Bee House.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> ObjectCheckForActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
@@ -69,9 +71,9 @@ internal class ObjectCheckForActionPatch : BasePatch
                     // prepare profession check
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Gemologist,
-                    dontIncreaseGemologistCounter)
+                .InsertProfessionCheck((int) Profession.Gemologist, forLocalPlayer: false)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(SObject).PropertyGetter(nameof(SObject.name))),
@@ -91,6 +93,42 @@ internal class ObjectCheckForActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
+            transpilationFailed = true;
+            return null;
+        }
+
+        /// Injected: heldObject.Value.Quality = this.GetQualityFromAge();
+        /// After: heldObject.Value.preservedParentSheetIndex.Value = honey_type;
+        
+        try
+        {
+            helper
+                .FindFirst(
+                    new CodeInstruction(OpCodes.Ldstr, " Honey")
+                )
+                .FindNext(
+                    new CodeInstruction(OpCodes.Ldfld, typeof(SObject).Field(nameof(SObject.preservedParentSheetIndex)))
+                )
+                .RetreatUntil(
+                    new CodeInstruction(OpCodes.Ldarg_0)
+                )
+                .GetInstructionsUntil(out var got, false, true,
+                    new CodeInstruction(OpCodes.Callvirt)
+                )
+                .AdvanceUntil(
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.currentLocation)))
+                )
+                .Insert(got)
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.GetQualityFromAge))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(SObject).PropertySetter(nameof(SObject.Quality)))
+                );
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed while improving honey quality with age.\nHelper returned {ex}");
             transpilationFailed = true;
             return null;
         }

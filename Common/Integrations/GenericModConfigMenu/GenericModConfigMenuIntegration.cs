@@ -187,7 +187,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     /// <summary>Add a checkbox to the form.</summary>
     /// <param name="name">The label text to show in the form.</param>
     /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">Get the current value from the mod config.</param>
+    /// <param name="get">GetInstructions the current value from the mod config.</param>
     /// <param name="set">Set a new value in the mod config.</param>
     /// <param name="enable">Whether the field is enabled.</param>
     public GenericModConfigMenuIntegration<TConfig> AddTextbox(Func<string> name, Func<string> tooltip,
@@ -210,7 +210,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     /// <summary>Add a numeric field to the form.</summary>
     /// <param name="name">The label text to show in the form.</param>
     /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">Get the current value from the mod config.</param>
+    /// <param name="get">GetInstructions the current value from the mod config.</param>
     /// <param name="set">Set a new value in the mod config.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
@@ -237,7 +237,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     /// <summary>Add a numeric field to the form.</summary>
     /// <param name="name">The label text to show in the form.</param>
     /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">Get the current value from the mod config.</param>
+    /// <param name="get">GetInstructions the current value from the mod config.</param>
     /// <param name="set">Set a new value in the mod config.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
@@ -267,7 +267,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     /// <summary>Add a key binding field to the form.</summary>
     /// <param name="name">The label text to show in the form.</param>
     /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">Get the current value from the mod config.</param>
+    /// <param name="get">GetInstructions the current value from the mod config.</param>
     /// <param name="set">Set a new value in the mod config.</param>
     /// <param name="enable">Whether the field is enabled.</param>
     public GenericModConfigMenuIntegration<TConfig> AddKeyBinding(Func<string> name, Func<string> tooltip,

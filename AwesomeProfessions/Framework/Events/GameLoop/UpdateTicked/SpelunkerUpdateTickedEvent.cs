@@ -12,15 +12,9 @@ using StardewValley.Locations;
 
 internal class SpelunkerUpdateTickedEvent : UpdateTickedEvent
 {
-    private const int SHEET_INDEX = 40;
+    private const int SHEET_INDEX_I = 40;
 
-    private readonly int _buffId;
-
-    /// <summary>Construct an instance.</summary>
-    internal SpelunkerUpdateTickedEvent()
-    {
-        _buffId = (ModEntry.Manifest.UniqueID + (int) Profession.Spelunker).GetHashCode();
-    }
+    private readonly int _buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Profession.Spelunker;
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
@@ -34,24 +28,13 @@ internal class SpelunkerUpdateTickedEvent : UpdateTickedEvent
         var bonusSpeed = Math.Min(ModEntry.PlayerState.Value.SpelunkerLadderStreak / 10 + 1,
             (int) ModEntry.Config.SpelunkerSpeedCap);
         Game1.buffsDisplay.addOtherBuff(
-            new(0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                bonusSpeed,
-                0,
-                0,
+            new(0, 0, 0, 0, 0, 0, 0, 0, 0, bonusSpeed, 0, 0,
                 1,
                 "Spelunker",
                 ModEntry.ModHelper.Translation.Get("spelunker.name." + (Game1.player.IsMale ? "male" : "female")))
             {
                 which = _buffId,
-                sheetIndex = SHEET_INDEX,
+                sheetIndex = SHEET_INDEX_I,
                 millisecondsDuration = 0,
                 description =
                     ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new {bonusLadderChance, bonusSpeed})

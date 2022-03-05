@@ -13,7 +13,8 @@ using StardewValley;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
-using SuperMode;
+using Extensions;
+using Ultimate;
 
 #endregion using directives
 
@@ -28,19 +29,17 @@ internal class FarmerTakeDamagePatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>
-    ///     Patch to make Poacher untargetable during Super Mode + increment Brute Fury for damage taken + add Brute super
-    ///     mode immortality.
-    /// </summary>
+    /// <summary>Patch to make Poacher invulnerable in Ambuscade + remove vanilla defense cap + make Brute unkillable in Frenzy + increment Brute rage counter and ultimate meter.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> FarmerTakeDamageTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: else if (this.IsLocalPlayer && SuperMode.IsActive && SuperMode is PoacherColdBlood) monsterDamageCapable = false;
+        /// Injected: else if (this.IsLocalPlayer && RegisteredUltimate is Ambush {IsActive: true}) monsterDamageCapable = false;
 
         var alreadyUndamageableOrNotAmbuscade = generator.DefineLabel();
+        var ambush = generator.DeclareLocal(typeof(Ambush));
         try
         {
             helper
@@ -53,29 +52,26 @@ internal class FarmerTakeDamagePatch : BasePatch
                     // check if monsterDamageCapable is already false
                     new CodeInstruction(OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
-                    // check if this.IsLocalPlayer
+                    // check if this is the local player
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
-                    // check if SuperMode is PoacherColdBlood
+                    // check for ambush
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(PoacherColdBlood)),
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                    new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
+                    new CodeInstruction(OpCodes.Stloc_S, ambush),
+                    new CodeInstruction(OpCodes.Ldloc_S, ambush),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
-                    // check if SuperMode.IsActive
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                    // check if it's active
+                    new CodeInstruction(OpCodes.Ldloc_S, ambush),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.IsActive))),
+                        typeof(Ultimate).PropertyGetter(nameof(Ultimate.IsActive))),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
                     // set monsterDamageCapable = false
                     new CodeInstruction(OpCodes.Ldc_I4_0),
@@ -84,16 +80,43 @@ internal class FarmerTakeDamagePatch : BasePatch
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Poacher untargetability during Super Mode.\nHelper returned {ex}");
+            Log.E($"Failed while adding Poacher Ambush untargetability.\nHelper returned {ex}");
             transpilationFailed = true;
             return null;
         }
 
-        /// Injected: if (IsSuperModeActive && SuperMode is BruteFury) health = 1;
+        /// Removed: if (effectiveResilience >= damage * 0.5f)
+        ///     effectiveResilience -= (int) (effectiveResilience * Game1.random.Next(3) / 10f);
+
+        try
+        {
+            helper
+                .FindNext(
+                    new CodeInstruction(OpCodes.Ldloc_3),
+                    new CodeInstruction(OpCodes.Conv_R4),
+                    new CodeInstruction(OpCodes.Ldarg_1),
+                    new CodeInstruction(OpCodes.Conv_R4),
+                    new CodeInstruction(OpCodes.Ldc_R4, 0.5f)
+                )
+                .StripLabels(out var labels)
+                .RemoveUntil(
+                    new CodeInstruction(OpCodes.Stloc_3)
+                )
+                .SetLabels(labels);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed while removing vanilla defense cap.\nHelper returned {ex}");
+            transpilationFailed = true;
+            return null;
+        }
+
+        /// Injected: if (this.IsLocalPlayer && RegisteredUltimate is Frenzy {IsActive: true}) health = 1;
         /// After: if (health <= 0)
         /// Before: GetEffectsOfRingMultiplier(863)
 
         var isNotUndyingButMayHaveDailyRevive = generator.DefineLabel();
+        var frenzy = generator.DeclareLocal(typeof(Frenzy));
         try
         {
             helper
@@ -107,28 +130,30 @@ internal class FarmerTakeDamagePatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Bgt)
                 )
-                .GetOperand(out var resumeExecution) // copy branch label to resume normal execution
+                .GetOperand(out var resumeExecution1) // copy branch label to resume normal execution
                 .Advance()
                 .AddLabels(isNotUndyingButMayHaveDailyRevive)
                 .Insert(
-                    // check if SuperMode is BruteFury
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                    // check if this is the local player
+                    new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(BruteFury)),
+                        typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
-                    // check if SuperMode.IsActive
+                    // check for frenzy
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                    new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
+                    new CodeInstruction(OpCodes.Stloc_S, frenzy),
+                    new CodeInstruction(OpCodes.Ldloc, frenzy),
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
+                    // check if it's active
+                    new CodeInstruction(OpCodes.Ldloc_S, frenzy),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.IsActive))),
+                        typeof(IUltimate).PropertyGetter(nameof(IUltimate.IsActive))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
                     // set health back to 1
                     new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Farmer this
@@ -136,71 +161,110 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Stfld,
                         typeof(Farmer).Field(nameof(Farmer.health))),
                     // resume execution (skip revive ring effect)
-                    new CodeInstruction(OpCodes.Br, resumeExecution)
+                    new CodeInstruction(OpCodes.Br, resumeExecution1)
                 );
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Brute Super Mode immortality.\nHelper returned {ex}");
+            Log.E($"Failed while adding Brute Frenzy immortality.\nHelper returned {ex}");
             transpilationFailed = true;
             return null;
         }
 
-        /// Injected: if (SuperMode is BruteFury && damage > 0) SuperMode.ChargeValue += 2;
+        /// Injected: if (this.IsLocalPlayer && this.HasProfession(<brute_id>) && damager is not null)
+        ///     var frenzy = ModEntry.PlayerState.Value.Ultimate as Frenzy;
+        ///     ModEntry.PlayerState.Value.SecondsSinceLastCombat = 0;
+        ///     ModEntry.PlayerState.Value.BruteRageCounter = Math.Min(ModEntry.PlayerState.Value.BruteRageCounter + (frenzy?.IsActive ? 2 : 1), 100);
+        ///     if (!frenzy.IsActive)
+        ///         frenzy.ChargeValue += damage / 4.0;
         /// At: end of method (before return)
 
-        var dontIncreaseBruteCounterForDamage = generator.DefineLabel();
+        var resumeExecution2 = generator.DefineLabel();
+        var doesNotHaveFrenzyOrIsNotActive = generator.DefineLabel();
+        var add = generator.DefineLabel();
         try
         {
             helper
                 .FindLast( // find index of final return
                     new CodeInstruction(OpCodes.Ret)
                 )
-                .AddLabels(dontIncreaseBruteCounterForDamage) // branch here to skip gauge increment
+                .AddLabels(resumeExecution2) // branch here to skip increments
                 .Insert(
-                    // check if SuperMode is BruteFury
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
+                    new CodeInstruction(OpCodes.Ldarg_0)
+                )
+                .InsertProfessionCheck((int) Profession.Brute, forLocalPlayer: false)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
+                    // check if damager null
+                    new CodeInstruction(OpCodes.Ldarg_3), // arg 3 = Monster damager
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
+                    // load the player state
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
+                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>
+                            .Value))), // consumed by setter of BruteRageCounter
+                    new CodeInstruction(OpCodes.Dup), // consumed by getter of BruteRageCounter
+                    new CodeInstruction(OpCodes.Dup), // consumed by setter of LastTimeInCombat 
+                    new CodeInstruction(OpCodes.Dup), // consumed by getter of RegisteredUltimate
+                    // check for frenzy
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(BruteFury)),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseBruteCounterForDamage),
-                    // check if farmer received any damage
-                    new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = int damage
-                    new CodeInstruction(OpCodes.Brtrue_S, dontIncreaseBruteCounterForDamage),
-                    // if so, increment gauge by 2
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                    new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
+                    new CodeInstruction(OpCodes.Stloc_S, frenzy),
+                    // record last time in combat
+                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PlayerState).PropertySetter(nameof(PlayerState.SecondsSinceLastCombat))),
+                    // increment rage counter
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.BruteRageCounter))),
+                    new CodeInstruction(OpCodes.Ldloc_S, frenzy),
+                    new CodeInstruction(OpCodes.Brfalse_S, doesNotHaveFrenzyOrIsNotActive),
+                    new CodeInstruction(OpCodes.Ldloc_S, frenzy),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(IUltimate).PropertyGetter(nameof(IUltimate.IsActive))),
+                    new CodeInstruction(OpCodes.Brfalse_S, doesNotHaveFrenzyOrIsNotActive),
+                    new CodeInstruction(OpCodes.Ldc_I4_2),
+                    new CodeInstruction(OpCodes.Br_S, add)
+                )
+                .InsertWithLabels(
+                    new []{doesNotHaveFrenzyOrIsNotActive},
+                    new CodeInstruction(OpCodes.Ldc_I4_1)
+                )
+                .InsertWithLabels(
+                    new []{add},
+                    new CodeInstruction(OpCodes.Add),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 100),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                        typeof(Math).MethodNamed(nameof(Math.Min), new[] {typeof(int), typeof(int)})),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SuperMode))),
+                        typeof(PlayerState).PropertySetter(nameof(PlayerState.BruteRageCounter))),
+                    // check frenzy once again
+                    new CodeInstruction(OpCodes.Ldloc_S, frenzy),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
+                    new CodeInstruction(OpCodes.Ldloc_S, frenzy),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(IUltimate).PropertyGetter(nameof(IUltimate.IsActive))),
+                    new CodeInstruction(OpCodes.Brtrue_S, resumeExecution2),
+                    // increment ultimate meter
+                    new CodeInstruction(OpCodes.Ldloc_S, frenzy),
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.ChargeValue))),
-                    new CodeInstruction(OpCodes.Ldc_R8, 2.0), // <-- increment amount
-                    // scale by config factor
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(ModConfig).PropertyGetter(nameof(ModConfig.SuperModeGainFactor))),
-                    new CodeInstruction(OpCodes.Mul),
-                    // scale for extended levels
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(SuperMode).PropertyGetter(nameof(SuperMode.MaxValue))),
+                        typeof(IUltimate).PropertyGetter(nameof(IUltimate.ChargeValue))),
+                    new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = int damage
                     new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Ldc_R8, (double) SuperMode.INITIAL_MAX_VALUE_I),
+                    new CodeInstruction(OpCodes.Ldc_R8, 4.0),
                     new CodeInstruction(OpCodes.Div),
-                    new CodeInstruction(OpCodes.Mul),
-                    // increment
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SuperMode).PropertySetter(nameof(SuperMode.ChargeValue)))
+                        typeof(IUltimate).PropertySetter(nameof(IUltimate.ChargeValue)))
                 );
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Brute Fury gauge for damage taken.\nHelper returned {ex}");
+            Log.E($"Failed while incrementing Brute rage counter and ultimate meter.\nHelper returned {ex}");
             transpilationFailed = true;
             return null;
         }

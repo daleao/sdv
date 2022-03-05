@@ -140,9 +140,9 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Gemologist,
-                    dontIncreaseGemologistCounter)
+                .InsertProfessionCheck((int) Profession.Gemologist)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
@@ -162,7 +162,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
         /// From: minutesUntilReady.Value /= 2
         /// To: minutesUntilReady.Value /= who.professions.Contains(100 + <breeder_id>) ? 3 : 2
 
-        helper.ReturnToFirst();
+        helper.GoTo(0);
         var i = 0;
         repeat:
         try
@@ -174,16 +174,14 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldloc_0)
                 )
-                .ToBufferUntil(
-                    true,
-                    true,
+                .GetInstructionsUntil(out var got, true, true,
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_2)
                 )
                 .AddLabels(notPrestigedBreeder)
-                .InsertBuffer()
+                .Insert(got)
                 .Retreat()
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_2)

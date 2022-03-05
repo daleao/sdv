@@ -21,7 +21,6 @@ internal class PrestigeDayEndingEvent : DayEndingEvent
     protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
     {
         while (SkillsToReset.Value.Any()) Game1.player.ResetSkill(SkillsToReset.Value.Dequeue());
-        ModEntry.PlayerState.Value.UsedDogStatueToday = false;
         Disable();
     }
 }

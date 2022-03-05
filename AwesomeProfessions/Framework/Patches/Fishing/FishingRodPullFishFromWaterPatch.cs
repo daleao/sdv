@@ -14,6 +14,7 @@ using StardewValley.Tools;
 
 using Stardew.Common.Extensions;
 using Extensions;
+using Utility;
 
 using SObject = StardewValley.Object;
 
@@ -34,7 +35,7 @@ internal class FishingRodPullFishFromWaterPatch : BasePatch
 
     /// <summary>Patch to decrement total Fish Pond quality rating.</summary>
     [HarmonyPrefix]
-    private static bool FishingRodPullFishFromWaterPrefix(FishingRod __instance, int whichFish, ref int fishQuality, bool fromFishPond)
+    private static bool FishingRodPullFishFromWaterPrefix(FishingRod __instance, ref int whichFish, ref int fishQuality, bool fromFishPond)
     {
         if (!ModEntry.Config.EnableFishPondRebalance || !fromFishPond || whichFish.IsTrash()) return true; // run original logic
 
@@ -45,11 +46,43 @@ internal class FishingRodPullFishFromWaterPatch : BasePatch
         if (pond is null) return true; // run original logic
 
         var qualityRating = pond.ReadDataAs<int>("QualityRating");
-        var lowestQuality = pond.GetLowestFishQuality();
-        qualityRating -= (int) Math.Pow(16, lowestQuality == SObject.bestQuality ? lowestQuality - 1 : lowestQuality);
-        pond.WriteData("QualityRating", qualityRating.ToString());
+        var lowestQuality = pond.GetLowestFishQuality(qualityRating);
+        if (pond.IsLegendaryPond())
+        {
+            var familyCount = pond.ReadDataAs<int>("FamilyCount");
+            if (familyCount > 0)
+            {
+                var familyQualityRating = pond.ReadDataAs<int>("FamilyQualityRating");
+                var lowestFamilyQuality = pond.GetLowestFishQuality(familyQualityRating, true);
+                if (lowestFamilyQuality < lowestQuality)
+                {
+                    familyQualityRating -= (int) Math.Pow(16, lowestFamilyQuality == SObject.bestQuality ? lowestFamilyQuality - 1 : lowestFamilyQuality);
+                    fishQuality = lowestFamilyQuality;
+                    whichFish = ObjectLookups.ExtendedFamilyPairs[whichFish];
+                    pond.WriteData("FamilyQualityRating", familyQualityRating.ToString());
+                    pond.IncrementData("FamilyCount", -1);
+                }
+                else
+                {
+                    qualityRating -= (int) Math.Pow(16, lowestQuality == SObject.bestQuality ? lowestQuality - 1 : lowestQuality);
+                    pond.WriteData("QualityRating", qualityRating.ToString());
+                    fishQuality = lowestQuality;
+                }
+            }
+            else
+            {
+                qualityRating -= (int) Math.Pow(16, lowestQuality == SObject.bestQuality ? lowestQuality - 1 : lowestQuality);
+                pond.WriteData("QualityRating", qualityRating.ToString());
+                fishQuality = lowestQuality;
+            }
+        }
+        else
+        {
+            qualityRating -= (int) Math.Pow(16, lowestQuality == SObject.bestQuality ? lowestQuality - 1 : lowestQuality);
+            pond.WriteData("QualityRating", qualityRating.ToString());
+            fishQuality = lowestQuality;
+        }
 
-        fishQuality = lowestQuality;
         return true; // run original logic
     }
 

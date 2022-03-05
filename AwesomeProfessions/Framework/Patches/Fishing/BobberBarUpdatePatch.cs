@@ -48,7 +48,7 @@ internal class BobberBarUpdatePatch : BasePatch
         //        )
         //        .AddLabels(isNotPrestigedFisher)
         //        .InsertProfessionCheckForLocalPlayer((int) Profession.Fisher + 100, isNotPrestigedFisher)
-        //        .Insert(
+        //        .InsertWithLabels(
         //            new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
         //            new CodeInstruction(OpCodes.Ldarg_0),
         //            new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).Field("whichFish")),
@@ -84,8 +84,9 @@ internal class BobberBarUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Stfld)
                 )
                 .Advance()
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Aquarist, (Label) isNotAquarist)
+                .InsertProfessionCheck((int) Profession.Aquarist)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotAquarist),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).Field("distanceFromCatching")),

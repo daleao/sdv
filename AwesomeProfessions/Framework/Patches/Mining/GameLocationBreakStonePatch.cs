@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -35,7 +36,7 @@ internal class GameLocationBreakStonePatch : BasePatch
         /// Injected: if (who.professions.Contains(100 + <miner_id>) addedOres++;
         /// After: int addedOres = (who.professions.Contains(<miner_id>) ? 1 : 0);
 
-        var notPrestigedMiner = generator.DefineLabel();
+        var isNotPrestiged = generator.DefineLabel();
         try
         {
             helper
@@ -43,13 +44,13 @@ internal class GameLocationBreakStonePatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Stloc_1)
                 )
-                .AddLabels(notPrestigedMiner)
+                .AddLabels(isNotPrestiged)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheckForPlayerOnStack((int) Profession.Miner + 100,
-                    notPrestigedMiner)
+                .InsertProfessionCheck((int) Profession.Miner + 100, forLocalPlayer: false)
                 .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Add)
                 );
@@ -74,11 +75,10 @@ internal class GameLocationBreakStonePatch : BasePatch
                 )
                 .GetOperand(out var isNotGeologist) // copy destination
                 .Return()
-                .Insert( // insert uncoditional branch to skip this check
+                .InsertWithLabels( // insert uncoditional branch to skip this check and restore backed-up labels to this branch
+                    labels,
                     new CodeInstruction(OpCodes.Br, (Label) isNotGeologist)
-                )
-                .Retreat()
-                .AddLabels(labels); // restore backed-up labels to inserted branch
+                );
         }
         catch (Exception ex)
         {

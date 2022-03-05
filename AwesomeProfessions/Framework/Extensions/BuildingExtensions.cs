@@ -33,7 +33,7 @@ internal static class BuildingExtensions
     internal static void WriteData(this Building building, string field, string value)
     {
         building.modData.Write($"{ModEntry.Manifest.UniqueID}/{field}", value);
-        //Log.D($"[ModData]: Wrote {value} to {building.Name}'s {field}.");
+        Log.D($"[ModData]: Wrote {value} to {building.nameOfIndoors}'s {field}.");
     }
 
     /// <summary>Write to a field in this building's <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
@@ -43,7 +43,7 @@ internal static class BuildingExtensions
     {
         if (building.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{field}"))
         {
-            //Log.D($"[ModData]: The data field {field} already existed.");
+            Log.D($"[ModData]: The data field {field} already existed.");
             return true;
         }
         
@@ -57,15 +57,15 @@ internal static class BuildingExtensions
     internal static void IncrementData<T>(this Building building, string field, T amount)
     {
         building.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}", amount);
-        //Log.D($"[ModData]: Incremented {building.Name}'s {field} by {amount}.");
+        Log.D($"[ModData]: Incremented {building.nameOfIndoors}'s {field} by {amount}.");
     }
 
     /// <summary>Increment the value of a numeric field in this building's <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
     internal static void IncrementData<T>(this Building building, string field)
     {
-        Game1.MasterPlayer.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}",
+        building.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}",
             "1".Parse<T>());
-        //Log.D($"[ModData]: Incremented {building.Name}'s {field} by 1.");
+        Log.D($"[ModData]: Incremented {building.nameOfIndoors}'s {field} by 1.");
     }
 }

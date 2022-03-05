@@ -26,9 +26,11 @@ internal class TreeUpdateTapperProductPatch : BasePatch
 
     /// <summary>Patch to decrease syrup production time for Tapper.</summary>
     [HarmonyPostfix]
-    private static void TreeUpdateTapperProductPostfix(SObject tapper_instance)
+    private static void TreeUpdateTapperProductPostfix(Tree __instance, SObject tapper_instance)
     {
         if (tapper_instance is null) return;
+
+        tapper_instance.heldObject.Value.Quality = __instance.GetQualityFromAge();
 
         var owner = Game1.getFarmerMaybeOffline(tapper_instance.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.HasProfession(Profession.Tapper)) return;

@@ -13,6 +13,7 @@ using StardewValley.TerrainFeatures;
 
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -61,7 +62,7 @@ internal class FruitTreeTickUpdatePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
-                .Insert(
+                .InsertWithLabels(
                     new[] {isPrestiged},
                     new CodeInstruction(OpCodes.Pop),
                     new CodeInstruction(OpCodes.Ldc_R8, 1.4)

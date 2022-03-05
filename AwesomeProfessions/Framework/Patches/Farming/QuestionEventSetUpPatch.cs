@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley.Events;
 
 using Stardew.Common.Harmony;
+using Extensions;
 
 #endregion using directives
 
@@ -48,13 +49,18 @@ internal class QuestionEventSetUpPatch : BasePatch
                 .Advance()
                 .AddLabels(resumeExecution) // branch here to resume execution
                 .Retreat()
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Breeder, isNotBreeder)
-                .InsertProfessionCheckForLocalPlayer((int) Profession.Breeder + 100, isNotPrestiged)
-                .Insert( // if player is breeder load adjusted pregnancy chance
+                .InsertProfessionCheck((int) Profession.Breeder)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder)
+                )
+                .InsertProfessionCheck((int) Profession.Breeder + 100)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                    // if player is breeder load adjusted pregnancy chance
                     new CodeInstruction(OpCodes.Ldc_R8, 0.0275), // x5 for prestiged
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
-                .Insert(
+                .InsertWithLabels(
                     new[] {isNotPrestiged},
                     new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 3), // x3 for regular
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)

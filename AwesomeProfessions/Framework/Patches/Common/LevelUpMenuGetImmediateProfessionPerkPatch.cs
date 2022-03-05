@@ -10,13 +10,14 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
+using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 
 using Stardew.Common.Harmony;
 using Extensions;
-using SuperMode;
+using Ultimate;
 
 #endregion using directives
 
@@ -35,6 +36,12 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
     [HarmonyPostfix]
     private static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
     {
+        if (whichProfession.GetCorrespondingSkill() == SkillType.Combat)
+        {
+            Game1.player.maxHealth += 5;
+            Game1.player.health = Game1.player.maxHealth;
+        }
+
         if (!Enum.IsDefined(typeof(Profession), whichProfession)) return;
 
         var profession = (Profession) whichProfession;
@@ -52,21 +59,21 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
             ModEntry.ModHelper.Multiplayer.SendMessage("Conservationism", "RequestEvent",
                 new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
 
-        if (whichProfession is < 26 or >= 30 || ModEntry.PlayerState.Value.SuperMode is not null) return;
+        if (whichProfession is < 26 or >= 30 || ModEntry.PlayerState.Value.RegisteredUltimate is not null) return;
         
-        // register Super Mode
-        var newIndex = (SuperModeIndex) whichProfession;
-        ModEntry.PlayerState.Value.SuperMode =
+        // register Ultimate
+        var newIndex = (UltimateIndex) whichProfession;
+        ModEntry.PlayerState.Value.RegisteredUltimate =
 #pragma warning disable CS8509
-            ModEntry.PlayerState.Value.SuperMode = newIndex switch
+            ModEntry.PlayerState.Value.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
             {
-                SuperModeIndex.Brute => new BruteFury(),
-                SuperModeIndex.Poacher => new PoacherColdBlood(),
-                SuperModeIndex.Piper => new PiperEubstance(),
-                SuperModeIndex.Desperado => new DesperadoTemerity()
+                UltimateIndex.Brute => new Frenzy(),
+                UltimateIndex.Poacher => new Ambush(),
+                UltimateIndex.Piper => new Pandemonia(),
+                UltimateIndex.Desperado => new DeathBlossom()
             };
-        Game1.player.WriteData(DataField.SuperModeIndex, newIndex.ToString());
+        Game1.player.WriteData(DataField.UltimateIndex, newIndex.ToString());
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>

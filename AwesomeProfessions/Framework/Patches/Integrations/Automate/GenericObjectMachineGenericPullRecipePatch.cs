@@ -59,12 +59,12 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call)
                 )
-                .ToBuffer(2)
+                .GetInstructions(out var got, 2)
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Ret)
                 )
-                .InsertBuffer()
+                .Insert(got)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Call,

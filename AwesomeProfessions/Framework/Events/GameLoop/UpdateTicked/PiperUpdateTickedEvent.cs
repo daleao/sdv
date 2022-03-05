@@ -19,8 +19,5 @@ internal class PiperUpdateTickedEvent : UpdateTickedEvent
         // countdown contact timer
         if (ModEntry.PlayerState.Value.SlimeContactTimer > 0 && Game1.game1.IsActive && Game1.shouldTimePass())
             --ModEntry.PlayerState.Value.SlimeContactTimer;
-
-        // countdown key press accumulator
-        if (ModEntry.PlayerState.Value.KeyPressAccumulator == 1 && e.IsMultipleOf(40)) --ModEntry.PlayerState.Value.KeyPressAccumulator;
     }
 }

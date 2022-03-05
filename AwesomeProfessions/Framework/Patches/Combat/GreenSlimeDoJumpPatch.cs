@@ -16,12 +16,12 @@ internal class GreenSlimeDoJumpPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeDoJumpPatch()
     {
-        Original = RequireMethod<GreenSlime>("doJump");
+        //Original = RequireMethod<GreenSlime>("doJump");
     }
 
     #region harmony patches
 
-    /// <summary>Patch to identify jumping Slimes.</summary>
+    /// <summary>Patch to detect jumping Slimes.</summary>
     [HarmonyPrefix]
     private static bool GreenSlimeDoJumpPrefix(GreenSlime __instance)
     {

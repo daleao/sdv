@@ -14,8 +14,6 @@ using StardewValley.Monsters;
 
 using Stardew.Common.Extensions;
 using Extensions;
-using SuperMode;
-
 using SUtility = StardewValley.Utility;
 
 #endregion using directives
@@ -23,7 +21,7 @@ using SUtility = StardewValley.Utility;
 [UsedImplicitly]
 internal class GreenSlimeUpdatePatch : BasePatch
 {
-    private const int INITIAL_INVINCIBILITY_TIMER_I = 1200;
+    private const int IMMUNE_TO_DAMAGE_DURATION_I = 450;
 
     private static readonly FieldInfo _ShellGone = typeof(RockCrab).Field("shellGone");
 
@@ -38,9 +36,9 @@ internal class GreenSlimeUpdatePatch : BasePatch
 
     /// <summary>Patch for Slimes to damage monsters around Piper.</summary>
     [HarmonyPostfix]
-    private static void GreenSlimeUpdatePostfix(GreenSlime __instance, GameLocation location)
+    private static void GreenSlimeUpdatePostfix(GreenSlime __instance)
     {
-        if (!location.DoesAnyPlayerHereHaveProfession(Profession.Piper, out _)) return;
+        if (!ModEntry.PlayerState.Value.PipedSlimes.Contains(__instance)) return;
 
         foreach (var monster in __instance.currentLocation.characters.OfType<Monster>().Where(m => !m.IsSlime()))
         {
@@ -59,22 +57,36 @@ internal class GreenSlimeUpdatePatch : BasePatch
                 || monster is Spiker) // skip Spikers
                 continue;
 
-            var damageToMonster = Math.Max(1,
+            // damage monster
+            var damageToMonster = (int) Math.Max(1,
                 (__instance.DamageToFarmer +
-                 Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4)) * __instance.Scale);
+                 Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4)) * __instance.Scale) - monster.resilience.Value;
 
             var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
                 : SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
-            monster.takeDamage((int) damageToMonster, (int) xTrajectory, (int) yTrajectory, false, 1.0, "slime");
-            monster.currentLocation.debris.Add(new((int) damageToMonster,
+            monster.takeDamage(damageToMonster, (int) xTrajectory, (int) yTrajectory, false, 1.0, "slime");
+            monster.currentLocation.debris.Add(new(damageToMonster,
                 new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f, monster));
+            monster.setInvincibleCountdown(IMMUNE_TO_DAMAGE_DURATION_I);
 
-            var invincibleCountdown = INITIAL_INVINCIBILITY_TIMER_I;
-            if (ModEntry.PlayerState.Value.SuperMode is PiperEubstance eubstance)
-                invincibleCountdown = (int) (invincibleCountdown * (1f - eubstance.GetBonusSlimeAttackSpeed() / 2f));
-            
-            monster.setInvincibleCountdown(invincibleCountdown);
+            // aggro monsters
+            var fakeFarmerId = monster.GetHashCode();
+            if (!ModEntry.HostState.FakeFarmers.TryGetValue(fakeFarmerId, out var fakeFarmer))
+            {
+                fakeFarmer = ModEntry.HostState.FakeFarmers[fakeFarmerId] =
+                    new() {UniqueMultiplayerID = fakeFarmerId, currentLocation = __instance.currentLocation};
+                Log.D($"Created fake farmer with id {fakeFarmerId}.");
+            }
+            fakeFarmer.Position = __instance.Position;
+            monster.WriteData("Aggroed", true.ToString());
+            monster.WriteData("Aggroer", __instance.GetHashCode().ToString());
+
+            // get damaged by monster
+            var damageToSlime = Math.Max(1,
+                monster.DamageToFarmer + Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4)) - __instance.resilience.Value;
+            __instance.takeDamage(damageToSlime, (int) -xTrajectory, (int) -yTrajectory, false, 1.0, "slime");
+            if (__instance.Health <= 0) break;
         }
     }
 

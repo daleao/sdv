@@ -13,10 +13,9 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 
-using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
-using SuperMode;
+using Ultimate;
 
 #endregion using directives
 
@@ -52,27 +51,27 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
         // unsubscribe unnecessary events
         EventManager.DisableAllForProfession(profession);
 
-        // unregister Super Mode
-        if (ModEntry.PlayerState.Value.SuperMode?.Index != (SuperModeIndex) whichProfession) return;
+        // unregister Ultimate
+        if (ModEntry.PlayerState.Value.RegisteredUltimate?.Index != (UltimateIndex) whichProfession) return;
 
         if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
-            var firstIndex = (SuperModeIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
-            Game1.player.WriteData(DataField.SuperModeIndex, firstIndex.ToString());
+            var firstIndex = (UltimateIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
+            Game1.player.WriteData(DataField.UltimateIndex, firstIndex.ToString());
 #pragma warning disable CS8509
-            ModEntry.PlayerState.Value.SuperMode = firstIndex switch
+            ModEntry.PlayerState.Value.RegisteredUltimate = firstIndex switch
 #pragma warning restore CS8509
             {
-                SuperModeIndex.Brute => new BruteFury(),
-                SuperModeIndex.Poacher => new PoacherColdBlood(),
-                SuperModeIndex.Piper => new PiperEubstance(),
-                SuperModeIndex.Desperado => new DesperadoTemerity()
+                UltimateIndex.Brute => new Frenzy(),
+                UltimateIndex.Poacher => new Ambush(),
+                UltimateIndex.Piper => new Pandemonia(),
+                UltimateIndex.Desperado => new DeathBlossom()
             };
         }
         else
         {
-            Game1.player.WriteData(DataField.SuperModeIndex, null);
-            ModEntry.PlayerState.Value.SuperMode = null;
+            Game1.player.WriteData(DataField.UltimateIndex, null);
+            ModEntry.PlayerState.Value.RegisteredUltimate = null;
         }
     }
 
