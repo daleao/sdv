@@ -26,8 +26,8 @@ internal class SpelunkerWarpedEvent : WarpedEvent
             if (e.Player.HasProfession(Profession.Spelunker, true))
             {
                 var player = e.Player;
-                player.health = Math.Min(player.health + (int) (player.maxHealth * 0.05f), player.maxHealth);
-                player.Stamina = Math.Min(player.Stamina + player.MaxStamina * 0.05f, player.MaxStamina);
+                player.health = Math.Min(player.health + (int) (player.maxHealth * 0.025f), player.maxHealth);
+                player.Stamina = Math.Min(player.Stamina + player.MaxStamina * 0.01f, player.MaxStamina);
             }
 
             EventManager.Enable(typeof(SpelunkerUpdateTickedEvent));

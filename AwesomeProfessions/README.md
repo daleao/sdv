@@ -74,7 +74,7 @@ Other balancing features:
 - _[Optional]_ Rebalanced Fish Ponds:
     - Fish Ponds preserve the quality of fish placed inside. The quality of newly spawned fish will be inerited from a randomly chosen parent. Fishing from a pond always removes the lowest-quality fish first.
     - The quality of produced roe/ink is based on the average quality of the fish inside the pond. Each fish in the pond has a chance to add one roe/ink to the produce stack. However, this chance depends on the value of the fish (higher value fish have **lower** production chance). This means that cheap fish will produce tons of cheap roe, while more expensive fish will produce less but more valuable roe.
-    - These features are intended to balance the new Aquarist profession.
+    - Features intended to balance the new Aquarist profession.
 
 Integration is provided for Automate and several popular mods. See the [compatibility](#compatibility) section for details.
 
@@ -152,16 +152,16 @@ Integration is provided for Automate and several popular mods. See the [compatib
     - _Unchanged from vanilla._
 - **Lv10 - Brute** - Taking damage builds rage, improving combat prowess. +25 HP. *Rage also grants attack speed.*
     - You may want to consider building defense bonuses. In vanilla, defense has a soft cap, not allowing damage reduction beyond 50%. This mod removes that cap, making defense more effective.
-    - **Rage:** Damage +1% per stack. Max 100 stacks. *Attack speed +0.5% per stack*.
+    - **Rage:** Damage +1% per stack. Max 100 stacks. Lose 1 stack every 5 seconds after 30 seconds out of combat. *Attack speed +0.5% per stack*.
 - **Lv10 - Bushwhacker** - Crit. chance +50%. Crit. strikes can poach items. *Successfully poaching an item refunds special move cooldown.*
     - Monsters can only be poached once.
-- **Lv 5 - Rascal** - Slingshots damage +25% *(+50%)*. 60% chance to recover spent ammo. *Trick shots stun enemies for 5s.*
+- **Lv 5 - Rascal** - Slingshot damage +25% *(+50%)*. 60% chance to recover spent ammo.
     - In vanilla, slingshot projectiles have a short "grace period" during which it will ignore collision with enemies. This mod removes that grace period, allowing projectiles to hit enemies immediately in front of the Farmer. All professions are affected.
-    -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but can ricochet once._
+    -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but can ricochet once. If prestiged, trick shots stun enemies for 5s._
 - **Lv10 - Desperado** - Charge slingshot 50% faster. Can overcharge slingshots for more power, or quick-release for a double-shot. *Overcharged shots become spreadshots.*
     - **Overcharge:** Continue to hold the tool button to reveal the overcharge meter.
     - **Quick-shots:** Release the shot as soon as it completes charging to perform double-shots.
-    - **Spreadhots:** Fire three projectiles in a cone. Requires at overcharging at least half the bar. The higher the bar the narrower the cone. 
+    - **Spreadhots:** Fire three projectiles in a cone. Requires overcharging at least half the bar. The higher the bar the narrower the cone. 
 - **Lv10 - Slimed Piper** - Attract more Slimes in dangerous areas. Chance to gain a random buff when a Slime is defeated. *Chance to also recover some health and energy when a Slime is defeated.*
     - Each Slime raised in a hutch adds a chance to spawn an extra Slime in dungeons, up to the number of enemies on the map.
     - Buffs are the same as food/drink buffs (skill levels, attack, defense, speed, luck, max energy, magnetism). Lasts 5 minutes and stacks indefinitely, refreshing the duration each time.
@@ -183,14 +183,19 @@ All Prestige features are optional and may be disabled or customized in the conf
 Each level 10 Combat profession is also granted an Ultimate ability. This ability must be charged by performing certain actions during combat. The current charge state is revealed by a new HUD bar next Health. The player can only have a single Ultimate ability registered at any time; i.e. acquiring all combat professions via skill reseting will not grant additional Ultimates beyond the first. The overnight level-up menu will prompt the player if they wish to replace their current Ultimate ability with the new professions'.
 
 - **Brute / Amazon - Undying Frenzy** - Doubles rage accumulation for 15s. Immune to passing out. When the effect ends, recovers 5% health for every enemy slain while the buff was active.
+    - Charged by taking damage or defeating enemies. Charges more quickly if wielding a blunt weapon.
 - **Bushwhacker - Ambuscade** - Become invisible and untargetable for 30s. Effect ends prematurely if the player attacks an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration.
+    - Charged by scoring critical hits. Consider wielding a dagger.
 - **Desperado - Death Blossom** - Enable auto-reload for 15s. Fire in eight directions at once.
   - Journey of the Prairie King, "IRL".
+  - Charged by hitting monsters with projectiles. Charges more quickly when low on health.
 - **Slimed Piper / Slime Enchantress - Pandemonia** - Charm nearby Slimes for 30s. Charmed Slimes increase in size and power and will seek out other enemies. Enemies hit will aggro onto the Slime.
   - Slimes scale up factor is random, up to twice the original size. Slimes gain a proportional damage and health boost.
   - If defeated, engorged Slimes break up into smaller baby Slimes.
   - There is also a low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert the Slime to prismatic variant.
   - Nearby Big Slimes explode immediately.
+  - Charged by being touched by Slimes, or by defeating Slimes and Big Slimes.
+
 
 Once all 30 professions have been acquired, the Statue of Prestige may be used to switch Ultimates at will.
 
@@ -229,7 +234,7 @@ The mods are **not** compatible:
 - - [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but makes Artisan profession redundant; all features are already included). 
 - [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (use included prestige or console commands instead).
 - [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (already a mod feature).
-- [Quality Fish Ponds](https://www.nexusmods.com/stardewvalley/mods/11021) because this mod already does the same thing.
+- [Quality Fish Ponds](https://www.nexusmods.com/stardewvalley/mods/11021) because this mod already does the same thing, but better.
 
 Not compatible with Android version of the game.
 
@@ -265,7 +270,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **TaxDeductionCeiling** (float) - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
 
 ### Ultimate Configs
-- **EnableUltimate** (bool) - Required to allow Ultimate activation. Super Stat continues to apply.
+- **EnableUltimate** (bool) - Required to allow Ultimate activation.
 - **UltimateKey** (keybind) - This is the key that activates Ultimate for 2nd-tier combat professions. By default this is the same key as Modkey, but can also be set to a different key.
 - **HoldKeyToActivateUltimate** (bool) - If set to true, then Ultimate will be activated after holding the above key for a short amount of time. If set to false, then Ultimate will activate immediately upon pressing the key. Useful if you are running out of keys to bind, or just want to prevent accidental activation of Ultimate. Default value is true. 
 - **UltimateActivationDelay** (float) - If HoldKeyToActivateUltimate is set to true, this represents the number of seconds between pressing UltimateKey and activating Ultimate. Set to a higher value if you use Prospector profession and find yourself accidentally wasting your Ultimate in the Mines.

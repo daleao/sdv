@@ -1,12 +1,8 @@
-﻿using System.ComponentModel.Design;
-using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-
-namespace DaLion.Stardew.Professions.Framework.Events.Player;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
 #region using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
@@ -15,6 +11,7 @@ using StardewValley.Locations;
 using StardewValley.Monsters;
 
 using Extensions;
+using GameLoop;
 
 #endregion using directives
 
@@ -41,27 +38,6 @@ internal class PiperWarpedEvent : WarpedEvent
         var enemyCount = Game1.player.currentLocation.characters.OfType<Monster>().Count(m => !m.IsSlime());
         if (enemyCount <= 0) return;
 
-        // get valid tiles for spawning
-        int playerx = Game1.player.getTileX(), playery = Game1.player.getTileY();
-        var validTiles = new List<Vector2>();
-        for (var i = playery - 5; i <= playery + 5; ++i)
-            for (var j = playerx - 5; j <= playerx + 5; ++j)
-            {
-                var tile = new Vector2(j, i);
-                if (!e.NewLocation.isTileOnMap(tile) ||
-                    !e.NewLocation.isTileLocationTotallyClearAndPlaceable(tile)) continue;
-                
-                if (e.NewLocation is MineShaft shaft2)
-                {
-                    shaft2.checkForMapAlterations(j, i);
-                    if (!shaft2.isTileClearForMineObjects(tile)) continue;
-                }
-                
-                validTiles.Add(tile);
-            }
-
-        if (!validTiles.Any()) return;
-
         var r = new Random(Guid.NewGuid().GetHashCode());
         var raisedSlimes = e.Player.GetRaisedSlimes().ToArray();
         var chance = _pipeChance(raisedSlimes.Length);
@@ -69,6 +45,20 @@ internal class PiperWarpedEvent : WarpedEvent
         foreach (var tamedSlime in raisedSlimes)
         {
             if (r.NextDouble() > chance) continue;
+
+            // choose spawn tile
+            var x = r.Next(e.NewLocation.Map.Layers[0].LayerWidth);
+            var y = r.Next(e.NewLocation.Map.Layers[0].LayerHeight);
+            var spawnTile = new Vector2(x, y);
+
+            if (!e.NewLocation.isTileOnMap(spawnTile) ||
+                !e.NewLocation.isTileLocationTotallyClearAndPlaceable(spawnTile)) continue;
+
+            if (e.NewLocation is MineShaft shaft2)
+            {
+                shaft2.checkForMapAlterations(x, y);
+                if (!shaft2.isTileClearForMineObjects(spawnTile)) continue;
+            }
 
             // choose slime variation
             GreenSlime pipedSlime;
@@ -120,10 +110,9 @@ internal class PiperWarpedEvent : WarpedEvent
             }
 
             // spawn
-            pipedSlime.setTileLocation(validTiles[r.Next(validTiles.Count)]);
+            pipedSlime.setTileLocation(spawnTile);
             e.NewLocation.characters.Add(pipedSlime);
-            ++pipedCount;
-            if (pipedCount >= enemyCount) break;
+            if (++pipedCount >= enemyCount) break;
         }
 
         Log.D($"Spawned {pipedCount} Slimes after {raisedSlimes.Length} attempts.");
