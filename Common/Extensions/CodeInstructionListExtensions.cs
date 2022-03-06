@@ -9,6 +9,7 @@ using HarmonyLib;
 
 #endregion using directives
 
+/// <summary>Extensions for lists of <see cref="CodeInstruction"/> objects.</summary>
 public static class CodeInstructionListExtensions
 {
     /// <summary>Determine the index of the first occurrence of an instruction pattern.</summary>

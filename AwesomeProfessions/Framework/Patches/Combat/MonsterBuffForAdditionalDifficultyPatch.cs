@@ -10,19 +10,19 @@ using StardewValley.Monsters;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MonsterParseMonsterInfoPatch : BasePatch
+internal class MonsterBuffForAdditionalDifficultyPatch : BasePatch
 {
     /// <summary>Construct and instance.</summary>
-    internal MonsterParseMonsterInfoPatch()
+    internal MonsterBuffForAdditionalDifficultyPatch()
     {
-        Original = RequireMethod<Monster>("parseMonsterInfo");
+        Original = RequireMethod<Monster>("BuffForAdditionalDifficulty");
     }
 
     #region harmony patches
 
     /// <summary>Patch to modify combat difficulty.</summary>
     [HarmonyPostfix]
-    private static void MonsterParseMonsterInfoPostfix(Monster __instance)
+    private static void MonsterBuffForAdditionalDifficultyPostfix(Monster __instance)
     {
         __instance.Health = (int) Math.Round(__instance.Health * ModEntry.Config.MonsterHealthMultiplier);
         __instance.DamageToFarmer = (int) Math.Round(__instance.DamageToFarmer * ModEntry.Config.MonsterDamageMultiplier);

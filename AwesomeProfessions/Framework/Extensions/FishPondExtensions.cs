@@ -18,6 +18,7 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="FishPond"/> class.</summary>
 internal static class FishPondExtensions
 {
     private const int ROE_INDEX_I = 812;

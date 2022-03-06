@@ -64,7 +64,7 @@ Profession-related features:
 - HUD elements compatible with SVE's Galdora and [Vintage Interface v2﻿](https://www.nexusmods.com/stardewvalley/mods/4697).
 
 Skill-related features:
-- Combat level 5 and 10 also reward 5 HP. At level 10 the player will have 200 health instead of 190.
+- Combat levels which reward a profession (multiples of 5) now also reward 5 HP. At level 10 the player will have 200 health instead of 190.
 
 Other balancing features:
 - Improved slingshot combat. Enemies can be hit even if they are near the player.
@@ -180,7 +180,7 @@ All Prestige features are optional and may be disabled or customized in the conf
 
 ## Ultimates
 
-Each level 10 Combat profession is also granted an Ultimate ability. This ability must be charged by performing certain actions during combat. The current charge state is revealed by a new HUD bar next Health. The player can only have a single Ultimate ability registered at any time; i.e. acquiring all combat professions via skill reseting will not grant additional Ultimates beyond the first. The overnight level-up menu will prompt the player if they wish to replace their current Ultimate ability with the new professions'.
+Each level 10 Combat profession is also granted an Ultimate ability. This ability must be charged by performing certain actions during combat. The current charge state is revealed by a new HUD bar next to health. The player can only have a single Ultimate ability registered at any time; i.e. acquiring all combat professions via skill reseting will not grant additional Ultimates beyond the first. The overnight level-up menu will prompt the player if they wish to replace their current Ultimate ability with the new professions'.
 
 - **Brute / Amazon - Undying Frenzy** - Doubles rage accumulation for 15s. Immune to passing out. When the effect ends, recovers 5% health for every enemy slain while the buff was active.
     - Charged by taking damage or defeating enemies. Charges more quickly if wielding a blunt weapon.
@@ -282,11 +282,17 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **SkillResetCostMultiplier** (float) - Multiplies the base skill reset cost. Set to 0 to prestige for free.
 - **ForgetRecipesOnSkillReset** (bool) - Wether reseting a skill also clears all associated recipes.
 - **AllowPrestigeMultiplePerDay** (bool) - Whether the player can use the Statue of Prestige more than once per day.
-- **BaseSkillExpMultiplier** (float array) - Multiplies all skill experience gained from the start of the game (in order: Farming, Fishing, Foraging, Mining, Combat).
 - **BonusSkillExpPerReset** (float) - Cumulative bonus that multiplies a skill's experience gain after each respective skill reset..
 - **RequiredExpPerExtendedLevel** (uint) - How much skill experience is required for each level up beyond 10.
 - **PrestigeRespecCost** (uint) - Monetary cost of respecing prestige profession choices for a skill.
 - **ChangeUltCost** (uint) - Monetary cost of changing the combat ultimate.
+
+### Difficulty Configs:
+
+- **BaseSkillExpMultiplier** (float array) - Multiplies all skill experience gained from the start of the game (in order: Farming, Fishing, Foraging, Mining, Combat).
+- **MonsterHealthMultiplier** (float) - Increases the health of all monsters.
+- **MonsterDamageMultiplier** (float) - Increases the damage of all monsters.
+- **MonsterDefenseMultiplier** (float) - Increases the damage resistance of all monsters.
 
 ### SVE Configs:
 - **UseGaldoranThemeAllTimes** (bool) - Replicates SVE's config settings of the same name.

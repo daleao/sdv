@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 #endregion using directives
 
+/// <summary>Extensions for generic lists of objects.</summary>
 public static class ListExtensions
 {
     /// <inheritdoc cref="List{T}.AddRange"/>

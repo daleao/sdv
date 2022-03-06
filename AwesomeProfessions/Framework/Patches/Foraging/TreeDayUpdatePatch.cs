@@ -34,7 +34,7 @@ internal class TreeDayUpdatePatch : BasePatch
     [HarmonyPostfix]
     private static void TreeDayUpdatePostfix(Tree __instance, int __state)
     {
-        __instance.IncrementData<int>("Age");
+        if (__instance.growthStage.Value >= Tree.treeStage && __instance.CanBeTapped()) __instance.IncrementData<int>("Age");
 
         var anyPlayerIsArborist = Game1.game1.DoesAnyPlayerHaveProfession(Profession.Arborist, out var n);
         if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !__instance.CanGrow()) return;

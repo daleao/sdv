@@ -48,7 +48,7 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddSectionTitle(() => "General Settings")
             .AddKeyBinding(
                 () => "Mod Key",
-                () => "The key used by Prospector and Scavenger professions.",
+                () => "The key used by Prospector, Scavenger and Rascal professions.",
                 config => config.ModKey,
                 (config, value) => config.ModKey = value
             )
@@ -292,6 +292,45 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 (config, value) => config.AllowPrestigeMultiplePerDay = value
             )
             .AddNumberField(
+                () => "Bonus Skill Experience After Reset",
+                () => "Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.",
+                config => config.BonusSkillExpPerReset,
+                (config, value) => config.BonusSkillExpPerReset = value,
+                0f,
+                2f
+            )
+            .AddNumberField(
+                () => "Required Experience Per Extended Level",
+                () => "How much skill experience is required for each level-up beyond level 10.",
+                config => (int) config.RequiredExpPerExtendedLevel,
+                (config, value) => config.RequiredExpPerExtendedLevel = (uint) value,
+                5000,
+                25000,
+                1000
+            )
+            .AddNumberField(
+                () => "Cost of Prestige Respec",
+                () =>
+                    "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
+                config => (int) config.PrestigeRespecCost,
+                (config, value) => config.PrestigeRespecCost = (uint) value,
+                0,
+                100000,
+                10000
+            )
+            .AddNumberField(
+                () => "Cost of Changing Ultimate",
+                () => "Monetary cost of changing the combat Ultimate. Set to 0 to change for free.",
+                config => (int) config.ChangeUltCost,
+                (config, value) => config.ChangeUltCost = (uint) value,
+                0,
+                100000,
+                10000
+            )
+
+            // difficulty settings
+            .AddSectionTitle(() => "Difficulty Settings")
+            .AddNumberField(
                 () => "Base Farming Experience Multiplier",
                 () => "Multiplies all skill experience gained from the start of the game.",
                 config => config.BaseSkillExpMultiplierPerSkill[0],
@@ -331,45 +370,6 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
                 0.2f,
                 2f
             )
-            .AddNumberField(
-                () => "Bonus Skill Experience Per Reset",
-                () => "Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.",
-                config => config.BonusSkillExpPerReset,
-                (config, value) => config.BonusSkillExpPerReset = value,
-                0f,
-                2f
-            )
-            .AddNumberField(
-                () => "Required Experience Per Extended Level",
-                () => "How much skill experience is required for each level-up beyond level 10.",
-                config => (int) config.RequiredExpPerExtendedLevel,
-                (config, value) => config.RequiredExpPerExtendedLevel = (uint) value,
-                5000,
-                25000,
-                1000
-            )
-            .AddNumberField(
-                () => "Cost of Prestige Respec",
-                () =>
-                    "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
-                config => (int) config.PrestigeRespecCost,
-                (config, value) => config.PrestigeRespecCost = (uint) value,
-                0,
-                100000,
-                10000
-            )
-            .AddNumberField(
-                () => "Cost of Changing Ultimate",
-                () => "Monetary cost of changing the combat Ultimate. Set to 0 to change for free.",
-                config => (int) config.ChangeUltCost,
-                (config, value) => config.ChangeUltCost = (uint) value,
-                0,
-                100000,
-                10000
-            )
-
-            // difficulty settings
-            .AddSectionTitle(() => "Difficulty Settings")
             .AddNumberField(
                 () => "Monster Health Multiplier",
                 () => "Increases the health of all enemies.",

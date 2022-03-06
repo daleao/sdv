@@ -8,6 +8,7 @@ using System.Linq;
 
 #endregion using directives
 
+/// <summary>Extensions for generic collections of objects.</summary>
 public static class CollectionExtensions
 {
     /// <summary>Determine if a collection contains any of the objects in a sequence.</summary>

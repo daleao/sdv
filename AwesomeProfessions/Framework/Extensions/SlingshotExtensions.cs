@@ -8,6 +8,7 @@ using StardewValley.Tools;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Slingshot"/> class.</summary>
 internal static class SlingshotExtensions
 {
     /// <summary>Determines the extra power of Desperado shots.</summary>

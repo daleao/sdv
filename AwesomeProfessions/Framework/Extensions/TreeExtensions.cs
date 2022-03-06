@@ -12,6 +12,7 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Tree"/> class.</summary>
 internal static class TreeExtensions
 {
     /// <summary>Whether a given common tree satisfies all conditions to advance a stage.</summary>
@@ -46,6 +47,31 @@ internal static class TreeExtensions
         }
 
         return true;
+    }
+
+    /// <summary>Whether a given tree can hold a Tapper.</summary>
+    internal static bool CanBeTapped(this Tree tree)
+    {
+        return tree.treeType.Value is Tree.bushyTree or Tree.leafyTree or Tree.pineTree or Tree.mushroomTree
+            or Tree.mahoganyTree;
+    }
+
+    /// <summary>Get a string representation of a given tree's species.</summary>
+    internal static string NameFromType(this Tree tree)
+    {
+        return tree.treeType.Value switch
+        {
+            Tree.bushyTree => "Oak Tree",
+            Tree.leafyTree => "Mahogany Tree",
+            Tree.pineTree => "Pine Tree",
+            Tree.winterTree1 => "Winter Tree",
+            Tree.winterTree2 => "Winter Tree 2",
+            Tree.palmTree => "Palm Tree",
+            Tree.mushroomTree => "Mushroom Tree",
+            Tree.mahoganyTree => "Mahogany Tree",
+            Tree.palmTree2 => "Palm Tree 2",
+            _ => "Unknown Tree"
+        };
     }
 
     /// <summary>Get an object quality value based on this tree's age.</summary>
@@ -83,7 +109,7 @@ internal static class TreeExtensions
     internal static void WriteData(this Tree tree, string field, string value)
     {
         tree.modData.Write($"{ModEntry.Manifest.UniqueID}/{field}", value);
-        Log.D($"[ModData]: Wrote {value} to {tree.treeType.Value} Tree's {field}.");
+        Log.D($"[ModData]: Wrote {value} to {tree.NameFromType()}'s {field}.");
     }
 
     /// <summary>Write to a field in this tree's <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
@@ -107,7 +133,7 @@ internal static class TreeExtensions
     internal static void IncrementData<T>(this Tree tree, string field, T amount)
     {
         tree.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}", amount);
-        Log.D($"[ModData]: Incremented {tree.treeType.Value} Tree's {field} by {amount}.");
+        Log.D($"[ModData]: Incremented {tree.NameFromType()}'s {field} by {amount}.");
     }
 
     /// <summary>Increment the value of a numeric field in this tree's <see cref="ModDataDictionary" /> by 1.</summary>
@@ -116,6 +142,6 @@ internal static class TreeExtensions
     {
         tree.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}",
             "1".Parse<T>());
-        Log.D($"[ModData]: Incremented {tree.treeType.Value} Tree's {field} by 1.");
+        Log.D($"[ModData]: Incremented {tree.NameFromType()}'s {field} by 1.");
     }
 }

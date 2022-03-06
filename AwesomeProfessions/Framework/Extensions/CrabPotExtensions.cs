@@ -10,6 +10,7 @@ using ObjectLookups = Utility.ObjectLookups;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="CrabPot"/> class.</summary>
 internal static class CrabPotExtensions
 {
     /// <summary>Whether the crab pot instance is using magnet as bait.</summary>

@@ -14,6 +14,7 @@ using Common.Harmony;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="ILHelper"/> class.</summary>
 internal static class ILHelperExtensions
 {
     /// <summary>

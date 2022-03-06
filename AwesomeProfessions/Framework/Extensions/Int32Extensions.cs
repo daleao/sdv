@@ -7,6 +7,7 @@ using StardewModdingAPI.Enums;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="int"/> primitive type.</summary>
 internal static class Int32Extensions
 {
     /// <summary>Get the name of a given profession by index.</summary>

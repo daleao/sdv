@@ -19,6 +19,7 @@ using SUtility = StardewValley.Utility;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="GameLocation"/> class.</summary>
 internal static class GameLocationExtensions
 {
     /// <summary>Whether any farmer in this location has a specific profession.</summary>

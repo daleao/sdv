@@ -9,6 +9,7 @@ using Common.Extensions;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Building"/> class.</summary>
 internal static class BuildingExtensions
 {
     /// <summary>Read a string from this building's <see cref="ModDataDictionary" />.</summary>

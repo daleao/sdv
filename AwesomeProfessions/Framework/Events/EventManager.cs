@@ -27,7 +27,7 @@ internal static class EventManager
 {
     private static readonly Dictionary<Profession, List<Type>> EventsByProfession = new()
     {
-        {Profession.Brute, new() {typeof(BruteUpdateTickedEvent)}},
+        {Profession.Brute, new() {typeof(BruteWarpedEvent)}},
         {Profession.Conservationist, new() {typeof(HostConservationismDayEndingEvent)}},
         {Profession.Piper, new() {typeof(PiperWarpedEvent)}},
         {Profession.Prospector, new() {typeof(ProspectorHuntDayStartedEvent), typeof(ProspectorWarpedEvent), typeof(TrackerButtonsChangedEvent)}},

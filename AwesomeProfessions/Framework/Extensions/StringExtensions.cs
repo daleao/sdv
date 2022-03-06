@@ -6,6 +6,7 @@ using System;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="string"/> primitive type.</summary>
 internal static class StringExtensions
 {
     /// <summary>Get the index of a given profession by name.</summary>

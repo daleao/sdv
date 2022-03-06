@@ -6,6 +6,7 @@ using System.Linq;
 
 #endregion using directives
 
+/// <summary>Extensions for generic arrays of objects.</summary>
 public static class ArrayExtensions
 {
     public static T[] SubArray<T>(this T[] array, int offset, int length)

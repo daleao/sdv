@@ -8,7 +8,7 @@ using StardewValley;
 
 #endregion using directives
 
-/// <summary>Provides extension methods for reading and writing values in <see cref="ModDataDictionary" /> fields.</summary>
+/// <summary>Provides extension methods for reading and writing values in the <see cref="ModDataDictionary" /> class.</summary>
 public static class ModDataDictionaryExtensions
 {
     /// <summary>Read a value from the <see cref="ModDataDictionary" /> as string.</summary>

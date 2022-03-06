@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="MethodInfo"/> class.</summary>
 public static class MethodInfoExtensions
 {
     /// <summary>Construct a <see cref="HarmonyMethod" /> instance from a <see cref="MethodInfo" /> object.</summary>

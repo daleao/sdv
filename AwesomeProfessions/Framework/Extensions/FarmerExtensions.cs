@@ -23,6 +23,7 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Farmer"/> class.</summary>
 internal static class FarmerExtensions
 {
     /// <summary>Whether the farmer has a particular profession.</summary>

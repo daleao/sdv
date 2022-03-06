@@ -19,7 +19,7 @@ internal class BruteUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        if (!Game1.currentLocation.IsDungeon() || ModEntry.PlayerState.Value.BruteRageCounter <= 0) return;
+        if (ModEntry.PlayerState.Value.BruteRageCounter <= 0) return;
 
         if (Game1.game1.IsActive && Game1.shouldTimePass() && ModEntry.PlayerState.Value.BruteRageCounter > 0 &&
             e.IsOneSecond)

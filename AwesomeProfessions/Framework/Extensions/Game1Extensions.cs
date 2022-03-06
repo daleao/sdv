@@ -8,6 +8,7 @@ using StardewValley;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Game1"/> class.</summary>
 internal static class Game1Extensions
 {
     /// <summary>Whether any farmer in the current game session has a specific profession.</summary>

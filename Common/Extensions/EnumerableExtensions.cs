@@ -8,6 +8,7 @@ using System.Linq;
 
 #endregion using directives
 
+/// <summary>Extensions for generic enumerables of objects.</summary>
 public static class EnumerableExtensions
 {
     /// <summary>Apply an action to each item in <see cref="IEnumerable{T}" />.</summary>

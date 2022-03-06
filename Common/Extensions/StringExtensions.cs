@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="string"/> primitive type.</summary>
 public static class StringExtensions
 {
     /// <summary>Determine if the string instance contains any of the specified substrings.</summary>

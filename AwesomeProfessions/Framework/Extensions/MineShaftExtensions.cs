@@ -13,6 +13,7 @@ using Common.Extensions;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="MineShaft"/> class.</summary>
 internal static class MineShaftExtensions
 {
     private static readonly FieldInfo _NetIsTreasureRoom = typeof(MineShaft).Field("netIsTreasureRoom");

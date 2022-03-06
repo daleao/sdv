@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Vector2"/> class.</summary>
 public static class Vector2Extensions
 {
     /// <summary>Get the angle between the instance and the horizontal.</summary>

@@ -12,6 +12,7 @@ using Common.Extensions;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Character"/> class.</summary>
 internal static class CharacterExtensions
 {
     /// <summary>Get the tile distance between the instance and any other character in the <see cref="GameLocation"/>.</summary>

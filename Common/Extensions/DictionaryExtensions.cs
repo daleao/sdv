@@ -8,6 +8,7 @@ using System.Linq;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Dictionary{TKey,TValue}"/> class.</summary>
 public static class DictionaryExtensions
 {
     /// <summary>Flatten pairs in a <see cref="Dictionary{TKey,TValue}" /> into a single string.</summary>

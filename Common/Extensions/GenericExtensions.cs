@@ -7,7 +7,8 @@ using System.Linq;
 
 #endregion using directives
 
-public static class GeneralExtensions
+/// <summary>Extensions for generic objects.</summary>
+public static class GenericExtensions
 {
     /// <summary>Determine if the instance is equivalent to any of the objects in a sequence.</summary>
     /// <param name="candidates">A sequence of <typeparamref name="T" /> objects.</param>

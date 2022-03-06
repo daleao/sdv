@@ -9,6 +9,7 @@ using StardewValley.Monsters;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="GreenSlime"/> class.</summary>
 internal static class GreenSlimeExtensions
 {
     /// <summary>Whether the Slime instance is currently jumping.</summary>

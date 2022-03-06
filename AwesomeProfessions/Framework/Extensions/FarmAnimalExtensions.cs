@@ -7,6 +7,7 @@ using StardewValley;
 
 #endregion
 
+/// <summary>Extensions for the <see cref="FarmAnimal"/> class.</summary>
 internal static class FarmAnimalExtensions
 {
     /// <summary>Affects the price of animals sold by Breeder.</summary>

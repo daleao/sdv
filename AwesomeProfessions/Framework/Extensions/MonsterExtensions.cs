@@ -7,6 +7,7 @@ using StardewValley.Monsters;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Monster"/> class.</summary>
 internal static class MonsterExtensions
 {
     /// <summary>Whether the monster instance is close enough to see the given player.</summary>

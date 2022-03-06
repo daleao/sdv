@@ -14,12 +14,13 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="SObject"/> class.</summary>
 internal static class SObjectExtensions
 {
     /// <summary>Whether a given object is an artisan good.</summary>
     internal static bool IsArtisanGood(this SObject @object)
     {
-        return @object.Category == SObject.artisanGoodsCategory;
+        return @object.Category == SObject.artisanGoodsCategory || @object.ParentSheetIndex == 395; // exception for coffee
     }
 
     /// <summary>Whether a given object is an artisan good.</summary>

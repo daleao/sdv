@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Rectangle"/> class.</summary>
 public static class RectangleExtensions
 {
     /// <summary>Draw the rectangle's border to the specified <see cref="SpriteBatch"/>.</summary>

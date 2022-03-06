@@ -90,10 +90,6 @@ public class ModConfig
     /// <summary>Whether the player can use the Statue of Prestige more than once per day.</summary>
     public bool AllowPrestigeMultiplePerDay { get; set; } = false;
 
-    /// <summary>Multiplies all skill experience gained from the start of the game.</summary>
-    /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat.</remarks>
-    public float[] BaseSkillExpMultiplierPerSkill { get; set; } = {1f, 1f, 1f, 1f, 1f};
-
     /// <summary>Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.</summary>
     public float BonusSkillExpPerReset { get; set; } = 0.1f;
 
@@ -106,11 +102,9 @@ public class ModConfig
     /// <summary>Monetary cost of changing the combat Ultimate. Set to 0 to change for free.</summary>
     public uint ChangeUltCost { get; set; } = 0;
 
-    /// <summary>The visual style for different honey mead icons, if using BetterArtisanGoodIcons. Allowed values: 'ColoredBottles', 'ColoredCaps'.</summary>
-    public string HoneyMeadStyle { get; set; } = "ColoredBottles";
-
-    /// <summary>Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.</summary>
-    public bool EnableFishPondRebalance { get; set; } = true;
+    /// <summary>Multiplies all skill experience gained from the start of the game.</summary>
+    /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat.</remarks>
+    public float[] BaseSkillExpMultiplierPerSkill { get; set; } = { 1f, 1f, 1f, 1f, 1f };
 
     /// <summary>Increases the health of all monsters.</summary>
     public float MonsterHealthMultiplier { get; set; } = 1f;
@@ -120,6 +114,12 @@ public class ModConfig
 
     /// <summary>Increases the resistance of all monsters.</summary>
     public float MonsterDefenseMultiplier { get; set; } = 1f;
+
+    /// <summary>Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.</summary>
+    public bool EnableFishPondRebalance { get; set; } = true;
+
+    /// <summary>The visual style for different honey mead icons, if using BetterArtisanGoodIcons. Allowed values: 'ColoredBottles', 'ColoredCaps'.</summary>
+    public string HoneyMeadStyle { get; set; } = "ColoredBottles";
 
     /// <summary>Enable if using the Vintage Interface v2 mod.</summary>
     public bool UseVintageInterface { get; set; } = false;
