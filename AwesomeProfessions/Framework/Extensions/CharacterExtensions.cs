@@ -36,7 +36,11 @@ internal static class CharacterExtensions
         distanceToClosestCharacter = double.MaxValue;
         if (candidatesArr is null || candidatesArr.Length == 0) return null;
 
-        if (candidatesArr.Length == 1) return candidatesArr[0];
+        if (candidatesArr.Length == 1)
+        {
+            distanceToClosestCharacter = character.DistanceToCharacter(candidatesArr[0]);
+            return candidatesArr[0];
+        }
 
         T closest = null;
         foreach (var candidate in candidatesArr)
@@ -64,7 +68,11 @@ internal static class CharacterExtensions
         distanceToClosestFarmer = double.MaxValue;
         if (candidatesArr is null || candidatesArr.Length == 0) return null;
 
-        if (candidatesArr.Length == 1) return candidatesArr[0];
+        if (candidatesArr.Length == 1)
+        {
+            distanceToClosestFarmer = character.DistanceToCharacter(candidatesArr[0]);
+            return candidatesArr[0];
+        }
 
         Farmer closest = null;
         foreach (var candidate in candidatesArr)
