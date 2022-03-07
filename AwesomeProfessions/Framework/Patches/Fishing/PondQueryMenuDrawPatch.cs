@@ -64,7 +64,9 @@ internal class PondQueryMenuDrawPatch : BasePatch
             if (fishPondData is null) return true; // run original logic
 
             var populationGates = fishPondData.PopulationGates;
-            if (populationGates is not null && populationGates.Keys.Max() >= ____pond.lastUnlockedPopulationGate.Value)
+            var isLegendaryPond = ____fishItem.HasContextTag("fish_legendary");
+            if (populationGates is not null && populationGates.Keys.Max() > ____pond.lastUnlockedPopulationGate.Value &&
+                !isLegendaryPond)
                 return true; // run original logic
 
             if (!Game1.globalFade)
@@ -101,7 +103,6 @@ internal class PondQueryMenuDrawPatch : BasePatch
                 var slotsToDraw = ____pond.maxOccupants.Value;
                 var x = 0;
                 var y = 0;
-                var isLegendaryPond = ____fishItem.IsLegendaryFish();
                 var slotSpacing = isLegendaryPond ? LEGENDARY_SLOT_SPACING_F : AQUARIST_SLOT_SPACING_F;
                 for (var i = 0; i < slotsToDraw; ++i)
                 {
@@ -223,7 +224,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
                 }
             }
 
-            if (!ModEntry.Config.EnableFishPondRebalance || ___confirmingEmpty)
+            if (!ModEntry.Config.RebalanceFishPonds || ___confirmingEmpty)
                 __instance.drawMouse(b);
 
             return false; // don't run original logic
@@ -240,16 +241,20 @@ internal class PondQueryMenuDrawPatch : BasePatch
     private static void FishPondQueryMenuDrawPostfix(PondQueryMenu __instance, bool ___confirmingEmpty, float ____age,
         SObject ____fishItem, FishPond ____pond, SpriteBatch b)
     {
-        if (!ModEntry.Config.EnableFishPondRebalance || ___confirmingEmpty) return;
+        if (!ModEntry.Config.RebalanceFishPonds || ___confirmingEmpty) return;
 
-        var isLegendaryPond = ____fishItem.IsLegendaryFish();
+        var isLegendaryPond = ____fishItem.HasContextTag("fish_legendary");
         var familyCount = ____pond.ReadDataAs<int>("FamilyCount");
 
         var (numBestQuality, numHighQuality, numMedQuality) = ____pond.GetFishQualities();
         var (numBestFamilyQuality, numHighFamilyQuality, numMedFamilyQuality) =
             ____pond.GetFishQualities(forFamily: true);
         if (numBestQuality == 0 && numHighQuality == 0 && numMedQuality == 0 && (familyCount == 0 ||
-                numBestFamilyQuality == 0 && numHighFamilyQuality == 0 && numMedFamilyQuality == 0)) return;
+                numBestFamilyQuality == 0 && numHighFamilyQuality == 0 && numMedFamilyQuality == 0))
+        {
+            __instance.drawMouse(b);
+            return;
+        }
 
         var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
         float slotSpacing, xOffset;

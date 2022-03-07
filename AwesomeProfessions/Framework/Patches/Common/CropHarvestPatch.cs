@@ -66,7 +66,7 @@ internal class CropHarvestPatch : BasePatch
         }
 
         /// Injected: if (Game1.player.professions.Contains(<ecologist_id>))
-        ///		Data.IncrementField("EcologistItemsForaged", amount: @object.Stack)
+        ///		Game1.player.IncrementField("EcologistItemsForaged", amount: @object.Stack)
         ///	After: Game1.stats.ItemsForaged += @object.Stack;
 
         // this particular method is too edgy for Harmony Access Tool, so we use some old-fashioned reflection trickery to find this particular overload of FarmerExtensions.IncrementData<T>
@@ -86,17 +86,17 @@ internal class CropHarvestPatch : BasePatch
                         typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
                 )
                 .Advance()
+                .AddLabels(dontIncreaseEcologistCounter)
                 .InsertProfessionCheck((int) Profession.Ecologist)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
-                    new CodeInstruction(OpCodes.Ldstr, DataField.EcologistItemsForaged.ToString()),
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Ldc_I4_0), // DataField.EcologistItemsForaged
                     new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = @object
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Item).PropertyGetter(nameof(Item.Stack))),
-                    new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Call, mi)
-                )
-                .AddLabels(dontIncreaseEcologistCounter);
+                );
         }
         catch (Exception ex)
         {

@@ -25,10 +25,12 @@ internal class FishPondOnFishTypeChangedPatch : BasePatch
     [HarmonyPostfix]
     private static void FishPondOnFishTypeChangedPostfix(FishPond __instance)
     {
-        if (!ModEntry.Config.EnableFishPondRebalance) return;
+        if (!ModEntry.Config.RebalanceFishPonds) return;
+
         __instance.WriteData("QualityRating", null);
         __instance.WriteData("FamilyQualityRating", null);
         __instance.WriteData("FamilyCount", null);
+        __instance.WriteData("DaysEmpty", 0.ToString());
     }
 
     #endregion harmony patches

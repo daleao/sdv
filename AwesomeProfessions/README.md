@@ -75,6 +75,10 @@ Other balancing features:
     - Fish Ponds preserve the quality of fish placed inside. The quality of newly spawned fish will be inerited from a randomly chosen parent. Fishing from a pond always removes the lowest-quality fish first.
     - The quality of produced roe/ink is based on the average quality of the fish inside the pond. Each fish in the pond has a chance to add one roe/ink to the produce stack. However, this chance depends on the value of the fish (higher value fish have **lower** production chance). This means that cheap fish will produce tons of cheap roe, while more expensive fish will produce less but more valuable roe.
     - Features intended to balance the new Aquarist profession.
+- _[Optional]_ Rebalanced Forges:
+    - Jade: +10% -> +50% crit. power per level.
+    - Topaz: +1 -> +5 defense per level.
+    - Features intended to balance the new Brute and Poacher professions.
 
 Integration is provided for Automate and several popular mods. See the [compatibility](#compatibility) section for details.
 
@@ -252,7 +256,8 @@ While the vast majority of professions bonuses are non-configurable, some of the
 ### General Configs
 - **Modkey** (keybind) - The Prospector and Scavenger professions use this key to reveal the locations of key objects currently on the screen. If playing on a large screen with wide field of view, this can help locate forageables of mine nodes in large or busy maps. The default key is LeftShift for keyboards and LeftShoulder for controllers.
 - **UseVintageSkillBars** (bool) - Set to true if you use the Vintage Interface﻿ mod. Makes the skill bars above level 10 a light pink. You can use this with the brown version of Vintage Interface. If you want to use the pink version you will have to recolor the file `assets/menus/skillbars_vintage.png` by yourself.
-- **EnableFishPondRebalance** (bool) - Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.
+- **RebalanceFishPonds** (bool) - Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.
+- **RebalanceForges** (bool) - Improves certain underwhelming forges (jade: +10% -> +50% crit. power per level; topaz: +1 -> +5 defense per level).
 
 ### Profession Configs
 - **ForagesNeededForBestQuality** (uint) - Determines the number of items foraged from the ground, bushes or mushroom boxes, required to reach permanent iridium-quality forage as an Ecologist. Default is 500.

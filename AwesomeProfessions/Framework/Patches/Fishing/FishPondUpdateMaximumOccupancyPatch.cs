@@ -32,7 +32,7 @@ internal class FishPondUpdateMaximumOccupancyPatch : BasePatch
     {
         if (__instance is null) return;
 
-        if (__instance.GetFishObject().IsLegendaryFish())
+        if (__instance.IsLegendaryPond())
         {
             __instance.maxOccupants.Set(6);
         }

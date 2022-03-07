@@ -37,7 +37,7 @@ internal class FishingRodPullFishFromWaterPatch : BasePatch
     [HarmonyPrefix]
     private static bool FishingRodPullFishFromWaterPrefix(FishingRod __instance, ref int whichFish, ref int fishQuality, bool fromFishPond)
     {
-        if (!ModEntry.Config.EnableFishPondRebalance || !fromFishPond || whichFish.IsTrash()) return true; // run original logic
+        if (!ModEntry.Config.RebalanceFishPonds || !fromFishPond || whichFish.IsTrash()) return true; // run original logic
 
         var (x, y) = (Vector2) _CalculateBobberTile.Invoke(__instance, null)!;
         var pond = Game1.getFarm().buildings.OfType<FishPond>().FirstOrDefault(p =>

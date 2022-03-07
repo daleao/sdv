@@ -67,7 +67,7 @@ internal static class CharacterExtensions
         if (candidatesArr.Length == 1) return candidatesArr[0];
 
         Farmer closest = null;
-        foreach (var candidate in candidates)
+        foreach (var candidate in candidatesArr)
         {
             var distanceToThisCandidate = character.DistanceToCharacter(candidate);
             if (distanceToThisCandidate >= distanceToClosestFarmer) continue;

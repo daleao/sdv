@@ -87,11 +87,12 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
             )
 
             // page links
-            .AddPageLink("Axe", () => "Axe Options", () => "Go to Axe options")
-            .AddPageLink("pickAxe", () => "Pickaxe Options", () => "Go to Pickaxe options")
+            .AddPageLink("axe", () => "Axe Settings", () => "Go to Axe settings.")
+            .AddPageLink("pickaxe", () => "Pickaxe Settings", () => "Go to Pickaxe settings.")
+            .AddPageLink("weapon", () => "Weapon Settings", () => "Go to Weapon settings.")
 
-            // Axe options
-            .AddPage("Axe", () => "Axe Options")
+            // axe settings
+            .AddPage("axe", () => "Axe Settings")
             .AddPageLink(string.Empty, () => "Back to Main Page")
             .AddCheckbox(
                 () => "Enable Axe Charging",
@@ -238,9 +239,15 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 config => config.AxeConfig.PlayShockwaveAnimation,
                 (config, value) => config.AxeConfig.PlayShockwaveAnimation = value
             )
+            .AddCheckbox(
+                () => "Allow Reaching Enchantment",
+                () => "Whether the Axe can be enchanted with Reaching.",
+                config => config.AxeConfig.AllowReachingEnchantment,
+                (config, value) => config.AxeConfig.AllowReachingEnchantment = value
+            )
 
-            // pickAxe options
-            .AddPage("pickAxe", () => "Pickaxe Options")
+            // pickaxe settings
+            .AddPage("pickaxe", () => "Pickaxe Settings")
             .AddPageLink(string.Empty, () => "Back to Main Page")
             .AddCheckbox(
                 () => "Enable Pickaxe Charging",
@@ -374,6 +381,22 @@ internal class GenericModConfigMenuIntegrationForAwesomeTools
                 () => "Whether to play the shockwave animation when the charged Pickaxe is released.",
                 config => config.PickaxeConfig.PlayShockwaveAnimation,
                 (config, value) => config.PickaxeConfig.PlayShockwaveAnimation = value
+            )
+            .AddCheckbox(
+                () => "Allow Reaching Enchantment",
+                () => "Whether the Pickaxe can be enchanted with Reaching.",
+                config => config.PickaxeConfig.AllowReachingEnchantment,
+                (config, value) => config.PickaxeConfig.AllowReachingEnchantment = value
+            )
+
+            // weapon settings
+            .AddPage("weapon", () => "Weapon Settings")
+            .AddPageLink(string.Empty, () => "Back to Main Page")
+            .AddCheckbox(
+                () => "Enable Sunburst Enchantment",
+                () => "Whether to enable the hidden Sunburst enchantment.",
+                config => config.MeleeWeaponConfig.AllowSunburstEnchantment,
+                (config, value) => config.MeleeWeaponConfig.AllowSunburstEnchantment = value
             );
     }
 }

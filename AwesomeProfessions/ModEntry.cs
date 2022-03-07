@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions;
+﻿using System.Diagnostics;
+
+namespace DaLion.Stardew.Professions;
 
 #region using directives
 
@@ -50,6 +52,7 @@ public class ModEntry : Mod
         PatchManager.ApplyAll(Manifest.UniqueID);
 
         // register asset editors / loaders
+        helper.Content.AssetEditors.Add(new FishPondDataEditor());
         helper.Content.AssetEditors.Add(new SpriteEditor());
         helper.Content.AssetLoaders.Add(new TextureLoader());
 

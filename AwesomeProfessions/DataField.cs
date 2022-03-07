@@ -12,5 +12,6 @@ internal enum DataField
     UltimateIndex,
     FishPondQualityDict,
     FishPondFamilyQualityDict,
-    FishPondFamilyCountDict
+    FishPondFamilyCountDict,
+    FishPondDaysEmptyDict
 }

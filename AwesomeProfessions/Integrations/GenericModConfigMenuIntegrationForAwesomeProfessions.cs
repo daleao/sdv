@@ -82,8 +82,14 @@ internal class GenericModConfigMenuIntegrationForAwesomeProfessions
             .AddCheckbox(
                 () => "Enable Fish Pond Rebalance",
                 () => "Allow Fish Ponds to produce bonus Roe or Ink in proportion to fish population.",
-                config => config.EnableFishPondRebalance,
-                (config, value) => config.EnableFishPondRebalance = value
+                config => config.RebalanceFishPonds,
+                (config, value) => config.RebalanceFishPonds = value
+            )
+            .AddCheckbox(
+                () => "Enable Forges Rebalance",
+                () => "Improves certain underwhelming forges (jade, topaz).",
+                config => config.RebalanceForges,
+                (config, value) => config.RebalanceForges = value
             )
 
             // professions

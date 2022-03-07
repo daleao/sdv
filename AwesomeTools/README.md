@@ -41,6 +41,9 @@ By default, the maximum radius is equal to the tool's upgrade level. The shockwa
 
 Should be compatible and unaffected by tool enchants.
 
+Update: Axe and Pickaxe now also accept the Reaching enchantment.
+As an unrelated bonus, Melee Weapons can be enchanted with Sunburst; a hidden vanilla enchantment which causes your weapon to fire a magic projectile.
+
 ## Configs
 
 This section describes the configurable settings provided in configs.json:

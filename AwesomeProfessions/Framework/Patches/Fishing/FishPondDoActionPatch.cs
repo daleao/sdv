@@ -75,7 +75,7 @@ internal class FishPondDoActionPatch : BasePatch
 
     private static bool IsExtendedFamilyMember(int heldFish, int pondFish)
     {
-        return ModEntry.Config.EnableFishPondRebalance &&
+        return ModEntry.Config.RebalanceFishPonds &&
                ObjectLookups.ExtendedFamilyPairs.TryGetValue(pondFish, out var pair) && pair == heldFish;
     }
 

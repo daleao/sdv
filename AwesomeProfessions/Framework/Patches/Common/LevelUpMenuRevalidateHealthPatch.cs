@@ -62,7 +62,7 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
                 pond.UpdateMaximumOccupancy();
                 pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
 
-                if (!ModEntry.Config.EnableFishPondRebalance) return false;
+                if (!ModEntry.Config.RebalanceFishPonds) return false;
 
                 // revalidate fish pond quality rating
                 pond.WriteDataIfNotExists("QualityRating", pond.FishCount.ToString()); // default to lowest quality = 1

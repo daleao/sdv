@@ -103,12 +103,6 @@ internal static class SObjectExtensions
             .TryGetValue(@object.ParentSheetIndex, out var fishData) && fishData.Contains("trap");
     }
 
-    /// <summary>Whether a given object is a legendary fish.</summary>
-    internal static bool IsLegendaryFish(this SObject @object)
-    {
-        return ObjectLookups.LegendaryFishNames.Contains(@object.Name);
-    }
-
     /// <summary>Whether a given object is algae or seaweed.</summary>
     internal static bool IsAlgae(this SObject @object)
     {

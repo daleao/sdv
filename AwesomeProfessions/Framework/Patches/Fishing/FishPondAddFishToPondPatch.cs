@@ -28,9 +28,9 @@ internal class FishPondAddFishToPondPatch : BasePatch
     [HarmonyPostfix]
     private static void FishPondAddFishToPondPostfix(FishPond __instance, SObject fish)
     {
-        if (!ModEntry.Config.EnableFishPondRebalance) return;
+        if (!ModEntry.Config.RebalanceFishPonds) return;
 
-        if (fish.IsLegendaryFish() && fish.ParentSheetIndex != __instance.fishType.Value)
+        if (fish.HasContextTag("fish_legendary") && fish.ParentSheetIndex != __instance.fishType.Value)
         {
             __instance.IncrementData<int>("FamilyCount");
 

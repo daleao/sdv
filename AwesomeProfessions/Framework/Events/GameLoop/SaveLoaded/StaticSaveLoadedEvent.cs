@@ -86,11 +86,12 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
         }
 
         // restore fish pond quality data
-        if (ModEntry.Config.EnableFishPondRebalance && Context.IsMainPlayer)
+        if (ModEntry.Config.RebalanceFishPonds && Context.IsMainPlayer)
         {
             var pondQualityDict = Game1.player.ReadData(DataField.FishPondQualityDict).ToDictionary<int, int>(',', ';');
             var familyQualityDict = Game1.player.ReadData(DataField.FishPondFamilyQualityDict).ToDictionary<int, int>(',', ';');
             var familyCountDict = Game1.player.ReadData(DataField.FishPondFamilyCountDict).ToDictionary<int, int>(',', ';');
+            var daysEmptyDict = Game1.player.ReadData(DataField.FishPondDaysEmptyDict).ToDictionary<int, int>(',', ';');
             foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p => !p.isUnderConstruction()))
             {
                 var pondId = pond.GetCenterTile().ToString().GetDeterministicHashCode();
@@ -102,6 +103,9 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
 
                 if (familyCountDict.TryGetValue(pondId, out var familyCount))
                     pond.WriteData("FamilyCount", familyCount.ToString());
+
+                if (daysEmptyDict.TryGetValue(pondId, out var daysEmpty))
+                    pond.WriteData("DaysEmpty", daysEmpty.ToString());
             }
         }
     }

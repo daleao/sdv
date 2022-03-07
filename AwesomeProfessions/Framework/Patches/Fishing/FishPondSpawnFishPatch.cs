@@ -31,7 +31,7 @@ internal class FishPondSpawnFishPatch : BasePatch
     [HarmonyPostfix]
     private static void FishPondSpawnFishPostfix(FishPond __instance)
     {
-        if (!ModEntry.Config.EnableFishPondRebalance) return;
+        if (!ModEntry.Config.RebalanceFishPonds) return;
 
         var forFamily = false;
         if (__instance.IsLegendaryPond())

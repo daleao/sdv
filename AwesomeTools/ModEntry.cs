@@ -60,11 +60,13 @@ public class ModEntry : Mod
     /// <summary>Check for and fix invalid mod settings.</summary>
     private void VerifyConfigs()
     {
-        if (Config.AxeConfig.RadiusAtEachPowerLevel.Count < 4)
+        Log("Verifying tool configs...", LogLevel.Info);
+
+        if (Config.AxeConfig.RadiusAtEachPowerLevel.Count < 5)
         {
             Log("Missing values in AxeConfig.RadiusAtEachPowerLevel. The default values will be restored.",
                 LogLevel.Warn);
-            Config.AxeConfig.RadiusAtEachPowerLevel = new() {1, 2, 3, 4};
+            Config.AxeConfig.RadiusAtEachPowerLevel = new() {1, 2, 3, 4, 5};
         }
         else if (Config.AxeConfig.RadiusAtEachPowerLevel.Any(i => i <= 0))
         {
@@ -75,11 +77,11 @@ public class ModEntry : Mod
                 Config.AxeConfig.RadiusAtEachPowerLevel.Select(i => i <= 0 ? 1 : i).ToList();
         }
 
-        if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count < 4)
+        if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count < 5)
         {
             Log("Missing values PickaxeConfig.RadiusAtEachPowerLevel. The default values will be restored.",
                 LogLevel.Warn);
-            Config.PickaxeConfig.RadiusAtEachPowerLevel = new() {1, 2, 3, 4};
+            Config.PickaxeConfig.RadiusAtEachPowerLevel = new() {1, 2, 3, 4, 5};
         }
         else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Any(i => i <= 0))
         {
@@ -116,12 +118,12 @@ public class ModEntry : Mod
 
             switch (Config.AxeConfig.RadiusAtEachPowerLevel.Count)
             {
-                case < 6:
+                case < 7:
                     Log("Setting default radius values for higher Axe upgrades.", LogLevel.Info);
-                    Config.AxeConfig.RadiusAtEachPowerLevel.AddRange(new[] {5, 6});
+                    Config.AxeConfig.RadiusAtEachPowerLevel.AddRange(new[] {6, 7});
                     break;
 
-                case > 6:
+                case > 7:
                     Log("Too many values in AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.",
                         LogLevel.Warn);
                     Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(6).ToList();
@@ -130,12 +132,12 @@ public class ModEntry : Mod
 
             switch (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count)
             {
-                case < 6:
+                case < 7:
                     Log("Setting default radius values for higher Pickaxe upgrades.", LogLevel.Info);
-                    Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRange(new[] {5, 6});
+                    Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRange(new[] {6, 7});
                     break;
 
-                case > 6:
+                case > 7:
                     Log("Too many values in PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.",
                         LogLevel.Warn);
                     Config.PickaxeConfig.RadiusAtEachPowerLevel =
@@ -145,19 +147,19 @@ public class ModEntry : Mod
         }
         else
         {
-            if (Config.AxeConfig.RadiusAtEachPowerLevel.Count > 4)
+            if (Config.AxeConfig.RadiusAtEachPowerLevel.Count > 5)
             {
                 Log("Too many values in AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.",
                     LogLevel.Warn);
-                Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(4).ToList();
+                Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
             }
 
-            if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count > 4)
+            if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Count > 5)
             {
                 Log("Too many values in PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.",
                     LogLevel.Warn);
                 Config.PickaxeConfig.RadiusAtEachPowerLevel =
-                    Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(4).ToList();
+                    Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(5).ToList();
             }
         }
 

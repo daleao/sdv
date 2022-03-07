@@ -9,11 +9,14 @@ using StardewModdingAPI.Utilities;
 /// <summary>The mod user-defined settings.</summary>
 public class ToolConfig
 {
-    /// <summary>The Axe configuration settings.</summary>
+    /// <summary>The settings for Axes.</summary>
     public AxeConfig AxeConfig { get; set; } = new();
 
-    /// <summary>The Pickaxe configuration settings.</summary>
+    /// <summary>The settings for Pickaxes.</summary>
     public PickaxeConfig PickaxeConfig { get; set; } = new();
+
+    /// <summary>The settings for Melee Weapons.</summary>
+    public MeleeWeaponConfig MeleeWeaponConfig { get; set; } = new();
 
     /// <summary>Whether charging requires a mod key to activate.</summary>
     public bool RequireModkey { get; set; } = true;

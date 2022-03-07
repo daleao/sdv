@@ -17,7 +17,7 @@ public class PickaxeConfig
     public UpgradeLevel RequiredUpgradeForCharging { get; set; } = UpgradeLevel.Copper;
 
     /// <summary>The radius of affected tiles at each upgrade level.</summary>
-    public List<int> RadiusAtEachPowerLevel { get; set; } = new() {1, 2, 3, 4};
+    public List<int> RadiusAtEachPowerLevel { get; set; } = new() {1, 2, 3, 4, 5};
 
     /// <summary>Whether to break boulders and meteorites.</summary>
     public bool BreakBouldersAndMeteorites { get; set; } = true;
@@ -51,4 +51,7 @@ public class PickaxeConfig
 
     /// <summary>Whether to play the shockwave animation when the charged Pickaxe is released.</summary>
     public bool PlayShockwaveAnimation { get; set; } = true;
+
+    /// <summary>Whether the Pickaxe can be enchanted with Reaching.</summary>
+    public bool AllowReachingEnchantment { get; set; } = true;
 }

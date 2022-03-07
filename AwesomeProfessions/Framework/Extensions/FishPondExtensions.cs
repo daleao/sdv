@@ -21,10 +21,7 @@ using SObject = StardewValley.Object;
 /// <summary>Extensions for the <see cref="FishPond"/> class.</summary>
 internal static class FishPondExtensions
 {
-    private const int ROE_INDEX_I = 812;
-    private const int SQUID_INK_INDEX_I = 814;
-    private const int SEAWEED_INDEX_I = 152;
-    private const int ALGAE_INDEX_I = 153;
+    private const int ROE_INDEX_I = 812, SQUID_INK_INDEX_I = 814, SEAWEED_INDEX_I = 152, ALGAE_INDEX_I = 153;
 
     private static readonly Func<int, double> _productionChanceByValue = x => (double) 14765 / (x + 120) + 1.5;
     private static readonly FieldInfo _FishPondData = typeof(FishPond).Field("_fishPondData");
@@ -40,18 +37,27 @@ internal static class FishPondExtensions
     /// <summary>Whether a legendary fish lives in this pond.</summary>
     internal static bool IsLegendaryPond(this FishPond pond)
     {
-        return pond.GetFishObject().IsLegendaryFish();
+        return pond.GetFishObject().HasContextTag("fish_legendary");
     }
 
     /// <summary>Increase Roe/Ink stack and quality based on population size and average quality.</summary>
-    internal static void AddBonusRoeAmountAndQuality(this FishPond pond)
+    internal static void AddBonusProduceAmountAndQuality(this FishPond pond)
     {
         var produce = pond.output.Value as SObject;
-        if (produce is not null && !produce.ParentSheetIndex.IsAnyOf(ROE_INDEX_I, SQUID_INK_INDEX_I)) return;
+        if (produce is not null && !produce.ParentSheetIndex.IsAnyOf(ROE_INDEX_I, SQUID_INK_INDEX_I) && !pond.fishType.Value.IsAlgae()) return;
 
         var fish = pond.GetFishObject();
-        
         var r = new Random(Guid.NewGuid().GetHashCode());
+
+        if (pond.fishType.Value.IsAlgae())
+        {
+            var stack = r.Next(pond.currentOccupants.Value);
+            produce ??= new(pond.fishType.Value, 1);
+            produce.Stack = stack;
+            pond.output.Value = produce;
+            return;
+        }
+
         var quality = pond.GetRoeQuality(r);
         if (produce is not null) produce.Quality = quality;
 

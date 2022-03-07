@@ -116,7 +116,10 @@ public class ModConfig
     public float MonsterDefenseMultiplier { get; set; } = 1f;
 
     /// <summary>Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.</summary>
-    public bool EnableFishPondRebalance { get; set; } = true;
+    public bool RebalanceFishPonds { get; set; } = true;
+
+    /// <summary>Improves certain underwhelming forges.</summary>
+    public bool RebalanceForges { get; set; } = true;
 
     /// <summary>The visual style for different honey mead icons, if using BetterArtisanGoodIcons. Allowed values: 'ColoredBottles', 'ColoredCaps'.</summary>
     public string HoneyMeadStyle { get; set; } = "ColoredBottles";

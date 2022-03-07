@@ -13,6 +13,7 @@ using StardewValley;
 using StardewValley.Tools;
 
 using Common.Classes;
+using DaLion.Stardew.Common.Extensions;
 
 #endregion using directives
 
@@ -23,33 +24,25 @@ internal static class HarmonyPatcher
     private static readonly List<int> AxeAffectedTilesRadii = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel;
     private static readonly List<int> PickaxeAffectedTilesRadii = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel;
 
-    // do shockwave
-    [HarmonyPatch(typeof(Tool), nameof(Tool.endUsing))]
-    internal class ToolEndUsingPatch
+    // allow first two power levels on Pickaxe
+    [HarmonyPatch(typeof(Farmer), "toolPowerIncrease")]
+    internal class FarmerToolPowerIncreasePatch
     {
-        [HarmonyPostfix]
-        protected static void Postfix(Farmer who)
+        [HarmonyTranspiler]
+        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var tool = who.CurrentTool;
-            if (who.toolPower <= 0 || tool is not (Axe or Pickaxe)) return;
-
-            var radius = 1;
-            switch (tool)
+            var l = instructions.ToList();
+            for (var i = 0; i < l.Count; ++i)
             {
-                case Axe:
-                    who.Stamina -= who.toolPower - who.ForagingLevel * 0.1f * (who.toolPower - 1) *
-                        ModEntry.Config.StaminaCostMultiplier;
-                    radius = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
-                    break;
+                if (l[i].opcode != OpCodes.Isinst ||
+                    l[i].operand?.ToString() != "StardewValley.Tools.Pickaxe") continue;
 
-                case Pickaxe:
-                    who.Stamina -= who.toolPower - who.MiningLevel * 0.1f * (who.toolPower - 1) *
-                        ModEntry.Config.StaminaCostMultiplier;
-                    radius = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
-                    break;
+                // inject branch over toolPower += 2
+                l.Insert(i - 2, new(OpCodes.Br_S, l[i + 1].operand));
+                break;
             }
 
-            ModEntry.Shockwave.Value = new(radius, who, Game1.currentGameTime.TotalGameTime.TotalMilliseconds);
+            return l.AsEnumerable();
         }
     }
 
@@ -135,31 +128,39 @@ internal static class HarmonyPatcher
         }
     }
 
-    // allow first two power levels on Pickaxe
-    [HarmonyPatch(typeof(Farmer), "toolPowerIncrease")]
-    internal class FarmerToolPowerIncreasePatch
+    // do shockwave
+    [HarmonyPatch(typeof(Tool), nameof(Tool.endUsing))]
+    internal class ToolEndUsingPatch
     {
-        [HarmonyTranspiler]
-        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        [HarmonyPostfix]
+        protected static void Postfix(Farmer who)
         {
-            var l = instructions.ToList();
-            for (var i = 0; i < l.Count; ++i)
-            {
-                if (l[i].opcode != OpCodes.Isinst ||
-                    l[i].operand?.ToString() != "StardewValley.Tools.Pickaxe") continue;
+            var tool = who.CurrentTool;
+            if (who.toolPower <= 0 || tool is not (Axe or Pickaxe)) return;
 
-                // inject branch over toolPower += 2
-                l.Insert(i - 2, new(OpCodes.Br_S, l[i + 1].operand));
-                break;
+            var radius = 1;
+            switch (tool)
+            {
+                case Axe:
+                    who.Stamina -= who.toolPower - who.ForagingLevel * 0.1f * (who.toolPower - 1) *
+                        ModEntry.Config.StaminaCostMultiplier;
+                    radius = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
+                    break;
+
+                case Pickaxe:
+                    who.Stamina -= who.toolPower - who.MiningLevel * 0.1f * (who.toolPower - 1) *
+                        ModEntry.Config.StaminaCostMultiplier;
+                    radius = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
+                    break;
             }
 
-            return l.AsEnumerable();
+            ModEntry.Shockwave.Value = new(radius, who, Game1.currentGameTime.TotalGameTime.TotalMilliseconds);
         }
     }
 
     // set affected tiles for Axe and Pickaxe power levels
     [HarmonyPatch(typeof(Tool), "tilesAffected")]
-    internal class ToolTileseAffectedPatch
+    internal class ToolTilesAffectedPatch
     {
         [HarmonyPostfix]
         protected static void Postfix(Tool __instance, List<Vector2> __result, Vector2 tileLocation, int power)
@@ -189,6 +190,44 @@ internal static class HarmonyPatcher
         protected static bool Prefix(Tool __instance)
         {
             return !ModEntry.Config.HideAffectedTiles;
+        }
+    }
+
+    // allow apply reaching enchant
+    [HarmonyPatch(typeof(ReachingToolEnchantment), nameof(ReachingToolEnchantment.CanApplyTo))]
+    internal class ReachingToolEnchantmentCanApplyToPatch
+    {
+        [HarmonyPrefix]
+        // ReSharper disable once RedundantAssignment
+        protected static bool Prefix(ref bool __result, Item item)
+        {
+            if (item is Tool tool && (tool is WateringCan or Hoe ||
+                                      tool is Axe && ModEntry.Config.AxeConfig.AllowReachingEnchantment ||
+                                      tool is Pickaxe && ModEntry.Config.PickaxeConfig.AllowReachingEnchantment))
+                __result = tool.UpgradeLevel == 4;
+            else
+                __result = false;
+
+            return false; // don't run original logic
+        }
+    }
+
+    // allow apply magic/sunburst enchant
+    [HarmonyPatch(typeof(BaseEnchantment), nameof(BaseEnchantment.GetAvailableEnchantments))]
+    internal class BaseEnchantmentGetAvailableEnchantmentsPatch
+    {
+        [HarmonyTranspiler]
+        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var l = instructions.ToList();
+            l.InsertRange(l.Count - 2, new List<CodeInstruction>
+            {
+                new(OpCodes.Ldsfld, typeof(BaseEnchantment).Field("_enchantments")),
+                new(OpCodes.Newobj, typeof(MagicEnchantment).Constructor()),
+                new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).MethodNamed(nameof(List<BaseEnchantment>.Add)))
+            });
+
+            return l.AsEnumerable();
         }
     }
 }

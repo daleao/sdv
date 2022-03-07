@@ -1,7 +1,4 @@
-﻿using DaLion.Stardew.Professions.Framework.Ultimate;
-using StardewValley;
-
-namespace DaLion.Stardew.Professions.Framework.Patches;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches;
 
 #region using directives
 
@@ -17,7 +14,7 @@ internal class DebugPatch : BasePatch
     internal DebugPatch()
     {
 #if DEBUG
-        //Original = RequireMethod<GameLocation>("damageMonster");
+        //Original = RequireMethod<object>(string.Empty);
 #endif
     }
 
