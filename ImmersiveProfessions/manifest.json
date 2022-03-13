@@ -1,0 +1,27 @@
+﻿{
+  "Name": "Walk Of Life - Immersive Professions",
+  "Author": "DaLion",
+  "Version": "3.0.3",
+  "Description": "An immersive overhaul of Stardew professions.",
+  "UniqueID": "DaLion.ImmersiveProfessions",
+  "EntryDll": "ImmersiveProfessions.dll",
+  "MinimumApiVersion": "3.13.0",
+  "UpdateKeys": ["Nexus:8111"],
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.8.1",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "MinimumVersion": "1.8.0",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "TehPers.FishingOverhaul",
+      "MinimumVersion": "3.2.1",
+      "IsRequired": false
+    }
+  ]
+}

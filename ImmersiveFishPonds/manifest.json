@@ -1,0 +1,10 @@
+﻿{
+  "Name": "Immersive Fish Ponds",
+  "Author": "DaLion",
+  "Version": "1.0.0",
+  "Description": "Make your Fish Ponds immersive and actually useful.",
+  "UniqueID": "DaLion.ImmersiveFishPonds",
+  "EntryDll": "ImmersiveFishPonds.dll",
+  "MinimumApiVersion": "3.13.0",
+  "UpdateKeys": [ "Nexus:0" ]
+}

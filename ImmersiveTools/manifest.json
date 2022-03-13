@@ -1,0 +1,10 @@
+﻿{
+  "Name": "Immersive Tools",
+  "Author": "DaLion",
+  "Version": "2.2.0",
+  "Description": "Charge your Axe and Pickaxe or customize your Hoe and Watering Can area of effect.",
+  "UniqueID": "DaLion.ImmersiveTools",
+  "EntryDll": "ImmersiveTools.dll",
+  "MinimumApiVersion": "3.13.0",
+  "UpdateKeys": [ "Nexus:7965" ]
+}
