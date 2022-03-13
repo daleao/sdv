@@ -2,7 +2,9 @@
 
 #region using directives
 
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
@@ -25,29 +27,39 @@ internal class CraftingRecipeConsumeIngredientsPatch : BasePatch
 
     /// <summary>Overrides ingredient consumption to allow non-SObject types.</summary>
     [HarmonyPrefix]
-    private static bool CraftingRecipeConsumeIngredientsPrefix(CraftingRecipe __instance, IList<Chest> additional_materials)
+    private static bool CraftingRecipeConsumeIngredientsPrefix(CraftingRecipe __instance,
+        IList<Chest> additional_materials)
     {
-        foreach (var (index, required) in __instance.recipeList)
+        try
         {
-            var remaining = index.IsRingIndex()
-                ? Game1.player.ConsumeRing(index, required)
-                : Game1.player.ConsumeObject(index, required);
-            if (remaining <= 0 || additional_materials is null) continue;
-
-            foreach (var chest in additional_materials)
+            foreach (var (index, required) in __instance.recipeList)
             {
-                if (chest is null) continue;
+                var remaining = index.IsRingIndex()
+                    ? Game1.player.ConsumeRing(index, required)
+                    : Game1.player.ConsumeObject(index, required);
+                if (remaining <= 0 || additional_materials is null) continue;
 
-                remaining = chest.ConsumeRing(index, remaining);
-                if (remaining > 0) continue;
-                
-                chest.clearNulls();
-                break;
+                foreach (var chest in additional_materials)
+                {
+                    if (chest is null) continue;
+
+                    remaining = chest.ConsumeRing(index, remaining);
+                    if (remaining > 0) continue;
+
+                    chest.clearNulls();
+                    break;
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+            return true; // default to original logic
         }
 
         return false; // don't run original logic
     }
+}
 
     #endregion harmony patches
 }

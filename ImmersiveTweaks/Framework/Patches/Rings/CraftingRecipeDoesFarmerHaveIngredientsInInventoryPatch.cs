@@ -2,7 +2,9 @@
 
 #region using directives
 
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
@@ -28,27 +30,35 @@ internal class CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch : BasePat
         // ReSharper disable once RedundantAssignment
         ref bool __result, IList<Item> extraToCheck)
     {
-        foreach (var (index, required) in __instance.recipeList)
+        try
         {
-            var remaining = required - (index.IsRingIndex()
-                ? Game1.player.GetRingItemCount(index)
-                : Game1.player.getItemCount(index, 5));
-            if (remaining <= 0) continue;
-            
-            if (extraToCheck is not null)
+            foreach (var (index, required) in __instance.recipeList)
             {
-                remaining -= index.IsRingIndex()
-                    ? Game1.player.GetRingItemCount(index, extraToCheck)
-                    : Game1.player.getItemCountInList(extraToCheck, index, 5);
+                var remaining = required - (index.IsRingIndex()
+                    ? Game1.player.GetRingItemCount(index)
+                    : Game1.player.getItemCount(index, 5));
                 if (remaining <= 0) continue;
+
+                if (extraToCheck is not null)
+                {
+                    remaining -= index.IsRingIndex()
+                        ? Game1.player.GetRingItemCount(index, extraToCheck)
+                        : Game1.player.getItemCountInList(extraToCheck, index, 5);
+                    if (remaining <= 0) continue;
+                }
+
+                __result = false;
+                return false; // don't run original logic
             }
 
-            __result = false;
+            __result = true;
             return false; // don't run original logic
         }
-
-        __result = true;
-        return false; // don't run original logic
+        catch (Exception ex)
+        {
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+            return true; // default to original logic
+        }
     }
 
     #endregion harmony patches
