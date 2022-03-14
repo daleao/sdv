@@ -21,6 +21,8 @@ public class CraftingRecipesEditor : IAssetEditor
     {
         if (asset.AssetNameEquals(PathUtilities.NormalizeAssetName("Data/CraftingRecipes")))
         {
+            if (!ModEntry.Config.RebalanceRings) return;
+
             var data = asset.AsDictionary<string, string>().Data;
             
             var fields = data["Glowstone Ring"].Split('/');

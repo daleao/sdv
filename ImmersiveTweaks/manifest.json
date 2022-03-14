@@ -1,12 +1,12 @@
 ﻿{
-  "Name": "Wildcat - Immersive Tweaks",
+  "Name": "Quality Of Life - Immersive Tweaks",
   "Author": "DaLion",
   "Version": "1.0.0",
   "Description": "An collection of immersive tweaks to weapons, rings, and misc. vanilla inconsistencies.",
   "UniqueID": "DaLion.ImmersiveTweaks",
   "EntryDll": "ImmersiveTweaks.dll",
   "MinimumApiVersion": "3.13.0",
-  "UpdateKeys": ["Nexus:0"],
+  "UpdateKeys": [ "Nexus:11296" ],
   "Dependencies": [
     {
       "UniqueID": "spacechase0.GenericModConfigMenu",

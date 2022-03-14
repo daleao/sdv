@@ -2,7 +2,7 @@
 
 <!-- LOGO, TITLE, DESCRIPTION -->
 
-# Immersive Tweaks
+# Quality Of Life - Immersive Tweaks
 
 <br/>
 
@@ -22,39 +22,42 @@
 
 ## Features
 
-This mod is an amalgamation of small inconsistencies fixes and balancing changes desperately needed by the vanilla game.
- 
-Major features:
-- Rebalances nearly all vanilla weapons and shoes, giving them more distinction and viability.
-- Changes the conditions for obtaining the Galaxy Sword, adding a 10 iridum bar requirement which forces the player to venture into the Skull Caverns before obtaining it.
-- Changes the treasure rewards for the standard mines to suit the rebalance.
+This mod is a collection of small tweaks and fixes to any vanilla inconsistencies or balancing issues that I can find, and are not large enough to merit their own mod.
+Most of these features were originally a part of [Walk Of Life](https://www.nexusmods.com/stardewvalley/mods/8111) and therefore are intended to be used with it, but that is not a requirement.
+
+
+Features currently included:
+
+(Combat-related)
 - Changes the effects of Topaz ring to be analogous with Topaz enchantment.
-- Rebalances Jade and Topaz enchantments, as well as Jade and Topaz rings, and finally the Crabshell ring.
-- Overhauls the Iridium Band, allowing it to combine up to four gemstone rings.
-
-Minor features:
-- Makes Mushroom Boxes produce quality mushrooms.
-- Makes Bee House and Tapper produce improve quality with age, following the example of Fruit Trees.
-- Makes Tappers and Berry Bushes reward Foraging experience when harvested.
-- Makes Meads take after the flower type of the input Honey item (with support for Better Artisan Good Icons).
-- Fruit Trees don't grow in winter.
-
+- Rebalances the Jade and Topaz rings, as well as the Crabshell ring for consistency.
+- Rebalances the Jade and Topaz enchantments, analogously to the rings.
 - Removes the "grace period" of Slingshot projectiles, allowing enemies to be hit immediately near the player.
 - Removes the 50% soft cap to damage mitigation from the player's defense stat.
-- Improves the effects of Jade and Topaz enchantments to be more viable alternatives.
-- Similarly improves the effects of Jade and Topaz rings to be more viable alternatives, as well as the Crabshell Ring for consistency.
-- Changes the crafting recipe of the Glowstone Ring to require one Magnet Ring and one Glow Ring.
-- Adds Sunburst enchant to the game.
-- 
+- Causes all weapons to consume energy, based on the player's combat level.
+- Adds the hidden Sunburst enchantment to the game.
+
+(Foraging and Farming-related)
+- Makes Bee House and Tapper produce improve quality with age, following the example of Fruit Trees.
+- Makes Tappers and Berry Bushes reward foraging experience when harvested.
+- Makes Meads take after the flower type of the input Honey item (with support for Better Artisan Good Icons).
+- Makes large Eggs and Milk double the output stack instead of increasing the quality.
+- Prevents Fruit Trees from growing in winter.
+- Changes the crafting recipe of the Glowstone Ring to require one Magnet Ring and one Glow Ring, and adds recipes for crafting the Glow Ring and Magnet Ring from their small counterparts.
+
+All features can be toggled on or off.
+
+
+Planned features:
+- Rebalance nearly all vanilla weapons and shoes, giving them more distinction and viability.
+- Change the treasure rewards for the standard mines to suit the rebalance.
+- Change the conditions for obtaining the Galaxy Sword, forcing the player to venture into the Skull Caverns before obtaining it.
+- Overhaul the Iridium Band, allowing it to combine the effects of any four gemstone rings.
+
 
 ## Compatibility
 
-This mod makes heavy use of Harmony to patch the behavior of Fish Ponds and adjacent objects. Any SMAPI mods that also patch Fish Pond behavior might be incompatible. Content Patcher packs that edit Fish Ponds or FishPondData are compatible, however.
-
-- Compatible with (and meant to be paired with) [Walk Of Life](https://www.nexusmods.com/stardewvalley/mods/8111).
-- Compatible with [Pond Painter](https://www.nexusmods.com/stardewvalley/mods/4703).
-- **Not** compatible with [Anything Pond](https://www.nexusmods.com/stardewvalley/mods/4702) or [Quality Fish Ponds](https://www.nexusmods.com/stardewvalley/mods/11021).
-
+This mod makes heavy use of Harmony to patch several vanilla behaviors. Any SMAPI mods with similar features are obviously **not** compatible.
 Should be fully compatible with multiplayer.
 
 ## Installation
@@ -67,7 +70,6 @@ To uninstall simply delete the mod from your mods folder. This mod is safe to un
 
 ## Special Thanks
 
-- [MouseyPounds](https://www.nexusmods.com/stardewvalley/users/3604264), author of Anything Ponds, for the idea of spontaneous algae growth.
 - **ConcernedApe** for StardewValley.
 - [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.
 

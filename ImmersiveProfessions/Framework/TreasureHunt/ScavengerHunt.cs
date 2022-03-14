@@ -187,7 +187,7 @@ internal class ScavengerHunt : TreasureHunt
         Game1.player.completelyStopAnimatingOrDoingAction();
         var treasures = GetTreasureContents();
         Game1.activeClickableMenu = new ItemGrabMenu(treasures).setEssential(true);
-        ((ItemGrabMenu) Game1.activeClickableMenu).source = 3;
+        ((ItemGrabMenu) Game1.activeClickableMenu).source = ItemGrabMenu.source_fishingChest;
     }
 
     /// <summary>Choose the contents of the treasure chest.</summary>

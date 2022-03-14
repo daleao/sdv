@@ -113,24 +113,10 @@ public static class StringExtensions
     }
 
     /// <summary>Parse a flattened string of key-value pairs back into a <see cref="Dictionary{TKey,TValue}" />.</summary>
-    /// <param name="keyValueSeparator">Character that separates keys and values.</param>
-    /// <param name="pairSeparator">Character that separates pairs.</param>
-    public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this string s, char keyValueSeparator,
-        char pairSeparator) where TKey : notnull
-    {
-        if (pairSeparator == keyValueSeparator)
-            throw new ArgumentException("Pair separator must be different from key-value separator.");
-
-        var pairs = s.Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries);
-        return pairs.Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries))
-            .ToDictionary(p => p[0].Parse<TKey>(), p => p[1].Parse<TValue>());
-    }
-
-    /// <summary>Parse a flattened string of key-value pairs back into a <see cref="Dictionary{TKey,TValue}" />.</summary>
     /// <param name="keyValueSeparator">String that separates keys and values.</param>
     /// <param name="pairSeparator">String that separates pairs.</param>
-    public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this string s, string keyValueSeparator,
-        string pairSeparator) where TKey : notnull
+    public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this string s, string keyValueSeparator = ",",
+        string pairSeparator = ";") where TKey : notnull
     {
         if (pairSeparator == keyValueSeparator)
             throw new ArgumentException("Pair separator must be different from key-value separator.");

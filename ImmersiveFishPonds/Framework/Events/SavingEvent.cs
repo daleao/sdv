@@ -37,36 +37,48 @@ internal class SavingEvent : IEvent
 
         var pondQualityDict = new Dictionary<int, int>();
         var familyQualityDict = new Dictionary<int, int>();
-        var familyCountDict = new Dictionary<int, int>();
+        var familyOccupantsDict = new Dictionary<int, int>();
         var daysEmptyDict = new Dictionary<int, int>();
-        var seaweedCountDict = new Dictionary<int, int>();
-        var greenAlgaeCountDict = new Dictionary<int, int>();
-        var whiteAlgaeCountDict = new Dictionary<int, int>();
+        var seaweedOccupantsDict = new Dictionary<int, int>();
+        var greenAlgaeOccupantsDict = new Dictionary<int, int>();
+        var whiteAlgaeOccupantsDict = new Dictionary<int, int>();
+        var itemsHeldDict = new Dictionary<int, string>();
         foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p => !p.isUnderConstruction()))
         {
-            var qualityRating = pond.ReadDataAs<int>("QualityRating");
-            var familyQualityRating = pond.ReadDataAs<int>("FamilyQualityRating");
-            var familyCount = pond.ReadDataAs<int>("FamilyCount");
-            var daysEmpty = pond.ReadDataAs<int>("DaysEmpty");
-            var seaweedCount = pond.ReadDataAs<int>("SeaweedCount");
-            var greenAlgaeCount = pond.ReadDataAs<int>("GreenAlgaeCount");
-            var whiteAlgaeCount = pond.ReadDataAs<int>("WhiteAlgaeCount");
             var pondId = pond.GetCenterTile().ToString().GetDeterministicHashCode();
+            
+            var qualityRating = pond.ReadDataAs<int>("QualityRating");
             pondQualityDict[pondId] = qualityRating;
+
+            var familyQualityRating = pond.ReadDataAs<int>("FamilyQualityRating");
             if (familyQualityRating > 0) familyQualityDict[pondId] = familyQualityRating;
-            if (familyCount > 0) familyCountDict[pondId] = familyCount;
+
+            var familyLivingHere = pond.ReadDataAs<int>("FamilyLivingHere");
+            if (familyLivingHere > 0) familyOccupantsDict[pondId] = familyLivingHere;
+
+            var daysEmpty = pond.ReadDataAs<int>("DaysEmpty");
             if (daysEmpty > 0) daysEmptyDict[pondId] = daysEmpty;
-            if (seaweedCount > 0) seaweedCountDict[pondId] = seaweedCount;
-            if (greenAlgaeCount > 0) greenAlgaeCountDict[pondId] = greenAlgaeCount;
-            if (whiteAlgaeCount > 0) whiteAlgaeCountDict[pondId] = whiteAlgaeCount;
+            
+            var seaweedLivingHere = pond.ReadDataAs<int>("SeaweedLivingHere");
+            if (seaweedLivingHere > 0) seaweedOccupantsDict[pondId] = seaweedLivingHere;
+            
+            var greenAlgaeLivingHere = pond.ReadDataAs<int>("GreenAlgaeLivingHere");
+            if (greenAlgaeLivingHere > 0) greenAlgaeOccupantsDict[pondId] = greenAlgaeLivingHere;
+            
+            var whiteAlgaeLivingHere = pond.ReadDataAs<int>("WhiteAlgaeLivingHere");
+            if (whiteAlgaeLivingHere > 0) whiteAlgaeOccupantsDict[pondId] = whiteAlgaeLivingHere;
+
+            var itemsHeld = pond.ReadData("ItemsHeld");
+            if (!string.IsNullOrEmpty(itemsHeld)) itemsHeldDict[pondId] = itemsHeld;
         }
 
-        Game1.player.WriteData(DataField.FishPondQualityDict, pondQualityDict.ToString(',', ';'));
-        Game1.player.WriteData(DataField.FishPondFamilyQualityDict, familyQualityDict.ToString(',', ';'));
-        Game1.player.WriteData(DataField.FishPondFamilyCountDict, familyCountDict.ToString(',', ';'));
-        Game1.player.WriteData(DataField.FishPondDaysEmptyDict, daysEmptyDict.ToString(',', ';'));
-        Game1.player.WriteData(DataField.FishPondSeaweedCountDict, seaweedCountDict.ToString(',', ';'));
-        Game1.player.WriteData(DataField.FishPondGreenAlgaeDict, greenAlgaeCountDict.ToString(',', ';'));
-        Game1.player.WriteData(DataField.FishPondWhiteAlgaeDict, whiteAlgaeCountDict.ToString(',', ';'));
+        Game1.player.WriteData(DataField.QualityDict, pondQualityDict.Stringify());
+        Game1.player.WriteData(DataField.FamilyQualityDict, familyQualityDict.Stringify());
+        Game1.player.WriteData(DataField.FamilyOccupantsDict, familyOccupantsDict.Stringify());
+        Game1.player.WriteData(DataField.DaysEmptyDict, daysEmptyDict.Stringify());
+        Game1.player.WriteData(DataField.SeaweedOccupantsDict, seaweedOccupantsDict.Stringify());
+        Game1.player.WriteData(DataField.GreenAlgaeOccupantsDict, greenAlgaeOccupantsDict.Stringify());
+        Game1.player.WriteData(DataField.WhiteAlgaeOccupantsDict, whiteAlgaeOccupantsDict.Stringify());
+        Game1.player.WriteData(DataField.HeldItemsDict, itemsHeldDict.Stringify(">", "/"));
     }
 }

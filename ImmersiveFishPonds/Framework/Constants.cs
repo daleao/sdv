@@ -6,7 +6,8 @@ internal class Constants
         SQUID_INK_INDEX_I = 814,
         SEAWEED_INDEX_I = 152,
         GREEN_ALGAE_INDEX_I = 153,
-        WHITE_ALGAE_INDEX_I = 157;
+        WHITE_ALGAE_INDEX_I = 157,
+        STURGEON_INDEX_I = 698;
 
     internal const float AQUARIST_SLOT_SPACING_F = 12f,
         REGULAR_SLOT_SPACING_F = 13f,

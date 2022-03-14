@@ -49,13 +49,6 @@ internal static class TreeExtensions
         return true;
     }
 
-    /// <summary>Whether a given tree can hold a Tapper.</summary>
-    internal static bool CanBeTapped(this Tree tree)
-    {
-        return tree.treeType.Value is Tree.bushyTree or Tree.leafyTree or Tree.pineTree or Tree.mushroomTree
-            or Tree.mahoganyTree;
-    }
-
     /// <summary>Get a string representation of a given tree's species.</summary>
     internal static string NameFromType(this Tree tree)
     {
@@ -71,19 +64,6 @@ internal static class TreeExtensions
             Tree.mahoganyTree => "Mahogany Tree",
             Tree.palmTree2 => "Palm Tree 2",
             _ => "Unknown Tree"
-        };
-    }
-
-    /// <summary>Get an object quality value based on this tree's age.</summary>
-    internal static int GetQualityFromAge(this Tree tree)
-    {
-        var age = tree.ReadDataAs<int>("Age");
-        return age switch
-        {
-            >= 336 => SObject.bestQuality,
-            >= 224 => SObject.highQuality,
-            >= 112 => SObject.medQuality,
-            _ => SObject.lowQuality
         };
     }
 

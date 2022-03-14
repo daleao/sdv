@@ -59,7 +59,6 @@ internal class CraftingRecipeConsumeIngredientsPatch : BasePatch
 
         return false; // don't run original logic
     }
-}
 
     #endregion harmony patches
 }

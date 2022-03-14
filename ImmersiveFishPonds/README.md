@@ -2,7 +2,7 @@
 
 <!-- LOGO, TITLE, DESCRIPTION -->
 
-# Immersive Fish Ponds
+# Aquarism - Immersive Fish Ponds
 
 <br/>
 
@@ -22,11 +22,15 @@
 
 ## Features
 
-This mod makes Fish Ponds useful and immersive by implementing the following three features:
+This mod makes Fish Ponds useful and immersive by implementing the following features:
+
 1. Fish Ponds preserve the quality of fish placed inside. The quality of newly spawned fish will be inerited from a randomly chosen parent. Fishing from a pond always removes the lowest-quality fish first.
-2. The quality of produced roe/ink is based on the average quality of the fish inside the pond. Each fish in the pond has a chance to add one roe/ink to the produce stack. However, this chance depends on the value of the fish (higher value fish have **lower** production chance). This means that cheap fish will produce tons of cheap roe, while more expensive fish will produce less but more valuable roe.
-3. After 3 days, empty pond will spontaneously grow algae/seaweed. New algae/seaweed spawn every 2 days, and produce a random amount of algae/seaweed depending on population. Note that seaweed, green algae and white algae will all grow simultaneously in the same pond.
-    
+2. Instead of choosing only one of the produce items specified in FishPondData, each fish in the pond has its own individual chance of producing each one of those items. In other words, item production chance will scale with population size, and each pond can produce several items per day. 
+3. All roe and ink entries in FishPondData are ignored. Instead, each fish species is given a roe/ink production chance based on it's value; the higher the value of the fish, the lower its chance to produce roe or ink. Every day, each fish in the pond will attempt to produce roe/ink based on that chance. This means that common fish will tend to produce a lot of low-value roe/ink, while rarer fish will produce less but more valuable roe/ink. Sturgeons have special conditions to produce bonus roe, and Coral produce algae or seaweed instead.
+4. After 3 days, empty pond will spontaneously grow algae/seaweed. New algae/seaweed spawn every 2 days, and produce a random amount of algae/seaweed depending on population. Note that seaweed, green algae and white algae will all grow simultaneously in the same pond.
+
+This is a companion mod for [Walk Of Life](https://www.nexusmods.com/stardewvalley/mods/8111) and its Aquarist profession, but can be used without it.
+
 ## Compatibility
 
 This mod makes heavy use of Harmony to patch the behavior of Fish Ponds and adjacent objects. Any SMAPI mods that also patch Fish Pond behavior might be incompatible. Content Patcher packs that edit Fish Ponds or FishPondData are compatible, however.

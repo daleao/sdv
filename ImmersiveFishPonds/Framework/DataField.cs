@@ -2,11 +2,12 @@
 
 internal enum DataField
 {
-    FishPondQualityDict,
-    FishPondFamilyQualityDict,
-    FishPondFamilyCountDict,
-    FishPondDaysEmptyDict,
-    FishPondSeaweedCountDict,
-    FishPondGreenAlgaeDict,
-    FishPondWhiteAlgaeDict
+    QualityDict,
+    FamilyQualityDict,
+    FamilyOccupantsDict,
+    DaysEmptyDict,
+    SeaweedOccupantsDict,
+    GreenAlgaeOccupantsDict,
+    WhiteAlgaeOccupantsDict,
+    HeldItemsDict
 }

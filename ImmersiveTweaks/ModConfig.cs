@@ -6,7 +6,7 @@ public class ModConfig
     #region combat changes
 
     /// <summary>Make weapons more unique and useful.</summary>
-    public bool RebalanceWeapons { get; set; } = true;
+    public bool RebalanceWeapons { get; set; } = false;
     
     /// <summary>Improves certain underwhelming forges.</summary>
     public bool RebalanceForges { get; set; } = true;
@@ -50,10 +50,10 @@ public class ModConfig
 
     #endregion foraging and farming changes
 
-
-
-
+    #region integrations for other mods
 
     /// <summary>The visual style for different honey mead icons, if using BetterArtisanGoodIcons. Allowed values: 'ColoredBottles', 'ColoredCaps'.</summary>
     public string HoneyMeadStyle { get; set; } = "ColoredBottles";
+
+    #endregion integrations for other mods
 }

@@ -20,8 +20,10 @@ public class WeaponsEditor : IAssetEditor
     /// <inheritdoc />
     public void Edit<T>(IAssetData asset)
     {
-        if (asset.AssetNameEquals(PathUtilities.NormalizeAssetName("Data/weapons")) && ModEntry.Config.RebalanceWeapons)
+        if (asset.AssetNameEquals(PathUtilities.NormalizeAssetName("Data/weapons")))
         {
+            if (!ModEntry.Config.RebalanceWeapons) return;
+
             var data = asset.AsDictionary<int, string>().Data;
             var keys = data.Keys;
             foreach (var key in keys)

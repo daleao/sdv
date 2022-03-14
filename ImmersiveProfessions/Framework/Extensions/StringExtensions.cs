@@ -15,5 +15,4 @@ internal static class StringExtensions
         if (Enum.TryParse<Profession>(professionName, true, out var profession)) return (int)profession;
         throw new ArgumentException($"Profession {professionName} does not exist.");
     }
-
 }

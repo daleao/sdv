@@ -36,12 +36,6 @@ internal static class SObjectExtensions
                || ObjectLookups.AnimalDerivedProductIds.Contains(@object.ParentSheetIndex);
     }
 
-    /// <summary>Whether a given object is a bee house.</summary>
-    internal static bool IsBeeHouse(this SObject @object)
-    {
-        return @object.bigCraftable.Value && @object.ParentSheetIndex == 10;
-    }
-
     /// <summary>Whether a given object is a mushroom box.</summary>
     internal static bool IsMushroomBox(this SObject @object)
     {

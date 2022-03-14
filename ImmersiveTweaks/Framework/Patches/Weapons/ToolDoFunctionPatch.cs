@@ -24,7 +24,7 @@ internal class ToolDoFunctionPatch : BasePatch
     [HarmonyPostfix]
     private static void ToolDoFunctionPostfix(Tool __instance, Farmer who)
     {
-        if (__instance is not MeleeWeapon weapon || !ModEntry.Config.WeaponsCostStamina) return;
+        if (__instance is not MeleeWeapon weapon || weapon.isScythe() || !ModEntry.Config.WeaponsCostStamina) return;
 
         var multiplier = weapon.type.Value switch
         {
