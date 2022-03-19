@@ -24,18 +24,18 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="Farmer"/> class.</summary>
-internal static class FarmerExtensions
+public static class FarmerExtensions
 {
     /// <summary>Whether the farmer has a particular profession.</summary>
     /// <param name="profession">The index of the profession.</param>
-    internal static bool HasProfession(this Farmer farmer, Profession profession, bool prestiged = false)
+    public static bool HasProfession(this Farmer farmer, Profession profession, bool prestiged = false)
     {
         return farmer.professions.Contains((int) profession + (prestiged ? 100 : 0));
     }
 
     /// <summary>Whether the farmer has acquired all professions branching from the specified profession.</summary>
     /// <param name="professionIndex">A profession index (0 to 29).</param>
-    internal static bool HasAllProfessionsInBranch(this Farmer farmer, int professionIndex)
+    public static bool HasAllProfessionsInBranch(this Farmer farmer, int professionIndex)
     {
         return professionIndex % 6 == 0 && farmer.professions.Contains(professionIndex + 2) &&
                farmer.professions.Contains(professionIndex + 3) ||
@@ -45,13 +45,13 @@ internal static class FarmerExtensions
     }
 
     /// <summary>Whether the farmer has all six professions in the specified skill.</summary>
-    internal static bool HasAllProfessionsInSkill(this Farmer farmer, int which)
+    public static bool HasAllProfessionsInSkill(this Farmer farmer, int which)
     {
         return farmer.NumberOfProfessionsInSkill(which) == 6;
     }
 
     /// <summary>Whether the farmer has all 30 vanilla professions.</summary>
-    internal static bool HasAllProfessions(this Farmer farmer)
+    public static bool HasAllProfessions(this Farmer farmer)
     {
         var allProfessions = Enumerable.Range(0, 30).ToList();
         return farmer.professions.Intersect(allProfessions).Count() == allProfessions.Count();
@@ -60,7 +60,7 @@ internal static class FarmerExtensions
     /// <summary>Get the last 1st-tier profession acquired by the farmer in the specified skill.</summary>
     /// <param name="skill">The skill index.</param>
     /// <returns>The last acquired profession, or -1 if none was found.</returns>
-    internal static int GetCurrentBranchForSkill(this Farmer farmer, int skill)
+    public static int GetCurrentBranchForSkill(this Farmer farmer, int skill)
     {
         var lastIndex = farmer.professions.ToList().FindLastIndex(p => p == skill * 6 || p == skill * 6 + 1);
         return lastIndex >= 0
@@ -71,7 +71,7 @@ internal static class FarmerExtensions
     /// <summary>Get the last level 2nd-tier profession acquired by the farmer in the specified skill branch.</summary>
     /// <param name="branch">The branch (level 5 profession) index.</param>
     /// <returns>The last acquired profession, or -1 if none was found.</returns>
-    internal static int GetCurrentProfessionForBranch(this Farmer farmer, int branch)
+    public static int GetCurrentProfessionForBranch(this Farmer farmer, int branch)
     {
         var lastIndex = farmer.professions.ToList().FindLastIndex(p => branch % 6 == 0
             ? p == branch + 2 || p == branch + 3
@@ -84,7 +84,7 @@ internal static class FarmerExtensions
     /// <summary>Get all the farmer's professions associated with a specific skill.</summary>
     /// <param name="which">The skill index.</param>
     /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the result.</param>
-    internal static IEnumerable<int> GetAllProfessionsForSkill(this Farmer farmer, int which,
+    public static IEnumerable<int> GetAllProfessionsForSkill(this Farmer farmer, int which,
         bool excludeTierOneProfessions = false)
     {
         return farmer.professions.Intersect(excludeTierOneProfessions
@@ -95,7 +95,7 @@ internal static class FarmerExtensions
     /// <summary>Count the number of professions acquired by the player in the specified skill.</summary>
     /// <param name="which">The skill index.</param>
     /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
-    internal static int NumberOfProfessionsInSkill(this Farmer farmer, int which,
+    public static int NumberOfProfessionsInSkill(this Farmer farmer, int which,
         bool excludeTierOneProfessions = false)
     {
         return excludeTierOneProfessions
@@ -105,7 +105,7 @@ internal static class FarmerExtensions
 
     /// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
     /// <param name="skillType">A skill index (0 to 4).</param>
-    internal static bool CanResetSkill(this Farmer farmer, SkillType skillType)
+    public static bool CanResetSkill(this Farmer farmer, SkillType skillType)
     {
         var isSkillLevelTen = farmer.GetUnmodifiedSkillLevel((int) skillType) == 10;
         var justLeveledUp = farmer.newLevels.Contains(new((int) skillType, 10));
@@ -120,14 +120,14 @@ internal static class FarmerExtensions
     }
 
     /// <summary>Whether the farmer can reset any skill for prestige.</summary>
-    internal static bool CanResetAnySkill(this Farmer farmer)
+    public static bool CanResetAnySkill(this Farmer farmer)
     {
         return Enum.GetValues<SkillType>().Any(farmer.CanResetSkill);
     }
 
     /// <summary>Get the cost of resetting the specified skill.</summary>
     /// <param name="skillType">The desired skill.</param>
-    internal static int GetResetCost(this Farmer farmer, SkillType skillType)
+    public static int GetResetCost(this Farmer farmer, SkillType skillType)
     {
         var multiplier = ModEntry.Config.SkillResetCostMultiplier;
         if (multiplier <= 0f) return 0;
@@ -147,7 +147,7 @@ internal static class FarmerExtensions
 
     /// <summary>Resets a specific skill level, removing all associated recipes and bonuses but maintaining profession perks.</summary>
     /// <param name="skillType">The skill to reset.</param>
-    internal static void ResetSkill(this Farmer farmer, SkillType skillType)
+    public static void ResetSkill(this Farmer farmer, SkillType skillType)
     {
         // reset skill level
         switch (skillType)
@@ -185,7 +185,7 @@ internal static class FarmerExtensions
 
         if (ModEntry.Config.ForgetRecipesOnSkillReset)
         {
-            var forgottenRecipesDict = Game1.player.ReadData(DataField.ForgottenRecipesDict).ToDictionary<string, int>();
+            var forgottenRecipesDict = Game1.player.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
 
             // remove associated crafting recipes
             foreach (var recipe in farmer.GetCraftingRecipesForSkill(skillType))
@@ -210,9 +210,34 @@ internal static class FarmerExtensions
         if (skillType == SkillType.Combat) LevelUpMenu.RevalidateHealth(farmer);
     }
 
+    /// <summary>Set the level of a specific skill for this farmer.</summary>
+    /// <param name="skillType">The desired skill.</param>
+    /// <param name="newLevel">The new level.</param>
+    public static void SetSkillLevel(this Farmer farmer, SkillType skillType, int newLevel)
+    {
+        switch (skillType)
+        {
+            case SkillType.Farming:
+                farmer.farmingLevel.Value = newLevel;
+                    break;
+            case SkillType.Fishing:
+                farmer.fishingLevel.Value = newLevel;
+                break;
+            case SkillType.Foraging:
+                farmer.foragingLevel.Value = newLevel;
+                break;
+            case SkillType.Mining:
+                farmer.miningLevel.Value = newLevel;
+                break;
+            case SkillType.Combat:
+                farmer.combatLevel.Value = newLevel;
+                break;
+        }
+    }
+
     /// <summary>Get all the farmer's crafting recipes associated with a specific skill.</summary>
     /// <param name="skillType">The desired skill.</param>
-    internal static IEnumerable<string> GetCraftingRecipesForSkill(this Farmer farmer, SkillType skillType)
+    public static IEnumerable<string> GetCraftingRecipesForSkill(this Farmer farmer, SkillType skillType)
     {
         return CraftingRecipe.craftingRecipes.Where(r =>
                 r.Value.Split('/')[4].Contains(skillType.ToString()) && farmer.craftingRecipes.ContainsKey(r.Key))
@@ -221,7 +246,7 @@ internal static class FarmerExtensions
 
     /// <summary>Get all the farmer's cooking recipes associated with a specific skill.</summary>
     /// <param name="skillType">The desired skill.</param>
-    internal static IEnumerable<string> GetCookingRecipesForSkill(this Farmer farmer, SkillType skillType)
+    public static IEnumerable<string> GetCookingRecipesForSkill(this Farmer farmer, SkillType skillType)
     {
         return CraftingRecipe.cookingRecipes.Where(r =>
                 r.Value.Split('/')[3].Contains(skillType.ToString()) && farmer.cookingRecipes.ContainsKey(r.Key))
@@ -229,14 +254,14 @@ internal static class FarmerExtensions
     }
 
     /// <summary>Get all available Ultimate's not currently registered.</summary>
-    internal static IEnumerable<UltimateIndex> GetUnchosenUltimates(this Farmer farmer)
+    public static IEnumerable<UltimateIndex> GetUnchosenUltimates(this Farmer farmer)
     {
         return farmer.professions.Where(p => Enum.IsDefined(typeof(UltimateIndex), p)).Cast<UltimateIndex>();
     }
 
     /// <summary>Whether the farmer has caught the specified fish at max size.</summary>
     /// <param name="index">The fish's index.</param>
-    internal static bool HasCaughtMaxSized(this Farmer farmer, int index)
+    public static bool HasCaughtMaxSized(this Farmer farmer, int index)
     {
         if (!farmer.fishCaught.ContainsKey(index) || farmer.fishCaught[index][1] <= 0) return false;
 
@@ -252,7 +277,7 @@ internal static class FarmerExtensions
     }
 
     /// <summary>The price bonus applied to animal produce sold by Producer.</summary>
-    internal static float GetProducerPriceBonus(this Farmer farmer)
+    public static float GetProducerPriceBonus(this Farmer farmer)
     {
         return Game1.getFarm().buildings.Where(b =>
             (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
@@ -260,7 +285,7 @@ internal static class FarmerExtensions
     }
 
     /// <summary>The bonus catching bar speed for prestiged Fisher.</summary>
-    internal static float GetFisherBonusCatchingBarSpeed(this Farmer farmer, int whichFish)
+    public static float GetFisherBonusCatchingBarSpeed(this Farmer farmer, int whichFish)
     {
         return farmer.fishCaught.TryGetValue(whichFish, out var caughtData)
             ? caughtData[0] >= ModEntry.Config.FishNeededForInstantCatch
@@ -270,7 +295,7 @@ internal static class FarmerExtensions
     }
 
     /// <summary>The price bonus applied to fish sold by Angler.</summary>
-    internal static float GetAnglerPriceBonus(this Farmer farmer)
+    public static float GetAnglerPriceBonus(this Farmer farmer)
     {
         var fishData = Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
             .Where(p => !p.Key.IsAlgae() && !p.Value.Contains("trap"))
@@ -292,7 +317,7 @@ internal static class FarmerExtensions
     }
 
     /// <summary>The amount of "catching" bar to compensate for Aquarist.</summary>
-    internal static float GetAquaristCatchingBarCompensation(this Farmer farmer)
+    public static float GetAquaristCatchingBarCompensation(this Farmer farmer)
     {
         var fishTypes = Game1.getFarm().buildings
             .OfType<FishPond>()
@@ -303,13 +328,13 @@ internal static class FarmerExtensions
     }
 
     /// <summary>The price bonus applied to all items sold by Conservationist.</summary>
-    internal static float GetConservationistPriceMultiplier(this Farmer farmer)
+    public static float GetConservationistPriceMultiplier(this Farmer farmer)
     {
         return 1f + farmer.ReadDataAs<float>(DataField.ConservationistActiveTaxBonusPct);
     }
 
     /// <summary>The quality of items foraged by Ecologist.</summary>
-    internal static int GetEcologistForageQuality(this Farmer farmer)
+    public static int GetEcologistForageQuality(this Farmer farmer)
     {
         var itemsForaged = farmer.ReadDataAs<uint>(DataField.EcologistItemsForaged);
         return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
@@ -320,7 +345,7 @@ internal static class FarmerExtensions
     }
 
     /// <summary>The quality of minerals collected by Gemologist.</summary>
-    internal static int GetGemologistMineralQuality(this Farmer farmer)
+    public static int GetGemologistMineralQuality(this Farmer farmer)
     {
         var mineralsCollected = farmer.ReadDataAs<uint>(DataField.GemologistMineralsCollected);
         return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
@@ -331,7 +356,7 @@ internal static class FarmerExtensions
     }
 
     /// <summary>Enumerate the Slimes currently inhabiting owned Slimes Hutches.</summary>
-    internal static IEnumerable<GreenSlime> GetRaisedSlimes(this Farmer farmer)
+    public static IEnumerable<GreenSlime> GetRaisedSlimes(this Farmer farmer)
     {
         return Game1.getFarm().buildings
             .Where(b => (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
@@ -342,7 +367,7 @@ internal static class FarmerExtensions
     /// <summary>Read a string from the <see cref="ModDataDictionary" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    internal static string ReadData(this Farmer farmer, DataField field, string defaultValue = "")
+    public static string ReadData(this Farmer farmer, DataField field, string defaultValue = "")
     {
         return Game1.MasterPlayer.modData.Read($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -351,7 +376,7 @@ internal static class FarmerExtensions
     /// <summary>Read a field from the <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    internal static T ReadDataAs<T>(this Farmer farmer, DataField field, T defaultValue = default)
+    public static T ReadDataAs<T>(this Farmer farmer, DataField field, T defaultValue = default)
     {
         return Game1.MasterPlayer.modData.ReadAs($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -360,7 +385,7 @@ internal static class FarmerExtensions
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    internal static void WriteData(this Farmer farmer, DataField field, string value)
+    public static void WriteData(this Farmer farmer, DataField field, string value)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -377,7 +402,7 @@ internal static class FarmerExtensions
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    internal static bool WriteDataIfNotExists(this Farmer farmer, DataField field, string value)
+    public static bool WriteDataIfNotExists(this Farmer farmer, DataField field, string value)
     {
         if (Game1.MasterPlayer.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}"))
         {
@@ -397,7 +422,7 @@ internal static class FarmerExtensions
     /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    internal static void IncrementData<T>(this Farmer farmer, DataField field, T amount)
+    public static void IncrementData<T>(this Farmer farmer, DataField field, T amount)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -413,7 +438,7 @@ internal static class FarmerExtensions
 
     /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    internal static void IncrementData<T>(this Farmer farmer, DataField field)
+    public static void IncrementData<T>(this Farmer farmer, DataField field)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {

@@ -1,9 +1,9 @@
 ﻿namespace DaLion.Stardew.FishPonds.Framework;
 
-internal enum DataField
+public enum DataField
 {
-    QualityDict,
-    FamilyQualityDict,
+    FishQualitiesDict,
+    FamilyQualitiesDict,
     FamilyOccupantsDict,
     DaysEmptyDict,
     SeaweedOccupantsDict,

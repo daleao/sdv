@@ -43,12 +43,6 @@ public class ModEntry : Mod
         PlayerState = new(() => new());
         if (Context.IsMainPlayer) HostState = new();
 
-        // initialize mod events
-        EventManager.Init(Helper.Events);
-
-        // apply harmony patches
-        PatchManager.ApplyAll(Manifest.UniqueID);
-
         // register asset editors / loaders
         helper.Content.AssetEditors.Add(new FishPondDataEditor());
         helper.Content.AssetEditors.Add(new SpriteEditor());
@@ -56,6 +50,12 @@ public class ModEntry : Mod
 
         // load sound effects
         SoundBank.LoadCollection(helper.DirectoryPath);
+        
+        // initialize mod events
+        EventManager.Init(Helper.Events);
+
+        // apply harmony patches
+        PatchManager.ApplyAll(Manifest.UniqueID);
 
         // add debug commands
         ConsoleCommands.Register(helper.ConsoleCommands);

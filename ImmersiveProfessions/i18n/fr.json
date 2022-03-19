@@ -182,10 +182,6 @@
   "prestige.achievement.name.female": "Touche-à-tout",
   "prestige.achievement.desc": "Acquérir tous les professions dans toutes les compétences.",
 
-  // Rebalance
-  "rebalance.rings.jade": "Augmente la puissance des coups critiques de 50 %.",
-  "rebalance.rings.topaz": "Augmente la défense de 5.",
-
   // Other
   "pronoun.definite.male": "au",
   "pronoun.definite.female": "à la",

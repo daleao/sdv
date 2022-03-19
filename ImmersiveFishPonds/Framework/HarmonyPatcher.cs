@@ -6,6 +6,7 @@ namespace DaLion.Stardew.FishPonds.Framework;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -19,6 +20,7 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
+using StardewValley.Objects;
 using StardewValley.Tools;
 
 using Common.Extensions;
@@ -42,12 +44,12 @@ internal static class HarmonyPatcher
 
     #region harmony patches 
 
-    /// <summary>Decrement total Fish Pond quality rating.</summary>
+    /// <summary>Decrement total Fish Pond quality ratings.</summary>
     [HarmonyPatch(typeof(FishingRod), nameof(FishingRod.pullFishFromWater))]
     internal class FishingRodPullFishFromWaterPatch
     {
         [HarmonyPrefix]
-        private static bool Prefix(FishingRod __instance, ref int whichFish, ref int fishQuality, bool fromFishPond)
+        protected static bool Prefix(FishingRod __instance, ref int whichFish, ref int fishQuality, bool fromFishPond)
         {
             if (!fromFishPond || whichFish.IsTrash()) return true; // run original logic
 
@@ -57,100 +59,143 @@ internal static class HarmonyPatcher
                 y > p.tileY.Value && y < p.tileY.Value + p.tilesHigh.Value - 1);
             if (pond is null) return true; // run original logic
 
-            var qualityRating = pond.ReadDataAs<int>("QualityRating");
-            var lowestQuality = pond.GetLowestFishQuality(qualityRating);
-            if (pond.IsLegendaryPond())
+            try
             {
-                var familyCount = pond.ReadDataAs<int>("FamilyLivingHere");
-                if (familyCount > 0)
+                var fishQualities = pond.ReadData("FishQualities", "0,0,0,0").ParseList<int>()!;
+                if (fishQualities.Count != 4)
+                    throw new InvalidDataException("FishQualities data had incorrect number of values.");
+
+                var lowestFish = fishQualities.FindIndex(i => i > 0);
+                if (pond.IsLegendaryPond())
                 {
-                    var familyQualityRating = pond.ReadDataAs<int>("FamilyQualityRating");
-                    var lowestFamilyQuality = pond.GetLowestFishQuality(familyQualityRating, true);
-                    if (lowestFamilyQuality < lowestQuality)
+                    var familyCount = pond.ReadDataAs<int>("FamilyLivingHere");
+                    if (0 > familyCount || familyCount > pond.FishCount)
+                        throw new InvalidDataException("FamilyLivingHere data is invalid.");
+
+                    if (familyCount > 0)
                     {
-                        familyQualityRating -= (int) Math.Pow(16, lowestFamilyQuality == SObject.bestQuality ? lowestFamilyQuality - 1 : lowestFamilyQuality);
-                        fishQuality = lowestFamilyQuality;
-                        whichFish = Utility.ExtendedFamilyPairs[whichFish];
-                        pond.WriteData("FamilyQualityRating", familyQualityRating.ToString());
-                        pond.IncrementData("FamilyLivingHere", -1);
+                        var familyQualities = pond.ReadData("FamilyQualities", "0,0,0,0").ParseList<int>()!;
+                        if (familyQualities.Count != 4)
+                            throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
+
+                        var lowestFamily = familyQualities.FindIndex(i => i > 0);
+                        if (lowestFamily < lowestFish)
+                        {
+                            whichFish = Utility.ExtendedFamilyPairs[whichFish];
+                            fishQuality = lowestFamily == 3 ? 4 : lowestFamily;
+                            --familyQualities[lowestFamily];
+                            pond.WriteData("FamilyQualities", string.Join(",", familyQualities));
+                            pond.IncrementData("FamilyLivingHere", -1);
+                        }
+                        else
+                        {
+                            fishQuality = lowestFish == 3 ? 4 : lowestFish;
+                            --fishQualities[lowestFish];
+                            pond.WriteData("FishQualities", string.Join(",", fishQualities));
+                        }
                     }
                     else
                     {
-                        qualityRating -= (int) Math.Pow(16, lowestQuality == SObject.bestQuality ? lowestQuality - 1 : lowestQuality);
-                        pond.WriteData("QualityRating", qualityRating.ToString());
-                        fishQuality = lowestQuality;
+                        fishQuality = lowestFish == 3 ? 4 : lowestFish;
+                        --fishQualities[lowestFish];
+                        pond.WriteData("FishQualities", string.Join(",", fishQualities));
                     }
                 }
                 else
                 {
-                    qualityRating -= (int) Math.Pow(16, lowestQuality == SObject.bestQuality ? lowestQuality - 1 : lowestQuality);
-                    pond.WriteData("QualityRating", qualityRating.ToString());
-                    fishQuality = lowestQuality;
+                    fishQuality = lowestFish == 3 ? 4 : lowestFish;
+                    --fishQualities[lowestFish];
+                    pond.WriteData("FishQualities", string.Join(",", fishQualities));
                 }
-            }
-            else
-            {
-                qualityRating -= (int)Math.Pow(16, lowestQuality == SObject.bestQuality ? lowestQuality - 1 : lowestQuality);
-                pond.WriteData("QualityRating", qualityRating.ToString());
-                fishQuality = lowestQuality;
-            }
 
-            return true; // run original logic
+                return true; // run original logic
+            }
+            catch (InvalidDataException ex)
+            {
+                Log.W($"{ex}\nThe data will be reset.");
+                pond.WriteData("FishQualities", $"{pond.FishCount},0,0,0");
+                pond.WriteData("FamilyQualities", null);
+                pond.WriteData("FamilyLivingHere", null);
+                return true; // run original logic
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+                return true; // default to original logic
+            }
         }
     }
 
+    /// <summary>Distinguish extended family pairs + increment total Fish Pond quality ratings.</summary>
     [HarmonyPatch(typeof(FishPond), "addFishToPond")]
     internal class FishPondAddFishToPond
     {
-        /// <summary>Distinguish extended family pairs + increment total Fish Pond quality rating.</summary>
         [HarmonyPostfix]
-        private static void Postfix(FishPond __instance, SObject fish)
+        protected static void Postfix(FishPond __instance, SObject fish)
         {
-            if (fish.HasContextTag("fish_legendary") && fish.ParentSheetIndex != __instance.fishType.Value)
+            try
             {
-                __instance.IncrementData<int>("FamilyLivingHere");
-
-                var familyQualityRating = __instance.ReadDataAs<int>("FamilyQualityRating");
-                familyQualityRating += (int) Math.Pow(16, fish.Quality == SObject.bestQuality ? fish.Quality - 1 : fish.Quality);
-                __instance.WriteData("FamilyQualityRating", familyQualityRating.ToString());
-            }
-            else if (fish.IsAlgae())
-            {
-                switch (fish.ParentSheetIndex)
+                if (fish.HasContextTag("fish_legendary") && fish.ParentSheetIndex != __instance.fishType.Value)
                 {
-                    case Constants.SEAWEED_INDEX_I:
-                        __instance.IncrementData<int>("SeaweedLivingHere");
-                        break;
-                    case Constants.GREEN_ALGAE_INDEX_I:
-                        __instance.IncrementData<int>("GreenAlgaeLivingHere");
-                        break;
-                    case Constants.WHITE_ALGAE_INDEX_I:
-                        __instance.IncrementData<int>("WhiteAlgaeLivingHere");
-                        break;
+                    __instance.IncrementData<int>("FamilyLivingHere");
+
+                    var familyQualities = __instance.ReadData("FamilyQualities", "0,0,0,0").ParseList<int>()!;
+                    if (familyQualities.Count != 4)
+                        throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
+
+                    ++familyQualities[fish.Quality == 4 ? 3 : fish.Quality];
+                    __instance.WriteData("FamilyQualities", string.Join(',', familyQualities));
+                }
+                else if (fish.IsAlgae())
+                {
+                    switch (fish.ParentSheetIndex)
+                    {
+                        case Constants.SEAWEED_INDEX_I:
+                            __instance.IncrementData<int>("SeaweedLivingHere");
+                            break;
+                        case Constants.GREEN_ALGAE_INDEX_I:
+                            __instance.IncrementData<int>("GreenAlgaeLivingHere");
+                            break;
+                        case Constants.WHITE_ALGAE_INDEX_I:
+                            __instance.IncrementData<int>("WhiteAlgaeLivingHere");
+                            break;
+                    }
+                }
+                else
+                {
+                    var fishQualities = __instance.ReadData("FishQualities", "0,0,0,0").ParseList<int>()!;
+                    if (fishQualities.Count != 4)
+                        throw new InvalidDataException("FishQualities data had incorrect number of values.");
+
+                    ++fishQualities[fish.Quality == 4 ? 3 : fish.Quality];
+                    __instance.WriteData("FishQualities", string.Join(',', fishQualities));
                 }
             }
-            else
+            catch (InvalidDataException ex)
             {
-                var qualityRating = __instance.ReadDataAs<int>("QualityRating");
-                qualityRating += (int) Math.Pow(16, fish.Quality == SObject.bestQuality ? fish.Quality - 1 : fish.Quality);
-                __instance.WriteData("QualityRating", qualityRating.ToString());
+                Log.W($"{ex}\nThe data will be reset.");
+                __instance.WriteData("FishQualities", $"{__instance.FishCount},0,0,0");
+                __instance.WriteData("FamilyQualities", null);
+                __instance.WriteData("FamilyLivingHere", null);
             }
         }
     }
 
+    /// <summary>Spontaneously grow algae + calculate roe production.</summary>
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.dayUpdate))]
     internal class FishPondDayUpdate
     {
-        /// <summary>Boost roe production for everybody.</summary>
         [HarmonyPostfix]
-        private static void Postfix(FishPond __instance, ref FishPondData? ____fishPondData)
+        protected static void Postfix(FishPond __instance, ref FishPondData? ____fishPondData)
         {
+            Random r = new(Guid.NewGuid().GetHashCode());
+
+            // spontaneously grow algae/seaweed
             if (__instance.currentOccupants.Value == 0)
             {
                 __instance.IncrementData<int>("DaysEmpty");
                 if (__instance.ReadDataAs<int>("DaysEmpty") < 3) return;
 
-                var r = new Random(Guid.NewGuid().GetHashCode());
                 var spawned = r.NextDouble() > 0.25 ? r.Next(152, 154) : 157;
                 __instance.fishType.Value = spawned;
                 ____fishPondData = null;
@@ -171,60 +216,155 @@ internal static class HarmonyPatcher
                 }
 
                 __instance.WriteData("DaysEmpty", 0.ToString());
+                return;
             }
-            else
+            
+            var fish = __instance.GetFishObject();
+            var produce = __instance.ReadData("ItemsHeld", null)?.ParseList<string>(";") ?? new();
+            
+            if (fish.Name == "Coral") // handle coral
             {
-                __instance.GetIndividualFishProduce();
+                int greenAlgaeStack = 0, whiteAlgaeStack = 0, seaweedStack = 0;
+                for (var i = 0; i < __instance.FishCount; ++i)
+                {
+                    if (r.NextDouble() < 0.25) ++whiteAlgaeStack;
+                    else if (r.NextDouble() < 0.5) ++greenAlgaeStack;
+                    else ++seaweedStack;
+                }
+
+                if (greenAlgaeStack + whiteAlgaeStack + seaweedStack == 0) return;
+
+                var displayedIndex = Constants.SEAWEED_INDEX_I;
+                if (greenAlgaeStack > seaweedStack) displayedIndex = Constants.GREEN_ALGAE_INDEX_I;
+                if (whiteAlgaeStack > greenAlgaeStack) displayedIndex = Constants.WHITE_ALGAE_INDEX_I;
+
+                switch (displayedIndex)
+                {
+                    case Constants.SEAWEED_INDEX_I:
+                        if (greenAlgaeStack > 0) produce.Add($"{Constants.GREEN_ALGAE_INDEX_I},{greenAlgaeStack},0");
+                        if (whiteAlgaeStack > 0) produce.Add($"{Constants.WHITE_ALGAE_INDEX_I},{whiteAlgaeStack},0");
+                        
+                        if (__instance.output.Value is null)
+                            __instance.output.Value = new SObject(displayedIndex, seaweedStack);
+                        else
+                            produce.Add($"{Constants.SEAWEED_INDEX_I},{seaweedStack},0");
+                        break;
+                    case Constants.GREEN_ALGAE_INDEX_I:
+                        if (seaweedStack > 0) produce.Add($"{Constants.SEAWEED_INDEX_I},{seaweedStack},0");
+                        if (whiteAlgaeStack > 0) produce.Add($"{Constants.WHITE_ALGAE_INDEX_I},{whiteAlgaeStack},0");
+
+                        if (__instance.output.Value is null)
+                            __instance.output.Value = new SObject(displayedIndex, greenAlgaeStack);
+                        else
+                            produce.Add($"{Constants.GREEN_ALGAE_INDEX_I},{greenAlgaeStack},0");
+                        break;
+                    case Constants.WHITE_ALGAE_INDEX_I:
+                        if (seaweedStack > 0) produce.Add($"{Constants.SEAWEED_INDEX_I},{seaweedStack},0");
+                        if (greenAlgaeStack > 0) produce.Add($"{Constants.GREEN_ALGAE_INDEX_I},{greenAlgaeStack},0");
+
+                        if (__instance.output.Value is null)
+                            __instance.output.Value = new SObject(displayedIndex, whiteAlgaeStack);
+                        else
+                            produce.Add($"{Constants.WHITE_ALGAE_INDEX_I},{whiteAlgaeStack},0");
+                        break;
+                }
+
+                if (produce.Any()) __instance.WriteData("ItemsHeld", string.Join(";", produce));
             }
-        }
-
-        /// <summary>Replaces single production with individual fish production.</summary>
-        [HarmonyTranspiler]
-        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
-        {
-            var helper = new ILHelper(original, instructions);
-
-            /// From: Random r = {...} output.Value = GetFishProduce(r);
-            /// To: this.GetIndividualFishProduce();
-
-            try
+            else // handle fish + squid
             {
-                helper
-                    .FindFirst(
-                        new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.stats)))
-                    )
-                    .RemoveUntil(
-                        new CodeInstruction(OpCodes.Callvirt, typeof(NetRef<Item>).PropertySetter(nameof(NetRef<Item>.Value)))
-                    )
-                    .Insert(
-                        new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Call,
-                            typeof(FishPondExtensions).MethodNamed(nameof(FishPondExtensions.GetIndividualFishProduce)))
-                    );
-            }
-            catch (Exception ex)
-            {
-                Log.E($"Failed while adding individual fish produce.\nHelper returned {ex}");
-#pragma warning disable CS8603
-                return null;
-#pragma warning restore CS8603
-            }
+                try
+                {
+                    var fishQualities = __instance.ReadData("FishQualities", "0,0,0,0").ParseList<int>()!;
+                    if (fishQualities.Count != 4)
+                        throw new InvalidDataException("FishQualities data had incorrect number of values.");
+                    var familyQualities = __instance.ReadData("FamilyQualities", "0,0,0,0").ParseList<int>()!;
+                    if (familyQualities.Count != 4)
+                        throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
 
-            return helper.Flush();
+                    var totalQualities = fishQualities.Zip(familyQualities, (first, second) => first + second).ToList();
+                    if (totalQualities.Sum() != __instance.FishCount)
+                        throw new InvalidDataException("Quality data had incorrect number of values.");
+
+                    var productionChancePerFish = Utility.GetRoeChance(fish.Price, __instance.FishCount - 1) / 100;
+                    var producedRoes = new int[4];
+                    for (var i = 0; i < 4; ++i)
+                        while (totalQualities[i]-- > 0)
+                            if (r.NextDouble() < productionChancePerFish)
+                                ++producedRoes[i];
+
+                    if (fish.ParentSheetIndex == Constants.STURGEON_INDEX_I)
+                        for (var i = 0; i < 4; ++i)
+                            producedRoes[i] += r.Next(producedRoes[i]);
+
+                    if (producedRoes.Sum() <= 0) return;
+
+                    var roeIndex = fish.Name.Contains("Squid") ? Constants.SQUID_INK_INDEX_I : Constants.ROE_INDEX_I;
+                    for (var i = 0; i < 4; ++i)
+                        if (producedRoes[i] > 0)
+                            produce.Add($"{roeIndex},{producedRoes[i]},{(i == 3 ? 4 : i)}");
+
+                    if (__instance.output.Value is not null)
+                    {
+                        __instance.WriteData("ItemsHeld", string.Join(';', produce));
+                        return;
+                    }
+
+
+                    var highest = Array.FindLastIndex(producedRoes, i => i > 0);
+                    var forFamily = r.NextDouble() < __instance.ReadDataAs<double>("FamilyLivingHere") / __instance.FishCount;
+                    var fishIndex = forFamily
+                        ? Utility.ExtendedFamilyPairs[__instance.fishType.Value]
+                        : __instance.fishType.Value;
+                    SObject o;
+                    if (roeIndex == Constants.ROE_INDEX_I)
+                    {
+                        var split = Game1.objectInformation[fishIndex].Split('/');
+                        var c = TailoringMenu.GetDyeColor(new SObject(fishIndex, producedRoes[highest])) ??
+                                (__instance.fishType.Value == 698 ? new(61, 55, 42) : Color.Orange);
+                        o = new ColoredObject(Constants.ROE_INDEX_I, producedRoes[highest], c);
+                        o.name = split[0] + " Roe";
+                        o.preserve.Value = SObject.PreserveType.Roe;
+                        o.preservedParentSheetIndex.Value = __instance.fishType.Value;
+                        o.Price += Convert.ToInt32(split[1]) / 2;
+                        o.Quality = highest == 3 ? 4 : highest;
+                    }
+                    else
+                    {
+                        o = new(roeIndex, producedRoes[highest]) {Quality = highest == 3 ? 4 : highest};
+                    }
+
+                    produce.Remove($"{roeIndex},{producedRoes[highest]},{(highest == 3 ? 4 : highest)}");
+                    producedRoes[highest] = 0;
+                    if (produce.Any()) __instance.WriteData("ItemsHeld", string.Join(';', produce));
+                    __instance.output.Value = o;
+                }
+                catch (InvalidDataException ex)
+                {
+                    Log.W($"{ex}\nThe data will be reset.");
+                    __instance.WriteData("FishQualities", $"{__instance.FishCount},0,0,0");
+                    __instance.WriteData("FamilyQualities", null);
+                    __instance.WriteData("FamilyLivingHere", null);
+                }
+            }
         }
     }
 
+    /// <summary>Inject ItemGrabMenu + allow legendary fish to share a pond with their extended families.</summary>
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.doAction))]
     internal class FishPondDoActionPatch
     {
-        /// <summary>Inject ItemGrabMenu + allow legendary fish to share a pond with their extended families.</summary>
         [HarmonyTranspiler]
-        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
         {
             var helper = new ILHelper(original, instructions);
 
             /// From: if (output.Value != null) {...} return true;
-            /// To: if (output.Value != null) return this.OpenChumBucketMenu();
+            /// To: if (output.Value != null)
+            /// {
+            ///     this.RewardExp(who);
+            ///     return this.OpenChumBucketMenu();
+            /// }
 
             try
             {
@@ -245,6 +385,11 @@ internal static class HarmonyPatcher
                     )
                     .Insert(
                         new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_2),
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(FishPondExtensions).MethodNamed(nameof(FishPondExtensions.RewardExp))),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_2),
                         new CodeInstruction(OpCodes.Call,
                             typeof(FishPondExtensions).MethodNamed(nameof(FishPondExtensions.OpenChumBucketMenu)))
                     );
@@ -294,24 +439,138 @@ internal static class HarmonyPatcher
         }
     }
 
+    /// <summary>Recolor for algae/seaweed.</summary>
     [HarmonyPatch(typeof(FishPond), "doFishSpecificWaterColoring")]
     internal class FishPondDoFishSpecificWaterColoring
     {
-        /// <summary>Recolor for Mutant/Radioactive Carps and Algae/Seaweed.</summary>
         [HarmonyPostfix]
-        private static void Postfix(FishPond __instance)
+        protected static void Postfix(FishPond __instance)
         {
             if (__instance.fishType.Value.IsAlgae() && __instance.currentOccupants.Value > 2)
                 __instance.overrideWaterColor.Value = new(142, 168, 48);
         }
     }
 
+    /// <summary>Replace single production with multi-yield production.</summary>
+    [HarmonyPatch(typeof(FishPond), nameof(FishPond.GetFishProduce))]
+    internal class FishPondGetFishProducePatch
+    {
+        [HarmonyPrefix]
+        // ReSharper disable once RedundantAssignment
+        protected static bool Prefix(FishPond __instance, ref SObject? __result, Random? random)
+        {
+            random ??= new(Guid.NewGuid().GetHashCode());
+
+            var produce = new List<(int, int)>();
+            SObject? output;
+            if (__instance.IsAlgaePond())
+            {
+                var seaweedCount = 0;
+                for (var i = 0; i < __instance.ReadDataAs<int>("SeaweedLivingHere"); ++i)
+                {
+                    if (random.NextDouble() < SUtility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f))
+                        ++seaweedCount;
+                }
+
+                var greenAlgaeCount = 0;
+                for (var i = 0; i < __instance.ReadDataAs<int>("GreenAlgaeLivingHere"); ++i)
+                {
+                    if (random.NextDouble() < SUtility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f))
+                        ++greenAlgaeCount;
+                }
+
+                var whiteAlgaeCount = 0;
+                for (var i = 0; i < __instance.ReadDataAs<int>("WhiteAlgaeLivingHere"); ++i)
+                {
+                    if (random.NextDouble() < SUtility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f))
+                        ++whiteAlgaeCount;
+                }
+
+                if (seaweedCount + greenAlgaeCount + whiteAlgaeCount == 0) return false; // don't run original logic
+
+                if (seaweedCount > 0) produce.Add((Constants.SEAWEED_INDEX_I, seaweedCount));
+                if (greenAlgaeCount > 0) produce.Add((Constants.GREEN_ALGAE_INDEX_I, greenAlgaeCount));
+                if (whiteAlgaeCount > 0) produce.Add((Constants.WHITE_ALGAE_INDEX_I, whiteAlgaeCount));
+
+                switch (__instance.fishType.Value)
+                {
+                    case Constants.SEAWEED_INDEX_I when seaweedCount > 0:
+                        output = new(Constants.SEAWEED_INDEX_I, seaweedCount);
+                        break;
+                    case Constants.GREEN_ALGAE_INDEX_I when greenAlgaeCount > 0:
+                        output = new(Constants.GREEN_ALGAE_INDEX_I, greenAlgaeCount);
+                        break;
+                    case Constants.WHITE_ALGAE_INDEX_I when whiteAlgaeCount > 0:
+                        output = new(Constants.WHITE_ALGAE_INDEX_I, whiteAlgaeCount);
+                        break;
+                    default:
+                    {
+                        if (seaweedCount > 0) output = new(Constants.SEAWEED_INDEX_I, seaweedCount);
+                        if (greenAlgaeCount > seaweedCount) output = new(Constants.GREEN_ALGAE_INDEX_I, greenAlgaeCount);
+                        if (whiteAlgaeCount > greenAlgaeCount) output = new(Constants.WHITE_ALGAE_INDEX_I, whiteAlgaeCount);
+                        else output = null;
+                        break;
+                    }
+                }
+
+                if (output is not null) produce.Remove((output.ParentSheetIndex, output.Stack));
+
+                if (produce.Any())
+                {
+                    var data = produce.Select(p => $"{p.Item1},{p.Item2},0");
+                    __instance.WriteData("ItemsHeld", string.Join(';', data));
+                }
+            }
+            else
+            {
+                var fishPondData = __instance.GetFishPondData();
+                if (fishPondData is null)
+                {
+                    __result = null;
+                    return false; // don't run original logic
+                }
+
+                foreach (var item in fishPondData.ProducedItems.Where(item =>
+                             item.ItemID is not Constants.ROE_INDEX_I or Constants.SQUID_INK_INDEX_I &&
+                             __instance.currentOccupants.Value >= item.RequiredPopulation &&
+                             random.NextDouble() < SUtility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f) &&
+                             random.NextDouble() < item.Chance))
+                {
+                    var stack = random.Next(item.MinQuantity, item.MaxQuantity + 1);
+                    var existing = produce.FindIndex(p => p.Item1 == item.ItemID);
+                    if (existing >= 0) produce[existing] = (item.ItemID, stack + produce[existing].Item2);
+                    else produce.Add((item.ItemID, stack));
+                }
+
+                if (!produce.Any())
+                {
+                    __result = null;
+                    return false; // don't run original logic
+                }
+
+                output = produce
+                    .Select(p => new SObject(p.Item1, p.Item2))
+                    .OrderByDescending(o => o.Price)
+                    .First();
+                produce.Remove((output.ParentSheetIndex, output.Stack));
+                if (produce.Any())
+                {
+                    var data = produce.Select(p => $"{p.Item1},{p.Item2},0");
+                    __instance.WriteData("ItemsHeld", string.Join(';', data));
+                }
+            }
+
+            __result = output;
+            return false; // don't run original logic
+        }
+    }
+
+    /// <summary>Prevent un-immersive jumping algae.</summary>
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.JumpFish))]
     internal class FishPondJumpFishPatch
     {
-        /// <summary>Prevent jumping algae.</summary>
         [HarmonyPrefix]
-        private static bool Prefix(FishPond __instance, ref bool __result)
+        protected static bool Prefix(FishPond __instance, ref bool __result)
         {
             if (!__instance.fishType.Value.IsAlgae()) return true; // run original logic
 
@@ -320,15 +579,15 @@ internal static class HarmonyPatcher
         }
     }
 
+    /// <summary>Reset Fish Pond data.</summary>
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.OnFishTypeChanged))]
     internal class FishPondOnFishTypeChangedPatch
     {
-        /// <summary>Reset total Fish Pond quality rating.</summary>
         [HarmonyPostfix]
-        private static void Postfix(FishPond __instance)
+        protected static void Postfix(FishPond __instance)
         {
-            __instance.WriteData("QualityRating", null);
-            __instance.WriteData("FamilyQualityRating", null);
+            __instance.WriteData("FishQualities", null);
+            __instance.WriteData("FamilyQualities", null);
             __instance.WriteData("FamilyLivingHere", null);
             __instance.WriteData("DaysEmpty", 0.ToString());
             __instance.WriteData("SeaweedLivingHere", null);
@@ -337,13 +596,15 @@ internal static class HarmonyPatcher
         }
     }
 
+    /// <summary>Set the quality of newborn fishes.</summary>
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.SpawnFish))]
     internal class FishPondSpawnFishPatch
     {
-        /// <summary>Set the quality of newborn fishes.</summary>
         [HarmonyPostfix]
-        private static void Postfix(FishPond __instance)
+        protected static void Postfix(FishPond __instance)
         {
+            if (__instance.currentOccupants.Value >= __instance.maxOccupants.Value) return;
+
             var r = new Random(Guid.NewGuid().GetHashCode());
             if (__instance.fishType.Value.IsAlgae())
             {
@@ -363,34 +624,86 @@ internal static class HarmonyPatcher
                 return;
             }
 
-            var forFamily = false;
-            if (__instance.IsLegendaryPond())
+            try
             {
-                var familyCount = __instance.ReadDataAs<int>("FamilyLivingHere");
-                if (familyCount > 0 && Game1.random.NextDouble() < (double)familyCount / __instance.FishCount)
-                    forFamily = true;
+                var forFamily = false;
+                if (__instance.IsLegendaryPond())
+                {
+                    var familyCount = __instance.ReadDataAs<int>("FamilyLivingHere");
+                    if (0 > familyCount || familyCount > __instance.FishCount)
+                        throw new InvalidDataException("FamilyLivingHere data is invalid.");
+
+                    if (familyCount > 0 && Game1.random.NextDouble() < (double) familyCount / (__instance.FishCount - 1)) // fish pond count has already been incremented at this point, so we consider -1;
+                        forFamily = true;
+                }
+
+                var qualities = __instance.ReadData(forFamily ? "FamilyQualities" : "FishQualities", "0,0,0,0")
+                    .ParseList<int>()!;
+                if (qualities.Count != 4)
+                    throw new InvalidDataException("FishQualities data had incorrect number of values.");
+
+                if (qualities.Sum() == 0)
+                {
+                    ++qualities[0];
+                    __instance.WriteData(forFamily ? "FamilyQualities" : "FishQualities",
+                        string.Join(',', qualities));
+                    return;
+                }
+
+                var roll = r.Next(__instance.FishCount - 1); // fish pond count has already been incremented at this point, so we consider -1;
+                var fishlingQuality = roll < qualities[3]
+                    ? SObject.bestQuality
+                    : roll < qualities[3] + qualities[2]
+                        ? SObject.highQuality
+                        : roll < qualities[3] + qualities[2] + qualities[1]
+                            ? SObject.medQuality
+                            : SObject.lowQuality;
+
+                ++qualities[fishlingQuality == 4 ? 3 : fishlingQuality];
+                __instance.WriteData(forFamily ? "FamilyQualities" : "FishQualities", string.Join(',', qualities));
+            }
+            catch (InvalidDataException ex)
+            {
+                Log.W($"{ex}\nThe data will be reset.");
+                __instance.WriteData("FishQualities", $"{__instance.FishCount},0,0,0");
+                __instance.WriteData("FamilyQualities", null);
+                __instance.WriteData("FamilyLivingHere", null);
+            }
+        }
+    }
+
+    /// <summary>Handle invalid data on menu open.</summary>
+    [HarmonyPatch(typeof(PondQueryMenu), MethodType.Constructor, typeof(FishPond))]
+    internal class PondQueryMenuCtorPatch
+    {
+        [HarmonyPrefix]
+        protected static bool Prefix(FishPond fish_pond)
+        {
+            try
+            {
+                fish_pond.ReadData("FishQualities", null)?.ParseTuple<int, int, int, int>();
+            }
+            catch (InvalidOperationException ex)
+            {
+                Log.W($"FishQualities data is invalid. {ex}\nThe data will be reset");
+                fish_pond.WriteData("FishQualities", $"{fish_pond.FishCount},0,0,0");
+                fish_pond.WriteData("FamilyQualities", null);
+                fish_pond.WriteData("FamilyLivingHere", null);
             }
 
-            var qualityRating = __instance.ReadDataAs<int>(forFamily ? "FamilyQualityRating" : "QualityRating");
-            var (numBestQuality, numHighQuality, numMedQuality) = __instance.GetFishQualities(qualityRating);
-            if (numBestQuality == 0 && numHighQuality == 0 && numMedQuality == 0)
+            try
             {
-                __instance.WriteData(forFamily ? "FamilyQualityRating" : "QualityRating", (++qualityRating).ToString());
-                return;
+                fish_pond.ReadData("FamilyQualities", null)?.ParseTuple<int, int, int, int>();
+            }
+            catch (InvalidOperationException ex)
+            {
+                Log.W($"FamilyQuality data is invalid. {ex}\nThe data will be reset");
+                fish_pond.WriteData("FishQualities", $"{fish_pond.FishCount},0,0,0");
+                fish_pond.WriteData("FamilyQualities", null);
+                fish_pond.WriteData("FamilyLivingHere", null);
             }
 
-            var roll = r.Next(__instance.FishCount - 1); // fish pond count has already been incremented at this point, so we consider -1;
-            var fishlingQuality = roll < numBestQuality
-                ? SObject.bestQuality
-                : roll < numBestQuality + numHighQuality
-                    ? SObject.highQuality
-                    : roll < numBestQuality + numHighQuality + numMedQuality
-                        ? SObject.medQuality
-                        : SObject.lowQuality;
-
-            qualityRating += (int) Math.Pow(16,
-                fishlingQuality == SObject.bestQuality ? fishlingQuality - 1 : fishlingQuality);
-            __instance.WriteData(forFamily ? "FamilyQualityRating" : "QualityRating", qualityRating.ToString());
+            return true; // run original logic
         }
     }
 
@@ -399,7 +712,7 @@ internal static class HarmonyPatcher
     {
         /// <summary>Adjust fish pond query menu for algae.</summary>
         [HarmonyPrefix]
-        private static bool Prefix(PondQueryMenu __instance, float ____age,
+        protected static bool Prefix(PondQueryMenu __instance, float ____age,
             Rectangle ____confirmationBoxRectangle, string ____confirmationText, bool ___confirmingEmpty,
             string ___hoverText, SObject ____fishItem, FishPond ____pond, SpriteBatch b)
         {
@@ -407,7 +720,7 @@ internal static class HarmonyPatcher
             {
                 var isAlgaePond = ____fishItem.IsAlgae();
                 var familyCount = ____pond.ReadDataAs<int>("FamilyLivingHere");
-                var hasExtendedFamily =  familyCount > 0;
+                var hasExtendedFamily = familyCount > 0;
                 if (!isAlgaePond && !hasExtendedFamily) return true; // run original logic
 
                 var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
@@ -433,7 +746,8 @@ internal static class HarmonyPatcher
                     if (hasUnresolvedNeeds)
                         extraHeight += 116;
 
-                    var extraTextHeight = (int) _MeasureExtraTextHeight.Invoke(__instance, new object?[] { displayedText })!;
+                    var extraTextHeight =
+                        (int) _MeasureExtraTextHeight.Invoke(__instance, new object?[] {displayedText})!;
                     Game1.drawDialogueBox(__instance.xPositionOnScreen, __instance.yPositionOnScreen + 128,
                         PondQueryMenu.width, PondQueryMenu.height - 128 + extraHeight + extraTextHeight, false, true);
                     var populationText = Game1.content.LoadString(
@@ -461,7 +775,7 @@ internal static class HarmonyPatcher
                             var fishPondData = (FishPondData?) _FishPondData.GetValue(____pond);
                             var populationGates = fishPondData?.PopulationGates;
                             if (populationGates is not null &&
-                                ____pond.lastUnlockedPopulationGate.Value > populationGates.Keys.Max())
+                                ____pond.lastUnlockedPopulationGate.Value >= populationGates.Keys.Max())
                             {
                                 unlockedMaxPopulation = true;
                                 slotSpacing -= 1f;
@@ -500,11 +814,14 @@ internal static class HarmonyPatcher
                         if (hasExtendedFamily)
                         {
                             if (i < ____pond.FishCount - familyCount)
-                                ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide, Color.White, false);
+                                ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide,
+                                    Color.White, false);
                             else if (i < ____pond.FishCount)
-                                itemToDraw!.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide, Color.White, false);
+                                itemToDraw!.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide,
+                                    Color.White, false);
                             else
-                                ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 0.35f, 0f, StackDrawType.Hide, Color.Black, false);
+                                ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 0.35f, 0f, StackDrawType.Hide,
+                                    Color.Black, false);
                         }
                         else if (isAlgaePond)
                         {
@@ -517,10 +834,12 @@ internal static class HarmonyPatcher
                                         : null;
 
                             if (itemToDraw is not null)
-                                itemToDraw.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide, Color.White,
+                                itemToDraw.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide,
+                                    Color.White,
                                     false);
                             else
-                                ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 0.35f, 0f, StackDrawType.Hide, Color.Black,
+                                ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 0.35f, 0f, StackDrawType.Hide,
+                                    Color.Black,
                                     false);
                         }
 
@@ -540,13 +859,14 @@ internal static class HarmonyPatcher
                     {
                         _DrawHorizontalPartition.Invoke(__instance, new object?[]
                         {
-                        b, (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f), false,
-                        -1, -1, -1
+                            b, (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f),
+                            false,
+                            -1, -1, -1
                         });
                         SUtility.drawWithShadow(b, Game1.mouseCursors,
                             new(__instance.xPositionOnScreen + 60 + 8f * Game1.dialogueButtonScale / 10f,
                                 __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28),
-                            new(412, 495, 5, 4), Color.White, (float)Math.PI / 2f, Vector2.Zero);
+                            new(412, 495, 5, 4), Color.White, (float) Math.PI / 2f, Vector2.Zero);
                         var bringText =
                             Game1.content.LoadString(
                                 PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_StatusRequest_Bring"));
@@ -575,7 +895,8 @@ internal static class HarmonyPatcher
                             new(iconX + 4f,
                                 __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight),
                             Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet,
-                                ____pond.neededItem.Value?.ParentSheetIndex ?? 0, 16, 16), Color.White, 0f, Vector2.Zero, 4f,
+                                ____pond.neededItem.Value?.ParentSheetIndex ?? 0, 16, 16), Color.White, 0f,
+                            Vector2.Zero, 4f,
                             SpriteEffects.None, 1f);
                         if (____pond.neededItemCount.Value > 1)
                             SUtility.drawTinyDigits(____pond.neededItemCount.Value, b,
@@ -627,7 +948,7 @@ internal static class HarmonyPatcher
 
         /// <summary>Draw pond fish quality stars in query menu.</summary>
         [HarmonyPostfix]
-        private static void Postfix(PondQueryMenu __instance, bool ___confirmingEmpty, float ____age,
+        protected static void Postfix(PondQueryMenu __instance, bool ___confirmingEmpty, float ____age,
             SObject ____fishItem, FishPond ____pond, SpriteBatch b)
         {
             if (___confirmingEmpty) return;
@@ -635,18 +956,20 @@ internal static class HarmonyPatcher
             var isLegendaryPond = ____pond.IsLegendaryPond();
             var familyCount = ____pond.ReadDataAs<int>("FamilyLivingHere");
 
-            var (numBestQuality, numHighQuality, numMedQuality) = ____pond.GetFishQualities();
-            var (numBestFamilyQuality, numHighFamilyQuality, numMedFamilyQuality) =
-                ____pond.GetFishQualities(forFamily: true);
-            if (numBestQuality == 0 && numHighQuality == 0 && numMedQuality == 0 && (familyCount == 0 ||
-                    numBestFamilyQuality == 0 && numHighFamilyQuality == 0 && numMedFamilyQuality == 0))
+            var (_, numMedQuality, numHighQuality, numBestQuality) =
+                ____pond.ReadData("FishQualities", "0,0,0,0").ParseTuple<int, int, int, int>();
+            var (_, numMedFamilyQuality, numHighFamilyQuality, numBestFamilyQuality) =
+                ____pond.ReadData("FamilyQualities", "0,0,0,0").ParseTuple<int, int, int, int>();
+
+            if (numBestQuality + numHighQuality + numMedQuality == 0 &&
+                (familyCount == 0 || numBestFamilyQuality + numHighFamilyQuality + numMedFamilyQuality == 0))
             {
                 __instance.drawMouse(b);
                 return;
             }
 
             var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
-            var isAquarist = owner.professions.Contains(Farmer.pirate + 100);
+            var isAquarist = ModEntry.ModHelper.ModRegistry.IsLoaded("DaLion.ImmersiveProfessions") && owner.professions.Contains(Farmer.pirate + 100);
             float SLOT_SPACING_F, xOffset;
             if (isAquarist && ____pond.HasUnlockedFinalPopulationGate() && !isLegendaryPond)
             {
@@ -689,7 +1012,7 @@ internal static class HarmonyPatcher
                         x = 0;
                         ++y;
                     }
-                    
+
                     continue;
                 }
 
@@ -718,7 +1041,8 @@ internal static class HarmonyPatcher
                     var yOffset = (float) Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
                     var xPos = __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
                         SLOT_SPACING_F * Math.Min(totalSlots, 5) * 4f * 0.5f + SLOT_SPACING_F * 4f * x - 12f;
-                    var yPos = __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f;
+                    var yPos = __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * SLOT_SPACING_F +
+                               275.2f;
 
                     var quality = numBestFamilyQuality-- > 0
                         ? SObject.bestQuality
@@ -735,7 +1059,7 @@ internal static class HarmonyPatcher
                     yOffset = quality < SObject.bestQuality
                         ? 0f
                         : (float) ((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) +
-                                   1f) * 0.05f);
+                                    1f) * 0.05f);
                     b.Draw(Game1.mouseCursors, new(xPos + xOffset, yPos + yOffset + 50f), qualityRect, Color.White,
                         0f, new(4f, 4f), 3f * 0.75f * (1f + yOffset), SpriteEffects.None, 0.9f);
 
@@ -749,6 +1073,40 @@ internal static class HarmonyPatcher
             }
 
             __instance.drawMouse(b);
+        }
+    }
+
+    /// <summary>Update ItemsHeld on grab menu close.</summary>
+    [HarmonyPatch(typeof(ItemGrabMenu), nameof(ItemGrabMenu.readyToClose))]
+    internal class ItemGrabMenuReadyToClosePatch
+    {
+        [HarmonyPostfix]
+        protected static void Postfix(ItemGrabMenu __instance)
+        {
+            if (__instance.context is not FishPond pond) return;
+
+            var items = __instance.ItemsToGrabMenu?.actualInventory;
+            if (items is null || !items.Any() || items.All(i => i is null))
+            {
+                pond.WriteData("ItemsHeld", null);
+                pond.output.Value = null;
+                return;
+            }
+
+            var objects = items.Cast<SObject>().ToList();
+            var output = objects.OrderByDescending(o => o?.Price).First();
+            objects.Remove(output);
+            if (objects.Any() && !objects.All(o => o is null))
+            {
+                var data = objects.Select(o => $"{o.ParentSheetIndex},{o.Stack},{o.Quality}");
+                pond.WriteData("ItemsHeld", string.Join(';', data));
+            }
+            else
+            {
+                pond.WriteData("ItemsHeld", null);
+            }
+
+            pond.output.Value = output;
         }
     }
 

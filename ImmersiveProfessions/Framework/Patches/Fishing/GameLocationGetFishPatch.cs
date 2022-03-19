@@ -15,7 +15,6 @@ using StardewValley.Tools;
 using Stardew.Common.Extensions;
 using Stardew.Common.Harmony;
 using Extensions;
-using Utility;
 
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
@@ -25,6 +24,8 @@ using SUtility = StardewValley.Utility;
 [UsedImplicitly]
 internal class GameLocationGetFishPatch : BasePatch
 {
+    private const int MAGNET_INDEX_I = 703;
+
     /// <summary>Construct an instance.</summary>
     internal GameLocationGetFishPatch()
     {
@@ -105,8 +106,7 @@ internal class GameLocationGetFishPatch : BasePatch
     {
         return (currentFish is > 166 and < 173 || ModEntry.Config.SeaweedIsJunk && currentFish.IsAlgae())
                && who.CurrentTool is FishingRod rod
-               && ObjectLookups.BaitById.TryGetValue(rod.getBaitAttachmentIndex(), out var baitName)
-               && baitName != "Magnet"
+               && rod.getBaitAttachmentIndex() != MAGNET_INDEX_I
                && who.HasProfession(Profession.Fisher) && !hasRerolled;
     }
 

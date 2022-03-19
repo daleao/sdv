@@ -180,9 +180,5 @@
   "prestige.levelup.prestige": "Choose a profession to prestige:",
   "prestige.achievement.name.male": "Jack-Of-All-Trades",
   "prestige.achievement.name.female": "Jill-Of-All-Trades",
-  "prestige.achievement.desc": "Acquire all professions in every skill.",
-
-  // Rebalance
-  "rebalance.rings.jade": "Increases critical strike power by 50%.",
-  "rebalance.rings.topaz": "Increases defense by 5."
+  "prestige.achievement.desc": "Acquire all professions in every skill."
 }

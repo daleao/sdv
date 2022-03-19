@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Ultimate;
 
-internal enum UltimateIndex
+public enum UltimateIndex
 {
     None = -1,
     Brute = 26,

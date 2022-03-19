@@ -13,7 +13,7 @@ using Framework.Utility;
 
 #endregion using directives
 
-/// <summary>Constructs the GenericModConfigMenu integration for Immersive Tools.</summary>
+/// <summary>Constructs the GenericModConfigMenu integration for Immersive Professions.</summary>
 internal class GenericModConfigMenuIntegrationForImmersiveProfessions
 {
     /// <summary>The Generic Mod Config Menu integration.</summary>

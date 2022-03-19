@@ -338,7 +338,6 @@ The mod provides the following console commands, which you can enter in the SMAP
 - [lacerta143](https://www.nexusmods.com/stardewvalley/users/38094530) for Korean translation.
 - [TehPers](https://www.nexusmods.com/stardewvalley/users/3994776) for TFO integration.
 - [Goldenrevolver](https://www.nexusmods.com/stardewvalley/users/5347339) for ForageFantasy integration and troubleshooting support.﻿
-- [SilentOak](https://www.nexusmods.com/stardewvalley/users/66352491) for BAGI mead integration.
 - [Pathoschild](https://www.nexusmods.com/stardewvalley/users/1552317) for SMAPI support.
 - **ConcernedApe** for Stardew Valley.
 - [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.

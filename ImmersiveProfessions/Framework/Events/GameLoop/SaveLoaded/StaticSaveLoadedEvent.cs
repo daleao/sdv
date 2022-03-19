@@ -4,6 +4,8 @@
 
 using System.Linq;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
+using StardewModdingAPI.Enums;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -28,10 +30,13 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
         // enable events
         EventManager.EnableAllForLocalPlayer();
 
-        // load or initialize Ultimate index
+        // load and initialize Ultimate index
+        Log.T("Initializing Ultimate...");
+
+            // load
         var superModeIndex = Game1.player.ReadDataAs(DataField.UltimateIndex, UltimateIndex.None);
 
-        // validate Ultimate index
+            // validate
         switch (superModeIndex)
         {
             case UltimateIndex.None when Game1.player.professions.Any(p => p is >= 26 and < 30):
@@ -57,7 +62,7 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
                 break;
         }
 
-        // initialize Ultimate
+            // initialize
         if (superModeIndex > UltimateIndex.None)
         {
             ModEntry.PlayerState.Value.RegisteredUltimate =
@@ -70,6 +75,43 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
                     UltimateIndex.Piper => new Pandemonia(),
                     UltimateIndex.Desperado => new DeathBlossom()
                 };
+        }
+
+        // check for missing levels
+        Log.T("Validating player experience and levels...");
+
+        for (var skill = 0; skill < 5; ++skill)
+        {
+            var currentExp = Game1.player.experiencePoints[skill];
+            var expectedLevel = 0;
+
+            var i = 0;
+
+            while (i < 10 && currentExp > Framework.Utility.Experience.RequiredPerVanillaLevel[i++]) ++expectedLevel;
+
+            currentExp -= 15000;
+            if (ModEntry.Config.EnablePrestige && currentExp > 0)
+            {
+                i = 1;
+                while (i <= 10 && currentExp > ModEntry.Config.RequiredExpPerExtendedLevel * i++) ++expectedLevel;
+
+                currentExp -= (int) ModEntry.Config.RequiredExpPerExtendedLevel * 10;
+            }
+
+            if (currentExp > 0) Game1.player.experiencePoints[skill] = Framework.Utility.Experience.Ceiling;
+
+            var currentLevel = Game1.player.GetUnmodifiedSkillLevel(skill);
+            if (currentLevel < expectedLevel)
+            {
+                for (var level = currentLevel + 1; level <= expectedLevel; ++level)
+                {
+                    var newLevel = new Point(skill, level);
+                    if (!Game1.player.newLevels.Contains(newLevel))
+                        Game1.player.newLevels.Add(newLevel);
+                }
+
+                Game1.player.SetSkillLevel((SkillType) skill, expectedLevel);
+            }
         }
 
         // check for prestige achievements

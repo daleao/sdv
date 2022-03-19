@@ -11,7 +11,7 @@ using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
-/// <summary>Edits <c>LooseSprites/Cursors</c> and <c>TileSheets/BuffIcons</c> with new profession icons.</summary>
+/// <summary>Edits Cursors and BuffIcons spritesheets with new profession icons.</summary>
 public class SpriteEditor : IAssetEditor
 {
     private readonly Texture2D _tileSheet =

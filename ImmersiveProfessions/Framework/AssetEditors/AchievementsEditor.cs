@@ -11,7 +11,7 @@ using Common.Extensions;
 
 #endregion using directives
 
-/// <summary>Edits <c></c>Data/achievements<c></c> with Prestige achievements.</summary>
+/// <summary>Edits Achievements data with Prestige achievements.</summary>
 public class AchivementsEditor : IAssetEditor
 {
     /// <inheritdoc />

@@ -162,6 +162,14 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
                 );
 
         _configMenu
+            .AddNumberField(
+                () => "Enchanted Radius",
+                () => "The radius of affected tiles for the Axe with Reaching Enchantment.",
+                config => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasMoonMod ? 6 : 4],
+                (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasMoonMod ? 6 : 4] = value,
+                1,
+                10
+            )
             .AddCheckbox(
                 () => "Clear Fruit Tree Seeds",
                 () => "Whether to clear fruit tree seeds.",
@@ -317,6 +325,14 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
                 );
 
         _configMenu
+            .AddNumberField(
+                () => "Enchanted Radius",
+                () => "The radius of affected tiles for the Pickaxe with Reaching Enchantment.",
+                config => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasMoonMod ? 6 : 4],
+                (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasMoonMod ? 6 : 4] = value,
+                1,
+                10
+            )
             .AddCheckbox(
                 () => "Break Boulders and Meteorites",
                 () => "Whether to break boulders and meteorites.",

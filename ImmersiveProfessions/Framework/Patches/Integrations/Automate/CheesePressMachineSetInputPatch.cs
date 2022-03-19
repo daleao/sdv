@@ -28,6 +28,7 @@ internal class CheesePressMachineSetInput : BasePatch
         {
             Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType()
                 .MethodNamed("SetInput");
+            Transpiler.priority = Priority.LowerThanNormal;
         }
         catch
         {

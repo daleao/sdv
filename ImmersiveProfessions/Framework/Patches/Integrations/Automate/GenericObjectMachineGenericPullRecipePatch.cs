@@ -33,6 +33,7 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
                 .MakeGenericType(typeof(SObject))
                 .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
                 .FirstOrDefault(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3);
+            Transpiler.priority = Priority.LowerThanNormal;
         }
         catch
         {

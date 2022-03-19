@@ -38,43 +38,6 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
         // register
         _configMenu
             .Register()
-
-            // combat options
-            .AddSectionTitle(() => "Combat Changes")
-            .AddCheckbox(
-                () => "Rebalance Forges",
-                () => "Improves the Jade and Topaz forges.",
-                config => config.RebalanceForges,
-                (config, value) => config.RebalanceForges = value
-            )
-            .AddCheckbox(
-                () => "Rebalance Ring",
-                () => "Improves the Jade and Topaz rings, and the Crabshell ring for consistency.",
-                config => config.RebalanceRings,
-                (config, value) => config.RebalanceRings = value
-            )
-            .AddCheckbox(
-                () => "Weapons Cost Stamina",
-                () =>
-                    "Causes weapons to consume energy, inversely proportional to combat level, analogously with other tools.",
-                config => config.RebalanceForges,
-                (config, value) => config.RebalanceForges = value
-            )
-            .AddCheckbox(
-                () => "Remove Slingshot Grace Period",
-                () => "Allows slingshot projectiles to hit enemies before 100ms have passed.",
-                config => config.RemoveSlingshotGracePeriod,
-                (config, value) => config.RemoveSlingshotGracePeriod = value
-            )
-            .AddCheckbox(
-                () => "Remove Defense Soft Cap",
-                () => "Allows defense to mitigate more than 50% damage.",
-                config => config.RemoveDefenseSoftCap,
-                (config, value) => config.RemoveDefenseSoftCap = value
-            )
-
-            // farming and foraging options
-            .AddSectionTitle(() => "Farming and Foraging Changes")
             .AddCheckbox(
                 () => "Age Tapper Trees",
                 () => "Allows regular trees to age and improve their syrup quality every year.",
@@ -94,6 +57,23 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
                 (config, value) => config.AgeBeeHouses = value
             )
             .AddCheckbox(
+                () => "Kegs Remember Honey Flower",
+                () => "Allows the production of tasty flowery meads.",
+                config => config.KegsRememberHoneyFlower,
+                (config, value) => config.KegsRememberHoneyFlower = value
+            )
+            .AddDropdown(
+                () => "Honey Mead Style",
+                () => "The visual style for different honey mead icons, if using BetterArtisanGoodIcons.",
+                config => config.HoneyMeadStyle.ToString(),
+                (config, value) => config.HoneyMeadStyle = value,
+                new[] {"ColoredBottles", "ColoredCaps", "Elesea"},
+                value =>
+                {
+                    ModEntry.ModHelper.Content.InvalidateCache($"{ModEntry.Manifest.UniqueID}/BetterHoneyMeadIcons");
+                    return value;
+                })
+            .AddCheckbox(
                 () => "Berry Bushes Reward Exp",
                 () => "Gain foraging experience when a berry bush is harvested.",
                 config => config.BerryBushesRewardExp,
@@ -106,31 +86,11 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
                 (config, value) => config.PreventFruitTreeGrowthInWinter = value
             )
             .AddCheckbox(
-                () => "Kegs Remember Honey Flower",
-                () => "Allows the production of tasty flowery meads.",
-                config => config.KegsRememberHoneyFlower,
-                (config, value) => config.KegsRememberHoneyFlower = value
-            )
-            .AddCheckbox(
                 () => "Large Products Yield Quantity Over Quality",
                 () =>
                     "Causes one large egg or milk to produce two mayonnaise / cheese but at regular quality, instead of one at gold quality.",
                 config => config.LargeProducsYieldQuantityOverQuality,
                 (config, value) => config.LargeProducsYieldQuantityOverQuality = value
-            )
-
-            // integration options
-            .AddSectionTitle(() => "Integrations for Other Mods")
-            .AddDropdown(
-                () => "Honey Mead Style",
-                () => "The visual style for different honey mead icons, if using BetterArtisanGoodIcons.",
-                config => config.HoneyMeadStyle.ToString(),
-                (config, value) => config.HoneyMeadStyle = value,
-                new[] {"ColoredBottles", "ColoredCaps"},
-                value =>
-                {
-                    ModEntry.ModHelper.Content.InvalidateCache($"{ModEntry.Manifest.UniqueID}/BetterHoneyMeadIcons");
-                    return value;
-                });
+            );
     }
 }

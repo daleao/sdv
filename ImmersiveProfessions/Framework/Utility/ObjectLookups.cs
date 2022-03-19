@@ -8,15 +8,6 @@ using System.Collections.Generic;
 
 internal static class ObjectLookups
 {
-    /// <summary>Look-up table for different types of bait by id.</summary>
-    internal static Dictionary<int, string> BaitById { get; } = new()
-    {
-        {685, "Bait"},
-        {703, "Magnet"},
-        {774, "Wild Bait"},
-        {908, "Magic Bait"}
-    };
-
     /// <summary>Look-up table for what resource should spawn from a given stone.</summary>
     internal static Dictionary<int, int> ResourceFromStoneId { get; } = new()
     {

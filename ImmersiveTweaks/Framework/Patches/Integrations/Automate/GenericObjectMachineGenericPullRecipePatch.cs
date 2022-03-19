@@ -86,7 +86,7 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
 
     private static void GenericPullRecipeSubroutine(SObject machine, object consumable)
     {
-        if (machine.name != "Mayonnaise Machine" || machine.name != "Keg") return;
+        if (machine.name != "Mayonnaise Machine" && machine.name != "Keg") return;
 
         _GetSample ??= consumable.GetType().PropertyGetter("Sample");
         if (_GetSample.Invoke(consumable, null) is not SObject input) return;

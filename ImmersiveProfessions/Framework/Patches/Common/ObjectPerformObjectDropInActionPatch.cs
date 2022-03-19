@@ -26,6 +26,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
     internal ObjectPerformObjectDropInActionPatch()
     {
         Original = RequireMethod<SObject>(nameof(SObject.performObjectDropInAction));
+        Postfix.priority = Priority.LowerThanNormal;
     }
 
     #region harmony patches

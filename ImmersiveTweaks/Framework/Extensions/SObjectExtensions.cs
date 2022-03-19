@@ -11,16 +11,16 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="SObject"/> class.</summary>
-internal static class SObjectExtensions
+public static class SObjectExtensions
 {
    /// <summary>Whether a given object is a bee house.</summary>
-    internal static bool IsBeeHouse(this SObject @object)
+    public static bool IsBeeHouse(this SObject @object)
     {
         return @object.bigCraftable.Value && @object.ParentSheetIndex == 10;
     }
 
    /// <summary>Get an object quality value based on this object's age.</summary>
-    internal static int GetQualityFromAge(this SObject @object)
+    public static int GetQualityFromAge(this SObject @object)
     {
         var age = @object.ReadDataAs<int>("Age");
         return age switch
@@ -35,7 +35,7 @@ internal static class SObjectExtensions
     /// <summary>Read a string from this object's <see cref="ModDataDictionary" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    internal static string ReadData(this SObject @object, string field, string defaultValue = "")
+    public static string ReadData(this SObject @object, string field, string defaultValue = "")
     {
         return @object.modData.Read($"{ModEntry.Manifest.UniqueID}/{field}", defaultValue);
     }
@@ -43,7 +43,7 @@ internal static class SObjectExtensions
     /// <summary>Read a field from this object's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    internal static T ReadDataAs<T>(this SObject @object, string field, T defaultValue = default)
+    public static T ReadDataAs<T>(this SObject @object, string field, T defaultValue = default)
     {
         return @object.modData.ReadAs($"{ModEntry.Manifest.UniqueID}/{field}", defaultValue);
     }
@@ -51,7 +51,7 @@ internal static class SObjectExtensions
     /// <summary>Write to a field in this object's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    internal static void WriteData(this SObject @object, string field, string value)
+    public static void WriteData(this SObject @object, string field, string value)
     {
         @object.modData.Write($"{ModEntry.Manifest.UniqueID}/{field}", value);
         Log.D($"[ModData]: Wrote {value} to {@object.Name}'s {field}.");
@@ -60,7 +60,7 @@ internal static class SObjectExtensions
     /// <summary>Write to a field in this object's <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    internal static bool WriteDataIfNotExists(this SObject @object, string field, string value)
+    public static bool WriteDataIfNotExists(this SObject @object, string field, string value)
     {
         if (@object.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{field}"))
         {
@@ -75,7 +75,7 @@ internal static class SObjectExtensions
     /// <summary>Increment the value of a numeric field in this object's <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    internal static void IncrementData<T>(this SObject @object, string field, T amount)
+    public static void IncrementData<T>(this SObject @object, string field, T amount)
     {
         @object.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}", amount);
         Log.D($"[ModData]: Incremented {@object.Name}'s {field} by {amount}.");
@@ -83,7 +83,7 @@ internal static class SObjectExtensions
 
     /// <summary>Increment the value of a numeric field in this object's <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    internal static void IncrementData<T>(this SObject @object, string field)
+    public static void IncrementData<T>(this SObject @object, string field)
     {
         @object.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}",
             "1".Parse<T>());

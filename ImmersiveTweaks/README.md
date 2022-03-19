@@ -22,20 +22,11 @@
 
 ## Features
 
-This mod is a collection of small tweaks and fixes to any vanilla inconsistencies or balancing issues that I can find, and are not large enough to merit their own mod.
+This mod is a collection of small tweaks and fixes to any vanilla inconsistencies or balancing issues that I can find, and that are not large enough to merit their own mod.
 Most of these features were originally a part of [Walk Of Life](https://www.nexusmods.com/stardewvalley/mods/8111) and therefore are intended to be used with it, but that is not a requirement.
 
 
 Features currently included:
-
-(Combat-related)
-- Changes the effects of Topaz ring to be analogous with Topaz enchantment.
-- Rebalances the Jade and Topaz rings, as well as the Crabshell ring for consistency.
-- Rebalances the Jade and Topaz enchantments, analogously to the rings.
-- Removes the "grace period" of Slingshot projectiles, allowing enemies to be hit immediately near the player.
-- Removes the 50% soft cap to damage mitigation from the player's defense stat.
-- Causes all weapons to consume energy, based on the player's combat level.
-- Adds the hidden Sunburst enchantment to the game.
 
 (Foraging and Farming-related)
 - Makes Bee House and Tapper produce improve quality with age, following the example of Fruit Trees.
@@ -43,21 +34,15 @@ Features currently included:
 - Makes Meads take after the flower type of the input Honey item (with support for Better Artisan Good Icons).
 - Makes large Eggs and Milk double the output stack instead of increasing the quality.
 - Prevents Fruit Trees from growing in winter.
-- Changes the crafting recipe of the Glowstone Ring to require one Magnet Ring and one Glow Ring, and adds recipes for crafting the Glow Ring and Magnet Ring from their small counterparts.
 
 All features can be toggled on or off.
 
-
-Planned features:
-- Rebalance nearly all vanilla weapons and shoes, giving them more distinction and viability.
-- Change the treasure rewards for the standard mines to suit the rebalance.
-- Change the conditions for obtaining the Galaxy Sword, forcing the player to venture into the Skull Caverns before obtaining it.
-- Overhaul the Iridium Band, allowing it to combine the effects of any four gemstone rings.
-
-
 ## Compatibility
 
-This mod makes heavy use of Harmony to patch several vanilla behaviors. Any SMAPI mods with similar features are obviously **not** compatible.
+This mod makes use of Harmony to patch several vanilla behaviors. Any SMAPI mods with similar features are obviously **not** compatible.
+
+- [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) has several conflicting features﻿, but can be used together with this mod if you pay attention to the configs of both mods.
+
 Should be fully compatible with multiplayer.
 
 ## Installation
@@ -70,6 +55,9 @@ To uninstall simply delete the mod from your mods folder. This mod is safe to un
 
 ## Special Thanks
 
+- [SilentOak](https://www.nexusmods.com/stardewvalley/users/66352491) for BAGI mead integration.
+- [cometkins](https://www.nexusmods.com/stardewvalley/users/38715215) for [Better Artisan Goods](https://www.nexusmods.com/stardewvalley/mods/5394).
+- ﻿[eleseaHonu](https://www.nexusmods.com/stardewvalley/users/64516916) for cometkins-style BAGI mead icons.﻿
 - **ConcernedApe** for StardewValley.
 - [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.
 

@@ -1,0 +1,17 @@
+﻿{
+  "Name": "Arsenal - Immersive Weapons and Footwear",
+  "Author": "DaLion",
+  "Version": "1.0.0",
+  "Description": "An immersive rebalance of vanilla weapons and footwear.",
+  "UniqueID": "DaLion.ImmersiveArsenal",
+  "EntryDll": "ImmersiveArsenal.dll",
+  "MinimumApiVersion": "3.13.0",
+  "UpdateKeys": [ "Nexus:???" ],
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "MinimumVersion": "1.8.0",
+      "IsRequired": false
+    }
+  ]
+}

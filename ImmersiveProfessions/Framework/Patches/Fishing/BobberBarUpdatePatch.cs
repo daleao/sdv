@@ -66,24 +66,21 @@ internal class BobberBarUpdatePatch : BasePatch
         //    return null;
         //}
 
-        /// Injected: if (Game1.player.professions.Contains(<aquarist_id>)) distanceFromCatching += GetAquaristCatchingBarCompensation();
+        /// Injected: if (Game1.player.professions.Contains(<aquarist_id>)) distanceFromCatching += Game1.player.GetAquaristCatchingBarCompensation();
         /// After: distanceFromCatching -= ((whichBobber == 694 || beginnersRod) ? 0.002f : 0.003f);
 
+        var isNotAquarist = generator.DefineLabel();
         try
         {
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4, 694)
                 )
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Brfalse_S)
-                )
-                .GetOperand(out var isNotAquarist)
-                .Return()
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Stfld)
                 )
                 .Advance()
+                .AddLabels(isNotAquarist)
                 .InsertProfessionCheck((int) Profession.Aquarist)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotAquarist),

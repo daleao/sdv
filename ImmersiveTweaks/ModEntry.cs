@@ -4,9 +4,11 @@
 
 using System;
 using StardewModdingAPI;
+using StardewModdingAPI.Events;
 
 using Framework;
-using Framework.AssetEditors;
+using Integrations;
+using Framework.AssetLoaders;
 
 #endregion using directives
 
@@ -31,15 +33,32 @@ public class ModEntry : Mod
         Config = helper.ReadConfig<ModConfig>();
 
         // register asset editors / loaders
-        helper.Content.AssetEditors.Add(new CraftingRecipesEditor());
-        helper.Content.AssetEditors.Add(new ObjectInformationEditor());
-        helper.Content.AssetEditors.Add(new SpringObjectsEditor());
-        helper.Content.AssetEditors.Add(new WeaponsEditor());
+        helper.Content.AssetLoaders.Add(new AssetLoader());
+
+        // register events
+        helper.Events.GameLoop.GameLaunched += OnGameLaunched;
 
         // apply harmony patches
         PatchManager.ApplyAll(Manifest.UniqueID);
+    }
 
-        // add debug commands
-        ConsoleCommands.Register(helper);
+    /// <summary>Raised after the game is launched, right before the first update tick.</summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event data.</param>
+    private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
+    {
+        // add Generic Mod Config Menu integration
+        new GenericModConfigMenuIntegrationForImmersiveTweaks(
+            getConfig: () => Config,
+            reset: () =>
+            {
+                Config = new();
+                ModHelper.WriteConfig(Config);
+            },
+            saveAndApply: () => { ModHelper.WriteConfig(Config); },
+            log: Log,
+            modRegistry: ModHelper.ModRegistry,
+            manifest: Manifest
+        ).Register();
     }
 }

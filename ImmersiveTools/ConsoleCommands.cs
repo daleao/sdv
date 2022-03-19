@@ -13,6 +13,9 @@ internal static class ConsoleCommands
 {
     internal static void Register(IModHelper helper)
     {
+        helper.ConsoleCommands.Add("player_gettools",
+            "Add one of every upgradeable tool to the local player's inventory.", GetTools);
+
         helper.ConsoleCommands.Add("player_upgradetools",
             "Set the upgrade level of all upgradeable tools in the player's inventory." + GetUpgradeToolsUsage(),
             UpgradeTools);
@@ -23,6 +26,23 @@ internal static class ConsoleCommands
     }
 
     #region command handlers
+
+    /// <summary>Add one of every basic upgradeable tool to the local player's inventory.</summary>
+    /// <param name="command">The console command.</param>
+    /// <param name="args">The supplied arguments.</param>
+    private static void GetTools(string command, string[] args)
+    {
+        if (!Context.IsWorldReady)
+        {
+            Log.W("You must load a save first.");
+            return;
+        }
+
+        Game1.player.Items.Add(new Axe().getOne());
+        Game1.player.Items.Add(new Pickaxe().getOne());
+        Game1.player.Items.Add(new Hoe().getOne());
+        Game1.player.Items.Add(new WateringCan().getOne());
+    }
 
     /// <summary>Set the upgrade level of all upgradeable tools in the player's inventory.</summary>
     /// <param name="command">The console command.</param>

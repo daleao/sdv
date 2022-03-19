@@ -65,7 +65,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
             var populationGates = fishPondData.PopulationGates;
             var isLegendaryPond = ____fishItem.HasContextTag("fish_legendary");
             if (____fishItem.IsAlgae() || populationGates is not null &&
-                populationGates.Keys.Max() > ____pond.lastUnlockedPopulationGate.Value && !isLegendaryPond)
+                ____pond.lastUnlockedPopulationGate.Value < populationGates.Keys.Max() && !isLegendaryPond)
                 return true; // run original logic
 
             if (!Game1.globalFade)

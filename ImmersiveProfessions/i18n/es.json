@@ -182,10 +182,6 @@
   "prestige.achievement.name.female": "Manitas",
   "prestige.achievement.desc": "Adquira todas las profesiones en todas las habilidades.",
 
-  // Rebalance
-  "rebalance.rings.jade": "Aumenta la potencia de los golpes críticos en un 50%.",
-  "rebalance.rings.topaz": "Aumenta la defensa en 5.",
-
   // Other
   "pronoun.definite.male": "en el",
   "pronoun.definite.female": "en la",

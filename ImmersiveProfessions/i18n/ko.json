@@ -180,9 +180,5 @@
   "prestige.levelup.prestige": "명성을 얻을 직업을 고르세요:",
   "prestige.achievement.name.male": "재주꾼",
   "prestige.achievement.name.female": "재주꾼",
-  "prestige.achievement.desc": "모든 직업의 모든 스킬을 습득하기",
-
-  // Rebalance
-  "rebalance.rings.jade": "옥 반지/치명타 위력을 50% 증가시켜줍니다.",
-  "rebalance.rings.topaz": "방어력이 5 증가합니다."
+  "prestige.achievement.desc": "모든 직업의 모든 스킬을 습득하기"
 }

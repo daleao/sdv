@@ -15,7 +15,7 @@ using Common.Harmony;
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="ILHelper"/> class.</summary>
-internal static class ILHelperExtensions
+public static class ILHelperExtensions
 {
     /// <summary>
     ///     Find the first or next occurrence of the pattern corresponding to `player.professions.Contains()` in the
@@ -23,7 +23,7 @@ internal static class ILHelperExtensions
     /// </summary>
     /// <param name="whichProfession">The profession id.</param>
     /// <param name="fromCurrentIndex">Whether to begin search from currently pointed index.</param>
-    internal static ILHelper FindProfessionCheck(this ILHelper helper, int whichProfession, bool fromCurrentIndex = false)
+    public static ILHelper FindProfessionCheck(this ILHelper helper, int whichProfession, bool fromCurrentIndex = false)
     {
         return fromCurrentIndex
             ? helper.FindNext(
@@ -47,7 +47,7 @@ internal static class ILHelperExtensions
     /// <param name="professionIndex">The profession id.</param>
     /// <param name="labels">Branch labels to add to the inserted sequence.</param>
     /// <param name="forLocalPlayer">Whether to load the local player.</param>
-    internal static ILHelper InsertProfessionCheck(this ILHelper helper, int professionIndex, Label[] labels = null, bool forLocalPlayer = true)
+    public static ILHelper InsertProfessionCheck(this ILHelper helper, int professionIndex, Label[] labels = null, bool forLocalPlayer = true)
     {
         var toInsert = new List<CodeInstruction>();
         if (forLocalPlayer)
@@ -69,7 +69,7 @@ internal static class ILHelperExtensions
     /// <param name="chance">The threshold for a successful roll.</param>
     /// <param name="labels">Branch labels to add to the inserted sequence.</param>
     /// <param name="forStaticRandom">Whether to load the static <see cref="Game1.random"/>.</param>
-    internal static ILHelper InsertDiceRoll(this ILHelper helper, double chance, Label[] labels = null, bool forStaticRandom = true)
+    public static ILHelper InsertDiceRoll(this ILHelper helper, double chance, Label[] labels = null, bool forStaticRandom = true)
     {
         var toInsert = new List<CodeInstruction>();
         if (forStaticRandom)
@@ -90,7 +90,7 @@ internal static class ILHelperExtensions
     /// <param name="maxValue">The upper limit, inclusive.</param>
     /// <param name="labels">Branch labels to add to the inserted sequence.</param>
     /// <param name="forStaticRandom">Whether to load the static <see cref="Game1.random"/>.</param>
-    internal static ILHelper InsertDiceRoll(this ILHelper helper, int minValue, int maxValue, Label[] labels = null, bool forStaticRandom = true)
+    public static ILHelper InsertDiceRoll(this ILHelper helper, int minValue, int maxValue, Label[] labels = null, bool forStaticRandom = true)
     {
         var toInsert = new List<CodeInstruction>();
         if (forStaticRandom)

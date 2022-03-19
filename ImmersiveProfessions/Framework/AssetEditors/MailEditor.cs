@@ -11,7 +11,7 @@ using Extensions;
 
 #endregion using directives
 
-/// <summary>Edits <c>Data/mail</c> with Conservationist taxation notice.</summary>
+/// <summary>Edits Mail data with Conservationist taxation notice.</summary>
 public class MailEditor : IAssetEditor
 {
     /// <inheritdoc />

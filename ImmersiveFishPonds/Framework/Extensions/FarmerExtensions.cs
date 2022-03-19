@@ -2,19 +2,65 @@
 
 #region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Buildings;
 using Common.Extensions;
 
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="Farmer"/> class.</summary>
-internal static class FarmerExtensions
+public static class FarmerExtensions
 {
+    /// <summary>Get the tile distance between the farmer and any building in the <see cref="GameLocation"/>.</summary>
+    /// <param name="building">The target building.</param>
+    public static double DistanceToBuilding(this Farmer farmer, Building building)
+    {
+        return (farmer.getTileLocation() - new Vector2(building.tileX.Value, building.tileY.Value)).Length();
+    }
+
+    /// <summary>Find the closest building to this instance in the current <see cref="GameLocation"/>. </summary>
+    /// <typeparam name="T">A subtype of <see cref="Building"/>.</typeparam>
+    /// <param name="distanceToClosestBuilding">The distance to the returned building, or <see cref="double.MaxValue"/> if none was found.</param>
+    /// <param name="candidates">The candidate buildings, if already available.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates (ignore candidates for which the predicate returns <c>True</c>.</param>
+    [CanBeNull]
+    public static T GetClosestBuilding<T>(this Farmer farmer, out double distanceToClosestBuilding,
+        IEnumerable<T> candidates = null, Func<T, bool> predicate = null) where T : Building
+    {
+        predicate ??= _ => true;
+        var candidatesArr = candidates?.ToArray() ?? Game1.getFarm().buildings.OfType<T>().Where(c => predicate(c)).ToArray();
+        distanceToClosestBuilding = double.MaxValue;
+        if (candidatesArr.Length == 0) return null;
+
+        if (candidatesArr.Length == 1)
+        {
+            distanceToClosestBuilding = farmer.DistanceToBuilding(candidatesArr[0]);
+            return candidatesArr[0];
+        }
+
+        T closest = null;
+        foreach (var candidate in candidatesArr)
+        {
+            var distanceToThisCandidate = farmer.DistanceToBuilding(candidate);
+            if (distanceToThisCandidate >= distanceToClosestBuilding) continue;
+
+            closest = candidate;
+            distanceToClosestBuilding = distanceToThisCandidate;
+        }
+
+        return closest;
+    }
+
     /// <summary>Read a string from the <see cref="ModDataDictionary" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    internal static string ReadData(this Farmer farmer, DataField field, string defaultValue = "")
+    public static string ReadData(this Farmer farmer, DataField field, string defaultValue = "")
     {
         return Game1.MasterPlayer.modData.Read($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -23,7 +69,7 @@ internal static class FarmerExtensions
     /// <summary>Read a field from the <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    internal static T ReadDataAs<T>(this Farmer farmer, DataField field, T defaultValue = default)
+    public static T ReadDataAs<T>(this Farmer farmer, DataField field, T defaultValue = default)
     {
         return Game1.MasterPlayer.modData.ReadAs($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -32,7 +78,7 @@ internal static class FarmerExtensions
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    internal static void WriteData(this Farmer farmer, DataField field, string value)
+    public static void WriteData(this Farmer farmer, DataField field, string value)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -49,7 +95,7 @@ internal static class FarmerExtensions
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    internal static bool WriteDataIfNotExists(this Farmer farmer, DataField field, string value)
+    public static bool WriteDataIfNotExists(this Farmer farmer, DataField field, string value)
     {
         if (Game1.MasterPlayer.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}"))
         {
@@ -69,7 +115,7 @@ internal static class FarmerExtensions
     /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    internal static void IncrementData<T>(this Farmer farmer, DataField field, T amount)
+    public static void IncrementData<T>(this Farmer farmer, DataField field, T amount)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -85,7 +131,7 @@ internal static class FarmerExtensions
 
     /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    internal static void IncrementData<T>(this Farmer farmer, DataField field)
+    public static void IncrementData<T>(this Farmer farmer, DataField field)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {

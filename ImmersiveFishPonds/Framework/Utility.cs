@@ -31,4 +31,12 @@ internal static class Utility
     {
         return ExtendedFamilyPairs.TryGetValue(other, out var pair) && pair == held;
     }
+
+    /// <summary>Get the fish's chance to produce roe given its sale value.</summary>
+    /// <param name="value">The fish's sale value.</param>
+    /// <param name="neighbors">How many other fish live in the same pond.</param>
+    internal static double GetRoeChance(int value, int neighbors)
+    {
+        return (14765.0 / (value + 120) + 1.5) * (1.0 + neighbors / 11.0 - 1.0/11.0);
+    }
 }

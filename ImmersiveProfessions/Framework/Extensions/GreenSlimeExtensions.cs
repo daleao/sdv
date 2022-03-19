@@ -10,16 +10,16 @@ using StardewValley.Monsters;
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="GreenSlime"/> class.</summary>
-internal static class GreenSlimeExtensions
+public static class GreenSlimeExtensions
 {
     /// <summary>Whether the Slime instance is currently jumping.</summary>
-    internal static bool IsJumping(this GreenSlime slime)
+    public static bool IsJumping(this GreenSlime slime)
     {
         return !string.IsNullOrEmpty(slime.ReadData("Jumping"));
     }
 
     /// <summary>Write the necessary mod data fields for this slime to function as a piped slime.</summary>
-    internal static void MakePipedSlime(this GreenSlime slime, Farmer theOneWhoPipedMe)
+    public static void MakePipedSlime(this GreenSlime slime, Farmer theOneWhoPipedMe)
     {
         slime.WriteData("Piped", true.ToString());
         slime.WriteData("Piper", theOneWhoPipedMe.UniqueMultiplayerID.ToString());
@@ -38,7 +38,7 @@ internal static class GreenSlimeExtensions
     }
 
     /// <summary>Grow this Slime one stage.</summary>
-    internal static void Inflate(this GreenSlime slime)
+    public static void Inflate(this GreenSlime slime)
     {
         var originalScale = slime.ReadDataAs<float>("OriginalScale");
         slime.Scale = Math.Min(slime.Scale * 1.1f, Math.Min(originalScale * 2f, 2f));
@@ -53,7 +53,7 @@ internal static class GreenSlimeExtensions
     }
 
     /// <summary>Shrink this Slime one stage.</summary>
-    internal static void Deflate(this GreenSlime slime)
+    public static void Deflate(this GreenSlime slime)
     {
         var originalScale = slime.ReadDataAs<float>("OriginalScale");
         slime.Scale = Math.Max(slime.Scale / 1.1f, originalScale);
@@ -71,7 +71,7 @@ internal static class GreenSlimeExtensions
     }
 
     /// <summary>Decrement the pipe timer for this Slime.</summary>
-    internal static void Countdown(this GreenSlime slime, double elapsed)
+    public static void Countdown(this GreenSlime slime, double elapsed)
     {
         var pipeTimer = slime.ReadDataAs<double>("PipeTimer");
         if (pipeTimer <= 0.0) return;

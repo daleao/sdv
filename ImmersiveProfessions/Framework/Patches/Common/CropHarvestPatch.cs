@@ -69,13 +69,11 @@ internal class CropHarvestPatch : BasePatch
         ///		Game1.player.IncrementField("EcologistItemsForaged", amount: @object.Stack)
         ///	After: Game1.stats.ItemsForaged += @object.Stack;
 
-        // this particular method is too edgy for Harmony Access Tool, so we use some old-fashioned reflection trickery to find this particular overload of FarmerExtensions.IncrementData<T>
+        // this particular method is too edgy for Harmony's AccessTools, so we use some old-fashioned reflection trickery to find this particular overload of FarmerExtensions.IncrementData<T>
         var mi = typeof(FarmerExtensions)
-                     .GetMember("IncrementData*", BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Static)
-                     .Cast<MethodInfo>()
-                     .FirstOrDefault(mi => mi.GetParameters().Length == 3)?
-                     .MakeGenericMethod(typeof(uint)) ??
-                 throw new MissingMethodException("Increment method not found.");
+                     .GetMethods()
+                     .FirstOrDefault(mi => mi.Name.Contains("IncrementData") && mi.GetParameters().Length == 3)?
+                     .MakeGenericMethod(typeof(uint)) ?? throw new MissingMethodException("Increment method not found.");
 
         var dontIncreaseEcologistCounter = generator.DefineLabel();
         try

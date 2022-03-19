@@ -17,8 +17,6 @@ public static class DictionaryExtensions
     public static string Stringify<TKey, TValue>(this Dictionary<TKey, TValue> d, string keyValueSeparator = ",",
         string pairSeparator = ";")
     {
-        if (d is null) throw new ArgumentNullException(nameof(d));
-
         if (string.IsNullOrEmpty(keyValueSeparator) || string.IsNullOrEmpty(pairSeparator))
             throw new ArgumentException("Separator cannot be null or empty.");
         

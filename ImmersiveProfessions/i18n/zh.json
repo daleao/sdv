@@ -180,9 +180,5 @@
   "prestige.levelup.prestige": "选择一个职业来声望：",
   "prestige.achievement.name.male": "无所不能",
   "prestige.achievement.name.female": "无所不能",
-  "prestige.achievement.desc": "掌握每一项技能的所有职业。",
-
-  // Rebalance
-  "rebalance.rings.jade": "翡翠戒指/增加50%的致命一击能量。",
-  "rebalance.rings.topaz": "增加5点防御。"
+  "prestige.achievement.desc": "掌握每一项技能的所有职业。"
 }

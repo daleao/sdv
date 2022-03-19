@@ -37,25 +37,24 @@ internal class SaveLoadedEvent : IEvent
     {
         if (!Context.IsMainPlayer) return;
 
-        var pondQualityDict = Game1.player.ReadData(DataField.QualityDict).ToDictionary<int, int>();
-        var familyQualityDict = Game1.player.ReadData(DataField.FamilyQualityDict).ToDictionary<int, int>();
-        var familyOccupantsDict = Game1.player.ReadData(DataField.FamilyOccupantsDict).ToDictionary<int, int>();
-        var daysEmptyDict = Game1.player.ReadData(DataField.DaysEmptyDict).ToDictionary<int, int>();
-        var seaweedOccupantsDict = Game1.player.ReadData(DataField.SeaweedOccupantsDict).ToDictionary<int, int>();
-        var greenAlgaeOccupantsDict = Game1.player.ReadData(DataField.GreenAlgaeOccupantsDict).ToDictionary<int, int>();
-        var whiteAlgaeOccupantsDict = Game1.player.ReadData(DataField.WhiteAlgaeOccupantsDict).ToDictionary<int, int>();
-        var itemsHeldDict = Game1.player.ReadData(DataField.HeldItemsDict).ToDictionary<int, string>(">", "/");
+        var fishQualitiesDict = Game1.player.ReadData(DataField.FishQualitiesDict).ParseDictionary<int, string>(">", "/");
+        var familyQualitiesDict = Game1.player.ReadData(DataField.FamilyQualitiesDict).ParseDictionary<int, string>(">", "/");
+        var familyOccupantsDict = Game1.player.ReadData(DataField.FamilyOccupantsDict).ParseDictionary<int, int>();
+        var daysEmptyDict = Game1.player.ReadData(DataField.DaysEmptyDict).ParseDictionary<int, int>();
+        var seaweedOccupantsDict = Game1.player.ReadData(DataField.SeaweedOccupantsDict).ParseDictionary<int, int>();
+        var greenAlgaeOccupantsDict = Game1.player.ReadData(DataField.GreenAlgaeOccupantsDict).ParseDictionary<int, int>();
+        var whiteAlgaeOccupantsDict = Game1.player.ReadData(DataField.WhiteAlgaeOccupantsDict).ParseDictionary<int, int>();
+        var itemsHeldDict = Game1.player.ReadData(DataField.HeldItemsDict).ParseDictionary<int, string>(">", "/");
 
         foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && !p.isUnderConstruction()))
         {
             var pondId = pond.GetCenterTile().ToString().GetDeterministicHashCode();
-            pond.WriteData("QualityRating",
-                pondQualityDict.TryGetValue(pondId, out var qualityRating)
-                    ? qualityRating.ToString()
-                    : pond.FishCount.ToString());
 
-            if (familyQualityDict.TryGetValue(pondId, out var familyQualityRating))
-                pond.WriteData("FamilyQualityRating", familyQualityRating.ToString());
+            if (fishQualitiesDict.TryGetValue(pondId, out var fishQualities))
+                pond.WriteData("FishQualities", fishQualities);
+
+            if (familyQualitiesDict.TryGetValue(pondId, out var familyQualities))
+                pond.WriteData("FamilyQualities", familyQualities);
 
             if (familyOccupantsDict.TryGetValue(pondId, out var familyLivingHere))
                 pond.WriteData("FamilyLivingHere", familyLivingHere.ToString());

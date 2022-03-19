@@ -8,6 +8,7 @@ using StardewValley.Menus;
 
 #endregion using directives
 
+/// <summary>Provides methods for asynchronous communication between remote online players.</summary>
 public static class Multiplayer
 {
     public static TaskCompletionSource<string> ResponseReceived;

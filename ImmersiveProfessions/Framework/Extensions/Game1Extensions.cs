@@ -9,12 +9,12 @@ using StardewValley;
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="Game1"/> class.</summary>
-internal static class Game1Extensions
+public static class Game1Extensions
 {
     /// <summary>Whether any farmer in the current game session has a specific profession.</summary>
     /// <param name="professionName">The name of the profession.</param>
     /// <param name="numberOfPlayersWithThisProfession">How many players have this profession.</param>
-    internal static bool DoesAnyPlayerHaveProfession(this Game1 game1, Profession profession,
+    public static bool DoesAnyPlayerHaveProfession(this Game1 game1, Profession profession,
         out int numberOfPlayersWithThisProfession)
     {
         if (!Context.IsMultiplayer)

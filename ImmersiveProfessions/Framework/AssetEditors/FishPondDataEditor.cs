@@ -10,7 +10,7 @@ using StardewValley.GameData.FishPond;
 
 #endregion using directives
 
-/// <summary>Edits <c></c>Data/achievements<c></c> with Prestige achievements.</summary>
+/// <summary>Edits FishPondData for legendary fish.</summary>
 public class FishPondDataEditor : IAssetEditor
 {
     /// <inheritdoc />
@@ -44,66 +44,6 @@ public class FishPondDataEditor : IAssetEditor
                 },
                 RequiredTags = new() {"fish_legendary"},
                 SpawnTime = int.MaxValue
-            },
-            new() // seaweed
-            {
-                PopulationGates = new()
-                {
-                    {4, new(){"368 3"}},
-                    {7, new(){"369 5"}}
-                },
-                ProducedItems = new()
-                {
-                    new()
-                    {
-                        Chance = 1f,
-                        ItemID = 152,
-                        MinQuantity = 1,
-                        MaxQuantity = 1
-                    }
-                },
-                RequiredTags = new() {"item_seaweed"},
-                SpawnTime = 2
-            },
-            new() // green algae
-            {
-                PopulationGates = new()
-                {
-                    {4, new(){"368 3"}},
-                    {7, new(){"369 5"}}
-                },
-                ProducedItems = new()
-                {
-                    new()
-                    {
-                        Chance = 1f,
-                        ItemID = 153,
-                        MinQuantity = 1,
-                        MaxQuantity = 1
-                    }
-                },
-                RequiredTags = new() {"item_green_algae"},
-                SpawnTime = 2
-            },
-            new() // white algae
-            {
-                PopulationGates = new()
-                {
-                    {4, new(){"368 3"}},
-                    {7, new(){"369 5"}}
-                },
-                ProducedItems = new()
-                {
-                    new()
-                    {
-                        Chance = 1f,
-                        ItemID = 157,
-                        MinQuantity = 1,
-                        MaxQuantity = 1
-                    }
-                },
-                RequiredTags = new() {"item_white_algae"},
-                SpawnTime = 2
             }
         });
     }

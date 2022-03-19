@@ -7,6 +7,7 @@ using System.Reflection;
 using HarmonyLib;
 using StardewModdingAPI;
 
+using Framework;
 using Framework.Events;
 
 #endregion using directives
@@ -14,8 +15,6 @@ using Framework.Events;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    internal static bool HasProfessionMod { get; private set; }
-
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
     internal static Action<string, LogLevel> Log { get; private set; }
@@ -29,8 +28,8 @@ public class ModEntry : Mod
         Manifest = ModManifest;
         Log = Monitor.Log;
 
-        // check for Immersive Professions mod
-        HasProfessionMod = helper.ModRegistry.IsLoaded("DaLion.ImmersiveProfessions");
+        // register asset editors
+        helper.Content.AssetEditors.Add(new AssetEditor());
 
         // hook events
         new SaveLoadedEvent().Hook();
@@ -40,6 +39,6 @@ public class ModEntry : Mod
         new Harmony(ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
 
         // add debug commands
-        ConsoleCommands.Register(helper);
+        ConsoleCommands.Register(helper.ConsoleCommands);
     }
 }

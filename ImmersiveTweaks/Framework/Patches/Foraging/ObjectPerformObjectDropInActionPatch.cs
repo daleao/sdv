@@ -38,17 +38,8 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
         bool probe, Farmer who)
     {
         // if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
-        if (__state || __instance.heldObject.Value is null || probe) return;
-
-        if (!__instance.name.IsAnyOf("Mayonnaise Machine", "Cheese Press", "Keg") ||
-            dropInItem is not SObject dropIn) return;
+        if (__state || __instance.heldObject.Value is null || probe || dropInItem is not SObject dropIn) return;
         
-        // large milk/eggs give double output at normal quality
-        if (dropInItem.Name.ContainsAnyOf("Large", "L.") && ModEntry.Config.LargeProducsYieldQuantityOverQuality)
-        {
-            __instance.heldObject.Value.Stack = 2;
-            __instance.heldObject.Value.Quality = SObject.lowQuality;
-        }
         // kegs remember honey flower type
         if (__instance.name == "Keg" && dropIn.ParentSheetIndex == 340 &&
             dropIn.preservedParentSheetIndex.Value > 0 && ModEntry.Config.KegsRememberHoneyFlower)
@@ -57,6 +48,12 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
             __instance.heldObject.Value.preservedParentSheetIndex.Value =
                 dropIn.preservedParentSheetIndex.Value;
             __instance.heldObject.Value.Price = dropIn.Price * 2;
+        }
+        // large milk/eggs give double output at normal quality
+        else if (dropInItem.Name.ContainsAnyOf("Large", "L.") && ModEntry.Config.LargeProducsYieldQuantityOverQuality)
+        {
+            __instance.heldObject.Value.Stack = 2;
+            __instance.heldObject.Value.Quality = SObject.lowQuality;
         }
         else if (ModEntry.Config.LargeProducsYieldQuantityOverQuality) switch (dropInItem.ParentSheetIndex)
         {

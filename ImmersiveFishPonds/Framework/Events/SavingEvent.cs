@@ -35,8 +35,8 @@ internal class SavingEvent : IEvent
     {
         if (!Context.IsMainPlayer) return;
 
-        var pondQualityDict = new Dictionary<int, int>();
-        var familyQualityDict = new Dictionary<int, int>();
+        var fishQualitiesDict = new Dictionary<int, string>();
+        var familyQualitiesDict = new Dictionary<int, string>();
         var familyOccupantsDict = new Dictionary<int, int>();
         var daysEmptyDict = new Dictionary<int, int>();
         var seaweedOccupantsDict = new Dictionary<int, int>();
@@ -47,11 +47,11 @@ internal class SavingEvent : IEvent
         {
             var pondId = pond.GetCenterTile().ToString().GetDeterministicHashCode();
             
-            var qualityRating = pond.ReadDataAs<int>("QualityRating");
-            pondQualityDict[pondId] = qualityRating;
+            var fishQualities = pond.ReadData("FishQualities");
+            if (!string.IsNullOrEmpty(fishQualities)) fishQualitiesDict[pondId] = fishQualities;
 
-            var familyQualityRating = pond.ReadDataAs<int>("FamilyQualityRating");
-            if (familyQualityRating > 0) familyQualityDict[pondId] = familyQualityRating;
+            var familyQualities = pond.ReadData("FamilyQualities");
+            if (!string.IsNullOrEmpty(familyQualities)) familyQualitiesDict[pondId] = familyQualities;
 
             var familyLivingHere = pond.ReadDataAs<int>("FamilyLivingHere");
             if (familyLivingHere > 0) familyOccupantsDict[pondId] = familyLivingHere;
@@ -72,8 +72,8 @@ internal class SavingEvent : IEvent
             if (!string.IsNullOrEmpty(itemsHeld)) itemsHeldDict[pondId] = itemsHeld;
         }
 
-        Game1.player.WriteData(DataField.QualityDict, pondQualityDict.Stringify());
-        Game1.player.WriteData(DataField.FamilyQualityDict, familyQualityDict.Stringify());
+        Game1.player.WriteData(DataField.FishQualitiesDict, fishQualitiesDict.Stringify(">", "/"));
+        Game1.player.WriteData(DataField.FamilyQualitiesDict, familyQualitiesDict.Stringify(">", "/"));
         Game1.player.WriteData(DataField.FamilyOccupantsDict, familyOccupantsDict.Stringify());
         Game1.player.WriteData(DataField.DaysEmptyDict, daysEmptyDict.Stringify());
         Game1.player.WriteData(DataField.SeaweedOccupantsDict, seaweedOccupantsDict.Stringify());

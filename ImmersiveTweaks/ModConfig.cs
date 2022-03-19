@@ -3,30 +3,6 @@
 /// <summary>The mod user-defined settings.</summary>
 public class ModConfig
 {
-    #region combat changes
-
-    /// <summary>Make weapons more unique and useful.</summary>
-    public bool RebalanceWeapons { get; set; } = false;
-    
-    /// <summary>Improves certain underwhelming forges.</summary>
-    public bool RebalanceForges { get; set; } = true;
-
-    /// <summary>Improves certain underwhelming rings.</summary>
-    public bool RebalanceRings { get; set; } = true;
-
-    /// <summary>Weapons should cost energy to use.</summary>
-    public bool WeaponsCostStamina { get; set; } = true;
-
-    /// <summary>Projectiles should not be useless for the first 100ms.</summary>
-    public bool RemoveSlingshotGracePeriod { get; set; } = true;
-
-    /// <summary>Damage mitigation should not be soft-capped at 50%.</summary>
-    public bool RemoveDefenseSoftCap { get; set; } = true;
-
-    #endregion combat changes
-
-    #region foraging and farming changes
-    
     /// <summary>Tree sap quality should improve as the tree ages.</summary>
     public bool AgeTapperTrees { get; set; } = true;
 
@@ -48,12 +24,6 @@ public class ModConfig
     /// <summary>Large input products should yield more processed output instead of higher quality.</summary>
     public bool LargeProducsYieldQuantityOverQuality { get; set; } = true;
 
-    #endregion foraging and farming changes
-
-    #region integrations for other mods
-
     /// <summary>The visual style for different honey mead icons, if using BetterArtisanGoodIcons. Allowed values: 'ColoredBottles', 'ColoredCaps'.</summary>
     public string HoneyMeadStyle { get; set; } = "ColoredBottles";
-
-    #endregion integrations for other mods
 }

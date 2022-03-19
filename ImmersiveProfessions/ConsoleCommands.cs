@@ -49,12 +49,15 @@ internal static class ConsoleCommands
             PrintUltimateIndex);
         helper.Add("player_maxanimalfriendship",
             "Max-out the friendship of all owned animals.",
-            MaxAnimalFriendship);
+            SetMaxAnimalFriendship);
         helper.Add("player_maxanimalmood", "Max-out the mood of all owned animals.",
-            MaxAnimalMood);
+            SetMaxAnimalMood);
         helper.Add("player_fishingprogress",
-            "Check your fishing progress as Angler.",
+            "Check your fishing progress for Anglers.",
             PrintFishingAudit);
+        helper.Add("player_maxfish",
+            "Max out your fishing progress for Anglers.",
+            SetMaxFishingProgress);
         helper.Add("wol_data",
             "Check the current value of all mod data fields." + GetUsageForSetModData(),
             PrintModData);
@@ -106,11 +109,23 @@ internal static class ConsoleCommands
             {
                 Game1.player.experiencePoints[i] = 0;
 
-                foreach (var recipe in Game1.player.GetCraftingRecipesForSkill((SkillType) i))
-                    Game1.player.craftingRecipes.Remove(recipe);
+                var craftingRecipes =
+                    Game1.player.craftingRecipes.Keys.ToDictionary(key => key,
+                        key => Game1.player.craftingRecipes[key]);
+                foreach (var (key, value) in CraftingRecipe.craftingRecipes)
+                {
+                    if (value.Split('/')[4].Contains(((SkillType) i).ToString()) && craftingRecipes.ContainsKey(key))
+                        Game1.player.craftingRecipes.Remove(key);
+                }
 
-                foreach (var recipe in Game1.player.GetCookingRecipesForSkill((SkillType) i))
-                    Game1.player.cookingRecipes.Remove(recipe);
+                var cookingRecipes =
+                    Game1.player.cookingRecipes.Keys.ToDictionary(key => key,
+                        key => Game1.player.cookingRecipes[key]);
+                foreach (var (key, value) in CraftingRecipe.cookingRecipes)
+                {
+                    if (value.Split('/')[3].Contains(((SkillType)i).ToString()) && cookingRecipes.ContainsKey(key))
+                        Game1.player.cookingRecipes.Remove(key);
+                }
             }
 
             Game1.player.craftingRecipes.Clear();
@@ -118,6 +133,7 @@ internal static class ConsoleCommands
             LevelUpMenu.RevalidateHealth(Game1.player);
         }
         else
+        {
             foreach (var arg in args)
             {
                 if (!Enum.TryParse<SkillType>(arg, true, out var skillType))
@@ -151,13 +167,25 @@ internal static class ConsoleCommands
 
                 Game1.player.experiencePoints[(int) skillType] = 0;
 
-                foreach (var recipe in Game1.player.GetCraftingRecipesForSkill(skillType))
-                    Game1.player.craftingRecipes.Remove(recipe);
+                var craftingRecipes =
+                    Game1.player.craftingRecipes.Keys.ToDictionary(key => key,
+                        key => Game1.player.craftingRecipes[key]);
+                foreach (var (key, value) in CraftingRecipe.craftingRecipes)
+                {
+                    if (value.Split('/')[4].Contains(skillType.ToString()) && craftingRecipes.ContainsKey(key))
+                        Game1.player.craftingRecipes.Remove(key);
+                }
 
-                foreach (var recipe in Game1.player.GetCookingRecipesForSkill(skillType))
-                    Game1.player.cookingRecipes.Remove(recipe);
+                var cookingRecipes =
+                    Game1.player.cookingRecipes.Keys.ToDictionary(key => key,
+                        key => Game1.player.cookingRecipes[key]);
+                foreach (var (key, value) in CraftingRecipe.cookingRecipes)
+                {
+                    if (value.Split('/')[3].Contains(skillType.ToString()) && cookingRecipes.ContainsKey(key))
+                        Game1.player.cookingRecipes.Remove(key);
+                }
             }
-
+        }
     }
 
     /// <summary>List the current professions of the local player.</summary>
@@ -379,7 +407,7 @@ internal static class ConsoleCommands
     }
 
     /// <summary>Set all farm animals owned by the local player to the max friendship value.</summary>
-    internal static void MaxAnimalFriendship(string command, string[] args)
+    internal static void SetMaxAnimalFriendship(string command, string[] args)
     {
         if (!Context.IsWorldReady)
         {
@@ -401,7 +429,7 @@ internal static class ConsoleCommands
     }
 
     /// <summary>Set all farm animals owned by the local player to the max mood value.</summary>
-    internal static void MaxAnimalMood(string command, string[] args)
+    internal static void SetMaxAnimalMood(string command, string[] args)
     {
         if (!Context.IsWorldReady)
         {
@@ -457,7 +485,7 @@ internal static class ConsoleCommands
             }
             else
             {
-                if (value[1] >= Convert.ToInt32(dataFields[4]))
+                if (value[1] > Convert.ToInt32(dataFields[4]))
                     ++numMaxSizedCaught;
                 else
                     nonMaxSizedCaught.Add(dataFields[0],
@@ -485,6 +513,36 @@ internal static class ConsoleCommands
         result = seasonFish.Except(caughtFishNames).Aggregate(result, (current, fish) => current + $"\n\t- {fish}");
 
         Log.I(result);
+    }
+
+    /// <summary>Set the local player's fishing records to include one of every fish at max size.</summary>
+    internal static void SetMaxFishingProgress(string command, string[] args)
+    {
+        if (!Context.IsWorldReady)
+        {
+            Log.W("You must load a save first.");
+            return;
+        }
+
+        var fishData = Game1.content
+            .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
+            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
+            .ToDictionary(p => p.Key, p => p.Value);
+        foreach (var (key, value) in fishData)
+        {
+            var dataFields = value.Split('/');
+            if (Game1.player.fishCaught.ContainsKey(key))
+            {
+                var caught = Game1.player.fishCaught[key];
+                caught[1] = Convert.ToInt32(dataFields[4]) + 1;
+                Game1.player.fishCaught[key] = caught;
+                Game1.stats.checkForFishingAchievements();
+            }
+            else
+            {
+                Game1.player.fishCaught.Add(key, new[] {1, Convert.ToInt32(dataFields[4]) + 1});
+            }
+        }
     }
 
     /// <summary>Print the current value of every mod data field to the console.</summary>

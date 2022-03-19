@@ -179,7 +179,8 @@ public class ModEntry : Mod
             {
                 case < 7:
                     Log("Adding default radius values for higher Axe upgrades.", LogLevel.Info);
-                    Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] {6, 7});
+                    Config.AxeConfig.RadiusAtEachPowerLevel =
+                        Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] {6, 7});
                     break;
 
                 case > 7:
@@ -193,7 +194,8 @@ public class ModEntry : Mod
             {
                 case < 7:
                     Log("Adding default radius values for higher Pickaxe upgrades.", LogLevel.Info);
-                    Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] {6, 7});
+                    Config.PickaxeConfig.RadiusAtEachPowerLevel =
+                        Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] {6, 7});
                     break;
 
                 case > 7:
@@ -208,7 +210,7 @@ public class ModEntry : Mod
             {
                 case < 7:
                     Log("Adding default length and radius values for higher Hoe upgrades.", LogLevel.Info);
-                    Config.HoeConfig.AffectedTiles.AddRangeToArray(new[]
+                    Config.HoeConfig.AffectedTiles = Config.HoeConfig.AffectedTiles.AddRangeToArray(new[]
                     {
                         new[] {7, 3},
                         new[] {9, 4}
@@ -227,11 +229,12 @@ public class ModEntry : Mod
             {
                 case < 7:
                     Log("Adding default length and radius values for higher Watering Can upgrades.", LogLevel.Info);
-                    Config.WateringCanConfig.AffectedTiles.AddRangeToArray(new[]
-                    {
-                        new[] {7, 3},
-                        new[] {9, 4}
-                    });
+                    Config.WateringCanConfig.AffectedTiles = Config.WateringCanConfig.AffectedTiles.AddRangeToArray(
+                        new[]
+                        {
+                            new[] {7, 3},
+                            new[] {9, 4}
+                        });
                     break;
 
                 case > 7:

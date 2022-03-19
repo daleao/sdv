@@ -16,7 +16,7 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
     {
-        var forgottenRecipes = Game1.player.ReadData(DataField.ForgottenRecipesDict).ToDictionary<string, int>();
+        var forgottenRecipes = Game1.player.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
         if (!forgottenRecipes.Any())
         {
             Disable();
