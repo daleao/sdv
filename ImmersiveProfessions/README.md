@@ -232,11 +232,10 @@ The mods are **not** compatible:
 
 - Any mods that change vanilla skills.
 - [Better Crab Pots](https://www.nexusmods.com/stardewvalley/mods/3159), [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767) or any mod that affects Crab Pot behavior.
-- [Better Slingshots](https://www.nexusmods.com/stardewvalley/mods/2067) or any mod that affects Slingshot behavior.
-- - [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but makes Artisan profession redundant; all features are already included). 
+- [Better Slingshots](https://www.nexusmods.com/stardewvalley/mods/2067), [Ring Overhaul](https://www.nexusmods.com/stardewvalley/mods/10669), or any mod that affects Slingshot behavior.
+- [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but will make Artisan profession redundant; use [Quality Of Life](https://www.nexusmods.com/stardewvalley/mods/11296) instead to get nearly the same features). 
 - [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (use included prestige or console commands instead).
 - [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (already a mod feature).
-- [Quality Fish Ponds](https://www.nexusmods.com/stardewvalley/mods/11021) because this mod already does the same thing, but better.
 
 Not compatible with Android version of the game.
 
@@ -245,7 +244,7 @@ Not compatible with Android version of the game.
 - You can install this mod on an existing save; all perks will be retroactively applied upon loading a saved game.
 - To install simply drop the extracted folder onto your mods folder.
 - To update **make sure to delete the old version** first and only then install the new version.
-- There are no dependencies outside of SMAPI.
+- There are no dependencies other than SMAPI.
 
 ## Configs
 
@@ -324,6 +323,8 @@ The mod provides the following console commands, which you can enter in the SMAP
 
 ## Recommended Mods
 
+- NEW: [Quality Of Life](https://www.nexusmods.com/stardewvalley/mods/11296), which now hosts all balancing features previously from this mod, plus new ones.
+- NEW: [Aquarism](https://www.nexusmods.com/stardewvalley/mods/11288), which now hosts the old Fish Pond changes.﻿﻿
 - [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413) (if you miss Oenologist profession perk).
 - [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926) (add variety to Artisan products and Producer).
 - [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634) (make Slime ranching more interesting and profitable).

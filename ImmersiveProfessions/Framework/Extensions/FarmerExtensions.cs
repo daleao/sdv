@@ -188,19 +188,29 @@ public static class FarmerExtensions
             var forgottenRecipesDict = Game1.player.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
 
             // remove associated crafting recipes
-            foreach (var recipe in farmer.GetCraftingRecipesForSkill(skillType))
+            var craftingRecipes =
+                farmer.craftingRecipes.Keys.ToDictionary(key => key, key => Game1.player.craftingRecipes[key]);
+            foreach (var (key, value) in CraftingRecipe.craftingRecipes)
             {
-                if (!forgottenRecipesDict.TryAdd(recipe, farmer.craftingRecipes[recipe]))
-                    forgottenRecipesDict[recipe] += farmer.craftingRecipes[recipe];
-                farmer.craftingRecipes.Remove(recipe);
+                if (!value.Split('/')[4].Contains(skillType.ToString()) ||
+                    !craftingRecipes.ContainsKey(key)) continue;
+
+                if (!forgottenRecipesDict.TryAdd(key, craftingRecipes[key]))
+                    forgottenRecipesDict[key] += craftingRecipes[key];
+                farmer.craftingRecipes.Remove(key);
             }
 
             // remove associated cooking recipes
-            foreach (var recipe in farmer.GetCookingRecipesForSkill(skillType))
+            var cookingRecipes =
+                farmer.cookingRecipes.Keys.ToDictionary(key => key, key => Game1.player.cookingRecipes[key]);
+            foreach (var (key, value) in CraftingRecipe.cookingRecipes)
             {
-                if (!forgottenRecipesDict.TryAdd(recipe, farmer.cookingRecipes[recipe]))
-                    forgottenRecipesDict[recipe] += farmer.craftingRecipes[recipe];
-                farmer.cookingRecipes.Remove(recipe);
+                if (!value.Split('/')[3].Contains(skillType.ToString()) ||
+                    !cookingRecipes.ContainsKey(key)) continue;
+
+                if (!forgottenRecipesDict.TryAdd(key, cookingRecipes[key]))
+                    forgottenRecipesDict[key] += cookingRecipes[key];
+                farmer.cookingRecipes.Remove(key);
             }
 
             Game1.player.WriteData(DataField.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
@@ -233,24 +243,6 @@ public static class FarmerExtensions
                 farmer.combatLevel.Value = newLevel;
                 break;
         }
-    }
-
-    /// <summary>Get all the farmer's crafting recipes associated with a specific skill.</summary>
-    /// <param name="skillType">The desired skill.</param>
-    public static IEnumerable<string> GetCraftingRecipesForSkill(this Farmer farmer, SkillType skillType)
-    {
-        return CraftingRecipe.craftingRecipes.Where(r =>
-                r.Value.Split('/')[4].Contains(skillType.ToString()) && farmer.craftingRecipes.ContainsKey(r.Key))
-            .Select(recipe => recipe.Key);
-    }
-
-    /// <summary>Get all the farmer's cooking recipes associated with a specific skill.</summary>
-    /// <param name="skillType">The desired skill.</param>
-    public static IEnumerable<string> GetCookingRecipesForSkill(this Farmer farmer, SkillType skillType)
-    {
-        return CraftingRecipe.cookingRecipes.Where(r =>
-                r.Value.Split('/')[3].Contains(skillType.ToString()) && farmer.cookingRecipes.ContainsKey(r.Key))
-            .Select(recipe => recipe.Key);
     }
 
     /// <summary>Get all available Ultimate's not currently registered.</summary>

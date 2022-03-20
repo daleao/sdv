@@ -4,7 +4,6 @@
 
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewValley;
 
 #endregion using directives
 
@@ -15,7 +14,7 @@ internal class DebugPatch : BasePatch
     internal DebugPatch()
     {
 #if DEBUG
-        //Original = RequireMethod<CraftingRecipe>(nameof(CraftingRecipe.doesFarmerHaveIngredientsInInventory));
+        //Original = RequireMethod<>(nameof(.));
 #endif
     }
 
@@ -25,6 +24,7 @@ internal class DebugPatch : BasePatch
     private static bool DebugPrefix()
     {
         Log.D("DebugPatch called!");
+
         return false;
     }
 

@@ -77,43 +77,6 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
                 };
         }
 
-        // check for missing levels
-        Log.T("Validating player experience and levels...");
-
-        for (var skill = 0; skill < 5; ++skill)
-        {
-            var currentExp = Game1.player.experiencePoints[skill];
-            var expectedLevel = 0;
-
-            var i = 0;
-
-            while (i < 10 && currentExp > Framework.Utility.Experience.RequiredPerVanillaLevel[i++]) ++expectedLevel;
-
-            currentExp -= 15000;
-            if (ModEntry.Config.EnablePrestige && currentExp > 0)
-            {
-                i = 1;
-                while (i <= 10 && currentExp > ModEntry.Config.RequiredExpPerExtendedLevel * i++) ++expectedLevel;
-
-                currentExp -= (int) ModEntry.Config.RequiredExpPerExtendedLevel * 10;
-            }
-
-            if (currentExp > 0) Game1.player.experiencePoints[skill] = Framework.Utility.Experience.Ceiling;
-
-            var currentLevel = Game1.player.GetUnmodifiedSkillLevel(skill);
-            if (currentLevel < expectedLevel)
-            {
-                for (var level = currentLevel + 1; level <= expectedLevel; ++level)
-                {
-                    var newLevel = new Point(skill, level);
-                    if (!Game1.player.newLevels.Contains(newLevel))
-                        Game1.player.newLevels.Add(newLevel);
-                }
-
-                Game1.player.SetSkillLevel((SkillType) skill, expectedLevel);
-            }
-        }
-
         // check for prestige achievements
         if (Game1.player.HasAllProfessions())
         {

@@ -15,7 +15,7 @@ using StardewModdingAPI.Utilities;
 public class SpringObjectsEditor : IAssetEditor
 {
     private readonly Texture2D _tileSheet =
-        ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "gemrings.png"));
+        ModEntry.ModHelper.Content.Load<Texture2D>(Path.Combine("assets", "rings.png"));
 
     /// <inheritdoc />
     public bool CanEdit<T>(IAssetInfo asset)
@@ -29,10 +29,21 @@ public class SpringObjectsEditor : IAssetEditor
         if (asset.AssetNameEquals(PathUtilities.NormalizeAssetName("Maps/springobjects")))
         {
             var editor = asset.AsImage();
-            var srcArea = new Rectangle(0, 0, 96, 16);
-            var targetArea = new Rectangle(17, 351, 96, 16);
+            Rectangle srcArea, targetArea;
 
-            editor.PatchImage(_tileSheet, srcArea, targetArea);
+            if (ModEntry.Config.CraftableGemRings)
+            {
+                srcArea = new(18, 0, 88, 12);
+                targetArea = new(21, 353, 88, 12);
+                editor.PatchImage(_tileSheet, srcArea, targetArea);
+            }
+
+            if (ModEntry.Config.ForgeableIridiumBand)
+            {
+                srcArea = new(0, 2, 12, 12);
+                targetArea = new(371, 339, 12, 12);
+                editor.PatchImage(_tileSheet, srcArea, targetArea);
+            }
         }
         else
         {

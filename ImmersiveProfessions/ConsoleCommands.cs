@@ -37,7 +37,7 @@ internal static class ConsoleCommands
             GetUsageForAddProfessions(),
             AddProfessionsToLocalPlayer);
         helper.Add("player_resetprofessions",
-            "Reset all skills and professions for the local player.",
+            "Remove all professions from the local player for the specified skills, or for all skills if none are specified.",
             ResetLocalPlayerProfessions);
         helper.Add("player_readyult", "Max-out the Ultimate meter, or set it to the specified percentage.",
             SetUltimateChargeValue);
@@ -81,11 +81,11 @@ internal static class ConsoleCommands
             return;
         }
 
-        Log.I($"Farming level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Farming)}");
-        Log.I($"Fishing level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Fishing)}");
-        Log.I($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Foraging)}");
-        Log.I($"Mining level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Mining)}");
-        Log.I($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Combat)}");
+        Log.I($"Farming level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Farming)} ({Game1.player.experiencePoints[(int) SkillType.Farming]} exp)");
+        Log.I($"Fishing level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Fishing)} ({Game1.player.experiencePoints[(int) SkillType.Fishing]} exp)");
+        Log.I($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Foraging)} ({Game1.player.experiencePoints[(int) SkillType.Foraging]} exp)");
+        Log.I($"Mining level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Mining)} ({Game1.player.experiencePoints[(int) SkillType.Mining]} exp)");
+        Log.I($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Combat)} ({Game1.player.experiencePoints[(int) SkillType.Combat]} exp)");
     }
 
     /// <summary>Reset all skills for the local player.</summary>
@@ -285,7 +285,7 @@ internal static class ConsoleCommands
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
-    /// <summary>Remove all professions from the local player.</summary>
+    /// <summary>Remove professions from the local player.</summary>
     internal static void ResetLocalPlayerProfessions(string command, string[] args)
     {
         if (!Context.IsWorldReady)
@@ -294,15 +294,39 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.PlayerState.Value.RegisteredUltimate = null;
-        Game1.player.WriteData(DataField.UltimateIndex, null);
-        for (var i = Game1.player.professions.Count - 1; i >= 0; --i)
+        var didResetCombat = false;
+        if (!args.Any())
         {
-            var professionIndex = Game1.player.professions[i];
-            Game1.player.professions.RemoveAt(i);
-            LevelUpMenu.removeImmediateProfessionPerk(professionIndex);
+            for (var i = Game1.player.professions.Count - 1; i >= 0; --i)
+            {
+                var professionIndex = Game1.player.professions[i];
+                Game1.player.professions.RemoveAt(i);
+                LevelUpMenu.removeImmediateProfessionPerk(professionIndex);
+            }
+
+            didResetCombat = true;
+        }
+        else
+        {
+            foreach (var arg in args)
+            {
+                if (!Enum.TryParse<SkillType>(arg, true, out var skillType))
+                {
+                    Log.W($"Ignoring unknown skill {arg}.");
+                    continue;
+                }
+
+                var toRemove = Game1.player.GetAllProfessionsForSkill((int) skillType);
+                foreach (var professionIndex in toRemove) Game1.player.professions.Remove(professionIndex);
+
+                if (skillType == SkillType.Combat) didResetCombat = true;
+            }
         }
 
+        if (!didResetCombat) return;
+        
+        ModEntry.PlayerState.Value.RegisteredUltimate = null;
+        Game1.player.WriteData(DataField.UltimateIndex, null);
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 

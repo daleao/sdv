@@ -504,13 +504,16 @@ internal static class HarmonyPatcher
                         output = new(Constants.WHITE_ALGAE_INDEX_I, whiteAlgaeCount);
                         break;
                     default:
-                    {
-                        if (seaweedCount > 0) output = new(Constants.SEAWEED_INDEX_I, seaweedCount);
-                        if (greenAlgaeCount > seaweedCount) output = new(Constants.GREEN_ALGAE_INDEX_I, greenAlgaeCount);
-                        if (whiteAlgaeCount > greenAlgaeCount) output = new(Constants.WHITE_ALGAE_INDEX_I, whiteAlgaeCount);
+                        if (seaweedCount > 0 && seaweedCount > greenAlgaeCount && seaweedCount > whiteAlgaeCount)
+                            output = new(Constants.SEAWEED_INDEX_I, seaweedCount);
+                        else if (greenAlgaeCount > 0 && greenAlgaeCount > seaweedCount &&
+                                 greenAlgaeCount > whiteAlgaeCount)
+                            output = new(Constants.GREEN_ALGAE_INDEX_I, greenAlgaeCount);
+                        else if (whiteAlgaeCount > 0 && whiteAlgaeCount > seaweedCount &&
+                                 whiteAlgaeCount > greenAlgaeCount)
+                            output = new(Constants.WHITE_ALGAE_INDEX_I, whiteAlgaeCount);
                         else output = null;
                         break;
-                    }
                 }
 
                 if (output is not null) produce.Remove((output.ParentSheetIndex, output.Stack));
@@ -603,7 +606,8 @@ internal static class HarmonyPatcher
         [HarmonyPostfix]
         protected static void Postfix(FishPond __instance)
         {
-            if (__instance.currentOccupants.Value >= __instance.maxOccupants.Value) return;
+            if (__instance.currentOccupants.Value >= __instance.maxOccupants.Value &&
+                !__instance.hasSpawnedFish.Value) return;
 
             var r = new Random(Guid.NewGuid().GetHashCode());
             if (__instance.fishType.Value.IsAlgae())

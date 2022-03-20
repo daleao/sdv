@@ -23,9 +23,20 @@ public class ObjectInformationEditor : IAssetEditor
         if (asset.AssetNameEquals(PathUtilities.NormalizeAssetName("Data/ObjectInformation")))
         {
             var data = asset.AsDictionary<int, string>().Data;
-
             string[] fields;
-            if (ModEntry.Config.ForgeIridiumBand)
+
+            if (ModEntry.Config.RebalancedRings)
+            {
+                fields = data[Framework.Constants.TOPAZ_RING_INDEX_I].Split('/');
+                fields[5] = ModEntry.ModHelper.Translation.Get("rings.topaz");
+                data[Framework.Constants.TOPAZ_RING_INDEX_I] = string.Join('/', fields);
+
+                fields = data[Framework.Constants.JADE_RING_INDEX_I].Split('/');
+                fields[5] = ModEntry.ModHelper.Translation.Get("rings.jade");
+                data[Framework.Constants.JADE_RING_INDEX_I] = string.Join('/', fields);
+            }
+
+            if (ModEntry.Config.ForgeableIridiumBand)
             {
                 fields = data[Framework.Constants.IRIDIUM_BAND_INDEX_I].Split('/');
                 fields[5] = ModEntry.ModHelper.Translation.Get("rings.iridium");

@@ -11,10 +11,10 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FarmerGetProfessionForSkill : BasePatch
+internal class FarmerGetProfessionForSkillPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
-    internal FarmerGetProfessionForSkill()
+    internal FarmerGetProfessionForSkillPatch()
     {
         Original = RequireMethod<Farmer>(nameof(Farmer.getProfessionForSkill));
     }
@@ -29,6 +29,12 @@ internal class FarmerGetProfessionForSkill : BasePatch
         if (!ModEntry.Config.EnablePrestige) return true; // run original logic
 
         var branch = __instance.GetCurrentBranchForSkill(skillType);
+        if (branch < 0)
+        {
+            __result = -1;
+            return false; // don't run original logic
+        }
+
         __result = skillLevel switch
         {
             5 => branch,

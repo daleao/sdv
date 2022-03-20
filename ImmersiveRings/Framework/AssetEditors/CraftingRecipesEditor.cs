@@ -25,7 +25,7 @@ public class CraftingRecipesEditor : IAssetEditor
             var data = asset.AsDictionary<string, string>().Data;
 
             string[] fields;
-            if (ModEntry.Config.BetterGlowstoneRecipe)
+            if (ModEntry.Config.ImmersiveGlowstoneRecipe)
             {
                 fields = data["Glowstone Ring"].Split('/');
                 fields[0] = "517 1 519 1 768 20 769 20";
@@ -33,23 +33,23 @@ public class CraftingRecipesEditor : IAssetEditor
 
             }
 
-            if (ModEntry.Config.NewGlowAndMagnetRecipes)
+            if (ModEntry.Config.CraftableGlowAndMagnetRings)
             {
-                data["Glow Ring"] = "516 2 768 5/Home/517/Ring/Mining 2";
-                data["Magnet Ring"] = "518 2 769 5/Home/519/Ring/Mining 2";
+                data["Glow Ring"] = "516 2 768 10/Home/517/Ring/Mining 2";
+                data["Magnet Ring"] = "518 2 769 10/Home/519/Ring/Mining 2";
             }
 
-            if (ModEntry.Config.NewGemstoneRecipe)
+            if (ModEntry.Config.CraftableGemRings)
             {
-                data["Amethyst Ring"] = "66 1 334 1/Home/529/Ring/Combat 2";
-                data["Topaz Ring"] = "68 1 334 1/Home/530/Ring/Combat 2";
-                data["Aquamarine Ring"] = "62 1 335 1/Home/531/Ring/Combat 4";
-                data["Jade Ring"] = "70 1 335 1/Home/532/Ring/Combat 4";
-                data["Emerald Ring"] = "60 1 336 1/Home/533/Ring/Combat 6";
-                data["Ruby Ring"] = "64 1 336 1/Home/534/Ring/Combat 6";
+                data["Amethyst Ring"] = "66 1 334 5/Home/529/Ring/Combat 2";
+                data["Topaz Ring"] = "68 1 334 5/Home/530/Ring/Combat 2";
+                data["Aquamarine Ring"] = "62 1 335 5/Home/531/Ring/Combat 4";
+                data["Jade Ring"] = "70 1 335 5/Home/532/Ring/Combat 4";
+                data["Emerald Ring"] = "60 1 336 5/Home/533/Ring/Combat 6";
+                data["Ruby Ring"] = "64 1 336 5/Home/534/Ring/Combat 6";
             }
 
-            if (ModEntry.Config.ForgeIridiumBand)
+            if (ModEntry.Config.ForgeableIridiumBand)
             {
                 fields = data["Iridium Band"].Split('/');
                 fields[0] = "337 5 768 100 769 100";

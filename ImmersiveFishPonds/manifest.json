@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Aquarism - Immersive Fish Ponds",
   "Author": "DaLion",
-  "Version": "2.0.3",
+  "Version": "2.0.4",
   "Description": "Make your Fish Ponds immersive and actually useful.",
   "UniqueID": "DaLion.ImmersiveFishPonds",
   "EntryDll": "ImmersiveFishPonds.dll",
