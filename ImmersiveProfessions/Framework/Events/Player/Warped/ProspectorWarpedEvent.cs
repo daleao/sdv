@@ -18,9 +18,9 @@ internal class ProspectorWarpedEvent : WarpedEvent
     {
         if (e.NewLocation.Equals(e.OldLocation)) return;
 
-        ModEntry.PlayerState.Value.ProspectorHunt ??= new ProspectorHunt();
-        if (ModEntry.PlayerState.Value.ProspectorHunt.IsActive) ModEntry.PlayerState.Value.ProspectorHunt.Fail();
+        ModEntry.PlayerState.ProspectorHunt ??= new ProspectorHunt();
+        if (ModEntry.PlayerState.ProspectorHunt.IsActive) ModEntry.PlayerState.ProspectorHunt.Fail();
         if (!Game1.eventUp && e.NewLocation is MineShaft shaft && !shaft.IsTreasureOrSafeRoom())
-            ModEntry.PlayerState.Value.ProspectorHunt.TryStartNewHunt(e.NewLocation);
+            ModEntry.PlayerState.ProspectorHunt.TryStartNewHunt(e.NewLocation);
     }
 }

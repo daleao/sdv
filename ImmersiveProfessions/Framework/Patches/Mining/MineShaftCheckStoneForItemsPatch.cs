@@ -39,7 +39,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: if (who.professions.Contains(<spelunker_id>) chanceForLadderDown += ModEntry.PlayerState.Value.SpelunkerLadderStreak * 0.005;
+        /// Injected: if (who.professions.Contains(<spelunker_id>) chanceForLadderDown += ModEntry.PlayerState.SpelunkerLadderStreak * 0.005;
         /// After: if (EnemyCount == 0) chanceForLadderDown += 0.04;
 
         var resumeExecution = generator.DefineLabel();

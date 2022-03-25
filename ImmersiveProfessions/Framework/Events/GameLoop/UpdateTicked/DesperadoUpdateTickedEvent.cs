@@ -19,7 +19,7 @@ internal class DesperadoUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
         if (Game1.player.CurrentTool is not Slingshot slingshot || !Game1.player.usingSlingshot ||
-            ModEntry.PlayerState.Value.RegisteredUltimate is DeathBlossom {IsActive: true})
+            ModEntry.PlayerState.RegisteredUltimate is DeathBlossom {IsActive: true})
             return;
 
         var overcharge = slingshot.GetDesperadoOvercharge(Game1.player);

@@ -23,7 +23,7 @@ internal class FarmerEatObjectPatch : BasePatch
     [HarmonyPrefix]
     private static bool FarmerEatObjectPrefix()
     {
-        if (ModEntry.PlayerState.Value.RegisteredUltimate?.IsActive != true) return true; // run original logic
+        if (ModEntry.PlayerState.RegisteredUltimate?.IsActive != true) return true; // run original logic
 
         Game1.playSound("cancel");
         Game1.showRedMessage(ModEntry.ModHelper.Translation.Get("ulti.canteat"));

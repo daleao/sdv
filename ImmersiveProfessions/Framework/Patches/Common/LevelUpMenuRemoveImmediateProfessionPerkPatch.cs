@@ -52,14 +52,14 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
         EventManager.DisableAllForProfession(profession);
 
         // unregister Ultimate
-        if (ModEntry.PlayerState.Value.RegisteredUltimate?.Index != (UltimateIndex) whichProfession) return;
+        if (ModEntry.PlayerState.RegisteredUltimate?.Index != (UltimateIndex) whichProfession) return;
 
         if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
             var firstIndex = (UltimateIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
             Game1.player.WriteData(DataField.UltimateIndex, firstIndex.ToString());
 #pragma warning disable CS8509
-            ModEntry.PlayerState.Value.RegisteredUltimate = firstIndex switch
+            ModEntry.PlayerState.RegisteredUltimate = firstIndex switch
 #pragma warning restore CS8509
             {
                 UltimateIndex.Brute => new Frenzy(),
@@ -71,7 +71,7 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
         else
         {
             Game1.player.WriteData(DataField.UltimateIndex, null);
-            ModEntry.PlayerState.Value.RegisteredUltimate = null;
+            ModEntry.PlayerState.RegisteredUltimate = null;
         }
     }
 

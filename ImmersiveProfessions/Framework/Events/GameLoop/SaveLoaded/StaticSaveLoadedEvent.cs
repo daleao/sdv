@@ -65,9 +65,9 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
             // initialize
         if (superModeIndex > UltimateIndex.None)
         {
-            ModEntry.PlayerState.Value.RegisteredUltimate =
+            ModEntry.PlayerState.RegisteredUltimate =
 #pragma warning disable CS8509
-                ModEntry.PlayerState.Value.RegisteredUltimate = superModeIndex switch
+                ModEntry.PlayerState.RegisteredUltimate = superModeIndex switch
 #pragma warning restore CS8509
                 {
                     UltimateIndex.Brute => new Frenzy(),

@@ -49,6 +49,8 @@ public static class FishPondExtensions
     /// <param name="who">The player.</param>
     public static void RewardExp(this FishPond pond, Farmer who)
     {
+        if (pond.ReadDataAs<bool>("CheckedToday")) return;
+
         var bonus = (int) (pond.output.Value is SObject @object
             ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
             : 0);
@@ -109,6 +111,7 @@ public static class FishPondExtensions
             }
         }
 
+        pond.WriteData("CheckedToday", true.ToString());
         return true; // expected by vanilla code
     }
 }

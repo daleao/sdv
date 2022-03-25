@@ -11,6 +11,6 @@ internal class UltimateButtonsChangedEvent : ButtonsChangedEvent
     /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object sender, ButtonsChangedEventArgs e)
     {
-        ModEntry.PlayerState.Value.RegisteredUltimate.CheckForActivation();
+        ModEntry.PlayerState.RegisteredUltimate.CheckForActivation();
     }
 }

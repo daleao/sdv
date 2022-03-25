@@ -11,6 +11,6 @@ internal class UltimateUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.Config.UltimateKey.IsDown()) ModEntry.PlayerState.Value.RegisteredUltimate.UpdateInput();
+        if (ModEntry.Config.UltimateKey.IsDown()) ModEntry.PlayerState.RegisteredUltimate.UpdateInput();
     }
 }

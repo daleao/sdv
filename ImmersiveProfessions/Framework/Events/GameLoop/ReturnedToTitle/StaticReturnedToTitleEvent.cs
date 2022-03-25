@@ -23,6 +23,6 @@ internal class StaticReturnedToTitleEvent : ReturnedToTitleEvent
         EventManager.DisableAllForLocalPlayer();
 
         // reset mod state
-        ModEntry.PlayerState.Value = new();
+        ModEntry.PlayerState = new();
     }
 }

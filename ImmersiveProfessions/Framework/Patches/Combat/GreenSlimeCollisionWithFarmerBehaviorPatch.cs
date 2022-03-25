@@ -33,11 +33,11 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
 
         var who = __instance.Player;
         if (!who.IsLocalPlayer ||
-            ModEntry.PlayerState.Value.RegisteredUltimate is not Pandemonia {IsActive: false} pandemonium ||
-            ModEntry.PlayerState.Value.SlimeContactTimer > 0) return;
+            ModEntry.PlayerState.RegisteredUltimate is not Pandemonia {IsActive: false} pandemonium ||
+            ModEntry.PlayerState.SlimeContactTimer > 0) return;
 
         pandemonium.ChargeValue += Game1.random.Next(1, 4);
-        ModEntry.PlayerState.Value.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
+        ModEntry.PlayerState.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
     }
 
     #endregion harmony patches

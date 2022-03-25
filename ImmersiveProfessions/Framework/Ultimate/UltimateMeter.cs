@@ -58,7 +58,7 @@ internal class UltimateMeter
     {
         if (_opacity <= 0f) return;
 
-        var isUltimateActive = ModEntry.PlayerState.Value.RegisteredUltimate.IsActive;
+        var isUltimateActive = ModEntry.PlayerState.RegisteredUltimate.IsActive;
         var bonusLevelHeight = (Ultimate.MaxValue - Ultimate.BASE_MAX_VALUE_I) * 0.2;
         
         // get bar position

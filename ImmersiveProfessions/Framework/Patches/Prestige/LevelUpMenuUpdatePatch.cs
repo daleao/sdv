@@ -277,8 +277,8 @@ internal class LevelUpMenuUpdatePatch : BasePatch
     private static bool ShouldProposeFinalQuestion(int chosenProfession)
     {
         return ModEntry.Config.EnablePrestige && chosenProfession is >= 26 and < 30 &&
-               ModEntry.PlayerState.Value.RegisteredUltimate is not null &&
-               (int) ModEntry.PlayerState.Value.RegisteredUltimate.Index != chosenProfession;
+               ModEntry.PlayerState.RegisteredUltimate is not null &&
+               (int) ModEntry.PlayerState.RegisteredUltimate.Index != chosenProfession;
     }
 
     private static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
@@ -288,7 +288,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
     private static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
     {
-        var oldProfessionKey = ModEntry.PlayerState.Value.RegisteredUltimate.Index.ToString().ToLower();
+        var oldProfessionKey = ModEntry.PlayerState.RegisteredUltimate.Index.ToString().ToLower();
         var oldProfessionDisplayName = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".name.male");
         var oldUlt = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".ulti");
         var newProfessionKey = chosenProfession.ToProfessionName().ToLower();
@@ -301,18 +301,18 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 {
                     pronoun,
                     oldProfession = oldProfessionDisplayName,
-                    oldBuff = oldUlt,
+                    oldUlti = oldUlt,
                     newProfession = newProfessionDisplayName,
-                    newBuff = newUlt
+                    newUlti = newUlt
                 }),
             Game1.currentLocation.createYesNoResponses(), delegate(Farmer _, string answer)
             {
                 if (answer == "Yes")
                 {
                     var newIndex = (UltimateIndex) chosenProfession;
-                    ModEntry.PlayerState.Value.RegisteredUltimate =
+                    ModEntry.PlayerState.RegisteredUltimate =
 #pragma warning disable CS8509
-                        ModEntry.PlayerState.Value.RegisteredUltimate = newIndex switch
+                        ModEntry.PlayerState.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
                         {
                             UltimateIndex.Brute => new Frenzy(),

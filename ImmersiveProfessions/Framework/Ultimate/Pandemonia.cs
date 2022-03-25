@@ -62,7 +62,7 @@ internal sealed class Pandemonia : Ultimate
             }
 
             slime.MakePipedSlime(Game1.player);
-            ModEntry.PlayerState.Value.PipedSlimes.Add(slime);
+            ModEntry.PlayerState.PipedSlimes.Add(slime);
         }
 
         var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
@@ -96,7 +96,7 @@ internal sealed class Pandemonia : Ultimate
     /// <inheritdoc />
     public override void Countdown(double elapsed)
     {
-        var piped = ModEntry.PlayerState.Value.PipedSlimes;
+        var piped = ModEntry.PlayerState.PipedSlimes;
         if (!piped.Any())
         {
             EventManager.Disable(typeof(UltimateCountdownUpdateTickedEvent));

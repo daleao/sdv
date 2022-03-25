@@ -37,7 +37,7 @@ internal class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: if (who.professions.Contains(100 + <brute_id>) swipeSpeed *= 1f - ModEntry.PlayerState.Value.BruteRageCounter * 0.005f;
+        /// Injected: if (who.professions.Contains(100 + <brute_id>) swipeSpeed *= 1f - ModEntry.PlayerState.BruteRageCounter * 0.005f;
         /// After: if (who.IsLocalPlayer)
 
         var skipRageBonus = generator.DefineLabel();

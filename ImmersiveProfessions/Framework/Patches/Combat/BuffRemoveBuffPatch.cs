@@ -27,7 +27,7 @@ internal class BuffRemoveBuffPatch : BasePatch
     private static void BuffUpdatePrefix(Buff __instance)
     {
         if (__instance.which == _which && __instance.millisecondsDuration <= 0)
-            Array.Clear(ModEntry.PlayerState.Value.AppliedPiperBuffs, 0, 12);
+            Array.Clear(ModEntry.PlayerState.AppliedPiperBuffs, 0, 12);
     }
 
     #endregion harmony patches

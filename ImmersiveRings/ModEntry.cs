@@ -18,6 +18,7 @@ using Integrations;
 public class ModEntry : Mod
 {
     internal static ModConfig Config { get; set; }
+
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
     internal static Action<string, LogLevel> Log { get; private set; }
@@ -35,10 +36,10 @@ public class ModEntry : Mod
         Config = helper.ReadConfig<ModConfig>();
 
         // register asset editors / loaders
+        helper.Content.AssetLoaders.Add(new AssetLoader());
         helper.Content.AssetEditors.Add(new CraftingRecipesEditor());
         helper.Content.AssetEditors.Add(new ObjectInformationEditor());
         helper.Content.AssetEditors.Add(new SpringObjectsEditor());
-        helper.Content.AssetLoaders.Add(new AssetLoader());
 
         // register events
         helper.Events.GameLoop.GameLaunched += OnGameLaunched;

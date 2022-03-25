@@ -22,7 +22,7 @@ internal class UltimateWarpedEvent : WarpedEvent
         }
         else
         {
-            ModEntry.PlayerState.Value.RegisteredUltimate.ChargeValue = 0.0;
+            ModEntry.PlayerState.RegisteredUltimate.ChargeValue = 0.0;
             EventManager.Disable(typeof(UltimateMeterRenderingHudEvent));
         }
     }

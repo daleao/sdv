@@ -100,14 +100,6 @@ internal static class ConsoleCommands
 
         BaseEnchantment enchantment = args[0].ToLower() switch
         {
-            // weapon enchants
-            "artful" => new ArchaeologistEnchantment(),
-            "bugkiller" => new BugKillerEnchantment(),
-            "crusader" => new CrusaderEnchantment(),
-            "vampiric" => new VampiricEnchantment(),
-            "haymaker" => new HaymakerEnchantment(),
-            "magic" or "starburst" => new MagicEnchantment(), // not implemented
-            // tool enchants
             "auto-hook" or "autohook" => new AutoHookEnchantment(),
             "archaeologist" => new ArchaeologistEnchantment(),
             "bottomless" => new BottomlessEnchantment(),
@@ -124,7 +116,7 @@ internal static class ConsoleCommands
 
         if (enchantment is null)
         {
-            Log.W($"Unknown enchantment type {args[0]}. Please enter a valid enchantment.");
+            Log.W($"Unknown tool enchantment {args[0]}. Please enter a valid enchantment.");
             return;
         }
 

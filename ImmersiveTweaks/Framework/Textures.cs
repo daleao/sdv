@@ -22,7 +22,6 @@ internal static class Textures
             376 => new(48, 0, 16, 16), // poppy
             402 => new(16, 16, 16, 16), // sweet pea
             418 => new(0, 16, 16, 16), // crocus
-            421 => new(32, 0, 16, 16), // sunflower
             591 => new(0, 0, 16, 16), // tulip
             593 => new(32, 0, 16, 16), // summer spangle
             595 => new(64, 0, 16, 16), // fairy rose

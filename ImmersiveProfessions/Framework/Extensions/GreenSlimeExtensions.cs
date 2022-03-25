@@ -63,7 +63,7 @@ public static class GreenSlimeExtensions
         slime.moveTowardPlayerThreshold.Value = slime.ReadDataAs<int>("OriginalAggroThreshold");
         slime.willDestroyObjectsUnderfoot = false;
         slime.WriteData("Piped", false.ToString());
-        ModEntry.PlayerState.Value.PipedSlimes.Remove(slime);
+        ModEntry.PlayerState.PipedSlimes.Remove(slime);
 
         var fakeFarmerId = slime.GetHashCode();
         ModEntry.HostState.FakeFarmers.Remove(fakeFarmerId);

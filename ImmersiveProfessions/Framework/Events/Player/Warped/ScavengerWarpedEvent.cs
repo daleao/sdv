@@ -16,10 +16,10 @@ internal class ScavengerWarpedEvent : WarpedEvent
     {
         if (e.NewLocation.Equals(e.OldLocation)) return;
 
-        ModEntry.PlayerState.Value.ScavengerHunt ??= new ScavengerHunt();
-        if (ModEntry.PlayerState.Value.ScavengerHunt.IsActive) ModEntry.PlayerState.Value.ScavengerHunt.Fail();
+        ModEntry.PlayerState.ScavengerHunt ??= new ScavengerHunt();
+        if (ModEntry.PlayerState.ScavengerHunt.IsActive) ModEntry.PlayerState.ScavengerHunt.Fail();
         if (!Game1.eventUp && e.NewLocation.IsOutdoors &&
             (ModEntry.Config.AllowScavengerHuntsOnFarm || !e.NewLocation.IsFarm))
-            ModEntry.PlayerState.Value.ScavengerHunt.TryStartNewHunt(e.NewLocation);
+            ModEntry.PlayerState.ScavengerHunt.TryStartNewHunt(e.NewLocation);
     }
 }

@@ -29,7 +29,7 @@ internal class SlingshotDrawPatch : BasePatch
     {
         var lastUser = __instance.getLastFarmerToUse();
         if (!lastUser.usingSlingshot || !lastUser.IsLocalPlayer || !lastUser.HasProfession(Profession.Desperado) ||
-            ModEntry.PlayerState.Value.RegisteredUltimate is DeathBlossom { IsActive: true })
+            ModEntry.PlayerState.RegisteredUltimate is DeathBlossom { IsActive: true })
             return;
 
         var overcharge = __instance.GetDesperadoOvercharge(Game1.player);

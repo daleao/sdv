@@ -38,7 +38,7 @@ internal class GreenSlimeUpdatePatch : BasePatch
     [HarmonyPostfix]
     private static void GreenSlimeUpdatePostfix(GreenSlime __instance)
     {
-        if (!ModEntry.PlayerState.Value.PipedSlimes.Contains(__instance)) return;
+        if (!ModEntry.PlayerState.PipedSlimes.Contains(__instance)) return;
 
         foreach (var monster in __instance.currentLocation.characters.OfType<Monster>().Where(m => !m.IsSlime()))
         {

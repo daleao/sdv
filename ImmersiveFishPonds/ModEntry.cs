@@ -9,6 +9,7 @@ using StardewModdingAPI;
 
 using Framework;
 using Framework.Events;
+using Framework.Patches.Integrations;
 
 #endregion using directives
 
@@ -29,14 +30,17 @@ public class ModEntry : Mod
         Log = Monitor.Log;
 
         // register asset editors
-        helper.Content.AssetEditors.Add(new AssetEditor());
+        helper.Content.AssetEditors.Add(new FishPondDataEditor());
 
         // hook events
         new SaveLoadedEvent().Hook();
         new SavingEvent().Hook();
 
         // apply harmony patches
-        new Harmony(ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
+        var harmony = new Harmony(ModManifest.UniqueID);
+        harmony.PatchAll(Assembly.GetExecutingAssembly());
+        if (helper.ModRegistry.IsLoaded("TehPers.FishingOverhaul"))
+            TehsFishingOverhaulPatches.Apply(harmony);
 
         // add debug commands
         ConsoleCommands.Register(helper.ConsoleCommands);

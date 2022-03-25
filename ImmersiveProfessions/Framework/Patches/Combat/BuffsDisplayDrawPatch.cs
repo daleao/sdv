@@ -31,7 +31,7 @@ internal class BuffsDisplayDrawPatch : BasePatch
         var pair = ___buffs.FirstOrDefault(p => p.Value.which == _buffId);
         if (pair.Value is null) return;
 
-        var counter = ModEntry.PlayerState.Value.BruteRageCounter;
+        var counter = ModEntry.PlayerState.BruteRageCounter;
         b.DrawString(Game1.tinyFont, counter.ToString(),
             new(pair.Key.bounds.Right - (counter >= 10 ? 16 : 8), pair.Key.bounds.Bottom - 24), Color.White);
     }

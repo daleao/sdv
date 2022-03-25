@@ -52,7 +52,7 @@ internal sealed class Frenzy : Ultimate
             monster.addedSpeed -= monster.Speed;
             monster.WriteData("Feared", true.ToString());
             monster.WriteData("FearTimer", 1000.ToString());
-            ModEntry.PlayerState.Value.FearedMonsters.Add(monster);
+            ModEntry.PlayerState.FearedMonsters.Add(monster);
         }
 
         //// fully recover health
@@ -62,7 +62,7 @@ internal sealed class Frenzy : Ultimate
         //who.currentLocation.debris.Add(new(healed,
         //    new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
         
-        ModEntry.PlayerState.Value.BruteKillCounter = 0;
+        ModEntry.PlayerState.BruteKillCounter = 0;
 
         Game1.buffsDisplay.removeOtherBuff(BuffId);
         Game1.buffsDisplay.addOtherBuff(
@@ -88,7 +88,7 @@ internal sealed class Frenzy : Ultimate
         Game1.buffsDisplay.removeOtherBuff(BuffId);
 
         var who = Game1.player;
-        var healed = (int) (who.maxHealth * ModEntry.PlayerState.Value.BruteKillCounter * 0.05f);
+        var healed = (int) (who.maxHealth * ModEntry.PlayerState.BruteKillCounter * 0.05f);
         who.health = Math.Min(who.health + healed, who.maxHealth);
         who.currentLocation.debris.Add(new(healed,
             new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
@@ -99,7 +99,7 @@ internal sealed class Frenzy : Ultimate
     {
         ChargeValue -= elapsed * 0.12 / 18.0;
 
-        var feared = ModEntry.PlayerState.Value.FearedMonsters.ToArray();
+        var feared = ModEntry.PlayerState.FearedMonsters.ToArray();
         foreach (var monster in feared)
         {
             monster.IncrementData("FearTimer", -elapsed);
@@ -107,7 +107,7 @@ internal sealed class Frenzy : Ultimate
 
             monster.addedSpeed += monster.Speed;
             monster.WriteData("FearTimer", null);
-            ModEntry.PlayerState.Value.FearedMonsters.Remove(monster);
+            ModEntry.PlayerState.FearedMonsters.Remove(monster);
         }
 
         //_elapsedSinceDoT += elapsed;

@@ -38,7 +38,7 @@ internal class FarmerGainExperiencePatch : BasePatch
     {
         try
         {
-            if (which is < (int) SkillType.Farming or > (int) SkillType.Combat || howMuch <= 0)
+            if (which is < (int) SkillType.Farming or > (int) SkillType.Luck || howMuch <= 0)
                 return false; // don't run original logic
 
             if (!__instance.IsLocalPlayer)
@@ -71,7 +71,7 @@ internal class FarmerGainExperiencePatch : BasePatch
                 }
             }
 
-            if (!ModEntry.PlayerState.Value.RevalidatedLevelThisSession)
+            if (!ModEntry.PlayerState.RevalidatedLevelThisSession)
             {
                 var expectedLevel = 0;
                 var i = 0;
@@ -96,7 +96,7 @@ internal class FarmerGainExperiencePatch : BasePatch
                     Game1.player.SetSkillLevel((SkillType) which, expectedLevel);
                 }
 
-                ModEntry.PlayerState.Value.RevalidatedLevelThisSession = true;
+                ModEntry.PlayerState.RevalidatedLevelThisSession = true;
             }
 
             howMuch = (int) (howMuch * ModEntry.Config.BaseSkillExpMultiplierPerSkill[which]);

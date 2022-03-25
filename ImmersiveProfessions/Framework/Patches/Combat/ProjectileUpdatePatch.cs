@@ -47,7 +47,7 @@ internal class ProjectileUpdatePatch : BasePatch
         if (!damagesMonsters) return;
 
         // check for overcharge
-        if (!ModEntry.PlayerState.Value.OverchargedBullets.TryGetValue(__instance.GetHashCode(), out var overcharge))
+        if (!ModEntry.PlayerState.OverchargedBullets.TryGetValue(__instance.GetHashCode(), out var overcharge))
             return;
 
         var bulletPower = 1f + overcharge;
@@ -56,7 +56,7 @@ internal class ProjectileUpdatePatch : BasePatch
         // check if already collided
         if (__result)
         {
-            if (!ModEntry.PlayerState.Value.PiercedBullets.Remove(projectile.GetHashCode())) return;
+            if (!ModEntry.PlayerState.PiercedBullets.Remove(projectile.GetHashCode())) return;
 
             projectile.damageToFarmer.Value = (int) (projectile.damageToFarmer.Value * 0.6f);
             __result = false;

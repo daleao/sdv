@@ -22,7 +22,7 @@ internal static class Localization
             case LocalizedContentManager.LanguageCode.fr:
             case LocalizedContentManager.LanguageCode.pt:
                 return ModEntry.ModHelper.Translation.Get("pronoun.definite" +
-                                                          (ModEntry.PlayerState.Value.RegisteredUltimate is Ambush
+                                                          (ModEntry.PlayerState.RegisteredUltimate is Ambush
                                                               ? ".male"
                                                               : ".female"));
 

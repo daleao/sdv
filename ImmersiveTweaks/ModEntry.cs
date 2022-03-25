@@ -3,12 +3,14 @@
 #region using directives
 
 using System;
+using System.Reflection;
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
-using Framework;
-using Integrations;
 using Framework.AssetLoaders;
+using Framework.Patches.Integrations;
+using Integrations;
 
 #endregion using directives
 
@@ -16,6 +18,7 @@ using Framework.AssetLoaders;
 public class ModEntry : Mod
 {
     internal static ModConfig Config { get; set; }
+
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
     internal static Action<string, LogLevel> Log { get; private set; }
@@ -39,7 +42,14 @@ public class ModEntry : Mod
         helper.Events.GameLoop.GameLaunched += OnGameLaunched;
 
         // apply harmony patches
-        PatchManager.ApplyAll(Manifest.UniqueID);
+        var harmony = new Harmony(Manifest.UniqueID);
+        harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+        if (helper.ModRegistry.IsLoaded("Pathoschild.Automate"))
+            AutomatePatches.Apply(harmony);
+
+        if (helper.ModRegistry.IsLoaded("cat.betterartisangoodicons"))
+            BetterArtisanGoodIconsPatches.Apply(harmony);
     }
 
     /// <summary>Raised after the game is launched, right before the first update tick.</summary>

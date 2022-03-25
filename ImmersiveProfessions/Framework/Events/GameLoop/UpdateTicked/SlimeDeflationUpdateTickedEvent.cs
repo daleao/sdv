@@ -14,11 +14,11 @@ internal class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        var undeflated = ModEntry.PlayerState.Value.PipedSlimes.Where(b => b.ReadDataAs<double>("PipeTimer") <= 0)
+        var undeflated = ModEntry.PlayerState.PipedSlimes.Where(b => b.ReadDataAs<double>("PipeTimer") <= 0)
             .ToArray();
         foreach (var piped in undeflated)
             piped.Deflate();
 
-        if (!ModEntry.PlayerState.Value.PipedSlimes.Any()) Disable();
+        if (!ModEntry.PlayerState.PipedSlimes.Any()) Disable();
     }
 }

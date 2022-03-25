@@ -9,7 +9,6 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
-using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
@@ -38,9 +37,6 @@ public class ModEntry : Mod
         // store reference to logger
         Log = Monitor.Log;
 
-        // register events
-        Helper.Events.GameLoop.DayStarted += OnDayStarted;
-
         // apply harmony patch
         var target = 
         new Harmony(ModManifest.UniqueID).Patch(
@@ -48,17 +44,6 @@ public class ModEntry : Mod
                 .MethodNamed("OnOutputTaken"),
             prefix: new(typeof(ModEntry).MethodNamed(nameof(FishPondMachineOnOutputTakenPrefix)))
         );
-    }
-
-    /// <summary>Raised after a new in-game day starts, or after connecting to a multiplayer world.</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnDayStarted(object sender, DayStartedEventArgs e)
-    {
-        foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
-                     (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-                     !p.isUnderConstruction()))
-            pond.WriteData("HarvestedToday", false.ToString());
     }
 
     /// <summary>Harvest produce from mod data until none are left.</summary>
@@ -103,7 +88,7 @@ public class ModEntry : Mod
                 machine.WriteData("ItemsHeld", string.Join(";", produce));
             }
 
-            if (machine.ReadDataAs<bool>("HarvestedToday")) return false; // don't run original logic
+            if (machine.ReadDataAs<bool>("CheckedToday")) return false; // don't run original logic
 
             var bonus = (int) (item is SObject @object
                 ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
@@ -113,7 +98,7 @@ public class ModEntry : Mod
             ((Farmer) _GetOwner.Invoke(__instance, null))?.gainExperience((int) SkillType.Fishing,
                 FishPond.HARVEST_BASE_EXP + bonus);
 
-            machine.WriteData("HarvestedToday", true.ToString());
+            machine.WriteData("CheckedToday", true.ToString());
             return false; // don't run original logic
         }
         catch (InvalidOperationException ex) when (machine is not null)

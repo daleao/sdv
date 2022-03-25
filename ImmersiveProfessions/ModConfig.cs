@@ -107,7 +107,7 @@ public class ModConfig
 
     /// <summary>Multiplies all skill experience gained from the start of the game.</summary>
     /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat.</remarks>
-    public float[] BaseSkillExpMultiplierPerSkill { get; set; } = { 1f, 1f, 1f, 1f, 1f };
+    public float[] BaseSkillExpMultiplierPerSkill { get; set; } = { 1f, 1f, 1f, 1f, 1f, 1f };
 
     /// <summary>Increases the health of all monsters.</summary>
     public float MonsterHealthMultiplier { get; set; } = 1f;

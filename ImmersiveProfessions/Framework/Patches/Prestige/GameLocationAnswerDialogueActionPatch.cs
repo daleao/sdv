@@ -156,13 +156,13 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                 }
                 case "dogStatue_changeUlt":
                 {
-                    var currentProfessionKey = ModEntry.PlayerState.Value.RegisteredUltimate.Index.ToString().ToLower();
+                    var currentProfessionKey = ModEntry.PlayerState.RegisteredUltimate.Index.ToString().ToLower();
                     var currentProfessionDisplayName =
                         ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".name.male");
-                    var currentBuff = ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".buff");
+                    var currentUlti = ModEntry.ModHelper.Translation.Get(currentProfessionKey + ".ulti");
                     var pronoun = Localization.GetBuffPronoun();
                     var message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.replace",
-                        new {pronoun, currentProfession = currentProfessionDisplayName, currentBuff});
+                        new {pronoun, currentProfession = currentProfessionDisplayName, currentBuff = currentUlti});
 
                     var choices = (
                         from superModeIndex in Game1.player.GetUnchosenUltimates()
@@ -170,10 +170,10 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         let choiceProfessionKey = superModeIndex.ToString().ToLower()
                         let choiceProfessionDisplayName =
                             ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".name.male")
-                        let choiceBuff = ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".ulti")
+                        let choiceUlti = ModEntry.ModHelper.Translation.Get(choiceProfessionKey + ".ulti")
                         let choice =
                             ModEntry.ModHelper.Translation.Get("prestige.dogstatue.choice",
-                                new {choiceProfession = choiceProfessionDisplayName, choiceBuff})
+                                new {choiceProfession = choiceProfessionDisplayName, choiceBuff = choiceUlti})
                         select new Response("Choice_" + superModeIndex, choice)).ToList();
 
                     choices.Add(new Response("Cancel", ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cancel"))
@@ -187,9 +187,9 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
 
                         // change ultimate
                         var newIndex = Enum.Parse<UltimateIndex>(choice.Split("_")[1]);
-                        ModEntry.PlayerState.Value.RegisteredUltimate =
+                        ModEntry.PlayerState.RegisteredUltimate =
 #pragma warning disable CS8509
-                            ModEntry.PlayerState.Value.RegisteredUltimate = newIndex switch
+                            ModEntry.PlayerState.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
                             {
                                 UltimateIndex.Brute => new Frenzy(),
@@ -216,7 +216,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
                         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
-                        ModEntry.PlayerState.Value.UsedDogStatueToday = true;
+                        ModEntry.PlayerState.UsedDogStatueToday = true;
                         EventManager.Enable(typeof(PrestigeDayStartedEvent));
                     });
                     return false; // don't run original logic
@@ -285,7 +285,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
                         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
-                        ModEntry.PlayerState.Value.UsedDogStatueToday = true;
+                        ModEntry.PlayerState.UsedDogStatueToday = true;
                         EventManager.Enable(typeof(PrestigeDayStartedEvent));
                     }
 

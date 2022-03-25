@@ -59,13 +59,13 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
             ModEntry.ModHelper.Multiplayer.SendMessage("Conservationism", "RequestEvent",
                 new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
 
-        if (whichProfession is < 26 or >= 30 || ModEntry.PlayerState.Value.RegisteredUltimate is not null) return;
+        if (whichProfession is < 26 or >= 30 || ModEntry.PlayerState.RegisteredUltimate is not null) return;
         
         // register Ultimate
         var newIndex = (UltimateIndex) whichProfession;
-        ModEntry.PlayerState.Value.RegisteredUltimate =
+        ModEntry.PlayerState.RegisteredUltimate =
 #pragma warning disable CS8509
-            ModEntry.PlayerState.Value.RegisteredUltimate = newIndex switch
+            ModEntry.PlayerState.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
             {
                 UltimateIndex.Brute => new Frenzy(),

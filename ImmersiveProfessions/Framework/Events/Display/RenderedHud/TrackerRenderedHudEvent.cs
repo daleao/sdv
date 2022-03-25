@@ -19,11 +19,11 @@ internal class TrackerRenderedHudEvent : RenderedHudEvent
     {
         // reveal on-screen trackable objects
         foreach (var pair in Game1.currentLocation.Objects.Pairs.Where(p => p.Value.ShouldBeTracked()))
-            ModEntry.PlayerState.Value.Pointer.DrawOverTile(pair.Key, Color.Yellow);
+            ModEntry.PlayerState.Pointer.DrawOverTile(pair.Key, Color.Yellow);
 
         if (!Game1.player.HasProfession(Profession.Prospector) || Game1.currentLocation is not MineShaft shaft) return;
 
         // reveal on-screen ladders and shafts
-        foreach (var tile in shaft.GetLadderTiles()) ModEntry.PlayerState.Value.Pointer.DrawOverTile(tile, Color.Lime);
+        foreach (var tile in shaft.GetLadderTiles()) ModEntry.PlayerState.Pointer.DrawOverTile(tile, Color.Lime);
     }
 }

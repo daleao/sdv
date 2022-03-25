@@ -175,7 +175,7 @@
   "prestige.skillpage.tooltip": "{{count}}/4 个获得的职业：",
   "prestige.levelup.tooltip:5": "你已经拥有这个分支的所有职业。",
   "prestige.levelup.tooltip:10": "你已经有这个职业了。",
-  "prestige.levelup.question": "目前已经拥有 {{oldProfession}}的{{oldBuff}}。是否替换为{{newProfession}}的 {{newBuff}}？",
+  "prestige.levelup.question": "目前已经拥有 {{oldProfession}}的{{oldUlti}}。是否替换为{{newProfession}}的 {{newUlti}}？",
   "prestige.levelup.unlocked": "您现在可以继续进一步发展您的{{whichSkill}} 技能。",
   "prestige.levelup.prestige": "选择一个职业来声望：",
   "prestige.achievement.name.male": "无所不能",

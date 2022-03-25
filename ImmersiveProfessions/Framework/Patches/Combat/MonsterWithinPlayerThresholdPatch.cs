@@ -32,7 +32,7 @@ internal class MonsterWithinPlayerThresholdPatch : BasePatch
         try
         {
             var player = Game1.getFarmer(__instance.ReadDataAs("Target", Game1.player.UniqueMultiplayerID));
-            if (!player.IsLocalPlayer || ModEntry.PlayerState.Value.RegisteredUltimate is not Ambush {IsActive: true})
+            if (!player.IsLocalPlayer || ModEntry.PlayerState.RegisteredUltimate is not Ambush {IsActive: true})
                 return true; // run original method
 
             __result = false;

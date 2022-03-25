@@ -11,6 +11,6 @@ internal class UltimateOverlayFadeInUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        ModEntry.PlayerState.Value.RegisteredUltimate.Overlay.FadeIn();
+        ModEntry.PlayerState.RegisteredUltimate.Overlay.FadeIn();
     }
 }

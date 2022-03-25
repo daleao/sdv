@@ -175,7 +175,7 @@
   "prestige.skillpage.tooltip": "{{count}}/4 profesiones adquiridas:",
   "prestige.levelup.tooltip:5": "Ya tienes todas las profesiones en esta rama.",
   "prestige.levelup.tooltip:10": "Ya tienes esta profesión.",
-  "prestige.levelup.question": "Actualmente registrado en {{pronoun}} {{oldBuff}} de {{oldProfession}}. ¿Reemplazar con el {{newBuff}} de {{newProfession}}?",
+  "prestige.levelup.question": "Actualmente registrado en {{pronoun}} {{oldUlti}} de {{oldProfession}}. ¿Reemplazar con el {{newUlti}} de {{newProfession}}?",
   "prestige.levelup.unlocked": "Ahora puedes continuar a desarrollar tu habilidad {{whichSkill}} aún más.",
   "prestige.levelup.prestige": "Elige una profesión para prestigiar:",
   "prestige.achievement.name.male": "Manitas",

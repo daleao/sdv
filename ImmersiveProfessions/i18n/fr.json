@@ -175,7 +175,7 @@
   "prestige.skillpage.tooltip": "{{count}}/4 professions acquises:",
   "prestige.levelup.tooltip:5": "Vous avez déjà tous les professions dans cette branche.",
   "prestige.levelup.tooltip:10": "Vous avez déjà cette profession.",
-  "prestige.levelup.question": "Actuellement enregistré {{pronoun}} {{oldBuff}} de {{oldProfession}}. Remplacer par la / le {{newBuff}} de {{newProfession}} ?",
+  "prestige.levelup.question": "Actuellement enregistré {{pronoun}} {{oldUlti}} de {{oldProfession}}. Remplacer par la / le {{newUlti}} de {{newProfession}} ?",
   "prestige.levelup.unlocked": "Vous pouvez désormais continuer à développer votre compétence {{whichSkill}} encore plus.",
   "prestige.levelup.prestige": "Choisir une profession à prestigier:",
   "prestige.achievement.name.male": "Touche-à-tout",

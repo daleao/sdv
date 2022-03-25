@@ -175,7 +175,7 @@
   "prestige.skillpage.tooltip": "습득한 직업 {{count}}/4:",
   "prestige.levelup.tooltip:5": "이미 이 분기의 모든 직업을 습득했습니다.",
   "prestige.levelup.tooltip:10": "이미 이 직업을 습득했습니다.",
-  "prestige.levelup.question": "현재 {{oldProfession}}의 {{oldBuff}}(이)가 있습니다. {{newProfession}}의 {{newBuff}}(으)로 변경할까요?",
+  "prestige.levelup.question": "현재 {{oldProfession}}의 {{oldUlti}}(이)가 있습니다. {{newProfession}}의 {{newUlti}}(으)로 변경할까요?",
   "prestige.levelup.unlocked": "이제 {{whichSkill}} 스킬을 더 발전시킬 수 있습니다.",
   "prestige.levelup.prestige": "명성을 얻을 직업을 고르세요:",
   "prestige.achievement.name.male": "재주꾼",

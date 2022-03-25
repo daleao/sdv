@@ -11,7 +11,7 @@ internal class PrestigeDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
     {
-        ModEntry.PlayerState.Value.UsedDogStatueToday = false;
+        ModEntry.PlayerState.UsedDogStatueToday = false;
         Disable();
     }
 }

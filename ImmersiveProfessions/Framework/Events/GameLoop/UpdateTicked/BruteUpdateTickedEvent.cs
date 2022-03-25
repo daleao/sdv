@@ -19,20 +19,20 @@ internal class BruteUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.PlayerState.Value.BruteRageCounter <= 0) return;
+        if (ModEntry.PlayerState.BruteRageCounter <= 0) return;
 
-        if (Game1.game1.IsActive && Game1.shouldTimePass() && ModEntry.PlayerState.Value.BruteRageCounter > 0 &&
+        if (Game1.game1.IsActive && Game1.shouldTimePass() && ModEntry.PlayerState.BruteRageCounter > 0 &&
             e.IsOneSecond)
         {
-            ++ModEntry.PlayerState.Value.SecondsSinceLastCombat;
+            ++ModEntry.PlayerState.SecondsSinceLastCombat;
             // decay counter every 5 seconds after 30 seconds out of combat
-            if (ModEntry.PlayerState.Value.SecondsSinceLastCombat > 30 && e.IsMultipleOf(300))
-                --ModEntry.PlayerState.Value.BruteRageCounter;
+            if (ModEntry.PlayerState.SecondsSinceLastCombat > 30 && e.IsMultipleOf(300))
+                --ModEntry.PlayerState.BruteRageCounter;
         }
 
         if (Game1.player.hasBuff(_buffId)) return;
 
-        var magnitude = (ModEntry.PlayerState.Value.BruteRageCounter * Frenzy.PCT_INCREMENT_PER_RAGE_F).ToString("P");
+        var magnitude = (ModEntry.PlayerState.BruteRageCounter * Frenzy.PCT_INCREMENT_PER_RAGE_F).ToString("P");
         Game1.buffsDisplay.addOtherBuff(
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,

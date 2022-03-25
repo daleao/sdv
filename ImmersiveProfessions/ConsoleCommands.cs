@@ -39,14 +39,14 @@ internal static class ConsoleCommands
         helper.Add("player_resetprofessions",
             "Remove all professions from the local player for the specified skills, or for all skills if none are specified.",
             ResetLocalPlayerProfessions);
-        helper.Add("player_readyult", "Max-out the Ultimate meter, or set it to the specified percentage.",
-            SetUltimateChargeValue);
-        helper.Add("player_registerult",
-            "Change the currently registered Ultimate.",
-            SetUltimateIndex);
         helper.Add("player_whichult",
             "Check the currently registered Ultimate.",
             PrintUltimateIndex);
+        helper.Add("player_registerult",
+            "Change the currently registered Ultimate.",
+            SetUltimateIndex);
+        helper.Add("player_readyult", "Max-out the Ultimate meter, or set it to the specified percentage.",
+            SetUltimateChargeValue);
         helper.Add("player_maxanimalfriendship",
             "Max-out the friendship of all owned animals.",
             SetMaxAnimalFriendship);
@@ -260,7 +260,10 @@ internal static class ConsoleCommands
                 profession = GetProfessionFromLocalizedName(arg.FirstCharToUpper());
 
             if (profession == Profession.Unknown)
+            {
                 Log.W($"Ignoring unknown profession {arg}.");
+                continue;
+            }
             
             if (!prestige && Game1.player.HasProfession(profession) ||
                 prestige && Game1.player.HasProfession(profession, true))
@@ -325,7 +328,7 @@ internal static class ConsoleCommands
 
         if (!didResetCombat) return;
         
-        ModEntry.PlayerState.Value.RegisteredUltimate = null;
+        ModEntry.PlayerState.RegisteredUltimate = null;
         Game1.player.WriteData(DataField.UltimateIndex, null);
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
@@ -339,7 +342,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (ModEntry.PlayerState.Value.RegisteredUltimate is null)
+        if (ModEntry.PlayerState.RegisteredUltimate is null)
         {
             Log.W("Not registered to an Ultimate.");
             return;
@@ -347,7 +350,7 @@ internal static class ConsoleCommands
 
         if (!args.Any())
         {
-            ModEntry.PlayerState.Value.RegisteredUltimate.ChargeValue = Ultimate.MaxValue;
+            ModEntry.PlayerState.RegisteredUltimate.ChargeValue = Ultimate.MaxValue;
             return;
         }
 
@@ -363,7 +366,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.PlayerState.Value.RegisteredUltimate.ChargeValue = Ultimate.MaxValue * (double)value / 100;
+        ModEntry.PlayerState.RegisteredUltimate.ChargeValue = Ultimate.MaxValue * (double)value / 100;
     }
 
     /// <summary>
@@ -404,7 +407,7 @@ internal static class ConsoleCommands
         }
 
 #pragma warning disable CS8509
-        ModEntry.PlayerState.Value.RegisteredUltimate = index switch
+        ModEntry.PlayerState.RegisteredUltimate = index switch
 #pragma warning restore CS8509
         {
             UltimateIndex.Brute => new Frenzy(),
@@ -418,16 +421,16 @@ internal static class ConsoleCommands
     /// <summary>Print the currently registered Ultimate.</summary>
     internal static void PrintUltimateIndex(string command, string[] args)
     {
-        if (ModEntry.PlayerState.Value.RegisteredUltimate is null)
+        if (ModEntry.PlayerState.RegisteredUltimate is null)
         {
             Log.I("Not registered to an Ultimate.");
             return;
         }
 
-        var key = ModEntry.PlayerState.Value.RegisteredUltimate.Index.ToString().ToLower();
+        var key = ModEntry.PlayerState.RegisteredUltimate.Index.ToString().ToLower();
         var professionDisplayName = ModEntry.ModHelper.Translation.Get(key + ".name.male");
-        var buffName = ModEntry.ModHelper.Translation.Get(key + ".ulti");
-        Log.I($"Registered to {professionDisplayName}'s {buffName}.");
+        var ultiName = ModEntry.ModHelper.Translation.Get(key + ".ulti");
+        Log.I($"Registered to {professionDisplayName}'s {ultiName}.");
     }
 
     /// <summary>Set all farm animals owned by the local player to the max friendship value.</summary>
@@ -691,15 +694,15 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (!ModEntry.PlayerState.Value.ScavengerHunt.IsActive && !ModEntry.PlayerState.Value.ProspectorHunt.IsActive)
+        if (!ModEntry.PlayerState.ScavengerHunt.IsActive && !ModEntry.PlayerState.ProspectorHunt.IsActive)
         {
             Log.W("There is no Treasure Hunt currently active.");
             return;
         }
 
-        if (ModEntry.PlayerState.Value.ScavengerHunt.IsActive)
+        if (ModEntry.PlayerState.ScavengerHunt.IsActive)
         {
-            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.PlayerState.Value.ScavengerHunt, "ChooseTreasureTile").Invoke<Vector2?>(Game1.currentLocation);
+            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.PlayerState.ScavengerHunt, "ChooseTreasureTile").Invoke<Vector2?>(Game1.currentLocation);
             if (v is null)
             {
                 Log.W("Couldn't find a valid treasure tile after 10 tries.");
@@ -707,24 +710,24 @@ internal static class ConsoleCommands
             }
 
             Game1.currentLocation.MakeTileDiggable(v.Value);
-            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.PlayerState.Value.ScavengerHunt, "TreasureTile")
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.PlayerState.ScavengerHunt, "TreasureTile")
                 .SetValue(v);
-            ModEntry.ModHelper.Reflection.GetField<uint>(ModEntry.PlayerState.Value.ScavengerHunt, "elapsed").SetValue(0);
+            ModEntry.ModHelper.Reflection.GetField<uint>(ModEntry.PlayerState.ScavengerHunt, "elapsed").SetValue(0);
 
             Log.I("The Scavenger Hunt was reset.");
         }
-        else if (ModEntry.PlayerState.Value.ProspectorHunt.IsActive)
+        else if (ModEntry.PlayerState.ProspectorHunt.IsActive)
         {
-            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.PlayerState.Value.ProspectorHunt, "ChooseTreasureTile").Invoke<Vector2?>(Game1.currentLocation);
+            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.PlayerState.ProspectorHunt, "ChooseTreasureTile").Invoke<Vector2?>(Game1.currentLocation);
             if (v is null)
             {
                 Log.W("Couldn't find a valid treasure tile after 10 tries.");
                 return;
             }
 
-            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.PlayerState.Value.ProspectorHunt, "TreasureTile")
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.PlayerState.ProspectorHunt, "TreasureTile")
                 .SetValue(v);
-            ModEntry.ModHelper.Reflection.GetField<int>(ModEntry.PlayerState.Value.ProspectorHunt, "Elapsed").SetValue(0);
+            ModEntry.ModHelper.Reflection.GetField<int>(ModEntry.PlayerState.ProspectorHunt, "Elapsed").SetValue(0);
 
             Log.I("The Prospector Hunt was reset.");
         }

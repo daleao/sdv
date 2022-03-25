@@ -11,12 +11,12 @@ internal class UltimateOverlayRenderedWorldEvent : RenderedWorldEvent
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object sender, RenderedWorldEventArgs e)
     {
-        if (ModEntry.PlayerState.Value.RegisteredUltimate is null)
+        if (ModEntry.PlayerState.RegisteredUltimate is null)
         {
             Disable();
             return;
         }
 
-        ModEntry.PlayerState.Value.RegisteredUltimate.Overlay.Draw(e.SpriteBatch);
+        ModEntry.PlayerState.RegisteredUltimate.Overlay.Draw(e.SpriteBatch);
     }
 }

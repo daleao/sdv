@@ -101,7 +101,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         /// From: if (who is not null && who.professions.Contains(<brute_id>)) ... *= 1.15f;
-        /// From: if (who is not null && who.IsLocalPlayer && who.professions.Contains(<brute_id>)) ... *= 1f + ModEntry.PlayerState.Value.BruteRageCounter * 0.01f;
+        /// From: if (who is not null && who.IsLocalPlayer && who.professions.Contains(<brute_id>)) ... *= 1f + ModEntry.PlayerState.BruteRageCounter * 0.01f;
 
         try
         {
@@ -143,7 +143,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         /// From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f;
-        /// To: if (who is not null && who.IsLocalPlayer && crit && ModEntry.PlayerState.Value.RegisteredUltimate is Ambush ambush && ambush.ShouldBuffCritPow()) ... *= 2f;
+        /// To: if (who is not null && who.IsLocalPlayer && crit && ModEntry.PlayerState.RegisteredUltimate is Ambush ambush && ambush.ShouldBuffCritPow()) ... *= 2f;
 
         var ambush = generator.DeclareLocal(typeof(Ambush));
         try
@@ -254,10 +254,10 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         // record last time in combat
         if (who.HasProfession(Profession.Brute))
         {
-            ModEntry.PlayerState.Value.SecondsSinceLastCombat = 0;
+            ModEntry.PlayerState.SecondsSinceLastCombat = 0;
             
             if (who.CurrentTool is MeleeWeapon weapon &&
-                ModEntry.PlayerState.Value.RegisteredUltimate is Frenzy frenzy && monster.Health <= 0)
+                ModEntry.PlayerState.RegisteredUltimate is Frenzy frenzy && monster.Health <= 0)
             {
                 if (frenzy.IsActive)
                 {
@@ -268,7 +268,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     //    new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
 
                     // increment kill count
-                    ++ModEntry.PlayerState.Value.BruteKillCounter;
+                    ++ModEntry.PlayerState.BruteKillCounter;
                 }
                 else
                 {
@@ -308,11 +308,11 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 }
 
                 // increment Poacher ultimate meter
-                if (ModEntry.PlayerState.Value.RegisteredUltimate is Ambush { IsActive: false } ambush1)
+                if (ModEntry.PlayerState.RegisteredUltimate is Ambush { IsActive: false } ambush1)
                     ambush1.ChargeValue += critMultiplier;
             }
 
-            if (ModEntry.PlayerState.Value.RegisteredUltimate is Ambush { IsActive: true } ambush2)
+            if (ModEntry.PlayerState.RegisteredUltimate is Ambush { IsActive: true } ambush2)
                 ambush2.Deactivate();
         }
 
@@ -321,7 +321,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         // add Piper buffs
         if (r.NextDouble() < 0.16667 + who.DailyLuck / 2.0)
         {
-            var applied = ModEntry.PlayerState.Value.AppliedPiperBuffs;
+            var applied = ModEntry.PlayerState.AppliedPiperBuffs;
             var whatToBuff = r.Next(applied.Length);
             if (whatToBuff is not (3 or 6))
             {
@@ -385,7 +385,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         // increment ultimate meter
-        if (ModEntry.PlayerState.Value.RegisteredUltimate is Pandemonia {IsActive: false} pandemonium)
+        if (ModEntry.PlayerState.RegisteredUltimate is Pandemonia {IsActive: false} pandemonium)
         {
 #pragma warning disable CS8509
             var increment = monster switch

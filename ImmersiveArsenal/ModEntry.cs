@@ -1,4 +1,8 @@
-﻿namespace DaLion.Stardew.Arsenal;
+﻿using System.Reflection;
+using DaLion.Stardew.Arsenal.Framework.Events;
+using HarmonyLib;
+
+namespace DaLion.Stardew.Arsenal;
 
 #region using directives
 
@@ -15,6 +19,7 @@ using Integrations;
 public class ModEntry : Mod
 {
     internal static ModConfig Config { get; set; }
+
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
     internal static Action<string, LogLevel> Log { get; private set; }
@@ -32,13 +37,15 @@ public class ModEntry : Mod
         Config = helper.ReadConfig<ModConfig>();
 
         // register asset editors / loaders
-        helper.Content.AssetEditors.Add(new AssetEditor());
+        helper.Content.AssetEditors.Add(new WeaponsEditor());
 
         // register events
-        helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+        new ButtonPressedEvent().Hook();
+        new GameLaunchedEvent().Hook();
+        new UpdateTickedEvent().Hook();
 
         // apply harmony patches
-        PatchManager.ApplyAll(Manifest.UniqueID);
+        new Harmony(ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
 
         // add debug commands
         ConsoleCommands.Register(helper);

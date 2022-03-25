@@ -147,13 +147,13 @@ internal class SlingshotPerformFirePatch : BasePatch
         };
         location.projectiles.Add(projectile);
         if (overcharge > 1f)
-            ModEntry.PlayerState.Value.OverchargedBullets[projectile.GetHashCode()] = overcharge;
+            ModEntry.PlayerState.OverchargedBullets[projectile.GetHashCode()] = overcharge;
 
         // add auxiliary projectiles
         var velocity = new Vector2(x, y);
         var speed = velocity.Length();
         velocity.Normalize();
-        if (who.IsLocalPlayer && ModEntry.PlayerState.Value.RegisteredUltimate is DeathBlossom { IsActive: true })
+        if (who.IsLocalPlayer && ModEntry.PlayerState.RegisteredUltimate is DeathBlossom { IsActive: true })
         {
             // do Death Blossom
             for (var i = 0; i < 7; ++i)
@@ -170,7 +170,7 @@ internal class SlingshotPerformFirePatch : BasePatch
                 };
 
                 location.projectiles.Add(blossom);
-                ModEntry.PlayerState.Value.BlossomBullets.Add(blossom.GetHashCode());
+                ModEntry.PlayerState.BlossomBullets.Add(blossom.GetHashCode());
             }
         }
         else if (overcharge >= 1.5f && who.HasProfession(Profession.Desperado, true) && __instance.attachments[0].Stack >= 2)

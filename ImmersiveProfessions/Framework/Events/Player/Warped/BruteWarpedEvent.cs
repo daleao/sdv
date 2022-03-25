@@ -22,7 +22,7 @@ internal class BruteWarpedEvent : WarpedEvent
         }
         else
         {
-            ModEntry.PlayerState.Value.BruteRageCounter = 0;
+            ModEntry.PlayerState.BruteRageCounter = 0;
             EventManager.Disable(typeof(BruteUpdateTickedEvent));
         }
     }

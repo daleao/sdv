@@ -12,12 +12,12 @@ internal class UltimateMeterRenderingHudEvent : RenderingHudEvent
     /// <inheritdoc />
     protected override void OnRenderingHudImpl(object sender, RenderingHudEventArgs e)
     {
-        if (ModEntry.PlayerState.Value.RegisteredUltimate is null)
+        if (ModEntry.PlayerState.RegisteredUltimate is null)
         {
             Disable();
             return;
         }
 
-        if (!Game1.eventUp) ModEntry.PlayerState.Value.RegisteredUltimate.Meter.Draw(e.SpriteBatch);
+        if (!Game1.eventUp) ModEntry.PlayerState.RegisteredUltimate.Meter.Draw(e.SpriteBatch);
     }
 }

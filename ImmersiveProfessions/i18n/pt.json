@@ -175,7 +175,7 @@
   "prestige.skillpage.tooltip": "{{count}} / 4 profissões adquiridas:",
   "prestige.levelup.tooltip:5": "Você já possui todas as profissões neste ramo.",
   "prestige.levelup.tooltip:10": "Você já possui esta profissão.",
-  "prestige.levelup.question": "Atualmente registrado {{pronoun}} {{oldBuff}} de {{oldProfession}}. Deseja trocar pela(o) {{newBuff}} de {{newProfession}}?",
+  "prestige.levelup.question": "Atualmente registrado {{pronoun}} {{oldUlti}} de {{oldProfession}}. Deseja trocar pela(o) {{newUlti}} de {{newProfession}}?",
   "prestige.levelup.unlocked": "Você agora pode continuar desenvolvendo a sua habilidade {{whichSkill}} ainda mais.",
   "prestige.levelup.prestige": "Escolha uma profissão para prestigiar:",
   "prestige.achievement.name.male": "João-faz-tudo",

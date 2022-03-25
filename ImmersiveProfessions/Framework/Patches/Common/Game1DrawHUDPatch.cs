@@ -40,14 +40,14 @@ internal class Game1DrawHUDPatch : BasePatch
         // track ladders and shafts as Prospector
         if (Game1.player.HasProfession(Profession.Prospector) && Game1.currentLocation is MineShaft shaft)
             foreach (var tile in shaft.GetLadderTiles())
-                ModEntry.PlayerState.Value.Pointer.DrawAsTrackingPointer(tile, Color.Lime);
+                ModEntry.PlayerState.Pointer.DrawAsTrackingPointer(tile, Color.Lime);
         
         // track berry bushes as Scavenger
         else if (Game1.player.HasProfession(Profession.Scavenger) && Game1.currentLocation is {IsOutdoors: true} outdoors)
             foreach (var bush in outdoors.largeTerrainFeatures.OfType<Bush>().Where(b =>
                          !b.townBush.Value && b.tileSheetOffset.Value == 1 &&
                          b.inBloom(Game1.GetSeasonForLocation(outdoors), Game1.dayOfMonth)))
-                ModEntry.PlayerState.Value.Pointer.DrawAsTrackingPointer(bush.tilePosition.Value, Color.Yellow);
+                ModEntry.PlayerState.Pointer.DrawAsTrackingPointer(bush.tilePosition.Value, Color.Yellow);
     }
 
     /// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>

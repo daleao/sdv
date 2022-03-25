@@ -30,7 +30,7 @@ internal class SlingshotCanAutoFirePatch : BasePatch
         try
         {
             var who = __instance.getLastFarmerToUse();
-            if (who.IsLocalPlayer && ModEntry.PlayerState.Value.RegisteredUltimate is DeathBlossom {IsActive: true})
+            if (who.IsLocalPlayer && ModEntry.PlayerState.RegisteredUltimate is DeathBlossom {IsActive: true})
                 __result = true;
             else
                 __result = false;

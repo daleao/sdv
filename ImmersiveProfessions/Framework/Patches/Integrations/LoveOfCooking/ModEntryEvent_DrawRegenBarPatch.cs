@@ -43,7 +43,7 @@ internal class ModEntryEvent_DrawRegenBarPatch : BasePatch
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Inject: if (ModEntry.PlayerState.Value.RegisteredUltimate?.Meter.IsVisible) topOfBar.X -= 56f;
+        /// Inject: if (ModEntry.PlayerState.RegisteredUltimate?.Meter.IsVisible) topOfBar.X -= 56f;
         /// Before: e.SpriteBatch.Draw( ... )
 
         var resumeExecution = ilGenerator.DefineLabel();

@@ -37,6 +37,6 @@ internal class GenericModConfigMenuIntegrationForImmersiveArsenal
 
         // register
         _configMenu
-            .Register();
+            .Register(true);
     }
 }

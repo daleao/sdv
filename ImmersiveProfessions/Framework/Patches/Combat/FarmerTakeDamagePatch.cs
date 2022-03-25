@@ -146,9 +146,9 @@ internal class FarmerTakeDamagePatch : BasePatch
         }
 
         /// Injected: if (this.IsLocalPlayer && this.HasProfession(<brute_id>) && damager is not null)
-        ///     var frenzy = ModEntry.PlayerState.Value.Ultimate as Frenzy;
-        ///     ModEntry.PlayerState.Value.SecondsSinceLastCombat = 0;
-        ///     ModEntry.PlayerState.Value.BruteRageCounter = Math.Min(ModEntry.PlayerState.Value.BruteRageCounter + (frenzy?.IsActive ? 2 : 1), 100);
+        ///     var frenzy = ModEntry.PlayerState.Ultimate as Frenzy;
+        ///     ModEntry.PlayerState.SecondsSinceLastCombat = 0;
+        ///     ModEntry.PlayerState.BruteRageCounter = Math.Min(ModEntry.PlayerState.BruteRageCounter + (frenzy?.IsActive ? 2 : 1), 100);
         ///     if (!frenzy.IsActive)
         ///         frenzy.ChargeValue += damage / 4.0;
         /// At: end of method (before return)

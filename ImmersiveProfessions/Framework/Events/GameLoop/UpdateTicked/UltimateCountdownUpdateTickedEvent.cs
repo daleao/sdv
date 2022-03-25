@@ -14,6 +14,6 @@ internal class UltimateCountdownUpdateTickedEvent : UpdateTickedEvent
     {
         if (!Game1.game1.IsActive || !Game1.shouldTimePass()) return;
 
-        ModEntry.PlayerState.Value.RegisteredUltimate.Countdown(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds);
+        ModEntry.PlayerState.RegisteredUltimate.Countdown(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds);
     }
 }

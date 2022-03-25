@@ -175,7 +175,7 @@
   "prestige.skillpage.tooltip": "{{count}}/4 professions acquired:",
   "prestige.levelup.tooltip:5": "Already acquired all professions in this branch.",
   "prestige.levelup.tooltip:10": "Already acquired this profession.",
-  "prestige.levelup.question": "Currently registered to {{oldProfession}}'s {{oldBuff}}. Replace with {{newProfession}}'s {{newBuff}}?",
+  "prestige.levelup.question": "Currently registered to {{oldProfession}}'s {{oldUlti}}. Replace with {{newProfession}}'s {{newUlti}}?",
   "prestige.levelup.unlocked": "You can now continue to develop your {{whichSkill}} skill further.",
   "prestige.levelup.prestige": "Choose a profession to prestige:",
   "prestige.achievement.name.male": "Jack-Of-All-Trades",

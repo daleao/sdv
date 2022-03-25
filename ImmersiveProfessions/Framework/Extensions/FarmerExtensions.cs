@@ -248,7 +248,8 @@ public static class FarmerExtensions
     /// <summary>Get all available Ultimate's not currently registered.</summary>
     public static IEnumerable<UltimateIndex> GetUnchosenUltimates(this Farmer farmer)
     {
-        return farmer.professions.Where(p => Enum.IsDefined(typeof(UltimateIndex), p)).Cast<UltimateIndex>();
+        return farmer.professions.Where(p => Enum.IsDefined(typeof(UltimateIndex), p)).Cast<UltimateIndex>()
+            .Except(new[] {ModEntry.PlayerState.RegisteredUltimate.Index, UltimateIndex.None});
     }
 
     /// <summary>Whether the farmer has caught the specified fish at max size.</summary>

@@ -11,6 +11,6 @@ internal class UltimateGaugeFadeOutUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        ModEntry.PlayerState.Value.RegisteredUltimate.Meter.FadeOut();
+        ModEntry.PlayerState.RegisteredUltimate.Meter.FadeOut();
     }
 }

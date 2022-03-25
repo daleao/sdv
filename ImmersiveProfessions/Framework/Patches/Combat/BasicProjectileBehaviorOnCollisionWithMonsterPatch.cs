@@ -48,18 +48,18 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
             
             // get overcharge
             var bulletPower = 1f;
-            if (ModEntry.PlayerState.Value.OverchargedBullets.TryGetValue(__instance.GetHashCode(), out var overcharge))
+            if (ModEntry.PlayerState.OverchargedBullets.TryGetValue(__instance.GetHashCode(), out var overcharge))
                 bulletPower += overcharge;
 
             // check for piercing
             if (Game1.random.NextDouble() < (bulletPower - 1f) / 2f)
             {
-                ModEntry.PlayerState.Value.PiercedBullets.Add(__instance.GetHashCode());
+                ModEntry.PlayerState.PiercedBullets.Add(__instance.GetHashCode());
             }
             else
             {
                 _ExplosionAnimation.Invoke(__instance, new object?[] {location});
-                ModEntry.PlayerState.Value.OverchargedBullets.Remove(__instance.GetHashCode());
+                ModEntry.PlayerState.OverchargedBullets.Remove(__instance.GetHashCode());
             }
 
             location.damageMonster(monster.GetBoundingBox(), __instance.damageToFarmer.Value,
@@ -68,15 +68,15 @@ internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
             // check for stun
             var didStun = false;
             if (firer.HasProfession(Profession.Rascal, true) &&
-                ModEntry.PlayerState.Value.BouncedBullets.Remove(__instance.GetHashCode()))
+                ModEntry.PlayerState.BouncedBullets.Remove(__instance.GetHashCode()))
             {
                 monster.stunTime = 5000;
                 didStun = true;
             }
 
             // increment Desperado ultimate meter
-            if (firer.IsLocalPlayer && ModEntry.PlayerState.Value.RegisteredUltimate is DeathBlossom {IsActive: false})
-                ModEntry.PlayerState.Value.RegisteredUltimate.ChargeValue += (didStun ? 18 : 12) - 10 * firer.health / firer.maxHealth;
+            if (firer.IsLocalPlayer && ModEntry.PlayerState.RegisteredUltimate is DeathBlossom {IsActive: false})
+                ModEntry.PlayerState.RegisteredUltimate.ChargeValue += (didStun ? 18 : 12) - 10 * firer.health / firer.maxHealth;
 
             return false; // don't run original logic
         }

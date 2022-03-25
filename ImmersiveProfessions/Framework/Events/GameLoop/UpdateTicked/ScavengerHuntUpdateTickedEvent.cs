@@ -14,7 +14,7 @@ internal class ScavengerHuntUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        ModEntry.PlayerState.Value.ScavengerHunt.Update(e.Ticks);
+        ModEntry.PlayerState.ScavengerHunt.Update(e.Ticks);
         if (Game1.player.HasProfession(Profession.Scavenger, true)) Game1.gameTimeInterval = 0;
     }
 }

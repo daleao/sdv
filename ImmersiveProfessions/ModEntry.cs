@@ -16,9 +16,16 @@ using Framework.AssetLoaders;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
+    private static readonly PerScreen<PlayerState> _playerState = new(() => new());
+
     internal static ModConfig Config { get; set; }
-    internal static PerScreen<PlayerState> PlayerState { get; private set; }
     internal static HostState HostState { get; private set; }
+
+    internal static PlayerState PlayerState
+    {
+        get => _playerState.Value;
+        set => _playerState.Value = value;
+    }
 
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
@@ -40,13 +47,12 @@ public class ModEntry : Mod
         Config = helper.ReadConfig<ModConfig>();
 
         // initialize mod state
-        PlayerState = new(() => new());
         if (Context.IsMainPlayer) HostState = new();
 
         // register asset editors / loaders
+        helper.Content.AssetLoaders.Add(new TextureLoader());
         helper.Content.AssetEditors.Add(new FishPondDataEditor());
         helper.Content.AssetEditors.Add(new SpriteEditor());
-        helper.Content.AssetLoaders.Add(new TextureLoader());
 
         // load sound effects
         SoundBank.LoadCollection(helper.DirectoryPath);

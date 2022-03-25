@@ -21,7 +21,7 @@ internal class SpelunkerWarpedEvent : WarpedEvent
         if (e.NewLocation is MineShaft newShaft && e.OldLocation is MineShaft oldShaft &&
             newShaft.mineLevel > oldShaft.mineLevel)
         {
-            ++ModEntry.PlayerState.Value.SpelunkerLadderStreak;
+            ++ModEntry.PlayerState.SpelunkerLadderStreak;
 
             if (e.Player.HasProfession(Profession.Spelunker, true))
             {
@@ -34,7 +34,7 @@ internal class SpelunkerWarpedEvent : WarpedEvent
         }
         else if (e.NewLocation is not MineShaft && e.OldLocation is MineShaft)
         {
-            ModEntry.PlayerState.Value.SpelunkerLadderStreak = 0;
+            ModEntry.PlayerState.SpelunkerLadderStreak = 0;
             EventManager.Disable(typeof(SpelunkerUpdateTickedEvent));
         }
     }
