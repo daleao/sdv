@@ -184,37 +184,7 @@ public static class FarmerExtensions
         farmer.experiencePoints[(int) skillType] = 0;
 
         if (ModEntry.Config.ForgetRecipesOnSkillReset)
-        {
-            var forgottenRecipesDict = Game1.player.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
-
-            // remove associated crafting recipes
-            var craftingRecipes =
-                farmer.craftingRecipes.Keys.ToDictionary(key => key, key => Game1.player.craftingRecipes[key]);
-            foreach (var (key, value) in CraftingRecipe.craftingRecipes)
-            {
-                if (!value.Split('/')[4].Contains(skillType.ToString()) ||
-                    !craftingRecipes.ContainsKey(key)) continue;
-
-                if (!forgottenRecipesDict.TryAdd(key, craftingRecipes[key]))
-                    forgottenRecipesDict[key] += craftingRecipes[key];
-                farmer.craftingRecipes.Remove(key);
-            }
-
-            // remove associated cooking recipes
-            var cookingRecipes =
-                farmer.cookingRecipes.Keys.ToDictionary(key => key, key => Game1.player.cookingRecipes[key]);
-            foreach (var (key, value) in CraftingRecipe.cookingRecipes)
-            {
-                if (!value.Split('/')[3].Contains(skillType.ToString()) ||
-                    !cookingRecipes.ContainsKey(key)) continue;
-
-                if (!forgottenRecipesDict.TryAdd(key, cookingRecipes[key]))
-                    forgottenRecipesDict[key] += cookingRecipes[key];
-                farmer.cookingRecipes.Remove(key);
-            }
-
-            Game1.player.WriteData(DataField.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
-        }
+            farmer.ForgetRecipesForSkill(skillType, true);
 
         // revalidate health
         if (skillType == SkillType.Combat) LevelUpMenu.RevalidateHealth(farmer);
@@ -243,6 +213,49 @@ public static class FarmerExtensions
                 farmer.combatLevel.Value = newLevel;
                 break;
         }
+    }
+
+    /// <summary>Remove all recipes associated with the specified skill from the farmer.</summary>
+    /// <param name="skillType">The desired skill.</param>
+    /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
+    public static void ForgetRecipesForSkill(this Farmer farmer, SkillType skillType, bool addToRecoveryDict)
+    {
+        var forgottenRecipesDict = farmer.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
+
+        // remove associated crafting recipes
+        var craftingRecipes =
+            farmer.craftingRecipes.Keys.ToDictionary(key => key,
+                key => farmer.craftingRecipes[key]);
+        foreach (var (key, value) in CraftingRecipe.craftingRecipes)
+        {
+            if (!value.Split('/')[4].Contains(skillType.ToString()) || !craftingRecipes.ContainsKey(key)) continue;
+
+            if (addToRecoveryDict)
+                if (!forgottenRecipesDict.TryAdd(key, craftingRecipes[key]))
+                    forgottenRecipesDict[key] += craftingRecipes[key];
+            
+            farmer.craftingRecipes.Remove(key);
+        }
+
+        // remove associated cooking recipes
+        var cookingRecipes =
+            farmer.cookingRecipes.Keys.ToDictionary(key => key,
+                key => farmer.cookingRecipes[key]);
+        foreach (var (key, value) in CraftingRecipe.cookingRecipes)
+        {
+            if (!value.Split('/')[3].Contains(skillType.ToString()) || !cookingRecipes.ContainsKey(key)) continue;
+
+            if (addToRecoveryDict)
+            {
+                if (!forgottenRecipesDict.TryAdd(key, cookingRecipes[key]))
+                    forgottenRecipesDict[key] += cookingRecipes[key];
+            }
+
+            farmer.cookingRecipes.Remove(key);
+        }
+
+        if (addToRecoveryDict)
+            farmer.WriteData(DataField.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
     }
 
     /// <summary>Get all available Ultimate's not currently registered.</summary>

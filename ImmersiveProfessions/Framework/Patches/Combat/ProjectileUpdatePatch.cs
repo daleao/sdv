@@ -153,8 +153,6 @@ internal class ProjectileUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).PropertyGetter(nameof(PlayerState.BouncedBullets))),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Projectile).MethodNamed(nameof(GetHashCode))),

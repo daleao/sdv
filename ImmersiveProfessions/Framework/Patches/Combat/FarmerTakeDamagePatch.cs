@@ -61,8 +61,6 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
                     new CodeInstruction(OpCodes.Stloc_S, ambush),
@@ -117,8 +115,6 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
                     new CodeInstruction(OpCodes.Stloc_S, frenzy),
@@ -169,7 +165,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
-                .InsertProfessionCheck((int) Profession.Brute, forLocalPlayer: false)
+                .InsertProfessionCheck((int)Profession.Brute, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     // check if damager null
@@ -177,10 +173,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     // load the player state
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>
-                            .Value))), // consumed by setter of BruteRageCounter
+                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))), // consumed by setter of BruteRageCounter
                     new CodeInstruction(OpCodes.Dup), // consumed by getter of BruteRageCounter
                     new CodeInstruction(OpCodes.Dup), // consumed by setter of LastTimeInCombat 
                     new CodeInstruction(OpCodes.Dup), // consumed by getter of RegisteredUltimate
@@ -205,15 +198,15 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Br_S, add)
                 )
                 .InsertWithLabels(
-                    new []{doesNotHaveFrenzyOrIsNotActive},
+                    new[] { doesNotHaveFrenzyOrIsNotActive },
                     new CodeInstruction(OpCodes.Ldc_I4_1)
                 )
                 .InsertWithLabels(
-                    new []{add},
+                    new[] { add },
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 100),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Math).MethodNamed(nameof(Math.Min), new[] {typeof(int), typeof(int)})),
+                        typeof(Math).MethodNamed(nameof(Math.Min), new[] { typeof(int), typeof(int) })),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).PropertySetter(nameof(PlayerState.BruteRageCounter))),
                     // check frenzy once again

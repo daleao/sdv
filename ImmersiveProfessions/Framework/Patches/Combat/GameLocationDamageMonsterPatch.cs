@@ -125,9 +125,6 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>
-                            .Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).PropertyGetter(nameof(PlayerState.BruteRageCounter))),
                     new CodeInstruction(OpCodes.Conv_R4),
                     new CodeInstruction(OpCodes.Ldc_R4, Frenzy.PCT_INCREMENT_PER_RAGE_F),
@@ -176,8 +173,6 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     // check for ambush
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),

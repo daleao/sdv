@@ -102,9 +102,9 @@ Integration is provided for Automate and several popular mods. See the [compatib
     - _Unchanged effect from vanilla. Only the name is changed._
 - **Lv10 - Ecologist** - Wild berries restore 50% *(100%)* more health and energy. Progressively identify forage of higher quality.
     - All foraged items will have the same deterministic quality. This immediate gives inventory convenience. However the quality will start off at silver, and progress to iridium when enough items have been foraged. Applies to Mushroom Boxes, but only if the cave owner (i.e. the host player) has the profession.
-- **Lv10 - Scavenger** - Location of forageable items revealed. Occasionally detect buried treasure. *Time freezes during Scavenger Hunts.*
+- **Lv10 - Scavenger** - Location of foragable items revealed. Occasionally detect buried treasure. *Time freezes during Scavenger Hunts.*
     - On switching maps while outside you will occasionally detect hidden buried treasure. Find it and dig it up (with a hoe) within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items.
-    - _Bonus: holding [ModKey](#configs) will highlight all forageables on-screen._
+    - _Bonus: holding [ModKey](#configs) will highlight all foragables on-screen._
 - **Lv5 - Lumberjack** - Felled trees yield 25% *(40%)* more wood.
     - _Unchanged effect from vanilla. Only the name is changed._
 - **Lv10 - Arborist** - All trees grow faster. Normal trees can drop *(twice as much)* hardwood.
@@ -171,8 +171,8 @@ Integration is provided for Automate and several popular mods. See the [compatib
 
 ## Prestige
 
-The [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) has been replaced by the Statue of Prestige, which is capable of reseting level 10 skills, for a price. A skill reset preserves all related professions, and (optionally) forgets all related recipes. The farmer can use this to eventually acquire all 30 professions simultaneously.
-Reseting a skill costs 10,000g the first time, 50,000g the second time, and 100,000g the last time (values are configurable). The ribbon in the skills page of the game menu reflects the number of professions acquired in each skill.
+The [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) has been replaced by the Statue of Prestige, which is capable of resetting level 10 skills, for a price. A skill reset preserves all related professions, and (optionally) forgets all related recipes. The farmer can use this to eventually acquire all 30 professions simultaneously.
+Resetting a skill costs 10,000g the first time, 50,000g the second time, and 100,000g the last time (values are configurable). The ribbon in the skills page of the game menu reflects the number of professions acquired in each skill.
 
 Once the ribbon has reached its fourth stage, signaling that all professions have been obtained, its level cap is raised to 20, allowing the farmer to continue developing tool proficiency or max health. Skill level also affects the odds of higher quality crops and fishes, the amount of berries foraged per bush, and the duration of Ultimate and related perks.
  
@@ -182,7 +182,7 @@ All Prestige features are optional and may be disabled or customized in the conf
 
 ## Ultimates
 
-Each level 10 Combat profession is also granted an Ultimate ability. This ability must be charged by performing certain actions during combat. The current charge state is revealed by a new HUD bar next to health. The player can only have a single Ultimate ability registered at any time; i.e. acquiring all combat professions via skill reseting will not grant additional Ultimates beyond the first. The overnight level-up menu will prompt the player if they wish to replace their current Ultimate ability with the new professions'.
+Each level 10 Combat profession is also granted an Ultimate ability. This ability must be charged by performing certain actions during combat. The current charge state is revealed by a new HUD bar next to health. The player can only have a single Ultimate ability registered at any time; i.e. acquiring all combat professions via skill resetting will not grant additional Ultimates beyond the first. The overnight level-up menu will prompt the player if they wish to replace their current Ultimate ability with the new professions'.
 
 - **Brute / Amazon - Undying Frenzy** - Doubles rage accumulation for 15s. Immune to passing out. When the effect ends, recovers 5% health for every enemy slain while the buff was active.
     - Charged by taking damage or defeating enemies. Charges more quickly if wielding a blunt weapon.
@@ -251,7 +251,7 @@ Not compatible with Android version of the game.
 While the vast majority of professions bonuses are non-configurable, some of the more radical changes have been given configuration options to give the user some degree of control. As such the mod provides the following config options, which can be modified either in-game via Generic Mod Config Menu or by manually editing the configs.json file:
 
 ### General Configs
-- **Modkey** (keybind) - The Prospector and Scavenger professions use this key to reveal the locations of key objects currently on the screen. If playing on a large screen with wide field of view, this can help locate forageables of mine nodes in large or busy maps. The default key is LeftShift for keyboards and LeftShoulder for controllers.
+- **Modkey** (keybind) - The Prospector and Scavenger professions use this key to reveal the locations of key objects currently on the screen. If playing on a large screen with wide field of view, this can help locate foragables of mine nodes in large or busy maps. The default key is LeftShift for keyboards and LeftShoulder for controllers.
 - **UseVintageSkillBars** (bool) - Set to true if you use the Vintage Interface﻿ mod. Makes the skill bars above level 10 a light pink. You can use this with the brown version of Vintage Interface. If you want to use the pink version you will have to recolor the file `assets/menus/skillbars_vintage.png` by yourself.
 - **RebalanceFishPonds** (bool) - Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.
 - **RebalanceForges** (bool) - Improves certain underwhelming forges (jade: +10% -> +50% crit. power per level; topaz: +1 -> +5 defense per level).
@@ -283,7 +283,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 ### Prestige Configs
 - **EnablePrestige** (bool) - Whether to apply prestige changes.
 - **SkillResetCostMultiplier** (float) - Multiplies the base skill reset cost. Set to 0 to prestige for free.
-- **ForgetRecipesOnSkillReset** (bool) - Wether reseting a skill also clears all associated recipes.
+- **ForgetRecipesOnSkillReset** (bool) - Wether resetting a skill also clears all associated recipes.
 - **AllowPrestigeMultiplePerDay** (bool) - Whether the player can use the Statue of Prestige more than once per day.
 - **BonusSkillExpPerReset** (float) - Cumulative bonus that multiplies a skill's experience gain after each respective skill reset..
 - **RequiredExpPerExtendedLevel** (uint) - How much skill experience is required for each level up beyond 10.
@@ -328,7 +328,7 @@ The mod provides the following console commands, which you can enter in the SMAP
 - [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413) (if you miss Oenologist profession perk).
 - [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926) (add variety to Artisan products and Producer).
 - [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634) (make Slime ranching more interesting and profitable).
-- [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660) (better consistency between Ostrich and Golden eggs for Artisan profession).
+- [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660) (better consistency for Ostrich and Golden eggs for Artisan profession).
 
 ## Special Thanks
 
@@ -341,6 +341,7 @@ The mod provides the following console commands, which you can enter in the SMAP
 - [Goldenrevolver](https://www.nexusmods.com/stardewvalley/users/5347339) for ForageFantasy integration and troubleshooting support.﻿
 - [Pathoschild](https://www.nexusmods.com/stardewvalley/users/1552317) for SMAPI support.
 - **ConcernedApe** for Stardew Valley.
+- Game Freak, Gravity and Riot for ~~stolen~~ borrowed assets.
 - [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.
 
 <table>

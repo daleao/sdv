@@ -38,7 +38,8 @@ This mod makes heavy use of Harmony to patch the behavior of Fish Ponds and adja
 - Compatible with (and meant to be paired with) [Walk Of Life](https://www.nexusmods.com/stardewvalley/mods/8111).
 - Compatible with [Pond Painter](https://www.nexusmods.com/stardewvalley/mods/4703).
 - **Not** compatible with [Anything Pond](https://www.nexusmods.com/stardewvalley/mods/4702) or [Quality Fish Ponds](https://www.nexusmods.com/stardewvalley/mods/11021).
-
+- **Not** compatible with [Smaller Fish Ponds](https://www.nexusmods.com/stardewvalley/mods/7651)﻿ due to a bug in that mod which prevents Fish Wells from persisting mod data.
+- 
 Should be fully compatible with multiplayer.
 
 ## Installation
@@ -47,7 +48,7 @@ Install like any other mod, by extracting the content of the downloaded zip file
 
 To update, first delete the old version and then install the new one. You can optionally keep your configs.json in case you have personalized settings.
 
-To uninstall simply delete the mod from your mods folder. This mod is safe to uninstall at any point.
+Before uninstall, **fish out and clear all ponds** to remove rogue data. Then delete the mod from your mods folder.
 
 ## Special Thanks
 

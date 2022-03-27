@@ -108,28 +108,9 @@ internal static class ConsoleCommands
             for (var i = 0; i < 5; ++i)
             {
                 Game1.player.experiencePoints[i] = 0;
-
-                var craftingRecipes =
-                    Game1.player.craftingRecipes.Keys.ToDictionary(key => key,
-                        key => Game1.player.craftingRecipes[key]);
-                foreach (var (key, value) in CraftingRecipe.craftingRecipes)
-                {
-                    if (value.Split('/')[4].Contains(((SkillType) i).ToString()) && craftingRecipes.ContainsKey(key))
-                        Game1.player.craftingRecipes.Remove(key);
-                }
-
-                var cookingRecipes =
-                    Game1.player.cookingRecipes.Keys.ToDictionary(key => key,
-                        key => Game1.player.cookingRecipes[key]);
-                foreach (var (key, value) in CraftingRecipe.cookingRecipes)
-                {
-                    if (value.Split('/')[3].Contains(((SkillType)i).ToString()) && cookingRecipes.ContainsKey(key))
-                        Game1.player.cookingRecipes.Remove(key);
-                }
+                Game1.player.ForgetRecipesForSkill((SkillType) i, false);
             }
 
-            Game1.player.craftingRecipes.Clear();
-            Game1.player.cookingRecipes.Clear();
             LevelUpMenu.RevalidateHealth(Game1.player);
         }
         else
@@ -166,24 +147,7 @@ internal static class ConsoleCommands
                 }
 
                 Game1.player.experiencePoints[(int) skillType] = 0;
-
-                var craftingRecipes =
-                    Game1.player.craftingRecipes.Keys.ToDictionary(key => key,
-                        key => Game1.player.craftingRecipes[key]);
-                foreach (var (key, value) in CraftingRecipe.craftingRecipes)
-                {
-                    if (value.Split('/')[4].Contains(skillType.ToString()) && craftingRecipes.ContainsKey(key))
-                        Game1.player.craftingRecipes.Remove(key);
-                }
-
-                var cookingRecipes =
-                    Game1.player.cookingRecipes.Keys.ToDictionary(key => key,
-                        key => Game1.player.cookingRecipes[key]);
-                foreach (var (key, value) in CraftingRecipe.cookingRecipes)
-                {
-                    if (value.Split('/')[3].Contains(skillType.ToString()) && cookingRecipes.ContainsKey(key))
-                        Game1.player.cookingRecipes.Remove(key);
-                }
+                Game1.player.ForgetRecipesForSkill(skillType, false);
             }
         }
     }

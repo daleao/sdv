@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 #region using directives
 
@@ -8,6 +6,7 @@ using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Enums;
 using StardewValley;
 

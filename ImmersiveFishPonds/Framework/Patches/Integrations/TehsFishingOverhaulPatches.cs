@@ -19,34 +19,33 @@ using SObject = StardewValley.Object;
 
 internal static class TehsFishingOverhaulPatches
 {
-    private static MethodInfo _GetCatch, _GetFishingInfo, _GetFromFishPond, _GetBobberPosition, _SetFishItem, _SetFishQuality;
+    private static MethodInfo _GetFishingInfo, _GetFromFishPond, _GetBobberPosition, _SetFishItem, _SetFishQuality;
 
     internal static void Apply(Harmony harmony)
     {
-        //harmony.Patch(
-        //    original: "TehPers.FishingOverhaul.Api.BaseFishingApi".ToType().MethodNamed("GetPossibleCatch"),
-        //    postfix: new(typeof(TehsFishingOverhaulPatches).MethodNamed(nameof(BaseFishingApiGetPossibleCatchPostfix)))
-        //);
+        harmony.Patch(
+            original: "TehPers.FishingOverhaul.Services.Setup.FishingRodPatcher".ToType().MethodNamed("CatchItem"),
+            prefix: new(typeof(TehsFishingOverhaulPatches).MethodNamed(nameof(SetupCatchItemPrefix)))
+        );
     }
 
     #region harmony patches
 
     /// <summary>Corrects Fish Pond data after pulling fish from pond.</summary>
-    private static void BaseFishingApiGetPossibleCatchPostfix(object e)
+    private static void SetupCatchItemPrefix(object info)
     {
         FishPond pond = null;
         try
         {
-            _GetCatch ??= e.GetType().PropertyGetter("Catch");
-            var @catch = _GetCatch.Invoke(e, null)!;
-            if (!@catch.GetType().Name.Contains("FishCatch")) return;
+            if (!info.GetType().Name.Contains("FishCatch")) return;
 
-            _GetFromFishPond ??= @catch.GetType().PropertyGetter("FromFishPond");
-            var fromFishPond = (bool) _GetFromFishPond.Invoke(@catch, null)!;
+            _GetFromFishPond ??= info.GetType().PropertyGetter("FromFishPond");
+            var fromFishPond = (bool) _GetFromFishPond.Invoke(info, null)!;
             if (!fromFishPond) return;
 
-            _GetFishingInfo ??= @catch.GetType().PropertyGetter("FishingInfo");
-            var fishingInfo = _GetFishingInfo.Invoke(@catch, null)!;
+            _GetFishingInfo ??= info.GetType().PropertyGetter("FishingInfo");
+            var fishingInfo = _GetFishingInfo.Invoke(info, null);
+            if (fishingInfo is null) return;
 
             _GetBobberPosition ??= fishingInfo.GetType().PropertyGetter("BobberPosition");
             var (x, y) = (Vector2) _GetBobberPosition.Invoke(fishingInfo, null)!;
@@ -62,8 +61,8 @@ internal static class TehsFishingOverhaulPatches
                 throw new InvalidDataException("FishQualities data had incorrect number of values.");
 
             var lowestFish = fishQualities.FindIndex(i => i > 0);
-            _SetFishQuality ??= @catch.GetType().PropertySetter("FishQuality");
-            _SetFishItem ??= @catch.GetType().PropertySetter("FishItem");
+            _SetFishQuality ??= info.GetType().PropertySetter("FishQuality");
+            _SetFishItem ??= info.GetType().PropertySetter("FishItem");
             if (pond.IsLegendaryPond())
             {
                 var familyCount = pond.ReadDataAs<int>("FamilyLivingHere");
@@ -80,36 +79,36 @@ internal static class TehsFishingOverhaulPatches
                     if (lowestFamily < lowestFish)
                     {
                         var whichFish = Framework.Utility.ExtendedFamilyPairs[pond.fishType.Value];
-                        _SetFishItem.Invoke(@catch,
+                        _SetFishItem.Invoke(info,
                             new[]
                             {
                                 (object) new SObject(whichFish, 1) {Quality = lowestFamily == 3 ? 4 : lowestFamily}
                             });
-                        _SetFishQuality.Invoke(@catch, new[] {(object) (lowestFamily == 3 ? 4 : lowestFamily)});
+                        _SetFishQuality.Invoke(info, new[] {(object) (lowestFamily == 3 ? 4 : lowestFamily)});
                         --familyQualities[lowestFamily];
                         pond.WriteData("FamilyQualities", string.Join(",", familyQualities));
                         pond.IncrementData("FamilyLivingHere", -1);
                     }
                     else
                     {
-                        _SetFishItem.Invoke(@catch,
+                        _SetFishItem.Invoke(info,
                             new[]
                             {
                                 (object) new SObject(pond.fishType.Value, 1) {Quality = lowestFamily == 3 ? 4 : lowestFamily}
                             });
-                        _SetFishQuality.Invoke(@catch, new[] {(object) (lowestFish == 3 ? 4 : lowestFish)});
+                        _SetFishQuality.Invoke(info, new[] {(object) (lowestFish == 3 ? 4 : lowestFish)});
                         --fishQualities[lowestFish];
                         pond.WriteData("FishQualities", string.Join(",", fishQualities));
                     }
                 }
                 else
                 {
-                    _SetFishItem.Invoke(@catch,
+                    _SetFishItem.Invoke(info,
                         new[]
                         {
                             (object) new SObject(pond.fishType.Value, 1) {Quality = lowestFish == 3 ? 4 : lowestFish}
                         });
-                    _SetFishQuality.Invoke(@catch, new[] {(object) (lowestFish == 3 ? 4 : lowestFish)});
+                    _SetFishQuality.Invoke(info, new[] {(object) (lowestFish == 3 ? 4 : lowestFish)});
                     --fishQualities[lowestFish];
                     pond.WriteData("FishQualities", string.Join(",", fishQualities));
                 }
@@ -119,12 +118,12 @@ internal static class TehsFishingOverhaulPatches
                 if (fishQualities.Sum() != pond.FishCount + 1)
                     throw new InvalidDataException("FishQualities data had incorrect number of values.");
 
-                _SetFishItem.Invoke(@catch,
+                _SetFishItem.Invoke(info,
                     new[]
                     {
                         (object) new SObject(pond.fishType.Value, 1) {Quality = lowestFish == 3 ? 4 : lowestFish}
                     });
-                _SetFishQuality.Invoke(@catch, new[] {(object) (lowestFish == 3 ? 4 : lowestFish)});
+                _SetFishQuality.Invoke(info, new[] {(object) (lowestFish == 3 ? 4 : lowestFish)});
                 --fishQualities[lowestFish];
                 pond.WriteData("FishQualities", string.Join(",", fishQualities));
             }

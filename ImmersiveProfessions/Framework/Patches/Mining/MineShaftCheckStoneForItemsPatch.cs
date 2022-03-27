@@ -70,8 +70,6 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PerScreen<PlayerState>).PropertyGetter(nameof(PerScreen<PlayerState>.Value))),
-                    new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).PropertyGetter(nameof(PlayerState.SpelunkerLadderStreak))),
                     new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Ldc_R8, 0.005),
