@@ -37,7 +37,7 @@ internal static class ConsoleCommands
             GetUsageForAddProfessions(),
             AddProfessionsToLocalPlayer);
         helper.Add("player_resetprofessions",
-            "Remove all professions from the local player for the specified skills, or for all skills if none are specified.",
+            "Remove all professions from the local player for the specified skills, or for all skills if none are specified. Does not affect skill level",
             ResetLocalPlayerProfessions);
         helper.Add("player_whichult",
             "Check the currently registered Ultimate.",
@@ -86,6 +86,7 @@ internal static class ConsoleCommands
         Log.I($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Foraging)} ({Game1.player.experiencePoints[(int) SkillType.Foraging]} exp)");
         Log.I($"Mining level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Mining)} ({Game1.player.experiencePoints[(int) SkillType.Mining]} exp)");
         Log.I($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Combat)} ({Game1.player.experiencePoints[(int) SkillType.Combat]} exp)");
+        Log.I($"Luck level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Luck)} ({Game1.player.experiencePoints[(int) SkillType.Luck]} exp)");
     }
 
     /// <summary>Reset all skills for the local player.</summary>

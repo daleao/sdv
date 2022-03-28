@@ -268,6 +268,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **SpelunkerSpeedCap** (uint) - The maximum speed bonus a Spelunker can reach (values above 10 may cause problems).
 - **EnableGetExcited** (bool) - Toggles the Get Excited buff when a Demolitionist is hit by an explosion.
 - **SeaweedIsJunk** (bool) - Whether Seaweed and Algae are considered junk for fishing purposes.
+- **AnglerMultiplierCeiling** (float) - The maximum fish price multiplier that can be accumulated by Angler.
 - **TrashNeededPerTaxLevel** (uint) - Represents the number of trash items the Conservationist must collect in order to gain a 1% tax deduction the following season. Use this value to balance your game if you use or don't use Automate. Default is 100.
 - **TrashNeededPerFriendshipPoint** (uint) - Represents the number of trash items the Prestiged Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
 - **TaxDeductionCeiling** (float) - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
@@ -306,10 +307,10 @@ While the vast majority of professions bonuses are non-configurable, some of the
 The mod provides the following console commands, which you can enter in the SMAPI console for testing, checking or cheating:
 
 - **player_skills** - List the player's current skill levels.
-- **player_resetskills** - Reset all player's skills.
+- **player_resetskills** - Reset the specified skills, or all skills if none are specified.
 - **player_professions** - List the player's current professions.
 - **player_addprofessions** - Add the specified professions to the local player.
-- **player_resetprofessions** - Reset all skills and professions for the local player.
+- **player_resetprofessions** - Remove all professions for the specified skills, or all professions if none are specified. Does not affect skill levels.
 - **player_readyult** - Max-out the Ultimate meter, or set it to the specified value (between 0 and 100).
 - **player_changeult** - Change the Ultimate profession to the desired profession.
 - **player_whichult** - Check the currently registered Ultimate profession.

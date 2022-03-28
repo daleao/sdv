@@ -27,6 +27,7 @@ internal class FarmerGainExperiencePatch : BasePatch
     internal FarmerGainExperiencePatch()
     {
         Original = RequireMethod<Farmer>(nameof(Farmer.gainExperience));
+        Prefix.priority = Priority.LowerThanNormal;
     }
 
     #region harmony patches
@@ -37,7 +38,8 @@ internal class FarmerGainExperiencePatch : BasePatch
     {
         try
         {
-            if (which is < (int) SkillType.Farming or > (int) SkillType.Luck || howMuch <= 0)
+            if (which == (int) SkillType.Luck && !ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.LuckSkill") ||
+                howMuch <= 0)
                 return false; // don't run original logic
 
             if (!__instance.IsLocalPlayer)
