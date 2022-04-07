@@ -23,7 +23,7 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal class GameLocationExplodePatch : BasePatch
 {
-    private static readonly FieldInfo _Multiplayer = typeof(Game1).Field("multiplayer");
+    private static readonly FieldInfo _Multiplayer = typeof(Game1).RequireField("multiplayer")!;
 
     /// <summary>Construct an instance.</summary>
     internal GameLocationExplodePatch()

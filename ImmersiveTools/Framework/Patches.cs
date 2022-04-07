@@ -142,18 +142,19 @@ internal static class Patches
             if (who.toolPower <= 0 || tool is not (Axe or Pickaxe)) return;
 
             var radius = 1;
+            var power = who.toolPower;
             switch (tool)
             {
                 case Axe:
-                    who.Stamina -= who.toolPower - who.ForagingLevel * 0.1f * (who.toolPower - 1) *
-                        ModEntry.Config.StaminaCostMultiplier;
-                    radius = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
+                    who.Stamina -=
+                        (float) Math.Pow(ModEntry.Config.StaminaCostMultiplier * power - who.ForagingLevel * 0.1f, 2f);
+                    radius = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1);
                     break;
 
                 case Pickaxe:
-                    who.Stamina -= who.toolPower - who.MiningLevel * 0.1f * (who.toolPower - 1) *
-                        ModEntry.Config.StaminaCostMultiplier;
-                    radius = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(who.toolPower - 1);
+                    who.Stamina -=
+                        (float) Math.Pow(ModEntry.Config.StaminaCostMultiplier * power - who.MiningLevel * 0.1f, 2f);
+                    radius = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1);
                     break;
             }
 

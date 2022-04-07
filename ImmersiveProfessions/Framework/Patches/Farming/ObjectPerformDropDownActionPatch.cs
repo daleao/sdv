@@ -52,7 +52,7 @@ internal class ObjectPerformDropDownActionPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_4),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Utility).MethodNamed(nameof(Utility.CalculateMinutesUntilMorning),
+                        typeof(Utility).RequireMethod(nameof(Utility.CalculateMinutesUntilMorning),
                             new[] { typeof(int), typeof(int) }))
                 )
                 .AddLabels(isNotProducer)
@@ -61,13 +61,13 @@ internal class ObjectPerformDropDownActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = Profession.Producer
                     new CodeInstruction(OpCodes.Ldc_I4_0), // false for not prestiged
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
+                        typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotProducer),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldc_I4_3),
                     new CodeInstruction(OpCodes.Ldc_I4_1), // true for prestiged
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
+                        typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution),

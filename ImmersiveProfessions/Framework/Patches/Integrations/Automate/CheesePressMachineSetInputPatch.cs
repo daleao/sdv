@@ -26,8 +26,7 @@ internal class CheesePressMachineSetInput : BasePatch
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType()
-                .MethodNamed("SetInput");
+            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType().RequireMethod("SetInput");
             Transpiler.priority = Priority.LowerThanNormal;
         }
         catch
@@ -64,8 +63,7 @@ internal class CheesePressMachineSetInput : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(CheesePressMachineSetInput).MethodNamed(
-                            nameof(SetInputSubroutine)))
+                        typeof(CheesePressMachineSetInput).RequireMethod(nameof(SetInputSubroutine)))
                 );
         }
         catch (Exception ex)
@@ -84,7 +82,7 @@ internal class CheesePressMachineSetInput : BasePatch
 
     private static void SetInputSubroutine(SObject machine, object consumable)
     {
-        _GetSample ??= consumable.GetType().PropertyGetter("Sample");
+        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample");
         if (_GetSample.Invoke(consumable, null) is not SObject input) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;

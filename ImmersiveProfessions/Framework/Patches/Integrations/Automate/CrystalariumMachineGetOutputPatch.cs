@@ -24,8 +24,7 @@ internal class CrystalariumMachineGetOutputPatch : BasePatch
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrystalariumMachine".ToType()
-                .MethodNamed("GetOutput");
+            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrystalariumMachine".ToType().RequireMethod("GetOutput");
         }
         catch
         {
@@ -41,7 +40,7 @@ internal class CrystalariumMachineGetOutputPatch : BasePatch
     {
         if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        _GetMachine ??= __instance.GetType().PropertyGetter("Machine");
+        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
         var machine = (SObject) _GetMachine.Invoke(__instance, null);
         if (machine?.heldObject.Value is null) return;
 

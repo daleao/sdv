@@ -86,7 +86,7 @@ internal class Game1DrawHUDPatch : BasePatch
                 .RemoveLabels() // remove repeated label
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Game1).PropertyGetter(nameof(Game1.currentLocation)))
+                        typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation)))
                 )
                 .Remove(3) // remove currentLocation.IsOutdoors check
                 .AddLabels(isProspector); // branch here is first profession check was true
@@ -111,7 +111,7 @@ internal class Game1DrawHUDPatch : BasePatch
                 .RetreatUntil(
 #pragma warning disable AvoidNetField // Avoid Netcode types when possible
                     new CodeInstruction(OpCodes.Ldfld,
-                        typeof(SObject).Field(nameof(SObject.isSpawnedObject)))
+                        typeof(SObject).RequireField(nameof(SObject.isSpawnedObject)))
 #pragma warning restore AvoidNetField // Avoid Netcode types when possible
                 )
                 .RemoveUntil(
@@ -120,7 +120,7 @@ internal class Game1DrawHUDPatch : BasePatch
                 )
                 .Insert( // insert call to custom condition
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.ShouldBeTracked))),
+                        typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.ShouldBeTracked))),
                     new CodeInstruction(OpCodes.Brfalse, loopHead)
                 );
         }
@@ -139,9 +139,9 @@ internal class Game1DrawHUDPatch : BasePatch
         {
             helper
                 .FindLast(
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.currentLocation))),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(GameLocation).Field(nameof(GameLocation.orePanPoint))),
-                    new CodeInstruction(OpCodes.Call, typeof(Point).PropertyGetter(nameof(Point.Zero))),
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation))),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(GameLocation).RequireField(nameof(GameLocation.orePanPoint))),
+                    new CodeInstruction(OpCodes.Call, typeof(Point).RequirePropertyGetter(nameof(Point.Zero))),
                     new CodeInstruction(OpCodes.Box)
                 )
                 .StripLabels(out var labels)

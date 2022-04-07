@@ -24,8 +24,8 @@ internal static class TehsFishingOverhaulPatches
     internal static void Apply(Harmony harmony)
     {
         harmony.Patch(
-            original: "TehPers.FishingOverhaul.Services.Setup.FishingRodPatcher".ToType().MethodNamed("CatchItem"),
-            prefix: new(typeof(TehsFishingOverhaulPatches).MethodNamed(nameof(SetupCatchItemPrefix)))
+            original: "TehPers.FishingOverhaul.Services.Setup.FishingRodPatcher".ToType().RequireMethod("CatchItem"),
+            prefix: new(typeof(TehsFishingOverhaulPatches).RequireMethod(nameof(SetupCatchItemPrefix)))
         );
     }
 
@@ -39,15 +39,15 @@ internal static class TehsFishingOverhaulPatches
         {
             if (!info.GetType().Name.Contains("FishCatch")) return;
 
-            _GetFromFishPond ??= info.GetType().PropertyGetter("FromFishPond");
+            _GetFromFishPond ??= info.GetType().RequirePropertyGetter("FromFishPond");
             var fromFishPond = (bool) _GetFromFishPond.Invoke(info, null)!;
             if (!fromFishPond) return;
 
-            _GetFishingInfo ??= info.GetType().PropertyGetter("FishingInfo");
+            _GetFishingInfo ??= info.GetType().RequirePropertyGetter("FishingInfo");
             var fishingInfo = _GetFishingInfo.Invoke(info, null);
             if (fishingInfo is null) return;
 
-            _GetBobberPosition ??= fishingInfo.GetType().PropertyGetter("BobberPosition");
+            _GetBobberPosition ??= fishingInfo.GetType().RequirePropertyGetter("BobberPosition");
             var (x, y) = (Vector2) _GetBobberPosition.Invoke(fishingInfo, null)!;
             pond = Game1.getFarm().buildings.OfType<FishPond>().FirstOrDefault(p =>
                 x > p.tileX.Value && x < p.tileX.Value + p.tilesWide.Value - 1 &&
@@ -61,8 +61,8 @@ internal static class TehsFishingOverhaulPatches
                 throw new InvalidDataException("FishQualities data had incorrect number of values.");
 
             var lowestFish = fishQualities.FindIndex(i => i > 0);
-            _SetFishQuality ??= info.GetType().PropertySetter("FishQuality");
-            _SetFishItem ??= info.GetType().PropertySetter("FishItem");
+            _SetFishQuality ??= info.GetType().RequirePropertySetter("FishQuality");
+            _SetFishItem ??= info.GetType().RequirePropertySetter("FishItem");
             if (pond.IsLegendaryPond())
             {
                 var familyCount = pond.ReadDataAs<int>("FamilyLivingHere");

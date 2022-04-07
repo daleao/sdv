@@ -25,8 +25,7 @@ internal class PropagatorMachineGetOutputPatch : BasePatch
     {
         try
         {
-            Original = "BlueberryMushroomAutomation.PropagatorMachine".ToType()
-                .MethodNamed("GetOutput");
+            Original = "BlueberryMushroomAutomation.PropagatorMachine".ToType().RequireMethod("GetOutput");
         }
         catch
         {
@@ -42,7 +41,7 @@ internal class PropagatorMachineGetOutputPatch : BasePatch
     {
         if (__instance is null) return;
 
-        _GetEntity ??= __instance.GetType().PropertyGetter("Entity");
+        _GetEntity ??= __instance.GetType().RequirePropertyGetter("Entity");
         var entity = (SObject) _GetEntity.Invoke(__instance, null);
         if (entity is null) return;
 

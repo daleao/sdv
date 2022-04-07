@@ -39,5 +39,9 @@ internal class StaticGameLaunchedEvent : GameLaunchedEvent
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("TehPers.FishingOverhaul"))
             new TehsFishingOverhaulIntegration(ModEntry.ModHelper.ModRegistry, ModEntry.Log, ModEntry.ModHelper)
                 .Register();
+
+        // add Custom Ore Nodes integration
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("aedenthorn.CustomOreNodes"))
+            new CustomOreNodesIntegration(ModEntry.ModHelper.ModRegistry, ModEntry.Log).Register();
     }
 }

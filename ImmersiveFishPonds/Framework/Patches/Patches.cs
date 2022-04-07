@@ -36,15 +36,21 @@ using SUtility = StardewValley.Utility;
 [UsedImplicitly]
 internal static class Patches
 {
-    private static readonly FieldInfo _FishPondData = typeof(FishPond).Field("_fishPondData");
-    private static readonly MethodInfo _CalculateBobberTile = typeof(FishingRod).MethodNamed("calculateBobberTile");
-    private static readonly MethodInfo _GetDisplayedText = typeof(PondQueryMenu).MethodNamed("getDisplayedText");
+    private static readonly FieldInfo _FishPondData = typeof(FishPond).RequireField("_fishPondData")!;
+    private static readonly MethodInfo _CalculateBobberTile = typeof(FishingRod).RequireMethod("calculateBobberTile");
 
-    private static readonly MethodInfo _MeasureExtraTextHeight =
-        typeof(PondQueryMenu).MethodNamed("measureExtraTextHeight");
+    private static readonly Func<PondQueryMenu, string> _GetDisplayedText =
+        (Func<PondQueryMenu, string>)Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string>),
+            typeof(PondQueryMenu).RequireMethod("getDisplayedText"));
 
-    private static readonly MethodInfo _DrawHorizontalPartition =
-        typeof(PondQueryMenu).MethodNamed("drawHorizontalPartition");
+    private static readonly Func<PondQueryMenu, string, int> _MeasureExtraTextHeight =
+        (Func<PondQueryMenu, string, int>)Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string, int>),
+            typeof(PondQueryMenu).RequireMethod("measureExtraTextHeight"));
+
+    private static readonly Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int> _DrawHorizontalPartition =
+        (Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>)Delegate.CreateDelegate(
+            typeof(Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>),
+            typeof(PondQueryMenu).RequireMethod("drawHorizontalPartition"));
 
     #region harmony patches
 
@@ -230,11 +236,17 @@ internal static class Patches
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.dayUpdate))]
     internal class FishPondDayUpdate
     {
+        /// <summary>Rest held items each morning.</summary>
+        [HarmonyPrefix]
+        protected static void Prefix(FishPond __instance)
+        {
+            __instance.WriteData("ItemsHeld", null);
+        }
 
 #if DEBUG
         /// <summary>Replacement to help debugging.</summary>
         [HarmonyPrefix]
-        protected static bool Prefix(FishPond __instance, int dayOfMonth)
+        protected static bool Debug(FishPond __instance, int dayOfMonth)
         {
             __instance.hasSpawnedFish.Value = false;
             ModEntry.ModHelper.Reflection.GetField<bool>(__instance, "_hasAnimatedSpawnedFish").SetValue(false);
@@ -433,8 +445,9 @@ internal static class Patches
                 if (roeIndex == Constants.ROE_INDEX_I)
                 {
                     var split = Game1.objectInformation[fishIndex].Split('/');
-                    var c = TailoringMenu.GetDyeColor(new SObject(fishIndex, producedRoes[highest])) ??
-                            (__instance.fishType.Value == 698 ? new(61, 55, 42) : Color.Orange);
+                    var c = __instance.fishType.Value == 698
+                        ? new(61, 55, 42)
+                        : TailoringMenu.GetDyeColor(new SObject(fishIndex, 1)) ?? Color.Orange;
                     o = new ColoredObject(Constants.ROE_INDEX_I, producedRoes[highest], c);
                     o.name = split[0] + " Roe";
                     o.preserve.Value = SObject.PreserveType.Roe;
@@ -460,6 +473,39 @@ internal static class Patches
                 __instance.WriteData("FamilyLivingHere", null);
             }
         }
+
+        /// <summary>Removes population-based role from <see cref="FishPond.dayUpdate"/> (moved to <see cref="FishPond.GetFishProduce"/>).</summary>
+        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            MethodBase original)
+        {
+            var helper = new ILHelper(original, instructions);
+
+            try
+            {
+                helper
+                    .FindFirst(
+                        new CodeInstruction(OpCodes.Ldloc_0),
+                        new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble)))
+                    )
+                    .RemoveUntil(
+                        new CodeInstruction(OpCodes.Bge_Un_S)
+                    )
+                    .AdvanceUntil(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.daysSinceSpawn)))
+                    )
+                    .RemoveLabels();
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed removing day update production roll.\nHelper returned {ex}");
+#pragma warning disable CS8603
+                return null;
+#pragma warning restore CS8603
+            }
+
+            return helper.Flush();
+        }
     }
 
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.doAction))]
@@ -483,9 +529,9 @@ internal static class Patches
                 helper
                     .FindFirst(
                         new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).Field(nameof(FishPond.output))),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.output))),
                         new CodeInstruction(OpCodes.Callvirt,
-                            typeof(NetRef<Item>).PropertyGetter(nameof(NetRef<Item>.Value))),
+                            typeof(NetRef<Item>).RequirePropertyGetter(nameof(NetRef<Item>.Value))),
                         new CodeInstruction(OpCodes.Stloc_1)
                     )
                     .Retreat()
@@ -499,11 +545,11 @@ internal static class Patches
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldarg_2),
                         new CodeInstruction(OpCodes.Call,
-                            typeof(FishPondExtensions).MethodNamed(nameof(FishPondExtensions.RewardExp))),
+                            typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.RewardExp))),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldarg_2),
                         new CodeInstruction(OpCodes.Call,
-                            typeof(FishPondExtensions).MethodNamed(nameof(FishPondExtensions.OpenChumBucketMenu)))
+                            typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.OpenChumBucketMenu)))
                     );
             }
             catch (Exception ex)
@@ -521,8 +567,8 @@ internal static class Patches
             {
                 helper
                     .FindNext(
-                        new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).Field(nameof(FishPond.fishType))),
-                        new CodeInstruction(OpCodes.Call, typeof(NetFieldBase<int, NetInt>).MethodNamed("op_Implicit")),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.fishType))),
+                        new CodeInstruction(OpCodes.Call, typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
                         new CodeInstruction(OpCodes.Beq)
                     )
                     .RetreatUntil(
@@ -535,7 +581,7 @@ internal static class Patches
                     .Retreat()
                     .Insert(
                         new CodeInstruction(OpCodes.Call,
-                            typeof(Framework.Utility).MethodNamed(nameof(Framework.Utility.IsExtendedFamilyMember)))
+                            typeof(Framework.Utility).RequireMethod(nameof(Framework.Utility.IsExtendedFamilyMember)))
                     )
                     .SetOpCode(OpCodes.Brtrue_S);
             }
@@ -559,13 +605,14 @@ internal static class Patches
         protected static void Postfix(FishPond __instance)
         {
             if (__instance.fishType.Value.IsAlgae())
-                __instance.overrideWaterColor.Value = __instance.currentOccupants.Value switch
-                {
-                    > 9 => new(142, 168, 48),
-                    > 6 => new(113, 160, 112),
-                    > 3 => new(97, 155, 147),
-                    _ => new(89, 153, 164)
-                };
+            {
+                var shift = -5 - 3 * __instance.FishCount;
+                __instance.overrideWaterColor.Value = new Color(60, 126, 150).ShiftHue(shift);
+            }
+            else if (__instance.GetFishObject().Name.ContainsAnyOf("Mutant", "Radioactive"))
+            {
+                __instance.overrideWaterColor.Value = new(40, 255, 40);
+            }
         }
     }
 
@@ -880,13 +927,14 @@ internal static class Patches
                     SUtility.drawTextWithShadow(b, pondNameText, Game1.smallFont,
                         new(Game1.uiViewport.Width / 2 - textSize.X * 0.5f,
                             __instance.yPositionOnScreen - 4 + 160f - textSize.Y * 0.5f), Color.Black);
-                    var displayedText = (string) _GetDisplayedText.Invoke(__instance, null)!;
+                    //var displayedText = (string) _GetDisplayedText.Invoke(__instance, null)!;
+                    var displayedText = _GetDisplayedText(__instance);
                     var extraHeight = 0;
                     if (hasUnresolvedNeeds)
                         extraHeight += 116;
 
-                    var extraTextHeight =
-                        (int) _MeasureExtraTextHeight.Invoke(__instance, new object?[] {displayedText})!;
+                    //var extraTextHeight = (int) _MeasureExtraTextHeight.Invoke(__instance, new object?[] {displayedText})!;
+                    var extraTextHeight = _MeasureExtraTextHeight(__instance, displayedText);
                     Game1.drawDialogueBox(__instance.xPositionOnScreen, __instance.yPositionOnScreen + 128,
                         PondQueryMenu.width, PondQueryMenu.height - 128 + extraHeight + extraTextHeight, false, true);
                     var populationText = Game1.content.LoadString(
@@ -996,12 +1044,14 @@ internal static class Patches
                             (hasUnresolvedNeeds ? 32 : 48) - textSize.Y), Game1.textColor);
                     if (hasUnresolvedNeeds)
                     {
-                        _DrawHorizontalPartition.Invoke(__instance, new object?[]
-                        {
-                            b, (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f),
-                            false,
-                            -1, -1, -1
-                        });
+                        //_DrawHorizontalPartition.Invoke(__instance, new object?[]
+                        //{
+                        //    b, (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f), false,
+                        //    -1, -1, -1
+                        //});
+                        _DrawHorizontalPartition(__instance, b,
+                            (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f), false,
+                            -1, -1, -1);
                         SUtility.drawWithShadow(b, Game1.mouseCursors,
                             new(__instance.xPositionOnScreen + 60 + 8f * Game1.dialogueButtonScale / 10f,
                                 __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28),

@@ -22,7 +22,7 @@ internal class PlantCropsAbilityCheckSpeedGroPatch : BasePatch
     {
         try
         {
-            Original = "BetterJunimos.Abilities.PlantCropsAbility".ToType().MethodNamed("CheckSpeedGro");
+            Original = "BetterJunimos.Abilities.PlantCropsAbility".ToType().RequireMethod("CheckSpeedGro");
         }
         catch
         {

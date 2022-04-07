@@ -54,7 +54,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
                 .AddLabels(isNotPrestiged)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse)))
                 )
                 .InsertProfessionCheck((int) Profession.Lumberjack + 100, forLocalPlayer: false)
                 .Insert(
@@ -72,7 +72,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
                 .AddLabels(resumeExecution2)
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).MethodNamed(nameof(Tool.getLastFarmerToUse)))
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse)))
                 )
                 .InsertProfessionCheck((int) Profession.Lumberjack + 100, forLocalPlayer: false)
                 .Insert(

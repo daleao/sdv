@@ -49,8 +49,7 @@ internal class CrabPotCheckForActionPatch : BasePatch
                 addedToInvetory = who.addItemToInventoryBool(weapon);
                 who.mostRecentlyGrabbedItem = item;
             }
-            else if (__instance.heldObject.Value.ParentSheetIndex.IsAnyOf(516, 517, 518, 519, 527, 529, 530, 531,
-                         532,
+            else if (__instance.heldObject.Value.ParentSheetIndex.IsAnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532,
                          533, 534)) // caught a ring
             {
                 var ring = new Ring(__instance.heldObject.Value.ParentSheetIndex);

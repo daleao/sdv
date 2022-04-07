@@ -22,41 +22,41 @@ internal static class BetterArtisanGoodIconsPatches
     internal static void Apply(Harmony harmony)
     {
         harmony.Patch(
-            original: typeof(Furniture).MethodNamed(nameof(Furniture.draw),
+            original: typeof(Furniture).RequireMethod(nameof(Furniture.draw),
                 new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)}),
-            prefix: new(typeof(AutomatePatches).MethodNamed(nameof(FurnitureDrawPrefix)),
+            prefix: new(typeof(AutomatePatches).RequireMethod(nameof(FurnitureDrawPrefix)),
                 before: new[] {"cat.betterartisangoodicons"})
         );
 
         harmony.Patch(
-            original: typeof(SObject).MethodNamed(nameof(SObject.draw),
+            original: typeof(SObject).RequireMethod(nameof(SObject.draw),
                 new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)}),
-            prefix: new(typeof(BetterArtisanGoodIconsPatches).MethodNamed(nameof(ObjectDrawPrefix)),
+            prefix: new(typeof(BetterArtisanGoodIconsPatches).RequireMethod(nameof(ObjectDrawPrefix)),
                 before: new[] {"cat.betterartisangoodicons"})
         );
 
         harmony.Patch(
-            original: typeof(SObject).MethodNamed(nameof(SObject.draw),
+            original: typeof(SObject).RequireMethod(nameof(SObject.draw),
                 new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float), typeof(float)}),
-            prefix: new(typeof(BetterArtisanGoodIconsPatches).MethodNamed(nameof(ObjectDrawOverloadPrefix)),
+            prefix: new(typeof(BetterArtisanGoodIconsPatches).RequireMethod(nameof(ObjectDrawOverloadPrefix)),
                 before: new[] { "cat.betterartisangoodicons" })
         );
         
         harmony.Patch(
-            original: typeof(SObject).MethodNamed(nameof(SObject.drawInMenu),
+            original: typeof(SObject).RequireMethod(nameof(SObject.drawInMenu),
                 new[]
                 {
                     typeof(SpriteBatch), typeof(Vector2), typeof(float), typeof(float), typeof(float),
                     typeof(StackDrawType), typeof(Color), typeof(bool)
                 }),
-            prefix: new(typeof(AutomatePatches).MethodNamed(nameof(ObjectDrawInMenuPrefix)),
+            prefix: new(typeof(AutomatePatches).RequireMethod(nameof(ObjectDrawInMenuPrefix)),
                 before: new[] {"cat.betterartisangoodicons"})
         );
 
         harmony.Patch(
-            original: typeof(SObject).MethodNamed(nameof(SObject.drawWhenHeld),
+            original: typeof(SObject).RequireMethod(nameof(SObject.drawWhenHeld),
                 new[] {typeof(SpriteBatch), typeof(Vector2), typeof(Farmer)}),
-            prefix: new(typeof(AutomatePatches).MethodNamed(nameof(ObjectDrawWhenHeldPrefix)),
+            prefix: new(typeof(AutomatePatches).RequireMethod(nameof(ObjectDrawWhenHeldPrefix)),
                 before: new[] {"cat.betterartisangoodicons"})
         );
     }

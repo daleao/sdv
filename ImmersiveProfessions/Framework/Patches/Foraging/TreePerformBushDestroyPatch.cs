@@ -49,7 +49,7 @@ internal class TreePerformBushDestroy : BasePatch
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldc_I4_S, (int) Profession.Lumberjack + 100),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains))),
+                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
                     new CodeInstruction(OpCodes.Brtrue_S, isPrestiged)
                 )
                 .AdvanceUntil(

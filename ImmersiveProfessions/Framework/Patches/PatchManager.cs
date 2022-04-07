@@ -42,7 +42,7 @@ internal static class PatchManager
             .Where(t => t.IsAssignableTo(typeof(IPatch)) && !t.IsAbstract).ToList();
 
         Log.D($"[HarmonyPatcher]: Found {patches.Count} patch classes. Applying patches...");
-        foreach (var patch in patches.Select(t => (IPatch) t.Constructor().Invoke(Array.Empty<object>())))
+        foreach (var patch in patches.Select(t => (IPatch) t.RequireConstructor().Invoke(Array.Empty<object>())))
             patch.Apply(harmony);
 
         var message = $"[HarmonyPatcher]: Done.\n\t- Applied {AppliedPrefixCount}/{TotalPrefixCount} prefixes.";

@@ -19,7 +19,7 @@ internal class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch
     {
         try
         {
-            Original = "UIInfoSuite.UIElements.ExperienceBar".ToType().MethodNamed("GetExperienceRequiredToLevel");
+            Original = "UIInfoSuite.UIElements.ExperienceBar".ToType().RequireMethod("GetExperienceRequiredToLevel");
         }
         catch
         {

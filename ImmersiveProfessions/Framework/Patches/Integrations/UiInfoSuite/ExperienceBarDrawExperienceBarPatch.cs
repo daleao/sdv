@@ -22,7 +22,7 @@ internal class ExperieneBarDrawExperienceBarPatch : BasePatch
     {
         try
         {
-            Original = "UIInfoSuite.UIElements.ExperienceBar".ToType().MethodNamed("DrawExperienceBar");
+            Original = "UIInfoSuite.UIElements.ExperienceBar".ToType().RequireMethod("DrawExperienceBar");
         }
         catch
         {

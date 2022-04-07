@@ -26,15 +26,13 @@ internal static class AutomatePatches
     internal static void Apply(Harmony harmony)
     {
         harmony.Patch(
-            original: "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine".ToType()
-                .MethodNamed("OnOutputReduced"),
-            postfix: new(typeof(AutomatePatches).MethodNamed(nameof(BushMachineOnOutputReducedPostfix)))
+            original: "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine".ToType().RequireMethod("OnOutputReduced"),
+            postfix: new(typeof(AutomatePatches).RequireMethod(nameof(BushMachineOnOutputReducedPostfix)))
         );
 
         harmony.Patch(
-            original: "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType()
-                .MethodNamed("SetInput"),
-            transpiler: new(typeof(AutomatePatches).MethodNamed(nameof(CheesePressSetInputTranspiler)))
+            original: "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType().RequireMethod("SetInput"),
+            transpiler: new(typeof(AutomatePatches).RequireMethod(nameof(CheesePressSetInputTranspiler)))
         );
 
         harmony.Patch(
@@ -42,12 +40,11 @@ internal static class AutomatePatches
                 .MakeGenericType(typeof(SObject))
                 .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
                 .FirstOrDefault(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3),
-            transpiler: new(typeof(AutomatePatches).MethodNamed(nameof(GenericObjectMachineGenericPullRecipeTranspiler)))
+            transpiler: new(typeof(AutomatePatches).RequireMethod(nameof(GenericObjectMachineGenericPullRecipeTranspiler)))
         );
 
         harmony.Patch(
-            original: "Pathoschild.Stardew.Automate.Framework.Machines.Objects.TapperMachine".ToType()
-                .MethodNamed("Reset"),
+            original: "Pathoschild.Stardew.Automate.Framework.Machines.Objects.TapperMachine".ToType().RequireMethod("Reset"),
             postfix: new(typeof(AutomatePatches), nameof(TapperMachineResetPostfix))
         );
     }
@@ -59,7 +56,7 @@ internal static class AutomatePatches
     {
         if (__instance is null || !ModEntry.Config.BerryBushesRewardExp) return;
 
-        _GetBushMachine ??= __instance.GetType().PropertyGetter("Machine");
+        _GetBushMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
         var machine = (Bush) _GetBushMachine.Invoke(__instance, null);
         if (machine is null || machine.size.Value >= Bush.greenTeaBush) return;
 
@@ -92,8 +89,7 @@ internal static class AutomatePatches
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(AutomatePatches).MethodNamed(
-                            nameof(SetInputSubroutine)))
+                        typeof(AutomatePatches).RequireMethod(nameof(SetInputSubroutine)))
                 );
         }
         catch (Exception ex)
@@ -131,8 +127,7 @@ internal static class AutomatePatches
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(AutomatePatches).MethodNamed(
-                            nameof(GenericPullRecipeSubroutine)))
+                        typeof(AutomatePatches).RequireMethod(nameof(GenericPullRecipeSubroutine)))
                 );
         }
         catch (Exception ex)
@@ -150,7 +145,7 @@ internal static class AutomatePatches
     {
         if (__instance is null || !ModEntry.Config.TappersRewardExp) return;
 
-        _GetTapperMachine ??= __instance.GetType().PropertyGetter("Machine");
+        _GetTapperMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
         var machine = (SObject)_GetTapperMachine.Invoke(__instance, null);
         if (machine is null) return;
 
@@ -166,7 +161,7 @@ internal static class AutomatePatches
     {
         if (!ModEntry.Config.LargeProducsYieldQuantityOverQuality) return;
 
-        _GetSampleFromCheesePressMachine ??= consumable.GetType().PropertyGetter("Sample");
+        _GetSampleFromCheesePressMachine ??= consumable.GetType().RequirePropertyGetter("Sample");
         if (_GetSampleFromCheesePressMachine.Invoke(consumable, null) is not SObject input) return;
 
         var output = machine.heldObject.Value;
@@ -180,7 +175,7 @@ internal static class AutomatePatches
     {
         if (machine.name != "Mayonnaise Machine" && machine.name != "Keg") return;
 
-        _GetSampleFromGenericMachine ??= consumable.GetType().PropertyGetter("Sample");
+        _GetSampleFromGenericMachine ??= consumable.GetType().RequirePropertyGetter("Sample");
         if (_GetSampleFromGenericMachine.Invoke(consumable, null) is not SObject input) return;
 
 

@@ -23,8 +23,7 @@ internal class InseminationSyringeOverridesDoFunctionPatch : BasePatch
     {
         try
         {
-            Original = "AnimalHusbandryMod.tools.InseminationSyringeOverrides".ToType()
-                .MethodNamed("DoFunction");
+            Original = "AnimalHusbandryMod.tools.InseminationSyringeOverrides".ToType().RequireMethod("DoFunction");
         }
         catch
         {
@@ -83,7 +82,7 @@ internal class InseminationSyringeOverridesDoFunctionPatch : BasePatch
                     new[] {resumeDivision},
                     new CodeInstruction(OpCodes.Div),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Math).MethodNamed(nameof(Math.Round), new[] {typeof(double)})),
+                        typeof(Math).RequireMethod(nameof(Math.Round), new[] {typeof(double)})),
                     new CodeInstruction(OpCodes.Conv_I4),
                     new CodeInstruction(OpCodes.Stloc_S, daysUntilBirth)
                 );

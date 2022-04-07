@@ -74,16 +74,15 @@ internal class ObjectCheckForActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SObject).PropertyGetter(nameof(SObject.name))),
+                        typeof(SObject).RequirePropertyGetter(nameof(SObject.name))),
                     new CodeInstruction(OpCodes.Ldstr, "Crystalarium"),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)})),
+                        typeof(string).RequireMethod(nameof(string.Equals), new[] {typeof(string)})),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions)
-                            .MethodNamed(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
@@ -111,7 +110,7 @@ internal class ObjectCheckForActionPatch : BasePatch
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldc_I4_4),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Utility).MethodNamed(nameof(Utility.CalculateMinutesUntilMorning),
+                        typeof(Utility).RequireMethod(nameof(Utility.CalculateMinutesUntilMorning),
                             new[] { typeof(int), typeof(int) }))
                 )
                 .AddLabels(isNotProducer)
@@ -120,13 +119,13 @@ internal class ObjectCheckForActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = Profession.Producer
                     new CodeInstruction(OpCodes.Ldc_I4_0), // false for not prestiged
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
+                        typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotProducer),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldc_I4_3),
                     new CodeInstruction(OpCodes.Ldc_I4_1), // true for prestiged
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
+                        typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution),

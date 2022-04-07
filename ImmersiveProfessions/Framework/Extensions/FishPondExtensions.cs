@@ -14,7 +14,7 @@ using Common.Extensions;
 /// <summary>Extensions for the <see cref="FishPond"/> class.</summary>
 public static class FishPondExtensions
 {
-    private static readonly FieldInfo _FishPondData = typeof(FishPond).Field("_fishPondData");
+    private static readonly FieldInfo _FishPondData = typeof(FishPond).RequireField("_fishPondData")!;
 
     /// <summary>Whether the instance's population has been fully unlocked.</summary>
     public static bool HasUnlockedFinalPopulationGate(this FishPond pond)

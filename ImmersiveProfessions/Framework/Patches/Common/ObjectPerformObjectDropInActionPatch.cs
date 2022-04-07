@@ -103,17 +103,16 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Stats).PropertySetter(nameof(Stats.GeodesCracked)))
+                        typeof(Stats).RequirePropertySetter(nameof(Stats.GeodesCracked)))
                 )
                 .Advance()
                 .InsertProfessionCheck((int) Profession.Gemologist)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions)
-                            .MethodNamed(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);

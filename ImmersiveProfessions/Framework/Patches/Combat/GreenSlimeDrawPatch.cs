@@ -42,13 +42,13 @@ internal class GreenSlimeDrawPatch : BasePatch
             new(OpCodes.Ldarg_1),
             new(OpCodes.Ldarg_0),
             new(OpCodes.Callvirt,
-                typeof(Character).PropertyGetter(nameof(Character.Sprite))),
+                typeof(Character).RequirePropertyGetter(nameof(Character.Sprite))),
             new(OpCodes.Callvirt,
-                typeof(AnimatedSprite).PropertyGetter(nameof(AnimatedSprite.Texture))),
+                typeof(AnimatedSprite).RequirePropertyGetter(nameof(AnimatedSprite.Texture))),
             new(OpCodes.Ldarg_0),
-            new(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.viewport))),
+            new(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.viewport))),
             new(OpCodes.Call,
-                typeof(Character).MethodNamed(nameof(Character.getLocalPosition)))
+                typeof(Character).RequireMethod(nameof(Character.getLocalPosition)))
         };
 
         try
@@ -64,7 +64,7 @@ internal class GreenSlimeDrawPatch : BasePatch
                 .Insert( // insert custom offset
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(GreenSlimeDrawPatch).MethodNamed(nameof(GetAntennaeOffset)))
+                        typeof(GreenSlimeDrawPatch).RequireMethod(nameof(GetAntennaeOffset)))
                 )
                 .Insert(got) // insert addition
                 .FindNext(drawInstructions) // find eyes draw call
@@ -74,7 +74,7 @@ internal class GreenSlimeDrawPatch : BasePatch
                 .Insert( // insert custom offset
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(GreenSlimeDrawPatch).MethodNamed(nameof(GetEyesOffset)))
+                        typeof(GreenSlimeDrawPatch).RequireMethod(nameof(GetEyesOffset)))
                 )
                 .Insert(got); // insert addition
         }

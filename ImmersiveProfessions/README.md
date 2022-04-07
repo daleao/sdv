@@ -210,10 +210,10 @@ The following mods are fully integrated:
 - [Automate](https://www.nexusmods.com/stardewvalley/mods/1063) (for craftable machines, the machine's owner's professions will apply; for terrain features, i.e. berry bushes, only the session host's professions will apply).
 - [Producer Framework Mod](https://www.nexusmods.com/stardewvalley/mods/4970) and [PFMAutomate](https://www.nexusmods.com/stardewvalley/mods/5038) (same rules apply as above).
 - [Animal Husbandry Mod](https://www.nexusmods.com/stardewvalley/mods/1538) (with benefits for Breeder and Producer professions).
-- PPJA Packs: [Artisan Valley﻿](https://www.nexusmods.com/stardewvalley/mods/1926), [Artisanal Soda Makers](https://www.nexusmods.com/stardewvalley/mods/5173)﻿, [Fizzy Drinks](https://www.nexusmods.com/stardewvalley/mods/5342)﻿, [Fresh Meat﻿](https://www.nexusmods.com/stardewvalley/mods/1721), [Shaved Ice & Frozen Treats](https://www.nexusmods.com/stardewvalley/mods/5388) will all work with Artisan profession.﻿.
-- [Better Artisan Good Icons](https://www.nexusmods.com/stardewvalley/mods/2080)﻿ (some flower meads have unique icons).
+- PPJA Packs: [Artisan Valley﻿](https://www.nexusmods.com/stardewvalley/mods/1926), [Artisanal Soda Makers](https://www.nexusmods.com/stardewvalley/mods/5173)﻿, [Fizzy Drinks](https://www.nexusmods.com/stardewvalley/mods/5342)﻿, [Shaved Ice & Frozen Treats](https://www.nexusmods.com/stardewvalley/mods/5388) will all work with Artisan profession.﻿ [Fresh Meat﻿](https://www.nexusmods.com/stardewvalley/mods/1721) as well, though meat crops will count as animal products and not as crops, and will thus benefit from Producer profession.
 - [CJB Cheats Menu](https://www.nexusmods.com/stardewvalley/mods/4) (download the optional translation files to change profession names under skill cheats).
 - [Teh's Fishing Overhaul](https://www.nexusmods.com/stardewvalley/mods/866/) (the optional Recatchable Legendaries file is also compatible).
+- [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) (will also be tracked by Prospector).﻿
 - [Mushroom Propagator](https://www.nexusmods.com/stardewvalley/mods/4637) (applies Ecologist perks).
 - [Vintage Interface v2](https://www.nexusmods.com/stardewvalley/mods/4697) (enable via configs).
 - [Stardew Valley Expanded](https://www.nexusmods.com/stardewvalley/mods/3753) (provides a compatible Galdoran-theme Ultimate bar if SVE is installed).﻿

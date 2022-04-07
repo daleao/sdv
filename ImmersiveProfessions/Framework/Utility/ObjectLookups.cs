@@ -67,9 +67,9 @@ internal static class ObjectLookups
         {384, new[] {"0.12", "1", "24"}}, // gold ore
         {386, new[] {"0.065", "1", "2"}}, // iridium ore
         {516, new[] {"0.024", "1", "1"}}, // small glow ring
-        {517, new[] {"1.009", "1", "1"}}, // glow ring
+        {517, new[] {"0.009", "1", "1"}}, // glow ring
         {518, new[] {"0.024", "1", "1"}}, // small magnet ring
-        {519, new[] {"1.009", "1", "1"}}, // magnet ring
+        {519, new[] {"0.009", "1", "1"}}, // magnet ring
         {527, new[] {"0.005", "1", "1"}}, // iridium band
         {529, new[] {"0.005", "1", "1"}}, // amethyst ring
         {530, new[] {"0.005", "1", "1"}}, // topaz ring
@@ -136,7 +136,7 @@ internal static class ObjectLookups
     };
 
     /// <summary>Hash list of stone ids corresponding to resource nodes.</summary>
-    internal static readonly IEnumerable<int> ResourceNodeIds = new HashSet<int>
+    internal static IEnumerable<int> ResourceNodeIds = new HashSet<int>
     {
         // ores
         751, // copper node

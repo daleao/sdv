@@ -47,14 +47,14 @@ internal class CollectionsPageDrawPatch : BasePatch
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(CollectionsPage).Field("hoverItem")),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(CollectionsPage).RequireField("hoverItem")),
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0), // this
                     new CodeInstruction(OpCodes.Ldarg_1), // SpriteBatch b
                     new CodeInstruction(OpCodes.Call,
-                        typeof(CollectionsPageDrawPatch).MethodNamed(nameof(DrawMaxIcons)))
+                        typeof(CollectionsPageDrawPatch).RequireMethod(nameof(DrawMaxIcons)))
                 );
         }
         catch (Exception ex)

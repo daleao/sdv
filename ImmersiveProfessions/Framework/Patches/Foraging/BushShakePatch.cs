@@ -48,12 +48,11 @@ internal class BushShakePatch : BasePatch
                 .GetLabels(out var labels) // backup branch labels
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(
-                            nameof(FarmerExtensions.GetEcologistForageQuality)))
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
                 .InsertWithLabels(
                     labels: labels, // restore backed-up labels
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player)))
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player)))
                 );
         }
         catch (Exception ex)
@@ -79,11 +78,10 @@ internal class BushShakePatch : BasePatch
                 .InsertProfessionCheck((int) Profession.Ecologist)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldstr, DataField.EcologistItemsForaged.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions)
-                            .MethodNamed(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseEcologistCounter);

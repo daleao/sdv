@@ -114,7 +114,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, dontBuffDamage),
                     // check for local player
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer)))
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer)))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.15f) // brute damage multiplier
@@ -123,9 +123,9 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.BruteRageCounter))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.BruteRageCounter))),
                     new CodeInstruction(OpCodes.Conv_R4),
                     new CodeInstruction(OpCodes.Ldc_R4, Frenzy.PCT_INCREMENT_PER_RAGE_F),
                     new CodeInstruction(OpCodes.Mul),
@@ -163,7 +163,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 )
                 .Advance()
                 .Insert(
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow)
                 )
                 .Advance()
@@ -172,9 +172,9 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .Insert(
                     // check for ambush
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
                     new CodeInstruction(OpCodes.Stloc_S, ambush),
                     new CodeInstruction(OpCodes.Ldloc_S, ambush),
@@ -182,7 +182,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     // check for crit. pow. buff
                     new CodeInstruction(OpCodes.Ldloc_S, ambush),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Ambush).MethodNamed(nameof(Ambush.ShouldBuffCritPower))),
+                        typeof(Ambush).RequireMethod(nameof(Ambush.ShouldBuffCritPower))),
                     new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow)
                 )
                 .RemoveUntil(
@@ -207,7 +207,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .FindFirst( // monster.Health <= 0
                     new CodeInstruction(OpCodes.Ldloc_2),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Monster).PropertyGetter(nameof(Monster.Health))),
+                        typeof(Monster).RequirePropertyGetter(nameof(Monster.Health))),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Bgt)
                 )
@@ -222,7 +222,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloc_2), // local 2 = Monster monster
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
                     new CodeInstruction(OpCodes.Call,
-                        typeof(GameLocationDamageMonsterPatch).MethodNamed(nameof(DamageMonsterSubroutine)))
+                        typeof(GameLocationDamageMonsterPatch).RequireMethod(nameof(DamageMonsterSubroutine)))
                 );
         }
         catch (Exception ex)

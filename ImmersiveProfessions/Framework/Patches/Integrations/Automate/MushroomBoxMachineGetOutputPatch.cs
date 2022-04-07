@@ -25,8 +25,7 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.MushroomBoxMachine".ToType()
-                .MethodNamed("GetOutput");
+            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.MushroomBoxMachine".ToType().RequireMethod("GetOutput");
         }
         catch
         {
@@ -46,7 +45,7 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
         {
             if (__instance is null) return true; // run original logic
 
-            _GetMachine ??= __instance.GetType().PropertyGetter("Machine");
+            _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
             var machine = (SObject) _GetMachine.Invoke(__instance, null);
             if (machine?.heldObject.Value is null) return true; // run original logic
 

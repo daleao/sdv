@@ -212,6 +212,9 @@ public static class FarmerExtensions
             case SkillType.Combat:
                 farmer.combatLevel.Value = newLevel;
                 break;
+            case SkillType.Luck:
+                farmer.luckLevel.Value = newLevel;
+                break;
         }
     }
 

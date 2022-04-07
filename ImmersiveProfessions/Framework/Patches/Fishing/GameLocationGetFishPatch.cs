@@ -64,7 +64,7 @@ internal class GameLocationGetFishPatch : BasePatch
                 )
                 .FindLast( // find index of caught = new Object(whichFish, 1)
                     new CodeInstruction(OpCodes.Newobj,
-                        typeof(SObject).Constructor(new[]
+                        typeof(SObject).GetConstructor(new[]
                             {typeof(int), typeof(int), typeof(bool), typeof(int), typeof(int)}))
                 )
                 .RetreatUntil(
@@ -76,7 +76,7 @@ internal class GameLocationGetFishPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
                     new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(GameLocationGetFishPatch).MethodNamed(nameof(ShouldRerollFish))),
+                        typeof(GameLocationGetFishPatch).RequireMethod(nameof(ShouldRerollFish))),
                     new CodeInstruction(OpCodes.Brfalse_S, shouldntReroll),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Stloc_S, hasRerolled), // set hasRerolled to true

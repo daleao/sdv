@@ -28,8 +28,7 @@ internal class BushMachineGetOutputPatch : BasePatch
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine".ToType()
-                .MethodNamed("GetOutput");
+            Original = "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine".ToType().RequireMethod("GetOutput");
         }
         catch
         {
@@ -45,7 +44,7 @@ internal class BushMachineGetOutputPatch : BasePatch
     {
         if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        _GetMachine ??= __instance.GetType().PropertyGetter("Machine");
+        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
         var machine = (Bush) _GetMachine.Invoke(__instance, null);
         if (machine is null || machine.size.Value >= Bush.greenTeaBush) return;
 
@@ -74,12 +73,11 @@ internal class BushMachineGetOutputPatch : BasePatch
                 .GetLabels(out var labels) // backup branch labels
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(
-                            nameof(FarmerExtensions.GetEcologistForageQuality)))
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
                 .InsertWithLabels(
                     labels: labels, // restore backed-up labels
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player)))
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player)))
                 );
         }
         catch (Exception ex)

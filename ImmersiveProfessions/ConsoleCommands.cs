@@ -205,8 +205,8 @@ internal static class ConsoleCommands
             return;
         }
 
-        var prestige = args[0] is "-p" or "--prestiged";
-        if (prestige) args = args.Skip(1).ToArray();
+        var prestige = args.Any(a => a is "-p" or "--prestiged");
+        if (prestige) args = args.Except(new[] {"-p", "--prestiged"}).ToArray();
 
         List<int> professionsToAdd = new();
         foreach (var arg in args.Select(a => a.ToLower()))

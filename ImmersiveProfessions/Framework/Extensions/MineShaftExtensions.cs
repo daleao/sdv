@@ -16,7 +16,7 @@ using Common.Extensions;
 /// <summary>Extensions for the <see cref="MineShaft"/> class.</summary>
 public static class MineShaftExtensions
 {
-    private static readonly FieldInfo _NetIsTreasureRoom = typeof(MineShaft).Field("netIsTreasureRoom");
+    private static readonly FieldInfo _NetIsTreasureRoom = typeof(MineShaft).RequireField("netIsTreasureRoom")!;
 
     /// <summary>Whether the current mine level is a safe level; i.e. shouldn't spawn any monsters.</summary>
     /// <param name="shaft">The <see cref="MineShaft" /> instance.</param>

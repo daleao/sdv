@@ -23,7 +23,7 @@ internal class ProfessionsCheatSetProfessionPatch : BasePatch
     {
         try
         {
-            Original = "CJBCheatsMenu.Framework.Cheats.Skills.ProfessionsCheat".ToType().MethodNamed("SetProfession");
+            Original = "CJBCheatsMenu.Framework.Cheats.Skills.ProfessionsCheat".ToType().RequireMethod("SetProfession");
         }
         catch
         {

@@ -27,6 +27,8 @@ internal class SlingshotDrawPatch : BasePatch
     [HarmonyPostfix]
     internal static void SlingshotDrawPostfix(Slingshot __instance, SpriteBatch b)
     {
+        if (__instance.attachments[0] is null) return;
+
         var lastUser = __instance.getLastFarmerToUse();
         if (!lastUser.usingSlingshot || !lastUser.IsLocalPlayer || !lastUser.HasProfession(Profession.Desperado) ||
             ModEntry.PlayerState.RegisteredUltimate is DeathBlossom { IsActive: true })

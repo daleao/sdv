@@ -21,15 +21,15 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
 {
-    private static FieldInfo _SourceMushroomQuality;
+    private static readonly FieldInfo _SourceMushroomQuality =
+        "BlueberryMushroomMachine.Propagator".ToType().RequireField("SourceMushroomQuality")!;
 
     /// <summary>Construct an instance.</summary>
     internal PropagatorPopExtraHeldMushroomsPatch()
     {
         try
         {
-            Original = "BlueberryMushroomMachine.Propagator".ToType()
-                .MethodNamed("PopExtraHeldMushrooms");
+            Original = "BlueberryMushroomMachine.Propagator".ToType().RequireMethod("PopExtraHeldMushrooms");
         }
         catch
         {
@@ -74,8 +74,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(PropagatorPopExtraHeldMushroomsPatch).MethodNamed(
-                            nameof(PopExtraHeldMushroomsSubroutine)))
+                        typeof(PropagatorPopExtraHeldMushroomsPatch).RequireMethod(nameof(PopExtraHeldMushroomsSubroutine)))
                 )
                 .RemoveLabels();
         }
@@ -98,7 +97,6 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         var owner = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
         if (owner.IsLocalPlayer && owner.HasProfession(Profession.Ecologist)) return owner.GetEcologistForageQuality();
 
-        _SourceMushroomQuality ??= propagator.GetType().Field("SourceMushroomQuality");
         var sourceMushroomQuality = (int) _SourceMushroomQuality.GetValue(propagator)!;
         return sourceMushroomQuality;
     }

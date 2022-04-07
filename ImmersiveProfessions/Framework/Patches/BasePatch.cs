@@ -29,6 +29,7 @@ internal abstract class BasePatch : IPatch
     }
 
     protected MethodBase Original { get; set; }
+    protected Type DeclaringType => Original.DeclaringType;
     protected HarmonyMethod Prefix { get; set; }
     protected HarmonyMethod Postfix { get; set; }
     protected HarmonyMethod Transpiler { get; set; }
@@ -91,7 +92,7 @@ internal abstract class BasePatch : IPatch
     /// <remarks>Credit to Pathoschild.</remarks>
     protected ConstructorInfo RequireConstructor<TTarget>(params Type[] parameters)
     {
-        return typeof(TTarget).Constructor(parameters);
+        return typeof(TTarget).RequireConstructor(parameters);
     }
 
     /// <summary>Get a method and assert that it was found.</summary>
@@ -101,7 +102,7 @@ internal abstract class BasePatch : IPatch
     /// <remarks>Credit to Pathoschild.</remarks>
     protected MethodInfo RequireMethod<TTarget>(string name, Type[] parameters = null)
     {
-        return typeof(TTarget).MethodNamed(name, parameters);
+        return typeof(TTarget).RequireMethod(name, parameters);
     }
 
     /// <summary>Get all Harmony patch methods in the current patch instance.</summary>

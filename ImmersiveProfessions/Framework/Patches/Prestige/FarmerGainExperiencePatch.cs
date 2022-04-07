@@ -51,6 +51,14 @@ internal class FarmerGainExperiencePatch : BasePatch
             var currentExp = Game1.player.experiencePoints[which];
             var currentLevel = Game1.player.GetUnmodifiedSkillLevel(which);
             var canGainPrestigeLevels = __instance.HasAllProfessionsInSkill(which);
+            
+            howMuch = (int)(howMuch * ModEntry.Config.BaseSkillExpMultiplierPerSkill[which]);
+            if (ModEntry.Config.EnablePrestige)
+            {
+                howMuch = (int)(howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
+                    __instance.NumberOfProfessionsInSkill(which, true)));
+            }
+
             switch (currentLevel)
             {
                 case >= 10 when !canGainPrestigeLevels:
@@ -70,9 +78,16 @@ internal class FarmerGainExperiencePatch : BasePatch
 
                     return false; // don't run original logic
                 }
+                case < 10 when !canGainPrestigeLevels:
+                {
+                    if (currentExp + howMuch > VANILLA_CAP_I)
+                        howMuch = VANILLA_CAP_I - currentExp;
+                    
+                    break;
+                }
             }
 
-            if (!ModEntry.PlayerState.RevalidatedLevelThisSession)
+            if (!ModEntry.PlayerState.RevalidatedLevelThisSession[which])
             {
                 var expectedLevel = 0;
                 var i = 0;
@@ -97,14 +112,7 @@ internal class FarmerGainExperiencePatch : BasePatch
                     Game1.player.SetSkillLevel((SkillType) which, expectedLevel);
                 }
 
-                ModEntry.PlayerState.RevalidatedLevelThisSession = true;
-            }
-
-            howMuch = (int) (howMuch * ModEntry.Config.BaseSkillExpMultiplierPerSkill[which]);
-            if (ModEntry.Config.EnablePrestige)
-            {
-                howMuch = (int) (howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
-                    __instance.NumberOfProfessionsInSkill(which, true)));
+                ModEntry.PlayerState.RevalidatedLevelThisSession[which] = true;
             }
 
             var newLevel = Farmer.checkForLevelGain(currentExp, currentExp + howMuch);

@@ -25,8 +25,7 @@ internal class ModEntryEvent_DrawRegenBarPatch : BasePatch
     {
         try
         {
-            Original = "LoveOfCooking.ModEntry".ToType()
-                .MethodNamed("Event_DrawRegenBar");
+            Original = "LoveOfCooking.ModEntry".ToType().RequireMethod("Event_DrawRegenBar");
         }
         catch
         {
@@ -67,26 +66,26 @@ internal class ModEntryEvent_DrawRegenBarPatch : BasePatch
                     labels,
                     // check if RegisteredUltimate is null
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     // check if RegisteredUltimate.Meter.IsVisible
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Ultimate).PropertyGetter(nameof(Ultimate.Meter))),
+                        typeof(Ultimate).RequirePropertyGetter(nameof(Ultimate.Meter))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(UltimateMeter).PropertyGetter(nameof(UltimateMeter.IsVisible))),
+                        typeof(UltimateMeter).RequirePropertyGetter(nameof(UltimateMeter.IsVisible))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution)
                 )
                 .Insert(got) // loads topOfBar.X
                 .Insert(
                     new CodeInstruction(OpCodes.Ldc_R4, 56f),
                     new CodeInstruction(OpCodes.Sub),
-                    new CodeInstruction(OpCodes.Stfld, typeof(Vector2).Field(nameof(Vector2.X)))
+                    new CodeInstruction(OpCodes.Stfld, typeof(Vector2).RequireField(nameof(Vector2.X)))
                 );
         }
         catch (Exception ex)

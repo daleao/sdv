@@ -41,7 +41,7 @@ internal class FishingRodPlayerCaughtFishEndFunctionPatch : BasePatch
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Call, typeof(FishingRod).MethodNamed(nameof(FishingRod.isFishBossFish)))
+                    new CodeInstruction(OpCodes.Call, typeof(FishingRod).RequireMethod(nameof(FishingRod.isFishBossFish)))
                 )
                 .Advance()
                 .GetOperand(out var dontShowMessage)
@@ -49,12 +49,12 @@ internal class FishingRodPlayerCaughtFishEndFunctionPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FishingRod).MethodNamed(nameof(FishingRod.getLastFarmerToUse))),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.fishCaught))),
+                        typeof(FishingRod).RequireMethod(nameof(FishingRod.getLastFarmerToUse))),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.fishCaught))),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(FishingRod).Field("whichFish")),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(FishingRod).RequireField("whichFish")),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(NetIntIntArrayDictionary).MethodNamed(nameof(NetIntIntArrayDictionary.ContainsKey))),
+                        typeof(NetIntIntArrayDictionary).RequireMethod(nameof(NetIntIntArrayDictionary.ContainsKey))),
                     new CodeInstruction(OpCodes.Brtrue_S, dontShowMessage)
                 );
         }

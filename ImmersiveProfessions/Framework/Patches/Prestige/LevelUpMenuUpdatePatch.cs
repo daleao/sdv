@@ -51,7 +51,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentLevel")),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
                     new CodeInstruction(OpCodes.Ldc_I4_5),
                     new CodeInstruction(OpCodes.Bne_Un_S)
                 )
@@ -61,7 +61,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Beq_S, isLevel5),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentLevel")),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 15)
                 )
                 .Advance()
@@ -82,13 +82,13 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         {
             helper
                 .FindFirst( // find index of checking if the player has the the first level 5 profession in the skill
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentSkill")),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentSkill")),
                     new CodeInstruction(OpCodes.Ldc_I4_6),
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
+                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
                 )
                 .Remove() // remove Ldfld Farmer.professions
                 .AdvanceUntil(
@@ -96,13 +96,13 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 )
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions.GetCurrentBranchForSkill))),
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetCurrentBranchForSkill))),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentSkill"))
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentSkill"))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
+                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
                 )
                 .Remove() // remove Callvirt Nelist<int, NetInt>.Contains()
                 .SetOpCode(OpCodes.Bne_Un_S); // was Brfalse_S
@@ -134,8 +134,8 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         {
             helper
                 .FindNext( // find index of adding a profession to the player's list of professions
-                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).PropertyGetter("Item")),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).MethodNamed("Add"))
+                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).RequireMethod("Add"))
                 )
                 .Advance()
                 .Insert(
@@ -146,8 +146,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                 )
                 .ReplaceWith( // replace Add() with AddOrReplace()
                     new(OpCodes.Call,
-                        typeof(CollectionExtensions)
-                            .MethodNamed(nameof(CollectionExtensions.AddOrReplace))
+                        typeof(CollectionExtensions).RequireMethod(nameof(CollectionExtensions.AddOrReplace))
                             .MakeGenericMethod(typeof(int)))
                 )
                 .Advance()
@@ -165,17 +164,17 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                     new[] {dontGetImmediatePerks},
                     // check if current level is above 10 (i.e. prestige level)
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentLevel")),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10),
                     new CodeInstruction(OpCodes.Ble_Un_S, isNotPrestigeLevel), // branch out if not
                     // add chosenProfession + 100 to player's professions
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 100),
                     new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Add)))
+                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Add)))
                 )
                 .InsertWithLabels(
                     // branch here if was not prestige level
@@ -184,17 +183,17 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
                     // check if should propose final question
                     new CodeInstruction(OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatch).MethodNamed(nameof(ShouldProposeFinalQuestion))),
+                        typeof(LevelUpMenuUpdatePatch).RequireMethod(nameof(ShouldProposeFinalQuestion))),
                     // store the bool result for later
                     new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion),
                     // load the current level onto the stack
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentLevel")),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
                     // load the chosen profession onto the stack
                     new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
                     // check if should congratulate on full prestige
                     new CodeInstruction(OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatch).MethodNamed(nameof(ShouldCongratulateOnFullSkillMastery))),
+                        typeof(LevelUpMenuUpdatePatch).RequireMethod(nameof(ShouldCongratulateOnFullSkillMastery))),
                     // store the bool result for later
                     new CodeInstruction(OpCodes.Stloc_S, shouldCongratulateFullSkillMastery)
                 );
@@ -229,7 +228,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Stloc_S, shouldCongratulateFullSkillMastery)
                 )
                 .FindLast( // find index of the section that checks for a return (once LevelUpMenu is no longer needed)
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field(nameof(LevelUpMenu.isActive)))
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField(nameof(LevelUpMenu.isActive)))
                 )
                 .Retreat() // retreat to the start of this section
                 .StripLabels(out var labels) // backup and remove branch labels
@@ -245,7 +244,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
                     new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateFullSkillMastery),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatch).MethodNamed(nameof(ProposeFinalQuestion))),
+                        typeof(LevelUpMenuUpdatePatch).RequireMethod(nameof(ProposeFinalQuestion))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .InsertWithLabels(
@@ -257,7 +256,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                     // if so, push the chosen profession onto the stack and call CongratulateOnFullPrestige()
                     new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatch).MethodNamed(nameof(CongratulateOnFullSkillMastery)))
+                        typeof(LevelUpMenuUpdatePatch).RequireMethod(nameof(CongratulateOnFullSkillMastery)))
                 );
         }
         catch (Exception ex)

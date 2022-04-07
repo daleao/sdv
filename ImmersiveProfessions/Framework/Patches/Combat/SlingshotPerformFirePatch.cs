@@ -23,13 +23,14 @@ using SoundBank = AssetLoaders.SoundBank;
 [UsedImplicitly]
 internal class SlingshotPerformFirePatch : BasePatch
 {
-    private static readonly FieldInfo _CanPlaySound = typeof(Slingshot).Field("canPlaySound");
-    private static readonly MethodInfo _UpdateAimPos = typeof(Slingshot).MethodNamed("updateAimPos");
+    private static readonly FieldInfo _CanPlaySound = typeof(Slingshot).RequireField("canPlaySound")!;
+    private static readonly MethodInfo _UpdateAimPos = typeof(Slingshot).RequireMethod("updateAimPos");
 
     /// <summary>Construct an instance.</summary>
     internal SlingshotPerformFirePatch()
     {
         Original = RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
+        Prefix.priority = Priority.LowerThanNormal;
     }
 
     #region harmony patches

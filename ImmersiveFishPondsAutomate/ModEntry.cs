@@ -40,9 +40,8 @@ public class ModEntry : Mod
         // apply harmony patch
         var target = 
         new Harmony(ModManifest.UniqueID).Patch(
-            original: "Pathoschild.Stardew.Automate.Framework.Machines.Buildings.FishPondMachine".ToType()
-                .MethodNamed("OnOutputTaken"),
-            prefix: new(typeof(ModEntry).MethodNamed(nameof(FishPondMachineOnOutputTakenPrefix)))
+            original: "Pathoschild.Stardew.Automate.Framework.Machines.Buildings.FishPondMachine".ToType().RequireMethod("OnOutputTaken"),
+            prefix: new(typeof(ModEntry).RequireMethod(nameof(FishPondMachineOnOutputTakenPrefix)))
         );
     }
 
@@ -52,7 +51,7 @@ public class ModEntry : Mod
         FishPond machine = null;
         try
         {
-            _GetMachine ??= __instance.GetType().PropertyGetter("Machine");
+            _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
             machine = (FishPond) _GetMachine.Invoke(__instance, null);
             if (machine is null) return true; // run original logic
 
@@ -69,8 +68,7 @@ public class ModEntry : Mod
                 if (index == 812) // roe
                 {
                     var split = Game1.objectInformation[machine.fishType.Value].Split('/');
-                    var c = TailoringMenu.GetDyeColor(machine.GetFishObject()) ??
-                            (machine.fishType.Value == 698 ? new(61, 55, 42) : Color.Orange);
+                    var c = machine.fishType.Value == 698 ? new(61, 55, 42) : TailoringMenu.GetDyeColor(machine.GetFishObject()) ?? Color.Orange;
                     o = new ColoredObject(812, stack, c);
                     o.name = split[0] + " Roe";
                     o.preserve.Value = SObject.PreserveType.Roe;
@@ -94,7 +92,7 @@ public class ModEntry : Mod
                 ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
                 : 0);
 
-            _GetOwner ??= __instance.GetType().MethodNamed("GetOwner");
+            _GetOwner ??= __instance.GetType().RequireMethod("GetOwner");
             ((Farmer) _GetOwner.Invoke(__instance, null))?.gainExperience((int) SkillType.Fishing,
                 FishPond.HARVEST_BASE_EXP + bonus);
 

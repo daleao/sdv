@@ -23,7 +23,7 @@ using SObject = StardewValley.Object;
 /// <summary>Extensions for the <see cref="FishPond"/> class.</summary>
 public static class FishPondExtensions
 {
-    private static readonly FieldInfo _FishPondData = typeof(FishPond).Field("_fishPondData");
+    private static readonly FieldInfo _FishPondData = typeof(FishPond).RequireField("_fishPondData")!;
 
     /// <summary>Whether the instance's population has been fully unlocked.</summary>
     public static bool HasUnlockedFinalPopulationGate(this FishPond pond)
@@ -85,8 +85,7 @@ public static class FishPondExtensions
                     if (index == Constants.ROE_INDEX_I)
                     {
                         var split = Game1.objectInformation[pond.fishType.Value].Split('/');
-                        var c = TailoringMenu.GetDyeColor(pond.GetFishObject()) ??
-                                (pond.fishType.Value == 698 ? new(61, 55, 42) : Color.Orange);
+                        var c = pond.fishType.Value == 698 ? new(61, 55, 42) : TailoringMenu.GetDyeColor(pond.GetFishObject()) ?? Color.Orange;
                         var o = new ColoredObject(Constants.ROE_INDEX_I, stack, c);
                         o.name = split[0] + " Roe";
                         o.preserve.Value = SObject.PreserveType.Roe;

@@ -225,7 +225,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                 {
                     // if cancel do nothing
                     var skillName = questionAndAnswer.Split('_')[1];
-                    if (skillName == "cancel" || skillName == "Yes") return false; // don't run original logic
+                    if (skillName is "cancel" or "Yes") return false; // don't run original logic
 
                     // get skill type and do action
                     var skillType = Enum.Parse<SkillType>(skillName, true);

@@ -55,13 +55,13 @@ internal class FarmerTakeDamagePatch : BasePatch
                     // check if this is the local player
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
                     // check for ambush
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
                     new CodeInstruction(OpCodes.Stloc_S, ambush),
                     new CodeInstruction(OpCodes.Ldloc_S, ambush),
@@ -69,7 +69,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     // check if it's active
                     new CodeInstruction(OpCodes.Ldloc_S, ambush),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Ultimate).PropertyGetter(nameof(Ultimate.IsActive))),
+                        typeof(Ultimate).RequirePropertyGetter(nameof(Ultimate.IsActive))),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
                     // set monsterDamageCapable = false
                     new CodeInstruction(OpCodes.Ldc_I4_0),
@@ -95,7 +95,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                 .FindNext( // find index of health <= 0 (start of revive ring effect)
                     new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Farmer this
                     new CodeInstruction(OpCodes.Ldfld,
-                        typeof(Farmer).Field(nameof(Farmer.health))),
+                        typeof(Farmer).RequireField(nameof(Farmer.health))),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Bgt)
                 )
@@ -109,13 +109,13 @@ internal class FarmerTakeDamagePatch : BasePatch
                     // check if this is the local player
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
                     // check for frenzy
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
                     new CodeInstruction(OpCodes.Stloc_S, frenzy),
                     new CodeInstruction(OpCodes.Ldloc, frenzy),
@@ -123,13 +123,13 @@ internal class FarmerTakeDamagePatch : BasePatch
                     // check if it's active
                     new CodeInstruction(OpCodes.Ldloc_S, frenzy),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(IUltimate).PropertyGetter(nameof(IUltimate.IsActive))),
+                        typeof(IUltimate).RequirePropertyGetter(nameof(IUltimate.IsActive))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
                     // set health back to 1
                     new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Farmer this
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Stfld,
-                        typeof(Farmer).Field(nameof(Farmer.health))),
+                        typeof(Farmer).RequireField(nameof(Farmer.health))),
                     // resume execution (skip revive ring effect)
                     new CodeInstruction(OpCodes.Br, resumeExecution1)
                 );
@@ -161,7 +161,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                 .AddLabels(resumeExecution2) // branch here to skip increments
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
@@ -173,26 +173,26 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     // load the player state
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))), // consumed by setter of BruteRageCounter
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))), // consumed by setter of BruteRageCounter
                     new CodeInstruction(OpCodes.Dup), // consumed by getter of BruteRageCounter
                     new CodeInstruction(OpCodes.Dup), // consumed by setter of LastTimeInCombat 
                     new CodeInstruction(OpCodes.Dup), // consumed by getter of RegisteredUltimate
                     // check for frenzy
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
                     new CodeInstruction(OpCodes.Stloc_S, frenzy),
                     // record last time in combat
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertySetter(nameof(PlayerState.SecondsSinceLastCombat))),
+                        typeof(PlayerState).RequirePropertySetter(nameof(PlayerState.SecondsSinceLastCombat))),
                     // increment rage counter
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.BruteRageCounter))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.BruteRageCounter))),
                     new CodeInstruction(OpCodes.Ldloc_S, frenzy),
                     new CodeInstruction(OpCodes.Brfalse_S, doesNotHaveFrenzyOrIsNotActive),
                     new CodeInstruction(OpCodes.Ldloc_S, frenzy),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(IUltimate).PropertyGetter(nameof(IUltimate.IsActive))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(IUltimate).RequirePropertyGetter(nameof(IUltimate.IsActive))),
                     new CodeInstruction(OpCodes.Brfalse_S, doesNotHaveFrenzyOrIsNotActive),
                     new CodeInstruction(OpCodes.Ldc_I4_2),
                     new CodeInstruction(OpCodes.Br_S, add)
@@ -206,27 +206,27 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 100),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Math).MethodNamed(nameof(Math.Min), new[] { typeof(int), typeof(int) })),
+                        typeof(Math).RequireMethod(nameof(Math.Min), new[] { typeof(int), typeof(int) })),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertySetter(nameof(PlayerState.BruteRageCounter))),
+                        typeof(PlayerState).RequirePropertySetter(nameof(PlayerState.BruteRageCounter))),
                     // check frenzy once again
                     new CodeInstruction(OpCodes.Ldloc_S, frenzy),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     new CodeInstruction(OpCodes.Ldloc_S, frenzy),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(IUltimate).PropertyGetter(nameof(IUltimate.IsActive))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(IUltimate).RequirePropertyGetter(nameof(IUltimate.IsActive))),
                     new CodeInstruction(OpCodes.Brtrue_S, resumeExecution2),
                     // increment ultimate meter
                     new CodeInstruction(OpCodes.Ldloc_S, frenzy),
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(IUltimate).PropertyGetter(nameof(IUltimate.ChargeValue))),
+                        typeof(IUltimate).RequirePropertyGetter(nameof(IUltimate.ChargeValue))),
                     new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = int damage
                     new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Ldc_R8, 4.0),
                     new CodeInstruction(OpCodes.Div),
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(IUltimate).PropertySetter(nameof(IUltimate.ChargeValue)))
+                        typeof(IUltimate).RequirePropertySetter(nameof(IUltimate.ChargeValue)))
                 );
         }
         catch (Exception ex)

@@ -22,8 +22,8 @@ using Extensions;
 [UsedImplicitly]
 internal class LevelUpMenuDrawPatch : BasePatch
 {
-    private static readonly FieldInfo _CurrentLevel = typeof(LevelUpMenu).Field("currentLevel");
-    private static readonly FieldInfo _ProfessionsToChoose = typeof(LevelUpMenu).Field("professionsToChoose");
+    private static readonly FieldInfo _CurrentLevel = typeof(LevelUpMenu).RequireField("currentLevel")!;
+    private static readonly FieldInfo _ProfessionsToChoose = typeof(LevelUpMenu).RequireField("professionsToChoose")!;
 
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuDrawPatch()
@@ -68,7 +68,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(LevelUpMenuDrawPatch).MethodNamed(nameof(GetChooseProfessionText)))
+                        typeof(LevelUpMenuDrawPatch).RequireMethod(nameof(GetChooseProfessionText)))
                 );
         }
         catch (Exception ex)
@@ -86,7 +86,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldfld,
-                        typeof(LevelUpMenu).Field(nameof(LevelUpMenu.isProfessionChooser)))
+                        typeof(LevelUpMenu).RequireField(nameof(LevelUpMenu.isProfessionChooser)))
                 )
                 .Advance()
                 .GetOperand(out var isNotProfessionChooser)
@@ -96,7 +96,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(LevelUpMenuDrawPatch).MethodNamed(nameof(DrawSubroutine)))
+                        typeof(LevelUpMenuDrawPatch).RequireMethod(nameof(DrawSubroutine)))
                 );
         }
         catch (Exception ex)

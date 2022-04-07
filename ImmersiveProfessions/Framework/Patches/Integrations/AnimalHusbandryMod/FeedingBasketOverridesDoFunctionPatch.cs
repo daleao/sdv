@@ -24,8 +24,7 @@ internal class FeedingBasketOverridesDoFunctionPatch : BasePatch
     {
         try
         {
-            Original = "AnimalHusbandryMod.tools.FeedingBasketOverrides".ToType()
-                .MethodNamed("DoFunction");
+            Original = "AnimalHusbandryMod.tools.FeedingBasketOverrides".ToType().RequireMethod("DoFunction");
         }
         catch
         {
@@ -54,7 +53,7 @@ internal class FeedingBasketOverridesDoFunctionPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_1),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.isCoopDweller)))
+                        typeof(FarmAnimal).RequireMethod(nameof(FarmAnimal.isCoopDweller)))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[7]),

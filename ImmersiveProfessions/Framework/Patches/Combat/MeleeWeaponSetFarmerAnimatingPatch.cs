@@ -45,7 +45,7 @@ internal class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer)))
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer)))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
@@ -59,18 +59,18 @@ internal class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, skipRageBonus),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).Field("swipeSpeed")),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField("swipeSpeed")),
                     new CodeInstruction(OpCodes.Ldc_R4, 1f),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.BruteRageCounter))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.BruteRageCounter))),
                     new CodeInstruction(OpCodes.Conv_R4),
                     new CodeInstruction(OpCodes.Ldc_R4, Frenzy.PCT_INCREMENT_PER_RAGE_F / 2f),
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Sub),
                     new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Stfld, typeof(MeleeWeapon).Field("swipeSpeed"))
+                    new CodeInstruction(OpCodes.Stfld, typeof(MeleeWeapon).RequireField("swipeSpeed"))
                 );
         }
         catch (Exception ex)

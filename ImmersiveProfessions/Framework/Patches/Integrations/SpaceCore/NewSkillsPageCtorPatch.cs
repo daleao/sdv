@@ -22,8 +22,7 @@ internal class NewSkillsPageCtorPatch : BasePatch
     {
         try
         {
-            Original = "SpaceCore.Interface.NewSkillsPage".ToType()
-                .Constructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
+            Original = "SpaceCore.Interface.NewSkillsPage".ToType().GetConstructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
         }
         catch
         {
@@ -44,7 +43,7 @@ internal class NewSkillsPageCtorPatch : BasePatch
 
         __instance.width += 64;
 
-        if (__instance.GetType().Field("skillBars").GetValue(__instance) is not List<ClickableTextureComponent>
+        if (__instance.GetType().RequireField("skillBars")!.GetValue(__instance) is not List<ClickableTextureComponent>
             skillBars) return;
 
         var srcRect = new Rectangle(16, 0, 14, 9);

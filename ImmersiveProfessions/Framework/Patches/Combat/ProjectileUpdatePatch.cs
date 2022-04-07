@@ -24,7 +24,7 @@ using Stardew.Common.Harmony;
 [UsedImplicitly]
 internal class ProjectileUpdatePatch : BasePatch
 {
-    private static readonly FieldInfo _DamagesMonsters = typeof(Projectile).Field("damagesMonsters");
+    private static readonly FieldInfo _DamagesMonsters = typeof(Projectile).RequireField("damagesMonsters")!;
 
     /// <summary>Construct an instance.</summary>
     internal ProjectileUpdatePatch()
@@ -125,11 +125,11 @@ internal class ProjectileUpdatePatch : BasePatch
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Projectile).Field("bouncesLeft")),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(Projectile).RequireField("bouncesLeft")),
                     new CodeInstruction(OpCodes.Dup)
                 )
                 .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Callvirt, typeof(NetFieldBase<int, NetInt>).PropertySetter("Value"))
+                    new CodeInstruction(OpCodes.Callvirt, typeof(NetFieldBase<int, NetInt>).RequirePropertySetter("Value"))
                 )
                 .Advance()
                 .AddLabels(notTrickShot)
@@ -142,22 +142,22 @@ internal class ProjectileUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_2),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Projectile).MethodNamed(nameof(Projectile.getBoundingBox))),
+                        typeof(Projectile).RequireMethod(nameof(Projectile.getBoundingBox))),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(GameLocation).MethodNamed(nameof(GameLocation.doesPositionCollideWithCharacter),
+                        typeof(GameLocation).RequireMethod(nameof(GameLocation.doesPositionCollideWithCharacter),
                             new[] {typeof(Rectangle), typeof(bool)})),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Bgt_Un_S, notTrickShot),
                     // add to bounced bullet set
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.BouncedBullets))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.BouncedBullets))),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Projectile).MethodNamed(nameof(GetHashCode))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Projectile).RequireMethod(nameof(GetHashCode))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(HashSet<int>).MethodNamed(nameof(HashSet<int>.Add))),
+                        typeof(HashSet<int>).RequireMethod(nameof(HashSet<int>.Add))),
                     new CodeInstruction(OpCodes.Pop)
                 );
         }

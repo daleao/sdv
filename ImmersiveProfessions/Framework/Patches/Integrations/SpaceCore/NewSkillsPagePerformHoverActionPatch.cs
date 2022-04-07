@@ -23,7 +23,7 @@ internal class NewSkillsPagePerformHoverActionPatch : BasePatch
     {
         try
         {
-            Original = "SpaceCore.Interface.NewSkillsPage".ToType().MethodNamed("performHoverAction");
+            Original = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("performHoverAction");
         }
         catch
         {

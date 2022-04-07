@@ -26,8 +26,7 @@ internal class LoomMachineSetInputPatch : BasePatch
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.LoomMachine".ToType()
-                .MethodNamed("SetInput");
+            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.LoomMachine".ToType().RequireMethod("SetInput");
         }
         catch
         {
@@ -58,8 +57,7 @@ internal class LoomMachineSetInputPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Ldloc_1),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(LoomMachineSetInputPatch).MethodNamed(
-                            nameof(SetInputSubroutine)))
+                        typeof(LoomMachineSetInputPatch).RequireMethod(nameof(SetInputSubroutine)))
                 );
         }
         catch (Exception ex)
@@ -81,7 +79,7 @@ internal class LoomMachineSetInputPatch : BasePatch
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.HasProfession(Profession.Artisan)) return;
 
-        _GetSample ??= consumable.GetType().PropertyGetter("Sample");
+        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample");
         var output = machine.heldObject.Value;
         if (_GetSample.Invoke(consumable, null) is SObject input)
             output.Quality = input.Quality;

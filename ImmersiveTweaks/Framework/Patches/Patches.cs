@@ -101,7 +101,7 @@ internal static class Patches
                         new CodeInstruction(OpCodes.Ldstr, " Honey")
                     )
                     .FindNext(
-                        new CodeInstruction(OpCodes.Ldfld, typeof(SObject).Field(nameof(SObject.preservedParentSheetIndex)))
+                        new CodeInstruction(OpCodes.Ldfld, typeof(SObject).RequireField(nameof(SObject.preservedParentSheetIndex)))
                     )
                     .RetreatUntil(
                         new CodeInstruction(OpCodes.Ldarg_0)
@@ -110,14 +110,14 @@ internal static class Patches
                         new CodeInstruction(OpCodes.Callvirt)
                     )
                     .AdvanceUntil(
-                        new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.currentLocation)))
+                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation)))
                     )
                     .Insert(got)
                     .Insert(
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Call,
-                            typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.GetQualityFromAge))),
-                        new CodeInstruction(OpCodes.Callvirt, typeof(SObject).PropertySetter(nameof(SObject.Quality)))
+                            typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.GetQualityFromAge))),
+                        new CodeInstruction(OpCodes.Callvirt, typeof(SObject).RequirePropertySetter(nameof(SObject.Quality)))
                     );
             }
             catch (Exception ex)

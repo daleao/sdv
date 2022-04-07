@@ -35,10 +35,20 @@ internal class PondQueryMenuDrawPatch : BasePatch
         LEGENDARY_SLOT_SPACING_F = 14f,
         LEGENDARY_X_OFFSET_F = 88f;
 
-    private static readonly FieldInfo _FishPondData = typeof(FishPond).Field("_fishPondData");
-    private static readonly MethodInfo _GetDisplayedText = typeof(PondQueryMenu).MethodNamed("getDisplayedText");
-    private static readonly MethodInfo _MeasureExtraTextHeight = typeof(PondQueryMenu).MethodNamed("measureExtraTextHeight");
-    private static readonly MethodInfo _DrawHorizontalPartition = typeof(PondQueryMenu).MethodNamed("drawHorizontalPartition");
+    private static readonly FieldInfo _FishPondData = typeof(FishPond).RequireField("_fishPondData")!;
+
+    private static readonly Func<PondQueryMenu, string> _GetDisplayedText =
+        (Func<PondQueryMenu, string>) Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string>),
+            typeof(PondQueryMenu).RequireMethod("getDisplayedText"));
+
+    private static readonly Func<PondQueryMenu, string, int> _MeasureExtraTextHeight =
+        (Func<PondQueryMenu, string, int>) Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string, int>),
+            typeof(PondQueryMenu).RequireMethod("measureExtraTextHeight"));
+
+    private static readonly Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int> _DrawHorizontalPartition =
+        (Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>) Delegate.CreateDelegate(
+            typeof(Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>),
+            typeof(PondQueryMenu).RequireMethod("drawHorizontalPartition"));
 
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
@@ -82,12 +92,14 @@ internal class PondQueryMenuDrawPatch : BasePatch
                 SUtility.drawTextWithShadow(b, pondNameText, Game1.smallFont,
                     new(Game1.uiViewport.Width / 2 - textSize.X * 0.5f,
                         __instance.yPositionOnScreen - 4 + 160f - textSize.Y * 0.5f), Color.Black);
-                var displayedText = (string) _GetDisplayedText.Invoke(__instance, null)!;
+                //var displayedText = (string) _GetDisplayedText.Invoke(__instance, null)!;
+                var displayedText = _GetDisplayedText(__instance);
                 var extraHeight = 0;
                 if (hasUnresolvedNeeds)
                     extraHeight += 116;
 
-                var extraTextHeight = (int) _MeasureExtraTextHeight.Invoke(__instance, new object?[] {displayedText})!;
+                //var extraTextHeight = (int) _MeasureExtraTextHeight.Invoke(__instance, new object?[] {displayedText})!;
+                var extraTextHeight = _MeasureExtraTextHeight(__instance, displayedText);
                 Game1.drawDialogueBox(__instance.xPositionOnScreen, __instance.yPositionOnScreen + 128,
                     PondQueryMenu.width, PondQueryMenu.height - 128 + extraHeight + extraTextHeight, false, true);
                 var populationText = Game1.content.LoadString(
@@ -132,11 +144,14 @@ internal class PondQueryMenuDrawPatch : BasePatch
                         (hasUnresolvedNeeds ? 32 : 48) - textSize.Y), Game1.textColor);
                 if (hasUnresolvedNeeds)
                 {
-                    _DrawHorizontalPartition.Invoke(__instance, new object?[]
-                    {
-                        b, (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f), false,
-                        -1, -1, -1
-                    });
+                    //_DrawHorizontalPartition.Invoke(__instance, new object?[]
+                    //{
+                    //    b, (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f), false,
+                    //    -1, -1, -1
+                    //});
+                    _DrawHorizontalPartition(__instance, b,
+                        (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f), false, -1,
+                        -1, -1);
                     SUtility.drawWithShadow(b, Game1.mouseCursors,
                         new(__instance.xPositionOnScreen + 60 + 8f * Game1.dialogueButtonScale / 10f,
                             __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28),

@@ -23,7 +23,7 @@ internal class GreenSlimeUpdatePatch : BasePatch
 {
     private const int IMMUNE_TO_DAMAGE_DURATION_I = 450;
 
-    private static readonly FieldInfo _ShellGone = typeof(RockCrab).Field("shellGone");
+    private static readonly FieldInfo _ShellGone = typeof(RockCrab).RequireField("shellGone")!;
 
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeUpdatePatch()

@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Aquarism - Immersive Fish Ponds (Automate)",
   "Author": "DaLion",
-  "Version": "2.0.5",
+  "Version": "2.0.6",
   "Description": "Automate component for Immersive Fish Ponds.",
   "UniqueID": "DaLion.ImmersiveFishPondsAutomate",
   "EntryDll": "ImmersiveFishPondsAutomate.dll",

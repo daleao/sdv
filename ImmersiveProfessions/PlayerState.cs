@@ -42,5 +42,5 @@ internal class PlayerState
     internal int SpelunkerLadderStreak { get; set; }
     internal int SlimeContactTimer { get; set; }
     internal bool UsedDogStatueToday { get; set; }
-    internal bool RevalidatedLevelThisSession { get; set; }
+    internal bool[] RevalidatedLevelThisSession { get; set; } = new bool[6];
 }

@@ -52,7 +52,7 @@ internal class FishPondIsLegalFishForPondsPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FishPondIsLegalFishForPondsPatch).MethodNamed(nameof(IsLegalFishForPondsSubroutine))),
+                        typeof(FishPondIsLegalFishForPondsPatch).RequireMethod(nameof(IsLegalFishForPondsSubroutine))),
                     new CodeInstruction(OpCodes.Brtrue_S, resumeExecution)
                 );
         }

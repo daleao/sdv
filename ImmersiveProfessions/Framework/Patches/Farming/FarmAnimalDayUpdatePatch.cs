@@ -50,7 +50,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .FindFirst( // find index of FarmAnimal.type.Value.Equals("Sheep")
                     new CodeInstruction(OpCodes.Ldstr, "Sheep"),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(string).MethodNamed(nameof(string.Equals), new[] {typeof(string)}))
+                        typeof(string).RequireMethod(nameof(string.Equals), new[] {typeof(string)}))
                 )
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
@@ -59,12 +59,12 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Conv_R8)
                 )
                 .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldfld, typeof(FarmAnimal).Field(nameof(FarmAnimal.type)))
+                    new CodeInstruction(OpCodes.Ldfld, typeof(FarmAnimal).RequireField(nameof(FarmAnimal.type)))
                 )
-                .SetOperand(typeof(FarmAnimal).Field(nameof(FarmAnimal.happiness))) // was FarmAnimal.type
+                .SetOperand(typeof(FarmAnimal).RequireField(nameof(FarmAnimal.happiness))) // was FarmAnimal.type
                 .Advance()
                 .SetOperand(typeof(NetFieldBase<byte, NetByte>)
-                    .PropertyGetter(nameof(NetFieldBase<byte, NetByte>.Value))) // was <string, NetString>
+                    .RequirePropertyGetter(nameof(NetFieldBase<byte, NetByte>.Value))) // was <string, NetString>
                 .Advance()
                 .ReplaceWith(
                     new(OpCodes.Ldc_I4_S, 200) // was Ldstr "Sheep"
@@ -75,7 +75,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .Advance()
                 .GetInstructionsUntil(out var got, false, true,
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
+                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_0)
@@ -111,7 +111,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Math).MethodNamed(nameof(Math.Round), new[] {typeof(double)})),
+                        typeof(Math).RequireMethod(nameof(Math.Round), new[] {typeof(double)})),
                     new CodeInstruction(OpCodes.Conv_U1)
                 );
         }
@@ -129,7 +129,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
             helper
                 .FindNext( // find index of first FarmAnimal.isCoopDweller check
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmAnimal).MethodNamed(nameof(FarmAnimal.isCoopDweller)))
+                        typeof(FarmAnimal).RequireMethod(nameof(FarmAnimal.isCoopDweller)))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S) // the all cases false branch

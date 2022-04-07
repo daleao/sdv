@@ -136,8 +136,8 @@ internal static class Patches
                     .StripLabels(out var labels)
                     .InsertWithLabels(
                         labels,
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.Config))),
-                        new CodeInstruction(OpCodes.Call, typeof(ModConfig).PropertyGetter(nameof(ModConfig.RemoveDefenseSoftCap))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.RemoveDefenseSoftCap))),
                         new CodeInstruction(OpCodes.Brtrue_S, skipSoftCap)
                     )
                     .AdvanceUntil(
@@ -179,9 +179,9 @@ internal static class Patches
                     )
                     .GetOperand(out var resumeExecution)
                     .RetreatUntil(
-                        new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
+                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                         new CodeInstruction(OpCodes.Callvirt,
-                            typeof(Farmer).PropertyGetter(nameof(Farmer.ActiveObject))),
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.ActiveObject))),
                         new CodeInstruction(OpCodes.Brfalse)
                     )
                     .GetLabels(out var labels)
@@ -191,7 +191,7 @@ internal static class Patches
                     .InsertWithLabels(
                         labels,
                         new CodeInstruction(OpCodes.Call,
-                            typeof(Patches).MethodNamed(nameof(NewGalaxySwordConditions))),
+                            typeof(Patches).RequireMethod(nameof(NewGalaxySwordConditions))),
                         new CodeInstruction(OpCodes.Brfalse, resumeExecution)
                     );
             }
@@ -215,9 +215,9 @@ internal static class Patches
             var l = instructions.ToList();
             l.InsertRange(l.Count - 2, new List<CodeInstruction>
             {
-                new(OpCodes.Ldsfld, typeof(BaseEnchantment).Field("_enchantments")),
-                new(OpCodes.Newobj, typeof(MagicEnchantment).Constructor()),
-                new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).MethodNamed(nameof(List<BaseEnchantment>.Add)))
+                new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                new(OpCodes.Newobj, typeof(MagicEnchantment).RequireConstructor()),
+                new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add)))
             });
 
             return l.AsEnumerable();

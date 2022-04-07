@@ -48,7 +48,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
             helper
                 .FindFirst( // find ladder spawn segment
                     new CodeInstruction(OpCodes.Ldfld,
-                        typeof(MineShaft).Field("ladderHasSpawned"))
+                        typeof(MineShaft).RequireField("ladderHasSpawned"))
                 )
                 .Retreat()
                 .StripLabels(out var labels) // backup and remove branch labels
@@ -57,8 +57,8 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                     // restore backed-up labels
                     labels,
                     // check for local player
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).PropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     // prepare profession check
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
@@ -68,9 +68,9 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).PropertyGetter(nameof(ModEntry.PlayerState))),
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).PropertyGetter(nameof(PlayerState.SpelunkerLadderStreak))),
+                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.SpelunkerLadderStreak))),
                     new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Ldc_R8, 0.005),
                     new CodeInstruction(OpCodes.Mul),

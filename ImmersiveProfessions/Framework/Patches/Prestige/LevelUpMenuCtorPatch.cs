@@ -41,7 +41,7 @@ internal class LevelUpMenuCtorPatch : BasePatch
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).Field("currentLevel")),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
                     new CodeInstruction(OpCodes.Ldc_I4_5),
                     new CodeInstruction(OpCodes.Beq_S)
                 )

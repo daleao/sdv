@@ -50,7 +50,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_0) // start of objects[key].isForage() check
                 )
                 .GetInstructionsUntil(out got, pattern: new CodeInstruction(OpCodes.Callvirt, // copy objects[key]
-                        typeof(OverlaidDictionary).PropertyGetter("Item"))
+                        typeof(OverlaidDictionary).RequirePropertyGetter("Item"))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S) // end of check
@@ -60,7 +60,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .Insert(got) // insert objects[key]
                 .Insert( // check if is foraged mineral and branch if true
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SObjectExtensions).MethodNamed(nameof(SObjectExtensions.IsForagedMineral))),
+                        typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.IsForagedMineral))),
                     new CodeInstruction(OpCodes.Brtrue_S, shouldntSetCustomQuality)
                 )
                 .AdvanceUntil(
@@ -68,11 +68,10 @@ internal class GameLocationCheckActionPatch : BasePatch
                 )
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(
-                            nameof(FarmerExtensions.GetEcologistForageQuality)))
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
                 .Insert(
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player)))
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player)))
                 );
         }
         catch (Exception ex)
@@ -127,7 +126,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 )
                 .RemoveUntil( // right before call to IsForagedMineral()
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(OverlaidDictionary).PropertyGetter("Item"))
+                        typeof(OverlaidDictionary).RequirePropertyGetter("Item"))
                 )
                 .Advance()
                 .ReplaceWith( // remove 'not' and set correct branch destination
@@ -135,11 +134,10 @@ internal class GameLocationCheckActionPatch : BasePatch
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(
-                            nameof(FarmerExtensions.GetEcologistForageQuality)))
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
                 .SetOperand(
-                    typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions
+                    typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions
                         .GetGemologistMineralQuality))
                 ); // set correct custom quality method call
         }
@@ -158,7 +156,7 @@ internal class GameLocationCheckActionPatch : BasePatch
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
+                        typeof(Stats).RequirePropertySetter(nameof(Stats.ItemsForaged)))
                 )
                 .Advance()
                 .Insert(got.SubArray(5, 4)) // SObject objects[key]
@@ -168,7 +166,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 )
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(GameLocationCheckActionPatch).MethodNamed(nameof(CheckActionSubroutine)))
+                        typeof(GameLocationCheckActionPatch).RequireMethod(nameof(CheckActionSubroutine)))
                 );
         }
         catch (Exception ex)

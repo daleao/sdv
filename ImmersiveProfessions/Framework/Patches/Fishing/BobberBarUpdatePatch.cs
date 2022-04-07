@@ -86,13 +86,13 @@ internal class BobberBarUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, isNotAquarist),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).Field("distanceFromCatching")),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).RequireField("distanceFromCatching")),
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(nameof(FarmerExtensions
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions
                             .GetAquaristCatchingBarCompensation))),
                     new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Stfld, typeof(BobberBar).Field("distanceFromCatching"))
+                    new CodeInstruction(OpCodes.Stfld, typeof(BobberBar).RequireField("distanceFromCatching"))
                 );
         }
         catch (Exception ex)

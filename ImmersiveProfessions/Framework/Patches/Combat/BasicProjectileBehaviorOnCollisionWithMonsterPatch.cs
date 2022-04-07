@@ -22,7 +22,7 @@ using Ultimate;
 [UsedImplicitly]
 internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
 {
-    private static readonly MethodInfo _ExplosionAnimation = typeof(BasicProjectile).MethodNamed("explosionAnimation");
+    private static readonly MethodInfo _ExplosionAnimation = typeof(BasicProjectile).RequireMethod("explosionAnimation");
 
     /// <summary>Construct an instance.</summary>
     internal BasicProjectileBehaviorOnCollisionWithMonsterPatch()

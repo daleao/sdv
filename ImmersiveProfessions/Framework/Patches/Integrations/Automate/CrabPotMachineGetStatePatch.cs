@@ -22,8 +22,7 @@ internal class CrabPotMachineGetStatePatch : BasePatch
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine".ToType()
-                .MethodNamed("GetState");
+            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine".ToType().RequireMethod("GetState");
         }
         catch
         {
@@ -49,7 +48,7 @@ internal class CrabPotMachineGetStatePatch : BasePatch
                     new CodeInstruction(OpCodes.Brtrue_S)
                 )
                 .RemoveUntil(
-                    new CodeInstruction(OpCodes.Call, "CrabPotMachine".ToType().MethodNamed("PlayerNeedsBait"))
+                    new CodeInstruction(OpCodes.Call, "CrabPotMachine".ToType().RequireMethod("PlayerNeedsBait"))
                 )
                 .SetOpCode(OpCodes.Brfalse_S);
         }

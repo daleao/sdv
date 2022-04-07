@@ -27,16 +27,16 @@ public static class ILHelperExtensions
     {
         return fromCurrentIndex
             ? helper.FindNext(
-                new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
+                new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
                 LoadConstantIntegerIL(whichProfession),
                 new CodeInstruction(OpCodes.Callvirt,
-                    typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
+                    typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
             )
             : helper.FindFirst(
-                new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
+                new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
                 LoadConstantIntegerIL(whichProfession),
                 new CodeInstruction(OpCodes.Callvirt,
-                    typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
+                    typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
             );
     }
 
@@ -51,13 +51,13 @@ public static class ILHelperExtensions
     {
         var toInsert = new List<CodeInstruction>();
         if (forLocalPlayer)
-            toInsert.Add(new(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))));
+            toInsert.Add(new(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))));
         
         toInsert.AddRange(
-            new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).Field(nameof(Farmer.professions))),
+            new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
             LoadConstantIntegerIL(professionIndex),
             new CodeInstruction(OpCodes.Callvirt,
-                typeof(NetList<int, NetInt>).MethodNamed(nameof(NetList<int, NetInt>.Contains)))
+                typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
         );
 
         if (labels is not null) toInsert[0].labels.AddRange(labels);
@@ -73,10 +73,10 @@ public static class ILHelperExtensions
     {
         var toInsert = new List<CodeInstruction>();
         if (forStaticRandom)
-            toInsert.Add(new(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.random))));
+            toInsert.Add(new(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.random))));
 
         toInsert.AddRange(
-            new CodeInstruction(OpCodes.Callvirt, typeof(Random).MethodNamed(nameof(Random.NextDouble))),
+            new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))),
             new CodeInstruction(OpCodes.Ldc_R8, chance)
         );
 
@@ -94,12 +94,12 @@ public static class ILHelperExtensions
     {
         var toInsert = new List<CodeInstruction>();
         if (forStaticRandom)
-            toInsert.Add(new(OpCodes.Ldsfld, typeof(Game1).Field(nameof(Game1.random))));
+            toInsert.Add(new(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.random))));
 
         toInsert.AddRange(
             LoadConstantIntegerIL(minValue),
             LoadConstantIntegerIL(maxValue + 1),
-            new CodeInstruction(OpCodes.Callvirt, typeof(Random).MethodNamed(nameof(Random.Next)))
+            new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.Next)))
         );
 
         if (labels is not null) toInsert[0].labels.AddRange(labels);

@@ -24,8 +24,7 @@ internal class ProducerRuleControllerProduceOutputPatch : BasePatch
     {
         try
         {
-            Original = "ProducerFrameworkMod.Controllers.ProducerRuleController".ToType()
-                .MethodNamed("ProduceOutput");
+            Original = "ProducerFrameworkMod.Controllers.ProducerRuleController".ToType().RequireMethod("ProduceOutput");
         }
         catch
         {

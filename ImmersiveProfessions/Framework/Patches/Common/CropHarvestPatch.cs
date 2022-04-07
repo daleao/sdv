@@ -51,11 +51,10 @@ internal class CropHarvestPatch : BasePatch
                 )
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
-                        typeof(FarmerExtensions).MethodNamed(
-                            nameof(FarmerExtensions.GetEcologistForageQuality)))
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
                 .Insert(
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player)))
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player)))
                 );
         }
         catch (Exception ex)
@@ -81,18 +80,18 @@ internal class CropHarvestPatch : BasePatch
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Stats).PropertySetter(nameof(Stats.ItemsForaged)))
+                        typeof(Stats).RequirePropertySetter(nameof(Stats.ItemsForaged)))
                 )
                 .Advance()
                 .AddLabels(dontIncreaseEcologistCounter)
                 .InsertProfessionCheck((int) Profession.Ecologist)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldc_I4_0), // DataField.EcologistItemsForaged
                     new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = @object
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Item).PropertyGetter(nameof(Item.Stack))),
+                        typeof(Item).RequirePropertyGetter(nameof(Item.Stack))),
                     new CodeInstruction(OpCodes.Call, mi)
                 );
         }
@@ -154,7 +153,7 @@ internal class CropHarvestPatch : BasePatch
                 )
                 .AdvanceUntil( // find end of chanceForExtraCrops while loop
                     new CodeInstruction(OpCodes.Ldfld,
-                        typeof(Crop).Field(nameof(Crop.chanceForExtraCrops)))
+                        typeof(Crop).RequireField(nameof(Crop.chanceForExtraCrops)))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0) // beginning of the next segment
@@ -165,12 +164,12 @@ internal class CropHarvestPatch : BasePatch
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = bool junimoHarvester
                     new CodeInstruction(OpCodes.Brfalse_S, continueToHarvesterCheck),
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).PropertyGetter(nameof(ModEntry.ModHelper))),
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.ModHelper))),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(IModHelper).PropertyGetter(nameof(IModHelper.ModRegistry))),
+                        typeof(IModHelper).RequirePropertyGetter(nameof(IModHelper.ModRegistry))),
                     new CodeInstruction(OpCodes.Ldstr, "hawkfalcon.BetterJunimos"),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(IModRegistry).MethodNamed(nameof(IModRegistry.IsLoaded))),
+                        typeof(IModRegistry).RequireMethod(nameof(IModRegistry.IsLoaded))),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseNumToHarvest)
                 )
                 .InsertProfessionCheck((int) Profession.Harvester, new[] {continueToHarvesterCheck})

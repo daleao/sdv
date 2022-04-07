@@ -24,15 +24,15 @@ internal class BuffsDisplayDrawPatch : BasePatch
         Original = RequireMethod<BuffsDisplay>(nameof(BuffsDisplay.draw), new[] {typeof(SpriteBatch)});
     }
 
-    /// <summary>Patch to draw BuffsDisplay overcharge meter for Desperado.</summary>
+    /// <summary>Patch to draw Brute Rage buff.</summary>
     [HarmonyPostfix]
     internal static void BuffsDisplayDrawPostfix(Dictionary<ClickableTextureComponent, Buff> ___buffs, SpriteBatch b)
     {
-        var pair = ___buffs.FirstOrDefault(p => p.Value.which == _buffId);
-        if (pair.Value is null) return;
+        var (key, value) = ___buffs.FirstOrDefault(p => p.Value.which == _buffId);
+        if (value is null) return;
 
         var counter = ModEntry.PlayerState.BruteRageCounter;
         b.DrawString(Game1.tinyFont, counter.ToString(),
-            new(pair.Key.bounds.Right - (counter >= 10 ? 16 : 8), pair.Key.bounds.Bottom - 24), Color.White);
+            new(key.bounds.Right - (counter >= 10 ? 16 : 8), key.bounds.Bottom - 24), Color.White);
     }
 }

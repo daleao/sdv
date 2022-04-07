@@ -69,8 +69,7 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(GenericObjectMachineGenericPullRecipePatch).MethodNamed(
-                            nameof(GenericPullRecipeSubroutine)))
+                        typeof(GenericObjectMachineGenericPullRecipePatch).RequireMethod(nameof(GenericPullRecipeSubroutine)))
                 );
         }
         catch (Exception ex)
@@ -91,7 +90,7 @@ internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
     {
         if (!machine.IsArtisanMachine() || !machine.heldObject.Value.IsArtisanGood()) return;
 
-        _GetSample ??= consumable.GetType().PropertyGetter("Sample");
+        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample");
         if (_GetSample.Invoke(consumable, null) is not SObject input) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;

@@ -54,7 +54,7 @@ internal static class EventManager
 #endif
 
         Log.D($"[EventManager]: Found {events.Count} event classes. Initializing events...");
-        foreach (var e in events.Select(t => (IEvent)t.Constructor().Invoke(Array.Empty<object>())))
+        foreach (var e in events.Select(t => (IEvent)t.RequireConstructor().Invoke(Array.Empty<object>())))
             _events.Add(e);
 
         Log.D("[EventManager]: Done. Hooking event runners...");

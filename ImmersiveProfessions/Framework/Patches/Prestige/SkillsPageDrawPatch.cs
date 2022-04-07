@@ -62,7 +62,7 @@ internal class SkillsPageDrawPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldloc_S, skillLevel), // load skillLevel,
                     new CodeInstruction(OpCodes.Ldarg_1), // load b
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SkillsPageDrawPatch).MethodNamed(nameof(DrawExtendedLevelBars)))
+                        typeof(SkillsPageDrawPatch).RequireMethod(nameof(DrawExtendedLevelBars)))
                 );
         }
         catch (Exception ex)
@@ -80,7 +80,7 @@ internal class SkillsPageDrawPatch : BasePatch
         {
             helper
                 .FindNext(
-                    new CodeInstruction(OpCodes.Call, typeof(Color).PropertyGetter(nameof(Color.SandyBrown)))
+                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.SandyBrown)))
                 )
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
@@ -92,7 +92,7 @@ internal class SkillsPageDrawPatch : BasePatch
                 .Advance()
                 .InsertWithLabels(
                     new[] {isSkillLevel20},
-                    new CodeInstruction(OpCodes.Call, typeof(Color).PropertyGetter(nameof(Color.Cornsilk))),
+                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Cornsilk))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );
         }
@@ -111,8 +111,8 @@ internal class SkillsPageDrawPatch : BasePatch
             helper
                 .FindLast(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(SkillsPage).Field("hoverText")),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(string).PropertyGetter(nameof(string.Length)))
+                    new CodeInstruction(OpCodes.Ldfld, typeof(SkillsPage).RequireField("hoverText")),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(string).RequirePropertyGetter(nameof(string.Length)))
                 )
                 .StripLabels(out var labels) // backup and remove branch labels
                 .InsertWithLabels(
@@ -120,7 +120,7 @@ internal class SkillsPageDrawPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SkillsPageDrawPatch).MethodNamed(nameof(DrawRibbons)))
+                        typeof(SkillsPageDrawPatch).RequireMethod(nameof(DrawRibbons)))
                 );
         }
         catch (Exception ex)

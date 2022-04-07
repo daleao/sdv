@@ -25,7 +25,7 @@ internal class PregnancyControllerAddNewHatchedAnimalPatch : BasePatch
     {
         try
         {
-            Original = "AnimalHusbandryMod.animals.PregnancyController".ToType().MethodNamed("addNewHatchedAnimal");
+            Original = "AnimalHusbandryMod.animals.PregnancyController".ToType().RequireMethod("addNewHatchedAnimal");
         }
         catch
         {
@@ -51,7 +51,7 @@ internal class PregnancyControllerAddNewHatchedAnimalPatch : BasePatch
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Building).Field(nameof(Building.indoors)))
+                    new CodeInstruction(OpCodes.Ldfld, typeof(Building).RequireField(nameof(Building.indoors)))
                 )
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Nop)
@@ -59,8 +59,7 @@ internal class PregnancyControllerAddNewHatchedAnimalPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_1),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(PregnancyControllerAddNewHatchedAnimalPatch).MethodNamed(
-                            nameof(AddNewHatchedAnimalSubroutine)))
+                        typeof(PregnancyControllerAddNewHatchedAnimalPatch).RequireMethod(nameof(AddNewHatchedAnimalSubroutine)))
                 );
         }
         catch (Exception ex)
