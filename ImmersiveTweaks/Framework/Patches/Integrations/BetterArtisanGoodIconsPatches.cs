@@ -24,7 +24,7 @@ internal static class BetterArtisanGoodIconsPatches
         harmony.Patch(
             original: typeof(Furniture).RequireMethod(nameof(Furniture.draw),
                 new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)}),
-            prefix: new(typeof(AutomatePatches).RequireMethod(nameof(FurnitureDrawPrefix)),
+            prefix: new(typeof(BetterArtisanGoodIconsPatches).RequireMethod(nameof(FurnitureDrawPrefix)),
                 before: new[] {"cat.betterartisangoodicons"})
         );
 
@@ -49,14 +49,14 @@ internal static class BetterArtisanGoodIconsPatches
                     typeof(SpriteBatch), typeof(Vector2), typeof(float), typeof(float), typeof(float),
                     typeof(StackDrawType), typeof(Color), typeof(bool)
                 }),
-            prefix: new(typeof(AutomatePatches).RequireMethod(nameof(ObjectDrawInMenuPrefix)),
+            prefix: new(typeof(BetterArtisanGoodIconsPatches).RequireMethod(nameof(ObjectDrawInMenuPrefix)),
                 before: new[] {"cat.betterartisangoodicons"})
         );
 
         harmony.Patch(
             original: typeof(SObject).RequireMethod(nameof(SObject.drawWhenHeld),
                 new[] {typeof(SpriteBatch), typeof(Vector2), typeof(Farmer)}),
-            prefix: new(typeof(AutomatePatches).RequireMethod(nameof(ObjectDrawWhenHeldPrefix)),
+            prefix: new(typeof(BetterArtisanGoodIconsPatches).RequireMethod(nameof(ObjectDrawWhenHeldPrefix)),
                 before: new[] {"cat.betterartisangoodicons"})
         );
     }

@@ -64,7 +64,7 @@ internal static class Patches
         private static void Postfix(FruitTree __instance)
         {
             if (__instance.growthStage.Value < FruitTree.treeStage && Game1.IsWinter &&
-                ModEntry.Config.PreventFruitTreeGrowthInWinter)
+                !__instance.currentLocation.IsGreenhouse && ModEntry.Config.PreventFruitTreeGrowthInWinter)
                 ++__instance.daysUntilMature.Value;
         }
     }

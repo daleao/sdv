@@ -292,6 +292,7 @@ public static class FarmerExtensions
     }
 
     /// <summary>The bonus catching bar speed for prestiged Fisher.</summary>
+    /// <remarks>UNUSED.</remarks>
     public static float GetFisherBonusCatchingBarSpeed(this Farmer farmer, int whichFish)
     {
         return farmer.fishCaught.TryGetValue(whichFish, out var caughtData)

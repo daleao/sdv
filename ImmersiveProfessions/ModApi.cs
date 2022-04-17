@@ -32,18 +32,23 @@ public class ModApi
         return farmer.ReadDataAs<int>(DataField.GemologistMineralsCollected);
     }
 
-    public int GetConservationistTrashCollected(Farmer farmer)
-    {
-        return farmer.ReadDataAs<int>(DataField.ConservationistTrashCollectedThisSeason);
-    }
-
     public float GetConservationistTaxBonus(Farmer farmer)
     {
         return farmer.ReadDataAs<float>(DataField.ConservationistActiveTaxBonusPct);
     }
 
-    public int GetRegisteredUltimate(Farmer farmer)
+    public int GetConservationistTrashCollected(Farmer farmer)
+    {
+        return farmer.ReadDataAs<int>(DataField.ConservationistTrashCollectedThisSeason);
+    }
+
+    public int GetRegisteredUltimate()
     {
         return (int) ModEntry.PlayerState.RegisteredUltimate.Index;
+    }
+
+    public int GetRegisteredUltimate(Farmer farmer)
+    {
+        return farmer.ReadDataAs<int>(DataField.UltimateIndex);
     }
 }

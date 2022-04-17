@@ -34,6 +34,8 @@ Features currently included:
 - Makes Meads take after the flower type of the input Honey item (with support for Better Artisan Good Icons).
 - Makes large Eggs and Milk double the output stack instead of increasing the quality.
 - Prevents Fruit Trees from growing in winter.
+- Allow Botanist/Ecologist perk to apply to hoed Ginger and Coconuts obtained from shaking palm trees.
+- Causes bombs to explode immediately if in range of another explosion.
 
 All features can be toggled on or off.
 
