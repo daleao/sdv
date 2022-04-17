@@ -1,13 +1,10 @@
-﻿namespace DaLion.Stardew.Tweaks.Framework.AssetLoaders;
+﻿namespace DaLion.Stardew.Tweaks.Framework;
 
 #region using directives
 
 using System;
 using System.IO;
 using StardewModdingAPI;
-using StardewValley;
-
-using Common.Extensions;
 
 #endregion using directives
 
@@ -23,11 +20,11 @@ public class AssetLoader : IAssetLoader
     /// <inheritdoc />
     public T Load<T>(IAssetInfo asset)
     {
-        var textureName = asset.AssetName.Split('/')[1];
-        if (textureName == "BetterHoneyMeadIcons")
+        var assetName = asset.AssetName.Split('/')[1];
+        if (assetName == "BetterHoneyMeadIcons")
             return ModEntry.ModHelper.Content.Load<T>(Path.Combine("assets",
                 "mead-" + ModEntry.Config.HoneyMeadStyle.ToLower() + ".png"));
-        else
-            throw new InvalidOperationException($"Unexpected asset '{asset.AssetName}'.");
+        
+        throw new InvalidOperationException($"Unexpected asset '{assetName}'.");
     }
 }

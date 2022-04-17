@@ -17,7 +17,7 @@ using Extensions;
 /// <summary>Handles Piper ultimate activation.</summary>
 internal sealed class Pandemonia : Ultimate
 {
-    private static int _InflationCost => (int) (35 / ModEntry.Config.UltimateDrainFactor);
+    private static int _InflationCost => (int) (35 * ModEntry.Config.UltimateDrainFactor);
 
     /// <summary>Construct an instance.</summary>
     internal Pandemonia()

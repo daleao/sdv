@@ -35,7 +35,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomOreNodes\ISimplifiedFishingApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\GenericModConfigMenuIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\ImmersiveProfessions\IProfessionsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\TehsFishingOverhaul\ISimplifiedFishingApi.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Integrations\ImmersiveProfessions\" />
   </ItemGroup>
 </Project>

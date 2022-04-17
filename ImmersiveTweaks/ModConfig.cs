@@ -26,4 +26,10 @@ public class ModConfig
 
     /// <summary>The visual style for different honey mead icons, if using BetterArtisanGoodIcons. Allowed values: 'ColoredBottles', 'ColoredCaps'.</summary>
     public string HoneyMeadStyle { get; set; } = "ColoredBottles";
+
+    /// <summary>Bombs within any explosion radius are immediately triggered.</summary>
+    public bool ExplosionTriggeredBombs { get; set; } = true;
+
+    /// <summary>Extends the perks from Botanist/Ecologist profession to Ginger and Coconuts shaken off of palm trees.</summary>
+    public bool ExtendedForagingPerks { get; set; } = true;
 }

@@ -40,6 +40,11 @@ internal class RequestUpdateDataModMessageReceivedEvent : ModMessageReceivedEven
                 var parsedValue = e.ReadAs<int>();
                 who.IncrementData(field, parsedValue);
                 break;
+
+            case "Append":
+                Log.D($"{who.Name} requested to Append {value} to {field}.");
+                who.AppendData(field, value);
+                break;
         }
     }
 }

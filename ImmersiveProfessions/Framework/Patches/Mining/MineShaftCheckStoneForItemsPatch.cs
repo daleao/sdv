@@ -31,7 +31,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
 
     /// <summary>
     ///     Patch for Spelunker ladder down chance bonus + remove Geologist paired gem chance + remove Excavator double
-    ///     geode chance + remove Prospetor double coal chance.
+    ///     geode chance + remove Prospector double coal chance.
     /// </summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> MineShaftCheckStoneForItemsTranspiler(

@@ -268,7 +268,9 @@ internal class CrabPotDayUpdatePatch : BasePatch
         {
             if (key == 890 && !owner.team.SpecialOrderRuleActive("DROP_QI_BEANS")) continue;
 
-            if (r.NextDouble() < GetChanceForThisTreasure(key)) return key;
+            if (r.NextDouble() > GetChanceForThisTreasure(key)) continue;
+
+            return key;
         }
 
         return -1;

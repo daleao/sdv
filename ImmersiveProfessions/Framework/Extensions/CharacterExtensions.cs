@@ -127,6 +127,20 @@ public static class CharacterExtensions
         return false;
     }
 
+    /// <summary>Append a string to an existing string field in this character's <see cref="ModDataDictionary"/>, or initialize it with the given value.</summary>
+    /// <param name="field">The field to update.</param
+    /// <param name="value">Value to append.</param>
+    public static void AppendData(this Character character, string field, string value, string separator = ",")
+    {
+        var current = character.ReadData(field);
+        if (current.Contains(value))
+        {
+            Log.D($"[ModData]: {character.Name}'s {field} already contained {value}.");
+        }
+        character.WriteData(field, string.IsNullOrEmpty(current) ? value : current + separator + value);
+        Log.D($"[ModData]: Appended {character.Name}'s {field} with {value}");
+    }
+
     /// <summary>Increment the value of a numeric field in this character's <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>

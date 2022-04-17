@@ -100,12 +100,12 @@ internal static class ConsoleCommands
 
         if (!args.Any())
         {
-            Game1.player.FarmingLevel = 0;
-            Game1.player.FishingLevel = 0;
-            Game1.player.ForagingLevel = 0;
-            Game1.player.MiningLevel = 0;
-            Game1.player.CombatLevel = 0;
-            Game1.player.LuckLevel = 0;
+            Game1.player.farmingLevel.Value = 0;
+            Game1.player.fishingLevel.Value = 0;
+            Game1.player.foragingLevel.Value = 0;
+            Game1.player.miningLevel.Value = 0;
+            Game1.player.combatLevel.Value = 0;
+            Game1.player.luckLevel.Value = 0;
             for (var i = 0; i < 5; ++i)
             {
                 Game1.player.experiencePoints[i] = 0;
@@ -128,22 +128,22 @@ internal static class ConsoleCommands
                 switch (skillType)
                 {
                     case SkillType.Farming:
-                        Game1.player.FarmingLevel = 0;
+                        Game1.player.farmingLevel.Value = 0;
                         break;
                     case SkillType.Fishing:
-                        Game1.player.FishingLevel = 0;
+                        Game1.player.fishingLevel.Value = 0;
                         break;
                     case SkillType.Foraging:
-                        Game1.player.ForagingLevel = 0;
+                        Game1.player.foragingLevel.Value = 0;
                         break;
                     case SkillType.Mining:
-                        Game1.player.MiningLevel = 0;
+                        Game1.player.miningLevel.Value = 0;
                         break;
                     case SkillType.Combat:
-                        Game1.player.CombatLevel = 0;
+                        Game1.player.combatLevel.Value = 0;
                         break;
                     case SkillType.Luck:
-                        Game1.player.LuckLevel = 0;
+                        Game1.player.luckLevel.Value = 0;
                         break;
                 }
 
@@ -169,19 +169,17 @@ internal static class ConsoleCommands
         }
 
         var message = $"Farmer {Game1.player.Name}'s professions:";
-        foreach (var professionsIndex in Game1.player.professions)
+        foreach (var professionIndex in Game1.player.professions)
         {
             string name;
             try
             {
-                name = professionsIndex < 100
-                    ? $"{professionsIndex.ToProfessionName()}"
-                    : $"{(professionsIndex - 100).ToProfessionName()} (P)";
-
+                name = $"{professionIndex.ToProfessionName()}" + (professionIndex >= 100 ? " (P)" : string.Empty);
+                if (name == Profession.Unknown.ToString()) name = "Error profession -1. How did this end up here?";
             }
             catch (ArgumentException)
             {
-                name = $"Unknown mod profession {professionsIndex}";
+                name = $"Unknown mod profession {professionIndex}";
             }
 
             message += "\n\t- " + name;
@@ -221,9 +219,10 @@ internal static class ConsoleCommands
                 break;
             }
 
-            if (!Enum.TryParse<Profession>(arg, true, out var profession))
-                profession = GetProfessionFromLocalizedName(arg.FirstCharToUpper());
-
+            var profession = Enum.IsDefined(typeof(Profession), arg.FirstCharToUpper())
+                ? Enum.Parse<Profession>(arg, true)
+                : GetProfessionFromLocalizedName(arg.FirstCharToUpper());
+            
             if (profession == Profession.Unknown)
             {
                 Log.W($"Ignoring unknown profession {arg}.");
@@ -610,26 +609,36 @@ internal static class ConsoleCommands
         switch (args[0].ToLower())
         {
             case "forages":
+            case "itemsforaged":
+            case "ecologist":
             case "ecologistitemsforaged":
                 SetEcologistItemsForaged(value);
                 break;
 
             case "minerals":
+            case "mineralscollected":
+            case "gemologist":
             case "gemologistmineralscollected":
                 SetGemologistMineralsCollected(value);
                 break;
 
             case "shunt":
+            case "scavengerhunt":
+            case "scavenger":
             case "scavengerhuntstreak":
                 SetScavengerHuntStreak(value);
                 break;
 
             case "phunt":
+            case "prospectorhunt":
+            case "prospector":
             case "prospectorhuntstreak":
                 SetProspectorHuntStreak(value);
                 break;
 
             case "trash":
+            case "trashcollected":
+            case "conservationist":
             case "conservationisttrashcollectedthisseason":
                 SetConservationistTrashCollectedThisSeason(value);
                 break;

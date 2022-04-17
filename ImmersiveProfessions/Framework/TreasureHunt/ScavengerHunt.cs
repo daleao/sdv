@@ -29,18 +29,20 @@ internal class ScavengerHunt : TreasureHunt
         100, // chipped amphora
         101, // arrowhead
         103, // ancient doll
+        104, // elvish jewelry
+        105, // chewing stick
+        106, // ornamental fan
         109, // ancient sword
-        113, // chicken statue
         114, // ancient seed
         115, // prehistoric tool
+        118, // glass shards
         119, // bone flute
-        120, // prehistoric handaxe
+        120, // prehistoric hand-axe
         123, // ancient drum
         124, // golden mask
         125, // golden relic
         126, // strange doll
         127, // strange doll
-        588 // palm fossil
     };
 
     /// <summary>Construct an instance.</summary>
@@ -210,6 +212,7 @@ internal class ScavengerHunt : TreasureHunt
             switch (random.Next(4))
             {
                 case 0:
+                {
                     List<int> possibles = new();
                     if (random.NextDouble() < 0.4) possibles.Add(386); // iridium ore
 
@@ -230,32 +233,34 @@ internal class ScavengerHunt : TreasureHunt
                     if (random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03) treasures.Last().Stack *= 2;
 
                     break;
-
+                }
                 case 1:
+                {
                     if (random.NextDouble() < 0.25 && Game1.player.craftingRecipes.ContainsKey("Wild Bait"))
                         treasures.Add(new SObject(774, 5 + (random.NextDouble() < 0.25 ? 5 : 0))); // wild bait
                     else
                         treasures.Add(new SObject(685, 10)); // bait
 
                     break;
-
+                }
                 case 2:
+                {
                     if (random.NextDouble() < 0.1 && Game1.netWorldState.Value.LostBooksFound.Value < 21 &&
                         Game1.player.hasOrWillReceiveMail("lostBookFound"))
                         treasures.Add(new SObject(102, 1)); // lost book
-                    else if (Game1.player.archaeologyFound.Any()) // artifacts
-                        treasures.Add(new SObject(
-                            random.NextDouble() < 0.5
-                                ? _artifactsThatCanBeFound[random.Next(_artifactsThatCanBeFound.Length)]
-                                : random.NextDouble() < 0.25
-                                    ? 114
-                                    : 535, 1));
+                    else if (Game1.player.archaeologyFound.Any() && random.NextDouble() < 0.5) // artifacts
+                        treasures.Add(new SObject(random.NextDouble() < 0.5
+                            ? _artifactsThatCanBeFound[random.Next(_artifactsThatCanBeFound.Length)]
+                            : random.NextDouble() < 0.25
+                                ? 114
+                                : 535, 1));
                     else
                         treasures.Add(new SObject(382, random.Next(1, 3))); // coal
 
                     break;
-
+                }
                 case 3:
+                {
                     switch (random.Next(3))
                     {
                         case 0:
@@ -358,6 +363,7 @@ internal class ScavengerHunt : TreasureHunt
                     }
 
                     break;
+                }
             }
         }
 

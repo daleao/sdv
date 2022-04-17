@@ -131,8 +131,8 @@ internal static class Patches
                     ? 8
                     : 0;
                 b.Draw(Game1.staminaRect,
-                    new Rectangle((int) (position.X + 8f),
-                        (int) (position.Y + 32f + Game1.smallFont.MeasureString("Ing!").Y) - (int)(lineExpansion * 1.5f) -
+                    new Rectangle((int)(position.X + 8f),
+                        (int)(position.Y + 32f + Game1.smallFont.MeasureString("Ing!").Y) - (int)(lineExpansion * 1.5f) -
                         6,
                         width - 32, 2), Game1.textColor * 0.35f);
 
@@ -187,8 +187,8 @@ internal static class Patches
                 }
 
                 b.Draw(Game1.staminaRect,
-                    new Rectangle((int) position.X + 8,
-                        (int) position.Y + lineExpansion + 64 + 4 + __instance.recipeList.Count * 36, width - 32, 2),
+                    new Rectangle((int)position.X + 8,
+                        (int)position.Y + lineExpansion + 64 + 4 + __instance.recipeList.Count * 36, width - 32, 2),
                     Game1.textColor * 0.35f);
                 Utility.drawTextWithShadow(b, Game1.parseText(__instance.description, Game1.smallFont, width - 8),
                     Game1.smallFont, position + new Vector2(0f, __instance.recipeList.Count * 36f + lineExpansion + 76f),
@@ -338,10 +338,10 @@ internal static class Patches
 
                     toCombine.AddRange(combined.combinedRings);
                 }
-                
+
                 toCombine.Add(ring);
                 __result = new CombinedRing(880);
-                ((CombinedRing) __result).combinedRings.AddRange(toCombine);
+                ((CombinedRing)__result).combinedRings.AddRange(toCombine);
                 __result.ParentSheetIndex = Constants.IRIDIUM_BAND_INDEX_I;
                 ModEntry.ModHelper.Reflection.GetField<NetInt>(__result, nameof(Ring.indexInTileSheet)).GetValue()
                     .Set(Constants.IRIDIUM_BAND_INDEX_I);
@@ -380,7 +380,7 @@ internal static class Patches
         protected static bool Prefix(CombinedRing __instance, ref bool __result)
         {
             if (!ModEntry.Config.ForgeableIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
-                return false; // don't run original logic
+                return true; // don't run original logic
 
             if (Game1.objectInformation is null || __instance.indexInTileSheet is null)
             {
@@ -391,7 +391,7 @@ internal static class Patches
             var data = Game1.objectInformation[__instance.indexInTileSheet.Value].Split('/');
             __instance.displayName = data[4];
             __instance.description = data[5];
-            
+
             int addedKnockback = 0, addedPrecision = 0, addedCritChance = 0, addedCritPower = 0, addedSwingSpeed = 0, addedDamage = 0, addedDefense = 0;
             foreach (var ring in __instance.combinedRings)
                 switch (ring.ParentSheetIndex)
@@ -481,7 +481,7 @@ internal static class Patches
             float scaleSize, float transparency, float layerDepth, StackDrawType drawStackNumber, Color color,
             bool drawShadow)
         {
-            if (__instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I || !ModEntry.Config.ForgeableIridiumBand)
+            if (!ModEntry.Config.ForgeableIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
                 return true; // run original logic
 
             try
@@ -532,7 +532,7 @@ internal static class Patches
                     // draw bottom gem
                     color = Constants.ColorByGemstone[__instance.combinedRings[1].ParentSheetIndex] * transparency;
                     spriteBatch.Draw(Game1.objectSpriteSheet, location + new Vector2(31f, 53f) * scaleSize,
-                        new Rectangle(263, 579, 4, 2), color, (float) Math.PI, new Vector2(2f, 1.5f) * scaleSize,
+                        new Rectangle(263, 579, 4, 2), color, (float)Math.PI, new Vector2(2f, 1.5f) * scaleSize,
                         scaleSize * 4f, SpriteEffects.None, layerDepth);
                 }
 
@@ -541,16 +541,16 @@ internal static class Patches
                     // draw left gem
                     color = Constants.ColorByGemstone[__instance.combinedRings[2].ParentSheetIndex] * transparency;
                     spriteBatch.Draw(Game1.objectSpriteSheet, location + new Vector2(13f, 35f) * scaleSize,
-                        new Rectangle(263, 579, 4, 2), color, -(float) Math.PI / 2f, new Vector2(2f, 1.5f) * scaleSize,
+                        new Rectangle(263, 579, 4, 2), color, -(float)Math.PI / 2f, new Vector2(2f, 1.5f) * scaleSize,
                         scaleSize * 4f, SpriteEffects.None, layerDepth);
                 }
 
                 if (count > 3)
                 {
                     // draw right gem
-                    color = Constants.ColorByGemstone[__instance.combinedRings[3].ParentSheetIndex] *transparency;
+                    color = Constants.ColorByGemstone[__instance.combinedRings[3].ParentSheetIndex] * transparency;
                     spriteBatch.Draw(Game1.objectSpriteSheet, location + new Vector2(49f, 35f) * scaleSize,
-                        new Rectangle(263, 579, 4, 2), color, (float) Math.PI / 2f, new Vector2(2f, 1.5f) * scaleSize,
+                        new Rectangle(263, 579, 4, 2), color, (float)Math.PI / 2f, new Vector2(2f, 1.5f) * scaleSize,
                         scaleSize * 4f, SpriteEffects.None, layerDepth);
                 }
 

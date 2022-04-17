@@ -13,7 +13,10 @@ public static class Int32Extensions
     /// <summary>Get the name of a given profession by index.</summary>
     public static string ToProfessionName(this int professionIndex)
     {
-        if (Enum.TryParse<Profession>(professionIndex.ToString(), out var profession)) return profession.ToString();
+        if (Enum.IsDefined(typeof(Profession), professionIndex))
+            return Enum.Parse<Profession>(professionIndex.ToString()).ToString();
+        if (professionIndex > 100 && Enum.IsDefined(typeof(Profession), professionIndex - 100))
+            return Enum.Parse<Profession>((professionIndex - 100).ToString()).ToString();
         throw new ArgumentException($"Profession {professionIndex} does not exist.");
     }
 

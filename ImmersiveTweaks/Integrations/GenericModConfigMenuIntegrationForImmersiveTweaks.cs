@@ -91,6 +91,17 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
                     "Causes one large egg or milk to produce two mayonnaise / cheese but at regular quality, instead of one at gold quality.",
                 config => config.LargeProducsYieldQuantityOverQuality,
                 (config, value) => config.LargeProducsYieldQuantityOverQuality = value
+            )
+            .AddCheckbox(
+                () => "Explosion Triggered Bombs",
+                () => "Bombs within any explosion radius are immediately triggered.",
+                config => config.ExplosionTriggeredBombs,
+                (config, value) => config.ExplosionTriggeredBombs = value
+            ).AddCheckbox(
+                () => "Extended Foraging Perks",
+                () => "Extends the perks from Botanist/Ecologist profession to Ginger and Coconuts shaken off of palm trees.",
+                config => config.ExtendedForagingPerks,
+                (config, value) => config.ExtendedForagingPerks = value
             );
     }
 }

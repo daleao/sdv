@@ -47,7 +47,7 @@ internal sealed class DeathBlossom : Ultimate
                 which = BuffId,
                 sheetIndex = 51,
                 glow = GlowColor,
-                millisecondsDuration = (int) (15000 * ((double) MaxValue / BASE_MAX_VALUE_I) * 1.0 / ModEntry.Config.UltimateDrainFactor),
+                millisecondsDuration = (int) (15000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.UltimateDrainFactor),
                 description = ModEntry.ModHelper.Translation.Get("desperado.ultidesc")
             }
         );

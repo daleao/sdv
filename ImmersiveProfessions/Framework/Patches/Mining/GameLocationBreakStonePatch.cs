@@ -75,7 +75,7 @@ internal class GameLocationBreakStonePatch : BasePatch
                 )
                 .GetOperand(out var isNotGeologist) // copy destination
                 .Return()
-                .InsertWithLabels( // insert uncoditional branch to skip this check and restore backed-up labels to this branch
+                .InsertWithLabels( // insert unconditional branch to skip this check and restore backed-up labels to this branch
                     labels,
                     new CodeInstruction(OpCodes.Br, (Label) isNotGeologist)
                 );

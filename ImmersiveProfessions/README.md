@@ -279,7 +279,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **HoldKeyToActivateUltimate** (bool) - If set to true, then Ultimate will be activated after holding the above key for a short amount of time. If set to false, then Ultimate will activate immediately upon pressing the key. Useful if you are running out of keys to bind, or just want to prevent accidental activation of Ultimate. Default value is true. 
 - **UltimateActivationDelay** (float) - If HoldKeyToActivateUltimate is set to true, this represents the number of seconds between pressing UltimateKey and activating Ultimate. Set to a higher value if you use Prospector profession and find yourself accidentally wasting your Ultimate in the Mines.
 - **UltimateGainFactor** (double) - Determines how quickly the Ultimate meter fills up.
-- **UltimateDrainFactor** (double) - Determines how quickly the Ultimate meter drains while active. The base duration is 15 seconds. Higher numbers make Ultimate last longer.
+- **UltimateDrainFactor** (double) - Determines how quickly the Ultimate meter drains while active. The base duration is 15 seconds. Lower numbers make Ultimate last longer.
 
 ### Prestige Configs
 - **EnablePrestige** (bool) - Whether to apply prestige changes.
@@ -292,7 +292,6 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **ChangeUltCost** (uint) - Monetary cost of changing the combat ultimate.
 
 ### Difficulty Configs:
-
 - **BaseSkillExpMultiplier** (float array) - Multiplies all skill experience gained from the start of the game (in order: Farming, Fishing, Foraging, Mining, Combat).
 - **MonsterHealthMultiplier** (float) - Increases the health of all monsters.
 - **MonsterDamageMultiplier** (float) - Increases the damage of all monsters.

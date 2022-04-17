@@ -127,6 +127,7 @@ internal class ProspectorHunt : TreasureHunt
         switch (random.Next(3))
         {
             case 0:
+            {
                 if (mineLevel > 120 && random.NextDouble() < 0.06)
                     treasuresAndQuantities.Add(386, random.Next(1, 3)); // iridium ore
 
@@ -148,16 +149,18 @@ internal class ProspectorHunt : TreasureHunt
                 }
 
                 break;
-
+            }
             case 1:
+            {
                 if (Game1.player.archaeologyFound.Any() && random.NextDouble() < 0.5) // artifacts
-                    treasuresAndQuantities.Add(random.NextDouble() < 0.5 ? random.Next(579, 586) : 535, 1);
+                    treasuresAndQuantities.Add(random.NextDouble() < 0.5 ? random.Next(579, 590) : 535, 1);
                 else
                     treasuresAndQuantities.Add(382, random.Next(1, 4)); // coal
 
                 break;
-
+            }
             case 2:
+            {
                 switch (random.Next(3))
                 {
                     case 0: // geodes
@@ -239,6 +242,7 @@ internal class ProspectorHunt : TreasureHunt
                 }
 
                 break;
+            }
         }
 
         foreach (var p in treasuresAndQuantities)

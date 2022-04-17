@@ -6,11 +6,10 @@ using System;
 using System.Reflection;
 using HarmonyLib;
 using StardewModdingAPI;
-using StardewModdingAPI.Events;
 
-using Framework.AssetLoaders;
+using Framework;
+using Framework.Events;
 using Framework.Patches.Integrations;
-using Integrations;
 
 #endregion using directives
 
@@ -18,6 +17,7 @@ using Integrations;
 public class ModEntry : Mod
 {
     internal static ModConfig Config { get; set; }
+    internal static object ProfessionsConfig { get; set; }
 
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
@@ -35,11 +35,21 @@ public class ModEntry : Mod
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
+        var professionsInfo = helper.ModRegistry.Get("DaLion.ImmersiveProfessions");
+        if (professionsInfo is not null)
+        {
+            Log("Detected ImmersiveProfessions. Enabling integration...", LogLevel.Info);
+            var professionsEntry = (IMod) professionsInfo.GetType().GetProperty("Mod")!.GetValue(professionsInfo);
+            ProfessionsConfig = professionsEntry!.Helper.ReadConfig<object>();
+        }
+
+
         // register asset editors / loaders
         helper.Content.AssetLoaders.Add(new AssetLoader());
 
-        // register events
-        helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+        // hook events
+        new GameLaunchedEvent().Hook();
+        new ModMessageReceivedEvent().Hook();
 
         // apply harmony patches
         var harmony = new Harmony(Manifest.UniqueID);
@@ -50,25 +60,5 @@ public class ModEntry : Mod
 
         if (helper.ModRegistry.IsLoaded("cat.betterartisangoodicons"))
             BetterArtisanGoodIconsPatches.Apply(harmony);
-    }
-
-    /// <summary>Raised after the game is launched, right before the first update tick.</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event data.</param>
-    private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
-    {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForImmersiveTweaks(
-            getConfig: () => Config,
-            reset: () =>
-            {
-                Config = new();
-                ModHelper.WriteConfig(Config);
-            },
-            saveAndApply: () => { ModHelper.WriteConfig(Config); },
-            log: Log,
-            modRegistry: ModHelper.ModRegistry,
-            manifest: Manifest
-        ).Register();
     }
 }

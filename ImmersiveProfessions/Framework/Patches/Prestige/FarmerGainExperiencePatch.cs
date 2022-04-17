@@ -52,7 +52,7 @@ internal class FarmerGainExperiencePatch : BasePatch
             var currentLevel = Game1.player.GetUnmodifiedSkillLevel(which);
             var canGainPrestigeLevels = __instance.HasAllProfessionsInSkill(which);
             
-            howMuch = (int)(howMuch * ModEntry.Config.BaseSkillExpMultiplierPerSkill[which]);
+            howMuch = (int) (howMuch * ModEntry.Config.BaseSkillExpMultiplierPerSkill[which]);
             if (ModEntry.Config.EnablePrestige)
             {
                 howMuch = (int)(howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
@@ -97,7 +97,7 @@ internal class FarmerGainExperiencePatch : BasePatch
                 if (ModEntry.Config.EnablePrestige && remainingExp > 0)
                 {
                     i = 1;
-                    while (i <= 10 && remainingExp > ModEntry.Config.RequiredExpPerExtendedLevel * i++) ++expectedLevel;
+                    while (i <= 10 && remainingExp >= ModEntry.Config.RequiredExpPerExtendedLevel * i++) ++expectedLevel;
                 }
 
                 if (currentLevel < expectedLevel)

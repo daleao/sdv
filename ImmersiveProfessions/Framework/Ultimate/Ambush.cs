@@ -79,7 +79,7 @@ internal sealed class Ambush : Ultimate
                 which = BuffId,
                 sheetIndex = 49,
                 glow = GlowColor,
-                millisecondsDuration = (int) (30000 * ((double) MaxValue / BASE_MAX_VALUE_I) * 1.0 / ModEntry.Config.UltimateDrainFactor),
+                millisecondsDuration = (int) (30000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.UltimateDrainFactor),
                 description = ModEntry.ModHelper.Translation.Get("poacher.ultidesc.hidden")
             }
         );

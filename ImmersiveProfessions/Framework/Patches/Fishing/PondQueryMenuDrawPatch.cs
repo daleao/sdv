@@ -222,7 +222,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
                 }
             }
 
-            if (!ModEntry.ModHelper.ModRegistry.IsLoaded("DaLion.ImmersiveFishPonds") || ___confirmingEmpty)
+            if (ModEntry.PondsConfig is not null || ___confirmingEmpty)
                 __instance.drawMouse(b);
 
             return false; // don't run original logic

@@ -7,8 +7,8 @@ using System.Reflection;
 using HarmonyLib;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using Framework.AssetEditors;
 
+using Framework.AssetEditors;
 using Framework.AssetLoaders;
 using Integrations;
 
@@ -36,7 +36,7 @@ public class ModEntry : Mod
         Config = helper.ReadConfig<ModConfig>();
 
         // register asset editors / loaders
-        helper.Content.AssetLoaders.Add(new AssetLoader());
+        helper.Content.AssetLoaders.Add(new GemstoneLoader());
         helper.Content.AssetEditors.Add(new CraftingRecipesEditor());
         helper.Content.AssetEditors.Add(new ObjectInformationEditor());
         helper.Content.AssetEditors.Add(new SpringObjectsEditor());

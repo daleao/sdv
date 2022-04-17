@@ -3,22 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common", "Common\Common.shproj", "{0C5F1531-281E-468C-B47F-1E78E3B9C02E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveArsenal", "ImmersiveArsenal\ImmersiveArsenal.csproj", "{B1798F5E-83BD-48EA-A759-49E29EDEE159}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersivePonds", "ImmersivePonds\ImmersivePonds.csproj", "{CAA8FB14-70A4-441A-B9EB-8DB55F8ECDE7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersivePondsAutomate", "ImmersivePondsAutomate\ImmersivePondsAutomate.csproj", "{A1D6C1AF-CC2F-4545-AA97-136722404B19}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveProfessions", "ImmersiveProfessions\ImmersiveProfessions.csproj", "{DC7114FB-22BE-45DF-8112-D5617BCF7D23}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveRings", "ImmersiveRings\ImmersiveRings.csproj", "{A9012CDA-6337-405E-966F-09CAAFE5583E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveTools", "ImmersiveTools\ImmersiveTools.csproj", "{388CBB99-61DD-47BA-A58C-6EBB0870B633}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveTweaks", "ImmersiveTweaks\ImmersiveTweaks.csproj", "{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common", "Common\Common.shproj", "{0C5F1531-281E-468C-B47F-1E78E3B9C02E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveFishPonds", "ImmersiveFishPonds\ImmersiveFishPonds.csproj", "{CAA8FB14-70A4-441A-B9EB-8DB55F8ECDE7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveFishPondsAutomate", "ImmersiveFishPondsAutomate\ImmersiveFishPondsAutomate.csproj", "{A1D6C1AF-CC2F-4545-AA97-136722404B19}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveRings", "ImmersiveRings\ImmersiveRings.csproj", "{A9012CDA-6337-405E-966F-09CAAFE5583E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveArsenal", "ImmersiveArsenal\ImmersiveArsenal.csproj", "{B1798F5E-83BD-48EA-A759-49E29EDEE159}"
-EndProject
+
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common\Common.projitems*{0c5f1531-281e-468c-b47f-1e78e3b9c02e}*SharedItemsImports = 13

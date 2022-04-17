@@ -10,13 +10,18 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using Netcode;
 using StardewValley;
+using StardewValley.Locations;
 using StardewValley.Monsters;
+using StardewValley.Objects;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 
 using Common.Extensions;
 using Common.Harmony;
+
+using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -45,7 +50,7 @@ internal static class Patches
         [HarmonyPostfix]
         private static void Postfix(JadeEnchantment __instance, Item item)
         {
-            if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalanceEnchants) return;
+            if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalancedEnchants) return;
 
             weapon.critMultiplier.Value += 0.4f * __instance.GetLevel();
         }
@@ -58,7 +63,7 @@ internal static class Patches
         [HarmonyPostfix]
         private static void Postfix(JadeEnchantment __instance, Item item)
         {
-            if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalanceEnchants) return;
+            if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalancedEnchants) return;
 
             weapon.critMultiplier.Value -= 0.4f * __instance.GetLevel();
         }
@@ -71,7 +76,7 @@ internal static class Patches
         [HarmonyPostfix]
         private static void Postfix(JadeEnchantment __instance, Item item)
         {
-            if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalanceEnchants) return;
+            if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalancedEnchants) return;
 
             weapon.addedDefense.Value += 4 * __instance.GetLevel();
         }
@@ -84,7 +89,7 @@ internal static class Patches
         [HarmonyPostfix]
         private static void Postfix(JadeEnchantment __instance, Item item)
         {
-            if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalanceEnchants) return;
+            if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalancedEnchants) return;
 
             weapon.addedDefense.Value -= 4 * __instance.GetLevel();
         }
@@ -161,38 +166,50 @@ internal static class Patches
     {
         /// <summary>Apply new galaxy sword conditions.</summary>
         [HarmonyTranspiler]
-        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            ILGenerator generator, MethodBase original)
         {
             var helper = new ILHelper(original, instructions);
 
-            /// From: if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, 74) && !Game1.player.mailReceived.Contains("galaxySword"))
-            /// To: if (NewGalaxySwordConditions())
+            /// From: Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, 74)
+            /// To: Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, ModEntry.Config.TrulyLegendaryGalaxySword ? Constants.GALAXY_SOUL_INDEX_I : 74)
+            ///     -- and also
+            /// Injected: this.playSound("thunder");
 
+            var trulyLegendaryGalaxySword = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             try
             {
                 helper
                     .FindFirst(
-                        new CodeInstruction(OpCodes.Ldstr, "galaxySword")
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 74)
                     )
-                    .RetreatUntil(
-                        new CodeInstruction(OpCodes.Brfalse)
+                    .Insert(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.TrulyLegendaryGalaxySword))),
+                        new CodeInstruction(OpCodes.Brtrue_S, trulyLegendaryGalaxySword)
                     )
-                    .GetOperand(out var resumeExecution)
-                    .RetreatUntil(
-                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                        new CodeInstruction(OpCodes.Callvirt,
-                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.ActiveObject))),
-                        new CodeInstruction(OpCodes.Brfalse)
-                    )
-                    .GetLabels(out var labels)
-                    .RemoveUntil(
-                        new CodeInstruction(OpCodes.Brtrue)
+                    .Advance()
+                    .AddLabels(resumeExecution)
+                    .Insert(
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution)
                     )
                     .InsertWithLabels(
-                        labels,
+                        new[] {trulyLegendaryGalaxySword},
+                        new CodeInstruction(OpCodes.Ldc_I4, Constants.GALAXY_SOUL_INDEX_I)
+                    )
+                    .AdvanceUntil(
+                        new CodeInstruction(OpCodes.Brtrue)
+                    )
+                    .Advance()
+                    .Insert(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldstr, "thunder"),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
                         new CodeInstruction(OpCodes.Call,
-                            typeof(Patches).RequireMethod(nameof(NewGalaxySwordConditions))),
-                        new CodeInstruction(OpCodes.Brfalse, resumeExecution)
+                            typeof(GameLocation).RequireMethod(nameof(GameLocation.playSound)))
                     );
             }
             catch (Exception ex)
@@ -205,12 +222,130 @@ internal static class Patches
         }
     }
 
+    [HarmonyPatch(typeof(Game1), nameof(Game1.applySaveFix))]
+    internal class Game1ApplySaveFixPatch
+    {
+        /// <summary>Replace with custom Qi Challenge.</summary>
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+        {
+            var helper = new ILHelper(original, instructions);
+
+            /// From: if (farmer.mailReceived.Contains("skullCave") && !farmer.hasQuest(20) && !farmer.hasOrWillReceiveMail("QiChallengeComplete"))
+            /// To: if (farmer.mailReceived.Contains("skullCave")) CheckForMissingQiChallenges(farmer)
+
+            try
+            {
+                helper
+                    .FindFirst(
+                        new CodeInstruction(OpCodes.Ldstr, "skullCave")
+                    )
+                    .AdvanceUntil(
+                        new CodeInstruction(OpCodes.Ldloc_S)
+                    )
+                    .Insert(
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[23]),
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(Game1ApplySaveFixPatch).RequireMethod(nameof(CheckForMissingQiChallenges)))
+                    );
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed adding failsafe for custom Qi Challenges.\nHelper returned {ex}");
+                return null;
+            }
+
+            return helper.Flush();
+        }
+
+        private static void CheckForMissingQiChallenges(Farmer farmer)
+        {
+            if (farmer.hasOrWillReceiveMail("QiChallengeComplete")) return;
+
+            if (ModEntry.Config.TrulyLegendaryGalaxySword)
+            {
+                if (!farmer.hasQuest(20) && !farmer.hasOrWillReceiveMail("QiChallengeFirst"))
+                    farmer.addQuest(20);
+                else if (farmer.hasOrWillReceiveMail("QiChallengeFirst") &&
+                         !farmer.hasQuest(ModEntry.QiChallengeFinalQuestId))
+                    farmer.addQuest(ModEntry.QiChallengeFinalQuestId);
+            }
+            else
+            {
+                if (!farmer.hasQuest(20)) farmer.addQuest(20);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(MineShaft), nameof(MineShaft.CheckForQiChallengeCompletion))]
+    internal class MineShaftCheckForQiChallengeCompletionPatch
+    {
+        /// <summary>Add custom quest.</summary>
+        [HarmonyPostfix]
+        private static bool Prefix()
+        {
+            if (!ModEntry.Config.TrulyLegendaryGalaxySword) return true; // run original logic
+            
+            if (Game1.player.deepestMineLevel >= 145 && Game1.player.hasQuest(20) && !Game1.player.hasOrWillReceiveMail("QiChallengeFirst"))
+            {
+                Game1.player.completeQuest(20);
+                Game1.addMailForTomorrow("QiChallengeFirst");
+            }
+            else if (Game1.player.deepestMineLevel >= 170 && Game1.player.hasQuest(ModEntry.QiChallengeFinalQuestId) &&
+                     !Game1.player.hasOrWillReceiveMail("QiChallengeComplete"))
+            {
+                Game1.player.completeQuest(ModEntry.QiChallengeFinalQuestId);
+                Game1.addMailForTomorrow("QiChallengeComplete");
+            }
+
+            return false; // don't run original logic
+        }
+    }
+
+    [HarmonyPatch(typeof(MineShaft), nameof(MineShaft.loadLevel))]
+    internal class MineShaftLoadLevelPatch
+    {
+        /// <summary>Create Qi Challenge reward level.</summary>
+        [HarmonyPostfix]
+        private static bool Prefix(MineShaft __instance, ref NetBool ___netIsTreasureRoom, int level)
+        {
+            if (level != 170 || !Game1.player.hasQuest(ModEntry.QiChallengeFinalQuestId)) return true; // run original logic
+
+            ___netIsTreasureRoom.Value = true;
+            __instance.loadedMapNumber = 120;
+            __instance.mapPath.Value = "Maps\\Mines\\10";
+            __instance.updateMap();
+            __instance.ApplyDiggableTileFixes();
+            MineShaft.lowestLevelReached = Math.Max(MineShaft.lowestLevelReached, level);
+            return false; // don't run original logic
+        }
+    }
+
+    [HarmonyPatch(typeof(MineShaft), "addLevelChests")]
+    internal class MineShaftAddLevelChestsPatch
+    {
+        /// <summary>Add custom Qi Challenge reward.</summary>
+        [HarmonyPostfix]
+        private static void Postfix(MineShaft __instance)
+        {
+            if (__instance.mineLevel != 170 || Game1.player.hasOrWillReceiveMail("QiChallengeComplete") ||
+                !Game1.player.hasQuest(ModEntry.QiChallengeFinalQuestId)) return;
+
+            var chestSpot = new Vector2(9f, 9f);
+            __instance.overlayObjects[chestSpot] =
+                new Chest(0, new() {new SObject(Constants.GALAXY_SOUL_INDEX_I, 1)}, chestSpot)
+                {
+                    Tint = Color.White
+                };
+        }
+    }
+
     [HarmonyPatch(typeof(BaseEnchantment), nameof(BaseEnchantment.GetAvailableEnchantments))]
     internal class BaseEnchantmentGetAvailableEnchantmentsPatch
     {
         /// <summary>Allow applying magic/sunburst enchant.</summary>
         [HarmonyTranspiler]
-        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var l = instructions.ToList();
             l.InsertRange(l.Count - 2, new List<CodeInstruction>
@@ -225,15 +360,4 @@ internal static class Patches
     }
 
     #endregion harmony patches
-
-    #region private methods
-
-    private static bool NewGalaxySwordConditions()
-    {
-        return Game1.player.ActiveObject != null &&
-               Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, 896) &&
-               !Game1.player.mailReceived.Contains("galaxySword");
-    }
-
-    #endregion private methods
 }

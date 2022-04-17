@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Arsenal;
+﻿using System.Linq;
+
+namespace DaLion.Stardew.Arsenal;
 
 #region using directives
 
@@ -15,6 +17,8 @@ internal static class ConsoleCommands
         helper.ConsoleCommands.Add("weapon_addenchantment",
             "Add the specified enchantment to the player's current weapon." + GetAddEnchantmentUsage(),
             AddEnchantment);
+        helper.ConsoleCommands.Add("arsenal_debugquest",
+            "Advance the local player to the final stage of Qi's Final Challenge quest.", DebugQuest);
     }
 
     #region command handlers
@@ -61,6 +65,43 @@ internal static class ConsoleCommands
 
         weapon.enchantments.Add(enchantment);
         Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {weapon.DisplayName}.");
+    }
+
+    private static void DebugQuest(string command, string[] args)
+    {
+        if (!Context.IsWorldReady)
+        {
+            Log.W("You must load a save first.");
+            return;
+        }
+
+        if (Game1.player.hasOrWillReceiveMail("QiChallengeComplete"))
+        {
+            if (!args.Any(arg => arg is "--force" or "-f"))
+            {
+                Log.W("Already completed the Qi Challenge questline. Use parameter '--force', '-f' to forcefully reset.");
+                return;
+            }
+            else
+            {
+                Game1.player.RemoveMail("QiChallengeComplete");
+            }
+        }
+
+        if (!Game1.player.hasOrWillReceiveMail("skullCave"))
+        {
+            Game1.player.mailReceived.Add("skullCave");
+            Log.I("Added 'skullCave' to mail received.");
+        }
+
+        if (!Game1.player.hasOrWillReceiveMail("QiChallengeFirst"))
+        {
+            Game1.player.mailReceived.Add("QiChallengeFirst");
+            Log.I("Added 'QiChallengeFirst' to mail received.");
+        }
+
+        Game1.player.addQuest(ModEntry.QiChallengeFinalQuestId);
+        Log.I($"Added Qi's Final Challenge to {Game1.player.Name}'s active quests.");
     }
 
     #endregion command handlers

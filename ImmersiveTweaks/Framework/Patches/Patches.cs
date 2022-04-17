@@ -4,14 +4,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
+using Common.Classes;
 using Common.Extensions;
 using Common.Harmony;
 using Extensions;
@@ -24,6 +27,9 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal static class Patches
 {
+    private static readonly MethodInfo _GetImmersiveProfessionsEcologistThreshold =
+        ModEntry.ProfessionsConfig?.GetType().RequirePropertyGetter("ForagedNeededForBestQuality");
+
     #region harmony patches
 
     [HarmonyPatch(typeof(Bush), "shake")]
@@ -32,7 +38,7 @@ internal static class Patches
         /// <summary>Detects if the bush is ready for harvest.</summary>
         [HarmonyPrefix]
         // ReSharper disable once RedundantAssignment
-        private static bool BushShakePrefix(Bush __instance, ref bool __state)
+        private static bool Prefix(Bush __instance, ref bool __state)
         {
             __state = __instance is not null && __instance.tileSheetOffset.Value == 1 && !__instance.townBush.Value &&
                       __instance.inBloom(Game1.GetSeasonForLocation(__instance.currentLocation), Game1.dayOfMonth) &&
@@ -43,7 +49,7 @@ internal static class Patches
 
         /// <summary>Adds foraging experience if the bush was harvested.</summary>
         [HarmonyPostfix]
-        private static void BushShakePostfix(Bush __instance, bool __state)
+        private static void Postfix(Bush __instance, bool __state)
         {
             if (__state && __instance.tileSheetOffset.Value == 0)
                 Game1.player.gainExperience((int) SkillType.Foraging, 3);
@@ -55,7 +61,7 @@ internal static class Patches
     {
         /// <summary>Negatively compensates winter growth.</summary>
         [HarmonyPostfix]
-        private static void FruitTreeDayUpdatePostfix(FruitTree __instance)
+        private static void Postfix(FruitTree __instance)
         {
             if (__instance.growthStage.Value < FruitTree.treeStage && Game1.IsWinter &&
                 ModEntry.Config.PreventFruitTreeGrowthInWinter)
@@ -69,7 +75,7 @@ internal static class Patches
         /// <summary>Detects if a tapper is ready for harvest.</summary>
         [HarmonyPrefix]
         // ReSharper disable once RedundantAssignment
-        private static bool ObjectCheckForActionPrefix(SObject __instance, ref bool __state)
+        private static bool Prefix(SObject __instance, ref bool __state)
         {
             __state = __instance.name.Contains("Tapper") && __instance.heldObject.Value is not null &&
                       __instance.readyForHarvest.Value && ModEntry.Config.TappersRewardExp;
@@ -78,7 +84,7 @@ internal static class Patches
 
         /// <summary>Adds foraging experience if a tapper was harvested.</summary>
         [HarmonyPostfix]
-        private static void ObjectCheckForActionPostfix(SObject __instance, bool __state)
+        private static void Postfix(SObject __instance, bool __state)
         {
             if (__state && !__instance.readyForHarvest.Value)
                 Game1.player.gainExperience((int)SkillType.Foraging, 5);
@@ -86,8 +92,8 @@ internal static class Patches
 
         /// <summary>Applies quality to aged bee house.</summary>
         [HarmonyTranspiler]
-        private static IEnumerable<CodeInstruction> ObjectCheckForActionTranspiler(
-            IEnumerable<CodeInstruction> instructions, MethodBase original)
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            MethodBase original)
         {
             var helper = new ILHelper(original, instructions);
 
@@ -101,7 +107,8 @@ internal static class Patches
                         new CodeInstruction(OpCodes.Ldstr, " Honey")
                     )
                     .FindNext(
-                        new CodeInstruction(OpCodes.Ldfld, typeof(SObject).RequireField(nameof(SObject.preservedParentSheetIndex)))
+                        new CodeInstruction(OpCodes.Ldfld,
+                            typeof(SObject).RequireField(nameof(SObject.preservedParentSheetIndex)))
                     )
                     .RetreatUntil(
                         new CodeInstruction(OpCodes.Ldarg_0)
@@ -110,14 +117,16 @@ internal static class Patches
                         new CodeInstruction(OpCodes.Callvirt)
                     )
                     .AdvanceUntil(
-                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation)))
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation)))
                     )
                     .Insert(got)
                     .Insert(
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Call,
                             typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.GetQualityFromAge))),
-                        new CodeInstruction(OpCodes.Callvirt, typeof(SObject).RequirePropertySetter(nameof(SObject.Quality)))
+                        new CodeInstruction(OpCodes.Callvirt,
+                            typeof(SObject).RequirePropertySetter(nameof(SObject.Quality)))
                     );
             }
             catch (Exception ex)
@@ -135,7 +144,7 @@ internal static class Patches
     {
         /// <summary>Age bee houses.</summary>
         [HarmonyPostfix]
-        private static void ObjectDayUpdatePostfix(SObject __instance)
+        private static void Postfix(SObject __instance)
         {
             if (__instance.IsBeeHouse() && ModEntry.Config.AgeBeeHouses) __instance.IncrementData<int>("Age");
         }
@@ -146,7 +155,7 @@ internal static class Patches
     {
         /// <summary>Add flower-specific mead names.</summary>
         [HarmonyPostfix]
-        private static void ObjectLoadDisplayNamePostfix(SObject __instance, ref string __result)
+        private static void Postfix(SObject __instance, ref string __result)
         {
             if (!__instance.name.Contains("Mead") || __instance.preservedParentSheetIndex.Value <= 0 ||
                 !ModEntry.Config.KegsRememberHoneyFlower) return;
@@ -162,7 +171,7 @@ internal static class Patches
         // <summary>Remember state before action.</summary>
         [HarmonyPrefix]
         // ReSharper disable once RedundantAssignment
-        private static bool ObjectPerformObjectDropInActionPrefix(SObject __instance, ref bool __state)
+        private static bool Prefix(SObject __instance, ref bool __state)
         {
             __state = __instance.heldObject.Value !=
                       null; // remember whether this machine was already holding an object
@@ -171,7 +180,7 @@ internal static class Patches
 
         /// <summary>Tweaks golden and ostrich egg artisan products + gives flower memory to kegs.</summary>
         [HarmonyPostfix]
-        private static void ObjectPerformObjectDropInActionPostfix(SObject __instance, bool __state, Item dropInItem,
+        private static void Postfix(SObject __instance, bool __state, Item dropInItem,
             bool probe, Farmer who)
         {
             // if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
@@ -211,7 +220,7 @@ internal static class Patches
     {
         /// <summary>Ages tapper trees.</summary>
         [HarmonyPostfix]
-        private static void TreeDayUpdatePostfix(Tree __instance, int __state)
+        private static void Postfix(Tree __instance, int __state)
         {
             if (__instance.growthStage.Value >= Tree.treeStage && __instance.CanBeTapped() &&
                 ModEntry.Config.AgeTapperTrees) __instance.IncrementData<int>("Age");
@@ -223,10 +232,141 @@ internal static class Patches
     {
         /// <summary>Adds age quality to tapper product.</summary>
         [HarmonyPostfix]
-        private static void TreeUpdateTapperProductPostfix(Tree __instance, SObject tapper_instance)
+        private static void Postfix(Tree __instance, SObject tapper_instance)
         {
             if (tapper_instance is not null)
                 tapper_instance.heldObject.Value.Quality = __instance.GetQualityFromAge();
+        }
+    }
+
+    [HarmonyPatch(typeof(Tree), "shake")]
+    internal class TreeShakePatch
+    {
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            MethodBase original)
+        {
+            var helper = new ILHelper(original, instructions);
+
+            /// From: Game1.createObjectDebris(seedIndex, tileLocation.X, tileLocation.Y - 3, (tileLocation.Y + 1) * 64, 0, 1f, location);
+            /// To: Game1.createObjectDebris(seedIndex, tileLocation.X, tileLocation.Y - 3, (tileLocation.Y + 1) * 64, GetCoconutQuality(), 1f, location);
+
+            try
+            {
+                helper
+                    .FindFirst(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(Game1).RequireMethod(nameof(Game1.createObjectDebris),
+                                new[]
+                                {
+                                    typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(float),
+                                    typeof(GameLocation)
+                                }))
+                    )
+                    .RetreatUntil(
+                        new CodeInstruction(OpCodes.Ldc_I4_0)
+                    )
+                    .ReplaceWith(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(TreeShakePatch).RequireMethod(nameof(GetCoconutQuality)))
+                    );
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed applying Ecologist/Botanist perk to shaken coconut.\nHelper returned {ex}");
+                return null;
+            }
+
+            return helper.Flush();
+        }
+
+        private static int GetCoconutQuality()
+        {
+            if (!ModEntry.Config.ExtendedForagingPerks || !Game1.player.professions.Contains(Farmer.botanist))
+                return SObject.lowQuality;
+
+            if (ModEntry.ProfessionsConfig is null)
+                return SObject.bestQuality;
+
+            var itemsForaged =
+                Game1.MasterPlayer.modData.ReadAs<int>(
+                    $"DaLion.ImmersiveProfessions/{Game1.player.UniqueMultiplayerID}/EcologistItemsForaged");
+            var bestQualityThreshold = (int) _GetImmersiveProfessionsEcologistThreshold.Invoke(ModEntry.ProfessionsConfig, null)!;
+            return itemsForaged < bestQualityThreshold
+                ? itemsForaged < bestQualityThreshold / 2
+                    ? SObject.medQuality
+                    : SObject.highQuality
+                : SObject.bestQuality;
+        }
+    }
+
+    [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.explode))]
+    internal class GameLocationExplodePatch
+    {
+        /// <summary>Explosions trigger nearby bombs.</summary>
+        [HarmonyPostfix]
+        private static void Postfix(GameLocation __instance, Vector2 tileLocation, int radius)
+        {
+            if (!ModEntry.Config.ExplosionTriggeredBombs) return;
+
+            var circle = new CircleTileGrid(tileLocation, radius * 2);
+            foreach (var sprite in __instance.TemporarySprites.Where(sprite => sprite.bombRadius > 0 && circle.Tiles.Contains(sprite.Position / 64f)))
+                sprite.currentNumberOfLoops = sprite.totalNumberOfLoops;
+        }
+    }
+
+    [HarmonyPatch(typeof(Crop), nameof(Crop.hitWithHoe))]
+    internal class CropHitWithHoePatch
+    {
+        /// <summary>Apply Botanist/Ecologist perk to wild ginger.</summary>
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            MethodBase original)
+        {
+            var helper = new ILHelper(original, instructions);
+
+            /// Injected: SetGingerQuality(@object);
+            /// Between: @object = new SObject(829, 1);
+
+            try
+            {
+                helper
+                    .FindFirst(
+                        new CodeInstruction(OpCodes.Stloc_0)
+                    )
+                    .Insert(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(CropHitWithHoePatch).RequireMethod(nameof(AddGingerQuality)))
+                    );
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed while apply Ecologist/Botanist perk to hoed ginger.\nHelper returned {ex}");
+                return null;
+            }
+
+            return helper.Flush();
+        }
+
+        private static SObject AddGingerQuality(SObject ginger)
+        {
+            if (!ModEntry.Config.ExtendedForagingPerks || !Game1.player.professions.Contains(Farmer.botanist)) return ginger;
+
+            if (ModEntry.ProfessionsConfig is null)
+            {
+                ginger.Quality = SObject.bestQuality;
+                return ginger;
+            }
+
+            var itemsForaged =
+                Game1.MasterPlayer.modData.ReadAs<int>(
+                    $"DaLion.ImmersiveProfessions/{Game1.player.UniqueMultiplayerID}/EcologistItemsForaged");
+            var bestQualityThreshold = (int) _GetImmersiveProfessionsEcologistThreshold.Invoke(ModEntry.ProfessionsConfig, null)!;
+            ginger.Quality = itemsForaged < bestQualityThreshold
+                ? itemsForaged < bestQualityThreshold / 2
+                    ? SObject.medQuality
+                    : SObject.highQuality
+                : SObject.bestQuality;
+            return ginger;
         }
     }
 

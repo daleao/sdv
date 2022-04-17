@@ -37,6 +37,48 @@ internal class GenericModConfigMenuIntegrationForImmersiveArsenal
 
         // register
         _configMenu
-            .Register(true);
+            .Register(true)
+            .AddCheckbox(
+                () => "Rebalanced Weapons",
+                () => "Make weapons more unique and useful.",
+                config => config.RebalancedWeapons,
+                (config, value) => config.RebalancedWeapons = value
+            )
+            .AddCheckbox(
+                () => "Rebalanced Footwear",
+                () => "Make footwear more unique and useful.",
+                config => config.RebalancedFootwear,
+                (config, value) => config.RebalancedFootwear = value
+            )
+            .AddCheckbox(
+                () => "Rebalanced Enchants",
+                () => "Improves certain underwhelming enchantments.",
+                config => config.RebalancedEnchants,
+                (config, value) => config.RebalancedEnchants = value
+            )
+            .AddCheckbox(
+                () => "Weapons Cost Stamina",
+                () => "Weapons should cost energy to use.",
+                config => config.WeaponsCostStamina,
+                (config, value) => config.WeaponsCostStamina = value
+            )
+            .AddCheckbox(
+                () => "Remove Slingshot Grace Period",
+                () => "Projectiles should not be useless for the first 100ms.",
+                config => config.RemoveSlingshotGracePeriod,
+                (config, value) => config.RemoveSlingshotGracePeriod = value
+            )
+            .AddCheckbox(
+                () => "RemoveDefenseSoftCap",
+                () => "Damage mitigation should not be soft-capped at 50%.",
+                config => config.RemoveDefenseSoftCap,
+                (config, value) => config.RemoveDefenseSoftCap = value
+            )
+            .AddCheckbox(
+                () => "TrulyLegendaryGalaxySword",
+                () => "The Galaxy Sword should not be so easy to get.",
+                config => config.TrulyLegendaryGalaxySword,
+                (config, value) => config.TrulyLegendaryGalaxySword = value
+            );
     }
 }

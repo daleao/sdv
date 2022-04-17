@@ -74,7 +74,7 @@ internal sealed class Frenzy : Ultimate
                 which = BuffId,
                 sheetIndex = 48,
                 glow = GlowColor,
-                millisecondsDuration = (int) (15000 * ((double) MaxValue / BASE_MAX_VALUE_I) * 1.0 / ModEntry.Config.UltimateDrainFactor),
+                millisecondsDuration = (int) (15000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.UltimateDrainFactor),
                 description = ModEntry.ModHelper.Translation.Get("brute.ultidesc")
             }
         );

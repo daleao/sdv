@@ -4,13 +4,13 @@
 public class ModConfig
 {
     /// <summary>Make weapons more unique and useful.</summary>
-    public bool RebalanceWeapons { get; set; } = true;
+    public bool RebalancedWeapons { get; set; } = true;
 
     /// <summary>Make footwear more unique and useful.</summary>
-    public bool RebalanceFootwear { get; set; } = true;
+    public bool RebalancedFootwear { get; set; } = true;
 
     /// <summary>Improves certain underwhelming enchantments.</summary>
-    public bool RebalanceEnchants { get; set; } = true;
+    public bool RebalancedEnchants { get; set; } = true;
 
     /// <summary>Weapons should cost energy to use.</summary>
     public bool WeaponsCostStamina { get; set; } = true;
@@ -22,5 +22,5 @@ public class ModConfig
     public bool RemoveDefenseSoftCap { get; set; } = true;
 
     /// <summary>The Galaxy Sword should not be so easy to get.</summary>
-    public bool ImmersiveGalaxyWeaponConditions { get; set; } = true;
+    public bool TrulyLegendaryGalaxySword { get; set; } = true;
 }

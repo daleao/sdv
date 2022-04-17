@@ -78,7 +78,7 @@ public class ModConfig
     /// <summary>Affects the rate at which one builds the Ultimate meter. Increase this if you feel the gauge raises too slowly.</summary>
     public double UltimateGainFactor { get; set; } = 1.0;
 
-    /// <summary>Affects the rate at which the Ultimate meter depletes during Ultimate. Increase this to make Ultimate last longer..</summary>
+    /// <summary>Affects the rate at which the Ultimate meter depletes during Ultimate. Decrease this to make Ultimate last longer.</summary>
     public double UltimateDrainFactor { get; set; } = 1.0;
 
     /// <summary>Required to apply prestige changes.</summary>
