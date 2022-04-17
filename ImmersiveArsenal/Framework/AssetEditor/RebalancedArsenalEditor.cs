@@ -573,7 +573,42 @@ public class RebalancedArsenalEditor : IAssetEditor
                 {
                     #region footwear switch-case
 
-
+                    case 504: // sneakers
+                        break;
+                    case 505: // rubber boots
+                        break;
+                    case 506: // leather boots
+                        break;
+                    case 507: // work boots
+                        break;
+                    case 508: // combat boots
+                        break;
+                    case 509: // tundra boots
+                        break;
+                    case 510: // thermal boots
+                        break;
+                    case 511: // dark boots
+                        break;
+                    case 512: // firewalker boots
+                        break;
+                    case 513: // genie shoes
+                        break;
+                    case 514: // space boots
+                        break;
+                    case 515: // cowboy boots
+                        break;
+                    case 804: // emily's magic boots
+                        break;
+                    case 806: // leprechaun shoes
+                        break;
+                    case 853: // cinderclown shoes
+                        break;
+                    case 854: // mermaid boots
+                        break;
+                    case 855: // dragonscale boots
+                        break;
+                    case 878: // crystal shoes
+                        break;
 
                     #endregion footwear switch-case
                 }

@@ -3,10 +3,12 @@
 #region using directives
 
 using System;
+using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
+using Common.Extensions;
 using Framework;
 using Framework.AssetEditors;
 using Framework.AssetLoaders;
@@ -18,17 +20,12 @@ public class ModEntry : Mod
 {
     private static readonly PerScreen<PlayerState> _playerState = new(() => new());
 
-    internal static ModConfig Config { get; set; }
     internal static HostState HostState { get; private set; }
-
-    internal static string ArsenalModId => "DaLion.ImmersiveArsenal";
-    internal static string PondsModId => "DaLion.ImmersivePonds";
-    internal static string RingsModId => "DaLion.ImmersiveRings";
-    internal static string TweaksModId => "DaLion.ImmersiveTweaks";
-    internal static object ArsenalConfig { get; private set; }
-    internal static object PondsConfig { get; private set; }
-    internal static object RingsConfig { get; private set; }
-    internal static object TweaksConfig { get; private set; }
+    internal static ModConfig Config { get; set; }
+    internal static JObject ArsenalConfig { get; private set; }
+    internal static JObject PondsConfig { get; private set; }
+    internal static JObject RingsConfig { get; private set; }
+    internal static JObject TweaksConfig { get; private set; }
 
     internal static PlayerState PlayerState
     {
@@ -55,39 +52,10 @@ public class ModEntry : Mod
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
-        // get add-on configs
-        var arsenalInfo = helper.ModRegistry.Get(ArsenalModId);
-        if (arsenalInfo is not null)
-        {
-            Log("Detected ImmersiveArsenal. Enabling integration...", LogLevel.Info);
-            var arsenalEntry = (IMod) arsenalInfo.GetType().GetProperty("Mod")!.GetValue(arsenalInfo);
-            ArsenalConfig = arsenalEntry!.Helper.ReadConfig<object>();
-        }
-
-        var pondsInfo = helper.ModRegistry.Get(PondsModId);
-        if (pondsInfo is not null)
-        {
-            Log("Detected ImmersivePonds. Enabling integration...", LogLevel.Info);
-            var pondsEntry = (IMod) pondsInfo.GetType().GetProperty("Mod")!.GetValue(pondsInfo);
-            PondsConfig = pondsEntry!.Helper.ReadConfig<object>();
-        }
-
-        var ringsInfo = helper.ModRegistry.Get(RingsModId);
-        if (ringsInfo is not null)
-        {
-            Log("Detected ImmersiveRings. Enabling integration...", LogLevel.Info);
-            var ringsEntry = (IMod) ringsInfo.GetType().GetProperty("Mod")!.GetValue(ringsInfo);
-            RingsConfig = ringsEntry!.Helper.ReadConfig<object>();
-        }
-
-        var tweaksInfo = helper.ModRegistry.Get(TweaksModId);
-        if (tweaksInfo is not null)
-        {
-            Log("Detected ImmersiveTweaks. Enabling integration...", LogLevel.Info);
-            var tweaksEntry = (IMod) tweaksInfo.GetType().GetProperty("Mod")!.GetValue(tweaksInfo);
-            TweaksConfig = tweaksEntry!.Helper.ReadConfig<object>();
-        }
-
+        ArsenalConfig = helper.ReadConfigExt("DaLion.ImmersiveArsenal", Log);
+        PondsConfig = helper.ReadConfigExt("DaLion.ImmersivePonds", Log);
+        RingsConfig = helper.ReadConfigExt("DaLion.ImmersiveRings", Log);
+        TweaksConfig = helper.ReadConfigExt("DaLion.ImmersiveTweaks", Log);
 
         // initialize mod state
         if (Context.IsMainPlayer) HostState = new();

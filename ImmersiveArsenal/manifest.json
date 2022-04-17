@@ -6,11 +6,15 @@
   "UniqueID": "DaLion.ImmersiveArsenal",
   "EntryDll": "ImmersiveArsenal.dll",
   "MinimumApiVersion": "3.13.0",
-  "UpdateKeys": [ "Nexus:???" ],
+  "UpdateKeys": [ "Nexus:11537" ],
   "Dependencies": [
     {
       "UniqueID": "spacechase0.GenericModConfigMenu",
       "MinimumVersion": "1.8.0",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "FlashShifter.StardewValleyExpandedCP",
       "IsRequired": false
     }
   ]

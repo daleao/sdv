@@ -5,8 +5,10 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
+using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 
+using Common.Extensions;
 using Framework;
 using Framework.Events;
 using Framework.Patches.Integrations;
@@ -17,7 +19,7 @@ using Framework.Patches.Integrations;
 public class ModEntry : Mod
 {
     internal static ModConfig Config { get; set; }
-    internal static object ProfessionsConfig { get; set; }
+    internal static JObject ProfessionsConfig { get; set; }
 
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
@@ -34,15 +36,7 @@ public class ModEntry : Mod
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();
-
-        var professionsInfo = helper.ModRegistry.Get("DaLion.ImmersiveProfessions");
-        if (professionsInfo is not null)
-        {
-            Log("Detected ImmersiveProfessions. Enabling integration...", LogLevel.Info);
-            var professionsEntry = (IMod) professionsInfo.GetType().GetProperty("Mod")!.GetValue(professionsInfo);
-            ProfessionsConfig = professionsEntry!.Helper.ReadConfig<object>();
-        }
-
+        ProfessionsConfig = helper.ReadConfigExt("DaLion.ImmersiveProfessions", Log);
 
         // register asset editors / loaders
         helper.Content.AssetLoaders.Add(new AssetLoader());

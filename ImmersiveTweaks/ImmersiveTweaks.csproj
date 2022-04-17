@@ -17,6 +17,7 @@
 
   <ItemGroup>
 	<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.0" />
   </ItemGroup>
 

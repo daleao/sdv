@@ -608,7 +608,7 @@ internal static class ConsoleCommands
 
         switch (args[0].ToLower())
         {
-            case "forages":
+            case "forage":
             case "itemsforaged":
             case "ecologist":
             case "ecologistitemsforaged":

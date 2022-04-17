@@ -99,8 +99,8 @@ public static class FarmerExtensions
         bool excludeTierOneProfessions = false)
     {
         return excludeTierOneProfessions
-            ? farmer.professions.Count(p => p > 0 && p / 6 == which && p % 6 > 1)
-            : farmer.professions.Count(p => p > 0 && p / 6 == which);
+            ? farmer.professions.Count(p => p >= 0 && p / 6 == which && p % 6 > 1)
+            : farmer.professions.Count(p => p >= 0 && p / 6 == which);
     }
 
     /// <summary>Whether the farmer can reset the specified skill for prestige.</summary>

@@ -27,9 +27,6 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal static class Patches
 {
-    private static readonly MethodInfo _GetImmersiveProfessionsEcologistThreshold =
-        ModEntry.ProfessionsConfig?.GetType().RequirePropertyGetter("ForagedNeededForBestQuality");
-
     #region harmony patches
 
     [HarmonyPatch(typeof(Bush), "shake")]
@@ -250,25 +247,45 @@ internal static class Patches
 
             /// From: Game1.createObjectDebris(seedIndex, tileLocation.X, tileLocation.Y - 3, (tileLocation.Y + 1) * 64, 0, 1f, location);
             /// To: Game1.createObjectDebris(seedIndex, tileLocation.X, tileLocation.Y - 3, (tileLocation.Y + 1) * 64, GetCoconutQuality(), 1f, location);
+            ///     -- and again for golden coconut immediately below
 
             try
             {
+                var callCreateObjectDebrisInst = new CodeInstruction(OpCodes.Call,
+                    typeof(Game1).RequireMethod(nameof(Game1.createObjectDebris),
+                        new[]
+                        {
+                            typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(float),
+                            typeof(GameLocation)
+                        }));
+
                 helper
-                    .FindFirst(
-                        new CodeInstruction(OpCodes.Call,
-                            typeof(Game1).RequireMethod(nameof(Game1.createObjectDebris),
-                                new[]
-                                {
-                                    typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(float),
-                                    typeof(GameLocation)
-                                }))
-                    )
+                    // the normal coconut
+                    .FindFirst(callCreateObjectDebrisInst)
                     .RetreatUntil(
                         new CodeInstruction(OpCodes.Ldc_I4_0)
                     )
                     .ReplaceWith(
                         new CodeInstruction(OpCodes.Call,
                             typeof(TreeShakePatch).RequireMethod(nameof(GetCoconutQuality)))
+                    )
+                    .Insert(
+                        new CodeInstruction(OpCodes.Ldloc_2)
+                    )
+                    // the golden coconut
+                    .FindNext(
+                        new CodeInstruction(OpCodes.Ldc_I4, 791)
+                    )
+                    .AdvanceUntil(callCreateObjectDebrisInst)
+                    .RetreatUntil(
+                        new CodeInstruction(OpCodes.Ldc_I4_0)
+                    )
+                    .ReplaceWith(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(TreeShakePatch).RequireMethod(nameof(GetCoconutQuality)))
+                    )
+                    .Insert(
+                        new CodeInstruction(OpCodes.Ldc_I4, 791)
                     );
             }
             catch (Exception ex)
@@ -280,9 +297,9 @@ internal static class Patches
             return helper.Flush();
         }
 
-        private static int GetCoconutQuality()
+        private static int GetCoconutQuality(int seedIndex)
         {
-            if (!ModEntry.Config.ExtendedForagingPerks || !Game1.player.professions.Contains(Farmer.botanist))
+            if (seedIndex is not (88 or 791) || !ModEntry.Config.ExtendedForagingPerks || !Game1.player.professions.Contains(Farmer.botanist))
                 return SObject.lowQuality;
 
             if (ModEntry.ProfessionsConfig is null)
@@ -291,7 +308,7 @@ internal static class Patches
             var itemsForaged =
                 Game1.MasterPlayer.modData.ReadAs<int>(
                     $"DaLion.ImmersiveProfessions/{Game1.player.UniqueMultiplayerID}/EcologistItemsForaged");
-            var bestQualityThreshold = (int) _GetImmersiveProfessionsEcologistThreshold.Invoke(ModEntry.ProfessionsConfig, null)!;
+            var bestQualityThreshold = (int) ModEntry.ProfessionsConfig.Property("ForagesNeededForBestQuality")!.Value;
             return itemsForaged < bestQualityThreshold
                 ? itemsForaged < bestQualityThreshold / 2
                     ? SObject.medQuality
@@ -360,7 +377,7 @@ internal static class Patches
             var itemsForaged =
                 Game1.MasterPlayer.modData.ReadAs<int>(
                     $"DaLion.ImmersiveProfessions/{Game1.player.UniqueMultiplayerID}/EcologistItemsForaged");
-            var bestQualityThreshold = (int) _GetImmersiveProfessionsEcologistThreshold.Invoke(ModEntry.ProfessionsConfig, null)!;
+            var bestQualityThreshold = (int) ModEntry.ProfessionsConfig.Property("ForagesNeededForBestQuality")!.Value;
             ginger.Quality = itemsForaged < bestQualityThreshold
                 ? itemsForaged < bestQualityThreshold / 2
                     ? SObject.medQuality
