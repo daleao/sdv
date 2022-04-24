@@ -12,7 +12,8 @@ using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI.Enums;
 using StardewValley;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Collections;
 using AssetLoaders;
 using Events.GameLoop;
 using Extensions;

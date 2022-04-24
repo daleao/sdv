@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
 		<AssemblyName>ImmersiveProfessions</AssemblyName>
 		<RootNamespace>DaLion.Stardew.Professions</RootNamespace>
@@ -24,4 +25,5 @@
 		<EmbeddedResource Remove="resources\**" />
 		<None Remove="resources\**" />
 	</ItemGroup>
+
 </Project>

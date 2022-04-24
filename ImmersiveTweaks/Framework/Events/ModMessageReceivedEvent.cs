@@ -3,6 +3,7 @@
 #region using directives
 
 using System;
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -10,18 +11,22 @@ using Extensions;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IMultiplayerEvents.ModMessageReceived"/> that can be hooked or unhooked.</summary>
+[UsedImplicitly]
 internal class ModMessageReceivedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
     {
         ModEntry.ModHelper.Events.Multiplayer.ModMessageReceived += OnModMessageReceived;
+        Log.D("[Tweaks] Hooked ModMessageReceived event.");
     }
 
     /// <inheritdoc />
     public void Unhook()
     {
         ModEntry.ModHelper.Events.Multiplayer.ModMessageReceived -= OnModMessageReceived;
+        Log.D("[Tweaks] Unhooked ModMessageReceived event.");
     }
 
     /// <summary>Raised after a mod message is received over the network.</summary>

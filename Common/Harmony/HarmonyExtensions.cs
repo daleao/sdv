@@ -1,11 +1,13 @@
 ﻿#nullable enable
-namespace DaLion.Stardew.Common.Harmony;
+namespace DaLion.Common.Harmony;
 
 #region using directives
 
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
+
+using Extensions.Reflection;
 
 #endregion using directives
 

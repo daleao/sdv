@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events;
 
-/// <summary>Interface for an event wrapper allowing dynamic enabling/disabling of events.</summary>
+/// <summary>Interface for an event wrapper allowing dynamic enabling / disabling.</summary>
 internal interface IEvent
 {
     public bool IsEnabled { get; }

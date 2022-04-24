@@ -12,8 +12,8 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
 
-using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 
 #endregion using directives
 

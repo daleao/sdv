@@ -8,7 +8,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
-using Common.Extensions;
+using Common.Stardew.Extensions;
 using Framework;
 using Framework.AssetEditors;
 using Framework.AssetLoaders;
@@ -75,7 +75,7 @@ public class ModEntry : Mod
         PatchManager.ApplyAll(Manifest.UniqueID);
 
         // add debug commands
-        ConsoleCommands.Register(helper.ConsoleCommands);
+        helper.ConsoleCommands.Register();
 
         if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
         {

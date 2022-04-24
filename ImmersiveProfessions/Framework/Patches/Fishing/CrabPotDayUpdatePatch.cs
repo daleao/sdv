@@ -14,7 +14,7 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions;
 using Extensions;
 
 using ObjectLookups = Utility.ObjectLookups;

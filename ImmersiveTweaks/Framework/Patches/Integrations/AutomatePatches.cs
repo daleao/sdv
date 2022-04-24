@@ -13,6 +13,7 @@ using StardewValley;
 using StardewValley.TerrainFeatures;
 
 using Common.Extensions;
+using Common.Extensions.Reflection;
 using Common.Harmony;
 
 using SObject = StardewValley.Object;

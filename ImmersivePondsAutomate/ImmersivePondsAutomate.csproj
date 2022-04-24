@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
+
+	<PropertyGroup>
 	<AssemblyName>ImmersivePondsAutomate</AssemblyName>
 	<RootNamespace>DaLion.Stardew.Ponds.Automate</RootNamespace>
 	<Version>1.0.0</Version>

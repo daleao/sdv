@@ -13,7 +13,7 @@ using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions;
 using Extensions;
 
 #endregion using directives

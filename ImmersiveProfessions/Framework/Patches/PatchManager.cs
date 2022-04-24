@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 
-using Common.Extensions;
+using Common.Extensions.Reflection;
 using Patches;
 
 #endregion using directives

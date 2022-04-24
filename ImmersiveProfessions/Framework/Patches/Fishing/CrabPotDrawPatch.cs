@@ -12,7 +12,7 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions;
 
 #endregion using directives
 

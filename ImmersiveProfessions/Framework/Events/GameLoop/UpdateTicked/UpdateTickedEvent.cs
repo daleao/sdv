@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IGameLoopEvents.UpdateTicked"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class UpdateTickedEvent : BaseEvent
 {
     /// <summary>Raised after the game state is updated.</summary>

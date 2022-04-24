@@ -16,7 +16,9 @@ using StardewValley.TerrainFeatures;
 
 using Common.Classes;
 using Common.Extensions;
+using Common.Extensions.Reflection;
 using Common.Harmony;
+using Common.Stardew.Extensions;
 using Extensions;
 
 using SObject = StardewValley.Object;

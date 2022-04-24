@@ -11,7 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
-using Stardew.Common.Harmony;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives

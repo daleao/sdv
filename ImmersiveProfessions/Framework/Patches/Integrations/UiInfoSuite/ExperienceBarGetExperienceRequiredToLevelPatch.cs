@@ -5,7 +5,7 @@
 using HarmonyLib;
 using JetBrains.Annotations;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
 
 #endregion using directives
 

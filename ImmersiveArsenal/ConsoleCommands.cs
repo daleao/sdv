@@ -12,12 +12,12 @@ using StardewValley.Tools;
 
 internal static class ConsoleCommands
 {
-    internal static void Register(IModHelper helper)
+    internal static void Register(this ICommandHelper helper)
     {
-        helper.ConsoleCommands.Add("weapon_addenchantment",
+        helper.Add("weapon_addenchantment",
             "Add the specified enchantment to the player's current weapon." + GetAddEnchantmentUsage(),
             AddEnchantment);
-        helper.ConsoleCommands.Add("arsenal_debugquest",
+        helper.Add("arsenal_debugquest",
             "Advance the local player to the final stage of Qi's Final Challenge quest.", DebugQuest);
     }
 

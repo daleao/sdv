@@ -15,6 +15,7 @@ using StardewValley.Menus;
 using StardewValley.Objects;
 
 using Common.Extensions;
+using Common.Extensions.Reflection;
 
 using SObject = StardewValley.Object;
 

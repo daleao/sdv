@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
 
-using Common.Extensions;
+using Common.Extensions.Xna;
 
 #endregion using directives
 

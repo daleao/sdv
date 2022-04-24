@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions;
 using Extensions;
 using Utility;
 

@@ -12,8 +12,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Menus;
 
-using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Prestige;
 
 #endregion using directives

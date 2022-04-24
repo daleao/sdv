@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewModdingAPI;
@@ -13,18 +14,22 @@ using Extensions;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IGameLoopEvents.SaveLoaded"/> that can be hooked or unhooked.</summary>
+[UsedImplicitly]
 internal class SaveLoadedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
     {
         ModEntry.ModHelper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
+        Log.D("[Ponds] Hooked SaveLoaded event.");
     }
 
     /// <inheritdoc />
     public void Unhook()
     {
         ModEntry.ModHelper.Events.GameLoop.SaveLoaded -= OnSaveLoaded;
+        Log.D("[Ponds] Unhooked SaveLoaded event.");
     }
 
     /// <summary>

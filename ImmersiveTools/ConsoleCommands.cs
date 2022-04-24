@@ -11,16 +11,16 @@ using StardewValley.Tools;
 
 internal static class ConsoleCommands
 {
-    internal static void Register(IModHelper helper)
+    internal static void Register(this ICommandHelper helper)
     {
-        helper.ConsoleCommands.Add("player_gettools",
+        helper.Add("player_gettools",
             "Add one of every upgradeable tool to the local player's inventory.", GetTools);
 
-        helper.ConsoleCommands.Add("player_upgradetools",
+        helper.Add("player_upgradetools",
             "Set the upgrade level of all upgradeable tools in the player's inventory." + GetUpgradeToolsUsage(),
             UpgradeTools);
 
-        helper.ConsoleCommands.Add("tool_addenchantment",
+        helper.Add("tool_addenchantment",
             "Add the specified enchantment to the player's current tool." + GetAddEnchantmentUsage(),
             AddEnchantment);
     }

@@ -10,8 +10,9 @@ using HarmonyLib;
 using StardewValley;
 using StardewValley.Network;
 
-using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;

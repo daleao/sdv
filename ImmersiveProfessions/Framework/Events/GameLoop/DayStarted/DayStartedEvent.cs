@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IGameLoopEvents.DayStarted"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class DayStartedEvent : BaseEvent
 {
     /// <summary>Raised after a new in-game day starts, or after connecting to a multiplayer world.</summary>

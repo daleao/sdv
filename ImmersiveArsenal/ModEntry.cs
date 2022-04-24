@@ -40,14 +40,12 @@ public class ModEntry : Mod
         helper.Content.AssetEditors.Add(new TrulyLegendaryGalaxyEditor());
 
         // register events
-        new ButtonPressedEvent().Hook();
-        new GameLaunchedEvent().Hook();
-        new UpdateTickedEvent().Hook();
+        IEvent.HookAll();
 
         // apply harmony patches
         new Harmony(ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
 
         // add debug commands
-        ConsoleCommands.Register(helper);
+        helper.ConsoleCommands.Register();
     }
 }

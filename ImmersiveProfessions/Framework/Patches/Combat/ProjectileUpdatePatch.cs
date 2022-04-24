@@ -10,14 +10,14 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 
-using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Xna;
+using DaLion.Common.Harmony;
 
 #endregion using directives
 

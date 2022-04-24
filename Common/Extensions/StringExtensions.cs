@@ -1,5 +1,5 @@
 ﻿#nullable enable
-namespace DaLion.Stardew.Common.Extensions;
+namespace DaLion.Common.Extensions;
 
 #region using directives
 

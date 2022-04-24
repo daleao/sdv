@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 
 using Common.Extensions;
+using Common.Extensions.Collections;
 using AssetEditors;
 
 #endregion using directives

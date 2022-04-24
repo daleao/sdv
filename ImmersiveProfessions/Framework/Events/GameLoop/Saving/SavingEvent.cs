@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IGameLoopEvents.Saving"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class SavingEvent : BaseEvent
 {
     /// <summary>Raised before the game writes data to save file.</summary>

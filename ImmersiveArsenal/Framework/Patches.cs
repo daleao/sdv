@@ -18,8 +18,8 @@ using StardewValley.Objects;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 
-using Common.Extensions;
 using Common.Harmony;
+using Common.Extensions.Reflection;
 
 using SObject = StardewValley.Object;
 

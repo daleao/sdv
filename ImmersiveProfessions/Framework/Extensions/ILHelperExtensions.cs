@@ -11,6 +11,7 @@ using StardewValley;
 
 using Common.Extensions;
 using Common.Harmony;
+using Common.Extensions.Reflection;
 
 #endregion using directives
 
@@ -52,13 +53,12 @@ public static class ILHelperExtensions
         var toInsert = new List<CodeInstruction>();
         if (forLocalPlayer)
             toInsert.Add(new(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))));
-        
+
         toInsert.AddRange(
-            new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
-            LoadConstantIntegerIL(professionIndex),
-            new CodeInstruction(OpCodes.Callvirt,
-                typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
-        );
+            new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))).Collect(
+                LoadConstantIntegerIL(professionIndex),
+                new CodeInstruction(OpCodes.Callvirt,
+                    typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))));
 
         if (labels is not null) toInsert[0].labels.AddRange(labels);
 
@@ -76,9 +76,8 @@ public static class ILHelperExtensions
             toInsert.Add(new(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.random))));
 
         toInsert.AddRange(
-            new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))),
-            new CodeInstruction(OpCodes.Ldc_R8, chance)
-        );
+            new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))).Collect(
+                new CodeInstruction(OpCodes.Ldc_R8, chance)));
 
         if (labels is not null) toInsert[0].labels.AddRange(labels);
 
@@ -96,11 +95,8 @@ public static class ILHelperExtensions
         if (forStaticRandom)
             toInsert.Add(new(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.random))));
 
-        toInsert.AddRange(
-            LoadConstantIntegerIL(minValue),
-            LoadConstantIntegerIL(maxValue + 1),
-            new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.Next)))
-        );
+        toInsert.AddRange(LoadConstantIntegerIL(minValue).Collect(LoadConstantIntegerIL(maxValue + 1),
+            new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.Next)))));
 
         if (labels is not null) toInsert[0].labels.AddRange(labels);
 

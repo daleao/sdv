@@ -13,13 +13,14 @@ using Netcode;
 using StardewValley;
 using StardewValley.Menus;
 
-using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Events.GameLoop;
 using Extensions;
 using Ultimate;
 
-using CollectionExtensions = Stardew.Common.Extensions.CollectionExtensions;
+using CollectionExtensions = DaLion.Common.Extensions.Collections.CollectionExtensions;
 using Localization = Utility.Localization;
 
 #endregion using directives

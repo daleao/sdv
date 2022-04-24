@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IInputEvents.ButtonsChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class ButtonsChangedEvent : BaseEvent
 {
     /// <summary>Raised after the player pressed/released any buttons on the keyboard, mouse, or controller.</summary>

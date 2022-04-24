@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
+
+	<PropertyGroup>
 	<AssemblyName>ImmersiveRings</AssemblyName>
 	<RootNamespace>DaLion.Stardew.Rings</RootNamespace>
 	<Version>1.0.0</Version>
@@ -21,4 +22,5 @@
   </ItemGroup>
 
   <Import Project="..\Common\Common.projitems" Label="Shared" Condition="Exists('..\Common\Common.projitems')" />
+
 </Project>

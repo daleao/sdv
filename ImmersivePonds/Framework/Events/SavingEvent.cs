@@ -4,28 +4,34 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
 using Common.Extensions;
+using Common.Extensions.Collections;
 using Extensions;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IGameLoopEvents.Saving"/> that can be hooked or unhooked.</summary>
+[UsedImplicitly]
 internal class SavingEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
     {
         ModEntry.ModHelper.Events.GameLoop.Saving += OnSaving;
+        Log.D("[Ponds] Hooked Saving event.");
     }
 
     /// <inheritdoc />
     public void Unhook()
     {
         ModEntry.ModHelper.Events.GameLoop.Saving -= OnSaving;
+        Log.D("[Ponds] Unhooked Saving event.");
     }
 
     /// <summary>Raised before the game writes data to save file.</summary>

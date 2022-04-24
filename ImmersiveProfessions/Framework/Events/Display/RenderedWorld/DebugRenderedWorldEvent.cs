@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Stardew.Common.Extensions;
+using Common.Extensions.Xna;
 
 #endregion using directives
 

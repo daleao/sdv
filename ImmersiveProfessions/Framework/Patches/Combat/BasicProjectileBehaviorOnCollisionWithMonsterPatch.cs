@@ -13,7 +13,7 @@ using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
 using Extensions;
 using Ultimate;
 

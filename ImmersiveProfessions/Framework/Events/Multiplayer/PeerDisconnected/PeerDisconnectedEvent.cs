@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IMultiplayerEvents.PeerDisconnected"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class PeerDisconnectedEvent : BaseEvent
 {
     /// <summary>Raised after the connection to a player is severed.</summary>

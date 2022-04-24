@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IGameLoopEvents.GameLaunched"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class GameLaunchedEvent : BaseEvent
 {
     /// <summary>Raised after the game is launched, right before the first update tick.</summary>

@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IMultiplayerEvents.PeerConnected"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class PeerConnectedEvent : BaseEvent
 {
     /// <summary>Raised after a connection from another player is approved by the game.</summary>

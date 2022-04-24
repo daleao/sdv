@@ -44,14 +44,13 @@ public class ModEntry : Mod
         VerifyConfigs();
 
         // hook events
-        new GameLaunchedEvent().Hook();
-        new UpdateTickedEvent().Hook();
+        IEvent.HookAll();
 
         // apply harmony patches
         new Harmony(ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
 
         // add debug commands
-        ConsoleCommands.Register(helper);
+        helper.ConsoleCommands.Register();
     }
 
     #region private methods

@@ -6,7 +6,7 @@ using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
-/// <summary>Base implementation for an event wrapper allowing dynamic enabling/disabling of events.</summary>
+/// <summary>Base implementation for an event wrapper allowing dynamic enabling / disabling.</summary>
 internal abstract class BaseEvent : IEvent
 {
     protected readonly PerScreen<bool> enabled = new();

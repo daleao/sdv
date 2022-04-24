@@ -11,7 +11,7 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions;
 using Extensions;
 
 using SObject = StardewValley.Object;

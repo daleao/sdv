@@ -32,7 +32,7 @@ internal static class Patches
     {
         /// <summary>Allow first two power levels on Pickaxe.</summary>
         [HarmonyTranspiler]
-        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var l = instructions.ToList();
             for (var i = 0; i < l.Count; ++i)
@@ -54,7 +54,7 @@ internal static class Patches
     {
         /// <summary>Enable Axe power level increase.</summary>
         [HarmonyPrefix]
-        protected static bool Prefix(Tool __instance, Farmer who)
+        private static bool Prefix(Tool __instance, Farmer who)
         {
             if (!ModEntry.Config.AxeConfig.EnableCharging ||
                 ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown() ||
@@ -95,7 +95,7 @@ internal static class Patches
     {
         /// <summary>Enable Pickaxe power level increase.</summary>
         [HarmonyPrefix]
-        protected static bool Prefix(Tool __instance, Farmer who)
+        private static bool Prefix(Tool __instance, Farmer who)
         {
             if (!ModEntry.Config.PickaxeConfig.EnableCharging ||
                 ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown() ||
@@ -136,7 +136,7 @@ internal static class Patches
     {
         /// <summary>Do shockwave.</summary>
         [HarmonyPostfix]
-        protected static void Postfix(Farmer who)
+        private static void Postfix(Farmer who)
         {
             var tool = who.CurrentTool;
             if (who.toolPower <= 0 || tool is not (Axe or Pickaxe)) return;
@@ -168,7 +168,7 @@ internal static class Patches
     {
         /// <summary>Override affected tiles for farming tools.</summary>
         [HarmonyPrefix]
-        protected static bool Prefix(Tool __instance, ref List<Vector2> __result, Vector2 tileLocation, ref int power, Farmer who)
+        private static bool Prefix(Tool __instance, ref List<Vector2> __result, Vector2 tileLocation, ref int power, Farmer who)
         {
             if (__instance is not (Hoe or WateringCan) || power < 1) return true; // run original logic
 
@@ -200,7 +200,7 @@ internal static class Patches
 
         /// <summary>Override affected tiles for resource tools.</summary>
         [HarmonyPostfix]
-        protected static void Postfix(Tool __instance, List<Vector2> __result, Vector2 tileLocation, int power)
+        private static void Postfix(Tool __instance, List<Vector2> __result, Vector2 tileLocation, int power)
         {
             if (__instance.UpgradeLevel < Tool.copper || __instance is not (Axe or Pickaxe))
                 return;
@@ -222,7 +222,7 @@ internal static class Patches
     {
         /// <summary>Hide affected tiles overlay for Axe or Pickaxe.</summary>
         [HarmonyPrefix]
-        protected static bool Prefix(Tool __instance)
+        private static bool Prefix(Tool __instance)
         {
             return !ModEntry.Config.HideAffectedTiles;
         }
@@ -234,7 +234,7 @@ internal static class Patches
         /// <summary>Allow apply reaching enchant.</summary>
         [HarmonyPrefix]
         // ReSharper disable once RedundantAssignment
-        protected static bool Prefix(ref bool __result, Item item)
+        private static bool Prefix(ref bool __result, Item item)
         {
             if (item is Tool tool && (tool is WateringCan or Hoe ||
                                       tool is Axe && ModEntry.Config.AxeConfig.AllowReachingEnchantment ||

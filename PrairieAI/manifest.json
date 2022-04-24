@@ -1,0 +1,10 @@
+﻿{
+  "Name": "AI Plays Journey of the Prairie King",
+  "Author": "DaLion",
+  "Version": "1.0.0",
+  "Description": "An AI that plays Journey of the Prairie King, based on Neuroevolution of Augmenting Topologies (NEAT).",
+  "UniqueID": "DaLion.PrairieAI",
+  "EntryDll": "PrairieAI.dll",
+  "MinimumApiVersion": "3.13.0",
+  "UpdateKeys": ["Nexus:???"]
+}

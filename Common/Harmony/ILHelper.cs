@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Common.Harmony;
+﻿namespace DaLion.Common.Harmony;
 
 #region using directives
 
@@ -8,8 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-
-using Extensions;
 
 #endregion using directives
 

@@ -9,13 +9,12 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
 
-using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using AssetLoaders;
 using Events.GameLoop.DayEnding;
 using Extensions;

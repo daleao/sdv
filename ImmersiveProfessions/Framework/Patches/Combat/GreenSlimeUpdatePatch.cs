@@ -12,8 +12,9 @@ using Netcode;
 using StardewValley;
 using StardewValley.Monsters;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
 using Extensions;
+
 using SUtility = StardewValley.Utility;
 
 #endregion using directives

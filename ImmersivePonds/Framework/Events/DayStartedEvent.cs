@@ -2,30 +2,33 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Common.Extensions;
 using Extensions;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IGameLoopEvents.DayStarted"/> that can be hooked or unhooked.</summary>
+[UsedImplicitly]
 internal class DayStartedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
     {
         ModEntry.ModHelper.Events.GameLoop.DayStarted += OnDayStarted;
+        Log.D("[Ponds] Hooked DayStarted event.");
     }
 
     /// <inheritdoc />
     public void Unhook()
     {
         ModEntry.ModHelper.Events.GameLoop.DayStarted -= OnDayStarted;
+        Log.D("[Ponds] Unhooked DayStarted event.");
     }
 
     /// <summary>Raised before the game writes data to save file.</summary>

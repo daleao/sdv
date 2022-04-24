@@ -11,8 +11,8 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 
-using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -36,7 +36,7 @@ internal class BobberBarUpdatePatch : BasePatch
         var helper = new ILHelper(original, instructions);
 
         ///// From: distanceFromCatching += 0.002f;
-        ///// To: distanceFromCatching +=  Game1.player.professions.Contains(100 + <fished_id>)) ? GetFisherBonusCatchingBarSpeed() : 0.002f;
+        ///// To: distanceFromCatching +=  Game1.player.professions.Contains(100 + <fisher_id>)) ? GetFisherBonusCatchingBarSpeed() : 0.002f;
 
         //var isNotPrestigedFisher = generator.DefineLabel();
         //var resumeExecution = generator.DefineLabel();

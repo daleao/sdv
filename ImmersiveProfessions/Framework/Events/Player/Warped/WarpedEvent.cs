@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion region using directives
 
+/// <summary>Wrapper for <see cref="IPlayerEvents.Warped"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class WarpedEvent : BaseEvent
 {
     /// <summary>Raised after the current player moves to a new location.</summary>

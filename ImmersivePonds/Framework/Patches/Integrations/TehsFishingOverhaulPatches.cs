@@ -11,6 +11,7 @@ using StardewValley;
 using StardewValley.Buildings;
 
 using Common.Extensions;
+using Common.Extensions.Reflection;
 using Extensions;
 
 using SObject = StardewValley.Object;

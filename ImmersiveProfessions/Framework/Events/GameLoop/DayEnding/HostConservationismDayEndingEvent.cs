@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
-using Common.Extensions;
+using Common.Extensions.Collections;
 using AssetEditors;
 using Extensions;
 

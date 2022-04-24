@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Stardew.Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 
 #endregion using directives
 

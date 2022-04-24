@@ -1,4 +1,8 @@
-﻿namespace DaLion.Stardew.Ponds;
+﻿using System.Linq;
+using DaLion.Common.Extensions.Collections;
+using DaLion.Common.Extensions.Reflection;
+
+namespace DaLion.Stardew.Ponds;
 
 #region using directives
 
@@ -16,6 +20,8 @@ using Framework.Patches.Integrations;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
+    internal static ModConfig Config { get; set; }
+
     internal static IModHelper ModHelper { get; private set; }
     internal static IManifest Manifest { get; private set; }
     internal static Action<string, LogLevel> Log { get; private set; }
@@ -29,14 +35,14 @@ public class ModEntry : Mod
         Manifest = ModManifest;
         Log = Monitor.Log;
 
+        // get configs
+        Config = helper.ReadConfig<ModConfig>();
+
         // register asset editors
         helper.Content.AssetEditors.Add(new FishPondDataEditor());
 
         // hook events
-        new SaveLoadedEvent().Hook();
-        new SavingEvent().Hook();
-        new DayStartedEvent().Hook();
-        new ModMessageReceivedEvent().Hook();
+        IEvent.HookAll();
 
         // apply harmony patches
         var harmony = new Harmony(ModManifest.UniqueID);
@@ -45,6 +51,6 @@ public class ModEntry : Mod
             TehsFishingOverhaulPatches.Apply(harmony);
 
         // add debug commands
-        ConsoleCommands.Register(helper.ConsoleCommands);
+        helper.ConsoleCommands.Register();
     }
 }

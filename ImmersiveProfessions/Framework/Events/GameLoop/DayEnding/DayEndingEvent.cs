@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IGameLoopEvents.DayEnding"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class DayEndingEvent : BaseEvent
 {
     /// <summary>Raised before the game ends the current day.</summary>

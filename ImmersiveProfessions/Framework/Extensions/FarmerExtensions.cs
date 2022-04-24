@@ -15,6 +15,8 @@ using StardewValley.Menus;
 using StardewValley.Monsters;
 
 using Common.Extensions;
+using Common.Extensions.Collections;
+using Common.Stardew.Extensions;
 using Events.GameLoop;
 using Ultimate;
 using Utility;

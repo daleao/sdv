@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IPlayerEvents.LevelChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class LevelChangedEvent : BaseEvent
 {
     /// <summary>Raised after a player's skill level changes.</summary>

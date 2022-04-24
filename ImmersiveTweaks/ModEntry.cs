@@ -8,7 +8,7 @@ using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 
-using Common.Extensions;
+using Common.Stardew.Extensions;
 using Framework;
 using Framework.Events;
 using Framework.Patches.Integrations;
@@ -42,8 +42,7 @@ public class ModEntry : Mod
         helper.Content.AssetLoaders.Add(new AssetLoader());
 
         // hook events
-        new GameLaunchedEvent().Hook();
-        new ModMessageReceivedEvent().Hook();
+        IEvent.HookAll();
 
         // apply harmony patches
         var harmony = new Harmony(Manifest.UniqueID);

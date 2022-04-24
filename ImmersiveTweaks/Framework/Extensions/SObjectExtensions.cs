@@ -5,6 +5,7 @@
 using StardewValley;
 
 using Common.Extensions;
+using Common.Stardew.Extensions;
 
 using SObject = StardewValley.Object;
 

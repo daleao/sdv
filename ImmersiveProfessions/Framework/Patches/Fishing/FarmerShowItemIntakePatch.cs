@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions;
 
 using SObject = StardewValley.Object;
 

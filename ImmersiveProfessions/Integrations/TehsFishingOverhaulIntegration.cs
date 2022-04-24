@@ -10,9 +10,8 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
 
-using Common.Integrations;
+using Common.Stardew.Integrations;
 using Framework.Extensions;
-using Framework.Utility;
 
 #endregion using directives
 

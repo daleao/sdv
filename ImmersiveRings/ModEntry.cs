@@ -10,6 +10,7 @@ using StardewModdingAPI.Events;
 
 using Framework.AssetEditors;
 using Framework.AssetLoaders;
+using Framework.Events;
 using Integrations;
 
 #endregion using directives
@@ -42,13 +43,10 @@ public class ModEntry : Mod
         helper.Content.AssetEditors.Add(new SpringObjectsEditor());
 
         // register events
-        helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+        IEvent.HookAll();
 
         // apply harmony patches
         new Harmony(ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
-
-        // add debug commands
-        ConsoleCommands.Register(helper);
     }
 
     /// <summary>Raised after the game is launched, right before the first update tick.</summary>

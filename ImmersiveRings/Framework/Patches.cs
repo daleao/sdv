@@ -31,6 +31,7 @@ internal static class Patches
     {
         /// <summary>Overrides ingredient consumption to allow non-SObject types.</summary>
         [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
         protected static bool Prefix(CraftingRecipe __instance, IList<Chest> additional_materials)
         {
             if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
@@ -78,6 +79,7 @@ internal static class Patches
     {
         /// <summary>Overrides ingredient search to allow non-Object types.</summary>
         [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
         protected static bool Prefix(CraftingRecipe __instance, ref bool __result, IList<Item> extraToCheck)
         {
             if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
@@ -120,6 +122,7 @@ internal static class Patches
     {
         /// <summary>Correctly draws recipes with non-Object types.</summary>
         [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
         protected static bool Prefix(CraftingRecipe __instance, SpriteBatch b, Vector2 position, int width, IList<Item> additional_crafting_items)
         {
             if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
@@ -209,6 +212,7 @@ internal static class Patches
     {
         /// <summary>Overrides craftable count for non-SObject types.</summary>
         [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
         protected static bool Prefix(CraftingRecipe __instance, ref int __result, IList<Item> additional_materials)
         {
             if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
@@ -245,25 +249,28 @@ internal static class Patches
     internal class RingOnEquipPatch
     {
         /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
-        [HarmonyPostfix]
-        protected static void Postfix(Ring __instance, Farmer who)
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
+        protected static bool Prefix(Ring __instance, Farmer who)
         {
-            if (!ModEntry.Config.RebalancedRings) return;
+            if (ModEntry.Config.ForgeableIridiumBand &&
+                __instance.indexInTileSheet.Value == Constants.IRIDIUM_BAND_INDEX_I) return false; // don't run original logic
 
+            if (!ModEntry.Config.RebalancedRings) return true; // run original logic
+            
             switch (__instance.indexInTileSheet.Value)
             {
                 case Constants.TOPAZ_RING_INDEX_I: // topaz to give +3 defense
-                    who.weaponPrecisionModifier -= 0.1f;
                     who.resilience += 3;
-                    break;
+                    return false; // don't run original logic
                 case Constants.JADE_RING_INDEX_I: // jade ring to give +30% crit. power
-                    who.critPowerModifier += 0.2f;
-                    break;
+                    who.critPowerModifier += 0.3f;
+                    return false; // don't run original logic
                 case Constants.CRAB_RING_INDEX_I: // crab ring to give +8 defense
-                    who.resilience += 5;
-                    break;
+                    who.resilience += 12;
+                    return false; // don't run original logic
                 default:
-                    return;
+                    return true; // run original logic
             }
         }
     }
@@ -272,25 +279,28 @@ internal static class Patches
     internal class RingOnUnequipPatch
     {
         /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
-        [HarmonyPostfix]
-        protected static void Postfix(Ring __instance, Farmer who)
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
+        protected static bool Prefix(Ring __instance, Farmer who)
         {
-            if (!ModEntry.Config.RebalancedRings) return;
+            if (ModEntry.Config.ForgeableIridiumBand &&
+                __instance.indexInTileSheet.Value == Constants.IRIDIUM_BAND_INDEX_I) return false; // don't run original logic
+
+            if (!ModEntry.Config.RebalancedRings) return true; // run original logic
 
             switch (__instance.indexInTileSheet.Value)
             {
                 case Constants.TOPAZ_RING_INDEX_I: // topaz to give +3 defense
-                    who.weaponPrecisionModifier += 0.1f;
                     who.resilience -= 3;
-                    break;
+                    return false; // don't run original logic
                 case Constants.JADE_RING_INDEX_I: // jade ring to give +30% crit. power
-                    who.critPowerModifier -= 0.2f;
-                    break;
+                    who.critPowerModifier -= 0.3f;
+                    return false; // don't run original logic
                 case Constants.CRAB_RING_INDEX_I: // crab ring to give +8 defense
-                    who.resilience -= 5;
-                    break;
+                    who.resilience -= 12;
+                    return false; // don't run original logic
                 default:
-                    return;
+                    return true; // run original logic
             }
         }
     }
@@ -300,6 +310,7 @@ internal static class Patches
     {
         /// <summary>Allows feeding up to four gemstone rings into iridium bands.</summary>
         [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
         protected static bool Prefix(Ring __instance, ref bool __result, Ring ring)
         {
             if (!ModEntry.Config.ForgeableIridiumBand) return true; // run original logic
@@ -323,6 +334,7 @@ internal static class Patches
     {
         /// <summary>Changes combined ring to iridium band when combining.</summary>
         [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
         protected static bool Prefix(Ring __instance, ref Ring __result, Ring ring)
         {
             if (!ModEntry.Config.ForgeableIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
@@ -360,6 +372,7 @@ internal static class Patches
     {
         /// <summary>Changes combined ring to iridium band when getting one.</summary>
         [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
         protected static bool Prefix(CombinedRing __instance, Item source)
         {
             if (!ModEntry.Config.ForgeableIridiumBand || source.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
@@ -377,6 +390,7 @@ internal static class Patches
     {
         /// <summary>Iridium description is always first, and gemstone descriptions are grouped together.</summary>
         [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
         protected static bool Prefix(CombinedRing __instance, ref bool __result)
         {
             if (!ModEntry.Config.ForgeableIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
@@ -477,6 +491,7 @@ internal static class Patches
     {
         /// <summary>Draw gemstones on combined iridium band.</summary>
         [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
         protected static bool Prefix(CombinedRing __instance, SpriteBatch spriteBatch, Vector2 location,
             float scaleSize, float transparency, float layerDepth, StackDrawType drawStackNumber, Color color,
             bool drawShadow)

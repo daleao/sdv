@@ -37,6 +37,6 @@ internal static class Utility
     /// <param name="neighbors">How many other fish live in the same pond.</param>
     internal static double GetRoeChance(int value, int neighbors)
     {
-        return (14765.0 / (value + 120) + 1.5) * (1.0 + neighbors / 11.0 - 1.0/11.0);
+        return (14765.0 / (value + 120) + 1.5) * (1.0 + neighbors / 11.0 - 1.0/11.0) * ModEntry.Config.RoeProductionChanceMultiplier;
     }
 }

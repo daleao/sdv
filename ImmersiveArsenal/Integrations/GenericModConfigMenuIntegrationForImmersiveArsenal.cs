@@ -5,7 +5,7 @@ namespace DaLion.Stardew.Arsenal.Integrations;
 using System;
 using StardewModdingAPI;
 
-using Common.Integrations;
+using Common.Stardew.Integrations;
 
 #endregion using directives
 

@@ -9,6 +9,7 @@ using JetBrains.Annotations;
 using StardewValley;
 
 using Common.Extensions;
+using Common.Stardew.Extensions;
 
 #endregion using directives
 

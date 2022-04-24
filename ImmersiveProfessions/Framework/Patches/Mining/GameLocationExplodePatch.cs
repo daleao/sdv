@@ -10,8 +10,8 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 
-using Stardew.Common.Classes;
-using Stardew.Common.Extensions;
+using DaLion.Common.Classes;
+using DaLion.Common.Extensions.Reflection;
 using Events.GameLoop;
 using Extensions;
 using Utility;

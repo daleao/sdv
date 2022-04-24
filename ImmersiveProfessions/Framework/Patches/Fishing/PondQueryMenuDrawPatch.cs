@@ -16,9 +16,9 @@ using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
 using Extensions;
-using Utility;
 
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
@@ -66,16 +66,16 @@ internal class PondQueryMenuDrawPatch : BasePatch
     {
         try
         {
+            if (ModEntry.PondsConfig is not null) return true; // run original logic
+
             var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
             if (!owner.HasProfession(Profession.Aquarist)) return true; // run original logic
 
             var fishPondData = (FishPondData?) _FishPondData.GetValue(____pond);
-            if (fishPondData is null) return true; // run original logic
-
-            var populationGates = fishPondData.PopulationGates;
+            var populationGates = fishPondData?.PopulationGates;
             var isLegendaryPond = ____fishItem.HasContextTag("fish_legendary");
-            if (____fishItem.IsAlgae() || populationGates is not null &&
-                ____pond.lastUnlockedPopulationGate.Value < populationGates.Keys.Max() && !isLegendaryPond)
+            if (!isLegendaryPond && populationGates is not null &&
+                ____pond.lastUnlockedPopulationGate.Value < populationGates.Keys.Max())
                 return true; // run original logic
 
             if (!Game1.globalFade)
@@ -111,9 +111,8 @@ internal class PondQueryMenuDrawPatch : BasePatch
                         __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16 + 128),
                     Game1.textColor);
                 
+                int x = 0, y = 0;
                 var slotsToDraw = ____pond.maxOccupants.Value;
-                var x = 0;
-                var y = 0;
                 var slotSpacing = isLegendaryPond ? LEGENDARY_SLOT_SPACING_F : AQUARIST_SLOT_SPACING_F;
                 for (var i = 0; i < slotsToDraw; ++i)
                 {
@@ -222,9 +221,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
                 }
             }
 
-            if (ModEntry.PondsConfig is not null || ___confirmingEmpty)
-                __instance.drawMouse(b);
-
+            __instance.drawMouse(b);
             return false; // don't run original logic
         }
         catch (Exception ex)

@@ -7,7 +7,7 @@ using System.Reflection;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 
-using Common.Extensions;
+using Common.Extensions.Reflection;
 
 #endregion using directives
 

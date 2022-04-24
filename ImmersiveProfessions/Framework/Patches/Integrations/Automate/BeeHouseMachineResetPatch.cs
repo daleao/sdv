@@ -9,8 +9,8 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 
-using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives

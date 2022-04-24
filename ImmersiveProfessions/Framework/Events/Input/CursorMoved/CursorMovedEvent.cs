@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IInputEvents.CursorMoved"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class CursorMovedEvent : BaseEvent
 {
     /// <summary>Raised after the player moves the in-game cursor.</summary>

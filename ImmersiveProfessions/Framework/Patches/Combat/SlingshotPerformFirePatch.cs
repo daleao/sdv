@@ -12,7 +12,8 @@ using StardewValley;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 
-using Stardew.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Xna;
 using Extensions;
 using Ultimate;
 

@@ -24,7 +24,7 @@ internal static class ConsoleCommands
 {
     /// <summary>Register all internally defined console commands.</summary>
     /// <param name="helper">The console command API.</param>
-    internal static void Register(ICommandHelper helper)
+    internal static void Register(this ICommandHelper helper)
     {
         helper.Add("player_skills", "List the player's current skill levels.",
             PrintLocalPlayerSkillLevels);

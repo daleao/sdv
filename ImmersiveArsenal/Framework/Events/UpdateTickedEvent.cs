@@ -2,24 +2,29 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Tools;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IGameLoopEvents.UpdateTicked"/> that can be hooked or unhooked.</summary>
+[UsedImplicitly]
 internal class UpdateTickedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
     {
         ModEntry.ModHelper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
+        Log.D("[Arsenal] Hooked UpdateTicked event.");
     }
 
     /// <inheritdoc />
     public void Unhook()
     {
         ModEntry.ModHelper.Events.GameLoop.UpdateTicked -= OnUpdateTicked;
+        Log.D("[Arsenal] Unhooked UpdateTicked event.");
     }
 
     /// <summary>Raised after the player pressed a keyboard, mouse, or controller button.</summary>

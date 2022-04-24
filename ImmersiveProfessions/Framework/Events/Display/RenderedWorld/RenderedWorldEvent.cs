@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IDisplayEvents.RenderedWorld"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class RenderedWorldEvent : BaseEvent
 {
     /// <summary>Raised after the game world is drawn to the sprite patch, before it's rendered to the screen.</summary>

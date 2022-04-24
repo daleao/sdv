@@ -16,17 +16,16 @@ using SObject = StardewValley.Object;
 
 internal static class ConsoleCommands
 {
-    internal static void Register(ICommandHelper helper)
+    internal static void Register(this ICommandHelper helper)
     {
-        helper.Add("pond_maxquality", "Set the quality of all fish in the nearest pond to the local player.",
+        helper.Add("pond_setquality", "Set the quality of all fish in the nearest pond to the local player.",
             SetNearestQualities);
+        helper.Add("pond_resetdata", "Reset custom mod data of nearest pond.", ResetNearestPondData);
     }
 
     #region command handlers
 
-    /// <summary>Set the quality rating of the nearest pond such that all fish </summary>
-    /// <param name="command"></param>
-    /// <param name="args"></param>
+    /// <summary>Set the quality rating of the nearest pond.</summary>
     internal static void SetNearestQualities(string command, string[] args)
     {
         if (!Context.IsWorldReady)
@@ -98,6 +97,49 @@ internal static class ConsoleCommands
         var fishQualities = new int[4];
         fishQualities[newQuality == 4 ? 3 : newQuality] += nearest.FishCount - familyCount;
         nearest.WriteData("FishQualities", string.Join(',', fishQualities));
+    }
+
+    /// <summary>Reset all custom pond data without needing to clear the pond.</summary>
+    internal static void ResetNearestPondData(object sender, string[] args)
+    {
+        if (!Context.IsWorldReady)
+        {
+            Log.W("You must load a save first.");
+            return;
+        }
+
+        if (!Game1.player.currentLocation.Equals(Game1.getFarm()))
+        {
+            Log.W("You must be at the farm to do this.");
+            return;
+        }
+
+        var ponds = Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
+                (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+                !p.isUnderConstruction())
+            .ToHashSet();
+        if (!ponds.Any())
+        {
+            Log.W("You don't own any Fish Ponds.");
+            return;
+        }
+
+        var nearest = Game1.player.GetClosestBuilding(out _, ponds);
+        if (nearest is null)
+        {
+            Log.W("There are no ponds nearby.");
+            return;
+        }
+
+        nearest.WriteData("FishQualities", null);
+        nearest.WriteData("FamilyQualities", null);
+        nearest.WriteData("FamilyLivingHere", null);
+        nearest.WriteData("DaysEmpty", 0.ToString());
+        nearest.WriteData("SeaweedLivingHere", null);
+        nearest.WriteData("GreenAlgaeLivingHere", null);
+        nearest.WriteData("WhiteAlgaeLivingHere", null);
+        nearest.WriteData("CheckedToday", null);
+        nearest.WriteData("ItemsHeld", null);
     }
 
     #endregion command handlers

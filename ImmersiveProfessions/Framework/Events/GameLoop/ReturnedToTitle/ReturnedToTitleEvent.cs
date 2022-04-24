@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IGameLoopEvents.ReturnedToTitle"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class ReturnedToTitleEvent : BaseEvent
 {
     /// <summary>Raised after the game returns to the title screen.</summary>

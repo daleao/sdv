@@ -24,6 +24,8 @@ using StardewValley.Objects;
 using StardewValley.Tools;
 
 using Common.Extensions;
+using Common.Extensions.Reflection;
+using Common.Extensions.Xna;
 using Common.Harmony;
 using Extensions;
 
@@ -101,14 +103,14 @@ internal static class Patches
             {
                 var fishQualities = pond.ReadData("FishQualities",
                     $"{pond.FishCount - pond.ReadDataAs<int>("FamilyLivingHere")},0,0,0").ParseList<int>()!;
-                if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > pond.FishCount + 1))
+                if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > pond.FishCount + 1)) // FishCount has already been decremented at this point, so we increment 1 to compensate
                     throw new InvalidDataException("FishQualities data had incorrect number of values.");
 
                 var lowestFish = fishQualities.FindIndex(i => i > 0);
                 if (pond.IsLegendaryPond())
                 {
                     var familyCount = pond.ReadDataAs<int>("FamilyLivingHere");
-                    if (fishQualities.Sum() + familyCount != pond.FishCount)
+                    if (fishQualities.Sum() + familyCount != pond.FishCount + 1) // FishCount has already been decremented at this point, so we increment 1 to compensate
                         throw new InvalidDataException("FamilyLivingHere data is invalid.");
 
                     if (familyCount > 0)
@@ -120,7 +122,7 @@ internal static class Patches
                             throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
 
                         var lowestFamily = familyQualities.FindIndex(i => i > 0);
-                        if (lowestFamily < lowestFish)
+                        if (lowestFamily < lowestFish || lowestFamily == lowestFish && Game1.random.NextDouble() < 0.5)
                         {
                             whichFish = Framework.Utility.ExtendedFamilyPairs[whichFish];
                             fishQuality = lowestFamily == 3 ? 4 : lowestFamily;
@@ -185,8 +187,6 @@ internal static class Patches
             {
                 if (fish.HasContextTag("fish_legendary") && fish.ParentSheetIndex != __instance.fishType.Value)
                 {
-                    __instance.IncrementData<int>("FamilyLivingHere");
-
                     var familyQualities = __instance
                         .ReadData("FamilyQualities", $"{__instance.ReadDataAs<int>("FamilyLivingHere")},0,0,0")
                         .ParseList<int>()!;
@@ -194,6 +194,7 @@ internal static class Patches
                         throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
 
                     ++familyQualities[fish.Quality == 4 ? 3 : fish.Quality];
+                    __instance.IncrementData<int>("FamilyLivingHere");
                     __instance.WriteData("FamilyQualities", string.Join(',', familyQualities));
                 }
                 else if (fish.IsAlgae())
@@ -774,6 +775,8 @@ internal static class Patches
             __instance.WriteData("SeaweedLivingHere", null);
             __instance.WriteData("GreenAlgaeLivingHere", null);
             __instance.WriteData("WhiteAlgaeLivingHere", null);
+            __instance.WriteData("CheckedToday", null);
+            __instance.WriteData("ItemsHeld", null);
         }
     }
 
@@ -904,10 +907,21 @@ internal static class Patches
         {
             try
             {
-                var isAlgaePond = ____fishItem.IsAlgae();
-                var familyCount = ____pond.ReadDataAs<int>("FamilyLivingHere");
-                var hasExtendedFamily = familyCount > 0;
-                if (!isAlgaePond && !hasExtendedFamily) return true; // run original logic
+                bool isAlgaePond = ____fishItem.IsAlgae(), isLegendaryPond = false, hasExtendedFamily = false;
+                var familyCount = 0;
+                if (!isAlgaePond)
+                {
+                    isLegendaryPond = ____fishItem.HasContextTag("fish_legendary");
+                    if (!isLegendaryPond)
+                    {
+                        return true; // run original logic
+                    }
+
+                    familyCount = ____pond.ReadDataAs<int>("FamilyLivingHere");
+                    hasExtendedFamily = familyCount > 0;
+                }
+
+                if (!isAlgaePond && !isLegendaryPond) return true; // run original logic
 
                 var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
                 var isAquarist = ModEntry.ModHelper.ModRegistry.IsLoaded("DaLion.ImmersiveProfessions") &&
@@ -948,14 +962,13 @@ internal static class Patches
                             __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16 + 128),
                         Game1.textColor);
 
+                    int x = 0, y = 0;
                     var slotsToDraw = ____pond.maxOccupants.Value;
-                    var x = 0;
-                    var y = 0;
                     var slotSpacing = Constants.REGULAR_SLOT_SPACING_F;
                     var unlockedMaxPopulation = false;
                     if (isAquarist)
                     {
-                        if (hasExtendedFamily)
+                        if (isLegendaryPond)
                         {
                             slotSpacing += 1f;
                         }
@@ -963,22 +976,15 @@ internal static class Patches
                         {
                             var fishPondData = (FishPondData?) _FishPondData.GetValue(____pond);
                             var populationGates = fishPondData?.PopulationGates;
-                            if (populationGates is not null &&
-                                ____pond.lastUnlockedPopulationGate.Value >= populationGates.Keys.Max())
+                            if (populationGates is null || ____pond.lastUnlockedPopulationGate.Value >= populationGates.Keys.Max())
                             {
                                 unlockedMaxPopulation = true;
                                 slotSpacing -= 1f;
                             }
-                            else if (populationGates is null)
-                            {
-                                unlockedMaxPopulation = true;
-                            }
                         }
                     }
 
-                    var seaweedCount = 0;
-                    var greenAlgaeCount = 0;
-                    var whiteAlgaeCount = 0;
+                    int seaweedCount = 0, greenAlgaeCount = 0, whiteAlgaeCount = 0;
                     SObject? itemToDraw = null;
                     if (hasExtendedFamily)
                     {
@@ -998,9 +1004,9 @@ internal static class Patches
                             slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f + slotSpacing * 4f * x + 12f;
                         var yPos = __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * slotSpacing + 275.2f;
                         if (unlockedMaxPopulation) xPos -= 24f;
-                        else if (hasExtendedFamily) xPos += 60f;
+                        else if (isLegendaryPond) xPos += 60f;
 
-                        if (hasExtendedFamily)
+                        if (isLegendaryPond)
                         {
                             if (i < ____pond.FishCount - familyCount)
                                 ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide,
@@ -1033,7 +1039,7 @@ internal static class Patches
                         }
 
                         ++x;
-                        if (x != (hasExtendedFamily ? 3 : unlockedMaxPopulation ? 6 : 5)) continue;
+                        if (x != (isLegendaryPond ? 3 : unlockedMaxPopulation ? 6 : 5)) continue;
 
                         x = 0;
                         ++y;

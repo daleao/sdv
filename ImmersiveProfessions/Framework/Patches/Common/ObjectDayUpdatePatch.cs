@@ -10,8 +10,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
-using Stardew.Common.Extensions;
-using Stardew.Common.Harmony;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;

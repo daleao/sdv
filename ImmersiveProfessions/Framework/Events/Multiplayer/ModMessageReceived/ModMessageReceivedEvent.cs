@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Wrapper for <see cref="IMultiplayerEvents.ModMessageReceived"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class ModMessageReceivedEvent : BaseEvent
 {
     /// <summary>Raised after a mod message is received over the network.</summary>

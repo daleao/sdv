@@ -3,12 +3,11 @@
 #region using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using StardewModdingAPI;
 
-using Common.Extensions;
-using Common.Integrations;
+using Common.Extensions.Reflection;
+using Common.Stardew.Integrations;
 
 #endregion using directives
 

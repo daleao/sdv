@@ -7,6 +7,7 @@ using StardewValley;
 using StardewValley.TerrainFeatures;
 
 using Common.Extensions;
+using Common.Stardew.Extensions;
 
 using SObject = StardewValley.Object;
 
