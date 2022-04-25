@@ -19,14 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveTools", "Immersive
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveTweaks", "ImmersiveTweaks\ImmersiveTweaks.csproj", "{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrairieAI", "PrairieAI\PrairieAI.csproj", "{662C7C52-B9D1-456C-8FE2-1F7CD82F1FC1}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common\Common.projitems*{0c5f1531-281e-468c-b47f-1e78e3b9c02e}*SharedItemsImports = 13
 		Common\Common.projitems*{2076552a-a1cc-41e9-af7f-9cecc1b33a78}*SharedItemsImports = 5
 		Common\Common.projitems*{388cbb99-61dd-47ba-a58c-6ebb0870b633}*SharedItemsImports = 5
-		Common\Common.projitems*{662c7c52-b9d1-456c-8fe2-1f7cd82f1fc1}*SharedItemsImports = 5
 		Common\Common.projitems*{a9012cda-6337-405e-966f-09caafe5583e}*SharedItemsImports = 5
 		Common\Common.projitems*{b1798f5e-83bd-48ea-a759-49e29edee159}*SharedItemsImports = 5
 		Common\Common.projitems*{caa8fb14-70a4-441a-b9eb-8db55f8ecde7}*SharedItemsImports = 5
@@ -65,10 +62,6 @@ Global
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{662C7C52-B9D1-456C-8FE2-1F7CD82F1FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{662C7C52-B9D1-456C-8FE2-1F7CD82F1FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{662C7C52-B9D1-456C-8FE2-1F7CD82F1FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{662C7C52-B9D1-456C-8FE2-1F7CD82F1FC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
