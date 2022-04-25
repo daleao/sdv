@@ -1,0 +1,10 @@
+﻿{
+  "Name": "AI Plays Junimo Cart",
+  "Author": "DaLion",
+  "Version": "1.0.0",
+  "Description": "An AI that plays Junimo Cart, based on Neuroevolution of Augmenting Topologies (NEAT).",
+  "UniqueID": "DaLion.CartAI",
+  "EntryDll": "CartAI.dll",
+  "MinimumApiVersion": "3.13.0",
+  "UpdateKeys": ["Nexus:???"]
+}
