@@ -4,7 +4,7 @@
 public class ModConfig
 {
     /// <summary>Tree sap quality should improve as the tree ages.</summary>
-    public bool AgeTapperTrees { get; set; } = true;
+    public bool AgeSapTrees { get; set; } = true;
 
     /// <summary>If crab pots reward experience, so should tappers.</summary>
     public bool TappersRewardExp { get; set; } = true;

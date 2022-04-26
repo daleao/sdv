@@ -8,7 +8,7 @@ using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 
-using Common.Stardew.Extensions;
+using Common.Extensions.Stardew;
 using Framework;
 using Framework.Events;
 using Framework.Patches.Integrations;

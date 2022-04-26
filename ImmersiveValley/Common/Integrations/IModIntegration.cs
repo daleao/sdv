@@ -1,4 +1,4 @@
-namespace DaLion.Common.Stardew.Integrations;
+namespace DaLion.Common.Integrations;
 
 /// <summary>Handles integration with a given mod.</summary>
 /// <remarks>Credit to <c>Pathoschild</c>.</remarks>

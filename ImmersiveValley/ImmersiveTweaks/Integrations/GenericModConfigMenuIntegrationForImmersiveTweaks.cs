@@ -5,7 +5,7 @@ namespace DaLion.Stardew.Tweaks.Integrations;
 using System;
 using StardewModdingAPI;
 
-using Common.Stardew.Integrations;
+using Common.Integrations;
 
 #endregion using directives
 
@@ -41,8 +41,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
             .AddCheckbox(
                 () => "Age Tapper Trees",
                 () => "Allows regular trees to age and improve their syrup quality every year.",
-                config => config.AgeTapperTrees,
-                (config, value) => config.AgeTapperTrees = value
+                config => config.AgeSapTrees,
+                (config, value) => config.AgeSapTrees = value
             )
             .AddCheckbox(
                 () => "Tappers Reward Exp",

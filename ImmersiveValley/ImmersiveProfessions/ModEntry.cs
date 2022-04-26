@@ -8,7 +8,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
-using Common.Stardew.Extensions;
+using Common.Extensions.Stardew;
 using Framework;
 using Framework.AssetEditors;
 using Framework.AssetLoaders;

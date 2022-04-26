@@ -16,7 +16,7 @@ using StardewValley.Monsters;
 
 using Common.Extensions;
 using Common.Extensions.Collections;
-using Common.Stardew.Extensions;
+using Common.Extensions.Stardew;
 using Events.GameLoop;
 using Ultimate;
 using Utility;

@@ -6,7 +6,7 @@ using StardewValley;
 using StardewValley.Buildings;
 
 using Common.Extensions;
-using Common.Stardew.Extensions;
+using Common.Extensions.Stardew;
 
 #endregion using directives
 

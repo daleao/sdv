@@ -7,7 +7,7 @@ using StardewModdingAPI;
 using StardewValley;
 
 using Common.Extensions;
-using Common.Stardew.Extensions;
+using Common.Extensions.Stardew;
 
 #endregion using directives
 

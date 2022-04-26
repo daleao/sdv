@@ -2,12 +2,11 @@
 
 #region using directives
 
-using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
 using Common.Extensions;
-using Common.Stardew.Extensions;
+using Common.Extensions.Stardew;
 
 using SObject = StardewValley.Object;
 

@@ -7,13 +7,13 @@ using System.Linq;
 using StardewModdingAPI;
 
 using Common.Extensions.Reflection;
-using Common.Stardew.Integrations;
+using Common.Integrations;
 
 #endregion using directives
 
 internal class CustomOreNodesIntegration : BaseIntegration
 {
-    private readonly ICustomOreNodesApi _customOreNodesApi;
+    private readonly ICustomOreNodesAPI _customOreNodesApi;
 
     public CustomOreNodesIntegration(
         IModRegistry modRegistry,
@@ -22,11 +22,13 @@ internal class CustomOreNodesIntegration : BaseIntegration
         modRegistry,
         log)
     {
-        _customOreNodesApi = GetValidatedApi<ICustomOreNodesApi>();
+        _customOreNodesApi = GetValidatedApi<ICustomOreNodesAPI>();
     }
 
     public void Register()
     {
+        AssertLoaded();
+
         var _getCustomOreNodeParentSheetIndex =
             "CustomOreNodes.CustomOreNode".ToType().RequireField("parentSheetIndex")!;
         Framework.Utility.ObjectLookups.ResourceNodeIds = Framework.Utility.ObjectLookups.ResourceNodeIds.Concat(

@@ -1,4 +1,4 @@
-namespace DaLion.Common.Stardew.Integrations;
+namespace DaLion.Common.Integrations;
 
 #region using directives
 
@@ -10,7 +10,7 @@ using StardewModdingAPI.Utilities;
 
 /// <summary>The API provided by the Generic Mod Config Menu mod.</summary>
 /// /// <remarks>Credit to <c>Pathoschild</c>.</remarks>
-public interface IGenericModConfigMenuApi
+public interface IGenericModConfigMenuAPI
 {
     /*********
     ** Methods

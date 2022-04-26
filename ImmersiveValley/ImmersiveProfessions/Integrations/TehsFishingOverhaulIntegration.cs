@@ -10,7 +10,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
 
-using Common.Stardew.Integrations;
+using Common.Integrations;
 using Framework.Extensions;
 
 #endregion using directives
@@ -40,7 +40,7 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
     private static readonly Func<object, double> getTreasureBaseChance;
     private static readonly Func<object, double> getTreasurePirateFactor;
 
-    private readonly ISimplifiedFishingApi _fishingApi;
+    private readonly ISimplifiedFishingAPI _fishingApi;
     private readonly IModHelper _helper;
     private readonly object _rawFishingApi;
 
@@ -94,12 +94,14 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
         log)
     {
         _helper = helper;
-        _fishingApi = GetValidatedApi<ISimplifiedFishingApi>();
+        _fishingApi = GetValidatedApi<ISimplifiedFishingAPI>();
         _rawFishingApi = modRegistry.GetApi("TehPers.FishingOverhaul");
     }
 
     public void Register()
     {
+        AssertLoaded();
+
         // add Fisher perks
         _fishingApi.ModifyChanceForFish(
             (who, chance) => who.CurrentTool is FishingRod rod &&

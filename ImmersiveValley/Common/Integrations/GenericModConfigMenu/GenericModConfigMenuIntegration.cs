@@ -1,4 +1,4 @@
-namespace DaLion.Common.Stardew.Integrations;
+namespace DaLion.Common.Integrations;
 
 #region using directives
 
@@ -25,7 +25,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     *********/
 
     /// <summary>The mod's public API.</summary>
-    private readonly IGenericModConfigMenuApi ModApi;
+    private readonly IGenericModConfigMenuAPI Api;
 
     /// <summary>Reset the config model to the default values.</summary>
     private readonly Action Reset;
@@ -57,8 +57,8 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         // get mod API
         if (IsLoaded)
         {
-            ModApi = GetValidatedApi<IGenericModConfigMenuApi>();
-            IsLoaded = ModApi != null;
+            Api = GetValidatedApi<IGenericModConfigMenuAPI>();
+            IsLoaded = Api != null;
         }
     }
 
@@ -68,7 +68,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     {
         AssertLoaded();
 
-        ModApi.Register(ConsumerManifest, Reset, SaveAndApply, titleScreenOnly);
+        Api.Register(ConsumerManifest, Reset, SaveAndApply, titleScreenOnly);
 
         return this;
     }
@@ -87,7 +87,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     {
         AssertLoaded();
 
-        ModApi.AddPage(ConsumerManifest, pageId, pageTitle);
+        Api.AddPage(ConsumerManifest, pageId, pageTitle);
 
         return this;
     }
@@ -101,7 +101,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     {
         AssertLoaded();
 
-        ModApi.AddPageLink(ConsumerManifest, pageId, text, tooltip);
+        Api.AddPageLink(ConsumerManifest, pageId, text, tooltip);
 
         return this;
     }
@@ -116,7 +116,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     {
         AssertLoaded();
 
-        ModApi.AddSectionTitle(ConsumerManifest, text, tooltip);
+        Api.AddSectionTitle(ConsumerManifest, text, tooltip);
 
         return this;
     }
@@ -127,7 +127,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     {
         AssertLoaded();
 
-        ModApi.AddParagraph(ConsumerManifest, text);
+        Api.AddParagraph(ConsumerManifest, text);
 
         return this;
     }
@@ -144,7 +144,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         AssertLoaded();
 
         if (enable)
-            ModApi.AddBoolOption(
+            Api.AddBoolOption(
                 ConsumerManifest,
                 name: name,
                 tooltip: tooltip,
@@ -173,7 +173,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         AssertLoaded();
 
         if (enable)
-            ModApi.AddTextOption(
+            Api.AddTextOption(
                 ConsumerManifest,
                 name: name,
                 tooltip: tooltip,
@@ -198,7 +198,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         AssertLoaded();
 
         if (enable)
-            ModApi.AddTextOption(
+            Api.AddTextOption(
                 ConsumerManifest,
                 name: name,
                 tooltip: tooltip,
@@ -223,7 +223,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         AssertLoaded();
 
         if (enable)
-            ModApi.AddNumberOption(
+            Api.AddNumberOption(
                 ConsumerManifest,
                 name: name,
                 tooltip: tooltip,
@@ -252,7 +252,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         AssertLoaded();
 
         if (enable)
-            ModApi.AddNumberOption(
+            Api.AddNumberOption(
                 ConsumerManifest,
                 name: name,
                 tooltip: tooltip,
@@ -278,7 +278,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         AssertLoaded();
 
         if (enable)
-            ModApi.AddKeybindList(
+            Api.AddKeybindList(
                 ConsumerManifest,
                 name: name,
                 tooltip: tooltip,

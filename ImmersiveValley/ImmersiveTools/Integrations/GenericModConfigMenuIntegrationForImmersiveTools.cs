@@ -6,7 +6,7 @@ using System;
 using StardewModdingAPI;
 using HarmonyLib;
 
-using Common.Stardew.Integrations;
+using Common.Integrations;
 using Configs;
 using Framework;
 

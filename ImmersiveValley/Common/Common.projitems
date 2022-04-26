@@ -21,10 +21,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GenericExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\XmlExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stardew\Extensions\KeybindListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\KeybindListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\ListExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stardew\Extensions\ModDataDictionaryExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stardew\Extensions\ModHelperExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ModDataDictionaryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ModHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\XnaExtensions\PointExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\XnaExtensions\RectangleExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\TypeExtensions.cs" />
@@ -34,23 +34,21 @@
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodBaseExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stardew\Integrations\BaseIntegration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stardew\Integrations\CustomOreNodes\ICustomOreNodesApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stardew\Integrations\GenericModConfigMenu\GenericModConfigMenuIntegration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stardew\Integrations\GenericModConfigMenu\IGenericModConfigMenuAPI.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stardew\Integrations\ImmersiveProfessions\IProfessionsApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stardew\Integrations\IModIntegration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stardew\Integrations\TehsFishingOverhaul\ISimplifiedFishingApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\BaseIntegration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCraftingAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomOreNodes\ICustomOreNodesAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\GenericModConfigMenuIntegration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\TehsFishingOverhaul\ISimplifiedFishingAPI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Classes\Instance\" />
     <Folder Include="$(MSBuildThisFileDirectory)Classes\Static\" />
     <Folder Include="$(MSBuildThisFileDirectory)Harmony\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Stardew\Integrations\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\Collections\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\Reflection\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Stardew\Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Extensions\Stardew\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\XnaExtensions\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Stardew\" />
   </ItemGroup>
 </Project>

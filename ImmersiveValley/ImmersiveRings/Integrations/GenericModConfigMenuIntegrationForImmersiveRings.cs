@@ -5,7 +5,7 @@ namespace DaLion.Stardew.Rings.Integrations;
 using System;
 using StardewModdingAPI;
 
-using Common.Stardew.Integrations;
+using Common.Integrations;
 
 #endregion using directives
 

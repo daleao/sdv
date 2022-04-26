@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -16,6 +17,8 @@ using StardewValley;
 using StardewValley.Objects;
 
 using Common.Extensions;
+using Common.Extensions.Reflection;
+using Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -305,6 +308,70 @@ internal static class Patches
         }
     }
 
+    [HarmonyPatch(typeof(Ring), nameof(Ring.onNewLocation))]
+    internal class RingOnNewLocationPatch
+    {
+        /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
+        protected static bool Prefix(Ring __instance, Farmer who)
+        {
+            return !ModEntry.Config.ForgeableIridiumBand || __instance.indexInTileSheet.Value != Constants.IRIDIUM_BAND_INDEX_I;
+        }
+    }
+
+    [HarmonyPatch(typeof(Ring), nameof(Ring.onLeaveLocation))]
+    internal class RingOnLeaveLocationPatch
+    {
+        /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.HigherThanNormal)]
+        protected static bool Prefix(Ring __instance, Farmer who)
+        {
+            return !ModEntry.Config.ForgeableIridiumBand || __instance.indexInTileSheet.Value != Constants.IRIDIUM_BAND_INDEX_I;
+        }
+    }
+
+    [HarmonyPatch(typeof(Ring), nameof(Ring.drawTooltip))]
+    internal class RingDrawTooltipPatch
+    {
+        /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
+        [HarmonyTranspiler]
+        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+        {
+            var helper = new ILHelper(original, instructions);
+
+            var displayVanillaEffect = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
+            try
+            {
+                helper
+                    .FindFirst(
+                        new CodeInstruction(OpCodes.Ldc_I4_5)
+                    )
+                    .AddLabels(displayVanillaEffect)
+                    .Insert(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.RebalancedRings))),
+                        new CodeInstruction(OpCodes.Brfalse_S, displayVanillaEffect),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 12),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution)
+                    )
+                    .Advance()
+                    .AddLabels(resumeExecution);
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed injecting custom crabshell tooltip.\nHelper returned {ex}");
+                return null;
+            }
+
+            return helper.Flush();
+        }
+    }
+
     [HarmonyPatch(typeof(Ring), nameof(Ring.CanCombine))]
     internal class RingCanCombinePatch
     {
@@ -352,11 +419,13 @@ internal static class Patches
                 }
 
                 toCombine.Add(ring);
-                __result = new CombinedRing(880);
-                ((CombinedRing)__result).combinedRings.AddRange(toCombine);
-                __result.ParentSheetIndex = Constants.IRIDIUM_BAND_INDEX_I;
-                ModEntry.ModHelper.Reflection.GetField<NetInt>(__result, nameof(Ring.indexInTileSheet)).GetValue()
+                var combinedRing = new CombinedRing(880);
+                combinedRing.combinedRings.AddRange(toCombine);
+                combinedRing.ParentSheetIndex = Constants.IRIDIUM_BAND_INDEX_I;
+                ModEntry.ModHelper.Reflection.GetField<NetInt>(combinedRing, nameof(Ring.indexInTileSheet)).GetValue()
                     .Set(Constants.IRIDIUM_BAND_INDEX_I);
+                combinedRing.UpdateDescription();
+                __result = combinedRing;
                 return false; // don't run original logic
             }
             catch (Exception ex)

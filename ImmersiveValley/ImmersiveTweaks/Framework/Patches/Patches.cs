@@ -17,8 +17,8 @@ using StardewValley.TerrainFeatures;
 using Common.Classes;
 using Common.Extensions;
 using Common.Extensions.Reflection;
+using Common.Extensions.Stardew;
 using Common.Harmony;
-using Common.Stardew.Extensions;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -55,6 +55,61 @@ internal static class Patches
         }
     }
 
+    [HarmonyPatch(typeof(Crop), nameof(Crop.hitWithHoe))]
+    internal class CropHitWithHoePatch
+    {
+        /// <summary>Apply Botanist/Ecologist perk to wild ginger.</summary>
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            MethodBase original)
+        {
+            var helper = new ILHelper(original, instructions);
+
+            /// Injected: SetGingerQuality(@object);
+            /// Between: @object = new SObject(829, 1);
+
+            try
+            {
+                helper
+                    .FindFirst(
+                        new CodeInstruction(OpCodes.Stloc_0)
+                    )
+                    .Insert(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(CropHitWithHoePatch).RequireMethod(nameof(AddGingerQuality)))
+                    );
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed while apply Ecologist/Botanist perk to hoed ginger.\nHelper returned {ex}");
+                return null;
+            }
+
+            return helper.Flush();
+        }
+
+        private static SObject AddGingerQuality(SObject ginger)
+        {
+            if (!ModEntry.Config.ExtendedForagingPerks || !Game1.player.professions.Contains(Farmer.botanist)) return ginger;
+
+            if (ModEntry.ProfessionsConfig is null)
+            {
+                ginger.Quality = SObject.bestQuality;
+                return ginger;
+            }
+
+            var itemsForaged =
+                Game1.MasterPlayer.modData.ReadAs<int>(
+                    $"DaLion.ImmersiveProfessions/{Game1.player.UniqueMultiplayerID}/EcologistItemsForaged");
+            var bestQualityThreshold = (int)ModEntry.ProfessionsConfig.Property("ForagesNeededForBestQuality")!.Value;
+            ginger.Quality = itemsForaged < bestQualityThreshold
+                ? itemsForaged < bestQualityThreshold / 2
+                    ? SObject.medQuality
+                    : SObject.highQuality
+                : SObject.bestQuality;
+            return ginger;
+        }
+    }
+
     [HarmonyPatch(typeof(FruitTree), nameof(FruitTree.dayUpdate))]
     internal class FruitTreeDayUpdatePatch
     {
@@ -65,6 +120,21 @@ internal static class Patches
             if (__instance.growthStage.Value < FruitTree.treeStage && Game1.IsWinter &&
                 !__instance.currentLocation.IsGreenhouse && ModEntry.Config.PreventFruitTreeGrowthInWinter)
                 ++__instance.daysUntilMature.Value;
+        }
+    }
+
+    [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.explode))]
+    internal class GameLocationExplodePatch
+    {
+        /// <summary>Explosions trigger nearby bombs.</summary>
+        [HarmonyPostfix]
+        private static void Postfix(GameLocation __instance, Vector2 tileLocation, int radius)
+        {
+            if (!ModEntry.Config.ExplosionTriggeredBombs) return;
+
+            var circle = new CircleTileGrid(tileLocation, radius * 2);
+            foreach (var sprite in __instance.TemporarySprites.Where(sprite => sprite.bombRadius > 0 && circle.Tiles.Contains(sprite.Position / 64f)))
+                sprite.currentNumberOfLoops = sprite.totalNumberOfLoops;
         }
     }
 
@@ -222,7 +292,7 @@ internal static class Patches
         private static void Postfix(Tree __instance, int __state)
         {
             if (__instance.growthStage.Value >= Tree.treeStage && __instance.CanBeTapped() &&
-                ModEntry.Config.AgeTapperTrees) __instance.IncrementData<int>("Age");
+                ModEntry.Config.AgeSapTrees) __instance.IncrementData<int>("Age");
         }
     }
 
@@ -316,76 +386,6 @@ internal static class Patches
                     ? SObject.medQuality
                     : SObject.highQuality
                 : SObject.bestQuality;
-        }
-    }
-
-    [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.explode))]
-    internal class GameLocationExplodePatch
-    {
-        /// <summary>Explosions trigger nearby bombs.</summary>
-        [HarmonyPostfix]
-        private static void Postfix(GameLocation __instance, Vector2 tileLocation, int radius)
-        {
-            if (!ModEntry.Config.ExplosionTriggeredBombs) return;
-
-            var circle = new CircleTileGrid(tileLocation, radius * 2);
-            foreach (var sprite in __instance.TemporarySprites.Where(sprite => sprite.bombRadius > 0 && circle.Tiles.Contains(sprite.Position / 64f)))
-                sprite.currentNumberOfLoops = sprite.totalNumberOfLoops;
-        }
-    }
-
-    [HarmonyPatch(typeof(Crop), nameof(Crop.hitWithHoe))]
-    internal class CropHitWithHoePatch
-    {
-        /// <summary>Apply Botanist/Ecologist perk to wild ginger.</summary>
-        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
-            MethodBase original)
-        {
-            var helper = new ILHelper(original, instructions);
-
-            /// Injected: SetGingerQuality(@object);
-            /// Between: @object = new SObject(829, 1);
-
-            try
-            {
-                helper
-                    .FindFirst(
-                        new CodeInstruction(OpCodes.Stloc_0)
-                    )
-                    .Insert(
-                        new CodeInstruction(OpCodes.Call,
-                            typeof(CropHitWithHoePatch).RequireMethod(nameof(AddGingerQuality)))
-                    );
-            }
-            catch (Exception ex)
-            {
-                Log.E($"Failed while apply Ecologist/Botanist perk to hoed ginger.\nHelper returned {ex}");
-                return null;
-            }
-
-            return helper.Flush();
-        }
-
-        private static SObject AddGingerQuality(SObject ginger)
-        {
-            if (!ModEntry.Config.ExtendedForagingPerks || !Game1.player.professions.Contains(Farmer.botanist)) return ginger;
-
-            if (ModEntry.ProfessionsConfig is null)
-            {
-                ginger.Quality = SObject.bestQuality;
-                return ginger;
-            }
-
-            var itemsForaged =
-                Game1.MasterPlayer.modData.ReadAs<int>(
-                    $"DaLion.ImmersiveProfessions/{Game1.player.UniqueMultiplayerID}/EcologistItemsForaged");
-            var bestQualityThreshold = (int) ModEntry.ProfessionsConfig.Property("ForagesNeededForBestQuality")!.Value;
-            ginger.Quality = itemsForaged < bestQualityThreshold
-                ? itemsForaged < bestQualityThreshold / 2
-                    ? SObject.medQuality
-                    : SObject.highQuality
-                : SObject.bestQuality;
-            return ginger;
         }
     }
 

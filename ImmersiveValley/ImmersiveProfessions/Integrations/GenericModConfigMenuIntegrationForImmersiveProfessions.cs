@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 
-using Common.Stardew.Integrations;
+using Common.Integrations;
 using Framework.Utility;
 
 #endregion using directives

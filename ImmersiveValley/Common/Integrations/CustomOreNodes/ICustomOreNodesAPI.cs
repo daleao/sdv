@@ -1,4 +1,4 @@
-﻿namespace DaLion.Common.Stardew.Integrations;
+﻿namespace DaLion.Common.Integrations;
 
 #region using directives
 
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 #endregion using directives
 
-public interface ICustomOreNodesApi
+public interface ICustomOreNodesAPI
 {
     List<object> GetCustomOreNodes();
 

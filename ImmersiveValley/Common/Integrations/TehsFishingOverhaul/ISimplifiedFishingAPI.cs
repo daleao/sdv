@@ -1,4 +1,4 @@
-﻿namespace DaLion.Common.Stardew.Integrations;
+﻿namespace DaLion.Common.Integrations;
 
 #region using directives
 
@@ -7,7 +7,7 @@ using StardewValley;
 
 #endregion using directives
 
-public interface ISimplifiedFishingApi
+public interface ISimplifiedFishingAPI
 {
     /// <summary>
     ///     Gets the chance that a fish would be caught. This does not take into account whether
