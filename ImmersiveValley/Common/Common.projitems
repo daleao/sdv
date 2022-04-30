@@ -35,7 +35,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodBaseExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BaseIntegration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCraftingAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomOreNodes\ICustomOreNodesAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\GenericModConfigMenuIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuAPI.cs" />

@@ -11,20 +11,17 @@ using Common.Integrations;
 
 #endregion using directives
 
-internal class CustomOreNodesIntegration : BaseIntegration
+internal class CustomOreNodesIntegration : BaseIntegration<ICustomOreNodesAPI>
 {
-    private readonly ICustomOreNodesAPI _customOreNodesApi;
-
-    public CustomOreNodesIntegration(
-        IModRegistry modRegistry,
-        Action<string, LogLevel> log
-    ) : base("Custom Ore Nodes", "aedenthorn.CustomOreNodes", "2.1.1",
-        modRegistry,
-        log)
+    /// <summary>Construct an instance.</summary>
+    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
+    /// <param name="log">Encapsulates monitoring and logging.</param>
+    public CustomOreNodesIntegration(IModRegistry modRegistry, Action<string, LogLevel> log)
+        : base("Custom Ore Nodes", "aedenthorn.CustomOreNodes", "2.1.1", modRegistry, log)
     {
-        _customOreNodesApi = GetValidatedApi<ICustomOreNodesAPI>();
     }
 
+    /// <summary>Register the custom ore nodes.</summary>
     public void Register()
     {
         AssertLoaded();
@@ -32,7 +29,6 @@ internal class CustomOreNodesIntegration : BaseIntegration
         var _getCustomOreNodeParentSheetIndex =
             "CustomOreNodes.CustomOreNode".ToType().RequireField("parentSheetIndex")!;
         Framework.Utility.ObjectLookups.ResourceNodeIds = Framework.Utility.ObjectLookups.ResourceNodeIds.Concat(
-            _customOreNodesApi
-                .GetCustomOreNodes().Select(n => (int) _getCustomOreNodeParentSheetIndex.GetValue(n)!));
+            ModApi!.GetCustomOreNodes().Select(n => (int) _getCustomOreNodeParentSheetIndex.GetValue(n)!));
     }
 }

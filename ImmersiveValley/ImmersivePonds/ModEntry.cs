@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using DaLion.Common.Extensions.Collections;
-using DaLion.Common.Extensions.Reflection;
-
-namespace DaLion.Stardew.Ponds;
+﻿namespace DaLion.Stardew.Ponds;
 
 #region using directives
 

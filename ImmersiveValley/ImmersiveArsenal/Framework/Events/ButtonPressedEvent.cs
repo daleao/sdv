@@ -48,7 +48,7 @@ internal class ButtonPressedEvent : IEvent
 
             Game1.player.Stamina -= (2 - Game1.player.CombatLevel * 0.1f) * multiplier;
         }
-        else if (e.Button.IsActionButton() && weapon.type.Value is MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword)
+        else if (e.Button.IsActionButton() && weapon.type.Value is not (MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword))
         {
             var multiplier = weapon.type.Value switch
             {

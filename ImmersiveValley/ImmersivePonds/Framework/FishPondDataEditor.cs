@@ -27,7 +27,7 @@ public class FishPondDataEditor : IAssetEditor
 
         // patch algae fish data
         var data = (List<FishPondData>) asset.Data;
-        data.InsertRange(data.Count - 2, new List<FishPondData>()
+        data.InsertRange(data.Count - 2, new List<FishPondData>
         {
             new() // seaweed
             {

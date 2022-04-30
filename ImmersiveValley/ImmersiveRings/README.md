@@ -48,7 +48,6 @@ If you are a fan of planning character builds and making tough meaningful choice
 This mod makes use of Harmony to patch vanilla crafting behavior. As such there may be unexpected behavior with mods that change the crafting menu. If you encounter any problems, please report an issue so I can add compatibility.
 This a mod is my own take on a "balanced combine many rings". Obviously it is not compatible with other mods with similar scope, including [Combine Many Rings](https://www.nexusmods.com/stardewvalley/mods/8801), [Balanced Combine Many Rings](https://www.nexusmods.com/stardewvalley/mods/8981) and [Ring Overhaul](https://www.nexusmods.com/stardewvalley/mods/10669). However, Ring Overhaul in particular has config settings for each of its features. As such, you can cherry-pick and combine features from both mods if you know what you are doing. Keep in mind, however, that Ring Overhaul's changes to precision are not compatible with Walk Of Life.
 
-
 The Forgeable Iridium Band features are not compatible with ring visual changes, such as [Better Rings](https://www.nexusmods.com/stardewvalley/mods/8642), and therefore this mod also does not supply matching gemstone ring textures for in that mod's style. If you don't like the changes to the Iridium Band and would like to use Better Rings with this mod, you can find matching textures in Ring Overhaul. You will have to do a bit of manual image editing in this approach.
 
 This is a companion mod for [Walk Of Life](https://www.nexusmods.com/stardewvalley/mods/8111), but can be used independently.

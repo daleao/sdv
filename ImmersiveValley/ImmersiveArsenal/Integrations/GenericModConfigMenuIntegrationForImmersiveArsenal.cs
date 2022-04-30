@@ -45,12 +45,6 @@ internal class GenericModConfigMenuIntegrationForImmersiveArsenal
                 (config, value) => config.RebalancedWeapons = value
             )
             .AddCheckbox(
-                () => "Rebalanced Footwear",
-                () => "Make footwear more unique and useful.",
-                config => config.RebalancedFootwear,
-                (config, value) => config.RebalancedFootwear = value
-            )
-            .AddCheckbox(
                 () => "Rebalanced Enchants",
                 () => "Improves certain underwhelming enchantments.",
                 config => config.RebalancedEnchants,

@@ -6,6 +6,8 @@ using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
+using Constants = Constants;
+
 #endregion using directives
 
 /// <summary>Edits ObjectInformation data.</summary>
@@ -27,20 +29,20 @@ public class ObjectInformationEditor : IAssetEditor
 
             if (ModEntry.Config.RebalancedRings)
             {
-                fields = data[Framework.Constants.TOPAZ_RING_INDEX_I].Split('/');
+                fields = data[Constants.TOPAZ_RING_INDEX_I].Split('/');
                 fields[5] = ModEntry.ModHelper.Translation.Get("rings.topaz");
-                data[Framework.Constants.TOPAZ_RING_INDEX_I] = string.Join('/', fields);
+                data[Constants.TOPAZ_RING_INDEX_I] = string.Join('/', fields);
 
-                fields = data[Framework.Constants.JADE_RING_INDEX_I].Split('/');
+                fields = data[Constants.JADE_RING_INDEX_I].Split('/');
                 fields[5] = ModEntry.ModHelper.Translation.Get("rings.jade");
-                data[Framework.Constants.JADE_RING_INDEX_I] = string.Join('/', fields);
+                data[Constants.JADE_RING_INDEX_I] = string.Join('/', fields);
             }
 
             if (ModEntry.Config.ForgeableIridiumBand)
             {
-                fields = data[Framework.Constants.IRIDIUM_BAND_INDEX_I].Split('/');
+                fields = data[Constants.IRIDIUM_BAND_INDEX_I].Split('/');
                 fields[5] = ModEntry.ModHelper.Translation.Get("rings.iridium");
-                data[Framework.Constants.IRIDIUM_BAND_INDEX_I] = string.Join('/', fields);
+                data[Constants.IRIDIUM_BAND_INDEX_I] = string.Join('/', fields);
             }
         }
         else

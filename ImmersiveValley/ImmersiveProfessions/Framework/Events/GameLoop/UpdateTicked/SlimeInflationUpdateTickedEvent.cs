@@ -1,11 +1,11 @@
-﻿using DaLion.Stardew.Professions.Framework.Extensions;
-
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 #region using directives
 
 using System.Linq;
 using StardewModdingAPI.Events;
+
+using Extensions;
 
 #endregion using directives
 

@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveProfessions", "Imm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveRings", "ImmersiveRings\ImmersiveRings.csproj", "{A9012CDA-6337-405E-966F-09CAAFE5583E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveRingsBetterCrafting", "ImmersiveRingsBetterCrafting\ImmersiveRingsBetterCrafting.csproj", "{522331B6-941F-43C6-9538-CBA67A14D288}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveTools", "ImmersiveTools\ImmersiveTools.csproj", "{388CBB99-61DD-47BA-A58C-6EBB0870B633}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveTweaks", "ImmersiveTweaks\ImmersiveTweaks.csproj", "{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}"
@@ -62,6 +64,10 @@ Global
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{522331B6-941F-43C6-9538-CBA67A14D288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{522331B6-941F-43C6-9538-CBA67A14D288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{522331B6-941F-43C6-9538-CBA67A14D288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{522331B6-941F-43C6-9538-CBA67A14D288}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

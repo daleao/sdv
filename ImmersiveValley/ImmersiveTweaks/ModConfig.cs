@@ -3,14 +3,17 @@
 /// <summary>The mod user-defined settings.</summary>
 public class ModConfig
 {
+    /// <summary>Honey quality should improve as the hive gets older.</summary>
+    public bool AgeBeeHouses { get; set; } = true;
+
     /// <summary>Tree sap quality should improve as the tree ages.</summary>
     public bool AgeSapTrees { get; set; } = true;
 
+    /// <summary>Increases or decreases the default age threshold for quality increase for Bee Houses, Trees and Fruit Trees.</summary>
+    public float AgeImproveQualityFactor { get; set; } = 1f;
+
     /// <summary>If crab pots reward experience, so should tappers.</summary>
     public bool TappersRewardExp { get; set; } = true;
-
-    /// <summary>Honey quality should improve as the hive gets older.</summary>
-    public bool AgeBeeHouses { get; set; } = true;
 
     /// <summary>If wild forage rewards experience, berry bushes should qualify.</summary>
     public bool BerryBushesRewardExp { get; set; } = true;

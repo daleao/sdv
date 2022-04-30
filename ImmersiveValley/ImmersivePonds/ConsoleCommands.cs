@@ -8,7 +8,7 @@ using StardewValley.Buildings;
 using StardewModdingAPI;
 
 using Common.Extensions;
-using Framework.Extensions;
+using Extensions;
 
 using SObject = StardewValley.Object;
 

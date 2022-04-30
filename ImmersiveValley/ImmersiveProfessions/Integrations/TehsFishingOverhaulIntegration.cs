@@ -11,7 +11,7 @@ using StardewValley;
 using StardewValley.Tools;
 
 using Common.Integrations;
-using Framework.Extensions;
+using Extensions;
 
 #endregion using directives
 

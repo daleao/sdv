@@ -24,6 +24,7 @@ internal class FruitTreeDayUpdatePatch : BasePatch
 
     /// <summary>Patch to increase Abrorist fruit tree growth speed.</summary>
     [HarmonyPostfix]
+    [HarmonyPriority(Priority.HigherThanNormal)]
     private static void FruitTreeDayUpdatePostfix(FruitTree __instance)
     {
         if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Arborist, out _) &&

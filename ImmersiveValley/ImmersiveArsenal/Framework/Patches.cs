@@ -31,15 +31,22 @@ internal static class Patches
 {
     #region harmony patches
 
-    [HarmonyPatch(typeof(Monster), nameof(Monster.parried))]
-    internal class MonsterParriedPatch
+    [HarmonyPatch(typeof(BaseEnchantment), nameof(BaseEnchantment.GetAvailableEnchantments))]
+    internal class BaseEnchantmentGetAvailableEnchantmentsPatch
     {
-        /// <summary>Adds stamina cost to sword parry.</summary>
-        [HarmonyPostfix]
-        private static void MonsterParriedPostfix(Farmer who)
+        /// <summary>Allow applying magic/sunburst enchant.</summary>
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (ModEntry.Config.WeaponsCostStamina)
-                who.Stamina -= 2 - who.CombatLevel * 0.1f;
+            var l = instructions.ToList();
+            l.InsertRange(l.Count - 2, new List<CodeInstruction>
+            {
+                new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                new(OpCodes.Newobj, typeof(MagicEnchantment).RequireConstructor()),
+                new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add)))
+            });
+
+            return l.AsEnumerable();
         }
     }
 
@@ -276,6 +283,25 @@ internal static class Patches
             }
         }
     }
+    
+    [HarmonyPatch(typeof(MineShaft), "addLevelChests")]
+    internal class MineShaftAddLevelChestsPatch
+    {
+        /// <summary>Add custom Qi Challenge reward.</summary>
+        [HarmonyPostfix]
+        private static void Postfix(MineShaft __instance)
+        {
+            if (__instance.mineLevel != 170 || Game1.player.hasOrWillReceiveMail("QiChallengeComplete") ||
+                !Game1.player.hasQuest(ModEntry.QiChallengeFinalQuestId)) return;
+
+            var chestSpot = new Vector2(9f, 9f);
+            __instance.overlayObjects[chestSpot] =
+                new Chest(0, new() {new SObject(Constants.GALAXY_SOUL_INDEX_I, 1)}, chestSpot)
+                {
+                    Tint = Color.White
+                };
+        }
+    }
 
     [HarmonyPatch(typeof(MineShaft), nameof(MineShaft.CheckForQiChallengeCompletion))]
     internal class MineShaftCheckForQiChallengeCompletionPatch
@@ -285,7 +311,7 @@ internal static class Patches
         private static bool Prefix()
         {
             if (!ModEntry.Config.TrulyLegendaryGalaxySword) return true; // run original logic
-            
+
             if (Game1.player.deepestMineLevel >= 145 && Game1.player.hasQuest(20) && !Game1.player.hasOrWillReceiveMail("QiChallengeFirst"))
             {
                 Game1.player.completeQuest(20);
@@ -321,41 +347,57 @@ internal static class Patches
         }
     }
 
-    [HarmonyPatch(typeof(MineShaft), "addLevelChests")]
-    internal class MineShaftAddLevelChestsPatch
+    [HarmonyPatch(typeof(Monster), nameof(Monster.parried))]
+    internal class MonsterParriedPatch
     {
-        /// <summary>Add custom Qi Challenge reward.</summary>
+        /// <summary>Adds stamina cost to sword parry.</summary>
         [HarmonyPostfix]
-        private static void Postfix(MineShaft __instance)
+        private static void MonsterParriedPostfix(Farmer who)
         {
-            if (__instance.mineLevel != 170 || Game1.player.hasOrWillReceiveMail("QiChallengeComplete") ||
-                !Game1.player.hasQuest(ModEntry.QiChallengeFinalQuestId)) return;
-
-            var chestSpot = new Vector2(9f, 9f);
-            __instance.overlayObjects[chestSpot] =
-                new Chest(0, new() {new SObject(Constants.GALAXY_SOUL_INDEX_I, 1)}, chestSpot)
-                {
-                    Tint = Color.White
-                };
+            if (ModEntry.Config.WeaponsCostStamina)
+                who.Stamina -= 2 - who.CombatLevel * 0.1f;
         }
     }
 
-    [HarmonyPatch(typeof(BaseEnchantment), nameof(BaseEnchantment.GetAvailableEnchantments))]
-    internal class BaseEnchantmentGetAvailableEnchantmentsPatch
+    [HarmonyPatch(typeof(Event), nameof(Event.command_itemAboveHead))]
+    internal class EventCommandItemAboveHeadPatch
     {
-        /// <summary>Allow applying magic/sunburst enchant.</summary>
+        /// <summary>Replaces rusty sword with wooden blade in Marlon's intro event.</summary>
         [HarmonyTranspiler]
-        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            ILGenerator generator, MethodBase original)
         {
-            var l = instructions.ToList();
-            l.InsertRange(l.Count - 2, new List<CodeInstruction>
-            {
-                new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                new(OpCodes.Newobj, typeof(MagicEnchantment).RequireConstructor()),
-                new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add)))
-            });
+            var helper = new ILHelper(original, instructions);
 
-            return l.AsEnumerable();
+            var rusty = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
+            try
+            {
+                helper
+                    .FindFirst(
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Call, typeof(MeleeWeapon).RequireConstructor(new[] {typeof(int)}))
+                    )
+                    .AddLabels(rusty)
+                    .Insert(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.WoodyReplacesRusty))),
+                        new CodeInstruction(OpCodes.Brfalse_S, rusty),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 12),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution)
+                    )
+                    .Advance()
+                    .AddLabels(resumeExecution);
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed replacing rusty sword with wooden blade.\nHelper returned {ex}");
+                return null;
+            }
+
+            return helper.Flush();
         }
     }
 

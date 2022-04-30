@@ -2,7 +2,7 @@
 
 <!-- LOGO, TITLE, DESCRIPTION -->
 
-# Arsenal - Immersive Weapons and Footwear
+# Arsenal - Immersive Weapons
 
 <br/>
 
@@ -22,9 +22,26 @@
 
 ## Features
 
+This mod brings the following immersive changes to vanilla weapons:
 
+- Rebalances the weapons stats, creating a more natural progression between the many available weapons and emphasizing the advantages and disadvantages of each weapon type, creating more unique gameplay opportunities.
+- Rebalances the Jade and Topaz enchants:
+    - **Jade:** *+10% -> +50% crit. power per level.* Vanilla 10% crit. power grants a 10% damage bonus that only applies to crits. This makes it significantly worse than the Ruby enchantment, which grants the same 10% bonus, but all the time. At 50% crit. power, the Jade ring becomes a better choice than the Ruby ring when crit. chance is at least 20%. It should also be high enough to consider over more crit. chance.
+    - **Topaz:** *+1 -> +5 defense per level.* A much needed buff to make this a viable alternative for defensive builds.
+- Weapons cost stamina. Because why wouldn't they? This adds another strategic element to combat which also helps to balance different weapon types; as you can no longer spam your weapon, you must ponder whether to maximize the damage of a single heavy hit, or rely on quick light stabs to land critical hits. Same formula as other tools, with stamina cost decreasing with Combat level.
+- Removes slingshot grace period, which in vanilla causes slingshot projectiles to ignore targets that get too close. This essentially made slingshots unreliable as a main weapon. Well, no more!
+- Removes the 50% damage mitigation soft cap from vanilla. This significantly dimished the value of defense bonuses and defensive builds. Now, you can stack resistance until the hard cap, which is 1 point of damage per hit received.
+- Replaces the Rusty Sword in Marlon's introduction event with a Wooden Blade. It makes much more sense for Marlon to have training Wooden Blades lying around. The Wooden Blade was in an awkward position in vanilla, where it was supposedly an upgrade to a rusty blade of steel.
+- Changed the conditions for obtaining the Galaxy Sword. It always bugged me that getting a single lucky Prismatic Shard early on (which is not too difficult either in the regular Mines or fishing chests) almost immediately got you the best weapon in the game, without even needing to set foot in the Skull Caverns. So I "fixed" that. The Galaxy Sword now requires a different, more special item, normally obtainable only post-Ginger Island. But maybe someone can give it to you earlier.
+    - There's also a fitting new riddle for the Pelican Town graveyard. Be sure to check it out.
+
+All features can toggled on or off.
 
 ## Compatibility
+
+Not compatible with other rebalance mods.
+
+Compatible with Stardew Valley Expanded.
 
 Should be fully compatible with multiplayer.
 

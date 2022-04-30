@@ -13,8 +13,8 @@ using StardewValley;
 using StardewValley.Menus;
 
 using Common.Extensions;
+using Extensions;
 using Framework;
-using Framework.Extensions;
 using Framework.Ultimate;
 using Framework.Utility;
 

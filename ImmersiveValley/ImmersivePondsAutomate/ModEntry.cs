@@ -17,7 +17,7 @@ using StardewValley.Objects;
 using Pathoschild.Stardew.Automate;
 using Common.Extensions;
 using Common.Extensions.Reflection;
-using Framework.Extensions;
+using Extensions;
 
 using SObject = StardewValley.Object;
 

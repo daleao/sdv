@@ -4,8 +4,8 @@
 
 using StardewValley;
 
+using Extensions;
 using Framework;
-using Framework.Extensions;
 
 #endregion using directives
 

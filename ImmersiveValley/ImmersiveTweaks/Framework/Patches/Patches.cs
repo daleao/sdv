@@ -123,6 +123,70 @@ internal static class Patches
         }
     }
 
+    [HarmonyPatch(typeof(FruitTree), nameof(FruitTree.shake))]
+    internal class FruitTreeshakePatch
+    {
+        /// <summary>Customize Fruit Tree age quality.</summary>
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+        {
+            if (ModEntry.ModHelper.ModRegistry.IsLoaded("aedenthorn.FruitTreeTweaks")) return instructions;
+            
+            var helper = new ILHelper(original, instructions);
+
+            try
+            {
+                helper
+                    .FindFirst(
+                        new CodeInstruction(OpCodes.Ldc_I4_S, -112)
+                    )
+                    .ReplaceWith(new(OpCodes.Ldc_R4, -112f))
+                    .Advance()
+                    .Insert(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AgeImproveQualityFactor))),
+                        new CodeInstruction(OpCodes.Div),
+                        new CodeInstruction(OpCodes.Conv_I4)
+                    )
+                    .FindNext(
+                        new CodeInstruction(OpCodes.Ldc_I4, -224)
+                    )
+                    .ReplaceWith(new(OpCodes.Ldc_R4, -224f))
+                    .Advance()
+                    .Insert(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AgeImproveQualityFactor))),
+                        new CodeInstruction(OpCodes.Div),
+                        new CodeInstruction(OpCodes.Conv_I4)
+                    )
+                    .FindNext(
+                        new CodeInstruction(OpCodes.Ldc_I4, -336)
+                    )
+                    .ReplaceWith(new(OpCodes.Ldc_R4, -336f))
+                    .Advance()
+                    .Insert(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AgeImproveQualityFactor))),
+                        new CodeInstruction(OpCodes.Div),
+                        new CodeInstruction(OpCodes.Conv_I4)
+                    );
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed customizing fruit tree age quality factor.\nHelper returned {ex}");
+                return null;
+            }
+
+            return helper.Flush();
+        }
+    }
+
     [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.explode))]
     internal class GameLocationExplodePatch
     {
@@ -162,13 +226,14 @@ internal static class Patches
         /// <summary>Applies quality to aged bee house.</summary>
         [HarmonyTranspiler]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
-            MethodBase original)
+            ILGenerator generator, MethodBase original)
         {
             var helper = new ILHelper(original, instructions);
 
-            /// Injected: heldObject.Value.Quality = this.GetQualityFromAge();
+            /// Injected: if (ModEntry.Config.AgeBeeHoouses) heldObject.Value.Quality = this.GetQualityFromAge();
             /// After: heldObject.Value.preservedParentSheetIndex.Value = honey_type;
 
+            var resumeExecution = generator.DefineLabel();
             try
             {
                 helper
@@ -189,6 +254,12 @@ internal static class Patches
                         new CodeInstruction(OpCodes.Call,
                             typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation)))
                     )
+                    .AddLabels(resumeExecution)
+                    .Insert(
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AgeBeeHouses))),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution)
+                    )
                     .Insert(got)
                     .Insert(
                         new CodeInstruction(OpCodes.Ldarg_0),
@@ -200,7 +271,7 @@ internal static class Patches
             }
             catch (Exception ex)
             {
-                Log.E($"Failed while improving honey quality with age.\nHelper returned {ex}");
+                Log.E($"Failed improving honey quality with age.\nHelper returned {ex}");
                 return null;
             }
 
@@ -250,7 +321,7 @@ internal static class Patches
         /// <summary>Tweaks golden and ostrich egg artisan products + gives flower memory to kegs.</summary>
         [HarmonyPostfix]
         private static void Postfix(SObject __instance, bool __state, Item dropInItem,
-            bool probe, Farmer who)
+            bool probe)
         {
             // if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
             if (__state || __instance.heldObject.Value is null || probe || dropInItem is not SObject dropIn) return;

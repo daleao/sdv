@@ -5,7 +5,7 @@
   "mail.skullCave": "So you made it to the Skull Caverns.^ You might be worthy of this challenge.^ Make it at least 25 levels deep. I've got a mountain of $ with your name on it if you can do it.^  Your friend, Mr. Qi %item quest 20 %%[#]Qi's Challenge",
   "mail.QiChallengeFirst": "Not bad, kid. Enjoy your reward.^ But that was just a preview. If you really want to impress me, try making it twice as deep.^  -Qi. %item money 10000 quest {{QiChallengeFinalQuestId}} %%[#]Qi Challenge First",
   "mail.QiChallengeComplete": "You did it.^ I'm very impressed.^ You've proven yourself worthy.^ I trust you'll know what to do. If not, consider paying your respects.^ -Qi.[#]Qi Challenge Complete",
-  "locations.Town_DwarfGrave_Translated": "     You translate the dwarvish:     \n\n'twixt golden triplets lost in sand\nprove thy worth with soul at hand\nbeseech the heavens! stake thy claim\nlet thunders bruit and roar thy name\nif heart be pure and conscious clear\nand faith hath neither doubt nor fear\nstars shall pour and break the seal\nto grant thee, champion, heavenly steel",
+  "locations.Town_DwarfGrave_Translated": "     You translate the dwarvish:     \n\n'twixt golden triplets lost in sand\nprove thy worth with soul at hand\nbeseech the heavens! stake thy claim\nlet thunders bruit and roar thy name\nif heart be pure and conscious clear\nand faith hath neither doubt nor fear\nfalling stars shall break the seal\nbestowing thee with heaven's steel",
   "csfiles.MeleeWeapon.cs.14122": "The galaxy soul changes shape before your eyes! A tremendous power courses through your veins.^^     You've found the =Galaxy Sword=  ^",
 
   "darksword.name": "The Bloodthirster" 

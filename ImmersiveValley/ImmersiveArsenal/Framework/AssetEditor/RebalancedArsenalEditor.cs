@@ -54,13 +54,25 @@ public class RebalancedArsenalEditor : IAssetEditor
                     case 12: // wooden blade
                         fields[2] = 2.ToString();
                         fields[3] = 5.ToString();
-                        fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
+                        fields[4] = 1.ToString();
+                        fields[5] = 0.ToString();
+                        fields[6] = 0.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
+                        fields[9] = (-1).ToString();
+                        fields[10] = (-1).ToString();
+                        fields[11] = 0.ToString();
+                        fields[12] = 0.04.ToString(CultureInfo.InvariantCulture);
                         fields[13] = 1.2.ToString(CultureInfo.InvariantCulture);
                         break;
                     case 11: // steel smallsword
                         fields[2] = 4.ToString();
                         fields[3] = 8.ToString();
+                        fields[4] = 1.ToString();
                         fields[5] = 0.ToString();
+                        fields[6] = 0.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[9] = 5.ToString();
                         fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
                         fields[13] = 1.5.ToString(CultureInfo.InvariantCulture);
@@ -68,7 +80,11 @@ public class RebalancedArsenalEditor : IAssetEditor
                     case 44: // cutlass
                         fields[2] = 9.ToString();
                         fields[3] = 17.ToString();
+                        fields[4] = 1.ToString();
                         fields[5] = 0.ToString();
+                        fields[6] = 0.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[9] = 20.ToString();
                         fields[10] = 5.ToString();
                         fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
@@ -77,8 +93,11 @@ public class RebalancedArsenalEditor : IAssetEditor
                     case 49: // rapier
                         fields[2] = 15.ToString();
                         fields[3] = 25.ToString();
+                        fields[4] = 0.8.ToString();
                         fields[5] = 8.ToString();
                         fields[6] = 6.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[9] = 60.ToString();
                         fields[10] = 35.ToString();
                         fields[11] = 2.ToString();
@@ -88,8 +107,11 @@ public class RebalancedArsenalEditor : IAssetEditor
                     case 50: // steel falchion
                         fields[2] = 28.ToString();
                         fields[3] = 46.ToString();
+                        fields[4] = 1.ToString();
                         fields[5] = 4.ToString();
                         fields[6] = 0.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[9] = 80.ToString();
                         fields[10] = 55.ToString();
                         fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
@@ -98,9 +120,11 @@ public class RebalancedArsenalEditor : IAssetEditor
                     case 15: // forest sword
                         fields[2] = 23.ToString();
                         fields[3] = 37.ToString();
+                        fields[4] = 1.ToString();
                         fields[5] = 2.ToString();
                         fields[6] = 2.ToString();
                         fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[11] = 2.ToString();
                         fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
                         fields[13] = 1.5.ToString(CultureInfo.InvariantCulture);
@@ -108,7 +132,9 @@ public class RebalancedArsenalEditor : IAssetEditor
                     case 43: // pirate's sword
                         fields[2] = 25.ToString();
                         fields[3] = 41.ToString();
+                        fields[4] = 1.ToString();
                         fields[5] = 0.ToString();
+                        fields[7] = 0.ToString();
                         fields[8] = 0.ToString();
                         fields[9] = (-1).ToString();
                         fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
@@ -117,16 +143,21 @@ public class RebalancedArsenalEditor : IAssetEditor
                     case 13: // insect head
                         fields[2] = 1.ToString();
                         fields[3] = 50.ToString();
-                        fields[4] = 0.8.ToString(CultureInfo.InvariantCulture);
+                        fields[4] = 0.6.ToString(CultureInfo.InvariantCulture);
                         fields[6] = 12.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[12] = 0.15.ToString(CultureInfo.InvariantCulture);
                         fields[13] = 1.333.ToString(CultureInfo.InvariantCulture);
                         break;
                     case 5: // bone sword
                         fields[2] = 20.ToString();
                         fields[3] = 30.ToString();
+                        fields[4] = 1.ToString();
                         fields[5] = 4.ToString();
                         fields[6] = 0.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[9] = (-1).ToString();
                         fields[10] = (-1).ToString();
                         fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
@@ -137,14 +168,19 @@ public class RebalancedArsenalEditor : IAssetEditor
                         fields[3] = 65.ToString();
                         fields[4] = 1.ToString();
                         fields[5] = 0.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
                         fields[13] = 1.5.ToString(CultureInfo.InvariantCulture);
                         break;
                     case 8: // obsidian edge
                         fields[2] = 56.ToString();
                         fields[3] = 64.ToString();
+                        fields[4] = 1.ToString();
                         fields[5] = 0.ToString();
                         fields[6] = 4.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[9] = 135.ToString();
                         fields[10] = 100.ToString();
                         fields[12] = 0.08.ToString(CultureInfo.InvariantCulture);
@@ -157,14 +193,18 @@ public class RebalancedArsenalEditor : IAssetEditor
                         fields[5] = 2.ToString();
                         fields[6] = 2.ToString();
                         fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[12] = 0.06.ToString(CultureInfo.InvariantCulture);
                         fields[13] = 1.8.ToString(CultureInfo.InvariantCulture);
                         break;
                     case 4: // galaxy sword
                         fields[2] = 80.ToString();
                         fields[3] = 95.ToString();
+                        fields[4] = 1.ToString();
                         fields[5] = 2.ToString();
+                        fields[6] = 0.ToString();
                         fields[7] = 2.ToString();
+                        fields[8] = 0.ToString();
                         fields[11] = 2.ToString();
                         fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
                         fields[13] = 1.5.ToString(CultureInfo.InvariantCulture);
@@ -172,13 +212,22 @@ public class RebalancedArsenalEditor : IAssetEditor
                     case 57: // dragontooth cutlass
                         fields[2] = 145.ToString();
                         fields[3] = 175.ToString();
+                        fields[4] = 1.ToString();
+                        fields[5] = 0.ToString();
+                        fields[6] = 2.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
                         fields[13] = 2.ToString();
                         break;
                     case 62: // infinity blade
                         fields[2] = 140.ToString();
                         fields[3] = 160.ToString();
+                        fields[4] = 1.ToString();
                         fields[5] = 2.ToString();
+                        fields[6] = 2.ToString();
+                        fields[7] = 0.ToString();
+                        fields[8] = 0.ToString();
                         fields[11] = 2.ToString();
                         fields[12] = 0.05.ToString(CultureInfo.InvariantCulture);
                         fields[13] = 1.5.ToString(CultureInfo.InvariantCulture);

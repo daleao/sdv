@@ -6,5 +6,5 @@
   "UniqueID": "DaLion.ImmersiveRings",
   "EntryDll": "ImmersiveRings.dll",
   "MinimumApiVersion": "3.13.0",
-  "UpdateKeys": [ "Nexus:???" ]
+  "UpdateKeys": [ "Nexus:11380" ]
 }
