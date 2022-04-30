@@ -120,16 +120,6 @@ internal class RingRecipeProvider : IRecipeProvider
     /// <returns>An enumeration of this provider's additional recipes, or null.</returns>
     public IEnumerable<IRecipe>? GetAdditionalRecipes(bool cooking)
     {
-        if (cooking) return null;
-
-        var recipes = new List<IRecipe>();
-        var glowRingRecipe = GetRecipe(new("Glow Ring"));
-        if (glowRingRecipe is not null) recipes.Add(glowRingRecipe);
-
-        var magnetRingRecipe = GetRecipe(new("Magnet Ring"));
-        if (magnetRingRecipe is not null) recipes.Add(magnetRingRecipe);
-
-        return recipes;
-
+        return null;
     }
 }

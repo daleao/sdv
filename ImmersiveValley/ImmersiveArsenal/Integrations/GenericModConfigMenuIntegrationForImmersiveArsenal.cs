@@ -37,13 +37,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveArsenal
 
         // register
         _configMenu
-            .Register(true)
-            .AddCheckbox(
-                () => "Rebalanced Weapons",
-                () => "Make weapons more unique and useful.",
-                config => config.RebalancedWeapons,
-                (config, value) => config.RebalancedWeapons = value
-            )
+            .Register()
             .AddCheckbox(
                 () => "Rebalanced Enchants",
                 () => "Improves certain underwhelming enchantments.",
@@ -63,13 +57,13 @@ internal class GenericModConfigMenuIntegrationForImmersiveArsenal
                 (config, value) => config.RemoveSlingshotGracePeriod = value
             )
             .AddCheckbox(
-                () => "RemoveDefenseSoftCap",
+                () => "Remove Defense Soft Cap",
                 () => "Damage mitigation should not be soft-capped at 50%.",
                 config => config.RemoveDefenseSoftCap,
                 (config, value) => config.RemoveDefenseSoftCap = value
             )
             .AddCheckbox(
-                () => "TrulyLegendaryGalaxySword",
+                () => "Truly Legendary Galaxy Sword",
                 () => "The Galaxy Sword should not be so easy to get.",
                 config => config.TrulyLegendaryGalaxySword,
                 (config, value) => config.TrulyLegendaryGalaxySword = value

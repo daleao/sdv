@@ -30,7 +30,6 @@ public class CraftingRecipesEditor : IAssetEditor
                 fields = data["Glowstone Ring"].Split('/');
                 fields[0] = "517 1 519 1 768 20 769 20";
                 data["Glowstone Ring"] = string.Join('/', fields);
-
             }
 
             if (ModEntry.Config.CraftableGlowAndMagnetRings)

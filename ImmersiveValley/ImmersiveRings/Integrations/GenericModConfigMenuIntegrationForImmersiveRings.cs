@@ -37,36 +37,12 @@ internal class GenericModConfigMenuIntegrationForImmersiveRings
 
         // register
         _configMenu
-            .Register(true)
+            .Register()
             .AddCheckbox(
                 () => "Rebalanced Rings",
                 () => "Improves certain underwhelming rings.",
                 config => config.RebalancedRings,
                 (config, value) => config.RebalancedRings = value
-            )
-            .AddCheckbox(
-                () => "Craftable Gem Rings",
-                () => "Adds new combat recipes for crafting gemstone rings.",
-                config => config.CraftableGemRings,
-                (config, value) => config.CraftableGemRings = value
-            )
-            .AddCheckbox(
-                () => "Craftable Glow And Magnet Rings",
-                () => "Adds new mining recipes for crafting glow and magnet rings.",
-                config => config.CraftableGlowAndMagnetRings,
-                (config, value) => config.CraftableGlowAndMagnetRings = value
-            )
-            .AddCheckbox(
-                () => "Immersive Glowstone Recipe",
-                () => "Replaces the glowstone ring recipe.",
-                config => config.ImmersiveGlowstoneRecipe,
-                (config, value) => config.ImmersiveGlowstoneRecipe = value
-            )
-            .AddCheckbox(
-                () => "Forgeable Iridium Band",
-                () => "Replaces the iridium band recipe and effect. Adds new forge mechanics.",
-                config => config.ForgeableIridiumBand,
-                (config, value) => config.ForgeableIridiumBand = value
             );
     }
 }

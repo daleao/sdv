@@ -37,7 +37,7 @@ internal class GenericModConfigMenuIntegrationForImmersivePonds
 
         // register
         _configMenu
-            .Register(true)
+            .Register()
             .AddNumberField(
                 () => "Roe Production Chance Multiplier",
                 () => "Multiplies a fish's base chance to produce roe each day.",
