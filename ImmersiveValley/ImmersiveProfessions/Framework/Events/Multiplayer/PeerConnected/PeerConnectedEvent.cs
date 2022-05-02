@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IMultiplayerEvents.PeerConnected"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class PeerConnectedEvent : BaseEvent
 {
-    /// <summary>Raised after a connection from another player is approved by the game.</summary>
+    /// <inheritdoc cref="IMultiplayerEvents.PeerConnected"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnPeerConnected(object sender, PeerConnectedEventArgs e)

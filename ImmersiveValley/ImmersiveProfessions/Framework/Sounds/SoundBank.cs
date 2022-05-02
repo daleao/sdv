@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.AssetLoaders;
+﻿namespace DaLion.Stardew.Professions.Framework.Sounds;
 
 #region using directives
 

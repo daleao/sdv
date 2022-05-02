@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IPlayerEvents.LevelChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class LevelChangedEvent : BaseEvent
 {
-    /// <summary>Raised after a player's skill level changes.</summary>
+    /// <inheritdoc cref="IPlayerEvents.LevelChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnLevelChanged(object sender, LevelChangedEventArgs e)

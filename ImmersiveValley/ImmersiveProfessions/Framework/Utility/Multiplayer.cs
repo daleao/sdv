@@ -54,6 +54,6 @@ public static class Multiplayer
     public static void SendDirectMessage(long playerID, string text)
     {
         Game1.server.sendMessage(playerID, StardewValley.Multiplayer.chatMessage, Game1.player,
-            ModEntry.ModHelper.Content.CurrentLocaleConstant, text);
+            ModEntry.ModHelper.GameContent.CurrentLocaleConstant, text);
     }
 }

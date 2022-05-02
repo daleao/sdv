@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IGameLoopEvents.ReturnedToTitle"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class ReturnedToTitleEvent : BaseEvent
 {
-    /// <summary>Raised after the game returns to the title screen.</summary>
+    /// <inheritdoc cref="IGameLoopEvents.ReturnedToTitle"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
     public void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)

@@ -26,7 +26,7 @@ internal class UpdateTickedEvent : IEvent
         Log.D("[Tools] Unhooked UpdateTicked event.");
     }
 
-    /// <summary>Raised after the game state is updated.</summary>
+    /// <inheritdoc cref="IGameLoopEvents.UpdateTicked"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)

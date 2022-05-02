@@ -31,7 +31,7 @@ internal class DayStartedEvent : IEvent
         Log.D("[Ponds] Unhooked DayStarted event.");
     }
 
-    /// <summary>Raised before the game writes data to save file.</summary>
+    /// <inheritdoc cref="IGameLoopEvents.DayStarted"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnDayStarted(object sender, DayStartedEventArgs e)

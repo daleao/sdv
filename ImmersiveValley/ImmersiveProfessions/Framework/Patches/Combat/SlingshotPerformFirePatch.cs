@@ -17,7 +17,7 @@ using DaLion.Common.Extensions.Xna;
 using Extensions;
 using Ultimate;
 
-using SoundBank = AssetLoaders.SoundBank;
+using SoundBank = Sounds.SoundBank;
 
 #endregion using directives
 

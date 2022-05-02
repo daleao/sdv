@@ -2,9 +2,7 @@
 
 #region using directives
 
-using System.IO;
 using Microsoft.Xna.Framework.Graphics;
-using StardewValley;
 
 #endregion using directives
 
@@ -17,17 +15,20 @@ public static class Textures
 
     #region textures
 
+    public static Texture2D Spritesheet =
+        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/tilesheet.png");
+
     public static Texture2D UltimateMeterTx { get; set; } =
-        Game1.content.Load<Texture2D>(Path.Combine(ModEntry.Manifest.UniqueID, "UltimateMeter"));
+        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
 
     public static Texture2D SkillBarTx { get; set; } =
-        Game1.content.Load<Texture2D>(Path.Combine(ModEntry.Manifest.UniqueID, "SkillBars"));
+        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/SkillBars");
 
     public static Texture2D RibbonTx { get; set; } =
-        Game1.content.Load<Texture2D>(Path.Combine(ModEntry.Manifest.UniqueID, "PrestigeRibbons"));
+        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/PrestigeRibbons");
 
     public static Texture2D MaxIconTx { get; set; } =
-        Game1.content.Load<Texture2D>(Path.Combine(ModEntry.Manifest.UniqueID, "MaxFishSizeIcon"));
+        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/MaxFishSizeIcon");
 
     #endregion textures
 }

@@ -27,7 +27,7 @@ internal class GameLaunchedEvent : IEvent
         Log.D("[Tweaks] Unhooked GameLaunched event.");
     }
 
-    /// <summary>Raised after the game is launched, right before the first update tick.</summary>
+    /// <inheritdoc cref="IGameLoopEvents.GameLaunched"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
     protected void OnGameLaunched(object sender, GameLaunchedEventArgs e)

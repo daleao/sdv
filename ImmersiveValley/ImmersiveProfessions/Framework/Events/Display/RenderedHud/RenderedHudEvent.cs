@@ -9,10 +9,7 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IDisplayEvents.RenderedHud"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class RenderedHudEvent : BaseEvent
 {
-    /// <summary>
-    ///     Raised after the game draws to the sprite patch in a draw tick, just before the final sprite batch is rendered
-    ///     to the screen.
-    /// </summary>
+    /// <inheritdoc cref="IDisplayEvents.RenderedHud"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnRenderedHud(object sender, RenderedHudEventArgs e)

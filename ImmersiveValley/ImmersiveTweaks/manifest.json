@@ -5,7 +5,7 @@
   "Description": "An collection of immersive tweaks to weapons, rings, and misc. vanilla inconsistencies.",
   "UniqueID": "DaLion.ImmersiveTweaks",
   "EntryDll": "ImmersiveTweaks.dll",
-  "MinimumApiVersion": "3.13.0",
+  "MinimumApiVersion": "3.14.0",
   "UpdateKeys": [ "Nexus:11296" ],
   "Dependencies": [
     {

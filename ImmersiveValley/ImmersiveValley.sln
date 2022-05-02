@@ -9,13 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveArsenal", "Immersi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersivePonds", "ImmersivePonds\ImmersivePonds.csproj", "{CAA8FB14-70A4-441A-B9EB-8DB55F8ECDE7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersivePondsAutomate", "ImmersivePondsAutomate\ImmersivePondsAutomate.csproj", "{A1D6C1AF-CC2F-4545-AA97-136722404B19}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveProfessions", "ImmersiveProfessions\ImmersiveProfessions.csproj", "{DC7114FB-22BE-45DF-8112-D5617BCF7D23}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveRings", "ImmersiveRings\ImmersiveRings.csproj", "{A9012CDA-6337-405E-966F-09CAAFE5583E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveRingsBetterCrafting", "ImmersiveRingsBetterCrafting\ImmersiveRingsBetterCrafting.csproj", "{522331B6-941F-43C6-9538-CBA67A14D288}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveTools", "ImmersiveTools\ImmersiveTools.csproj", "{388CBB99-61DD-47BA-A58C-6EBB0870B633}"
 EndProject
@@ -44,10 +40,6 @@ Global
 		{CAA8FB14-70A4-441A-B9EB-8DB55F8ECDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAA8FB14-70A4-441A-B9EB-8DB55F8ECDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAA8FB14-70A4-441A-B9EB-8DB55F8ECDE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1D6C1AF-CC2F-4545-AA97-136722404B19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1D6C1AF-CC2F-4545-AA97-136722404B19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1D6C1AF-CC2F-4545-AA97-136722404B19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1D6C1AF-CC2F-4545-AA97-136722404B19}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC7114FB-22BE-45DF-8112-D5617BCF7D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC7114FB-22BE-45DF-8112-D5617BCF7D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC7114FB-22BE-45DF-8112-D5617BCF7D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -64,10 +56,6 @@ Global
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{522331B6-941F-43C6-9538-CBA67A14D288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{522331B6-941F-43C6-9538-CBA67A14D288}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{522331B6-941F-43C6-9538-CBA67A14D288}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{522331B6-941F-43C6-9538-CBA67A14D288}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,6 +5,12 @@
   "Description": "Make your Fish Ponds immersive and actually useful.",
   "UniqueID": "DaLion.ImmersivePonds",
   "EntryDll": "ImmersivePonds.dll",
-  "MinimumApiVersion": "3.13.0",
-  "UpdateKeys": [ "Nexus:11288" ]
+  "MinimumApiVersion": "3.14.0",
+  "UpdateKeys": [ "Nexus:11288" ],
+  "Dependencies": [
+    {
+      "UniqueID": "Pathoschild.Automate",
+      "IsRequired": false 
+    }
+  ]
 }

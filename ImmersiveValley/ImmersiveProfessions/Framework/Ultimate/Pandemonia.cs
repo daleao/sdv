@@ -8,9 +8,9 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 
-using AssetLoaders;
-using Events.GameLoop;
 using Extensions;
+using Events.GameLoop;
+using Sounds;
 
 #endregion using directives
 

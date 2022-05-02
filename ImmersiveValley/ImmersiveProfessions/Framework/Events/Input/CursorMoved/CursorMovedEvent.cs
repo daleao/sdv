@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IInputEvents.CursorMoved"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class CursorMovedEvent : BaseEvent
 {
-    /// <summary>Raised after the player moves the in-game cursor.</summary>
+    /// <inheritdoc cref="IInputEvents.CursorMoved"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnCursorMoved(object sender, CursorMovedEventArgs e)

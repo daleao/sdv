@@ -70,7 +70,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
                 new[] {"ColoredBottles", "ColoredCaps", "Elesea"},
                 value =>
                 {
-                    ModEntry.ModHelper.Content.InvalidateCache($"{ModEntry.Manifest.UniqueID}/BetterHoneyMeadIcons");
+                    ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/BetterHoneyMeadIcons");
                     return value;
                 })
             .AddCheckbox(

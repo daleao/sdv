@@ -10,7 +10,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
 
-using AssetLoaders;
+using Sounds;
 
 #endregion using directives
 

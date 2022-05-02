@@ -9,10 +9,7 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IGameLoopEvents.SaveLoaded"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class SaveLoadedEvent : BaseEvent
 {
-    /// <summary>
-    ///     Raised after loading a save (including the first day after creating a new save), or connecting to a
-    ///     multiplayer world.
-    /// </summary>
+    /// <inheritdoc cref="IGameLoopEvents.SaveLoaded"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
     public void OnSaveLoaded(object sender, SaveLoadedEventArgs e)

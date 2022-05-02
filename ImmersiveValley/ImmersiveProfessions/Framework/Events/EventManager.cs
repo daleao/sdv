@@ -61,6 +61,7 @@ internal static class EventManager
         Log.D("[EventManager]: Done. Hooking event runners...");
         
         // hook event runners
+        modEvents.Content.AssetRequested += RunAssetRequestedEvents;
         modEvents.Display.RenderedActiveMenu += RunRenderedActiveMenuEvents;
         modEvents.Display.RenderedHud += RunRenderedHudEvents;
         modEvents.Display.RenderedWorld += RunRenderedWorldEvents;
@@ -276,7 +277,13 @@ internal static class EventManager
         return _events.Cast<BaseEvent>().Where(e => e.IsEnabledForScreen(screenId));
     }
 
-#region event runners
+    #region event runners
+    // content events
+    private static void RunAssetRequestedEvents(object sender, AssetRequestedEventArgs e)
+    {
+        foreach (var assetRequestedEvent in _events.OfType<AssetRequestedEvent>())
+            assetRequestedEvent.OnAssetRequested(sender, e);
+    }
 
     // display events
     private static void RunRenderedActiveMenuEvents(object sender, RenderedActiveMenuEventArgs e)

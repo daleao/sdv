@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IGameLoopEvents.GameLaunched"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class GameLaunchedEvent : BaseEvent
 {
-    /// <summary>Raised after the game is launched, right before the first update tick.</summary>
+    /// <inheritdoc cref="IGameLoopEvents.GameLaunched"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
     public void OnGameLaunched(object sender, GameLaunchedEventArgs e)

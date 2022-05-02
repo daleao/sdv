@@ -5,7 +5,7 @@
 using System;
 using Microsoft.Xna.Framework;
 
-using AssetLoaders;
+using Sounds;
 
 #endregion using directives
 

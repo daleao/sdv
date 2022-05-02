@@ -6,8 +6,6 @@ using StardewModdingAPI.Events;
 using StardewValley;
 
 using Common.Extensions;
-using Common.Extensions.Collections;
-using AssetEditors;
 
 #endregion using directives
 
@@ -16,9 +14,6 @@ internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
     {
-        if (!ModEntry.ModHelper.Content.AssetEditors.ContainsType(typeof(AchivementsEditor)))
-            ModEntry.ModHelper.Content.AssetEditors.Add(new AchivementsEditor());
-
         string name =
             ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
                                                (Game1.player.IsMale ? "male" : "female"));

@@ -7,12 +7,12 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 
-using AssetLoaders;
 using Events.Display;
 using Events.GameLoop;
 using Events.Input;
 using Events.Player;
 using Extensions;
+using Sounds;
 
 #endregion using directives
 
@@ -24,7 +24,7 @@ internal abstract class Ultimate : IUltimate
     private int _activationTimer;
     private double _chargeValue;
 
-    private static int _ActivationTimerMax => (int)(ModEntry.Config.UltimateActivationDelay * 60);
+    private static int _ActivationTimerMax => (int) (ModEntry.Config.UltimateActivationDelay * 60);
 
     /// <summary>Construct an instance.</summary>
     protected Ultimate()
@@ -49,7 +49,6 @@ internal abstract class Ultimate : IUltimate
     public abstract Color GlowColor { get; }
     public abstract UltimateIndex Index { get; }
 
-
     public double ChargeValue
     {
         get => _chargeValue;
@@ -64,11 +63,11 @@ internal abstract class Ultimate : IUltimate
             }
             else
             {
-                if (_chargeValue == 0f) OnRaisedFromZero();
+                if (_chargeValue == 0f) OnGainedFromZero();
 
                 if (value > _chargeValue)
                 {
-                    OnRaised();
+                    OnChargeGained();
                     if (value >= MaxValue) OnFullyCharged();
                 }
 
@@ -195,13 +194,13 @@ internal abstract class Ultimate : IUltimate
         EventManager.DisableAllStartingWith("Ultimate");
     }
 
-    /// <summary>Raised when charge value value increases.</summary>
-    protected virtual void OnRaised()
+    /// <summary>Raised when charge value increases.</summary>
+    protected virtual void OnChargeGained()
     {
     }
 
     /// <summary>Raised when charge value is raised from zero to any value greater than zero.</summary>
-    protected virtual void OnRaisedFromZero()
+    protected virtual void OnGainedFromZero()
     {
         EventManager.Enable(typeof(UltimateMeterRenderingHudEvent));
     }

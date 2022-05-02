@@ -359,6 +359,74 @@ internal static class Patches
         }
     }
 
+    [HarmonyPatch(typeof(Event), MethodType.Constructor, typeof(string), typeof(int), typeof(Farmer))]
+    internal class EventCtorPatch
+    {
+        /// <summary>Immersively adjust Marlon's intro event.</summary>
+        [HarmonyPrefix]
+        private static void Prefix(ref string eventString, int eventID)
+        {
+            if (!ModEntry.Config.WoodyReplacesRusty || eventID != 100162) return;
+
+            if (ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
+            {
+                eventString = ModEntry.ModHelper.Translation.Get(
+                    Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())
+                        ? "events.100162.nosword.sve"
+                        : "events.100162.sword.sve");
+            }
+            else
+            {
+                eventString = ModEntry.ModHelper.Translation.Get(
+                    Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())
+                        ? "events.100162.nosword"
+                        : "events.100162.sword");
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(Event), nameof(Event.command_awardFestivalPrize))]
+    internal class EventCommandAwardFestivalPrizePatch
+    {
+        /// <summary>Replaces rusty sword with wooden blade in Marlon's intro event.</summary>
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            ILGenerator generator, MethodBase original)
+        {
+            var helper = new ILHelper(original, instructions);
+
+            var rusty = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
+            try
+            {
+                helper
+                    .FindFirst(
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Newobj, typeof(MeleeWeapon).RequireConstructor(new[] { typeof(int) }))
+                    )
+                    .AddLabels(rusty)
+                    .Insert(
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.WoodyReplacesRusty))),
+                        new CodeInstruction(OpCodes.Brfalse_S, rusty),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, Constants.WOODEN_BLADE_INDEX_I),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution)
+                    )
+                    .Advance()
+                    .AddLabels(resumeExecution);
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed replacing rusty sword festival reward with wooden blade.\nHelper returned {ex}");
+                return null;
+            }
+
+            return helper.Flush();
+        }
+    }
+
     [HarmonyPatch(typeof(Event), nameof(Event.command_itemAboveHead))]
     internal class EventCommandItemAboveHeadPatch
     {
@@ -376,7 +444,7 @@ internal static class Patches
                 helper
                     .FindFirst(
                         new CodeInstruction(OpCodes.Ldc_I4_0),
-                        new CodeInstruction(OpCodes.Call, typeof(MeleeWeapon).RequireConstructor(new[] {typeof(int)}))
+                        new CodeInstruction(OpCodes.Newobj, typeof(MeleeWeapon).RequireConstructor(new[] {typeof(int)}))
                     )
                     .AddLabels(rusty)
                     .Insert(
@@ -385,7 +453,7 @@ internal static class Patches
                         new CodeInstruction(OpCodes.Call,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.WoodyReplacesRusty))),
                         new CodeInstruction(OpCodes.Brfalse_S, rusty),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, 12),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, Constants.WOODEN_BLADE_INDEX_I),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution)
                     )
                     .Advance()
@@ -393,11 +461,64 @@ internal static class Patches
             }
             catch (Exception ex)
             {
-                Log.E($"Failed replacing rusty sword with wooden blade.\nHelper returned {ex}");
+                Log.E($"Failed replacing rusty sword above head with wooden blade.\nHelper returned {ex}");
                 return null;
             }
 
             return helper.Flush();
+        }
+    }
+
+    [HarmonyPatch(typeof(Event), nameof(Event.skipEvent))]
+    internal class EventSkipEventPatch
+    {
+        /// <summary>Replaces rusty sword with wooden blade in Marlon's intro event.</summary>
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            ILGenerator generator, MethodBase original)
+        {
+            var helper = new ILHelper(original, instructions);
+
+            var rusty = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
+            try
+            {
+                helper
+                    .FindFirst(
+                        new CodeInstruction(OpCodes.Ldstr, "Rusty Sword")
+                    )
+                    .Retreat()
+                    .StripLabels(out var labels)
+                    .AddLabels(rusty)
+                    .InsertWithLabels(
+                        labels,
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(OpCodes.Call,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.WoodyReplacesRusty))),
+                        new CodeInstruction(OpCodes.Brfalse_S, rusty),
+                        new CodeInstruction(OpCodes.Call, typeof(EventSkipEventPatch).RequireMethod(nameof(AddSwordIfNecessary))),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution)
+                    )
+                    .AdvanceUntil(
+                        new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequireMethod(nameof(Farmer.addItemByMenuIfNecessary)))
+                    )
+                    .Advance()
+                    .AddLabels(resumeExecution);
+            }
+            catch (Exception ex)
+            {
+                Log.E($"Failed replacing rusty sword skipped event reward with wooden blade.\nHelper returned {ex}");
+                return null;
+            }
+
+            return helper.Flush();
+        }
+
+        private static void AddSwordIfNecessary()
+        {
+            if (Game1.player.Items.All(item => item is not MeleeWeapon weapon || weapon.isScythe()))
+                Game1.player.addItemByMenuIfNecessary(new MeleeWeapon(Constants.WOODEN_BLADE_INDEX_I));
         }
     }
 

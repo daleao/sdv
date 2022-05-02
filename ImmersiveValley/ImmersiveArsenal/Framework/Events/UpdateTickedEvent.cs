@@ -27,7 +27,7 @@ internal class UpdateTickedEvent : IEvent
         Log.D("[Arsenal] Unhooked UpdateTicked event.");
     }
 
-    /// <summary>Raised after the player pressed a keyboard, mouse, or controller button.</summary>
+    /// <inheritdoc cref="IGameLoopEvents.UpdateTicked"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)

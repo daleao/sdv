@@ -195,7 +195,7 @@ public interface IBetterCraftingAPI
     /// <param name="cooking">If true, we alter a cooking category.
     /// Otherwise, crafting.</param>
     /// <param name="categoryId">The ID of the category to alter.</param>
-    /// <param name="recipeNames">An enummeration of recipe names for recipes to
+    /// <param name="recipeNames">An enumeration of recipe names for recipes to
     /// add to the category.</param>
     public void AddRecipesToDefaultCategory(bool cooking, string categoryId, IEnumerable<string> recipeNames);
 
@@ -206,7 +206,7 @@ public interface IBetterCraftingAPI
     /// <param name="cooking">If true, we alter a cooking category.
     /// Otherwise, crafting.</param>
     /// <param name="categoryId">The ID of the category to alter.</param>
-    /// <param name="recipeNames">An enummeration of recipe names for recipes to
+    /// <param name="recipeNames">An enumeration of recipe names for recipes to
     /// remove from the category.</param>
     public void RemoveRecipesFromDefaultCategory(bool cooking, string categoryId, IEnumerable<string> recipeNames);
 

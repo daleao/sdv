@@ -1,11 +1,14 @@
-﻿namespace DaLion.Stardew.Rings.BetterCrafting;
+﻿using System.Collections.Generic;
+using DaLion.Common.Extensions;
+
+namespace DaLion.Stardew.Rings.BetterCrafting;
 
 #region using directives
 
 using System;
 using StardewModdingAPI;
 
-using DaLion.Common.Integrations;
+using Common.Integrations;
 
 #endregion using directives
 
@@ -26,5 +29,12 @@ internal class BetterCraftingIntegration : BaseIntegration<IBetterCraftingAPI>
         AssertLoaded();
 
         ModApi!.AddRecipeProvider(new RingRecipeProvider());
+
+        var newRingRecipes = new List<string>
+        {
+            "Glow Ring", "Magnet Ring", "Amethyst Ring", "Topaz Ring", "Aquamarine Ring", "Jade Ring", "Emerald Ring",
+            "Ruby Ring"
+        };
+        ModApi!.AddRecipesToDefaultCategory(false, "combat_rings", newRingRecipes);
     }
 }

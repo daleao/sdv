@@ -4,14 +4,12 @@
 
 using System.Linq;
 using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
-using StardewModdingAPI.Enums;
 using StardewModdingAPI.Events;
 using StardewValley;
 
 using Common.Extensions;
 using Extensions;
-using Ultimate;
+using Framework.Ultimate;
 
 #endregion using directives
 

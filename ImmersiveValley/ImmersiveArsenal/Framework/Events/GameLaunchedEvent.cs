@@ -27,7 +27,7 @@ internal class GameLaunchedEvent : IEvent
         Log.D("[Arsenal] Unhooked GameLaunched event.");
     }
 
-    /// <summary>The event called after the first game update, once all mods are loaded.</summary>
+    /// <inheritdoc cref="IGameLoopEvents.GameLaunched"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnGameLaunched(object sender, GameLaunchedEventArgs e)

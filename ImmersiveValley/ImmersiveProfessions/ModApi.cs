@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions;
+﻿using System;
+
+namespace DaLion.Stardew.Professions;
 
 #region using directives
 
@@ -12,6 +14,8 @@ using Framework;
 /// <summary>Provides an API for reading this mod's internal saved data.</summary>
 public class ModApi
 {
+    #region mod data
+
     public int GetForageQuality(Farmer farmer)
     {
         return farmer.GetEcologistForageQuality();
@@ -22,24 +26,15 @@ public class ModApi
         return farmer.ReadDataAs<int>(DataField.EcologistItemsForaged);
     }
 
-    public uint GetForagesNeededForBestQuality()
-    {
-        return ModEntry.Config.ForagesNeededForBestQuality;
-    }
-
     public int GetMineralQuality(Farmer farmer)
     {
         return farmer.GetGemologistMineralQuality();
     }
 
+
     public int GetGemologistMineralsCollected(Farmer farmer)
     {
         return farmer.ReadDataAs<int>(DataField.GemologistMineralsCollected);
-    }
-
-    public uint GetMineralsNeededForBestQuality()
-    {
-        return ModEntry.Config.MineralsNeededForBestQuality;
     }
 
     public float GetConservationistTaxBonus(Farmer farmer)
@@ -50,6 +45,20 @@ public class ModApi
     public int GetConservationistTrashCollected(Farmer farmer)
     {
         return farmer.ReadDataAs<int>(DataField.ConservationistTrashCollectedThisSeason);
+    }
+
+    #endregion mod data
+
+    #region mod configs
+
+    public uint GetForagesNeededForBestQuality()
+    {
+        return ModEntry.Config.ForagesNeededForBestQuality;
+    }
+
+    public uint GetMineralsNeededForBestQuality()
+    {
+        return ModEntry.Config.MineralsNeededForBestQuality;
     }
 
     public uint GetTrashNeededPerTaxLevel()
@@ -72,6 +81,11 @@ public class ModApi
         return ModEntry.Config.RequiredExpPerExtendedLevel;
     }
 
+    #endregion mod configs
+
+    #region ultimate
+
+
     public int GetRegisteredUltimate()
     {
         return (int) ModEntry.PlayerState.RegisteredUltimate.Index;
@@ -81,4 +95,30 @@ public class ModApi
     {
         return farmer.ReadDataAs<int>(DataField.UltimateIndex);
     }
+    public bool IsUltimateActive()
+    {
+        return ModEntry.PlayerState.RegisteredUltimate.IsActive;
+    }
+
+    public bool IsUltimateCharged()
+    {
+        return ModEntry.PlayerState.RegisteredUltimate.IsFullyCharged;
+    }
+
+    public bool IsUltimateActive(Farmer farmer)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool IsUltimateCharged(Farmer farmer)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool IsShowingUltimateMeter()
+    {
+        return ModEntry.PlayerState.RegisteredUltimate.Meter.IsVisible;
+    }
+
+    #endregion
 }

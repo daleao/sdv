@@ -5,7 +5,7 @@
 using Microsoft.Xna.Framework;
 using StardewValley;
 
-using AssetLoaders;
+using Sounds;
 
 #endregion using directives
 

@@ -5,6 +5,12 @@
   "Description": "Adds immersive new ring effects and recipes.",
   "UniqueID": "DaLion.ImmersiveRings",
   "EntryDll": "ImmersiveRings.dll",
-  "MinimumApiVersion": "3.13.0",
-  "UpdateKeys": [ "Nexus:11380" ]
+  "MinimumApiVersion": "3.14.0",
+  "UpdateKeys": [ "Nexus:11380" ],
+  "Dependencies": [
+    {
+      "UniqueID": "leclair.bettercrafting",
+      "IsRequired": false
+    }
+  ]
 }

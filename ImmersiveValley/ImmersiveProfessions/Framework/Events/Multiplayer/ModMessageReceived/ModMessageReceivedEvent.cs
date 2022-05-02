@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IMultiplayerEvents.ModMessageReceived"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class ModMessageReceivedEvent : BaseEvent
 {
-    /// <summary>Raised after a mod message is received over the network.</summary>
+    /// <inheritdoc cref="IMultiplayerEvents.ModMessageReceived"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)

@@ -9,8 +9,8 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
 
-using AssetLoaders;
 using Extensions;
+using Sounds;
 
 #endregion using directives
 

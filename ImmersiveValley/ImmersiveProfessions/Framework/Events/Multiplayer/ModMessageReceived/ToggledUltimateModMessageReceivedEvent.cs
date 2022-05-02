@@ -8,7 +8,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 
 using Extensions;
-using Ultimate;
+using Framework.Ultimate;
 
 #endregion using directives
 

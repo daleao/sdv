@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IGameLoopEvents.UpdateTicked"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class UpdateTickedEvent : BaseEvent
 {
-    /// <summary>Raised after the game state is updated.</summary>
+    /// <inheritdoc cref="IGameLoopEvents.UpdateTicked"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)

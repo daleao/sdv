@@ -29,7 +29,7 @@ internal class ButtonPressedEvent : IEvent
         Log.D("[Arsenal] Unhooked ButtonPressed event.");
     }
 
-    /// <summary>Raised after the player pressed a keyboard, mouse, or controller button.</summary>
+    /// <inheritdoc cref="IInputEvents.ButtonPressed"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnButtonPressed(object sender, ButtonPressedEventArgs e)

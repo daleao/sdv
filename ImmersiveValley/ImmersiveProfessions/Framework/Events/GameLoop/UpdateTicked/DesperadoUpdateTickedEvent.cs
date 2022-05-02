@@ -7,9 +7,9 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Tools;
 
-using AssetLoaders;
 using Extensions;
-using Ultimate;
+using Sounds;
+using Framework.Ultimate;
 
 #endregion using directives
 

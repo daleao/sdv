@@ -22,6 +22,8 @@ internal static class TehsFishingOverhaulPatches
 {
     private static MethodInfo _GetFishingInfo, _GetFromFishPond, _GetBobberPosition, _SetFishItem, _SetFishQuality;
 
+    /// <summary>Apply integration patches.</summary>
+    /// <param name="harmony">The <see cref="Harmony"/> instance.</param>
     internal static void Apply(Harmony harmony)
     {
         harmony.Patch(

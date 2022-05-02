@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IPlayerEvents.Warped"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class WarpedEvent : BaseEvent
 {
-    /// <summary>Raised after the current player moves to a new location.</summary>
+    /// <inheritdoc cref="IPlayerEvents.Warped"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     public void OnWarped(object sender, WarpedEventArgs e)
