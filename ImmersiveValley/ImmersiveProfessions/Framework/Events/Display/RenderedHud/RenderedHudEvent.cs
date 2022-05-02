@@ -14,7 +14,7 @@ internal abstract class RenderedHudEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     public void OnRenderedHud(object sender, RenderedHudEventArgs e)
     {
-        if (enabled.Value) OnRenderedHudImpl(sender, e);
+        if (enabled.Value || GetType().Name.StartsWith("Static")) OnRenderedHudImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnRenderedHud" />

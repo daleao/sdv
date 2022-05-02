@@ -22,7 +22,6 @@ internal sealed class Ambush : Ultimate
     {
         Meter = new(this, Color.MediumPurple);
         Overlay = new(Color.MidnightBlue);
-        EnableEvents();
     }
 
     #region public properties

@@ -14,7 +14,7 @@ internal abstract class RenderedActiveMenuEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     public void OnRenderedActiveMenu(object sender, RenderedActiveMenuEventArgs e)
     {
-        if (enabled.Value) OnRenderedActiveMenuImpl(sender, e);
+        if (enabled.Value || GetType().Name.StartsWith("Static")) OnRenderedActiveMenuImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnRenderedActiveMenu" />

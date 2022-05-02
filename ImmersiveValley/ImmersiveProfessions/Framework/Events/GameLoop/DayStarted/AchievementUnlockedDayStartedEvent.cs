@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 
 using Common.Extensions;
+using Content;
 
 #endregion using directives
 
@@ -14,6 +15,8 @@ internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
     {
+        EventManager.Enable(typeof(AchievementsRequestedEvent));
+
         string name =
             ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
                                                (Game1.player.IsMale ? "male" : "female"));

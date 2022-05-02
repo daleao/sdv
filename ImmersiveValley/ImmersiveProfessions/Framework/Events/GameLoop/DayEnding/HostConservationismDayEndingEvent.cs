@@ -9,6 +9,7 @@ using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
+using Content;
 using Extensions;
 
 #endregion using directives
@@ -18,6 +19,8 @@ internal class HostConservationismDayEndingEvent : DayEndingEvent
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
     {
+        EventManager.Enable(typeof(MailRequestedEvent));
+
         if (Game1.dayOfMonth != 28) return;
 
         foreach (var farmer in Game1.getAllFarmers().Where(f => f.HasProfession(Profession.Conservationist)))

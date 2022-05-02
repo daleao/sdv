@@ -10,6 +10,7 @@ using StardewValley.Monsters;
 
 using Extensions;
 using Events.GameLoop;
+using Framework.Events.Ultimate;
 using Sounds;
 
 #endregion using directives
@@ -24,7 +25,8 @@ internal sealed class Pandemonia : Ultimate
     {
         Meter = new(this, Color.LimeGreen);
         Overlay = new(Color.DarkGreen);
-        EnableEvents();
+        
+        EventManager.Enable(typeof(PandemoniaUltimateEmptiedEvent));
     }
 
     #region public properties
@@ -115,17 +117,6 @@ internal sealed class Pandemonia : Ultimate
     {
         return !IsEmpty && Game1.player.currentLocation.characters.OfType<Monster>()
             .Any(m => m.IsSlime() && m.IsWithinPlayerThreshold());
-    }
-
-    /// <inheritdoc />
-    protected override void OnEmptied()
-    {
-        base.OnEmptied();
-        foreach (var slime in Game1.player.currentLocation.characters.OfType<GreenSlime>())
-        {
-            slime.addedSpeed = 0;
-            slime.focusedOnFarmers = false;
-        }
     }
 
     #endregion protected methods

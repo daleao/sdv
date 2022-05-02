@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.Content.AssetRequested;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Content;
 
 #region using directives
 
@@ -7,12 +7,10 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley.GameData.FishPond;
 
-using GameLoop;
-
 #endregion using directives
 
 [UsedImplicitly]
-internal class FishPondDataRequestedEvent : AssetRequestedEvent
+internal class HostFishPondDataRequestedEvent : AssetRequestedEvent
 {
     /// <inheritdoc />
     protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)

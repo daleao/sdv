@@ -25,7 +25,6 @@ internal sealed class Frenzy : Ultimate
     {
         Meter = new(this, Color.OrangeRed);
         Overlay = new(Color.OrangeRed);
-        EnableEvents();
     }
 
     #region public properties

@@ -5,6 +5,7 @@
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Content;
 using GameLoop;
 
 #endregion using directives
@@ -26,6 +27,10 @@ internal class RequestGlobalEventModMessageReceivedEvent : ModMessageReceivedEve
 
         switch (which)
         {
+            case "Aquarist":
+                Log.D($"{who.Name} requested {which} event subscription.");
+                EventManager.Enable(typeof(HostFishPondDataRequestedEvent));
+                break;
             case "Conservationism":
                 Log.D($"{who.Name} requested {which} event subscription.");
                 EventManager.Enable(typeof(HostConservationismDayEndingEvent));

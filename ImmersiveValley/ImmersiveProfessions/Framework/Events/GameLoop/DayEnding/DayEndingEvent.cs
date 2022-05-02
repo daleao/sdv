@@ -14,7 +14,7 @@ internal abstract class DayEndingEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     public void OnDayEnding(object sender, DayEndingEventArgs e)
     {
-        if (enabled.Value) OnDayEndingImpl(sender, e);
+        if (enabled.Value || GetType().Name.StartsWith("Static")) OnDayEndingImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnDayEnding" />

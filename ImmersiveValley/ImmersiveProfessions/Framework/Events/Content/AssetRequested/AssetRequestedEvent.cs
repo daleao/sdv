@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Content;
 
 #region using directives
 

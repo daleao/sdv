@@ -17,7 +17,6 @@ internal sealed class DeathBlossom : Ultimate
     {
         Meter = new(this, Color.DarkGoldenrod);
         Overlay = new(Color.SandyBrown);
-        EnableEvents();
     }
 
     #region public properties

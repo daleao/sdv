@@ -85,7 +85,6 @@ public class ModApi
 
     #region ultimate
 
-
     public int GetRegisteredUltimate()
     {
         return (int) ModEntry.PlayerState.RegisteredUltimate.Index;

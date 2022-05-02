@@ -14,7 +14,7 @@ internal abstract class DayStartedEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     public void OnDayStarted(object sender, DayStartedEventArgs e)
     {
-        if (enabled.Value) OnDayStartedImpl(sender, e);
+        if (enabled.Value || GetType().Name.StartsWith("Static")) OnDayStartedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnDayStarted" />

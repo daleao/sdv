@@ -12,6 +12,7 @@ using Events.GameLoop;
 using Events.Input;
 using Events.Player;
 using Extensions;
+using Framework.Events.Ultimate;
 using Sounds;
 
 #endregion using directives
@@ -26,11 +27,20 @@ internal abstract class Ultimate : IUltimate
 
     private static int _ActivationTimerMax => (int) (ModEntry.Config.UltimateActivationDelay * 60);
 
+    internal static event EventHandler<UltimateActivatedEventArgs> Activated;
+    internal static event EventHandler<UltimateDeactivatedEventArgs> Deactivated;
+    internal static event EventHandler<UltimateChargeInitiatedEventArgs> ChargeInitiated;
+    internal static event EventHandler<UltimateChargeGainedEventArgs> ChargeGained;
+    internal static event EventHandler<UltimateFullyChargedEventArgs> FullyCharged;
+    internal static event EventHandler<UltimateEmptiedEventArgs> Emptied;
+
     /// <summary>Construct an instance.</summary>
     protected Ultimate()
     {
         Log.D($"Initializing Ultimate as {GetType().Name}.");
         _activationTimer = _ActivationTimerMax;
+        
+        EnableEvents();
     }
 
     /// <inheritdoc />
@@ -59,16 +69,16 @@ internal abstract class Ultimate : IUltimate
             if (value <= 0)
             {
                 _chargeValue = 0;
-                OnEmptied();
+                Emptied?.Invoke(this, new());
             }
             else
             {
-                if (_chargeValue == 0f) OnGainedFromZero();
+                if (_chargeValue == 0f) ChargeInitiated?.Invoke(this, new(value));
 
                 if (value > _chargeValue)
                 {
-                    OnChargeGained();
-                    if (value >= MaxValue) OnFullyCharged();
+                    ChargeGained?.Invoke(this, new(_chargeValue, value));
+                    if (value >= MaxValue) FullyCharged?.Invoke(this, new());
                 }
 
                 var delta = value - _chargeValue;
@@ -111,6 +121,8 @@ internal abstract class Ultimate : IUltimate
         // notify peers
         ModEntry.ModHelper.Multiplayer.SendMessage("Active", "ToggledUltimate",
             new[] { ModEntry.Manifest.UniqueID });
+
+        Activated?.Invoke(this, new());
     }
 
     /// <inheritdoc />
@@ -131,6 +143,8 @@ internal abstract class Ultimate : IUltimate
         // notify peers
         ModEntry.ModHelper.Multiplayer.SendMessage("Inactive", "ToggledUltimate",
             new[] { ModEntry.Manifest.UniqueID });
+
+        Deactivated?.Invoke(this, new());
     }
 
     /// <inheritdoc />
@@ -180,8 +194,12 @@ internal abstract class Ultimate : IUltimate
         return ModEntry.Config.EnableUltimates && !IsActive && IsFullyCharged;
     }
 
+    #endregion protected methods
+
+    #region private methods
+
     /// <summary>Enable all events required for Ultimate functionality.</summary>
-    protected void EnableEvents()
+    private static void EnableEvents()
     {
         EventManager.Enable(typeof(UltimateWarpedEvent));
         if (Game1.currentLocation.IsDungeon())
@@ -189,39 +207,10 @@ internal abstract class Ultimate : IUltimate
     }
 
     /// <summary>Disable all events related to Ultimate functionality.</summary>
-    protected virtual void DisableEvents()
+    private static void DisableEvents()
     {
         EventManager.DisableAllStartingWith("Ultimate");
     }
 
-    /// <summary>Raised when charge value increases.</summary>
-    protected virtual void OnChargeGained()
-    {
-    }
-
-    /// <summary>Raised when charge value is raised from zero to any value greater than zero.</summary>
-    protected virtual void OnGainedFromZero()
-    {
-        EventManager.Enable(typeof(UltimateMeterRenderingHudEvent));
-    }
-
-    /// <summary>Raised when charge value is set to the max value.</summary>
-    protected virtual void OnFullyCharged()
-    {
-        EventManager.Enable(typeof(UltimateButtonsChangedEvent), typeof(UltimateGaugeShakeUpdateTickedEvent));
-    }
-
-    /// <summary>Raised when charge value is set to zero.</summary>
-    protected virtual void OnEmptied()
-    {
-        EventManager.Disable(typeof(UltimateGaugeShakeUpdateTickedEvent));
-        Meter.ForceStopShake();
-
-        if (IsActive) Deactivate();
-
-        if (!Game1.currentLocation.IsDungeon())
-            EventManager.Enable(typeof(UltimateGaugeFadeOutUpdateTickedEvent));
-    }
-
-    #endregion protected methods
+    #endregion private methods
 }

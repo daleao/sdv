@@ -16,6 +16,8 @@ using StardewValley.Buildings;
 using StardewValley.Menus;
 
 using DaLion.Common.Harmony;
+using Events.Content;
+using Events.GameLoop;
 using Extensions;
 using Ultimate;
 
@@ -55,9 +57,21 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
 
         // subscribe events
         EventManager.EnableAllForProfession(profession);
-        if (profession == Profession.Conservationist && !Context.IsMainPlayer) // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage("Conservationism", "RequestEvent",
-                new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
+        if (!Context.IsMainPlayer)
+        {
+            // request the main player
+            if (profession == Profession.Aquarist)
+                ModEntry.ModHelper.Multiplayer.SendMessage("Conservationism", "RequestEvent",
+                    new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            else if (profession == Profession.Conservationist)
+                ModEntry.ModHelper.Multiplayer.SendMessage("Conservationism", "RequestEvent",
+                    new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
+        }
+        else
+        {
+            if (profession == Profession.Aquarist) EventManager.Enable(typeof(HostFishPondDataRequestedEvent));
+            else if (profession == Profession.Conservationist) EventManager.Enable(typeof(HostConservationismDayEndingEvent));
+        }
 
         if (whichProfession is < 26 or >= 30 || ModEntry.PlayerState.RegisteredUltimate is not null) return;
         

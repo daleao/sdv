@@ -14,7 +14,7 @@ internal abstract class UpdateTickedEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
     {
-        if (enabled.Value) OnUpdateTickedImpl(sender, e);
+        if (enabled.Value || GetType().Name.StartsWith("Static")) OnUpdateTickedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnUpdateTicked" />

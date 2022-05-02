@@ -14,7 +14,7 @@ internal abstract class ReturnedToTitleEvent : BaseEvent
     /// <param name="e">The event data.</param>
     public void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
     {
-        if (enabled.Value) OnReturnedToTitleImpl(sender, e);
+        if (enabled.Value || GetType().Name.StartsWith("Static")) OnReturnedToTitleImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnReturnedToTitle" />

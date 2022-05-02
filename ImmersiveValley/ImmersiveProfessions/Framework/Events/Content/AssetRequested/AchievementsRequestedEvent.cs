@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.Content.AssetRequested;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Content;
 
 #region using directives
 
@@ -7,7 +7,6 @@ using StardewModdingAPI.Events;
 using StardewValley;
 
 using Common.Extensions;
-using GameLoop;
 
 #endregion using directives
 
