@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Network;
 
@@ -19,6 +20,7 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class GameLocationCheckActionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>

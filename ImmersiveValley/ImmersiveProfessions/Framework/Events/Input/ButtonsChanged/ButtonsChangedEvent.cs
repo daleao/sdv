@@ -12,7 +12,7 @@ internal abstract class ButtonsChangedEvent : BaseEvent
     /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
+    internal void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
     {
         if (enabled.Value) OnButtonsChangedImpl(sender, e);
     }

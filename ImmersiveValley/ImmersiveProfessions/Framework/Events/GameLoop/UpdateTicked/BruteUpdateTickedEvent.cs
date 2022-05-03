@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -10,6 +11,7 @@ using Framework.Ultimate;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class BruteUpdateTickedEvent : UpdateTickedEvent
 {
     private const int SHEET_INDEX_I = 36;

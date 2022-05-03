@@ -27,19 +27,35 @@ internal abstract class Ultimate : IUltimate
 
     private static int _ActivationTimerMax => (int) (ModEntry.Config.UltimateActivationDelay * 60);
 
-    internal static event EventHandler<UltimateActivatedEventArgs> Activated;
-    internal static event EventHandler<UltimateDeactivatedEventArgs> Deactivated;
-    internal static event EventHandler<UltimateChargeInitiatedEventArgs> ChargeInitiated;
-    internal static event EventHandler<UltimateChargeGainedEventArgs> ChargeGained;
-    internal static event EventHandler<UltimateFullyChargedEventArgs> FullyCharged;
-    internal static event EventHandler<UltimateEmptiedEventArgs> Emptied;
+    #region event handlers
+
+    /// <inheritdoc cref="OnActivated"/>
+    internal static event EventHandler<IUltimateActivatedEventArgs> Activated;
+
+    /// <inheritdoc cref="OnDeactivated"/>
+    internal static event EventHandler<IUltimateDeactivatedEventArgs> Deactivated;
+
+    /// <inheritdoc cref="OnChargeInitiated"/>
+    internal static event EventHandler<IUltimateChargeInitiatedEventArgs> ChargeInitiated;
+
+    /// <inheritdoc cref="OnChargeIncreased"/>
+    internal static event EventHandler<IUltimateChargeIncreasedEventArgs> ChargeIncreased;
+
+    /// <inheritdoc cref="OnFullyCharged"/>
+    internal static event EventHandler<IUltimateFullyChargedEventArgs> FullyCharged;
+
+    /// <inheritdoc cref="OnEmptied"/>
+    internal static event EventHandler<IUltimateEmptiedEventArgs> Emptied;
+
+    #endregion event handlers
 
     /// <summary>Construct an instance.</summary>
-    protected Ultimate()
+    protected Ultimate(Color meterColor, Color overlayColor)
     {
         Log.D($"Initializing Ultimate as {GetType().Name}.");
         _activationTimer = _ActivationTimerMax;
-        
+        Meter = new(this, meterColor);
+        Overlay = new(overlayColor);
         EnableEvents();
     }
 
@@ -51,14 +67,10 @@ internal abstract class Ultimate : IUltimate
 
     #region public properties
 
-    public bool IsActive { get; protected set; }
-    public UltimateMeter Meter { get; protected set; }
-    public UltimateOverlay Overlay { get; protected set; }
-
-    public abstract SFX ActivationSfx { get; }
-    public abstract Color GlowColor { get; }
+    /// <inheritdoc />
     public abstract UltimateIndex Index { get; }
 
+    /// <inheritdoc />
     public double ChargeValue
     {
         get => _chargeValue;
@@ -68,42 +80,99 @@ internal abstract class Ultimate : IUltimate
 
             if (value <= 0)
             {
+                EventManager.Disable(typeof(UltimateGaugeShakeUpdateTickedEvent));
+                ModEntry.PlayerState.RegisteredUltimate.Meter.ForceStopShake();
+
+                if (ModEntry.PlayerState.RegisteredUltimate.IsActive) ModEntry.PlayerState.RegisteredUltimate.Deactivate();
+
+                if (!Game1.currentLocation.IsDungeon())
+                    EventManager.Enable(typeof(UltimateGaugeFadeOutUpdateTickedEvent));
+
+                OnEmptied(Game1.player);
                 _chargeValue = 0;
-                Emptied?.Invoke(this, new());
             }
             else
             {
-                if (_chargeValue == 0f) ChargeInitiated?.Invoke(this, new(value));
-
-                if (value > _chargeValue)
-                {
-                    ChargeGained?.Invoke(this, new(_chargeValue, value));
-                    if (value >= MaxValue) FullyCharged?.Invoke(this, new());
-                }
-
                 var delta = value - _chargeValue;
                 var scaledDelta = delta * ((double) MaxValue / BASE_MAX_VALUE_I) * (delta >= 0
                     ? ModEntry.Config.UltimateGainFactor
                     : ModEntry.Config.UltimateDrainFactor);
-                _chargeValue = Math.Min(scaledDelta + _chargeValue, MaxValue);
+                value = Math.Min(scaledDelta + _chargeValue, MaxValue);
+
+                if (_chargeValue == 0f)
+                {
+                    EventManager.Enable(typeof(UltimateMeterRenderingHudEvent));
+                    OnChargeInitiated(Game1.player, value);
+                }
+
+                if (value > _chargeValue)
+                {
+                    OnChargeIncreased(Game1.player, _chargeValue, value);
+                    if (value >= MaxValue)
+                    {
+                        EventManager.Enable(typeof(UltimateButtonsChangedEvent), typeof(UltimateGaugeShakeUpdateTickedEvent));
+                        OnFullyCharged(Game1.player);
+                    }
+                }
+
+                _chargeValue = value;
             }
         }
     }
 
-    public static int MaxValue => BASE_MAX_VALUE_I + (Game1.player.CombatLevel > 10 ? Game1.player.CombatLevel * 5 : 0);
+    /// <inheritdoc />
+    public int MaxValue => BASE_MAX_VALUE_I + (Game1.player.CombatLevel > 10 ? Game1.player.CombatLevel * 5 : 0);
 
+    /// <inheritdoc />
     public float PercentCharge => (float) (ChargeValue / MaxValue);
 
+    /// <inheritdoc />
     public bool IsFullyCharged => ChargeValue >= MaxValue;
 
+    /// <inheritdoc />
     public bool IsEmpty => ChargeValue == 0;
+
+    /// <inheritdoc />
+    public bool IsMeterVisible => Meter.IsVisible;
+
+    /// <inheritdoc />
+    public bool IsActive { get; protected set; }
+
+    /// <inheritdoc />
+    public virtual bool CanActivate => ModEntry.Config.EnableUltimates && !IsActive && IsFullyCharged;
 
     #endregion public properties
 
+    #region internal properties
+
+    /// <inheritdoc cref="UltimateMeter"/>
+    internal UltimateMeter Meter { get; }
+
+    /// <inheritdoc cref="UltimateOverlay"/>
+    internal UltimateOverlay Overlay { get; }
+
+    /// <summary>The sound effect that plays when this Ultimate is activated.</summary>
+    internal abstract SFX ActivationSfx { get; }
+
+    /// <summary>The glow color applied to the player while this Ultimate is active.</summary>
+    internal abstract Color GlowColor { get; }
+
+    #endregion internal properties
+
     #region public methods
 
-    /// <inheritdoc />
-    public virtual void Activate()
+    /// <summary>Returns the string representation of this instance's <see cref="UltimateIndex"/>.</summary>
+    public override string ToString()
+    {
+        return Index.ToString();
+    }
+
+    #endregion public methods
+
+    #region internal methods
+
+    /// <summary>Activate Ultimate for the local player.</summary>
+    internal virtual void Activate()
     {
         IsActive = true;
 
@@ -122,11 +191,12 @@ internal abstract class Ultimate : IUltimate
         ModEntry.ModHelper.Multiplayer.SendMessage("Active", "ToggledUltimate",
             new[] { ModEntry.Manifest.UniqueID });
 
-        Activated?.Invoke(this, new());
+        // invoke callbacks
+        OnActivated(Game1.player);
     }
 
-    /// <inheritdoc />
-    public virtual void Deactivate()
+    /// <summary>Deactivate Ultimate for the local player.</summary>
+    internal virtual void Deactivate()
     {
         IsActive = false;
         ChargeValue = 0;
@@ -144,13 +214,14 @@ internal abstract class Ultimate : IUltimate
         ModEntry.ModHelper.Multiplayer.SendMessage("Inactive", "ToggledUltimate",
             new[] { ModEntry.Manifest.UniqueID });
 
-        Deactivated?.Invoke(this, new());
+        // invoke callbacks
+        OnDeactivated(Game1.player);
     }
 
-    /// <inheritdoc />
-    public void CheckForActivation()
+    /// <summary>Detect and handle activation input.</summary>
+    internal void CheckForActivation()
     {
-        if (ModEntry.Config.UltimateKey.JustPressed() && CanActivate())
+        if (ModEntry.Config.UltimateKey.JustPressed() && CanActivate)
         {
             if (ModEntry.Config.HoldKeyToActivateUltimate)
             {
@@ -169,8 +240,8 @@ internal abstract class Ultimate : IUltimate
         }
     }
 
-    /// <inheritdoc />
-    public void UpdateInput()
+    /// <summary>UpdateInput internal activation state.</summary>
+    internal void UpdateInput()
     {
         if (!Game1.game1.IsActive || !Game1.shouldTimePass() || Game1.eventUp || Game1.player.UsingTool ||
             _activationTimer <= 0) return;
@@ -181,17 +252,47 @@ internal abstract class Ultimate : IUltimate
         Activate();
     }
 
-    /// <inheritdoc />
-    public abstract void Countdown(double elapsed);
+    /// <summary>Countdown the charge value.</summary>
+    internal abstract void Countdown(double elapsed);
 
-    #endregion public methods
+    #endregion internal methods
 
     #region protected methods
 
-    /// <summary>Check whether all activation conditions are met.</summary>
-    protected virtual bool CanActivate()
+    /// <summary>Raised when a player activates their combat Ultimate.</summary>
+    protected void OnActivated(Farmer player)
     {
-        return ModEntry.Config.EnableUltimates && !IsActive && IsFullyCharged;
+        Activated?.Invoke(this, new UltimateActivatedEventArgs(player));
+    }
+
+    /// <summary>Raised when a player's combat Ultimate ends.</summary>
+    protected void OnDeactivated(Farmer player)
+    {
+        Deactivated?.Invoke(this, new UltimateDeactivatedEventArgs(player));
+    }
+
+    /// <summary>Raised when a player's combat Ultimate gains any charge while it was previously empty.</summary>
+    protected void OnChargeInitiated(Farmer player, double newValue)
+    {
+        ChargeInitiated?.Invoke(this, new UltimateChargeInitiatedEventArgs(player, newValue));
+    }
+
+    /// <summary>Raised when a player's combat Ultimate gains any charge.</summary>
+    protected void OnChargeIncreased(Farmer player, double oldValue, double newValue)
+    {
+        ChargeIncreased?.Invoke(this, new UltimateChargeIncreasedEventArgs(player, oldValue, newValue));
+    }
+
+    /// <summary>Raised when the local player's ultimate charge value reaches max value.</summary>
+    protected void OnFullyCharged(Farmer player)
+    {
+        FullyCharged?.Invoke(this, new UltimateFullyChargedEventArgs(player));
+    }
+
+    /// <summary>Raised when the local player's ultimate charge value returns to zero.</summary>
+    protected void OnEmptied(Farmer player)
+    {
+        Emptied?.Invoke(this, new UltimateEmptiedEventArgs(player));
     }
 
     #endregion protected methods

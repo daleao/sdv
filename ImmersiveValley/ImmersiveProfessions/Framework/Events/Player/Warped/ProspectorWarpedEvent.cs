@@ -2,15 +2,17 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 
 using Extensions;
-using TreasureHunt;
+using Framework.TreasureHunt;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class ProspectorWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />
@@ -21,6 +23,6 @@ internal class ProspectorWarpedEvent : WarpedEvent
         ModEntry.PlayerState.ProspectorHunt ??= new ProspectorHunt();
         if (ModEntry.PlayerState.ProspectorHunt.IsActive) ModEntry.PlayerState.ProspectorHunt.Fail();
         if (!Game1.eventUp && e.NewLocation is MineShaft shaft && !shaft.IsTreasureOrSafeRoom())
-            ModEntry.PlayerState.ProspectorHunt.TryStartNewHunt(e.NewLocation);
+            ModEntry.PlayerState.ProspectorHunt.TryStart(e.NewLocation);
     }
 }

@@ -13,7 +13,7 @@ internal class StaticReturnedToTitleEvent : ReturnedToTitleEvent
     /// <summary>Construct an instance.</summary>
     internal StaticReturnedToTitleEvent()
     {
-        Enable();
+        this.Enable();
     }
 
     /// <inheritdoc />

@@ -1,16 +1,27 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events.Ultimate;
 
-/// <summary>The event raised when <see cref="Ultimate"/> is activated.</summary>
-internal abstract class UltimateActivatedEvent : BaseEvent
+#region using directives
+
+using System;
+
+#endregion using directives
+
+internal class UltimateActivatedEvent : BaseEvent
 {
-    /// <summary>Raised when <see cref="Ultimate"/> is activated.</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    public void OnUltimateActivated(object sender, UltimateActivatedEventArgs e)
+    private readonly Action<object, IUltimateActivatedEventArgs> _OnActivatedImpl;
+
+    /// <summary>Construct an instance.</summary>
+    /// <param name="callback">The delegate to run when the event is raised.</param>
+    internal UltimateActivatedEvent(Action<object, IUltimateActivatedEventArgs> callback)
     {
-        if (enabled.Value) OnUltimateActivatedImpl(sender, e);
+        _OnActivatedImpl = callback;
     }
 
-    /// <inheritdoc cref="OnUltimateActivated" />
-    protected abstract void OnUltimateActivatedImpl(object sender, UltimateActivatedEventArgs e);
+    /// <summary>Raised when a player activates their combat Ultimate.</summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    internal void OnActivated(object sender, IUltimateActivatedEventArgs e)
+    {
+        if (enabled.Value) _OnActivatedImpl(sender, e);
+    }
 }

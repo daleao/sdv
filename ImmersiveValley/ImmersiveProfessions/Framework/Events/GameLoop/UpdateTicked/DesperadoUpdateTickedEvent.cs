@@ -3,6 +3,7 @@
 #region using directives
 
 using System;
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Tools;
@@ -13,6 +14,7 @@ using Framework.Ultimate;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class DesperadoUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />

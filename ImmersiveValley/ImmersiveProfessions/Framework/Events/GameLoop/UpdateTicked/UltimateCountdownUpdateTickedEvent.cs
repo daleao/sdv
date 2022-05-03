@@ -2,11 +2,13 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class UltimateCountdownUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />

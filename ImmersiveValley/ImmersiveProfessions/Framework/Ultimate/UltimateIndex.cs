@@ -3,8 +3,8 @@
 public enum UltimateIndex
 {
     None = -1,
-    Brute = 26,
-    Poacher = 27,
-    Piper = 28,
-    Desperado = 29
+    Frenzy = 26,
+    Ambush = 27,
+    Pandemonia = 28,
+    Blossom = 29
 }

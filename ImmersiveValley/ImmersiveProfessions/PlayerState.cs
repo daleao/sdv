@@ -13,9 +13,9 @@ using Framework.Ultimate;
 
 internal class PlayerState
 {
-    private IUltimate _registeredUltimate;
+    private Ultimate _registeredUltimate;
 
-    internal IUltimate RegisteredUltimate
+    internal Ultimate RegisteredUltimate
     {
         get => _registeredUltimate;
         set
@@ -25,14 +25,13 @@ internal class PlayerState
         }
     }
 
-    internal ITreasureHunt ScavengerHunt { get; set; } = new ScavengerHunt();
-    internal ITreasureHunt ProspectorHunt { get; set; } = new ProspectorHunt();
+    internal TreasureHunt ScavengerHunt { get; set; } = new ScavengerHunt();
+    internal TreasureHunt ProspectorHunt { get; set; } = new ProspectorHunt();
     internal HudPointer Pointer { get; set; } = new();
     internal Dictionary<int, float> OverchargedBullets { get; } = new();
     internal HashSet<int> BlossomBullets { get; } = new();
     internal HashSet<int> BouncedBullets { get; } = new();
     internal HashSet<int> PiercedBullets { get; } = new();
-    internal HashSet<Monster> FearedMonsters { get; } = new();
     internal HashSet<GreenSlime> PipedSlimes { get; } = new();
     internal int[] AppliedPiperBuffs { get; } = new int[12];
     internal int BruteRageCounter { get; set; }

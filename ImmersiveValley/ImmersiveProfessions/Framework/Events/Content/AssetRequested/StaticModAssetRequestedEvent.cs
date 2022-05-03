@@ -14,8 +14,14 @@ using Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ProfessionAssetRequestedEvent : AssetRequestedEvent
+internal class StaticModAssetRequestedEvent : AssetRequestedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    internal StaticModAssetRequestedEvent()
+    {
+        this.Enable();
+    }
+
     /// <inheritdoc />
     protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)
     {

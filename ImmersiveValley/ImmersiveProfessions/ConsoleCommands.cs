@@ -297,7 +297,7 @@ internal static class ConsoleCommands
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
-    /// <summary>Set <see cref="UltimateMeter.Value" /> to the desired value, or max it out if no value is specified.</summary>
+    /// <summary>Set <see cref="UltimateMeter.Value" /> to the desired percent value, or max it out if no value is specified.</summary>
     internal static void SetUltimateChargeValue(string command, string[] args)
     {
         if (!Context.IsWorldReady)
@@ -314,7 +314,7 @@ internal static class ConsoleCommands
 
         if (!args.Any())
         {
-            ModEntry.PlayerState.RegisteredUltimate.ChargeValue = Ultimate.MaxValue;
+            ModEntry.PlayerState.RegisteredUltimate.ChargeValue = ModEntry.PlayerState.RegisteredUltimate.MaxValue;
             return;
         }
 
@@ -330,7 +330,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        ModEntry.PlayerState.RegisteredUltimate.ChargeValue = Ultimate.MaxValue * (double)value / 100;
+        ModEntry.PlayerState.RegisteredUltimate.ChargeValue = (double) value * ModEntry.PlayerState.RegisteredUltimate.MaxValue / 100.0;
     }
 
     /// <summary>
@@ -374,10 +374,10 @@ internal static class ConsoleCommands
         ModEntry.PlayerState.RegisteredUltimate = index switch
 #pragma warning restore CS8509
         {
-            UltimateIndex.Brute => new Frenzy(),
-            UltimateIndex.Poacher => new Ambush(),
-            UltimateIndex.Piper => new Pandemonia(),
-            UltimateIndex.Desperado => new DeathBlossom()
+            UltimateIndex.Frenzy => new Frenzy(),
+            UltimateIndex.Ambush => new Ambush(),
+            UltimateIndex.Pandemonia => new Pandemonia(),
+            UltimateIndex.Blossom => new DeathBlossom()
         };
         Game1.player.WriteData(DataField.UltimateIndex, index.ToString());
     }

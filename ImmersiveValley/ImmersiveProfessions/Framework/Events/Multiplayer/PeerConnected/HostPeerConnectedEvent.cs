@@ -1,6 +1,4 @@
-﻿using DaLion.Stardew.Professions.Framework.Events.Content;
-
-namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 #region using directives
 
@@ -8,6 +6,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Content;
 using GameLoop;
 using Extensions;
 

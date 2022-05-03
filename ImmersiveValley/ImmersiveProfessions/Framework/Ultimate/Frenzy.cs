@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
 
-using Extensions;
 using Sounds;
 
 #endregion using directives
@@ -22,45 +21,42 @@ internal sealed class Frenzy : Ultimate
 
     /// <summary>Construct an instance.</summary>
     internal Frenzy()
+    : base(Color.OrangeRed, Color.OrangeRed)
     {
-        Meter = new(this, Color.OrangeRed);
-        Overlay = new(Color.OrangeRed);
     }
 
     #region public properties
-    
-    public static int BuffId { get; } = ModEntry.Manifest.UniqueID.GetHashCode() + (int) UltimateIndex.Brute + 4;
 
-    public override SFX ActivationSfx => SFX.BruteRage;
-    public override Color GlowColor => Color.OrangeRed;
-    public override UltimateIndex Index => UltimateIndex.Brute;
+    /// <summary>The ID of the buff that displays while Frenzy is active.</summary>
+    public static int BuffId { get; } = ModEntry.Manifest.UniqueID.GetHashCode() + (int) UltimateIndex.Frenzy + 4;
+
+    /// <inheritdoc />
+    public override UltimateIndex Index => UltimateIndex.Frenzy;
 
     #endregion public properties
 
-    #region public methods
+    #region internal properties
 
     /// <inheritdoc />
-    public override void Activate()
+    internal override SFX ActivationSfx => SFX.BruteRage;
+
+    /// <inheritdoc />
+    internal override Color GlowColor => Color.OrangeRed;
+
+    #endregion internal properties
+
+    #region internal methods
+
+    /// <inheritdoc />
+    internal override void Activate()
     {
         base.Activate();
 
         // fear
         foreach (var monster in Game1.currentLocation.characters.OfType<Monster>()
                      .Where(m => m.Player.IsLocalPlayer))
-        {
-            monster.addedSpeed -= monster.Speed;
-            monster.WriteData("Feared", true.ToString());
-            monster.WriteData("FearTimer", 1000.ToString());
-            ModEntry.PlayerState.FearedMonsters.Add(monster);
-        }
+            monster.stunTime = 1000;
 
-        //// fully recover health
-        //var who = Game1.player;
-        //var healed = who.maxHealth - who.health;
-        //who.health = who.maxHealth;
-        //who.currentLocation.debris.Add(new(healed,
-        //    new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
-        
         ModEntry.PlayerState.BruteKillCounter = 0;
 
         Game1.buffsDisplay.removeOtherBuff(BuffId);
@@ -80,7 +76,7 @@ internal sealed class Frenzy : Ultimate
     }
 
     /// <inheritdoc />
-    public override void Deactivate()
+    internal override void Deactivate()
     {
         base.Deactivate();
 
@@ -94,33 +90,10 @@ internal sealed class Frenzy : Ultimate
     }
 
     /// <inheritdoc />
-    public override void Countdown(double elapsed)
+    internal override void Countdown(double elapsed)
     {
         ChargeValue -= elapsed * 0.12 / 18.0;
-
-        var feared = ModEntry.PlayerState.FearedMonsters.ToArray();
-        foreach (var monster in feared)
-        {
-            monster.IncrementData("FearTimer", -elapsed);
-            if (monster.ReadDataAs<int>("FearTimer") > 0) continue;
-
-            monster.addedSpeed += monster.Speed;
-            monster.WriteData("FearTimer", null);
-            ModEntry.PlayerState.FearedMonsters.Remove(monster);
-        }
-
-        //_elapsedSinceDoT += elapsed;
-        //if (_elapsedSinceDoT < 2000) return;
-
-        //_elapsedSinceDoT = 0.0;
-        //var who = Game1.player;
-        //var fivePct = (int) (who.maxHealth * 0.05);
-        //who.health = Math.Max(who.health - fivePct, 1);
-        //who.currentLocation.debris.Add(new(fivePct,
-        //    new(who.getStandingX() + 8, who.getStandingY()), Color.Red, 1f, who));
-
-        //if (who.health <= fivePct) Deactivate();
     }
 
-    #endregion public methods
+    #endregion internal methods
 }

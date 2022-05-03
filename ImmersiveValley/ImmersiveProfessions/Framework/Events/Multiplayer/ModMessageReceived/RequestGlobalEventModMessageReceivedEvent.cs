@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -10,6 +11,7 @@ using GameLoop;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class RequestGlobalEventModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <inheritdoc />
@@ -36,7 +38,7 @@ internal class RequestGlobalEventModMessageReceivedEvent : ModMessageReceivedEve
                 EventManager.Enable(typeof(HostConservationismDayEndingEvent));
                 break;
             case "HuntIsOn":
-                Log.D($"{who.Name} is hunting for treasure.");
+                Log.D($"Prestiged treasure hunter {who.Name} is hunting for treasure.");
                 EventManager.Enable(typeof(HostPrestigeTreasureHuntUpdateTickedEvent));
                 break;
             case "HuntIsOff":

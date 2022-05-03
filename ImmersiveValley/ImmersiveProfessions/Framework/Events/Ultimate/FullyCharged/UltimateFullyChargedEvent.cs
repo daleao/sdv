@@ -1,16 +1,27 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events.Ultimate;
 
-/// <summary>The event raised when <see cref="Ultimate"/> charge value reaches max value.</summary>
-internal abstract class UltimateFullyChargedEvent : BaseEvent
+#region using directives
+
+using System;
+
+#endregion using directives
+
+internal class UltimateFullyChargedEvent : BaseEvent
 {
-    /// <summary>Raised when <see cref="Ultimate"/> charge value reaches max value.</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    public void OnUltimateFullyCharged(object sender, UltimateFullyChargedEventArgs e)
+    private readonly Action<object, IUltimateFullyChargedEventArgs> _OnFullyChargedImpl;
+
+    /// <summary>Construct an instance.</summary>
+    /// <param name="callback">The delegate to run when the event is raised.</param>
+    internal UltimateFullyChargedEvent(Action<object, IUltimateFullyChargedEventArgs> callback)
     {
-        if (enabled.Value) OnUltimateFullyChargedImpl(sender, e);
+        _OnFullyChargedImpl = callback;
     }
 
-    /// <inheritdoc cref="OnUltimateFullyCharged" />
-    protected abstract void OnUltimateFullyChargedImpl(object sender, UltimateFullyChargedEventArgs e);
+    /// <summary>Raised when the local player's ultimate charge value reaches max value.</summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    internal void OnFullyCharged(object sender, IUltimateFullyChargedEventArgs e)
+    {
+        if (enabled.Value) _OnFullyChargedImpl(sender, e);
+    }
 }

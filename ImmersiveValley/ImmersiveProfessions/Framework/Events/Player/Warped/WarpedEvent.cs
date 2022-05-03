@@ -12,7 +12,7 @@ internal abstract class WarpedEvent : BaseEvent
     /// <inheritdoc cref="IPlayerEvents.Warped"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnWarped(object sender, WarpedEventArgs e)
+    internal void OnWarped(object sender, WarpedEventArgs e)
     {
         if (enabled.Value) OnWarpedImpl(sender, e);
     }

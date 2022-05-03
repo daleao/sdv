@@ -1,16 +1,27 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events.Ultimate;
 
-/// <summary>The event raised when <see cref="Ultimate"/> charge value returns to zero.</summary>
-internal abstract class UltimateEmptiedEvent : BaseEvent
+#region using directives
+
+using System;
+
+#endregion using directives
+
+internal class UltimateEmptiedEvent : BaseEvent
 {
-    /// <summary>Raised when <see cref="Ultimate"/> charge value returns to zero.</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    public void OnUltimateEmptied(object sender, UltimateEmptiedEventArgs e)
+    private readonly Action<object, IUltimateEmptiedEventArgs> _OnEmptiedImpl;
+
+    /// <summary>Construct an instance.</summary>
+    /// <param name="callback">The delegate to run when the event is raised.</param>
+    internal UltimateEmptiedEvent(Action<object, IUltimateEmptiedEventArgs> callback)
     {
-        if (enabled.Value) OnUltimateEmptiedImpl(sender, e);
+        _OnEmptiedImpl = callback;
     }
 
-    /// <inheritdoc cref="OnUltimateEmptied" />
-    protected abstract void OnUltimateEmptiedImpl(object sender, UltimateEmptiedEventArgs e);
+    /// <summary>Raised when the local player's ultimate charge value returns to zero.</summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    internal void OnEmptied(object sender, IUltimateEmptiedEventArgs e)
+    {
+        if (enabled.Value) _OnEmptiedImpl(sender, e);
+    }
 }

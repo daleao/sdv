@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
@@ -10,6 +11,7 @@ using GameLoop;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
 {
     /// <inheritdoc />

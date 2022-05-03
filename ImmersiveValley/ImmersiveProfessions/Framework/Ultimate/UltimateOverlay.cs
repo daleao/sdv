@@ -21,7 +21,7 @@ internal class UltimateOverlay
 
     /// <summary>Construct an instance.</summary>
     /// <param name="index">The currently registered Super Mode profession's index.</param>
-    public UltimateOverlay(Color color)
+    internal UltimateOverlay(Color color)
     {
         _color = color;
         _opacity = 0f;
@@ -30,13 +30,13 @@ internal class UltimateOverlay
     /// <summary>Draw the overlay over the world.</summary>
     /// <param name="b">A <see cref="SpriteBatch" /> to draw to.</param>
     /// <remarks>This should be called from a <see cref="RenderedWorldEvent" />.</remarks>
-    public void Draw(SpriteBatch b)
+    internal void Draw(SpriteBatch b)
     {
         b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, _color * _opacity);
     }
 
     /// <summary>Gradually increase the overlay's opacity.</summary>
-    public void FadeIn()
+    internal void FadeIn()
     {
         if (_opacity < MAX_OPACITY_F) _opacity += 0.01f;
         if (_opacity >= MAX_OPACITY_F)
@@ -44,7 +44,7 @@ internal class UltimateOverlay
     }
 
     /// <summary>Gradually decrease the overlay's opacity.</summary>
-    public void FadeOut()
+    internal void FadeOut()
     {
         if (_opacity > 0) _opacity -= 0.01f;
         if (_opacity <= 0)

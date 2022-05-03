@@ -1,10 +1,20 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events.Ultimate;
 
-/// <summary>Event arguments when <see cref="Ultimate"/> charge value returns to zero.</summary>
-public class UltimateEmptiedEventArgs : UltimateEventArgs
+#region using directives
+
+using System;
+using StardewValley;
+
+#endregion using directives
+
+public class UltimateEmptiedEventArgs : EventArgs, IUltimateEmptiedEventArgs
 {
+    /// <inheritdoc />
+    public Farmer Player { get; }
+
     /// <summary>Construct an instance.</summary>
-    internal UltimateEmptiedEventArgs()
+    internal UltimateEmptiedEventArgs(Farmer player)
     {
+        Player = player;
     }
 }

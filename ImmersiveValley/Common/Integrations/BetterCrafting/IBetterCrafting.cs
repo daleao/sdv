@@ -37,6 +37,7 @@ public enum CurrencyType
 	QiGems
 };
 
+
 /// <summary>
 /// Used by Better Crafting to discover and
 /// interact with various item storages in the game.
@@ -219,6 +220,13 @@ public interface IInventory
 	/// </summary>
 	IList<Item?>? GetItems();
 
+    /// <summary>
+    /// Check to see if a specific item is allowed to be stored in the
+    /// object's inventory.
+    /// </summary>
+    /// <param name="item">The item to check.</param>
+    bool IsItemValid(Item item);
+
 	/// <summary>
 	/// Attempt to clean the object's inventory. This should remove null
 	/// entries, and run any other necessary logic.
@@ -318,8 +326,7 @@ public interface IIngredient
 /// </summary>
 public interface IPerformCraftEvent
 {
-
-	/// <summary>
+    /// <summary>
 	/// The player performing the craft.
 	/// </summary>
 	Farmer Player { get; }

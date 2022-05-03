@@ -56,22 +56,15 @@ internal class ScavengerHunt : TreasureHunt
     #region public methods
 
     /// <inheritdoc />
-    public override void Fail()
+    public override bool TryStart(GameLocation location)
     {
-        Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
-        Game1.player.WriteData(DataField.ScavengerHuntStreak, "0");
-        End(false);
-    }
-
-    /// <inheritdoc />
-    public override void TryStartNewHunt(GameLocation location)
-    {
-        if (!base.TryStartNewHunt()) return;
+        if (!TryStart()) return false;
 
         TreasureTile = ChooseTreasureTile(location);
-        if (TreasureTile is null) return;
+        if (TreasureTile is null) return false;
 
-        location.MakeTileDiggable(TreasureTile.Value);
+        huntLocation = location;
+        huntLocation.MakeTileDiggable(TreasureTile.Value);
         timeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
                             ModEntry.Config.ScavengerHuntHandicap);
         timeLimit = Math.Max(timeLimit, 30);
@@ -80,12 +73,63 @@ internal class ScavengerHunt : TreasureHunt
         EventManager.Enable(typeof(PointerUpdateTickedEvent), typeof(ScavengerHuntRenderedHudEvent),
             typeof(ScavengerHuntUpdateTickedEvent));
         Game1.addHUDMessage(new HuntNotification(huntStartedMessage, iconSourceRect));
-        if (!Context.IsMultiplayer || Context.IsMainPlayer ||
-            !Game1.player.HasProfession(Profession.Scavenger, true)) return;
+        if (Context.IsMultiplayer)
+        {
+            Framework.Utility.Multiplayer.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
+            
+            if (Game1.player.HasProfession(Profession.Scavenger, true))
+            {
+                if (!Context.IsMainPlayer)
+                    ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOn", "RequestEvent",
+                        new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+                else
+                    EventManager.Enable(typeof(HostPrestigeTreasureHuntUpdateTickedEvent));
+            }
+        }
         
-        Framework.Utility.Multiplayer.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
-        ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOn", "RequestEvent",
-            new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
+        OnStarted(Game1.player, TreasureTile.Value);
+        return true;
+    }
+
+    /// <inheritdoc />
+    public override void ForceStart(GameLocation location, Vector2 target)
+    {
+        ForceStart();
+
+        TreasureTile = target;
+        huntLocation = location;
+        huntLocation.MakeTileDiggable(TreasureTile.Value);
+        timeLimit = (uint) (location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
+                           ModEntry.Config.ScavengerHuntHandicap);
+        timeLimit = Math.Max(timeLimit, 30);
+
+        elapsed = 0;
+        EventManager.Enable(typeof(PointerUpdateTickedEvent), typeof(ScavengerHuntRenderedHudEvent),
+            typeof(ScavengerHuntUpdateTickedEvent));
+        Game1.addHUDMessage(new HuntNotification(huntStartedMessage, iconSourceRect));
+        if (Context.IsMultiplayer)
+        {
+            Framework.Utility.Multiplayer.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
+
+            if (Game1.player.HasProfession(Profession.Scavenger, true))
+            {
+                if (!Context.IsMainPlayer)
+                    ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOn", "RequestEvent",
+                        new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+                else
+                    EventManager.Enable(typeof(HostPrestigeTreasureHuntUpdateTickedEvent));
+            }
+        }
+
+        OnStarted(Game1.player, TreasureTile.Value);
+    }
+
+    /// <inheritdoc />
+    public override void Fail()
+    {
+        Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
+        Game1.player.WriteData(DataField.ScavengerHuntStreak, "0");
+        End(false);
     }
 
     #endregion public methods
@@ -132,18 +176,20 @@ internal class ScavengerHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    protected override void End(bool successful)
+    protected override void End(bool found)
     {
         EventManager.Disable(typeof(ScavengerHuntRenderedHudEvent), typeof(ScavengerHuntUpdateTickedEvent));
         TreasureTile = null;
         if (!Context.IsMultiplayer || Context.IsMainPlayer ||
             !Game1.player.HasProfession(Profession.Scavenger, true)) return;
 
-        Framework.Utility.Multiplayer.SendPublicChat(successful
+        Framework.Utility.Multiplayer.SendPublicChat(found
             ? $"{Game1.player.Name} has found the treasure!"
             : $"{Game1.player.Name} failed to find the treasure.");
         ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOff", "RequestEvent",
             new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
+        
+        OnEnded(Game1.player, found);
     }
 
     #endregion protected methods

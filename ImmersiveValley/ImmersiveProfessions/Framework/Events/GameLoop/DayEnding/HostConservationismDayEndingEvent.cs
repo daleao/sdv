@@ -5,6 +5,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
@@ -14,6 +15,7 @@ using Extensions;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class HostConservationismDayEndingEvent : DayEndingEvent
 {
     /// <inheritdoc />

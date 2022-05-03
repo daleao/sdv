@@ -40,6 +40,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomOreNodes\ICustomOreNodesAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\GenericModConfigMenuIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\ImmersiveProfessions\IImmersiveProfessions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\ImmersiveProfessions\IImmersiveProfessionsAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\TehsFishingOverhaul\ISimplifiedFishingAPI.cs" />
   </ItemGroup>

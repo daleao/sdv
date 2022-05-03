@@ -12,7 +12,7 @@ internal abstract class ModMessageReceivedEvent : BaseEvent
     /// <inheritdoc cref="IMultiplayerEvents.ModMessageReceived"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
+    internal void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
     {
         if (enabled.Value) OnModMessageReceivedImpl(sender, e);
     }

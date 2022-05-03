@@ -12,7 +12,7 @@ internal abstract class AssetRequestedEvent : BaseEvent
     /// <inheritdoc cref="IContentEvents.AssetRequested"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnAssetRequested(object sender, AssetRequestedEventArgs e)
+    internal void OnAssetRequested(object sender, AssetRequestedEventArgs e)
     {
         if (enabled.Value || GetType().Name.StartsWith("Static")) OnAssetRequestedImpl(sender, e);
     }

@@ -4,12 +4,14 @@
 
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class SpelunkerUpdateTickedEvent : UpdateTickedEvent
 {
     private const int SHEET_INDEX_I = 40;

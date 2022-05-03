@@ -17,7 +17,7 @@ using Framework.Sounds;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    private static readonly PerScreen<PlayerState> _playerState = new(() => new());
+    internal static PerScreen<PlayerState> PerScreenState { get; } = new(() => new());
 
     internal static ModEntry Instance { get; private set; }
     internal static IModHelper ModHelper => Instance.Helper;
@@ -33,8 +33,8 @@ public class ModEntry : Mod
     internal static HostState HostState { get; private set; }
     internal static PlayerState PlayerState
     {
-        get => _playerState.Value;
-        set => _playerState.Value = value;
+        get => PerScreenState.Value;
+        set => PerScreenState.Value = value;
     }
 
     internal static FrameRateCounter FpsCounter { get; private set; }
@@ -92,6 +92,6 @@ public class ModEntry : Mod
     /// <inheritdoc />
     public override object GetApi()
     {
-        return new ModApi();
+        return new ModAPI();
     }
 }

@@ -12,7 +12,7 @@ internal abstract class RenderedWorldEvent : BaseEvent
     /// <inheritdoc cref="IDisplayEvents.RenderedWorld"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
+    internal void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
     {
         if (enabled.Value || GetType().Name.StartsWith("Static")) OnRenderedWorldImpl(sender, e);
     }

@@ -2,10 +2,12 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class UltimateGaugeShakeUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />

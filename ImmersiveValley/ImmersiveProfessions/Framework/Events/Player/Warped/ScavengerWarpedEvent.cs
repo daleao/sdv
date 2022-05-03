@@ -2,13 +2,15 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using TreasureHunt;
+using Framework.TreasureHunt;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class ScavengerWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />
@@ -20,6 +22,6 @@ internal class ScavengerWarpedEvent : WarpedEvent
         if (ModEntry.PlayerState.ScavengerHunt.IsActive) ModEntry.PlayerState.ScavengerHunt.Fail();
         if (!Game1.eventUp && e.NewLocation.IsOutdoors &&
             (ModEntry.Config.AllowScavengerHuntsOnFarm || !e.NewLocation.IsFarm))
-            ModEntry.PlayerState.ScavengerHunt.TryStartNewHunt(e.NewLocation);
+            ModEntry.PlayerState.ScavengerHunt.TryStart(e.NewLocation);
     }
 }

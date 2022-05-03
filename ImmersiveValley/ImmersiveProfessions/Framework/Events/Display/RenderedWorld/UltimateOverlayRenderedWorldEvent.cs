@@ -2,10 +2,12 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class UltimateOverlayRenderedWorldEvent : RenderedWorldEvent
 {
     /// <inheritdoc />
@@ -13,7 +15,7 @@ internal class UltimateOverlayRenderedWorldEvent : RenderedWorldEvent
     {
         if (ModEntry.PlayerState.RegisteredUltimate is null)
         {
-            Disable();
+            this.Disable();
             return;
         }
 

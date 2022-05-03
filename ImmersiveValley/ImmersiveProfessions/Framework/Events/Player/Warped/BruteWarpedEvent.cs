@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
 using Extensions;
@@ -9,6 +10,7 @@ using GameLoop;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class BruteWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />

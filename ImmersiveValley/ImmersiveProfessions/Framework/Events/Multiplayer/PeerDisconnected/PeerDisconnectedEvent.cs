@@ -12,7 +12,7 @@ internal abstract class PeerDisconnectedEvent : BaseEvent
     /// <inheritdoc cref="IMultiplayerEvents.PeerDisconnected"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnPeerDisconnected(object sender, PeerDisconnectedEventArgs e)
+    internal void OnPeerDisconnected(object sender, PeerDisconnectedEventArgs e)
     {
         if (enabled.Value) OnPeerDisconnectedImpl(sender, e);
     }

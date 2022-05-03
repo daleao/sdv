@@ -12,7 +12,7 @@ internal abstract class DayStartedEvent : BaseEvent
     /// <summary>Raised after a new in-game day starts, or after connecting to a multiplayer world.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnDayStarted(object sender, DayStartedEventArgs e)
+    internal void OnDayStarted(object sender, DayStartedEventArgs e)
     {
         if (enabled.Value || GetType().Name.StartsWith("Static")) OnDayStartedImpl(sender, e);
     }

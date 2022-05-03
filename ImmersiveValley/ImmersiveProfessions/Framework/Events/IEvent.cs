@@ -1,13 +1,18 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events;
 
 /// <summary>Interface for an event wrapper allowing dynamic enabling / disabling.</summary>
-internal interface IEvent
+public interface IEvent
 {
-    public bool IsEnabled { get; }
+    /// <summary>Whether this event is enabled.</summary>
+    bool IsEnabled { get; }
+
+    /// <summary>Whether this event is enabled for a specific splitscreen player.</summary>
+    /// <param name="screenId">The player's screen id.</param>
+    bool IsEnabledForScreen(int screenId);
 
     /// <summary>Enable this event on the current screen.</summary>
-    public void Enable();
+    void Enable();
 
     /// <summary>Disable this event on the current screen.</summary>
-    public void Disable();
+    void Disable();
 }

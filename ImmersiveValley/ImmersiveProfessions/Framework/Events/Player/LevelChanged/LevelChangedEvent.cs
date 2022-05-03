@@ -12,7 +12,7 @@ internal abstract class LevelChangedEvent : BaseEvent
     /// <inheritdoc cref="IPlayerEvents.LevelChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnLevelChanged(object sender, LevelChangedEventArgs e)
+    internal void OnLevelChanged(object sender, LevelChangedEventArgs e)
     {
         if (enabled.Value) OnLevelChangedImpl(sender, e);
     }

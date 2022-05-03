@@ -19,7 +19,7 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
     /// <summary>Construct an instance.</summary>
     internal StaticSaveLoadedEvent()
     {
-        Enable();
+        this.Enable();
     }
 
     /// <inheritdoc />
@@ -68,10 +68,10 @@ internal class StaticSaveLoadedEvent : SaveLoadedEvent
                 ModEntry.PlayerState.RegisteredUltimate = superModeIndex switch
 #pragma warning restore CS8509
                 {
-                    UltimateIndex.Brute => new Frenzy(),
-                    UltimateIndex.Poacher => new Ambush(),
-                    UltimateIndex.Piper => new Pandemonia(),
-                    UltimateIndex.Desperado => new DeathBlossom()
+                    UltimateIndex.Frenzy => new Frenzy(),
+                    UltimateIndex.Ambush => new Ambush(),
+                    UltimateIndex.Pandemonia => new Pandemonia(),
+                    UltimateIndex.Blossom => new DeathBlossom()
                 };
         }
 

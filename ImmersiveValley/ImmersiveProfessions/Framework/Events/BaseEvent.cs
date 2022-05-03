@@ -11,7 +11,14 @@ internal abstract class BaseEvent : IEvent
 {
     protected readonly PerScreen<bool> enabled = new();
 
+    /// <inheritdoc />
     public bool IsEnabled => enabled.Value;
+
+    /// <inheritdoc />
+    public bool IsEnabledForScreen(int screenId)
+    {
+        return enabled.GetValueForScreen(screenId);
+    }
 
     /// <inheritdoc />
     public void Enable()
@@ -23,12 +30,5 @@ internal abstract class BaseEvent : IEvent
     public void Disable()
     {
         enabled.Value = false;
-    }
-
-    /// <summary>Whether this event is enabled for a specific splitscreen player.</summary>
-    /// <param name="screenId">The player's screen id.</param>
-    public bool IsEnabledForScreen(int screenId)
-    {
-        return enabled.GetValueForScreen(screenId);
     }
 }

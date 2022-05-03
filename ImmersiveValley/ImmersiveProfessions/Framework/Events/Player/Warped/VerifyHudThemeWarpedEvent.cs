@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewModdingAPI.Events;
@@ -11,6 +12,7 @@ using Utility;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class VerifyHudThemeWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />

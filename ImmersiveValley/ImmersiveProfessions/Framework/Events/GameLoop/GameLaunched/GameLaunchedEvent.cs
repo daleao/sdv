@@ -12,7 +12,7 @@ internal abstract class GameLaunchedEvent : BaseEvent
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnGameLaunched(object sender, GameLaunchedEventArgs e)
+    internal void OnGameLaunched(object sender, GameLaunchedEventArgs e)
     {
         if (enabled.Value || GetType().Name.StartsWith("Static")) OnGameLaunchedImpl(sender, e);
     }

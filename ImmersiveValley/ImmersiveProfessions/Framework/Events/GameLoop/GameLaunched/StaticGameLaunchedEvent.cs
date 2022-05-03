@@ -15,7 +15,7 @@ internal class StaticGameLaunchedEvent : GameLaunchedEvent
     /// <summary>Construct an instance.</summary>
     internal StaticGameLaunchedEvent()
     {
-        Enable();
+        this.Enable();
     }
 
     /// <inheritdoc />

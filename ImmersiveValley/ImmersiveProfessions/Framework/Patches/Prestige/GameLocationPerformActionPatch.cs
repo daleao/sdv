@@ -10,6 +10,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Enums;
 using StardewValley;
 
+using Events;
 using Events.GameLoop;
 using Extensions;
 

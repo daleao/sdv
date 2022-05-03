@@ -106,6 +106,17 @@ public static class FarmerExtensions
             : farmer.professions.Count(p => p >= 0 && p / 6 == which);
     }
 
+    /// <summary>Get the professions which the player is missing in the specified skill.</summary>
+    /// <param name="which">The skill index.</param>
+    /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
+    public static int[] GetMissingProfessionsInSkill(this Farmer farmer, int which,
+        bool excludeTierOneProfessions = false)
+    {
+        return excludeTierOneProfessions
+            ? farmer.professions.Where(p => p >= 0 && p / 6 == which && p % 6 > 1).ToArray()
+            : farmer.professions.Where(p => p >= 0 && p / 6 == which).ToArray();
+    }
+
     /// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
     /// <param name="skillType">A skill index (0 to 4).</param>
     public static bool CanResetSkill(this Farmer farmer, SkillType skillType)

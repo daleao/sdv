@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -15,6 +16,7 @@ using GameLoop;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class PiperWarpedEvent : WarpedEvent
 {
     private readonly Func<int, double> _pipeChance = x => 19f / (x + 18f);

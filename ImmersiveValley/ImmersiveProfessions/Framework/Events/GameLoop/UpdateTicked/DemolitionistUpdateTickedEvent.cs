@@ -4,11 +4,13 @@
 
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class DemolitionistUpdateTickedEvent : UpdateTickedEvent
 {
     private const int SHEET_INDEX_I = 41;
@@ -24,7 +26,7 @@ internal class DemolitionistUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.PlayerState.DemolitionistExcitedness <= 0) Disable();
+        if (ModEntry.PlayerState.DemolitionistExcitedness <= 0) this.Disable();
 
         if (e.Ticks % 30 == 0)
         {

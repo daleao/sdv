@@ -1,16 +1,27 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events.Ultimate;
 
-/// <summary>The event raised when <see cref="Ultimate"/> charge value increases while it was previously empty.</summary>
-internal abstract class UltimateChargeInitiatedEvent : BaseEvent
+#region using directives
+
+using System;
+
+#endregion using directives
+
+internal class UltimateChargeInitiatedEvent : BaseEvent
 {
-    /// <summary>Raised when <see cref="Ultimate"/> charge value increases while it was previously empty.</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    public void OnUltimateChargeInitiated(object sender, UltimateChargeInitiatedEventArgs e)
+    protected readonly Action<object, IUltimateChargeInitiatedEventArgs> _OnChargeInitiatedImpl;
+
+    /// <summary>Construct an instance.</summary>
+    /// <param name="callback">The delegate to run when the event is raised.</param>
+    internal UltimateChargeInitiatedEvent(Action<object, IUltimateChargeInitiatedEventArgs> callback)
     {
-        if (enabled.Value) OnUltimateChargeInitiatedImpl(sender, e);
+        _OnChargeInitiatedImpl = callback;
     }
 
-    /// <inheritdoc cref="OnUltimateChargeInitiated" />
-    protected abstract void OnUltimateChargeInitiatedImpl(object sender, UltimateChargeInitiatedEventArgs e);
+    /// <summary>Raised when a player's combat Ultimate gains any charge while it was previously empty.</summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    internal void OnChargeInitiated(object sender, IUltimateChargeInitiatedEventArgs e)
+    {
+        if (enabled.Value) _OnChargeInitiatedImpl(sender, e);
+    }
 }

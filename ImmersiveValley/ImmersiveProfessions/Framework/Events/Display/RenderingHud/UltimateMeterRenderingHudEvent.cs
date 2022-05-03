@@ -2,11 +2,13 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class UltimateMeterRenderingHudEvent : RenderingHudEvent
 {
     /// <inheritdoc />
@@ -14,7 +16,7 @@ internal class UltimateMeterRenderingHudEvent : RenderingHudEvent
     {
         if (ModEntry.PlayerState.RegisteredUltimate is null)
         {
-            Disable();
+            this.Disable();
             return;
         }
 

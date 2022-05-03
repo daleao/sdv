@@ -22,25 +22,35 @@ internal sealed class Pandemonia : Ultimate
 
     /// <summary>Construct an instance.</summary>
     internal Pandemonia()
+    : base(Color.LimeGreen, Color.DarkGreen)
     {
-        Meter = new(this, Color.LimeGreen);
-        Overlay = new(Color.DarkGreen);
-        
-        EventManager.Enable(typeof(PandemoniaUltimateEmptiedEvent));
     }
 
     #region public properties
 
-    public override SFX ActivationSfx => SFX.PiperFluidity;
-    public override Color GlowColor => Color.LimeGreen;
-    public override UltimateIndex Index => UltimateIndex.Piper;
+    /// <inheritdoc />
+    public override UltimateIndex Index => UltimateIndex.Pandemonia;
+
+    /// <inheritdoc />
+    public override bool CanActivate => !IsEmpty && Game1.player.currentLocation.characters.OfType<Monster>()
+        .Any(m => m.IsSlime() && m.IsWithinPlayerThreshold());
 
     #endregion public properties
 
-    #region public methods
+    #region internal properties
 
     /// <inheritdoc />
-    public override void Activate()
+    internal override SFX ActivationSfx => SFX.PiperFluidity;
+
+    /// <inheritdoc />
+    internal override Color GlowColor => Color.LimeGreen;
+
+    #endregion internal properties
+
+    #region internal methods
+
+    /// <inheritdoc />
+    internal override void Activate()
     {
         if (ChargeValue < _InflationCost)
         {
@@ -91,12 +101,12 @@ internal sealed class Pandemonia : Ultimate
     }
 
     /// <inheritdoc />
-    public override void Deactivate()
+    internal override void Deactivate()
     {
     }
 
     /// <inheritdoc />
-    public override void Countdown(double elapsed)
+    internal override void Countdown(double elapsed)
     {
         var piped = ModEntry.PlayerState.PipedSlimes;
         if (!piped.Any())
@@ -108,16 +118,5 @@ internal sealed class Pandemonia : Ultimate
         foreach (var slime in piped) slime.Countdown(elapsed);
     }
 
-    #endregion public methods
-
-    #region protected methods
-
-    /// <inheritdoc />
-    protected override bool CanActivate()
-    {
-        return !IsEmpty && Game1.player.currentLocation.characters.OfType<Monster>()
-            .Any(m => m.IsSlime() && m.IsWithinPlayerThreshold());
-    }
-
-    #endregion protected methods
+    #endregion internal methods
 }

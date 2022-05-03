@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 using HarmonyLib;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -21,8 +22,8 @@ using Events.Input;
 using Events.Multiplayer;
 using Events.Player;
 using Extensions;
-
 using Framework.Events.Ultimate;
+using Framework.Events.TreasureHunt;
 
 #endregion using directives
 
@@ -41,7 +42,7 @@ internal static class EventManager
         {Profession.Spelunker, new() {typeof(SpelunkerWarpedEvent)}}
     };
 
-    private static readonly List<IEvent> _events = new();
+    private static readonly List<IEvent> _ManagedEvents = new();
 
     /// <summary>Construct an instance.</summary>
     internal static void Init(IModEvents modEvents)
@@ -51,7 +52,8 @@ internal static class EventManager
         // instantiate event classes
         var events = AccessTools
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IEvent)))
-            .Where(t => t.IsAssignableTo(typeof(IEvent)) && !t.IsAbstract)
+            .Where(t => t.IsAssignableTo(typeof(IEvent)) && !t.IsAbstract &&
+                        t.GetConstructors(BindingFlags.Instance|BindingFlags.NonPublic).All(c => c.GetParameters().Length == 0))
             .ToList();
 
 #if RELEASE
@@ -59,37 +61,40 @@ internal static class EventManager
 #endif
 
         Log.D($"[EventManager]: Found {events.Count} event classes. Initializing events...");
-        foreach (var e in events.Select(t => (IEvent)t.RequireConstructor().Invoke(Array.Empty<object>())))
-            _events.Add(e);
+        foreach (var e in events.Select(t => (IEvent) t.RequireConstructor().Invoke(Array.Empty<object>())))
+            _ManagedEvents.Add(e);
 
         Log.D("[EventManager]: Done. Hooking event runners...");
         
-        // hook event runners
-        Ultimate.Ultimate.Activated += RunUltimateActivatedEvents;
-        Ultimate.Ultimate.Deactivated += RunUltimateDectivatedEvents;
-        Ultimate.Ultimate.ChargeInitiated += RunUltimateChargeInitiatedEvents;
-        Ultimate.Ultimate.ChargeGained += RunUltimateChargeGainedEvents;
-        Ultimate.Ultimate.Emptied += RunUltimateEmptiedEvents;
+        // hook event raisers
+        Ultimate.Ultimate.Activated += RaiseUltimateActivatedEvents;
+        Ultimate.Ultimate.Deactivated += RaiseUltimateDectivatedEvents;
+        Ultimate.Ultimate.ChargeInitiated += RaiseUltimateChargeInitiatedEvents;
+        Ultimate.Ultimate.ChargeIncreased += RaiseUltimateChargeIncreasedEvents;
+        Ultimate.Ultimate.Emptied += RaiseUltimateEmptiedEvents;
 
-        modEvents.Content.AssetRequested += RunAssetRequestedEvents;
-        modEvents.Display.RenderedActiveMenu += RunRenderedActiveMenuEvents;
-        modEvents.Display.RenderedHud += RunRenderedHudEvents;
-        modEvents.Display.RenderedWorld += RunRenderedWorldEvents;
-        modEvents.Display.RenderingHud += RunRenderingHudEvents;
-        modEvents.GameLoop.DayEnding += RunDayEndingEvents;
-        modEvents.GameLoop.DayStarted += RunDayStartedEvents;
-        modEvents.GameLoop.GameLaunched += RunGameLaunchedEvents;
-        modEvents.GameLoop.ReturnedToTitle += RunReturnedToTitleEvents;
-        modEvents.GameLoop.SaveLoaded += RunSaveLoadedEvents;
-        modEvents.GameLoop.Saving += RunSavingEvents;
-        modEvents.GameLoop.UpdateTicked += RunUpdateTickedEvents;
-        modEvents.Input.ButtonsChanged += RunButtonsChangedEvents;
-        modEvents.Input.CursorMoved += RunCursorMovedEvents;
-        modEvents.Multiplayer.ModMessageReceived += RunModMessageReceivedEvents;
-        modEvents.Multiplayer.PeerConnected += RunPeerConnectedEvents;
-        modEvents.Multiplayer.PeerDisconnected += RunPeerDisconnectedEvents;
-        modEvents.Player.LevelChanged += RunLevelChangedEvents;
-        modEvents.Player.Warped += RunWarpedEvents;
+        TreasureHunt.TreasureHunt.Started += RaiseTreasureHuntStartedEvents;
+        TreasureHunt.TreasureHunt.Ended += RaiseTreasureHuntEndedEvents;
+
+        modEvents.Content.AssetRequested += RaiseAssetRequestedEvents;
+        modEvents.Display.RenderedActiveMenu += RaiseRenderedActiveMenuEvents;
+        modEvents.Display.RenderedHud += RaiseRenderedHudEvents;
+        modEvents.Display.RenderedWorld += RaiseRenderedWorldEvents;
+        modEvents.Display.RenderingHud += RaiseRenderingHudEvents;
+        modEvents.GameLoop.DayEnding += RaiseDayEndingEvents;
+        modEvents.GameLoop.DayStarted += RaiseDayStartedEvents;
+        modEvents.GameLoop.GameLaunched += RaiseGameLaunchedEvents;
+        modEvents.GameLoop.ReturnedToTitle += RaiseReturnedToTitleEvents;
+        modEvents.GameLoop.SaveLoaded += RaiseSaveLoadedEvents;
+        modEvents.GameLoop.Saving += RaiseSavingEvents;
+        modEvents.GameLoop.UpdateTicked += RaiseUpdateTickedEvents;
+        modEvents.Input.ButtonsChanged += RaiseButtonsChangedEvents;
+        modEvents.Input.CursorMoved += RaiseCursorMovedEvents;
+        modEvents.Multiplayer.ModMessageReceived += RaiseModMessageReceivedEvents;
+        modEvents.Multiplayer.PeerConnected += RaisePeerConnectedEvents;
+        modEvents.Multiplayer.PeerDisconnected += RaisePeerDisconnectedEvents;
+        modEvents.Player.LevelChanged += RaiseLevelChangedEvents;
+        modEvents.Player.Warped += RaiseWarpedEvents;
 
         Log.D("[EventManager]: Event initialization complete.");
 
@@ -98,7 +103,7 @@ internal static class EventManager
 #endif
     }
 
-    internal static IList<IEvent> Events => _events.AsReadOnly();
+    internal static IList<IEvent> Events => _ManagedEvents.AsReadOnly();
 
     /// <summary>Enable the specified <see cref="IEvent" /> types.</summary>
     /// <param name="eventTypes">A collection of <see cref="IEvent" /> types.</param>
@@ -112,7 +117,7 @@ internal static class EventManager
                 continue;
             }
 
-            var e = _events.FirstOrDefault(e => e.GetType() == type);
+            var e = _ManagedEvents.FirstOrDefault(e => e.GetType() == type);
             if (e is null)
             {
                 Log.W($"[EventManager]: The type {type.Name} was not found.");
@@ -136,7 +141,7 @@ internal static class EventManager
                 continue;
             }
 
-            var e = _events.FirstOrDefault(e => e.GetType() == type);
+            var e = _ManagedEvents.FirstOrDefault(e => e.GetType() == type);
             if (e is null)
             {
                 Log.W($"[EventManager]: The type {type.Name} was not found.");
@@ -180,7 +185,7 @@ internal static class EventManager
     internal static void DisableAllForLocalPlayer()
     {
         Log.D("[EventManager]:  local player events...");
-        var eventsToRemove = _events
+        var eventsToRemove = _ManagedEvents
             .Where(e => !e.GetType().Name.SplitCamelCase().First().IsAnyOf("Static", "Debug"))
             .Select(e => e.GetType())
             .ToArray();
@@ -223,7 +228,7 @@ internal static class EventManager
     internal static void EnableAllStartingWith(string prefix, params Type[] except)
     {
         Log.D($"[EventManager]: Searching for '{prefix}' events to be enabled...");
-        var toBeEnabled = _events
+        var toBeEnabled = _ManagedEvents
             .Select(e => e.GetType())
             .Where(t => t.Name.StartsWith(prefix))
             .Except(except)
@@ -239,7 +244,7 @@ internal static class EventManager
     internal static void DisableAllStartingWith(string prefix, params Type[] except)
     {
         Log.D($"[EventManager]: Searching for '{prefix}' events to be disabled...");
-        var toBeDisabled = _events
+        var toBeDisabled = _ManagedEvents
             .Select(e => e.GetType())
             .Where(t => t.Name.StartsWith(prefix))
             .Except(except)
@@ -253,7 +258,7 @@ internal static class EventManager
     /// <typeparam name="T">A type implementing <see cref="IEvent"/>.</typeparam>
     internal static T Get<T>() where T : IEvent
     {
-        return _events.OfType<T>().FirstOrDefault();
+        return _ManagedEvents.OfType<T>().FirstOrDefault();
     }
 
     /// <summary>Try to get an event instance of the specified event type.</summary>
@@ -276,165 +281,185 @@ internal static class EventManager
     /// <summary>Enumerate all currently enabled events.</summary>
     internal static IEnumerable<IEvent> GetAllEnabled()
     {
-        return _events.Cast<BaseEvent>().Where(e => e.IsEnabled);
+        return _ManagedEvents.Where(e => e.IsEnabled);
     }
 
     /// <summary>Enumerate all currently enabled events.</summary>
     internal static IEnumerable<IEvent> GetAllEnabledForScreen(int screenId)
     {
-        return _events.Cast<BaseEvent>().Where(e => e.IsEnabledForScreen(screenId));
+        return _ManagedEvents.Where(e => e.IsEnabledForScreen(screenId));
+    }
+
+    /// <summary>Add a new <see cref="IEvent"/> instance to the list of managed events.</summary>
+    /// <param name="event">An <see cref="IEvent"/> instance.</param>
+    internal static void Manage(IEvent @event)
+    {
+        _ManagedEvents.Add(@event);
     }
 
     #region event runners
 
+    // treasure hunt events
+    private static void RaiseTreasureHuntStartedEvents(object sender, ITreasureHuntStartedEventArgs e)
+    {
+        foreach (var @event in _ManagedEvents.OfType<TreasureHuntStartedEvent>())
+            @event.OnStarted(sender, e);
+    }
+
+    private static void RaiseTreasureHuntEndedEvents(object sender, ITreasureHuntEndedEventArgs e)
+    {
+        foreach (var @event in _ManagedEvents.OfType<TreasureHuntEndedEvent>())
+            @event.OnEnded(sender, e);
+    }
+
     // ultimate events
-    private static void RunUltimateActivatedEvents(object sender, UltimateActivatedEventArgs e)
+    private static void RaiseUltimateActivatedEvents(object sender, IUltimateActivatedEventArgs e)
     {
-        foreach (var @event in _events.OfType<UltimateActivatedEvent>())
-            @event.OnUltimateActivated(sender, e);
+        foreach (var @event in _ManagedEvents.OfType<UltimateActivatedEvent>())
+            @event.OnActivated(sender, e);
     }
 
-    private static void RunUltimateDectivatedEvents(object sender, UltimateDeactivatedEventArgs e)
+    private static void RaiseUltimateDectivatedEvents(object sender, IUltimateDeactivatedEventArgs e)
     {
-        foreach (var @event in _events.OfType<UltimateDeactivatedEvent>())
-            @event.OnUltimateDeactivated(sender, e);
+        foreach (var @event in _ManagedEvents.OfType<UltimateDeactivatedEvent>())
+            @event.OnDeactivated(sender, e);
     }
 
-    private static void RunUltimateChargeInitiatedEvents(object sender, UltimateChargeInitiatedEventArgs e)
+    private static void RaiseUltimateChargeInitiatedEvents(object sender, IUltimateChargeInitiatedEventArgs e)
     {
-        foreach (var @event in _events.OfType<UltimateChargeInitiatedEvent>())
-            @event.OnUltimateChargeInitiated(sender, e);
+        foreach (var @event in _ManagedEvents.OfType<UltimateChargeInitiatedEvent>())
+            @event.OnChargeInitiated(sender, e);
     }
 
-    private static void RunUltimateChargeGainedEvents(object sender, UltimateChargeGainedEventArgs e)
+    private static void RaiseUltimateChargeIncreasedEvents(object sender, IUltimateChargeIncreasedEventArgs e)
     {
-        foreach (var @event in _events.OfType<UltimateChargeGainedEvent>())
-            @event.OnUltimateChargeGained(sender, e);
+        foreach (var @event in _ManagedEvents.OfType<UltimateChargeIncreasedEvent>())
+            @event.OnChargeIncreased(sender, e);
     }
 
-    private static void RunUltimateEmptiedEvents(object sender, UltimateEmptiedEventArgs e)
+    private static void RaiseUltimateEmptiedEvents(object sender, IUltimateEmptiedEventArgs e)
     {
-        foreach (var @event in _events.OfType<UltimateEmptiedEvent>())
-            @event.OnUltimateEmptied(sender, e);
+        foreach (var @event in _ManagedEvents.OfType<UltimateEmptiedEvent>())
+            @event.OnEmptied(sender, e);
     }
 
     // content events
-    private static void RunAssetRequestedEvents(object sender, AssetRequestedEventArgs e)
+    private static void RaiseAssetRequestedEvents(object sender, AssetRequestedEventArgs e)
     {
-        foreach (var @event in _events.OfType<AssetRequestedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<AssetRequestedEvent>())
             @event.OnAssetRequested(sender, e);
     }
 
     // display events
-    private static void RunRenderedActiveMenuEvents(object sender, RenderedActiveMenuEventArgs e)
+    private static void RaiseRenderedActiveMenuEvents(object sender, RenderedActiveMenuEventArgs e)
     {
-        foreach (var @event in _events.OfType<RenderedActiveMenuEvent>())
+        foreach (var @event in _ManagedEvents.OfType<RenderedActiveMenuEvent>())
             @event.OnRenderedActiveMenu(sender, e);
     }
 
-    private static void RunRenderedHudEvents(object sender, RenderedHudEventArgs e)
+    private static void RaiseRenderedHudEvents(object sender, RenderedHudEventArgs e)
     {
-        foreach (var @event in _events.OfType<RenderedHudEvent>())
+        foreach (var @event in _ManagedEvents.OfType<RenderedHudEvent>())
             @event.OnRenderedHud(sender, e);
     }
 
-    private static void RunRenderedWorldEvents(object sender, RenderedWorldEventArgs e)
+    private static void RaiseRenderedWorldEvents(object sender, RenderedWorldEventArgs e)
     {
-        foreach (var @event in _events.OfType<RenderedWorldEvent>())
+        foreach (var @event in _ManagedEvents.OfType<RenderedWorldEvent>())
             @event.OnRenderedWorld(sender, e);
     }
 
-    private static void RunRenderingHudEvents(object sender, RenderingHudEventArgs e)
+    private static void RaiseRenderingHudEvents(object sender, RenderingHudEventArgs e)
     {
-        foreach (var @event in _events.OfType<RenderingHudEvent>())
+        foreach (var @event in _ManagedEvents.OfType<RenderingHudEvent>())
             @event.OnRenderingHud(sender, e);
     }
 
     // game loop events
-    private static void RunDayEndingEvents(object sender, DayEndingEventArgs e)
+    private static void RaiseDayEndingEvents(object sender, DayEndingEventArgs e)
     {
-        foreach (var @event in _events.OfType<DayEndingEvent>())
+        foreach (var @event in _ManagedEvents.OfType<DayEndingEvent>())
             @event.OnDayEnding(sender, e);
     }
 
-    private static void RunDayStartedEvents(object sender, DayStartedEventArgs e)
+    private static void RaiseDayStartedEvents(object sender, DayStartedEventArgs e)
     {
-        foreach (var @event in _events.OfType<DayStartedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<DayStartedEvent>())
             @event.OnDayStarted(sender, e);
     }
 
-    private static void RunGameLaunchedEvents(object sender, GameLaunchedEventArgs e)
+    private static void RaiseGameLaunchedEvents(object sender, GameLaunchedEventArgs e)
     {
-        foreach (var @event in _events.OfType<GameLaunchedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<GameLaunchedEvent>())
             @event.OnGameLaunched(sender, e);
     }
 
-    private static void RunReturnedToTitleEvents(object sender, ReturnedToTitleEventArgs e)
+    private static void RaiseReturnedToTitleEvents(object sender, ReturnedToTitleEventArgs e)
     {
-        foreach (var @event in _events.OfType<ReturnedToTitleEvent>())
+        foreach (var @event in _ManagedEvents.OfType<ReturnedToTitleEvent>())
             @event.OnReturnedToTitle(sender, e);
     }
 
-    private static void RunSaveLoadedEvents(object sender, SaveLoadedEventArgs e)
+    private static void RaiseSaveLoadedEvents(object sender, SaveLoadedEventArgs e)
     {
-        foreach (var @event in _events.OfType<SaveLoadedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<SaveLoadedEvent>())
             @event.OnSaveLoaded(sender, e);
     }
 
-    private static void RunSavingEvents(object sender, SavingEventArgs e)
+    private static void RaiseSavingEvents(object sender, SavingEventArgs e)
     {
-        foreach (var @event in _events.OfType<SavingEvent>())
+        foreach (var @event in _ManagedEvents.OfType<SavingEvent>())
             @event.OnSaving(sender, e);
     }
 
-    private static void RunUpdateTickedEvents(object sender, UpdateTickedEventArgs e)
+    private static void RaiseUpdateTickedEvents(object sender, UpdateTickedEventArgs e)
     {
-        foreach (var @event in _events.OfType<UpdateTickedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<UpdateTickedEvent>())
             @event.OnUpdateTicked(sender, e);
     }
 
     // input events
-    private static void RunButtonsChangedEvents(object sender, ButtonsChangedEventArgs e)
+    private static void RaiseButtonsChangedEvents(object sender, ButtonsChangedEventArgs e)
     {
-        foreach (var @event in _events.OfType<ButtonsChangedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<ButtonsChangedEvent>())
             @event.OnButtonsChanged(sender, e);
     }
 
-    private static void RunCursorMovedEvents(object sender, CursorMovedEventArgs e)
+    private static void RaiseCursorMovedEvents(object sender, CursorMovedEventArgs e)
     {
-        foreach (var @event in _events.OfType<CursorMovedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<CursorMovedEvent>())
             @event.OnCursorMoved(sender, e);
     }
 
     // multiplayer events
-    private static void RunModMessageReceivedEvents(object sender, ModMessageReceivedEventArgs e)
+    private static void RaiseModMessageReceivedEvents(object sender, ModMessageReceivedEventArgs e)
     {
-        foreach (var @event in _events.OfType<ModMessageReceivedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<ModMessageReceivedEvent>())
             @event.OnModMessageReceived(sender, e);
     }
 
-    private static void RunPeerConnectedEvents(object sender, PeerConnectedEventArgs e)
+    private static void RaisePeerConnectedEvents(object sender, PeerConnectedEventArgs e)
     {
-        foreach (var @event in _events.OfType<PeerConnectedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<PeerConnectedEvent>())
             @event.OnPeerConnected(sender, e);
     }
 
-    private static void RunPeerDisconnectedEvents(object sender, PeerDisconnectedEventArgs e)
+    private static void RaisePeerDisconnectedEvents(object sender, PeerDisconnectedEventArgs e)
     {
-        foreach (var @event in _events.OfType<PeerDisconnectedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<PeerDisconnectedEvent>())
             @event.OnPeerDisconnected(sender, e);
     }
 
     // player events
-    private static void RunLevelChangedEvents(object sender, LevelChangedEventArgs e)
+    private static void RaiseLevelChangedEvents(object sender, LevelChangedEventArgs e)
     {
-        foreach (var @event in _events.OfType<LevelChangedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<LevelChangedEvent>())
             @event.OnLevelChanged(sender, e);
     }
 
-    private static void RunWarpedEvents(object sender, WarpedEventArgs e)
+    private static void RaiseWarpedEvents(object sender, WarpedEventArgs e)
     {
-        foreach (var @event in _events.OfType<WarpedEvent>())
+        foreach (var @event in _ManagedEvents.OfType<WarpedEvent>())
             @event.OnWarped(sender, e);
     }
 

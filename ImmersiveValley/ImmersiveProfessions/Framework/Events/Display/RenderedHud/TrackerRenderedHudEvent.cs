@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -12,6 +13,7 @@ using Extensions;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class TrackerRenderedHudEvent : RenderedHudEvent
 {
     /// <inheritdoc />

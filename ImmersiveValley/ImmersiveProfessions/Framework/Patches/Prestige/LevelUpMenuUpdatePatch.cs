@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+﻿using System.Linq;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 #region using directives
 
@@ -283,7 +285,19 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
     private static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
     {
-        return currentLevel == 10 && Game1.player.HasAllProfessionsInSkill(chosenProfession / 6);
+        if (currentLevel != 10) return false;
+        
+        var skill = chosenProfession / 6;
+        var hasAllProfessions = Game1.player.HasAllProfessionsInSkill(skill);
+        Log.D($"Farmer {Game1.player.Name} " + (hasAllProfessions
+            ? $" has all professions in {skill.GetCorrespondingSkill()}."
+            : $" does not have all professions in {skill.GetCorrespondingSkill()}."));
+        if (hasAllProfessions) return true;
+
+        var missingProfessions = Game1.player.GetMissingProfessionsInSkill(skill);
+        var missingProfessionNames = string.Join(',', missingProfessions.Select(i => i.ToProfessionName()));
+        Log.D($"Missing professions: {missingProfessionNames}");
+        return false;
     }
 
     private static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
@@ -315,10 +329,10 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                         ModEntry.PlayerState.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
                         {
-                            UltimateIndex.Brute => new Frenzy(),
-                            UltimateIndex.Poacher => new Ambush(),
-                            UltimateIndex.Piper => new Pandemonia(),
-                            UltimateIndex.Desperado => new DeathBlossom()
+                            UltimateIndex.Frenzy => new Frenzy(),
+                            UltimateIndex.Ambush => new Ambush(),
+                            UltimateIndex.Pandemonia => new Pandemonia(),
+                            UltimateIndex.Blossom => new DeathBlossom()
                         };
                     Game1.player.WriteData(DataField.UltimateIndex, newIndex.ToString());
                 }

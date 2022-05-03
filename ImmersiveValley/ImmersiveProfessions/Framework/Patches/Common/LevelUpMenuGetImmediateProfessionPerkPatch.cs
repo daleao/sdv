@@ -82,10 +82,10 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
             ModEntry.PlayerState.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
             {
-                UltimateIndex.Brute => new Frenzy(),
-                UltimateIndex.Poacher => new Ambush(),
-                UltimateIndex.Piper => new Pandemonia(),
-                UltimateIndex.Desperado => new DeathBlossom()
+                UltimateIndex.Frenzy => new Frenzy(),
+                UltimateIndex.Ambush => new Ambush(),
+                UltimateIndex.Pandemonia => new Pandemonia(),
+                UltimateIndex.Blossom => new DeathBlossom()
             };
         Game1.player.WriteData(DataField.UltimateIndex, newIndex.ToString());
     }

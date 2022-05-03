@@ -3,12 +3,14 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
 using Extensions;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
@@ -19,6 +21,6 @@ internal class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
         foreach (var piped in undeflated)
             piped.Deflate();
 
-        if (!ModEntry.PlayerState.PipedSlimes.Any()) Disable();
+        if (!ModEntry.PlayerState.PipedSlimes.Any()) this.Disable();
     }
 }

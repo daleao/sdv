@@ -16,7 +16,7 @@ public static class Textures
     #region textures
 
     public static Texture2D Spritesheet =
-        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/tilesheet.png");
+        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/spritesheet.png");
 
     public static Texture2D UltimateMeterTx { get; set; } =
         ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter");

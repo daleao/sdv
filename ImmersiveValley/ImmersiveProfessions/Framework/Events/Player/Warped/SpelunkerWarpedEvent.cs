@@ -3,6 +3,7 @@
 #region using directives
 
 using System;
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
 
@@ -11,6 +12,7 @@ using Extensions;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class SpelunkerWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />

@@ -12,7 +12,7 @@ internal abstract class DayEndingEvent : BaseEvent
     /// <inheritdoc cref="IGameLoopEvents.DayEnding"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnDayEnding(object sender, DayEndingEventArgs e)
+    internal void OnDayEnding(object sender, DayEndingEventArgs e)
     {
         if (enabled.Value || GetType().Name.StartsWith("Static")) OnDayEndingImpl(sender, e);
     }

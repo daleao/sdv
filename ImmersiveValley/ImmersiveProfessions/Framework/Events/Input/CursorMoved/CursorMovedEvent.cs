@@ -12,7 +12,7 @@ internal abstract class CursorMovedEvent : BaseEvent
     /// <inheritdoc cref="IInputEvents.CursorMoved"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnCursorMoved(object sender, CursorMovedEventArgs e)
+    internal void OnCursorMoved(object sender, CursorMovedEventArgs e)
     {
         if (enabled.Value) OnCursorMovedImpl(sender, e);
     }

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -10,6 +11,7 @@ using Content;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
 {
     /// <inheritdoc />
@@ -24,6 +26,6 @@ internal class AchievementUnlockedDayStartedEvent : DayStartedEvent
         Game1.playSound("achievement");
         Game1.addHUDMessage(new(name, true));
 
-        Disable();
+        this.Disable();
     }
 }

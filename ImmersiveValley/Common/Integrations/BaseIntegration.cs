@@ -83,6 +83,7 @@ public abstract class BaseIntegration : IModIntegration
     }
 }
 
+
 /// <summary>The base implementation for a mod integration.</summary>
 /// <typeparam name="TApi">The API type.</typeparam>
 public abstract class BaseIntegration<TApi> : BaseIntegration where TApi : class

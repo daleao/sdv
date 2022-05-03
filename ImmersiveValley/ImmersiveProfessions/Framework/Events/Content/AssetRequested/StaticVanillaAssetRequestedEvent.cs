@@ -13,6 +13,12 @@ using Utility;
 [UsedImplicitly]
 internal class StaticVanillaAssetRequestedEvent : AssetRequestedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    internal StaticVanillaAssetRequestedEvent()
+    {
+        this.Enable();
+    }
+
     /// <inheritdoc />
     protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)
     {

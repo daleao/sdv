@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
 using Display;
@@ -9,6 +10,7 @@ using Extensions;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class UltimateWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />

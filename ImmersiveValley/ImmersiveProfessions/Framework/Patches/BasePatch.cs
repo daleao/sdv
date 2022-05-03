@@ -12,7 +12,7 @@ using DaLion.Common.Extensions.Reflection;
 #endregion using directives
 
 /// <summary>Base implementation for Harmony patch classes.</summary>
-internal abstract class BasePatch : IPatch
+public abstract class BasePatch : IPatch
 {
     protected static bool transpilationFailed;
 
@@ -35,7 +35,7 @@ internal abstract class BasePatch : IPatch
     //protected HarmonyMethod ReversePatch { get; set; }
 
     /// <inheritdoc />
-    public virtual void Apply(Harmony harmony)
+    void IPatch.Apply(Harmony harmony)
     {
         if (Original is null)
         {

@@ -1,10 +1,20 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events.Ultimate;
 
-/// <summary>Event arguments when <see cref="Ultimate"/> is activated.</summary>
-public class UltimateActivatedEventArgs : UltimateEventArgs
+#region using directives
+
+using System;
+using StardewValley;
+
+#endregion using directives
+
+public class UltimateActivatedEventArgs : EventArgs, IUltimateActivatedEventArgs
 {
+    /// <inheritdoc />
+    public Farmer Player { get; }
+
     /// <summary>Construct an instance.</summary>
-    internal UltimateActivatedEventArgs()
+    internal UltimateActivatedEventArgs(Farmer player)
     {
+        Player = player;
     }
 }

@@ -8,23 +8,23 @@ using StardewValley;
 #endregion using directives
 
 /// <summary>Interface for treasure hunts.</summary>
-internal interface ITreasureHunt
+public interface ITreasureHunt
 {
+    /// <summary>Whether the <see cref="TreasureTile"/> is set to a valid target.</summary>
     public bool IsActive { get; }
 
+    /// <summary>The target tile containing treasure.</summary>
     public Vector2? TreasureTile { get; }
-
-    /// <summary>End the hunt unsuccessfully.</summary>
-    public void Fail();
-
-    /// <summary>Reset the accumulated bonus chance to trigger a new hunt.</summary>
-    public void ResetAccumulatedBonus();
 
     /// <summary>Try to start a new hunt at the specified location.</summary>
     /// <param name="location">The game location.</param>
-    public void TryStartNewHunt(GameLocation location);
+    public bool TryStart(GameLocation location);
 
-    /// <summary>Check for completion or failure.</summary>
-    /// <param name="ticks">The number of ticks elapsed since the game started.</param>
-    public void Update(uint ticks);
+    /// <summary>Forcefully start a new hunt at the specified location.</summary>
+    /// <param name="location">The game location.</param>
+    /// <param name="target">The target treasure tile.</param>
+    public void ForceStart(GameLocation location, Vector2 target);
+
+    /// <summary>End the active hunt unsuccessfully.</summary>
+    public void Fail();
 }

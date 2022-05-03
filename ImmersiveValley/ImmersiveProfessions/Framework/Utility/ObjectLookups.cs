@@ -54,7 +54,7 @@ internal static class ObjectLookups
     /// <summary>Look-up table for trappable treasure items using magnet.</summary>
     internal static Dictionary<int, string[]> TrapperPirateTreasureTable { get; } = new()
     {
-        {14, new[] {"1.003", "1", "1"}}, // neptune's glaive
+        {14, new[] {"0.003", "1", "1"}}, // neptune's glaive
         {51, new[] {"0.003", "1", "1"}}, // broken trident
         {166, new[] {"0.03", "1", "1"}}, // treasure chest
         {109, new[] {"0.009", "1", "1"}}, // ancient sword

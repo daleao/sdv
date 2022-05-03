@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -12,6 +13,7 @@ using Framework.Ultimate;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class ToggledUltimateModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <inheritdoc />
@@ -35,16 +37,16 @@ internal class ToggledUltimateModMessageReceivedEvent : ModMessageReceivedEvent
                 index = who.ReadDataAs<UltimateIndex>(DataField.UltimateIndex);
                 var glowingColor = index switch
                 {
-                    UltimateIndex.Brute => Color.OrangeRed,
-                    UltimateIndex.Poacher => Color.MediumPurple,
-                    UltimateIndex.Desperado => Color.DarkGoldenrod,
+                    UltimateIndex.Frenzy => Color.OrangeRed,
+                    UltimateIndex.Ambush => Color.MediumPurple,
+                    UltimateIndex.Blossom => Color.DarkGoldenrod,
                     _ => Color.White
                 };
 
                 if (glowingColor != Color.White)
                     who.startGlowing(glowingColor, false, 0.05f);
 
-                if (Context.IsMainPlayer && index == UltimateIndex.Poacher)
+                if (Context.IsMainPlayer && index == UltimateIndex.Ambush)
                     ModEntry.HostState.PoachersInAmbush.Add(e.FromPlayerID);
 
                 break;
@@ -53,7 +55,7 @@ internal class ToggledUltimateModMessageReceivedEvent : ModMessageReceivedEvent
                 Log.D($"{who.Name}'s Ultimate has ended.");
                 index = who.ReadDataAs<UltimateIndex>(DataField.UltimateIndex);
                 who.stopGlowing();
-                if (Context.IsMainPlayer && index == UltimateIndex.Poacher)
+                if (Context.IsMainPlayer && index == UltimateIndex.Ambush)
                     ModEntry.HostState.PoachersInAmbush.Remove(e.FromPlayerID);
 
                 break;

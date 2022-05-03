@@ -1,10 +1,20 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events.Ultimate;
 
-/// <summary>Event arguments when <see cref="Ultimate"/> charge value reaches max value.</summary>
-public class UltimateFullyChargedEventArgs : UltimateEventArgs
+#region using directives
+
+using System;
+using StardewValley;
+
+#endregion using directives
+
+public class UltimateFullyChargedEventArgs : EventArgs, IUltimateFullyChargedEventArgs
 {
+    /// <inheritdoc />
+    public Farmer Player { get; }
+
     /// <summary>Construct an instance.</summary>
-    internal UltimateFullyChargedEventArgs()
+    internal UltimateFullyChargedEventArgs(Farmer player)
     {
+        Player = player;
     }
 }

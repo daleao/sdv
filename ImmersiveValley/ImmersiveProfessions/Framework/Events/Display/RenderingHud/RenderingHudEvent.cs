@@ -12,7 +12,7 @@ internal abstract class RenderingHudEvent : BaseEvent
     /// <inheritdoc cref="IDisplayEvents.RenderingHud"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnRenderingHud(object sender, RenderingHudEventArgs e)
+    internal void OnRenderingHud(object sender, RenderingHudEventArgs e)
     {
         if (enabled.Value || GetType().Name.StartsWith("Static")) OnRenderingHudImpl(sender, e);
     }

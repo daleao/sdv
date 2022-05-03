@@ -12,7 +12,7 @@ internal abstract class SaveLoadedEvent : BaseEvent
     /// <inheritdoc cref="IGameLoopEvents.SaveLoaded"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
+    internal void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
     {
         if (enabled.Value || GetType().Name.StartsWith("Static")) OnSaveLoadedImpl(sender, e);
     }

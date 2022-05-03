@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -12,6 +13,7 @@ using Extensions;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
 {
     /// <inheritdoc />
@@ -20,7 +22,7 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
         var forgottenRecipes = Game1.player.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
         if (!forgottenRecipes.Any())
         {
-            Disable();
+            this.Disable();
             return;
         }
 
@@ -42,6 +44,6 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
         Game1.player.WriteData(DataField.ForgottenRecipesDict, forgottenRecipes.Any()
             ? forgottenRecipes.Stringify()
             : null);
-        Disable();
+        this.Disable();
     }
 }

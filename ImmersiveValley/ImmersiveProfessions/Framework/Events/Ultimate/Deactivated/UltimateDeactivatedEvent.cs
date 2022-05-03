@@ -1,16 +1,27 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events.Ultimate;
 
-/// <summary>The event raised when <see cref="Ultimate"/> is deactivated.</summary>
-internal abstract class UltimateDeactivatedEvent : BaseEvent
+#region using directives
+
+using System;
+
+#endregion using directives
+
+internal class UltimateDeactivatedEvent : BaseEvent
 {
-    /// <summary>Raised when <see cref="Ultimate"/> is deactivated.</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    public void OnUltimateDeactivated(object sender, UltimateDeactivatedEventArgs e)
+    private readonly Action<object, IUltimateDeactivatedEventArgs> _OnDeactivatedImpl;
+
+    /// <summary>Construct an instance.</summary>
+    /// <param name="callback">The delegate to run when the event is raised.</param>
+    internal UltimateDeactivatedEvent(Action<object, IUltimateDeactivatedEventArgs> callback)
     {
-        if (enabled.Value) OnUltimateDeactivatedImpl(sender, e);
+        _OnDeactivatedImpl = callback;
     }
 
-    /// <inheritdoc cref="OnUltimateDeactivated" />
-    protected abstract void OnUltimateDeactivatedImpl(object sender, UltimateDeactivatedEventArgs e);
+    /// <summary>Raised when a player's combat Ultimate ends.</summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    internal void OnDeactivated(object sender, IUltimateDeactivatedEventArgs e)
+    {
+        if (enabled.Value) _OnDeactivatedImpl(sender, e);
+    }
 }

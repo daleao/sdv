@@ -11,5 +11,5 @@ internal interface IPatch
 {
     /// <summary>Apply internally-defined Harmony patches.</summary>
     /// <param name="harmony">The Harmony instance for this mod.</param>
-    public void Apply(Harmony harmony);
+    void Apply(Harmony harmony);
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewValley;
 
 using DaLion.Common.Extensions.Reflection;
@@ -17,6 +18,7 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class CheesePressMachineSetInput : BasePatch
 {
     private static MethodInfo _GetSample;

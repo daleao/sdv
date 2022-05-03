@@ -12,7 +12,7 @@ internal abstract class RenderedActiveMenuEvent : BaseEvent
     /// <inheritdoc cref="IDisplayEvents.RenderedActiveMenu"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnRenderedActiveMenu(object sender, RenderedActiveMenuEventArgs e)
+    internal void OnRenderedActiveMenu(object sender, RenderedActiveMenuEventArgs e)
     {
         if (enabled.Value || GetType().Name.StartsWith("Static")) OnRenderedActiveMenuImpl(sender, e);
     }

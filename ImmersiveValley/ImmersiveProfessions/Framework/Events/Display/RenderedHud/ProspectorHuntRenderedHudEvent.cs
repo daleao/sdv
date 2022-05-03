@@ -3,12 +3,14 @@
 #region using directives
 
 using System;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class ProspectorHuntRenderedHudEvent : RenderedHudEvent
 {
     /// <inheritdoc />

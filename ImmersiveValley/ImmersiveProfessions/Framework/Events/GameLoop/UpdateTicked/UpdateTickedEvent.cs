@@ -12,7 +12,7 @@ internal abstract class UpdateTickedEvent : BaseEvent
     /// <inheritdoc cref="IGameLoopEvents.UpdateTicked"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+    internal void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
     {
         if (enabled.Value || GetType().Name.StartsWith("Static")) OnUpdateTickedImpl(sender, e);
     }

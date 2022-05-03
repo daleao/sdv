@@ -1,16 +1,15 @@
-﻿using System;
-using StardewValley.Tools;
-
-#nullable enable
+﻿#nullable enable
 namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.Automate;
 
 #region using directives
 
+using System;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Objects;
+using StardewValley.Tools;
 
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;

@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
@@ -13,6 +14,7 @@ using Common.Extensions.Xna;
 
 #endregion using directives
 
+[UsedImplicitly]
 internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
 {
     private readonly Texture2D _pixel;

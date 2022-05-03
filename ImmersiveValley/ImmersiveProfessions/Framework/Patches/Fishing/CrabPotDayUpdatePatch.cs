@@ -14,7 +14,6 @@ using StardewValley.Objects;
 using DaLion.Common.Extensions;
 using Extensions;
 
-using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
 #endregion using directives

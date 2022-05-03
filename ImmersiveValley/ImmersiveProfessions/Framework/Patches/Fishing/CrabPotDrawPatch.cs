@@ -39,6 +39,7 @@ internal class CrabPotDrawPatch : BasePatch
                 !__instance.heldObject.Value.ParentSheetIndex.IsAnyOf(14, 51))
                 return true; // run original logic
 
+            __instance.tileIndexToShow = 714;
             ___yBob = (float) (Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 500.0 + x * 64) *
                 8.0 + 8.0);
             if (___yBob <= 0.001f)

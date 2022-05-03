@@ -12,7 +12,7 @@ internal abstract class PeerConnectedEvent : BaseEvent
     /// <inheritdoc cref="IMultiplayerEvents.PeerConnected"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnPeerConnected(object sender, PeerConnectedEventArgs e)
+    internal void OnPeerConnected(object sender, PeerConnectedEventArgs e)
     {
         if (enabled.Value) OnPeerConnectedImpl(sender, e);
     }

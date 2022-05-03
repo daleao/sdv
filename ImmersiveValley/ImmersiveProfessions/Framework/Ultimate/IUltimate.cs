@@ -3,45 +3,36 @@
 #region using directives
 
 using System;
-using Microsoft.Xna.Framework;
-
-using Sounds;
 
 #endregion using directives
 
 /// <summary>Interface for Ultimate abilities.</summary>
-internal interface IUltimate : IDisposable
+public interface IUltimate : IDisposable
 {
-    #region public properties
-    public double ChargeValue { get; set; }
-    public float PercentCharge { get; }
-    public bool IsFullyCharged { get; }
-    public bool IsEmpty { get; }
-    public bool IsActive { get; }
-    public UltimateIndex Index { get; }
-    public UltimateMeter Meter { get; }
-    public UltimateOverlay Overlay { get; }
-    public SFX ActivationSfx { get; }
-    public Color GlowColor { get; }
+    /// <summary>The index of this Ultimate, which corresponds to the index of the corresponding combat profession.</summary>
+    UltimateIndex Index { get; }
 
-    #endregion public properties
+    /// <summary>The current charge value.</summary>
+    double ChargeValue { get; set; }
 
-    #region public methods
+    /// <summary>The maximum charge value.</summary>
+    int MaxValue { get; }
 
-    /// <summary>Activate Ultimate for the local player.</summary>
-    public void Activate();
+    /// <summary>The current charge value as a percentage.</summary>
+    float PercentCharge { get; }
 
-    /// <summary>Deactivate Ultimate for the local player.</summary>
-    public void Deactivate();
+    /// <summary>Whether the current charge value is at max.</summary>
+    bool IsFullyCharged { get; }
 
-    /// <summary>Detect and handle activation input.</summary>
-    public void CheckForActivation();
+    /// <summary>Whether the current charge value is at zero.</summary>
+    bool IsEmpty { get; }
 
-    /// <summary>UpdateInput internal activation state.</summary>
-    public void UpdateInput();
+    /// <summary>Whether this Ultimate is currently active.</summary>
+    bool IsActive { get; }
 
-    /// <summary>Countdown the charge value.</summary>
-    public void Countdown(double elapsed);
+    /// <summary>Check whether the <see cref="UltimateMeter"/> is currently showing.</summary>
+    bool IsMeterVisible { get; }
 
-    #endregion public methods
+    /// <summary>Check whether all activation conditions for this Ultimate are currently met.</summary>
+    bool CanActivate { get; }
 }
