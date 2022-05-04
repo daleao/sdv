@@ -62,17 +62,6 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
                 config => config.KegsRememberHoneyFlower,
                 (config, value) => config.KegsRememberHoneyFlower = value
             )
-            .AddDropdown(
-                () => "Honey Mead Style",
-                () => "The visual style for different honey mead icons, if using BetterArtisanGoodIcons.",
-                config => config.HoneyMeadStyle.ToString(),
-                (config, value) => config.HoneyMeadStyle = value,
-                new[] {"ColoredBottles", "ColoredCaps", "Elesea"},
-                value =>
-                {
-                    ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/BetterHoneyMeadIcons");
-                    return value;
-                })
             .AddCheckbox(
                 () => "Berry Bushes Reward Exp",
                 () => "Gain foraging experience when a berry bush is harvested.",

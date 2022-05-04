@@ -25,10 +25,7 @@ public class ModConfig
     public bool KegsRememberHoneyFlower { get; set; } = true;
 
     /// <summary>Large input products should yield more processed output instead of higher quality.</summary>
-    public bool LargeProducsYieldQuantityOverQuality { get; set; } = true;
-
-    /// <summary>The visual style for different honey mead icons, if using BetterArtisanGoodIcons. Allowed values: 'ColoredBottles', 'ColoredCaps'.</summary>
-    public string HoneyMeadStyle { get; set; } = "ColoredBottles";
+    public bool LargeProducsYieldQuantityOverQuality { get; set; } = true;  
 
     /// <summary>Bombs within any explosion radius are immediately triggered.</summary>
     public bool ExplosionTriggeredBombs { get; set; } = true;

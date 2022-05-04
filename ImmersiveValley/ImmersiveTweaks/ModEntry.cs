@@ -44,8 +44,5 @@ public class ModEntry : Mod
 
         if (helper.ModRegistry.IsLoaded("Pathoschild.Automate"))
             AutomatePatches.Apply(harmony);
-
-        if (helper.ModRegistry.IsLoaded("cat.betterartisangoodicons"))
-            BetterArtisanGoodIconsPatches.Apply(harmony);
     }
 }

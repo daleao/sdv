@@ -1,74 +1,130 @@
-﻿namespace DaLion.Stardew.Tweaks.Framework.Patches.Integrations;
-
-#region using directives
-
+﻿#nullable enable
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using BetterArtisanGoodIcons;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
 
-using Common.Extensions.Reflection;
-
 using SObject = StardewValley.Object;
 
-#endregion using directives
+namespace DaLion.Stardew.Meads;
 
-/// <remarks>Credit to <c>danvolchek (a.k.a. Cat)</c>.</remarks>
-internal static class BetterArtisanGoodIconsPatches
+/// <summary>The mod entry point.</summary>
+public class ModEntry : Mod
 {
-    internal static void Apply(Harmony harmony)
+    public const int MEAD_INDEX_I = 459;
+
+    private static readonly MethodInfo _GetDrawInfo =
+        AccessTools.Method(AccessTools.TypeByName("BetterArtisanGoodIcons.Content.ContentSourceManager"),
+            "GetDrawInfo");
+
+    /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+    /// <param name="helper">Provides simplified APIs for writing mods.</param>
+    public override void Entry(IModHelper helper)
     {
+        // add mead entry to BAGI's ContentSourceManager dictionary
+        // this will fix a likely KeyNotFoundException
+        var artisanGoodToSourceTypeDict = (IDictionary) AccessTools
+            .Field(AccessTools.TypeByName("BetterArtisanGoodIcons.Content.ContentSourceManager"),
+                "artisanGoodToSourceType").GetValue(null)!;
+        artisanGoodToSourceTypeDict.Add((ArtisanGood)MEAD_INDEX_I, "Flowers");
+
+        // apply patches
+        var harmony = new Harmony(ModManifest.UniqueID);
+
         harmony.Patch(
-            original: typeof(Furniture).RequireMethod(nameof(Furniture.draw),
-                new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)}),
-            prefix: new(typeof(BetterArtisanGoodIconsPatches).RequireMethod(nameof(FurnitureDrawPrefix)),
-                before: new[] {"cat.betterartisangoodicons"})
+            original: AccessTools.Method(AccessTools.TypeByName("BetterArtisanGoodIcons.ArtisanGoodTextureProvider"), "GetSourceName"),
+            prefix: new(AccessTools.Method(GetType(), nameof(ArtisanGoodTextureProviderGetSourceNamePrefix)))
         );
 
         harmony.Patch(
-            original: typeof(SObject).RequireMethod(nameof(SObject.draw),
-                new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)}),
-            prefix: new(typeof(BetterArtisanGoodIconsPatches).RequireMethod(nameof(ObjectDrawPrefix)),
-                before: new[] {"cat.betterartisangoodicons"})
+            original: AccessTools.Method(AccessTools.TypeByName("BetterArtisanGoodIcons.Content.TextureDataContentSource"), "GetData"),
+            postfix: new(AccessTools.Method(GetType(), nameof(TextureDataContentSourceGetDataPostfix)))
         );
 
         harmony.Patch(
-            original: typeof(SObject).RequireMethod(nameof(SObject.draw),
-                new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float), typeof(float)}),
-            prefix: new(typeof(BetterArtisanGoodIconsPatches).RequireMethod(nameof(ObjectDrawOverloadPrefix)),
+            original: AccessTools.Method(typeof(Furniture), nameof(Furniture.draw),
+                new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) }),
+            prefix: new(AccessTools.Method(GetType(), nameof(FurnitureDrawPrefix)),
                 before: new[] { "cat.betterartisangoodicons" })
         );
-        
+
         harmony.Patch(
-            original: typeof(SObject).RequireMethod(nameof(SObject.drawInMenu),
+            original: AccessTools.Method(typeof(SObject), nameof(SObject.draw),
+                new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) }),
+            prefix: new(AccessTools.Method(GetType(), nameof(ObjectDrawPrefix)),
+                before: new[] { "cat.betterartisangoodicons" })
+        );
+
+        harmony.Patch(
+            original: AccessTools.Method(typeof(SObject), nameof(SObject.draw),
+                new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float), typeof(float) }),
+            prefix: new(AccessTools.Method(GetType(), nameof(ObjectDrawOverloadPrefix)),
+                before: new[] { "cat.betterartisangoodicons" })
+        );
+
+        harmony.Patch(
+            original: AccessTools.Method(typeof(SObject), nameof(SObject.drawInMenu),
                 new[]
                 {
                     typeof(SpriteBatch), typeof(Vector2), typeof(float), typeof(float), typeof(float),
                     typeof(StackDrawType), typeof(Color), typeof(bool)
                 }),
-            prefix: new(typeof(BetterArtisanGoodIconsPatches).RequireMethod(nameof(ObjectDrawInMenuPrefix)),
-                before: new[] {"cat.betterartisangoodicons"})
+            prefix: new(AccessTools.Method(GetType(), nameof(ObjectDrawInMenuPrefix)),
+                before: new[] { "cat.betterartisangoodicons" })
         );
 
         harmony.Patch(
-            original: typeof(SObject).RequireMethod(nameof(SObject.drawWhenHeld),
-                new[] {typeof(SpriteBatch), typeof(Vector2), typeof(Farmer)}),
-            prefix: new(typeof(BetterArtisanGoodIconsPatches).RequireMethod(nameof(ObjectDrawWhenHeldPrefix)),
-                before: new[] {"cat.betterartisangoodicons"})
+            original: AccessTools.Method(typeof(SObject), nameof(SObject.drawWhenHeld),
+                new[] { typeof(SpriteBatch), typeof(Vector2), typeof(Farmer) }),
+            prefix: new(AccessTools.Method(GetType(), nameof(ObjectDrawWhenHeldPrefix)),
+                before: new[] { "cat.betterartisangoodicons" })
         );
     }
 
     #region harmony patches
 
+    /// <summary>Patch mead good source name.</summary>
+    private static bool ArtisanGoodTextureProviderGetSourceNamePrefix(ref bool __result, SObject item, ref string sourceName)
+    {
+        if (item.name != "Mead") return true; // run original logic
+
+        sourceName = "_Base";
+        __result = true;
+        return false; // don't run original logic
+    }
+
+    /// <summary>Patch to enable loading mead data.</summary>
+    private static IEnumerable<Tuple<string, List<string>, ArtisanGood>> TextureDataContentSourceGetDataPostfix(IEnumerable<Tuple<string, List<string>, ArtisanGood>> values)
+    {
+        foreach (var value in values)
+        {
+            yield return value;
+            if (value.Item1 == "Honey")
+                yield return Tuple.Create("Mead", value.Item2, (ArtisanGood)MEAD_INDEX_I);
+        }
+    }
+
     /// <summary>Patch to draw BAGI-like meads on furniture.</summary>
     private static bool FurnitureDrawPrefix(Furniture __instance, NetVector2 ___drawPosition, SpriteBatch spriteBatch, int x, int y,
         float alpha = 1f)
     {
-        if (__instance.heldObject.Value is not { ParentSheetIndex: 459, preservedParentSheetIndex.Value: > 0 } mead ||
-            !Textures.TryGetSourceRectForMead(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
+        if (__instance.heldObject.Value is not
+            {ParentSheetIndex: MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0} mead) return true; // run original logic
+
+        var parameters = new object?[] { __instance, null, null, null };
+        var got = (bool)_GetDrawInfo.Invoke(null, parameters)!;
+        if (!got) return true; // run original logic
+
+        var spritesheet = (Texture2D)parameters[1]!;
+        var sourceRectangle = (Rectangle)parameters[2]!;
 
         // draw the furniture
         if (x == -1)
@@ -125,12 +181,12 @@ internal static class BetterArtisanGoodIconsPatches
 
         // draw the held item
         spriteBatch.Draw(
-            texture: Textures.HoneyMeadTx,
+            texture: spritesheet,
             position: Game1.GlobalToLocal(Game1.viewport,
                 globalPosition: new Vector2(
                     x: __instance.boundingBox.Value.Center.X - 32,
                     y: __instance.boundingBox.Value.Center.Y - (__instance.drawHeldObjectLow.Value ? 32 : 85))),
-            sourceRect,
+            sourceRectangle: sourceRectangle,
             color: Color.White * alpha,
             rotation: 0f,
             origin: Vector2.Zero,
@@ -145,11 +201,17 @@ internal static class BetterArtisanGoodIconsPatches
     /// <summary>Patch to draw BAGI-like meads when held by machines.</summary>
     private static bool ObjectDrawPrefix(SObject __instance, SpriteBatch spriteBatch, int x, int y, float alpha = 1f)
     {
-        if (!__instance.bigCraftable.Value || !__instance.readyForHarvest.Value ||
-            __instance.heldObject.Value is not { ParentSheetIndex: 459, preservedParentSheetIndex.Value: > 0 } mead ||
-            !Textures.TryGetSourceRectForMead(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
-
         if (__instance.isTemporarilyInvisible) return false; // don't run original logic
+
+        if (!__instance.bigCraftable.Value || !__instance.readyForHarvest.Value || __instance.heldObject.Value is not
+            { ParentSheetIndex: MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
+
+        var parameters = new object?[] { __instance, null, null, null };
+        var got = (bool)_GetDrawInfo.Invoke(null, parameters)!;
+        if (!got) return true; // run original logic
+
+        var spritesheet = (Texture2D)parameters[1]!;
+        var position = (Rectangle)parameters[2]!;
 
         var (sx, sy) = __instance.getScale() * Game1.pixelZoom;
 
@@ -159,12 +221,12 @@ internal static class BetterArtisanGoodIconsPatches
         );
 
         var destinationRect = new Rectangle(
-            (int) (px - sx / 2f) + (__instance.shakeTimer > 0
+            (int)(px - sx / 2f) + (__instance.shakeTimer > 0
                 ? Game1.random.Next(-1, 2) : 0),
-            (int) (py - sy / 2f) + (__instance.shakeTimer > 0
+            (int)(py - sy / 2f) + (__instance.shakeTimer > 0
                 ? Game1.random.Next(-1, 2) : 0),
-            (int) (64f + sx),
-            (int) (128f + sy / 2f)
+            (int)(64f + sx),
+            (int)(128f + sy / 2f)
         );
 
         spriteBatch.Draw(
@@ -180,7 +242,7 @@ internal static class BetterArtisanGoodIconsPatches
             layerDepth: Math.Max(0f, ((y + 1) * 64 - 24) / 10000f) + x * 1E-05f
         );
 
-        var num = 4f * (float) Math.Round(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0), 2);
+        var num = 4f * (float)Math.Round(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0), 2);
         spriteBatch.Draw(
             texture: Game1.mouseCursors,
             position: Game1.GlobalToLocal(
@@ -196,11 +258,11 @@ internal static class BetterArtisanGoodIconsPatches
             origin: Vector2.Zero,
             scale: 4f,
             effects: SpriteEffects.None,
-            layerDepth: (float) ((y + 1) * 64 / 10000f + 1E-06f + __instance.TileLocation.X / 10000f + 9.99999997475243E-07 + __instance.TileLocation.X / 10000.0)
+            layerDepth: (float)((y + 1) * 64 / 10000f + 1E-06f + __instance.TileLocation.X / 10000f + 9.99999997475243E-07 + __instance.TileLocation.X / 10000.0)
         );
 
         spriteBatch.Draw(
-            texture: Textures.HoneyMeadTx,
+            texture: spritesheet,
             position: Game1.GlobalToLocal(
                 viewport: Game1.viewport,
                 globalPosition: new Vector2(
@@ -208,13 +270,13 @@ internal static class BetterArtisanGoodIconsPatches
                     y * 64 - 64 - 8 + num
                 )
             ),
-            sourceRectangle: sourceRect,
+            sourceRectangle: position,
             color: Color.White * 0.75f,
             rotation: 0f,
-            origin: new(8f, 8f),
+            origin: new Vector2(8f, 8f),
             scale: 4f,
             effects: SpriteEffects.None,
-            layerDepth: (float) ((y + 1) * 64 / 10000f + __instance.TileLocation.X / 10000f + 9.99999974737875E-06 + __instance.TileLocation.X / 10000.0)
+            layerDepth: (float)((y + 1) * 64 / 10000f + __instance.TileLocation.X / 10000f + 9.99999974737875E-06 + __instance.TileLocation.X / 10000.0)
         );
 
         return false; // don't run original logic
@@ -224,11 +286,17 @@ internal static class BetterArtisanGoodIconsPatches
     private static bool ObjectDrawOverloadPrefix(SObject __instance, SpriteBatch spriteBatch, int xNonTile, int yNonTile,
         float layerDepth, float alpha = 1f)
     {
-        if (__instance is not { ParentSheetIndex: 459, preservedParentSheetIndex.Value: > 0 } mead ||
-            !Textures.TryGetSourceRectForMead(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
-
         if (__instance.isTemporarilyInvisible || Game1.eventUp && Game1.CurrentEvent.isTileWalkedOn(xNonTile / 64, yNonTile / 64))
             return false; // don't run original logic
+
+        if (__instance is not { ParentSheetIndex: MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
+
+        var parameters = new object?[] { __instance, null, null, null };
+        var got = (bool)_GetDrawInfo.Invoke(null, parameters)!;
+        if (!got) return true; // run original logic
+
+        var spritesheet = (Texture2D)parameters[1]!;
+        var sourceRectangle = (Rectangle)parameters[2]!;
 
         if (__instance.Fragility != 2)
         {
@@ -250,7 +318,7 @@ internal static class BetterArtisanGoodIconsPatches
         }
 
         spriteBatch.Draw(
-            texture: Textures.HoneyMeadTx,
+            texture: spritesheet,
             position: Game1.GlobalToLocal(
                 viewport: Game1.viewport,
                 globalPosition: new Vector2(
@@ -258,10 +326,10 @@ internal static class BetterArtisanGoodIconsPatches
                     yNonTile + 32 + (__instance.shakeTimer > 0 ? Game1.random.Next(-1, 2) : 0)
                 )
             ),
-            sourceRectangle: sourceRect,
+            sourceRectangle: sourceRectangle,
             color: Color.White * alpha,
             rotation: 0f,
-            origin: new(8f, 8f),
+            origin: new Vector2(8f, 8f),
             scale: __instance.Scale.Y > 1f ? __instance.getScale().Y : 4f,
             effects: __instance.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
             layerDepth: layerDepth
@@ -274,8 +342,14 @@ internal static class BetterArtisanGoodIconsPatches
     private static bool ObjectDrawInMenuPrefix(SObject __instance, SpriteBatch spriteBatch, Vector2 location,
         float scaleSize, float transparency, float layerDepth, StackDrawType drawStackNumber, Color color, bool drawShadow)
     {
-        if (__instance is not { ParentSheetIndex: 459, preservedParentSheetIndex.Value: > 0 } mead ||
-            !Textures.TryGetSourceRectForMead(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
+        if (__instance is not { ParentSheetIndex: MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
+
+        var parameters = new object?[] { __instance, null, null, null };
+        var got = (bool)_GetDrawInfo.Invoke(null, parameters)!;
+        if (!got) return true; // run original logic
+
+        var spritesheet = (Texture2D)parameters[1]!;
+        var sourceRectangle = (Rectangle)parameters[2]!;
 
         if (drawShadow)
         {
@@ -294,12 +368,12 @@ internal static class BetterArtisanGoodIconsPatches
         }
 
         spriteBatch.Draw(
-            texture: Textures.HoneyMeadTx,
+            texture: spritesheet,
             position: location + new Vector2(
-                (int) (32f * scaleSize),
-                (int) (32f * scaleSize)
+                (int)(32f * scaleSize),
+                (int)(32f * scaleSize)
             ),
-            sourceRectangle: sourceRect,
+            sourceRectangle: sourceRectangle,
             color: color * transparency,
             rotation: 0f,
             origin: new Vector2(8f, 8f) * scaleSize,
@@ -333,7 +407,7 @@ internal static class BetterArtisanGoodIconsPatches
 
             var num = __instance.Quality < 4
                 ? 0f
-                : ((float) Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) + 1f) * 0.05f;
+                : ((float)Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) + 1f) * 0.05f;
 
             spriteBatch.Draw(
                 texture: Game1.mouseCursors,
@@ -356,13 +430,19 @@ internal static class BetterArtisanGoodIconsPatches
     /// <summary>Patch to draw BAGI-like meads when held.</summary>
     private static bool ObjectDrawWhenHeldPrefix(SObject __instance, SpriteBatch spriteBatch, Vector2 objectPosition, Farmer f)
     {
-        if (__instance is not { ParentSheetIndex: 459, preservedParentSheetIndex.Value: > 0 } mead ||
-            !Textures.TryGetSourceRectForMead(mead.preservedParentSheetIndex.Value, out var sourceRect)) return true; // run original logic
+        if (__instance is not { ParentSheetIndex: MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
+
+        var parameters = new object?[] { __instance, null, null, null };
+        var got = (bool)_GetDrawInfo.Invoke(null, parameters)!;
+        if (!got) return true; // run original logic
+
+        var spritesheet = (Texture2D)parameters[1]!;
+        var sourceRectangle = (Rectangle)parameters[2]!;
 
         spriteBatch.Draw(
-            texture: Textures.HoneyMeadTx,
+            texture: spritesheet,
             position: objectPosition,
-            sourceRectangle: sourceRect,
+            sourceRectangle: sourceRectangle,
             color: Color.White,
             rotation: 0f,
             origin: Vector2.Zero,
@@ -374,12 +454,12 @@ internal static class BetterArtisanGoodIconsPatches
         if (f.ActiveObject == null || !f.ActiveObject.Name.Contains("=")) return false; // don't run original logic
 
         spriteBatch.Draw(
-            texture: Textures.HoneyMeadTx,
+            texture: spritesheet,
             position: objectPosition + new Vector2(32f, 32f),
-            sourceRectangle: sourceRect,
+            sourceRectangle: sourceRectangle,
             color: Color.White,
             rotation: 0f,
-            origin: new(32f, 32f),
+            origin: new Vector2(32f, 32f),
             scale: 4f + Math.Abs(Game1.starCropShimmerPause) / 8f,
             effects: SpriteEffects.None,
             layerDepth: Math.Max(0f, (f.getStandingY() + 3) / 10000f)

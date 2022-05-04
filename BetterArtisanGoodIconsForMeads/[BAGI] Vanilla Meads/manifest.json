@@ -1,0 +1,19 @@
+{
+  "Name": "[BAGI] Vanilla Meads",
+  "Author": "DaLion",
+  "Version": "1.0.0",
+  "Description": "Provides BAGI mead icons for all vanilla flowers.",
+  "UniqueID": "DaLion.Meads.Vanilla",
+  "MinimumApiVersion": "2.2.0",
+  "UpdateKeys": [ "Nexus:???" ],
+  "ContentPackFor": {
+    "UniqueID": "cat.betterartisangoodicons",
+    "MinimumVersion": "1.5.0"
+  },
+  "Dependencies": [
+    {
+	  "UniqueID": "cat.betterartisangoodicons",
+	  "MinimumVersion": "1.5.0"
+	}
+  ]
+}

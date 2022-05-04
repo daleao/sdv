@@ -331,6 +331,7 @@ internal static class Patches
                 dropIn.preservedParentSheetIndex.Value > 0 && ModEntry.Config.KegsRememberHoneyFlower)
             {
                 __instance.heldObject.Value.name = dropIn.name.Split(" Honey")[0] + " Mead";
+                __instance.heldObject.Value.honeyType.Value = (SObject.HoneyType) dropIn.preservedParentSheetIndex.Value;
                 __instance.heldObject.Value.preservedParentSheetIndex.Value =
                     dropIn.preservedParentSheetIndex.Value;
                 __instance.heldObject.Value.Price = dropIn.Price * 2;
