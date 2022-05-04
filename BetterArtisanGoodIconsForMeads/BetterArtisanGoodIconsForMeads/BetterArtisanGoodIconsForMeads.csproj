@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyName>BetterArtisanGoodIconsForMeads</AssemblyName>
-    <RootNamespace>DaLion.Stardew.Meads</RootNamespace>
+    <RootNamespace>BetterArtisanGoodIconsForMeads</RootNamespace>
     <Version>1.0.0</Version>
     <TargetFramework>net5.0</TargetFramework>
 	<EnableHarmony>true</EnableHarmony>
+	<BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,22 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="Krafs.Publicizer" Version="1.0.2">
-		<PrivateAssets>all</PrivateAssets>
-		<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-	</PackageReference>
-	<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-	<Reference Include="BetterArtisanGoodIcons">
-	  <HintPath>BetterArtisanGoodIcons.dll</HintPath>
-	  <Private>false</Private>
-	</Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Publicize Include="BetterArtisanGoodIcons:BetterArtisanGoodIcons.ArtisanGood" />
+	  <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.0" />
   </ItemGroup>
 
 </Project>

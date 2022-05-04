@@ -31,7 +31,7 @@ Features currently included:
 (Foraging and Farming-related)
 - Makes Bee House and Tapper produce improve quality with age, following the example of Fruit Trees.
 - Makes Tappers and Berry Bushes reward foraging experience when harvested.
-- Makes Meads take after the flower type of the input Honey item (with support for Better Artisan Good Icons).
+- Makes Meads take after the flower type of the input Honey item.
 - Makes large Eggs and Milk double the output stack instead of increasing the quality.
 - Prevents Fruit Trees from growing in winter.
 - Allow Botanist/Ecologist perk to apply to hoed Ginger and Coconuts obtained from shaking palm trees.
@@ -57,9 +57,6 @@ To uninstall simply delete the mod from your mods folder. This mod is safe to un
 
 ## Special Thanks
 
-- [SilentOak](https://www.nexusmods.com/stardewvalley/users/66352491) for BAGI mead integration.
-- [cometkins](https://www.nexusmods.com/stardewvalley/users/38715215) for [Better Artisan Goods](https://www.nexusmods.com/stardewvalley/mods/5394).
-- ﻿[eleseaHonu](https://www.nexusmods.com/stardewvalley/users/64516916) for cometkins-style BAGI mead icons.﻿
 - **ConcernedApe** for StardewValley.
 - [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.
 

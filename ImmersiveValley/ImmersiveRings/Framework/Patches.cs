@@ -269,7 +269,7 @@ internal static class Patches
                 case Constants.JADE_RING_INDEX_I: // jade ring to give +30% crit. power
                     who.critPowerModifier += 0.3f;
                     return false; // don't run original logic
-                case Constants.CRAB_RING_INDEX_I: // crab ring to give +8 defense
+                case Constants.CRAB_RING_INDEX_I: // crab ring to give +12 defense
                     who.resilience += 12;
                     return false; // don't run original logic
                 default:
@@ -299,7 +299,7 @@ internal static class Patches
                 case Constants.JADE_RING_INDEX_I: // jade ring to give +30% crit. power
                     who.critPowerModifier -= 0.3f;
                     return false; // don't run original logic
-                case Constants.CRAB_RING_INDEX_I: // crab ring to give +8 defense
+                case Constants.CRAB_RING_INDEX_I: // crab ring to give +12 defense
                     who.resilience -= 12;
                     return false; // don't run original logic
                 default:

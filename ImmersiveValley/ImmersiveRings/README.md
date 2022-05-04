@@ -27,7 +27,7 @@ This mod brings the following immersive changes to ring effects and recipes:
 - Rebalances the Jade and Topaz rings.
     - **Jade:** *+10% -> +30 crit. power.* Vanilla 10% crit. power grants a 10% damage bonus that only applies to crits. This makes it significantly worse than the Ruby ring, which grants the same 10% bonus, but all the time. At 30% crit. power, the Jade ring becomes a better choice than the Ruby ring when crit. chance is at least 33%.
     - **Topaz:** *literally nothing -> +3 defense.* This makes it consistent with the Topaz enchantment, which also grants defense.
-    - **Crabshell:** *+5 defense -> +10 defense.* Because the Topaz rings now also grants defense, the Crabshell ring is buffed so that it remains unique.
+    - **Crabshell:** *+5 defense -> +12 defense.* Because the Topaz rings now also grants defense, the Crabshell ring is buffed so that it remains unique.
 - Adds progressive crafting recipes for gemstone rings, with corresponding visuals.
     - **Amethyst and Topaz:** *combat level 2, uses copper bars.*
     - **Aquamarine and Jade:** *combat level 4, uses iron bars.*

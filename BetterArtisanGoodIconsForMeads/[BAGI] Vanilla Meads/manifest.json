@@ -9,11 +9,5 @@
   "ContentPackFor": {
     "UniqueID": "cat.betterartisangoodicons",
     "MinimumVersion": "1.5.0"
-  },
-  "Dependencies": [
-    {
-	  "UniqueID": "cat.betterartisangoodicons",
-	  "MinimumVersion": "1.5.0"
-	}
-  ]
+  }
 }
