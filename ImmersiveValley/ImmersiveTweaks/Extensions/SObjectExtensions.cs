@@ -29,7 +29,7 @@ public static class SObjectExtensions
     /// <summary>Get an object quality value based on this object's age.</summary>
     public static int GetQualityFromAge(this SObject @object)
     {
-        var skillFactor = 1f + Game1.player.ForagingLevel * 0.1f;
+        var skillFactor = 1f + Game1.player.FarmingLevel * 0.1f;
         var age = (int) (@object.ReadDataAs<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
         if (ModEntry.HasProfessionsMod && Game1.player.professions.Contains(Farmer.shepherd)) age *= 2;
 
