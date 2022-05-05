@@ -15,6 +15,7 @@ using StardewValley.TerrainFeatures;
 using Common.Extensions;
 using Common.Extensions.Reflection;
 using Common.Harmony;
+using Extensions;
 
 using SObject = StardewValley.Object;
 
@@ -22,7 +23,7 @@ using SObject = StardewValley.Object;
 
 internal static class AutomatePatches
 {
-    private static MethodInfo _GetBushMachine, _GetTapperMachine, _GetSampleFromCheesePressMachine, _GetSampleFromGenericMachine;
+    private static MethodInfo _GetBushMachine, _GetMushroomBoxMachine, _GetTapperMachine, _GetSampleFromCheesePressMachine, _GetSampleFromGenericMachine;
 
     internal static void Apply(Harmony harmony)
     {
@@ -140,6 +141,44 @@ internal static class AutomatePatches
         return helper.Flush();
     }
 
+    /// <summary>Patch for automated Mushroom Box quality and forage increment.</summary>
+    [HarmonyPrefix]
+    private static void MushroomBoxMachineGetOutputPrefix(object __instance)
+    {
+        try
+        {
+            if (__instance is null || !ModEntry.Config.AgeMushroomBoxes) return;
+
+            _GetMushroomBoxMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
+            var machine = (SObject) _GetMushroomBoxMachine.Invoke(__instance, null);
+            if (machine?.heldObject.Value is not { } held) return;
+
+            held.Quality = held.GetQualityFromAge();
+            var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
+            if (!owner.IsLocalPlayer || !owner.professions.Contains(Farmer.botanist)) return;
+
+            held.Quality = Math.Max(ModEntry.ProfessionsAPI.GetForageQuality(owner), held.Quality);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+        }
+    }
+
+    /// <summary>Adds foraging experience for automated mushroom boxes.</summary>
+    [HarmonyPostfix]
+    private static void MushroomBoxMachineGetOutputPostfix(object __instance)
+    {
+        if (__instance is null || !ModEntry.Config.MushroomBoxesRewardExp) return;
+
+        _GetMushroomBoxMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
+        var machine = (SObject) _GetMushroomBoxMachine.Invoke(__instance, null);
+        if (machine is null) return;
+
+        var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
+        owner.gainExperience((int) SkillType.Foraging, 1);
+    }
+
     /// <summary>Adds foraging experience for automated tappers.</summary>
     [HarmonyPostfix]
     private static void TapperMachineResetPostfix(object __instance)
@@ -147,11 +186,11 @@ internal static class AutomatePatches
         if (__instance is null || !ModEntry.Config.TappersRewardExp) return;
 
         _GetTapperMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
-        var machine = (SObject)_GetTapperMachine.Invoke(__instance, null);
+        var machine = (SObject) _GetTapperMachine.Invoke(__instance, null);
         if (machine is null) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        owner.gainExperience((int)SkillType.Foraging, 5);
+        owner.gainExperience((int) SkillType.Foraging, 5);
     }
 
     #endregion harmony patches

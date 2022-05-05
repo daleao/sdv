@@ -33,7 +33,9 @@ public static class TypeExtensions
     }
 
     /// <summary>Get a constructor and assert that it was found.</summary>
-    /// <param name="parametersCount">The the number of parameters in the overload signature.</param>
+    /// <param name="parameterCount">The the number of parameters in the overload signature.</param>
+    /// <returns>The first constructor that matches the specified parameter count.</returns>
+    /// <remarks>Useful when there's no compile-time access to one or more parameter types.</remarks>
     public static ConstructorInfo RequireConstructor(this Type type, int parametersCount)
     {
         return AccessTools.GetDeclaredConstructors(type).First(c => c.GetParameters().Length == parametersCount);

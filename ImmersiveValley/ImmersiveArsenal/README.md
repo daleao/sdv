@@ -67,4 +67,4 @@ To uninstall simply delete the mod from your mods folder. This mod is safe to un
 
 ## License
 
-See [LICENSE](../LICENSE) for more information.
+See [LICENSE](../../LICENSE) for more information.

@@ -355,4 +355,4 @@ The mod provides the following console commands, which you can enter in the SMAP
 
 ## License
 
-See [LICENSE](../LICENSE) for more information.
+See [LICENSE](../../LICENSE) for more information.

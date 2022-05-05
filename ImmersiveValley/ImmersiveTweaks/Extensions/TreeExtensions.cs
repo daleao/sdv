@@ -43,8 +43,22 @@ public static class TreeExtensions
     /// <summary>Get an object quality value based on this tree's age.</summary>
     public static int GetQualityFromAge(this Tree tree)
     {
-        var age = tree.ReadDataAs<int>("Age");
-        return age switch
+        var skillFactor = 1f + Game1.player.ForagingLevel * 0.1f;
+        var age = (int) (tree.ReadDataAs<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
+        if (ModEntry.HasProfessionsMod && Game1.player.professions.Contains(Farmer.lumberjack)) age *= 2;
+
+        if (ModEntry.Config.DeterministicAgeQuality)
+        {
+            return age switch
+            {
+                >= 336 => SObject.bestQuality,
+                >= 224 => SObject.highQuality,
+                >= 112 => SObject.medQuality,
+                _ => SObject.lowQuality
+            };
+        }
+
+        return Game1.random.Next(age) switch
         {
             >= 336 => SObject.bestQuality,
             >= 224 => SObject.highQuality,

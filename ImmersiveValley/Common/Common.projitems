@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\BidirectionalMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ArrayExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\CodeInstructionListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\CollectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\XnaExtensions\ColorExtensions.cs" />
@@ -50,7 +51,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Classes\Static\" />
     <Folder Include="$(MSBuildThisFileDirectory)Harmony\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\Collections\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Extensions\Reflection\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\Stardew\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\XnaExtensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Integrations\Automate\" />

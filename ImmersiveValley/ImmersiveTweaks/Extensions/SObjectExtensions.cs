@@ -20,10 +20,30 @@ public static class SObjectExtensions
         return @object.bigCraftable.Value && @object.ParentSheetIndex == 10;
     }
 
-   /// <summary>Get an object quality value based on this object's age.</summary>
+    /// <summary>Whether a given object is a mushroom box.</summary>
+    public static bool IsMushroomBox(this SObject @object)
+    {
+       return @object.bigCraftable.Value && @object.ParentSheetIndex == 128;
+    }
+
+    /// <summary>Get an object quality value based on this object's age.</summary>
     public static int GetQualityFromAge(this SObject @object)
     {
-        var age = @object.ReadDataAs<int>("Age") * ModEntry.Config.AgeImproveQualityFactor;
+        var skillFactor = 1f + Game1.player.ForagingLevel * 0.1f;
+        var age = (int) (@object.ReadDataAs<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
+        if (ModEntry.HasProfessionsMod && Game1.player.professions.Contains(Farmer.shepherd)) age *= 2;
+
+        if (ModEntry.Config.DeterministicAgeQuality)
+        {
+            return age switch
+            {
+                >= 336 => SObject.bestQuality,
+                >= 224 => SObject.highQuality,
+                >= 112 => SObject.medQuality,
+                _ => SObject.lowQuality
+            };
+        }
+
         return age switch
         {
             >= 336 => SObject.bestQuality,

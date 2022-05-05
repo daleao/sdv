@@ -19,7 +19,7 @@ public interface IImmersiveProfessionsAPI
     /// <param name="farmer">The player.</param>
     public int GetMineralQuality(Farmer farmer);
 
-    /// <summary>Get the value of the a farmer's Conservationist taxation price multiplier.</summary>
+    /// <summary>Get the value of a farmer's Conservationist taxation price multiplier.</summary>
     /// <param name="farmer">The player.</param>
     public float GetConservationistTaxBonus(Farmer farmer);
 
@@ -85,4 +85,11 @@ public interface IImmersiveProfessionsAPI
     public IImmersiveProfessions.IEvent RegisterUltimateEmptiedEvent(Action<object, IImmersiveProfessions.IUltimateEmptiedEventArgs> callback,bool enable = true);
 
     #endregion ultimate
+
+    #region configs
+
+    /// <summary>Get an interface for this mod's config settings.</summary>
+    public IImmersiveProfessions.IProfessionsConfig GetConfigs();
+
+    #endregion configs
 }

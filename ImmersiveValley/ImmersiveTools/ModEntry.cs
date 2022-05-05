@@ -19,11 +19,12 @@ using Framework.Events;
 public class ModEntry : Mod
 {
     internal static ModEntry Instance { get; private set; }
+    internal static ToolConfig Config { get; set; }
+
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
     internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
-    internal static ToolConfig Config { get; set; }
     internal static bool HasMoonMod { get; private set; }
 
     internal static PerScreen<Shockwave> Shockwave { get; } = new(() => null);

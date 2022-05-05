@@ -32,36 +32,32 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
             // ignored
         }
 
-        Prefix.after = new[] {"Goldenrevolver.ForageFantasy"};
+        Prefix.priority = Priority.HigherThanNormal;
     }
 
     #region harmony patches
 
-    /// <summary>Patch for automated Mushroom Box quality and forage increment.</summary>
+    /// <summary>Patch for automated Mushroom Box forage increment.</summary>
     [HarmonyPrefix]
-    private static bool MushroomBoxMachineGetOutputPrefix(object __instance)
+    private static void MushroomBoxMachineGetOutputPrefix(object __instance)
     {
         try
         {
-            if (__instance is null) return true; // run original logic
+            if (__instance is null) return;
 
             _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
             var machine = (SObject) _GetMachine.Invoke(__instance, null);
-            if (machine?.heldObject.Value is null) return true; // run original logic
+            if (machine?.heldObject.Value is null) return;
 
             var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-            if (!owner.HasProfession(Profession.Ecologist)) return true; // run original logic
-
-            machine.heldObject.Value.Quality = owner.GetEcologistForageQuality();
-            if (!ModEntry.Config.ShouldCountAutomatedHarvests) return true; // run original logic
+            if (!owner.HasProfession(Profession.Ecologist) || !ModEntry.Config.ShouldCountAutomatedHarvests)
+                return;
 
             owner.IncrementData<uint>(DataField.EcologistItemsForaged);
-            return true; // run original logic
         }
         catch (Exception ex)
         {
             Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
-            return true; // default to original logic
         }
     }
 

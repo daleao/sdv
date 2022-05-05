@@ -217,4 +217,14 @@ public class ModAPI
     }
 
     #endregion ultimate
+
+    #region configs
+
+    /// <summary>Get an interface for this mod's config settings.</summary>
+    public ModConfig GetConfigs()
+    {
+        return ModEntry.Config;
+    }
+
+    #endregion configs
 }

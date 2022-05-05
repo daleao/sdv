@@ -45,28 +45,49 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
                 (config, value) => config.AgeSapTrees = value
             )
             .AddCheckbox(
-                () => "Tappers Reward Exp",
-                () => "Gain foraging experience when a tapper is harvested.",
-                config => config.TappersRewardExp,
-                (config, value) => config.TappersRewardExp = value
-            )
-            .AddCheckbox(
                 () => "Age Bee Houses",
                 () => "Allows bee houses to age and improve their honey quality every year.",
                 config => config.AgeBeeHouses,
                 (config, value) => config.AgeBeeHouses = value
             )
+            .
+            AddNumberField(
+                () => "Age Qualiy Improvement Multiplier",
+                () => "Increases or decreases the rate at which age increase product quality for Bee House, Trees and Fruit Trees (higher is faster).",
+                config => config.AgeImproveQualityFactor,
+                (config, value) => config.AgeImproveQualityFactor = value,
+                0.25f,
+                4f
+            )
             .AddCheckbox(
-                () => "Kegs Remember Honey Flower",
-                () => "Allows the production of tasty flowery meads.",
-                config => config.KegsRememberHoneyFlower,
-                (config, value) => config.KegsRememberHoneyFlower = value
+                () => "Deterministic Age Quality",
+                () => "Whether age-dependent qualities should be deterministic (true) or stochastic (false).",
+                config => config.DeterministicAgeQuality,
+                (config, value) => config.DeterministicAgeQuality = value
             )
             .AddCheckbox(
                 () => "Berry Bushes Reward Exp",
                 () => "Gain foraging experience when a berry bush is harvested.",
                 config => config.BerryBushesRewardExp,
                 (config, value) => config.BerryBushesRewardExp = value
+            )
+            .AddCheckbox(
+                () => "Mushroom Boxes Reward Exp",
+                () => "Gain foraging experience when a mushroom box is harvested.",
+                config => config.MushroomBoxesRewardExp,
+                (config, value) => config.MushroomBoxesRewardExp = value
+            )
+            .AddCheckbox(
+                () => "Tappers Reward Exp",
+                () => "Gain foraging experience when a tapper is harvested.",
+                config => config.TappersRewardExp,
+                (config, value) => config.TappersRewardExp = value
+            )
+            .AddCheckbox(
+                () => "Kegs Remember Honey Flower",
+                () => "Allows the production of tasty flowery meads.",
+                config => config.KegsRememberHoneyFlower,
+                (config, value) => config.KegsRememberHoneyFlower = value
             )
             .AddCheckbox(
                 () => "Prevent Fruit Tree Growth in Winter",
@@ -82,15 +103,17 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
                 (config, value) => config.LargeProducsYieldQuantityOverQuality = value
             )
             .AddCheckbox(
+                () => "Professional Foraging In Ginger Island",
+                () =>
+                    "Extends the perks from Botanist/Ecologist profession to dug-up Ginger and shaken-off Coconuts in Ginger Island.",
+                config => config.ProfessionalForagingInGingerIsland,
+                (config, value) => config.ProfessionalForagingInGingerIsland = value
+            )
+            .AddCheckbox(
                 () => "Explosion Triggered Bombs",
                 () => "Bombs within any explosion radius are immediately triggered.",
                 config => config.ExplosionTriggeredBombs,
                 (config, value) => config.ExplosionTriggeredBombs = value
-            ).AddCheckbox(
-                () => "Extended Foraging Perks",
-                () => "Extends the perks from Botanist/Ecologist profession to Ginger and Coconuts shaken off of palm trees.",
-                config => config.ExtendedForagingPerks,
-                (config, value) => config.ExtendedForagingPerks = value
             );
     }
 }

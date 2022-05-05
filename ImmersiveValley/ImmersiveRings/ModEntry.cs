@@ -17,11 +17,11 @@ using Integrations;
 public class ModEntry : Mod
 {
     internal static ModEntry Instance { get; private set; }
+    internal static ModConfig Config { get; set; }
+
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
     internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
-
-    internal static ModConfig Config { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>

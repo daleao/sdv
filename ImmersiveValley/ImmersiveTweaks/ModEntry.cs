@@ -5,10 +5,9 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
-using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 
-using Common.Extensions.Stardew;
+using Common.Integrations;
 using Framework.Events;
 using Framework.Patches.Integrations;
 
@@ -18,12 +17,15 @@ using Framework.Patches.Integrations;
 public class ModEntry : Mod
 {
     internal static ModEntry Instance { get; private set; }
+    internal static ModConfig Config { get; set; }
+
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
     internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
-    internal static ModConfig Config { get; set; }
-    internal static JObject ProfessionsConfig { get; set; }
+    internal static string ProfessionsUniqueID => "DaLion.ImmersiveProfessions";
+    internal static bool HasProfessionsMod { get; private set; }
+    internal static IImmersiveProfessionsAPI ProfessionsAPI { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -31,9 +33,11 @@ public class ModEntry : Mod
     {
         Instance = this;
 
+        // check for Moon Misadventures mod
+        HasProfessionsMod = helper.ModRegistry.IsLoaded(ProfessionsUniqueID);
+
         // get configs
         Config = helper.ReadConfig<ModConfig>();
-        ProfessionsConfig = helper.ReadConfigExt("DaLion.ImmersiveProfessions", Log);
 
         // hook events
         IEvent.HookAll();

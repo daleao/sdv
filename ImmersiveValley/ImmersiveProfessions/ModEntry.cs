@@ -20,15 +20,16 @@ public class ModEntry : Mod
     internal static PerScreen<PlayerState> PerScreenState { get; } = new(() => new());
 
     internal static ModEntry Instance { get; private set; }
-    internal static IModHelper ModHelper => Instance.Helper;
-    internal static IManifest Manifest => Instance.ModManifest;
-    internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
-
     internal static ModConfig Config { get; set; }
+
     internal static JObject ArsenalConfig { get; private set; }
     internal static JObject PondsConfig { get; private set; }
     internal static JObject RingsConfig { get; private set; }
     internal static JObject TweaksConfig { get; private set; }
+
+    internal static IModHelper ModHelper => Instance.Helper;
+    internal static IManifest Manifest => Instance.ModManifest;
+    internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
     internal static HostState HostState { get; private set; }
     internal static PlayerState PlayerState
