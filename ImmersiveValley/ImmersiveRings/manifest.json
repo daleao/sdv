@@ -9,6 +9,11 @@
   "UpdateKeys": [ "Nexus:11380" ],
   "Dependencies": [
     {
+      "UniqueID": "DaLion.ImmersiveProfessions",
+      "MinimumVersion": "3.1.16",
+      "IsRequired": false
+    },
+    {
       "UniqueID": "leclair.bettercrafting",
       "IsRequired": false
     }

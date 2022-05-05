@@ -9,8 +9,13 @@
   "UpdateKeys": [ "Nexus:11288" ],
   "Dependencies": [
     {
+      "UniqueID": "DaLion.ImmersiveProfessions",
+      "MinimumVersion": "3.1.16",
+      "IsRequired": false
+    },
+    {
       "UniqueID": "Pathoschild.Automate",
-      "IsRequired": false 
+      "IsRequired": false
     }
   ]
 }

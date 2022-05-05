@@ -12,6 +12,11 @@
       "UniqueID": "spacechase0.GenericModConfigMenu",
       "MinimumVersion": "1.8.0",
       "IsRequired": false
+    },
+    {
+      "UniqueID": "DaLion.ImmersiveProfessions",
+      "MinimumVersion": "3.1.16",
+      "IsRequired": false
     }
   ]
 }
