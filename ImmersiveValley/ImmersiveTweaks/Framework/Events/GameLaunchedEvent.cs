@@ -47,6 +47,7 @@ internal class GameLaunchedEvent : IEvent
         ).Register();
 
         // add Immersive Professions integration
-        new ImmersiveProfessionsIntegration(ModEntry.ModHelper.ModRegistry, ModEntry.Log).Register();
+        if (ModEntry.HasProfessionsMod)
+            new ImmersiveProfessionsIntegration(ModEntry.ModHelper.ModRegistry, ModEntry.Log).Register();
     }
 }

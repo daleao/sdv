@@ -17,7 +17,6 @@ using StardewValley.TerrainFeatures;
 using Common.Classes;
 using Common.Extensions;
 using Common.Extensions.Reflection;
-using Common.Extensions.Stardew;
 using Common.Harmony;
 using Extensions;
 
@@ -181,7 +180,7 @@ internal static class Patches
     [HarmonyPatch(typeof(SObject), nameof(SObject.checkForAction))]
     internal class ObjectCheckForActionPatch
     {
-        /// <summary>Detects if a tapper is ready for harvest.</summary>
+        /// <summary>Detects if an object is ready for harvest.</summary>
         [HarmonyPrefix]
         // ReSharper disable once RedundantAssignment
         private static bool Prefix(SObject __instance, ref bool __state)
@@ -191,7 +190,7 @@ internal static class Patches
             return true; // run original logic
         }
 
-        /// <summary>Adds foraging experience if a tapper was harvested.</summary>
+        /// <summary>Adds foraging experience if a tapper or mushroom box was harvested.</summary>
         [HarmonyPostfix]
         private static void Postfix(SObject __instance, bool __state)
         {

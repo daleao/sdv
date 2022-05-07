@@ -32,11 +32,7 @@ internal class AssetRequestedEvent : IEvent
     /// <param name="e">The event arguments.</param>
     public void OnAssetRequested(object sender, AssetRequestedEventArgs e)
     {
-        if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/Rings"))
-        {
-            e.LoadFromModFile<Texture2D>("assets/rings.png", AssetLoadPriority.Medium);
-        }
-        else if (e.NameWithoutLocale.IsEquivalentTo("Data/CraftingRecipes"))
+        if (e.NameWithoutLocale.IsEquivalentTo("Data/CraftingRecipes"))
         {
             e.Edit(asset =>
             {
@@ -110,18 +106,47 @@ internal class AssetRequestedEvent : IEvent
                 var rings = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/Rings");
                 if (ModEntry.Config.CraftableGemRings)
                 {
-                    srcArea = new(18, 0, 88, 12);
-                    targetArea = new(21, 353, 88, 12);
+                    if (ModEntry.HasBetterRings)
+                    {
+                        srcArea = new(16, 0, 96, 16);
+                        targetArea = new(16, 352, 96, 16);
+                    }
+                    else
+                    {
+                        srcArea = new(18, 0, 88, 12);
+                        targetArea = new(21, 353, 88, 12);
+                    }
+
                     editor.PatchImage(rings, srcArea, targetArea);
                 }
 
                 if (ModEntry.Config.ForgeableIridiumBand)
                 {
-                    srcArea = new(0, 2, 12, 12);
-                    targetArea = new(371, 339, 12, 12);
+                    if (ModEntry.HasBetterRings)
+                    {
+                        srcArea = new(0, 0, 16, 16);
+                        targetArea = new(368, 336, 16, 16);
+                    }
+                    else
+                    {
+                        srcArea = new(0, 2, 12, 12);
+                        targetArea = new(371, 339, 12, 12);
+                    }
+
                     editor.PatchImage(rings, srcArea, targetArea);
                 }
-            });
+            }, AssetEditPriority.Late);
+        }
+        else if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/Rings"))
+        {
+            e.LoadFromModFile<Texture2D>("assets/rings" + (ModEntry.HasBetterRings ? "_better" : string.Empty) + ".png",
+                AssetLoadPriority.Medium);
+        }
+        else if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/Gemstones"))
+        {
+            e.LoadFromModFile<Texture2D>(
+                "assets/gemstones" + (ModEntry.HasBetterRings ? "_better" : string.Empty) + ".png",
+                AssetLoadPriority.Medium);
         }
     }
 }

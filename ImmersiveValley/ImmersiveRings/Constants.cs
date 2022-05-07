@@ -25,14 +25,4 @@ public class Constants
         VOID_ESSENCE_INDEX_I = 769,
         CRAB_RING_INDEX_I = 810,
         GLOWSTONE_RING_INDEX_I = 888;
-
-    public static readonly Dictionary<int, Color> ColorByGemstone = new()
-    {
-        {AMETHYSTR_RING_INDEX_I, new(111, 60, 196)},
-        {TOPAZ_RING_INDEX_I, new(220, 143, 8)},
-        {AQUAMARINE_RING_INDEX_I, new(35, 144, 170)},
-        {JADE_RING_INDEX_I, new(117, 150, 99)},
-        {EMERALD_RING_INDEX_I, new(4, 128, 54)},
-        {RUBY_RING_INDEX_I, new(225, 57, 57)}
-    };
 }

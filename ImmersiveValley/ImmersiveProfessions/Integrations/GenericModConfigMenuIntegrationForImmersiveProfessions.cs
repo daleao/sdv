@@ -3,10 +3,8 @@ namespace DaLion.Stardew.Professions.Integrations;
 #region using directives
 
 using System;
-using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
-using StardewValley;
 
 using Common.Integrations;
 using Framework.Utility;
@@ -59,8 +57,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) =>
                 {
                     config.UseVintageInterface = value;
-                    Textures.UltimateMeterTx = Game1.content.Load<Texture2D>(Path.Combine(ModEntry.Manifest.UniqueID, "UltimateMeter"));
-                    Textures.SkillBarTx = Game1.content.Load<Texture2D>(Path.Combine(ModEntry.Manifest.UniqueID, "SkillBars"));
+                    Textures.UltimateMeterTx = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
+                    Textures.SkillBarTx = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/SkillBars");
                 }
             )
 
@@ -70,7 +68,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 () => "Forages Needed for Best Quality",
                 () => "Ecologists must forage this many items to reach iridium quality.",
                 config => (int) config.ForagesNeededForBestQuality,
-                (config, value) => config.ForagesNeededForBestQuality = (uint)value,
+                (config, value) => config.ForagesNeededForBestQuality = (uint) value,
                 0,
                 1000
             )
@@ -78,7 +76,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 () => "Minerals Needed for Best Quality",
                 () => "Gemologists must mine this many minerals to reach iridium quality.",
                 config => (int) config.MineralsNeededForBestQuality,
-                (config, value) => config.MineralsNeededForBestQuality = (uint)value,
+                (config, value) => config.MineralsNeededForBestQuality = (uint) value,
                 0,
                 1000
             );
