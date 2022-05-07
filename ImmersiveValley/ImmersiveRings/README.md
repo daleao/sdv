@@ -65,6 +65,7 @@ To uninstall simply delete the mod from your mods folder. This mod is safe to un
 ## Special Thanks
 
 - [Goldenrevolver](https://www.nexusmods.com/stardewvalley/users/5347339) for the idea of progressive gemstone rings.
+- [compare123](https://www.nexusmods.com/stardewvalley/users/13917800) for Better Rings-compatible textures.
 - **ConcernedApe** for StardewValley.
 - [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.
 
