@@ -117,7 +117,7 @@ internal class NewSkillsPagePerformHoverActionPatch : BasePatch
             }
         }
 
-        foreach (var skill in ModEntry.CustomSkills)
+        foreach (var skill in ModEntry.CustomSkills.Values)
         {
             bounds.Y += 56;
             var professionsForThisSkill = Game1.player.GetAllProfessionsForCustomSkill(skill, true).ToList();

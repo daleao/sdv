@@ -19,13 +19,13 @@ public static class Int32Extensions
         if (Enum.IsDefined(typeof(Profession), professionIndex))
             return Enum.Parse<Profession>(professionIndex.ToString()).ToString();
         
-        if (professionIndex > 100 && Enum.IsDefined(typeof(Profession), professionIndex - 100))
+        if (professionIndex >= 100 && Enum.IsDefined(typeof(Profession), professionIndex - 100))
             return Enum.Parse<Profession>((professionIndex - 100).ToString()).ToString();
-        
-        if (!ModEntry.CustomSkills.Any(s => professionIndex.IsIn(s.ProfessionIds)))
+
+        if (!ModEntry.CustomSkills.Values.Any(s => professionIndex.IsIn(s.ProfessionIds)))
             throw new ArgumentException($"Profession {professionIndex} does not exist.");
         
-        var theSkill = ModEntry.CustomSkills.Single(s => professionIndex.IsIn(s.ProfessionIds));
+        var theSkill = ModEntry.CustomSkills.Values.Single(s => professionIndex.IsIn(s.ProfessionIds));
         return theSkill.ProfessionNamesById[professionIndex];
     }
 

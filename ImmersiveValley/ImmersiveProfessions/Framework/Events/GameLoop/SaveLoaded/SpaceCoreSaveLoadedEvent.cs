@@ -31,10 +31,10 @@ internal class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
 
         // get custom skills
         foreach (var skillId in ModEntry.SpaceCoreApi!.GetCustomSkills())
-            ModEntry.CustomSkills.Add(new CustomSkill(skillId));
+            ModEntry.CustomSkills[skillId] = new CustomSkill(skillId);
 
         // revalidate custom skill levels
-        foreach (var skill in ModEntry.CustomSkills)
+        foreach (var skill in ModEntry.CustomSkills.Values)
         {
             var currentExp = skill.CurrentExp;
             if (currentExp > Experience.VANILLA_CAP_I)

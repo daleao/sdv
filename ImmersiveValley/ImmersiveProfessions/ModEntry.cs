@@ -34,7 +34,7 @@ public class ModEntry : Mod
     [CanBeNull] internal static ISpaceCoreAPI SpaceCoreApi { get; set; }
     [CanBeNull] internal static ICookingSkillAPI CookingSkillApi { get; set; }
     [CanBeNull] internal static ILuckSkillAPI LuckSkillApi { get; set; }
-    internal static List<ICustomSkill> CustomSkills { get; set; } = new();
+    internal static Dictionary<string, ICustomSkill> CustomSkills { get; set; } = new();
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;

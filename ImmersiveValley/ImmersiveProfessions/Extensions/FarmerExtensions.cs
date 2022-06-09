@@ -90,7 +90,7 @@ public static class FarmerExtensions
     public static bool HasAllProfessions(this Farmer farmer)
     {
         var allProfessions = Enumerable.Range(0, 30).ToList();
-        allProfessions.AddRange(ModEntry.CustomSkills.SelectMany(s => s.ProfessionIds));
+        allProfessions.AddRange(ModEntry.CustomSkills.Values.SelectMany(s => s.ProfessionIds));
         return allProfessions.All(farmer.professions.Contains);
     }
 
@@ -241,7 +241,7 @@ public static class FarmerExtensions
     public static bool CanResetAnySkill(this Farmer farmer)
     {
         return Enum.GetValues<SkillType>().Any(farmer.CanResetSkill) ||
-               ModEntry.CustomSkills.Any(farmer.CanResetCustomSkill);
+               ModEntry.CustomSkills.Values.Any(farmer.CanResetCustomSkill);
     }
 
     /// <summary>Get the cost of resetting the specified skill.</summary>

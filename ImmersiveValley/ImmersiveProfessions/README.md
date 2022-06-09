@@ -226,7 +226,7 @@ The following mods are compatible without integration:
 - [Better Beehouses](https://www.nexusmods.com/stardewvalley/mods/10996) (the mod author already handled compatibility).
 - [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) (just make sure BerryBushQuality and MushroomBoxQuality are disabled to avoid interfering with Ecologist profession; if both mods are installed, those settings should be disabled by default).
 - [Capstone Professions](https://www.nexusmods.com/stardewvalley/mods/7636) (though I don't recommend it if prestige and extended progression options are enabled).
-- Custom SpaceCore skills (e.g. [Luck](https://www.nexusmods.com/stardewvalley/mods/521), [Magic](https://www.nexusmods.com/stardewvalley/mods/2007), [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)) (note that these skills cannot be prestiged).
+- Custom SpaceCore skills (e.g. [Luck](https://www.nexusmods.com/stardewvalley/mods/521), [Magic](https://www.nexusmods.com/stardewvalley/mods/2007), [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)) can be reset at the Statue of Prestige, but cannot be leveled above 10.
 
 
 The mods are **not** compatible:

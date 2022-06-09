@@ -110,7 +110,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                     if (ModEntry.CustomSkills.Any())
                     {
                         skillResponses.AddRange(
-                            from skill in ModEntry.CustomSkills.Where(Game1.player.CanResetCustomSkill)
+                            from skill in ModEntry.CustomSkills.Values.Where(Game1.player.CanResetCustomSkill)
                             let costVal = Game1.player.GetResetCost(skill)
                             let costStr = costVal > 0
                                 ? ModEntry.i18n.Get("prestige.dogstatue.cost", new {cost = costVal})
@@ -299,8 +299,8 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                     {
                         if (questionAndAnswer.Contains("skillReset_"))
                         {
-                            var skill = ModEntry.CustomSkills.Single(s => s.StringId == skillName);
-                            var cost = Game1.player.GetResetCost(skill);
+                            var theSkill = ModEntry.CustomSkills[skillName];
+                            var cost = Game1.player.GetResetCost(theSkill);
                             if (cost > 0)
                             {
                                 // check for funds and deduct cost
@@ -315,7 +315,7 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                             }
 
                             // prepare to prestige at night
-                            ModEntry.PlayerState.CustomSkillsToReset.Enqueue(skill);
+                            ModEntry.PlayerState.CustomSkillsToReset.Enqueue(theSkill);
                             EventManager.Enable(typeof(PrestigeDayEndingEvent));
 
                             // play sound effect

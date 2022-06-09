@@ -22,7 +22,7 @@ internal class NewSkillsPageCtorPatch : BasePatch
     {
         try
         {
-            Original = "SpaceCore.Interface.NewSkillsPage".ToType().GetConstructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
+            Original = "SpaceCore.Interface.NewSkillsPage".ToType().RequireConstructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
         }
         catch
         {

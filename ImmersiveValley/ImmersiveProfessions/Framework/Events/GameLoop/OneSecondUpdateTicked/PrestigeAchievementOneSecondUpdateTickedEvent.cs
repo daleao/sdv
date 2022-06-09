@@ -19,7 +19,7 @@ internal class PrestigeAchievementOneSecondUpdateTickedEvent : OneSecondUpdateTi
     protected override void OnOneSecondUpdateTickedImpl(object sender, OneSecondUpdateTickedEventArgs e)
     {
         if (ModEntry.CookingSkillApi is not null &&
-            ModEntry.CustomSkills.All(s => s.StringId != "blueberry.LoveOfCooking")) return;
+            !ModEntry.CustomSkills.ContainsKey("blueberry.LoveOfCooking")) return;
 
         // check for prestige achievements
         if (Game1.player.HasAllProfessions())

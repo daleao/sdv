@@ -239,7 +239,7 @@ internal class SkillsPageDrawPatch : BasePatch
             }
         }
 
-        foreach (var skill in ModEntry.CustomSkills)
+        foreach (var skill in ModEntry.CustomSkills.Values)
         {
             position.Y += 56;
             var numProfessions = Game1.player.NumberOfProfessionsInCustomSkill(skill, true);

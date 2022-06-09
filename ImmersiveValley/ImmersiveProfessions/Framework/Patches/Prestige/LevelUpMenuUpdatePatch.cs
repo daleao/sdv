@@ -309,7 +309,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         var oldProfessionDisplayName = ModEntry.i18n.Get(oldProfessionKey + ".name." + (Game1.player.IsMale ? "male" : "female"));
         var oldUlt = ModEntry.i18n.Get(oldProfessionKey + ".ulti");
         var newProfessionKey = chosenProfession.ToProfessionName().ToLowerInvariant();
-        var newProfessionDisplayName = ModEntry.i18n.Get(newProfessionKey + ".name" + (Game1.player.IsMale ? "male" : "female"));
+        var newProfessionDisplayName = ModEntry.i18n.Get(newProfessionKey + ".name." + (Game1.player.IsMale ? "male" : "female"));
         var newUlt = ModEntry.i18n.Get(newProfessionKey + ".ulti");
         var pronoun = Localization.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(

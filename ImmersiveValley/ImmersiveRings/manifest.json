@@ -19,6 +19,7 @@
     },
     {
       "UniqueID": "leclair.bettercrafting",
+      "MinimumVersion": "1.0.0",
       "IsRequired": false
     },
     {

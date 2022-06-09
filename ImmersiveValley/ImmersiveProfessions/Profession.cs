@@ -32,5 +32,12 @@ public enum Profession
     Brute,
     Poacher,
     Piper,
-    Desperado
+    Desperado,
+    LuckSkill_TierOne_BranchA,
+    LuckSkill_TierOne_BranchB,
+    LuckSkill_TierTwo_OptionA1,
+    LuckSkill_TierTwo_OptionA2,
+    LuckSkill_TierTwo_OptionB1,
+    LuckSkill_TierTwo_OptionB2
+
 }

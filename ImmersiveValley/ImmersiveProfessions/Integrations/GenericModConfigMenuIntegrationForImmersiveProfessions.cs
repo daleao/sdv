@@ -1,15 +1,12 @@
-using DaLion.Common.Extensions;
-
 namespace DaLion.Stardew.Professions.Integrations;
 
 #region using directives
 
 using System;
-using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 
+using Common.Extensions;
 using Common.Integrations;
-using Framework.Utility;
 
 #endregion using directives
 
@@ -76,8 +73,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                     ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/SkillBars");
                     ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
                 },
-                new[] {"automatic", "brown", "pink", "off"},
-                value => value.FirstCharToUpper()
+                new[] {"Automatic", "Brown", "Pink", "Off"},
+                null
             )
             .AddDropdown(
                 () => "Progression Style",

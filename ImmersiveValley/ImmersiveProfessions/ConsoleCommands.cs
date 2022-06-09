@@ -90,7 +90,7 @@ internal static class ConsoleCommands
         Log.I($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Combat)} ({Game1.player.experiencePoints[(int) SkillType.Combat]} exp)");
         Log.I($"Luck level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Luck)} ({Game1.player.experiencePoints[(int) SkillType.Luck]} exp)");
         
-        foreach (var skill in ModEntry.CustomSkills)
+        foreach (var skill in ModEntry.CustomSkills.Values)
             Log.I($"{skill.DisplayName} level: {skill.CurrentLevel} ({skill.CurrentExp} exp)");
     }
 
@@ -119,7 +119,7 @@ internal static class ConsoleCommands
 
             LevelUpMenu.RevalidateHealth(Game1.player);
 
-            foreach (var skill in ModEntry.CustomSkills)
+            foreach (var skill in ModEntry.CustomSkills.Values)
             {
                 ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, skill.StringId, -skill.CurrentExp);
                 if (skill.StringId == "blueberry.LoveOfCooking.CookingSkill")
@@ -158,12 +158,12 @@ internal static class ConsoleCommands
                     Game1.player.experiencePoints[(int) skillType] = 0;
                     Game1.player.ForgetRecipesForSkill(skillType);
                 }
-                else if (ModEntry.CustomSkills.Any(s => string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase)))
+                else if (ModEntry.CustomSkills.Values.Any(s => string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase)))
                 {
-                    var skill = ModEntry.CustomSkills.Single(s =>
+                    var theSkill = ModEntry.CustomSkills.Values.Single(s =>
                         string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
-                    ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, skill.StringId, -skill.CurrentExp);
-                    if (skill.StringId == "blueberry.LoveOfCooking.CookingSkill")
+                    ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, theSkill.StringId, -theSkill.CurrentExp);
+                    if (theSkill.StringId == "blueberry.LoveOfCooking.CookingSkill")
                         Game1.player.ForgetRecipesForLoveOfCookingSkill();
                 }
                 else
@@ -236,7 +236,8 @@ internal static class ConsoleCommands
                 if (prestige) range = range.Concat(Enumerable.Range(100, 30)).ToArray();
                 if (ModEntry.LuckSkillApi is not null)
                     range = range.Concat(Enumerable.Range(30, 36)).ToArray();
-                range = ModEntry.CustomSkills.Aggregate(range, (current, skill) => current.Concat(skill.ProfessionIds).ToArray());
+                range = ModEntry.CustomSkills.Values.Aggregate(range,
+                    (current, skill) => current.Concat(skill.ProfessionIds).ToArray());
 
                 professionsToAdd.AddRange(range);
                 Log.I($"Added all {(prestige ? "prestiged " : "")}professions to farmer {Game1.player.Name}.");
@@ -249,9 +250,9 @@ internal static class ConsoleCommands
             
             if (profession == Profession.Unknown)
             {
-                if (ModEntry.CustomSkills.Any(s => s.ProfessionNamesById.ContainsValue(arg)))
+                if (ModEntry.CustomSkills.Values.Any(s => s.ProfessionNamesById.ContainsValue(arg)))
                 {
-                    var theSkill = ModEntry.CustomSkills.Single(s => s.ProfessionNamesById.ContainsValue(arg));
+                    var theSkill = ModEntry.CustomSkills.Values.Single(s => s.ProfessionNamesById.ContainsValue(arg));
                     var professionId =
                         theSkill.ProfessionNamesById.Single(pair => pair.Value == arg).Key;
                     profession = (Profession) professionId;
