@@ -343,14 +343,14 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     applied[0], applied[1], applied[2], applied[3], applied[4], applied[5],
                     applied[6], applied[7], applied[8], applied[9],
                     applied[10], applied[11],
-                    5,
+                    3,
                     "Piper",
-                    ModEntry.ModHelper.Translation.Get("piper.name." + (who.IsMale ? "male" : "female")))
+                    ModEntry.i18n.Get("piper.name." + (who.IsMale ? "male" : "female")))
                 {
                     which = buffId,
                     sheetIndex = 38,
-                    millisecondsDuration = 300000,
-                    description = ModEntry.ModHelper.Translation.Get("piper.buffdesc", new
+                    millisecondsDuration = 180000,
+                    description = ModEntry.i18n.Get("piper.buffdesc", new
                     {
                         farming = applied[0],
                         fishing = applied[1],
@@ -381,7 +381,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         // increment ultimate meter
-        if (ModEntry.PlayerState.RegisteredUltimate is Pandemonia {IsActive: false} pandemonium)
+        if (ModEntry.PlayerState.RegisteredUltimate is Pandemonium {IsActive: false} pandemonium)
         {
 #pragma warning disable CS8509
             var increment = monster switch

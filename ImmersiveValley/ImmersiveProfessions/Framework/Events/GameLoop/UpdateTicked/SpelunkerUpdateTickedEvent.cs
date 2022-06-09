@@ -33,13 +33,13 @@ internal class SpelunkerUpdateTickedEvent : UpdateTickedEvent
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, bonusSpeed, 0, 0,
                 1,
                 "Spelunker",
-                ModEntry.ModHelper.Translation.Get("spelunker.name." + (Game1.player.IsMale ? "male" : "female")))
+                ModEntry.i18n.Get("spelunker.name." + (Game1.player.IsMale ? "male" : "female")))
             {
                 which = _buffId,
                 sheetIndex = SHEET_INDEX_I,
                 millisecondsDuration = 0,
                 description =
-                    ModEntry.ModHelper.Translation.Get("spelunker.buffdesc", new {bonusLadderChance, bonusSpeed})
+                    ModEntry.i18n.Get("spelunker.buffdesc", new {bonusLadderChance, bonusSpeed})
             }
         );
     }

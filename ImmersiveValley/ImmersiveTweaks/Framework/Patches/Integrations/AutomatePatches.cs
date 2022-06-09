@@ -33,8 +33,18 @@ internal static class AutomatePatches
         );
 
         harmony.Patch(
+            original: "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.FruitTreeMachine".ToType().RequireMethod("GetOutput"),
+            transpiler: new(typeof(AutomatePatches).RequireMethod(nameof(FruitTreeMachineGetOutputTranspiler)))
+        );
+
+        harmony.Patch(
+            original: "Pathoschild.Stardew.Automate.Framework.Machines.Objects.BeeHouseMachine".ToType().RequireMethod("GetOutput"),
+            transpiler: new(typeof(AutomatePatches).RequireMethod(nameof(BeeHouseMachineGetOutputTranspiler)))
+        );
+
+        harmony.Patch(
             original: "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType().RequireMethod("SetInput"),
-            transpiler: new(typeof(AutomatePatches).RequireMethod(nameof(CheesePressSetInputTranspiler)))
+            transpiler: new(typeof(AutomatePatches).RequireMethod(nameof(CheesePressMachineSetInputTranspiler)))
         );
 
         harmony.Patch(
@@ -65,9 +75,88 @@ internal static class AutomatePatches
         Game1.MasterPlayer.gainExperience((int) SkillType.Foraging, 3);
     }
 
+    /// <summary>Adds custom aging quality to automated fruit tree.</summary>
+    private static IEnumerable<CodeInstruction> FruitTreeMachineGetOutputTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    {
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("aedenthorn.FruitTreeTweaks")) return instructions;
+
+        var helper = new ILHelper(original, instructions);
+
+        /// From: int quality = 0;
+        /// To: int quality = this.GetQualityFromAge();
+        /// Removed all remaining age checks for quality
+
+        try
+        {
+            helper
+                .FindFirst(
+                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                    new CodeInstruction(OpCodes.Stloc_1)
+                )
+                .StripLabels(out var labels)
+                .ReplaceWith(new(OpCodes.Call,
+                    typeof(FruitTreeExtensions).RequireMethod(nameof(FruitTreeExtensions.GetQualityFromAge))))
+                .InsertWithLabels(
+                    labels,
+                    new CodeInstruction(OpCodes.Ldarg_0)
+                )
+                .FindNext(
+                    new CodeInstruction(OpCodes.Ldloc_0)
+                )
+                .RemoveUntil(
+                    new CodeInstruction(OpCodes.Stloc_1)
+                )
+                .RemoveUntil(
+                    new CodeInstruction(OpCodes.Stloc_1)
+                )
+                .RemoveUntil(
+                    new CodeInstruction(OpCodes.Stloc_1)
+                )
+                .RemoveLabels();
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed customizing automated fruit tree age quality factor.\nHelper returned {ex}");
+            return null;
+        }
+
+        return helper.Flush();
+    }
+
+    /// <summary>Adds aging quality to automated bee houses.</summary>
+    private static IEnumerable<CodeInstruction> BeeHouseMachineGetOutputTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
+
+        /// Injected: @object.Quality = @object.GetQualityFromAge();
+        /// After: @object.preservedParentSheetIndex.Value = flowerId;
+
+        try
+        {
+            helper
+                .FindLast(
+                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[4])
+                )
+                .Insert(
+                    new CodeInstruction(OpCodes.Dup),
+                    new CodeInstruction(OpCodes.Dup),
+                    new CodeInstruction(OpCodes.Call, typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.GetQualityFromAge))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(SObject).RequirePropertySetter(nameof(SObject.Quality)))
+                );
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed improving automated honey quality with age.\nHelper returned {ex}");
+            return null;
+        }
+
+        return helper.Flush();
+    }
+
     /// <summary>Replaces large milk output quality with quantity.</summary>
-    [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> CheesePressSetInputTranspiler(
+    private static IEnumerable<CodeInstruction> CheesePressMachineSetInputTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -104,7 +193,6 @@ internal static class AutomatePatches
     }
 
     /// <summary>Replaces large egg output quality with quantity + add flower memory to automated kegs.</summary>
-    [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> GenericObjectMachineGenericPullRecipeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
@@ -141,8 +229,7 @@ internal static class AutomatePatches
         return helper.Flush();
     }
 
-    /// <summary>Patch for automated Mushroom Box quality and forage increment.</summary>
-    [HarmonyPrefix]
+    /// <summary>Patch for automated Mushroom Box quality.</summary>
     private static void MushroomBoxMachineGetOutputPrefix(object __instance)
     {
         try
@@ -153,11 +240,13 @@ internal static class AutomatePatches
             var machine = (SObject) _GetMushroomBoxMachine.Invoke(__instance, null);
             if (machine?.heldObject.Value is not { } held) return;
 
-            held.Quality = held.GetQualityFromAge();
             var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-            if (!owner.IsLocalPlayer || !owner.professions.Contains(Farmer.botanist)) return;
-
-            held.Quality = Math.Max(ModEntry.ProfessionsAPI.GetForageQuality(owner), held.Quality);
+            if (!owner.professions.Contains(Farmer.botanist))
+                held.Quality = held.GetQualityFromAge();
+            else if (ModEntry.ProfessionsAPI is not null)
+                held.Quality = Math.Max(ModEntry.ProfessionsAPI.GetForageQuality(owner), held.Quality);
+            else
+                held.Quality = SObject.bestQuality;
         }
         catch (Exception ex)
         {
@@ -166,7 +255,6 @@ internal static class AutomatePatches
     }
 
     /// <summary>Adds foraging experience for automated mushroom boxes.</summary>
-    [HarmonyPostfix]
     private static void MushroomBoxMachineGetOutputPostfix(object __instance)
     {
         if (__instance is null || !ModEntry.Config.MushroomBoxesRewardExp) return;
@@ -180,7 +268,6 @@ internal static class AutomatePatches
     }
 
     /// <summary>Adds foraging experience for automated tappers.</summary>
-    [HarmonyPostfix]
     private static void TapperMachineResetPostfix(object __instance)
     {
         if (__instance is null || !ModEntry.Config.TappersRewardExp) return;
@@ -249,6 +336,7 @@ internal static class AutomatePatches
 
             case "Keg" when input.ParentSheetIndex == 340 && input.preservedParentSheetIndex.Value > 0 && ModEntry.Config.KegsRememberHoneyFlower:
                 output.name = input.name.Split(" Honey")[0] + " Mead";
+                output.honeyType.Value = (SObject.HoneyType) input.preservedParentSheetIndex.Value;
                 output.preservedParentSheetIndex.Value = input.preservedParentSheetIndex.Value;
                 output.Price = input.Price * 2;
                 break;

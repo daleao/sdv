@@ -8,7 +8,6 @@ using StardewValley;
 
 #endregion using directives
 
-/// <summary>Interface for the mod API.</summary>
 public interface IImmersiveProfessionsAPI
 {
     /// <summary>Get the value of a farmer's Ecologist forage quality.</summary>

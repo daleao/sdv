@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework;
+﻿using DaLion.Common.Extensions.Collections;
+
+namespace DaLion.Stardew.Professions.Framework;
 
 #region using directives
 
@@ -6,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using JetBrains.Annotations;
 using HarmonyLib;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -77,6 +78,7 @@ internal static class EventManager
         TreasureHunt.TreasureHunt.Ended += RaiseTreasureHuntEndedEvents;
 
         modEvents.Content.AssetRequested += RaiseAssetRequestedEvents;
+        modEvents.Content.AssetsInvalidated += RaiseAssetsInvalidatedEvents;
         modEvents.Display.RenderedActiveMenu += RaiseRenderedActiveMenuEvents;
         modEvents.Display.RenderedHud += RaiseRenderedHudEvents;
         modEvents.Display.RenderedWorld += RaiseRenderedWorldEvents;
@@ -87,6 +89,7 @@ internal static class EventManager
         modEvents.GameLoop.ReturnedToTitle += RaiseReturnedToTitleEvents;
         modEvents.GameLoop.SaveLoaded += RaiseSaveLoadedEvents;
         modEvents.GameLoop.Saving += RaiseSavingEvents;
+        modEvents.GameLoop.OneSecondUpdateTicked += RaiseOneSecondUpdateTickedEvents;
         modEvents.GameLoop.UpdateTicked += RaiseUpdateTickedEvents;
         modEvents.Input.ButtonsChanged += RaiseButtonsChangedEvents;
         modEvents.Input.CursorMoved += RaiseCursorMovedEvents;
@@ -156,7 +159,7 @@ internal static class EventManager
     /// <summary>Enable all events required by the local player's current professions.</summary>
     internal static void EnableAllForLocalPlayer()
     {
-        Log.D($"[EventManager]: Searching for events required by farmer {Game1.player.Name}...");
+        Log.D($"[EventManager]: Enabling profession events for farmer {Game1.player.Name}...");
         foreach (var professionIndex in Game1.player.professions)
             try
             {
@@ -167,16 +170,19 @@ internal static class EventManager
                 Log.D($"[EventManager]: Unexpected profession index {professionIndex} will be ignored.");
             }
 
-        Log.D("[EventManager] Enabling other events...");
         if (Context.IsMultiplayer)
         {
+            Log.D("[EventManager]: Enabling multiplayer events...");
             Enable(typeof(ToggledUltimateModMessageReceivedEvent));
-            if (Context.IsMainPlayer)
-               Enable(typeof(HostPeerConnectedEvent), typeof(HostPeerDisconnectedEvent));
+            if (Context.IsMainPlayer) Enable(typeof(HostPeerConnectedEvent), typeof(HostPeerDisconnectedEvent));
         }
 
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
             Enable(typeof(VerifyHudThemeWarpedEvent));
+
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.SpaceCore"))
+            Enable(typeof(SpaceCoreSaveLoadedEvent));
+
 
         Log.D("[EventManager]: Done enabling local player events.");
     }
@@ -184,9 +190,11 @@ internal static class EventManager
     /// <summary>Disable all non-static events.</summary>
     internal static void DisableAllForLocalPlayer()
     {
-        Log.D("[EventManager]:  local player events...");
+        Log.D("[EventManager]: Disabling local player events...");
         var eventsToRemove = _ManagedEvents
-            .Where(e => !e.GetType().Name.SplitCamelCase().First().IsAnyOf("Static", "Debug"))
+            .Where(e => !e.GetType().Name.SplitCamelCase().First().IsIn("Static", "Debug") &&
+                        !e.GetType().IsAssignableTo(typeof(SaveLoadedEvent)) &&
+                        !e.GetType().IsAssignableTo(typeof(ReturnedToTitleEvent)))
             .Select(e => e.GetType())
             .ToArray();
         Disable(eventsToRemove);
@@ -350,6 +358,12 @@ internal static class EventManager
             @event.OnAssetRequested(sender, e);
     }
 
+    private static void RaiseAssetsInvalidatedEvents(object sender, AssetsInvalidatedEventArgs e)
+    {
+        foreach (var @event in _ManagedEvents.OfType<AssetsInvalidatedEvent>())
+            @event.OnAssetsInvalidated(sender, e);
+    }
+
     // display events
     private static void RaiseRenderedActiveMenuEvents(object sender, RenderedActiveMenuEventArgs e)
     {
@@ -410,6 +424,12 @@ internal static class EventManager
     {
         foreach (var @event in _ManagedEvents.OfType<SavingEvent>())
             @event.OnSaving(sender, e);
+    }
+
+    private static void RaiseOneSecondUpdateTickedEvents(object sender, OneSecondUpdateTickedEventArgs e)
+    {
+        foreach (var @event in _ManagedEvents.OfType<OneSecondUpdateTickedEvent>())
+            @event.OnOneSecondUpdateTicked(sender, e);
     }
 
     private static void RaiseUpdateTickedEvents(object sender, UpdateTickedEventArgs e)

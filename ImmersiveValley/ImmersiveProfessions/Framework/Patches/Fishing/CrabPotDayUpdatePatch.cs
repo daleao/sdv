@@ -92,7 +92,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
                     return false; // don't run original logic
                 }
             }
-            else if (!whichFish.IsAnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534)) // not ring or weapon
+            else if (!whichFish.IsIn(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534)) // not ring or weapon
             {
                 fishQuality = __instance.GetTrapQuality(whichFish, owner, r, isLuremaster);
                 fishQuantity = __instance.GetTrapQuantity(whichFish, owner, r);

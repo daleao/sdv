@@ -370,14 +370,14 @@ internal static class Patches
 
             if (ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
             {
-                eventString = ModEntry.ModHelper.Translation.Get(
+                eventString = ModEntry.i18n.Get(
                     Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())
                         ? "events.100162.nosword.sve"
                         : "events.100162.sword.sve");
             }
             else
             {
-                eventString = ModEntry.ModHelper.Translation.Get(
+                eventString = ModEntry.i18n.Get(
                     Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())
                         ? "events.100162.nosword"
                         : "events.100162.sword");

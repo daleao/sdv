@@ -7,9 +7,9 @@ using System.Linq;
 using JetBrains.Annotations;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 
+using Common.Integrations;
 using Extensions;
 
 #endregion using directives
@@ -17,12 +17,14 @@ using Extensions;
 [UsedImplicitly]
 internal class PrestigeDayEndingEvent : DayEndingEvent
 {
-    public PerScreen<Queue<SkillType>> SkillsToReset { get; } = new(() => new());
+    private static Queue<SkillType> _ToReset => ModEntry.PlayerState.SkillsToReset;
+    private static Queue<ICustomSkill> _ToReset_Custom => ModEntry.PlayerState.CustomSkillsToReset;
 
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
     {
-        while (SkillsToReset.Value.Any()) Game1.player.ResetSkill(SkillsToReset.Value.Dequeue());
-        this.Disable();
+        while (_ToReset.Any()) Game1.player.ResetSkill(_ToReset.Dequeue());
+        while (_ToReset_Custom.Any()) Game1.player.ResetCustomSkill(_ToReset_Custom.Dequeue());
+        Disable();
     }
 }

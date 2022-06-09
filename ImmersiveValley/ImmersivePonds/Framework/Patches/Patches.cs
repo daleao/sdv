@@ -42,15 +42,15 @@ internal static class Patches
     private static readonly MethodInfo _CalculateBobberTile = typeof(FishingRod).RequireMethod("calculateBobberTile");
 
     private static readonly Func<PondQueryMenu, string> _GetDisplayedText =
-        (Func<PondQueryMenu, string>)Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string>),
+        (Func<PondQueryMenu, string>) Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string>),
             typeof(PondQueryMenu).RequireMethod("getDisplayedText"));
 
     private static readonly Func<PondQueryMenu, string, int> _MeasureExtraTextHeight =
-        (Func<PondQueryMenu, string, int>)Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string, int>),
+        (Func<PondQueryMenu, string, int>) Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string, int>),
             typeof(PondQueryMenu).RequireMethod("measureExtraTextHeight"));
 
     private static readonly Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int> _DrawHorizontalPartition =
-        (Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>)Delegate.CreateDelegate(
+        (Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>) Delegate.CreateDelegate(
             typeof(Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>),
             typeof(PondQueryMenu).RequireMethod("drawHorizontalPartition"));
 
@@ -258,7 +258,14 @@ internal static class Patches
                 __instance.hasCompletedRequest.Value = false;
             }
 
-            __instance.GetFishPondData();
+            var fishPondData = __instance.GetFishPondData();
+            if (fishPondData is null)
+            {
+                Log.W(
+                    $"Invalid Fish Pond at {__instance.GetCenterTile()}.\nThe object {__instance.GetFishObject().Name} does not have an associated entry in the FishPondData dictionary. Please clear this pond and replace the object with a valid fish.");
+                return false;
+            }
+
             if (__instance.currentOccupants.Value > 0)
             {
                 var r = new Random(Guid.NewGuid().GetHashCode());
@@ -266,10 +273,10 @@ internal static class Patches
                     __instance.output.Value = __instance.GetFishProduce(r);
                 
                 __instance.daysSinceSpawn.Value += 1;
-                if (__instance.daysSinceSpawn.Value > __instance.GetFishPondData().SpawnTime)
-                    __instance.daysSinceSpawn.Value = __instance.GetFishPondData().SpawnTime;
+                if (__instance.daysSinceSpawn.Value > fishPondData.SpawnTime)
+                    __instance.daysSinceSpawn.Value = fishPondData.SpawnTime;
                 
-                if (__instance.daysSinceSpawn.Value >= __instance.GetFishPondData().SpawnTime)
+                if (__instance.daysSinceSpawn.Value >= fishPondData.SpawnTime)
                 {
                     var (key, value) = ModEntry.ModHelper.Reflection.GetMethod(__instance, "_GetNeededItemData")
                         .Invoke<KeyValuePair<int, int>>();
@@ -933,7 +940,7 @@ internal static class Patches
                     var hasUnresolvedNeeds = ____pond.neededItem.Value is not null && ____pond.HasUnresolvedNeeds() &&
                                              !____pond.hasCompletedRequest.Value;
                     var pondNameText = isAlgaePond
-                        ? ModEntry.ModHelper.Translation.Get("algae")
+                        ? ModEntry.i18n.Get("algae")
                         : Game1.content.LoadString(
                             PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Name"),
                             ____fishItem.DisplayName);
@@ -1071,7 +1078,7 @@ internal static class Patches
                         var leftX = __instance.xPositionOnScreen + 88;
                         float textX = leftX;
                         var iconX = textX + textSize.X + 4f;
-                        if (LocalizedContentManager.CurrentLanguageCode.IsAnyOf(LocalizedContentManager.LanguageCode.ja,
+                        if (LocalizedContentManager.CurrentLanguageCode.IsIn(LocalizedContentManager.LanguageCode.ja,
                                 LocalizedContentManager.LanguageCode.ko, LocalizedContentManager.LanguageCode.tr))
                         {
                             iconX = leftX - 8;

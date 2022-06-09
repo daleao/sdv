@@ -48,7 +48,7 @@ public class ModAPI
     /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
     public bool IsHuntActive(string type)
     {
-        return type.ToLower() switch
+        return type.ToLowerInvariant() switch
         {
             "prospector" => ModEntry.PlayerState.ProspectorHunt.IsActive,
             "scavenger" => ModEntry.PlayerState.ScavengerHunt.IsActive,
@@ -61,7 +61,7 @@ public class ModAPI
     /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
     public bool TryStartNewHunt(GameLocation location, string type)
     {
-        return type.ToLower() switch
+        return type.ToLowerInvariant() switch
         {
             "prospector" => Game1.player.HasProfession(Profession.Prospector) &&
                             ModEntry.PlayerState.ProspectorHunt.TryStart(location),
@@ -76,7 +76,7 @@ public class ModAPI
     /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
     public void ForceStartNewHunt(GameLocation location, Vector2 target, string type)
     {
-        switch (type.ToLower())
+        switch (type.ToLowerInvariant())
         {
             case "prospector":
                 if (!Game1.player.HasProfession(Profession.Prospector))
@@ -99,7 +99,7 @@ public class ModAPI
     /// <returns><c>False</c> if the <see cref="ITreasureHunt"/> instance was not active, otherwise <c>true</c>.</returns>
     public bool InterruptActiveHunt(string type)
     {
-        var hunt = type.ToLower() switch
+        var hunt = type.ToLowerInvariant() switch
         {
             "prospector" => ModEntry.PlayerState.ProspectorHunt,
             "scavenger" => ModEntry.PlayerState.ScavengerHunt,
@@ -144,10 +144,10 @@ public class ModAPI
         return ModEntry.PlayerState.RegisteredUltimate.ToString();
     }
 
-    /// <summary>Check whether the <see cref="UltimateMeter"/> is currently visible.</summary>
+    /// <summary>Check whether the <see cref="UltimateHUD"/> is currently visible.</summary>
     public bool IsShowingUltimateMeter()
     {
-        return ModEntry.PlayerState.RegisteredUltimate.Meter.IsVisible;
+        return ModEntry.PlayerState.RegisteredUltimate.Hud.IsVisible;
     }
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>

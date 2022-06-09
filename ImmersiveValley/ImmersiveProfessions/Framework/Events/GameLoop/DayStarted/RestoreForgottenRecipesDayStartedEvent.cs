@@ -22,7 +22,7 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
         var forgottenRecipes = Game1.player.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
         if (!forgottenRecipes.Any())
         {
-            this.Disable();
+            Disable();
             return;
         }
 
@@ -44,6 +44,6 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
         Game1.player.WriteData(DataField.ForgottenRecipesDict, forgottenRecipes.Any()
             ? forgottenRecipes.Stringify()
             : null);
-        this.Disable();
+        Disable();
     }
 }

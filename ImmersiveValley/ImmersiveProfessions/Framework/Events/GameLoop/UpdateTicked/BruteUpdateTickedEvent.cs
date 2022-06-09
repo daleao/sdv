@@ -39,14 +39,14 @@ internal class BruteUpdateTickedEvent : UpdateTickedEvent
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
                 "Brute",
-                ModEntry.ModHelper.Translation.Get("brute.name." + (Game1.player.IsMale ? "male" : "female")) + " " +
-                ModEntry.ModHelper.Translation.Get("brute.buff"))
+                ModEntry.i18n.Get("brute.name." + (Game1.player.IsMale ? "male" : "female")) + " " +
+                ModEntry.i18n.Get("brute.buff"))
             {
                 which = _buffId,
                 sheetIndex = SHEET_INDEX_I,
                 millisecondsDuration = 0,
                 description =
-                    ModEntry.ModHelper.Translation.Get(
+                    ModEntry.i18n.Get(
                         "brute.buffdesc" + (Game1.player.HasProfession(Profession.Brute, true)
                             ? ".prestiged"
                             : string.Empty), new {magnitude})

@@ -1,12 +1,12 @@
 ﻿{
-  "Name": "Trial Of Grasses",
+  "Name": "Trial Of The Grasses",
   "Author": "DaLion",
   "Version": "0.1.0",
-  "Description": "An awesome new alchemy skill inspired by The Witcher.",
-  "UniqueID": "DaLion.AwesomeAlchemy",
-  "EntryDll": "AwesomeAlchemy.dll",
-  "MinimumApiVersion": "3.13.0",
-  "UpdateKeys": ["Nexus:10657"],
+  "Description": "An immersive new alchemy skill inspired by The Witcher.",
+  "UniqueID": "DaLion.Alchemy",
+  "EntryDll": "ImmersiveAlchemy.dll",
+  "MinimumApiVersion": "3.14.0",
+  "UpdateKeys": ["Nexus:???"],
   "Dependencies": [
     {
       "UniqueID": "spacechase0.SpaceCore",

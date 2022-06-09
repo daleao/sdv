@@ -269,8 +269,8 @@ internal static class Patches
                 case Constants.JADE_RING_INDEX_I: // jade ring to give +30% crit. power
                     who.critPowerModifier += 0.3f;
                     return false; // don't run original logic
-                case Constants.CRAB_RING_INDEX_I: // crab ring to give +12 defense
-                    who.resilience += 12;
+                case Constants.CRAB_RING_INDEX_I: // crab ring to give +10 defense
+                    who.resilience += 10;
                     return false; // don't run original logic
                 default:
                     return true; // run original logic
@@ -299,8 +299,8 @@ internal static class Patches
                 case Constants.JADE_RING_INDEX_I: // jade ring to give +30% crit. power
                     who.critPowerModifier -= 0.3f;
                     return false; // don't run original logic
-                case Constants.CRAB_RING_INDEX_I: // crab ring to give +12 defense
-                    who.resilience -= 12;
+                case Constants.CRAB_RING_INDEX_I: // crab ring to give +10 defense
+                    who.resilience -= 10;
                     return false; // don't run original logic
                 default:
                     return true; // run original logic
@@ -335,7 +335,7 @@ internal static class Patches
     [HarmonyPatch(typeof(Ring), nameof(Ring.drawTooltip))]
     internal class RingDrawTooltipPatch
     {
-        /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
+        /// <summary>Fix crab ring tooltip..</summary>
         [HarmonyTranspiler]
         protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
         {
@@ -356,7 +356,7 @@ internal static class Patches
                         new CodeInstruction(OpCodes.Call,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.RebalancedRings))),
                         new CodeInstruction(OpCodes.Brfalse_S, displayVanillaEffect),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, 12),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 10),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution)
                     )
                     .Advance()
@@ -544,7 +544,7 @@ internal static class Patches
 
             if (addedDefense > 0)
             {
-                var description = ModEntry.ModHelper.Translation.Get("rings.topaz").ToString();
+                var description = ModEntry.i18n.Get("rings.topaz").ToString();
                 description = Regex.Replace(description, @"\d{1}", addedDefense.ToString());
                 __instance.description += "\n\n" + description;
             }
@@ -610,7 +610,7 @@ internal static class Patches
 
                 // draw top gem
                 color = Utils.ColorByGemstone[__instance.combinedRings[0].ParentSheetIndex] * transparency;
-                offset = ModEntry.HasBetterRings ? new Vector2(19f, 3f) : new(23f, 11f);
+                offset = ModEntry.HasLoadedBetterRings ? new Vector2(19f, 3f) : new(23f, 11f);
                 spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                     new Rectangle(0, 0, 4, 4), color, 0f, Vector2.Zero, scaleSize * 4f, SpriteEffects.None, layerDepth);
 
@@ -618,7 +618,7 @@ internal static class Patches
                 {
                     // draw bottom gem (or left, in case of better rings)
                     color = Utils.ColorByGemstone[__instance.combinedRings[1].ParentSheetIndex] * transparency;
-                    offset = ModEntry.HasBetterRings ? new Vector2(23f, 19f) : new(23f, 43f);
+                    offset = ModEntry.HasLoadedBetterRings ? new Vector2(23f, 19f) : new(23f, 43f);
                     spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                         new Rectangle(4, 0, 4, 4), color, 0, Vector2.Zero, scaleSize * 4f, SpriteEffects.None,
                         layerDepth);
@@ -628,7 +628,7 @@ internal static class Patches
                 {
                     // draw left gem (or right, in case of better rings)
                     color = Utils.ColorByGemstone[__instance.combinedRings[2].ParentSheetIndex] * transparency;
-                    offset = ModEntry.HasBetterRings ? new Vector2(35f, 7f) : new(7f, 27f);
+                    offset = ModEntry.HasLoadedBetterRings ? new Vector2(35f, 7f) : new(7f, 27f);
                     spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                         new Rectangle(8, 0, 4, 4), color, 0f, Vector2.Zero, scaleSize * 4f, SpriteEffects.None, layerDepth);
                 }
@@ -637,7 +637,7 @@ internal static class Patches
                 {
                     // draw right gem (or bottom, in case of better rings)
                     color = Utils.ColorByGemstone[__instance.combinedRings[3].ParentSheetIndex] * transparency;
-                    offset = ModEntry.HasBetterRings ? new Vector2(39f, 23f) : new(39f, 27f);
+                    offset = ModEntry.HasLoadedBetterRings ? new Vector2(39f, 23f) : new(39f, 27f);
                     spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                         new Rectangle(12, 0, 4, 4), color, 0f, Vector2.Zero, scaleSize * 4f, SpriteEffects.None, layerDepth);
                 }

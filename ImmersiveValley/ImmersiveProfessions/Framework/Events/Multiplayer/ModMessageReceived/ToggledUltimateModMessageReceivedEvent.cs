@@ -37,16 +37,16 @@ internal class ToggledUltimateModMessageReceivedEvent : ModMessageReceivedEvent
                 index = who.ReadDataAs<UltimateIndex>(DataField.UltimateIndex);
                 var glowingColor = index switch
                 {
-                    UltimateIndex.Frenzy => Color.OrangeRed,
-                    UltimateIndex.Ambush => Color.MediumPurple,
-                    UltimateIndex.Blossom => Color.DarkGoldenrod,
+                    UltimateIndex.BruteFrenzy => Color.OrangeRed,
+                    UltimateIndex.PoacherAmbush => Color.MediumPurple,
+                    UltimateIndex.DesperadoBlossom => Color.DarkGoldenrod,
                     _ => Color.White
                 };
 
                 if (glowingColor != Color.White)
                     who.startGlowing(glowingColor, false, 0.05f);
 
-                if (Context.IsMainPlayer && index == UltimateIndex.Ambush)
+                if (Context.IsMainPlayer && index == UltimateIndex.PoacherAmbush)
                     ModEntry.HostState.PoachersInAmbush.Add(e.FromPlayerID);
 
                 break;
@@ -55,7 +55,7 @@ internal class ToggledUltimateModMessageReceivedEvent : ModMessageReceivedEvent
                 Log.D($"{who.Name}'s Ultimate has ended.");
                 index = who.ReadDataAs<UltimateIndex>(DataField.UltimateIndex);
                 who.stopGlowing();
-                if (Context.IsMainPlayer && index == UltimateIndex.Ambush)
+                if (Context.IsMainPlayer && index == UltimateIndex.PoacherAmbush)
                     ModEntry.HostState.PoachersInAmbush.Remove(e.FromPlayerID);
 
                 break;

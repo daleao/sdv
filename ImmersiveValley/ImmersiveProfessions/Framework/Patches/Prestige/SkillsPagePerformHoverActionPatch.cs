@@ -6,6 +6,7 @@ using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -35,17 +36,33 @@ internal class SkillsPagePerformHoverActionPatch : BasePatch
 
         if (!ModEntry.Config.EnablePrestige) return;
 
-        var bounds =
-            new Rectangle(
-                __instance.xPositionOnScreen + __instance.width + Textures.RIBBON_HORIZONTAL_OFFSET_I,
-                __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth -
-                70, (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
-                (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F));
+        Rectangle bounds;
+        switch (ModEntry.Config.Progression)
+        {
+            case ModConfig.ProgressionStyle.StackedStars:
+                bounds = new(
+                    __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I - 14,
+                    __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
+                    Textures.PROGRESSION_VERTICAL_OFFSET_I - 4, (int) (Textures.STARS_WIDTH_I * Textures.STARS_SCALE_F),
+                    (int) (Textures.STARS_WIDTH_I * Textures.STARS_SCALE_F)
+                );
+                break;
+            case ModConfig.ProgressionStyle.Gen3Ribbons:
+            case ModConfig.ProgressionStyle.Gen4Ribbons:
+                bounds = new(
+                    __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
+                    __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
+                    Textures.PROGRESSION_VERTICAL_OFFSET_I, (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
+                    (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F));
+                break;
+            default:
+                bounds = Rectangle.Empty;
+                break;
+        }
 
         for (var i = 0; i < 5; ++i)
         {
             bounds.Y += 56;
-            if (!bounds.Contains(x, y)) continue;
 
             // need to do this bullshit switch because mining and fishing are inverted in the skills page
             var skillIndex = i switch
@@ -54,15 +71,59 @@ internal class SkillsPagePerformHoverActionPatch : BasePatch
                 3 => 1,
                 _ => i
             };
-
             var professionsForThisSkill = Game1.player.GetAllProfessionsForSkill(skillIndex, true).ToList();
-            var count = professionsForThisSkill.Count;
-            if (count == 0) continue;
+            var numProfessions = professionsForThisSkill.Count;
+            if (numProfessions == 0) continue;
 
-            ___hoverText = ModEntry.ModHelper.Translation.Get("prestige.skillpage.tooltip", new {count});
+            bounds.Width = ModEntry.Config.Progression.ToString().Contains("Ribbons")
+                ? (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
+                : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * numProfessions + 4) * Textures.STARS_SCALE_F);
+            if (!bounds.Contains(x, y)) continue;
+
+            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new {count = numProfessions});
             ___hoverText = professionsForThisSkill
-                .Select(p => ModEntry.ModHelper.Translation.Get(p.ToProfessionName().ToLower() + ".name." +
-                                                                (Game1.player.IsMale ? "male" : "female")))
+                .Select(p => ModEntry.i18n.Get(p.ToProfessionName().ToLowerInvariant() + ".name." +
+                                               (Game1.player.IsMale ? "male" : "female")))
+                .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
+        }
+
+        if (ModEntry.SpaceCoreApi is null) return;
+
+        if (ModEntry.LuckSkillApi is not null)
+        {
+            bounds.Y += 56;
+            var professionsForThisSkill = Game1.player.GetAllProfessionsForSkill((int) SkillType.Luck, true).ToList();
+            var numProfessions = professionsForThisSkill.Count;
+            if (numProfessions != 0)
+            {
+                bounds.Width = ModEntry.Config.Progression.ToString().Contains("Ribbons")
+                    ? (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
+                    : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * numProfessions + 4) * Textures.STARS_SCALE_F);
+                if (bounds.Contains(x, y))
+                {
+                    ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new {count = numProfessions});
+                    ___hoverText = professionsForThisSkill
+                        .Select(p => Professions.Integrations.LuckSkillIntegration.ProfessionNamesById[p])
+                        .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
+                }
+            }
+        }
+
+        foreach (var skill in ModEntry.CustomSkills)
+        {
+            bounds.Y += 56;
+            var professionsForThisSkill = Game1.player.GetAllProfessionsForCustomSkill(skill, true).ToList();
+            var numProfessions = professionsForThisSkill.Count;
+            if (numProfessions == 0) continue;
+
+            bounds.Width = ModEntry.Config.Progression.ToString().Contains("Ribbons")
+                ? (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
+                : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * numProfessions + 4) * Textures.STARS_SCALE_F);
+            if (!bounds.Contains(x, y)) continue;
+
+            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new {count = numProfessions});
+            ___hoverText = professionsForThisSkill
+                .Select(p => skill.ProfessionNamesById[p])
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
         }
     }

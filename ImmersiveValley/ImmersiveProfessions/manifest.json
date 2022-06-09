@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Walk Of Life - Immersive Professions",
   "Author": "DaLion",
-  "Version": "3.1.16",
+  "Version": "4.0.0",
   "Description": "An immersive overhaul of Stardew professions.",
   "UniqueID": "DaLion.ImmersiveProfessions",
   "EntryDll": "ImmersiveProfessions.dll",
@@ -16,6 +16,21 @@
     {
       "UniqueID": "spacechase0.GenericModConfigMenu",
       "MinimumVersion": "1.8.0",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.LuckSkill",
+      "MinimumVersion": "1.2.3",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.CookingSkill",
+      "MinimumVersion": "1.4.4",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "blueberry.LoveOfCooking",
+      "MinimumVersion": "1.0.28",
       "IsRequired": false
     },
     {

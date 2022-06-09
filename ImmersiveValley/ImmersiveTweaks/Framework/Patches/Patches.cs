@@ -90,9 +90,9 @@ internal static class Patches
         {
             if (!ModEntry.Config.ProfessionalForagingInGingerIsland || !Game1.player.professions.Contains(Farmer.botanist)) return ginger;
 
-            ginger.Quality = ModEntry.HasProfessionsMod
-                ? ModEntry.ProfessionsAPI.GetForageQuality(Game1.player)
-                : SObject.bestQuality;
+            ginger.Quality = ModEntry.ProfessionsAPI is null
+                ? SObject.bestQuality
+                : ModEntry.ProfessionsAPI.GetForageQuality(Game1.player);
             return ginger;
         }
     }
@@ -209,10 +209,9 @@ internal static class Patches
         {
             var helper = new ILHelper(original, instructions);
 
-            /// Injected: if (ModEntry.Config.AgeBeeHoouses) heldObject.Value.Quality = this.GetQualityFromAge();
+            /// Injected: heldObject.Value.Quality = this.GetQualityFromAge();
             /// After: heldObject.Value.preservedParentSheetIndex.Value = honey_type;
 
-            var resumeExecution = generator.DefineLabel();
             try
             {
                 helper
@@ -232,12 +231,6 @@ internal static class Patches
                     .AdvanceUntil(
                         new CodeInstruction(OpCodes.Call,
                             typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation)))
-                    )
-                    .AddLabels(resumeExecution)
-                    .Insert(
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                        new CodeInstruction(OpCodes.Call, typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AgeBeeHouses))),
-                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution)
                     )
                     .Insert(got)
                     .Insert(
@@ -276,9 +269,9 @@ internal static class Patches
 
                 if (__instance.heldObject.Value is null) return;
 
-                __instance.heldObject.Value.Quality = __instance.GetQualityFromAge();
-                if (ModEntry.HasProfessionsMod)
-                    __instance.heldObject.Value.Quality = Math.Max(ModEntry.ProfessionsAPI.GetForageQuality(Game1.player),
+                __instance.heldObject.Value.Quality = ModEntry.ProfessionsAPI is null
+                    ? __instance.GetQualityFromAge()
+                    : Math.Max(ModEntry.ProfessionsAPI.GetForageQuality(Game1.player),
                         __instance.heldObject.Value.Quality);
             }
         }
@@ -296,6 +289,18 @@ internal static class Patches
 
             var prefix = Game1.objectInformation[__instance.preservedParentSheetIndex.Value].Split('/')[4];
             __result = prefix + ' ' + __result;
+        }
+    }
+
+    [HarmonyPatch(typeof(SObject), nameof(SObject.performDropDownAction))]
+    internal class ObjectPerformDropDownActionPatch
+    {
+        /// <summary>Clear the age of bee houses and mushroom boxes.</summary>
+        [HarmonyPostfix]
+        private static void Postfix(SObject __instance)
+        {
+            if (__instance.IsBeeHouse() || __instance.IsMushroomBox())
+                __instance.WriteData("Age", null);
         }
     }
 
@@ -442,9 +447,9 @@ internal static class Patches
                 !Game1.player.professions.Contains(Farmer.botanist))
                 return SObject.lowQuality;
 
-            return ModEntry.HasProfessionsMod
-                ? ModEntry.ProfessionsAPI.GetForageQuality(Game1.player)
-                : SObject.bestQuality;
+            return ModEntry.ProfessionsAPI is null
+                ? SObject.bestQuality
+                : ModEntry.ProfessionsAPI.GetForageQuality(Game1.player);
         }
     }
 

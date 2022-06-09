@@ -10,18 +10,18 @@ using System.Linq;
 /// <summary>Extensions for generic objects.</summary>
 public static class GenericExtensions
 {
-    /// <summary>Determine if the instance is equivalent to any of the objects in a sequence.</summary>
-    /// <param name="candidates">A sequence of <typeparamref name="T" /> objects.</param>
-    public static bool IsAnyOf<T>(this T item, params T[] candidates)
+    /// <summary>Determine if the instance is contained by the collection.</summary>
+    /// <param name="collection">A sequence of <typeparamref name="T" /> objects.</param>
+    public static bool IsIn<T>(this T item, params T[] collection)
     {
-        return candidates.Contains(item);
+        return collection.Contains(item);
     }
 
-    /// <summary>Determine if the instance is equivalent to any of the objects in a sequence.</summary>
-    /// <param name="candidates">A sequence of <typeparamref name="T" /> objects.</param>
-    public static bool IsAnyOf<T>(this T item, IEnumerable<T> candidates)
+    /// <summary>Determine if the instance is contained by the collection.</summary>
+    /// <param name="collection">A sequence of <typeparamref name="T" /> objects.</param>
+    public static bool IsIn<T>(this T item, IEnumerable<T> collection)
     {
-        return candidates.Contains(item);
+        return collection.Contains(item);
     }
 
     /// <summary>Enumerate this and specified items.</summary>

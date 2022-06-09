@@ -168,7 +168,7 @@
   "prestige.dogstatue.what": "- 威望雕像 - ^...",
   "prestige.dogstatue.respec": "改变声望职业",
   "prestige.dogstatue.changeult": "改变战斗超级模式",
-  "prestige.dogstatue.replace": "目前已注册到{{currentProfession}}的{{currentBuff}}。 代替？",
+  "prestige.dogstatue.replace": "目前已注册到{{currentProfession}}的{{currentUlti}}。 代替？",
   "prestige.dogstatue.choice": "{{choiceBuff}}的{{choiceProfession}}",
   "prestige.dogstatue.fledged": "*沃夫* *沃夫* (你现在是一个完整的{{choiceProfession}}。)",
   "prestige.dogstatue.cancel": "我改变了主意...",

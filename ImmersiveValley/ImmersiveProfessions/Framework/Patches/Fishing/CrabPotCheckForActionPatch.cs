@@ -43,13 +43,13 @@ internal class CrabPotCheckForActionPatch : BasePatch
 
             var item = __instance.heldObject.Value;
             bool addedToInvetory;
-            if (__instance.heldObject.Value.ParentSheetIndex.IsAnyOf(14, 51)) // caught a weapon
+            if (__instance.heldObject.Value.ParentSheetIndex.IsIn(14, 51)) // caught a weapon
             {
                 var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex) {specialItem = true};
                 addedToInvetory = who.addItemToInventoryBool(weapon);
                 who.mostRecentlyGrabbedItem = weapon;
             }
-            else if (__instance.heldObject.Value.ParentSheetIndex.IsAnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532,
+            else if (__instance.heldObject.Value.ParentSheetIndex.IsIn(516, 517, 518, 519, 527, 529, 530, 531, 532,
                          533, 534)) // caught a ring
             {
                 var ring = new Ring(__instance.heldObject.Value.ParentSheetIndex);

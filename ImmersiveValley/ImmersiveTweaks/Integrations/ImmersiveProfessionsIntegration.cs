@@ -15,7 +15,7 @@ internal class ImmersiveProfessionsIntegration : BaseIntegration<IImmersiveProfe
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     /// <param name="log">Encapsulates monitoring and logging.</param>
     public ImmersiveProfessionsIntegration(IModRegistry modRegistry, Action<string, LogLevel> log)
-        : base("Immersive Professions", ModEntry.ProfessionsUniqueID, "3.1.15", modRegistry, log)
+        : base("Immersive Professions", "DaLion.ImmersiveProfessions", "4.0.0", modRegistry, log)
     {
     }
 

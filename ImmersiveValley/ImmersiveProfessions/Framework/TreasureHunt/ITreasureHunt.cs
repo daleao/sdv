@@ -10,6 +10,9 @@ using StardewValley;
 /// <summary>Interface for treasure hunts.</summary>
 public interface ITreasureHunt
 {
+    /// <summary>Whether this instance pertains to a Scavenger or a Prospector.</summary>
+    public TreasureHuntType Type { get; }
+
     /// <summary>Whether the <see cref="TreasureTile"/> is set to a valid target.</summary>
     public bool IsActive { get; }
 

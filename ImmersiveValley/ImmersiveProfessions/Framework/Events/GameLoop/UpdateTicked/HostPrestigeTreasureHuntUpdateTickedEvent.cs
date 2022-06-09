@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Linq;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -15,5 +16,6 @@ internal class HostPrestigeTreasureHuntUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
         Game1.gameTimeInterval = 0;
+        if (!ModEntry.HostState.PlayersHuntingTreasure.Any()) Disable();
     }
 }

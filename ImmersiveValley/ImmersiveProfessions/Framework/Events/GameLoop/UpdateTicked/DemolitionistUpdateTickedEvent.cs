@@ -26,7 +26,7 @@ internal class DemolitionistUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.PlayerState.DemolitionistExcitedness <= 0) this.Disable();
+        if (ModEntry.PlayerState.DemolitionistExcitedness <= 0) Disable();
 
         if (e.Ticks % 30 == 0)
         {
@@ -54,13 +54,13 @@ internal class DemolitionistUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Demolitionist",
-                ModEntry.ModHelper.Translation.Get(
+                ModEntry.i18n.Get(
                     "demolitionist.name." + (Game1.player.IsMale ? "male" : "female")))
             {
                 which = buffId,
                 sheetIndex = SHEET_INDEX_I,
                 millisecondsDuration = 0,
-                description = ModEntry.ModHelper.Translation.Get("demolitionist.buffdesc")
+                description = ModEntry.i18n.Get("demolitionist.buffdesc")
             }
         );
     }

@@ -35,7 +35,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
     public void Register()
     {
         var allowedUpgrades = new[] {"Copper", "Steel", "Gold", "Iridium"};
-        if (ModEntry.HasMoonMod) allowedUpgrades.AddRangeToArray(new[] {"Radioactive", "Mythicite"});
+        if (ModEntry.HasLoadedMoonMisadventures) allowedUpgrades.AddRangeToArray(new[] {"Radioactive", "Mythicite"});
 
         // get config menu
         if (!_configMenu.IsLoaded)
@@ -142,7 +142,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
                 10
             );
 
-        if (ModEntry.HasMoonMod)
+        if (ModEntry.HasLoadedMoonMisadventures)
             _configMenu
                 .AddNumberField(
                     () => "Radioactive Radius",
@@ -165,8 +165,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
             .AddNumberField(
                 () => "Enchanted Radius",
                 () => "The radius of affected tiles for the Axe with Reaching Enchantment.",
-                config => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasMoonMod ? 6 : 4],
-                (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasMoonMod ? 6 : 4] = value,
+                config => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasLoadedMoonMisadventures ? 6 : 4],
+                (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasLoadedMoonMisadventures ? 6 : 4] = value,
                 1,
                 10
             )
@@ -305,7 +305,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
                 10
             );
 
-        if (ModEntry.HasMoonMod)
+        if (ModEntry.HasLoadedMoonMisadventures)
             _configMenu
                 .AddNumberField(
                     () => "Radioactive Radius",
@@ -328,8 +328,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
             .AddNumberField(
                 () => "Enchanted Radius",
                 () => "The radius of affected tiles for the Pickaxe with Reaching Enchantment.",
-                config => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasMoonMod ? 6 : 4],
-                (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasMoonMod ? 6 : 4] = value,
+                config => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasLoadedMoonMisadventures ? 6 : 4],
+                (config, value) => config.AxeConfig.RadiusAtEachPowerLevel[ModEntry.HasLoadedMoonMisadventures ? 6 : 4] = value,
                 1,
                 10
             )
@@ -480,7 +480,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
                 7
             );
 
-        switch (ModEntry.HasMoonMod)
+        switch (ModEntry.HasLoadedMoonMisadventures)
         {
             case false:
                 _configMenu
@@ -629,7 +629,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
                 7
             );
 
-        switch (ModEntry.HasMoonMod)
+        switch (ModEntry.HasLoadedMoonMisadventures)
         {
             case false:
                 _configMenu

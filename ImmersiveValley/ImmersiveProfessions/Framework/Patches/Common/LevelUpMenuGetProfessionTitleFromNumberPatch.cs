@@ -32,7 +32,7 @@ internal class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
         {
             if (!Enum.IsDefined(typeof(Profession), whichProfession)) return true; // run original logic
 
-            __result = ModEntry.ModHelper.Translation.Get(whichProfession.ToProfessionName() + ".name." +
+            __result = ModEntry.i18n.Get(whichProfession.ToProfessionName() + ".name." +
                                                           (Game1.player.IsMale ? "male" : "female"));
             return false; // don't run original logic
         }

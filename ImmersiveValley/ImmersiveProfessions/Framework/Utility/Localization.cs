@@ -17,11 +17,11 @@ internal static class Localization
         switch (LocalizedContentManager.CurrentLanguageCode)
         {
             case LocalizedContentManager.LanguageCode.es:
-                return ModEntry.ModHelper.Translation.Get("pronoun.definite.female");
+                return ModEntry.i18n.Get("pronoun.definite.female");
 
             case LocalizedContentManager.LanguageCode.fr:
             case LocalizedContentManager.LanguageCode.pt:
-                return ModEntry.ModHelper.Translation.Get("pronoun.definite" +
+                return ModEntry.i18n.Get("pronoun.definite" +
                                                           (ModEntry.PlayerState.RegisteredUltimate is Ambush
                                                               ? ".male"
                                                               : ".female"));

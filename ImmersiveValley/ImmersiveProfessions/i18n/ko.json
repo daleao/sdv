@@ -168,7 +168,7 @@
   "prestige.dogstatue.what": "-명성의 조각상-^...",
   "prestige.dogstatue.respec": "명성 직업 바꾸기",
   "prestige.dogstatue.changeult": "전투 모드 바꾸기",
-  "prestige.dogstatue.replace": "현재 {{currentProfession}}의 {{currentBuff}}(이)가 있습니다. 대체할까요?",
+  "prestige.dogstatue.replace": "현재 {{currentProfession}}의 {{currentUlti}}(이)가 있습니다. 대체할까요?",
   "prestige.dogstatue.choice": "{{choiceProfession}}의 {{choiceBuff}}",
   "prestige.dogstatue.fledged": "*멍* *멍* (당신은 이제 완전한 {{choiceProfession}}(이)가 되었습니다).",
   "prestige.dogstatue.cancel": "마음이 바뀌었어요...",

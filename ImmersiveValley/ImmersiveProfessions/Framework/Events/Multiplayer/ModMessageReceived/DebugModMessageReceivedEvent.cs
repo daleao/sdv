@@ -7,8 +7,6 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Multiplayer = Utility.Multiplayer;
-
 #endregion using directives
 
 [UsedImplicitly]
@@ -37,9 +35,7 @@ internal class DebugModMessageReceivedEvent : ModMessageReceivedEvent
                     case "EventsEnabled":
                         var response = EventManager.GetAllEnabled()
                             .Aggregate("", (current, next) => current + "\n\t- " + next.GetType().Name);
-                        ModEntry.ModHelper.Multiplayer.SendMessage(response, "Debug/Response",
-                            new[] {ModEntry.Manifest.UniqueID},
-                            new[] {e.FromPlayerID});
+                        ModEntry.Broadcaster.Message(response, "Debug/Response",e.FromPlayerID);
 
                         break;
                 }
@@ -48,7 +44,7 @@ internal class DebugModMessageReceivedEvent : ModMessageReceivedEvent
 
             case "Response":
                 Log.D($"Player {e.FromPlayerID} responded to {command} debug information.");
-                Multiplayer.ResponseReceived.TrySetResult(e.ReadAs<string>());
+                ModEntry.Broadcaster.ResponseReceived.TrySetResult(e.ReadAs<string>());
 
                 break;
         }

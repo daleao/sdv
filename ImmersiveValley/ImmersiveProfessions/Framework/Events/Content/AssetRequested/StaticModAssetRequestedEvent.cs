@@ -19,7 +19,7 @@ internal class StaticModAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Construct an instance.</summary>
     internal StaticModAssetRequestedEvent()
     {
-        this.Enable();
+        Enable();
     }
 
     /// <inheritdoc />
@@ -27,26 +27,28 @@ internal class StaticModAssetRequestedEvent : AssetRequestedEvent
     {
         if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/UltimateMeter"))
         {
-            e.LoadFromModFile<Texture2D>("assets/hud/" +
-                (Context.IsWorldReady &&
-                ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP") &&
-                !ModEntry.Config.DisableGaldoranTheme &&
-                (Game1.currentLocation.NameOrUniqueName.IsAnyOf("Custom_CastleVillageOutpost", "Custom_CrimsonBadlands",
-                    "Custom_IridiumQuarry", "Custom_TreasureCave") || ModEntry.Config.UseGaldoranThemeAllTimes)
-                    ? "gauge_galdora.png"
-                    : ModEntry.Config.UseVintageInterface
-                        ? "gauge_vintage.png"
-                        : "gauge.png"), AssetLoadPriority.Medium);
+            e.LoadFromModFile<Texture2D>("assets/hud/" + 
+                (Context.IsWorldReady && ModEntry.SVEConfig is not null &&
+                ModEntry.SVEConfig.Value<bool?>("DisableGaldoranTheme") == false &&
+                (Game1.currentLocation.NameOrUniqueName.IsIn(
+                "Custom_CastleVillageOutpost", "Custom_CrimsonBadlands",
+                "Custom_IridiumQuarry", "Custom_TreasureCave") ||
+                ModEntry.SVEConfig.Value<bool?>("UseGaldoranThemeAllTimes") == true)
+                ? "gauge_galdora.png"
+                : ModEntry.PlayerState.VintageInterface != "off"
+                    ? $"gauge_vintage_{ModEntry.PlayerState.VintageInterface}.png"
+                    : "gauge.png"), AssetLoadPriority.Medium);
         }
         else if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/SkillBars"))
         {
             e.LoadFromModFile<Texture2D>(
-                "assets/menus/" + (ModEntry.Config.UseVintageInterface ? "skillbars_vintage.png" : "skillbars.png"),
+                "assets/menus/" + (ModEntry.PlayerState.VintageInterface != "off" ? "skillbars_vintage.png" : "skillbars.png"),
                 AssetLoadPriority.Medium);
         }
-        else if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/PrestigeRibbons"))
+        else if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/PrestigeProgression"))
         {
-            e.LoadFromModFile<Texture2D>("assets/sprites/ribbons.png", AssetLoadPriority.Medium);
+            e.LoadFromModFile<Texture2D>($"assets/sprites/{ModEntry.Config.Progression}.png",
+                AssetLoadPriority.Medium);
         }
         else if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/MaxFishSizeIcon"))
         {

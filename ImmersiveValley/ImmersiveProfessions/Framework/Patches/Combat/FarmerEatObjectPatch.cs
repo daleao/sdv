@@ -26,7 +26,7 @@ internal class FarmerEatObjectPatch : BasePatch
         if (ModEntry.PlayerState.RegisteredUltimate?.IsActive != true) return true; // run original logic
 
         Game1.playSound("cancel");
-        Game1.showRedMessage(ModEntry.ModHelper.Translation.Get("ulti.canteat"));
+        Game1.showRedMessage(ModEntry.i18n.Get("ulti.canteat"));
         return false; // don't run original logic
     }
 

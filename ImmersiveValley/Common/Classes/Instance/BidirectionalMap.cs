@@ -40,12 +40,12 @@ public class BiMap<TForwardKey, TReverseKey> : IEnumerable<KeyValuePair<TForward
     public Indexer<TForwardKey, TReverseKey> Forward { get; } = new();
     public Indexer<TReverseKey, TForwardKey> Reverse { get; } = new();
 
-    IEnumerator<KeyValuePair<TForwardKey, TReverseKey>> IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>.GetEnumerator()
+    public IEnumerator GetEnumerator()
     {
         return Forward.GetEnumerator();
     }
 
-    public IEnumerator GetEnumerator()
+    IEnumerator<KeyValuePair<TForwardKey, TReverseKey>> IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>.GetEnumerator()
     {
         return Forward.GetEnumerator();
     }

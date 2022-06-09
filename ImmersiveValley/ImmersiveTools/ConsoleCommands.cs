@@ -67,7 +67,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (upgradeLevel > Framework.UpgradeLevel.Iridium && !ModEntry.HasMoonMod)
+        if (upgradeLevel > Framework.UpgradeLevel.Iridium && !ModEntry.HasLoadedMoonMisadventures)
         {
             Log.W("You must have 'Moon Misadventures' mod installed to set this upgrade level.");
             return;
@@ -140,7 +140,7 @@ internal static class ConsoleCommands
         var result = "\n\nUsage: player_upgradetools <level>";
         result += "\n\nParameters:";
         result += "\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'";
-        if (ModEntry.HasMoonMod)
+        if (ModEntry.HasLoadedMoonMisadventures)
             result += ", 'radioactive', 'mythicite'";
 
         result += "\n\nExample:";

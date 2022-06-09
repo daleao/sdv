@@ -19,6 +19,7 @@ public class ModEntry : Mod
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
+    internal static ITranslationHelper i18n => ModHelper.Translation;
     internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
     internal static int QiChallengeFinalQuestId => "TrulyLegendaryGalaxySword".GetHashCode();

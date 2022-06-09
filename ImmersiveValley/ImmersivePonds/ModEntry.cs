@@ -4,9 +4,12 @@
 
 using System;
 using System.Reflection;
+using JetBrains.Annotations;
 using HarmonyLib;
 using StardewModdingAPI;
 
+using Common.Integrations;
+using Common.Classes;
 using Framework.Events;
 using Framework.Patches.Integrations;
 
@@ -17,10 +20,14 @@ public class ModEntry : Mod
 {
     internal static ModEntry Instance { get; private set; }
     internal static ModConfig Config { get; set; }
+    internal static Broadcaster Broadcaster { get; private set; }
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
+    internal static ITranslationHelper i18n => ModHelper.Translation;
     internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
+
+    [CanBeNull] internal static IImmersiveProfessionsAPI ProfessionsAPI { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -46,5 +53,8 @@ public class ModEntry : Mod
 
         // add debug commands
         helper.ConsoleCommands.Register();
+
+        // instantiate broadcaster
+        Broadcaster = new(helper.Multiplayer, Manifest.UniqueID);
     }
 }

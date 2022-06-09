@@ -40,10 +40,10 @@ internal class TrackedItemCtorPatch : BasePatch
     [HarmonyPostfix]
     private static void TrackedItemCtorPostfix(object __instance, Item item)
     {
-        if (!item.ParentSheetIndex.IsAnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532,
+        if (!item.ParentSheetIndex.IsIn(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532,
                 533, 534)) return;
 
-        if (item.ParentSheetIndex.IsAnyOf(14, 51))
+        if (item.ParentSheetIndex.IsIn(14, 51))
             _Item.SetValue(__instance, new MeleeWeapon(item.ParentSheetIndex));
         else
             _Item.SetValue(__instance, new Ring(item.ParentSheetIndex));

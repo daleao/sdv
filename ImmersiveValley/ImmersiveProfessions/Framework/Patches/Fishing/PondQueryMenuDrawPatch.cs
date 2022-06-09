@@ -162,7 +162,7 @@ internal class PondQueryMenuDrawPatch : BasePatch
                     var leftX = __instance.xPositionOnScreen + 88;
                     float textX = leftX;
                     var iconX = textX + textSize.X + 4f;
-                    if (LocalizedContentManager.CurrentLanguageCode.IsAnyOf(LocalizedContentManager.LanguageCode.ja,
+                    if (LocalizedContentManager.CurrentLanguageCode.IsIn(LocalizedContentManager.LanguageCode.ja,
                             LocalizedContentManager.LanguageCode.ko, LocalizedContentManager.LanguageCode.tr))
                     {
                         iconX = leftX - 8;

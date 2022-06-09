@@ -1,4 +1,5 @@
 ﻿// ReSharper disable PossibleLossOfFraction
+#nullable enable
 namespace DaLion.Stardew.Professions.Extensions;
 
 #region using directives
@@ -6,6 +7,7 @@ namespace DaLion.Stardew.Professions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
@@ -17,8 +19,8 @@ using StardewValley.Monsters;
 using Common.Extensions;
 using Common.Extensions.Collections;
 using Common.Extensions.Stardew;
+using Common.Integrations;
 using Framework;
-using Framework.Events.GameLoop;
 using Framework.Ultimate;
 using Framework.Utility;
 
@@ -31,9 +33,17 @@ public static class FarmerExtensions
 {
     /// <summary>Whether the farmer has a particular profession.</summary>
     /// <param name="profession">The index of the profession.</param>
+    /// <param name="prestiged">Whether to check for the regular or prestiged variant.</param>
     public static bool HasProfession(this Farmer farmer, Profession profession, bool prestiged = false)
     {
         return farmer.professions.Contains((int) profession + (prestiged ? 100 : 0));
+    }
+
+    /// <summary>Whether the farmer has a particular profession belonging to custom skill.</summary>
+    /// <param name="professionIndex">A custom profession index.</param>
+    public static bool HasCustomSkillProfession(this Farmer farmer, int professionIndex)
+    {
+        return farmer.professions.Contains(professionIndex);
     }
 
     /// <summary>Whether the farmer has acquired all professions branching from the specified profession.</summary>
@@ -47,17 +57,41 @@ public static class FarmerExtensions
                professionIndex % 6 > 1;
     }
 
+    /// <summary>Whether the farmer has acquired all professions branching from the specified profession.</summary>
+    /// <param name="skill">The custom skill instance.</param>
+    /// <param name="professionIndex">A custom profession index.</param>
+    public static bool HasAllProfessionsInCustomSkillBranch(this Farmer farmer, ICustomSkill skill, int professionIndex)
+    {
+        if (!professionIndex.IsIn(skill.ProfessionIds)) return false;
+
+        if (professionIndex.IsIn(skill.TierTwoProfessionIds)) return true;
+
+        if (skill.ProfessionsByBranch.TryGetValue(professionIndex, out var branches))
+            return farmer.professions.Contains(branches.left) && farmer.professions.Contains(branches.right);
+
+        return false;
+    }
+
     /// <summary>Whether the farmer has all six professions in the specified skill.</summary>
+    /// <param name="which">Which skill index to check.</param>
     public static bool HasAllProfessionsInSkill(this Farmer farmer, int which)
     {
         return farmer.NumberOfProfessionsInSkill(which) == 6;
     }
 
-    /// <summary>Whether the farmer has all 30 vanilla professions.</summary>
+    /// <summary>Whether the farmer has all six professions in the specified custom skill.</summary>
+    /// <param name="which">Which custom skill instance to check.</param>
+    public static bool HasAllProfessionsInCustomSkill(this Farmer farmer, ICustomSkill which)
+    {
+        return which.ProfessionIds.All(farmer.professions.Contains);
+    }
+
+    /// <summary>Whether the farmer has all available professions (vanilla + modded).</summary>
     public static bool HasAllProfessions(this Farmer farmer)
     {
         var allProfessions = Enumerable.Range(0, 30).ToList();
-        return farmer.professions.Intersect(allProfessions).Count() == allProfessions.Count();
+        allProfessions.AddRange(ModEntry.CustomSkills.SelectMany(s => s.ProfessionIds));
+        return allProfessions.All(farmer.professions.Contains);
     }
 
     /// <summary>Get the last 1st-tier profession acquired by the farmer in the specified skill.</summary>
@@ -69,6 +103,18 @@ public static class FarmerExtensions
         return lastIndex >= 0
             ? farmer.professions[lastIndex]
             : lastIndex;
+    }
+
+    /// <summary>Get the last 1st-tier profession acquired by the farmer in the specified skill.</summary>
+    /// <param name="skill">The custom skill instance.</param>
+    /// <returns>The last acquired profession, or -1 if none was found.</returns>
+    public static int GetCurrentBranchForCustomSkill(this Farmer farmer, ICustomSkill skill)
+    {
+        var found = farmer.professions.Reverse()
+            .FirstOrDefault(p => p.IsIn(skill.TierOneProfessionIds));
+        return found == default
+            ? -1
+            : found;
     }
 
     /// <summary>Get the last level 2nd-tier profession acquired by the farmer in the specified skill branch.</summary>
@@ -84,8 +130,21 @@ public static class FarmerExtensions
             : lastIndex;
     }
 
+    /// <summary>Get the last level 2nd-tier profession acquired by the farmer in the specified skill branch.</summary>
+    /// <param name="skill">The custom skill instance.</param>
+    /// <param name="branch">The custom branch (level 5 profession) index.</param>
+    /// <returns>The last acquired profession, or -1 if none was found.</returns>
+    public static int GetCurrentProfessionForCustomSkillBranch(this Farmer farmer, ICustomSkill skill, int branch)
+    {
+        var found = farmer.professions.Reverse().FirstOrDefault(p =>
+            p == skill.ProfessionsByBranch[branch].left || p == skill.ProfessionsByBranch[branch].right);
+        return found == default
+            ? -1
+            : found;
+    }
+
     /// <summary>Get all the farmer's professions associated with a specific skill.</summary>
-    /// <param name="which">The skill index.</param>
+    /// <param name="which">Which skill instance to check.</param>
     /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the result.</param>
     public static IEnumerable<int> GetAllProfessionsForSkill(this Farmer farmer, int which,
         bool excludeTierOneProfessions = false)
@@ -95,8 +154,19 @@ public static class FarmerExtensions
             : Enumerable.Range(which * 6, 6));
     }
 
+    /// <summary>Get all the farmer's professions associated with a specific skill.</summary>
+    /// <param name="which">Which custom skill instance to check.</param>
+    /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the result.</param>
+    public static IEnumerable<int> GetAllProfessionsForCustomSkill(this Farmer farmer, ICustomSkill which,
+        bool excludeTierOneProfessions = false)
+    {
+        return farmer.professions.Intersect(excludeTierOneProfessions
+            ? which.TierTwoProfessionIds
+            : which.ProfessionIds);
+    }
+
     /// <summary>Count the number of professions acquired by the player in the specified skill.</summary>
-    /// <param name="which">The skill index.</param>
+    /// <param name="which">Which skill instance to check.</param>
     /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
     public static int NumberOfProfessionsInSkill(this Farmer farmer, int which,
         bool excludeTierOneProfessions = false)
@@ -106,8 +176,19 @@ public static class FarmerExtensions
             : farmer.professions.Count(p => p >= 0 && p / 6 == which);
     }
 
+    /// <summary>Count the number of professions acquired by the player in the specified skill.</summary>
+    /// <param name="which">Which custom skill instance to check.</param>
+    /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
+    public static int NumberOfProfessionsInCustomSkill(this Farmer farmer, ICustomSkill which,
+        bool excludeTierOneProfessions = false)
+    {
+        return excludeTierOneProfessions
+            ? farmer.professions.Count(p => p.IsIn(which.TierTwoProfessionIds))
+            : farmer.professions.Count(p => p.IsIn(which.ProfessionIds));
+    }
+
     /// <summary>Get the professions which the player is missing in the specified skill.</summary>
-    /// <param name="which">The skill index.</param>
+    /// <param name="which">Which skill instance to check.</param>
     /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
     public static int[] GetMissingProfessionsInSkill(this Farmer farmer, int which,
         bool excludeTierOneProfessions = false)
@@ -117,17 +198,40 @@ public static class FarmerExtensions
             : farmer.professions.Where(p => p >= 0 && p / 6 == which).ToArray();
     }
 
+    /// <summary>Get the professions which the player is missing in the specified skill.</summary>
+    /// <param name="which">Which custom skill instance to check.</param>
+    /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
+    public static int[] GetMissingProfessionsInCustomSkill(this Farmer farmer, ICustomSkill which,
+        bool excludeTierOneProfessions = false)
+    {
+        return excludeTierOneProfessions
+            ? which.TierTwoProfessionIds.Except(farmer.professions).ToArray()
+            : which.ProfessionIds.Except(farmer.professions).ToArray();
+    }
+
     /// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
-    /// <param name="skillType">A skill index (0 to 4).</param>
+    /// <param name="skillType">A <see cref="SkillType"/> (0 to 4).</param>
     public static bool CanResetSkill(this Farmer farmer, SkillType skillType)
     {
         var isSkillLevelTen = farmer.GetUnmodifiedSkillLevel((int) skillType) == 10;
         var justLeveledUp = farmer.newLevels.Contains(new((int) skillType, 10));
         var hasAtLeastOneButNotAllProfessionsInSkill =
             farmer.NumberOfProfessionsInSkill((int) skillType, true) is > 0 and < 4;
-        var alreadyResetThisSkill =
-            EventManager.TryGet<PrestigeDayEndingEvent>(out var prestigeDayEnding) &&
-            prestigeDayEnding.SkillsToReset.Value.Contains(skillType);
+        var alreadyResetThisSkill = ModEntry.PlayerState.SkillsToReset.Contains(skillType);
+
+        return isSkillLevelTen && !justLeveledUp && hasAtLeastOneButNotAllProfessionsInSkill &&
+               !alreadyResetThisSkill;
+    }
+
+    /// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
+    /// <param name="skill">The custom skill instance.</param>
+    public static bool CanResetCustomSkill(this Farmer farmer, ICustomSkill skill)
+    {
+        var isSkillLevelTen = skill.CurrentLevel == 10;
+        var justLeveledUp = skill.NewLevels.Contains(10);
+        var hasAtLeastOneButNotAllProfessionsInSkill =
+            farmer.professions.Intersect(skill.TierTwoProfessionIds).Count() is > 0 and < 4;
+        var alreadyResetThisSkill = ModEntry.PlayerState.CustomSkillsToReset.Contains(skill);
 
         return isSkillLevelTen && !justLeveledUp && hasAtLeastOneButNotAllProfessionsInSkill &&
                !alreadyResetThisSkill;
@@ -136,7 +240,8 @@ public static class FarmerExtensions
     /// <summary>Whether the farmer can reset any skill for prestige.</summary>
     public static bool CanResetAnySkill(this Farmer farmer)
     {
-        return Enum.GetValues<SkillType>().Any(farmer.CanResetSkill);
+        return Enum.GetValues<SkillType>().Any(farmer.CanResetSkill) ||
+               ModEntry.CustomSkills.Any(farmer.CanResetCustomSkill);
     }
 
     /// <summary>Get the cost of resetting the specified skill.</summary>
@@ -147,13 +252,31 @@ public static class FarmerExtensions
         if (multiplier <= 0f) return 0;
 
         var count = farmer.NumberOfProfessionsInSkill((int) skillType, true);
-#pragma warning disable 8509
         var baseCost = count switch
-#pragma warning restore 8509
         {
             1 => 10000,
             2 => 50000,
-            3 => 100000
+            3 => 100000,
+            _ => 0
+        };
+
+        return (int) (baseCost * multiplier);
+    }
+
+    /// <summary>Get the cost of resetting the specified skill.</summary>
+    /// <param name="skill">The custom skill instance.</param>
+    public static int GetResetCost(this Farmer farmer, ICustomSkill skill)
+    {
+        var multiplier = ModEntry.Config.SkillResetCostMultiplier;
+        if (multiplier <= 0f) return 0;
+
+        var count = farmer.NumberOfProfessionsInCustomSkill(skill);
+        var baseCost = count switch
+        {
+            1 => 10000,
+            2 => 50000,
+            3 => 100000,
+            _ => 0,
         };
 
         return (int) (baseCost * multiplier);
@@ -182,6 +305,8 @@ public static class FarmerExtensions
                 farmer.combatLevel.Value = 0;
                 break;
             case SkillType.Luck:
+                farmer.luckLevel.Value = 0;
+                break;
             default:
                 return;
         }
@@ -197,6 +322,16 @@ public static class FarmerExtensions
 
         // revalidate health
         if (skillType == SkillType.Combat) LevelUpMenu.RevalidateHealth(farmer);
+    }
+
+    /// <summary>Resets a specific skill level, removing all associated recipes and bonuses but maintaining profession perks.</summary>
+    /// <param name="skill">The custom skill to reset.</param>
+    public static void ResetCustomSkill(this Farmer farmer, ICustomSkill skill)
+    {
+        ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(farmer, skill.StringId, -skill.CurrentExp);
+
+        if (ModEntry.Config.ForgetRecipesOnSkillReset && skill.StringId == "blueberry.LoveOfCooking.CookingSkill")
+            farmer.ForgetRecipesForLoveOfCookingSkill(true);
     }
 
     /// <summary>Set the level of a specific skill for this farmer.</summary>
@@ -233,7 +368,7 @@ public static class FarmerExtensions
     /// <summary>Remove all recipes associated with the specified skill from the farmer.</summary>
     /// <param name="skillType">The desired skill.</param>
     /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
-    public static void ForgetRecipesForSkill(this Farmer farmer, SkillType skillType, bool addToRecoveryDict)
+    public static void ForgetRecipesForSkill(this Farmer farmer, SkillType skillType, bool addToRecoveryDict = false)
     {
         var forgottenRecipesDict = farmer.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
 
@@ -273,6 +408,31 @@ public static class FarmerExtensions
             farmer.WriteData(DataField.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
     }
 
+    /// <summary>Remove all recipes associated with the specified skill from the farmer.</summary>
+    /// <param name="skillType">The desired skill.</param>
+    /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
+    public static void ForgetRecipesForLoveOfCookingSkill(this Farmer farmer, bool addToRecoveryDict = false)
+    {
+        if (ModEntry.CookingSkillApi is null) return;
+
+        var forgottenRecipesDict = farmer.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
+
+        // remove associated cooking recipes
+        var cookingRecipes = ModEntry.CookingSkillApi.GetAllLevelUpRecipes().Values.SelectMany(r => r).ToList();
+        var knownCookingRecipes = farmer.cookingRecipes.Keys.Where(key => key.IsIn(cookingRecipes)).ToDictionary(key => key,
+                key => farmer.cookingRecipes[key]);
+        foreach (var (key, value) in knownCookingRecipes)
+        {
+            if (addToRecoveryDict && !forgottenRecipesDict.TryAdd(key, value))
+                forgottenRecipesDict[key] += value;
+
+            farmer.cookingRecipes.Remove(key);
+        }
+
+        if (addToRecoveryDict)
+            farmer.WriteData(DataField.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
+    }
+
     /// <summary>Get all available Ultimate's not currently registered.</summary>
     public static IEnumerable<UltimateIndex> GetUnchosenUltimates(this Farmer farmer)
     {
@@ -288,7 +448,7 @@ public static class FarmerExtensions
 
         var fishData = Game1.content
             .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
+            .Where(p => !p.Key.IsIn(152, 153, 157) && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
 
         if (!fishData.TryGetValue(index, out var specificFishData)) return false;
@@ -408,7 +568,7 @@ public static class FarmerExtensions
     /// <summary>Read from a field in the <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataAs<T>(this Farmer farmer, DataField field, T defaultValue = default)
+    public static T? ReadDataAs<T>(this Farmer farmer, DataField field, T? defaultValue = default)
     {
         return Game1.MasterPlayer.modData.ReadAs($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -418,7 +578,7 @@ public static class FarmerExtensions
     /// <param name="field">The field to read from.</param>
     /// <param name="modId">The unique id of the external mod.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataExtAs<T>(this Farmer farmer, string field, string modId, T defaultValue = default)
+    public static T? ReadDataExtAs<T>(this Farmer farmer, string field, string modId, T? defaultValue = default)
     {
         return Game1.MasterPlayer.modData.ReadAs($"{modId}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -427,42 +587,42 @@ public static class FarmerExtensions
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteData(this Farmer farmer, DataField field, string value)
+    public static void WriteData(this Farmer farmer, DataField field, string? value)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestUpdateData/Write/{field}",
-                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}");
             return;
         }
 
         Game1.player.modData.Write($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}", value);
-        Log.D($"[ModData]: Wrote {value} to {farmer.Name}'s {field}.");
+        Log.D(string.IsNullOrEmpty(value)
+            ? $"[ModData]: Cleared {farmer.Name}'s {field}."
+            : $"[ModData]: Wrote {value} to {farmer.Name}'s {field}.");
     }
 
     /// <summary>Write to a field, external to this mod, in the <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="modId">The unique id of the external mod.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteDataExt(this Farmer farmer, string field, string modId, string value)
+    public static void WriteDataExt(this Farmer farmer, string field, string modId, string? value)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestUpdateData/Write/{field}",
-                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}", modId);
             return;
         }
 
         Game1.player.modData.Write($"{modId}/{farmer.UniqueMultiplayerID}/{field}", value);
-        Log.D($"[ModData]: Wrote {value} to {farmer.Name}'s {field}.");
+        Log.D(string.IsNullOrEmpty(value)
+            ? $"[ModData]: Cleared {farmer.Name}'s {field}."
+            : $"[ModData]: Wrote {value} to {farmer.Name}'s {field}.");
     }
 
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataIfNotExists(this Farmer farmer, DataField field, string value)
+    public static bool WriteDataIfNotExists(this Farmer farmer, DataField field, string? value)
     {
         if (Game1.MasterPlayer.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}"))
         {
@@ -471,9 +631,7 @@ public static class FarmerExtensions
         }
 
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
-            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestUpdateData/Write/{field}",
-                new[] { ModEntry.Manifest.UniqueID },
-                new[] { Game1.MasterPlayer.UniqueMultiplayerID }); // request the main player
+            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}");
         else Game1.player.WriteData(field, value);
 
         return false;
@@ -483,7 +641,7 @@ public static class FarmerExtensions
     /// <param name="field">The field to write to.</param>
     /// <param name="modId">The unique id of the external mod.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataExtIfNotExists(this Farmer farmer, DataField field, string modId, string value)
+    public static bool WriteDataExtIfNotExists(this Farmer farmer, DataField field, string modId, string? value)
     {
         if (Game1.MasterPlayer.modData.ContainsKey($"{modId}/{farmer.UniqueMultiplayerID}/{field}"))
         {
@@ -492,9 +650,7 @@ public static class FarmerExtensions
         }
 
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
-            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestUpdateData/Write/{field}",
-                new[] { modId },
-                new[] { Game1.MasterPlayer.UniqueMultiplayerID }); // request the main player
+            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}", modId);
         else Game1.player.WriteData(field, value);
 
         return false;
@@ -507,9 +663,7 @@ public static class FarmerExtensions
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestUpdateData/Append/{field}",
-                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Append/{field}");
             return;
         }
 
@@ -533,13 +687,11 @@ public static class FarmerExtensions
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(value, $"RequestUpdateData/Append/{field}",
-                new[] { modId }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Append/{field}", modId);
             return;
         }
 
-        var current = Game1.player.ReadData(field);
+        var current = Game1.player.ReadDataExt(field, modId);
         if (current.Contains(value))
         {
             Log.D($"[ModData]: {farmer.Name}'s {field} already contained {value}.");
@@ -556,11 +708,11 @@ public static class FarmerExtensions
     /// <param name="amount">Amount to increment by.</param>
     public static void IncrementData<T>(this Farmer farmer, DataField field, T amount)
     {
+        if (amount == null) throw new ArgumentNullException(nameof(amount));
+
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(amount, $"RequestUpdateData/Increment/{field}",
-                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            ModEntry.Broadcaster.MessageHost(amount.ToString(), $"RequestUpdateData/Increment/{field}");
             return;
         }
 
@@ -574,11 +726,11 @@ public static class FarmerExtensions
     /// <param name="modId">The unique id of the external mod.</param>
     public static void IncrementDataExt<T>(this Farmer farmer, string field, T amount, string modId)
     {
+        if (amount == null) throw new ArgumentNullException(nameof(amount));
+
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(amount, $"RequestUpdateData/Increment/{field}",
-                new[] { modId }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            ModEntry.Broadcaster.MessageHost(amount.ToString(), $"RequestUpdateData/Increment/{field}", modId);
             return;
         }
 
@@ -592,9 +744,7 @@ public static class FarmerExtensions
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(1, $"RequestUpdateData/Increment/{field}",
-                new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            ModEntry.Broadcaster.MessageHost("1", $"RequestUpdateData/Increment/{field}");
             return;
         }
 
@@ -610,9 +760,7 @@ public static class FarmerExtensions
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            // request the main player
-            ModEntry.ModHelper.Multiplayer.SendMessage(1, $"RequestUpdateData/Increment/{field}",
-                new[] { modId }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+            ModEntry.Broadcaster.MessageHost("1", $"RequestUpdateData/Increment/{field}", modId);
             return;
         }
 

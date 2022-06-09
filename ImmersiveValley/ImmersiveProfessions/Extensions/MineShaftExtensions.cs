@@ -37,7 +37,7 @@ public static class MineShaftExtensions
         for (var j = 0; j < shaft.Map.GetLayer("Buildings").LayerHeight; ++j)
         {
             var index = shaft.getTileIndexAt(new(i, j), "Buildings");
-            if (index.IsAnyOf(173, 174)) yield return new(i, j);
+            if (index.IsIn(173, 174)) yield return new(i, j);
         }
     }
 }

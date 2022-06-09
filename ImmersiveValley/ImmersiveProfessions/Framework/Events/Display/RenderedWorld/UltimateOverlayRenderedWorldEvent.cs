@@ -15,7 +15,7 @@ internal class UltimateOverlayRenderedWorldEvent : RenderedWorldEvent
     {
         if (ModEntry.PlayerState.RegisteredUltimate is null)
         {
-            this.Disable();
+            Disable();
             return;
         }
 

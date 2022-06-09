@@ -3,12 +3,15 @@
 #region using directives
 
 using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
-using Common.Extensions.Stardew;
+using Common.Classes;
+using Common.Integrations;
 using Framework;
 using Framework.Sounds;
 
@@ -21,14 +24,21 @@ public class ModEntry : Mod
 
     internal static ModEntry Instance { get; private set; }
     internal static ModConfig Config { get; set; }
+    internal static Broadcaster Broadcaster { get; private set; }
 
-    internal static JObject ArsenalConfig { get; private set; }
-    internal static JObject PondsConfig { get; private set; }
-    internal static JObject RingsConfig { get; private set; }
-    internal static JObject TweaksConfig { get; private set; }
+    [CanBeNull] internal static JObject ArsenalConfig { get; set; }
+    [CanBeNull] internal static JObject PondsConfig { get; set; }
+    [CanBeNull] internal static JObject RingsConfig { get; set; }
+    [CanBeNull] internal static JObject TweaksConfig { get; set; }
+    [CanBeNull] internal static JObject SVEConfig { get; set; }
+    [CanBeNull] internal static ISpaceCoreAPI SpaceCoreApi { get; set; }
+    [CanBeNull] internal static ICookingSkillAPI CookingSkillApi { get; set; }
+    [CanBeNull] internal static ILuckSkillAPI LuckSkillApi { get; set; }
+    internal static List<ICustomSkill> CustomSkills { get; set; } = new();
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
+    internal static ITranslationHelper i18n => ModHelper.Translation;
     internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
     internal static HostState HostState { get; private set; }
@@ -50,11 +60,6 @@ public class ModEntry : Mod
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
-        ArsenalConfig = helper.ReadConfigExt("DaLion.ImmersiveArsenal", Log);
-        PondsConfig = helper.ReadConfigExt("DaLion.ImmersivePonds", Log);
-        RingsConfig = helper.ReadConfigExt("DaLion.ImmersiveRings", Log);
-        TweaksConfig = helper.ReadConfigExt("DaLion.ImmersiveTweaks", Log);
-
         // initialize mod state
         if (Context.IsMainPlayer) HostState = new();
 
@@ -65,14 +70,18 @@ public class ModEntry : Mod
         EventManager.Init(Helper.Events);
 
         // apply harmony patches
-        PatchManager.ApplyAll(Manifest.UniqueID);
+        HarmonyPatcher.ApplyAll(Manifest.UniqueID);
 
         // add debug commands
         helper.ConsoleCommands.Register();
 
+        // initialize broadcaster
+        Broadcaster = new(helper.Multiplayer, Manifest.UniqueID);
+
+        // validate multiplayer
         if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
         {
-            var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID);
+            var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID)!;
             var hostMod = host.GetMod(ModManifest.UniqueID);
             if (hostMod is null)
                 Log("[Entry] The session host does not have this mod installed. Some features will not work properly.",

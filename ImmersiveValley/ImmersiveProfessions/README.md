@@ -167,7 +167,7 @@ Integration is provided for Automate and several popular mods. See the [compatib
     - **Spreadhots:** Fire three projectiles in a cone. Requires overcharging at least half the bar. The higher the bar the narrower the cone. 
 - **Lv10 - Slimed Piper** - Attract more Slimes in dangerous areas. Chance to gain a random buff when a Slime is defeated. *Chance to also recover some health and energy when a Slime is defeated.*
     - Each Slime raised in a hutch adds a chance to spawn an extra Slime in dungeons, up to the number of enemies on the map.
-    - Buffs are the same as food/drink buffs (skill levels, attack, defense, speed, luck, max energy, magnetism). Lasts 5 minutes and stacks indefinitely, refreshing the duration each time.
+    - Buffs are the same as food/drink buffs (skill levels, attack, defense, speed, luck, max energy, magnetism). Lasts 3 minutes and stacks indefinitely, refreshing the duration each time.
     - _Bonus: immune to the Slimed debuff, even without a Slime Charmer ring._
 
 ## Prestige
@@ -192,7 +192,7 @@ Each level 10 Combat profession is also granted an Ultimate ability. This abilit
 - **Desperado - Death Blossom** - Enable auto-reload for 15s. Fire in eight directions at once.
   - Journey of the Prairie King, "IRL".
   - Charged by hitting monsters with projectiles. Charges more quickly when low on health.
-- **Slimed Piper / Slime Enchantress - Pandemonia** - Charm nearby Slimes for 30s. Charmed Slimes increase in size and power and will seek out other enemies. Enemies hit will aggro onto the Slime.
+- **Slimed Piper / Slime Enchantress - Pandemonium** - Charm nearby Slimes for 30s. Charmed Slimes increase in size and power and will seek out other enemies. Enemies hit will aggro onto the Slime.
   - Slimes scale up factor is random, up to twice the original size. Slimes gain a proportional damage and health boost.
   - If defeated, engorged Slimes break up into smaller baby Slimes.
   - There is also a low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert the Slime to prismatic variant.
@@ -234,7 +234,7 @@ The mods are **not** compatible:
 - Any mods that change vanilla skills.
 - [Better Crab Pots](https://www.nexusmods.com/stardewvalley/mods/3159), [Crab Pot Loot Has Quality And Bait Effects](https://www.nexusmods.com/stardewvalley/mods/7767) or any mod that affects Crab Pot behavior.
 - [Better Slingshots](https://www.nexusmods.com/stardewvalley/mods/2067), [Ring Overhaul](https://www.nexusmods.com/stardewvalley/mods/10669), or any mod that affects Slingshot behavior.
-- [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley) (won't break anything, but will make Artisan profession redundant; use [Quality Of Life](https://www.nexusmods.com/stardewvalley/mods/11296) instead to get nearly the same features). 
+- [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) and [Quality Artisan Products for Artisan Valley](https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley), as they will be overriden by this mod's changes to the Artisan profession (use [Quality Of Life](https://www.nexusmods.com/stardewvalley/mods/11296) instead to get the flower meads feature). 
 - [All Professions](https://www.nexusmods.com/stardewvalley/mods/174) (use included prestige or console commands instead).
 - [Skill Prestige](https://www.nexusmods.com/stardewvalley/mods/569#) (already a mod feature).
 
@@ -253,10 +253,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 
 ### General Configs
 - **Modkey** (keybind) - The Prospector and Scavenger professions use this key to reveal the locations of key objects currently on the screen. If playing on a large screen with wide field of view, this can help locate foragables of mine nodes in large or busy maps. The default key is LeftShift for keyboards and LeftShoulder for controllers.
-- **UseVintageSkillBars** (bool) - Set to true if you use the Vintage Interface﻿ mod. Makes the skill bars above level 10 a light pink. You can use this with the brown version of Vintage Interface. If you want to use the pink version you will have to recolor the file `assets/menus/skillbars_vintage.png` by yourself.
-- **RebalanceFishPonds** (bool) - Causes Fish Ponds to produce Roe, Ink or Algae in proportion to fish population.
-- **RebalanceForges** (bool) - Improves certain underwhelming forges (jade: +10% -> +50% crit. power per level; topaz: +1 -> +5 defense per level).
-- **RebalanceRings** (bool) - Improves certain underwhelming rings (jade: +10% -> +30% crit. power; topaz: nothing -> +3 defense; crab: +5 -> +8 defense).
+- **VintageInterface** (string) - Whether to enable vintage interface compatibility for custom menu elements. You generally want to keep this at "automatic".
 
 ### Profession Configs
 - **ForagesNeededForBestQuality** (uint) - Determines the number of items foraged from the ground, bushes or mushroom boxes, required to reach permanent iridium-quality forage as an Ecologist. Default is 500.
@@ -297,10 +294,6 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - **MonsterHealthMultiplier** (float) - Increases the health of all monsters.
 - **MonsterDamageMultiplier** (float) - Increases the damage of all monsters.
 - **MonsterDefenseMultiplier** (float) - Increases the damage resistance of all monsters.
-
-### SVE Configs:
-- **UseGaldoranThemeAllTimes** (bool) - Replicates SVE's config settings of the same name.
-- **DisableGaldoranTheme** (bool) - Replicates SVE's config settings of the same name.
 
 ## Console Commands
 

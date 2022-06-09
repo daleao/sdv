@@ -61,11 +61,9 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
         {
             // request the main player
             if (profession == Profession.Aquarist)
-                ModEntry.ModHelper.Multiplayer.SendMessage("Conservationism", "RequestEvent",
-                    new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+                ModEntry.Broadcaster.Message("Conservationism", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
             else if (profession == Profession.Conservationist)
-                ModEntry.ModHelper.Multiplayer.SendMessage("Conservationism", "RequestEvent",
-                    new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
+                ModEntry.Broadcaster.Message("Conservationism", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
         }
         else
         {
@@ -82,10 +80,10 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
             ModEntry.PlayerState.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
             {
-                UltimateIndex.Frenzy => new Frenzy(),
-                UltimateIndex.Ambush => new Ambush(),
-                UltimateIndex.Pandemonia => new Pandemonia(),
-                UltimateIndex.Blossom => new DeathBlossom()
+                UltimateIndex.BruteFrenzy => new Frenzy(),
+                UltimateIndex.PoacherAmbush => new Ambush(),
+                UltimateIndex.PiperPandemonium => new Pandemonium(),
+                UltimateIndex.DesperadoBlossom => new DeathBlossom()
             };
         Game1.player.WriteData(DataField.UltimateIndex, newIndex.ToString());
     }

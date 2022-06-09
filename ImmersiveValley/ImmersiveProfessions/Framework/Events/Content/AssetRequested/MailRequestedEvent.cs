@@ -27,7 +27,7 @@ internal class MailRequestedEvent : AssetRequestedEvent
                 ? "conservationist.mail2"
                 : "conservationist.mail1";
 
-            string message = ModEntry.ModHelper.Translation.Get(key,
+            string message = ModEntry.i18n.Get(key,
                 new { taxBonus = $"{taxBonus:p0}", farmName = Game1.getFarm().Name });
             data[$"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice"] = message;
         });

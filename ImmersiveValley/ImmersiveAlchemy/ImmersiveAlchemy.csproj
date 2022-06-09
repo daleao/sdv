@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<AssemblyName>AwesomeAlchemy</AssemblyName>
+		<AssemblyName>ImmersiveAlchemy</AssemblyName>
 		<RootNamespace>DaLion.Stardew.Alchemy</RootNamespace>
 		<Version>1.0.0</Version>
 		<TargetFramework>net5.0</TargetFramework>
@@ -14,7 +14,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
-		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.0" />
+		<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -32,8 +34,4 @@
 		<None Remove="resources\**" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Framework\Events\" />
-	  <Folder Include="Framework\Patches\" />
-	</ItemGroup>
 </Project>

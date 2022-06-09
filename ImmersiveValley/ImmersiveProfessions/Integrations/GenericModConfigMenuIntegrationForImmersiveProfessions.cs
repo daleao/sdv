@@ -1,3 +1,5 @@
+using DaLion.Common.Extensions;
+
 namespace DaLion.Stardew.Professions.Integrations;
 
 #region using directives
@@ -50,15 +52,52 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 config => config.ModKey,
                 (config, value) => config.ModKey = value
             )
-            .AddCheckbox(
-                () => "Use Vintage UI Elements",
-                () => "Enable this option if using the Vintage Interface v2 mod.",
-                config => config.UseVintageInterface,
+            .AddDropdown(
+                () => "Vintage Interface Style",
+                () => "You generally don't need to change this unless you want to override the automatic setting.",
+                config => config.VintageInterfaceSupport.ToString(),
                 (config, value) =>
                 {
-                    config.UseVintageInterface = value;
-                    Textures.UltimateMeterTx = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
-                    Textures.SkillBarTx = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/SkillBars");
+                    if (value.ToLowerInvariant() == "automatic")
+                    {
+                        if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI"))
+                            ModEntry.PlayerState.VintageInterface = "pink";
+                        else if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
+                            ModEntry.PlayerState.VintageInterface = "brown";
+                        else
+                            ModEntry.PlayerState.VintageInterface = "off";
+                    }
+                    else
+                    {
+                        ModEntry.PlayerState.VintageInterface = value;
+                    }
+
+                    config.VintageInterfaceSupport = Enum.Parse<ModConfig.VintageInterfaceStyle>(value);
+                    ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/SkillBars");
+                    ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
+                },
+                new[] {"automatic", "brown", "pink", "off"},
+                value => value.FirstCharToUpper()
+            )
+            .AddDropdown(
+                () => "Progression Style",
+                () => "Determines the sprite that appears next to skill bars.",
+                config => config.Progression.ToString(),
+                (config, value) =>
+                {
+                    config.Progression = Enum.Parse<ModConfig.ProgressionStyle>(value);
+                    ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/PrestigeProgression");
+                },
+                new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
+                value =>
+                {
+                    return value switch
+                    {
+                        "StackedStars" => "Stacked Stars",
+                        "Gen3Ribbons" => "Gen 3 Ribbons",
+                        "Gen4Ribbons" => "Gen 4 Ribbons",
+                        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+                    };
                 }
             )
 
@@ -368,24 +407,6 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.MonsterDefenseMultiplier = value,
                 1f,
                 3f
-            );
-
-        if (!ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP")) return;
-
-        _configMenu
-            // SVE
-            .AddSectionTitle(() => "SVE Settings")
-            .AddCheckbox(
-                () => "Use Galdoran Theme All Times",
-                () => "Replicates SVE's config settings of the same name.",
-                config => config.UseGaldoranThemeAllTimes,
-                (config, value) => config.UseGaldoranThemeAllTimes = value
-            )
-            .AddCheckbox(
-                () => "Disable Galdoran Theme",
-                () => "Replicates SVE's config settings of the same name.",
-                config => config.DisableGaldoranTheme,
-                (config, value) => config.DisableGaldoranTheme = value
             );
     }
 }

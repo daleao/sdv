@@ -41,7 +41,8 @@ internal class NewSkillsPageCtorPatch : BasePatch
     {
         if (!ModEntry.Config.EnablePrestige) return;
 
-        __instance.width += 64;
+        __instance.width += 48;
+        if (ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars) __instance.width += 24;
 
         if (__instance.GetType().RequireField("skillBars")!.GetValue(__instance) is not List<ClickableTextureComponent>
             skillBars) return;

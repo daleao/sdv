@@ -32,7 +32,8 @@ internal class SkillsPageCtorPatch : BasePatch
     {
         if (!ModEntry.Config.EnablePrestige) return;
 
-        __instance.width += 64;
+        __instance.width += 48;
+        if (ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars) __instance.width += 24;
 
         var srcRect = new Rectangle(16, 0, 14, 9);
         foreach (var component in __instance.skillBars)

@@ -32,7 +32,7 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is an animal produce or derived artisan good.</summary>
     public static bool IsAnimalProduct(this SObject @object)
     {
-        return @object.Category.IsAnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.meatCategory, SObject.sellAtPierresAndMarnies)
+        return @object.Category.IsIn(SObject.EggCategory, SObject.MilkCategory, SObject.meatCategory, SObject.sellAtPierresAndMarnies)
                || ObjectLookups.AnimalDerivedProductIds.Contains(@object.ParentSheetIndex);
     }
 
@@ -57,13 +57,13 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is a gem or mineral.</summary>
     public static bool IsGemOrMineral(this SObject @object)
     {
-        return @object.Category.IsAnyOf(SObject.GemCategory, SObject.mineralsCategory);
+        return @object.Category.IsIn(SObject.GemCategory, SObject.mineralsCategory);
     }
 
     /// <summary>Whether a given object is a foraged mineral.</summary>
     public static bool IsForagedMineral(this SObject @object)
     {
-        return @object.Name.IsAnyOf("Quartz", "Earth Crystal", "Frozen Tear", "Fire Quartz");
+        return @object.Name.IsIn("Quartz", "Earth Crystal", "Frozen Tear", "Fire Quartz");
     }
 
     /// <summary>Whether a given object is a resource node or foraged mineral.</summary>

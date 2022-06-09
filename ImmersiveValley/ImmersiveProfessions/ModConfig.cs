@@ -118,15 +118,31 @@ public class ModConfig
     /// <summary>Increases the resistance of all monsters.</summary>
     public float MonsterDefenseMultiplier { get; set; } = 1f;
 
-    /// <summary>Enable if using the Vintage Interface v2 mod.</summary>
-    public bool UseVintageInterface { get; set; } = false;
+    /// <summary>Enable if using the Vintage Interface v2 mod. Accepted values: "Brown", "Pink", "Off", "Automatic".</summary>
+    public VintageInterfaceStyle VintageInterfaceSupport{ get; set; } = VintageInterfaceStyle.Automatic;
 
-    /// <summary>Replicates SVE's config setting of the same name.</summary>
-    public bool UseGaldoranThemeAllTimes { get; set; } = false;
-    
-    /// <summary>Replicates SVE's config setting of the same name.</summary>
-    public bool DisableGaldoranTheme { get; set; } = false;
+    /// <summary>Determines the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons", "Gen4Ribbons".</summary>
+    public ProgressionStyle Progression { get; set; } = ProgressionStyle.StackedStars;
 
     /// <summary>Key used by trigger UI debugging events.</summary>
     public KeybindList DebugKey { get; set; } = KeybindList.Parse("LeftControl");
+
+    #region dropdown enums
+
+    public enum VintageInterfaceStyle
+    {
+        Off,
+        Pink,
+        Brown,
+        Automatic
+    }
+
+    public enum ProgressionStyle
+    {
+        StackedStars,
+        Gen3Ribbons,
+        Gen4Ribbons
+    }
+
+    #endregion dropdown enums
 }

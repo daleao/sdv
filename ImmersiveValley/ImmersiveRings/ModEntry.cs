@@ -21,9 +21,10 @@ public class ModEntry : Mod
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
+    internal static ITranslationHelper i18n => ModHelper.Translation;
     internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
-    internal static bool HasBetterRings { get; private set; }
+    internal static bool HasLoadedBetterRings { get; private set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -32,7 +33,7 @@ public class ModEntry : Mod
         Instance = this;
 
         // check for Moon Misadventures mod
-        HasBetterRings = helper.ModRegistry.IsLoaded("BBR.BetterRings");
+        HasLoadedBetterRings = helper.ModRegistry.IsLoaded("BBR.BetterRings");
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();

@@ -104,7 +104,7 @@ public abstract class BaseIntegration<TApi> : BaseIntegration where TApi : class
     /// <param name="modID">The mod's unique ID.</param>
     /// <param name="minVersion">The minimum version of the mod that's supported.</param>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    /// <param name="monitor">Encapsulates monitoring and logging.</param>
+    /// <param name="log">Encapsulates monitoring and logging.</param>
     protected BaseIntegration(string label, string modID, string minVersion, IModRegistry modRegistry, Action<string, LogLevel> log)
         : base(label, modID, minVersion, modRegistry, log)
     {

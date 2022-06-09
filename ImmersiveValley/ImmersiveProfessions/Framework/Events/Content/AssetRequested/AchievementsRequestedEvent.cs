@@ -24,9 +24,9 @@ internal class AchievementsRequestedEvent : AssetRequestedEvent
             var data = asset.AsDictionary<int, string>().Data;
 
             string name =
-                ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
+                ModEntry.i18n.Get("prestige.achievement.name." +
                                                    (Game1.player.IsMale ? "male" : "female"));
-            var desc = ModEntry.ModHelper.Translation.Get("prestige.achievement.desc");
+            var desc = ModEntry.i18n.Get("prestige.achievement.desc");
 
             const string SHOULD_DISPLAY_BEFORE_EARNED_S = "false";
             const string PREREQUISITE_S = "-1";

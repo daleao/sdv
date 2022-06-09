@@ -20,7 +20,7 @@ internal class HostFishPondDataRequestedEvent : AssetRequestedEvent
         e.Edit(asset =>
         {
             // patch legendary fish data
-            var data = (List<FishPondData>)asset.Data;
+            var data = (List<FishPondData>) asset.Data;
             data.InsertRange(data.Count - 2, new List<FishPondData>()
             {
                 new() // legendary fish

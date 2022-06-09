@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewValley;
 
 using Common.Extensions;
@@ -31,7 +32,7 @@ public static class SObjectExtensions
     {
         var skillFactor = 1f + Game1.player.FarmingLevel * 0.1f;
         var age = (int) (@object.ReadDataAs<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
-        if (ModEntry.HasProfessionsMod && Game1.player.professions.Contains(Farmer.shepherd)) age *= 2;
+        if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.shepherd)) age *= 2;
 
         if (ModEntry.Config.DeterministicAgeQuality)
         {
@@ -72,16 +73,18 @@ public static class SObjectExtensions
     /// <summary>Write to a field in this object's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteData(this SObject @object, string field, string value)
+    public static void WriteData(this SObject @object, string field, [CanBeNull] string value)
     {
         @object.modData.Write($"{ModEntry.Manifest.UniqueID}/{field}", value);
-        Log.D($"[ModData]: Wrote {value} to {@object.Name}'s {field}.");
+        Log.D(string.IsNullOrEmpty(value)
+            ? $"[ModData]: Cleared {@object.Name}'s {field}."
+            : $"[ModData]: Wrote {value} to {@object.Name}'s {field}.");
     }
 
     /// <summary>Write to a field in this object's <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataIfNotExists(this SObject @object, string field, string value)
+    public static bool WriteDataIfNotExists(this SObject @object, string field, [CanBeNull] string value)
     {
         if (@object.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{field}"))
         {

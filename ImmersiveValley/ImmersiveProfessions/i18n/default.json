@@ -153,7 +153,7 @@
   "piper.desc.prestiged": "Chance to also recover some health and energy when a Slime is defeated.",
   "piper.buff": "Slimed",
   "piper.buffdesc": "Farming +{{farming}}\nFishing +{{fishing}}\nForaging +{{foraging}}\nMining +{{mining}}\nAttack +{{attack}}\nDefense +{{defense}}\nLuck +{{luck}}\nSpeed +{{speed}}\nMax Energy +{{energy}}\nMagnetic Radius +{{magnetic}}",
-  "piper.ulti": "Pandemonia",
+  "piper.ulti": "Pandemonium",
   "piper.ultidesc": "Charm nearby Slimes. Charmed Slimes increase in size and power and will target other enemies.",
 
   "ulti.canteat": "Can't do that now.",
@@ -168,7 +168,7 @@
   "prestige.dogstatue.what": "-Statue Of Prestige-^...",
   "prestige.dogstatue.respec": "Change prestiged professions",
   "prestige.dogstatue.changeult": "Change the ultimate combat ability",
-  "prestige.dogstatue.replace": "Currently registered to {{currentProfession}}'s {{currentBuff}}. Replace?",
+  "prestige.dogstatue.replace": "Currently registered to {{currentProfession}}'s {{currentUlti}}. Replace?",
   "prestige.dogstatue.choice": "{{choiceProfession}}'s {{choiceBuff}}",
   "prestige.dogstatue.fledged": "*woof* *woof* (You are now a fully-fledged {{choiceProfession}}).",
   "prestige.dogstatue.cancel": "I changed my mind...",

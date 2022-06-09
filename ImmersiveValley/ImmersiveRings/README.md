@@ -27,7 +27,7 @@ This mod brings the following immersive changes to ring effects and recipes:
 - Rebalances the Jade and Topaz rings.
     - **Jade:** *+10% -> +30 crit. power.* Vanilla 10% crit. power grants a 10% damage bonus that only applies to crits. This makes it significantly worse than the Ruby ring, which grants the same 10% bonus, but all the time. At 30% crit. power, the Jade ring becomes a better choice than the Ruby ring when crit. chance is at least 33%.
     - **Topaz:** *literally nothing -> +3 defense.* This makes it consistent with the Topaz enchantment, which also grants defense.
-    - **Crabshell:** *+5 defense -> +12 defense.* Because the Topaz rings now also grants defense, the Crabshell ring is buffed so that it remains unique.
+    - **Crabshell:** *+5 defense -> +10 defense.* Because the Topaz rings now also grants defense, the Crabshell ring is buffed so that it remains relevant, but not as strong as a full-Topaz Iridium Band.
 - Adds progressive crafting recipes for gemstone rings, with corresponding visuals.
     - **Amethyst and Topaz:** *combat level 2, uses copper bars.*
     - **Aquamarine and Jade:** *combat level 4, uses iron bars.*
@@ -45,10 +45,14 @@ If you are a fan of planning character builds and making tough meaningful choice
 
 ## Compatibility
 
-This mod makes use of Harmony to patch vanilla crafting behavior. As such there may be unexpected behavior with mods that change the crafting menu. If you encounter any problems, please report an issue so I can add compatibility.
-This a mod is my own take on a "balanced combine many rings". Obviously it is not compatible with other mods with similar scope, including [Combine Many Rings](https://www.nexusmods.com/stardewvalley/mods/8801), [Balanced Combine Many Rings](https://www.nexusmods.com/stardewvalley/mods/8981) and [Ring Overhaul](https://www.nexusmods.com/stardewvalley/mods/10669). However, Ring Overhaul in particular has config settings for each of its features. As such, you can cherry-pick and combine features from both mods if you know what you are doing. Keep in mind, however, that Ring Overhaul's changes to precision are not compatible with Walk Of Life.
+This mod makes use of Harmony to patch vanilla crafting behavior. As such there may be unexpected behavior with mods that change the crafting menu.
+NEW: [Better Crafting](https://www.nexusmods.com/stardewvalley/mods/11115) is supported since v1.0.3 of this mod.
 
-[Better Rings](https://www.nexusmods.com/stardewvalley/mods/8642) is now supported! I'm not aware of any other ring retexture but they will not be compatible.
+This mod is my own take on a "balanced combine many rings". Obviously it is not compatible with other mods with similar scope, including [Combine Many Rings](https://www.nexusmods.com/stardewvalley/mods/8801), [Balanced Combine Many Rings](https://www.nexusmods.com/stardewvalley/mods/8981) and, to an extent, [Ring Overhaul](https://www.nexusmods.com/stardewvalley/mods/10669); because of it's highly modular nature, Ring Overhaul in particular can still be used with this mod, provided you know how to customize the configs to cherry-pick non-conflicting features.
+
+NEW: [Better Rings](https://www.nexusmods.com/stardewvalley/mods/8642) is now supported! I'm not aware of any other ring retextures but they will not be compatible.
+
+Should be compatible with Wear More Rings, although I haven't tested it.
 
 This is a companion mod for [Walk Of Life](https://www.nexusmods.com/stardewvalley/mods/8111), but can be used independently.
 

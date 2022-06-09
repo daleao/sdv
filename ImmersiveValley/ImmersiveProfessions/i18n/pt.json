@@ -153,7 +153,7 @@
   "piper.desc.prestiged": "Chance de também recuperar vida e energia ao eliminar Gosmas.",
   "piper.buff": "Coberto de gosma",
   "piper.buffdesc": "Cultivo +{{farming}}\nPesca +{{fishing}}\nColeta +{{foraging}}\nMineração +{{mining}}\nAtaque +{{attack}}\nDefesa +{{defense}}\nSorte +{{luck}}\nVelocidade +{{speed}}\nEnergia máx. +{{energy}}\nRaio magnético +{{magnetic}}",
-  "piper.ulti": "Pandemonia",
+  "piper.ulti": "Pandemônio",
   "piper.ultidesc": "Encanta as Gosmas próximas. Gosmas encantadas aumentam em tamanho e poder e perseguem outros inimigos.",
 
   "ulti.canteat": "Impossível fazer isso agora.",
@@ -168,7 +168,7 @@
   "prestige.dogstatue.what": "-Estátua do Prestígio-^...",
   "prestige.dogstatue.respec": "Mudar as profissões prestigiadas",
   "prestige.dogstatue.changeult": "Mudar o modo supremo de combate",
-  "prestige.dogstatue.replace": "Atualmente registrado {{pronoun}} {{currentBuff}} de {{currentProfession}}. Deseja trocar?",
+  "prestige.dogstatue.replace": "Atualmente registrado {{pronoun}} {{currentUlti}} de {{currentProfession}}. Deseja trocar?",
   "prestige.dogstatue.choice": "{{choiceBuff}} de {{choiceProfession}}",
   "prestige.dogstatue.fledged": "*au* *au* (Você agora é {{pronoun}} {{choiceProfession}} completo.)",
   "prestige.dogstatue.cancel": "Mudei de ideia...",

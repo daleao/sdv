@@ -117,7 +117,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
     {
         var currentLevel = (int) _CurrentLevel.GetValue(menu)!;
         return currentLevel > 10
-            ? ModEntry.ModHelper.Translation.Get("prestige.levelup.prestige")
+            ? ModEntry.i18n.Get("prestige.levelup.prestige")
             : Game1.content.LoadString("Strings\\UI:LevelUp_ChooseProfession");
     }
 
@@ -139,7 +139,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
                 menu.width / 2 - 40, menu.height - 264);
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                var hoverText = ModEntry.ModHelper.Translation.Get(leftProfession % 6 <= 1
+                var hoverText = ModEntry.i18n.Get(leftProfession % 6 <= 1
                     ? "prestige.levelup.tooltip:5"
                     : "prestige.levelup.tooltip:10");
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
@@ -154,7 +154,7 @@ internal class LevelUpMenuDrawPatch : BasePatch
                 menu.width / 2 - 40, menu.height - 264);
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                var hoverText = ModEntry.ModHelper.Translation.Get(leftProfession % 6 <= 1
+                var hoverText = ModEntry.i18n.Get(leftProfession % 6 <= 1
                     ? "prestige.levelup.tooltip:5"
                     : "prestige.levelup.tooltip:10");
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);

@@ -107,16 +107,18 @@ public static class CharacterExtensions
     /// <summary>Write to a field in this character's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteData(this Character character, string field, string value)
+    public static void WriteData(this Character character, string field, [CanBeNull] string value)
     {
         character.modData.Write($"{ModEntry.Manifest.UniqueID}/{field}", value);
-        Log.D($"[ModData]: Wrote {value} to {character.Name}'s {field}.");
+        Log.D(string.IsNullOrEmpty(value)
+            ? $"[ModData]: Cleared {character.Name}'s {field}."
+            : $"[ModData]: Wrote {value} to {character.Name}'s {field}.");
     }
 
     /// <summary>Write to a field in this character's <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataIfNotExists(this Character character, string field, string value)
+    public static bool WriteDataIfNotExists(this Character character, string field, [CanBeNull] string value)
     {
         if (character.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{field}"))
         {

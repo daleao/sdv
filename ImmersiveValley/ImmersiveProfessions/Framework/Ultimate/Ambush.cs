@@ -26,10 +26,10 @@ internal sealed class Ambush : Ultimate
     #region public properties
 
     /// <summary>The ID of the buff that displays while Ambush is active.</summary>
-    public static int BuffId { get; } = ModEntry.Manifest.UniqueID.GetHashCode() + (int) UltimateIndex.Ambush + 4;
+    public static int BuffId { get; } = ModEntry.Manifest.UniqueID.GetHashCode() + (int) UltimateIndex.PoacherAmbush + 4;
 
     /// <inheritdoc />
-    public override UltimateIndex Index => UltimateIndex.Ambush;
+    public override UltimateIndex Index => UltimateIndex.PoacherAmbush;
 
     #endregion public properties
 
@@ -82,21 +82,20 @@ internal sealed class Ambush : Ultimate
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
                 GetType().Name,
-                ModEntry.ModHelper.Translation.Get("poacher.ulti"))
+                ModEntry.i18n.Get("poacher.ulti"))
             {
                 which = BuffId,
                 sheetIndex = 49,
                 glow = GlowColor,
                 millisecondsDuration = (int) (30000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.UltimateDrainFactor),
-                description = ModEntry.ModHelper.Translation.Get("poacher.ultidesc.hidden")
+                description = ModEntry.i18n.Get("poacher.ultidesc.hidden")
             }
         );
 
         if (Context.IsMainPlayer)
             ModEntry.HostState.PoachersInAmbush.Add(Game1.player.UniqueMultiplayerID);
         else
-            ModEntry.ModHelper.Multiplayer.SendMessage("ActivatedAmbush", "RequestUpdateHostState",
-                new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
+            ModEntry.Broadcaster.Message("ActivatedAmbush", "RequestUpdateHostState", Game1.MasterPlayer.UniqueMultiplayerID);
     }
 
     /// <inheritdoc />
@@ -116,20 +115,19 @@ internal sealed class Ambush : Ultimate
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
                 GetType().Name,
-                ModEntry.ModHelper.Translation.Get("poacher.ulti"))
+                ModEntry.i18n.Get("poacher.ulti"))
             {
                 which = buffId,
                 sheetIndex = 37,
                 millisecondsDuration = 2 * timeLeft,
-                description = ModEntry.ModHelper.Translation.Get("poacher.ultidesc.revealed")
+                description = ModEntry.i18n.Get("poacher.ultidesc.revealed")
             }
         );
 
         if (Context.IsMainPlayer)
             ModEntry.HostState.PoachersInAmbush.Remove(Game1.player.UniqueMultiplayerID);
         else
-            ModEntry.ModHelper.Multiplayer.SendMessage("DeactivatedAmbush", "RequestUpdateHostState",
-                new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
+            ModEntry.Broadcaster.Message("DeactivatedAmbush", "RequestUpdateHostState", Game1.MasterPlayer.UniqueMultiplayerID);
 
     }
 

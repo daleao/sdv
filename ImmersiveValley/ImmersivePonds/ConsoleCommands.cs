@@ -40,7 +40,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (!args[0].IsAnyOf("low", "med", "high", "best"))
+        if (!args[0].IsIn("low", "med", "high", "best"))
         {
             Log.W("Quality should be one of <low, med, high, best>");
             return;

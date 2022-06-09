@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Buildings;
 
@@ -32,16 +33,18 @@ public static class BuildingExtensions
     /// <summary>Write to a field in this building's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteData(this Building building, string field, string value)
+    public static void WriteData(this Building building, string field, [CanBeNull] string value)
     {
         building.modData.Write($"{ModEntry.Manifest.UniqueID}/{field}", value);
-        Log.D($"[ModData]: Wrote {value} to {building.GetType().Name}'s {field}.");
+        Log.D(string.IsNullOrEmpty(value)
+            ? $"[ModData]: Cleared {building.GetType().Name}'s {field}."
+            : $"[ModData]: Wrote {value} to {building.GetType().Name}'s {field}.");
     }
 
     /// <summary>Write to a field in this building's <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataIfNotExists(this Building building, string field, string value)
+    public static bool WriteDataIfNotExists(this Building building, string field, [CanBeNull] string value)
     {
         if (building.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{field}"))
         {

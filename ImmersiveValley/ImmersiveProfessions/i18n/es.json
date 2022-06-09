@@ -153,7 +153,7 @@
   "piper.desc.prestiged": "Chance de también recuperar un poco de salud y energía al eliminar Babas.",
   "piper.buff": "Pringue de baba",
   "piper.buffdesc": "Agricultura +{{farming}}\nPesca +{{fishing}}\nRecolección +{{foraging}}\nMinería +{{mining}}\nAtaque +{{attack}}\nDefensa +{{defense}}\nSuerte +{{luck}}\nVelocidad +{{speed}}\nEnergía máx. +{{energy}}\nMagnetismo +{{magnetic}}",
-  "piper.ulti": "Pandemonia",
+  "piper.ulti": "Pandemonio",
   "piper.ultidesc": "Encanta las Baba cercanas. Las Babas encantadas aumentan de tamaño y poder y acechan a otros enemigos.",
 
   "ulti.canteat": "Imposible hacer eso ahora.",
@@ -168,7 +168,7 @@
   "prestige.dogstatue.what": "-Estatua del prestigio-^...",
   "prestige.dogstatue.respec": "Cambiar las profesiones de prestigio",
   "prestige.dogstatue.changeult": "Cambiar el supermodo de combate",
-  "prestige.dogstatue.replace": "Actualmente registrado {{pronoun}} {{currentBuff}} de {{currentProfession}}. ¿Reemplazar?",
+  "prestige.dogstatue.replace": "Actualmente registrado {{pronoun}} {{currentUlti}} de {{currentProfession}}. ¿Reemplazar?",
   "prestige.dogstatue.choice": "{{choiceBuff}} de {{choiceProfession}}",
   "prestige.dogstatue.fledged": "¡Guau! ¡Guau! (Ahora eres {{pronoun}} {{choiceProfession}} de pleno derecho.)",
   "prestige.dogstatue.cancel": "He cambiado de idea...",

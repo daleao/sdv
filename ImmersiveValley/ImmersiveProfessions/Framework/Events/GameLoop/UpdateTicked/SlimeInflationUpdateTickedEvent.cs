@@ -19,7 +19,7 @@ internal class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
         var uninflated = ModEntry.PlayerState.PipedSlimes.Where(s => !s.ReadDataAs<bool>("DoneInflating")).ToArray();
         if (!uninflated.Any())
         {
-            this.Disable();
+            Disable();
             return;
         }
 

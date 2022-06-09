@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -45,7 +46,7 @@ public static class TreeExtensions
     {
         var skillFactor = 1f + Game1.player.ForagingLevel * 0.1f;
         var age = (int) (tree.ReadDataAs<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
-        if (ModEntry.HasProfessionsMod && Game1.player.professions.Contains(Farmer.lumberjack)) age *= 2;
+        if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.lumberjack)) age *= 2;
 
         if (ModEntry.Config.DeterministicAgeQuality)
         {
@@ -86,16 +87,18 @@ public static class TreeExtensions
     /// <summary>Write to a field in this tree's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteData(this Tree tree, string field, string value)
+    public static void WriteData(this Tree tree, string field, [CanBeNull] string value)
     {
         tree.modData.Write($"{ModEntry.Manifest.UniqueID}/{field}", value);
-        Log.D($"[ModData]: Wrote {value} to {tree.NameFromType()}'s {field}.");
+        Log.D(string.IsNullOrEmpty(value)
+            ? $"[ModData]: Cleared {tree.NameFromType()}'s {field}."
+            : $"[ModData]: Wrote {value} to {tree.NameFromType()}'s {field}.");
     }
 
     /// <summary>Write to a field in this tree's <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataIfNotExists(this Tree tree, string field, string value)
+    public static bool WriteDataIfNotExists(this Tree tree, string field, [CanBeNull] string value)
     {
         if (tree.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{field}"))
         {

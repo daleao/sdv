@@ -5,9 +5,6 @@
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
-using Common.Extensions;
-using Common.Extensions.Stardew;
-
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -15,13 +12,13 @@ using SObject = StardewValley.Object;
 /// <summary>Extensions for the <see cref="Tree"/> class.</summary>
 public static class FruitTreeExtensions
 {
-    /// <summary>Get an object quality value based on this tree's age.</summary>
+    /// <summary>Get an object quality value based on this fruit tree's age.</summary>
     public static int GetQualityFromAge(this FruitTree tree)
     {
         var skillFactor = 1f + Game1.player.FarmingLevel * 0.1f;
         var age = tree.daysUntilMature.Value < 0 ? tree.daysUntilMature.Value * -1 : 0;
         age = (int) (age * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
-        if (ModEntry.HasProfessionsMod && Game1.player.professions.Contains(Farmer.lumberjack)) age *= 2;
+        if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.lumberjack)) age *= 2;
 
         if (ModEntry.Config.DeterministicAgeQuality)
         {

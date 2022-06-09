@@ -28,10 +28,10 @@ internal sealed class Frenzy : Ultimate
     #region public properties
 
     /// <summary>The ID of the buff that displays while Frenzy is active.</summary>
-    public static int BuffId { get; } = ModEntry.Manifest.UniqueID.GetHashCode() + (int) UltimateIndex.Frenzy + 4;
+    public static int BuffId { get; } = ModEntry.Manifest.UniqueID.GetHashCode() + (int) UltimateIndex.BruteFrenzy + 4;
 
     /// <inheritdoc />
-    public override UltimateIndex Index => UltimateIndex.Frenzy;
+    public override UltimateIndex Index => UltimateIndex.BruteFrenzy;
 
     #endregion public properties
 
@@ -64,13 +64,13 @@ internal sealed class Frenzy : Ultimate
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
                 GetType().Name,
-                ModEntry.ModHelper.Translation.Get("brute.ulti"))
+                ModEntry.i18n.Get("brute.ulti"))
             {
                 which = BuffId,
                 sheetIndex = 48,
                 glow = GlowColor,
                 millisecondsDuration = (int) (15000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.UltimateDrainFactor),
-                description = ModEntry.ModHelper.Translation.Get("brute.ultidesc")
+                description = ModEntry.i18n.Get("brute.ultidesc")
             }
         );
     }

@@ -80,18 +80,18 @@ internal class AssetRequestedEvent : IEvent
                 if (ModEntry.Config.RebalancedRings)
                 {
                     fields = data[Constants.TOPAZ_RING_INDEX_I].Split('/');
-                    fields[5] = ModEntry.ModHelper.Translation.Get("rings.topaz");
+                    fields[5] = ModEntry.i18n.Get("rings.topaz");
                     data[Constants.TOPAZ_RING_INDEX_I] = string.Join('/', fields);
 
                     fields = data[Constants.JADE_RING_INDEX_I].Split('/');
-                    fields[5] = ModEntry.ModHelper.Translation.Get("rings.jade");
+                    fields[5] = ModEntry.i18n.Get("rings.jade");
                     data[Constants.JADE_RING_INDEX_I] = string.Join('/', fields);
                 }
 
                 if (ModEntry.Config.ForgeableIridiumBand)
                 {
                     fields = data[Constants.IRIDIUM_BAND_INDEX_I].Split('/');
-                    fields[5] = ModEntry.ModHelper.Translation.Get("rings.iridium");
+                    fields[5] = ModEntry.i18n.Get("rings.iridium");
                     data[Constants.IRIDIUM_BAND_INDEX_I] = string.Join('/', fields);
                 }
             });
@@ -106,7 +106,7 @@ internal class AssetRequestedEvent : IEvent
                 var rings = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/Rings");
                 if (ModEntry.Config.CraftableGemRings)
                 {
-                    if (ModEntry.HasBetterRings)
+                    if (ModEntry.HasLoadedBetterRings)
                     {
                         srcArea = new(16, 0, 96, 16);
                         targetArea = new(16, 352, 96, 16);
@@ -122,7 +122,7 @@ internal class AssetRequestedEvent : IEvent
 
                 if (ModEntry.Config.ForgeableIridiumBand)
                 {
-                    if (ModEntry.HasBetterRings)
+                    if (ModEntry.HasLoadedBetterRings)
                     {
                         srcArea = new(0, 0, 16, 16);
                         targetArea = new(368, 336, 16, 16);
@@ -139,13 +139,13 @@ internal class AssetRequestedEvent : IEvent
         }
         else if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/Rings"))
         {
-            e.LoadFromModFile<Texture2D>("assets/rings" + (ModEntry.HasBetterRings ? "_better" : string.Empty) + ".png",
+            e.LoadFromModFile<Texture2D>("assets/rings" + (ModEntry.HasLoadedBetterRings ? "_better" : string.Empty) + ".png",
                 AssetLoadPriority.Medium);
         }
         else if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/Gemstones"))
         {
             e.LoadFromModFile<Texture2D>(
-                "assets/gemstones" + (ModEntry.HasBetterRings ? "_better" : string.Empty) + ".png",
+                "assets/gemstones" + (ModEntry.HasLoadedBetterRings ? "_better" : string.Empty) + ".png",
                 AssetLoadPriority.Medium);
         }
     }

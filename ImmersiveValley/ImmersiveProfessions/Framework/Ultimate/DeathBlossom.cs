@@ -21,10 +21,10 @@ internal sealed class DeathBlossom : Ultimate
     #region public properties
 
     /// <summary>The ID of the buff that displays while Death Blossom is active.</summary>
-    public static int BuffId { get; } = ModEntry.Manifest.UniqueID.GetHashCode() + (int) UltimateIndex.Blossom + 4;
+    public static int BuffId { get; } = ModEntry.Manifest.UniqueID.GetHashCode() + (int) UltimateIndex.DesperadoBlossom + 4;
 
     /// <inheritdoc />
-    public override UltimateIndex Index => UltimateIndex.Blossom;
+    public override UltimateIndex Index => UltimateIndex.DesperadoBlossom;
 
     #endregion public properties
 
@@ -50,13 +50,13 @@ internal sealed class DeathBlossom : Ultimate
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
                 GetType().Name,
-                ModEntry.ModHelper.Translation.Get("desperado.ulti"))
+                ModEntry.i18n.Get("desperado.ulti"))
             {
                 which = BuffId,
                 sheetIndex = 51,
                 glow = GlowColor,
                 millisecondsDuration = (int) (15000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.UltimateDrainFactor),
-                description = ModEntry.ModHelper.Translation.Get("desperado.ultidesc")
+                description = ModEntry.i18n.Get("desperado.ultidesc")
             }
         );
     }

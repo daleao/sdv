@@ -21,6 +21,6 @@ internal class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
         foreach (var piped in undeflated)
             piped.Deflate();
 
-        if (!ModEntry.PlayerState.PipedSlimes.Any()) this.Disable();
+        if (!ModEntry.PlayerState.PipedSlimes.Any()) Disable();
     }
 }

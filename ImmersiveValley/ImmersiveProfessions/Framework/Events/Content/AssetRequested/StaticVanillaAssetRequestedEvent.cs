@@ -16,7 +16,7 @@ internal class StaticVanillaAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Construct an instance.</summary>
     internal StaticVanillaAssetRequestedEvent()
     {
-        this.Enable();
+        Enable();
     }
 
     /// <inheritdoc />

@@ -20,7 +20,7 @@ internal class StaticSavingEvent : SavingEvent
     /// <summary>Construct an instance.</summary>
     internal StaticSavingEvent()
     {
-        this.Enable();
+        Enable();
     }
 
     /// <inheritdoc />

@@ -1,4 +1,9 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+﻿using System.Linq;
+using DaLion.Common.Extensions;
+using DaLion.Stardew.Professions.Integrations;
+using StardewModdingAPI.Enums;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
     
 #region using directives
 
@@ -157,8 +162,15 @@ internal class SkillsPageDrawPatch : BasePatch
 
         var position =
             new Vector2(
-                page.xPositionOnScreen + page.width + Textures.RIBBON_HORIZONTAL_OFFSET_I,
-                page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth - 70);
+                page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
+                page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
+                Textures.PROGRESSION_VERTICAL_OFFSET_I);
+        if (ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars)
+        {
+            position.X -= 22;
+            position.Y -= 4;
+        }
+
         for (var i = 0; i < 5; ++i)
         {
             position.Y += 56;
@@ -170,14 +182,88 @@ internal class SkillsPageDrawPatch : BasePatch
                 3 => 1,
                 _ => i
             };
+            var numProfessions = Game1.player.NumberOfProfessionsInSkill(skillIndex, true);
+            if (numProfessions == 0) continue;
 
-            var count = Game1.player.NumberOfProfessionsInSkill(skillIndex, true);
-            if (count == 0) continue;
+            Rectangle srcRect;
+            if (ModEntry.Config.Progression.ToString().Contains("Ribbons"))
+            {
+                srcRect = new(i * Textures.RIBBON_WIDTH_I, (numProfessions - 1) * Textures.RIBBON_WIDTH_I,
+                    Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I);
+            }
+            else if (ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars)
+            {
+                srcRect = new(0, (numProfessions - 1) * 16, Textures.STARS_WIDTH_I, 16);
+            }
+            else
+            {
+                srcRect = Rectangle.Empty;
+            }
 
-            var srcRect = new Rectangle(i * Textures.RIBBON_WIDTH_I, (count - 1) * Textures.RIBBON_WIDTH_I,
-                Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I);
-            b.Draw(Textures.RibbonTx, position, srcRect, Color.White, 0f, Vector2.Zero, Textures.RIBBON_SCALE_F,
-                SpriteEffects.None, 1f);
+            b.Draw(Textures.ProgressionTx, position, srcRect, Color.White, 0f, Vector2.Zero,
+                ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars
+                    ? Textures.STARS_SCALE_F
+                    : Textures.RIBBON_SCALE_F, SpriteEffects.None, 1f);
+        }
+
+        if (ModEntry.SpaceCoreApi is null) return;
+
+        if (ModEntry.Config.Progression.ToString().Contains("Ribbons"))
+            position.X += 2; // not sure why but custom skill ribbons render with a small offset
+
+        if (ModEntry.LuckSkillApi is not null)
+        {
+            position.Y += 56;
+            var numProfessions = Game1.player.NumberOfProfessionsInSkill((int) SkillType.Luck, true);
+            if (numProfessions != 0)
+            {
+                Rectangle srcRect;
+                if (ModEntry.Config.Progression.ToString().Contains("Ribbons"))
+                {
+                    srcRect = new(133, (numProfessions - 1) * Textures.RIBBON_WIDTH_I,
+                        Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I);
+                }
+                else if (ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars)
+                {
+                    srcRect = new(0, (numProfessions - 1) * 16, Textures.STARS_WIDTH_I, 16);
+                }
+                else
+                {
+                    srcRect = Rectangle.Empty;
+                }
+
+                b.Draw(Textures.ProgressionTx, position, srcRect, Color.White, 0f, Vector2.Zero,
+                    ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars
+                        ? Textures.STARS_SCALE_F
+                        : Textures.RIBBON_SCALE_F, SpriteEffects.None, 1f);
+            }
+        }
+
+        foreach (var skill in ModEntry.CustomSkills)
+        {
+            position.Y += 56;
+            var numProfessions = Game1.player.NumberOfProfessionsInCustomSkill(skill, true);
+            if (numProfessions == 0) continue;
+
+            Rectangle srcRect;
+            if (ModEntry.Config.Progression.ToString().Contains("Ribbons"))
+            {
+                srcRect = new(skill.StringId == "blueberry.LoveOfCooking.CookingSkill" ? 111 : 133, (numProfessions - 1) * Textures.RIBBON_WIDTH_I,
+                    Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I);
+            }
+            else if (ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars)
+            {
+                srcRect = new(0, (numProfessions - 1) * 16, Textures.STARS_WIDTH_I, 16);
+            }
+            else
+            {
+                srcRect = Rectangle.Empty;
+            }
+
+            b.Draw(Textures.ProgressionTx, position, srcRect, Color.White, 0f, Vector2.Zero,
+                ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars
+                    ? Textures.STARS_SCALE_F
+                    : Textures.RIBBON_SCALE_F, SpriteEffects.None, 1f);
         }
     }
 

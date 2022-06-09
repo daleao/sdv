@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 
 #endregion using directives
@@ -30,9 +31,18 @@ public interface IImmersiveProfessions
 
     #region treasure hunt
 
+    public enum TreasureHuntType
+    {
+        Scavenger,
+        Prospector
+    }
+
     /// <summary>Interface for treasure hunts.</summary>
     public interface ITreasureHunt
     {
+        /// <summary>Whether this instance pertains to a Scavenger or a Prospector.</summary>
+        public TreasureHuntType Type { get; }
+
         /// <summary>Whether the <see cref="TreasureTile"/> is set to a valid target.</summary>
         public bool IsActive { get; }
 
@@ -57,6 +67,9 @@ public interface IImmersiveProfessions
         /// <summary>The player who triggered the event.</summary>
         public Farmer Player { get; }
 
+        /// <summary>Whether this event relates to a Scavenger or Prospector hunt.</summary>
+        TreasureHuntType Type { get; }
+
         /// <summary>The coordinates of the target tile.</summary>
         public Vector2 Target { get; }
     }
@@ -65,6 +78,9 @@ public interface IImmersiveProfessions
     {
         /// <summary>The player who triggered the event.</summary>
         public Farmer Player { get; }
+
+        /// <summary>Whether this event relates to a Scavenger or Prospector hunt.</summary>
+        TreasureHuntType Type { get; }
 
         /// <summary>Whether the player successfully discovered the treasure.</summary>
         public bool TreasureFound { get; }
@@ -79,7 +95,7 @@ public interface IImmersiveProfessions
         None = -1,
         Frenzy = 26,
         Ambush = 27,
-        Pandemonia = 28,
+        Pandemonium = 28,
         Blossom = 29
     }
 
@@ -90,7 +106,7 @@ public interface IImmersiveProfessions
         UltimateIndex Index { get; }
 
         /// <summary>The current charge value.</summary>
-        double ChargeValue { get; set; }
+        double ChargeValue { get; }
 
         /// <summary>The maximum charge value.</summary>
         int MaxValue { get; }
@@ -165,6 +181,9 @@ public interface IImmersiveProfessions
 
     public interface IProfessionsConfig
     {
+        /// <summary>Mod key used by Prospector and Scavenger professions.</summary>
+        public KeybindList ModKey { get; }
+
         /// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
         public uint ForagesNeededForBestQuality { get; }
 
@@ -199,7 +218,7 @@ public interface IImmersiveProfessions
         public bool SeaweedIsJunk { get; }
 
         /// <summary>You must catch this many fish of a given species to achieve instant catch.</summary>
-        //public uint FishNeededForInstantCatch { get; set; }
+        public uint FishNeededForInstantCatch { get; }
 
         /// <summary>If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.</summary>
         public float AnglerMultiplierCeiling { get; }
@@ -217,7 +236,16 @@ public interface IImmersiveProfessions
         public uint PiperBuffCap { get; }
 
         /// <summary>Required to allow Ultimate activation. Super Stat continues to apply.</summary>
-        public bool EnableUltimates { get; set; }
+        public bool EnableUltimates { get; }
+
+        /// <summary>Mod key used to activate Ultimate. Can be the same as <see cref="ModKey" />.</summary>
+        public KeybindList UltimateKey { get; }
+
+        /// <summary>Whether Ultimate is activated on <see cref="UltimateKey" /> hold (as opposed to press).</summary>
+        public bool HoldKeyToActivateUltimate { get; }
+
+        /// <summary>How long <see cref="UltimateKey" /> should be held to activate Ultimate, in seconds.</summary>
+        public float UltimateActivationDelay { get; }
 
         /// <summary>Affects the rate at which one builds the Ultimate meter. Increase this if you feel the gauge raises too slowly.</summary>
         public double UltimateGainFactor { get; }
@@ -261,6 +289,31 @@ public interface IImmersiveProfessions
 
         /// <summary>Increases the resistance of all monsters.</summary>
         public float MonsterDefenseMultiplier { get; }
+
+        /// <summary>Enable if using the Vintage Interface v2 mod. Accepted values: "Brown", "Pink", "Off", "Automatic".</summary>
+        public VintageInterfaceStyle VintageInterfaceSupport { get; }
+
+        /// <summary>Determines the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons", "Gen4Ribbons".</summary>
+        public ProgressionStyle Progression { get; }
+
+        #region dropdown enums
+
+        public enum VintageInterfaceStyle
+        {
+            Off,
+            Pink,
+            Brown,
+            Automatic
+        }
+
+        public enum ProgressionStyle
+        {
+            StackedStars,
+            Gen3Ribbons,
+            Gen4Ribbons
+        }
+
+        #endregion dropdown enums
     }
 
     #endregion configs

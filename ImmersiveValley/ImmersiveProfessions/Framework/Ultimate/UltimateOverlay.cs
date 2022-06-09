@@ -28,8 +28,8 @@ internal class UltimateOverlay
     }
 
     /// <summary>Draw the overlay over the world.</summary>
-    /// <param name="b">A <see cref="SpriteBatch" /> to draw to.</param>
-    /// <remarks>This should be called from a <see cref="RenderedWorldEvent" />.</remarks>
+    /// <param name="b">A <see cref="SpriteBatch"/> to draw to.</param>
+    /// <remarks>This should be called from a <see cref="RenderedWorldEvent"/>.</remarks>
     internal void Draw(SpriteBatch b)
     {
         b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, _color * _opacity);

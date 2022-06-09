@@ -21,9 +21,9 @@ public abstract class BasePatch : IPatch
     {
         (Prefix, Postfix, Transpiler) = GetHarmonyMethods();
 
-        if (Prefix is not null) ++PatchManager.TotalPrefixCount;
-        if (Postfix is not null) ++PatchManager.TotalPostfixCount;
-        if (Transpiler is not null) ++PatchManager.TotalTranspilerCount;
+        if (Prefix is not null) ++HarmonyPatcher.TotalPrefixCount;
+        if (Postfix is not null) ++HarmonyPatcher.TotalPostfixCount;
+        if (Transpiler is not null) ++HarmonyPatcher.TotalTranspilerCount;
         //if (ReversePatch is not null) ++PatchManager.TotalReversePatchCount;
     }
 
@@ -41,9 +41,9 @@ public abstract class BasePatch : IPatch
         {
             Log.D($"[Patch]: Ignoring {GetType().Name}. The patch target was not found.");
 
-            if (Prefix is not null) ++PatchManager.IgnoredPrefixCount;
-            if (Postfix is not null) ++PatchManager.IgnoredPostfixCount;
-            if (Transpiler is not null) ++PatchManager.IgnoredTranspilerCount;
+            if (Prefix is not null) ++HarmonyPatcher.IgnoredPrefixCount;
+            if (Postfix is not null) ++HarmonyPatcher.IgnoredPostfixCount;
+            if (Transpiler is not null) ++HarmonyPatcher.IgnoredTranspilerCount;
             //if (ReversePatch is not null) ++PatchManager.FailedReversePatchCount;
 
             return;
@@ -54,18 +54,18 @@ public abstract class BasePatch : IPatch
             Log.D($"[Patch]: Applying {GetType().Name} to {Original.DeclaringType}::{Original.Name}.");
             harmony.Patch(Original, Prefix, Postfix, Transpiler);
 
-            if (Prefix is not null) ++PatchManager.AppliedPrefixCount;
-            if (Postfix is not null) ++PatchManager.AppliedPostfixCount;
+            if (Prefix is not null) ++HarmonyPatcher.AppliedPrefixCount;
+            if (Postfix is not null) ++HarmonyPatcher.AppliedPostfixCount;
             if (Transpiler is not null)
             {
                 if (transpilationFailed)
                 {
-                    ++PatchManager.FailedTranspilerCount;
+                    ++HarmonyPatcher.FailedTranspilerCount;
                     transpilationFailed = false;
                 }
                 else
                 {
-                    ++PatchManager.AppliedTranspilerCount;
+                    ++HarmonyPatcher.AppliedTranspilerCount;
                 }
             }
 
@@ -78,9 +78,9 @@ public abstract class BasePatch : IPatch
         {
             Log.E($"[Patch]: Failed to patch {Original.DeclaringType}::{Original.Name}.\nHarmony returned {ex}");
 
-            if (Prefix is not null) ++PatchManager.FailedPrefixCount;
-            if (Postfix is not null) ++PatchManager.FailedPostfixCount;
-            if (Transpiler is not null) ++PatchManager.FailedTranspilerCount;
+            if (Prefix is not null) ++HarmonyPatcher.FailedPrefixCount;
+            if (Postfix is not null) ++HarmonyPatcher.FailedPostfixCount;
+            if (Transpiler is not null) ++HarmonyPatcher.FailedTranspilerCount;
             //if (ReversePatch is not null) ++PatchManager.FailedReversePatchCount;
         }
     }

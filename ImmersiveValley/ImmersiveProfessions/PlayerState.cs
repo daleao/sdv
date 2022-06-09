@@ -3,8 +3,10 @@
 #region using directives
 
 using System.Collections.Generic;
+using StardewModdingAPI.Enums;
 using StardewValley.Monsters;
 
+using Common.Integrations;
 using Framework;
 using Framework.TreasureHunt;
 using Framework.Ultimate;
@@ -42,4 +44,8 @@ internal class PlayerState
     internal int SlimeContactTimer { get; set; }
     internal bool UsedDogStatueToday { get; set; }
     internal bool[] RevalidatedLevelThisSession { get; set; } = new bool[6];
+    internal Queue<SkillType> SkillsToReset { get; } = new();
+    internal Queue<ICustomSkill> CustomSkillsToReset { get; } = new();
+
+    internal string VintageInterface { get; set; } = "off";
 }

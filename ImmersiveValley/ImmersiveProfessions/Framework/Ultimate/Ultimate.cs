@@ -54,7 +54,7 @@ internal abstract class Ultimate : IUltimate
     {
         Log.D($"Initializing Ultimate as {GetType().Name}.");
         _activationTimer = _ActivationTimerMax;
-        Meter = new(this, meterColor);
+        Hud = new(this, meterColor);
         Overlay = new(overlayColor);
         EnableEvents();
     }
@@ -81,7 +81,7 @@ internal abstract class Ultimate : IUltimate
             if (value <= 0)
             {
                 EventManager.Disable(typeof(UltimateGaugeShakeUpdateTickedEvent));
-                ModEntry.PlayerState.RegisteredUltimate.Meter.ForceStopShake();
+                ModEntry.PlayerState.RegisteredUltimate.Hud.ForceStopShake();
 
                 if (ModEntry.PlayerState.RegisteredUltimate.IsActive) ModEntry.PlayerState.RegisteredUltimate.Deactivate();
 
@@ -133,7 +133,7 @@ internal abstract class Ultimate : IUltimate
     public bool IsEmpty => ChargeValue == 0;
 
     /// <inheritdoc />
-    public bool IsMeterVisible => Meter.IsVisible;
+    public bool IsHudVisible => Hud.IsVisible;
 
     /// <inheritdoc />
     public bool IsActive { get; protected set; }
@@ -145,8 +145,8 @@ internal abstract class Ultimate : IUltimate
 
     #region internal properties
 
-    /// <inheritdoc cref="UltimateMeter"/>
-    internal UltimateMeter Meter { get; }
+    /// <inheritdoc cref="UltimateHUD"/>
+    internal UltimateHUD Hud { get; }
 
     /// <inheritdoc cref="UltimateOverlay"/>
     internal UltimateOverlay Overlay { get; }
@@ -177,19 +177,18 @@ internal abstract class Ultimate : IUltimate
         IsActive = true;
 
         // fade in overlay and begin countdown
-        EventManager.Enable(typeof(UltimateCountdownUpdateTickedEvent), typeof(UltimateOverlayFadeInUpdateTickedEvent),
+        EventManager.Enable(typeof(UltimateActiveUpdateTickedEvent), typeof(UltimateOverlayFadeInUpdateTickedEvent),
             typeof(UltimateOverlayRenderedWorldEvent));
 
         // stop updating, awaiting activation and shaking the hud meter
         EventManager.Disable(typeof(UltimateButtonsChangedEvent), typeof(UltimateGaugeShakeUpdateTickedEvent),
-            typeof(UltimateUpdateTickedEvent));
+            typeof(UltimateInputUpdateTickedEvent));
 
         // play sound effect
         SoundBank.Play(ActivationSfx);
 
         // notify peers
-        ModEntry.ModHelper.Multiplayer.SendMessage("Active", "ToggledUltimate",
-            new[] { ModEntry.Manifest.UniqueID });
+        ModEntry.Broadcaster.Broadcast("Active", "ToggledUltimate");
 
         // invoke callbacks
         OnActivated(Game1.player);
@@ -205,14 +204,13 @@ internal abstract class Ultimate : IUltimate
         EventManager.Enable(typeof(UltimateOverlayFadeOutUpdateTickedEvent));
 
         // stop countdown
-        EventManager.Disable(typeof(UltimateCountdownUpdateTickedEvent));
+        EventManager.Disable(typeof(UltimateActiveUpdateTickedEvent));
 
         // stop glowing if necessary
         Game1.player.stopGlowing();
 
         // notify peers
-        ModEntry.ModHelper.Multiplayer.SendMessage("Inactive", "ToggledUltimate",
-            new[] { ModEntry.Manifest.UniqueID });
+        ModEntry.Broadcaster.Broadcast("Inactive", "ToggledUltimate");
 
         // invoke callbacks
         OnDeactivated(Game1.player);
@@ -226,7 +224,7 @@ internal abstract class Ultimate : IUltimate
             if (ModEntry.Config.HoldKeyToActivateUltimate)
             {
                 _activationTimer = _ActivationTimerMax;
-                EventManager.Enable(typeof(UltimateUpdateTickedEvent));
+                EventManager.Enable(typeof(UltimateInputUpdateTickedEvent));
             }
             else
             {
@@ -236,7 +234,7 @@ internal abstract class Ultimate : IUltimate
         else if (ModEntry.Config.UltimateKey.GetState() == SButtonState.Released && _activationTimer > 0)
         {
             _activationTimer = -1;
-            EventManager.Disable(typeof(UltimateUpdateTickedEvent));
+            EventManager.Disable(typeof(UltimateInputUpdateTickedEvent));
         }
     }
 

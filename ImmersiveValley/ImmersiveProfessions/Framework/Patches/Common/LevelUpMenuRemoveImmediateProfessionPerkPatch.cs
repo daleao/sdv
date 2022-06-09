@@ -62,10 +62,10 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
             ModEntry.PlayerState.RegisteredUltimate = firstIndex switch
 #pragma warning restore CS8509
             {
-                UltimateIndex.Frenzy => new Frenzy(),
-                UltimateIndex.Ambush => new Ambush(),
-                UltimateIndex.Pandemonia => new Pandemonia(),
-                UltimateIndex.Blossom => new DeathBlossom()
+                UltimateIndex.BruteFrenzy => new Frenzy(),
+                UltimateIndex.PoacherAmbush => new Ambush(),
+                UltimateIndex.PiperPandemonium => new Pandemonium(),
+                UltimateIndex.DesperadoBlossom => new DeathBlossom()
             };
         }
         else

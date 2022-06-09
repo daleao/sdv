@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+﻿using DaLion.Stardew.Professions.Framework.Utility;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 #region using directives
 
@@ -17,12 +19,6 @@ using Extensions;
 [UsedImplicitly]
 internal class FarmerGainExperiencePatch : BasePatch
 {
-    private const int VANILLA_CAP_I = 15000;
-
-    private static readonly int[] _vanillaExpPerLevel = {100, 380, 770, 1300, 2150, 3300, 4800, 6900, 10000, 15000};
-
-    private static int _PrestigeCap => VANILLA_CAP_I + (int) ModEntry.Config.RequiredExpPerExtendedLevel * 10;
-
     /// <summary>Construct an instance.</summary>
     internal FarmerGainExperiencePatch()
     {
@@ -38,7 +34,7 @@ internal class FarmerGainExperiencePatch : BasePatch
     {
         try
         {
-            if (which == (int) SkillType.Luck && !ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.LuckSkill") ||
+            if (which == (int) SkillType.Luck && ModEntry.LuckSkillApi is null ||
                 howMuch <= 0)
                 return false; // don't run original logic
 
@@ -50,12 +46,12 @@ internal class FarmerGainExperiencePatch : BasePatch
 
             var currentExp = Game1.player.experiencePoints[which];
             var currentLevel = Game1.player.GetUnmodifiedSkillLevel(which);
-            var canGainPrestigeLevels = __instance.HasAllProfessionsInSkill(which);
+            var canGainPrestigeLevels = ModEntry.Config.EnablePrestige && __instance.HasAllProfessionsInSkill(which);
             
             howMuch = (int) (howMuch * ModEntry.Config.BaseSkillExpMultiplierPerSkill[which]);
             if (ModEntry.Config.EnablePrestige)
             {
-                howMuch = (int)(howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
+                howMuch = (int) (howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
                     __instance.NumberOfProfessionsInSkill(which, true)));
             }
 
@@ -64,56 +60,52 @@ internal class FarmerGainExperiencePatch : BasePatch
                 case >= 10 when !canGainPrestigeLevels:
                 {
                     if (currentLevel > 10) __instance.SetSkillLevel((SkillType) which, 10);
-
-                    if (currentExp > VANILLA_CAP_I) __instance.experiencePoints[which] = VANILLA_CAP_I;
-
+                    if (currentExp > Experience.VANILLA_CAP_I) __instance.experiencePoints[which] = Experience.VANILLA_CAP_I;
                     return false; // don't run original logic
                 }
                 case >= 20:
                 {
                     if (currentLevel > 20) __instance.SetSkillLevel((SkillType) which, 20);
 
-                    var prestigeCap = _PrestigeCap;
-                    if (currentExp > prestigeCap) __instance.experiencePoints[which] = prestigeCap;
-
+                    if (currentExp > Experience.PrestigeCap) __instance.experiencePoints[which] = Experience.PrestigeCap;
                     return false; // don't run original logic
                 }
                 case < 10 when !canGainPrestigeLevels:
                 {
-                    if (currentExp + howMuch > VANILLA_CAP_I)
-                        howMuch = VANILLA_CAP_I - currentExp;
+                    if (currentExp + howMuch > Experience.VANILLA_CAP_I)
+                        howMuch = Experience.VANILLA_CAP_I - currentExp;
                     
                     break;
                 }
             }
 
-            if (!ModEntry.PlayerState.RevalidatedLevelThisSession[which])
-            {
-                var expectedLevel = 0;
-                var i = 0;
-                while (i < 10 && currentExp > _vanillaExpPerLevel[i++]) ++expectedLevel;
+            //if (!ModEntry.PlayerState.RevalidatedLevelThisSession[which])
+            //{
+            //    var expectedLevel = 0;
+            //    var i = 0;
+            //    while (i < 10 && currentExp > _vanillaExpPerLevel[i++]) ++expectedLevel;
 
-                var remainingExp = currentExp - VANILLA_CAP_I;
-                if (ModEntry.Config.EnablePrestige && remainingExp > 0)
-                {
-                    i = 1;
-                    while (i <= 10 && remainingExp >= ModEntry.Config.RequiredExpPerExtendedLevel * i++) ++expectedLevel;
-                }
+            //    var remainingExp = currentExp - VANILLA_CAP_I;
+            //    if (ModEntry.Config.EnablePrestige && remainingExp > 0)
+            //    {
+            //        i = 1;
+            //        while (i <= 10 && remainingExp >= ModEntry.Config.RequiredExpPerExtendedLevel * i++) ++expectedLevel;
+            //    }
 
-                if (currentLevel < expectedLevel)
-                {
-                    for (var level = currentLevel + 1; level <= expectedLevel; ++level)
-                    {
-                        var newOldLevel = new Point(which, level);
-                        if (!Game1.player.newLevels.Contains(newOldLevel))
-                            Game1.player.newLevels.Add(newOldLevel);
-                    }
+            //    if (currentLevel < expectedLevel)
+            //    {
+            //        for (var level = currentLevel + 1; level <= expectedLevel; ++level)
+            //        {
+            //            var newOldLevel = new Point(which, level);
+            //            if (!Game1.player.newLevels.Contains(newOldLevel))
+            //                Game1.player.newLevels.Add(newOldLevel);
+            //        }
                 
-                    Game1.player.SetSkillLevel((SkillType) which, expectedLevel);
-                }
+            //        Game1.player.SetSkillLevel((SkillType) which, expectedLevel);
+            //    }
 
-                ModEntry.PlayerState.RevalidatedLevelThisSession[which] = true;
-            }
+            //    ModEntry.PlayerState.RevalidatedLevelThisSession[which] = true;
+            //}
 
             var newLevel = Farmer.checkForLevelGain(currentExp, currentExp + howMuch);
             if (newLevel > currentLevel)
@@ -129,7 +121,7 @@ internal class FarmerGainExperiencePatch : BasePatch
             }
 
             Game1.player.experiencePoints[which] = Math.Min(currentExp + howMuch,
-                canGainPrestigeLevels ? _PrestigeCap : VANILLA_CAP_I);
+                canGainPrestigeLevels ? Experience.PrestigeCap : Experience.VANILLA_CAP_I);
 
             return false; // don't run original logic
         }

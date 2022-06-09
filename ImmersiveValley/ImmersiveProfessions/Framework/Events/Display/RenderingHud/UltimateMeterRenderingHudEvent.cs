@@ -16,10 +16,10 @@ internal class UltimateMeterRenderingHudEvent : RenderingHudEvent
     {
         if (ModEntry.PlayerState.RegisteredUltimate is null)
         {
-            this.Disable();
+            Disable();
             return;
         }
 
-        if (!Game1.eventUp) ModEntry.PlayerState.RegisteredUltimate.Meter.Draw(e.SpriteBatch);
+        if (!Game1.eventUp) ModEntry.PlayerState.RegisteredUltimate.Hud.Draw(e.SpriteBatch);
     }
 }

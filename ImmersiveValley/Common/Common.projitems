@@ -9,6 +9,7 @@
     <Import_RootNamespace>DaLion.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\Broadcaster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Static\Colors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Static\Tiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\BidirectionalMap.cs" />
@@ -17,7 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\CodeInstructionListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\CollectionExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\XnaExtensions\ColorExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GenericExtensions.cs" />
@@ -26,11 +27,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\ListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ModDataDictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ModHelperExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\XnaExtensions\PointExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\XnaExtensions\RectangleExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\PointExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\RectangleExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\XnaExtensions\Vector2Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\Vector2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\HarmonyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodInfoExtensions.cs" />
@@ -44,15 +45,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\ImmersiveProfessions\IImmersiveProfessions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\ImmersiveProfessions\IImmersiveProfessionsAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\LoveOfCooking\ICookingSkillAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\LuckSkill\ILuckSkillAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\SpaceCore\ICustomSkill.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\SpaceCore\ISpaceCoreAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\TehsFishingOverhaul\ISimplifiedFishingAPI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Classes\Instance\" />
     <Folder Include="$(MSBuildThisFileDirectory)Classes\Static\" />
     <Folder Include="$(MSBuildThisFileDirectory)Harmony\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\Collections\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\Stardew\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Extensions\XnaExtensions\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Integrations\Automate\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Extensions\Xna\" />
   </ItemGroup>
 </Project>

@@ -33,7 +33,7 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
 
         var who = __instance.Player;
         if (!who.IsLocalPlayer ||
-            ModEntry.PlayerState.RegisteredUltimate is not Pandemonia {IsActive: false} pandemonium ||
+            ModEntry.PlayerState.RegisteredUltimate is not Pandemonium {IsActive: false} pandemonium ||
             ModEntry.PlayerState.SlimeContactTimer > 0) return;
 
         pandemonium.ChargeValue += Game1.random.Next(1, 4);

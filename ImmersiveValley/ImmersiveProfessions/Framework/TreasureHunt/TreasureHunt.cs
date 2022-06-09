@@ -14,6 +14,9 @@ using Framework.Events.TreasureHunt;
 internal abstract class TreasureHunt : ITreasureHunt
 {
     /// <inheritdoc />
+    public TreasureHuntType Type { get; }
+
+    /// <inheritdoc />
     public bool IsActive => TreasureTile is not null;
 
     /// <inheritdoc />
@@ -34,6 +37,12 @@ internal abstract class TreasureHunt : ITreasureHunt
     protected readonly Random random = new(Guid.NewGuid().GetHashCode());
     
     private double _chanceAccumulator = 1.0;
+
+    /// <summary>Construct an instance.</summary>
+    internal TreasureHunt()
+    {
+        Type = GetType() == typeof(ScavengerHunt) ? TreasureHuntType.Scavenger : TreasureHuntType.Prospector;
+    }
 
     #region public methods
 
@@ -103,15 +112,15 @@ internal abstract class TreasureHunt : ITreasureHunt
     protected abstract void End(bool found);
 
     /// <summary>Raised when a Treasure Hunt starts.</summary>
-    protected void OnStarted(Farmer player, Vector2 target)
+    protected void OnStarted()
     {
-        Started?.Invoke(this, new TreasureHuntStartedEventArgs(player, target));
+        Started?.Invoke(this, new TreasureHuntStartedEventArgs(Game1.player, Type, TreasureTile!.Value));
     }
 
     /// <summary>Raised when a Treasure Hunt ends.</summary>
-    protected void OnEnded(Farmer player, bool found)
+    protected void OnEnded(bool found)
     {
-        Ended?.Invoke(this, new TreasureHuntEndedEventArgs(player, found));
+        Ended?.Invoke(this, new TreasureHuntEndedEventArgs(Game1.player, Type, found));
     }
 
     #endregion protected methods

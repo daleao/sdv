@@ -14,6 +14,7 @@ using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
 
+using Common.Classes;
 using Events.Display;
 using Events.GameLoop;
 using Extensions;
@@ -46,10 +47,10 @@ internal class ScavengerHunt : TreasureHunt
     };
 
     /// <summary>Construct an instance.</summary>
-    public ScavengerHunt()
+    internal ScavengerHunt()
     {
-        huntStartedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntstarted");
-        huntFailedMessage = ModEntry.ModHelper.Translation.Get("scavenger.huntfailed");
+        huntStartedMessage = ModEntry.i18n.Get("scavenger.huntstarted");
+        huntFailedMessage = ModEntry.i18n.Get("scavenger.huntfailed");
         iconSourceRect = new(80, 656, 16, 16);
     }
 
@@ -75,19 +76,18 @@ internal class ScavengerHunt : TreasureHunt
         Game1.addHUDMessage(new HuntNotification(huntStartedMessage, iconSourceRect));
         if (Context.IsMultiplayer)
         {
-            Framework.Utility.Multiplayer.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
+            Broadcaster.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
             
             if (Game1.player.HasProfession(Profession.Scavenger, true))
             {
                 if (!Context.IsMainPlayer)
-                    ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOn", "RequestEvent",
-                        new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+                    ModEntry.Broadcaster.Message("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
                 else
                     EventManager.Enable(typeof(HostPrestigeTreasureHuntUpdateTickedEvent));
             }
         }
         
-        OnStarted(Game1.player, TreasureTile.Value);
+        OnStarted();
         return true;
     }
 
@@ -109,19 +109,23 @@ internal class ScavengerHunt : TreasureHunt
         Game1.addHUDMessage(new HuntNotification(huntStartedMessage, iconSourceRect));
         if (Context.IsMultiplayer)
         {
-            Framework.Utility.Multiplayer.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
+            Broadcaster.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
 
             if (Game1.player.HasProfession(Profession.Scavenger, true))
             {
                 if (!Context.IsMainPlayer)
-                    ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOn", "RequestEvent",
-                        new[] { ModEntry.Manifest.UniqueID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
+                {
+                    ModEntry.Broadcaster.Message("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
+                }
                 else
+                {
                     EventManager.Enable(typeof(HostPrestigeTreasureHuntUpdateTickedEvent));
+                    ModEntry.HostState.PlayersHuntingTreasure.Add(Game1.player.UniqueMultiplayerID);
+                }
             }
         }
 
-        OnStarted(Game1.player, TreasureTile.Value);
+        OnStarted();
     }
 
     /// <inheritdoc />
@@ -183,13 +187,12 @@ internal class ScavengerHunt : TreasureHunt
         if (!Context.IsMultiplayer || Context.IsMainPlayer ||
             !Game1.player.HasProfession(Profession.Scavenger, true)) return;
 
-        Framework.Utility.Multiplayer.SendPublicChat(found
+        Broadcaster.SendPublicChat(found
             ? $"{Game1.player.Name} has found the treasure!"
             : $"{Game1.player.Name} failed to find the treasure.");
-        ModEntry.ModHelper.Multiplayer.SendMessage("HuntIsOff", "RequestEvent",
-            new[] {ModEntry.Manifest.UniqueID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
+        ModEntry.Broadcaster.Message("HuntIsOff", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
         
-        OnEnded(Game1.player, found);
+        OnEnded(found);
     }
 
     #endregion protected methods

@@ -4,6 +4,7 @@
 
 using System;
 using System.Reflection;
+using JetBrains.Annotations;
 using HarmonyLib;
 using StardewModdingAPI;
 
@@ -23,18 +24,13 @@ public class ModEntry : Mod
     internal static IManifest Manifest => Instance.ModManifest;
     internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
-    internal static string ProfessionsUniqueID => "DaLion.ImmersiveProfessions";
-    internal static bool HasProfessionsMod { get; private set; }
-    internal static IImmersiveProfessionsAPI ProfessionsAPI { get; set; }
+    [CanBeNull] internal static IImmersiveProfessionsAPI ProfessionsAPI { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
     {
         Instance = this;
-
-        // check for Moon Misadventures mod
-        HasProfessionsMod = helper.ModRegistry.IsLoaded(ProfessionsUniqueID);
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();
@@ -48,5 +44,8 @@ public class ModEntry : Mod
 
         if (helper.ModRegistry.IsLoaded("Pathoschild.Automate"))
             AutomatePatches.Apply(harmony);
+
+        // add debug commands
+        helper.ConsoleCommands.Register();
     }
 }

@@ -19,6 +19,6 @@ internal class PiperDayEndingEvent : DayEndingEvent
     {
         Game1.buffsDisplay.removeOtherBuff(_which);
         Array.Clear(ModEntry.PlayerState.AppliedPiperBuffs, 0, 12);
-        this.Disable();
+        Disable();
     }
 }

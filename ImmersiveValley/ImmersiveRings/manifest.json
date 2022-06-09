@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Fellowship - Immersive Rings",
   "Author": "DaLion",
-  "Version": "1.0.4",
+  "Version": "1.2.0",
   "Description": "Adds immersive new ring effects and recipes.",
   "UniqueID": "DaLion.ImmersiveRings",
   "EntryDll": "ImmersiveRings.dll",
@@ -9,8 +9,12 @@
   "UpdateKeys": [ "Nexus:11380" ],
   "Dependencies": [
     {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "MinimumVersion": "1.8.0",
+      "IsRequired": false
+    },
+    {
       "UniqueID": "DaLion.ImmersiveProfessions",
-      "MinimumVersion": "3.1.16",
       "IsRequired": false
     },
     {

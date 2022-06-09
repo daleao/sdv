@@ -45,5 +45,9 @@ internal class GameLaunchedEvent : IEvent
             modRegistry: ModEntry.ModHelper.ModRegistry,
             manifest: ModEntry.Manifest
         ).Register();
+
+        // add Immersive Professions integration
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("DaLion.ImmersiveProfessions"))
+            new ImmersiveProfessionsIntegration(ModEntry.ModHelper.ModRegistry, ModEntry.Log).Register();
     }
 }

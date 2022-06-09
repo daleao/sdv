@@ -33,7 +33,7 @@ internal class FarmerShowItemIntakePatch : BasePatch
     {
         try
         {
-            if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.IsAnyOf(14, 51)) return true; // run original logic
+            if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.IsIn(14, 51)) return true; // run original logic
 
             var toShow = (SObject) who.mostRecentlyGrabbedItem;
             TemporaryAnimatedSprite tempSprite = who.FacingDirection switch

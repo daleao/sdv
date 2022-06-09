@@ -30,8 +30,8 @@ public interface IUltimate : IDisposable
     /// <summary>Whether this Ultimate is currently active.</summary>
     bool IsActive { get; }
 
-    /// <summary>Check whether the <see cref="UltimateMeter"/> is currently showing.</summary>
-    bool IsMeterVisible { get; }
+    /// <summary>Check whether the <see cref="UltimateHUD"/> is currently showing.</summary>
+    bool IsHudVisible { get; }
 
     /// <summary>Check whether all activation conditions for this Ultimate are currently met.</summary>
     bool CanActivate { get; }

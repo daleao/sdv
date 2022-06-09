@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using StardewModdingAPI.Enums;
 
 namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
@@ -288,10 +289,12 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         if (currentLevel != 10) return false;
         
         var skill = chosenProfession / 6;
+        if (skill is < (int) SkillType.Farming or >= (int) SkillType.Combat) return false;
+
         var hasAllProfessions = Game1.player.HasAllProfessionsInSkill(skill);
         Log.D($"Farmer {Game1.player.Name} " + (hasAllProfessions
-            ? $" has all professions in {skill.GetCorrespondingSkill()}."
-            : $" does not have all professions in {skill.GetCorrespondingSkill()}."));
+            ? $" has acquired all professions in the {skill.GetCorrespondingSkill()} skill and may now gain extended levels."
+            : $" does not yet have all professions in the {skill.GetCorrespondingSkill()} skill."));
         if (hasAllProfessions) return true;
 
         var missingProfessions = Game1.player.GetMissingProfessionsInSkill(skill);
@@ -302,15 +305,15 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
     private static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
     {
-        var oldProfessionKey = ModEntry.PlayerState.RegisteredUltimate.Index.ToString().ToLower();
-        var oldProfessionDisplayName = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".name.male");
-        var oldUlt = ModEntry.ModHelper.Translation.Get(oldProfessionKey + ".ulti");
-        var newProfessionKey = chosenProfession.ToProfessionName().ToLower();
-        var newProfessionDisplayName = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".name.male");
-        var newUlt = ModEntry.ModHelper.Translation.Get(newProfessionKey + ".ulti");
+        var oldProfessionKey = ModEntry.PlayerState.RegisteredUltimate.Index.ToString().SplitCamelCase()[0].ToLowerInvariant();
+        var oldProfessionDisplayName = ModEntry.i18n.Get(oldProfessionKey + ".name." + (Game1.player.IsMale ? "male" : "female"));
+        var oldUlt = ModEntry.i18n.Get(oldProfessionKey + ".ulti");
+        var newProfessionKey = chosenProfession.ToProfessionName().ToLowerInvariant();
+        var newProfessionDisplayName = ModEntry.i18n.Get(newProfessionKey + ".name" + (Game1.player.IsMale ? "male" : "female"));
+        var newUlt = ModEntry.i18n.Get(newProfessionKey + ".ulti");
         var pronoun = Localization.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(
-            ModEntry.ModHelper.Translation.Get("prestige.levelup.question",
+            ModEntry.i18n.Get("prestige.levelup.question",
                 new
                 {
                     pronoun,
@@ -329,10 +332,10 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                         ModEntry.PlayerState.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
                         {
-                            UltimateIndex.Frenzy => new Frenzy(),
-                            UltimateIndex.Ambush => new Ambush(),
-                            UltimateIndex.Pandemonia => new Pandemonia(),
-                            UltimateIndex.Blossom => new DeathBlossom()
+                            UltimateIndex.BruteFrenzy => new Frenzy(),
+                            UltimateIndex.PoacherAmbush => new Ambush(),
+                            UltimateIndex.PiperPandemonium => new Pandemonium(),
+                            UltimateIndex.DesperadoBlossom => new DeathBlossom()
                         };
                     Game1.player.WriteData(DataField.UltimateIndex, newIndex.ToString());
                 }
@@ -343,13 +346,13 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
     private static void CongratulateOnFullSkillMastery(int chosenProfession)
     {
-        Game1.drawObjectDialogue(ModEntry.ModHelper.Translation.Get("prestige.levelup.unlocked",
+        Game1.drawObjectDialogue(ModEntry.i18n.Get("prestige.levelup.unlocked",
             new {whichSkill = Farmer.getSkillDisplayNameFromIndex(chosenProfession / 6)}));
 
         if (!Game1.player.HasAllProfessions()) return;
 
         string name =
-            ModEntry.ModHelper.Translation.Get("prestige.achievement.name." +
+            ModEntry.i18n.Get("prestige.achievement.name." +
                                                (Game1.player.IsMale ? "male" : "female"));
         if (Game1.player.achievements.Contains(name.GetDeterministicHashCode())) return;
 

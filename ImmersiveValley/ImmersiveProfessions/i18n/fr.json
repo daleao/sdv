@@ -168,7 +168,7 @@
   "prestige.dogstatue.what": "-Statue de Prestige-^...",
   "prestige.dogstatue.respec": "Changer les professions de prestige",
   "prestige.dogstatue.changeult": "Changer le super mode de combat",
-  "prestige.dogstatue.replace": "Actuellement enregistré {{pronoun}} {{currentBuff}} de {{currentProfession}}. Remplacer ?",
+  "prestige.dogstatue.replace": "Actuellement enregistré {{pronoun}} {{currentUlti}} de {{currentProfession}}. Remplacer ?",
   "prestige.dogstatue.choice": "{{choiceBuff}} de {{choiceProfession}}",
   "prestige.dogstatue.fledged": "*Wouaf* *Wouaf* (vous êtes désormais {{pronoun}} {{choiceProfession}} à part entière.)",
   "prestige.dogstatue.cancel": "J’ai changé d’avis...",

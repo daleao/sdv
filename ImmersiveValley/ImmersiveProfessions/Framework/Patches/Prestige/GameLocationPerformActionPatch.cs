@@ -42,17 +42,17 @@ internal class GameLocationPerformActionPatch : BasePatch
                 (EventManager.Get<PrestigeDayEndingEvent>().IsEnabled ||
                  ModEntry.PlayerState.UsedDogStatueToday))
             {
-                message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.dismiss");
+                message = ModEntry.i18n.Get("prestige.dogstatue.dismiss");
                 Game1.drawObjectDialogue(message);
                 return false; // don't run original logic
             }
 
             if (who.CanResetAnySkill())
             {
-                message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.first");
+                message = ModEntry.i18n.Get("prestige.dogstatue.first");
                 if (ModEntry.Config.ForgetRecipesOnSkillReset)
-                    message += ModEntry.ModHelper.Translation.Get("prestige.dogstatue.forget");
-                message += ModEntry.ModHelper.Translation.Get("prestige.dogstatue.offer");
+                    message += ModEntry.i18n.Get("prestige.dogstatue.forget");
+                message += ModEntry.i18n.Get("prestige.dogstatue.offer");
 
                 __instance.createQuestionDialogue(message, __instance.createYesNoResponses(), "dogStatue");
                 return false; // don't run original logic
@@ -60,15 +60,15 @@ internal class GameLocationPerformActionPatch : BasePatch
 
             if (who.HasAllProfessions() && !ModEntry.PlayerState.UsedDogStatueToday)
             {
-                message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.what");
+                message = ModEntry.i18n.Get("prestige.dogstatue.what");
                 var options = Array.Empty<Response>();
 
                 if (ModEntry.PlayerState.RegisteredUltimate is not null)
                     options = options.Concat(new Response[]
                     {
-                        new("changeUlt", ModEntry.ModHelper.Translation.Get("prestige.dogstatue.changeult") +
+                        new("changeUlt", ModEntry.i18n.Get("prestige.dogstatue.changeult") +
                                          (ModEntry.Config.ChangeUltCost > 0
-                                             ? ' ' + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost",
+                                             ? ' ' + ModEntry.i18n.Get("prestige.dogstatue.cost",
                                                  new {cost = ModEntry.Config.ChangeUltCost})
                                              : string.Empty))
                     }).ToArray();
@@ -77,9 +77,9 @@ internal class GameLocationPerformActionPatch : BasePatch
                     options = options.Concat(new Response[]
                     {
                         new("prestigeRespec",
-                            ModEntry.ModHelper.Translation.Get("prestige.dogstatue.respec") +
+                            ModEntry.i18n.Get("prestige.dogstatue.respec") +
                             (ModEntry.Config.PrestigeRespecCost > 0
-                                ? ' ' + ModEntry.ModHelper.Translation.Get("prestige.dogstatue.cost",
+                                ? ' ' + ModEntry.i18n.Get("prestige.dogstatue.cost",
                                     new {cost = ModEntry.Config.PrestigeRespecCost})
                                 : string.Empty))
                     }).ToArray();
@@ -88,7 +88,7 @@ internal class GameLocationPerformActionPatch : BasePatch
                 return false; // don't run original logic
             }
 
-            message = ModEntry.ModHelper.Translation.Get("prestige.dogstatue.first");
+            message = ModEntry.i18n.Get("prestige.dogstatue.first");
             Game1.drawObjectDialogue(message);
             return false; // don't run original logic
         }

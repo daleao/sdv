@@ -1,4 +1,7 @@
-﻿namespace DaLion.Stardew.Professions.Extensions;
+﻿using System.Linq;
+using DaLion.Common.Extensions;
+
+namespace DaLion.Stardew.Professions.Extensions;
 
 #region using directives
 
@@ -15,9 +18,15 @@ public static class Int32Extensions
     {
         if (Enum.IsDefined(typeof(Profession), professionIndex))
             return Enum.Parse<Profession>(professionIndex.ToString()).ToString();
+        
         if (professionIndex > 100 && Enum.IsDefined(typeof(Profession), professionIndex - 100))
             return Enum.Parse<Profession>((professionIndex - 100).ToString()).ToString();
-        throw new ArgumentException($"Profession {professionIndex} does not exist.");
+        
+        if (!ModEntry.CustomSkills.Any(s => professionIndex.IsIn(s.ProfessionIds)))
+            throw new ArgumentException($"Profession {professionIndex} does not exist.");
+        
+        var theSkill = ModEntry.CustomSkills.Single(s => professionIndex.IsIn(s.ProfessionIds));
+        return theSkill.ProfessionNamesById[professionIndex];
     }
 
     /// <summary>Get the name of a given profession by index.</summary>
