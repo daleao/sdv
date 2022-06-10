@@ -19,7 +19,7 @@ internal class SpaceCoreIntegration : BaseIntegration<ISpaceCoreAPI>
     internal static FieldInfo GetCustomSkillNewLevels = null!;
     internal static MethodInfo GetSkillName = null!;
     internal static MethodInfo GetProfessions = null!;
-    internal static MethodInfo GetProfessionsForLevel = null!;
+    internal static MethodInfo GetProfessionsForLevels = null!;
     internal static MethodInfo GetPairLevel = null!;
     internal static MethodInfo GetFirstProfession = null!;
     internal static MethodInfo GetSecondProfession = null!;
@@ -50,7 +50,7 @@ internal class SpaceCoreIntegration : BaseIntegration<ISpaceCoreAPI>
         GetCustomSkillNewLevels = "SpaceCore.Skills".ToType().RequireField("NewLevels");
         GetSkillName = "SpaceCore.Skills+Skill".ToType().RequireMethod("GetName");
         GetProfessions = "SpaceCore.Skills+Skill".ToType().RequirePropertyGetter("Professions");
-        GetProfessionsForLevel = "SpaceCore.Skills+Skill".ToType().RequirePropertyGetter("ProfessionsForLevels");
+        GetProfessionsForLevels = "SpaceCore.Skills+Skill".ToType().RequirePropertyGetter("ProfessionsForLevels");
         GetPairLevel = "SpaceCore.Skills+Skill+ProfessionPair".ToType().RequirePropertyGetter("Level");
         GetFirstProfession = "SpaceCore.Skills+Skill+ProfessionPair".ToType().RequirePropertyGetter("First");
         GetSecondProfession = "SpaceCore.Skills+Skill+ProfessionPair".ToType().RequirePropertyGetter("Second");

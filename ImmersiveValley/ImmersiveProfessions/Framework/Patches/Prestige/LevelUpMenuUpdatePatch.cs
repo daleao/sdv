@@ -1,18 +1,17 @@
-﻿using System.Linq;
-using StardewModdingAPI.Enums;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 #region using directives
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
+using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -277,14 +276,14 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
     #region injected subroutines
 
-    private static bool ShouldProposeFinalQuestion(int chosenProfession)
+    internal static bool ShouldProposeFinalQuestion(int chosenProfession)
     {
         return ModEntry.Config.EnablePrestige && chosenProfession is >= 26 and < 30 &&
                ModEntry.PlayerState.RegisteredUltimate is not null &&
                (int) ModEntry.PlayerState.RegisteredUltimate.Index != chosenProfession;
     }
 
-    private static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
+    internal static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
     {
         if (currentLevel != 10) return false;
         
@@ -303,7 +302,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
         return false;
     }
 
-    private static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
+    internal static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
     {
         var oldProfessionKey = ModEntry.PlayerState.RegisteredUltimate.Index.ToString().SplitCamelCase()[0].ToLowerInvariant();
         var oldProfessionDisplayName = ModEntry.i18n.Get(oldProfessionKey + ".name." + (Game1.player.IsMale ? "male" : "female"));
@@ -344,7 +343,7 @@ internal class LevelUpMenuUpdatePatch : BasePatch
             });
     }
 
-    private static void CongratulateOnFullSkillMastery(int chosenProfession)
+    internal static void CongratulateOnFullSkillMastery(int chosenProfession)
     {
         Game1.drawObjectDialogue(ModEntry.i18n.Get("prestige.levelup.unlocked",
             new {whichSkill = Farmer.getSkillDisplayNameFromIndex(chosenProfession / 6)}));

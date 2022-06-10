@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using DaLion.Common.Extensions;
-
-namespace DaLion.Stardew.Professions.Extensions;
+﻿namespace DaLion.Stardew.Professions.Extensions;
 
 #region using directives
 
 using System;
+using System.Linq;
 using StardewModdingAPI.Enums;
+
+using DaLion.Common.Extensions;
 
 #endregion using directives
 

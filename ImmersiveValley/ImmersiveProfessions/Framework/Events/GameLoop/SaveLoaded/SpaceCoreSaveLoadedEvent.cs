@@ -29,9 +29,13 @@ internal class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
         // initialize reflected SpaceCore fields
         SpaceCoreIntegration.InitializeReflectedFields();
 
-        // get custom skills
+        // get custom luck skill
+        if (ModEntry.LuckSkillApi is not null)
+            ModEntry.CustomSkills["spacechase0.LuckSkill"] = new LuckSkill();
+
+        // get remaining SpaceCore skills
         foreach (var skillId in ModEntry.SpaceCoreApi!.GetCustomSkills())
-            ModEntry.CustomSkills[skillId] = new CustomSkill(skillId);
+            ModEntry.CustomSkills[skillId] = new SpaceCoreSkill(skillId);
 
         // revalidate custom skill levels
         foreach (var skill in ModEntry.CustomSkills.Values)

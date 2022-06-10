@@ -1,4 +1,6 @@
-﻿#nullable enable
+﻿using System.Text.RegularExpressions;
+
+#nullable enable
 namespace DaLion.Stardew.Professions;
 
 #region using directives
@@ -88,7 +90,6 @@ internal static class ConsoleCommands
         Log.I($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Foraging)} ({Game1.player.experiencePoints[(int) SkillType.Foraging]} exp)");
         Log.I($"Mining level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Mining)} ({Game1.player.experiencePoints[(int) SkillType.Mining]} exp)");
         Log.I($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Combat)} ({Game1.player.experiencePoints[(int) SkillType.Combat]} exp)");
-        Log.I($"Luck level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Luck)} ({Game1.player.experiencePoints[(int) SkillType.Luck]} exp)");
         
         foreach (var skill in ModEntry.CustomSkills.Values)
             Log.I($"{skill.DisplayName} level: {skill.CurrentLevel} ({skill.CurrentExp} exp)");
@@ -195,7 +196,10 @@ internal static class ConsoleCommands
             string name;
             try
             {
-                name = $"{professionIndex.ToProfessionName()}" + (professionIndex >= 100 ? " (P)" : Empty);
+                name = $"{professionIndex.ToProfessionName()}" +
+                       (professionIndex >= 100 && Enum.IsDefined(typeof(Profession), professionIndex - 100)
+                           ? " (P)"
+                           : Empty);
                 if (name == Profession.Unknown.ToString()) name = "Error profession -1. How did this end up here?";
             }
             catch (ArgumentException)
@@ -234,8 +238,6 @@ internal static class ConsoleCommands
             {
                 var range = Enumerable.Range(0, 30).ToArray();
                 if (prestige) range = range.Concat(Enumerable.Range(100, 30)).ToArray();
-                if (ModEntry.LuckSkillApi is not null)
-                    range = range.Concat(Enumerable.Range(30, 36)).ToArray();
                 range = ModEntry.CustomSkills.Values.Aggregate(range,
                     (current, skill) => current.Concat(skill.ProfessionIds).ToArray());
 
@@ -250,15 +252,19 @@ internal static class ConsoleCommands
             
             if (profession == Profession.Unknown)
             {
-                if (ModEntry.CustomSkills.Values.Any(s => s.ProfessionNamesById.ContainsValue(arg)))
+                var customSkill = ModEntry.CustomSkills.Values.SingleOrDefault(s =>
+                    s.ProfessionNamesById.Values.Any(name =>
+                        Regex.Replace(name, @"\s+", "").ToLowerInvariant().FirstCharToUpper() == arg));
+                if (customSkill is not null)
                 {
-                    var theSkill = ModEntry.CustomSkills.Values.Single(s => s.ProfessionNamesById.ContainsValue(arg));
                     var professionId =
-                        theSkill.ProfessionNamesById.Single(pair => pair.Value == arg).Key;
+                        customSkill.ProfessionNamesById.Single(pair =>
+                            Regex.Replace(pair.Value, @"\s+", "").ToLowerInvariant().FirstCharToUpper() == arg).Key;
                     profession = (Profession) professionId;
                     if (prestige)
                     {
                         Log.W($"Cannot prestige custom skill profession {arg}.");
+                        continue;
                     }
                 }
                 else

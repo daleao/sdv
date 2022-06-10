@@ -179,7 +179,7 @@ Once the ribbon has reached its fourth stage, signaling that all professions hav
  
 At levels 15 and 20, the farmer can choose a profession to prestige, improving one of its base perks, or, in some cases, granting entirely new ones. These choices can later be changed at the Statue of Prestige, for a cost.
 
-All Prestige features are optional and may be disabled or customized in the configs. Non-vanilla skills at the moment are not supported by prestige.
+All Prestige features are optional and may be disabled or customized in the configs. Non-vanilla skills can be reset, but their level cap cannot be raised.
 
 ## Ultimates
 

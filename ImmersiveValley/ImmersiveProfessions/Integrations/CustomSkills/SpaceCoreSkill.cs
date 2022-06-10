@@ -1,6 +1,4 @@
-﻿using DaLion.Common.Extensions.Collections;
-
-#nullable enable
+﻿#nullable enable
 namespace DaLion.Stardew.Professions.Integrations;
 
 #region using directives
@@ -15,14 +13,11 @@ using Common.Integrations;
 
 #endregion using directives
 
-public class CustomSkill : ICustomSkill
+public class SpaceCoreSkill : ICustomSkill
 {
     private readonly Func<Farmer, string, int> _getCurrentExpFor =
         (Func<Farmer, string, int>) Delegate.CreateDelegate(typeof(Func<Farmer, string, int>),
             SpaceCoreIntegration.GetCustomSkillExp);
-
-    /// <inheritdoc />
-    public object Instance { get; }
 
     /// <inheritdoc />
     public string StringId { get; }
@@ -51,19 +46,20 @@ public class CustomSkill : ICustomSkill
     public int[] TierTwoProfessionIds { get; }
 
     /// <inheritdoc />
-    public Dictionary<int, (int left, int right)> ProfessionsByBranch { get; } = new();
+    public Dictionary<int, (int first, int second)> ProfessionsByBranch { get; } = new();
 
     /// <inheritdoc />
     public Dictionary<int, string> ProfessionNamesById { get; } = new();
 
-    /// <summary>Construct an instance.</summary>
-    internal CustomSkill(string id)
+    /// <summary>Construct an theSkill.</summary>
+    internal SpaceCoreSkill(string id)
     {
         StringId = id;
-        Instance = SpaceCoreIntegration.GetCustomSkill.Invoke(null, new object?[] {id})!;
-        DisplayName = (string) SpaceCoreIntegration.GetSkillName.Invoke(Instance, null)!;
+        
+        var theSkill = SpaceCoreIntegration.GetCustomSkill.Invoke(null, new object?[] {id})!;
+        DisplayName = (string) SpaceCoreIntegration.GetSkillName.Invoke(theSkill, null)!;
 
-        var professionPairs = ((IEnumerable) SpaceCoreIntegration.GetProfessionsForLevel.Invoke(Instance, null)!)
+        var professionPairs = ((IEnumerable) SpaceCoreIntegration.GetProfessionsForLevels.Invoke(theSkill, null)!)
                 .Cast<object>().ToList();
         var levelTenPairs =
             professionPairs.Where(pair => (int) SpaceCoreIntegration.GetPairLevel.Invoke(pair, null)! == 10).ToArray();
@@ -75,7 +71,7 @@ public class CustomSkill : ICustomSkill
         var levelTenIds = levelTenStringIds.Select(pid => ModEntry.SpaceCoreApi!.GetProfessionId(StringId, pid)).ToArray();
         TierTwoProfessionIds = levelTenIds;
 
-        var allProfessions = ((IEnumerable) SpaceCoreIntegration.GetProfessions.Invoke(Instance, null)!).Cast<object>()
+        var allProfessions = ((IEnumerable) SpaceCoreIntegration.GetProfessions.Invoke(theSkill, null)!).Cast<object>()
             .ToList();
         var allStringIds =
             allProfessions.Select(p => (string) SpaceCoreIntegration.GetProfessionStringId.Invoke(p, null)!);

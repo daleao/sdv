@@ -13,8 +13,6 @@ using Common.Integrations;
 
 internal class LuckSkillIntegration : BaseIntegration<ILuckSkillAPI>
 {
-    internal static Dictionary<int, string> ProfessionNamesById { get; } = new();
-
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     /// <param name="log">Encapsulates monitoring and logging.</param>
@@ -28,8 +26,5 @@ internal class LuckSkillIntegration : BaseIntegration<ILuckSkillAPI>
     {
         AssertLoaded();
         ModEntry.LuckSkillApi = ModApi;
-
-        foreach (var profession in ModApi.GetProfessions().Values)
-            ProfessionNamesById[profession.Id] = profession.Name;
     }
 }

@@ -97,26 +97,6 @@ internal class NewSkillsPagePerformHoverActionPatch : BasePatch
 
         if (ModEntry.SpaceCoreApi is null) return;
 
-        if (ModEntry.LuckSkillApi is not null)
-        {
-            bounds.Y += 56;
-            var professionsForThisSkill = Game1.player.GetAllProfessionsForSkill((int) SkillType.Luck, true).ToList();
-            var numProfessions = professionsForThisSkill.Count;
-            if (numProfessions != 0)
-            {
-                bounds.Width = ModEntry.Config.Progression.ToString().Contains("Ribbons")
-                    ? (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
-                    : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * numProfessions + 4) * Textures.STARS_SCALE_F);
-                if (bounds.Contains(x, y))
-                {
-                    ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count = numProfessions });
-                    ___hoverText = professionsForThisSkill
-                        .Select(p => Professions.Integrations.LuckSkillIntegration.ProfessionNamesById[p])
-                        .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
-                }
-            }
-        }
-
         foreach (var skill in ModEntry.CustomSkills.Values)
         {
             bounds.Y += 56;

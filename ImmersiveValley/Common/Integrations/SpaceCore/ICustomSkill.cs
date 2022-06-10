@@ -1,4 +1,5 @@
-﻿namespace DaLion.Common.Integrations;
+﻿#nullable enable
+namespace DaLion.Common.Integrations;
 
 #region using directives
 
@@ -35,11 +36,8 @@ public interface ICustomSkill
     int[] TierTwoProfessionIds { get; }
 
     /// <summary>Look-up for the corresponding level ten professions branching from each level five profession.</summary>
-    Dictionary<int, (int left, int right)> ProfessionsByBranch { get; }
+    Dictionary<int, (int first, int second)> ProfessionsByBranch { get; }
 
     /// <summary>Look-up for the corresponding display name of each profession by its integer id.</summary>
     Dictionary<int, string> ProfessionNamesById { get; }
-
-    /// <summary>The custom skill instance as object.</summary>
-    object Instance { get; }
 }

@@ -67,7 +67,7 @@ public static class FarmerExtensions
         if (professionIndex.IsIn(skill.TierTwoProfessionIds)) return true;
 
         if (skill.ProfessionsByBranch.TryGetValue(professionIndex, out var branches))
-            return farmer.professions.Contains(branches.left) && farmer.professions.Contains(branches.right);
+            return farmer.professions.Contains(branches.first) && farmer.professions.Contains(branches.second);
 
         return false;
     }
@@ -137,7 +137,7 @@ public static class FarmerExtensions
     public static int GetCurrentProfessionForCustomSkillBranch(this Farmer farmer, ICustomSkill skill, int branch)
     {
         var found = farmer.professions.Reverse().FirstOrDefault(p =>
-            p == skill.ProfessionsByBranch[branch].left || p == skill.ProfessionsByBranch[branch].right);
+            p == skill.ProfessionsByBranch[branch].first || p == skill.ProfessionsByBranch[branch].second);
         return found == default
             ? -1
             : found;
@@ -207,6 +207,20 @@ public static class FarmerExtensions
         return excludeTierOneProfessions
             ? which.TierTwoProfessionIds.Except(farmer.professions).ToArray()
             : which.ProfessionIds.Except(farmer.professions).ToArray();
+    }
+
+    /// <summary>Get the last acquired profession by the farmer in the specified subset, or simply the last acquired profession if no subset is specified.</summary>
+    /// <param name="subset">An array of profession ids.</param>
+    /// <returns>The last acquired profession, or -1 if none was found.</returns>
+    public static int GetMostRecentProfession(this Farmer farmer, IEnumerable<int>? subset = null)
+    {
+        if (subset is null) return farmer.professions[^1];
+
+        var found = farmer.professions.Reverse()
+            .FirstOrDefault(p => p.IsIn(subset));
+        return found == default
+            ? -1
+            : found;
     }
 
     /// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
