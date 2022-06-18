@@ -1,5 +1,5 @@
 ﻿{
-  // Farming
+  // farming
   "harvester.name.male": "경작인",
   "harvester.name.female": "경작인",
   "harvester.desc": "작물을 수확할 때, 10% 확률로 더 수확합니다.",
@@ -26,7 +26,7 @@
   "producer.desc": "행복한 동물이 두 배 더 자주 생산합니다. 가득찬 축사의 하나 당 생산품의 가치가 5% 증가합니다.",
   "producer.desc.prestiged": "행복한 동물이 두 배 >> 세 배 더 자주 생산합니다.",
 
-  // Foraging
+  // foraging
   "forager.name.male": "채집가",
   "forager.name.female": "채집가",
   "forager.desc": "채집 시 20% 확률로 아이템을 두 배 얻습니다.",
@@ -55,7 +55,7 @@
   "tapper.desc": "수액 채취기를 제작하는데 드는 자원이 줄어듭니다. 시럽을 25% 더 빠르게 얻습니다.",
   "tapper.desc.prestiged": "시럽을 25% >> 50% 더 빠르게 얻습니다.",
 
-  // Mining
+  // mining
   "miner.name.male": "광부",
   "miner.name.female": "광부",
   "miner.desc": "광맥마다 광물이 하나씩 더 나옵니다.",
@@ -86,7 +86,7 @@
   "gemologist.desc": "광물의 품질이 점점 높아집니다. 결정생성기가 25% 더 빨리 생산합니다.",
   "gemologist.desc.prestiged": "결정생성기가 25% >> 50% 더 빨리 생산합니다.",
 
-  // Fishing
+  // fishing
   "fisher.name.male": "어부",
   "fisher.name.female": "어부",
   "fisher.desc": "입질이 더 빨리 옵니다. 쓰레기를 잡을 확률이 줄어듭니다.",
@@ -112,10 +112,10 @@
   "conservationist.name.female": "보호주의자",
   "conservationist.desc": "게잡이 통발을 미끼 없이 사용하면 쓰레기를 잡습니다. 계곡을 맑게 하면 세금 공제 혜택을 받을 수 있습니다.",
   "conservationist.desc.prestiged": "계곡을 맑게 하면 이웃이 기뻐합니다.",
-  "conservationist.mail1": "친애하는 @, ^^ 귀하의 환경보호 운동을 검토한 결과, 귀하가 펀길 세입 법규 제501조 (c)(3)에 따라 {{taxBonus}}의 소득공제를 받을 자격이 있음을 알려드리게 되어 기쁩니다. 이번 시즌부터 {{farmName}}의 모든 과세소득이 상기 금액만큼 증가합니다. 귀하의 재정 상태에 관한 질문이 있으시다면, 이 서신을 영구 기록에 보관하여 주십시오. ^^ 진심을 담아, 로라 D. 프레토^펀길 국세청[#]납세고지서",
-  "conservationist.mail2": "친애하는 @, ^^ 귀하의 환경보호 운동을 검토한 결과, 귀하가 펀길 세입 법규 제501조 (c)(3)에 따라 {{taxBonus}}의 최대 소득공제를 받을 자격이 있음을 알려드리게 되어 기쁩니다. 이번 시즌부터 {{farmName}}의 모든 과세소득이 상기 금액만큼 증가합니다. 귀하의 재정 상태에 관한 질문이 있으시다면, 이 서신을 영구 기록에 보관하여 주십시오. ^^ 진심을 담아, 로라 D. 프레토^펀길 국세청[#]납세고지서",
+  "conservationist.mail": "대한민국 기획재정부^펀길 대한민국 국세청^^^{{honorific}} @,^^귀하의 환경 활동을 검토한 결과 귀하가 곰팡이 수익 코드의 섹션 501(c)(3)에 따라 {{taxDeduction}}의 최대 소득세 공제를 받을 자격이 있다고 결정했음을 알려드립니다. 따라서 {{farm}}에 대한 모든 과세 소득은 {{season}} 동안 유효한 이 금액만큼 증가합니다.^^재정 상태에 관한 질문에 답해야 하는 경우 이 편지를 영구 기록으로 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 대한민국 국세청[#]Taxation Deduction",
+  "conservationist.mail.max": "대한민국 기획재정부^펀길 대한민국 국세청^^^{{honorific}} @,^^귀하의 환경 활동을 검토한 결과 귀하가 곰팡이 수익 코드의 섹션 501(c)(3)에 따라 {{taxDeduction}}의 최대 소득세 공제를 받을 자격이 있다고 결정했음을 알려드립니다. 따라서 {{farm}}에 대한 모든 과세 소득은 {{season}} 동안 유효한 이 금액만큼 증가합니다.^^재정 상태에 관한 질문에 답해야 하는 경우 이 편지를 영구 기록으로 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 대한민국 국세청[#]Taxation Deduction",
 
-  // Combat
+  // combat
   "fighter.name.male": "싸움꾼",
   "fighter.name.female": "싸움꾼",
   "fighter.desc": "데미지 +10%, 체력 +15.",
@@ -153,12 +153,12 @@
   "piper.desc.prestiged": "슬라임 처치 시 일정 확률로 체력과 에너지를 회복합니다.",
   "piper.buff": "슬라임",
   "piper.buffdesc": "농사 +{{farming}}\n낚시 +{{fishing}}\n채집 +{{foraging}}\n채광 +{{mining}}\n공격력 +{{attack}}\n방어력 +{{defense}}\n행운 +{{luck}}\n속도 +{{speed}}\n최대 에너지 +{{energy}}\n자력 범위 +{{magnetic}}",
-  "piper.ulti": "전염병",
+  "piper.ulti": "매혹",
   "piper.ultidesc": "근처에 있는 모든 슬라임을 인챈트합니다. 마법에 걸린 슬라임은 크기와 힘이 증가하고 다른 적을 쫓습니다.",
 
   "ulti.canteat": "지금은 불가능합니다.",
 
-  // Prestige
+  // prestige
   "prestige.dogstatue.first": "-명성의 조각상-^이 조각상을 통해 직업을 유지한 채로 스킬 레벨을 초기화할 수 있습니다.",
   "prestige.dogstatue.forget": "^관련된 모든 제작법이 잊혀집니다.",
   "prestige.dogstatue.offer": "^제물을 바치겠습니까?",
@@ -180,5 +180,9 @@
   "prestige.levelup.prestige": "명성을 얻을 직업을 고르세요:",
   "prestige.achievement.name.male": "재주꾼",
   "prestige.achievement.name.female": "재주꾼",
-  "prestige.achievement.desc": "모든 직업의 모든 스킬을 습득하기"
+  "prestige.achievement.desc": "모든 직업의 모든 스킬을 습득하기",
+
+  // honorifics
+  "honorific.male": "친애하는",
+  "honorific.female": "친애하는"
 }

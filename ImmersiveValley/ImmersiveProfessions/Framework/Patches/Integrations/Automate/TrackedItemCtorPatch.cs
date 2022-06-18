@@ -17,7 +17,7 @@ using DaLion.Common.Extensions.Reflection;
 #endregion using directives
 
 [UsedImplicitly]
-internal class TrackedItemCtorPatch : BasePatch
+internal sealed class TrackedItemCtorPatch : BasePatch
 {
     private static readonly FieldInfo _Item = "Pathoschild.Stardew.Automate.TrackedItem".ToType().RequireField("Item")!;
 

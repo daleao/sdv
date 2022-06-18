@@ -14,7 +14,7 @@ using Framework.Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ToggledUltimateModMessageReceivedEvent : ModMessageReceivedEvent
+internal sealed class ToggledUltimateModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object sender, ModMessageReceivedEventArgs e)
@@ -34,7 +34,7 @@ internal class ToggledUltimateModMessageReceivedEvent : ModMessageReceivedEvent
         {
             case "Active":
                 Log.D($"{who.Name} activated their Ultimate.");
-                index = who.ReadDataAs<UltimateIndex>(DataField.UltimateIndex);
+                index = who.ReadDataAs<UltimateIndex>(ModData.UltimateIndex);
                 var glowingColor = index switch
                 {
                     UltimateIndex.BruteFrenzy => Color.OrangeRed,
@@ -53,7 +53,7 @@ internal class ToggledUltimateModMessageReceivedEvent : ModMessageReceivedEvent
 
             case "Inactive":
                 Log.D($"{who.Name}'s Ultimate has ended.");
-                index = who.ReadDataAs<UltimateIndex>(DataField.UltimateIndex);
+                index = who.ReadDataAs<UltimateIndex>(ModData.UltimateIndex);
                 who.stopGlowing();
                 if (Context.IsMainPlayer && index == UltimateIndex.PoacherAmbush)
                     ModEntry.HostState.PoachersInAmbush.Remove(e.FromPlayerID);

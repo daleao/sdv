@@ -11,7 +11,7 @@ using Framework.TreasureHunt;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ScavengerWarpedEvent : WarpedEvent
+internal sealed class ScavengerWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />
     protected override void OnWarpedImpl(object sender, WarpedEventArgs e)

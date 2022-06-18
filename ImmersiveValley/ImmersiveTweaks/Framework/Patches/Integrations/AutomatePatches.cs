@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Tweaks.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Tweaks.Framework.Patches;
 
 #region using directives
 
@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -72,7 +71,7 @@ internal static class AutomatePatches
         var machine = (Bush) _GetBushMachine.Invoke(__instance, null);
         if (machine is null || machine.size.Value >= Bush.greenTeaBush) return;
 
-        Game1.MasterPlayer.gainExperience((int) SkillType.Foraging, 3);
+        Game1.MasterPlayer.gainExperience(Farmer.foragingSkill, 3);
     }
 
     /// <summary>Adds custom aging quality to automated fruit tree.</summary>
@@ -86,7 +85,6 @@ internal static class AutomatePatches
         /// From: int quality = 0;
         /// To: int quality = this.GetQualityFromAge();
         /// Removed all remaining age checks for quality
-
         try
         {
             helper
@@ -99,7 +97,7 @@ internal static class AutomatePatches
                     typeof(FruitTreeExtensions).RequireMethod(nameof(FruitTreeExtensions.GetQualityFromAge))))
                 .InsertWithLabels(
                     labels,
-                    new CodeInstruction(OpCodes.Ldarg_0)
+                    new CodeInstruction(OpCodes.Ldloc_0)
                 )
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldloc_0)
@@ -244,7 +242,7 @@ internal static class AutomatePatches
             if (!owner.professions.Contains(Farmer.botanist))
                 held.Quality = held.GetQualityFromAge();
             else if (ModEntry.ProfessionsAPI is not null)
-                held.Quality = Math.Max(ModEntry.ProfessionsAPI.GetForageQuality(owner), held.Quality);
+                held.Quality = Math.Max(ModEntry.ProfessionsAPI.GetEcologistForageQuality(owner), held.Quality);
             else
                 held.Quality = SObject.bestQuality;
         }
@@ -264,7 +262,7 @@ internal static class AutomatePatches
         if (machine is null) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        owner.gainExperience((int) SkillType.Foraging, 1);
+        owner.gainExperience(Farmer.foragingSkill, 1);
     }
 
     /// <summary>Adds foraging experience for automated tappers.</summary>
@@ -277,7 +275,7 @@ internal static class AutomatePatches
         if (machine is null) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-        owner.gainExperience((int) SkillType.Foraging, 5);
+        owner.gainExperience(Farmer.foragingSkill, 5);
     }
 
     #endregion harmony patches

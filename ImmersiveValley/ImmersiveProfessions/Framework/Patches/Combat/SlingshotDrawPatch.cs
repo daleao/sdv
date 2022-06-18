@@ -15,7 +15,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class SlingshotDrawPatch : BasePatch
+internal sealed class SlingshotDrawPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal SlingshotDrawPatch()

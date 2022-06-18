@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MineShaftGetFishPatch : BasePatch
+internal sealed class MineShaftGetFishPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal MineShaftGetFishPatch()
@@ -51,7 +51,7 @@ internal class MineShaftGetFishPatch : BasePatch
                 )
                 .Advance()
                 .AddLabels(isNotFisher)
-                .InsertProfessionCheck((int) Profession.Fisher)
+                .InsertProfessionCheck(Profession.Fisher.Value)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotFisher),
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0),

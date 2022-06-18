@@ -17,7 +17,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FarmerShowItemIntakePatch : BasePatch
+internal sealed class FarmerShowItemIntakePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerShowItemIntakePatch()

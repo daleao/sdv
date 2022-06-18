@@ -27,7 +27,7 @@ using SUtility = StardewValley.Utility;
 
 // ReSharper disable PossibleLossOfFraction
 [UsedImplicitly]
-internal class PondQueryMenuDrawPatch : BasePatch
+internal sealed class PondQueryMenuDrawPatch : BasePatch
 {
     private const int PADDING_I = 16;
 

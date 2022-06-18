@@ -22,7 +22,7 @@ using SUtility = StardewValley.Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GameLocationGetFishPatch : BasePatch
+internal sealed class GameLocationGetFishPatch : BasePatch
 {
     private const int MAGNET_INDEX_I = 703;
 

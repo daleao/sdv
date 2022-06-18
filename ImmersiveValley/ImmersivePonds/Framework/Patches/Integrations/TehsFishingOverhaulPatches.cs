@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Ponds.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Ponds.Framework.Patches;
 
 #region using directives
 

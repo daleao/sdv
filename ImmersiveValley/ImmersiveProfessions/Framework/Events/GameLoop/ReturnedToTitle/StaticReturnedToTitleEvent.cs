@@ -8,7 +8,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal class StaticReturnedToTitleEvent : ReturnedToTitleEvent
+internal sealed class StaticReturnedToTitleEvent : ReturnedToTitleEvent
 {
     /// <summary>Construct an instance.</summary>
     internal StaticReturnedToTitleEvent()

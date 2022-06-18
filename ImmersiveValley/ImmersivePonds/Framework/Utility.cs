@@ -38,8 +38,10 @@ internal static class Utility
     internal static double GetRoeChance(int value, int neighbors)
     {
         /// 30g -> 50%
-        /// 700g -> 10%
-        /// 5000g -> 5%
-        return (45.31 / (value + 68.72) + 0.04106) * (1.0 + neighbors / 11.0 - 1.0/11.0) * ModEntry.Config.RoeProductionChanceMultiplier;
+        /// 700g -> 10% (~1820g mean value)
+        /// 5000g -> ~8.5% (~5850g mean value)
+        const double a = 335.0 / 4.0;
+        const double b = 275.0 / 2.0;
+        return a / (value + b) * (1.0 + neighbors / 11.0 - 1.0/11.0) * ModEntry.Config.RoeProductionChanceMultiplier;
     }
 }

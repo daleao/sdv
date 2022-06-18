@@ -45,7 +45,7 @@ This mod makes use of Harmony to patch several vanilla behaviors. Any SMAPI mods
 
 - [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) has several conflicting features﻿, but can be used together with this mod if you pay attention to the configs of both mods.
 - Recommended to pair with [Better Artisan Good Icons](https://www.nexusmods.com/stardewvalley/mods/2080) and [Better Artisan Good Icons - Mead Addon](https://www.nexusmods.com/stardewvalley/mods/11911)
-Should be fully compatible with multiplayer.
+Should be fully compatible with multiplayer. Not compatible with Android.
 
 ## Installation
 

@@ -11,7 +11,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GreenSlimeDoJumpPatch : BasePatch
+internal sealed class GreenSlimeDoJumpPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeDoJumpPatch()

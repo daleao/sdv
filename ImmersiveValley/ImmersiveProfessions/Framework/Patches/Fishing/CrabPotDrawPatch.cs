@@ -17,7 +17,7 @@ using DaLion.Common.Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CrabPotDrawPatch : BasePatch
+internal sealed class CrabPotDrawPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal CrabPotDrawPatch()

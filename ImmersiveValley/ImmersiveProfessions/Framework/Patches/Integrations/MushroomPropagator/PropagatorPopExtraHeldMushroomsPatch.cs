@@ -19,7 +19,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
+internal sealed class PropagatorPopExtraHeldMushroomsPatch : BasePatch
 {
     private static readonly FieldInfo _SourceMushroomQuality =
         "BlueberryMushroomMachine.Propagator".ToType().RequireField("SourceMushroomQuality")!;
@@ -48,7 +48,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.IsLocalPlayer || !owner.HasProfession(Profession.Ecologist)) return;
 
-        Game1.player.IncrementData<uint>(DataField.EcologistItemsForaged);
+        Game1.player.IncrementData<uint>(ModData.EcologistItemsForaged);
     }
 
     /// <summary>Patch for Propagator output quality.</summary>
@@ -64,7 +64,7 @@ internal class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Ecologist) // find index of ecologist check
+                .FindProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
                 .Retreat()
                 .GetLabels(out var labels)
                 .RemoveUntil(

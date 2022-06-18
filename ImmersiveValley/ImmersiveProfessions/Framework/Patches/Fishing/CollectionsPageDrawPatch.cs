@@ -22,7 +22,7 @@ using Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CollectionsPageDrawPatch : BasePatch
+internal sealed class CollectionsPageDrawPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal CollectionsPageDrawPatch()

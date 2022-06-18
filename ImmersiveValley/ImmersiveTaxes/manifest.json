@@ -1,0 +1,22 @@
+﻿{
+  "Name": "Legal Theft - Immersive Taxes",
+  "Author": "DaLion",
+  "Version": "1.0.0",
+  "Description": "A simple taxation system to remind the casual gamer the realities of legal theft.",
+  "UniqueID": "DaLion.ImmersiveTaxes",
+  "EntryDll": "ImmersiveTaxes.dll",
+  "MinimumApiVersion": "3.14.0",
+  "UpdateKeys": [ "Nexus:???" ],
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "MinimumVersion": "1.8.0",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "DaLion.ImmersiveProfessions",
+      "MinimumVersion": "4.0.0",
+      "IsRequired": false
+    }
+  ]
+}

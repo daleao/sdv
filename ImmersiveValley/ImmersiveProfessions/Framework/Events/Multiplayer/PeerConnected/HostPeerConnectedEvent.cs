@@ -3,7 +3,6 @@
 #region using directives
 
 using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -14,7 +13,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class HostPeerConnectedEvent : PeerConnectedEvent
+internal sealed class HostPeerConnectedEvent : PeerConnectedEvent
 {
     /// <inheritdoc />
     protected override void OnPeerConnectedImpl(object sender, PeerConnectedEventArgs e)

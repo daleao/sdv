@@ -15,7 +15,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ExperieneBarDrawExperienceBarPatch : BasePatch
+internal sealed class ExperieneBarDrawExperienceBarPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ExperieneBarDrawExperienceBarPatch()

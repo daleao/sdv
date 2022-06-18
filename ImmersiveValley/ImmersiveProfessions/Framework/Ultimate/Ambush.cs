@@ -26,7 +26,7 @@ internal sealed class Ambush : Ultimate
     #region public properties
 
     /// <summary>The ID of the buff that displays while Ambush is active.</summary>
-    public static int BuffId { get; } = ModEntry.Manifest.UniqueID.GetHashCode() + (int) UltimateIndex.PoacherAmbush + 4;
+    public static int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int) UltimateIndex.PoacherAmbush + 4).GetHashCode();
 
     /// <inheritdoc />
     public override UltimateIndex Index => UltimateIndex.PoacherAmbush;
@@ -87,7 +87,7 @@ internal sealed class Ambush : Ultimate
                 which = BuffId,
                 sheetIndex = 49,
                 glow = GlowColor,
-                millisecondsDuration = (int) (30000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.UltimateDrainFactor),
+                millisecondsDuration = (int) (30000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
                 description = ModEntry.i18n.Get("poacher.ultidesc.hidden")
             }
         );

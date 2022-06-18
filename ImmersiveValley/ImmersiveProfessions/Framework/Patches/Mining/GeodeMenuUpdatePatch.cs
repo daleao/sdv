@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GeodeMenuUpdatePatch : BasePatch
+internal sealed class GeodeMenuUpdatePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GeodeMenuUpdatePatch()
@@ -48,13 +48,13 @@ internal class GeodeMenuUpdatePatch : BasePatch
                         typeof(Stats).RequirePropertySetter(nameof(Stats.GeodesCracked)))
                 )
                 .Advance()
-                .InsertProfessionCheck((int) Profession.Gemologist)
+                .InsertProfessionCheck(Profession.Gemologist.Value)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
+                    new CodeInstruction(OpCodes.Ldstr, ModData.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(ModData)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);

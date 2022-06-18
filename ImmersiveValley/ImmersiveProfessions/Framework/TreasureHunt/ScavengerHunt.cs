@@ -24,7 +24,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 /// <summary>Manages treasure hunt events for Scavenger professions.</summary>
-internal class ScavengerHunt : TreasureHunt
+internal sealed class ScavengerHunt : TreasureHunt
 {
     private readonly int[] _artifactsThatCanBeFound = {
         100, // chipped amphora
@@ -132,7 +132,7 @@ internal class ScavengerHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
-        Game1.player.WriteData(DataField.ScavengerHuntStreak, "0");
+        Game1.player.WriteData(ModData.ScavengerHuntStreak, "0");
         End(false);
     }
 
@@ -175,7 +175,7 @@ internal class ScavengerHunt : TreasureHunt
 
         var getTreasure = new DelayedAction(200, BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
-        Game1.player.IncrementData<uint>(DataField.ScavengerHuntStreak);
+        Game1.player.IncrementData<uint>(ModData.ScavengerHuntStreak);
         End(true);
     }
 
@@ -353,7 +353,7 @@ internal class ScavengerHunt : TreasureHunt
 
                         case 2:
                             var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
-                            var streak = Game1.player.ReadDataAs<uint>(DataField.ScavengerHuntStreak);
+                            var streak = Game1.player.ReadDataAs<uint>(ModData.ScavengerHuntStreak);
                             if (random.NextDouble() < 0.025 * luckModifier &&
                                 !Game1.player.specialItems.Contains(15))
                                 treasures.Add(new MeleeWeapon(15) {specialItem = true}); // forest sword

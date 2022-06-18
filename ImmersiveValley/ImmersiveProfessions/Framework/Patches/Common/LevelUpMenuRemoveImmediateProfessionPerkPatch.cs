@@ -20,7 +20,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
+internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuRemoveImmediateProfessionPerkPatch()
@@ -34,9 +34,14 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
     [HarmonyPostfix]
     private static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
     {
-        if (!Enum.IsDefined(typeof(Profession), whichProfession)) return;
+        if (!Profession.TryFromValue(whichProfession, out var profession) ||
+            whichProfession == Farmer.luckSkill) return;
 
-        var profession = (Profession) whichProfession;
+        if ((Skill) profession.Skill == Skill.Combat)
+        {
+            Game1.player.maxHealth -= 5;
+            Game1.player.health = Math.Max(Game1.player.health, Game1.player.maxHealth);
+        }
 
         // remove immediate perks
         if (profession == Profession.Aquarist)
@@ -57,20 +62,20 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
         if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
             var firstIndex = (UltimateIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
-            Game1.player.WriteData(DataField.UltimateIndex, firstIndex.ToString());
+            Game1.player.WriteData(ModData.UltimateIndex, firstIndex.ToString());
 #pragma warning disable CS8509
             ModEntry.PlayerState.RegisteredUltimate = firstIndex switch
 #pragma warning restore CS8509
             {
-                UltimateIndex.BruteFrenzy => new Frenzy(),
+                UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
                 UltimateIndex.PoacherAmbush => new Ambush(),
-                UltimateIndex.PiperPandemonium => new Pandemonium(),
+                UltimateIndex.PiperPandemic => new Enthrall(),
                 UltimateIndex.DesperadoBlossom => new DeathBlossom()
             };
         }
         else
         {
-            Game1.player.WriteData(DataField.UltimateIndex, null);
+            Game1.player.WriteData(ModData.UltimateIndex, null);
             ModEntry.PlayerState.RegisteredUltimate = null;
         }
     }
@@ -91,7 +96,7 @@ internal class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
                 )
-                .SetOperand((int) Profession.Brute);
+                .SetOperand(Profession.Brute.Value);
         }
         catch (Exception ex)
         {

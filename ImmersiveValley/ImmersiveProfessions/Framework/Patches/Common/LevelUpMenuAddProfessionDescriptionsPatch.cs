@@ -15,7 +15,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
+internal sealed class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuAddProfessionDescriptionsPatch()
@@ -32,20 +32,15 @@ internal class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
     {
         try
         {
-            if (!Enum.TryParse<Profession>(professionName, out var profession)) return true; // run original logic
+            if (!Profession.TryFromName(professionName, out var profession) || (Skill) profession.Skill == Skill.Luck) return true; // run original logic
 
-            descriptions.Add(ModEntry.i18n.Get(professionName + ".name." +
-                                                                (Game1.player.IsMale ? "male" : "female")));
+            descriptions.Add(profession.GetDisplayName(Game1.player.IsMale));
 
-            var skillIndex = (int) profession / 6;
+            var skillIndex = profession / 6;
             var currentLevel = Game1.player.GetUnmodifiedSkillLevel(skillIndex);
-            descriptions.AddRange(ModEntry.i18n
-                .Get(professionName + ".desc" +
-                     (Game1.player.HasProfession(profession, true) ||
-                      Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10
-                         ? ".prestiged"
-                         : string.Empty)).ToString()
-                .Split('\n'));
+            var prestiged = Game1.player.HasProfession(profession, true) ||
+                            Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10;
+            descriptions.AddRange(profession.GetDescription(prestiged).Split('\n'));
 
             return false; // don't run original logic
         }

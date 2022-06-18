@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class InseminationSyringeOverridesDoFunctionPatch : BasePatch
+internal sealed class InseminationSyringeOverridesDoFunctionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal InseminationSyringeOverridesDoFunctionPatch()
@@ -61,14 +61,14 @@ internal class InseminationSyringeOverridesDoFunctionPatch : BasePatch
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 5) // arg 5 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Breeder, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Breeder.Value, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder),
                     new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
                     new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 5)
                 )
-                .InsertProfessionCheck((int) Profession.Breeder + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Breeder.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R8, 3.0),

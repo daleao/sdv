@@ -8,7 +8,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal class UltimateOverlayFadeOutUpdateTickedEvent : UpdateTickedEvent
+internal sealed class UltimateOverlayFadeOutUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)

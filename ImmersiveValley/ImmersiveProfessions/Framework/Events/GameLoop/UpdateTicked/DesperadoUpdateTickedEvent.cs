@@ -9,13 +9,12 @@ using StardewValley;
 using StardewValley.Tools;
 
 using Extensions;
-using Sounds;
 using Framework.Ultimate;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal class DesperadoUpdateTickedEvent : UpdateTickedEvent
+internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
@@ -31,11 +30,9 @@ internal class DesperadoUpdateTickedEvent : UpdateTickedEvent
 
         if (Game1.soundBank is null) return;
 
-        SoundBank.DesperadoChargeSound ??= Game1.soundBank.GetCue("SinWave");
-        if (SoundBank.DesperadoChargeSound is null) return;
+        var cue = Game1.soundBank.GetCue("SinWave");
+        if (!cue.IsPlaying) cue.Play();
 
-        if (!SoundBank.DesperadoChargeSound.IsPlaying) SoundBank.DesperadoChargeSound.Play();
-
-        SoundBank.DesperadoChargeSound.SetVariable("Pitch", 2400f * overcharge);
+        cue.SetVariable("Pitch", 2400f * overcharge);
     }
 }

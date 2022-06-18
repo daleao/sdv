@@ -14,7 +14,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class TrackerRenderedHudEvent : RenderedHudEvent
+internal sealed class TrackerRenderedHudEvent : RenderedHudEvent
 {
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object sender, RenderedHudEventArgs e)

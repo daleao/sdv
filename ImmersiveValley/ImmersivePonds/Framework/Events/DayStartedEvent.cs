@@ -15,7 +15,7 @@ using Extensions;
 
 /// <summary>Wrapper for <see cref="IGameLoopEvents.DayStarted"/> that can be hooked or unhooked.</summary>
 [UsedImplicitly]
-internal class DayStartedEvent : IEvent
+internal sealed class DayStartedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
@@ -34,7 +34,7 @@ internal class DayStartedEvent : IEvent
     /// <inheritdoc cref="IGameLoopEvents.DayStarted"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnDayStarted(object sender, DayStartedEventArgs e)
+    private void OnDayStarted(object sender, DayStartedEventArgs e)
     {
         if (!Context.IsMainPlayer) return;
 

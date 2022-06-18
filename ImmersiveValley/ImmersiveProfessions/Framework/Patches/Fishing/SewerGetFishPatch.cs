@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class SewerGetFishPatch : BasePatch
+internal sealed class SewerGetFishPatch : BasePatch
 {
     private const int MUTANT_CARP_INDEX_I = 682;
 
@@ -56,7 +56,7 @@ internal class SewerGetFishPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Angler + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Angler.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, skipLegendary)
                 );

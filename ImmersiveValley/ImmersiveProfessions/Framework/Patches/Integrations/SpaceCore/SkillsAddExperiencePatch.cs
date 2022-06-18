@@ -3,6 +3,7 @@
 #region using directives
 
 using System;
+using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
@@ -13,7 +14,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class SkillsAddExperiencePatch : BasePatch
+internal sealed class SkillsAddExperiencePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal SkillsAddExperiencePatch()
@@ -34,11 +35,10 @@ internal class SkillsAddExperiencePatch : BasePatch
     [HarmonyPrefix]
     private static void SkillsAddExperiencePrefix(Farmer farmer, string skillName, ref int amt)
     {
-        if (!ModEntry.Config.EnablePrestige) return;
+        if (!ModEntry.Config.EnablePrestige || !ModEntry.CustomSkills.TryGetValue(skillName, out var skill)) return;
 
-        var theSkill = ModEntry.CustomSkills[skillName];
         amt = (int) (amt * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
-            farmer.NumberOfProfessionsInCustomSkill(theSkill, true)));
+            farmer.GetProfessionsForSkill(skill, true).Count()));
     }
 
     #endregion harmony patches

@@ -46,40 +46,44 @@ public class ModConfig
     public bool SeaweedIsJunk { get; set; } = true;
 
     /// <summary>You must catch this many fish of a given species to achieve instant catch.</summary>
+    /// <remarks>Unused.</remarks>
     public uint FishNeededForInstantCatch { get; set; } = 500;
 
     /// <summary>If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.</summary>
-    public float AnglerMultiplierCeiling { get; set; } = 1f;
+    public float AnglerMultiplierCap { get; set; } = 1f;
 
-    /// <summary>You must collect this many junk items from crab pots for every 1% of tax deduction next season.</summary>
-    public uint TrashNeededPerTaxLevel { get; set; } = 100;
+    /// <summary>The maximum population of Aquarist Fish Ponds with legendary fish.</summary>
+    public uint LegendaryPondPopulationCap { get; set; } = 6;
+
+    /// <summary>You must collect this many junk items from crab pots for every 1% of tax deduction the following season.</summary>
+    public uint TrashNeededPerTaxBonusPct { get; set; } = 100;
 
     /// <summary>You must collect this many junk items from crab pots for every 1 point of friendship towards villagers.</summary>
     public uint TrashNeededPerFriendshipPoint { get; set; } = 100;
 
-    /// <summary>The maximum tax deduction percentage allowed by the Ferngill Revenue Service.</summary>
-    public float TaxDeductionCeiling { get; set; } = 0.25f;
+    /// <summary>The maximum income deduction allowed by the Ferngill Revenue Service.</summary>
+    public float ConservationistTaxBonusCeiling { get; set; } = 0.37f;
     
     /// <summary>The maximum stacks that can be gained for each buff stat.</summary>
     public uint PiperBuffCap { get; set; } = 10;
 
     /// <summary>Required to allow Ultimate activation. Super Stat continues to apply.</summary>
-    public bool EnableUltimates { get; set; } = true;
+    public bool EnableSpecials { get; set; } = true;
 
     /// <summary>Mod key used to activate Ultimate. Can be the same as <see cref="ModKey" />.</summary>
-    public KeybindList UltimateKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+    public KeybindList SpecialActivationKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-    /// <summary>Whether Ultimate is activated on <see cref="UltimateKey" /> hold (as opposed to press).</summary>
-    public bool HoldKeyToActivateUltimate { get; set; } = true;
+    /// <summary>Whether Ultimate is activated on <see cref="SpecialActivationKey" /> hold (as opposed to press).</summary>
+    public bool HoldKeyToActivateSpecial { get; set; } = true;
 
-    /// <summary>How long <see cref="UltimateKey" /> should be held to activate Ultimate, in seconds.</summary>
-    public float UltimateActivationDelay { get; set; } = 1f;
+    /// <summary>How long <see cref="SpecialActivationKey" /> should be held to activate Ultimate, in seconds.</summary>
+    public float SpecialActivationDelay { get; set; } = 1f;
 
     /// <summary>Affects the rate at which one builds the Ultimate meter. Increase this if you feel the gauge raises too slowly.</summary>
-    public double UltimateGainFactor { get; set; } = 1.0;
+    public double SpecialGainFactor { get; set; } = 1.0;
 
     /// <summary>Affects the rate at which the Ultimate meter depletes during Ultimate. Decrease this to make Ultimate last longer.</summary>
-    public double UltimateDrainFactor { get; set; } = 1.0;
+    public double SpecialDrainFactor { get; set; } = 1.0;
 
     /// <summary>Required to apply prestige changes.</summary>
     public bool EnablePrestige { get; set; } = true;
@@ -87,7 +91,7 @@ public class ModConfig
     /// <summary>Multiplies the base skill reset cost. Set to 0 to reset for free.</summary>
     public float SkillResetCostMultiplier { get; set; } = 1f;
 
-    /// <summary>Whether resetting a skill also clears all associated recipes.</summary>
+    /// <summary>Whether resetting a skill also clears all corresponding recipes.</summary>
     public bool ForgetRecipesOnSkillReset { get; set; } = true;
 
     /// <summary>Whether the player can use the Statue of Prestige more than once per day.</summary>
@@ -122,7 +126,7 @@ public class ModConfig
     public VintageInterfaceStyle VintageInterfaceSupport{ get; set; } = VintageInterfaceStyle.Automatic;
 
     /// <summary>Determines the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons", "Gen4Ribbons".</summary>
-    public ProgressionStyle Progression { get; set; } = ProgressionStyle.StackedStars;
+    public ProgressionStyle PrestigeProgressionStyle { get; set; } = ProgressionStyle.StackedStars;
 
     /// <summary>Key used by trigger UI debugging events.</summary>
     public KeybindList DebugKey { get; set; } = KeybindList.Parse("LeftControl");

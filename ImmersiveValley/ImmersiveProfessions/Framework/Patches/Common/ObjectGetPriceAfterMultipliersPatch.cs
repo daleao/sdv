@@ -14,7 +14,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
+internal sealed class ObjectGetPriceAfterMultipliersPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectGetPriceAfterMultipliersPatch()
@@ -67,7 +67,8 @@ internal class ObjectGetPriceAfterMultipliersPatch : BasePatch
                     multiplier *= 5f;
 
                 // tax bonus
-                if (farmer.IsLocalPlayer && farmer.HasProfession(Profession.Conservationist))
+                if (farmer.IsLocalPlayer && farmer.HasProfession(Profession.Conservationist) &&
+                    ModEntry.TaxesConfig is null)
                     multiplier *= farmer.GetConservationistPriceMultiplier();
 
                 saleMultiplier = Math.Max(saleMultiplier, multiplier);

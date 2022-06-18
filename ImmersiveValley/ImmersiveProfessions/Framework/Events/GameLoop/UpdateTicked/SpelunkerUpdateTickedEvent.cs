@@ -12,11 +12,11 @@ using StardewValley.Locations;
 #endregion using directives
 
 [UsedImplicitly]
-internal class SpelunkerUpdateTickedEvent : UpdateTickedEvent
+internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
 {
     private const int SHEET_INDEX_I = 40;
 
-    private readonly int _buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Profession.Spelunker;
+    private readonly int _buffId = (ModEntry.Manifest.UniqueID + Profession.Spelunker).GetHashCode();
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
@@ -33,7 +33,7 @@ internal class SpelunkerUpdateTickedEvent : UpdateTickedEvent
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, bonusSpeed, 0, 0,
                 1,
                 "Spelunker",
-                ModEntry.i18n.Get("spelunker.name." + (Game1.player.IsMale ? "male" : "female")))
+                ModEntry.i18n.Get("spelunker.name" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = _buffId,
                 sheetIndex = SHEET_INDEX_I,

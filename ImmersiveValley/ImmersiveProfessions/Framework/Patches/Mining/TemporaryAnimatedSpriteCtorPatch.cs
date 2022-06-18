@@ -12,7 +12,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class TemporaryAnimatedSpriteCtorPatch : BasePatch
+internal sealed class TemporaryAnimatedSpriteCtorPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal TemporaryAnimatedSpriteCtorPatch()

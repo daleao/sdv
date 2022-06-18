@@ -11,7 +11,7 @@ using StardewValley.Tools;
 
 /// <summary>Wrapper for <see cref="IGameLoopEvents.UpdateTicked"/> that can be hooked or unhooked.</summary>
 [UsedImplicitly]
-internal class UpdateTickedEvent : IEvent
+internal sealed class UpdateTickedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
@@ -30,7 +30,7 @@ internal class UpdateTickedEvent : IEvent
     /// <inheritdoc cref="IGameLoopEvents.UpdateTicked"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+    private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
     {
         if (!ModEntry.Config.WeaponsCostStamina || Game1.player.CurrentTool is not Slingshot ||
             !Game1.player.usingSlingshot) return;

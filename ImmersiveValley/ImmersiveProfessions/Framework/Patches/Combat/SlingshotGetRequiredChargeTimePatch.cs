@@ -11,7 +11,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class SlingshotGetRequiredChargeTimePatch : BasePatch
+internal sealed class SlingshotGetRequiredChargeTimePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal SlingshotGetRequiredChargeTimePatch()

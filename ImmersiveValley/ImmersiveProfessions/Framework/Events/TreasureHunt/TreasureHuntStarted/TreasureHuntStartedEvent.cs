@@ -6,7 +6,7 @@ using System;
 
 #endregion using directives
 
-internal class TreasureHuntStartedEvent : BaseEvent
+internal sealed class TreasureHuntStartedEvent : BaseEvent
 {
     private readonly Action<object, ITreasureHuntStartedEventArgs> _OnStartedImpl;
 

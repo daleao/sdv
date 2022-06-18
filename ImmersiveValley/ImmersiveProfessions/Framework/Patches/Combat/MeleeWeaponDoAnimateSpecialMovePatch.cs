@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MeleeWeaponDoAnimateSpecialMovePatch : BasePatch
+internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal MeleeWeaponDoAnimateSpecialMovePatch()

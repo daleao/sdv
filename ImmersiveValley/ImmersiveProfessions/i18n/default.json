@@ -1,5 +1,5 @@
 ﻿{
-  // Farming
+  // farming
   "harvester.name.male": "Harvester",
   "harvester.name.female": "Harvester",
   "harvester.desc": "10% chance for extra yield from harvested crops.",
@@ -26,7 +26,7 @@
   "producer.desc": "Happy animals produce 2× as frequently. Produce worth 5% more for every full barn or coop.",
   "producer.desc.prestiged": "Happy animals produce 2× >> 3× as frequently.",
 
-  // Foraging
+  // foraging
   "forager.name.male": "Forager",
   "forager.name.female": "Forager",
   "forager.desc": "20% chance for double yield of foraged items.",
@@ -55,7 +55,7 @@
   "tapper.desc": "Tappers are cheaper to craft. Tapped trees give syrup 25% faster.",
   "tapper.desc.prestiged": "Tapped trees give syrup 25% >> 50% faster.",
 
-  // Mining
+  // mining
   "miner.name.male": "Miner",
   "miner.name.female": "Miner",
   "miner.desc": "+1 ore per vein.",
@@ -86,7 +86,7 @@
   "gemologist.desc": "Progressively identify minerals of higher quality. Crystalariums produce 25% faster.",
   "gemologist.desc.prestiged": "Crystalariums produce 25% >> 50% faster.",
 
-  // Fishing
+  // fishing
   "fisher.name.male": "Fisher",
   "fisher.name.female": "Fisher",
   "fisher.desc": "Fish bite faster. Reduced chance to fish junk.",
@@ -112,10 +112,10 @@
   "conservationist.name.female": "Conservationist",
   "conservationist.desc": "Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions.",
   "conservationist.desc.prestiged": "Cleaning the Valley's waters also merits favor with the villagers.",
-  "conservationist.mail1": "Dear @, ^^ We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. Effective this season, all taxable income for {{farmName}} will be increased by the aforementioned amount. ^^ Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status. ^^ Sincerely, Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
-  "conservationist.mail2": "Dear @, ^^ We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for the maximum income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. Effective this season, all taxable income for {{farmName}} will be increased by the aforementioned amount. ^^ Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status. ^^ Sincerely, Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
+  "conservationist.mail": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. As such, all taxable income for {{farm}} will be increased by the aforementioned amount, effective until the 28th of {{season}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
+  "conservationist.mail.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for the maximum income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. As such, all taxable income for {{farm}} will be increased by the aforementioned amount, effective until the 28th of {{season}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
 
-  // Combat
+  // combat
   "fighter.name.male": "Fighter",
   "fighter.name.female": "Fighter",
   "fighter.desc": "Damage +10%. +15 HP.",
@@ -153,12 +153,12 @@
   "piper.desc.prestiged": "Chance to also recover some health and energy when a Slime is defeated.",
   "piper.buff": "Slimed",
   "piper.buffdesc": "Farming +{{farming}}\nFishing +{{fishing}}\nForaging +{{foraging}}\nMining +{{mining}}\nAttack +{{attack}}\nDefense +{{defense}}\nLuck +{{luck}}\nSpeed +{{speed}}\nMax Energy +{{energy}}\nMagnetic Radius +{{magnetic}}",
-  "piper.ulti": "Pandemonium",
-  "piper.ultidesc": "Charm nearby Slimes. Charmed Slimes increase in size and power and will target other enemies.",
+  "piper.ulti": "Enthrall",
+  "piper.ultidesc": "Charm nearby Slimes. Charmed Slimes grow in size and power and will target other enemies.",
 
   "ulti.canteat": "Can't do that now.",
 
-  // Prestige
+  // prestige
   "prestige.dogstatue.first": "-Statue Of Prestige-^The statue can reset a skill's level while preserving all acquired professions.",
   "prestige.dogstatue.forget": "^All associated recipes will be forgotten.",
   "prestige.dogstatue.offer": "^Make an offering?",
@@ -180,5 +180,9 @@
   "prestige.levelup.prestige": "Choose a profession to prestige:",
   "prestige.achievement.name.male": "Jack-Of-All-Trades",
   "prestige.achievement.name.female": "Jill-Of-All-Trades",
-  "prestige.achievement.desc": "Acquire all professions in every skill."
+  "prestige.achievement.desc": "Acquire all professions in every skill.",
+
+  // honorifics
+  "honorific.male": "Dear",
+  "honorific.female": "Dear"
 }

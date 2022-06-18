@@ -10,14 +10,12 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Input;
-using StardewModdingAPI.Enums;
 using StardewValley;
 
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Collections;
 using Events.GameLoop;
 using Extensions;
-using Professions.Integrations;
 using Sounds;
 using Ultimate;
 
@@ -26,7 +24,7 @@ using Localization = Utility.Localization;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GameLocationAnswerDialogueActionPatch : BasePatch
+internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationAnswerDialogueActionPatch()
@@ -51,72 +49,14 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
             {
                 case "dogStatue_Yes":
                 {
-                    var skillResponses = new List<Response>();
-                    if (Game1.player.CanResetSkill(SkillType.Farming))
-                    {
-                        var costVal = Game1.player.GetResetCost(SkillType.Farming);
-                        var costStr = costVal > 0
+                    var skillResponses = (
+                        from skill in Skill.List.Except(Skill.Luck.Collect()).Concat(ModEntry.CustomSkills.Values)
+                        where Game1.player.CanResetSkill(skill)
+                        let costVal = Game1.player.GetResetCost(skill)
+                        let costStr = costVal > 0
                             ? ModEntry.i18n.Get("prestige.dogstatue.cost", new {cost = costVal})
-                            : string.Empty;
-                        skillResponses.Add(new("farming",
-                            Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11604") + ' ' +
-                            costStr));
-                    }
-
-                    if (Game1.player.CanResetSkill(SkillType.Fishing))
-                    {
-                        var costVal = Game1.player.GetResetCost(SkillType.Fishing);
-                        var costStr = costVal > 0
-                            ? ModEntry.i18n.Get("prestige.dogstatue.cost", new {cost = costVal})
-                            : string.Empty;
-                        skillResponses.Add(new("fishing",
-                            Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11607") + ' ' +
-                            costStr));
-                    }
-
-                    if (Game1.player.CanResetSkill(SkillType.Foraging))
-                    {
-                        var costVal = Game1.player.GetResetCost(SkillType.Foraging);
-                        var costStr = costVal > 0
-                            ? ModEntry.i18n.Get("prestige.dogstatue.cost", new {cost = costVal})
-                            : string.Empty;
-                        skillResponses.Add(new("foraging",
-                            Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11606") + ' ' +
-                            costStr));
-                    }
-
-                    if (Game1.player.CanResetSkill(SkillType.Mining))
-                    {
-                        var costVal = Game1.player.GetResetCost(SkillType.Mining);
-                        var costStr = costVal > 0
-                            ? ModEntry.i18n.Get("prestige.dogstatue.cost", new {cost = costVal})
-                            : string.Empty;
-                        skillResponses.Add(new("mining",
-                            Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11605") + ' ' +
-                            costStr));
-                    }
-
-                    if (Game1.player.CanResetSkill(SkillType.Combat))
-                    {
-                        var costVal = Game1.player.GetResetCost(SkillType.Combat);
-                        var costStr = costVal > 0
-                            ? ModEntry.i18n.Get("prestige.dogstatue.cost", new {cost = costVal})
-                            : string.Empty;
-                        skillResponses.Add(new("combat",
-                            Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11608") + ' ' +
-                            costStr));
-                    }
-
-                    if (ModEntry.CustomSkills.Any())
-                    {
-                        skillResponses.AddRange(
-                            from skill in ModEntry.CustomSkills.Values.Where(Game1.player.CanResetCustomSkill)
-                            let costVal = Game1.player.GetResetCost(skill)
-                            let costStr = costVal > 0
-                                ? ModEntry.i18n.Get("prestige.dogstatue.cost", new {cost = costVal})
-                                : string.Empty
-                            select new Response(skill.StringId, skill.DisplayName + ' ' + costStr));
-                    }
+                            : string.Empty
+                        select new Response(skill.StringId, skill.DisplayName + ' ' + costStr)).ToList();
 
                     skillResponses.Add(new("cancel",
                         Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueCancel")));
@@ -134,23 +74,23 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                 case "dogStatue_prestigeRespec":
                 {
                     var skillResponses = new List<Response>();
-                    if (GameLocation.canRespec((int) SkillType.Farming))
+                    if (GameLocation.canRespec(Skill.Farming))
                         skillResponses.Add(new("farming",
                             Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11604")));
 
-                    if (GameLocation.canRespec((int) SkillType.Fishing))
+                    if (GameLocation.canRespec(Skill.Fishing))
                         skillResponses.Add(new("fishing",
                             Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11607")));
 
-                    if (GameLocation.canRespec((int) SkillType.Foraging))
+                    if (GameLocation.canRespec(Skill.Foraging))
                         skillResponses.Add(new("foraging",
                             Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11606")));
 
-                    if (GameLocation.canRespec((int) SkillType.Mining))
+                    if (GameLocation.canRespec(Skill.Mining))
                         skillResponses.Add(new("mining",
                             Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11605")));
 
-                    if (GameLocation.canRespec((int) SkillType.Combat))
+                    if (GameLocation.canRespec(Skill.Combat))
                         skillResponses.Add(new("combat",
                             Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11608")));
 
@@ -206,15 +146,15 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                             ModEntry.PlayerState.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
                             {
-                                UltimateIndex.BruteFrenzy => new Frenzy(),
+                                UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
                                 UltimateIndex.PoacherAmbush => new Ambush(),
-                                UltimateIndex.PiperPandemonium => new Pandemonium(),
+                                UltimateIndex.PiperPandemic => new Enthrall(),
                                 UltimateIndex.DesperadoBlossom => new DeathBlossom()
                             };
-                        Game1.player.WriteData(DataField.UltimateIndex, newIndex.ToString());
+                        Game1.player.WriteData(ModData.UltimateIndex, newIndex.ToString());
 
                         // play sound effect
-                        SoundBank.Play((SFX)SFX.DogStatuePrestige);
+                        SFX.DogStatuePrestige.Play();
 
                         // tell the player
                         var choiceProfessionKey = newIndex.ToString().ToLowerInvariant();
@@ -242,11 +182,11 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                     if (skillName is "cancel" or "Yes") return false; // don't run original logic
 
                     // get skill type and do action
-                    if (Enum.TryParse<SkillType>(skillName, true, out var skillType))
+                    if (Skill.TryFromName(skillName, true, out var skill))
                     {
                         if (questionAndAnswer.Contains("skillReset_"))
                         {
-                            var cost = Game1.player.GetResetCost(skillType);
+                            var cost = Game1.player.GetResetCost(skill);
                             if (cost > 0)
                             {
                                 // check for funds and deduct cost
@@ -261,11 +201,11 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                             }
 
                             // prepare to prestige at night
-                            ModEntry.PlayerState.SkillsToReset.Enqueue(skillType);
+                            ModEntry.PlayerState.SkillsToReset.Enqueue(skill);
                             EventManager.Enable(typeof(PrestigeDayEndingEvent));
 
                             // play sound effect
-                            SoundBank.Play(SFX.DogStatuePrestige);
+                            SFX.DogStatuePrestige.Play();
 
                             // tell the player
                             Game1.drawObjectDialogue(
@@ -273,19 +213,19 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                         }
                         else if (questionAndAnswer.Contains("prestigeRespec_"))
                         {
-                            Game1.player.Money = Math.Max(0, Game1.player.Money - (int)ModEntry.Config.PrestigeRespecCost);
+                            Game1.player.Money = Math.Max(0, Game1.player.Money - (int) ModEntry.Config.PrestigeRespecCost);
 
                             // remove all prestige professions for this skill
-                            Enumerable.Range(100 + (int) skillType * 6, 6).ForEach(GameLocation.RemoveProfession);
+                            Enumerable.Range(100 + skill * 6, 6).ForEach(GameLocation.RemoveProfession);
 
                             var currentLevel = Farmer.checkForLevelGain(0, Game1.player.experiencePoints[0]);
                             if (currentLevel >= 15)
-                                Game1.player.newLevels.Add(new((int) skillType, 15));
+                                Game1.player.newLevels.Add(new(skill, 15));
                             if (currentLevel >= 20)
-                                Game1.player.newLevels.Add(new((int) skillType, 20));
+                                Game1.player.newLevels.Add(new(skill, 20));
 
                             // play sound effect
-                            SoundBank.Play(SFX.DogStatuePrestige);
+                            SFX.DogStatuePrestige.Play();
 
                             // tell the player
                             Game1.drawObjectDialogue(
@@ -295,12 +235,11 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                             EventManager.Enable(typeof(PrestigeDayStartedEvent));
                         }
                     }
-                    else
+                    else if (ModEntry.CustomSkills.TryGetValue(skillName, out var customSkill))
                     {
                         if (questionAndAnswer.Contains("skillReset_"))
                         {
-                            var theSkill = ModEntry.CustomSkills[skillName];
-                            var cost = Game1.player.GetResetCost(theSkill);
+                            var cost = Game1.player.GetResetCost(customSkill);
                             if (cost > 0)
                             {
                                 // check for funds and deduct cost
@@ -315,11 +254,11 @@ internal class GameLocationAnswerDialogueActionPatch : BasePatch
                             }
 
                             // prepare to prestige at night
-                            ModEntry.PlayerState.CustomSkillsToReset.Enqueue(theSkill);
+                            ModEntry.PlayerState.SkillsToReset.Enqueue(customSkill);
                             EventManager.Enable(typeof(PrestigeDayEndingEvent));
 
                             // play sound effect
-                            SoundBank.Play(SFX.DogStatuePrestige);
+                            SFX.DogStatuePrestige.Play();
 
                             // tell the player
                             Game1.drawObjectDialogue(

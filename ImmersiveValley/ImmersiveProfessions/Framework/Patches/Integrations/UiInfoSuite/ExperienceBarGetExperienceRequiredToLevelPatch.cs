@@ -10,7 +10,7 @@ using DaLion.Common.Extensions.Reflection;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch
+internal sealed class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch
 {
     private const int EXP_AT_LEVEL_TEN_I = 15000;
 

@@ -6,6 +6,8 @@ using System;
 using StardewValley;
 using StardewValley.Tools;
 
+using Framework;
+
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="Slingshot"/> class.</summary>

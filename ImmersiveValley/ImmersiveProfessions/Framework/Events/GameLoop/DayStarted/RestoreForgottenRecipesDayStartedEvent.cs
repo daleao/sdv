@@ -14,12 +14,12 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
+internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
 {
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
     {
-        var forgottenRecipes = Game1.player.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
+        var forgottenRecipes = Game1.player.ReadData(ModData.ForgottenRecipesDict).ParseDictionary<string, int>();
         if (!forgottenRecipes.Any())
         {
             Disable();
@@ -41,7 +41,7 @@ internal class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
             }
         }
 
-        Game1.player.WriteData(DataField.ForgottenRecipesDict, forgottenRecipes.Any()
+        Game1.player.WriteData(ModData.ForgottenRecipesDict, forgottenRecipes.Any()
             ? forgottenRecipes.Stringify()
             : null);
         Disable();

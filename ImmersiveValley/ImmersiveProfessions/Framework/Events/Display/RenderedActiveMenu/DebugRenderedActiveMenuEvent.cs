@@ -15,7 +15,7 @@ using Common.Extensions.Xna;
 #endregion using directives
 
 [UsedImplicitly]
-internal class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
+internal sealed class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
 {
     private readonly Texture2D _pixel;
 

@@ -10,7 +10,7 @@ using Integrations;
 #endregion using directives
 
 [UsedImplicitly]
-internal class StaticGameLaunchedEvent : GameLaunchedEvent
+internal sealed class StaticGameLaunchedEvent : GameLaunchedEvent
 {
     /// <summary>Construct an instance.</summary>
     internal StaticGameLaunchedEvent()

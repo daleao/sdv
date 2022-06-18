@@ -17,7 +17,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ProjectileBehaviorOnCollisionPatch : BasePatch
+internal sealed class ProjectileBehaviorOnCollisionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ProjectileBehaviorOnCollisionPatch()

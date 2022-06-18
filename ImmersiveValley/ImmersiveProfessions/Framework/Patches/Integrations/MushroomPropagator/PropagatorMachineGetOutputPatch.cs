@@ -1,9 +1,8 @@
-﻿using System.Reflection;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.MushroomPropagator;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.MushroomPropagator;
 
 #region using directives
 
+using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
@@ -16,7 +15,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class PropagatorMachineGetOutputPatch : BasePatch
+internal sealed class PropagatorMachineGetOutputPatch : BasePatch
 {
     private static MethodInfo _GetEntity;
 
@@ -49,9 +48,9 @@ internal class PropagatorMachineGetOutputPatch : BasePatch
         if (!owner.HasProfession(Profession.Ecologist)) return;
 
         if (owner.IsLocalPlayer && !ModEntry.Config.ShouldCountAutomatedHarvests)
-            Game1.player.IncrementData(DataField.EcologistItemsForaged, -1);
+            Game1.player.IncrementData(ModData.EcologistItemsForaged, -1);
         else if (ModEntry.Config.ShouldCountAutomatedHarvests)
-            owner.IncrementData<uint>(DataField.EcologistItemsForaged);
+            owner.IncrementData<uint>(ModData.EcologistItemsForaged);
     }
 
     #endregion harmony patches

@@ -1,5 +1,5 @@
 ﻿{
-  // Farming
+  // farming
   "harvester.name.male": "Cultivateur",
   "harvester.name.female": "Cultivatrice",
   "harvester.desc": "10 % de chances d’obtenir un rendiment supplémentaire des cultures récoltées.",
@@ -26,7 +26,7 @@
   "producer.desc": "Les animaux heureux produisent 2× plus fréquemment. Les produits animaux valent 5 % de plus pour chaque grange ou poulailler plein.",
   "producer.desc.prestiged": "Les animaux heureux produisent 2× >> 3× plus fréquemment.",
 
-  // Foraging
+  // foraging
   "forager.name.male": "Fourrageur",
   "forager.name.female": "Fourrageuse",
   "forager.desc": "20 % de chances de doubler le rendement des objets fourragés.",
@@ -55,7 +55,7 @@
   "tapper.desc": "Les saigneurs sont moins chers à fabriquer. Les arbres saignés donnent du sirop 25 % plus rapidement.",
   "tapper.desc.prestiged": "Les arbres saignés donnent du sirop 25 % >> 50 % plus rapidement.",
 
-  // Mining
+  // mining
   "miner.name.male": "Mineur",
   "miner.name.female": "Mineure",
   "miner.desc": "+1 minerai par veine.",
@@ -86,7 +86,7 @@
   "gemologist.desc": "Identifiez progressivement des minéraux de qualité supérieure. Les cristalariums produisent 25 % plus vite.",
   "gemologist.desc.prestiged": "Les cristalariums produisent 25 % >> 50 % plus vite.",
 
-  // Fishing
+  // fishing
   "fisher.name.male": "Pêcheur",
   "fisher.name.female": "Pêcheuse",
   "fisher.desc": "Le poissons mordent plus vite. Réduit les chances de pêcher des déchets.",
@@ -112,10 +112,10 @@
   "conservationist.name.female": "Conservationniste",
   "conservationist.desc": "Les casiers à crabes sans appâts peuvent pieger des déchets. Nettoyez les eaux de la Vallée pour mériter des déductions fiscales.",
   "conservationist.desc.prestiged": "Nettoyez les eaux de la Vallée pour mériter également de la faveur des villageois.",
-  "conservationist.mail1": "Cher @, ^^ Nous sommes heureux de vous informer qu’après examen de vos activités environnementales, nous avons déterminé que vous avez droit à une déduction d’impôt sur le revenu de {{taxBonus}} conformément à la section 501 (c) (3) du Code Général des Impôts de Ferngill. À compter de cette saison, tous les revenus imposables de {{farmName}} seront augmentés du montant susmentionné. ^^ Veuillez conserver cette lettre dans vos dossiers permanents si vous avez besoin de résoudre des questions concernant votre statut fiscal. ^^ Bien cordialement, Laura D. Pretto^Directrice exécutive, Direction Générale des Finances Publiques de Ferngill[#]Taxation Notice",
-  "conservationist.mail2": "Cher @, ^^ Nous sommes heureux de vous informer qu’après examen de vos activités environnementales, nous avons déterminé que vous avez droit à la déducation maximale d’impôt sur le revenu de {{taxBonus}} conformément à la section 501 (c) (3) du Code Général des Impôts de Ferngill. À compter de cette saison, tous les revenus imposables de {{farmName}} seront augmentés du montant susmentionné. ^^ Veuillez conserver cette lettre dans vos dossiers permanents si vous avez besoin de résoudre des questions concernant votre statut fiscal. ^^ Bien cordialement, Laura D. Pretto^Directrice exécutive, Direction Générale des Finances Publiques de Ferngill[#]Taxation Notice",
+  "conservationist.mail": "Direction Générale des Finances Publiques^^^{{honorific}} @,^^Nous sommes heureux de vous informer qu'après examen de vos activités environnementales, nous avons verifié que vous avez droit à une déduction d'impôt sur le revenu de {{taxBonus}} conformément à l'article 501(c)(3) du Code Général des Impôts de Ferngill. En tant que tel, tous les revenus imposables de {{farm}} seront augmentés du montant susmentionné, en vigueur pendant la saison {{season}} en cours.^^Veuillez conserver cette lettre dans vos dossiers permanents au cas oú vous avez besoin de résoudre des questions concernant votre statut fiscal.^^Veuillez agréer, {{honorific}} l'expression de mes salutations distinguées.^^Laura D. Pretto^Directrice Exécutive, Direction Générale des Finances Publiques[#]Taxation Deduction",
+  "conservationist.mail.max": "Direction Générale des Finances Publiques^^^{{honorific}} @,^^Nous sommes heureux de vous informer qu'après examen de vos activités environnementales, nous avons verifié que vous avez droit à la déduction maximale d'impôt sur le revenu de {{taxBonus}} conformément à l'article 501(c)(3) du Code Général des Impôts de Ferngill. En tant que tel, tous les revenus imposables de {{farm}} seront augmentés du montant susmentionné, en vigueur pendant la saison {{season}} en cours.^^Veuillez conserver cette lettre dans vos dossiers permanents au cas oú vous avez besoin de résoudre des questions concernant votre statut fiscal.^^Veuillez agréer, {{honorific}} l'expression de mes salutations distinguées.^^Laura D. Pretto^Directrice Exécutive, Direction Générale des Finances Publiques[#]Taxation Deduction",
 
-  // Combat
+  // combat
   "fighter.name.male": "Combattant",
   "fighter.name.female": "Combattante",
   "fighter.desc": "Dégâts +10 %. +15 HP.",
@@ -153,12 +153,12 @@
   "piper.desc.prestiged": "Chance d’égalmente récuperer de la santé et de l’énergie en battant des Slimes.",
   "piper.buff": "Englué(e)",
   "piper.buffdesc": "Agriculture +{{farming}}\nPêche +{{fishing}}\nCueillette +{{foraging}}\nExtraction minière +{{mining}}\nAttaque +{{attack}}\nDéfense +{{defense}}\nChance +{{luck}}\nVitesse +{{speed}}\nÉnergie max +{{energy}}\nRayon magnétique +{{magnetic}}",
-  "piper.ulti": "Pandémonie",
+  "piper.ulti": "Captiver",
   "piper.ultidesc": "Enchantez les Slime à proximité. Les Slimes enchantés augmentent en taille et en puissance et traquent les autres ennemis.",
 
   "ulti.canteat": "Impossible de faire ça maintenant.",
 
-  // Prestige
+  // prestige
   "prestige.dogstatue.first": "-Statue de Prestige-^La statue peut ramener le niveau d’une compétence à zero tout en conservant les professions acquises.",
   "prestige.dogstatue.forget": "^Toutes les recettes associées seront oubliées.",
   "prestige.dogstatue.offer": "^Faire une offrande ?",
@@ -182,9 +182,17 @@
   "prestige.achievement.name.female": "Touche-à-tout",
   "prestige.achievement.desc": "Acquérir tous les professions dans toutes les compétences.",
 
-  // Other
+  // gender
+  "honorific.male": "Monsieur",
+  "honorific.female": "Madame",
   "pronoun.definite.male": "au",
   "pronoun.definite.female": "à la",
   "pronoun.indefinite.male": "un",
-  "pronoun.indefinite.female": "une"
+  "pronoun.indefinite.female": "une",
+
+  // extra
+  "season.spring": "printanière",
+  "season.summer": "estivale",
+  "season.fall": "d'automne",
+  "season.winter": "d'hiver" 
 }

@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class BushMachineGetOutputPatch : BasePatch
+internal sealed class BushMachineGetOutputPatch : BasePatch
 {
     private static MethodInfo _GetMachine;
 
@@ -50,7 +50,7 @@ internal class BushMachineGetOutputPatch : BasePatch
 
         if (!Context.IsMainPlayer || !Game1.player.HasProfession(Profession.Ecologist)) return;
 
-        Game1.player.IncrementData<uint>(DataField.EcologistItemsForaged);
+        Game1.player.IncrementData<uint>(ModData.EcologistItemsForaged);
     }
 
     /// <summary>Patch for automated Berry Bush quality.</summary>
@@ -66,7 +66,7 @@ internal class BushMachineGetOutputPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Ecologist) // find index of ecologist check
+                .FindProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_4) // quality = 4
                 )

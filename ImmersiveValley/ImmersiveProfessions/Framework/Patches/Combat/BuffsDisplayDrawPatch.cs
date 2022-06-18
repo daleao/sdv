@@ -14,9 +14,9 @@ using StardewValley.Menus;
 #endregion using directives
 
 [UsedImplicitly]
-internal class BuffsDisplayDrawPatch : BasePatch
+internal sealed class BuffsDisplayDrawPatch : BasePatch
 {
-    private static readonly int _buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Profession.Brute;
+    private static readonly int _buffId = (ModEntry.Manifest.UniqueID + Profession.Brute).GetHashCode();
 
     /// <summary>Construct an instance.</summary>
     internal BuffsDisplayDrawPatch()

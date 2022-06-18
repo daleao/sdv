@@ -56,7 +56,7 @@ Should be compatible with Wear More Rings, although I haven't tested it.
 
 This is a companion mod for [Walk Of Life](https://www.nexusmods.com/stardewvalley/mods/8111), but can be used independently.
 
-Should be fully compatible with multiplayer.
+Should be fully compatible with multiplayer. Not compatible with Android.
 
 ## Installation
 

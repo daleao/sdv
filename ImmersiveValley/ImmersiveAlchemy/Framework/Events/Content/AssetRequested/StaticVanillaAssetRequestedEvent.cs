@@ -11,7 +11,7 @@ using Framework;
 #endregion using directives
 
 [UsedImplicitly]
-internal class StaticVanillaAssetRequestedEvent : AssetRequestedEvent
+internal sealed class StaticVanillaAssetRequestedEvent : AssetRequestedEvent
 {
     /// <summary>Construct an instance.</summary>
     internal StaticVanillaAssetRequestedEvent()

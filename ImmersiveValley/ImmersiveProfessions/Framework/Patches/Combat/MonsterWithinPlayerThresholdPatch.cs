@@ -15,7 +15,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MonsterWithinPlayerThresholdPatch : BasePatch
+internal sealed class MonsterWithinPlayerThresholdPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal MonsterWithinPlayerThresholdPatch()

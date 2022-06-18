@@ -10,7 +10,7 @@ using StardewValley.Monsters;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MonsterParseMonsterInfoPatch : BasePatch
+internal sealed class MonsterParseMonsterInfoPatch : BasePatch
 {
     /// <summary>Construct and instance.</summary>
     internal MonsterParseMonsterInfoPatch()

@@ -20,7 +20,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ObjectPerformObjectDropInActionPatch : BasePatch
+internal sealed class ObjectPerformObjectDropInActionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectPerformObjectDropInActionPatch()
@@ -106,13 +106,13 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                         typeof(Stats).RequirePropertySetter(nameof(Stats.GeodesCracked)))
                 )
                 .Advance()
-                .InsertProfessionCheck((int) Profession.Gemologist)
+                .InsertProfessionCheck(Profession.Gemologist.Value)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
+                    new CodeInstruction(OpCodes.Ldstr, ModData.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(ModData)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
@@ -135,7 +135,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
             var notPrestigedBreeder = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindProfessionCheck((int) Profession.Breeder, true)
+                .FindProfessionCheck(Profession.Breeder.Value, true)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldloc_0)
                 )
@@ -152,7 +152,7 @@ internal class ObjectPerformObjectDropInActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_2)
                 )
                 .ReplaceWith(
-                    new(OpCodes.Ldc_I4_S, (int) Profession.Breeder + 100)
+                    new(OpCodes.Ldc_I4_S, Profession.Breeder.Value + 100)
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)

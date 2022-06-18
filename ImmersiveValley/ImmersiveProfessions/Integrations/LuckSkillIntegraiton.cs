@@ -4,7 +4,6 @@ namespace DaLion.Stardew.Professions.Integrations;
 #region using directives
 
 using System;
-using System.Collections.Generic;
 using StardewModdingAPI;
 
 using Common.Integrations;
@@ -26,5 +25,6 @@ internal class LuckSkillIntegration : BaseIntegration<ILuckSkillAPI>
     {
         AssertLoaded();
         ModEntry.LuckSkillApi = ModApi;
+        ExtendedLuckSkillAPI.Init();
     }
 }

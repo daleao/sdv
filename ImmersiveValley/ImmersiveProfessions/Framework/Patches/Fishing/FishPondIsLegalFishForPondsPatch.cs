@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FishPondIsLegalFishForPondsPatch : BasePatch
+internal sealed class FishPondIsLegalFishForPondsPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondIsLegalFishForPondsPatch()

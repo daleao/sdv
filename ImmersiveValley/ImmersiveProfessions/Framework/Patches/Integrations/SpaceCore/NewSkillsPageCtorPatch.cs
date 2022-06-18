@@ -15,7 +15,7 @@ using Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class NewSkillsPageCtorPatch : BasePatch
+internal sealed class NewSkillsPageCtorPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal NewSkillsPageCtorPatch()
@@ -42,7 +42,7 @@ internal class NewSkillsPageCtorPatch : BasePatch
         if (!ModEntry.Config.EnablePrestige) return;
 
         __instance.width += 48;
-        if (ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars) __instance.width += 24;
+        if (ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars) __instance.width += 24;
 
         if (__instance.GetType().RequireField("skillBars")!.GetValue(__instance) is not List<ClickableTextureComponent>
             skillBars) return;

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
@@ -55,7 +54,7 @@ public static class FishPondExtensions
         var bonus = (int) (pond.output.Value is SObject @object
             ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
             : 0);
-        who.gainExperience((int) SkillType.Fishing, FishPond.HARVEST_BASE_EXP + bonus);
+        who.gainExperience(Farmer.fishingSkill, FishPond.HARVEST_BASE_EXP + bonus);
     }
 
     /// <summary>Opens a <see cref="ItemGrabMenu"/> instance to allow retrieve multiple items from the pond's chum bucket.</summary>

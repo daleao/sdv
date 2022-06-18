@@ -11,9 +11,9 @@ using StardewValley;
 
 
 [UsedImplicitly]
-internal class BuffRemoveBuffPatch : BasePatch
+internal sealed class BuffRemoveBuffPatch : BasePatch
 {
-    private static readonly int _which = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Profession.Piper;
+    private static readonly int _piperBuffId = (ModEntry.Manifest.UniqueID + Profession.Piper).GetHashCode();
 
     /// <summary>Construct an instance.</summary>
     internal BuffRemoveBuffPatch()
@@ -26,7 +26,7 @@ internal class BuffRemoveBuffPatch : BasePatch
     [HarmonyPrefix]
     private static void BuffUpdatePrefix(Buff __instance)
     {
-        if (__instance.which == _which && __instance.millisecondsDuration <= 0)
+        if (__instance.which == _piperBuffId && __instance.millisecondsDuration <= 0)
             Array.Clear(ModEntry.PlayerState.AppliedPiperBuffs, 0, 12);
     }
 

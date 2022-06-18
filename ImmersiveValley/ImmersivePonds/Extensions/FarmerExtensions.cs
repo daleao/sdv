@@ -62,7 +62,7 @@ public static class FarmerExtensions
     /// <summary>Read from a field in the <see cref="ModDataDictionary" /> as <see cref="string"/>.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadData(this Farmer farmer, DataField field, string defaultValue = "")
+    public static string ReadData(this Farmer farmer, ModData field, string defaultValue = "")
     {
         return Game1.MasterPlayer.modData.Read($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -71,7 +71,7 @@ public static class FarmerExtensions
     /// <summary>Read from a field in the <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataAs<T>(this Farmer farmer, DataField field, T defaultValue = default)
+    public static T ReadDataAs<T>(this Farmer farmer, ModData field, T defaultValue = default)
     {
         return Game1.MasterPlayer.modData.ReadAs($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -80,7 +80,7 @@ public static class FarmerExtensions
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteData(this Farmer farmer, DataField field, [CanBeNull] string value)
+    public static void WriteData(this Farmer farmer, ModData field, [CanBeNull] string value)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -97,7 +97,7 @@ public static class FarmerExtensions
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataIfNotExists(this Farmer farmer, DataField field, [CanBeNull] string value)
+    public static bool WriteDataIfNotExists(this Farmer farmer, ModData field, [CanBeNull] string value)
     {
         if (Game1.MasterPlayer.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}"))
         {
@@ -115,7 +115,7 @@ public static class FarmerExtensions
     /// <summary>Append a string to an existing string field in the <see cref="ModDataDictionary"/>, or initialize to the given value.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="value">Value to append.</param>
-    public static void AppendData(this Farmer farmer, DataField field, string value, string separator = ",")
+    public static void AppendData(this Farmer farmer, ModData field, string value, string separator = ",")
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -138,7 +138,7 @@ public static class FarmerExtensions
     /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    public static void IncrementData<T>(this Farmer farmer, DataField field, T amount)
+    public static void IncrementData<T>(this Farmer farmer, ModData field, T amount)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -152,7 +152,7 @@ public static class FarmerExtensions
 
     /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    public static void IncrementData<T>(this Farmer farmer, DataField field)
+    public static void IncrementData<T>(this Farmer farmer, ModData field)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {

@@ -16,7 +16,7 @@ using Extensions;
 
 /// <summary>Wrapper for <see cref="IGameLoopEvents.SaveLoaded"/> that can be hooked or unhooked.</summary>
 [UsedImplicitly]
-internal class SaveLoadedEvent : IEvent
+internal sealed class SaveLoadedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
@@ -35,18 +35,18 @@ internal class SaveLoadedEvent : IEvent
     /// <inheritdoc cref="IGameLoopEvents.SaveLoaded"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
+    private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
     {
         if (!Context.IsMainPlayer) return;
 
-        var fishQualitiesDict = Game1.player.ReadData(DataField.FishQualitiesDict).ParseDictionary<int, string>(">", "/");
-        var familyQualitiesDict = Game1.player.ReadData(DataField.FamilyQualitiesDict).ParseDictionary<int, string>(">", "/");
-        var familyOccupantsDict = Game1.player.ReadData(DataField.FamilyOccupantsDict).ParseDictionary<int, int>();
-        var daysEmptyDict = Game1.player.ReadData(DataField.DaysEmptyDict).ParseDictionary<int, int>();
-        var seaweedOccupantsDict = Game1.player.ReadData(DataField.SeaweedOccupantsDict).ParseDictionary<int, int>();
-        var greenAlgaeOccupantsDict = Game1.player.ReadData(DataField.GreenAlgaeOccupantsDict).ParseDictionary<int, int>();
-        var whiteAlgaeOccupantsDict = Game1.player.ReadData(DataField.WhiteAlgaeOccupantsDict).ParseDictionary<int, int>();
-        var itemsHeldDict = Game1.player.ReadData(DataField.HeldItemsDict).ParseDictionary<int, string>(">", "/");
+        var fishQualitiesDict = Game1.player.ReadData(ModData.FishQualitiesDict).ParseDictionary<int, string>(">", "/");
+        var familyQualitiesDict = Game1.player.ReadData(ModData.FamilyQualitiesDict).ParseDictionary<int, string>(">", "/");
+        var familyOccupantsDict = Game1.player.ReadData(ModData.FamilyOccupantsDict).ParseDictionary<int, int>();
+        var daysEmptyDict = Game1.player.ReadData(ModData.DaysEmptyDict).ParseDictionary<int, int>();
+        var seaweedOccupantsDict = Game1.player.ReadData(ModData.SeaweedOccupantsDict).ParseDictionary<int, int>();
+        var greenAlgaeOccupantsDict = Game1.player.ReadData(ModData.GreenAlgaeOccupantsDict).ParseDictionary<int, int>();
+        var whiteAlgaeOccupantsDict = Game1.player.ReadData(ModData.WhiteAlgaeOccupantsDict).ParseDictionary<int, int>();
+        var itemsHeldDict = Game1.player.ReadData(ModData.HeldItemsDict).ParseDictionary<int, string>(">", "/");
 
         foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && !p.isUnderConstruction()))
         {

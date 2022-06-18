@@ -9,12 +9,10 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 
-using Extensions;
-
 #endregion using directives
 
 [UsedImplicitly]
-internal class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
+internal sealed class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuGetProfessionTitleFromNumberPatch()
@@ -30,10 +28,9 @@ internal class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
     {
         try
         {
-            if (!Enum.IsDefined(typeof(Profession), whichProfession)) return true; // run original logic
+            if (!Profession.TryFromValue(whichProfession, out var profession)) return true; // run original logic
 
-            __result = ModEntry.i18n.Get(whichProfession.ToProfessionName() + ".name." +
-                                                          (Game1.player.IsMale ? "male" : "female"));
+            __result = profession.GetDisplayName(Game1.player.IsMale);
             return false; // don't run original logic
         }
         catch (Exception ex)

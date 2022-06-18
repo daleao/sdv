@@ -9,7 +9,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FarmerCheckForLevelGainPatch : BasePatch
+internal sealed class FarmerCheckForLevelGainPatch : BasePatch
 {
     private const int PRESTIGE_GATE_I = 15000;
 

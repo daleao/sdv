@@ -18,7 +18,7 @@ using Extensions;
 
 /// <summary>Wrapper for <see cref="IGameLoopEvents.Saving"/> that can be hooked or unhooked.</summary>
 [UsedImplicitly]
-internal class SavingEvent : IEvent
+internal sealed class SavingEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
@@ -37,7 +37,7 @@ internal class SavingEvent : IEvent
     /// <inheritdoc cref="IGameLoopEvents.Saving"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnSaving(object sender, SavingEventArgs e)
+    private void OnSaving(object sender, SavingEventArgs e)
     {
         if (!Context.IsMainPlayer) return;
 
@@ -78,13 +78,13 @@ internal class SavingEvent : IEvent
             if (!string.IsNullOrEmpty(itemsHeld)) itemsHeldDict[pondId] = itemsHeld;
         }
 
-        Game1.player.WriteData(DataField.FishQualitiesDict, fishQualitiesDict.Stringify(">", "/"));
-        Game1.player.WriteData(DataField.FamilyQualitiesDict, familyQualitiesDict.Stringify(">", "/"));
-        Game1.player.WriteData(DataField.FamilyOccupantsDict, familyOccupantsDict.Stringify());
-        Game1.player.WriteData(DataField.DaysEmptyDict, daysEmptyDict.Stringify());
-        Game1.player.WriteData(DataField.SeaweedOccupantsDict, seaweedOccupantsDict.Stringify());
-        Game1.player.WriteData(DataField.GreenAlgaeOccupantsDict, greenAlgaeOccupantsDict.Stringify());
-        Game1.player.WriteData(DataField.WhiteAlgaeOccupantsDict, whiteAlgaeOccupantsDict.Stringify());
-        Game1.player.WriteData(DataField.HeldItemsDict, itemsHeldDict.Stringify(">", "/"));
+        Game1.player.WriteData(ModData.FishQualitiesDict, fishQualitiesDict.Stringify(">", "/"));
+        Game1.player.WriteData(ModData.FamilyQualitiesDict, familyQualitiesDict.Stringify(">", "/"));
+        Game1.player.WriteData(ModData.FamilyOccupantsDict, familyOccupantsDict.Stringify());
+        Game1.player.WriteData(ModData.DaysEmptyDict, daysEmptyDict.Stringify());
+        Game1.player.WriteData(ModData.SeaweedOccupantsDict, seaweedOccupantsDict.Stringify());
+        Game1.player.WriteData(ModData.GreenAlgaeOccupantsDict, greenAlgaeOccupantsDict.Stringify());
+        Game1.player.WriteData(ModData.WhiteAlgaeOccupantsDict, whiteAlgaeOccupantsDict.Stringify());
+        Game1.player.WriteData(ModData.HeldItemsDict, itemsHeldDict.Stringify(">", "/"));
     }
 }

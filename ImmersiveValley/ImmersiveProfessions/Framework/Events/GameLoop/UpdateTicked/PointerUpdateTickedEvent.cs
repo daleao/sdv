@@ -8,7 +8,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal class PointerUpdateTickedEvent : UpdateTickedEvent
+internal sealed class PointerUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)

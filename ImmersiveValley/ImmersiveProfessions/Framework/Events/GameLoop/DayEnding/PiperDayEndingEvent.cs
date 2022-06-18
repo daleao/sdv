@@ -10,14 +10,14 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal class PiperDayEndingEvent : DayEndingEvent
+internal sealed class PiperDayEndingEvent : DayEndingEvent
 {
-    private static readonly int _which = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Profession.Piper;
+    private static readonly int _piperBuffId = (ModEntry.Manifest.UniqueID + Profession.Piper).GetHashCode();
 
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
     {
-        Game1.buffsDisplay.removeOtherBuff(_which);
+        Game1.buffsDisplay.removeOtherBuff(_piperBuffId);
         Array.Clear(ModEntry.PlayerState.AppliedPiperBuffs, 0, 12);
         Disable();
     }

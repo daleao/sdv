@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ForestGetFishPatch : BasePatch
+internal sealed class ForestGetFishPatch : BasePatch
 {
     private const int GLACIERFISH_INDEX_I = 775;
 
@@ -56,7 +56,7 @@ internal class ForestGetFishPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Angler + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Angler.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, skipLegendary)
                 );

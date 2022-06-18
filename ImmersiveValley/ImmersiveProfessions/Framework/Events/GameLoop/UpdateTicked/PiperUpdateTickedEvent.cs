@@ -9,7 +9,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class PiperUpdateTickedEvent : UpdateTickedEvent
+internal sealed class PiperUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)

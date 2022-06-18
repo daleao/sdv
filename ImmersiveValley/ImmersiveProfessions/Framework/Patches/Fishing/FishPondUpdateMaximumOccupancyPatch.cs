@@ -13,7 +13,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FishPondUpdateMaximumOccupancyPatch : BasePatch
+internal sealed class FishPondUpdateMaximumOccupancyPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondUpdateMaximumOccupancyPatch()

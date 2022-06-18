@@ -8,7 +8,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal class DebugCursorMovedEvent : CursorMovedEvent
+internal sealed class DebugCursorMovedEvent : CursorMovedEvent
 {
     /// <inheritdoc />
     protected override void OnCursorMovedImpl(object sender, CursorMovedEventArgs e)

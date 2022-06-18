@@ -20,7 +20,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GenericObjectMachineGenericPullRecipePatch : BasePatch
+internal sealed class GenericObjectMachineGenericPullRecipePatch : BasePatch
 {
     private static MethodInfo _GetSample;
 

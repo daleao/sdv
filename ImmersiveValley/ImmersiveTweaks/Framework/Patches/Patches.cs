@@ -10,7 +10,6 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -31,7 +30,7 @@ internal static class Patches
     #region harmony patches
 
     [HarmonyPatch(typeof(Bush), "shake")]
-    internal class BushShakePatch
+    internal sealed class BushShakePatch
     {
         /// <summary>Detects if the bush is ready for harvest.</summary>
         [HarmonyPrefix]
@@ -50,12 +49,12 @@ internal static class Patches
         private static void Postfix(Bush __instance, bool __state)
         {
             if (__state && __instance.tileSheetOffset.Value == 0)
-                Game1.player.gainExperience((int) SkillType.Foraging, 3);
+                Game1.player.gainExperience(Farmer.foragingSkill, 3);
         }
     }
 
     [HarmonyPatch(typeof(Crop), nameof(Crop.hitWithHoe))]
-    internal class CropHitWithHoePatch
+    internal sealed class CropHitWithHoePatch
     {
         /// <summary>Apply Botanist/Ecologist perk to wild ginger.</summary>
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
@@ -92,13 +91,13 @@ internal static class Patches
 
             ginger.Quality = ModEntry.ProfessionsAPI is null
                 ? SObject.bestQuality
-                : ModEntry.ProfessionsAPI.GetForageQuality(Game1.player);
+                : ModEntry.ProfessionsAPI.GetEcologistForageQuality(Game1.player);
             return ginger;
         }
     }
 
     [HarmonyPatch(typeof(FruitTree), nameof(FruitTree.dayUpdate))]
-    internal class FruitTreeDayUpdatePatch
+    internal sealed class FruitTreeDayUpdatePatch
     {
         /// <summary>Negatively compensates winter growth.</summary>
         [HarmonyPostfix]
@@ -163,7 +162,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.explode))]
-    internal class GameLocationExplodePatch
+    internal sealed class GameLocationExplodePatch
     {
         /// <summary>Explosions trigger nearby bombs.</summary>
         [HarmonyPostfix]
@@ -178,7 +177,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(SObject), nameof(SObject.checkForAction))]
-    internal class ObjectCheckForActionPatch
+    internal sealed class ObjectCheckForActionPatch
     {
         /// <summary>Detects if an object is ready for harvest.</summary>
         [HarmonyPrefix]
@@ -197,9 +196,9 @@ internal static class Patches
             if (!__state || __instance.readyForHarvest.Value) return;
             
             if (__instance.name.Contains("Tapper") && ModEntry.Config.TappersRewardExp)
-                Game1.player.gainExperience((int) SkillType.Foraging, 5);
+                Game1.player.gainExperience(Farmer.foragingSkill, 5);
             else if (__instance.name.Contains("Mushroom Box") && ModEntry.Config.MushroomBoxesRewardExp)
-                Game1.player.gainExperience((int) SkillType.Foraging, 1);
+                Game1.player.gainExperience(Farmer.foragingSkill, 1);
         }
 
         /// <summary>Applies quality to aged bee house.</summary>
@@ -252,7 +251,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(SObject), nameof(SObject.DayUpdate))]
-    internal class ObjectDayUpdatePatch
+    internal sealed class ObjectDayUpdatePatch
     {
         /// <summary>Age bee houses and mushroom boxes.</summary>
         [HarmonyPostfix]
@@ -271,7 +270,7 @@ internal static class Patches
 
                 __instance.heldObject.Value.Quality = ModEntry.ProfessionsAPI is null
                     ? __instance.GetQualityFromAge()
-                    : Math.Max(ModEntry.ProfessionsAPI.GetForageQuality(Game1.player),
+                    : Math.Max(ModEntry.ProfessionsAPI.GetEcologistForageQuality(Game1.player),
                         __instance.heldObject.Value.Quality);
             }
         }
@@ -293,7 +292,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(SObject), nameof(SObject.performDropDownAction))]
-    internal class ObjectPerformDropDownActionPatch
+    internal sealed class ObjectPerformDropDownActionPatch
     {
         /// <summary>Clear the age of bee houses and mushroom boxes.</summary>
         [HarmonyPostfix]
@@ -305,7 +304,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(SObject), nameof(SObject.performObjectDropInAction))]
-    internal class ObjectPerformObjectDropInActionPatch
+    internal sealed class ObjectPerformObjectDropInActionPatch
     {
         // <summary>Remember state before action.</summary>
         [HarmonyPrefix]
@@ -356,7 +355,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Tree), nameof(Tree.dayUpdate))]
-    internal class TreeDayUpdatePatch
+    internal sealed class TreeDayUpdatePatch
     {
         /// <summary>Ages tapper trees.</summary>
         [HarmonyPostfix]
@@ -368,7 +367,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Tree), nameof(Tree.UpdateTapperProduct))]
-    internal class TreeUpdateTapperProductPatch
+    internal sealed class TreeUpdateTapperProductPatch
     {
         /// <summary>Adds age quality to tapper product.</summary>
         [HarmonyPostfix]
@@ -380,7 +379,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Tree), "shake")]
-    internal class TreeShakePatch
+    internal sealed class TreeShakePatch
     {
         [HarmonyTranspiler]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
@@ -449,7 +448,7 @@ internal static class Patches
 
             return ModEntry.ProfessionsAPI is null
                 ? SObject.bestQuality
-                : ModEntry.ProfessionsAPI.GetForageQuality(Game1.player);
+                : ModEntry.ProfessionsAPI.GetEcologistForageQuality(Game1.player);
         }
     }
 

@@ -11,7 +11,7 @@ using GameLoop;
 #endregion using directives
 
 [UsedImplicitly]
-internal class BruteWarpedEvent : WarpedEvent
+internal sealed class BruteWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />
     protected override void OnWarpedImpl(object sender, WarpedEventArgs e)

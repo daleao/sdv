@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MountainGetFishPatch : BasePatch
+internal sealed class MountainGetFishPatch : BasePatch
 {
     private const int LEGEND_INDEX_I = 163;
 
@@ -56,7 +56,7 @@ internal class MountainGetFishPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Angler + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Angler.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, skipLegendary)
                 );

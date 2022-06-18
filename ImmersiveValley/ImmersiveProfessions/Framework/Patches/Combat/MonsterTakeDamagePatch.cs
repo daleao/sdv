@@ -12,7 +12,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MonsterTakeDamagePatch : BasePatch
+internal sealed class MonsterTakeDamagePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal MonsterTakeDamagePatch()

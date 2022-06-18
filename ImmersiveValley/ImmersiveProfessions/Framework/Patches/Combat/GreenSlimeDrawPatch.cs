@@ -18,7 +18,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GreenSlimeDrawPatch : BasePatch
+internal sealed class GreenSlimeDrawPatch : BasePatch
 {
     /// <summary>Construct an instance.<w/ summary>
     internal GreenSlimeDrawPatch()

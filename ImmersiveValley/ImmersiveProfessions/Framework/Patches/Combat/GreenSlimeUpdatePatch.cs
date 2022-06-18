@@ -20,7 +20,7 @@ using SUtility = StardewValley.Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GreenSlimeUpdatePatch : BasePatch
+internal sealed class GreenSlimeUpdatePatch : BasePatch
 {
     private const int IMMUNE_TO_DAMAGE_DURATION_I = 450;
 

@@ -1,9 +1,11 @@
-﻿namespace DaLion.Stardew.Professions;
+﻿
+namespace DaLion.Stardew.Professions;
 
 #region using directives
 
 using System;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json.Linq;
 using StardewValley;
 
 using Extensions;
@@ -21,23 +23,32 @@ using SObject = StardewValley.Object;
 /// <summary>Implementation of the mod API.</summary>
 public class ModAPI
 {
-    /// <summary>Get the value of a farmer's Ecologist forage quality.</summary>
+    /// <summary>Get the value of an Ecologist's forage quality.</summary>
     /// <param name="farmer">The player.</param>
-    public int GetForageQuality(Farmer farmer)
+    public int GetEcologistForageQuality(Farmer farmer)
     {
         return farmer.HasProfession(Profession.Ecologist) ? farmer.GetEcologistForageQuality() : SObject.lowQuality;
     }
 
-    /// <summary>Get the value of a farmer's Gemologist mineral quality.</summary>
+    /// <summary>Get the value of a Gemologist's mineral quality.</summary>
     /// <param name="farmer">The player.</param>
-    public int GetMineralQuality(Farmer farmer)
+    public int GetGemologistMineralQuality(Farmer farmer)
     {
         return farmer.HasProfession(Profession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
     }
 
-    /// <summary>Get the value of the a farmer's Conservationist taxation price multiplier.</summary>
+    /// <summary>Get the value of the a Conservationist's projected tax deduction based on current season's trash collection.</summary>
     /// <param name="farmer">The player.</param>
-    public float GetConservationistTaxBonus(Farmer farmer)
+    public float GetConservationistProjectedTaxBonus(Farmer farmer)
+    {
+        // ReSharper disable once PossibleLossOfFraction
+        return farmer.ReadDataAs<int>(ModData.ConservationistTrashCollectedThisSeason) /
+               ModEntry.Config.TrashNeededPerTaxBonusPct / 100f;
+    }
+
+    /// <summary>Get the value of the a Conservationist's effective tax deduction based on the preceding season's trash collection.</summary>
+    /// <param name="farmer">The player.</param>
+    public float GetConservationistEffectiveTaxBonus(Farmer farmer)
     {
         return farmer.GetConservationistPriceMultiplier() - 1f;
     }
@@ -221,9 +232,9 @@ public class ModAPI
     #region configs
 
     /// <summary>Get an interface for this mod's config settings.</summary>
-    public ModConfig GetConfigs()
+    public JObject GetConfigs()
     {
-        return ModEntry.Config;
+        return new(ModEntry.Config);
     }
 
     #endregion configs

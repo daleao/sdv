@@ -8,7 +8,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal class StaticSaveLoadedEvent : SaveLoadedEvent
+internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
 {
     /// <summary>Construct an instance.</summary>
     internal StaticSaveLoadedEvent()

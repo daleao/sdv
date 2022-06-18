@@ -9,7 +9,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FarmerEatObjectPatch : BasePatch
+internal sealed class FarmerEatObjectPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerEatObjectPatch()

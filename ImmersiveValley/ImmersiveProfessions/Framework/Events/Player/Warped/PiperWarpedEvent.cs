@@ -17,7 +17,7 @@ using GameLoop;
 #endregion using directives
 
 [UsedImplicitly]
-internal class PiperWarpedEvent : WarpedEvent
+internal sealed class PiperWarpedEvent : WarpedEvent
 {
     private readonly Func<int, double> _pipeChance = x => 19f / (x + 18f);
 

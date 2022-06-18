@@ -17,7 +17,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FishingRodPlayerCaughtFishEndFunctionPatch : BasePatch
+internal sealed class FishingRodPlayerCaughtFishEndFunctionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishingRodPlayerCaughtFishEndFunctionPatch()

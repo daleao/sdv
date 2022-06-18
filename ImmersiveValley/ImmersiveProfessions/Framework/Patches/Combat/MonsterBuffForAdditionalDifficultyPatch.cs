@@ -10,7 +10,7 @@ using StardewValley.Monsters;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MonsterBuffForAdditionalDifficultyPatch : BasePatch
+internal sealed class MonsterBuffForAdditionalDifficultyPatch : BasePatch
 {
     /// <summary>Construct and instance.</summary>
     internal MonsterBuffForAdditionalDifficultyPatch()

@@ -19,7 +19,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ObjectPerformDropDownActionPatch : BasePatch
+internal sealed class ObjectPerformDropDownActionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectPerformDropDownActionPatch()

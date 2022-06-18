@@ -13,6 +13,7 @@ using StardewValley.Monsters;
 using xTile.Dimensions;
 
 using Common.Extensions;
+using Framework;
 
 using SUtility = StardewValley.Utility;
 
@@ -22,8 +23,8 @@ using SUtility = StardewValley.Utility;
 public static class GameLocationExtensions
 {
     /// <summary>Whether any farmer in this location has a specific profession.</summary>
-    /// <param name="profession">The profession.</param>
-    public static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, Profession profession)
+    /// <param name="profession">The <see cref="IProfession"/> to check.</param>
+    public static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, IProfession profession)
     {
         if (!Context.IsMultiplayer && location.Equals(Game1.currentLocation))
             return Game1.player.HasProfession(profession);
@@ -31,9 +32,9 @@ public static class GameLocationExtensions
     }
 
     /// <summary>Whether any farmer in this location has a specific profession.</summary>
-    /// <param name="profession">The profession.</param>
+    /// <param name="profession">The <see cref="IProfession"/> to check.</param>
     /// <param name="farmers">All the farmer instances in the location with the given profession.</param>
-    public static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, Profession profession,
+    public static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, IProfession profession,
         out IList<Farmer> farmers)
     {
         farmers = new List<Farmer>();

@@ -11,7 +11,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FarmerHasOrWillReceiveMailPatch : BasePatch
+internal sealed class FarmerHasOrWillReceiveMailPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerHasOrWillReceiveMailPatch()
@@ -21,7 +21,7 @@ internal class FarmerHasOrWillReceiveMailPatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch to allow receiving multiple letters from the FRS and the SWA.</summary>
+    /// <summary>Patch to allow receiving multiple letters from the FRS.</summary>
     [HarmonyPrefix]
     private static bool FarmerHasOrWillReceiveMailPrefix(ref bool __result, string id)
     {

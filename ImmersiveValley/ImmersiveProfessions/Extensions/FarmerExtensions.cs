@@ -7,9 +7,8 @@ namespace DaLion.Stardew.Professions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
-using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
@@ -32,240 +31,272 @@ using SObject = StardewValley.Object;
 public static class FarmerExtensions
 {
     /// <summary>Whether the farmer has a particular profession.</summary>
-    /// <param name="profession">The index of the profession.</param>
+    /// <param name="profession">The <see cref="IProfession"/> to check.</param>
     /// <param name="prestiged">Whether to check for the regular or prestiged variant.</param>
-    public static bool HasProfession(this Farmer farmer, Profession profession, bool prestiged = false)
+    public static bool HasProfession(this Farmer farmer, IProfession profession, bool prestiged = false)
     {
-        return farmer.professions.Contains((int) profession + (prestiged ? 100 : 0));
+        if (prestiged && !profession.Id.IsIn(Profession.GetRange())) return false;
+        return farmer.professions.Contains(profession.Id + (prestiged ? 100 : 0));
     }
 
-    /// <summary>Whether the farmer has a particular profession belonging to custom skill.</summary>
-    /// <param name="professionIndex">A custom profession index.</param>
-    public static bool HasCustomSkillProfession(this Farmer farmer, int professionIndex)
+    ///// <summary>Whether the farmer has a particular profession.</summary>
+    ///// <param name="index">A valid profession index.</param>
+    ///// <param name="prestiged">Whether to check for the regular or prestiged variant.</param>
+    //public static bool HasProfession(this Farmer farmer, int index, bool prestiged = false)
+    //{
+    //    if (Profession.TryFromValue(index, out _))
+    //        return farmer.professions.Contains(index + (prestiged ? 100 : 0));
+
+    //    if (!prestiged && ModEntry.CustomProfessions.ContainsKey(index))
+    //        return farmer.professions.Contains(index);
+
+    //    return false;
+    //}
+
+    /// <summary>Whether the farmer has acquired both level ten professions branching from the specified level five profession.</summary>
+    /// <param name="profession">The <see cref="IProfession"/> to check.</param>
+    public static bool HasAllProfessionsBranchingFrom(this Farmer farmer, IProfession profession)
     {
-        return farmer.professions.Contains(professionIndex);
+        return profession.BranchingProfessions.All(farmer.professions.Contains);
     }
 
-    /// <summary>Whether the farmer has acquired all professions branching from the specified profession.</summary>
-    /// <param name="professionIndex">A profession index (0 to 29).</param>
-    public static bool HasAllProfessionsInBranch(this Farmer farmer, int professionIndex)
-    {
-        return professionIndex % 6 == 0 && farmer.professions.Contains(professionIndex + 2) &&
-               farmer.professions.Contains(professionIndex + 3) ||
-               professionIndex % 6 == 1 && farmer.professions.Contains(professionIndex + 3) &&
-               farmer.professions.Contains(professionIndex + 4) ||
-               professionIndex % 6 > 1;
-    }
+    ///// <summary>Whether the farmer has acquired both level ten professions branching from the specified level five profession.</summary>
+    ///// <param name="index">A valid profession index.</param>
+    //public static bool HasAllProfessionsBranchingFrom(this Farmer farmer, int index)
+    //{
+    //    if (Profession.TryFromValue(index, out var profession))
+    //        return farmer.HasAllProfessionsBranchingFrom((IProfession) profession);
+        
+    //    if (ModEntry.CustomProfessions.TryGetValue(index, out var customProfession))
+    //        return farmer.HasAllProfessionsBranchingFrom(customProfession);
 
-    /// <summary>Whether the farmer has acquired all professions branching from the specified profession.</summary>
-    /// <param name="skill">The custom skill instance.</param>
-    /// <param name="professionIndex">A custom profession index.</param>
-    public static bool HasAllProfessionsInCustomSkillBranch(this Farmer farmer, ICustomSkill skill, int professionIndex)
-    {
-        if (!professionIndex.IsIn(skill.ProfessionIds)) return false;
-
-        if (professionIndex.IsIn(skill.TierTwoProfessionIds)) return true;
-
-        if (skill.ProfessionsByBranch.TryGetValue(professionIndex, out var branches))
-            return farmer.professions.Contains(branches.first) && farmer.professions.Contains(branches.second);
-
-        return false;
-    }
+    //    return false;
+    //}
 
     /// <summary>Whether the farmer has all six professions in the specified skill.</summary>
-    /// <param name="which">Which skill index to check.</param>
-    public static bool HasAllProfessionsInSkill(this Farmer farmer, int which)
+    /// <param name="skill">The <see cref="ISkill"/> to check.</param>
+    public static bool HasAllProfessionsInSkill(this Farmer farmer, ISkill skill)
     {
-        return farmer.NumberOfProfessionsInSkill(which) == 6;
+        return skill.ProfessionIds.All(farmer.professions.Contains);
     }
 
-    /// <summary>Whether the farmer has all six professions in the specified custom skill.</summary>
-    /// <param name="which">Which custom skill instance to check.</param>
-    public static bool HasAllProfessionsInCustomSkill(this Farmer farmer, ICustomSkill which)
-    {
-        return which.ProfessionIds.All(farmer.professions.Contains);
-    }
+    ///// <summary>Whether the farmer has all six professions in the specified skill.</summary>
+    ///// <param name="index">A valid skill index.</param>
+    //public static bool HasAllProfessionsInSkill(this Farmer farmer, int index)
+    //{
+    //    return Skill.TryFromValue(index, out var skill) && skill.ProfessionIds.All(farmer.professions.Contains);
+    //}
+
+    ///// <summary>Whether the farmer has all six professions in the specified custom skill.</summary>
+    ///// <param name="skillId">A valid custom skill id.</param>
+    //public static bool HasAllProfessionsInSkill(this Farmer farmer, string skillId)
+    //{
+    //    return ModEntry.CustomSkills.TryGetValue(skillId, out var skill) &&
+    //           skill.ProfessionIds.All(farmer.professions.Contains);
+    //}
 
     /// <summary>Whether the farmer has all available professions (vanilla + modded).</summary>
     public static bool HasAllProfessions(this Farmer farmer)
     {
-        var allProfessions = Enumerable.Range(0, 30).ToList();
-        allProfessions.AddRange(ModEntry.CustomSkills.Values.SelectMany(s => s.ProfessionIds));
-        return allProfessions.All(farmer.professions.Contains);
+        return Enumerable.Range(0, 30).Concat(ModEntry.CustomProfessions.Values.Select(p => p.Id))
+            .All(farmer.professions.Contains);
     }
 
     /// <summary>Get the last 1st-tier profession acquired by the farmer in the specified skill.</summary>
-    /// <param name="skill">The skill index.</param>
-    /// <returns>The last acquired profession, or -1 if none was found.</returns>
-    public static int GetCurrentBranchForSkill(this Farmer farmer, int skill)
+    /// <param name="skill">The <see cref="ISkill"/> to check.</param>
+    /// <returns>The last acquired profession index, or -1 if none was found.</returns>
+    public static int GetCurrentBranchForSkill(this Farmer farmer, ISkill skill)
     {
-        var lastIndex = farmer.professions.ToList().FindLastIndex(p => p == skill * 6 || p == skill * 6 + 1);
-        return lastIndex >= 0
-            ? farmer.professions[lastIndex]
-            : lastIndex;
+        return farmer.professions.Where(pid => pid.IsIn(skill.TierOneProfessionIds)).DefaultIfEmpty(-1).Last();
     }
 
-    /// <summary>Get the last 1st-tier profession acquired by the farmer in the specified skill.</summary>
-    /// <param name="skill">The custom skill instance.</param>
-    /// <returns>The last acquired profession, or -1 if none was found.</returns>
-    public static int GetCurrentBranchForCustomSkill(this Farmer farmer, ICustomSkill skill)
-    {
-        var found = farmer.professions.Reverse()
-            .FirstOrDefault(p => p.IsIn(skill.TierOneProfessionIds));
-        return found == default
-            ? -1
-            : found;
-    }
+    ///// <summary>Get the last 1st-tier profession acquired by the farmer in the specified skill.</summary>
+    ///// <param name="index">A valid skill index.</param>
+    ///// <returns>The last acquired profession index, or -1 if none was found.</returns>
+    //public static int GetCurrentBranchForSkill(this Farmer farmer, int index)
+    //{
+    //    return !Skill.TryFromValue(index, out var skill) ? farmer.GetCurrentBranchForSkill((ISkill) skill) : -1;
+    //}
 
-    /// <summary>Get the last level 2nd-tier profession acquired by the farmer in the specified skill branch.</summary>
-    /// <param name="branch">The branch (level 5 profession) index.</param>
-    /// <returns>The last acquired profession, or -1 if none was found.</returns>
-    public static int GetCurrentProfessionForBranch(this Farmer farmer, int branch)
-    {
-        var lastIndex = farmer.professions.ToList().FindLastIndex(p => branch % 6 == 0
-            ? p == branch + 2 || p == branch + 3
-            : p == branch + 3 || p == branch + 4);
-        return lastIndex >= 0
-            ? farmer.professions[lastIndex]
-            : lastIndex;
-    }
+    ///// <summary>Get the last 1st-tier profession acquired by the farmer in the specified custom skill.</summary>
+    ///// <param name="skillId">A valid custom skill id.</param>
+    ///// <returns>The last acquired profession index, or -1 if none was found.</returns>
+    //public static int GetCurrentBranchForSkill(this Farmer farmer, string skillId)
+    //{
+    //    return ModEntry.CustomSkills.TryGetValue(skillId, out var skill) ? farmer.GetCurrentBranchForSkill(skill) : -1;
+    //}
 
     /// <summary>Get the last level 2nd-tier profession acquired by the farmer in the specified skill branch.</summary>
-    /// <param name="skill">The custom skill instance.</param>
-    /// <param name="branch">The custom branch (level 5 profession) index.</param>
-    /// <returns>The last acquired profession, or -1 if none was found.</returns>
-    public static int GetCurrentProfessionForCustomSkillBranch(this Farmer farmer, ICustomSkill skill, int branch)
+    /// <param name="branch">The branch (level 5 <see cref="IProfession"/>) to check.</param>
+    /// <returns>The last acquired profession index, or -1 if none was found.</returns>
+    public static int GetCurrentProfessionForBranch(this Farmer farmer, IProfession branch)
     {
-        var found = farmer.professions.Reverse().FirstOrDefault(p =>
-            p == skill.ProfessionsByBranch[branch].first || p == skill.ProfessionsByBranch[branch].second);
-        return found == default
-            ? -1
-            : found;
+        return farmer.professions.Where(pid => pid.IsIn(branch.BranchingProfessions)).DefaultIfEmpty(-1).Last();
     }
+
+    ///// <summary>Get the last level 2nd-tier profession acquired by the farmer branching from the specified 1st-tier branch.</summary>
+    ///// <param name="index">A valid branch (level 5 profession) index.</param>
+    ///// <returns>The last acquired profession index, or -1 if none was found.</returns>
+    //public static int GetCurrentProfessionForBranch(this Farmer farmer, int index)
+    //{
+    //    if (Profession.TryFromValue(index, out var profession) && profession.Level == 5)
+    //        return farmer.GetCurrentProfessionForBranch((IProfession) profession);
+
+    //    if (ModEntry.CustomProfessions.TryGetValue(index, out var customProfession) && customProfession.Level == 5)
+    //        return farmer.GetCurrentProfessionForBranch(customProfession);
+
+    //    return -1;
+    //}
 
     /// <summary>Get all the farmer's professions associated with a specific skill.</summary>
-    /// <param name="which">Which skill instance to check.</param>
+    /// <param name="skill">The <see cref="ISkill"/> to check.</param>
     /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the result.</param>
-    public static IEnumerable<int> GetAllProfessionsForSkill(this Farmer farmer, int which,
+    public static IEnumerable<IProfession> GetProfessionsForSkill(this Farmer farmer, ISkill skill,
         bool excludeTierOneProfessions = false)
     {
-        return farmer.professions.Intersect(excludeTierOneProfessions
-            ? Enumerable.Range(which * 6 + 2, 4)
-            : Enumerable.Range(which * 6, 6));
+        var ids = farmer.professions.Intersect(
+            excludeTierOneProfessions
+            ? skill.TierTwoProfessionIds
+            : skill.ProfessionIds
+        );
+
+        return ModEntry.CustomSkills.ContainsKey(skill.StringId)
+            ? ids.Select(id => ModEntry.CustomProfessions[id])
+            : ids.Select(Profession.FromValue);
     }
 
-    /// <summary>Get all the farmer's professions associated with a specific skill.</summary>
-    /// <param name="which">Which custom skill instance to check.</param>
-    /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the result.</param>
-    public static IEnumerable<int> GetAllProfessionsForCustomSkill(this Farmer farmer, ICustomSkill which,
-        bool excludeTierOneProfessions = false)
-    {
-        return farmer.professions.Intersect(excludeTierOneProfessions
-            ? which.TierTwoProfessionIds
-            : which.ProfessionIds);
-    }
+    ///// <summary>Get all the farmer's professions associated with a specific skill.</summary>
+    ///// <param name="index">A valid skill index.</param>
+    ///// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the result.</param>
+    //public static IEnumerable<IProfession> GetProfessionsInSkill(this Farmer farmer, int index,
+    //    bool excludeTierOneProfessions = false)
+    //{
+    //    return Skill.TryFromValue(index, out var skill)
+    //        ? farmer.GetProfessionsInSkill((ISkill) skill, excludeTierOneProfessions)
+    //        : Enumerable.Empty<IProfession>();
+    //}
 
-    /// <summary>Count the number of professions acquired by the player in the specified skill.</summary>
-    /// <param name="which">Which skill instance to check.</param>
-    /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
-    public static int NumberOfProfessionsInSkill(this Farmer farmer, int which,
-        bool excludeTierOneProfessions = false)
-    {
-        return excludeTierOneProfessions
-            ? farmer.professions.Count(p => p >= 0 && p / 6 == which && p % 6 > 1)
-            : farmer.professions.Count(p => p >= 0 && p / 6 == which);
-    }
-
-    /// <summary>Count the number of professions acquired by the player in the specified skill.</summary>
-    /// <param name="which">Which custom skill instance to check.</param>
-    /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
-    public static int NumberOfProfessionsInCustomSkill(this Farmer farmer, ICustomSkill which,
-        bool excludeTierOneProfessions = false)
-    {
-        return excludeTierOneProfessions
-            ? farmer.professions.Count(p => p.IsIn(which.TierTwoProfessionIds))
-            : farmer.professions.Count(p => p.IsIn(which.ProfessionIds));
-    }
+    ///// <summary>Get all the farmer's professions associated with a specific custom skill.</summary>
+    ///// <param name="skillId">A valid custom skill id.</param>
+    ///// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the result.</param>
+    //public static IEnumerable<IProfession> GetProfessionsInSkill(this Farmer farmer, string skillId,
+    //    bool excludeTierOneProfessions = false)
+    //{
+    //    return ModEntry.CustomSkills.TryGetValue(skillId, out var skill)
+    //        ? farmer.GetProfessionsInSkill(skill, excludeTierOneProfessions)
+    //        : Enumerable.Empty<IProfession>();
+    //}
 
     /// <summary>Get the professions which the player is missing in the specified skill.</summary>
-    /// <param name="which">Which skill instance to check.</param>
+    /// <param name="skill">The <see cref="ISkill"/> to check.</param>
     /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
-    public static int[] GetMissingProfessionsInSkill(this Farmer farmer, int which,
+    public static IEnumerable<IProfession> GetMissingProfessionsInSkill(this Farmer farmer, ISkill skill,
         bool excludeTierOneProfessions = false)
     {
         return excludeTierOneProfessions
-            ? farmer.professions.Where(p => p >= 0 && p / 6 == which && p % 6 > 1).ToArray()
-            : farmer.professions.Where(p => p >= 0 && p / 6 == which).ToArray();
+            ? skill.Professions.Where(p => p.Level == 10 && !farmer.professions.Contains(p.Id))
+            : skill.Professions.Where(p => !farmer.professions.Contains(p.Id));
     }
 
-    /// <summary>Get the professions which the player is missing in the specified skill.</summary>
-    /// <param name="which">Which custom skill instance to check.</param>
-    /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
-    public static int[] GetMissingProfessionsInCustomSkill(this Farmer farmer, ICustomSkill which,
-        bool excludeTierOneProfessions = false)
-    {
-        return excludeTierOneProfessions
-            ? which.TierTwoProfessionIds.Except(farmer.professions).ToArray()
-            : which.ProfessionIds.Except(farmer.professions).ToArray();
-    }
+    ///// <summary>Get the professions which the player is missing in the specified skill.</summary>
+    ///// <param name="index">A valid skill index.</param>
+    ///// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
+    //public static IEnumerable<int> GetMissingProfessionsInSkill(this Farmer farmer, int index,
+    //    bool excludeTierOneProfessions = false)
+    //{
+    //    return Skill.TryFromValue(index, out var skill)
+    //        ? farmer.GetMissingProfessionsInSkill((ISkill) skill, excludeTierOneProfessions)
+    //        : Enumerable.Empty<int>();
+    //}
+
+    ///// <summary>Get the professions which the player is missing in the specified custom skill.</summary>
+    ///// <param name="skillId">A valid custom skill index.</param>
+    ///// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
+    //public static IEnumerable<int> GetMissingProfessionsInSkill(this Farmer farmer, string skillId,
+    //    bool excludeTierOneProfessions = false)
+    //{
+    //    return ModEntry.CustomSkills.TryGetValue(skillId, out var skill)
+    //        ? farmer.GetMissingProfessionsInSkill(skill, excludeTierOneProfessions)
+    //        : Enumerable.Empty<int>();
+    //}
 
     /// <summary>Get the last acquired profession by the farmer in the specified subset, or simply the last acquired profession if no subset is specified.</summary>
     /// <param name="subset">An array of profession ids.</param>
     /// <returns>The last acquired profession, or -1 if none was found.</returns>
     public static int GetMostRecentProfession(this Farmer farmer, IEnumerable<int>? subset = null)
     {
-        if (subset is null) return farmer.professions[^1];
-
-        var found = farmer.professions.Reverse()
-            .FirstOrDefault(p => p.IsIn(subset));
-        return found == default
-            ? -1
-            : found;
+        return subset is null
+            ? farmer.professions[^1]
+            : farmer.professions.Where(p => p.IsIn(subset)).DefaultIfEmpty(-1).Last();
     }
 
     /// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
-    /// <param name="skillType">A <see cref="SkillType"/> (0 to 4).</param>
-    public static bool CanResetSkill(this Farmer farmer, SkillType skillType)
+    /// <param name="skill">The <see cref="ISkill"/> to check.</param>
+    public static bool CanResetSkill(this Farmer farmer, ISkill skill)
     {
-        var isSkillLevelTen = farmer.GetUnmodifiedSkillLevel((int) skillType) == 10;
-        var justLeveledUp = farmer.newLevels.Contains(new((int) skillType, 10));
-        var hasAtLeastOneButNotAllProfessionsInSkill =
-            farmer.NumberOfProfessionsInSkill((int) skillType, true) is > 0 and < 4;
-        var alreadyResetThisSkill = ModEntry.PlayerState.SkillsToReset.Contains(skillType);
+        if (skill is Skill vanillaSkill && vanillaSkill == Skill.Luck && ModEntry.LuckSkillApi is null) return false;
 
-        return isSkillLevelTen && !justLeveledUp && hasAtLeastOneButNotAllProfessionsInSkill &&
-               !alreadyResetThisSkill;
-    }
-
-    /// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
-    /// <param name="skill">The custom skill instance.</param>
-    public static bool CanResetCustomSkill(this Farmer farmer, ICustomSkill skill)
-    {
         var isSkillLevelTen = skill.CurrentLevel == 10;
-        var justLeveledUp = skill.NewLevels.Contains(10);
-        var hasAtLeastOneButNotAllProfessionsInSkill =
-            farmer.professions.Intersect(skill.TierTwoProfessionIds).Count() is > 0 and < 4;
-        var alreadyResetThisSkill = ModEntry.PlayerState.CustomSkillsToReset.Contains(skill);
+        if (!isSkillLevelTen)
+        {
+            Log.D($"{skill.StringId} skill cannot be reset because it's level is not 10.");
+            return false;
+        }
 
-        return isSkillLevelTen && !justLeveledUp && hasAtLeastOneButNotAllProfessionsInSkill &&
-               !alreadyResetThisSkill;
+        var justLeveledUp = skill.NewLevels.Contains(10);
+        if (justLeveledUp)
+        {
+            Log.D($"{skill.StringId} cannot be reset because {farmer.Name} has not seen the level-up menu.");
+            return false;
+        }
+
+        var hasAtLeastOneButNotAllProfessionsInSkill =
+            farmer.GetProfessionsForSkill(skill, true).Count() is > 0 and < 4;
+        if (!hasAtLeastOneButNotAllProfessionsInSkill)
+        {
+            Log.D(
+                $"{skill.StringId} cannot be reset because {farmer.Name} either already has all professions in the skill, or none at all.");
+            return false;
+        }
+
+        var alreadyResetThisSkill = ModEntry.PlayerState.SkillsToReset.Contains(skill);
+        if (alreadyResetThisSkill)
+        {
+            Log.D($"{skill.StringId} has already been marked for reset tonight.");
+            return false;
+        }
+
+        return true;
     }
+
+    ///// <summary>Whether the farmer can reset the specified skill.</summary>
+    ///// <param name="index">A valid skill index.</param>
+    //public static bool CanResetSkill(this Farmer farmer, int index)
+    //{
+    //    return Skill.TryFromValue(index, out var skill) && farmer.CanResetSkill((ISkill) skill);
+    //}
+
+    ///// <summary>Whether the farmer can reset the specified custom skill.</summary>
+    ///// <param name="skillId">A valid custom skill id.</param>
+    //public static bool CanResetSkill(this Farmer farmer, string skillId)
+    //{
+    //    return ModEntry.CustomSkills.TryGetValue(skillId, out var skill) && farmer.CanResetSkill(skill);
+    //}
 
     /// <summary>Whether the farmer can reset any skill for prestige.</summary>
     public static bool CanResetAnySkill(this Farmer farmer)
     {
-        return Enum.GetValues<SkillType>().Any(farmer.CanResetSkill) ||
-               ModEntry.CustomSkills.Values.Any(farmer.CanResetCustomSkill);
+        return Skill.List.Any(farmer.CanResetSkill) || ModEntry.CustomSkills.Values.Any(farmer.CanResetSkill);
     }
 
     /// <summary>Get the cost of resetting the specified skill.</summary>
-    /// <param name="skillType">The desired skill.</param>
-    public static int GetResetCost(this Farmer farmer, SkillType skillType)
+    /// <param name="skill">The <see cref="ISkill"/> to check.</param>
+    public static int GetResetCost(this Farmer farmer, ISkill skill)
     {
         var multiplier = ModEntry.Config.SkillResetCostMultiplier;
         if (multiplier <= 0f) return 0;
 
-        var count = farmer.NumberOfProfessionsInSkill((int) skillType, true);
+        var count = farmer.GetProfessionsForSkill(skill, true).Count();
         var baseCost = count switch
         {
             1 => 10000,
@@ -277,114 +308,202 @@ public static class FarmerExtensions
         return (int) (baseCost * multiplier);
     }
 
-    /// <summary>Get the cost of resetting the specified skill.</summary>
-    /// <param name="skill">The custom skill instance.</param>
-    public static int GetResetCost(this Farmer farmer, ICustomSkill skill)
-    {
-        var multiplier = ModEntry.Config.SkillResetCostMultiplier;
-        if (multiplier <= 0f) return 0;
+    ///// <summary>Get the cost of resetting the specified skill.</summary>
+    ///// <param name="index">A valid skill index.</param>
+    //public static int GetResetCost(this Farmer farmer, int index)
+    //{
+    //    return Skill.TryFromValue(index, out var skill) ? farmer.GetResetCost((ISkill) skill) : int.MaxValue;
+    //}
 
-        var count = farmer.NumberOfProfessionsInCustomSkill(skill);
-        var baseCost = count switch
-        {
-            1 => 10000,
-            2 => 50000,
-            3 => 100000,
-            _ => 0,
-        };
+    ///// <summary>Get the cost of resetting the specified skill.</summary>
+    ///// <param name="skillId">A valid custom skill index.</param>
+    //public static int GetResetCost(this Farmer farmer, string skillId)
+    //{
+    //    return ModEntry.CustomSkills.TryGetValue(skillId, out var skill) ? farmer.GetResetCost(skill) : int.MaxValue;
+    //}
 
-        return (int) (baseCost * multiplier);
-    }
-
-    /// <summary>Resets a specific skill level, removing all associated recipes and bonuses but maintaining profession perks.</summary>
-    /// <param name="skillType">The skill to reset.</param>
-    public static void ResetSkill(this Farmer farmer, SkillType skillType)
+    /// <summary>Reset the skill's level, optionally removing associated recipes, but maintaining acquired profession.</summary>
+    /// <param name="skill">The <see cref="Skill"/> to reset.</param>
+    public static void ResetSkill(this Farmer farmer, Skill skill)
     {
         // reset skill level
-        switch (skillType)
+        switch (skill)
         {
-            case SkillType.Farming:
+            case Farmer.farmingSkill:
                 farmer.farmingLevel.Value = 0;
                 break;
-            case SkillType.Fishing:
+            case Farmer.fishingSkill:
                 farmer.fishingLevel.Value = 0;
                 break;
-            case SkillType.Foraging:
+            case Farmer.foragingSkill:
                 farmer.foragingLevel.Value = 0;
                 break;
-            case SkillType.Mining:
+            case Farmer.miningSkill:
                 farmer.miningLevel.Value = 0;
                 break;
-            case SkillType.Combat:
+            case Farmer.combatSkill:
                 farmer.combatLevel.Value = 0;
                 break;
-            case SkillType.Luck:
+            case Farmer.luckSkill:
                 farmer.luckLevel.Value = 0;
                 break;
             default:
                 return;
         }
 
-        var toRemove = farmer.newLevels.Where(p => p.X == (int) skillType);
+        var toRemove = farmer.newLevels.Where(p => p.X == skill);
         foreach (var item in toRemove) farmer.newLevels.Remove(item);
 
         // reset skill experience
-        farmer.experiencePoints[(int) skillType] = 0;
+        farmer.experiencePoints[skill] = 0;
 
-        if (ModEntry.Config.ForgetRecipesOnSkillReset)
-            farmer.ForgetRecipesForSkill(skillType, true);
+        if (ModEntry.Config.ForgetRecipesOnSkillReset && skill < Skill.Luck)
+            farmer.ForgetRecipesForSkill(skill, true);
 
         // revalidate health
-        if (skillType == SkillType.Combat) LevelUpMenu.RevalidateHealth(farmer);
+        if (skill == Skill.Combat) LevelUpMenu.RevalidateHealth(farmer);
+
+        Log.D($"Farmer {farmer.Name}'s {skill.DisplayName} skill has been reset.");
     }
 
     /// <summary>Resets a specific skill level, removing all associated recipes and bonuses but maintaining profession perks.</summary>
-    /// <param name="skill">The custom skill to reset.</param>
-    public static void ResetCustomSkill(this Farmer farmer, ICustomSkill skill)
+    /// <param name="skill">The <see cref="CustomSkill"/> to reset.</param>
+    public static void ResetCustomSkill(this Farmer farmer, CustomSkill skill)
     {
         ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(farmer, skill.StringId, -skill.CurrentExp);
-
         if (ModEntry.Config.ForgetRecipesOnSkillReset && skill.StringId == "blueberry.LoveOfCooking.CookingSkill")
             farmer.ForgetRecipesForLoveOfCookingSkill(true);
+
+        Log.D($"Farmer {farmer.Name}'s {skill.DisplayName} skill has been reset.");
     }
 
-    /// <summary>Set the level of a specific skill for this farmer.</summary>
-    /// <param name="skillType">The desired skill.</param>
+    /// <summary>Set the level of the specified skill for this farmer.</summary>
+    /// <param name="skill">The <see cref="Skill"/> whose level should be set.</param>
     /// <param name="newLevel">The new level.</param>
-    public static void SetSkillLevel(this Farmer farmer, SkillType skillType, int newLevel)
+    /// <param name="setExperience">Whether to set the skill's experience to the corresponding value.</param>
+    /// <remarks>Will not change professions or recipes.</remarks>
+    public static void SetSkillLevel(this Farmer farmer, Skill skill, int newLevel, bool setExperience = false)
     {
-        // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
-        switch (skillType)
+        var oldLevel = 0;
+        switch (skill)
         {
-            case SkillType.Farming:
+            case Farmer.farmingSkill:
+                oldLevel = farmer.farmingLevel.Value;
                 farmer.farmingLevel.Value = newLevel;
                 break;
-            case SkillType.Fishing:
+            case Farmer.fishingSkill:
+                oldLevel = farmer.fishingLevel.Value;
                 farmer.fishingLevel.Value = newLevel;
                 break;
-            case SkillType.Foraging:
+            case Farmer.foragingSkill:
+                oldLevel = farmer.foragingLevel.Value;
                 farmer.foragingLevel.Value = newLevel;
                 break;
-            case SkillType.Mining:
+            case Farmer.miningSkill:
+                oldLevel = farmer.miningLevel.Value;
                 farmer.miningLevel.Value = newLevel;
                 break;
-            case SkillType.Combat:
+            case Farmer.combatSkill:
+                oldLevel = farmer.combatLevel.Value;
                 farmer.combatLevel.Value = newLevel;
                 break;
-            case SkillType.Luck:
+            case Farmer.luckSkill:
+                oldLevel = farmer.luckLevel.Value;
                 farmer.luckLevel.Value = newLevel;
                 break;
-            default:
-                return;
+        }
+
+        while (oldLevel <= newLevel)
+            farmer.newLevels.Add(new(skill, oldLevel++));
+
+        if (setExperience)
+            farmer.experiencePoints[skill] = Experience.ExperienceByLevel[newLevel];
+
+        if (skill == Skill.Combat) LevelUpMenu.RevalidateHealth(farmer);
+    }
+
+    /// <summary>Set the level of the specified custom skill for this farmer.</summary>
+    /// <param name="skill">The <see cref="CustomSkill"/> whose level should be set.</param>
+    /// <param name="newLevel">The new level.</param>
+    /// <remarks>Will not change professions or recipes.</remarks>
+    public static void SetCustomSkillLevel(this Farmer farmer, CustomSkill skill, int newLevel)
+    {
+        newLevel = Math.Min(newLevel, 10);
+        var diff = Experience.ExperienceByLevel[newLevel] - skill.CurrentExp;
+        ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(farmer, skill.StringId, diff);
+    }
+
+    /// <summary>Check if the farmer's skill levels match what is expected from their respective experience points, and if not fix the current level.</summary>
+    public static void RevalidateLevels(this Farmer farmer)
+    {
+        foreach (var skill in Skill.List)
+        {
+            if (skill == Skill.Luck && ModEntry.LuckSkillApi is null)
+            {
+                Log.W(
+                    $"Local player {Game1.player.Name} has gained Luck experience, but Luck Skill mod is not installed. The Luck skill will be reset.");
+                Game1.player.ResetSkill(skill);
+                continue;
+            }
+
+            var canGainPrestigeLevels = ModEntry.Config.EnablePrestige && farmer.HasAllProfessionsInSkill(skill);
+            switch (skill.CurrentLevel)
+            {
+                case >= 10 when !canGainPrestigeLevels:
+                    {
+                        if (skill.CurrentLevel > 10) Game1.player.SetSkillLevel(skill, 10, true);
+                        else if (skill.CurrentExp > Experience.VANILLA_CAP_I)
+                            Game1.player.experiencePoints[skill] = Experience.VANILLA_CAP_I;
+                        break;
+                    }
+                case >= 20 when canGainPrestigeLevels:
+                    {
+                        if (skill.CurrentLevel > 20) Game1.player.SetSkillLevel(skill, 20, true);
+                        else if (skill.CurrentExp > Experience.PrestigeCap)
+                            Game1.player.experiencePoints[skill] = Experience.PrestigeCap;
+                        break;
+                    }
+                default:
+                    {
+                        var expectedLevel = 0;
+                        var level = 1;
+                        while (level <= 10 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
+
+                        if (canGainPrestigeLevels && skill.CurrentExp - Experience.VANILLA_CAP_I > 0)
+                            while (level <= 20 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
+
+                        if (skill.CurrentLevel != expectedLevel)
+                        {
+                            if (skill.CurrentLevel < expectedLevel)
+                                for (var levelup = skill.CurrentLevel + 1; levelup <= expectedLevel; ++levelup)
+                                {
+                                    var point = new Point(skill, levelup);
+                                    if (!Game1.player.newLevels.Contains(point))
+                                        Game1.player.newLevels.Add(point);
+                                }
+
+                            farmer.SetSkillLevel(skill, expectedLevel);
+                        }
+
+                        farmer.experiencePoints[skill] = skill.CurrentLevel switch
+                        {
+                            >= 10 when !canGainPrestigeLevels => Experience.VANILLA_CAP_I,
+                            >= 20 when canGainPrestigeLevels => Experience.PrestigeCap,
+                            _ => Game1.player.experiencePoints[skill]
+                        };
+
+                        break;
+                    }
+            }
         }
     }
 
     /// <summary>Remove all recipes associated with the specified skill from the farmer.</summary>
     /// <param name="skillType">The desired skill.</param>
     /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
-    public static void ForgetRecipesForSkill(this Farmer farmer, SkillType skillType, bool addToRecoveryDict = false)
+    public static void ForgetRecipesForSkill(this Farmer farmer, Skill skill, bool addToRecoveryDict = false)
     {
-        var forgottenRecipesDict = farmer.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
+        var forgottenRecipesDict = farmer.ReadData(ModData.ForgottenRecipesDict).ParseDictionary<string, int>();
 
         // remove associated crafting recipes
         var craftingRecipes =
@@ -392,7 +511,7 @@ public static class FarmerExtensions
                 key => farmer.craftingRecipes[key]);
         foreach (var (key, value) in CraftingRecipe.craftingRecipes)
         {
-            if (!value.Split('/')[4].Contains(skillType.ToString()) || !craftingRecipes.ContainsKey(key)) continue;
+            if (!value.Split('/')[4].Contains(skill.StringId) || !craftingRecipes.ContainsKey(key)) continue;
 
             if (addToRecoveryDict)
                 if (!forgottenRecipesDict.TryAdd(key, craftingRecipes[key]))
@@ -407,7 +526,7 @@ public static class FarmerExtensions
                 key => farmer.cookingRecipes[key]);
         foreach (var (key, value) in CraftingRecipe.cookingRecipes)
         {
-            if (!value.Split('/')[3].Contains(skillType.ToString()) || !cookingRecipes.ContainsKey(key)) continue;
+            if (!value.Split('/')[3].Contains(skill.StringId) || !cookingRecipes.ContainsKey(key)) continue;
 
             if (addToRecoveryDict)
             {
@@ -419,7 +538,7 @@ public static class FarmerExtensions
         }
 
         if (addToRecoveryDict)
-            farmer.WriteData(DataField.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
+            farmer.WriteData(ModData.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
     }
 
     /// <summary>Remove all recipes associated with the specified skill from the farmer.</summary>
@@ -429,7 +548,7 @@ public static class FarmerExtensions
     {
         if (ModEntry.CookingSkillApi is null) return;
 
-        var forgottenRecipesDict = farmer.ReadData(DataField.ForgottenRecipesDict).ParseDictionary<string, int>();
+        var forgottenRecipesDict = farmer.ReadData(ModData.ForgottenRecipesDict).ParseDictionary<string, int>();
 
         // remove associated cooking recipes
         var cookingRecipes = ModEntry.CookingSkillApi.GetAllLevelUpRecipes().Values.SelectMany(r => r).ToList();
@@ -444,7 +563,7 @@ public static class FarmerExtensions
         }
 
         if (addToRecoveryDict)
-            farmer.WriteData(DataField.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
+            farmer.WriteData(ModData.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
     }
 
     /// <summary>Get all available Ultimate's not currently registered.</summary>
@@ -509,7 +628,7 @@ public static class FarmerExtensions
                 bonus += 0.01f;
         }
 
-        return Math.Min(bonus, ModEntry.Config.AnglerMultiplierCeiling);
+        return Math.Min(bonus, ModEntry.Config.AnglerMultiplierCap);
     }
 
     /// <summary>The amount of "catching" bar to compensate for Aquarist.</summary>
@@ -526,13 +645,13 @@ public static class FarmerExtensions
     /// <summary>The price bonus applied to all items sold by Conservationist.</summary>
     public static float GetConservationistPriceMultiplier(this Farmer farmer)
     {
-        return 1f + farmer.ReadDataAs<float>(DataField.ConservationistActiveTaxBonusPct);
+        return 1f + farmer.ReadDataAs<float>(ModData.ConservationistActiveTaxBonusPct);
     }
 
     /// <summary>The quality of items foraged by Ecologist.</summary>
     public static int GetEcologistForageQuality(this Farmer farmer)
     {
-        var itemsForaged = farmer.ReadDataAs<uint>(DataField.EcologistItemsForaged);
+        var itemsForaged = farmer.ReadDataAs<uint>(ModData.EcologistItemsForaged);
         return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
             ? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -543,7 +662,7 @@ public static class FarmerExtensions
     /// <summary>The quality of minerals collected by Gemologist.</summary>
     public static int GetGemologistMineralQuality(this Farmer farmer)
     {
-        var mineralsCollected = farmer.ReadDataAs<uint>(DataField.GemologistMineralsCollected);
+        var mineralsCollected = farmer.ReadDataAs<uint>(ModData.GemologistMineralsCollected);
         return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
             ? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -563,7 +682,7 @@ public static class FarmerExtensions
     /// <summary>Read from a field in the <see cref="ModDataDictionary" /> as <see cref="string"/>.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadData(this Farmer farmer, DataField field, string defaultValue = "")
+    public static string ReadData(this Farmer farmer, ModData field, string defaultValue = "")
     {
         return Game1.MasterPlayer.modData.Read($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -582,7 +701,7 @@ public static class FarmerExtensions
     /// <summary>Read from a field in the <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T? ReadDataAs<T>(this Farmer farmer, DataField field, T? defaultValue = default)
+    public static T? ReadDataAs<T>(this Farmer farmer, ModData field, T? defaultValue = default)
     {
         return Game1.MasterPlayer.modData.ReadAs($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -601,7 +720,7 @@ public static class FarmerExtensions
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteData(this Farmer farmer, DataField field, string? value)
+    public static void WriteData(this Farmer farmer, ModData field, string? value)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -636,7 +755,7 @@ public static class FarmerExtensions
     /// <summary>Write to a field in the <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataIfNotExists(this Farmer farmer, DataField field, string? value)
+    public static bool WriteDataIfNotExists(this Farmer farmer, ModData field, string? value)
     {
         if (Game1.MasterPlayer.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}"))
         {
@@ -655,7 +774,7 @@ public static class FarmerExtensions
     /// <param name="field">The field to write to.</param>
     /// <param name="modId">The unique id of the external mod.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataExtIfNotExists(this Farmer farmer, DataField field, string modId, string? value)
+    public static bool WriteDataExtIfNotExists(this Farmer farmer, ModData field, string modId, string? value)
     {
         if (Game1.MasterPlayer.modData.ContainsKey($"{modId}/{farmer.UniqueMultiplayerID}/{field}"))
         {
@@ -673,7 +792,7 @@ public static class FarmerExtensions
     /// <summary>Append a string to an existing string field in the <see cref="ModDataDictionary"/>, or initialize to the given value.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="value">Value to append.</param>
-    public static void AppendData(this Farmer farmer, DataField field, string value, string separator = ",")
+    public static void AppendData(this Farmer farmer, ModData field, string value, string separator = ",")
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -720,7 +839,7 @@ public static class FarmerExtensions
     /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    public static void IncrementData<T>(this Farmer farmer, DataField field, T amount)
+    public static void IncrementData<T>(this Farmer farmer, ModData field, T amount)
     {
         if (amount == null) throw new ArgumentNullException(nameof(amount));
 
@@ -754,7 +873,7 @@ public static class FarmerExtensions
 
     /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    public static void IncrementData<T>(this Farmer farmer, DataField field)
+    public static void IncrementData<T>(this Farmer farmer, ModData field)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {

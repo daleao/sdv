@@ -9,7 +9,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class DebugUpdateTickedEvent : UpdateTickedEvent
+internal sealed class DebugUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)

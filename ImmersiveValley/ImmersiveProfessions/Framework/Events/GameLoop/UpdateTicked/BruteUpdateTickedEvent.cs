@@ -12,11 +12,11 @@ using Framework.Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class BruteUpdateTickedEvent : UpdateTickedEvent
+internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
 {
     private const int SHEET_INDEX_I = 36;
 
-    private readonly int _buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Profession.Brute;
+    private readonly int _buffId = (ModEntry.Manifest.UniqueID + Profession.Brute).GetHashCode();
     
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
@@ -34,12 +34,12 @@ internal class BruteUpdateTickedEvent : UpdateTickedEvent
 
         if (Game1.player.hasBuff(_buffId)) return;
 
-        var magnitude = (ModEntry.PlayerState.BruteRageCounter * Frenzy.PCT_INCREMENT_PER_RAGE_F).ToString("P");
+        var magnitude = (ModEntry.PlayerState.BruteRageCounter * UndyingFrenzy.PCT_INCREMENT_PER_RAGE_F).ToString("P");
         Game1.buffsDisplay.addOtherBuff(
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
                 "Brute",
-                ModEntry.i18n.Get("brute.name." + (Game1.player.IsMale ? "male" : "female")) + " " +
+                ModEntry.i18n.Get("brute.name" + (Game1.player.IsMale ? ".male" : ".female")) + " " +
                 ModEntry.i18n.Get("brute.buff"))
             {
                 which = _buffId,

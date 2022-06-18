@@ -11,7 +11,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ScavengerHuntUpdateTickedEvent : UpdateTickedEvent
+internal sealed class ScavengerHuntUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)

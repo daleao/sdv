@@ -15,7 +15,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GeodeCrusherMachineSetInputPatch : BasePatch
+internal sealed class GeodeCrusherMachineSetInputPatch : BasePatch
 {
     private static MethodInfo _GetMachine;
 
@@ -51,7 +51,7 @@ internal class GeodeCrusherMachineSetInputPatch : BasePatch
         machine.heldObject.Value.Quality = owner.GetGemologistMineralQuality();
         if (!ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        owner.IncrementData<uint>(DataField.GemologistMineralsCollected);
+        owner.IncrementData<uint>(ModData.GemologistMineralsCollected);
     }
 
     #endregion harmony patches

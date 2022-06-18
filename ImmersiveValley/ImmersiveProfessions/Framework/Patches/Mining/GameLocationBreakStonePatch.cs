@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GameLocationBreakStonePatch : BasePatch
+internal sealed class GameLocationBreakStonePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationBreakStonePatch()
@@ -40,7 +40,7 @@ internal class GameLocationBreakStonePatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Miner)
+                .FindProfessionCheck(Profession.Miner.Value)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Stloc_1)
                 )
@@ -48,7 +48,7 @@ internal class GameLocationBreakStonePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Miner + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Miner.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_1),

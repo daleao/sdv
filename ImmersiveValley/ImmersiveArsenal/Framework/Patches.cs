@@ -32,7 +32,7 @@ internal static class Patches
     #region harmony patches
 
     [HarmonyPatch(typeof(BaseEnchantment), nameof(BaseEnchantment.GetAvailableEnchantments))]
-    internal class BaseEnchantmentGetAvailableEnchantmentsPatch
+    internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch
     {
         /// <summary>Allow applying magic/sunburst enchant.</summary>
         [HarmonyTranspiler]
@@ -51,7 +51,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(JadeEnchantment), "_ApplyTo")]
-    internal class JadeEnchantmentApplyToPatch
+    internal sealed class JadeEnchantmentApplyToPatch
     {
         /// <summary>Rebalances Jade enchant.</summary>
         [HarmonyPostfix]
@@ -64,7 +64,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(JadeEnchantment), "_UnapplyTo")]
-    internal class JadeEnchantmentUnpplyToPatch
+    internal sealed class JadeEnchantmentUnpplyToPatch
     {
         /// <summary>Rebalances Jade enchant.</summary>
         [HarmonyPostfix]
@@ -77,7 +77,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(TopazEnchantment), "_ApplyTo")]
-    internal class TopazEnchantmentApplyToPatch
+    internal sealed class TopazEnchantmentApplyToPatch
     {
         /// <summary>Rebalances Topaz enchant.</summary>
         [HarmonyPostfix]
@@ -90,7 +90,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(TopazEnchantment), "_UnapplyTo")]
-    internal class TopazEnchantmentUnpplyToPatch
+    internal sealed class TopazEnchantmentUnpplyToPatch
     {
         /// <summary>Rebalances Topaz enchant.</summary>
         [HarmonyPostfix]
@@ -106,7 +106,7 @@ internal static class Patches
         typeof(float), typeof(float), typeof(float), typeof(Vector2), typeof(string), typeof(string), typeof(bool),
         typeof(bool), typeof(GameLocation), typeof(Character), typeof(bool),
         typeof(BasicProjectile.onCollisionBehavior))]
-    internal class BasicProjectileCtorPatch
+    internal sealed class BasicProjectileCtorPatch
     {
         /// <summary>Removes slingshot grace period.</summary>
         [HarmonyPostfix]
@@ -118,7 +118,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Farmer), nameof(Farmer.takeDamage))]
-    internal class FarmerTakeDamagePatch
+    internal sealed class FarmerTakeDamagePatch
     {
         /// <summary>Removes damage mitigation soft cap.</summary>
         [HarmonyTranspiler]
@@ -169,7 +169,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.performTouchAction))]
-    internal class GameLocationPerformTouchActionPatch
+    internal sealed class GameLocationPerformTouchActionPatch
     {
         /// <summary>Apply new galaxy sword conditions.</summary>
         [HarmonyTranspiler]
@@ -230,7 +230,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Game1), nameof(Game1.applySaveFix))]
-    internal class Game1ApplySaveFixPatch
+    internal sealed class Game1ApplySaveFixPatch
     {
         /// <summary>Replace with custom Qi Challenge.</summary>
         [HarmonyTranspiler]
@@ -285,7 +285,7 @@ internal static class Patches
     }
     
     [HarmonyPatch(typeof(MineShaft), "addLevelChests")]
-    internal class MineShaftAddLevelChestsPatch
+    internal sealed class MineShaftAddLevelChestsPatch
     {
         /// <summary>Add custom Qi Challenge reward.</summary>
         [HarmonyPostfix]
@@ -304,7 +304,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(MineShaft), nameof(MineShaft.CheckForQiChallengeCompletion))]
-    internal class MineShaftCheckForQiChallengeCompletionPatch
+    internal sealed class MineShaftCheckForQiChallengeCompletionPatch
     {
         /// <summary>Add custom quest.</summary>
         [HarmonyPostfix]
@@ -329,7 +329,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(MineShaft), nameof(MineShaft.loadLevel))]
-    internal class MineShaftLoadLevelPatch
+    internal sealed class MineShaftLoadLevelPatch
     {
         /// <summary>Create Qi Challenge reward level.</summary>
         [HarmonyPostfix]
@@ -348,7 +348,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Monster), nameof(Monster.parried))]
-    internal class MonsterParriedPatch
+    internal sealed class MonsterParriedPatch
     {
         /// <summary>Adds stamina cost to sword parry.</summary>
         [HarmonyPostfix]
@@ -360,7 +360,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Event), MethodType.Constructor, typeof(string), typeof(int), typeof(Farmer))]
-    internal class EventCtorPatch
+    internal sealed class EventCtorPatch
     {
         /// <summary>Immersively adjust Marlon's intro event.</summary>
         [HarmonyPrefix]
@@ -386,7 +386,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Event), nameof(Event.command_awardFestivalPrize))]
-    internal class EventCommandAwardFestivalPrizePatch
+    internal sealed class EventCommandAwardFestivalPrizePatch
     {
         /// <summary>Replaces rusty sword with wooden blade in Marlon's intro event.</summary>
         [HarmonyTranspiler]
@@ -428,7 +428,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Event), nameof(Event.command_itemAboveHead))]
-    internal class EventCommandItemAboveHeadPatch
+    internal sealed class EventCommandItemAboveHeadPatch
     {
         /// <summary>Replaces rusty sword with wooden blade in Marlon's intro event.</summary>
         [HarmonyTranspiler]
@@ -470,7 +470,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Event), nameof(Event.skipEvent))]
-    internal class EventSkipEventPatch
+    internal sealed class EventSkipEventPatch
     {
         /// <summary>Replaces rusty sword with wooden blade in Marlon's intro event.</summary>
         [HarmonyTranspiler]

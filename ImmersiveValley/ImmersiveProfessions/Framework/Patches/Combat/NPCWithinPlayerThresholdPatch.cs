@@ -15,7 +15,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class NPCWithinPlayerThresholdPatch : BasePatch
+internal sealed class NPCWithinPlayerThresholdPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal NPCWithinPlayerThresholdPatch()

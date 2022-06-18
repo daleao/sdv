@@ -23,7 +23,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class Game1DrawHUDPatch : BasePatch
+internal sealed class Game1DrawHUDPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal Game1DrawHUDPatch()
@@ -83,7 +83,7 @@ internal class Game1DrawHUDPatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S)
                 )
-                .SetOperand((int) Profession.Prospector) // change to prospector check
+                .SetOperand(Profession.Prospector.Value) // change to prospector check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse)
                 )
@@ -154,7 +154,7 @@ internal class Game1DrawHUDPatch : BasePatch
                 )
                 .StripLabels(out var labels)
                 .AddLabels(drawPanningTracker)
-                .InsertProfessionCheck((int) Profession.Prospector, labels)
+                .InsertProfessionCheck(Profession.Prospector.Value, labels)
                 .Insert(
                     new CodeInstruction(OpCodes.Brtrue_S, drawPanningTracker),
                     new CodeInstruction(OpCodes.Ret)

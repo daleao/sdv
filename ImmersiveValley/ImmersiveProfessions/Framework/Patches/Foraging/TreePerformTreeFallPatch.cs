@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class TreePerformTreeFallPatch : BasePatch
+internal sealed class TreePerformTreeFallPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal TreePerformTreeFallPatch()
@@ -45,11 +45,11 @@ internal class TreePerformTreeFallPatch : BasePatch
             var isPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindProfessionCheck((int) Profession.Lumberjack, true)
+                .FindProfessionCheck(Profession.Lumberjack.Value, true)
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, (int) Profession.Lumberjack + 100),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
                     new CodeInstruction(OpCodes.Brtrue_S, isPrestiged)

@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GameLocationOnStoneDestroyedPatch : BasePatch
+internal sealed class GameLocationOnStoneDestroyedPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationOnStoneDestroyedPatch()

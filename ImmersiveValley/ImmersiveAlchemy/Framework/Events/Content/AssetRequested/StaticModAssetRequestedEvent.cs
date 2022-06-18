@@ -9,7 +9,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal class StaticModAssetRequestedEvent : AssetRequestedEvent
+internal sealed class StaticModAssetRequestedEvent : AssetRequestedEvent
 {
     /// <summary>Construct an instance.</summary>
     internal StaticModAssetRequestedEvent()

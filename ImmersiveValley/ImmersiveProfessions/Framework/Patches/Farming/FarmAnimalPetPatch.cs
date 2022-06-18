@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FarmAnimalPetPatch : BasePatch
+internal sealed class FarmAnimalPetPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmAnimalPetPatch()
@@ -81,7 +81,7 @@ internal class FarmAnimalPetPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Rancher) // go back and find the inserted rancher check
+                .FindProfessionCheck(Profession.Rancher.Value) // go back and find the inserted rancher check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S, 15),
                     new CodeInstruction(OpCodes.Add)
@@ -91,7 +91,7 @@ internal class FarmAnimalPetPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Rancher + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Rancher.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 15),

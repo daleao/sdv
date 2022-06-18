@@ -13,7 +13,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class SlingshotCanAutoFirePatch : BasePatch
+internal sealed class SlingshotCanAutoFirePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal SlingshotCanAutoFirePatch()

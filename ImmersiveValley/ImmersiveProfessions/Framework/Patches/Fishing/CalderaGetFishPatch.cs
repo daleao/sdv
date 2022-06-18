@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CaderaGetFishPatch : BasePatch
+internal sealed class CaderaGetFishPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal CaderaGetFishPatch()
@@ -45,7 +45,7 @@ internal class CaderaGetFishPatch : BasePatch
                 )
                 .Advance()
                 .AddLabels(isNotFisher)
-                .InsertProfessionCheck((int) Profession.Fisher)
+                .InsertProfessionCheck(Profession.Fisher.Value)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotFisher),
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0),

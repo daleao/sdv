@@ -14,7 +14,7 @@ using Common.Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class StaticSavingEvent : SavingEvent
+internal sealed class StaticSavingEvent : SavingEvent
 {
     /// <summary>Construct an instance.</summary>
     internal StaticSavingEvent()

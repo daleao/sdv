@@ -46,8 +46,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\ImmersiveProfessions\IImmersiveProfessionsAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\LoveOfCooking\ICookingSkillAPI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\LuckSkill\ExtendedLuckSkillAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\LuckSkill\ILuckSkillAPI.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\SpaceCore\ICustomSkill.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\SpaceCore\ExtendedSpaceCoreAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\SpaceCore\ISpaceCoreAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\TehsFishingOverhaul\ISimplifiedFishingAPI.cs" />
   </ItemGroup>

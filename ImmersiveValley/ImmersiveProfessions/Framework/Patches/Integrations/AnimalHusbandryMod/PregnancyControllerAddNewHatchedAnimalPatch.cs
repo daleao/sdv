@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class PregnancyControllerAddNewHatchedAnimalPatch : BasePatch
+internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal PregnancyControllerAddNewHatchedAnimalPatch()

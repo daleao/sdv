@@ -14,7 +14,7 @@ using Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class StaticModAssetRequestedEvent : AssetRequestedEvent
+internal sealed class StaticModAssetRequestedEvent : AssetRequestedEvent
 {
     /// <summary>Construct an instance.</summary>
     internal StaticModAssetRequestedEvent()
@@ -47,7 +47,7 @@ internal class StaticModAssetRequestedEvent : AssetRequestedEvent
         }
         else if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/PrestigeProgression"))
         {
-            e.LoadFromModFile<Texture2D>($"assets/sprites/{ModEntry.Config.Progression}.png",
+            e.LoadFromModFile<Texture2D>($"assets/sprites/{ModEntry.Config.PrestigeProgressionStyle}.png",
                 AssetLoadPriority.Medium);
         }
         else if (e.NameWithoutLocale.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/MaxFishSizeIcon"))

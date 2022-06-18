@@ -11,7 +11,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class UltimateActiveUpdateTickedEvent : UpdateTickedEvent
+internal sealed class UltimateActiveUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)

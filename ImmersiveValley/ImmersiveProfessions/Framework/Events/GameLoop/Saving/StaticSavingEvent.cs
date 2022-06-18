@@ -15,7 +15,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class StaticSavingEvent : SavingEvent
+internal sealed class StaticSavingEvent : SavingEvent
 {
     /// <summary>Construct an instance.</summary>
     internal StaticSavingEvent()
@@ -61,17 +61,15 @@ internal class StaticSavingEvent : SavingEvent
                     continue;
                 }
 
-                if (!Enum.TryParse<DataField>(split[2], out var field))
+                if (!Enum.TryParse<ModData>(split[2], out var field))
                 {
                     data.Remove(key);
                     ++count;
                     continue;
                 }
 
-                if (field >= DataField.ForgottenRecipesDict) continue;
-
-                var profession = Enum.Parse<Profession>(field.ToString().SplitCamelCase()[0]);
-                if (Game1.player.HasProfession(profession)) continue;
+                if (!Profession.TryFromName(field.ToString().SplitCamelCase()[0], out var profession) ||
+                    Game1.player.HasProfession(profession)) continue;
 
                 data.Remove(key);
                 ++count;

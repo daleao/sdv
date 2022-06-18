@@ -14,7 +14,7 @@ using Common.Extensions.Xna;
 #endregion using directives
 
 [UsedImplicitly]
-internal class DebugRenderedWorldEvent : RenderedWorldEvent
+internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
 {
     private readonly Texture2D _pixel;
 

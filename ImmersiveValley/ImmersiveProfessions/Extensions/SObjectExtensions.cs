@@ -8,6 +8,7 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 
 using Common.Extensions;
+using Framework;
 
 using ObjectLookups = Framework.Utility.ObjectLookups;
 using SObject = StardewValley.Object;
@@ -125,10 +126,13 @@ public static class SObjectExtensions
     }
 
     /// <summary>Whether the owner of this instance has the specified profession.</summary>
-    /// <param name="profession">Some profession.</param>
-    public static bool DoesOwnerHaveProfession(this SObject @object, Profession profession, bool prestiged = false)
+    /// <param name="index">A valid profession index.</param>
+    /// <remarks>This extension is only called by emitted ILCode, so we use a simpler <see cref="int"/> interface instead of the standard <see cref="Profession"/>.</remarks>>
+    public static bool DoesOwnerHaveProfession(this SObject @object, int index, bool prestiged = false)
     {
+        if (!Profession.TryFromValue(index, out var profession)) return false;
+
         var owner = Game1.getFarmerMaybeOffline(@object.owner.Value) ?? Game1.MasterPlayer;
-        return owner.professions.Contains((int) profession + (prestiged ? 100 : 0));
+        return owner.HasProfession(profession, prestiged);
     }
 }

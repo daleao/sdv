@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Ponds.Framework.Patches.Integrations;
+﻿namespace DaLion.Stardew.Ponds.Framework.Patches;
 
 #region using directives
 
@@ -8,7 +8,6 @@ using System.Reflection;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
-using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
@@ -89,7 +88,7 @@ internal class AutomatePatches
                 : 0);
 
             _GetOwner ??= __instance.GetType().RequireMethod("GetOwner");
-            ((Farmer) _GetOwner.Invoke(__instance, null))?.gainExperience((int) SkillType.Fishing,
+            ((Farmer) _GetOwner.Invoke(__instance, null))?.gainExperience(Farmer.fishingSkill,
                 FishPond.HARVEST_BASE_EXP + bonus);
 
             machine.WriteData("CheckedToday", true.ToString());

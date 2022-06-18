@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ResourceClumpPerformToolAction : BasePatch
+internal sealed class ResourceClumpPerformToolAction : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ResourceClumpPerformToolAction()
@@ -47,7 +47,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Lumberjack)
+                .FindProfessionCheck(Profession.Lumberjack.Value)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10)
                 )
@@ -56,7 +56,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse)))
                 )
-                .InsertProfessionCheck((int) Profession.Lumberjack + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Lumberjack.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 11),
@@ -74,7 +74,7 @@ internal class ResourceClumpPerformToolAction : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse)))
                 )
-                .InsertProfessionCheck((int) Profession.Lumberjack + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Lumberjack.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2)
                 )

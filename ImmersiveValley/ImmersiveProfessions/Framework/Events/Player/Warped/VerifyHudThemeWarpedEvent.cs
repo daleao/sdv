@@ -13,7 +13,7 @@ using Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class VerifyHudThemeWarpedEvent : WarpedEvent
+internal sealed class VerifyHudThemeWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />
     protected override void OnWarpedImpl(object sender, WarpedEventArgs e)

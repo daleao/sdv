@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GreenSlimeOnDealContactDamagePatch : BasePatch
+internal sealed class GreenSlimeOnDealContactDamagePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeOnDealContactDamagePatch()
@@ -48,12 +48,12 @@ internal class GreenSlimeOnDealContactDamagePatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Piper, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Piper.Value, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Piper + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Piper.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, returnLabel)
                 );

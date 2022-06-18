@@ -10,7 +10,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class HostPrestigeTreasureHuntUpdateTickedEvent : UpdateTickedEvent
+internal sealed class HostPrestigeTreasureHuntUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)

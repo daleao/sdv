@@ -10,7 +10,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class DebugRenderedHudEvent : RenderedHudEvent
+internal sealed class DebugRenderedHudEvent : RenderedHudEvent
 {
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object sender, RenderedHudEventArgs e)

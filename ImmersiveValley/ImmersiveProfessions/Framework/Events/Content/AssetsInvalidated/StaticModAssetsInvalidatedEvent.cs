@@ -12,7 +12,7 @@ using Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class StaticModAssetsInvalidatedEvent : AssetsInvalidatedEvent
+internal sealed class StaticModAssetsInvalidatedEvent : AssetsInvalidatedEvent
 {
     /// <summary>Construct an instance.</summary>
     internal StaticModAssetsInvalidatedEvent()

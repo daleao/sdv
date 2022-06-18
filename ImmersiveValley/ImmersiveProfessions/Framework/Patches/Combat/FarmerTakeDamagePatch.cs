@@ -18,7 +18,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FarmerTakeDamagePatch : BasePatch
+internal sealed class FarmerTakeDamagePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerTakeDamagePatch()
@@ -87,7 +87,7 @@ internal class FarmerTakeDamagePatch : BasePatch
         /// Before: GetEffectsOfRingMultiplier(863)
 
         var isNotUndyingButMayHaveDailyRevive = generator.DefineLabel();
-        var frenzy = generator.DeclareLocal(typeof(Frenzy));
+        var frenzy = generator.DeclareLocal(typeof(UndyingFrenzy));
         try
         {
             helper
@@ -115,7 +115,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
+                    new CodeInstruction(OpCodes.Isinst, typeof(UndyingFrenzy)),
                     new CodeInstruction(OpCodes.Stloc_S, frenzy),
                     new CodeInstruction(OpCodes.Ldloc, frenzy),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
@@ -164,7 +164,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
-                .InsertProfessionCheck((int)Profession.Brute, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Brute.Value, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     // check if damager null
@@ -179,7 +179,7 @@ internal class FarmerTakeDamagePatch : BasePatch
                     // check for frenzy
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
+                    new CodeInstruction(OpCodes.Isinst, typeof(UndyingFrenzy)),
                     new CodeInstruction(OpCodes.Stloc_S, frenzy),
                     // record last time in combat
                     new CodeInstruction(OpCodes.Ldc_I4_0),

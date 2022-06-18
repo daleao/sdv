@@ -13,7 +13,7 @@ using StardewValley.Tools;
 
 /// <summary>Wrapper for <see cref="IInputEvents.ButtonPressed"/> that can be hooked or unhooked.</summary>
 [UsedImplicitly]
-internal class ButtonPressedEvent : IEvent
+internal sealed class ButtonPressedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
@@ -32,7 +32,7 @@ internal class ButtonPressedEvent : IEvent
     /// <inheritdoc cref="IInputEvents.ButtonPressed"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+    private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
     {
         if (!ModEntry.Config.WeaponsCostStamina || Game1.eventUp || !Game1.player.CanMove || Game1.player.UsingTool ||
             Game1.player.CurrentTool is not MeleeWeapon weapon || weapon.isScythe()) return;

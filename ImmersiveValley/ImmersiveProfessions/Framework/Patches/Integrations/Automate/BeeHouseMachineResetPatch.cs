@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class BeeHouseMachineResetPatch : BasePatch
+internal sealed class BeeHouseMachineResetPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal BeeHouseMachineResetPatch()

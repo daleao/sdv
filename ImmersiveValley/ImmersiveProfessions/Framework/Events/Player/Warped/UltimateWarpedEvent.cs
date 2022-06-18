@@ -11,7 +11,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class UltimateWarpedEvent : WarpedEvent
+internal sealed class UltimateWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />
     protected override void OnWarpedImpl(object sender, WarpedEventArgs e)

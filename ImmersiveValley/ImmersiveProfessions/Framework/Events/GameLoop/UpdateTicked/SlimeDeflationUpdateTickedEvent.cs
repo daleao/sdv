@@ -11,7 +11,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
+internal sealed class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)

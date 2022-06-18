@@ -17,7 +17,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ModEntryEvent_DrawRegenBarPatch : BasePatch
+internal sealed class ModEntryEvent_DrawRegenBarPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ModEntryEvent_DrawRegenBarPatch()

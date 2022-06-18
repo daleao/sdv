@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class BobberBarUpdatePatch : BasePatch
+internal sealed class BobberBarUpdatePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal BobberBarUpdatePatch()
@@ -47,7 +47,7 @@ internal class BobberBarUpdatePatch : BasePatch
         //            new CodeInstruction(OpCodes.Ldc_R4, 0.002f)
         //        )
         //        .AddLabels(isNotPrestigedFisher)
-        //        .InsertProfessionCheckForLocalPlayer((int) Profession.Fisher + 100, isNotPrestigedFisher)
+        //        .InsertProfessionCheckForLocalPlayer(Profession.Fisher.Value + 100, isNotPrestigedFisher)
         //        .InsertWithLabels(
         //            new CodeInstruction(OpCodes.Call, typeof(Game1).PropertyGetter(nameof(Game1.player))),
         //            new CodeInstruction(OpCodes.Ldarg_0),
@@ -81,7 +81,7 @@ internal class BobberBarUpdatePatch : BasePatch
                 )
                 .Advance()
                 .AddLabels(isNotAquarist)
-                .InsertProfessionCheck((int) Profession.Aquarist)
+                .InsertProfessionCheck(Profession.Aquarist.Value)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotAquarist),
                     new CodeInstruction(OpCodes.Ldarg_0),

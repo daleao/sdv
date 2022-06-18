@@ -16,7 +16,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal class LevelUpMenuCtorPatch : BasePatch
+internal sealed class LevelUpMenuCtorPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuCtorPatch()

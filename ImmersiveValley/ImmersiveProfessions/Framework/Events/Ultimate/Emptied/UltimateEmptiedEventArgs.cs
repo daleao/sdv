@@ -7,7 +7,7 @@ using StardewValley;
 
 #endregion using directives
 
-public class UltimateEmptiedEventArgs : EventArgs, IUltimateEmptiedEventArgs
+public sealed class UltimateEmptiedEventArgs : EventArgs, IUltimateEmptiedEventArgs
 {
     /// <inheritdoc />
     public Farmer Player { get; }

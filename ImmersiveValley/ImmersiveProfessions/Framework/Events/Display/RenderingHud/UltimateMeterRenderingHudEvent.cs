@@ -9,7 +9,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class UltimateMeterRenderingHudEvent : RenderingHudEvent
+internal sealed class UltimateMeterRenderingHudEvent : RenderingHudEvent
 {
     /// <inheritdoc />
     protected override void OnRenderingHudImpl(object sender, RenderingHudEventArgs e)

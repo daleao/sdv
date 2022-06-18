@@ -11,7 +11,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class DustSpiritBehaviorAtGameTickPatch : BasePatch
+internal sealed class DustSpiritBehaviorAtGameTickPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal DustSpiritBehaviorAtGameTickPatch()

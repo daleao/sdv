@@ -8,7 +8,6 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
-using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
@@ -18,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class LevelUpMenuRevalidateHealthPatch : BasePatch
+internal sealed class LevelUpMenuRevalidateHealthPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuRevalidateHealthPatch()
@@ -39,7 +38,7 @@ internal class LevelUpMenuRevalidateHealthPatch : BasePatch
         if (farmer.mailReceived.Contains("qiCave")) expectedMaxHealth += 25;
 
         for (var i = 1; i <= farmer.combatLevel.Value; ++i)
-            if (!farmer.newLevels.Contains(new((int) SkillType.Combat, i)))
+            if (!farmer.newLevels.Contains(new(Skill.Combat, i)))
                 expectedMaxHealth += 5;
 
         if (farmer.HasProfession(Profession.Fighter)) expectedMaxHealth += 15;

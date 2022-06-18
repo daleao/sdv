@@ -7,17 +7,15 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewModdingAPI.Enums;
 using StardewValley;
 
-using Events;
 using Events.GameLoop;
 using Extensions;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal class GameLocationPerformActionPatch : BasePatch
+internal sealed class GameLocationPerformActionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationPerformActionPatch()
@@ -73,7 +71,7 @@ internal class GameLocationPerformActionPatch : BasePatch
                                              : string.Empty))
                     }).ToArray();
 
-                if (Enum.GetValues<SkillType>().Any(s => GameLocation.canRespec((int) s)))
+                if (Skill.List.Any(s => GameLocation.canRespec(s)))
                     options = options.Concat(new Response[]
                     {
                         new("prestigeRespec",

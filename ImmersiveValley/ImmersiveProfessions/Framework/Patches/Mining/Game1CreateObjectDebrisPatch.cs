@@ -15,7 +15,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class Game1CreateObjectDebrisPatch : BasePatch
+internal sealed class Game1CreateObjectDebrisPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal Game1CreateObjectDebrisPatch()
@@ -43,7 +43,7 @@ internal class Game1CreateObjectDebrisPatch : BasePatch
                 itemQuality = who.GetGemologistMineralQuality()
             });
 
-            who.IncrementData<uint>(DataField.GemologistMineralsCollected);
+            who.IncrementData<uint>(ModData.GemologistMineralsCollected);
             return false; // don't run original logic
         }
         catch (Exception ex)

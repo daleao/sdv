@@ -12,7 +12,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GreenSlimeBehaviorAtGameTickPatch : BasePatch
+internal sealed class GreenSlimeBehaviorAtGameTickPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeBehaviorAtGameTickPatch()

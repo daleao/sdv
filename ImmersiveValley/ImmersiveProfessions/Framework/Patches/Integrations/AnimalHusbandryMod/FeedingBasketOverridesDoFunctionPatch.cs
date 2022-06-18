@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FeedingBasketOverridesDoFunctionPatch : BasePatch
+internal sealed class FeedingBasketOverridesDoFunctionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FeedingBasketOverridesDoFunctionPatch()
@@ -71,7 +71,7 @@ internal class FeedingBasketOverridesDoFunctionPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 5) // arg 5 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Rancher, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Rancher.Value, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotRancher)
                 )
@@ -82,7 +82,7 @@ internal class FeedingBasketOverridesDoFunctionPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 5)
                 )
-                .InsertProfessionCheck((int) Profession.Rancher + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Rancher.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged)
                 )

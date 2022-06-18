@@ -11,7 +11,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ProspectorHuntRenderedHudEvent : RenderedHudEvent
+internal sealed class ProspectorHuntRenderedHudEvent : RenderedHudEvent
 {
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object sender, RenderedHudEventArgs e)

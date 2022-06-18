@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class QuestionEventSetUpPatch : BasePatch
+internal sealed class QuestionEventSetUpPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal QuestionEventSetUpPatch()
@@ -49,11 +49,11 @@ internal class QuestionEventSetUpPatch : BasePatch
                 .Advance()
                 .AddLabels(resumeExecution) // branch here to resume execution
                 .Retreat()
-                .InsertProfessionCheck((int) Profession.Breeder)
+                .InsertProfessionCheck(Profession.Breeder.Value)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder)
                 )
-                .InsertProfessionCheck((int) Profession.Breeder + 100)
+                .InsertProfessionCheck(Profession.Breeder.Value + 100)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     // if player is breeder load adjusted pregnancy chance

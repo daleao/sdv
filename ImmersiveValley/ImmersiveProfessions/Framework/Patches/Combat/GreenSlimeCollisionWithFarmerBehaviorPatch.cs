@@ -13,7 +13,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
+internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
 {
     private const int FARMER_INVINCIBILITY_FRAMES_I = 72;
 
@@ -33,7 +33,7 @@ internal class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
 
         var who = __instance.Player;
         if (!who.IsLocalPlayer ||
-            ModEntry.PlayerState.RegisteredUltimate is not Pandemonium {IsActive: false} pandemonium ||
+            ModEntry.PlayerState.RegisteredUltimate is not Enthrall {IsActive: false} pandemonium ||
             ModEntry.PlayerState.SlimeContactTimer > 0) return;
 
         pandemonium.ChargeValue += Game1.random.Next(1, 4);

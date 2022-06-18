@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CropHarvestPatch : BasePatch
+internal sealed class CropHarvestPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal CropHarvestPatch()
@@ -84,7 +84,7 @@ internal class CropHarvestPatch : BasePatch
                 )
                 .Advance()
                 .AddLabels(dontIncreaseEcologistCounter)
-                .InsertProfessionCheck((int) Profession.Ecologist)
+                .InsertProfessionCheck(Profession.Ecologist.Value)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
@@ -115,7 +115,7 @@ internal class CropHarvestPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3),
                     new CodeInstruction(OpCodes.Blt_S)
                 )
-                .InsertProfessionCheck((int) Profession.Agriculturist)
+                .InsertProfessionCheck(Profession.Agriculturist.Value)
                 .Insert(
                     new CodeInstruction(OpCodes.Brtrue_S, isAgriculturist)
                 )
@@ -172,13 +172,13 @@ internal class CropHarvestPatch : BasePatch
                         typeof(IModRegistry).RequireMethod(nameof(IModRegistry.IsLoaded))),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseNumToHarvest)
                 )
-                .InsertProfessionCheck((int) Profession.Harvester, new[] {continueToHarvesterCheck})
+                .InsertProfessionCheck(Profession.Harvester.Value, new[] {continueToHarvesterCheck})
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseNumToHarvest),
                     new CodeInstruction(OpCodes.Ldloc_S, random2)
                 )
                 .InsertDiceRoll(0.1, forStaticRandom: false)
-                .InsertProfessionCheck((int) Profession.Harvester + 100)
+                .InsertProfessionCheck(Profession.Harvester.Value + 100)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     // double chance if prestiged

@@ -21,8 +21,6 @@ public interface ICookingSkillAPI
 
     bool IsEnabled();
 
-    object GetSkill();
-
     int GetLevel();
 
     int GetMaximumLevel();

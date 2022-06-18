@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CrabPotCheckForActionPatch : BasePatch
+internal sealed class CrabPotCheckForActionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal CrabPotCheckForActionPatch()

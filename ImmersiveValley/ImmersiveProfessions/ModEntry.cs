@@ -29,12 +29,16 @@ public class ModEntry : Mod
     [CanBeNull] internal static JObject ArsenalConfig { get; set; }
     [CanBeNull] internal static JObject PondsConfig { get; set; }
     [CanBeNull] internal static JObject RingsConfig { get; set; }
+    [CanBeNull] internal static JObject TaxesConfig { get; set; }
     [CanBeNull] internal static JObject TweaksConfig { get; set; }
     [CanBeNull] internal static JObject SVEConfig { get; set; }
     [CanBeNull] internal static ISpaceCoreAPI SpaceCoreApi { get; set; }
     [CanBeNull] internal static ICookingSkillAPI CookingSkillApi { get; set; }
     [CanBeNull] internal static ILuckSkillAPI LuckSkillApi { get; set; }
-    internal static Dictionary<string, ICustomSkill> CustomSkills { get; set; } = new();
+
+    /// <remarks><see cref="ISkill"/> is used instead of <see cref="CustomSkill"/> because the dictionary must also cache <see cref="LuckSkill"/> which does not use SpaceCore.</remarks>
+    internal static Dictionary<string, ISkill> CustomSkills { get; set; } = new();
+    internal static Dictionary<int, CustomProfession> CustomProfessions { get; set; } = new();
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
@@ -62,9 +66,6 @@ public class ModEntry : Mod
 
         // initialize mod state
         if (Context.IsMainPlayer) HostState = new();
-
-        // load sound effects
-        SoundBank.LoadCollection(helper.DirectoryPath);
         
         // initialize mod events
         EventManager.Init(Helper.Events);

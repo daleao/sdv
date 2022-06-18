@@ -16,7 +16,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ProfessionsCheatSetProfessionPatch : BasePatch
+internal sealed class ProfessionsCheatSetProfessionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ProfessionsCheatSetProfessionPatch()
@@ -49,7 +49,7 @@ internal class ProfessionsCheatSetProfessionPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
                 )
-                .SetOperand((int) Profession.Brute);
+                .SetOperand(Profession.Brute.Value);
         }
         catch (Exception ex)
         {

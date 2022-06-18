@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class TreeTickUpdatePatch : BasePatch
+internal sealed class TreeTickUpdatePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal TreeTickUpdatePatch()
@@ -45,11 +45,11 @@ internal class TreeTickUpdatePatch : BasePatch
             var isPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindProfessionCheck((int) Profession.Lumberjack, true)
+                .FindProfessionCheck(Profession.Lumberjack.Value, true)
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, (int) Profession.Lumberjack + 100),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
                     new CodeInstruction(OpCodes.Brtrue_S, isPrestiged)
@@ -83,7 +83,7 @@ internal class TreeTickUpdatePatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Arborist, true)
+                .FindProfessionCheck(Profession.Arborist.Value, true)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
@@ -102,7 +102,7 @@ internal class TreeTickUpdatePatch : BasePatch
 
         // replace Arborist check for prestiged Arborist check
         var checkForPrestigedArboristInstructions = checkForArboristInstructions;
-        checkForPrestigedArboristInstructions[5] = new(OpCodes.Ldc_I4_S, (int) Profession.Arborist + 100);
+        checkForPrestigedArboristInstructions[5] = new(OpCodes.Ldc_I4_S, Profession.Arborist.Value + 100);
 
         /// From: numHardwood++;
         /// To: numHardwood += Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <arborist_id>) ? 2 : 1;
@@ -120,7 +120,7 @@ internal class TreeTickUpdatePatch : BasePatch
             var resumeExecution1 = generator.DefineLabel();
             var resumeExecution2 = generator.DefineLabel();
             helper
-                .FindProfessionCheck((int) Profession.Arborist, true)
+                .FindProfessionCheck(Profession.Arborist.Value, true)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Add)
@@ -134,7 +134,7 @@ internal class TreeTickUpdatePatch : BasePatch
                 )
                 .Advance()
                 .AddLabels(resumeExecution1)
-                .FindProfessionCheck((int) Profession.Arborist, true)
+                .FindProfessionCheck(Profession.Arborist.Value, true)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.25f),
                     new CodeInstruction(OpCodes.Mul)

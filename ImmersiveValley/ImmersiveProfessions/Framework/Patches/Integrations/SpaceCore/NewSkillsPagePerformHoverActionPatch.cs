@@ -7,7 +7,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewModdingAPI.Enums;
 using StardewValley.Menus;
 
 using DaLion.Common.Extensions;
@@ -18,7 +17,7 @@ using Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class NewSkillsPagePerformHoverActionPatch : BasePatch
+internal sealed class NewSkillsPagePerformHoverActionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal NewSkillsPagePerformHoverActionPatch()
@@ -45,7 +44,7 @@ internal class NewSkillsPagePerformHoverActionPatch : BasePatch
         if (!ModEntry.Config.EnablePrestige) return;
 
         Rectangle bounds;
-        switch (ModEntry.Config.Progression)
+        switch (ModEntry.Config.PrestigeProgressionStyle)
         {
             case ModConfig.ProgressionStyle.StackedStars:
                 bounds = new(
@@ -73,25 +72,25 @@ internal class NewSkillsPagePerformHoverActionPatch : BasePatch
             bounds.Y += 56;
 
             // need to do this bullshit switch because mining and fishing are inverted in the skills page
-            var skillIndex = i switch
+            var skill = i switch
             {
-                1 => 3,
-                3 => 1,
-                _ => i
+                1 => Skill.Mining,
+                3 => Skill.Fishing,
+                _ => Skill.FromValue(i)
             };
-            var professionsForThisSkill = Game1.player.GetAllProfessionsForSkill(skillIndex, true).ToList();
-            var numProfessions = professionsForThisSkill.Count;
-            if (numProfessions == 0) continue;
+            var professionsForThisSkill = Game1.player.GetProfessionsForSkill(skill, true).ToArray();
+            var count = professionsForThisSkill.Length;
+            if (count == 0) continue;
 
-            bounds.Width = ModEntry.Config.Progression.ToString().Contains("Ribbons")
+            bounds.Width = ModEntry.Config.PrestigeProgressionStyle is ModConfig.ProgressionStyle.Gen3Ribbons
+                or ModConfig.ProgressionStyle.Gen4Ribbons
                 ? (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
-                : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * numProfessions + 4) * Textures.STARS_SCALE_F);
+                : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
             if (!bounds.Contains(x, y)) continue;
 
-            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new {count = numProfessions});
+            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new {count});
             ___hoverText = professionsForThisSkill
-                .Select(p => ModEntry.i18n.Get(p.ToProfessionName().ToLowerInvariant() + ".name." +
-                                                                (Game1.player.IsMale ? "male" : "female")))
+                .Select(p => p.GetDisplayName(Game1.player.IsMale))
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
         }
 
@@ -100,18 +99,20 @@ internal class NewSkillsPagePerformHoverActionPatch : BasePatch
         foreach (var skill in ModEntry.CustomSkills.Values)
         {
             bounds.Y += 56;
-            var professionsForThisSkill = Game1.player.GetAllProfessionsForCustomSkill(skill, true).ToList();
-            var numProfessions = professionsForThisSkill.Count;
-            if (numProfessions == 0) continue;
+            var professionsForThisSkill =
+                Game1.player.GetProfessionsForSkill(skill, true).ToArray();
+            var count = professionsForThisSkill.Length;
+            if (count == 0) continue;
 
-            bounds.Width = ModEntry.Config.Progression.ToString().Contains("Ribbons")
+            bounds.Width = ModEntry.Config.PrestigeProgressionStyle is ModConfig.ProgressionStyle.Gen3Ribbons
+                or ModConfig.ProgressionStyle.Gen4Ribbons
                 ? (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
-                : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * numProfessions + 4) * Textures.STARS_SCALE_F);
+                : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
             if (!bounds.Contains(x, y)) continue;
 
-            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count = numProfessions });
+            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new {count});
             ___hoverText = professionsForThisSkill
-                .Select(p => skill.ProfessionNamesById[p])
+                .Select(p => p.GetDisplayName())
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
         }
     }

@@ -17,12 +17,10 @@ using DaLion.Common.Extensions.Xna;
 using Extensions;
 using Ultimate;
 
-using SoundBank = Sounds.SoundBank;
-
 #endregion using directives
 
 [UsedImplicitly]
-internal class SlingshotPerformFirePatch : BasePatch
+internal sealed class SlingshotPerformFirePatch : BasePatch
 {
     private static readonly FieldInfo _CanPlaySound = typeof(Slingshot).RequireField("canPlaySound")!;
     private static readonly MethodInfo _UpdateAimPos = typeof(Slingshot).RequireMethod("updateAimPos");
@@ -121,7 +119,7 @@ internal class SlingshotPerformFirePatch : BasePatch
             x *= overcharge;
             y *= overcharge;
             who.stopJittering();
-            SoundBank.DesperadoChargeSound.Stop(AudioStopOptions.Immediate);
+            Game1.soundBank.GetCue("SinWave").Stop(AudioStopOptions.Immediate);
         }
         
         if (Game1.options.useLegacySlingshotFiring)

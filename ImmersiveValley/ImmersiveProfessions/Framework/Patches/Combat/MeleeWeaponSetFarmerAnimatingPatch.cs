@@ -19,7 +19,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
+internal sealed class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal MeleeWeaponSetFarmerAnimatingPatch()
@@ -53,7 +53,7 @@ internal class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Brute + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Brute.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, skipRageBonus),
                     new CodeInstruction(OpCodes.Ldarg_0),
@@ -65,7 +65,7 @@ internal class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.BruteRageCounter))),
                     new CodeInstruction(OpCodes.Conv_R4),
-                    new CodeInstruction(OpCodes.Ldc_R4, Frenzy.PCT_INCREMENT_PER_RAGE_F / 2f),
+                    new CodeInstruction(OpCodes.Ldc_R4, UndyingFrenzy.PCT_INCREMENT_PER_RAGE_F / 2f),
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Sub),
                     new CodeInstruction(OpCodes.Mul),

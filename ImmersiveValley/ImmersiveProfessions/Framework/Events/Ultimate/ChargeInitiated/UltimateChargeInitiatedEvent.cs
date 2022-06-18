@@ -6,9 +6,9 @@ using System;
 
 #endregion using directives
 
-internal class UltimateChargeInitiatedEvent : BaseEvent
+internal sealed class UltimateChargeInitiatedEvent : BaseEvent
 {
-    protected readonly Action<object, IUltimateChargeInitiatedEventArgs> _OnChargeInitiatedImpl;
+    private readonly Action<object, IUltimateChargeInitiatedEventArgs> _OnChargeInitiatedImpl;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>

@@ -23,7 +23,7 @@ public static class GreenSlimeExtensions
     {
         slime.WriteData("Piped", true.ToString());
         slime.WriteData("Piper", theOneWhoPipedMe.UniqueMultiplayerID.ToString());
-        slime.WriteData("PipeTimer", (30000 / ModEntry.Config.UltimateDrainFactor).ToString(CultureInfo.InvariantCulture));
+        slime.WriteData("PipeTimer", (30000 / ModEntry.Config.SpecialDrainFactor).ToString(CultureInfo.InvariantCulture));
         slime.WriteData("DoneInflating", false.ToString());
         slime.WriteData("OriginalScale", slime.Scale.ToString(CultureInfo.InvariantCulture));
         slime.WriteData("OriginalHealth", slime.Health.ToString());

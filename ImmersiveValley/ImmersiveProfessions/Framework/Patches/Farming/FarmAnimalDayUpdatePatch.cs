@@ -17,7 +17,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FarmAnimalDayUpdatePatch : BasePatch
+internal sealed class FarmAnimalDayUpdatePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmAnimalDayUpdatePatch()
@@ -97,7 +97,7 @@ internal class FarmAnimalDayUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Ldc_I4_3)
                 )
                 .ReplaceWith(
-                    new(OpCodes.Ldc_I4_S, (int) Profession.Producer + 100)
+                    new(OpCodes.Ldc_I4_S, Profession.Producer.Value + 100)
                 )
                 .Return()
                 .Insert(

@@ -11,7 +11,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
-using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -28,7 +27,7 @@ using Localization = Utility.Localization;
 #endregion using directives
 
 [UsedImplicitly]
-internal class LevelUpMenuUpdatePatch : BasePatch
+internal sealed class LevelUpMenuUpdatePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuUpdatePatch()
@@ -37,6 +36,19 @@ internal class LevelUpMenuUpdatePatch : BasePatch
     }
 
     #region harmony patches
+
+    /// <summary>Patch to idiot-proof the level-up menu. </summary>
+    [HarmonyPrefix]
+    private static void LevelUpMenuUpdatePrefix(LevelUpMenu __instance, int ___currentLevel, List<int> ___professionsToChoose)
+    {
+        if (!__instance.isProfessionChooser || !__instance.hasUpdatedProfessions ||
+            !ShouldSuppressClick(___professionsToChoose[0], ___currentLevel) ||
+            !ShouldSuppressClick(___professionsToChoose[1], ___currentLevel)) return;
+
+        __instance.isActive = false;
+        __instance.informationUp = false;
+        __instance.isProfessionChooser = false;
+    }
 
     /// <summary>Patch to prevent duplicate profession acquisition + display end of level up dialogues.</summary>
     [HarmonyTranspiler]
@@ -79,12 +91,13 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
         /// This injection chooses the correct 2nd-tier profession choices based on the last selected level 5 profession.
         /// From: else if (Game1.player.professions.Contains(currentSkill * 6))
-        /// To: else if (Game1.player.CurrentBranchForSkill(currentSkill) == currentSkill * 6)
+        /// To: else if (GetCurrentBranchForSkill(currentSkill) == currentSkill * 6)
 
         try
         {
             helper
                 .FindFirst( // find index of checking if the player has the the first level 5 profession in the skill
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentSkill")),
@@ -93,13 +106,13 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
                 )
-                .Remove() // remove Ldfld Farmer.professions
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_6)
-                )
+                .GetLabels(out var labels)
+                .Remove(2) // remove loading the local player's professions
+                .AddLabels(labels)
+                .Advance(2)
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetCurrentBranchForSkill))),
+                        typeof(LevelUpMenuUpdatePatch).RequireMethod(nameof(GetCurrentBranchForSkill))),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentSkill"))
                 )
@@ -269,12 +282,65 @@ internal class LevelUpMenuUpdatePatch : BasePatch
             return null;
         }
 
+        /// Injected: if (!ShouldSuppressClick(chosenProfession[i], currentLevel))
+        /// Before: leftProfessionColor = Color.Green; (x2)
+
+        var skip = generator.DefineLabel();
+        try
+        {
+            helper
+                .FindFirst(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green)))
+                )
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("professionsToChoose")),
+                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                    new CodeInstruction(OpCodes.Call, typeof(LevelUpMenuUpdatePatch).RequireMethod(nameof(ShouldSuppressClick))),
+                    new CodeInstruction(OpCodes.Brtrue, skip)
+                )
+                .FindNext(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green)))
+                )
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("professionsToChoose")),
+                    new CodeInstruction(OpCodes.Ldc_I4_1),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                    new CodeInstruction(OpCodes.Call, typeof(LevelUpMenuUpdatePatch).RequireMethod(nameof(ShouldSuppressClick))),
+                    new CodeInstruction(OpCodes.Brtrue, skip)
+                )
+                .FindNext(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldc_I4, 512)
+                )
+                .AddLabels(skip);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed while patching level up menu choice suppression. Helper returned {ex}");
+            transpilationFailed = true;
+            return null;
+        }
+
         return helper.Flush();
     }
 
     #endregion harmony patches
 
     #region injected subroutines
+
+    private static int GetCurrentBranchForSkill(int currentSkill)
+    {
+        return Game1.player.GetCurrentBranchForSkill(Skill.FromValue(currentSkill));
+    }
 
     internal static bool ShouldProposeFinalQuestion(int chosenProfession)
     {
@@ -285,41 +351,35 @@ internal class LevelUpMenuUpdatePatch : BasePatch
 
     internal static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
     {
-        if (currentLevel != 10) return false;
-        
-        var skill = chosenProfession / 6;
-        if (skill is < (int) SkillType.Farming or >= (int) SkillType.Combat) return false;
+        if (currentLevel != 10 || !Skill.TryFromValue(chosenProfession / 6, out var skill) ||
+            skill == Skill.Luck) return false;
 
         var hasAllProfessions = Game1.player.HasAllProfessionsInSkill(skill);
         Log.D($"Farmer {Game1.player.Name} " + (hasAllProfessions
-            ? $" has acquired all professions in the {skill.GetCorrespondingSkill()} skill and may now gain extended levels."
-            : $" does not yet have all professions in the {skill.GetCorrespondingSkill()} skill."));
+            ? $" has acquired all professions in the {skill} skill and may now gain extended levels."
+            : $" does not yet have all professions in the {skill} skill."));
         if (hasAllProfessions) return true;
 
         var missingProfessions = Game1.player.GetMissingProfessionsInSkill(skill);
-        var missingProfessionNames = string.Join(',', missingProfessions.Select(i => i.ToProfessionName()));
+        var missingProfessionNames = string.Join(',', missingProfessions.Select(p => p.GetDisplayName()));
         Log.D($"Missing professions: {missingProfessionNames}");
         return false;
     }
 
     internal static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
     {
-        var oldProfessionKey = ModEntry.PlayerState.RegisteredUltimate.Index.ToString().SplitCamelCase()[0].ToLowerInvariant();
-        var oldProfessionDisplayName = ModEntry.i18n.Get(oldProfessionKey + ".name." + (Game1.player.IsMale ? "male" : "female"));
-        var oldUlt = ModEntry.i18n.Get(oldProfessionKey + ".ulti");
-        var newProfessionKey = chosenProfession.ToProfessionName().ToLowerInvariant();
-        var newProfessionDisplayName = ModEntry.i18n.Get(newProfessionKey + ".name." + (Game1.player.IsMale ? "male" : "female"));
-        var newUlt = ModEntry.i18n.Get(newProfessionKey + ".ulti");
+        var oldProfession = Profession.FromValue((int) ModEntry.PlayerState.RegisteredUltimate.Index);
+        var newProfession = Profession.FromValue(chosenProfession);
         var pronoun = Localization.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(
             ModEntry.i18n.Get("prestige.levelup.question",
                 new
                 {
                     pronoun,
-                    oldProfession = oldProfessionDisplayName,
-                    oldUlti = oldUlt,
-                    newProfession = newProfessionDisplayName,
-                    newUlti = newUlt
+                    oldProfession = oldProfession.GetDisplayName(Game1.player.IsMale),
+                    oldUlti = ModEntry.i18n.Get(oldProfession.StringId.ToLower() + ".ulti"),
+                    newProfession = newProfession.GetDisplayName(Game1.player.IsMale),
+                    newUlti = ModEntry.i18n.Get(newProfession.StringId.ToLower() + ".ulti")
                 }),
             Game1.currentLocation.createYesNoResponses(), delegate(Farmer _, string answer)
             {
@@ -331,12 +391,12 @@ internal class LevelUpMenuUpdatePatch : BasePatch
                         ModEntry.PlayerState.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
                         {
-                            UltimateIndex.BruteFrenzy => new Frenzy(),
+                            UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
                             UltimateIndex.PoacherAmbush => new Ambush(),
-                            UltimateIndex.PiperPandemonium => new Pandemonium(),
+                            UltimateIndex.PiperPandemic => new Enthrall(),
                             UltimateIndex.DesperadoBlossom => new DeathBlossom()
                         };
-                    Game1.player.WriteData(DataField.UltimateIndex, newIndex.ToString());
+                    Game1.player.WriteData(ModData.UltimateIndex, newIndex.ToString());
                 }
 
                 if (shouldCongratulateFullSkillMastery) CongratulateOnFullSkillMastery(chosenProfession);
@@ -346,16 +406,23 @@ internal class LevelUpMenuUpdatePatch : BasePatch
     internal static void CongratulateOnFullSkillMastery(int chosenProfession)
     {
         Game1.drawObjectDialogue(ModEntry.i18n.Get("prestige.levelup.unlocked",
-            new {whichSkill = Farmer.getSkillDisplayNameFromIndex(chosenProfession / 6)}));
+            new {whichSkill = Skill.FromValue(chosenProfession / 6).DisplayName}));
 
         if (!Game1.player.HasAllProfessions()) return;
 
-        string name =
-            ModEntry.i18n.Get("prestige.achievement.name." +
-                                               (Game1.player.IsMale ? "male" : "female"));
-        if (Game1.player.achievements.Contains(name.GetDeterministicHashCode())) return;
+        string title =
+            ModEntry.i18n.Get("prestige.achievement.name" +
+                                               (Game1.player.IsMale ? ".male" : ".female"));
+        if (Game1.player.achievements.Contains(title.GetDeterministicHashCode())) return;
 
         EventManager.Enable(typeof(AchievementUnlockedDayStartedEvent));
+    }
+
+    private static bool ShouldSuppressClick(int hovered, int currentLevel)
+    {
+        return Profession.TryFromValue(hovered, out var profession) &&
+               (currentLevel == 5 && Game1.player.HasAllProfessionsBranchingFrom(profession) ||
+                currentLevel == 10 && Game1.player.HasProfession(profession));
     }
 
     #endregion injected subroutines

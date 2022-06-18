@@ -1,14 +1,10 @@
-﻿using System.Linq;
-using DaLion.Common.Extensions;
-using DaLion.Stardew.Professions.Integrations;
-using StardewModdingAPI.Enums;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
     
 #region using directives
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
@@ -26,7 +22,7 @@ using Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class SkillsPageDrawPatch : BasePatch
+internal sealed class SkillsPageDrawPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal SkillsPageDrawPatch()
@@ -42,6 +38,54 @@ internal class SkillsPageDrawPatch : BasePatch
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
+
+        /// Inject: x -= ModEntry.Config.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
+        /// After: x = ...
+
+        var notRibbons = generator.DefineLabel();
+        try
+        {
+            helper
+                .FindFirst(
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(LocalizedContentManager).RequirePropertyGetter(nameof(LocalizedContentManager
+                            .CurrentLanguageCode)))
+                )
+                .AdvanceUntil(
+                    new CodeInstruction(OpCodes.Br_S)
+                )
+                .GetOperand(out var resumeExecution)
+                .AdvanceUntil(
+                    new CodeInstruction(OpCodes.Stloc_0)
+                )
+                .Insert(
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnablePrestige))),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.PrestigeProgressionStyle))),
+                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                    new CodeInstruction(OpCodes.Beq_S, notRibbons),
+                    new CodeInstruction(OpCodes.Ldc_I4_S,
+                        (int) ((Textures.RIBBON_WIDTH_I + 5) * Textures.RIBBON_SCALE_F)),
+                    new CodeInstruction(OpCodes.Sub),
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
+                )
+                .InsertWithLabels(
+                    new[] {notRibbons},
+                    new CodeInstruction(OpCodes.Ldc_I4_S,
+                        (int) ((Textures.STARS_WIDTH_I + 4) * Textures.STARS_SCALE_F)),
+                    new CodeInstruction(OpCodes.Sub)
+                );
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed adjusing localized skill page content position. Helper returned {ex}");
+            transpilationFailed = true;
+            return null;
+        }
 
         /// Injected: DrawExtendedLevelBars(levelIndex, skillIndex, x, y, addedX, skillLevel, b)
         /// Before: if (i == 9) draw level number ...
@@ -141,7 +185,7 @@ internal class SkillsPageDrawPatch : BasePatch
     #endregion harmony patches
 
     #region injected subroutines
-
+    
     internal static void DrawExtendedLevelBars(int levelIndex, int skillIndex, int x, int y, int addedX,
         int skillLevel, SpriteBatch b)
     {
@@ -165,7 +209,7 @@ internal class SkillsPageDrawPatch : BasePatch
                 page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
                 Textures.PROGRESSION_VERTICAL_OFFSET_I);
-        if (ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars)
+        if (ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars)
         {
             position.X -= 22;
             position.Y -= 4;
@@ -176,24 +220,24 @@ internal class SkillsPageDrawPatch : BasePatch
             position.Y += 56;
 
             // need to do this bullshit switch because mining and fishing are inverted in the skills page
-            var skillIndex = i switch
+            var skill = i switch
             {
-                1 => 3,
-                3 => 1,
-                _ => i
+                1 => Skill.Mining,
+                3 => Skill.Fishing,
+                _ => Skill.FromValue(i)
             };
-            var numProfessions = Game1.player.NumberOfProfessionsInSkill(skillIndex, true);
-            if (numProfessions == 0) continue;
+            var count = Game1.player.GetProfessionsForSkill(skill, true).Count();
+            if (count == 0) continue;
 
             Rectangle srcRect;
-            if (ModEntry.Config.Progression.ToString().Contains("Ribbons"))
+            if (ModEntry.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
             {
-                srcRect = new(i * Textures.RIBBON_WIDTH_I, (numProfessions - 1) * Textures.RIBBON_WIDTH_I,
+                srcRect = new(i * Textures.RIBBON_WIDTH_I, (count - 1) * Textures.RIBBON_WIDTH_I,
                     Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I);
             }
-            else if (ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars)
+            else if (ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars)
             {
-                srcRect = new(0, (numProfessions - 1) * 16, Textures.STARS_WIDTH_I, 16);
+                srcRect = new(0, (count - 1) * 16, Textures.STARS_WIDTH_I, 16);
             }
             else
             {
@@ -201,39 +245,34 @@ internal class SkillsPageDrawPatch : BasePatch
             }
 
             b.Draw(Textures.ProgressionTx, position, srcRect, Color.White, 0f, Vector2.Zero,
-                ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars
+                ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars
                     ? Textures.STARS_SCALE_F
                     : Textures.RIBBON_SCALE_F, SpriteEffects.None, 1f);
         }
 
         if (ModEntry.SpaceCoreApi is null) return;
 
-        if (ModEntry.Config.Progression.ToString().Contains("Ribbons"))
+        if (ModEntry.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
             position.X += 2; // not sure why but custom skill ribbons render with a small offset
 
         foreach (var skill in ModEntry.CustomSkills.Values)
         {
             position.Y += 56;
-            var numProfessions = Game1.player.NumberOfProfessionsInCustomSkill(skill, true);
-            if (numProfessions == 0) continue;
+            var count = Game1.player.GetProfessionsForSkill(skill, true).Count();
+            if (count == 0) continue;
 
-            Rectangle srcRect;
-            if (ModEntry.Config.Progression.ToString().Contains("Ribbons"))
+            var srcRect = ModEntry.Config.PrestigeProgressionStyle switch
             {
-                srcRect = new(skill.StringId == "blueberry.LoveOfCooking.CookingSkill" ? 111 : 133, (numProfessions - 1) * Textures.RIBBON_WIDTH_I,
-                    Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I);
-            }
-            else if (ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars)
-            {
-                srcRect = new(0, (numProfessions - 1) * 16, Textures.STARS_WIDTH_I, 16);
-            }
-            else
-            {
-                srcRect = Rectangle.Empty;
-            }
+                ModConfig.ProgressionStyle.Gen3Ribbons or ModConfig.ProgressionStyle.Gen4Ribbons => new(
+                    skill.StringId == "blueberry.LoveOfCooking.CookingSkill" ? 111 : 133,
+                    (count - 1) * Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I),
+                ModConfig.ProgressionStyle.StackedStars =>
+                    new(0, (count - 1) * 16, Textures.STARS_WIDTH_I, 16),
+                _ => Rectangle.Empty
+            };
 
             b.Draw(Textures.ProgressionTx, position, srcRect, Color.White, 0f, Vector2.Zero,
-                ModEntry.Config.Progression == ModConfig.ProgressionStyle.StackedStars
+                ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars
                     ? Textures.STARS_SCALE_F
                     : Textures.RIBBON_SCALE_F, SpriteEffects.None, 1f);
         }

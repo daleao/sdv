@@ -19,7 +19,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class LoomMachineSetInputPatch : BasePatch
+internal sealed class LoomMachineSetInputPatch : BasePatch
 {
     private static MethodInfo _GetSample;
 

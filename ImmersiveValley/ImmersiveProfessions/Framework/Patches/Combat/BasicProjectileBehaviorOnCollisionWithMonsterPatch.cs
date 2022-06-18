@@ -20,7 +20,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
+internal sealed class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
 {
     private static readonly MethodInfo _ExplosionAnimation = typeof(BasicProjectile).RequireMethod("explosionAnimation");
 

@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 /// <summary>Manages treasure hunt events for Prospector profession.</summary>
-internal class ProspectorHunt : TreasureHunt
+internal sealed class ProspectorHunt : TreasureHunt
 {
     /// <summary>Construct an instance.</summary>
     internal ProspectorHunt()
@@ -99,7 +99,7 @@ internal class ProspectorHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
-        Game1.player.WriteData(DataField.ProspectorHuntStreak, "0");
+        Game1.player.WriteData(ModData.ProspectorHuntStreak, "0");
         End(false);
     }
 
@@ -134,7 +134,7 @@ internal class ProspectorHunt : TreasureHunt
         if (shaft.shouldCreateLadderOnThisLevel() && !shaft.GetLadderTiles().Any())
             shaft.createLadderDown((int) TreasureTile!.Value.X, (int) TreasureTile!.Value.Y);
 
-        Game1.player.IncrementData<uint>(DataField.ProspectorHuntStreak);
+        Game1.player.IncrementData<uint>(ModData.ProspectorHuntStreak);
         End(true);
     }
 
@@ -270,7 +270,7 @@ internal class ProspectorHunt : TreasureHunt
 
                     case 2: // special items
                         var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
-                        var streak = Game1.player.ReadDataAs<uint>(DataField.ProspectorHuntStreak);
+                        var streak = Game1.player.ReadDataAs<uint>(ModData.ProspectorHuntStreak);
                         if (random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
                             treasuresAndQuantities.Add(-1, 1); // femur
 

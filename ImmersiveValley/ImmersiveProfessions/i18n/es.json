@@ -1,5 +1,5 @@
 ﻿{
-  // Farming
+  // farming
   "harvester.name.male": "Cultivador",
   "harvester.name.female": "Cultivadora",
   "harvester.desc": "10% de probabilidad de rendimiento adicional de los cultivos cosechados.",
@@ -26,7 +26,7 @@
   "producer.desc": "Los animales felices producem el 2× a menudo. Los productos de origen animal valen un 5% a más por cada establo ou gallinero lleno.",
   "producer.desc.prestiged": "Los animales felices producem el 2× >> 3× a menudo.",
 
-  // Foraging
+  // foraging
   "forager.name.male": "Forrajeador",
   "forager.name.female": "Forrajeadora",
   "forager.desc": "20% de probabilidad del doble de rendimiento de forrajes.",
@@ -55,7 +55,7 @@
   "tapper.desc": "Los grifos de resina son más fáciles de fabricar y proporcionan resina un 25% más rápido.",
   "tapper.desc.prestiged": "Los grifos de resina proporcionan resina un 25% >> 50% más rápido.",
 
-  // Mining
+  // mining
   "miner.name.male": "Minero",
   "miner.name.female": "Minera",
   "miner.desc": "1 mena más por veta.",
@@ -86,7 +86,7 @@
   "gemologist.desc": "Identifique progresivamente minerales de mayor calidad. Los cristalarios producem un 25% más rápido.",
   "gemologist.desc.prestiged": "Los cristalarios producem un  25% >> 50% más rápido.",
 
-  // Fishing
+  // fishing
   "fisher.name.male": "Pescador",
   "fisher.name.female": "Pescadora",
   "fisher.desc": "Los peces muerden más rápido. Reduce la probabilidad de pescar basura.",
@@ -108,14 +108,14 @@
   "luremaster.name.female": "As del señuelo",
   "luremaster.desc": "Las trampas para cangrejos ya no producen basura. Utilice diferentes cebos para atraer pescas diferentes.",
   "luremaster.desc.prestiged": "60% de probabilidad de conservar el cebo de las trampas para cangrejos.",
-  "conservacionist.name.male": "Ambientalista",
-  "conservacionist.name.female": "Ambientalista",
+  "conservationist.name.male": "Ambientalista",
+  "conservationist.name.female": "Ambientalista",
   "conservationist.desc": "Las trampas para cangrejos sin cebo pueden atrapar basura. Gánate las deducciones de impuestos al limpiar las aguas del Valle.",
-  "conservacionist.desc.prestiged": "Gánate también el favor de los aldeanos al limpiar las aguas del Valle.",
-  "conservationist.mail1": "Estimado @, ^^ Nos complace anunciar que, después de revisar sus actividades ambientales, hemos verificado que es elegible para recibir un beneficio de un {{taxBonus}} de deducción del impuesto sobre la renta, de acuerdo con la sección 501(c)(3) de los Códigos de Impuestos y Contribuciones de Ferngill. Válido durante esta temporada, todos los ingresos imponibles de {{farmName}} se incrementarán en la cantidad antes mencionada. ^^ Guarde esta carta para sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal. ^^ Atentamente, Laura D. Pretto ^ Directora Ejecutiva, Secretaría de la Receta Federal de Ferngill [#]Taxation Notice ",
-  "conservationist.mail2": "Estimado @, ^^ Nos complace anunciar que, después de revisar sus actividades ambientales, hemos verificado que es elegible para recibir el máximo beneficio de un {{taxBonus}} de de deducción del impuesto sobre la renta, de acuerdo con la sección 501(c)(3) de los Códigos de Impuestos y Contribuciones de Ferngill. Válido durante esta temporada, todos los ingresos imponibles de {{farmName}} se incrementarán en la cantidad antes mencionada. ^^ Guarde esta carta para sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal. ^^ Atentamente, Laura D. Pretto ^ Directora Ejecutiva, Secretaría de la Receta Federal de Ferngill [#]Taxation Notice ",
+  "conservationist.desc.prestiged": "Gánate también el favor de los aldeanos al limpiar las aguas del Valle.",
+  "conservationist.mail": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria^^^{{honorific}} @,^^Nos complace informarle que, después de revisar sus actividades ambientales, hemos verificado que califica para una deducción de su impuesto sobre la renta del {{taxBonus}} conforme a la sección 501(c)(3) del Código de Impuestos y Contribuciones de Ferngill. Como tal, todos los ingresos imponibles de {{farm}} se incrementarán en la cantidad antes mencionada, válido durante la actual temporada de {{season}}.^^Guarde esta carta en sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Estatal de Administración Tributaria[#]Taxation Deduction",
+  "conservationist.mail.max": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria^^^{{honorific}} @,^^Nos complace informarle que, después de revisar sus actividades ambientales, hemos determinado que califica para la deducción máxima de su impuesto sobre la renta del {{taxBonus}} conforme a la sección 501(c)(3) del Código de Impuestos y Contribuciones de Ferngill. Como tal, todos los ingresos imponibles de {{farm}} se incrementarán en la cantidad antes mencionada, válido durante la actual temporada de {{season}}.^^Guarde esta carta en sus registros permanentes si necesita resolver alguna pregunta sobre su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora ejecutiva, Agencia Estatal de Administración Tributaria[#]Taxation Deduction",
 
-  // Combat
+  // combat
   "fighter.name.male": "Luchador",
   "fighter.name.female": "Luchadora",
   "fighter.desc": "Daño +10%. +15 HP.",
@@ -153,12 +153,12 @@
   "piper.desc.prestiged": "Chance de también recuperar un poco de salud y energía al eliminar Babas.",
   "piper.buff": "Pringue de baba",
   "piper.buffdesc": "Agricultura +{{farming}}\nPesca +{{fishing}}\nRecolección +{{foraging}}\nMinería +{{mining}}\nAtaque +{{attack}}\nDefensa +{{defense}}\nSuerte +{{luck}}\nVelocidad +{{speed}}\nEnergía máx. +{{energy}}\nMagnetismo +{{magnetic}}",
-  "piper.ulti": "Pandemonio",
+  "piper.ulti": "Cautivar",
   "piper.ultidesc": "Encanta las Baba cercanas. Las Babas encantadas aumentan de tamaño y poder y acechan a otros enemigos.",
 
   "ulti.canteat": "Imposible hacer eso ahora.",
 
-  // Prestige
+  // prestige
   "prestige.dogstatue.first": "-Estatua del prestigio-^La estatua puede restablecer una habilidad a cero mientras se mantienen todas las profesiones adquiridas.",
   "prestige.dogstatue.forget": "^Todas las recetas asociadas serán olvidadas.",
   "prestige.dogstatue.offer": "^¿Hacer una ofrenda?",
@@ -182,7 +182,9 @@
   "prestige.achievement.name.female": "Manitas",
   "prestige.achievement.desc": "Adquira todas las profesiones en todas las habilidades.",
 
-  // Other
+  // gender
+  "honorific.male": "Estimado",
+  "honorific.female": "Estimata", 
   "pronoun.definite.male": "en el",
   "pronoun.definite.female": "en la",
   "pronoun.indefinite.male": "un",

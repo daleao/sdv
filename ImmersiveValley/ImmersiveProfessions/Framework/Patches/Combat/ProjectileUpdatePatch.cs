@@ -22,7 +22,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ProjectileUpdatePatch : BasePatch
+internal sealed class ProjectileUpdatePatch : BasePatch
 {
     private static readonly FieldInfo _DamagesMonsters = typeof(Projectile).RequireField("damagesMonsters")!;
 

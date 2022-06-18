@@ -1,5 +1,5 @@
 ﻿{
-  // Farming
+  // farming
   "harvester.name.male": "Cultivador",
   "harvester.name.female": "Cultivadora",
   "harvester.desc": "10% de chance de rendimento extra das safras colhidas.",
@@ -26,7 +26,7 @@
   "producer.desc": "Animais felizes produzem com 2× a frequência. Produtos de origem animal valem 5% a mais para cada celeiro ou galinheiro cheio.",
   "producer.desc.prestiged": "Animais felizes produzem com 2× >> 3× a frequência.",
 
-  // Foraging
+  // foraging
   "forager.name.male": "Forrageador",
   "forager.name.female": "Forrageadora",
   "forager.desc": "20% de chance de dobrar o rendimento de itens forrageados.",
@@ -55,7 +55,7 @@
   "tapper.desc": "Torneiras de xarope são mais fáceis de fabricar e fornecem xarope 25% mais rápido.",
   "tapper.desc.prestiged": "Torneiras de xarope fornecem 25% >> 50% mais rápido.",
 
-  // Mining
+  // mining
   "miner.name.male": "Minerador",
   "miner.name.female": "Mineradora",
   "miner.desc": "+1 minério por veia.",
@@ -86,7 +86,7 @@
   "gemologist.desc": "Identifique progressivamente minerais de maior qualidade. Cristalários produzem 25% mais rápido.",
   "gemologist.desc.prestiged": "Cristalários produzem 25% >> 50% mais rápido.",
 
-  // Fishing
+  // fishing
   "fisher.name.male": "Pescador",
   "fisher.name.female": "Pescadora",
   "fisher.desc": "Peixes mordem mais rápido. Reduz a chance de pescar lixo.",
@@ -108,14 +108,14 @@
   "luremaster.name.female": "Mestra da isca",
   "luremaster.desc": "Covos não produzem mais lixo. Use iscas diferentes para atrair pescas diferentes.",
   "luremaster.desc.prestiged": "60% de chance de preservar as iscas de covos.",
-  "conservacionist.name.male": "Ambientalista",
-  "conservacionist.name.female": "Ambientalista",
+  "conservationist.name.male": "Ambientalista",
+  "conservationist.name.female": "Ambientalista",
   "conservationist.desc": "Covos sem isca podem prender lixo. Ganhe deduções fiscais ao limpar as águas do Vale.",
   "conservationist.desc.prestiged": "Ganhe também favor com os aldeões ao limpar as águas do Vale.",
-  "conservationist.mail1": "Caro @, ^^ Temos o prazer de anunciar que, após análise das suas atividades ambientalistas, verificamos que você se qualifica para receber um benefício de dedução de {{taxBonus}} do imposto de renda, de acordo com a seção 501(c)(3) dos Códigos de Receita de Tributos e Contribuições de Ferngill. Válido durante esta temporada, todos os rendimentos tributáveis ​​de {{farmName}} serão aumentados pelo valor supracitado. ^^ Mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões relativas à sua situação fiscal. ^^ Atenciosamente, Laura D. Pretto ^ Diretora Executiva, Secretaría da Receita Federal de Ferngill [#]Taxation Notice ",
-  "conservationist.mail2": "Caro @, ^^ Temos o prazer de anunciar que, após análise das suas atividades ambientalistas, verificamos que você se qualifica para receber o benefício de dedução máximo de {{taxBonus}} do imposto de renda, de acordo com a seção 501(c)(3) dos Códigos de Receita de Tributos e Contribuições de Ferngill. Válido durante esta temporada, todos os rendimentos tributáveis ​​de {{farmName}} serão aumentados pelo valor supracitado. ^^ Mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões relativas à sua situação fiscal. ^^ Atenciosamente, Laura D. Pretto ^ Diretora Executiva, Secretaría da Receita Federal de Ferngill [#]Taxation Notice ",
-
-  // Combat
+  "conservationist.mail": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Temos o prazer de informar que, após análise de suas atividades ambientalistas, determinamos que você se qualifica para uma dedução de imposto de renda de {{taxBonus}} de acordo com a seção 501(c)(3) do Código de Receita de Tributos e Contribuições de Ferngill. Como tal, todos os rendimentos tributáveis ​​de {{farm}} serão aumentados pelo valor supracitado, válido durante a atual temporada de {{season}}.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Taxation Deduction",
+  "conservationist.mail.max": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Temos o prazer de informar que, após análise de suas atividades ambientalistas, determinamos que você se qualifica para a dedução máxima de imposto de renda de {{taxBonus}} acordo com a seção 501(c)(3) do Código de Receita de Tributos e Contribuições de Ferngill. Como tal, todos os rendimentos tributáveis ​​de {{farm}} serão aumentados pelo valor supracitado, válido durante a atual temporada de {{season}}.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Taxation Deduction",
+  
+  // combat
   "fighter.name.male": "Guerreiro",
   "fighter.name.female": "Guerreira",
   "fighter.desc": "Dano +10%. +15 HP.",
@@ -153,12 +153,12 @@
   "piper.desc.prestiged": "Chance de também recuperar vida e energia ao eliminar Gosmas.",
   "piper.buff": "Coberto de gosma",
   "piper.buffdesc": "Cultivo +{{farming}}\nPesca +{{fishing}}\nColeta +{{foraging}}\nMineração +{{mining}}\nAtaque +{{attack}}\nDefesa +{{defense}}\nSorte +{{luck}}\nVelocidade +{{speed}}\nEnergia máx. +{{energy}}\nRaio magnético +{{magnetic}}",
-  "piper.ulti": "Pandemônio",
+  "piper.ulti": "Encantar",
   "piper.ultidesc": "Encanta as Gosmas próximas. Gosmas encantadas aumentam em tamanho e poder e perseguem outros inimigos.",
 
   "ulti.canteat": "Impossível fazer isso agora.",
 
-  // Prestige
+  // prestige
   "prestige.dogstatue.first": "-Estátua do Prestígio-^A estátua pode zerar o nível de uma habilidade mantendo todas as profissões adquiridas.",
   "prestige.dogstatue.forget": "^Todas as receitas associadas serão esquecidas.",
   "prestige.dogstatue.offer": "^Fazer uma oferenda?",
@@ -182,7 +182,9 @@
   "prestige.achievement.name.female": "Maria-faz-tudo",
   "prestige.achievement.desc": "Adquira todas as profissões em todas as habilidades.",
 
-  // Other
+  // gender
+  "honorific.male": "Caro",
+  "honorific.female": "Cara",
   "pronoun.definite.male": "ao",
   "pronoun.definite.female": "à",
   "pronoun.indefinite.male": "um",

@@ -12,7 +12,7 @@ using GameLoop;
 #endregion using directives
 
 [UsedImplicitly]
-internal class TrackerButtonsChangedEvent : ButtonsChangedEvent
+internal sealed class TrackerButtonsChangedEvent : ButtonsChangedEvent
 {
     /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object sender, ButtonsChangedEventArgs e)

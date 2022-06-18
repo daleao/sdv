@@ -1,22 +1,21 @@
-﻿using System.Text.RegularExpressions;
-
-#nullable enable
+﻿#nullable enable
 namespace DaLion.Stardew.Professions;
 
 #region using directives
 using static System.String;
+using static System.FormattableString;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
-using StardewModdingAPI.Enums;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
 
 using Common.Extensions;
+using Common.Integrations;
 using Extensions;
 using Framework;
 using Framework.Ultimate;
@@ -30,10 +29,14 @@ internal static class ConsoleCommands
     /// <param name="helper">The console command API.</param>
     internal static void Register(this ICommandHelper helper)
     {
-        helper.Add("player_skills", "List the player's current skill levels.",
+        helper.Add("player_levels", "List the player's current skill levels and experience.",
             PrintLocalPlayerSkillLevels);
-        helper.Add("player_resetskills", "Reset all player's skills.",
+        helper.Add("player_setlevels", "Set the player's levels for the specified skills.",
+            SetLocalPlayerSkillLevels);
+        helper.Add("player_resetlevels", "Reset all the player's skill levels.",
             ResetLocalPlayerSkills);
+        helper.Add("player_clearnewlevels", "Clear the player's cache of new levels for te specified skills.",
+            ClearLocalPlayerNewLevels);
         helper.Add("player_professions", "List the player's current professions.",
             PrintLocalPlayerProfessions);
         helper.Add("player_addprofessions",
@@ -85,13 +88,16 @@ internal static class ConsoleCommands
             return;
         }
 
-        Log.I($"Farming level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Farming)} ({Game1.player.experiencePoints[(int) SkillType.Farming]} exp)");
-        Log.I($"Fishing level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Fishing)} ({Game1.player.experiencePoints[(int) SkillType.Fishing]} exp)");
-        Log.I($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Foraging)} ({Game1.player.experiencePoints[(int) SkillType.Foraging]} exp)");
-        Log.I($"Mining level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Mining)} ({Game1.player.experiencePoints[(int) SkillType.Mining]} exp)");
-        Log.I($"Combat level: {Game1.player.GetUnmodifiedSkillLevel((int) SkillType.Combat)} ({Game1.player.experiencePoints[(int) SkillType.Combat]} exp)");
+        Log.I($"Farming level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Farming)} ({Game1.player.experiencePoints[Skill.Farming]} exp)");
+        Log.I($"Fishing level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Fishing)} ({Game1.player.experiencePoints[Skill.Fishing]} exp)");
+        Log.I($"Foraging level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Foraging)} ({Game1.player.experiencePoints[Skill.Foraging]} exp)");
+        Log.I($"Mining level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Mining)} ({Game1.player.experiencePoints[Skill.Mining]} exp)");
+        Log.I($"Combat level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Combat)} ({Game1.player.experiencePoints[Skill.Combat]} exp)");
         
-        foreach (var skill in ModEntry.CustomSkills.Values)
+        if (ModEntry.LuckSkillApi is not null)
+            Log.I($"Luck level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Luck)} ({Game1.player.experiencePoints[Skill.Luck]} exp)");
+
+        foreach (var skill in ModEntry.CustomSkills.Values.OfType<CustomSkill>())
             Log.I($"{skill.DisplayName} level: {skill.CurrentLevel} ({skill.CurrentExp} exp)");
     }
 
@@ -112,18 +118,21 @@ internal static class ConsoleCommands
             Game1.player.miningLevel.Value = 0;
             Game1.player.combatLevel.Value = 0;
             Game1.player.luckLevel.Value = 0;
-            for (var i = 0; i < 5; ++i)
+            Game1.player.newLevels.Clear();
+            for (var i = 0; i <= 5; ++i)
             {
                 Game1.player.experiencePoints[i] = 0;
-                Game1.player.ForgetRecipesForSkill((SkillType) i);
+                if (ModEntry.Config.ForgetRecipesOnSkillReset && i < 5)
+                    Game1.player.ForgetRecipesForSkill(Skill.FromValue(i));
             }
 
             LevelUpMenu.RevalidateHealth(Game1.player);
 
-            foreach (var skill in ModEntry.CustomSkills.Values)
+            foreach (var (_, skill) in ModEntry.CustomSkills)
             {
                 ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, skill.StringId, -skill.CurrentExp);
-                if (skill.StringId == "blueberry.LoveOfCooking.CookingSkill")
+                if (ModEntry.Config.ForgetRecipesOnSkillReset &&
+                    skill.StringId == "blueberry.LoveOfCooking.CookingSkill")
                     Game1.player.ForgetRecipesForLoveOfCookingSkill();
             }
         }
@@ -131,40 +140,49 @@ internal static class ConsoleCommands
         {
             foreach (var arg in args)
             {
-                if (Enum.TryParse<SkillType>(arg, true, out var skillType))
+                if (Skill.TryFromName(arg, true, out var skill))
                 {
                     // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
-                    switch (skillType)
+                    switch (skill)
                     {
-                        case SkillType.Farming:
+                        case Farmer.farmingSkill:
                             Game1.player.farmingLevel.Value = 0;
                             break;
-                        case SkillType.Fishing:
+                        case Farmer.fishingSkill:
                             Game1.player.fishingLevel.Value = 0;
                             break;
-                        case SkillType.Foraging:
+                        case Farmer.foragingSkill:
                             Game1.player.foragingLevel.Value = 0;
                             break;
-                        case SkillType.Mining:
+                        case Farmer.miningSkill:
                             Game1.player.miningLevel.Value = 0;
                             break;
-                        case SkillType.Combat:
+                        case Farmer.combatSkill:
                             Game1.player.combatLevel.Value = 0;
                             break;
-                        case SkillType.Luck:
+                        case Farmer.luckSkill:
                             Game1.player.luckLevel.Value = 0;
                             break;
                     }
 
-                    Game1.player.experiencePoints[(int) skillType] = 0;
-                    Game1.player.ForgetRecipesForSkill(skillType);
+                    Game1.player.experiencePoints[skill] = 0;
+                    Game1.player.newLevels.Set(Game1.player.newLevels.Where(p => p.X != skill).ToList());
+                    if (ModEntry.Config.ForgetRecipesOnSkillReset && skill < Skill.Luck)
+                        Game1.player.ForgetRecipesForSkill(skill);
                 }
                 else if (ModEntry.CustomSkills.Values.Any(s => string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase)))
                 {
-                    var theSkill = ModEntry.CustomSkills.Values.Single(s =>
+                    var customSkill = ModEntry.CustomSkills.Values.Single(s =>
                         string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
-                    ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, theSkill.StringId, -theSkill.CurrentExp);
-                    if (theSkill.StringId == "blueberry.LoveOfCooking.CookingSkill")
+                    ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, customSkill.StringId, -customSkill.CurrentExp);
+
+                    var newLevels =
+                        (List<KeyValuePair<string, int>>) ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.GetValue(null)!;
+                    ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.SetValue(null,
+                        newLevels.Where(pair => pair.Key != customSkill.StringId).ToList());
+
+                    if (ModEntry.Config.ForgetRecipesOnSkillReset &&
+                        customSkill.StringId == "blueberry.LoveOfCooking.CookingSkill")
                         Game1.player.ForgetRecipesForLoveOfCookingSkill();
                 }
                 else
@@ -173,6 +191,108 @@ internal static class ConsoleCommands
                 }
             }
         }
+    }
+
+    /// <summary>Set the specified skill level.</summary>
+    internal static void SetLocalPlayerSkillLevels(string command, string[] args)
+    {
+        if (!Context.IsWorldReady)
+        {
+            Log.W("You must load a save first.");
+            return;
+        }
+
+        if (args.Length < 2 || args.Length % 2 != 0)
+        {
+            Log.W("You must provide both a skill name and new level.");
+            GetUsageForSetSkillLevels();
+            return;
+        }
+
+        if (string.Equals(args[0], "all", StringComparison.InvariantCultureIgnoreCase))
+        {
+            if (!int.TryParse(args[1], out var newLevel))
+            {
+                Log.W("New level must be a valid integer.");
+                GetUsageForSetSkillLevels();
+                return;
+            }
+
+            foreach (var skill in Skill.List)
+                Game1.player.SetSkillLevel(skill, newLevel, true);
+
+            foreach (var customSkill in ModEntry.CustomSkills.Values)
+                if (customSkill is CustomSkill customSkill2)
+                    Game1.player.SetCustomSkillLevel(customSkill2, newLevel);
+        }
+
+        var argsList = args.ToList();
+        while (argsList.Any())
+        {
+            if (!int.TryParse(args[1], out var newLevel))
+            {
+                Log.W("New level must be a valid integer.");
+                GetUsageForSetSkillLevels();
+                return;
+            }
+
+            var skillName = args[0];
+            if (!Skill.TryFromName(skillName, true, out var skill))
+            {
+                var found = ModEntry.CustomSkills.Values.SingleOrDefault(s =>
+                    string.Equals(s.StringId, skillName, StringComparison.CurrentCultureIgnoreCase) ||
+                    string.Equals(s.DisplayName, skillName, StringComparison.CurrentCultureIgnoreCase));
+                if (found is not CustomSkill customSkill)
+                {
+                    Log.W("You must provide a valid skill name.");
+                    GetUsageForSetSkillLevels();
+                    return;
+                }
+
+                Game1.player.SetCustomSkillLevel(customSkill, newLevel);
+            }
+            else
+            {
+                Game1.player.SetSkillLevel(skill, newLevel, true);
+            }
+
+            argsList.RemoveAt(0);
+            argsList.RemoveAt(0);
+        }
+    }
+
+    internal static void ClearLocalPlayerNewLevels(string commands, string[] args)
+    {
+        if (!Context.IsWorldReady)
+        {
+            Log.W("You must load a save first.");
+            return;
+        }
+
+        if (!args.Any())
+            Game1.player.newLevels.Clear();
+        else
+            foreach (var arg in args)
+            {
+                if (Skill.TryFromName(arg, true, out var skill))
+                {
+                    Game1.player.newLevels.Set(Game1.player.newLevels.Where(p => p.X != skill).ToList());
+                }
+                else if (ModEntry.CustomSkills.Values.Any(s =>
+                             string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    var customSkill = ModEntry.CustomSkills.Values.Single(s =>
+                        string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
+                    var newLevels =
+                        (List<KeyValuePair<string, int>>) ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.GetValue(null)!;
+                    ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.SetValue(null,
+                        newLevels.Where(pair => pair.Key != customSkill.StringId).ToList());
+                }
+                else
+                {
+                    Log.W($"Ignoring unknown skill {arg}.");
+                }
+            }
     }
 
     /// <summary>List the current professions of the local player.</summary>
@@ -191,21 +311,15 @@ internal static class ConsoleCommands
         }
 
         var message = $"Farmer {Game1.player.Name}'s professions:";
-        foreach (var professionIndex in Game1.player.professions)
+        foreach (var pid in Game1.player.professions)
         {
             string name;
-            try
-            {
-                name = $"{professionIndex.ToProfessionName()}" +
-                       (professionIndex >= 100 && Enum.IsDefined(typeof(Profession), professionIndex - 100)
-                           ? " (P)"
-                           : Empty);
-                if (name == Profession.Unknown.ToString()) name = "Error profession -1. How did this end up here?";
-            }
-            catch (ArgumentException)
-            {
-                name = $"Unknown mod profession {professionIndex}";
-            }
+            if (Profession.TryFromValue(pid > 100 ? pid - 100 : pid, out var profession))
+                name = profession.StringId + (pid > 100 ? " (P)" : Empty);
+            else if (ModEntry.CustomProfessions.ContainsKey(pid))
+                name = ModEntry.CustomProfessions[pid].StringId;
+            else
+                name = $"Unknown profession {pid}";
 
             message += "\n\t- " + name;
         }
@@ -232,66 +346,69 @@ internal static class ConsoleCommands
         if (prestige) args = args.Except(new[] {"-p", "--prestiged"}).ToArray();
 
         List<int> professionsToAdd = new();
-        foreach (var arg in args.Select(a => a.ToLowerInvariant().FirstCharToUpper()))
+        foreach (var arg in args)
         {
-            if (string.Equals(arg, "all", StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(arg, "all", StringComparison.InvariantCultureIgnoreCase))
             {
-                var range = Enumerable.Range(0, 30).ToArray();
+                var range = Profession.GetRange().ToArray();
                 if (prestige) range = range.Concat(Enumerable.Range(100, 30)).ToArray();
-                range = ModEntry.CustomSkills.Values.Aggregate(range,
-                    (current, skill) => current.Concat(skill.ProfessionIds).ToArray());
+                range = range.Concat(ModEntry.CustomProfessions.Values.Select(p => p.Id)).ToArray();
 
                 professionsToAdd.AddRange(range);
                 Log.I($"Added all {(prestige ? "prestiged " : "")}professions to farmer {Game1.player.Name}.");
                 break;
             }
 
-            var profession = Enum.IsDefined(typeof(Profession), arg)
-                ? Enum.Parse<Profession>(arg)
-                : GetProfessionFromLocalizedName(arg);
-            
-            if (profession == Profession.Unknown)
+            if (Profession.TryFromName(arg, true, out var profession) ||
+                Profession.TryFromLocalizedName(arg, true, out profession))
             {
-                var customSkill = ModEntry.CustomSkills.Values.SingleOrDefault(s =>
-                    s.ProfessionNamesById.Values.Any(name =>
-                        Regex.Replace(name, @"\s+", "").ToLowerInvariant().FirstCharToUpper() == arg));
-                if (customSkill is not null)
+                if (!prestige && Game1.player.HasProfession(profession) ||
+                    prestige && Game1.player.HasProfession(profession, true))
                 {
-                    var professionId =
-                        customSkill.ProfessionNamesById.Single(pair =>
-                            Regex.Replace(pair.Value, @"\s+", "").ToLowerInvariant().FirstCharToUpper() == arg).Key;
-                    profession = (Profession) professionId;
-                    if (prestige)
-                    {
-                        Log.W($"Cannot prestige custom skill profession {arg}.");
-                        continue;
-                    }
+                    Log.W($"Farmer {Game1.player.Name} already has the {profession.StringId} profession.");
+                    continue;
                 }
-                else
+
+                professionsToAdd.Add(profession.Id);
+                if (prestige) professionsToAdd.Add(profession + 100);
+                Log.I(
+                    $"Added {profession.StringId}{(prestige ? " (P)" : "")} profession to farmer {Game1.player.Name}.");
+            }
+            else
+            {
+                var customProfession = ModEntry.CustomProfessions.Values.SingleOrDefault(p =>
+                    string.Equals(arg, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
+                    string.Equals(arg, p.GetDisplayName().TrimAll(), StringComparison.InvariantCultureIgnoreCase));
+                if (customProfession is null)
                 {
                     Log.W($"Ignoring unknown profession {arg}.");
                     continue;
                 }
-            }
-            
-            if (!prestige && Game1.player.HasProfession(profession) ||
-                prestige && Game1.player.HasProfession(profession, true))
-            {
-                Log.W($"Farmer {Game1.player.Name} already has this profession.");
-                continue;
-            }
 
-            professionsToAdd.Add((int) profession);
-            if (prestige) professionsToAdd.Add((int) profession + 100);
-            Log.I(
-                $"Added {profession}{(prestige ? " (P)" : "")} profession to farmer {Game1.player.Name}.");
+                if (prestige)
+                {
+                    Log.W($"Cannot prestige custom skill profession {customProfession.StringId}.");
+                    continue;
+                }
+
+                if (Game1.player.HasProfession(customProfession))
+                {
+                    Log.W($"Farmer {Game1.player.Name} already has the {customProfession.StringId} profession.");
+                    continue;
+                }
+
+                professionsToAdd.Add(customProfession.Id);
+                if (prestige) professionsToAdd.Add(profession + 100);
+                Log.I(
+                    $"Added the {profession.StringId} profession to farmer {Game1.player.Name}.");
+            }
         }
 
         LevelUpMenu levelUpMenu = new();
-        foreach (var professionIndex in professionsToAdd.Distinct().Except(Game1.player.professions))
+        foreach (var pid in professionsToAdd.Distinct().Except(Game1.player.professions))
         {
-            Game1.player.professions.Add(professionIndex);
-            levelUpMenu.getImmediateProfessionPerk(professionIndex);
+            Game1.player.professions.Add(pid);
+            levelUpMenu.getImmediateProfessionPerk(pid);
         }
 
         LevelUpMenu.RevalidateHealth(Game1.player);
@@ -311,9 +428,9 @@ internal static class ConsoleCommands
         {
             for (var i = Game1.player.professions.Count - 1; i >= 0; --i)
             {
-                var professionIndex = Game1.player.professions[i];
+                var pid = Game1.player.professions[i];
                 Game1.player.professions.RemoveAt(i);
-                LevelUpMenu.removeImmediateProfessionPerk(professionIndex);
+                LevelUpMenu.removeImmediateProfessionPerk(pid);
             }
 
             didResetCombat = true;
@@ -322,23 +439,23 @@ internal static class ConsoleCommands
         {
             foreach (var arg in args)
             {
-                if (!Enum.TryParse<SkillType>(arg, true, out var skillType))
+                if (!Skill.TryFromName(arg, true, out var skill))
                 {
                     Log.W($"Ignoring unknown skill {arg}.");
                     continue;
                 }
 
-                var toRemove = Game1.player.GetAllProfessionsForSkill((int) skillType);
-                foreach (var professionIndex in toRemove) Game1.player.professions.Remove(professionIndex);
+                var toRemove = Game1.player.GetProfessionsForSkill(skill);
+                foreach (var p in toRemove) Game1.player.professions.Remove(p.Id);
 
-                if (skillType == SkillType.Combat) didResetCombat = true;
+                if (skill == Skill.Combat) didResetCombat = true;
             }
         }
 
         if (!didResetCombat) return;
         
         ModEntry.PlayerState.RegisteredUltimate = null;
-        Game1.player.WriteData(DataField.UltimateIndex, null);
+        Game1.player.WriteData(ModData.UltimateIndex, null);
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
@@ -409,7 +526,8 @@ internal static class ConsoleCommands
             return;
         }
 
-        if (!Game1.player.HasProfession((Profession) index))
+        var profession = Profession.FromValue((int) index);
+        if (!Game1.player.HasProfession(profession))
         {
             Log.W("You don't have this profession.");
             return;
@@ -419,12 +537,12 @@ internal static class ConsoleCommands
         ModEntry.PlayerState.RegisteredUltimate = index switch
 #pragma warning restore CS8509
         {
-            UltimateIndex.BruteFrenzy => new Frenzy(),
+            UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
             UltimateIndex.PoacherAmbush => new Ambush(),
-            UltimateIndex.PiperPandemonium => new Pandemonium(),
+            UltimateIndex.PiperPandemic => new Enthrall(),
             UltimateIndex.DesperadoBlossom => new DeathBlossom()
         };
-        Game1.player.WriteData(DataField.UltimateIndex, index.ToString());
+        Game1.player.WriteData(ModData.UltimateIndex, index.ToString());
     }
 
     /// <summary>Print the currently registered Ultimate.</summary>
@@ -532,7 +650,7 @@ internal static class ConsoleCommands
         }
 
         var priceMultiplier = Game1.player.HasProfession(Profession.Angler)
-            ? (numMaxSizedCaught + numMaxSizedCaught * 5).ToString() + '%'
+            ? CurrentCulture($"{numMaxSizedCaught * 0.01f + numLegendariesCaught * 0.05f:p0}")
             : "Zero. You're not an Angler.";
         result +=
             $"Species caught: {Game1.player.fishCaught.Count()}/{fishData.Count}\nMax-sized: {numMaxSizedCaught}/{Game1.player.fishCaught.Count()}\nLegendaries: {numLegendariesCaught}/10\nTotal Angler price bonus: {priceMultiplier}\n\nThe following caught fish are not max-sized:";
@@ -591,41 +709,42 @@ internal static class ConsoleCommands
         }
 
         var message = $"Farmer {Game1.player.Name}'s mod data:";
-        var value = Game1.player.ReadData(DataField.EcologistItemsForaged);
+        var value = Game1.player.ReadData(ModData.EcologistItemsForaged);
         message += "\n\t- " +
             (!IsNullOrEmpty(value)
-                ? $"{DataField.EcologistItemsForaged}: {value} ({ModEntry.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
-                : $"Mod data does not contain an entry for {DataField.EcologistItemsForaged}.");
+                ? $"{ModData.EcologistItemsForaged}: {value} ({ModEntry.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                : $"Mod data does not contain an entry for {ModData.EcologistItemsForaged}.");
 
-        value = Game1.player.ReadData(DataField.GemologistMineralsCollected);
+        value = Game1.player.ReadData(ModData.GemologistMineralsCollected);
         message += "\n\t- " +
             (!IsNullOrEmpty(value)
-                ? $"{DataField.GemologistMineralsCollected}: {value} ({ModEntry.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
-                : $"Mod data does not contain an entry for {DataField.GemologistMineralsCollected}.");
+                ? $"{ModData.GemologistMineralsCollected}: {value} ({ModEntry.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                : $"Mod data does not contain an entry for {ModData.GemologistMineralsCollected}.");
 
-        value = Game1.player.ReadData(DataField.ProspectorHuntStreak);
+        value = Game1.player.ReadData(ModData.ProspectorHuntStreak);
         message += "\n\t- " +
             (!IsNullOrEmpty(value)
-                ? $"{DataField.ProspectorHuntStreak}: {value} (affects treasure quality)"
-                : $"Mod data does not contain an entry for {DataField.ProspectorHuntStreak}.");
+                ? $"{ModData.ProspectorHuntStreak}: {value} (affects treasure quality)"
+                : $"Mod data does not contain an entry for {ModData.ProspectorHuntStreak}.");
 
-        value = Game1.player.ReadData(DataField.ScavengerHuntStreak);
+        value = Game1.player.ReadData(ModData.ScavengerHuntStreak);
         message += "\n\t- " +
             (!IsNullOrEmpty(value)
-                ? $"{DataField.ScavengerHuntStreak}: {value} (affects treasure quality)"
-                : $"Mod data does not contain an entry for {DataField.ScavengerHuntStreak}.");
+                ? $"{ModData.ScavengerHuntStreak}: {value} (affects treasure quality)"
+                : $"Mod data does not contain an entry for {ModData.ScavengerHuntStreak}.");
 
-        value = Game1.player.ReadData(DataField.ConservationistTrashCollectedThisSeason);
+        value = Game1.player.ReadData(ModData.ConservationistTrashCollectedThisSeason);
         message += "\n\t- " +
             (!IsNullOrEmpty(value)
-                ? $"{DataField.ConservationistTrashCollectedThisSeason}: {value} (expect a {Math.Min(int.Parse(value) / ModEntry.Config.TrashNeededPerTaxLevel, (int) (ModEntry.Config.TaxDeductionCeiling * 100))}% tax deduction next season)"
-                : $"Mod data does not contain an entry for {DataField.ConservationistTrashCollectedThisSeason}.");
+                // ReSharper disable once PossibleLossOfFraction
+                ? CurrentCulture($"{ModData.ConservationistTrashCollectedThisSeason}: {value} (expect a {Math.Min(int.Parse(value) / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f, ModEntry.Config.ConservationistTaxBonusCeiling):p0} tax deduction next season)")
+                : $"Mod data does not contain an entry for {ModData.ConservationistTrashCollectedThisSeason}.");
 
-        value = Game1.player.ReadData(DataField.ConservationistActiveTaxBonusPct);
+        value = Game1.player.ReadData(ModData.ConservationistActiveTaxBonusPct);
         message += "\n\t- " + 
             (!IsNullOrEmpty(value)
-                ? $"{DataField.ConservationistActiveTaxBonusPct}: {float.Parse(value) * 100}%"
-                : $"Mod data does not contain an entry for {DataField.ConservationistActiveTaxBonusPct}.");
+                ? CurrentCulture($"{ModData.ConservationistActiveTaxBonusPct}: {float.Parse(value):p0}")
+                : $"Mod data does not contain an entry for {ModData.ConservationistActiveTaxBonusPct}.");
 
         Log.I(message);
     }
@@ -757,11 +876,23 @@ internal static class ConsoleCommands
     #region private methods
 
     /// <summary>Tell the dummies how to use the console command.</summary>
+    private static string GetUsageForSetSkillLevels()
+    {
+        var result = "\n\nUsage: player_setlevels <skill1> <newLevel> <skill2> <newLevel> ...";
+        result += "\n\nParameters:";
+        result += "\n\t<skill>\t- a valid skill name, or 'all'";
+        result += "\n\t<newLevel>\t- a valid integer level";
+        result += "\n\nExamples:";
+        result += "\n\tplayer_setlevels farming 5 cooking 10";
+        return result;
+    }
+
+    /// <summary>Tell the dummies how to use the console command.</summary>
     private static string GetUsageForAddProfessions()
     {
         var result = "\n\nUsage: player_addprofessions [--prestige] <profession1> <profession2> ... <professionN>";
         result += "\n\nParameters:";
-        result += "\n\t<profession>\t- one of the modded profession names, or 'all'";
+        result += "\n\t<profession>\t- a valid profession name, or 'all'";
         result += "\n\nOptional flags:";
         result +=
             "\n\t--prestige, -p\t- add the prestiged versions of the specified professions (will automatically add the base versions as well)";
@@ -789,11 +920,11 @@ internal static class ConsoleCommands
     private static string GetAvailableDataFields()
     {
         var result = "Available data fields:";
-        result += $"\n\t- {DataField.EcologistItemsForaged} (shortcut 'forages')";
-        result += $"\n\t- {DataField.GemologistMineralsCollected} (shortcut 'minerals')";
-        result += $"\n\t- {DataField.ProspectorHuntStreak} (shortcut 'phunt')";
-        result += $"\n\t- {DataField.ScavengerHuntStreak} (shortcut 'shunt')";
-        result += $"\n\t- {DataField.ConservationistTrashCollectedThisSeason} (shortcut 'trash')";
+        result += $"\n\t- {ModData.EcologistItemsForaged} (shortcut 'forages')";
+        result += $"\n\t- {ModData.GemologistMineralsCollected} (shortcut 'minerals')";
+        result += $"\n\t- {ModData.ProspectorHuntStreak} (shortcut 'phunt')";
+        result += $"\n\t- {ModData.ScavengerHuntStreak} (shortcut 'shunt')";
+        result += $"\n\t- {ModData.ConservationistTrashCollectedThisSeason} (shortcut 'trash')";
         return result;
     }
 
@@ -806,7 +937,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        Game1.player.WriteData(DataField.EcologistItemsForaged, value.ToString());
+        Game1.player.WriteData(ModData.EcologistItemsForaged, value.ToString());
         Log.I($"Items foraged as Ecologist was set to {value}.");
     }
 
@@ -819,7 +950,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        Game1.player.WriteData(DataField.GemologistMineralsCollected, value.ToString());
+        Game1.player.WriteData(ModData.GemologistMineralsCollected, value.ToString());
         Log.I($"Minerals collected as Gemologist was set to {value}.");
     }
 
@@ -832,7 +963,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        Game1.player.WriteData(DataField.ProspectorHuntStreak, value.ToString());
+        Game1.player.WriteData(ModData.ProspectorHuntStreak, value.ToString());
         Log.I($"Prospector Hunt was streak set to {value}.");
     }
 
@@ -845,7 +976,7 @@ internal static class ConsoleCommands
             return;
         }
 
-        Game1.player.WriteData(DataField.ScavengerHuntStreak, value.ToString());
+        Game1.player.WriteData(ModData.ScavengerHuntStreak, value.ToString());
         Log.I($"Scavenger Hunt streak was set to {value}.");
     }
 
@@ -858,105 +989,8 @@ internal static class ConsoleCommands
             return;
         }
 
-        Game1.player.WriteData(DataField.ConservationistTrashCollectedThisSeason, value.ToString());
+        Game1.player.WriteData(ModData.ConservationistTrashCollectedThisSeason, value.ToString());
         Log.I($"Conservationist trash collected in the current season was set to {value}.");
-    }
-
-    /// <summary>Get a profession corresponding to the localized profession name.</summary>
-    /// <param name="professionName">A localized string.</param>
-    private static Profession GetProfessionFromLocalizedName(string professionName)
-    {
-        if (professionName == ModEntry.i18n.Get("rancher.name.male") ||
-            professionName == ModEntry.i18n.Get("rancher.name.female"))
-            return Profession.Rancher;
-        if (professionName == ModEntry.i18n.Get("harvester.name.male") ||
-            professionName == ModEntry.i18n.Get("harvester.name.female"))
-            return Profession.Harvester;
-        if (professionName == ModEntry.i18n.Get("agriculturist.name.male") ||
-            professionName == ModEntry.i18n.Get("agriculturist.name.female"))
-            return Profession.Agriculturist;
-        if (professionName == ModEntry.i18n.Get("artisan.name.male") ||
-            professionName == ModEntry.i18n.Get("artisan.name.female"))
-            return Profession.Artisan;
-        if (professionName == ModEntry.i18n.Get("breeder.name.male") ||
-            professionName == ModEntry.i18n.Get("breeder.name.female"))
-            return Profession.Breeder;
-        if (professionName == ModEntry.i18n.Get("producer.name.male") ||
-                 professionName == ModEntry.i18n.Get("producer.name.female"))
-            return Profession.Producer;
-        if (professionName == ModEntry.i18n.Get("fisher.name.male") ||
-                 professionName == ModEntry.i18n.Get("fisher.name.female"))
-            return Profession.Fisher;
-        if (professionName == ModEntry.i18n.Get("trapper.name.male") ||
-                 professionName == ModEntry.i18n.Get("trapper.name.female"))
-            return Profession.Trapper;
-        if (professionName == ModEntry.i18n.Get("angler.name.male") ||
-                 professionName == ModEntry.i18n.Get("angler.name.female"))
-            return Profession.Angler;
-        if (professionName == ModEntry.i18n.Get("aquarist.name.male") ||
-                 professionName == ModEntry.i18n.Get("aquarist.name.female"))
-            return Profession.Aquarist;
-        if (professionName == ModEntry.i18n.Get("luremaster.name.male") ||
-                 professionName == ModEntry.i18n.Get("luremaster.name.female"))
-            return Profession.Luremaster;
-        if (professionName == ModEntry.i18n.Get("conservationist.name.male") ||
-                 professionName == ModEntry.i18n.Get("conservationist.name.female"))
-            return Profession.Conservationist;
-        if (professionName == ModEntry.i18n.Get("forager.name.male") ||
-                 professionName == ModEntry.i18n.Get("forager.name.female"))
-            return Profession.Forager;
-        if (professionName == ModEntry.i18n.Get("lumberjack.name.male") ||
-                 professionName == ModEntry.i18n.Get("lumberjack.name.female"))
-            return Profession.Lumberjack;
-        if (professionName == ModEntry.i18n.Get("ecologist.name.male") ||
-                 professionName == ModEntry.i18n.Get("ecologist.name.female"))
-            return Profession.Ecologist;
-        if (professionName == ModEntry.i18n.Get("scavenger.name.male") ||
-                 professionName == ModEntry.i18n.Get("scavenger.name.female"))
-            return Profession.Scavenger;
-        if (professionName == ModEntry.i18n.Get("arborist.name.male") ||
-                 professionName == ModEntry.i18n.Get("arborist.name.female"))
-            return Profession.Arborist;
-        if (professionName == ModEntry.i18n.Get("tapper.name.male") ||
-                 professionName == ModEntry.i18n.Get("tapper.name.female"))
-            return Profession.Tapper;
-        if (professionName == ModEntry.i18n.Get("miner.name.male") ||
-                 professionName == ModEntry.i18n.Get("miner.name.female"))
-            return Profession.Miner;
-        if (professionName == ModEntry.i18n.Get("blaster.name.male") ||
-                 professionName == ModEntry.i18n.Get("blaster.name.female"))
-            return Profession.Blaster;
-        if (professionName == ModEntry.i18n.Get("spelunker.name.male") ||
-                 professionName == ModEntry.i18n.Get("spelunker.name.female"))
-            return Profession.Spelunker;
-        if (professionName == ModEntry.i18n.Get("prospector.name.male") ||
-                 professionName == ModEntry.i18n.Get("prospector.name.female"))
-            return Profession.Prospector;
-        if (professionName == ModEntry.i18n.Get("demolitionist.name.male") ||
-                 professionName == ModEntry.i18n.Get("demolitionist.name.female"))
-            return Profession.Demolitionist;
-        if (professionName == ModEntry.i18n.Get("gemologist.name.male") ||
-                 professionName == ModEntry.i18n.Get("gemologist.name.female"))
-            return Profession.Gemologist;
-        if (professionName == ModEntry.i18n.Get("fighter.name.male") ||
-                 professionName == ModEntry.i18n.Get("fighter.name.female"))
-            return Profession.Fighter;
-        if (professionName == ModEntry.i18n.Get("rascal.name.male") ||
-                 professionName == ModEntry.i18n.Get("rascal.name.female"))
-            return Profession.Rascal;
-        if (professionName == ModEntry.i18n.Get("brute.name.male") ||
-                 professionName == ModEntry.i18n.Get("brute.name.female"))
-            return Profession.Brute;
-        if (professionName == ModEntry.i18n.Get("poacher.name.male") ||
-                 professionName == ModEntry.i18n.Get("poacher.name.female"))
-            return Profession.Poacher;
-        if (professionName == ModEntry.i18n.Get("piper.name.male") ||
-                 professionName == ModEntry.i18n.Get("piper.name.female"))
-            return Profession.Piper;
-        if (professionName == ModEntry.i18n.Get("desperado.name.male") ||
-                 professionName == ModEntry.i18n.Get("desperado.name.female"))
-            return Profession.Desperado;
-        return Profession.Unknown;
     }
 
     #endregion private methods

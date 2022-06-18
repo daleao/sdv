@@ -19,7 +19,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CheesePressMachineSetInput : BasePatch
+internal sealed class CheesePressMachineSetInput : BasePatch
 {
     private static MethodInfo _GetSample;
 

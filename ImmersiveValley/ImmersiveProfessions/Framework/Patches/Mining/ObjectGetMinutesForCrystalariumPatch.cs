@@ -13,7 +13,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ObjectGetMinutesForCrystalariumPatch : BasePatch
+internal sealed class ObjectGetMinutesForCrystalariumPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectGetMinutesForCrystalariumPatch()

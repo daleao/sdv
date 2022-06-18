@@ -13,7 +13,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class SpelunkerWarpedEvent : WarpedEvent
+internal sealed class SpelunkerWarpedEvent : WarpedEvent
 {
     /// <inheritdoc />
     protected override void OnWarpedImpl(object sender, WarpedEventArgs e)

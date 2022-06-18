@@ -15,7 +15,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CrabPotMachineGetStatePatch : BasePatch
+internal sealed class CrabPotMachineGetStatePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal CrabPotMachineGetStatePatch()

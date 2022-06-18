@@ -8,7 +8,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal class UltimateOverlayRenderedWorldEvent : RenderedWorldEvent
+internal sealed class UltimateOverlayRenderedWorldEvent : RenderedWorldEvent
 {
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object sender, RenderedWorldEventArgs e)

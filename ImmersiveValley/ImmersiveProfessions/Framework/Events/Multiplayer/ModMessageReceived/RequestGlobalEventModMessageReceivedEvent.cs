@@ -12,7 +12,7 @@ using GameLoop;
 #endregion using directives
 
 [UsedImplicitly]
-internal class RequestGlobalEventModMessageReceivedEvent : ModMessageReceivedEvent
+internal sealed class RequestGlobalEventModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object sender, ModMessageReceivedEventArgs e)

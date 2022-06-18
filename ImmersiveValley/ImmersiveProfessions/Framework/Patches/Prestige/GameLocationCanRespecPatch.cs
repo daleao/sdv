@@ -11,7 +11,7 @@ using StardewValley;
 #endregion using directive
 
 [UsedImplicitly]
-internal class GameLocationCanRespecPatch : BasePatch
+internal sealed class GameLocationCanRespecPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationCanRespecPatch()

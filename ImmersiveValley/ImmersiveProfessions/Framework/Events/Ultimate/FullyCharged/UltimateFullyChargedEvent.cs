@@ -6,7 +6,7 @@ using System;
 
 #endregion using directives
 
-internal class UltimateFullyChargedEvent : BaseEvent
+internal sealed class UltimateFullyChargedEvent : BaseEvent
 {
     private readonly Action<object, IUltimateFullyChargedEventArgs> _OnFullyChargedImpl;
 

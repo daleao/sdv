@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -11,7 +12,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MailRequestedEvent : AssetRequestedEvent
+internal sealed class MailRequestedEvent : AssetRequestedEvent
 {
     /// <inheritdoc />
     protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)
@@ -22,13 +23,18 @@ internal class MailRequestedEvent : AssetRequestedEvent
         {
             // patch mail from the Ferngill Revenue Service
             var data = asset.AsDictionary<string, string>().Data;
-            var taxBonus = Game1.player.ReadDataAs<float>(DataField.ConservationistActiveTaxBonusPct);
-            var key = taxBonus >= ModEntry.Config.TaxDeductionCeiling
-                ? "conservationist.mail2"
-                : "conservationist.mail1";
+            var taxBonus = Game1.player.ReadDataAs<float>(ModData.ConservationistActiveTaxBonusPct);
+            var key = taxBonus >= ModEntry.Config.ConservationistTaxBonusCeiling
+                ? "conservationist.mail.max"
+                : "conservationist.mail";
+            var honorific = ModEntry.i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
+            var farm = Game1.getFarm().Name;
+            var season = LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.fr
+                ? ModEntry.i18n.Get("season." + Game1.currentSeason)
+                : Game1.CurrentSeasonDisplayName;
 
             string message = ModEntry.i18n.Get(key,
-                new { taxBonus = $"{taxBonus:p0}", farmName = Game1.getFarm().Name });
+                new {honorific, taxBonus = FormattableString.CurrentCulture($"{taxBonus:p0}"), farm, season});
             data[$"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice"] = message;
         });
     }

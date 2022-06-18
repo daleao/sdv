@@ -15,6 +15,8 @@ using System.Text.RegularExpressions;
 /// <summary>Extensions for the <see cref="string"/> primitive type.</summary>
 public static class StringExtensions
 {
+    private static readonly Regex _sWhitespace = new(@"\s+");
+
     /// <summary>Determine if the string instance contains any of the specified substrings.</summary>
     /// <param name="candidates">A sequence of strings candidates.</param>
     public static bool ContainsAnyOf(this string s, params string[] candidates)
@@ -48,6 +50,12 @@ public static class StringExtensions
     public static string[] SplitCamelCase(this string s)
     {
         return Regex.Split(s, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)").Where(r => !string.IsNullOrEmpty(r)).ToArray();
+    }
+
+    /// <summary>Trim all whitespace from the string.</summary>
+    public static string TrimAll(this string s)
+    {
+        return _sWhitespace.Replace(s, "");
     }
 
     /// <summary>Truncate the string instance to a <paramref name="maxLength" />, ending with ellipses.</summary>

@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FishingRodStartMinigameEndFunctionPatch : BasePatch
+internal sealed class FishingRodStartMinigameEndFunctionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishingRodStartMinigameEndFunctionPatch()

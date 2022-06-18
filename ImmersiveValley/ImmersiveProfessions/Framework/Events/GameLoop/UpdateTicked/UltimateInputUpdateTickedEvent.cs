@@ -8,11 +8,11 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal class UltimateInputUpdateTickedEvent : UpdateTickedEvent
+internal sealed class UltimateInputUpdateTickedEvent : UpdateTickedEvent
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.Config.UltimateKey.IsDown()) ModEntry.PlayerState.RegisteredUltimate.UpdateInput();
+        if (ModEntry.Config.SpecialActivationKey.IsDown()) ModEntry.PlayerState.RegisteredUltimate.UpdateInput();
     }
 }

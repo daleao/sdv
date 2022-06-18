@@ -12,7 +12,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FruitTreeDayUpdatePatch : BasePatch
+internal sealed class FruitTreeDayUpdatePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FruitTreeDayUpdatePatch()

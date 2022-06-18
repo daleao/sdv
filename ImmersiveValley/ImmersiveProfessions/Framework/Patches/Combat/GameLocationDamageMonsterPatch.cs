@@ -26,7 +26,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GameLocationDamageMonsterPatch : BasePatch
+internal sealed class GameLocationDamageMonsterPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationDamageMonsterPatch()
@@ -59,7 +59,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             helper
                 .FindProfessionCheck(Farmer.scout) // find index of scout check
                 .Advance()
-                .SetOperand((int) Profession.Poacher); // replace with Poacher check
+                .SetOperand(Profession.Poacher.Value); // replace with Poacher check
         }
         catch (Exception ex)
         {
@@ -76,7 +76,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Fighter,
+                .FindProfessionCheck(Profession.Fighter.Value,
                     true) // find index of brute check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 1.1f) // brute damage multiplier
@@ -85,7 +85,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Fighter + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Fighter.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R4, 1.2f),
@@ -107,7 +107,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Brute,
+                .FindProfessionCheck(Profession.Brute.Value,
                     true) // find index of brute check
                 .Retreat(2)
                 .GetOperand(out var dontBuffDamage)
@@ -128,7 +128,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.BruteRageCounter))),
                     new CodeInstruction(OpCodes.Conv_R4),
-                    new CodeInstruction(OpCodes.Ldc_R4, Frenzy.PCT_INCREMENT_PER_RAGE_F),
+                    new CodeInstruction(OpCodes.Ldc_R4, UndyingFrenzy.PCT_INCREMENT_PER_RAGE_F),
                     new CodeInstruction(OpCodes.Mul),
                     new CodeInstruction(OpCodes.Add)
                 );
@@ -253,7 +253,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
             ModEntry.PlayerState.SecondsSinceLastCombat = 0;
             
             if (who.CurrentTool is MeleeWeapon weapon &&
-                ModEntry.PlayerState.RegisteredUltimate is Frenzy frenzy && monster.Health <= 0)
+                ModEntry.PlayerState.RegisteredUltimate is UndyingFrenzy frenzy && monster.Health <= 0)
             {
                 if (frenzy.IsActive)
                 {
@@ -291,7 +291,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                         monster.WriteData("Stolen", bool.TrueString);
 
                         // play sound effect
-                        SoundBank.Play(SFX.PoacherSteal);
+                        SFX.PoacherSteal.Play();
 
                         // if prestiged, reset cooldown
                         if (who.HasProfession(Profession.Poacher, true))
@@ -337,7 +337,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                         break;
                 }
 
-                var buffId = ModEntry.Manifest.UniqueID.GetHashCode() + (int) Profession.Piper;
+                var buffId = (ModEntry.Manifest.UniqueID + Profession.Piper).GetHashCode();
                 Game1.buffsDisplay.removeOtherBuff(buffId);
                 Game1.buffsDisplay.addOtherBuff(new(
                     applied[0], applied[1], applied[2], applied[3], applied[4], applied[5],
@@ -345,7 +345,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
                     applied[10], applied[11],
                     3,
                     "Piper",
-                    ModEntry.i18n.Get("piper.name." + (who.IsMale ? "male" : "female")))
+                    ModEntry.i18n.Get("piper.name" + (who.IsMale ? ".male" : ".female")))
                 {
                     which = buffId,
                     sheetIndex = 38,
@@ -381,7 +381,7 @@ internal class GameLocationDamageMonsterPatch : BasePatch
         }
 
         // increment ultimate meter
-        if (ModEntry.PlayerState.RegisteredUltimate is Pandemonium {IsActive: false} pandemonium)
+        if (ModEntry.PlayerState.RegisteredUltimate is Enthrall {IsActive: false} pandemonium)
         {
 #pragma warning disable CS8509
             var increment = monster switch

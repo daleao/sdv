@@ -28,7 +28,7 @@ internal static class Patches
     #region harmony patches
 
     [HarmonyPatch(typeof(Farmer), "toolPowerIncrease")]
-    internal class FarmerToolPowerIncreasePatch
+    internal sealed class FarmerToolPowerIncreasePatch
     {
         /// <summary>Allow first two power levels on Pickaxe.</summary>
         [HarmonyTranspiler]
@@ -50,7 +50,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Axe), "beginUsing")]
-    internal class AxeBeginUsingPatch
+    internal sealed class AxeBeginUsingPatch
     {
         /// <summary>Enable Axe power level increase.</summary>
         [HarmonyPrefix]
@@ -91,7 +91,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Pickaxe), "beginUsing")]
-    internal class PickaxeBeginUsingPatch
+    internal sealed class PickaxeBeginUsingPatch
     {
         /// <summary>Enable Pickaxe power level increase.</summary>
         [HarmonyPrefix]
@@ -132,7 +132,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Tool), nameof(Tool.endUsing))]
-    internal class ToolEndUsingPatch
+    internal sealed class ToolEndUsingPatch
     {
         /// <summary>Do shockwave.</summary>
         [HarmonyPostfix]
@@ -164,7 +164,7 @@ internal static class Patches
 
     [HarmonyPatch(typeof(Tool), "tilesAffected")]
     [HarmonyPriority(Priority.HigherThanNormal)]
-    internal class ToolTilesAffectedPatch
+    internal sealed class ToolTilesAffectedPatch
     {
         /// <summary>Override affected tiles for farming tools.</summary>
         [HarmonyPrefix]
@@ -218,7 +218,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Tool), "draw")]
-    internal class ToolDrawPatch
+    internal sealed class ToolDrawPatch
     {
         /// <summary>Hide affected tiles overlay for Axe or Pickaxe.</summary>
         [HarmonyPrefix]
@@ -229,7 +229,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(ReachingToolEnchantment), nameof(ReachingToolEnchantment.CanApplyTo))]
-    internal class ReachingToolEnchantmentCanApplyToPatch
+    internal sealed class ReachingToolEnchantmentCanApplyToPatch
     {
         /// <summary>Allow apply reaching enchant.</summary>
         [HarmonyPrefix]

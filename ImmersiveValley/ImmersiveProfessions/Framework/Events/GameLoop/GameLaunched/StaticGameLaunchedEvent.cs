@@ -11,7 +11,7 @@ using Integrations;
 #endregion using directives
 
 [UsedImplicitly]
-internal class StaticGameLaunchedEvent : GameLaunchedEvent
+internal sealed class StaticGameLaunchedEvent : GameLaunchedEvent
 {
     /// <summary>Construct an instance.</summary>
     internal StaticGameLaunchedEvent()
@@ -61,6 +61,7 @@ internal class StaticGameLaunchedEvent : GameLaunchedEvent
         ModEntry.ArsenalConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveArsenal", ModEntry.Log);
         ModEntry.PondsConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersivePonds", ModEntry.Log);
         ModEntry.RingsConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveRings", ModEntry.Log);
+        ModEntry.TaxesConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveTaxes", ModEntry.Log);
         ModEntry.TweaksConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveTweaks", ModEntry.Log);
         
         // add SVE integration

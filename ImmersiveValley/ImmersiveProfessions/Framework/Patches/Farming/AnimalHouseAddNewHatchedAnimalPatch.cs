@@ -13,7 +13,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class AnimalHouseAddNewHatchedAnimalPatch : BasePatch
+internal sealed class AnimalHouseAddNewHatchedAnimalPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal AnimalHouseAddNewHatchedAnimalPatch()

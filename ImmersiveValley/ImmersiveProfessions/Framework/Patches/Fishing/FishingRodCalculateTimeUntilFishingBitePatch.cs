@@ -11,7 +11,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FishingRodCalculateTimeUntilFishingBitePatch : BasePatch
+internal sealed class FishingRodCalculateTimeUntilFishingBitePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishingRodCalculateTimeUntilFishingBitePatch()

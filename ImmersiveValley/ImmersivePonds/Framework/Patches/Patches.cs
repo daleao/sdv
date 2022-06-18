@@ -57,11 +57,11 @@ internal static class Patches
     #region harmony patches
 
     [HarmonyPatch(typeof(FishingRod), nameof(FishingRod.pullFishFromWater))]
-    internal class FishingRodPullFishFromWaterPatch
+    internal sealed class FishingRodPullFishFromWaterPatch
     {
         /// <summary>Decrement total Fish Pond quality ratings.</summary>
         [HarmonyPrefix]
-        protected static void Prefix(FishingRod __instance, ref int whichFish, ref int fishQuality, bool fromFishPond)
+        private static void Prefix(FishingRod __instance, ref int whichFish, ref int fishQuality, bool fromFishPond)
         {
             if (!fromFishPond || whichFish.IsTrash()) return;
 
@@ -69,7 +69,7 @@ internal static class Patches
             var pond = Game1.getFarm().buildings.OfType<FishPond>().FirstOrDefault(p =>
                 x > p.tileX.Value && x < p.tileX.Value + p.tilesWide.Value - 1 &&
                 y > p.tileY.Value && y < p.tileY.Value + p.tilesHigh.Value - 1);
-            if (pond is null) return;
+            if (pond is null || pond.FishCount < 1) return;
 
             if (pond.IsAlgaePond())
             {
@@ -166,22 +166,22 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(FishPond), MethodType.Constructor, typeof(BluePrint), typeof(Vector2))]
-    internal class FishPondCtorPatch
+    internal sealed class FishPondCtorPatch
     {
         /// <summary>Compensates for the game calling dayUpdate *twice* immediately upon construction.</summary>
         [HarmonyPostfix]
-        protected static void Postfix(FishPond __instance)
+        private static void Postfix(FishPond __instance)
         {
             __instance.WriteData("DaysEmpty", (-3).ToString()); // it's -3 for good measure (and also immersion; a fresh pond takes longer to get dirty)
         }
     }
 
     [HarmonyPatch(typeof(FishPond), "addFishToPond")]
-    internal class FishPondAddFishToPond
+    internal sealed class FishPondAddFishToPondPatch
     {
         /// <summary>Distinguish extended family pairs + increment total Fish Pond quality ratings.</summary>
         [HarmonyPostfix]
-        protected static void Postfix(FishPond __instance, SObject fish)
+        private static void Postfix(FishPond __instance, SObject fish)
         {
             try
             {
@@ -235,11 +235,11 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.dayUpdate))]
-    internal class FishPondDayUpdate
+    internal sealed class FishPondDayUpdatePatch
     {
         /// <summary>Rest held items each morning.</summary>
         [HarmonyPrefix]
-        protected static void Prefix(FishPond __instance)
+        private static void Prefix(FishPond __instance)
         {
             __instance.WriteData("ItemsHeld", null);
         }
@@ -247,8 +247,10 @@ internal static class Patches
 #if DEBUG
         /// <summary>Replacement to help debugging.</summary>
         [HarmonyPrefix]
-        protected static bool Debug(FishPond __instance, int dayOfMonth)
+        private static bool Debug(FishPond __instance, int dayOfMonth)
         {
+            if (__instance.isUnderConstruction()) return true;
+
             __instance.hasSpawnedFish.Value = false;
             ModEntry.ModHelper.Reflection.GetField<bool>(__instance, "_hasAnimatedSpawnedFish").SetValue(false);
             if (__instance.hasCompletedRequest.Value)
@@ -312,7 +314,7 @@ internal static class Patches
 
         /// <summary>Spontaneously grow algae + calculate roe production.</summary>
         [HarmonyPostfix]
-        protected static void Postfix(FishPond __instance, ref FishPondData? ____fishPondData)
+        private static void Postfix(FishPond __instance, ref FishPondData? ____fishPondData)
         {
             if (__instance.IsAlgaePond()) return;
 
@@ -419,7 +421,7 @@ internal static class Patches
                 if (totalQualities.Sum() != __instance.FishCount)
                     throw new InvalidDataException("Quality data had incorrect number of values.");
 
-                var productionChancePerFish = Framework.Utility.GetRoeChance(fish.Price, __instance.FishCount - 1) / 100;
+                var productionChancePerFish = Framework.Utility.GetRoeChance(fish.Price, __instance.FishCount - 1);
                 var producedRoes = new int[4];
                 for (var i = 0; i < 4; ++i)
                     while (totalQualities[i]-- > 0)
@@ -483,7 +485,7 @@ internal static class Patches
         }
 
         /// <summary>Removes population-based role from <see cref="FishPond.dayUpdate"/> (moved to <see cref="FishPond.GetFishProduce"/>).</summary>
-        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
             MethodBase original)
         {
             var helper = new ILHelper(original, instructions);
@@ -517,11 +519,11 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.doAction))]
-    internal class FishPondDoActionPatch
+    internal sealed class FishPondDoActionPatch
     {
         /// <summary>Inject ItemGrabMenu + allow legendary fish to share a pond with their extended families.</summary>
         [HarmonyTranspiler]
-        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
         {
             var helper = new ILHelper(original, instructions);
 
@@ -606,11 +608,11 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(FishPond), "doFishSpecificWaterColoring")]
-    internal class FishPondDoFishSpecificWaterColoring
+    internal sealed class FishPondDoFishSpecificWaterColoringPatch
     {
         /// <summary>Recolor for algae/seaweed.</summary>
         [HarmonyPostfix]
-        protected static void Postfix(FishPond __instance)
+        private static void Postfix(FishPond __instance)
         {
             if (__instance.fishType.Value.IsAlgae())
             {
@@ -625,12 +627,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.GetFishProduce))]
-    internal class FishPondGetFishProducePatch
+    internal sealed class FishPondGetFishProducePatch
     {
         /// <summary>Replace single production with multi-yield production.</summary>
         [HarmonyPrefix]
         // ReSharper disable once RedundantAssignment
-        protected static bool Prefix(FishPond __instance, ref SObject? __result, Random? random)
+        private static bool Prefix(FishPond __instance, ref SObject? __result, Random? random)
         {
             random ??= new(Guid.NewGuid().GetHashCode());
 
@@ -753,11 +755,11 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.JumpFish))]
-    internal class FishPondJumpFishPatch
+    internal sealed class FishPondJumpFishPatch
     {
         /// <summary>Prevent un-immersive jumping algae.</summary>
         [HarmonyPrefix]
-        protected static bool Prefix(FishPond __instance, ref bool __result)
+        private static bool Prefix(FishPond __instance, ref bool __result)
         {
             if (!__instance.fishType.Value.IsAlgae()) return true; // run original logic
 
@@ -767,11 +769,11 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.OnFishTypeChanged))]
-    internal class FishPondOnFishTypeChangedPatch
+    internal sealed class FishPondOnFishTypeChangedPatch
     {
         /// <summary>Reset Fish Pond data.</summary>
         [HarmonyPostfix]
-        protected static void Postfix(FishPond __instance)
+        private static void Postfix(FishPond __instance)
         {
             if (__instance.fishType.Value > 0) return;
 
@@ -788,11 +790,11 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(FishPond), nameof(FishPond.SpawnFish))]
-    internal class FishPondSpawnFishPatch
+    internal sealed class FishPondSpawnFishPatch
     {
         /// <summary>Set the quality of newborn fishes.</summary>
         [HarmonyPostfix]
-        protected static void Postfix(FishPond __instance)
+        private static void Postfix(FishPond __instance)
         {
             if (__instance.currentOccupants.Value >= __instance.maxOccupants.Value &&
                 !__instance.hasSpawnedFish.Value) return;
@@ -869,11 +871,11 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(PondQueryMenu), MethodType.Constructor, typeof(FishPond))]
-    internal class PondQueryMenuCtorPatch
+    internal sealed class PondQueryMenuCtorPatch
     {
         /// <summary>Handle invalid data on menu open.</summary>
         [HarmonyPrefix]
-        protected static bool Prefix(FishPond fish_pond)
+        private static bool Prefix(FishPond fish_pond)
         {
             try
             {
@@ -904,11 +906,11 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(PondQueryMenu), nameof(PondQueryMenu.draw))]
-    internal class PondQueryMenuDrawPatch
+    internal sealed class PondQueryMenuDrawPatch
     {
         /// <summary>Adjust fish pond query menu for algae.</summary>
         [HarmonyPrefix]
-        protected static bool Prefix(PondQueryMenu __instance, float ____age,
+        private static bool Prefix(PondQueryMenu __instance, float ____age,
             Rectangle ____confirmationBoxRectangle, string ____confirmationText, bool ___confirmingEmpty,
             string ___hoverText, SObject ____fishItem, FishPond ____pond, SpriteBatch b)
         {
@@ -1152,7 +1154,7 @@ internal static class Patches
 
         /// <summary>Draw pond fish quality stars in query menu.</summary>
         [HarmonyPostfix]
-        protected static void Postfix(PondQueryMenu __instance, bool ___confirmingEmpty, float ____age,
+        private static void Postfix(PondQueryMenu __instance, bool ___confirmingEmpty, float ____age,
             FishPond ____pond, SpriteBatch b)
         {
             if (___confirmingEmpty) return;
@@ -1283,11 +1285,11 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(ItemGrabMenu), nameof(ItemGrabMenu.readyToClose))]
-    internal class ItemGrabMenuReadyToClosePatch
+    internal sealed class ItemGrabMenuReadyToClosePatch
     {
         /// <summary>Update ItemsHeld on grab menu close.</summary>
         [HarmonyPostfix]
-        protected static void Postfix(ItemGrabMenu __instance)
+        private static void Postfix(ItemGrabMenu __instance)
         {
             if (__instance.context is not FishPond pond) return;
 
@@ -1319,7 +1321,7 @@ internal static class Patches
 #if DEBUG
     /// <summary>Required by DayUpdate prefix.</summary>
     [HarmonyPatch(typeof(Building), nameof(Building.dayUpdate))]
-    internal class BuildingDayUpdatePatch
+    internal sealed class BuildingDayUpdatePatch
     {
         /// <summary>Stub for base FishPond.dayUpdate</summary>
         [HarmonyReversePatch]

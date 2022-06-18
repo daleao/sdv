@@ -14,7 +14,7 @@ using Display;
 #endregion using directives
 
 [UsedImplicitly]
-internal class DebugButtonsChangedEvent : ButtonsChangedEvent
+internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 {
     /// <inheritdoc />
     protected override async void OnButtonsChangedImpl(object sender, ButtonsChangedEventArgs e)

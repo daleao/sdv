@@ -10,16 +10,18 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StardewValley;
 using StardewValley.Menus;
 
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Prestige;
+using Utility;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal class NewSkillsPageDrawPatch : BasePatch
+internal sealed class NewSkillsPageDrawPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal NewSkillsPageDrawPatch()
@@ -43,6 +45,54 @@ internal class NewSkillsPageDrawPatch : BasePatch
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
+
+        /// Inject: x -= ModEntry.Config.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
+        /// After: x = ...
+
+        var notRibbons = generator.DefineLabel();
+        try
+        {
+            helper
+                .FindFirst(
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(LocalizedContentManager).RequirePropertyGetter(nameof(LocalizedContentManager
+                            .CurrentLanguageCode)))
+                )
+                .AdvanceUntil(
+                    new CodeInstruction(OpCodes.Br_S)
+                )
+                .GetOperand(out var resumeExecution)
+                .AdvanceUntil(
+                    new CodeInstruction(OpCodes.Stloc_0)
+                )
+                .Insert(
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnablePrestige))),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.PrestigeProgressionStyle))),
+                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                    new CodeInstruction(OpCodes.Beq_S, notRibbons),
+                    new CodeInstruction(OpCodes.Ldc_I4_S,
+                        (int) ((Textures.RIBBON_WIDTH_I + 5) * Textures.RIBBON_SCALE_F)),
+                    new CodeInstruction(OpCodes.Sub),
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
+                )
+                .InsertWithLabels(
+                    new[] {notRibbons},
+                    new CodeInstruction(OpCodes.Ldc_I4_S,
+                        (int) ((Textures.STARS_WIDTH_I + 4) * Textures.STARS_SCALE_F)),
+                    new CodeInstruction(OpCodes.Sub)
+                );
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed adjusing localized skill page content position. Helper returned {ex}");
+            transpilationFailed = true;
+            return null;
+        }
 
         /// Injected: DrawExtendedLevelBars(levelIndex, skillindex, x, y, addedX, skillLevel, b)
         /// Before: if (i == 9) draw level number ...

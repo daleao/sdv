@@ -10,7 +10,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-internal class DebugModMessageReceivedEvent : ModMessageReceivedEvent
+internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object sender, ModMessageReceivedEventArgs e)

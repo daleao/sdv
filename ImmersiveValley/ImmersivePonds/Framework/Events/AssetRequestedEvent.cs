@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 
 /// <summary>Wrapper for <see cref="IContentEvents.AssetRequested"/> that can be hooked or unhooked.</summary>
 [UsedImplicitly]
-internal class AssetRequestedEvent : IEvent
+internal sealed class AssetRequestedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
@@ -30,7 +30,7 @@ internal class AssetRequestedEvent : IEvent
     /// <inheritdoc cref="IContentEvents.AssetRequested" />
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnAssetRequested(object sender, AssetRequestedEventArgs e)
+    private void OnAssetRequested(object sender, AssetRequestedEventArgs e)
     {
         if (!e.NameWithoutLocale.IsEquivalentTo("Data/FishPondData")) return;
 

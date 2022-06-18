@@ -16,7 +16,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MushroomBoxMachineGetOutputPatch : BasePatch
+internal sealed class MushroomBoxMachineGetOutputPatch : BasePatch
 {
     private static MethodInfo _GetMachine;
 
@@ -53,7 +53,7 @@ internal class MushroomBoxMachineGetOutputPatch : BasePatch
             if (!owner.HasProfession(Profession.Ecologist) || !ModEntry.Config.ShouldCountAutomatedHarvests)
                 return;
 
-            owner.IncrementData<uint>(DataField.EcologistItemsForaged);
+            owner.IncrementData<uint>(ModData.EcologistItemsForaged);
         }
         catch (Exception ex)
         {

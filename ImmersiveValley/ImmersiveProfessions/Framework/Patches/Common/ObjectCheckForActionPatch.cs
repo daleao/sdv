@@ -19,7 +19,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ObjectCheckForActionPatch : BasePatch
+internal sealed class ObjectCheckForActionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectCheckForActionPatch()
@@ -43,7 +43,7 @@ internal class ObjectCheckForActionPatch : BasePatch
     {
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession(Profession.Ecologist))
-            Game1.player.IncrementData<uint>(DataField.EcologistItemsForaged);
+            Game1.player.IncrementData<uint>(ModData.EcologistItemsForaged);
     }
 
     /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium + increase Honey quality with age + increase production frequency of Producer Bee House.</summary>
@@ -69,7 +69,7 @@ internal class ObjectCheckForActionPatch : BasePatch
                     // prepare profession check
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Gemologist, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Gemologist.Value, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Ldarg_0),
@@ -80,9 +80,9 @@ internal class ObjectCheckForActionPatch : BasePatch
                         typeof(string).RequireMethod(nameof(string.Equals), new[] {typeof(string)})),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Ldstr, DataField.GemologistMineralsCollected.ToString()),
+                    new CodeInstruction(OpCodes.Ldstr, ModData.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(ModData)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);

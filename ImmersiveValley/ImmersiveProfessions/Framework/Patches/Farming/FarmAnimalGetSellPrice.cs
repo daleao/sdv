@@ -13,7 +13,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class FarmAnimalGetSellPricePatch : BasePatch
+internal sealed class FarmAnimalGetSellPricePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmAnimalGetSellPricePatch()

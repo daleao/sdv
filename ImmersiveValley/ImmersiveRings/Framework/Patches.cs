@@ -30,12 +30,12 @@ internal static class Patches
     #region harmony patches 
 
     [HarmonyPatch(typeof(CraftingRecipe), nameof(CraftingRecipe.consumeIngredients))]
-    internal class CraftingRecipeConsumeIngredientsPatch
+    internal sealed class CraftingRecipeConsumeIngredientsPatch
     {
         /// <summary>Overrides ingredient consumption to allow non-SObject types.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(CraftingRecipe __instance, IList<Chest> additional_materials)
+        private static bool Prefix(CraftingRecipe __instance, IList<Chest> additional_materials)
         {
             if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
                 !ModEntry.Config.CraftableGlowAndMagnetRings && !ModEntry.Config.ImmersiveGlowstoneRecipe) return true; // run original logic
@@ -78,12 +78,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(CraftingRecipe), nameof(CraftingRecipe.doesFarmerHaveIngredientsInInventory))]
-    internal class CraftingRecipeDoesFarmerHaveIngredientsInInventory
+    internal sealed class CraftingRecipeDoesFarmerHaveIngredientsInInventory
     {
         /// <summary>Overrides ingredient search to allow non-Object types.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(CraftingRecipe __instance, ref bool __result, IList<Item> extraToCheck)
+        private static bool Prefix(CraftingRecipe __instance, ref bool __result, IList<Item> extraToCheck)
         {
             if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
                 !ModEntry.Config.CraftableGlowAndMagnetRings && !ModEntry.Config.ImmersiveGlowstoneRecipe) return true; // run original logic
@@ -121,12 +121,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(CraftingRecipe), nameof(CraftingRecipe.drawRecipeDescription))]
-    internal class CraftingRecipeDrawRecipeDescription
+    internal sealed class CraftingRecipeDrawRecipeDescription
     {
         /// <summary>Correctly draws recipes with non-Object types.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(CraftingRecipe __instance, SpriteBatch b, Vector2 position, int width, IList<Item> additional_crafting_items)
+        private static bool Prefix(CraftingRecipe __instance, SpriteBatch b, Vector2 position, int width, IList<Item> additional_crafting_items)
         {
             if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
                 !ModEntry.Config.CraftableGlowAndMagnetRings && !ModEntry.Config.ImmersiveGlowstoneRecipe) return true; // run original logic
@@ -211,12 +211,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(CraftingRecipe), nameof(CraftingRecipe.getCraftableCount), typeof(IList<Item>))]
-    internal class CraftingRecipeGetCraftableCountPatch
+    internal sealed class CraftingRecipeGetCraftableCountPatch
     {
         /// <summary>Overrides craftable count for non-SObject types.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(CraftingRecipe __instance, ref int __result, IList<Item> additional_materials)
+        private static bool Prefix(CraftingRecipe __instance, ref int __result, IList<Item> additional_materials)
         {
             if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
                 !ModEntry.Config.CraftableGlowAndMagnetRings && !ModEntry.Config.ImmersiveGlowstoneRecipe) return true; // run original logic
@@ -249,12 +249,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Ring), nameof(Ring.onEquip))]
-    internal class RingOnEquipPatch
+    internal sealed class RingOnEquipPatch
     {
         /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(Ring __instance, Farmer who)
+        private static bool Prefix(Ring __instance, Farmer who)
         {
             if (ModEntry.Config.ForgeableIridiumBand &&
                 __instance.indexInTileSheet.Value == Constants.IRIDIUM_BAND_INDEX_I) return false; // don't run original logic
@@ -279,12 +279,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Ring), nameof(Ring.onUnequip))]
-    internal class RingOnUnequipPatch
+    internal sealed class RingOnUnequipPatch
     {
         /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(Ring __instance, Farmer who)
+        private static bool Prefix(Ring __instance, Farmer who)
         {
             if (ModEntry.Config.ForgeableIridiumBand &&
                 __instance.indexInTileSheet.Value == Constants.IRIDIUM_BAND_INDEX_I) return false; // don't run original logic
@@ -309,35 +309,35 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Ring), nameof(Ring.onNewLocation))]
-    internal class RingOnNewLocationPatch
+    internal sealed class RingOnNewLocationPatch
     {
         /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(Ring __instance, Farmer who)
+        private static bool Prefix(Ring __instance, Farmer who)
         {
             return !ModEntry.Config.ForgeableIridiumBand || __instance.indexInTileSheet.Value != Constants.IRIDIUM_BAND_INDEX_I;
         }
     }
 
     [HarmonyPatch(typeof(Ring), nameof(Ring.onLeaveLocation))]
-    internal class RingOnLeaveLocationPatch
+    internal sealed class RingOnLeaveLocationPatch
     {
         /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(Ring __instance, Farmer who)
+        private static bool Prefix(Ring __instance, Farmer who)
         {
             return !ModEntry.Config.ForgeableIridiumBand || __instance.indexInTileSheet.Value != Constants.IRIDIUM_BAND_INDEX_I;
         }
     }
 
     [HarmonyPatch(typeof(Ring), nameof(Ring.drawTooltip))]
-    internal class RingDrawTooltipPatch
+    internal sealed class RingDrawTooltipPatch
     {
         /// <summary>Fix crab ring tooltip..</summary>
         [HarmonyTranspiler]
-        protected static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
         {
             var helper = new ILHelper(original, instructions);
 
@@ -373,12 +373,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Ring), nameof(Ring.CanCombine))]
-    internal class RingCanCombinePatch
+    internal sealed class RingCanCombinePatch
     {
         /// <summary>Allows feeding up to four gemstone rings into iridium bands.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(Ring __instance, ref bool __result, Ring ring)
+        private static bool Prefix(Ring __instance, ref bool __result, Ring ring)
         {
             if (!ModEntry.Config.ForgeableIridiumBand) return true; // run original logic
 
@@ -397,12 +397,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Ring), nameof(Ring.Combine))]
-    internal class RingCombine
+    internal sealed class RingCombine
     {
         /// <summary>Changes combined ring to iridium band when combining.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(Ring __instance, ref Ring __result, Ring ring)
+        private static bool Prefix(Ring __instance, ref Ring __result, Ring ring)
         {
             if (!ModEntry.Config.ForgeableIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
                 return true; // run original logic
@@ -437,12 +437,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(CombinedRing), nameof(CombinedRing._GetOneFrom))]
-    internal class CombinedRingGetOneFromPatch
+    internal sealed class CombinedRingGetOneFromPatch
     {
         /// <summary>Changes combined ring to iridium band when getting one.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(CombinedRing __instance, Item source)
+        private static bool Prefix(CombinedRing __instance, Item source)
         {
             if (!ModEntry.Config.ForgeableIridiumBand || source.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
                 return true; // run original logic
@@ -455,12 +455,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(CombinedRing), "loadDisplayFields")]
-    internal class CombinedRingsLoadDisplayFieldsPatch
+    internal sealed class CombinedRingsLoadDisplayFieldsPatch
     {
         /// <summary>Iridium description is always first, and gemstone descriptions are grouped together.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(CombinedRing __instance, ref bool __result)
+        private static bool Prefix(CombinedRing __instance, ref bool __result)
         {
             if (!ModEntry.Config.ForgeableIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
                 return true; // don't run original logic
@@ -556,12 +556,12 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(CombinedRing), nameof(CombinedRing.drawInMenu))]
-    internal class CombinedRingDrawInMenuPatch
+    internal sealed class CombinedRingDrawInMenuPatch
     {
         /// <summary>Draw gemstones on combined iridium band.</summary>
         [HarmonyPrefix]
         [HarmonyPriority(Priority.HigherThanNormal)]
-        protected static bool Prefix(CombinedRing __instance, SpriteBatch spriteBatch, Vector2 location,
+        private static bool Prefix(CombinedRing __instance, SpriteBatch spriteBatch, Vector2 location,
             float scaleSize, float transparency, float layerDepth, StackDrawType drawStackNumber, Color color,
             bool drawShadow)
         {
@@ -653,7 +653,7 @@ internal static class Patches
     }
 
     [HarmonyPatch(typeof(Ring), nameof(Ring.drawInMenu))]
-    internal class RingDrawInMenuPatch
+    internal sealed class RingDrawInMenuPatch
     {
         /// <summary>Stub for base Ring.drawInMenu</summary>
         [HarmonyReversePatch]

@@ -12,7 +12,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class RequestUpdateDataModMessageReceivedEvent : ModMessageReceivedEvent
+internal sealed class RequestUpdateDataModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object sender, ModMessageReceivedEventArgs e)
@@ -28,7 +28,7 @@ internal class RequestUpdateDataModMessageReceivedEvent : ModMessageReceivedEven
 
         var split = e.Type.Split('/');
         var operation = split[1];
-        var field = Enum.Parse<DataField>(split[2]);
+        var field = Enum.Parse<ModData>(split[2]);
         var value = e.ReadAs<string>();
         switch (operation)
         {

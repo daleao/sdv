@@ -23,11 +23,11 @@ public static class ModHelperExtensions
         var modInfo = helper.ModRegistry.Get(uniqueId);
         if (modInfo is null)
         {
-            log($"{uniqueId} mod not found. Integrations disabled.", LogLevel.Info);
+            log($"{uniqueId} mod not found. Integrations disabled.", LogLevel.Trace);
             return null;
         }
 
-        log($"{uniqueId} mod found. Integrations will be enabled.", LogLevel.Info);
+        log($"{uniqueId} mod found. Integrations will be enabled.", LogLevel.Trace);
         var modEntry = (IMod) modInfo.GetType().GetProperty("Mod")!.GetValue(modInfo);
         return modEntry?.Helper.ReadConfig<JObject>();
     }
@@ -42,11 +42,11 @@ public static class ModHelperExtensions
         var modInfo = helper.ModRegistry.Get(uniqueId);
         if (modInfo is null)
         {
-            log($"{uniqueId} mod not found. Integrations disabled.", LogLevel.Info);
+            log($"{uniqueId} mod not found. Integrations disabled.", LogLevel.Trace);
             return null;
         }
 
-        log($"{uniqueId} mod found. Integrations will be enabled.", LogLevel.Info);
+        log($"{uniqueId} mod found. Integrations will be enabled.", LogLevel.Trace);
         var modPath = (string) modInfo.GetType().GetProperty("DirectoryPath")!.GetValue(modInfo);
         try
         {

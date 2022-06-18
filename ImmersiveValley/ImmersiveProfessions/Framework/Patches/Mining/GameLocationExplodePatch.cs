@@ -22,7 +22,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GameLocationExplodePatch : BasePatch
+internal sealed class GameLocationExplodePatch : BasePatch
 {
     private static readonly FieldInfo _Multiplayer = typeof(Game1).RequireField("multiplayer")!;
 

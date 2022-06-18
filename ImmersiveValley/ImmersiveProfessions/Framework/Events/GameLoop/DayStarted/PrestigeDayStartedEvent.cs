@@ -8,7 +8,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal class PrestigeDayStartedEvent : DayStartedEvent
+internal sealed class PrestigeDayStartedEvent : DayStartedEvent
 {
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)

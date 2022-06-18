@@ -25,7 +25,7 @@ internal abstract class Ultimate : IUltimate
     private int _activationTimer;
     private double _chargeValue;
 
-    private static int _ActivationTimerMax => (int) (ModEntry.Config.UltimateActivationDelay * 60);
+    private static int _ActivationTimerMax => (int) (ModEntry.Config.SpecialActivationDelay * 60);
 
     #region event handlers
 
@@ -95,8 +95,8 @@ internal abstract class Ultimate : IUltimate
             {
                 var delta = value - _chargeValue;
                 var scaledDelta = delta * ((double) MaxValue / BASE_MAX_VALUE_I) * (delta >= 0
-                    ? ModEntry.Config.UltimateGainFactor
-                    : ModEntry.Config.UltimateDrainFactor);
+                    ? ModEntry.Config.SpecialGainFactor
+                    : ModEntry.Config.SpecialDrainFactor);
                 value = Math.Min(scaledDelta + _chargeValue, MaxValue);
 
                 if (_chargeValue == 0f)
@@ -139,7 +139,7 @@ internal abstract class Ultimate : IUltimate
     public bool IsActive { get; protected set; }
 
     /// <inheritdoc />
-    public virtual bool CanActivate => ModEntry.Config.EnableUltimates && !IsActive && IsFullyCharged;
+    public virtual bool CanActivate => ModEntry.Config.EnableSpecials && !IsActive && IsFullyCharged;
 
     #endregion public properties
 
@@ -185,7 +185,7 @@ internal abstract class Ultimate : IUltimate
             typeof(UltimateInputUpdateTickedEvent));
 
         // play sound effect
-        SoundBank.Play(ActivationSfx);
+        ActivationSfx.Play();
 
         // notify peers
         ModEntry.Broadcaster.Broadcast("Active", "ToggledUltimate");
@@ -219,9 +219,9 @@ internal abstract class Ultimate : IUltimate
     /// <summary>Detect and handle activation input.</summary>
     internal void CheckForActivation()
     {
-        if (ModEntry.Config.UltimateKey.JustPressed() && CanActivate)
+        if (ModEntry.Config.SpecialActivationKey.JustPressed() && CanActivate)
         {
-            if (ModEntry.Config.HoldKeyToActivateUltimate)
+            if (ModEntry.Config.HoldKeyToActivateSpecial)
             {
                 _activationTimer = _ActivationTimerMax;
                 EventManager.Enable(typeof(UltimateInputUpdateTickedEvent));
@@ -231,7 +231,7 @@ internal abstract class Ultimate : IUltimate
                 Activate();
             }
         }
-        else if (ModEntry.Config.UltimateKey.GetState() == SButtonState.Released && _activationTimer > 0)
+        else if (ModEntry.Config.SpecialActivationKey.GetState() == SButtonState.Released && _activationTimer > 0)
         {
             _activationTimer = -1;
             EventManager.Disable(typeof(UltimateInputUpdateTickedEvent));

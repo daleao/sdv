@@ -13,7 +13,7 @@ using Extensions;
 
 /// <summary>Wrapper for <see cref="IMultiplayerEvents.ModMessageReceived"/> that can be hooked or unhooked.</summary>
 [UsedImplicitly]
-internal class ModMessageReceivedEvent : IEvent
+internal sealed class ModMessageReceivedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
@@ -32,7 +32,7 @@ internal class ModMessageReceivedEvent : IEvent
     /// <inheritdoc cref="IMultiplayerEvents.ModMessageReceived"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    protected void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
+    private void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
     {
         if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("RequestUpdateData")) return;
 
@@ -45,7 +45,7 @@ internal class ModMessageReceivedEvent : IEvent
 
         var split = e.Type.Split('/');
         var operation = split[1];
-        var field = Enum.Parse<DataField>(split[2]);
+        var field = Enum.Parse<ModData>(split[2]);
         var value = e.ReadAs<string>();
         switch (operation)
         {

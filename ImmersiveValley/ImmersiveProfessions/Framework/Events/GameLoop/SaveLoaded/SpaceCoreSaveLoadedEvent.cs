@@ -3,19 +3,17 @@ namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 #region using directives
 
-using System;
-using System.Linq;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Integrations;
+using Common.Integrations;
 using Utility;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
+internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
 {
     /// <summary>Construct an instance.</summary>
     internal SpaceCoreSaveLoadedEvent()
@@ -27,15 +25,28 @@ internal class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
     protected override void OnSaveLoadedImpl(object sender, SaveLoadedEventArgs e)
     {
         // initialize reflected SpaceCore fields
-        SpaceCoreIntegration.InitializeReflectedFields();
+        if (!ExtendedSpaceCoreAPI.Initialized) ExtendedSpaceCoreAPI.Init();
 
         // get custom luck skill
         if (ModEntry.LuckSkillApi is not null)
-            ModEntry.CustomSkills["spacechase0.LuckSkill"] = new LuckSkill();
+        {
+            // initialize reflected SpaceCore fields
+            if (!ExtendedSpaceCoreAPI.Initialized) ExtendedSpaceCoreAPI.Init();
+
+            var luckSkill = new LuckSkill(ModEntry.LuckSkillApi);
+            ModEntry.CustomSkills["spacechase0.LuckSkill"] = luckSkill;
+            foreach (var profession in luckSkill.Professions)
+                ModEntry.CustomProfessions[profession.Id] = (CustomProfession) profession;
+        }
 
         // get remaining SpaceCore skills
         foreach (var skillId in ModEntry.SpaceCoreApi!.GetCustomSkills())
-            ModEntry.CustomSkills[skillId] = new SpaceCoreSkill(skillId);
+        {
+            var customSkill = new CustomSkill(skillId, ModEntry.SpaceCoreApi);
+            ModEntry.CustomSkills[skillId] = customSkill;
+            foreach (var profession in customSkill.Professions)
+                ModEntry.CustomProfessions[profession.Id] = (CustomProfession) profession;
+        }
 
         // revalidate custom skill levels
         foreach (var skill in ModEntry.CustomSkills.Values)

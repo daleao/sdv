@@ -11,7 +11,7 @@ using Integrations;
 
 /// <summary>Wrapper for <see cref="IGameLoopEvents.GameLaunched"/> that can be hooked or unhooked.</summary>
 [UsedImplicitly]
-internal class GameLaunchedEvent : IEvent
+internal sealed class GameLaunchedEvent : IEvent
 {
     /// <inheritdoc />
     public void Hook()
@@ -30,7 +30,7 @@ internal class GameLaunchedEvent : IEvent
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnGameLaunched(object sender, GameLaunchedEventArgs e)
+    private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
     {
         // add Generic Mod Config Menu integration
         new GenericModConfigMenuIntegrationForImmersivePonds(

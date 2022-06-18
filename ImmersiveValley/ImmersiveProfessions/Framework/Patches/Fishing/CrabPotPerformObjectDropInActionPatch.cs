@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CrabPotPerformObjectDropInActionPatch : BasePatch
+internal sealed class CrabPotPerformObjectDropInActionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal CrabPotPerformObjectDropInActionPatch()
@@ -38,7 +38,7 @@ internal class CrabPotPerformObjectDropInActionPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Conservationist)
+                .FindProfessionCheck(Profession.Conservationist.Value)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldloc_1)
                 )

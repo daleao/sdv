@@ -21,7 +21,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class GameLocationCheckActionPatch : BasePatch
+internal sealed class GameLocationCheckActionPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationCheckActionPatch()
@@ -116,7 +116,7 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .AdvanceUntil( // find repeated botanist check
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist)
                 )
-                .SetOperand((int) Profession.Gemologist) // replace with gemologist check
+                .SetOperand(Profession.Gemologist.Value) // replace with gemologist check
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
@@ -187,7 +187,7 @@ internal class GameLocationCheckActionPatch : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Forager)
+                .FindProfessionCheck(Profession.Forager.Value)
                 .Retreat()
                 .GetInstructionsUntil(out got, true, true,
                     new CodeInstruction(OpCodes.Brfalse_S)
@@ -198,9 +198,9 @@ internal class GameLocationCheckActionPatch : BasePatch
                 .AddLabels(isNotPrestiged)
                 .Insert(got)
                 .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, (int) Profession.Forager)
+                    new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Forager.Value)
                 )
-                .SetOperand((int) Profession.Forager + 100)
+                .SetOperand(Profession.Forager.Value + 100)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
@@ -230,9 +230,9 @@ internal class GameLocationCheckActionPatch : BasePatch
     private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
     {
         if (who.HasProfession(Profession.Ecologist) && obj.isForage(location) && !obj.IsForagedMineral())
-            who.IncrementData<uint>(DataField.EcologistItemsForaged);
+            who.IncrementData<uint>(ModData.EcologistItemsForaged);
         else if (who.HasProfession(Profession.Gemologist) && obj.IsForagedMineral())
-            who.IncrementData<uint>(DataField.GemologistMineralsCollected);
+            who.IncrementData<uint>(ModData.GemologistMineralsCollected);
     }
 
     #endregion private methods

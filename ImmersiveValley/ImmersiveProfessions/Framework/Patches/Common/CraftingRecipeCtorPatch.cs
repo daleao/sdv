@@ -12,7 +12,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CraftingRecipeCtorPatch : BasePatch
+internal sealed class CraftingRecipeCtorPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal CraftingRecipeCtorPatch()

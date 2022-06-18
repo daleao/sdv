@@ -19,10 +19,8 @@ using SUtility = StardewValley.Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CrabPotDayUpdatePatch : BasePatch
+internal sealed class CrabPotDayUpdatePatch : BasePatch
 {
-    private const double CHANCE_TO_CATCH_FISH_D = 0.25;
-
     /// <summary>Construct an instance.</summary>
     internal CrabPotDayUpdatePatch()
     {
@@ -55,7 +53,7 @@ internal class CrabPotDayUpdatePatch : BasePatch
                     {
                         whichFish = __instance.ChoosePirateTreasure(owner, r);
                     }
-                    else if (Game1.random.NextDouble() < CHANCE_TO_CATCH_FISH_D)
+                    else if (Game1.random.NextDouble() < 0.25)
                     {
                         whichFish = __instance.ChooseFish(fishData, location, r);
                         if (whichFish < 0) whichFish = __instance.ChooseTrapFish(fishData, location, r, true);
@@ -80,9 +78,9 @@ internal class CrabPotDayUpdatePatch : BasePatch
                     whichFish = __instance.GetTrash(location, r);
                     if (isConservationist && whichFish.IsTrash())
                     {
-                        owner.IncrementData<uint>(DataField.ConservationistTrashCollectedThisSeason);
+                        owner.IncrementData<uint>(ModData.ConservationistTrashCollectedThisSeason);
                         if (owner.HasProfession(Profession.Conservationist, true) &&
-                            owner.ReadDataAs<uint>(DataField.ConservationistTrashCollectedThisSeason) %
+                            owner.ReadDataAs<uint>(ModData.ConservationistTrashCollectedThisSeason) %
                             ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
                             SUtility.improveFriendshipWithEveryoneInRegion(owner, 1, 2);
                     }

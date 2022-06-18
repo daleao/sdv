@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MineShaftCheckStoneForItemsPatch : BasePatch
+internal sealed class MineShaftCheckStoneForItemsPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal MineShaftCheckStoneForItemsPatch()
@@ -62,7 +62,7 @@ internal class MineShaftCheckStoneForItemsPatch : BasePatch
                     // prepare profession check
                     new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
                 )
-                .InsertProfessionCheck((int) Profession.Spelunker, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Spelunker.Value, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown

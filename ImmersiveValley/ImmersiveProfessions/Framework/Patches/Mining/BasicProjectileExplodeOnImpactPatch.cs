@@ -15,7 +15,7 @@ using Extensions;
 
 // ReSharper disable PossibleLossOfFraction
 [UsedImplicitly]
-internal class BasicProjectileExplodeOnImpact : BasePatch
+internal sealed class BasicProjectileExplodeOnImpact : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal BasicProjectileExplodeOnImpact()

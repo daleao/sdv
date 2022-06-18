@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class HoeDirtApplySpeedIncreases : BasePatch
+internal sealed class HoeDirtApplySpeedIncreases : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal HoeDirtApplySpeedIncreases()
@@ -41,9 +41,9 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
         try
         {
             helper
-                .FindProfessionCheck((int) Profession.Agriculturist)
+                .FindProfessionCheck(Profession.Agriculturist.Value)
                 .Advance()
-                .FindProfessionCheck((int) Profession.Agriculturist, true)
+                .FindProfessionCheck(Profession.Agriculturist.Value, true)
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_R4, 0.1f)
                 )
@@ -51,7 +51,7 @@ internal class HoeDirtApplySpeedIncreases : BasePatch
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_1)
                 )
-                .InsertProfessionCheck((int) Profession.Agriculturist + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Agriculturist.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R4, 0.2f),

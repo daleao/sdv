@@ -9,7 +9,7 @@ using Framework.TreasureHunt;
 
 #endregion using directives
 
-public class TreasureHuntEndedEventArgs : EventArgs, ITreasureHuntEndedEventArgs
+public sealed class TreasureHuntEndedEventArgs : EventArgs, ITreasureHuntEndedEventArgs
 {
     /// <inheritdoc />
     public Farmer Player { get; }

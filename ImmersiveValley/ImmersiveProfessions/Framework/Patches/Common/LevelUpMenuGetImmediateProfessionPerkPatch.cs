@@ -10,7 +10,6 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
-using StardewModdingAPI.Enums;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
@@ -24,7 +23,7 @@ using Ultimate;
 #endregion using directives
 
 [UsedImplicitly]
-internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
+internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuGetImmediateProfessionPerkPatch()
@@ -38,15 +37,14 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
     [HarmonyPostfix]
     private static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
     {
-        if (whichProfession.GetCorrespondingSkill() == SkillType.Combat)
+        if (!Profession.TryFromValue(whichProfession, out var profession) ||
+            whichProfession == Farmer.luckSkill) return;
+
+        if ((Skill) profession.Skill == Skill.Combat)
         {
             Game1.player.maxHealth += 5;
             Game1.player.health = Game1.player.maxHealth;
         }
-
-        if (!Enum.IsDefined(typeof(Profession), whichProfession)) return;
-
-        var profession = (Profession) whichProfession;
 
         // add immediate perks
         if (profession == Profession.Aquarist)
@@ -80,12 +78,12 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
             ModEntry.PlayerState.RegisteredUltimate = newIndex switch
 #pragma warning restore CS8509
             {
-                UltimateIndex.BruteFrenzy => new Frenzy(),
+                UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
                 UltimateIndex.PoacherAmbush => new Ambush(),
-                UltimateIndex.PiperPandemonium => new Pandemonium(),
+                UltimateIndex.PiperPandemic => new Enthrall(),
                 UltimateIndex.DesperadoBlossom => new DeathBlossom()
             };
-        Game1.player.WriteData(DataField.UltimateIndex, newIndex.ToString());
+        Game1.player.WriteData(ModData.UltimateIndex, newIndex.ToString());
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>
@@ -104,7 +102,7 @@ internal class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
                 )
-                .SetOperand((int) Profession.Brute);
+                .SetOperand(Profession.Brute.Value);
         }
         catch (Exception ex)
         {

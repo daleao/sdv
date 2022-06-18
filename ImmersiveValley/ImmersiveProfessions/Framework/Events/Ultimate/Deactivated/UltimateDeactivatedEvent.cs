@@ -6,7 +6,7 @@ using System;
 
 #endregion using directives
 
-internal class UltimateDeactivatedEvent : BaseEvent
+internal sealed class UltimateDeactivatedEvent : BaseEvent
 {
     private readonly Action<object, IUltimateDeactivatedEventArgs> _OnDeactivatedImpl;
 

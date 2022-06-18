@@ -15,7 +15,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class CrystalariumMachineGetOutputPatch : BasePatch
+internal sealed class CrystalariumMachineGetOutputPatch : BasePatch
 {
     private static MethodInfo _GetMachine;
 
@@ -48,7 +48,7 @@ internal class CrystalariumMachineGetOutputPatch : BasePatch
         if (!owner.HasProfession(Profession.Gemologist) ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
-        owner.IncrementData<uint>(DataField.GemologistMineralsCollected);
+        owner.IncrementData<uint>(ModData.GemologistMineralsCollected);
     }
 
     #endregion harmony patches

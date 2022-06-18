@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class BushShakePatch : BasePatch
+internal sealed class BushShakePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal BushShakePatch()
@@ -75,13 +75,13 @@ internal class BushShakePatch : BasePatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
-                .InsertProfessionCheck((int) Profession.Ecologist)
+                .InsertProfessionCheck(Profession.Ecologist.Value)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldstr, DataField.EcologistItemsForaged.ToString()),
+                    new CodeInstruction(OpCodes.Ldstr, ModData.EcologistItemsForaged.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(DataField)})
+                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(ModData)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseEcologistCounter);

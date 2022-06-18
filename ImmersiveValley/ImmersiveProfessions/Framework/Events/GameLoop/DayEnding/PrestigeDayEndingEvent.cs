@@ -5,26 +5,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using StardewModdingAPI.Enums;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Common.Integrations;
 using Extensions;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal class PrestigeDayEndingEvent : DayEndingEvent
+internal sealed class PrestigeDayEndingEvent : DayEndingEvent
 {
-    private static Queue<SkillType> _ToReset => ModEntry.PlayerState.SkillsToReset;
-    private static Queue<ICustomSkill> _ToReset_Custom => ModEntry.PlayerState.CustomSkillsToReset;
+    private static Queue<ISkill> _ToReset => ModEntry.PlayerState.SkillsToReset;
 
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
     {
-        while (_ToReset.Any()) Game1.player.ResetSkill(_ToReset.Dequeue());
-        while (_ToReset_Custom.Any()) Game1.player.ResetCustomSkill(_ToReset_Custom.Dequeue());
+        while (_ToReset.Any())
+        {
+            var toReset = _ToReset.Dequeue();
+            switch (toReset)
+            {
+                case Skill skill:
+                    Game1.player.ResetSkill(skill);
+                    break;
+                case CustomSkill customSkill:
+                    Game1.player.ResetCustomSkill(customSkill);
+                    break;
+            }
+        }
+
         Disable();
     }
 }

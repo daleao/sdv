@@ -10,6 +10,7 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 
+using Framework;
 using Framework.Utility;
 
 using SObject = StardewValley.Object;
@@ -189,11 +190,10 @@ public static class CrabPotExtensions
 
     /// <summary>Get random trash.</summary>
     /// <param name="r">Random number generator.</param>
-    /// <param name="tileLocation">The crab pot tile location.</param>
     /// <param name="location">The game location of the crab pot.</param>
     public static int GetTrash(this CrabPot crabpot, GameLocation location, Random r)
     {
-        if (r.NextDouble() > 1.0 / 3.0) return r.Next(167, 173);
+        if (r.NextDouble() > 0.5) return r.Next(167, 173);
 
         int trash;
         switch (location)

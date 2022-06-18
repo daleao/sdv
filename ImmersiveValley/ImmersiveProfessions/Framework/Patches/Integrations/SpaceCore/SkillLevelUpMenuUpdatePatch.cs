@@ -13,11 +13,12 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
+using StardewValley.Menus;
 
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
-using DaLion.Stardew.Professions.Integrations;
+using DaLion.Common.Integrations;
 using Extensions;
 
 using CollectionExtensions = DaLion.Common.Extensions.Collections.CollectionExtensions;
@@ -25,10 +26,10 @@ using CollectionExtensions = DaLion.Common.Extensions.Collections.CollectionExte
 #endregion using directives
 
 [UsedImplicitly]
-internal class SkillLevelUpMenuPatch : BasePatch
+internal sealed class SkillLevelUpMenuUpdatePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
-    internal SkillLevelUpMenuPatch()
+    internal SkillLevelUpMenuUpdatePatch()
     {
         try
         {
@@ -42,9 +43,24 @@ internal class SkillLevelUpMenuPatch : BasePatch
 
     #region harmony patches
 
-    /// <summary>Patch to prevent duplicate profession acquisition + display end of level up dialogues.</summary>
+    /// <summary>Patch to idiot-proof the level-up menu. </summary>
+    [HarmonyPrefix]
+    private static void SkillLevelUpMenuUpdatePrefix(int ___currentLevel, bool ___hasUpdatedProfessions,
+        ref bool ___informationUp, ref bool ___isActive, ref bool ___isProfessionChooser,
+        List<int> ___professionsToChoose)
+    {
+        if (!___isProfessionChooser || !___hasUpdatedProfessions ||
+            !ShouldSuppressClick(___professionsToChoose[0], ___currentLevel) ||
+            !ShouldSuppressClick(___professionsToChoose[1], ___currentLevel)) return;
+
+        ___isActive = false;
+        ___informationUp = false;
+        ___isProfessionChooser = false;
+    }
+
+    /// <summary>Patch to prevent duplicate profession acquisition.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> LevelUpMenuUpdateTranspiler(
+    private static IEnumerable<CodeInstruction> SkillLevelUpMenuUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -61,7 +77,7 @@ internal class SkillLevelUpMenuPatch : BasePatch
                 )
                 .ReplaceWith(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SkillLevelUpMenuPatch).RequireMethod(nameof(ChooseProfessionPair)))
+                        typeof(SkillLevelUpMenuUpdatePatch).RequireMethod(nameof(ChooseProfessionPair)))
                 )
                 .Insert(
                     new CodeInstruction(OpCodes.Ldloc_1),
@@ -127,6 +143,54 @@ internal class SkillLevelUpMenuPatch : BasePatch
         // repeat injection
         if (++i < 2) goto repeat;
 
+        /// Injected: if (!ShouldSuppressClick(chosenProfession[i], currentLevel))
+        /// Before: leftProfessionColor = Color.Green;
+
+        var skip = generator.DefineLabel();
+        try
+        {
+            helper
+                .FindFirst(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green)))
+                )
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu".ToType().RequireField("professionsToChoose")),
+                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu".ToType().RequireField("currentLevel")),
+                    new CodeInstruction(OpCodes.Call, typeof(SkillLevelUpMenuUpdatePatch).RequireMethod(nameof(ShouldSuppressClick))),
+                    new CodeInstruction(OpCodes.Brtrue, skip)
+                )
+                .FindNext(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green)))
+                )
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu".ToType().RequireField("professionsToChoose")),
+                    new CodeInstruction(OpCodes.Ldc_I4_1),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu".ToType().RequireField("currentLevel")),
+                    new CodeInstruction(OpCodes.Call, typeof(SkillLevelUpMenuUpdatePatch).RequireMethod(nameof(ShouldSuppressClick))),
+                    new CodeInstruction(OpCodes.Brtrue, skip)
+                )
+                .FindNext(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldc_I4, 512)
+                )
+                .AddLabels(skip);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed while patching level up menu choice suppression. Helper returned {ex}");
+            transpilationFailed = true;
+            return null;
+        }
+
         return helper.Flush();
     }
 
@@ -137,21 +201,28 @@ internal class SkillLevelUpMenuPatch : BasePatch
     [CanBeNull]
     private static object ChooseProfessionPair(object skillInstance, string skillId, int currentLevel)
     {
-        if (currentLevel is not (5 or 10)) return null;
+        if (currentLevel is not (5 or 10) || !ModEntry.CustomSkills.TryGetValue(skillId, out var skill)) return null;
 
-        var professionPairs = ((IEnumerable) SpaceCoreIntegration.GetProfessionsForLevels.Invoke(skillInstance, null)!)
+        var professionPairs = ((IEnumerable) ExtendedSpaceCoreAPI.GetProfessionsForLevels.Invoke(skillInstance, null)!)
             .Cast<object>().ToList();
         var levelFivePair = professionPairs[0];
         if (currentLevel == 5) return levelFivePair;
 
-        var first = SpaceCoreIntegration.GetFirstProfession.Invoke(levelFivePair, null)!;
-        var second = SpaceCoreIntegration.GetSecondProfession.Invoke(levelFivePair, null)!;
-        var firstStringId = (string) SpaceCoreIntegration.GetProfessionStringId.Invoke(first, null)!;
-        var secondStringId = (string) SpaceCoreIntegration.GetProfessionStringId.Invoke(second, null)!;
+        var first = ExtendedSpaceCoreAPI.GetFirstProfession.Invoke(levelFivePair, null)!;
+        var second = ExtendedSpaceCoreAPI.GetSecondProfession.Invoke(levelFivePair, null)!;
+        var firstStringId = (string) ExtendedSpaceCoreAPI.GetProfessionStringId.Invoke(first, null)!;
+        var secondStringId = (string) ExtendedSpaceCoreAPI.GetProfessionStringId.Invoke(second, null)!;
         var firstId = ModEntry.SpaceCoreApi!.GetProfessionId(skillId, firstStringId);
         var secondId = ModEntry.SpaceCoreApi!.GetProfessionId(skillId, secondStringId);
         var branch = Game1.player.GetMostRecentProfession(firstId.Collect(secondId));
         return branch == firstId ? professionPairs[1] : professionPairs[2];
+    }
+
+    private static bool ShouldSuppressClick(int hovered, int currentLevel)
+    {
+        return ModEntry.CustomProfessions.TryGetValue(hovered, out var profession) &&
+               (currentLevel == 5 && Game1.player.HasAllProfessionsBranchingFrom(profession) ||
+               currentLevel == 10 && Game1.player.HasProfession(profession));
     }
 
     #endregion injected subroutines

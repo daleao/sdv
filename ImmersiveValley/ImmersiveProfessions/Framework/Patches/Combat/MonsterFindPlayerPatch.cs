@@ -16,7 +16,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class MonsterFindPlayerPatch : BasePatch
+internal sealed class MonsterFindPlayerPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal MonsterFindPlayerPatch()

@@ -16,7 +16,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ProducerRuleControllerProduceOutputPatch : BasePatch
+internal sealed class ProducerRuleControllerProduceOutputPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ProducerRuleControllerProduceOutputPatch()

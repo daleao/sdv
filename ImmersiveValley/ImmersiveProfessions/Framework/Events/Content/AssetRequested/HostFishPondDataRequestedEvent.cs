@@ -10,7 +10,7 @@ using StardewValley.GameData.FishPond;
 #endregion using directives
 
 [UsedImplicitly]
-internal class HostFishPondDataRequestedEvent : AssetRequestedEvent
+internal sealed class HostFishPondDataRequestedEvent : AssetRequestedEvent
 {
     /// <inheritdoc />
     protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)

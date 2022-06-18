@@ -11,7 +11,7 @@ using StardewValley.Menus;
 #endregion using directives
 
 [UsedImplicitly]
-internal class LevelUpMenuGetProfessionNamePatch : BasePatch
+internal sealed class LevelUpMenuGetProfessionNamePatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuGetProfessionNamePatch()
@@ -27,9 +27,9 @@ internal class LevelUpMenuGetProfessionNamePatch : BasePatch
     {
         try
         {
-            if (!Enum.IsDefined(typeof(Profession), whichProfession)) return true; // run original logic
+            if (!Profession.TryFromValue(whichProfession, out var profession)) return true; // run original logic
 
-            __result = ((Profession) whichProfession).ToString();
+            __result = profession.Name;
             return false; // don't run original logic
         }
         catch (Exception ex)

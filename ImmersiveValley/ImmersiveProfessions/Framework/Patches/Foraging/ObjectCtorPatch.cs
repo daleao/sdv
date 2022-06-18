@@ -14,7 +14,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal class ObjectCtorPatch : BasePatch
+internal sealed class ObjectCtorPatch : BasePatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectCtorPatch()

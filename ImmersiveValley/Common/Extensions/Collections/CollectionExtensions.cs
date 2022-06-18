@@ -18,6 +18,13 @@ public static class CollectionExtensions
         return candidates.Any(collection.Contains);
     }
 
+    /// <summary>Determine if a collection contains any of the objects in a sequence.</summary>
+    /// <param name="candidates">The objects to search for.</param>
+    public static bool ContainsAnyOf<T>(this ICollection<T> collection, IEnumerable<T> candidates)
+    {
+        return candidates.Any(collection.Contains);
+    }
+
     /// <summary>Determine if a collection contains any instance of the given types.</summary>
     /// <param name="types">The types to search for.</param>
     public static bool ContainsType<T>(this ICollection<T> collection, Type type)

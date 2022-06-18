@@ -11,7 +11,7 @@ using Common.Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal class AchievementsRequestedEvent : AssetRequestedEvent
+internal sealed class AchievementsRequestedEvent : AssetRequestedEvent
 {
     /// <inheritdoc />
     protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)
@@ -24,8 +24,8 @@ internal class AchievementsRequestedEvent : AssetRequestedEvent
             var data = asset.AsDictionary<int, string>().Data;
 
             string name =
-                ModEntry.i18n.Get("prestige.achievement.name." +
-                                                   (Game1.player.IsMale ? "male" : "female"));
+                ModEntry.i18n.Get("prestige.achievement.name" +
+                                                   (Game1.player.IsMale ? ".male" : ".female"));
             var desc = ModEntry.i18n.Get("prestige.achievement.desc");
 
             const string SHOULD_DISPLAY_BEFORE_EARNED_S = "false";
