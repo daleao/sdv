@@ -27,7 +27,7 @@
       </ul>
     </li>
     <li><a href="#prestige">Prestige</a></li>
-    <li><a href="#ultimates">Ultimates</a></li>
+    <li><a href="#special-abilities">Special Abilities</a></li>
     <li><a href="#compatibility">Compatibility</a></li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#configs">Configs</a></li>
