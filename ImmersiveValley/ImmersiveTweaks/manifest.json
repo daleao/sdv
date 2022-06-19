@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Quality Of Life - Immersive Tweaks",
   "Author": "DaLion",
-  "Version": "1.2.3",
+  "Version": "1.2.4",
   "Description": "An collection of immersive tweaks to weapons, rings, and misc. vanilla inconsistencies.",
   "UniqueID": "DaLion.ImmersiveTweaks",
   "EntryDll": "ImmersiveTweaks.dll",

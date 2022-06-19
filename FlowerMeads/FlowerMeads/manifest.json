@@ -1,7 +1,7 @@
 ﻿{
 	"Name": "Flower Meads - BAGI Addon",
 	"Author": "DaLion",
-	"Version": "2.0.0",
+	"Version": "2.0.1",
 	"Description": "Allows kegs to produce flower meads and Better Artisan Good Icons to load custom flower mead sprites.",
 	"UniqueID": "DaLion.Meads",
 	"EntryDll": "FlowerMeads.dll",
@@ -10,7 +10,7 @@
 	"Dependencies": [
 		{
 			"UniqueID": "cat.betterartisangoodicons",
-			"Required": false
+			"IsRequired": false
 		}
 	]
 }

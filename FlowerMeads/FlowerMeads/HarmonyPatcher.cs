@@ -31,6 +31,31 @@ internal static class HarmonyPatcher
     internal static void Apply(Harmony harmony)
     {
         harmony.Patch(
+            original: typeof(SObject).RequireMethod(nameof(SObject.performObjectDropInAction)),
+            prefix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectPerformObjectDropInPrefix))),
+            postfix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectPerformObjectDropInPostfix)))
+        );
+
+        harmony.Patch(
+            original: typeof(SObject).RequireMethod("loadDisplayName"),
+            postfix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectLoadDisplayNamePostfix)))
+        );
+    }
+
+    internal static void ApplyAutomate(Harmony harmony)
+    {
+        harmony.Patch(
+            original: "Pathoschild.Stardew.Automate.Framework.GenericObjectMachine`1".ToType()
+                .MakeGenericType(typeof(SObject))
+                .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
+                .FirstOrDefault(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3),
+            transpiler: new(typeof(HarmonyPatcher).RequireMethod(nameof(GenericObjectMachineGenericPullRecipeTranspiler)))
+        );
+    }
+
+    internal static void ApplyBAGI(Harmony harmony)
+    {
+        harmony.Patch(
             original: "BetterArtisanGoodIcons.ArtisanGoodTextureProvider".ToType().RequireMethod("GetSourceName"),
             prefix: new(typeof(HarmonyPatcher), nameof(ArtisanGoodTextureProviderGetSourceNamePrefix))
         );
@@ -77,28 +102,6 @@ internal static class HarmonyPatcher
                 new[] { typeof(SpriteBatch), typeof(Vector2), typeof(Farmer) }),
             prefix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectDrawWhenHeldPrefix)),
                 before: new[] { "cat.betterartisangoodicons" })
-        );
-
-        harmony.Patch(
-            original: typeof(SObject).RequireMethod(nameof(SObject.performObjectDropInAction)),
-            prefix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectPerformObjectDropInPrefix))),
-            postfix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectPerformObjectDropInPostfix)))
-        );
-
-        harmony.Patch(
-            original: typeof(SObject).RequireMethod("loadDisplayName"),
-            postfix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectLoadDisplayNamePostfix)))
-        );
-    }
-
-    internal static void ApplyAutomate(Harmony harmony)
-    {
-        harmony.Patch(
-            original: "Pathoschild.Stardew.Automate.Framework.GenericObjectMachine`1".ToType()
-                .MakeGenericType(typeof(SObject))
-                .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
-                .FirstOrDefault(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3),
-            transpiler: new(typeof(HarmonyPatcher).RequireMethod(nameof(GenericObjectMachineGenericPullRecipeTranspiler)))
         );
     }
 
