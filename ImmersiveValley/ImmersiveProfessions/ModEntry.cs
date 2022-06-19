@@ -13,7 +13,6 @@ using StardewValley;
 using Common.Classes;
 using Common.Integrations;
 using Framework;
-using Framework.Sounds;
 
 #endregion using directives
 

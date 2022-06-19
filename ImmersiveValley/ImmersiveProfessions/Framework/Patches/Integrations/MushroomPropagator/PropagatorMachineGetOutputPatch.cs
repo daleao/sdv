@@ -17,7 +17,7 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal sealed class PropagatorMachineGetOutputPatch : BasePatch
 {
-    private static MethodInfo _GetEntity;
+    [CanBeNull] private static MethodInfo _GetEntity;
 
     /// <summary>Construct an instance.</summary>
     internal PropagatorMachineGetOutputPatch()
@@ -41,7 +41,7 @@ internal sealed class PropagatorMachineGetOutputPatch : BasePatch
         if (__instance is null) return;
 
         _GetEntity ??= __instance.GetType().RequirePropertyGetter("Entity");
-        var entity = (SObject) _GetEntity.Invoke(__instance, null);
+        var entity = (SObject) _GetEntity!.Invoke(__instance, null);
         if (entity is null) return;
 
         var owner = Game1.getFarmerMaybeOffline(entity.owner.Value) ?? Game1.MasterPlayer;

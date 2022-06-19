@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -22,7 +23,11 @@ using SObject = StardewValley.Object;
 
 internal static class AutomatePatches
 {
-    private static MethodInfo _GetBushMachine, _GetMushroomBoxMachine, _GetTapperMachine, _GetSampleFromCheesePressMachine, _GetSampleFromGenericMachine;
+    [CanBeNull] private static MethodInfo _GetBushMachine,
+        _GetMushroomBoxMachine,
+        _GetTapperMachine,
+        _GetSampleFromCheesePressMachine,
+        _GetSampleFromGenericMachine;
 
     internal static void Apply(Harmony harmony)
     {
@@ -280,7 +285,7 @@ internal static class AutomatePatches
 
     #endregion harmony patches
 
-    #region private methods
+    #region injected subroutines
 
     private static void SetInputSubroutine(SObject machine, object consumable)
     {
@@ -298,48 +303,35 @@ internal static class AutomatePatches
 
     private static void GenericPullRecipeSubroutine(SObject machine, object consumable)
     {
-        if (machine.name != "Mayonnaise Machine" && machine.name != "Keg") return;
+        if (machine.name != "Mayonnaise Machine" || machine.heldObject.Value is null ||
+            !ModEntry.Config.LargeProducsYieldQuantityOverQuality) return;
 
         _GetSampleFromGenericMachine ??= consumable.GetType().RequirePropertyGetter("Sample");
-        if (_GetSampleFromGenericMachine.Invoke(consumable, null) is not SObject input) return;
-
+        if (_GetSampleFromGenericMachine!.Invoke(consumable, null) is not SObject input) return;
 
         var output = machine.heldObject.Value;
-        switch (machine.Name)
+        if (input.Name.ContainsAnyOf("Large", "L."))
         {
-            case "Mayonnaise Machine" when ModEntry.Config.LargeProducsYieldQuantityOverQuality:
-                if (input.Name.ContainsAnyOf("Large", "L."))
-                {
-                    output.Stack = 2;
+            output.Stack = 2;
+            output.Quality = SObject.lowQuality;
+        }
+        else
+        {
+            switch (input.ParentSheetIndex)
+            {
+                // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
+                case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
+                    "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
                     output.Quality = SObject.lowQuality;
-                }
-                else
-                {
-                    switch (input.ParentSheetIndex)
-                    {
-                        // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-                        case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
-                            "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
-                            output.Quality = SObject.lowQuality;
-                            break;
-                        // golden mayonnaise keeps giving gives single output but keeps golden quality
-                        case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
-                            "ughitsmegan.goldenmayoForProducerFrameworkMod"):
-                            output.Stack = 1;
-                            break;
-                    }
-                }
-
-                break;
-
-            case "Keg" when input.ParentSheetIndex == 340 && input.preservedParentSheetIndex.Value > 0 && ModEntry.Config.KegsRememberHoneyFlower:
-                output.name = input.name.Split(" Honey")[0] + " Mead";
-                output.honeyType.Value = (SObject.HoneyType) input.preservedParentSheetIndex.Value;
-                output.preservedParentSheetIndex.Value = input.preservedParentSheetIndex.Value;
-                output.Price = input.Price * 2;
-                break;
+                    break;
+                // golden mayonnaise keeps giving gives single output but keeps golden quality
+                case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
+                    "ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                    output.Stack = 1;
+                    break;
+            }
         }
     }
 
-    #endregion private methods
+    #endregion injected subroutines
 }

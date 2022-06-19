@@ -1,6 +1,6 @@
 using StardewModdingAPI;
 
-namespace BetterArtisanGoodIconsForMeads.Content;
+namespace FlowerMeads.Content;
 
 internal interface IContentSource
 {

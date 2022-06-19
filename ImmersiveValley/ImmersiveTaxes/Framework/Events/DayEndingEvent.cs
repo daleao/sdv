@@ -41,8 +41,8 @@ internal sealed class DayEndingEvent : IEvent
         if (Game1.dayOfMonth == 1 && Game1.currentSeason == "spring" && Game1.year == 1)
             Game1.player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxIntro");
 
-        var dayIncome = Game1.getFarm().getShippingBin(Game1.player).OfType<SObject>()
-            .Sum(@object => @object.sellToStorePrice() * @object.Stack);
+        var dayIncome = Game1.getFarm().getShippingBin(Game1.player).Sum(item =>
+            item is SObject @object ? @object.sellToStorePrice() * @object.Stack : item.salePrice() / 2);
         if (dayIncome > 0 && !Game1.player.hasOrWillReceiveMail($"{ModEntry.Manifest.UniqueID}/TaxIntro"))
             Game1.player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxIntro");
 

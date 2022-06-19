@@ -18,7 +18,7 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal sealed class MushroomBoxMachineGetOutputPatch : BasePatch
 {
-    private static MethodInfo _GetMachine;
+    [CanBeNull] private static MethodInfo _GetMachine;
 
     /// <summary>Construct an instance.</summary>
     internal MushroomBoxMachineGetOutputPatch()
@@ -46,7 +46,7 @@ internal sealed class MushroomBoxMachineGetOutputPatch : BasePatch
             if (__instance is null) return;
 
             _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
-            var machine = (SObject) _GetMachine.Invoke(__instance, null);
+            var machine = (SObject) _GetMachine!.Invoke(__instance, null);
             if (machine?.heldObject.Value is null) return;
 
             var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;

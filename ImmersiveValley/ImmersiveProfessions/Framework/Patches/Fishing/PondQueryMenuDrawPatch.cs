@@ -30,25 +30,25 @@ using SUtility = StardewValley.Utility;
 internal sealed class PondQueryMenuDrawPatch : BasePatch
 {
     private const int PADDING_I = 16;
-
     private const float AQUARIST_SLOT_SPACING_F = 12f,
         LEGENDARY_SLOT_SPACING_F = 14f,
         LEGENDARY_X_OFFSET_F = 88f;
 
+    private delegate string GetDisplayedTextDelegate(PondQueryMenu instance);
+    private delegate int MeasureExtraTextHeightDelegate(PondQueryMenu instance, string displayed_text);
+    private delegate void DrawHorizontalPartitionDelegate(IClickableMenu instance, SpriteBatch b, int yPosition,
+        bool small = false, int red = -1, int green = -1, int blue = -1);
+
+    private static readonly GetDisplayedTextDelegate _GetDisplayedText = typeof(PondQueryMenu)
+        .RequireMethod("getDisplayedText").CreateDelegate<GetDisplayedTextDelegate>();
+
+    private static readonly MeasureExtraTextHeightDelegate _MeasureExtraTextHeight = typeof(PondQueryMenu)
+        .RequireMethod("measureExtraTextHeight").CreateDelegate<MeasureExtraTextHeightDelegate>();
+
+    private static readonly DrawHorizontalPartitionDelegate _DrawHorizontalPartition = typeof(PondQueryMenu)
+        .RequireMethod("drawHorizontalPartition").CreateDelegate<DrawHorizontalPartitionDelegate>();
+
     private static readonly FieldInfo _FishPondData = typeof(FishPond).RequireField("_fishPondData")!;
-
-    private static readonly Func<PondQueryMenu, string> _GetDisplayedText =
-        (Func<PondQueryMenu, string>) Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string>),
-            typeof(PondQueryMenu).RequireMethod("getDisplayedText"));
-
-    private static readonly Func<PondQueryMenu, string, int> _MeasureExtraTextHeight =
-        (Func<PondQueryMenu, string, int>) Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string, int>),
-            typeof(PondQueryMenu).RequireMethod("measureExtraTextHeight"));
-
-    private static readonly Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int> _DrawHorizontalPartition =
-        (Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>) Delegate.CreateDelegate(
-            typeof(Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>),
-            typeof(PondQueryMenu).RequireMethod("drawHorizontalPartition"));
 
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()

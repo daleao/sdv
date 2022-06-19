@@ -16,9 +16,10 @@ using Common.Integrations;
 /// <summary>Represents a SpaceCore-provided custom skill.</summary>
 public sealed class CustomSkill : ISkill
 {
-    private readonly Func<Farmer, string, int> _getCurrentExpFor =
-        (Func<Farmer, string, int>) Delegate.CreateDelegate(typeof(Func<Farmer, string, int>),
-            ExtendedSpaceCoreAPI.GetCustomSkillExp);
+    private delegate int GetExperienceForDelegate(Farmer farmer, string skillName);
+
+    private readonly GetExperienceForDelegate _GetCurrentExpFor =
+        ExtendedSpaceCoreAPI.GetCustomSkillExp.CreateDelegate<GetExperienceForDelegate>();
 
     private readonly ISpaceCoreAPI _api;
 
@@ -29,7 +30,7 @@ public sealed class CustomSkill : ISkill
     public string DisplayName { get; }
 
     /// <inheritdoc />
-    public int CurrentExp => _getCurrentExpFor(Game1.player, StringId);
+    public int CurrentExp => _GetCurrentExpFor(Game1.player, StringId);
 
     /// <inheritdoc />
     public int CurrentLevel => _api.GetLevelForCustomSkill(Game1.player, StringId);

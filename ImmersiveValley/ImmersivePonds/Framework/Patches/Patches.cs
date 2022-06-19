@@ -38,21 +38,22 @@ using SUtility = StardewValley.Utility;
 [UsedImplicitly]
 internal static class Patches
 {
+    private delegate string GetDisplayedTextDelegate(PondQueryMenu instance);
+    private delegate int MeasureExtraTextHeightDelegate(PondQueryMenu instance, string displayed_text);
+    private delegate void DrawHorizontalPartitionDelegate(IClickableMenu instance, SpriteBatch b, int yPosition,
+        bool small = false, int red = -1, int green = -1, int blue = -1);
+
+    private static readonly GetDisplayedTextDelegate _GetDisplayedText = typeof(PondQueryMenu)
+        .RequireMethod("getDisplayedText").CreateDelegate<GetDisplayedTextDelegate>();
+
+    private static readonly MeasureExtraTextHeightDelegate _MeasureExtraTextHeight = typeof(PondQueryMenu)
+        .RequireMethod("measureExtraTextHeight").CreateDelegate<MeasureExtraTextHeightDelegate>();
+
+    private static readonly DrawHorizontalPartitionDelegate _DrawHorizontalPartition = typeof(PondQueryMenu)
+        .RequireMethod("drawHorizontalPartition").CreateDelegate<DrawHorizontalPartitionDelegate>();
+
     private static readonly FieldInfo _FishPondData = typeof(FishPond).RequireField("_fishPondData")!;
     private static readonly MethodInfo _CalculateBobberTile = typeof(FishingRod).RequireMethod("calculateBobberTile");
-
-    private static readonly Func<PondQueryMenu, string> _GetDisplayedText =
-        (Func<PondQueryMenu, string>) Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string>),
-            typeof(PondQueryMenu).RequireMethod("getDisplayedText"));
-
-    private static readonly Func<PondQueryMenu, string, int> _MeasureExtraTextHeight =
-        (Func<PondQueryMenu, string, int>) Delegate.CreateDelegate(typeof(Func<PondQueryMenu, string, int>),
-            typeof(PondQueryMenu).RequireMethod("measureExtraTextHeight"));
-
-    private static readonly Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int> _DrawHorizontalPartition =
-        (Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>) Delegate.CreateDelegate(
-            typeof(Action<PondQueryMenu, SpriteBatch, int, bool, int, int, int>),
-            typeof(PondQueryMenu).RequireMethod("drawHorizontalPartition"));
 
     #region harmony patches
 
@@ -1067,8 +1068,7 @@ internal static class Patches
                         //    -1, -1, -1
                         //});
                         _DrawHorizontalPartition(__instance, b,
-                            (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f), false,
-                            -1, -1, -1);
+                            (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
                         SUtility.drawWithShadow(b, Game1.mouseCursors,
                             new(__instance.xPositionOnScreen + 60 + 8f * Game1.dialogueButtonScale / 10f,
                                 __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28),

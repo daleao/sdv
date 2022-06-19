@@ -6,7 +6,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 
-namespace BetterArtisanGoodIconsForMeads.Content;
+namespace FlowerMeads.Content;
 
 internal class ContentSourceManager
 {

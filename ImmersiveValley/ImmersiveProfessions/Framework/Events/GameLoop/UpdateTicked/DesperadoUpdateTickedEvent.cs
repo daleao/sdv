@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+﻿using DaLion.Stardew.Professions.Framework.Sounds;
+
+namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 #region using directives
 
@@ -30,9 +32,9 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
 
         if (Game1.soundBank is null) return;
 
-        var cue = Game1.soundBank.GetCue("SinWave");
-        if (!cue.IsPlaying) cue.Play();
+        SFX.SinWave ??= Game1.soundBank.GetCue("SinWave");
+        if (!SFX.SinWave.IsPlaying) SFX.SinWave.Play();
 
-        cue.SetVariable("Pitch", 2400f * overcharge);
+        SFX.SinWave.SetVariable("Pitch", 2400f * overcharge);
     }
 }

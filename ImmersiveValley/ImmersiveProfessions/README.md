@@ -260,6 +260,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 
 ### General Configs
 - `Modkey` _(keybind)_ - The Prospector and Scavenger professions use this key to reveal the locations of key objects currently on the screen. If playing on a large screen with wide field of view, this can help locate foragables of mine nodes in large or busy maps. The default key is LeftShift for keyboards and LeftShoulder for controllers.
+- `CustomArtisanMachines` _(string array)_ - Add any modded Artisan machines to this list to make them compatible with the Artisan perk (not available in GMCM).
 - `PrestigeProgressionStyle` _(string)_ - Either "StackedStars", "Gen3Ribbons" or "Gen4Ribbons". Determines the way your Prestige progression is displayed in the Skills page.
 
 ### Profession Configs
@@ -278,7 +279,7 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - `TrashNeededPerFriendshipPoint` _(uint)_ - Represents the number of trash items the Prestiged Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
 - `TaxDeductionCeiling` _(float)_ - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
 
-### Ultimate Configs
+### Special Ability Configs
 - `EnableSpecials` _(bool)_ - Required to allow use of Special Abilities.
 - `SpecialActivationKey` _(keybind)_ - This is the key that activates Special Ability for 2nd-tier combat professions. By default this is the same as Modkey, but can also be set to a different key.
 - `HoldKeyToActivateSpecial` _(bool)_ -  If set to true, then the Special Ability will be activated after holding the above key for a short amount of time. If set to false, then the Special Ability will activate immediately upon pressing the key. Useful if you are running out of keys to bind, or just want to prevent accidental activation of the Special Ability. Default value is true.
@@ -341,6 +342,9 @@ To consume the API, copy both interfaces from the [Common.Integrations](../Commo
 
 - NEW: [Quality Of Life](https://www.nexusmods.com/stardewvalley/mods/11296), which now hosts all balancing features previously from this mod, plus new ones.
 - NEW: [Aquarism](https://www.nexusmods.com/stardewvalley/mods/11288), which now hosts the old Fish Pond changes.﻿﻿
+- NEW: [Fellowship](https://www.nexusmods.com/stardewvalley/mods/11380), which hosts the ring rebalance﻿ changes suited for this mod's combat professions.
+- TBD: Arsenal, which will host rebalanced enchantments and weapons suited for this mod's combat professions.
+- NEW: [Surfdom](https://www.nexusmods.com/stardewvalley/mods/12547)﻿, which adds a simple tax mechanic compatible with the Conservationist perk.
 - [Advanced Casks](https://www.nexusmods.com/stardewvalley/mods/8413) (if you miss Oenologist profession perk).
 - [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926) (add variety to Artisan products and Producer).
 - [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634) (make Slime ranching more interesting and profitable).

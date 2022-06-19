@@ -382,44 +382,29 @@ public static class FarmerExtensions
     /// <param name="newLevel">The new level.</param>
     /// <param name="setExperience">Whether to set the skill's experience to the corresponding value.</param>
     /// <remarks>Will not change professions or recipes.</remarks>
-    public static void SetSkillLevel(this Farmer farmer, Skill skill, int newLevel, bool setExperience = false)
+    public static void SetSkillLevel(this Farmer farmer, Skill skill, int newLevel)
     {
-        var oldLevel = 0;
         switch (skill)
         {
             case Farmer.farmingSkill:
-                oldLevel = farmer.farmingLevel.Value;
                 farmer.farmingLevel.Value = newLevel;
                 break;
             case Farmer.fishingSkill:
-                oldLevel = farmer.fishingLevel.Value;
                 farmer.fishingLevel.Value = newLevel;
                 break;
             case Farmer.foragingSkill:
-                oldLevel = farmer.foragingLevel.Value;
                 farmer.foragingLevel.Value = newLevel;
                 break;
             case Farmer.miningSkill:
-                oldLevel = farmer.miningLevel.Value;
                 farmer.miningLevel.Value = newLevel;
                 break;
             case Farmer.combatSkill:
-                oldLevel = farmer.combatLevel.Value;
                 farmer.combatLevel.Value = newLevel;
                 break;
             case Farmer.luckSkill:
-                oldLevel = farmer.luckLevel.Value;
                 farmer.luckLevel.Value = newLevel;
                 break;
         }
-
-        while (oldLevel <= newLevel)
-            farmer.newLevels.Add(new(skill, oldLevel++));
-
-        if (setExperience)
-            farmer.experiencePoints[skill] = Experience.ExperienceByLevel[newLevel];
-
-        if (skill == Skill.Combat) LevelUpMenu.RevalidateHealth(farmer);
     }
 
     /// <summary>Set the level of the specified custom skill for this farmer.</summary>
@@ -450,50 +435,50 @@ public static class FarmerExtensions
             switch (skill.CurrentLevel)
             {
                 case >= 10 when !canGainPrestigeLevels:
-                    {
-                        if (skill.CurrentLevel > 10) Game1.player.SetSkillLevel(skill, 10, true);
-                        else if (skill.CurrentExp > Experience.VANILLA_CAP_I)
-                            Game1.player.experiencePoints[skill] = Experience.VANILLA_CAP_I;
-                        break;
-                    }
+                {
+                    if (skill.CurrentLevel > 10) Game1.player.SetSkillLevel(skill, 10);
+                    if (skill.CurrentExp > Experience.VANILLA_CAP_I)
+                        Game1.player.experiencePoints[skill] = Experience.VANILLA_CAP_I;
+                    break;
+                }
                 case >= 20 when canGainPrestigeLevels:
-                    {
-                        if (skill.CurrentLevel > 20) Game1.player.SetSkillLevel(skill, 20, true);
-                        else if (skill.CurrentExp > Experience.PrestigeCap)
-                            Game1.player.experiencePoints[skill] = Experience.PrestigeCap;
-                        break;
-                    }
+                {
+                    if (skill.CurrentLevel > 20) Game1.player.SetSkillLevel(skill, 20);
+                    if (skill.CurrentExp > Experience.PrestigeCap)
+                        Game1.player.experiencePoints[skill] = Experience.PrestigeCap;
+                    break;
+                }
                 default:
+                {
+                    var expectedLevel = 0;
+                    var level = 1;
+                    while (level <= 10 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
+
+                    if (canGainPrestigeLevels && skill.CurrentExp - Experience.VANILLA_CAP_I > 0)
+                        while (level <= 20 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
+
+                    if (skill.CurrentLevel != expectedLevel)
                     {
-                        var expectedLevel = 0;
-                        var level = 1;
-                        while (level <= 10 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
+                        if (skill.CurrentLevel < expectedLevel)
+                            for (var levelup = skill.CurrentLevel + 1; levelup <= expectedLevel; ++levelup)
+                            {
+                                var point = new Point(skill, levelup);
+                                if (!Game1.player.newLevels.Contains(point))
+                                    Game1.player.newLevels.Add(point);
+                            }
 
-                        if (canGainPrestigeLevels && skill.CurrentExp - Experience.VANILLA_CAP_I > 0)
-                            while (level <= 20 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
-
-                        if (skill.CurrentLevel != expectedLevel)
-                        {
-                            if (skill.CurrentLevel < expectedLevel)
-                                for (var levelup = skill.CurrentLevel + 1; levelup <= expectedLevel; ++levelup)
-                                {
-                                    var point = new Point(skill, levelup);
-                                    if (!Game1.player.newLevels.Contains(point))
-                                        Game1.player.newLevels.Add(point);
-                                }
-
-                            farmer.SetSkillLevel(skill, expectedLevel);
-                        }
-
-                        farmer.experiencePoints[skill] = skill.CurrentLevel switch
-                        {
-                            >= 10 when !canGainPrestigeLevels => Experience.VANILLA_CAP_I,
-                            >= 20 when canGainPrestigeLevels => Experience.PrestigeCap,
-                            _ => Game1.player.experiencePoints[skill]
-                        };
-
-                        break;
+                        farmer.SetSkillLevel(skill, expectedLevel);
                     }
+
+                    farmer.experiencePoints[skill] = skill.CurrentLevel switch
+                    {
+                        >= 10 when !canGainPrestigeLevels => Experience.VANILLA_CAP_I,
+                        >= 20 when canGainPrestigeLevels => Experience.PrestigeCap,
+                        _ => Game1.player.experiencePoints[skill]
+                    };
+
+                    break;
+                }
             }
         }
     }

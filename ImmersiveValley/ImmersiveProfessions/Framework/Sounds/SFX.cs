@@ -18,6 +18,7 @@ public sealed class SFX : SmartEnum<SFX>
     public static readonly SFX DesperadoBlossom = new("DesperadoGunCock", 4);
     public static readonly SFX DogStatuePrestige = new("DogStatuePrestige", 5);
 
+    public static ICue SinWave { get; internal set; } = Game1.soundBank?.GetCue("SinWave");
 
     /// <summary>Construct an instance.</summary>
     /// <param name="name">The profession name.</param>

@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Utility;
+﻿using System.Linq;
+
+namespace DaLion.Stardew.Professions.Framework.Utility;
 
 #region using directives
 
@@ -83,43 +85,13 @@ internal static class ObjectLookups
     /// <summary>Hash list of artisan machines.</summary>
     internal static readonly IEnumerable<string> ArtisanMachines = new HashSet<string>
     {
-        "Alembic", // artisan valley
-        "Artisanal Soda Maker", // artisanal soda makers
-        "Butter Churn", // artisan valley
-        "Canning Machine", // fresh meat
-        "Carbonator", // artisanal soda makers
-        "Cheese Press", // vanilla
-        "Cola Maker", // artisanal soda makers
-        "Cream Soda Maker", // artisanal soda makers
-        "DNA Synthesizer", // fresh meat
-        "Dehydrator", // artisan valley
-        "Drying Rack", // artisan valley
-        "Espresso Machine", // artisan valley
-        "Extruder", // artisan valley
-        "Foreign Cask", // artisan valley
-        "Glass Jar", // artisan valley
-        "Grinder", // artisan valley
-        "Ice Cream Machine", // artisan valley
-        "Infuser", // artisan valley
-        "Juicer", // artisan valley
-        "Keg", // vanilla
-        "Loom", // vanilla
-        "Marble Soda Machine", // fizzy drinks
-        "Mayonnaise Machine", // vanilla
-        "Meat Press", // fresh meat
-        "Oil Maker", // vanilla
-        "Pepper Blender", // artisan valley
-        "Preserves Jar", // vanilla
-        "Shaved Ice Machine", // shaved ice & frozen treats
-        "Smoker", // artisan valley
-        "Soap Press", // artisan valley
-        "Sorbet Machine", // artisan valley
-        "Still", // artisan valley
-        "Syrup Maker", // artisanal soda makers
-        "Vinegar Cask", // artisan valley
-        "Wax Barrel", // artisan valley
-        "Yogurt Jar" // artisan valley
-    };
+        "Cheese Press",
+        "Keg",
+        "Loom",
+        "Mayonnaise Machine",
+        "Oil Maker",
+        "Preserves Jar"
+    }.Concat(ModEntry.Config.CustomArtisanMachines);
 
     /// <summary>Hash list of ids corresponding to animal produce or derived artisan goods.</summary>
     internal static readonly IEnumerable<int> AnimalDerivedProductIds = new HashSet<int>

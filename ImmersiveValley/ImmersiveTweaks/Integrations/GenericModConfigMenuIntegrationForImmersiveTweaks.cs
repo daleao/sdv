@@ -84,12 +84,6 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
                 (config, value) => config.TappersRewardExp = value
             )
             .AddCheckbox(
-                () => "Kegs Remember Honey Flower",
-                () => "Allows the production of tasty flowery meads.",
-                config => config.KegsRememberHoneyFlower,
-                (config, value) => config.KegsRememberHoneyFlower = value
-            )
-            .AddCheckbox(
                 () => "Prevent Fruit Tree Growth in Winter",
                 () => "Regular trees can't grow in winter. Why should fruit trees be any different?",
                 config => config.PreventFruitTreeGrowthInWinter,

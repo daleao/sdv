@@ -1,4 +1,4 @@
-﻿Addon for Better Artisan Good Icons to allow support for custom mead sprites.
+﻿Allows kegs to produce flower meads and Better Artisan Good Icons to load custom flower mead sprites.
 
 ## Special Thanks:
 - [CatCattyCat](https://www.nexusmods.com/stardewvalley/users/44734342) for [Better Artisan Good Icons](https://www.nexusmods.com/stardewvalley/mods/2080)﻿.

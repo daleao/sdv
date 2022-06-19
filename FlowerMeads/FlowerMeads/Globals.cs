@@ -1,8 +1,8 @@
 ﻿using System;
 
-using BetterArtisanGoodIconsForMeads;
+using FlowerMeads;
 
-namespace BetterArtisanGoodIconsForMeads;
+namespace FlowerMeads;
 
 internal class Globals
 {

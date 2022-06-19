@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 
-namespace BetterArtisanGoodIconsForMeads;
+namespace FlowerMeads;
 
 /// <summary>Provides extensions for simplified reflection on C# types.</summary>
 /// <remarks>Credit to <c>Pardeike</c>.</remarks>

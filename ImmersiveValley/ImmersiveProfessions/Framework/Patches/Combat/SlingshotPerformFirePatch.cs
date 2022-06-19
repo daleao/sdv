@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿using DaLion.Stardew.Professions.Framework.Sounds;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
@@ -119,7 +121,7 @@ internal sealed class SlingshotPerformFirePatch : BasePatch
             x *= overcharge;
             y *= overcharge;
             who.stopJittering();
-            Game1.soundBank.GetCue("SinWave").Stop(AudioStopOptions.Immediate);
+            SFX.SinWave?.Stop(AudioStopOptions.Immediate);
         }
         
         if (Game1.options.useLegacySlingshotFiring)

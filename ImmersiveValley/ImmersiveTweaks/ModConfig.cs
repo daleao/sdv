@@ -30,9 +30,6 @@ public class ModConfig
     /// <summary>If regular trees can't grow in winter, neither should fruit trees.</summary>
     public bool PreventFruitTreeGrowthInWinter { get; set; } = true;
 
-    /// <summary>Mead should take after Honey type.</summary>
-    public bool KegsRememberHoneyFlower { get; set; } = true;
-
     /// <summary>Large input products should yield more processed output instead of higher quality.</summary>
     public bool LargeProducsYieldQuantityOverQuality { get; set; } = true;
 

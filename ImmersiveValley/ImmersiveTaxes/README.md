@@ -2,7 +2,7 @@
 
 <!-- LOGO, TITLE, DESCRIPTION -->
 
-# Legal Theft - Immersive Taxes
+# Serfdom - Immersive Taxes
 
 <br/>
 

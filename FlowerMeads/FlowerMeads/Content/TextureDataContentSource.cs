@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using StardewModdingAPI;
 
-namespace BetterArtisanGoodIconsForMeads.Content;
+namespace FlowerMeads.Content;
 
 internal abstract class TextureDataContentSource : IContentSource
 {

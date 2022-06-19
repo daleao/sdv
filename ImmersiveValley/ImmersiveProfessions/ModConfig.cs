@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions;
+﻿using System;
+
+namespace DaLion.Stardew.Professions;
 
 #region using directives
 
@@ -12,6 +14,40 @@ public class ModConfig
     /// <summary>Mod key used by Prospector and Scavenger professions.</summary>
     public KeybindList ModKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
+    /// <summary>Add custom mod Artisan machines to this list to make them compatible with the profession.</summary>
+    public string[] CustomArtisanMachines { get; set; } = {
+        "Alembic", // artisan valley
+        "Artisanal Soda Maker", // artisanal soda makers
+        "Butter Churn", // artisan valley
+        "Canning Machine", // fresh meat
+        "Carbonator", // artisanal soda makers
+        "Cola Maker", // artisanal soda makers
+        "Cream Soda Maker", // artisanal soda makers
+        "DNA Synthesizer", // fresh meat
+        "Dehydrator", // artisan valley
+        "Drying Rack", // artisan valley
+        "Espresso Machine", // artisan valley
+        "Extruder", // artisan valley
+        "Foreign Cask", // artisan valley
+        "Glass Jar", // artisan valley
+        "Grinder", // artisan valley
+        "Ice Cream Machine", // artisan valley
+        "Infuser", // artisan valley
+        "Juicer", // artisan valley
+        "Marble Soda Machine", // fizzy drinks
+        "Meat Press", // fresh meat
+        "Pepper Blender", // artisan valley
+        "Shaved Ice Machine", // shaved ice & frozen treats
+        "Smoker", // artisan valley
+        "Soap Press", // artisan valley
+        "Sorbet Machine", // artisan valley
+        "Still", // artisan valley
+        "Syrup Maker", // artisanal soda makers
+        "Vinegar Cask", // artisan valley
+        "Wax Barrel", // artisan valley
+        "Yogurt Jar" // artisan valley
+    };
+    
     /// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
     public uint ForagesNeededForBestQuality { get; set; } = 500;
 

@@ -22,7 +22,7 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal sealed class GenericObjectMachineGenericPullRecipePatch : BasePatch
 {
-    private static MethodInfo _GetSample;
+    [CanBeNull] private static MethodInfo _GetSample;
 
     /// <summary>Construct an instance.</summary>
     internal GenericObjectMachineGenericPullRecipePatch()
@@ -91,7 +91,7 @@ internal sealed class GenericObjectMachineGenericPullRecipePatch : BasePatch
         if (!machine.IsArtisanMachine() || !machine.heldObject.Value.IsArtisanGood()) return;
 
         _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample");
-        if (_GetSample.Invoke(consumable, null) is not SObject input) return;
+        if (_GetSample!.Invoke(consumable, null) is not SObject input) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.HasProfession(Profession.Artisan)) return;

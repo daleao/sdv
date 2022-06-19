@@ -21,7 +21,7 @@ using Extensions;
 [UsedImplicitly]
 internal sealed class BushMachineGetOutputPatch : BasePatch
 {
-    private static MethodInfo _GetMachine;
+    [CanBeNull] private static MethodInfo _GetMachine;
 
     /// <summary>Construct an instance.</summary>
     internal BushMachineGetOutputPatch()
@@ -45,7 +45,7 @@ internal sealed class BushMachineGetOutputPatch : BasePatch
         if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
         _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
-        var machine = (Bush) _GetMachine.Invoke(__instance, null);
+        var machine = (Bush) _GetMachine!.Invoke(__instance, null);
         if (machine is null || machine.size.Value >= Bush.greenTeaBush) return;
 
         if (!Context.IsMainPlayer || !Game1.player.HasProfession(Profession.Ecologist)) return;

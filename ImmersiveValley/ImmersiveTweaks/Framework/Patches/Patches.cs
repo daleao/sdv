@@ -276,21 +276,6 @@ internal static class Patches
         }
     }
 
-    [HarmonyPatch(typeof(SObject), "loadDisplayName")]
-    internal class ObjectLoadDisplayNamePatch
-    {
-        /// <summary>Add flower-specific mead names.</summary>
-        [HarmonyPostfix]
-        private static void Postfix(SObject __instance, ref string __result)
-        {
-            if (!__instance.name.Contains("Mead") || __instance.preservedParentSheetIndex.Value <= 0 ||
-                !ModEntry.Config.KegsRememberHoneyFlower) return;
-
-            var prefix = Game1.objectInformation[__instance.preservedParentSheetIndex.Value].Split('/')[4];
-            __result = prefix + ' ' + __result;
-        }
-    }
-
     [HarmonyPatch(typeof(SObject), nameof(SObject.performDropDownAction))]
     internal sealed class ObjectPerformDropDownActionPatch
     {
@@ -306,14 +291,13 @@ internal static class Patches
     [HarmonyPatch(typeof(SObject), nameof(SObject.performObjectDropInAction))]
     internal sealed class ObjectPerformObjectDropInActionPatch
     {
-        // <summary>Remember state before action.</summary>
+        /// <summary>Remember state before action.</summary>
         [HarmonyPrefix]
         // ReSharper disable once RedundantAssignment
-        private static bool Prefix(SObject __instance, ref bool __state)
+        private static void Prefix(SObject __instance, ref bool __state)
         {
             __state = __instance.heldObject.Value !=
                       null; // remember whether this machine was already holding an object
-            return true; // run original logic
         }
 
         /// <summary>Tweaks golden and ostrich egg artisan products + gives flower memory to kegs.</summary>
@@ -322,25 +306,16 @@ internal static class Patches
             bool probe)
         {
             // if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
-            if (__state || __instance.heldObject.Value is null || probe || dropInItem is not SObject dropIn) return;
+            if (probe || __state || __instance.name != "Mayonnaise Machine" || __instance.heldObject.Value is null || dropInItem is not SObject ||
+                !ModEntry.Config.LargeProducsYieldQuantityOverQuality) return;
 
-            // kegs remember honey flower type
-            if (__instance.name == "Keg" && dropIn.ParentSheetIndex == 340 &&
-                dropIn.preservedParentSheetIndex.Value > 0 && ModEntry.Config.KegsRememberHoneyFlower)
-            {
-                __instance.heldObject.Value.name = dropIn.name.Split(" Honey")[0] + " Mead";
-                __instance.heldObject.Value.honeyType.Value = (SObject.HoneyType) dropIn.preservedParentSheetIndex.Value;
-                __instance.heldObject.Value.preservedParentSheetIndex.Value =
-                    dropIn.preservedParentSheetIndex.Value;
-                __instance.heldObject.Value.Price = dropIn.Price * 2;
-            }
             // large milk/eggs give double output at normal quality
-            else if (dropInItem.Name.ContainsAnyOf("Large", "L.") && ModEntry.Config.LargeProducsYieldQuantityOverQuality)
+            if (dropInItem.Name.ContainsAnyOf("Large", "L."))
             {
                 __instance.heldObject.Value.Stack = 2;
                 __instance.heldObject.Value.Quality = SObject.lowQuality;
             }
-            else if (ModEntry.Config.LargeProducsYieldQuantityOverQuality) switch (dropInItem.ParentSheetIndex)
+            else switch (dropInItem.ParentSheetIndex)
             {
                 // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
                 case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"):

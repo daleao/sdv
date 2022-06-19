@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions;
+﻿using StardewValley;
+
+namespace DaLion.Stardew.Professions;
 
 #region using directives
 

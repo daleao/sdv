@@ -219,11 +219,16 @@ internal static class ConsoleCommands
             }
 
             foreach (var skill in Skill.List)
-                Game1.player.SetSkillLevel(skill, newLevel, true);
+            {
+                var diff = Experience.ExperienceByLevel[newLevel] - skill.CurrentExp;
+                Game1.player.gainExperience(skill, diff);
+            }
 
-            foreach (var customSkill in ModEntry.CustomSkills.Values)
-                if (customSkill is CustomSkill customSkill2)
-                    Game1.player.SetCustomSkillLevel(customSkill2, newLevel);
+            foreach (var customSkill in ModEntry.CustomSkills.Values.OfType<CustomSkill>())
+            {
+                var diff = Experience.ExperienceByLevel[newLevel] - customSkill.CurrentExp;
+                ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, customSkill.StringId, diff);
+            }
         }
 
         var argsList = args.ToList();
@@ -249,11 +254,13 @@ internal static class ConsoleCommands
                     return;
                 }
 
-                Game1.player.SetCustomSkillLevel(customSkill, newLevel);
+                var diff = Experience.ExperienceByLevel[newLevel] - customSkill.CurrentExp;
+                ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, customSkill.StringId, diff);
             }
             else
             {
-                Game1.player.SetSkillLevel(skill, newLevel, true);
+                var diff = Experience.ExperienceByLevel[newLevel] - skill.CurrentExp;
+                Game1.player.gainExperience(skill, diff);
             }
 
             argsList.RemoveAt(0);

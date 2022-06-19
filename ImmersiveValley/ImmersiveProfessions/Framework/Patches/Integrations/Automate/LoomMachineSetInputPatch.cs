@@ -21,7 +21,7 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal sealed class LoomMachineSetInputPatch : BasePatch
 {
-    private static MethodInfo _GetSample;
+    [CanBeNull] private static MethodInfo _GetSample;
 
     /// <summary>Construct an instance.</summary>
     internal LoomMachineSetInputPatch()
@@ -83,7 +83,7 @@ internal sealed class LoomMachineSetInputPatch : BasePatch
 
         _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample");
         var output = machine.heldObject.Value;
-        if (_GetSample.Invoke(consumable, null) is SObject input)
+        if (_GetSample!.Invoke(consumable, null) is SObject input)
             output.Quality = input.Quality;
 
         if (output.Quality < SObject.bestQuality &&
