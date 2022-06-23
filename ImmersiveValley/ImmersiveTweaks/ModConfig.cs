@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Tweaks;
+﻿namespace DaLion.Stardew.Tweex;
 
 /// <summary>The mod user-defined settings.</summary>
 public class ModConfig

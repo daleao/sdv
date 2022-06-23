@@ -7,8 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewModdingAPI.Events;
 
+using Common.Events;
 using Extensions;
-using Utility;
+using Textures;
 
 #endregion using directives
 

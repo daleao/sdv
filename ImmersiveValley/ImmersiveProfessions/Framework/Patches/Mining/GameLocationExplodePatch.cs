@@ -12,6 +12,7 @@ using StardewValley.Locations;
 
 using DaLion.Common.Classes;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Events.GameLoop;
 using Extensions;
 using Utility;
@@ -29,7 +30,7 @@ internal sealed class GameLocationExplodePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GameLocationExplodePatch()
     {
-        Original = RequireMethod<GameLocation>(nameof(GameLocation.explode));
+        Target = RequireMethod<GameLocation>(nameof(GameLocation.explode));
     }
 
     #region harmony patches
@@ -249,7 +250,7 @@ internal sealed class GameLocationExplodePatch : BasePatch
         var distanceFromEpicenter = (int) (tileLocation - who.getTileLocation()).Length();
         if (distanceFromEpicenter < radius * 2 + 1) ModEntry.PlayerState.DemolitionistExcitedness = 4;
         if (distanceFromEpicenter < radius + 1) ModEntry.PlayerState.DemolitionistExcitedness += 2;
-        EventManager.Enable(typeof(DemolitionistUpdateTickedEvent));
+        ModEntry.EventManager.Hook<DemolitionistUpdateTickedEvent>();
     }
 
     #endregion harmony patches

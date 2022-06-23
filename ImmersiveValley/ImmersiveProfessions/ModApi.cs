@@ -1,5 +1,4 @@
-﻿
-namespace DaLion.Stardew.Professions;
+﻿namespace DaLion.Stardew.Professions;
 
 #region using directives
 
@@ -8,13 +7,14 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
 using StardewValley;
 
+using Common.Data;
+using Common.Events;
 using Extensions;
 using Framework;
-using Framework.Events;
 using Framework.Events.TreasureHunt;
 using Framework.Events.Ultimate;
-using Framework.TreasureHunt;
-using Framework.Ultimate;
+using Framework.TreasureHunts;
+using Framework.Ultimates;
 
 using SObject = StardewValley.Object;
 
@@ -42,7 +42,7 @@ public class ModAPI
     public float GetConservationistProjectedTaxBonus(Farmer farmer)
     {
         // ReSharper disable once PossibleLossOfFraction
-        return farmer.ReadDataAs<int>(ModData.ConservationistTrashCollectedThisSeason) /
+        return ModDataIO.ReadDataAs<int>(farmer, ModData.ConservationistTrashCollectedThisSeason.ToString()) /
                ModEntry.Config.TrashNeededPerTaxBonusPct / 100f;
     }
 
@@ -107,7 +107,7 @@ public class ModAPI
 
     /// <inheritdoc cref="ITreasureHunt.Fail"/>
     /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
-    /// <returns><c>False</c> if the <see cref="ITreasureHunt"/> instance was not active, otherwise <c>true</c>.</returns>
+    /// <returns><see langword="false"> if the <see cref="ITreasureHunt"/> instance was not active, otherwise <see langword="true">.</returns>
     public bool InterruptActiveHunt(string type)
     {
         var hunt = type.ToLowerInvariant() switch
@@ -125,22 +125,24 @@ public class ModAPI
 
     /// <summary>Register a new <see cref="TreasureHuntStartedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IEvent RegisterTreasureHuntStartedEvent(Action<object, ITreasureHuntStartedEventArgs> callback, bool enable)
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IEvent RegisterTreasureHuntStartedEvent(Action<object, ITreasureHuntStartedEventArgs> callback, bool hook)
     {
         var e = new TreasureHuntStartedEvent(callback);
-        EventManager.Manage(e);
-        if (enable) e.Enable();
+        ModEntry.EventManager.Manage(e);
+        if (hook) e.Hook();
 
         return e;
     }
 
     /// <summary>Register a new <see cref="TreasureHuntEndedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IEvent RegisterTreasureHuntEndedEvent(Action<object, ITreasureHuntEndedEventArgs> callback, bool enable)
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IEvent RegisterTreasureHuntEndedEvent(Action<object, ITreasureHuntEndedEventArgs> callback, bool hook)
     {
         var e = new TreasureHuntEndedEvent(callback);
-        EventManager.Manage(e);
-        if (enable) e.Enable();
+        ModEntry.EventManager.Manage(e);
+        if (hook) e.Hook();
 
         return e;
     }
@@ -163,66 +165,72 @@ public class ModAPI
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IEvent RegisterUltimateActivatedEvent(Action<object, IUltimateActivatedEventArgs> callback, bool enable)
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IEvent RegisterUltimateActivatedEvent(Action<object, IUltimateActivatedEventArgs> callback, bool hook)
     {
         var e = new UltimateActivatedEvent(callback);
-        EventManager.Manage(e);
-        if (enable) e.Enable();
+        ModEntry.EventManager.Manage(e);
+        if (hook) e.Hook();
 
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateDeactivatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IEvent RegisterUltimateDeactivatedEvent(Action<object, IUltimateDeactivatedEventArgs> callback, bool enable)
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IEvent RegisterUltimateDeactivatedEvent(Action<object, IUltimateDeactivatedEventArgs> callback, bool hook)
     {
         var e = new UltimateDeactivatedEvent(callback);
-        EventManager.Manage(e);
-        if (enable) e.Enable();
+        ModEntry.EventManager.Manage(e);
+        if (hook) e.Hook();
 
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateChargeInitiatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IEvent RegisterUltimateChargeInitiatedEvent(Action<object, IUltimateChargeInitiatedEventArgs> callback, bool enable)
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IEvent RegisterUltimateChargeInitiatedEvent(Action<object, IUltimateChargeInitiatedEventArgs> callback, bool hook)
     {
         var e = new UltimateChargeInitiatedEvent(callback);
-        EventManager.Manage(e);
-        if (enable) e.Enable();
+        ModEntry.EventManager.Manage(e);
+        if (hook) e.Hook();
 
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateChargeIncreasedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IEvent RegisterUltimateChargeIncreasedEvent(Action<object, IUltimateChargeIncreasedEventArgs> callback, bool enable)
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IEvent RegisterUltimateChargeIncreasedEvent(Action<object, IUltimateChargeIncreasedEventArgs> callback, bool hook)
     {
         var e = new UltimateChargeIncreasedEvent(callback);
-        EventManager.Manage(e);
-        if (enable) e.Enable();
+        ModEntry.EventManager.Manage(e);
+        if (hook) e.Hook();
 
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IEvent RegisterUltimateFullyChargedEvent(Action<object, IUltimateFullyChargedEventArgs> callback, bool enable)
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IEvent RegisterUltimateFullyChargedEvent(Action<object, IUltimateFullyChargedEventArgs> callback, bool hook)
     {
         var e = new UltimateFullyChargedEvent(callback);
-        EventManager.Manage(e);
-        if (enable) e.Enable();
+        ModEntry.EventManager.Manage(e);
+        if (hook) e.Hook();
 
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateEmptiedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IEvent RegisterUltimateEmptiedEvent(Action<object, IUltimateEmptiedEventArgs> callback, bool enable)
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IEvent RegisterUltimateEmptiedEvent(Action<object, IUltimateEmptiedEventArgs> callback, bool hook)
     {
         var e = new UltimateEmptiedEvent(callback);
-        EventManager.Manage(e);
-        if (enable) e.Enable();
+        ModEntry.EventManager.Manage(e);
+        if (hook) e.Hook();
 
         return e;
     }

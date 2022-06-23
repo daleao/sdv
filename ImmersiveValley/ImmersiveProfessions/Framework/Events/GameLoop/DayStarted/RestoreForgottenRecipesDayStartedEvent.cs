@@ -7,9 +7,10 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Data;
+using Common.Events;
 using Common.Extensions;
 using Common.Extensions.Collections;
-using Extensions;
 
 #endregion using directives
 
@@ -19,10 +20,11 @@ internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
     {
-        var forgottenRecipes = Game1.player.ReadData(ModData.ForgottenRecipesDict).ParseDictionary<string, int>();
+        var forgottenRecipes = ModDataIO.ReadData(Game1.player, ModData.ForgottenRecipesDict.ToString())
+            .ParseDictionary<string, int>();
         if (!forgottenRecipes.Any())
         {
-            Disable();
+            Unhook();
             return;
         }
 
@@ -41,9 +43,9 @@ internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
             }
         }
 
-        Game1.player.WriteData(ModData.ForgottenRecipesDict, forgottenRecipes.Any()
+        ModDataIO.WriteData(Game1.player, ModData.ForgottenRecipesDict.ToString(), forgottenRecipes.Any()
             ? forgottenRecipes.Stringify()
             : null);
-        Disable();
+        Unhook();
     }
 }

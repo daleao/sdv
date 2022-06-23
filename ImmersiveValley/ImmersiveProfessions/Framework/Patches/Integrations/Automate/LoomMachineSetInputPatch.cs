@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -21,14 +22,17 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal sealed class LoomMachineSetInputPatch : BasePatch
 {
-    [CanBeNull] private static MethodInfo _GetSample;
+    private delegate Item GetSampleDelegate(object consumable);
+
+    private static GetSampleDelegate _GetSample;
 
     /// <summary>Construct an instance.</summary>
     internal LoomMachineSetInputPatch()
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.LoomMachine".ToType().RequireMethod("SetInput");
+            Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.LoomMachine".ToType()
+                .RequireMethod("SetInput");
         }
         catch
         {
@@ -65,7 +69,6 @@ internal sealed class LoomMachineSetInputPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded Artisan behavior for automated Loom.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -81,10 +84,9 @@ internal sealed class LoomMachineSetInputPatch : BasePatch
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.HasProfession(Profession.Artisan)) return;
 
-        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample");
+        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample").CreateDelegate<GetSampleDelegate>();
         var output = machine.heldObject.Value;
-        if (_GetSample!.Invoke(consumable, null) is SObject input)
-            output.Quality = input.Quality;
+        if (_GetSample(consumable) is SObject input) output.Quality = input.Quality;
 
         if (output.Quality < SObject.bestQuality &&
             new Random(Guid.NewGuid().GetHashCode()).NextDouble() < 0.05)

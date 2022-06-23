@@ -13,9 +13,11 @@ using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
-using Ultimate;
+using Ultimates;
 
 #endregion using directives
 
@@ -27,7 +29,7 @@ internal sealed class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BaseP
     /// <summary>Construct an instance.</summary>
     internal BasicProjectileBehaviorOnCollisionWithMonsterPatch()
     {
-        Original = RequireMethod<BasicProjectile>(nameof(BasicProjectile.behaviorOnCollisionWithMonster));
+        Target = RequireMethod<BasicProjectile>(nameof(BasicProjectile.behaviorOnCollisionWithMonster));
     }
 
     #region harmony patches

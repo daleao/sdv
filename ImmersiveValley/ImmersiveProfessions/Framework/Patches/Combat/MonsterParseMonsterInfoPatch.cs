@@ -7,6 +7,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
 
+using DaLion.Common.Harmony;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -15,7 +17,7 @@ internal sealed class MonsterParseMonsterInfoPatch : BasePatch
     /// <summary>Construct and instance.</summary>
     internal MonsterParseMonsterInfoPatch()
     {
-        Original = RequireMethod<Monster>("parseMonsterInfo");
+        Target = RequireMethod<Monster>("parseMonsterInfo");
     }
 
     #region harmony patches

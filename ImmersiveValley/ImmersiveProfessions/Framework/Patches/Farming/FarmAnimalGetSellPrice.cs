@@ -8,6 +8,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -18,7 +20,7 @@ internal sealed class FarmAnimalGetSellPricePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FarmAnimalGetSellPricePatch()
     {
-        Original = RequireMethod<FarmAnimal>(nameof(FarmAnimal.getSellPrice));
+        Target = RequireMethod<FarmAnimal>(nameof(FarmAnimal.getSellPrice));
     }
 
     #region harmony patches

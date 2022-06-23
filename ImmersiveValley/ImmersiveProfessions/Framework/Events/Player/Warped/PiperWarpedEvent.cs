@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.Player;
+﻿using DaLion.Common;
+
+namespace DaLion.Stardew.Professions.Framework.Events.Player;
 
 #region using directives
 
@@ -11,6 +13,7 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 
+using Common.Events;
 using Extensions;
 using GameLoop;
 
@@ -30,7 +33,7 @@ internal sealed class PiperWarpedEvent : WarpedEvent
         var hasMonsters = e.NewLocation.HasMonsters();
         if (!isDungeon && !hasMonsters)
         {
-            EventManager.Disable(typeof(PiperUpdateTickedEvent));
+            ModEntry.EventManager.Hook<PiperUpdateTickedEvent>();
             return;
         }
         
@@ -120,6 +123,6 @@ internal sealed class PiperWarpedEvent : WarpedEvent
         Log.D($"Spawned {pipedCount} Slimes after {raisedSlimes.Length} attempts.");
 
         if (pipedCount > 0 || e.NewLocation.characters.Any(npc => npc is GreenSlime))
-            EventManager.Enable(typeof(PiperUpdateTickedEvent));
+            ModEntry.EventManager.Hook<PiperUpdateTickedEvent>();
     }
 }

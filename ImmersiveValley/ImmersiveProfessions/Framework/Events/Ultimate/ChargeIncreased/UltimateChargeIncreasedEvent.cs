@@ -4,6 +4,8 @@
 
 using System;
 
+using Common.Events;
+
 #endregion using directives
 
 internal sealed class UltimateChargeIncreasedEvent : BaseEvent
@@ -22,6 +24,6 @@ internal sealed class UltimateChargeIncreasedEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     internal void OnChargeIncreased(object sender, IUltimateChargeIncreasedEventArgs e)
     {
-        if (enabled.Value) _OnChargeIncreasedImpl(sender, e);
+        if (hooked.Value) _OnChargeIncreasedImpl(sender, e);
     }
 }

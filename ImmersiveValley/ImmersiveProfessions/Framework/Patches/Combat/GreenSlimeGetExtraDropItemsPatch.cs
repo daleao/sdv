@@ -12,6 +12,7 @@ using StardewValley.Locations;
 using StardewValley.Monsters;
 
 using DaLion.Common.Extensions;
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -24,7 +25,7 @@ internal sealed class GreenSlimeGetExtraDropItemsPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeGetExtraDropItemsPatch()
     {
-        //Original = RequireMethod<GreenSlime>(nameof(GreenSlime.getExtraDropItems));
+        //Target = RequireMethod<GreenSlime>(nameof(GreenSlime.getExtraDropItems));
     }
 
     #region harmony patches

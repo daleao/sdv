@@ -6,7 +6,7 @@ using System;
 using Microsoft.Xna.Framework;
 using StardewValley;
 
-using Framework.TreasureHunt;
+using TreasureHunts;
 
 #endregion using directives
 
@@ -22,6 +22,9 @@ public sealed class TreasureHuntStartedEventArgs : EventArgs, ITreasureHuntStart
     public Vector2 Target { get; }
 
     /// <summary>Construct an instance.</summary>
+    /// <param name="player">The player who triggered the event.</param>
+    /// <param name="type">Whether this event relates to a Scavenger or Prospector hunt.</param>
+    /// <param name="target">The coordinates of the target tile.</param>
     internal TreasureHuntStartedEventArgs(Farmer player, TreasureHuntType type, Vector2 target)
     {
         Player = player;

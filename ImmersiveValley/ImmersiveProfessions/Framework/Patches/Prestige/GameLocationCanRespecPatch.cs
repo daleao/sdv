@@ -8,6 +8,9 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
+
 #endregion using directive
 
 [UsedImplicitly]
@@ -16,7 +19,7 @@ internal sealed class GameLocationCanRespecPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GameLocationCanRespecPatch()
     {
-        Original = RequireMethod<GameLocation>(nameof(GameLocation.canRespec));
+        Target = RequireMethod<GameLocation>(nameof(GameLocation.canRespec));
     }
 
     #region harmony patches

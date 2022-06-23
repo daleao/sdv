@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -19,7 +20,7 @@ internal sealed class TreeUpdateTapperProductPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal TreeUpdateTapperProductPatch()
     {
-        Original = RequireMethod<Tree>(nameof(Tree.UpdateTapperProduct));
+        Target = RequireMethod<Tree>(nameof(Tree.UpdateTapperProduct));
     }
 
     #region harmony patches

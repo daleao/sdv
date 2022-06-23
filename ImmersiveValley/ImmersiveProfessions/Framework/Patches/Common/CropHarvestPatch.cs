@@ -12,6 +12,8 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -24,7 +26,7 @@ internal sealed class CropHarvestPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal CropHarvestPatch()
     {
-        Original = RequireMethod<Crop>(nameof(Crop.harvest));
+        Target = RequireMethod<Crop>(nameof(Crop.harvest));
     }
 
     #region harmony patches
@@ -60,7 +62,6 @@ internal sealed class CropHarvestPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded Ecologist spring onion quality.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -69,7 +70,7 @@ internal sealed class CropHarvestPatch : BasePatch
         ///	After: Game1.stats.ItemsForaged += @object.Stack;
 
         // this particular method is too edgy for Harmony's AccessTools, so we use some old-fashioned reflection trickery to find this particular overload of FarmerExtensions.IncrementData<T>
-        var mi = typeof(FarmerExtensions)
+        var mi = typeof(ModDataIO)
                      .GetMethods()
                      .FirstOrDefault(mi => mi.Name.Contains("IncrementData") && mi.GetParameters().Length == 3)?
                      .MakeGenericMethod(typeof(uint)) ?? throw new MissingMethodException("Increment method not found.");
@@ -98,7 +99,6 @@ internal sealed class CropHarvestPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Ecologist counter increment.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -127,7 +127,6 @@ internal sealed class CropHarvestPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding modded Agriculturist crop harvest quality.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -194,7 +193,6 @@ internal sealed class CropHarvestPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding modded Harvester extra crop yield.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

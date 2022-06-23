@@ -11,8 +11,9 @@ using StardewValley.Menus;
 
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
-using Utility;
+using Textures;
 
 #endregion using directives
 
@@ -24,7 +25,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatch : BasePatch
     {
         try
         {
-            Original = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("performHoverAction");
+            Target = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("performHoverAction");
         }
         catch
         {

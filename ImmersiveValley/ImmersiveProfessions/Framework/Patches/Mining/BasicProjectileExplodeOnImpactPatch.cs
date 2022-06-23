@@ -9,6 +9,8 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Projectiles;
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -20,7 +22,7 @@ internal sealed class BasicProjectileExplodeOnImpact : BasePatch
     /// <summary>Construct an instance.</summary>
     internal BasicProjectileExplodeOnImpact()
     {
-        Original = RequireMethod<BasicProjectile>(nameof(BasicProjectile.explodeOnImpact));
+        Target = RequireMethod<BasicProjectile>(nameof(BasicProjectile.explodeOnImpact));
     }
 
     #region harmony patches

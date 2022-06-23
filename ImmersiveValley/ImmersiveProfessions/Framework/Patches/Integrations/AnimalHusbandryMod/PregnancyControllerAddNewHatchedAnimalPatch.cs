@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Buildings;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -25,7 +26,7 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : BasePatch
     {
         try
         {
-            Original = "AnimalHusbandryMod.animals.PregnancyController".ToType().RequireMethod("addNewHatchedAnimal");
+            Target = "AnimalHusbandryMod.animals.PregnancyController".ToType().RequireMethod("addNewHatchedAnimal");
         }
         catch
         {
@@ -65,7 +66,6 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching Rancher husbanded newborn friendship.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

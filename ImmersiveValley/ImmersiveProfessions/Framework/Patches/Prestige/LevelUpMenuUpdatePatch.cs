@@ -14,12 +14,14 @@ using Netcode;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Events.GameLoop;
 using Extensions;
-using Ultimate;
+using Ultimates;
 
 using CollectionExtensions = DaLion.Common.Extensions.Collections.CollectionExtensions;
 using Localization = Utility.Localization;
@@ -32,7 +34,7 @@ internal sealed class LevelUpMenuUpdatePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuUpdatePatch()
     {
-        Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.update), new[] {typeof(GameTime)});
+        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.update), new[] {typeof(GameTime)});
     }
 
     #region harmony patches
@@ -85,7 +87,6 @@ internal sealed class LevelUpMenuUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching level 15 profession choices. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -126,7 +127,6 @@ internal sealed class LevelUpMenuUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -217,7 +217,6 @@ internal sealed class LevelUpMenuUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching level up profession redundancy and injecting dialogues. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -278,7 +277,6 @@ internal sealed class LevelUpMenuUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while injecting level up profession final question. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -326,7 +324,6 @@ internal sealed class LevelUpMenuUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching level up menu choice suppression. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -396,7 +393,7 @@ internal sealed class LevelUpMenuUpdatePatch : BasePatch
                             UltimateIndex.PiperPandemic => new Enthrall(),
                             UltimateIndex.DesperadoBlossom => new DeathBlossom()
                         };
-                    Game1.player.WriteData(ModData.UltimateIndex, newIndex.ToString());
+                    ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), newIndex.ToString());
                 }
 
                 if (shouldCongratulateFullSkillMastery) CongratulateOnFullSkillMastery(chosenProfession);
@@ -415,7 +412,7 @@ internal sealed class LevelUpMenuUpdatePatch : BasePatch
                                                (Game1.player.IsMale ? ".male" : ".female"));
         if (Game1.player.achievements.Contains(title.GetDeterministicHashCode())) return;
 
-        EventManager.Enable(typeof(AchievementUnlockedDayStartedEvent));
+        ModEntry.EventManager.Hook<AchievementUnlockedDayStartedEvent>();
     }
 
     private static bool ShouldSuppressClick(int hovered, int currentLevel)

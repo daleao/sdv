@@ -6,7 +6,8 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Content;
+using Common;
+using Common.Events;
 using GameLoop;
 
 #endregion using directives
@@ -29,21 +30,17 @@ internal sealed class RequestGlobalEventModMessageReceivedEvent : ModMessageRece
 
         switch (which)
         {
-            case "Aquarist":
-                Log.D($"{who.Name} requested {which} event subscription.");
-                EventManager.Enable(typeof(HostFishPondDataRequestedEvent));
-                break;
             case "Conservationism":
                 Log.D($"{who.Name} requested {which} event subscription.");
-                EventManager.Enable(typeof(HostConservationismDayEndingEvent));
+                ModEntry.EventManager.Hook<HostConservationismDayEndingEvent>();
                 break;
             case "HuntIsOn":
                 Log.D($"Prestiged treasure hunter {who.Name} is hunting for treasure.");
-                EventManager.Enable(typeof(HostPrestigeTreasureHuntUpdateTickedEvent));
+                ModEntry.EventManager.Hook<HostPrestigeTreasureHuntUpdateTickedEvent>();
                 break;
             case "HuntIsOff":
                 Log.D($"{who.Name}'s hunt has ended.");
-                EventManager.Disable(typeof(HostPrestigeTreasureHuntUpdateTickedEvent));
+                ModEntry.EventManager.Unhook<HostPrestigeTreasureHuntUpdateTickedEvent>();
                 break;
         }
     }

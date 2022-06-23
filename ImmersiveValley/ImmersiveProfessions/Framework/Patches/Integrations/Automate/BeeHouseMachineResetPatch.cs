@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +24,8 @@ internal sealed class BeeHouseMachineResetPatch : BasePatch
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.BeeHouseMachine".ToType().RequireMethod("Reset");
+            Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.BeeHouseMachine".ToType()
+                .RequireMethod("Reset");
         }
         catch
         {
@@ -87,7 +89,6 @@ internal sealed class BeeHouseMachineResetPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching automated Bee House production speed for Producers.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

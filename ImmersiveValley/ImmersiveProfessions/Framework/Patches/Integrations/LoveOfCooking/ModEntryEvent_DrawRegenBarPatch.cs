@@ -10,9 +10,10 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
-using Ultimate;
+using Ultimates;
 
 #endregion using directives
 
@@ -22,14 +23,7 @@ internal sealed class ModEntryEvent_DrawRegenBarPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal ModEntryEvent_DrawRegenBarPatch()
     {
-        try
-        {
-            //Original = "LoveOfCooking.ModEntry".ToType().RequireMethod("Event_DrawRegenBar");
-        }
-        catch
-        {
-            // ignored
-        }
+        //Target = "LoveOfCooking.ModEntry".ToType().RequireMethod("Event_DrawRegenBar");
     }
 
     #region harmony patches
@@ -83,7 +77,6 @@ internal sealed class ModEntryEvent_DrawRegenBarPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while moving Love Of Cooking's food regen bar.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

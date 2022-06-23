@@ -8,7 +8,8 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
 
-using Utility;
+using DaLion.Common.Harmony;
+using Textures;
 
 #endregion using directives
 
@@ -18,7 +19,7 @@ internal sealed class SkillsPageCtorPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal SkillsPageCtorPatch()
     {
-        Original = RequireConstructor<SkillsPage>(typeof(int), typeof(int), typeof(int), typeof(int));
+        Target = RequireConstructor<SkillsPage>(typeof(int), typeof(int), typeof(int), typeof(int));
     }
 
     #region harmony patches

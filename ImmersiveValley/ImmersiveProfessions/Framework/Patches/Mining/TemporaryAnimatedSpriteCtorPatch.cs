@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -17,7 +18,7 @@ internal sealed class TemporaryAnimatedSpriteCtorPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal TemporaryAnimatedSpriteCtorPatch()
     {
-        Original = RequireConstructor<TemporaryAnimatedSprite>(typeof(int), typeof(float), typeof(int), typeof(int),
+        Target = RequireConstructor<TemporaryAnimatedSprite>(typeof(int), typeof(float), typeof(int), typeof(int),
             typeof(Vector2), typeof(bool), typeof(bool), typeof(GameLocation), typeof(Farmer));
     }
 

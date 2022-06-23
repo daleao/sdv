@@ -5,6 +5,7 @@
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
+using Common.Events;
 using Extensions;
 using GameLoop;
 
@@ -20,12 +21,12 @@ internal sealed class BruteWarpedEvent : WarpedEvent
 
         if (e.NewLocation.IsDungeon() || e.NewLocation.HasMonsters())
         {
-            EventManager.Enable(typeof(BruteUpdateTickedEvent));
+            ModEntry.EventManager.Hook<BruteUpdateTickedEvent>();
         }
         else
         {
             ModEntry.PlayerState.BruteRageCounter = 0;
-            EventManager.Disable(typeof(BruteUpdateTickedEvent));
+            ModEntry.EventManager.Hook<BruteUpdateTickedEvent>();
         }
     }
 }

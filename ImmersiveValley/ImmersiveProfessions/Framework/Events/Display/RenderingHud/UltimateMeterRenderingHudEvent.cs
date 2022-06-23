@@ -6,6 +6,8 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Events;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -16,7 +18,7 @@ internal sealed class UltimateMeterRenderingHudEvent : RenderingHudEvent
     {
         if (ModEntry.PlayerState.RegisteredUltimate is null)
         {
-            Disable();
+            Unhook();
             return;
         }
 

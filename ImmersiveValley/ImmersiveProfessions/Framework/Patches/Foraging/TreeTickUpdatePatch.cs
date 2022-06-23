@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewValley.TerrainFeatures;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +24,7 @@ internal sealed class TreeTickUpdatePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal TreeTickUpdatePatch()
     {
-        Original = RequireMethod<Tree>(nameof(Tree.tickUpdate));
+        Target = RequireMethod<Tree>(nameof(Tree.tickUpdate));
     }
 
     #region harmony patches
@@ -71,7 +72,6 @@ internal sealed class TreeTickUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -96,7 +96,6 @@ internal sealed class TreeTickUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while getting instructions for Arborist check.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -152,7 +151,6 @@ internal sealed class TreeTickUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Arborist bonus hardwood.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

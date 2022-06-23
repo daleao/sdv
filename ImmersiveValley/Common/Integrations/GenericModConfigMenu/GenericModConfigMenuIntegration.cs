@@ -10,7 +10,7 @@ using StardewModdingAPI.Utilities;
 
 /// <summary>Handles the logic for integrating with the Generic Mod Configuration Menu mod.</summary>
 /// <typeparam name="TConfig">The mod configuration type.</typeparam>
-/// <remarks>Credit to <c>Pathoschild</c>.</remarks>
+/// <remarks><see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
 internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGenericModConfigMenuAPI>
     where TConfig : new()
 {
@@ -33,15 +33,13 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     /// <param name="consumerManifest">The manifest for the mod consuming the API.</param>
-    /// <param name="log">Encapsulates monitoring and logging.</param>
     /// <param name="getConfig">Get the current config model.</param>
     /// <param name="reset">Reset the mod's config to its default values.</param>
     /// <param name="saveAndApply">Save the mod's current config to the <c>config.json</c> file.</param>
-    public GenericModConfigMenuIntegration(IModRegistry modRegistry, IManifest consumerManifest,
-        Action<string, LogLevel> log, Func<TConfig> getConfig, Action reset, Action saveAndApply)
-        : base("Generic Mod Config Menu", "spacechase0.GenericModConfigMenu", "1.6.0", modRegistry, log)
+    public GenericModConfigMenuIntegration(IModRegistry modRegistry, IManifest consumerManifest, 
+        Func<TConfig> getConfig, Action reset, Action saveAndApply)
+        : base("Generic Mod Config Menu", "spacechase0.GenericModConfigMenu", "1.6.0", modRegistry)
     {
-        // init
         ConsumerManifest = consumerManifest;
         GetConfig = getConfig;
         Reset = reset;
@@ -53,9 +51,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
     public GenericModConfigMenuIntegration<TConfig> Register(bool titleScreenOnly = false)
     {
         AssertLoaded();
-        
         ModApi!.Register(ConsumerManifest, Reset, SaveAndApply, titleScreenOnly);
-        
         return this;
     }
 
@@ -72,9 +68,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
     public GenericModConfigMenuIntegration<TConfig> AddPage(string pageId, Func<string> pageTitle = null)
     {
         AssertLoaded();
-
         ModApi!.AddPage(ConsumerManifest, pageId, pageTitle);
-        
         return this;
     }
 
@@ -86,9 +80,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
         Func<string> tooltip = null)
     {
         AssertLoaded();
-
         ModApi!.AddPageLink(ConsumerManifest, pageId, text, tooltip);
-
         return this;
     }
 
@@ -101,9 +93,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
     public GenericModConfigMenuIntegration<TConfig> AddSectionTitle(Func<string> text, Func<string> tooltip = null)
     {
         AssertLoaded();
-
         ModApi!.AddSectionTitle(ConsumerManifest, text, tooltip);
-
         return this;
     }
 
@@ -112,9 +102,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
     public GenericModConfigMenuIntegration<TConfig> AddParagraph(Func<string> text)
     {
         AssertLoaded();
-
         ModApi!.AddParagraph(ConsumerManifest, text);
-
         return this;
     }
 
@@ -128,7 +116,6 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
         Func<TConfig, bool> get, Action<TConfig, bool> set, bool enable = true)
     {
         AssertLoaded();
-
         if (enable)
             ModApi!.AddBoolOption(
                 ConsumerManifest,
@@ -157,7 +144,6 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
         Func<string, string> formatAllowedValue, bool enable = true)
     {
         AssertLoaded();
-
         if (enable)
             ModApi!.AddTextOption(
                 ConsumerManifest,
@@ -182,7 +168,6 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
         Func<TConfig, string> get, Action<TConfig, string> set, bool enable = true)
     {
         AssertLoaded();
-
         if (enable)
             ModApi!.AddTextOption(
                 ConsumerManifest,
@@ -207,7 +192,6 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
         Func<TConfig, int> get, Action<TConfig, int> set, int min, int max, bool enable = true)
     {
         AssertLoaded();
-
         if (enable)
             ModApi!.AddNumberOption(
                 ConsumerManifest,
@@ -236,7 +220,6 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
         bool enable = true)
     {
         AssertLoaded();
-
         if (enable)
             ModApi!.AddNumberOption(
                 ConsumerManifest,
@@ -262,7 +245,6 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
         Func<TConfig, KeybindList> get, Action<TConfig, KeybindList> set, bool enable = true)
     {
         AssertLoaded();
-
         if (enable)
             ModApi!.AddKeybindList(
                 ConsumerManifest,

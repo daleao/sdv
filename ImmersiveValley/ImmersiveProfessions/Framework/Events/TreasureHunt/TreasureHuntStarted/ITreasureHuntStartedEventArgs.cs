@@ -5,7 +5,7 @@
 using Microsoft.Xna.Framework;
 using StardewValley;
 
-using Framework.TreasureHunt;
+using TreasureHunts;
 
 #endregion using directives
 

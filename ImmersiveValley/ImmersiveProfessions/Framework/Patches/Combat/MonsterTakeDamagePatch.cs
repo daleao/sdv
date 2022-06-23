@@ -7,6 +7,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
 
+using DaLion.Common.Data;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -17,7 +19,7 @@ internal sealed class MonsterTakeDamagePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal MonsterTakeDamagePatch()
     {
-        Original = RequireMethod<Monster>(nameof(Monster.takeDamage),
+        Target = RequireMethod<Monster>(nameof(Monster.takeDamage),
             new[] {typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(string)});
     }
 
@@ -27,14 +29,16 @@ internal sealed class MonsterTakeDamagePatch : BasePatch
     [HarmonyPostfix]
     private static void MonsterTakeDamagePostfix(Monster __instance)
     {
-        if (__instance is not GreenSlime slime || !slime.ReadDataAs<bool>("Piped") || slime.Health > 0) return;
+        if (__instance is not GreenSlime slime || !ModDataIO.ReadDataAs<bool>(slime, "Piped") ||
+            slime.Health > 0) return;
 
         foreach (var monster in slime.currentLocation.characters.OfType<Monster>()
-                     .Where(m => !m.IsSlime() && m.ReadDataAs<bool>("Aggroed") && m.ReadDataAs<int>("Aggroer") == slime.GetHashCode()))
+                     .Where(m => !m.IsSlime() && ModDataIO.ReadDataAs<bool>(m, "Aggroed") &&
+                                 ModDataIO.ReadDataAs<int>(m, "Aggroer") == slime.GetHashCode()))
         {
-            monster.WriteData("Aggroed", false.ToString());
-            monster.WriteData("Aggroer", null);
-        };
+            ModDataIO.WriteData(monster, "Aggroed", false.ToString());
+            ModDataIO.WriteData(monster, "Aggroer", null);
+        }
     }
 
     #endregion harmony patches

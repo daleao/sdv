@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -21,26 +22,31 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal sealed class CheesePressMachineSetInput : BasePatch
 {
-    [CanBeNull] private static MethodInfo _GetSample;
+    private delegate Item GetSampleDelegate(object consumable);
+
+    private static GetSampleDelegate _GetSample;
 
     /// <summary>Construct an instance.</summary>
     internal CheesePressMachineSetInput()
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType().RequireMethod("SetInput");
-            Transpiler.priority = Priority.LowerThanNormal;
+            Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType()
+                .RequireMethod("SetInput");
         }
         catch
         {
             // ignored
         }
+
+        Transpiler!.priority = Priority.LowerThanNormal;
     }
 
     #region harmony patches
 
     /// <summary>Patch to apply Artisan effects to automated Cheese Press.</summary>
     [HarmonyTranspiler]
+    [HarmonyPriority(Priority.LowerThanNormal)]
     private static IEnumerable<CodeInstruction> GenericObjectMachineGenericPullRecipeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
@@ -71,7 +77,6 @@ internal sealed class CheesePressMachineSetInput : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded Artisan behavior for automated Cheese Press.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -84,8 +89,8 @@ internal sealed class CheesePressMachineSetInput : BasePatch
 
     private static void SetInputSubroutine(SObject machine, object consumable)
     {
-        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample");
-        if (_GetSample!.Invoke(consumable, null) is not SObject input) return;
+        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample").CreateDelegate<GetSampleDelegate>();
+        if (_GetSample(consumable) is not SObject input) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.HasProfession(Profession.Artisan)) return;

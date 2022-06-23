@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewValley.TerrainFeatures;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +24,7 @@ internal sealed class TreePerformBushDestroy : BasePatch
     /// <summary>Construct an instance.</summary>
     internal TreePerformBushDestroy()
     {
-        Original = RequireMethod<Tree>("performBushDestroy");
+        Target = RequireMethod<Tree>("performBushDestroy");
     }
 
     #region harmony patches
@@ -69,7 +70,6 @@ internal sealed class TreePerformBushDestroy : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

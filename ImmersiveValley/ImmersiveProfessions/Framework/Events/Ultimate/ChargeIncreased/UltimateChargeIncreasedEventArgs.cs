@@ -19,6 +19,7 @@ public sealed class UltimateChargeIncreasedEventArgs : EventArgs, IUltimateCharg
     public double NewValue { get; }
 
     /// <summary>Construct an instance.</summary>
+    /// <param name="player">The player who triggered the event.</param>
     /// <param name="oldValue">The old charge value.</param>
     /// <param name="newValue">The new charge value.</param>
     internal UltimateChargeIncreasedEventArgs(Farmer player, double oldValue, double newValue)

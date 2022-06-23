@@ -3,7 +3,6 @@ namespace DaLion.Stardew.Professions.Integrations;
 
 #region using directives
 
-using System;
 using StardewModdingAPI;
 
 using Common.Integrations;
@@ -14,9 +13,8 @@ internal class SpaceCoreIntegration : BaseIntegration<ISpaceCoreAPI>
 {
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    /// <param name="log">Encapsulates monitoring and logging.</param>
-    public SpaceCoreIntegration(IModRegistry modRegistry, Action<string, LogLevel> log)
-        : base("SpaceCore", "spacechase0.SpaceCore", "1.8.3", modRegistry, log)
+    public SpaceCoreIntegration(IModRegistry modRegistry)
+        : base("SpaceCore", "spacechase0.SpaceCore", "1.8.3", modRegistry)
     {
     }
 

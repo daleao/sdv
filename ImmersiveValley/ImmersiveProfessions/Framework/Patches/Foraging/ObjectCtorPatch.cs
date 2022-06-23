@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -19,7 +20,7 @@ internal sealed class ObjectCtorPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal ObjectCtorPatch()
     {
-        Original = RequireConstructor<SObject>(typeof(Vector2), typeof(int), typeof(string), typeof(bool),
+        Target = RequireConstructor<SObject>(typeof(Vector2), typeof(int), typeof(string), typeof(bool),
             typeof(bool), typeof(bool), typeof(bool));
     }
 

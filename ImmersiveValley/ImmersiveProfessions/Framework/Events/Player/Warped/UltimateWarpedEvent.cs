@@ -5,6 +5,7 @@
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
+using Common.Events;
 using Display;
 using Extensions;
 
@@ -20,12 +21,12 @@ internal sealed class UltimateWarpedEvent : WarpedEvent
 
         if (e.NewLocation.IsDungeon())
         {
-            EventManager.Enable(typeof(UltimateMeterRenderingHudEvent));
+            ModEntry.EventManager.Hook<UltimateMeterRenderingHudEvent>();
         }
         else
         {
             ModEntry.PlayerState.RegisteredUltimate.ChargeValue = 0.0;
-            EventManager.Disable(typeof(UltimateMeterRenderingHudEvent));
+            ModEntry.EventManager.Unhook<UltimateMeterRenderingHudEvent>();
         }
     }
 }

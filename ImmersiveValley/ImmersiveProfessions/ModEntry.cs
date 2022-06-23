@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
@@ -10,7 +9,11 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
+using Common;
 using Common.Classes;
+using Common.Commands;
+using Common.Data;
+using Common.Harmony;
 using Common.Integrations;
 using Framework;
 
@@ -19,11 +22,18 @@ using Framework;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    internal static PerScreen<PlayerState> PerScreenState { get; } = new(() => new());
 
     internal static ModEntry Instance { get; private set; }
     internal static ModConfig Config { get; set; }
-    internal static Broadcaster Broadcaster { get; private set; }
+    internal static ProfessionEventManager EventManager { get; private set; }
+    internal static MultiplayerBroadcaster Broadcaster { get; private set; }
+    internal static HostState HostState { get; private set; }
+    internal static PerScreen<PlayerState> PerScreenState { get; private set; }
+    internal static PlayerState PlayerState
+    {
+        get => PerScreenState.Value;
+        set => PerScreenState.Value = value;
+    }
 
     [CanBeNull] internal static JObject ArsenalConfig { get; set; }
     [CanBeNull] internal static JObject PondsConfig { get; set; }
@@ -42,14 +52,7 @@ public class ModEntry : Mod
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
     internal static ITranslationHelper i18n => ModHelper.Translation;
-    internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
-    internal static HostState HostState { get; private set; }
-    internal static PlayerState PlayerState
-    {
-        get => PerScreenState.Value;
-        set => PerScreenState.Value = value;
-    }
 
     internal static FrameRateCounter FpsCounter { get; private set; }
     internal static ICursorPosition DebugCursorPosition { get; set; }
@@ -60,23 +63,30 @@ public class ModEntry : Mod
     {
         Instance = this;
 
+        // initialize logger
+        Log.Init(Monitor);
+
+        // initialize data
+        ModDataIO.Init(helper.Multiplayer, ModManifest.UniqueID);
+
         // get configs
         Config = helper.ReadConfig<ModConfig>();
-
-        // initialize mod state
-        if (Context.IsMainPlayer) HostState = new();
         
         // initialize mod events
-        EventManager.Init(Helper.Events);
+        EventManager = new(Helper.Events);
 
         // apply harmony patches
-        HarmonyPatcher.ApplyAll(Manifest.UniqueID);
+        new HarmonyPatcher(Manifest.UniqueID).ApplyAll();
 
-        // add debug commands
-        helper.ConsoleCommands.Register();
+        // initialize multiplayer broadcaster
+        Broadcaster = new(helper.Multiplayer, ModManifest.UniqueID);
 
-        // initialize broadcaster
-        Broadcaster = new(helper.Multiplayer, Manifest.UniqueID);
+        // initialize mod state
+        PerScreenState = new(() => new());
+        if (Context.IsMainPlayer) HostState = new();
+
+        // register commands
+        new CommandHandler(helper.ConsoleCommands).Register("wol", ModManifest.UniqueID);
 
         // validate multiplayer
         if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
@@ -84,12 +94,10 @@ public class ModEntry : Mod
             var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID)!;
             var hostMod = host.GetMod(ModManifest.UniqueID);
             if (hostMod is null)
-                Log("[Entry] The session host does not have this mod installed. Some features will not work properly.",
-                    LogLevel.Warn);
+                Log.W("[Entry] The session host does not have this mod installed. Some features will not work properly.");
             else if (!hostMod.Version.Equals(ModManifest.Version))
-                Log(
-                    $"[Entry] The session host has a different mod version. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {ModManifest.Version}",
-                    LogLevel.Warn);
+                Log.W(
+                    $"[Entry] The session host has a different mod version. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {ModManifest.Version}");
         }
 
 #if DEBUG

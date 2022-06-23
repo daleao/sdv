@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common.Harmony;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -21,7 +23,7 @@ internal sealed class BuffsDisplayDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal BuffsDisplayDrawPatch()
     {
-        Original = RequireMethod<BuffsDisplay>(nameof(BuffsDisplay.draw), new[] {typeof(SpriteBatch)});
+        Target = RequireMethod<BuffsDisplay>(nameof(BuffsDisplay.draw), new[] {typeof(SpriteBatch)});
     }
 
     /// <summary>Patch to draw Brute Rage buff.</summary>

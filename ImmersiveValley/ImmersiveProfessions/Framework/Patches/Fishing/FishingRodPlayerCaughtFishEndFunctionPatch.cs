@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 
@@ -22,7 +23,7 @@ internal sealed class FishingRodPlayerCaughtFishEndFunctionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FishingRodPlayerCaughtFishEndFunctionPatch()
     {
-        Original = RequireMethod<FishingRod>(nameof(FishingRod.playerCaughtFishEndFunction));
+        Target = RequireMethod<FishingRod>(nameof(FishingRod.playerCaughtFishEndFunction));
     }
 
     #region harmony patches
@@ -61,7 +62,6 @@ internal sealed class FishingRodPlayerCaughtFishEndFunctionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing annoying legendary fish caught notification.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

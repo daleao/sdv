@@ -13,6 +13,7 @@ using StardewValley.Tools;
 
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 
 #endregion using directives
 
@@ -26,7 +27,8 @@ internal sealed class TrackedItemCtorPatch : BasePatch
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.TrackedItem".ToType().GetConstructor(new[] {typeof(Item), typeof(Action<Item>), typeof(Action<Item>)});
+            Target = "Pathoschild.Stardew.Automate.TrackedItem".ToType()
+                .RequireConstructor(new[] {typeof(Item), typeof(Action<Item>), typeof(Action<Item>)});
         }
         catch
         {

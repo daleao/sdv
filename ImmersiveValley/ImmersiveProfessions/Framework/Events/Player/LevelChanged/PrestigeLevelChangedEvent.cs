@@ -5,6 +5,7 @@
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
+using Common.Events;
 using GameLoop;
 
 #endregion using directives
@@ -15,6 +16,6 @@ internal sealed class PrestigeLevelChangedEvent : LevelChangedEvent
     /// <inheritdoc />
     protected override void OnLevelChangedImpl(object sender, LevelChangedEventArgs e)
     {
-        EventManager.Enable(typeof(RestoreForgottenRecipesDayStartedEvent));
+        ModEntry.EventManager.Hook<RestoreForgottenRecipesDayStartedEvent>();
     }
 }

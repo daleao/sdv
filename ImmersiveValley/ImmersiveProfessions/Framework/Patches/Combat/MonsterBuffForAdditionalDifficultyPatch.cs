@@ -7,6 +7,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
 
+using DaLion.Common.Harmony;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -15,7 +17,7 @@ internal sealed class MonsterBuffForAdditionalDifficultyPatch : BasePatch
     /// <summary>Construct and instance.</summary>
     internal MonsterBuffForAdditionalDifficultyPatch()
     {
-        Original = RequireMethod<Monster>("BuffForAdditionalDifficulty");
+        Target = RequireMethod<Monster>("BuffForAdditionalDifficulty");
     }
 
     #region harmony patches

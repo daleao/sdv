@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
 
+using Common.Events;
 using GameLoop;
 using Extensions;
 
@@ -32,12 +33,12 @@ internal sealed class SpelunkerWarpedEvent : WarpedEvent
                 player.Stamina = Math.Min(player.Stamina + player.MaxStamina * 0.01f, player.MaxStamina);
             }
 
-            EventManager.Enable(typeof(SpelunkerUpdateTickedEvent));
+            ModEntry.EventManager.Hook<SpelunkerUpdateTickedEvent>();
         }
         else if (e.NewLocation is not MineShaft && e.OldLocation is MineShaft)
         {
             ModEntry.PlayerState.SpelunkerLadderStreak = 0;
-            EventManager.Disable(typeof(SpelunkerUpdateTickedEvent));
+            ModEntry.EventManager.Hook<SpelunkerUpdateTickedEvent>();
         }
     }
 }

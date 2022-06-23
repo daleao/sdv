@@ -8,6 +8,9 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Data;
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -20,7 +23,7 @@ internal sealed class Game1CreateObjectDebrisPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal Game1CreateObjectDebrisPatch()
     {
-        Original = RequireMethod<Game1>(nameof(Game1.createObjectDebris),
+        Target = RequireMethod<Game1>(nameof(Game1.createObjectDebris),
             new[] {typeof(int), typeof(int), typeof(int), typeof(long), typeof(GameLocation)});
     }
 
@@ -43,7 +46,7 @@ internal sealed class Game1CreateObjectDebrisPatch : BasePatch
                 itemQuality = who.GetGemologistMineralQuality()
             });
 
-            who.IncrementData<uint>(ModData.GemologistMineralsCollected);
+            ModDataIO.IncrementData<uint>(who, ModData.GemologistMineralsCollected.ToString());
             return false; // don't run original logic
         }
         catch (Exception ex)

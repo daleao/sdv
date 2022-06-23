@@ -11,6 +11,8 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +25,7 @@ internal sealed class BushShakePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal BushShakePatch()
     {
-        Original = RequireMethod<Bush>("shake");
+        Target = RequireMethod<Bush>("shake");
     }
 
     #region harmony patches
@@ -58,7 +60,6 @@ internal sealed class BushShakePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded Ecologist wild berry quality.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -81,7 +82,8 @@ internal sealed class BushShakePatch : BasePatch
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldstr, ModData.EcologistItemsForaged.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(ModData)})
+                        typeof(ModDataIO)
+                            .RequireMethod(nameof(ModDataIO.IncrementData), new[] {typeof(Farmer), typeof(string)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseEcologistCounter);
@@ -89,7 +91,6 @@ internal sealed class BushShakePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Ecologist counter increment.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

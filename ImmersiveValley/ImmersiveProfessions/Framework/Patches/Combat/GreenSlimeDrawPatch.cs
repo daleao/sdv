@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 
@@ -23,7 +24,7 @@ internal sealed class GreenSlimeDrawPatch : BasePatch
     /// <summary>Construct an instance.<w/ summary>
     internal GreenSlimeDrawPatch()
     {
-        //Original = RequireMethod<GreenSlime>(nameof(GreenSlime.draw), new[] {typeof(SpriteBatch)});
+        //Target = RequireMethod<GreenSlime>(nameof(GreenSlime.draw), new[] {typeof(SpriteBatch)});
     }
 
     #region harmony patches
@@ -81,7 +82,6 @@ internal sealed class GreenSlimeDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching inflated Green Slime sprite.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

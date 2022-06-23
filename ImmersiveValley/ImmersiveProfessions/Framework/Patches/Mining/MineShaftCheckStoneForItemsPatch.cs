@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Locations;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +24,7 @@ internal sealed class MineShaftCheckStoneForItemsPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal MineShaftCheckStoneForItemsPatch()
     {
-        Original = RequireMethod<MineShaft>(nameof(MineShaft.checkStoneForItems));
+        Target = RequireMethod<MineShaft>(nameof(MineShaft.checkStoneForItems));
     }
 
     #region harmony patches
@@ -80,7 +81,6 @@ internal sealed class MineShaftCheckStoneForItemsPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Spelunker bonus ladder down chance.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -107,7 +107,6 @@ internal sealed class MineShaftCheckStoneForItemsPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Geologist paired gem chance.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -131,7 +130,6 @@ internal sealed class MineShaftCheckStoneForItemsPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Excavator double geode chance.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -153,7 +151,6 @@ internal sealed class MineShaftCheckStoneForItemsPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

@@ -21,12 +21,11 @@ internal class GenericModConfigMenuIntegrationForImmersiveAlchemy
     /// <param name="getConfig">Get the current config model.</param>
     /// <param name="reset">Reset the config model to the default values.</param>
     /// <param name="saveAndApply">Save and apply the current config model.</param>
-    /// <param name="log">Encapsulates monitoring and logging.</param>
     public GenericModConfigMenuIntegrationForImmersiveAlchemy(IModRegistry modRegistry, IManifest manifest,
-        Action<string, LogLevel> log, Func<ModConfig> getConfig, Action reset, Action saveAndApply)
+        Func<ModConfig> getConfig, Action reset, Action saveAndApply)
     {
         _configMenu =
-            new(modRegistry, manifest, log, getConfig, reset, saveAndApply);
+            new(modRegistry, manifest, getConfig, reset, saveAndApply);
     }
 
     /// <summary>Register the config menu if available.</summary>

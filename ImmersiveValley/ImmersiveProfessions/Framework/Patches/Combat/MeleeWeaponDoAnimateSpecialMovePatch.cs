@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -22,7 +23,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal MeleeWeaponDoAnimateSpecialMovePatch()
     {
-        Original = RequireMethod<MeleeWeapon>("doAnimateSpecialMove");
+        Target = RequireMethod<MeleeWeapon>("doAnimateSpecialMove");
     }
 
     #region harmony patches
@@ -59,7 +60,6 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Acrobat cooldown reduction.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

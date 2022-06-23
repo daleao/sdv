@@ -19,6 +19,7 @@ internal class ToxicityChangedEventArgs : EventArgs, IToxicityChangedEventArgs
     public double OldValue { get; }
 
     /// <summary>Construct an instance.</summary>
+    /// <param name="player">The player who triggered the event.</param>
     /// <param name="oldValue">The old toxicity value.</param>
     /// <param name="newValue">The old charge value.</param>
     internal ToxicityChangedEventArgs(Farmer player, double oldValue, double newValue)

@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Locations;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -23,7 +24,7 @@ internal sealed class BeachGetFishPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal BeachGetFishPatch()
     {
-        Original = RequireMethod<Beach>(nameof(Beach.getFish));
+        Target = RequireMethod<Beach>(nameof(Beach.getFish));
     }
 
     #region harmony patches
@@ -64,7 +65,6 @@ internal sealed class BeachGetFishPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Angler legendary fish recatch.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

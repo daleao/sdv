@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Buildings;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +24,7 @@ internal sealed class FishPondIsLegalFishForPondsPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FishPondIsLegalFishForPondsPatch()
     {
-        Original = RequireMethod<FishPond>("isLegalFishForPonds");
+        Target = RequireMethod<FishPond>("isLegalFishForPonds");
     }
 
     #region harmony patches
@@ -59,7 +60,6 @@ internal sealed class FishPondIsLegalFishForPondsPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Aquarist permission to raise legendary fish.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

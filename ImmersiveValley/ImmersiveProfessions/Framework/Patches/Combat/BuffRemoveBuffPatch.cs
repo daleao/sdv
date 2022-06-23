@@ -7,8 +7,9 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
-#endregion using directives
+using DaLion.Common.Harmony;
 
+#endregion using directives
 
 [UsedImplicitly]
 internal sealed class BuffRemoveBuffPatch : BasePatch
@@ -18,7 +19,7 @@ internal sealed class BuffRemoveBuffPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal BuffRemoveBuffPatch()
     {
-        Original = RequireMethod<Buff>(nameof(Buff.removeBuff));
+        Target = RequireMethod<Buff>(nameof(Buff.removeBuff));
     }
 
     #region harmony patches

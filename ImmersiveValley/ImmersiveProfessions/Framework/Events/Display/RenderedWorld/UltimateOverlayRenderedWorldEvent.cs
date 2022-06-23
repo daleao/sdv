@@ -5,6 +5,8 @@
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
+using Common.Events;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -15,7 +17,7 @@ internal sealed class UltimateOverlayRenderedWorldEvent : RenderedWorldEvent
     {
         if (ModEntry.PlayerState.RegisteredUltimate is null)
         {
-            Disable();
+            Unhook();
             return;
         }
 

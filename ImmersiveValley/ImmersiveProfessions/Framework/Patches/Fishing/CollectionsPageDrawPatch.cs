@@ -14,10 +14,11 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
-using Utility;
+using Textures;
 
 #endregion using directives
 
@@ -27,7 +28,7 @@ internal sealed class CollectionsPageDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal CollectionsPageDrawPatch()
     {
-        Original = RequireMethod<CollectionsPage>(nameof(CollectionsPage.draw), new[] {typeof(SpriteBatch)});
+        Target = RequireMethod<CollectionsPage>(nameof(CollectionsPage.draw), new[] {typeof(SpriteBatch)});
     }
 
     #region harmony patches
@@ -60,7 +61,6 @@ internal sealed class CollectionsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw collections page MAX icons. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

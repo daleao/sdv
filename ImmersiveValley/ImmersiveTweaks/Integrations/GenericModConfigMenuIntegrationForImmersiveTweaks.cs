@@ -1,4 +1,4 @@
-namespace DaLion.Stardew.Tweaks.Integrations;
+namespace DaLion.Stardew.Tweex.Integrations;
 
 #region using directives
 
@@ -21,11 +21,10 @@ internal class GenericModConfigMenuIntegrationForImmersiveTweaks
     /// <param name="getConfig">Get the current config model.</param>
     /// <param name="reset">Reset the config model to the default values.</param>
     /// <param name="saveAndApply">Save and apply the current config model.</param>
-    /// <param name="log">Encapsulates monitoring and logging.</param>
     public GenericModConfigMenuIntegrationForImmersiveTweaks(IModRegistry modRegistry, IManifest manifest,
-        Func<ModConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
+        Func<ModConfig> getConfig, Action reset, Action saveAndApply)
     {
-        _configMenu = new(modRegistry, manifest, log, getConfig, reset, saveAndApply);
+        _configMenu = new(modRegistry, manifest, getConfig, reset, saveAndApply);
     }
 
     /// <summary>Register the config menu if available.</summary>

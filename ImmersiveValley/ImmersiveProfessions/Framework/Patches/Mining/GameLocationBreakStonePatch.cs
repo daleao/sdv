@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -21,7 +22,7 @@ internal sealed class GameLocationBreakStonePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GameLocationBreakStonePatch()
     {
-        Original = RequireMethod<GameLocation>("breakStone");
+        Target = RequireMethod<GameLocation>("breakStone");
     }
 
     #region harmony patches
@@ -58,7 +59,6 @@ internal sealed class GameLocationBreakStonePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Miner extra ores.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -83,7 +83,6 @@ internal sealed class GameLocationBreakStonePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Geologist paired gems.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -106,7 +105,6 @@ internal sealed class GameLocationBreakStonePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

@@ -6,6 +6,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
 
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -16,7 +17,7 @@ internal sealed class FishingRodCalculateTimeUntilFishingBitePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FishingRodCalculateTimeUntilFishingBitePatch()
     {
-        Original = RequireMethod<FishingRod>("calculateTimeUntilFishingBite");
+        Target = RequireMethod<FishingRod>("calculateTimeUntilFishingBite");
     }
 
     #region harmony patches

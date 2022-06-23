@@ -6,7 +6,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
 
-using Extensions;
+using DaLion.Common.Data;
+using DaLion.Common.Harmony;
 
 #endregion using directives
 
@@ -16,7 +17,7 @@ internal sealed class GreenSlimeDoJumpPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeDoJumpPatch()
     {
-        //Original = RequireMethod<GreenSlime>("doJump");
+        //Target = RequireMethod<GreenSlime>("doJump");
     }
 
     #region harmony patches
@@ -25,7 +26,7 @@ internal sealed class GreenSlimeDoJumpPatch : BasePatch
     [HarmonyPrefix]
     private static bool GreenSlimeDoJumpPrefix(GreenSlime __instance)
     {
-        __instance.WriteData("Jumping", 200.ToString());
+        ModDataIO.WriteData(__instance, "Jumping", 200.ToString());
         return true; // run original logic
     }
 

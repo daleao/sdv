@@ -26,9 +26,9 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
     /// <param name="saveAndApply">Save and apply the current config model.</param>
     /// <param name="log">Encapsulates monitoring and logging.</param>
     public GenericModConfigMenuIntegrationForImmersiveTools(IModRegistry modRegistry, IManifest manifest,
-        Func<ToolConfig> getConfig, Action reset, Action saveAndApply, Action<string, LogLevel> log)
+        Func<ToolConfig> getConfig, Action reset, Action saveAndApply)
     {
-        _configMenu = new(modRegistry, manifest, log, getConfig, reset, saveAndApply);
+        _configMenu = new(modRegistry, manifest, getConfig, reset, saveAndApply);
     }
 
     /// <summary>Register the config menu if available.</summary>

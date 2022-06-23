@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DaLion.Stardew.Professions;
+﻿namespace DaLion.Stardew.Professions;
 
 #region using directives
 

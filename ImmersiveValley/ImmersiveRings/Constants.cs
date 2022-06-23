@@ -1,12 +1,5 @@
 ﻿namespace DaLion.Stardew.Rings;
 
-#region using directives
-
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-
-#endregion using directives
-
 public class Constants
 {
     public const int 

@@ -12,7 +12,9 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
 
+using DaLion.Common;
 using DaLion.Common.Extensions;
+using DaLion.Common.Harmony;
 
 #endregion using directives
 
@@ -22,7 +24,7 @@ internal sealed class CrabPotDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal CrabPotDrawPatch()
     {
-        Original = RequireMethod<CrabPot>(nameof(CrabPot.draw),
+        Target = RequireMethod<CrabPot>(nameof(CrabPot.draw),
             new[] {typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)});
     }
 

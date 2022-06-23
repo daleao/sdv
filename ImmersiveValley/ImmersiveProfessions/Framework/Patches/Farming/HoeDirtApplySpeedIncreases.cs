@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.TerrainFeatures;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -21,7 +22,7 @@ internal sealed class HoeDirtApplySpeedIncreases : BasePatch
     /// <summary>Construct an instance.</summary>
     internal HoeDirtApplySpeedIncreases()
     {
-        Original = RequireMethod<HoeDirt>("applySpeedIncreases");
+        Target = RequireMethod<HoeDirt>("applySpeedIncreases");
     }
 
     #region harmony patches
@@ -63,7 +64,6 @@ internal sealed class HoeDirtApplySpeedIncreases : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching prestiged Agriculturist bonus.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

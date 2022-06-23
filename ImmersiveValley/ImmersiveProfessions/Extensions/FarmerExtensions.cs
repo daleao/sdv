@@ -15,12 +15,12 @@ using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Monsters;
 
+using Common;
+using Common.Data;
 using Common.Extensions;
 using Common.Extensions.Collections;
-using Common.Extensions.Stardew;
-using Common.Integrations;
 using Framework;
-using Framework.Ultimate;
+using Framework.Ultimates;
 using Framework.Utility;
 
 using SObject = StardewValley.Object;
@@ -66,7 +66,7 @@ public static class FarmerExtensions
     //{
     //    if (Profession.TryFromValue(index, out var profession))
     //        return farmer.HasAllProfessionsBranchingFrom((IProfession) profession);
-        
+
     //    if (ModEntry.CustomProfessions.TryGetValue(index, out var customProfession))
     //        return farmer.HasAllProfessionsBranchingFrom(customProfession);
 
@@ -156,8 +156,8 @@ public static class FarmerExtensions
     {
         var ids = farmer.professions.Intersect(
             excludeTierOneProfessions
-            ? skill.TierTwoProfessionIds
-            : skill.ProfessionIds
+                ? skill.TierTwoProfessionIds
+                : skill.ProfessionIds
         );
 
         return ModEntry.CustomSkills.ContainsKey(skill.StringId)
@@ -455,7 +455,8 @@ public static class FarmerExtensions
                     while (level <= 10 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
 
                     if (canGainPrestigeLevels && skill.CurrentExp - Experience.VANILLA_CAP_I > 0)
-                        while (level <= 20 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
+                        while (level <= 20 && skill.CurrentExp >= Experience.ExperienceByLevel[level++])
+                            ++expectedLevel;
 
                     if (skill.CurrentLevel != expectedLevel)
                     {
@@ -488,7 +489,8 @@ public static class FarmerExtensions
     /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
     public static void ForgetRecipesForSkill(this Farmer farmer, Skill skill, bool addToRecoveryDict = false)
     {
-        var forgottenRecipesDict = farmer.ReadData(ModData.ForgottenRecipesDict).ParseDictionary<string, int>();
+        var forgottenRecipesDict = ModDataIO.ReadData(farmer, ModData.ForgottenRecipesDict.ToString())
+            .ParseDictionary<string, int>();
 
         // remove associated crafting recipes
         var craftingRecipes =
@@ -501,7 +503,7 @@ public static class FarmerExtensions
             if (addToRecoveryDict)
                 if (!forgottenRecipesDict.TryAdd(key, craftingRecipes[key]))
                     forgottenRecipesDict[key] += craftingRecipes[key];
-            
+
             farmer.craftingRecipes.Remove(key);
         }
 
@@ -523,7 +525,7 @@ public static class FarmerExtensions
         }
 
         if (addToRecoveryDict)
-            farmer.WriteData(ModData.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
+            ModDataIO.WriteData(farmer, ModData.ForgottenRecipesDict.ToString(), forgottenRecipesDict.Stringify());
     }
 
     /// <summary>Remove all recipes associated with the specified skill from the farmer.</summary>
@@ -533,12 +535,14 @@ public static class FarmerExtensions
     {
         if (ModEntry.CookingSkillApi is null) return;
 
-        var forgottenRecipesDict = farmer.ReadData(ModData.ForgottenRecipesDict).ParseDictionary<string, int>();
+        var forgottenRecipesDict = ModDataIO.ReadData(farmer, ModData.ForgottenRecipesDict.ToString())
+            .ParseDictionary<string, int>();
 
         // remove associated cooking recipes
         var cookingRecipes = ModEntry.CookingSkillApi.GetAllLevelUpRecipes().Values.SelectMany(r => r).ToList();
-        var knownCookingRecipes = farmer.cookingRecipes.Keys.Where(key => key.IsIn(cookingRecipes)).ToDictionary(key => key,
-                key => farmer.cookingRecipes[key]);
+        var knownCookingRecipes = farmer.cookingRecipes.Keys.Where(key => key.IsIn(cookingRecipes)).ToDictionary(
+            key => key,
+            key => farmer.cookingRecipes[key]);
         foreach (var (key, value) in knownCookingRecipes)
         {
             if (addToRecoveryDict && !forgottenRecipesDict.TryAdd(key, value))
@@ -548,7 +552,7 @@ public static class FarmerExtensions
         }
 
         if (addToRecoveryDict)
-            farmer.WriteData(ModData.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
+            ModDataIO.WriteData(farmer, ModData.ForgottenRecipesDict.ToString(), forgottenRecipesDict.Stringify());
     }
 
     /// <summary>Get all available Ultimate's not currently registered.</summary>
@@ -621,7 +625,8 @@ public static class FarmerExtensions
     {
         var fishTypes = Game1.getFarm().buildings
             .OfType<FishPond>()
-            .Where(pond => (pond.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) && pond.fishType.Value > 0)
+            .Where(pond => (pond.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+                           pond.fishType.Value > 0)
             .Select(pond => pond.fishType.Value);
 
         return Math.Min(fishTypes.Distinct().Count() * 0.000165f, 0.002f);
@@ -630,13 +635,13 @@ public static class FarmerExtensions
     /// <summary>The price bonus applied to all items sold by Conservationist.</summary>
     public static float GetConservationistPriceMultiplier(this Farmer farmer)
     {
-        return 1f + farmer.ReadDataAs<float>(ModData.ConservationistActiveTaxBonusPct);
+        return 1f + ModDataIO.ReadDataAs<float>(farmer, ModData.ConservationistActiveTaxBonusPct.ToString());
     }
 
     /// <summary>The quality of items foraged by Ecologist.</summary>
     public static int GetEcologistForageQuality(this Farmer farmer)
     {
-        var itemsForaged = farmer.ReadDataAs<uint>(ModData.EcologistItemsForaged);
+        var itemsForaged = ModDataIO.ReadDataAs<uint>(farmer, ModData.EcologistItemsForaged.ToString());
         return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
             ? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -647,7 +652,7 @@ public static class FarmerExtensions
     /// <summary>The quality of minerals collected by Gemologist.</summary>
     public static int GetGemologistMineralQuality(this Farmer farmer)
     {
-        var mineralsCollected = farmer.ReadDataAs<uint>(ModData.GemologistMineralsCollected);
+        var mineralsCollected = ModDataIO.ReadDataAs<uint>(farmer, ModData.GemologistMineralsCollected.ToString());
         return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
             ? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -662,228 +667,5 @@ public static class FarmerExtensions
             .Where(b => (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                         b.indoors.Value is SlimeHutch && !b.isUnderConstruction())
             .SelectMany(b => b.indoors.Value.characters.OfType<GreenSlime>());
-    }
-
-    /// <summary>Read from a field in the <see cref="ModDataDictionary" /> as <see cref="string"/>.</summary>
-    /// <param name="field">The field to read from.</param>
-    /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadData(this Farmer farmer, ModData field, string defaultValue = "")
-    {
-        return Game1.MasterPlayer.modData.Read($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
-            defaultValue);
-    }
-
-    /// <summary>Read from a field, external to this mod, in the <see cref="ModDataDictionary" /> as <see cref="string"/>.</summary>
-    /// <param name="field">The field to read from.</param>
-    /// <param name="modId">The unique id of the external mod.</param>
-    /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadDataExt(this Farmer farmer, string field, string modId, string defaultValue = "")
-    {
-        return Game1.MasterPlayer.modData.Read($"{modId}/{farmer.UniqueMultiplayerID}/{field}",
-            defaultValue);
-    }
-
-    /// <summary>Read from a field in the <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
-    /// <param name="field">The field to read from.</param>
-    /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T? ReadDataAs<T>(this Farmer farmer, ModData field, T? defaultValue = default)
-    {
-        return Game1.MasterPlayer.modData.ReadAs($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
-            defaultValue);
-    }
-
-    /// <summary>Read from a field, external to this mod, in the <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
-    /// <param name="field">The field to read from.</param>
-    /// <param name="modId">The unique id of the external mod.</param>
-    /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T? ReadDataExtAs<T>(this Farmer farmer, string field, string modId, T? defaultValue = default)
-    {
-        return Game1.MasterPlayer.modData.ReadAs($"{modId}/{farmer.UniqueMultiplayerID}/{field}",
-            defaultValue);
-    }
-
-    /// <summary>Write to a field in the <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
-    /// <param name="field">The field to write to.</param>
-    /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteData(this Farmer farmer, ModData field, string? value)
-    {
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
-        {
-            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}");
-            return;
-        }
-
-        Game1.player.modData.Write($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}", value);
-        Log.D(string.IsNullOrEmpty(value)
-            ? $"[ModData]: Cleared {farmer.Name}'s {field}."
-            : $"[ModData]: Wrote {value} to {farmer.Name}'s {field}.");
-    }
-
-    /// <summary>Write to a field, external to this mod, in the <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
-    /// <param name="field">The field to write to.</param>
-    /// <param name="modId">The unique id of the external mod.</param>
-    /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteDataExt(this Farmer farmer, string field, string modId, string? value)
-    {
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
-        {
-            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}", modId);
-            return;
-        }
-
-        Game1.player.modData.Write($"{modId}/{farmer.UniqueMultiplayerID}/{field}", value);
-        Log.D(string.IsNullOrEmpty(value)
-            ? $"[ModData]: Cleared {farmer.Name}'s {field}."
-            : $"[ModData]: Wrote {value} to {farmer.Name}'s {field}.");
-    }
-
-    /// <summary>Write to a field in the <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
-    /// <param name="field">The field to write to.</param>
-    /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataIfNotExists(this Farmer farmer, ModData field, string? value)
-    {
-        if (Game1.MasterPlayer.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}"))
-        {
-            Log.D($"[ModData]: The data field {field} already existed.");
-            return true;
-        }
-
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
-            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}");
-        else Game1.player.WriteData(field, value);
-
-        return false;
-    }
-
-    /// <summary>Write to a field, external to this mod, in the <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
-    /// <param name="field">The field to write to.</param>
-    /// <param name="modId">The unique id of the external mod.</param>
-    /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataExtIfNotExists(this Farmer farmer, ModData field, string modId, string? value)
-    {
-        if (Game1.MasterPlayer.modData.ContainsKey($"{modId}/{farmer.UniqueMultiplayerID}/{field}"))
-        {
-            Log.D($"[ModData]: The data field {field} already existed.");
-            return true;
-        }
-
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
-            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}", modId);
-        else Game1.player.WriteData(field, value);
-
-        return false;
-    }
-
-    /// <summary>Append a string to an existing string field in the <see cref="ModDataDictionary"/>, or initialize to the given value.</summary>
-    /// <param name="field">The field to update.</param>
-    /// <param name="value">Value to append.</param>
-    public static void AppendData(this Farmer farmer, ModData field, string value, string separator = ",")
-    {
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
-        {
-            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Append/{field}");
-            return;
-        }
-
-        var current = Game1.player.ReadData(field);
-        if (current.Contains(value))
-        {
-            Log.D($"[ModData]: {farmer.Name}'s {field} already contained {value}.");
-        }
-        else
-        {
-            Game1.player.WriteData(field, string.IsNullOrEmpty(current) ? value : current + separator + value);
-            Log.D($"[ModData]: Appended {farmer.Name}'s {field} with {value}");
-        }
-    }
-
-    /// <summary>Append a string to an existing string field, external to this mod, in the <see cref="ModDataDictionary"/>, or initialize to the given value.</summary>
-    /// <param name="field">The field to update.</param>
-    /// <param name="value">Value to append.</param>
-    /// <param name="modId">The unique id of the external mod.</param>
-    public static void AppendDataExt(this Farmer farmer, string field, string value, string modId, string separator = ",")
-    {
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
-        {
-            ModEntry.Broadcaster.MessageHost(value, $"RequestUpdateData/Append/{field}", modId);
-            return;
-        }
-
-        var current = Game1.player.ReadDataExt(field, modId);
-        if (current.Contains(value))
-        {
-            Log.D($"[ModData]: {farmer.Name}'s {field} already contained {value}.");
-        }
-        else
-        {
-            Game1.player.WriteDataExt(field, string.IsNullOrEmpty(current) ? value : current + separator + value, modId);
-            Log.D($"[ModData]: Appended {farmer.Name}'s {field} with {value}");
-        }
-    }
-
-    /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
-    /// <param name="field">The field to update.</param>
-    /// <param name="amount">Amount to increment by.</param>
-    public static void IncrementData<T>(this Farmer farmer, ModData field, T amount)
-    {
-        if (amount == null) throw new ArgumentNullException(nameof(amount));
-
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
-        {
-            ModEntry.Broadcaster.MessageHost(amount.ToString(), $"RequestUpdateData/Increment/{field}");
-            return;
-        }
-
-        Game1.player.modData.Increment($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}", amount);
-        Log.D($"[ModData]: Incremented {farmer.Name}'s {field} by {amount}.");
-    }
-
-    /// <summary>Increment the value of a numeric field, external to this mod, in the <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
-    /// <param name="field">The field to update.</param>
-    /// <param name="amount">Amount to increment by.</param>
-    /// <param name="modId">The unique id of the external mod.</param>
-    public static void IncrementDataExt<T>(this Farmer farmer, string field, T amount, string modId)
-    {
-        if (amount == null) throw new ArgumentNullException(nameof(amount));
-
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
-        {
-            ModEntry.Broadcaster.MessageHost(amount.ToString(), $"RequestUpdateData/Increment/{field}", modId);
-            return;
-        }
-
-        Game1.player.modData.Increment($"{modId}/{farmer.UniqueMultiplayerID}/{field}", amount);
-        Log.D($"[ModData]: Incremented {farmer.Name}'s {field} by {amount}.");
-    }
-
-    /// <summary>Increment the value of a numeric field in the <see cref="ModDataDictionary" /> by 1.</summary>
-    /// <param name="field">The field to update.</param>
-    public static void IncrementData<T>(this Farmer farmer, ModData field)
-    {
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
-        {
-            ModEntry.Broadcaster.MessageHost("1", $"RequestUpdateData/Increment/{field}");
-            return;
-        }
-
-        Game1.player.modData.Increment($"{ModEntry.Manifest.UniqueID}/{farmer.UniqueMultiplayerID}/{field}",
-            "1".Parse<T>());
-        Log.D($"[ModData]: Incremented {farmer.Name}'s {field} by 1.");
-    }
-
-    /// <summary>Increment the value of a numeric field, external to this mod, in the <see cref="ModDataDictionary" /> by 1.</summary>
-    /// <param name="field">The field to update.</param>
-    /// <param name="modId">The unique id of the external mod.</param>
-    public static void IncrementDataExt<T>(this Farmer farmer, string field, string modId)
-    {
-        if (Context.IsMultiplayer && !Context.IsMainPlayer)
-        {
-            ModEntry.Broadcaster.MessageHost("1", $"RequestUpdateData/Increment/{field}", modId);
-            return;
-        }
-
-        Game1.player.modData.Increment($"{modId}/{farmer.UniqueMultiplayerID}/{field}",
-            "1".Parse<T>());
-        Log.D($"[ModData]: Incremented {farmer.Name}'s {field} by 1.");
     }
 }

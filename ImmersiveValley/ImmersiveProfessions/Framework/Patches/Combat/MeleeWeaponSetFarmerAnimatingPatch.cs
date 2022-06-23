@@ -11,10 +11,11 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
-using Ultimate;
+using Ultimates;
 
 #endregion using directives
 
@@ -24,7 +25,7 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal MeleeWeaponSetFarmerAnimatingPatch()
     {
-        Original = RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.setFarmerAnimating));
+        Target = RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.setFarmerAnimating));
     }
 
     #region harmony patches
@@ -75,7 +76,6 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed adding attack speed to prestiged Brute.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

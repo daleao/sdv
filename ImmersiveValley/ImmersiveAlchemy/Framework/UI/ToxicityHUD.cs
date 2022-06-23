@@ -7,8 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 
-using Events.Display;
-using Events.GameLoop;
+using Common.Events;
 
 #endregion using directives
 

@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -33,7 +34,7 @@ internal sealed class SkillLevelUpMenuDrawPatch : BasePatch
     {
         try
         {
-            Original = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("draw", new[] {typeof(SpriteBatch)});
+            Target = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("draw", new[] {typeof(SpriteBatch)});
         }
         catch
         {
@@ -76,7 +77,6 @@ internal sealed class SkillLevelUpMenuDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching level up menu prestige tooltip draw. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

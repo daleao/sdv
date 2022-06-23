@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +24,7 @@ internal sealed class BobberBarUpdatePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal BobberBarUpdatePatch()
     {
-        Original = RequireMethod<BobberBar>(nameof(BobberBar.update));
+        Target = RequireMethod<BobberBar>(nameof(BobberBar.update));
     }
 
     #region harmony patches
@@ -98,7 +99,6 @@ internal sealed class BobberBarUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching Aquarist catching bar loss. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

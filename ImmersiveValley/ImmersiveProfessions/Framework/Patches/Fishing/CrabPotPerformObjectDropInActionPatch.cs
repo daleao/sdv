@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Objects;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -21,7 +22,7 @@ internal sealed class CrabPotPerformObjectDropInActionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal CrabPotPerformObjectDropInActionPatch()
     {
-        Original = RequireMethod<CrabPot>(nameof(CrabPot.performObjectDropInAction));
+        Target = RequireMethod<CrabPot>(nameof(CrabPot.performObjectDropInAction));
     }
 
     #region harmony patches
@@ -52,7 +53,6 @@ internal sealed class CrabPotPerformObjectDropInActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing Conservationist bait restriction.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

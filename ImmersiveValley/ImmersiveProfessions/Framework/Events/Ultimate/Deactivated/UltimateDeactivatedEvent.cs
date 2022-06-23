@@ -4,6 +4,8 @@
 
 using System;
 
+using Common.Events;
+
 #endregion using directives
 
 internal sealed class UltimateDeactivatedEvent : BaseEvent
@@ -22,6 +24,6 @@ internal sealed class UltimateDeactivatedEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     internal void OnDeactivated(object sender, IUltimateDeactivatedEventArgs e)
     {
-        if (enabled.Value) _OnDeactivatedImpl(sender, e);
+        if (hooked.Value) _OnDeactivatedImpl(sender, e);
     }
 }

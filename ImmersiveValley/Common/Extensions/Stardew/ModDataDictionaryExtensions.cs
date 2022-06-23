@@ -6,7 +6,7 @@ using System;
 using System.Linq.Expressions;
 using StardewValley;
 
-using Common.Extensions;
+using Extensions;
 
 #endregion using directives
 
@@ -87,7 +87,7 @@ public static class ModDataDictionaryExtensions
     /// <param name="key">The dictionary key to update.</param>
     /// <param name="amount">Amount to increment by.</param>
     /// <returns>Interface to <paramref name="data" />.</returns>
-    /// <remarks>Credit to <c>Adi Lester</c> (https://stackoverflow.com/questions/8122611/c-sharp-adding-two-generic-values).</remarks>
+    /// <remarks>Original code by <see href="https://stackoverflow.com/questions/8122611/c-sharp-adding-two-generic-values">Adi Lester</see>.</remarks>
     public static ModDataDictionary Increment<T>(this ModDataDictionary data, string key, T amount)
     {
         var num = data.ReadAs<T>(key);

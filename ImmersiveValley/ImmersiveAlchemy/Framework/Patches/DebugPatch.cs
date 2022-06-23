@@ -1,33 +1,36 @@
-﻿namespace DaLion.Stardew.Alchemy.Framework.Patches;
+﻿//namespace DaLion.Stardew.Alchemy.Framework.Patches;
 
-#region using directives
+//#region using directives
 
-using HarmonyLib;
-using JetBrains.Annotations;
+//using HarmonyLib;
+//using JetBrains.Annotations;
 
-#endregion using directives
+//using DaLion.Common;
+//using DaLion.Common.Harmony;
 
-/// <summary>Wildcard prefix patch for on-demand debugging.</summary>
-[UsedImplicitly]
-internal class DebugPatch : BasePatch
-{
-    /// <summary>Construct an instance.</summary>
-    internal DebugPatch()
-    {
-#if DEBUG
-        //Original = RequireMethod<>(nameof(.));
-#endif
-    }
+//#endregion using directives
 
-    #region harmony patches
+///// <summary>Wildcard prefix patch for on-demand debugging.</summary>
+//[UsedImplicitly]
+//internal class DebugPatch : BasePatch
+//{
+//    /// <summary>Construct an instance.</summary>
+//    internal DebugPatch()
+//    {
+//#if DEBUG
+//        Target = RequireMethod<>(nameof(.));
+//#endif
+//    }
 
-    [HarmonyPrefix]
-    private static bool DebugPrefix(object __instance)
-    {
-        Log.D("DebugPatch called!");
+//    #region harmony patches
 
-        return true; // run original logic
-    }
+//    [HarmonyPrefix]
+//    private static bool DebugPrefix(object __instance)
+//    {
+//        Log.D("DebugPatch called!");
 
-    #endregion harmony patches
-}
+//        return true; // run original logic
+//    }
+
+//    #endregion harmony patches
+//}

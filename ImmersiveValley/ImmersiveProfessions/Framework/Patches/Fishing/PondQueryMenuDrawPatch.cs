@@ -16,8 +16,10 @@ using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 
+using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -53,7 +55,7 @@ internal sealed class PondQueryMenuDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
     {
-        Original = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] {typeof(SpriteBatch)});
+        Target = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] {typeof(SpriteBatch)});
     }
 
     #region harmony patches

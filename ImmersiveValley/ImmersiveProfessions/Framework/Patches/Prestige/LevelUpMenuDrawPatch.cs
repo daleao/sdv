@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -27,7 +28,7 @@ internal sealed class LevelUpMenuDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuDrawPatch()
     {
-        Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.draw), new[] {typeof(SpriteBatch)});
+        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.draw), new[] {typeof(SpriteBatch)});
     }
 
     #region harmony patches
@@ -72,7 +73,6 @@ internal sealed class LevelUpMenuDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching level up menu choose profession text. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -102,7 +102,6 @@ internal sealed class LevelUpMenuDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching level up menu prestige tooltip draw. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

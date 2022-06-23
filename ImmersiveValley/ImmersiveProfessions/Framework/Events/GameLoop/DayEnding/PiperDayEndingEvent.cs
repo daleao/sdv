@@ -7,6 +7,8 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewModdingAPI.Events;
 
+using Common.Events;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -19,6 +21,6 @@ internal sealed class PiperDayEndingEvent : DayEndingEvent
     {
         Game1.buffsDisplay.removeOtherBuff(_piperBuffId);
         Array.Clear(ModEntry.PlayerState.AppliedPiperBuffs, 0, 12);
-        Disable();
+        Unhook();
     }
 }

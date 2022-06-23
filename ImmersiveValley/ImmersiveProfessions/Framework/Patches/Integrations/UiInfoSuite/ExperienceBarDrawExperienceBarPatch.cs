@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 
@@ -22,7 +23,7 @@ internal sealed class ExperieneBarDrawExperienceBarPatch : BasePatch
     {
         try
         {
-            Original = "UIInfoSuite.UIElements.ExperienceBar".ToType().RequireMethod("DrawExperienceBar");
+            Target = "UIInfoSuite.UIElements.ExperienceBar".ToType().RequireMethod("DrawExperienceBar");
         }
         catch
         {
@@ -52,8 +53,7 @@ internal sealed class ExperieneBarDrawExperienceBarPatch : BasePatch
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching to budge Ui Info Suite experience bar skill icon. Helper returned {ex}");
-            transpilationFailed = true;
+            Log.E($"Failed to budge Ui Info Suite experience bar skill icon. Helper returned {ex}");
             return null;
         }
 

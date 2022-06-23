@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewValley.TerrainFeatures;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +24,7 @@ internal sealed class FruitTreeTickUpdatePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FruitTreeTickUpdatePatch()
     {
-        Original = RequireMethod<FruitTree>(nameof(FruitTree.tickUpdate));
+        Target = RequireMethod<FruitTree>(nameof(FruitTree.tickUpdate));
     }
 
     #region harmony patches
@@ -71,7 +72,6 @@ internal sealed class FruitTreeTickUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

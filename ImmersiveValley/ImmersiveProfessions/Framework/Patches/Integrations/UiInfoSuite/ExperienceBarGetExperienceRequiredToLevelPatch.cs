@@ -6,6 +6,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 
 #endregion using directives
 
@@ -19,7 +20,7 @@ internal sealed class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch
     {
         try
         {
-            Original = "UIInfoSuite.UIElements.ExperienceBar".ToType().RequireMethod("GetExperienceRequiredToLevel");
+            Target = "UIInfoSuite.UIElements.ExperienceBar".ToType().RequireMethod("GetExperienceRequiredToLevel");
         }
         catch
         {

@@ -1,12 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 #region using directives
 
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
+
+using Common.Events;
 
 #endregion using directives
 

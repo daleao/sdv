@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Events;
 using Content;
 using GameLoop;
 using Extensions;
@@ -18,14 +19,12 @@ internal sealed class HostPeerConnectedEvent : PeerConnectedEvent
     /// <inheritdoc />
     protected override void OnPeerConnectedImpl(object sender, PeerConnectedEventArgs e)
     {
-        EventManager.Enable(typeof(ToggledUltimateModMessageReceivedEvent),
-            typeof(RequestGlobalEventModMessageReceivedEvent), typeof(RequestUpdateDataModMessageReceivedEvent),
-            typeof(RequestUpdateHostStateModMessageReceivedEvent));
-
-        if (Game1.getFarmer(e.Peer.PlayerID).HasProfession(Profession.Aquarist))
-            EventManager.Enable(typeof(HostFishPondDataRequestedEvent));
+        ModEntry.EventManager.Hook<ToggledUltimateModMessageReceivedEvent>();
+        ModEntry.EventManager.Hook<RequestGlobalEventModMessageReceivedEvent>();
+        ModEntry.EventManager.Hook<RequestUpdateDataModMessageReceivedEvent>();
+        ModEntry.EventManager.Hook<RequestUpdateHostStateModMessageReceivedEvent>();
 
         if (Game1.getFarmer(e.Peer.PlayerID).HasProfession(Profession.Conservationist))
-            EventManager.Enable(typeof(HostConservationismDayEndingEvent));
+            ModEntry.EventManager.Hook<HostConservationismDayEndingEvent>();
     }
 }

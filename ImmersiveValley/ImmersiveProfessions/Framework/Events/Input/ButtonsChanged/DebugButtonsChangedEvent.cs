@@ -8,6 +8,8 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common;
+using Common.Events;
 using Common.Extensions;
 using Display;
 
@@ -74,7 +76,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                         var events = "";
                         if (who.IsLocalPlayer)
                         {
-                            events = EventManager.GetAllEnabled().Aggregate("",
+                            events = ModEntry.EventManager.Hooked.Aggregate("",
                                 (current, next) => current + "\n\t\t- " + next.GetType().Name);
                         }
                         else if (Context.IsMultiplayer && who.isActive())
@@ -83,18 +85,18 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                             if (peer is {IsSplitScreen: true})
                             {
                                 if (peer.ScreenID.HasValue)
-                                    events = EventManager.GetAllEnabledForScreen(peer.ScreenID.Value).Aggregate("",
+                                    events = ModEntry.EventManager.GetHookedForScreen(peer.ScreenID.Value).Aggregate("",
                                         (current, next) => current + "\n\t\t- " + next.GetType().Name);
                             }
                             else
                             {
-                                events = await ModEntry.Broadcaster.RequestAsync("EventsEnabled", "Debug/Request",
+                                events = await ModEntry.Broadcaster.RequestAsync("EventsHooked", "Debug/Request",
                                     who.UniqueMultiplayerID);
                             }
                         }
 
                         if (!string.IsNullOrEmpty(events)) message += "\n\n\tEvents:" + events;
-                        else message += "\n\nCouldn't read player's enabled events.";
+                        else message += "\n\nCouldn't read player's hooked events.";
                     }
 
                     Log.D(message);

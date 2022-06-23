@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Locations;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -21,7 +22,7 @@ internal sealed class CaderaGetFishPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal CaderaGetFishPatch()
     {
-        Original = RequireMethod<Caldera>(nameof(Caldera.getFish));
+        Target = RequireMethod<Caldera>(nameof(Caldera.getFish));
     }
 
     #region harmony patches
@@ -55,7 +56,6 @@ internal sealed class CaderaGetFishPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

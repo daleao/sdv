@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Tweaks.Extensions;
+﻿namespace DaLion.Stardew.Tweex.Extensions;
 
 #region using directives
 

@@ -4,6 +4,8 @@
 
 using System;
 
+using Common.Events;
+
 #endregion using directives
 
 internal class ToxicityChangedEvent : BaseEvent
@@ -20,8 +22,8 @@ internal class ToxicityChangedEvent : BaseEvent
     /// <summary>Raised when a player's Toxicity value changes.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    internal void OnChargeInitiated(object sender, IToxicityChangedEventArgs e)
+    internal void OnChanged(object sender, IToxicityChangedEventArgs e)
     {
-        if (enabled.Value) _OnChargeInitiatedImpl(sender, e);
+        if (hooked.Value) _OnChargeInitiatedImpl(sender, e);
     }
 }

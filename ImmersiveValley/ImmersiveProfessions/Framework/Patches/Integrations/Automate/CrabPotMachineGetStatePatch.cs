@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 
@@ -22,7 +23,8 @@ internal sealed class CrabPotMachineGetStatePatch : BasePatch
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine".ToType().RequireMethod("GetState");
+            Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine".ToType()
+                .RequireMethod("GetState");
         }
         catch
         {
@@ -55,7 +57,6 @@ internal sealed class CrabPotMachineGetStatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

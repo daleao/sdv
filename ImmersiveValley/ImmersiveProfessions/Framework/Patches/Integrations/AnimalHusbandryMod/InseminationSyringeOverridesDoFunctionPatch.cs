@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +24,7 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatch : BasePatch
     {
         try
         {
-            Original = "AnimalHusbandryMod.tools.InseminationSyringeOverrides".ToType().RequireMethod("DoFunction");
+            Target = "AnimalHusbandryMod.tools.InseminationSyringeOverrides".ToType().RequireMethod("DoFunction");
         }
         catch
         {
@@ -90,7 +91,6 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching inseminated pregnancy time for Breeder.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

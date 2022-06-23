@@ -13,6 +13,7 @@ using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using StardewValley.Objects;
 
+using Common;
 using Common.Extensions;
 using Common.Extensions.Reflection;
 
@@ -58,7 +59,7 @@ public static class FishPondExtensions
     }
 
     /// <summary>Opens a <see cref="ItemGrabMenu"/> instance to allow retrieve multiple items from the pond's chum bucket.</summary>
-    /// <returns>Always returns <c>True</c> (required by vanilla code).</returns>
+    /// <returns>Always returns <see langword="true"> (required by vanilla code).</returns>
     public static bool OpenChumBucketMenu(this FishPond pond, Farmer who)
     {
         var produce = pond.ReadData("ItemsHeld", null)?.ParseList<string>(";");

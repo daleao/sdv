@@ -1,13 +1,11 @@
-﻿namespace DaLion.Stardew.Tweaks.Extensions;
+﻿namespace DaLion.Stardew.Tweex.Extensions;
 
 #region using directives
 
-using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
-using Common.Extensions;
-using Common.Extensions.Stardew;
+using Common.Data;
 
 using SObject = StardewValley.Object;
 
@@ -45,7 +43,7 @@ public static class TreeExtensions
     public static int GetQualityFromAge(this Tree tree)
     {
         var skillFactor = 1f + Game1.player.ForagingLevel * 0.1f;
-        var age = (int) (tree.ReadDataAs<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
+        var age = (int) (ModDataIO.ReadDataAs<int>(tree, "Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
         if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.lumberjack)) age *= 2;
 
         if (ModEntry.Config.DeterministicAgeQuality)
@@ -66,65 +64,5 @@ public static class TreeExtensions
             >= 112 => SObject.medQuality,
             _ => SObject.lowQuality
         };
-    }
-
-    /// <summary>Read a string from this tree's <see cref="ModDataDictionary" />.</summary>
-    /// <param name="field">The field to read from.</param>
-    /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadData(this Tree tree, string field, string defaultValue = "")
-    {
-        return tree.modData.Read($"{ModEntry.Manifest.UniqueID}/{field}", defaultValue);
-    }
-
-    /// <summary>Read a field from this tree's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
-    /// <param name="field">The field to read from.</param>
-    /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataAs<T>(this Tree tree, string field, T defaultValue = default)
-    {
-        return tree.modData.ReadAs($"{ModEntry.Manifest.UniqueID}/{field}", defaultValue);
-    }
-
-    /// <summary>Write to a field in this tree's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
-    /// <param name="field">The field to write to.</param>
-    /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static void WriteData(this Tree tree, string field, [CanBeNull] string value)
-    {
-        tree.modData.Write($"{ModEntry.Manifest.UniqueID}/{field}", value);
-        Log.D(string.IsNullOrEmpty(value)
-            ? $"[ModData]: Cleared {tree.NameFromType()}'s {field}."
-            : $"[ModData]: Wrote {value} to {tree.NameFromType()}'s {field}.");
-    }
-
-    /// <summary>Write to a field in this tree's <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
-    /// <param name="field">The field to write to.</param>
-    /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
-    public static bool WriteDataIfNotExists(this Tree tree, string field, [CanBeNull] string value)
-    {
-        if (tree.modData.ContainsKey($"{ModEntry.Manifest.UniqueID}/{field}"))
-        {
-            Log.D($"[ModData]: The data field {field} already existed.");
-            return true;
-        }
-
-        tree.WriteData(field, value);
-        return false;
-    }
-
-    /// <summary>Increment the value of a numeric field in this tree's <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
-    /// <param name="field">The field to update.</param>
-    /// <param name="amount">Amount to increment by.</param>
-    public static void IncrementData<T>(this Tree tree, string field, T amount)
-    {
-        tree.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}", amount);
-        Log.D($"[ModData]: Incremented {tree.NameFromType()}'s {field} by {amount}.");
-    }
-
-    /// <summary>Increment the value of a numeric field in this tree's <see cref="ModDataDictionary" /> by 1.</summary>
-    /// <param name="field">The field to update.</param>
-    public static void IncrementData<T>(this Tree tree, string field)
-    {
-        tree.modData.Increment($"{ModEntry.Manifest.UniqueID}/{field}",
-            "1".Parse<T>());
-        Log.D($"[ModData]: Incremented {tree.NameFromType()}'s {field} by 1.");
     }
 }

@@ -11,14 +11,14 @@ using HarmonyLib;
 #endregion using directives
 
 /// <summary>Provides extensions for simplified reflection on C# types.</summary>
-/// <remarks>Credit to <c>Pardeike</c>.</remarks>
+/// <remarks>Original code by <see href="https://github.com/pardeike">Pardeike</see>.</remarks>
 public static class TypeExtensions
 {
     /// <summary>Get a constructor and assert that it was found.</summary>
     public static ConstructorInfo RequireConstructor(this Type type)
     {
         return AccessTools.Constructor(type) ??
-               throw new MissingMethodException($"Cannot find constructor for type {type.FullName}.");
+               throw new MissingMethodException($"Couldn't find constructor for type {type.FullName}.");
     }
 
     /// <summary>Get a constructor and assert that it was found.</summary>
@@ -27,7 +27,7 @@ public static class TypeExtensions
     {
         return AccessTools.Constructor(type, parameters) ??
                throw new MissingMethodException(
-                   $"Cannot find constructor {parameters.Description()} for type {type.FullName}.");
+                   $"Couldn't find constructor {parameters.Description()} for type {type.FullName}.");
     }
 
     /// <summary>Get a constructor and assert that it was found.</summary>
@@ -44,7 +44,7 @@ public static class TypeExtensions
     public static MethodInfo RequireMethod(this Type type, string name)
     {
         return AccessTools.Method(type, name) ??
-               throw new MissingMethodException($"Cannot find method named {name} in type {type.FullName}.");
+               throw new MissingMethodException($"Couldn't find method {name} in type {type.FullName}.");
     }
 
     /// <summary>Get a method and assert that it was found.</summary>
@@ -54,7 +54,7 @@ public static class TypeExtensions
     {
         return AccessTools.Method(type, name, parameters) ??
                throw new MissingMethodException(
-                   $"Cannot find method {name} {parameters.Description()} in type {type.FullName}.");
+                   $"Couldn't find method {name} {parameters.Description()} in type {type.FullName}.");
     }
 
     /// <summary>Get a field and assert that it was found.</summary>
@@ -62,7 +62,7 @@ public static class TypeExtensions
     public static FieldInfo RequireField(this Type type, string name)
     {
         return AccessTools.Field(type, name) ??
-               throw new MissingFieldException($"Cannot find field {name} in type {type.FullName}.");
+               throw new MissingFieldException($"Couldnd't find field {name} in type {type.FullName}.");
     }
 
     /// <summary>Get a property getter and assert that it was found.</summary>
@@ -70,7 +70,7 @@ public static class TypeExtensions
     public static MethodInfo RequirePropertyGetter(this Type type, string name)
     {
         return AccessTools.Property(type, name)?.GetGetMethod(true) ??
-               throw new MissingMethodException($"Cannot find property getter {name} in type {type.FullName}.");
+               throw new MissingMethodException($"Couldn't find property getter {name} in type {type.FullName}.");
     }
 
     /// <summary>Get a property setter and assert that it was found.</summary>
@@ -78,7 +78,7 @@ public static class TypeExtensions
     public static MethodInfo RequirePropertySetter(this Type type, string name)
     {
         return AccessTools.Property(type, name)?.GetSetMethod(true) ??
-               throw new MissingMethodException($"Cannot find property setter {name} in type {type.FullName}.");
+               throw new MissingMethodException($"Couldn't find property setter {name} in type {type.FullName}.");
     }
 
     /// <summary>Get all inner types of a given type.</summary>
@@ -101,7 +101,21 @@ public static class TypeExtensions
             .ToList();
         if (!methods.Any())
             throw new MissingMethodException(
-                $"Cannot find method starting with {prefix} in any inner type of {type.FullName}.");
+                $"Couldn't find method starting with {prefix} in any inner type of {type.FullName}.");
         return methods;
+    }
+
+    /// <summary>Determines whether the current type can be assigned to a variable of any of the candidate types.</summary>
+    /// <param name="candidates">The candidate types.</param>
+    public static bool IsAssignableToAnyOf(this Type type, params Type[] candidates)
+    {
+        return candidates.Any(type.IsAssignableTo);
+    }
+
+    /// <summary>Determines whether an instance of any of the candidate types can be assigned to the current type.</summary>
+    /// <param name="candidates">The candidate types.</param>
+    public static bool IsAssignableFromAnyOf(this Type type, params Type[] candidates)
+    {
+        return candidates.Any(type.IsAssignableFrom);
     }
 }

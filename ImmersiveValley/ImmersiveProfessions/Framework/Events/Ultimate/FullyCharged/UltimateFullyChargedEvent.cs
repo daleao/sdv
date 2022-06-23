@@ -4,6 +4,8 @@
 
 using System;
 
+using Common.Events;
+
 #endregion using directives
 
 internal sealed class UltimateFullyChargedEvent : BaseEvent
@@ -22,6 +24,6 @@ internal sealed class UltimateFullyChargedEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     internal void OnFullyCharged(object sender, IUltimateFullyChargedEventArgs e)
     {
-        if (enabled.Value) _OnFullyChargedImpl(sender, e);
+        if (hooked.Value) _OnFullyChargedImpl(sender, e);
     }
 }

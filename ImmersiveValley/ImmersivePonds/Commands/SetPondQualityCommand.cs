@@ -1,0 +1,94 @@
+﻿namespace DaLion.Stardew.Ponds.Commands;
+
+#region using directives
+
+using StardewModdingAPI;
+using StardewValley.Buildings;
+using System.Linq;
+using StardewValley;
+
+using Common;
+using Common.Commands;
+using Common.Extensions;
+using Extensions;
+
+using SObject = StardewValley.Object;
+
+#endregion using directives
+
+internal class SetPondQualityCommand : ICommand
+{
+    /// <inheritdoc />
+    public string Trigger => "set_quality";
+
+    /// <inheritdoc />
+    public string Documentation => "Set the quality of all fish in the nearest pond.";
+
+    /// <inheritdoc />
+    public void Callback(string[] args)
+    {
+        if (args.Length != 1)
+        {
+            Log.W("You must specify a quality (`low`, `med`, `high` or `best`).");
+            return;
+        }
+
+        if (!args[0].IsIn("low", "med", "high", "best"))
+        {
+            Log.W("Quality should be one of `low`, `med`, `high` or `best`");
+            return;
+        }
+
+        if (!Game1.player.currentLocation.Equals(Game1.getFarm()))
+        {
+            Log.W("You must be at the farm to do this.");
+            return;
+        }
+
+        var ponds = Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
+                (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+                !p.isUnderConstruction())
+            .ToHashSet();
+        if (!ponds.Any())
+        {
+            Log.W("You don't own any Fish Ponds.");
+            return;
+        }
+
+        var nearest = Game1.player.GetClosestBuilding(out _, ponds);
+        if (nearest is null)
+        {
+            Log.W("There are no ponds nearby.");
+            return;
+        }
+
+#pragma warning disable CS8509
+        var newQuality = args[0] switch
+#pragma warning restore CS8509
+        {
+            "low" or "normal" or "regular" or "white" => SObject.lowQuality,
+            "med" or "silver" => SObject.medQuality,
+            "high" or "gold" => SObject.highQuality,
+            "best" or "iridium" => SObject.bestQuality
+        };
+
+        var familyCount = nearest.ReadDataAs<int>("FamilyLivingHere");
+        var familyQualities = new int[4];
+        if (familyCount > nearest.FishCount)
+        {
+            Log.W("FamilyLivingHere data is invalid. The data will be reset.");
+            familyCount = 0;
+            nearest.WriteData("FamilyLivingHere", null);
+        }
+
+        if (familyCount > 0)
+        {
+            familyQualities[newQuality == 4 ? 3 : newQuality] += familyCount;
+            nearest.WriteData("FamilyQualities", string.Join(',', familyQualities));
+        }
+
+        var fishQualities = new int[4];
+        fishQualities[newQuality == 4 ? 3 : newQuality] += nearest.FishCount - familyCount;
+        nearest.WriteData("FishQualities", string.Join(',', fishQualities));
+    }
+}

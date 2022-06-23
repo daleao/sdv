@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -24,7 +25,7 @@ internal sealed class ObjectPerformDropDownActionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal ObjectPerformDropDownActionPatch()
     {
-        Original = RequireMethod<SObject>(nameof(SObject.performDropDownAction));
+        Target = RequireMethod<SObject>(nameof(SObject.performDropDownAction));
     }
 
     #region harmony patches
@@ -83,7 +84,6 @@ internal sealed class ObjectPerformDropDownActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching bee house production speed for Producers.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

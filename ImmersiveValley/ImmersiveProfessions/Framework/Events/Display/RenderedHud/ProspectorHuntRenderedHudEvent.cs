@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Events;
+
 #endregion using directives
 
 [UsedImplicitly]

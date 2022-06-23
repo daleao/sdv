@@ -9,13 +9,72 @@
     <Import_RootNamespace>DaLion.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\Broadcaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\MultiplayerBroadcaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataIO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Static\Colors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Static\Tiles.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\BidirectionalMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\CircleTileGrid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ICommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Content\LocalChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetReadyEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetRequestedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetsInvalidatedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\BaseEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonReleased.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonPressed.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonsChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\MouseWheelScrolledEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\CursorMovedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\DayEndingEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\DayStartedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Display\WindowResizedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Display\RenderedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Display\MenuChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Display\RenderingActiveMenuEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Display\RenderingWorldEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Display\RenderingEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EventManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\GameLaunchedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\OneSecondUpdateTickingEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\SaveCreating.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\SaveCreated.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\SavedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\TimeChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\UpdateTickingEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\IEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Player\InventoryChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Player\LevelChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Multiplayer\PeerContextReceivedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Multiplayer\ModMessageReceivedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\OneSecondUpdateTickedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Multiplayer\PeerConnectedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Multiplayer\PeerDisconnectedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Display\RenderedActiveMenuEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Display\RenderedHudEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Display\RenderedWorldEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Display\RenderingHudEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\ReturnedToTitleEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\SaveLoadedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\SavingEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\UpdateTickedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Player\WarpedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Specialised\UnvalidatedUpdateTickingEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Specialised\UnvalidatedUpdateTickedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Specialised\LoadStageChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\World\TerrainFeatureListChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\World\ObjectListChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\World\NpcListChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\World\LargeTerrainFeatureListChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\World\FurnitureListChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\World\DebrisListChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\World\ChestInventoryChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\World\BuildingListChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\World\LocationListChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\BasePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\CodeInstructionListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\CollectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\ColorExtensions.cs" />
@@ -33,9 +92,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\Vector2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\HarmonyExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\HarmonyPatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\PatchState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodBaseExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\IPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BaseIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCrafting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCraftingAPI.cs" />
@@ -54,9 +116,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Classes\Static\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Harmony\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Events\Content\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\Collections\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Extensions\Stardew\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\Xna\" />
   </ItemGroup>
 </Project>

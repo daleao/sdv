@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +24,7 @@ internal sealed class ResourceClumpPerformToolAction : BasePatch
     /// <summary>Construct an instance.</summary>
     internal ResourceClumpPerformToolAction()
     {
-        Original = RequireMethod<ResourceClump>(nameof(ResourceClump.performToolAction));
+        Target = RequireMethod<ResourceClump>(nameof(ResourceClump.performToolAction));
     }
 
     #region harmony patches
@@ -88,7 +89,6 @@ internal sealed class ResourceClumpPerformToolAction : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

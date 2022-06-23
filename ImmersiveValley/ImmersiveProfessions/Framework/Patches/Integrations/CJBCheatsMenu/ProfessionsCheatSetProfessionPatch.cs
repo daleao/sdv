@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 
@@ -23,7 +24,7 @@ internal sealed class ProfessionsCheatSetProfessionPatch : BasePatch
     {
         try
         {
-            Original = "CJBCheatsMenu.Framework.Cheats.Skills.ProfessionsCheat".ToType().RequireMethod("SetProfession");
+            Target = "CJBCheatsMenu.Framework.Cheats.Skills.ProfessionsCheat".ToType().RequireMethod("SetProfession");
         }
         catch
         {
@@ -54,7 +55,6 @@ internal sealed class ProfessionsCheatSetProfessionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while moving CJB Profession Cheat health bonus from Defender to Brute.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using Netcode;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 
@@ -22,7 +23,7 @@ internal sealed class FarmAnimalDayUpdatePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FarmAnimalDayUpdatePatch()
     {
-        Original = RequireMethod<FarmAnimal>(nameof(FarmAnimal.dayUpdate));
+        Target = RequireMethod<FarmAnimal>(nameof(FarmAnimal.dayUpdate));
     }
 
     #region harmony patches
@@ -118,7 +119,6 @@ internal sealed class FarmAnimalDayUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded Producer produce frequency.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -144,7 +144,6 @@ internal sealed class FarmAnimalDayUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

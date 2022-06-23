@@ -13,10 +13,11 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Prestige;
-using Utility;
+using Textures;
 
 #endregion using directives
 
@@ -28,7 +29,7 @@ internal sealed class NewSkillsPageDrawPatch : BasePatch
     {
         try
         {
-            Original = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("draw", new[] {typeof(SpriteBatch)});
+            Target = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("draw", new[] {typeof(SpriteBatch)});
         }
         catch
         {
@@ -90,7 +91,6 @@ internal sealed class NewSkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed adjusing localized skill page content position. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -126,7 +126,6 @@ internal sealed class NewSkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw SpaceCore skills page extended level bars. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -157,7 +156,6 @@ internal sealed class NewSkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw max skill level with different color. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -184,7 +182,6 @@ internal sealed class NewSkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw skills page prestige ribbons. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

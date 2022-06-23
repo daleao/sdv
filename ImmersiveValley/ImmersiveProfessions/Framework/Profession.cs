@@ -3,6 +3,7 @@
 #region using directives
 
 using static System.String;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

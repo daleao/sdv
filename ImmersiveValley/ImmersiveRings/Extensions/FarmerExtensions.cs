@@ -26,7 +26,7 @@ public static class FarmerExtensions
     /// <summary>Remove a specified ring from the farmer's inventory.</summary>
     /// <param name="index">The ring index.</param>
     /// <param name="amount">How many rings should be consumed.</param>
-    /// <returns>Returns the leftover amount, if not enough were consumed.</returns>
+    /// <returns>The leftover amount, if not enough were consumed.</returns>
     public static int ConsumeRing(this Farmer farmer, int index, int amount)
     {
         var list = farmer.Items;
@@ -47,7 +47,7 @@ public static class FarmerExtensions
     /// <summary>Remove a specified object from the farmer's inventory.</summary>
     /// <param name="index">The object index.</param>
     /// <param name="amount">How many units should be consumed.</param>
-    /// <returns>Returns the leftover amount, if not enough were consumed.</returns>
+    /// <returns>The leftover amount, if not enough were consumed.</returns>
     public static int ConsumeObject(this Farmer farmer, int index, int amount)
     {
         var list = farmer.Items;

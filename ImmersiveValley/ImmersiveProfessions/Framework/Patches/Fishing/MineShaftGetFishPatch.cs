@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Locations;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -22,7 +23,7 @@ internal sealed class MineShaftGetFishPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal MineShaftGetFishPatch()
     {
-        Original = RequireMethod<MineShaft>(nameof(MineShaft.getFish));
+        Target = RequireMethod<MineShaft>(nameof(MineShaft.getFish));
     }
 
     #region harmony patches
@@ -61,7 +62,6 @@ internal sealed class MineShaftGetFishPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

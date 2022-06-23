@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Events;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -21,7 +22,7 @@ internal sealed class QuestionEventSetUpPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal QuestionEventSetUpPatch()
     {
-        Original = RequireMethod<QuestionEvent>(nameof(QuestionEvent.setUp));
+        Target = RequireMethod<QuestionEvent>(nameof(QuestionEvent.setUp));
     }
 
     #region harmony patches
@@ -69,7 +70,6 @@ internal sealed class QuestionEventSetUpPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Breeder bonus animal pregnancy chance.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

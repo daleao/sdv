@@ -9,6 +9,7 @@ using JetBrains.Annotations;
 using StardewValley;
 
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -21,7 +22,7 @@ internal sealed class SkillsAddExperiencePatch : BasePatch
     {
         try
         {
-            Original = "SpaceCore.Skills".ToType().RequireMethod("AddExperience");
+            Target = "SpaceCore.Skills".ToType().RequireMethod("AddExperience");
         }
         catch
         {

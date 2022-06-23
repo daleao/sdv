@@ -2,16 +2,15 @@
 
 #region using directives
 
-using System;
-using System.Reflection;
 using JetBrains.Annotations;
-using HarmonyLib;
 using StardewModdingAPI;
 
+using Common;
+using Common.Commands;
+using Common.Data;
+using Common.Events;
+using Common.Harmony;
 using Common.Integrations;
-using Common.Classes;
-using Framework.Events;
-using Framework.Patches;
 
 #endregion using directives
 
@@ -20,12 +19,10 @@ public class ModEntry : Mod
 {
     internal static ModEntry Instance { get; private set; }
     internal static ModConfig Config { get; set; }
-    internal static Broadcaster Broadcaster { get; private set; }
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
     internal static ITranslationHelper i18n => ModHelper.Translation;
-    internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
     [CanBeNull] internal static IImmersiveProfessionsAPI ProfessionsAPI { get; set; }
 
@@ -35,26 +32,22 @@ public class ModEntry : Mod
     {
         Instance = this;
 
+        // initialize logger
+        Log.Init(Monitor);
+
+        // initialize data
+        ModDataIO.Init(helper.Multiplayer, ModManifest.UniqueID);
+        
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
         // hook events
-        IEvent.HookAll();
+        new EventManager(helper.Events).HookAll();
 
-        // apply harmony patches
-        var harmony = new Harmony(ModManifest.UniqueID);
-        harmony.PatchAll(Assembly.GetExecutingAssembly());
-        
-        if (helper.ModRegistry.IsLoaded("Pathoschild.Automate"))
-            AutomatePatches.Apply(harmony);
+        // apply patches
+        new HarmonyPatcher(ModManifest.UniqueID).ApplyAll();
 
-        if (helper.ModRegistry.IsLoaded("TehPers.FishingOverhaul"))
-            TehsFishingOverhaulPatches.Apply(harmony);
-
-        // add debug commands
-        helper.ConsoleCommands.Register();
-
-        // instantiate broadcaster
-        Broadcaster = new(helper.Multiplayer, Manifest.UniqueID);
+        // register commands
+        new CommandHandler(helper.ConsoleCommands).Register("iponds", ModManifest.UniqueID);
     }
 }

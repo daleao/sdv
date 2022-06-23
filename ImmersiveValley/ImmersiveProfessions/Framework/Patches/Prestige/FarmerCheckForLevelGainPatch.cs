@@ -6,6 +6,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common.Harmony;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -16,7 +18,7 @@ internal sealed class FarmerCheckForLevelGainPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FarmerCheckForLevelGainPatch()
     {
-        Original = RequireMethod<Farmer>(nameof(Farmer.checkForLevelGain));
+        Target = RequireMethod<Farmer>(nameof(Farmer.checkForLevelGain));
     }
 
     #region harmony patches

@@ -13,8 +13,8 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
-using StardewValley.Menus;
 
+using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -33,7 +33,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : BasePatch
     {
         try
         {
-            Original = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("update", new[] {typeof(GameTime)});
+            Target = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("update", new[] {typeof(GameTime)});
         }
         catch
         {
@@ -96,7 +96,6 @@ internal sealed class SkillLevelUpMenuUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -136,7 +135,6 @@ internal sealed class SkillLevelUpMenuUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching level up profession redundancy. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -187,7 +185,6 @@ internal sealed class SkillLevelUpMenuUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching level up menu choice suppression. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

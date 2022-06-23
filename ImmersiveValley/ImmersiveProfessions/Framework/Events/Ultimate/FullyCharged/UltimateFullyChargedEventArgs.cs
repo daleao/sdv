@@ -13,6 +13,7 @@ public sealed class UltimateFullyChargedEventArgs : EventArgs, IUltimateFullyCha
     public Farmer Player { get; }
 
     /// <summary>Construct an instance.</summary>
+    /// <param name="player">The player who triggered the event.</param>
     internal UltimateFullyChargedEventArgs(Farmer player)
     {
         Player = player;

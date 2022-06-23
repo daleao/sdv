@@ -8,36 +8,33 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common;
+using Common.Data;
+using Common.Events;
 using Extensions;
-using Framework.Ultimate;
+using Ultimates;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
 {
-    /// <summary>Construct an instance.</summary>
-    internal StaticSaveLoadedEvent()
-    {
-        Enable();
-    }
-
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object sender, SaveLoadedEventArgs e)
     {
         // enable events
-        EventManager.EnableAllForLocalPlayer();
+        ModEntry.EventManager.HookForLocalPlayer();
 
         // load and initialize Ultimate index
         Log.T("Initializing Ultimate...");
 
-        var superModeIndex = Game1.player.ReadDataAs(ModData.UltimateIndex, UltimateIndex.None);
+        var superModeIndex = ModDataIO.ReadDataAs(Game1.player, ModData.UltimateIndex.ToString(), UltimateIndex.None);
         switch (superModeIndex)
         {
             case UltimateIndex.None when Game1.player.professions.Any(p => p is >= 26 and < 30):
                 Log.W("Player eligible for Ultimate but not currently registered to any. Setting to a default value.");
                 superModeIndex = (UltimateIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
-                Game1.player.WriteData(ModData.UltimateIndex, superModeIndex.ToString());
+                ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), superModeIndex.ToString());
 
                 break;
 
@@ -46,12 +43,12 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
                 if (Game1.player.professions.Any(p => p is >= 26 and < 30))
                 {
                     superModeIndex = (UltimateIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
-                    Game1.player.WriteData(ModData.UltimateIndex, superModeIndex.ToString());
+                    ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), superModeIndex.ToString());
                 }
                 else
                 {
                     superModeIndex = UltimateIndex.None;
-                    Game1.player.WriteData(ModData.UltimateIndex, null);
+                    ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), null);
                 }
 
                 break;
@@ -74,6 +71,6 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
         Game1.player.RevalidateLevels();
 
         // prepare to check for prestige achievement
-        EventManager.Enable(typeof(PrestigeAchievementOneSecondUpdateTickedEvent));
+        ModEntry.EventManager.Hook<PrestigeAchievementOneSecondUpdateTickedEvent>();
     }
 }

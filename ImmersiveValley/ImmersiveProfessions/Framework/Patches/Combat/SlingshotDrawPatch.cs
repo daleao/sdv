@@ -9,8 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Tools;
 
+using DaLion.Common.Harmony;
 using Extensions;
-using Ultimate;
+using Ultimates;
 
 #endregion using directives
 
@@ -20,7 +21,7 @@ internal sealed class SlingshotDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal SlingshotDrawPatch()
     {
-        Original = RequireMethod<Slingshot>(nameof(Slingshot.draw));
+        Target = RequireMethod<Slingshot>(nameof(Slingshot.draw));
     }
 
     /// <summary>Patch to draw slingshot overcharge meter for Desperado.</summary>

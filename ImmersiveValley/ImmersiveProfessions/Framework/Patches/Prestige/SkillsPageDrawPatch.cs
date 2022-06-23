@@ -14,10 +14,11 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
-using Utility;
+using Textures;
 
 #endregion using directives
 
@@ -27,7 +28,7 @@ internal sealed class SkillsPageDrawPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal SkillsPageDrawPatch()
     {
-        Original = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] {typeof(SpriteBatch)});
+        Target = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] {typeof(SpriteBatch)});
     }
 
     #region harmony patches
@@ -83,7 +84,6 @@ internal sealed class SkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed adjusing localized skill page content position. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -117,7 +117,6 @@ internal sealed class SkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw skills page extended level bars. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -148,7 +147,6 @@ internal sealed class SkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw max skill level with different color. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -175,7 +173,6 @@ internal sealed class SkillsPageDrawPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching to draw skills page prestige ribbons. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

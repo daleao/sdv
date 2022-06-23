@@ -2,14 +2,11 @@
 
 #region using directives
 
-using System;
-using System.Reflection;
-using HarmonyLib;
 using StardewModdingAPI;
-using StardewModdingAPI.Events;
 
-using Framework.Events;
-using Integrations;
+using Common;
+using Common.Events;
+using Common.Harmony;
 
 #endregion using directives
 
@@ -22,7 +19,6 @@ public class ModEntry : Mod
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
     internal static ITranslationHelper i18n => ModHelper.Translation;
-    internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
     internal static bool HasLoadedBetterRings { get; private set; }
 
@@ -32,36 +28,19 @@ public class ModEntry : Mod
     {
         Instance = this;
 
-        // check for Moon Misadventures mod
-        HasLoadedBetterRings = helper.ModRegistry.IsLoaded("BBR.BetterRings");
+        // initialize logger
+        Log.Init(Monitor);
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
-        // register events
-        IEvent.HookAll();
+        // hook events
+        new EventManager(helper.Events).HookAll();
 
-        // apply harmony patches
-        new Harmony(ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
-    }
+        // apply patches
+        new HarmonyPatcher(ModManifest.UniqueID).ApplyAll();
 
-    /// <summary>Raised after the game is launched, right before the first update tick.</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event data.</param>
-    private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
-    {
-        // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForImmersiveRings(
-            getConfig: () => Config,
-            reset: () =>
-            {
-                Config = new();
-                ModHelper.WriteConfig(Config);
-            },
-            saveAndApply: () => { ModHelper.WriteConfig(Config); },
-            log: Log,
-            modRegistry: ModHelper.ModRegistry,
-            manifest: Manifest
-        ).Register();
+        // check for Better Rings mod
+        HasLoadedBetterRings = helper.ModRegistry.IsLoaded("BBR.BetterRings");
     }
 }

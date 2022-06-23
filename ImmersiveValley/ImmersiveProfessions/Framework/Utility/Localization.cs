@@ -4,7 +4,7 @@
 
 using StardewValley;
 
-using Ultimate;
+using Ultimates;
 
 #endregion using directives
 

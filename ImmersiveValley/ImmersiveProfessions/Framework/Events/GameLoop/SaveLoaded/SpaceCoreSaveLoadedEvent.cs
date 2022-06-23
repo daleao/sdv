@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Events;
 using Common.Integrations;
 using Utility;
 
@@ -18,7 +19,7 @@ internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
     /// <summary>Construct an instance.</summary>
     internal SpaceCoreSaveLoadedEvent()
     {
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.SpaceCore")) Enable();
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.SpaceCore")) Hook();
     }
 
     /// <inheritdoc />

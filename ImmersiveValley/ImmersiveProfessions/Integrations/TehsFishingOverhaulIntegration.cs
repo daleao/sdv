@@ -41,9 +41,9 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
     private static readonly Func<object, double> getTreasureBaseChance;
     private static readonly Func<object, double> getTreasurePirateFactor;
 
-    private readonly ISimplifiedFishingAPI _fishingApi;
-    private readonly IModHelper _helper;
-    private readonly object _rawFishingApi;
+    private readonly IModHelper _Helper;
+    private readonly ISimplifiedFishingAPI _FishingApi;
+    private readonly object _RawFishingApi;
 
     /// <summary>
     ///     Lazily initializes the static getter fields. This is done lazily in case Teh's Fishing
@@ -88,15 +88,13 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
 
     public TehsFishingOverhaulIntegration(
         IModRegistry modRegistry,
-        Action<string, LogLevel> log,
         IModHelper helper
     ) : base("Teh's Fishing Overhaul", "TehPers.FishingOverhaul", "3.2.0",
-        modRegistry,
-        log)
+        modRegistry)
     {
-        _helper = helper;
-        _fishingApi = GetValidatedApi<ISimplifiedFishingAPI>();
-        _rawFishingApi = modRegistry.GetApi("TehPers.FishingOverhaul");
+        _Helper = helper;
+        _FishingApi = GetValidatedApi<ISimplifiedFishingAPI>();
+        _RawFishingApi = modRegistry.GetApi("TehPers.FishingOverhaul");
     }
 
     public void Register()
@@ -104,7 +102,7 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
         AssertLoaded();
 
         // add Fisher perks
-        _fishingApi.ModifyChanceForFish(
+        _FishingApi.ModifyChanceForFish(
             (who, chance) => who.CurrentTool is FishingRod rod &&
                              rod.getBaitAttachmentIndex() != 703 // magnet
                              && who.HasProfession(Profession.Fisher)
@@ -112,14 +110,14 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
                 : chance);
 
         // remove Pirate perks
-        _fishingApi.ModifyChanceForTreasure(
+        _FishingApi.ModifyChanceForTreasure(
             (who, chance) => who.professions.Contains(9)
-                ? chance - getTreasureBaseChance(_rawFishingApi) * getTreasurePirateFactor(_rawFishingApi)
+                ? chance - getTreasureBaseChance(_RawFishingApi) * getTreasurePirateFactor(_RawFishingApi)
                 : chance);
 
         // manage legendary caught flags
         bool? hadPrestigedAngler = null;
-        _helper.Events.GameLoop.UpdateTicking += (_, _) =>
+        _Helper.Events.GameLoop.UpdateTicking += (_, _) =>
         {
             // check the state of the prestiged angler profession
             var hasPrestigedAngler = Game1.player.HasProfession(Profession.Angler, true);
@@ -144,7 +142,7 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration
                     foreach (var flag in legendaryFlags.Values) Game1.player.RemoveMail(flag);
 
                     // if Recatchable Legendaries is installed, reset the conversation topics
-                    if (_helper.ModRegistry.IsLoaded("TehPers.RecatchableLegendaries"))
+                    if (_Helper.ModRegistry.IsLoaded("TehPers.RecatchableLegendaries"))
                         foreach (var topic in recatchableLegendariesTopics)
                             Game1.player.activeDialogueEvents.Remove(topic);
 

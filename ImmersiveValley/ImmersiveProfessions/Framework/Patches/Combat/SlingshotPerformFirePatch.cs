@@ -1,6 +1,4 @@
-﻿using DaLion.Stardew.Professions.Framework.Sounds;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
@@ -14,10 +12,12 @@ using StardewValley;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 
+using DaLion.Common.Harmony;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Xna;
 using Extensions;
-using Ultimate;
+using Sounds;
+using Ultimates;
 
 #endregion using directives
 
@@ -30,14 +30,15 @@ internal sealed class SlingshotPerformFirePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal SlingshotPerformFirePatch()
     {
-        Original = RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
-        Prefix.priority = Priority.LowerThanNormal;
+        Target = RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
+        Prefix!.priority = Priority.LowerThanNormal;
     }
 
     #region harmony patches
 
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and Ultimate.</summary>
     [HarmonyPrefix]
+    [HarmonyPriority(Priority.LowerThanNormal)]
     private static bool SlingshotPerformFirePrefix(Slingshot __instance, GameLocation location, Farmer who)
     {
         if (__instance.attachments[0] is null)

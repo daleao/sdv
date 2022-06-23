@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Events;
 using GameLoop;
 using Extensions;
 
@@ -18,6 +19,6 @@ internal sealed class HostPeerDisconnectedEvent : PeerDisconnectedEvent
     protected override void OnPeerDisconnectedImpl(object sender, PeerDisconnectedEventArgs e)
     {
         if (!Game1.game1.DoesAnyPlayerHaveProfession(Profession.Conservationist, out _))
-            EventManager.Disable(typeof(HostConservationismDayEndingEvent));
+            ModEntry.EventManager.Hook<HostConservationismDayEndingEvent>();
     }
 }

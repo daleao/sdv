@@ -4,6 +4,8 @@
 
 using System;
 
+using Common.Events;
+
 #endregion using directives
 
 internal sealed class UltimateActivatedEvent : BaseEvent
@@ -22,6 +24,6 @@ internal sealed class UltimateActivatedEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     internal void OnActivated(object sender, IUltimateActivatedEventArgs e)
     {
-        if (enabled.Value) _OnActivatedImpl(sender, e);
+        if (hooked.Value) _OnActivatedImpl(sender, e);
     }
 }

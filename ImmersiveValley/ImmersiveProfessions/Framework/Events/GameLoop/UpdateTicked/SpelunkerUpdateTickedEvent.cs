@@ -9,6 +9,8 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 
+using Common.Events;
+
 #endregion using directives
 
 [UsedImplicitly]

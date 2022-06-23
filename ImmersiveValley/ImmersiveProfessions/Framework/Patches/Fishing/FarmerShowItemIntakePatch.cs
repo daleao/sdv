@@ -10,7 +10,9 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Extensions;
+using DaLion.Common.Harmony;
 
 using SObject = StardewValley.Object;
 
@@ -22,7 +24,7 @@ internal sealed class FarmerShowItemIntakePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FarmerShowItemIntakePatch()
     {
-        Original = RequireMethod<Farmer>(nameof(Farmer.showItemIntake));
+        Target = RequireMethod<Farmer>(nameof(Farmer.showItemIntake));
     }
 
     #region harmony patches

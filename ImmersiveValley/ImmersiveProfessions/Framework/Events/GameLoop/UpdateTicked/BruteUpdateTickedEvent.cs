@@ -6,8 +6,9 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Events;
 using Extensions;
-using Framework.Ultimate;
+using Ultimates;
 
 #endregion using directives
 

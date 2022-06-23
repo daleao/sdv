@@ -8,8 +8,10 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Extensions;
-using Framework.Ultimate;
+using Common;
+using Common.Data;
+using Common.Events;
+using Ultimates;
 
 #endregion using directives
 
@@ -34,7 +36,7 @@ internal sealed class ToggledUltimateModMessageReceivedEvent : ModMessageReceive
         {
             case "Active":
                 Log.D($"{who.Name} activated their Ultimate.");
-                index = who.ReadDataAs<UltimateIndex>(ModData.UltimateIndex);
+                index = ModDataIO.ReadDataAs<UltimateIndex>(who, ModData.UltimateIndex.ToString());
                 var glowingColor = index switch
                 {
                     UltimateIndex.BruteFrenzy => Color.OrangeRed,
@@ -53,7 +55,7 @@ internal sealed class ToggledUltimateModMessageReceivedEvent : ModMessageReceive
 
             case "Inactive":
                 Log.D($"{who.Name}'s Ultimate has ended.");
-                index = who.ReadDataAs<UltimateIndex>(ModData.UltimateIndex);
+                index = ModDataIO.ReadDataAs<UltimateIndex>(who, ModData.UltimateIndex.ToString());
                 who.stopGlowing();
                 if (Context.IsMainPlayer && index == UltimateIndex.PoacherAmbush)
                     ModEntry.HostState.PoachersInAmbush.Remove(e.FromPlayerID);

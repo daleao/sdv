@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Events;
 using Common.Extensions;
 using Content;
 
@@ -17,8 +18,6 @@ internal sealed class AchievementUnlockedDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
     {
-        EventManager.Enable(typeof(AchievementsRequestedEvent));
-
         string name =
             ModEntry.i18n.Get("prestige.achievement.name" +
                                                (Game1.player.IsMale ? ".male" : ".female"));
@@ -26,6 +25,6 @@ internal sealed class AchievementUnlockedDayStartedEvent : DayStartedEvent
         Game1.playSound("achievement");
         Game1.addHUDMessage(new(name, true));
 
-        Disable();
+        Unhook();
     }
 }

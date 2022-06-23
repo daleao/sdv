@@ -9,6 +9,8 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Data;
+using Common.Events;
 using Content;
 using Extensions;
 
@@ -20,21 +22,19 @@ internal sealed class HostConservationismDayEndingEvent : DayEndingEvent
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
     {
-        EventManager.Enable(typeof(MailRequestedEvent));
-
         if (Game1.dayOfMonth != 28) return;
 
         foreach (var farmer in Game1.getAllFarmers().Where(f => f.HasProfession(Profession.Conservationist)))
         {
             var trashCollectedThisSeason =
-                farmer.ReadDataAs<uint>(ModData.ConservationistTrashCollectedThisSeason);
+                ModDataIO.ReadDataAs<uint>(farmer, ModData.ConservationistTrashCollectedThisSeason.ToString());
             if (trashCollectedThisSeason <= 0) return;
 
             var taxBonusForNextSeason =
                 // ReSharper disable once PossibleLossOfFraction
                 Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f,
                     ModEntry.Config.ConservationistTaxBonusCeiling);
-            farmer.WriteData(ModData.ConservationistActiveTaxBonusPct,
+            ModDataIO.WriteData(farmer, ModData.ConservationistActiveTaxBonusPct.ToString(),
                 taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
             if (taxBonusForNextSeason > 0 && ModEntry.TaxesConfig is null)
             {
@@ -42,7 +42,7 @@ internal sealed class HostConservationismDayEndingEvent : DayEndingEvent
                 farmer.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
             }
 
-            farmer.WriteData(ModData.ConservationistTrashCollectedThisSeason, "0");
+            ModDataIO.WriteData(farmer, ModData.ConservationistTrashCollectedThisSeason.ToString(), "0");
         }
     }
 }

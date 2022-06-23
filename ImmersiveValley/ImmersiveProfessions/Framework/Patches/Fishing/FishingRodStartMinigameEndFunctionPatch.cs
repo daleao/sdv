@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -22,7 +23,7 @@ internal sealed class FishingRodStartMinigameEndFunctionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FishingRodStartMinigameEndFunctionPatch()
     {
-        Original = RequireMethod<FishingRod>(nameof(FishingRod.startMinigameEndFunction));
+        Target = RequireMethod<FishingRod>(nameof(FishingRod.startMinigameEndFunction));
     }
 
     #region harmony patches
@@ -48,7 +49,6 @@ internal sealed class FishingRodStartMinigameEndFunctionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

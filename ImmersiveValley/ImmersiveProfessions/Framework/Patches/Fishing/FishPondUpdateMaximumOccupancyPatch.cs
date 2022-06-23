@@ -8,6 +8,7 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -18,7 +19,7 @@ internal sealed class FishPondUpdateMaximumOccupancyPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FishPondUpdateMaximumOccupancyPatch()
     {
-        Original = RequireMethod<FishPond>(nameof(FishPond.UpdateMaximumOccupancy));
+        Target = RequireMethod<FishPond>(nameof(FishPond.UpdateMaximumOccupancy));
     }
 
     #region harmony patches

@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Events;
 using Common.Extensions;
 using Extensions;
 
@@ -27,9 +28,9 @@ internal sealed class PrestigeAchievementOneSecondUpdateTickedEvent : OneSecondU
                 ModEntry.i18n.Get("prestige.achievement.name" +
                                   (Game1.player.IsMale ? ".male" : ".female"));
             if (!Game1.player.achievements.Contains(name.GetDeterministicHashCode()))
-                EventManager.Enable(typeof(AchievementUnlockedDayStartedEvent));
+                ModEntry.EventManager.Hook<AchievementUnlockedDayStartedEvent>();
         }
 
-        Disable();
+        Unhook();
     }
 }

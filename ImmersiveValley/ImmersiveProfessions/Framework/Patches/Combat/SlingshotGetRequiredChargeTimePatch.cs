@@ -6,6 +6,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
 
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -16,7 +17,7 @@ internal sealed class SlingshotGetRequiredChargeTimePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal SlingshotGetRequiredChargeTimePatch()
     {
-        Original = RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
+        Target = RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
     }
 
     #region harmony patches

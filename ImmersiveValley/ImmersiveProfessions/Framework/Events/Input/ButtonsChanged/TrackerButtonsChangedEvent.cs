@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
+using Common.Events;
 using Display;
 using GameLoop;
 
@@ -19,13 +20,14 @@ internal sealed class TrackerButtonsChangedEvent : ButtonsChangedEvent
     {
         if (ModEntry.Config.ModKey.JustPressed())
         {
-            EventManager.Enable(typeof(PointerUpdateTickedEvent), typeof(TrackerRenderedHudEvent));
+            ModEntry.EventManager.Hook<PointerUpdateTickedEvent>();
+            ModEntry.EventManager.Hook<TrackerRenderedHudEvent>();
         }
         else if (ModEntry.Config.ModKey.GetState() == SButtonState.Released)
         {
-            EventManager.Disable(typeof(TrackerRenderedHudEvent));
+            ModEntry.EventManager.Unhook<TrackerRenderedHudEvent>();
             if (!ModEntry.PlayerState.ProspectorHunt.IsActive && !ModEntry.PlayerState.ScavengerHunt.IsActive)
-                EventManager.Disable(typeof(PointerUpdateTickedEvent));
+                ModEntry.EventManager.Unhook<PointerUpdateTickedEvent>();
         }
     }
 }

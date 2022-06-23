@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Locations;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -23,7 +24,7 @@ internal sealed class MountainGetFishPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal MountainGetFishPatch()
     {
-        Original = RequireMethod<Mountain>(nameof(Mountain.getFish));
+        Target = RequireMethod<Mountain>(nameof(Mountain.getFish));
     }
 
     #region harmony patches
@@ -64,7 +65,6 @@ internal sealed class MountainGetFishPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Angler legendary fish recatch.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

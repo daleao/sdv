@@ -2,12 +2,13 @@
 
 #region using directives
 
-using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -17,14 +18,16 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal sealed class PropagatorMachineGetOutputPatch : BasePatch
 {
-    [CanBeNull] private static MethodInfo _GetEntity;
+    private delegate SObject GetEntityDelegate(object instance);
+
+    private static GetEntityDelegate _GetEntity;
 
     /// <summary>Construct an instance.</summary>
     internal PropagatorMachineGetOutputPatch()
     {
         try
         {
-            Original = "BlueberryMushroomAutomation.PropagatorMachine".ToType().RequireMethod("GetOutput");
+            Target = "BlueberryMushroomAutomation.PropagatorMachine".ToType().RequireMethod("GetOutput");
         }
         catch
         {
@@ -40,17 +43,17 @@ internal sealed class PropagatorMachineGetOutputPatch : BasePatch
     {
         if (__instance is null) return;
 
-        _GetEntity ??= __instance.GetType().RequirePropertyGetter("Entity");
-        var entity = (SObject) _GetEntity!.Invoke(__instance, null);
+        _GetEntity ??= __instance.GetType().RequirePropertyGetter("Entity").CreateDelegate<GetEntityDelegate>();
+        var entity = _GetEntity(__instance);
         if (entity is null) return;
 
         var owner = Game1.getFarmerMaybeOffline(entity.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.HasProfession(Profession.Ecologist)) return;
 
         if (owner.IsLocalPlayer && !ModEntry.Config.ShouldCountAutomatedHarvests)
-            Game1.player.IncrementData(ModData.EcologistItemsForaged, -1);
+            ModDataIO.IncrementData(Game1.player, ModData.EcologistItemsForaged.ToString(), -1);
         else if (ModEntry.Config.ShouldCountAutomatedHarvests)
-            owner.IncrementData<uint>(ModData.EcologistItemsForaged);
+            ModDataIO.IncrementData<uint>(owner, ModData.EcologistItemsForaged.ToString());
     }
 
     #endregion harmony patches

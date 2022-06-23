@@ -5,7 +5,7 @@
 using System;
 using StardewValley;
 
-using Framework.TreasureHunt;
+using TreasureHunts;
 
 #endregion using directives
 
@@ -21,6 +21,9 @@ public sealed class TreasureHuntEndedEventArgs : EventArgs, ITreasureHuntEndedEv
     public bool TreasureFound { get; }
 
     /// <summary>Construct an instance.</summary>
+    /// <param name="player">The player who triggered the event.</param>
+    /// <param name="type">Whether this event relates to a Scavenger or Prospector hunt.</param>
+    /// <param name="found">Whether the player successfully discovered the treasure.</param>
     internal TreasureHuntEndedEventArgs(Farmer player, TreasureHuntType type, bool found)
     {
         Player = player;

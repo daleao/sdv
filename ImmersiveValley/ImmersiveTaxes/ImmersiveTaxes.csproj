@@ -17,6 +17,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Framework\NewFolder\**" />
+    <EmbeddedResource Remove="Framework\NewFolder\**" />
+    <None Remove="Framework\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 	<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
 	<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
 	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

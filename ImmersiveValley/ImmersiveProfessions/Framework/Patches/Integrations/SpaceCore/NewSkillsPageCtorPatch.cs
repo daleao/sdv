@@ -10,7 +10,8 @@ using StardewValley;
 using StardewValley.Menus;
 
 using DaLion.Common.Extensions.Reflection;
-using Utility;
+using DaLion.Common.Harmony;
+using Textures;
 
 #endregion using directives
 
@@ -22,7 +23,8 @@ internal sealed class NewSkillsPageCtorPatch : BasePatch
     {
         try
         {
-            Original = "SpaceCore.Interface.NewSkillsPage".ToType().RequireConstructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
+            Target = "SpaceCore.Interface.NewSkillsPage".ToType()
+                .RequireConstructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
         }
         catch
         {

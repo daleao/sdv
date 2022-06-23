@@ -6,7 +6,8 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Framework.TreasureHunt;
+using Common.Events;
+using TreasureHunts;
 
 #endregion using directives
 

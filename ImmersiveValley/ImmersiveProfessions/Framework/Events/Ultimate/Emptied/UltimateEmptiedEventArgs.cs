@@ -13,6 +13,7 @@ public sealed class UltimateEmptiedEventArgs : EventArgs, IUltimateEmptiedEventA
     public Farmer Player { get; }
 
     /// <summary>Construct an instance.</summary>
+    /// <param name="player">The player who triggered the event.</param>
     internal UltimateEmptiedEventArgs(Farmer player)
     {
         Player = player;

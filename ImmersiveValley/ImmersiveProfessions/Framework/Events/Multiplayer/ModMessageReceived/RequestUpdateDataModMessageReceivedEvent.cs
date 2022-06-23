@@ -7,7 +7,9 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-using Extensions;
+using Common;
+using Common.Data;
+using Common.Events;
 
 #endregion using directives
 
@@ -34,18 +36,18 @@ internal sealed class RequestUpdateDataModMessageReceivedEvent : ModMessageRecei
         {
             case "Write":
                 Log.D($"{who.Name} requested to Write {value} to {field}.");
-                who.WriteData(field, value);
+                ModDataIO.WriteData(who, field.ToString(), value);
                 break;
 
             case "Increment":
                 Log.D($"{who.Name} requested to Increment {field} by {value}.");
                 var parsedValue = e.ReadAs<int>();
-                who.IncrementData(field, parsedValue);
+                ModDataIO.IncrementData(who, field.ToString(), parsedValue);
                 break;
 
             case "Append":
                 Log.D($"{who.Name} requested to Append {value} to {field}.");
-                who.AppendData(field, value);
+                ModDataIO.AppendData(who, field.ToString(), value);
                 break;
         }
     }

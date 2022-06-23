@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Fellowship - Immersive Rings",
   "Author": "DaLion",
-  "Version": "1.2.0",
+  "Version": "2.0.0",
   "Description": "Adds immersive new ring effects and recipes.",
   "UniqueID": "DaLion.ImmersiveRings",
   "EntryDll": "ImmersiveRings.dll",

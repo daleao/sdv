@@ -12,7 +12,10 @@ using Netcode;
 using StardewValley;
 using StardewValley.Monsters;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SUtility = StardewValley.Utility;
@@ -29,7 +32,7 @@ internal sealed class GreenSlimeUpdatePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeUpdatePatch()
     {
-        Original = RequireMethod<GreenSlime>(nameof(GreenSlime.update),
+        Target = RequireMethod<GreenSlime>(nameof(GreenSlime.update),
             new[] {typeof(GameTime), typeof(GameLocation)});
     }
 
@@ -60,8 +63,10 @@ internal sealed class GreenSlimeUpdatePatch : BasePatch
 
             // damage monster
             var damageToMonster = (int) Math.Max(1,
-                (__instance.DamageToFarmer +
-                 Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4)) * __instance.Scale) - monster.resilience.Value;
+                                      (__instance.DamageToFarmer +
+                                       Game1.random.Next(-__instance.DamageToFarmer / 4,
+                                           __instance.DamageToFarmer / 4)) * __instance.Scale) -
+                                  monster.resilience.Value;
 
             var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
@@ -79,13 +84,16 @@ internal sealed class GreenSlimeUpdatePatch : BasePatch
                     new() {UniqueMultiplayerID = fakeFarmerId, currentLocation = __instance.currentLocation};
                 Log.D($"Created fake farmer with id {fakeFarmerId}.");
             }
+
             fakeFarmer.Position = __instance.Position;
-            monster.WriteData("Aggroed", true.ToString());
-            monster.WriteData("Aggroer", __instance.GetHashCode().ToString());
+            ModDataIO.WriteData(monster, "Aggroed", true.ToString());
+            ModDataIO.WriteData(monster, "Aggroer", __instance.GetHashCode().ToString());
 
             // get damaged by monster
             var damageToSlime = Math.Max(1,
-                monster.DamageToFarmer + Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4)) - __instance.resilience.Value;
+                                    monster.DamageToFarmer + Game1.random.Next(-monster.DamageToFarmer / 4,
+                                        monster.DamageToFarmer / 4)) -
+                                __instance.resilience.Value;
             __instance.takeDamage(damageToSlime, (int) -xTrajectory, (int) -yTrajectory, false, 1.0, "slime");
             if (__instance.Health <= 0) break;
         }

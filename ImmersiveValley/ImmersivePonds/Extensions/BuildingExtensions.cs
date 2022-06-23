@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Ponds.Extensions;
+﻿using DaLion.Common;
+
+namespace DaLion.Stardew.Ponds.Extensions;
 
 #region using directives
 

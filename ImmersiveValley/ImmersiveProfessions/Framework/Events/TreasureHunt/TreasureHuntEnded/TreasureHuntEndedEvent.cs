@@ -4,6 +4,8 @@
 
 using System;
 
+using Common.Events;
+
 #endregion using directives
 
 internal sealed class TreasureHuntEndedEvent : BaseEvent
@@ -22,6 +24,6 @@ internal sealed class TreasureHuntEndedEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     internal void OnEnded(object sender, ITreasureHuntEndedEventArgs e)
     {
-        if (enabled.Value) _OnEndedImpl(sender, e);
+        if (hooked.Value) _OnEndedImpl(sender, e);
     }
 }

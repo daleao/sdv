@@ -12,21 +12,21 @@ using StardewValley;
 /// <summary>Interface for proxying.</summary>
 public interface IImmersiveProfessions
 {
-    /// <summary>Interface for an event wrapper allowing dynamic enabling / disabling.</summary>
+    /// <summary>Interface for an event wrapper allowing dynamic hooking / unhooking.</summary>
     public interface IEvent
     {
-        /// <summary>Whether this event is enabled.</summary>
-        bool IsEnabled { get; }
+        /// <summary>Whether this event is hooked.</summary>
+        bool IsHooked { get; }
 
-        /// <summary>Whether this event is enabled for a specific splitscreen player.</summary>
+        /// <summary>Whether this event is hooked for a specific splitscreen player.</summary>
         /// <param name="screenId">The player's screen id.</param>
-        bool IsEnabledForScreen(int screenId);
+        bool IsHookedForScreen(int screenId);
 
-        /// <summary>Enable this event on the current screen.</summary>
-        void Enable();
+        /// <summary>Hook this event on the current screen.</summary>
+        void Hook();
 
-        /// <summary>Disable this event on the current screen.</summary>
-        void Disable();
+        /// <summary>Unhook this event on the current screen.</summary>
+        void Unhook();
     }
 
     #region treasure hunt

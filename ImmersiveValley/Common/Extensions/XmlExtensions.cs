@@ -22,7 +22,7 @@ public static class XmlElementExtensions
     /// <summary>Try to read the specified node in the <see cref="XmlElement"/> instance.</summary>
     /// <param name="name">The name of the node.</param>
     /// <param name="result">The parsed value, if successful. Otherwise <c>null</c>.</param>
-    /// <returns><c>True</c> if the node exists and can be parsed. Otherwise <c>False</c>.</returns>
+    /// <returns><see langword="true"> if the node exists and can be parsed, otherwise <see langword="false">.</returns>
     public static bool TryReadAs<T>(this XmlElement xml, string name, out T? result)
     {
         result = default;
@@ -43,7 +43,7 @@ public static class XmlElementExtensions
     /// <summary>Try to read the specified node in the <see cref="XmlElement"/> instance as <see cref="string"/>.</summary>
     /// <param name="name">The name of the node.</param>
     /// <param name="innerText">The inner text of the node, if it exists. Otherwise <see cref="string.Empty"/>.</param>
-    /// <returns><c>True</c> if the node exists and is non-empty. Otherwise <c>False</c>.</returns>
+    /// <returns><see langword="true"> if the node exists and is non-empty, otherwise <see langword="false">.</returns>
     public static bool TryRead(this XmlElement xml, string name, out string innerText)
     {
         innerText = string.Empty;

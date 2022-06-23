@@ -4,6 +4,8 @@
 
 using System;
 
+using Common.Events;
+
 #endregion using directives
 
 internal sealed class UltimateEmptiedEvent : BaseEvent
@@ -22,6 +24,6 @@ internal sealed class UltimateEmptiedEvent : BaseEvent
     /// <param name="e">The event arguments.</param>
     internal void OnEmptied(object sender, IUltimateEmptiedEventArgs e)
     {
-        if (enabled.Value) _OnEmptiedImpl(sender, e);
+        if (hooked.Value) _OnEmptiedImpl(sender, e);
     }
 }

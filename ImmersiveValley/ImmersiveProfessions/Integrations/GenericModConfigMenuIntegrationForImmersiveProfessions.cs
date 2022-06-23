@@ -21,12 +21,11 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
     /// <param name="getConfig">Get the current config model.</param>
     /// <param name="reset">Reset the config model to the default values.</param>
     /// <param name="saveAndApply">Save and apply the current config model.</param>
-    /// <param name="log">Encapsulates monitoring and logging.</param>
     public GenericModConfigMenuIntegrationForImmersiveProfessions(IModRegistry modRegistry, IManifest manifest,
-        Action<string, LogLevel> log, Func<ModConfig> getConfig, Action reset, Action saveAndApply)
+        Func<ModConfig> getConfig, Action reset, Action saveAndApply)
     {
         _configMenu =
-            new(modRegistry, manifest, log, getConfig, reset, saveAndApply);
+            new(modRegistry, manifest, getConfig, reset, saveAndApply);
     }
 
     /// <summary>Register the config menu if available.</summary>
@@ -54,20 +53,6 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 config => config.VintageInterfaceSupport.ToString(),
                 (config, value) =>
                 {
-                    if (value.ToLowerInvariant() == "automatic")
-                    {
-                        if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI"))
-                            ModEntry.PlayerState.VintageInterface = "pink";
-                        else if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
-                            ModEntry.PlayerState.VintageInterface = "brown";
-                        else
-                            ModEntry.PlayerState.VintageInterface = "off";
-                    }
-                    else
-                    {
-                        ModEntry.PlayerState.VintageInterface = value.ToLowerInvariant();
-                    }
-
                     config.VintageInterfaceSupport = Enum.Parse<ModConfig.VintageInterfaceStyle>(value);
                     ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/SkillBars");
                     ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/UltimateMeter");

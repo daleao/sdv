@@ -10,6 +10,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -24,7 +26,7 @@ internal sealed class ObjectCheckForActionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal ObjectCheckForActionPatch()
     {
-        Original = RequireMethod<SObject>(nameof(SObject.checkForAction));
+        Target = RequireMethod<SObject>(nameof(SObject.checkForAction));
     }
 
     #region harmony patches
@@ -43,7 +45,7 @@ internal sealed class ObjectCheckForActionPatch : BasePatch
     {
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession(Profession.Ecologist))
-            Game1.player.IncrementData<uint>(ModData.EcologistItemsForaged);
+            ModDataIO.IncrementData<uint>(Game1.player, ModData.EcologistItemsForaged.ToString());
     }
 
     /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium + increase Honey quality with age + increase production frequency of Producer Bee House.</summary>
@@ -54,7 +56,7 @@ internal sealed class ObjectCheckForActionPatch : BasePatch
         var helper = new ILHelper(original, instructions);
 
         /// Injected: if (who.professions.Contains(<gemologist_id>) && name.Equals("Crystalarium"))
-        ///		Data.IncrementField<uint>("GemologistMineralsCollected")
+        ///		ModDataIO.IncrementField<uint>(who, "GemologistMineralsCollected")
         ///	Before: switch (name)
 
         var dontIncreaseGemologistCounter = generator.DefineLabel();
@@ -82,7 +84,7 @@ internal sealed class ObjectCheckForActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Ldstr, ModData.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(ModData)})
+                        typeof(ModDataIO).RequireMethod(nameof(ModDataIO.IncrementData), new[] {typeof(Farmer), typeof(string)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
@@ -90,7 +92,6 @@ internal sealed class ObjectCheckForActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -141,7 +142,6 @@ internal sealed class ObjectCheckForActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching bee house production speed for Producers.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

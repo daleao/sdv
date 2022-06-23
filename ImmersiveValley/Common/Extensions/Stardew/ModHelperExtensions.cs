@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.IO;
 using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
@@ -14,39 +13,37 @@ using StardewModdingAPI;
 public static class ModHelperExtensions
 {
     /// <summary>Read an external mod's configuration file.</summary>
-    /// <param name="uniqueId">The external mod's unique id.</param>
-    /// <param name="log">Interface for logging messages to the console.</param>
+    /// <param name="uniqueID">The external mod's unique id.</param>
     /// <remarks>Will only for mods that implement <see cref="IMod"/>; i.e., will not work for content packs.</remarks>
     [CanBeNull]
-    public static JObject ReadConfigExt(this IModHelper helper, string uniqueId, Action<string, LogLevel> log)
+    public static JObject ReadConfigExt(this IModHelper helper, string uniqueID)
     {
-        var modInfo = helper.ModRegistry.Get(uniqueId);
+        var modInfo = helper.ModRegistry.Get(uniqueID);
         if (modInfo is null)
         {
-            log($"{uniqueId} mod not found. Integrations disabled.", LogLevel.Trace);
+            Log.T($"{uniqueID} mod not found. Integrations disabled.");
             return null;
         }
 
-        log($"{uniqueId} mod found. Integrations will be enabled.", LogLevel.Trace);
+        Log.T($"{uniqueID} mod found. Integrations will be enabled.");
         var modEntry = (IMod) modInfo.GetType().GetProperty("Mod")!.GetValue(modInfo);
         return modEntry?.Helper.ReadConfig<JObject>();
     }
 
     /// <summary>Read an external content pack's configuration file.</summary>
-    /// <param name="uniqueId">The external mod's unique id.</param>
-    /// <param name="log">Interface for logging messages to the console.</param>
+    /// <param name="uniqueID">The external mod's unique id.</param>
     /// <remarks>Will work for any mod, but is reserved for content packs.</remarks>
     [CanBeNull]
-    public static JObject ReadContentPackConfig(this IModHelper helper, string uniqueId, Action<string, LogLevel> log)
+    public static JObject ReadContentPackConfig(this IModHelper helper, string uniqueID)
     {
-        var modInfo = helper.ModRegistry.Get(uniqueId);
+        var modInfo = helper.ModRegistry.Get(uniqueID);
         if (modInfo is null)
         {
-            log($"{uniqueId} mod not found. Integrations disabled.", LogLevel.Trace);
+            Log.T($"{uniqueID} mod not found. Integrations disabled.");
             return null;
         }
 
-        log($"{uniqueId} mod found. Integrations will be enabled.", LogLevel.Trace);
+        Log.T($"{uniqueID} mod found. Integrations will be enabled.");
         var modPath = (string) modInfo.GetType().GetProperty("DirectoryPath")!.GetValue(modInfo);
         try
         {
@@ -54,9 +51,8 @@ public static class ModHelperExtensions
         }
         catch (FileNotFoundException)
         {
-            log(
-                $"Did not find a config file for {uniqueId}. Please restart the game once a config file has been generated.",
-                LogLevel.Warn);
+            Log.W(
+                $"Did not find a config file for {uniqueID}. Please restart the game once a config file has been generated.");
             return null;
         }
     }

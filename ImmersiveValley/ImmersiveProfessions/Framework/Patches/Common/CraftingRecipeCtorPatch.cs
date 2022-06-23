@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using StardewValley;
 
 using DaLion.Common.Extensions;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -17,7 +18,7 @@ internal sealed class CraftingRecipeCtorPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal CraftingRecipeCtorPatch()
     {
-        Original = RequireConstructor<CraftingRecipe>(typeof(string), typeof(bool));
+        Target = RequireConstructor<CraftingRecipe>(typeof(string), typeof(bool));
     }
 
     #region harmony patches

@@ -5,6 +5,8 @@
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
+using Common.Events;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -14,6 +16,6 @@ internal sealed class PrestigeDayStartedEvent : DayStartedEvent
     protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
     {
         ModEntry.PlayerState.UsedDogStatueToday = false;
-        Disable();
+        Unhook();
     }
 }

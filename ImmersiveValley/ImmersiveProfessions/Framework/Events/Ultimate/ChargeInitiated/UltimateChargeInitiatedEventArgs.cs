@@ -16,6 +16,7 @@ internal sealed class UltimateChargeInitiatedEventArgs : EventArgs, IUltimateCha
     public double NewValue { get; }
 
     /// <summary>Construct an instance.</summary>
+    /// <param name="player">The player who triggered the event.</param>
     /// <param name="newValue">The new charge value.</param>
     internal UltimateChargeInitiatedEventArgs(Farmer player, double newValue)
     {

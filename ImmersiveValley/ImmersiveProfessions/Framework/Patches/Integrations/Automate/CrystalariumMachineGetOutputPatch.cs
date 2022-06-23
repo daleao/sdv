@@ -2,12 +2,13 @@
 
 #region using directives
 
-using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -17,14 +18,17 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal sealed class CrystalariumMachineGetOutputPatch : BasePatch
 {
-    [CanBeNull] private static MethodInfo _GetMachine;
+    private delegate SObject GetMachineDelegate(object instance);
+
+    private static GetMachineDelegate _GetMachine;
 
     /// <summary>Construct an instance.</summary>
     internal CrystalariumMachineGetOutputPatch()
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrystalariumMachine".ToType().RequireMethod("GetOutput");
+            Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrystalariumMachine".ToType()
+                .RequireMethod("GetOutput");
         }
         catch
         {
@@ -40,15 +44,15 @@ internal sealed class CrystalariumMachineGetOutputPatch : BasePatch
     {
         if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
-        var machine = (SObject) _GetMachine!.Invoke(__instance, null);
-        if (machine?.heldObject.Value is null) return;
+        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CreateDelegate<GetMachineDelegate>();
+        var machine = _GetMachine(__instance);
+        if (machine.heldObject.Value is null) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.HasProfession(Profession.Gemologist) ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
-        owner.IncrementData<uint>(ModData.GemologistMineralsCollected);
+        ModDataIO.IncrementData<uint>(owner, ModData.GemologistMineralsCollected.ToString());
     }
 
     #endregion harmony patches

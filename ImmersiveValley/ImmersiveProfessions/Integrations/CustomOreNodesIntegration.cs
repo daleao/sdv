@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using StardewModdingAPI;
 
@@ -15,9 +14,8 @@ internal class CustomOreNodesIntegration : BaseIntegration<ICustomOreNodesAPI>
 {
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    /// <param name="log">Encapsulates monitoring and logging.</param>
-    public CustomOreNodesIntegration(IModRegistry modRegistry, Action<string, LogLevel> log)
-        : base("Custom Ore Nodes", "aedenthorn.CustomOreNodes", "2.1.1", modRegistry, log)
+    public CustomOreNodesIntegration(IModRegistry modRegistry)
+        : base("Custom Ore Nodes", "aedenthorn.CustomOreNodes", "2.1.1", modRegistry)
     {
     }
 
@@ -25,7 +23,6 @@ internal class CustomOreNodesIntegration : BaseIntegration<ICustomOreNodesAPI>
     public void Register()
     {
         AssertLoaded();
-
         var _getCustomOreNodeParentSheetIndex =
             "CustomOreNodes.CustomOreNode".ToType().RequireField("parentSheetIndex")!;
         Framework.Utility.ObjectLookups.ResourceNodeIds = Framework.Utility.ObjectLookups.ResourceNodeIds.Concat(

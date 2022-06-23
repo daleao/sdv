@@ -9,7 +9,7 @@ using StardewModdingAPI.Utilities;
 #endregion using directives
 
 /// <summary>The API provided by the Generic Mod Config Menu mod.</summary>
-/// /// <remarks>Credit to <c>Pathoschild</c>.</remarks>
+/// /// <remarks><see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
 public interface IGenericModConfigMenuAPI
 {
     /// <summary>Register a mod whose config can be edited through the UI.</summary>

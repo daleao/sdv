@@ -14,6 +14,7 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -28,7 +29,7 @@ internal sealed class Game1DrawHUDPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal Game1DrawHUDPatch()
     {
-        Original = RequireMethod<Game1>("drawHUD");
+        Target = RequireMethod<Game1>("drawHUD");
     }
 
     #region harmony patches
@@ -102,7 +103,6 @@ internal sealed class Game1DrawHUDPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -135,7 +135,6 @@ internal sealed class Game1DrawHUDPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded tracking pointers draw condition. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -163,7 +162,6 @@ internal sealed class Game1DrawHUDPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching Prospector restriction for panning tacker. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

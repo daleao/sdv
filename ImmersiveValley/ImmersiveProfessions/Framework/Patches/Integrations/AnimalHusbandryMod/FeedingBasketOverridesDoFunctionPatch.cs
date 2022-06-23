@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -24,7 +25,7 @@ internal sealed class FeedingBasketOverridesDoFunctionPatch : BasePatch
     {
         try
         {
-            Original = "AnimalHusbandryMod.tools.FeedingBasketOverrides".ToType().RequireMethod("DoFunction");
+            Target = "AnimalHusbandryMod.tools.FeedingBasketOverrides".ToType().RequireMethod("DoFunction");
         }
         catch
         {
@@ -97,7 +98,6 @@ internal sealed class FeedingBasketOverridesDoFunctionPatch : BasePatch
         {
             Log.E(
                 $"Failed while moving combined feeding basket Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

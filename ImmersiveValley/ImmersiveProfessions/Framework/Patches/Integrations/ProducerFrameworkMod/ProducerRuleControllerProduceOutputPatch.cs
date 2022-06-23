@@ -9,6 +9,7 @@ using StardewModdingAPI;
 using StardewValley;
 
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -23,7 +24,7 @@ internal sealed class ProducerRuleControllerProduceOutputPatch : BasePatch
     {
         try
         {
-            Original = "ProducerFrameworkMod.Controllers.ProducerRuleController".ToType().RequireMethod("ProduceOutput");
+            Target = "ProducerFrameworkMod.Controllers.ProducerRuleController".ToType().RequireMethod("ProduceOutput");
         }
         catch
         {

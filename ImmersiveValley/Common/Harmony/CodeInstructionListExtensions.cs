@@ -13,9 +13,9 @@ using HarmonyLib;
 public static class CodeInstructionListExtensions
 {
     /// <summary>Determine the index of the first occurrence of an instruction pattern.</summary>
-    /// <param name="pattern">The <see cref="CodeInstruction" /> pattern to search for.</param>
+    /// <param name="pattern">The <see cref="CodeInstruction"/> pattern to search for.</param>
     /// <param name="start">The starting index.</param>
-    /// <returns>Returns the index of the first instruction in <paramref name="pattern" />.</returns>
+    /// <returns>The index of the first instruction in <paramref name="pattern"/>.</returns>
     public static int IndexOf(this IList<CodeInstruction> list, CodeInstruction[] pattern, int start = 0)
     {
         var count = list.Count - pattern.Length + 1;
@@ -33,9 +33,9 @@ public static class CodeInstructionListExtensions
     }
 
     /// <summary>Determine the index of the first occurrence of an instruction pattern.</summary>
-    /// <param name="pattern">The <see cref="CodeInstruction" /> pattern to search for.</param>
+    /// <param name="pattern">The <see cref="CodeInstruction"/> pattern to search for.</param>
     /// <param name="start">The starting index.</param>
-    /// <returns>Returns the index of the first instruction in <paramref name="pattern" />.</returns>
+    /// <returns>The index of the first instruction in <paramref name="pattern"/>.</returns>
     public static int IndexOf(this IList<CodeInstruction> list, IList<CodeInstruction> pattern, int start = 0)
     {
         var count = list.Count - pattern.Count + 1;

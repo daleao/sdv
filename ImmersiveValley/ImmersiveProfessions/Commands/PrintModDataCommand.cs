@@ -1,0 +1,69 @@
+﻿namespace DaLion.Stardew.Professions.Commands;
+
+#region using directives
+
+using static System.FormattableString;
+using static System.String;
+
+using System;
+using StardewValley;
+
+using Common;
+using Common.Commands;
+using Common.Data;
+
+#endregion using directives
+
+internal class PrintModDataCommand : ICommand
+{
+    /// <inheritdoc />
+    public string Trigger => "data";
+
+    /// <inheritdoc />
+    public string Documentation => "Print the current value of all mod data fields.";
+
+    /// <inheritdoc />
+    public void Callback(string[] args)
+    {
+        var message = $"Farmer {Game1.player.Name}'s mod data:";
+        var value = ModDataIO.ReadData(Game1.player, ModData.EcologistItemsForaged.ToString());
+        message += "\n\t- " +
+                   (!IsNullOrEmpty(value)
+                       ? $"{ModData.EcologistItemsForaged}: {value} ({ModEntry.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                       : $"Mod data does not contain an entry for {ModData.EcologistItemsForaged}.");
+
+        value = ModDataIO.ReadData(Game1.player, ModData.GemologistMineralsCollected.ToString());
+        message += "\n\t- " +
+                   (!IsNullOrEmpty(value)
+                       ? $"{ModData.GemologistMineralsCollected}: {value} ({ModEntry.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                       : $"Mod data does not contain an entry for {ModData.GemologistMineralsCollected}.");
+
+        value = ModDataIO.ReadData(Game1.player, ModData.ProspectorHuntStreak.ToString());
+        message += "\n\t- " +
+                   (!IsNullOrEmpty(value)
+                       ? $"{ModData.ProspectorHuntStreak}: {value} (affects treasure quality)"
+                       : $"Mod data does not contain an entry for {ModData.ProspectorHuntStreak}.");
+
+        value = ModDataIO.ReadData(Game1.player, ModData.ScavengerHuntStreak.ToString());
+        message += "\n\t- " +
+                   (!IsNullOrEmpty(value)
+                       ? $"{ModData.ScavengerHuntStreak}: {value} (affects treasure quality)"
+                       : $"Mod data does not contain an entry for {ModData.ScavengerHuntStreak}.");
+
+        value = ModDataIO.ReadData(Game1.player, ModData.ConservationistTrashCollectedThisSeason.ToString());
+        message += "\n\t- " +
+                   (!IsNullOrEmpty(value)
+                       // ReSharper disable once PossibleLossOfFraction
+                       ? CurrentCulture(
+                           $"{ModData.ConservationistTrashCollectedThisSeason}: {value} (expect a {Math.Min(int.Parse(value) / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f, ModEntry.Config.ConservationistTaxBonusCeiling):p0} tax deduction next season)")
+                       : $"Mod data does not contain an entry for {ModData.ConservationistTrashCollectedThisSeason}.");
+
+        value = ModDataIO.ReadData(Game1.player, ModData.ConservationistActiveTaxBonusPct.ToString());
+        message += "\n\t- " +
+                   (!IsNullOrEmpty(value)
+                       ? CurrentCulture($"{ModData.ConservationistActiveTaxBonusPct}: {float.Parse(value):p0}")
+                       : $"Mod data does not contain an entry for {ModData.ConservationistActiveTaxBonusPct}.");
+
+        Log.I(message);
+    }
+}

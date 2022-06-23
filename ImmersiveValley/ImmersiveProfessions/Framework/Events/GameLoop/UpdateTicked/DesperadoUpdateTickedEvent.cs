@@ -1,6 +1,4 @@
-﻿using DaLion.Stardew.Professions.Framework.Sounds;
-
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 #region using directives
 
@@ -10,8 +8,10 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Tools;
 
+using Common.Events;
 using Extensions;
-using Framework.Ultimate;
+using Ultimates;
+using Sounds;
 
 #endregion using directives
 

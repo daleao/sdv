@@ -5,22 +5,18 @@
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
+using Common.Events;
+
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class StaticReturnedToTitleEvent : ReturnedToTitleEvent
 {
-    /// <summary>Construct an instance.</summary>
-    internal StaticReturnedToTitleEvent()
-    {
-        Enable();
-    }
-
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object sender, ReturnedToTitleEventArgs e)
     {
-        // disable events
-        EventManager.DisableAllForLocalPlayer();
+        // unhook events
+        ModEntry.EventManager.UnhookFromLocalPlayer();
 
         // reset mod state
         ModEntry.PlayerState = new();

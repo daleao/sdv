@@ -12,6 +12,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -29,7 +30,7 @@ internal sealed class GameLocationGetFishPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GameLocationGetFishPatch()
     {
-        Original = RequireMethod<GameLocation>(nameof(GameLocation.getFish));
+        Target = RequireMethod<GameLocation>(nameof(GameLocation.getFish));
     }
 
     #region harmony patches
@@ -51,7 +52,6 @@ internal sealed class GameLocationGetFishPatch : BasePatch
         if (shuffleMethod is null)
         {
             Log.E($"Failed to acquire {typeof(SUtility)}::Shuffle method.");
-            transpilationFailed = true;
             return null;
         }
 
@@ -91,7 +91,6 @@ internal sealed class GameLocationGetFishPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

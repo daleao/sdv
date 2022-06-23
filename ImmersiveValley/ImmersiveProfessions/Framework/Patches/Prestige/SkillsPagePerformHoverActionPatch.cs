@@ -10,8 +10,9 @@ using StardewValley;
 using StardewValley.Menus;
 
 using DaLion.Common.Extensions;
+using DaLion.Common.Harmony;
 using Extensions;
-using Utility;
+using Textures;
 
 #endregion using directives
 
@@ -21,7 +22,7 @@ internal sealed class SkillsPagePerformHoverActionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal SkillsPagePerformHoverActionPatch()
     {
-        Original = RequireMethod<SkillsPage>(nameof(SkillsPage.performHoverAction));
+        Target = RequireMethod<SkillsPage>(nameof(SkillsPage.performHoverAction));
     }
 
     #region harmony patches
@@ -35,29 +36,25 @@ internal sealed class SkillsPagePerformHoverActionPatch : BasePatch
 
         if (!ModEntry.Config.EnablePrestige) return;
 
-        Rectangle bounds;
-        switch (ModEntry.Config.PrestigeProgressionStyle)
+        Rectangle bounds = ModEntry.Config.PrestigeProgressionStyle switch
         {
-            case ModConfig.ProgressionStyle.StackedStars:
-                bounds = new(
-                    __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I - 14,
-                    __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
-                    Textures.PROGRESSION_VERTICAL_OFFSET_I - 4, (int) (Textures.STARS_WIDTH_I * Textures.STARS_SCALE_F),
-                    (int) (Textures.STARS_WIDTH_I * Textures.STARS_SCALE_F)
-                );
-                break;
-            case ModConfig.ProgressionStyle.Gen3Ribbons:
-            case ModConfig.ProgressionStyle.Gen4Ribbons:
-                bounds = new(
-                    __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
-                    __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
-                    Textures.PROGRESSION_VERTICAL_OFFSET_I, (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
-                    (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F));
-                break;
-            default:
-                bounds = Rectangle.Empty;
-                break;
-        }
+            ModConfig.ProgressionStyle.StackedStars => new(
+                __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I - 14,
+                __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
+                Textures.PROGRESSION_VERTICAL_OFFSET_I - 4, (int) (Textures.STARS_WIDTH_I * Textures.STARS_SCALE_F),
+                (int) (Textures.STARS_WIDTH_I * Textures.STARS_SCALE_F)),
+            ModConfig.ProgressionStyle.Gen3Ribbons => new(
+                __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
+                __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
+                Textures.PROGRESSION_VERTICAL_OFFSET_I, (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
+                (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)),
+            ModConfig.ProgressionStyle.Gen4Ribbons => new(
+                __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
+                __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
+                Textures.PROGRESSION_VERTICAL_OFFSET_I, (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
+                (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)),
+            _ => Rectangle.Empty
+        };
 
         for (var i = 0; i < 5; ++i)
         {

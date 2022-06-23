@@ -10,6 +10,8 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
 using Extensions;
 using Utility;
 
@@ -21,14 +23,15 @@ internal sealed class FarmerGainExperiencePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FarmerGainExperiencePatch()
     {
-        Original = RequireMethod<Farmer>(nameof(Farmer.gainExperience));
-        Prefix.priority = Priority.LowerThanNormal;
+        Target = RequireMethod<Farmer>(nameof(Farmer.gainExperience));
+        Prefix!.priority = Priority.LowerThanNormal;
     }
 
     #region harmony patches
 
     /// <summary>Patch to increase skill experience after each prestige + gate at level 10 until full prestige.</summary>
     [HarmonyPrefix]
+    [HarmonyPriority(Priority.LowerThanNormal)]
     private static bool FarmerGainExperiencePrefix(Farmer __instance, int which, ref int howMuch)
     {
         try

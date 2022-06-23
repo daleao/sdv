@@ -1,10 +1,14 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+﻿using DaLion.Common;
+
+namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 #region using directives
 
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
+
+using Common.Events;
 
 #endregion using directives
 

@@ -35,7 +35,7 @@ public static class EnumerableExtensions
 
     /// <summary>Filter out null references.</summary>
     public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> enumerable) where T : class
-        => enumerable.Where(x => x != null)!;
+        => enumerable.Where(x => x is not null)!;
 
     /// <summary>Filter out null values.</summary>
     public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> enumerable) where T : struct

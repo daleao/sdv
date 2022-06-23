@@ -8,6 +8,9 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -16,7 +19,7 @@ internal sealed class FarmerHasOrWillReceiveMailPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FarmerHasOrWillReceiveMailPatch()
     {
-        Original = RequireMethod<Farmer>(nameof(Farmer.hasOrWillReceiveMail));
+        Target = RequireMethod<Farmer>(nameof(Farmer.hasOrWillReceiveMail));
     }
 
     #region harmony patches

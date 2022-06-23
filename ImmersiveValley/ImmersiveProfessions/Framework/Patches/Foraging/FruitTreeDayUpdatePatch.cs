@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -17,7 +18,7 @@ internal sealed class FruitTreeDayUpdatePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FruitTreeDayUpdatePatch()
     {
-        Original = RequireMethod<FruitTree>(nameof(FruitTree.dayUpdate));
+        Target = RequireMethod<FruitTree>(nameof(FruitTree.dayUpdate));
     }
 
     #region harmony patches

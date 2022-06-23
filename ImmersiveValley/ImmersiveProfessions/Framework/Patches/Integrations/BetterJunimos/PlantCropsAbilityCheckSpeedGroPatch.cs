@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -22,7 +23,7 @@ internal sealed class PlantCropsAbilityCheckSpeedGroPatch : BasePatch
     {
         try
         {
-            Original = "BetterJunimos.Abilities.PlantCropsAbility".ToType().RequireMethod("CheckSpeedGro");
+            Target = "BetterJunimos.Abilities.PlantCropsAbility".ToType().RequireMethod("CheckSpeedGro");
         }
         catch
         {
@@ -69,7 +70,6 @@ internal sealed class PlantCropsAbilityCheckSpeedGroPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching prestiged Agriculturist crop growth bonus to Better Junimos.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

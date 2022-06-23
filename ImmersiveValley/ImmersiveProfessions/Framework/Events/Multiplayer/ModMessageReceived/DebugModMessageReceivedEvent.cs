@@ -7,6 +7,9 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common;
+using Common.Events;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -32,9 +35,9 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
                 var what = e.ReadAs<string>();
                 switch (what)
                 {
-                    case "EventsEnabled":
-                        var response = EventManager.GetAllEnabled()
-                            .Aggregate("", (current, next) => current + "\n\t- " + next.GetType().Name);
+                    case "EventsHooked":
+                        var response = ModEntry.EventManager.Hooked.Aggregate("",
+                            (current, next) => current + "\n\t- " + next.GetType().Name);
                         ModEntry.Broadcaster.Message(response, "Debug/Response",e.FromPlayerID);
 
                         break;

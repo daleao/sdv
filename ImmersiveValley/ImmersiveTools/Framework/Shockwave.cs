@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Tools;
 
+using Common;
 using Common.Classes;
 using Extensions;
 

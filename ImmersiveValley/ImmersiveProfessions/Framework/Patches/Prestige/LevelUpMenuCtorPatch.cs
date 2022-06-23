@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Menus;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 
@@ -21,7 +22,7 @@ internal sealed class LevelUpMenuCtorPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuCtorPatch()
     {
-        Original = RequireConstructor<LevelUpMenu>(typeof(int), typeof(int));
+        Target = RequireConstructor<LevelUpMenu>(typeof(int), typeof(int));
     }
 
     #region harmony patches
@@ -57,7 +58,6 @@ internal sealed class LevelUpMenuCtorPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching profession choices above level 10. Helper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

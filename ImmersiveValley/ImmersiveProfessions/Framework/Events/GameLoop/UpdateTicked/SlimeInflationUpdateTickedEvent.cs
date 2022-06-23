@@ -6,6 +6,8 @@ using System.Linq;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
+using Common.Data;
+using Common.Events;
 using Extensions;
 
 #endregion using directives
@@ -16,10 +18,11 @@ internal sealed class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        var uninflated = ModEntry.PlayerState.PipedSlimes.Where(s => !s.ReadDataAs<bool>("DoneInflating")).ToArray();
+        var uninflated = ModEntry.PlayerState.PipedSlimes.Where(c => !ModDataIO.ReadDataAs<bool>(c, "DoneInflating"))
+            .ToArray();
         if (!uninflated.Any())
         {
-            Disable();
+            Unhook();
             return;
         }
 

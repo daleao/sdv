@@ -15,6 +15,7 @@ using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Xna;
 using DaLion.Common.Harmony;
@@ -29,7 +30,7 @@ internal sealed class ProjectileUpdatePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal ProjectileUpdatePatch()
     {
-        Original = RequireMethod<Projectile>(nameof(Projectile.update));
+        Target = RequireMethod<Projectile>(nameof(Projectile.update));
     }
 
     #region harmony patches
@@ -164,7 +165,6 @@ internal sealed class ProjectileUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching prestiged Rascal trick shot.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

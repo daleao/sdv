@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -21,7 +22,7 @@ internal sealed class FarmAnimalPetPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FarmAnimalPetPatch()
     {
-        Original = RequireMethod<FarmAnimal>(nameof(FarmAnimal.pet));
+        Target = RequireMethod<FarmAnimal>(nameof(FarmAnimal.pet));
     }
 
     #region harmony patches
@@ -70,7 +71,6 @@ internal sealed class FarmAnimalPetPatch : BasePatch
         {
             Log.E(
                 $"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -101,7 +101,6 @@ internal sealed class FarmAnimalPetPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Rancher friendship bonuses.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

@@ -10,10 +10,11 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
-using Ultimate;
+using Ultimates;
 
 #endregion using directives
 
@@ -23,7 +24,7 @@ internal sealed class FarmerTakeDamagePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FarmerTakeDamagePatch()
     {
-        Original = RequireMethod<Farmer>(nameof(Farmer.takeDamage));
+        Target = RequireMethod<Farmer>(nameof(Farmer.takeDamage));
     }
 
     #region harmony patches
@@ -78,7 +79,6 @@ internal sealed class FarmerTakeDamagePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Poacher Ambush untargetability.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -136,7 +136,6 @@ internal sealed class FarmerTakeDamagePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Brute Frenzy immortality.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -231,7 +230,6 @@ internal sealed class FarmerTakeDamagePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while incrementing Brute rage counter and ultimate meter.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

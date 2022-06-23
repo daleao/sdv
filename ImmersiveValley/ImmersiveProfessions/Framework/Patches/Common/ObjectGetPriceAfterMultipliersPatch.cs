@@ -8,6 +8,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
 using Extensions;
 using SObject = StardewValley.Object;
 
@@ -19,7 +21,7 @@ internal sealed class ObjectGetPriceAfterMultipliersPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal ObjectGetPriceAfterMultipliersPatch()
     {
-        Original = RequireMethod<SObject>("getPriceAfterMultipliers");
+        Target = RequireMethod<SObject>("getPriceAfterMultipliers");
     }
 
     #region harmony patches

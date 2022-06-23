@@ -11,6 +11,8 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Network;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -26,7 +28,7 @@ internal sealed class GameLocationCheckActionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GameLocationCheckActionPatch()
     {
-        Original = RequireMethod<GameLocation>(nameof(GameLocation.checkAction));
+        Target = RequireMethod<GameLocation>(nameof(GameLocation.checkAction));
     }
 
     #region harmony patches
@@ -80,7 +82,6 @@ internal sealed class GameLocationCheckActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching modded Ecologist forage quality.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -147,7 +148,6 @@ internal sealed class GameLocationCheckActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding modded Gemologist foraged mineral quality.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -175,7 +175,6 @@ internal sealed class GameLocationCheckActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -216,7 +215,6 @@ internal sealed class GameLocationCheckActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Foraged double forage bonus.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -230,9 +228,9 @@ internal sealed class GameLocationCheckActionPatch : BasePatch
     private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
     {
         if (who.HasProfession(Profession.Ecologist) && obj.isForage(location) && !obj.IsForagedMineral())
-            who.IncrementData<uint>(ModData.EcologistItemsForaged);
+            ModDataIO.IncrementData<uint>(who, ModData.EcologistItemsForaged.ToString());
         else if (who.HasProfession(Profession.Gemologist) && obj.IsForagedMineral())
-            who.IncrementData<uint>(ModData.GemologistMineralsCollected);
+            ModDataIO.IncrementData<uint>(who, ModData.GemologistMineralsCollected.ToString());
     }
 
     #endregion private methods

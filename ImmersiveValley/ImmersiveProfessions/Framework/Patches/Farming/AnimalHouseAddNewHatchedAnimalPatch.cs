@@ -8,6 +8,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -18,7 +19,7 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal AnimalHouseAddNewHatchedAnimalPatch()
     {
-        Original = RequireMethod<AnimalHouse>(nameof(AnimalHouse.addNewHatchedAnimal));
+        Target = RequireMethod<AnimalHouse>(nameof(AnimalHouse.addNewHatchedAnimal));
     }
 
     #region harmony patches

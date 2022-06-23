@@ -11,6 +11,8 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -25,14 +27,15 @@ internal sealed class ObjectPerformObjectDropInActionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal ObjectPerformObjectDropInActionPatch()
     {
-        Original = RequireMethod<SObject>(nameof(SObject.performObjectDropInAction));
-        Postfix.priority = Priority.LowerThanNormal;
+        Target = RequireMethod<SObject>(nameof(SObject.performObjectDropInAction));
+        Postfix!.priority = Priority.LowerThanNormal;
     }
 
     #region harmony patches
 
     /// <summary>Patch to remember initial machine state.</summary>
     [HarmonyPrefix]
+    [HarmonyPriority(Priority.LowerThanNormal)]
     // ReSharper disable once RedundantAssignment
     private static bool ObjectPerformObjectDropInActionPrefix(SObject __instance, ref bool __state)
     {
@@ -50,7 +53,8 @@ internal sealed class ObjectPerformObjectDropInActionPatch : BasePatch
         bool probe, Farmer who)
     {
         // if there was an object inside before running the original method, or if the machine is still empty after running the original method, or the machine doesn't belong to the farmer, then do nothing
-        if (__state || __instance.heldObject.Value is null || probe || Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID) return;
+        if (__state || __instance.heldObject.Value is null || probe ||
+            Context.IsMultiplayer && __instance.owner.Value != who.UniqueMultiplayerID) return;
 
         if (__instance.name == "Geode Crusher" && who.HasProfession(Profession.Gemologist) &&
             (__instance.heldObject.Value.IsForagedMineral() || __instance.heldObject.Value.IsGemOrMineral()))
@@ -112,7 +116,8 @@ internal sealed class ObjectPerformObjectDropInActionPatch : BasePatch
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldstr, ModData.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(ModData)})
+                        typeof(ModDataIO).RequireMethod(nameof(ModDataIO.IncrementData),
+                                new[] {typeof(Farmer), typeof(string)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
@@ -120,7 +125,6 @@ internal sealed class ObjectPerformObjectDropInActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 
@@ -169,7 +173,6 @@ internal sealed class ObjectPerformObjectDropInActionPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding prestiged Breeder incubation bonus.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

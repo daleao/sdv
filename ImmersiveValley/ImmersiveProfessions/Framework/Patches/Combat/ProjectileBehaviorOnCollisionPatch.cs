@@ -9,6 +9,7 @@ using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 
+using DaLion.Common.Harmony;
 using DaLion.Common.Extensions;
 using Extensions;
 
@@ -22,7 +23,7 @@ internal sealed class ProjectileBehaviorOnCollisionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal ProjectileBehaviorOnCollisionPatch()
     {
-        Original = RequireMethod<Projectile>("behaviorOnCollision");
+        Target = RequireMethod<Projectile>("behaviorOnCollision");
     }
 
     #region harmony patches

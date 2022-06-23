@@ -12,12 +12,15 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Input;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Collections;
+using DaLion.Common.Harmony;
 using Events.GameLoop;
 using Extensions;
 using Sounds;
-using Ultimate;
+using Ultimates;
 
 using Localization = Utility.Localization;
 
@@ -29,7 +32,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GameLocationAnswerDialogueActionPatch()
     {
-        Original = RequireMethod<GameLocation>(nameof(GameLocation.answerDialogueAction));
+        Target = RequireMethod<GameLocation>(nameof(GameLocation.answerDialogueAction));
     }
 
     #region harmony patches
@@ -110,7 +113,8 @@ internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
                 }
                 case "dogStatue_changeUlt":
                 {
-                    var currentProfessionKey = ModEntry.PlayerState.RegisteredUltimate.Index.ToString().SplitCamelCase()[0].ToLowerInvariant();
+                    var currentProfessionKey =
+                        ModEntry.PlayerState.RegisteredUltimate.Index.ToString().SplitCamelCase()[0].ToLowerInvariant();
                     var currentProfessionDisplayName =
                         ModEntry.i18n.Get(currentProfessionKey + ".name.male");
                     var currentUlti = ModEntry.i18n.Get(currentProfessionKey + ".ulti");
@@ -137,7 +141,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
                     {
                         if (choice == "Cancel") return;
 
-                        Game1.player.Money = Math.Max(0, Game1.player.Money - (int)ModEntry.Config.ChangeUltCost);
+                        Game1.player.Money = Math.Max(0, Game1.player.Money - (int) ModEntry.Config.ChangeUltCost);
 
                         // change ultimate
                         var newIndex = Enum.Parse<UltimateIndex>(choice.Split("_")[1]);
@@ -151,7 +155,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
                                 UltimateIndex.PiperPandemic => new Enthrall(),
                                 UltimateIndex.DesperadoBlossom => new DeathBlossom()
                             };
-                        Game1.player.WriteData(ModData.UltimateIndex, newIndex.ToString());
+                        ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), newIndex.ToString());
 
                         // play sound effect
                         SFX.DogStatuePrestige.Play();
@@ -160,18 +164,18 @@ internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
                         var choiceProfessionKey = newIndex.ToString().ToLowerInvariant();
                         var choiceProfessionDisplayName =
                             ModEntry.i18n.Get(choiceProfessionKey +
-                                                               (Game1.player.IsMale ? ".name.male" : ".name.female"));
+                                              (Game1.player.IsMale ? ".name.male" : ".name.female"));
                         pronoun = ModEntry.i18n.Get("pronoun.indefinite" +
-                                                                     (Game1.player.IsMale ? ".male" : ".female"));
+                                                    (Game1.player.IsMale ? ".male" : ".female"));
                         Game1.drawObjectDialogue(ModEntry.i18n.Get("prestige.dogstatue.fledged",
-                            new { pronoun, choiceProfession = choiceProfessionDisplayName}));
+                            new {pronoun, choiceProfession = choiceProfessionDisplayName}));
 
                         // woof woof
                         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
                         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
                         ModEntry.PlayerState.UsedDogStatueToday = true;
-                        EventManager.Enable(typeof(PrestigeDayStartedEvent));
+                        ModEntry.EventManager.Hook<PrestigeDayStartedEvent>();
                     });
                     return false; // don't run original logic
                 }
@@ -202,7 +206,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
 
                             // prepare to prestige at night
                             ModEntry.PlayerState.SkillsToReset.Enqueue(skill);
-                            EventManager.Enable(typeof(PrestigeDayEndingEvent));
+                            ModEntry.EventManager.Hook<PrestigeDayEndingEvent>();
 
                             // play sound effect
                             SFX.DogStatuePrestige.Play();
@@ -213,7 +217,8 @@ internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
                         }
                         else if (questionAndAnswer.Contains("prestigeRespec_"))
                         {
-                            Game1.player.Money = Math.Max(0, Game1.player.Money - (int) ModEntry.Config.PrestigeRespecCost);
+                            Game1.player.Money = Math.Max(0,
+                                Game1.player.Money - (int) ModEntry.Config.PrestigeRespecCost);
 
                             // remove all prestige professions for this skill
                             Enumerable.Range(100 + skill * 6, 6).ForEach(GameLocation.RemoveProfession);
@@ -232,7 +237,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
                                 Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
 
                             ModEntry.PlayerState.UsedDogStatueToday = true;
-                            EventManager.Enable(typeof(PrestigeDayStartedEvent));
+                            ModEntry.EventManager.Hook<PrestigeDayStartedEvent>();
                         }
                     }
                     else if (ModEntry.CustomSkills.TryGetValue(skillName, out var customSkill))
@@ -255,7 +260,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
 
                             // prepare to prestige at night
                             ModEntry.PlayerState.SkillsToReset.Enqueue(customSkill);
-                            EventManager.Enable(typeof(PrestigeDayEndingEvent));
+                            ModEntry.EventManager.Hook<PrestigeDayEndingEvent>();
 
                             // play sound effect
                             SFX.DogStatuePrestige.Play();

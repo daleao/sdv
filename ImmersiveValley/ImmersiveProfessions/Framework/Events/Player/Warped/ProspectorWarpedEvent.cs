@@ -7,8 +7,9 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 
+using Common.Events;
 using Extensions;
-using Framework.TreasureHunt;
+using TreasureHunts;
 
 #endregion using directives
 

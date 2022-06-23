@@ -10,6 +10,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -29,7 +31,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : BasePatch
     {
         try
         {
-            Original = "BlueberryMushroomMachine.Propagator".ToType().RequireMethod("PopExtraHeldMushrooms");
+            Target = "BlueberryMushroomMachine.Propagator".ToType().RequireMethod("PopExtraHeldMushrooms");
         }
         catch
         {
@@ -48,7 +50,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.IsLocalPlayer || !owner.HasProfession(Profession.Ecologist)) return;
 
-        Game1.player.IncrementData<uint>(ModData.EcologistItemsForaged);
+        ModDataIO.IncrementData<uint>(Game1.player, ModData.EcologistItemsForaged.ToString());
     }
 
     /// <summary>Patch for Propagator output quality.</summary>
@@ -74,14 +76,14 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : BasePatch
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(PropagatorPopExtraHeldMushroomsPatch).RequireMethod(nameof(PopExtraHeldMushroomsSubroutine)))
+                        typeof(PropagatorPopExtraHeldMushroomsPatch).RequireMethod(
+                            nameof(PopExtraHeldMushroomsSubroutine)))
                 )
                 .RemoveLabels();
         }
         catch (Exception ex)
         {
             Log.E($"Failed while patching Blueberry's Mushroom Propagator output quality.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

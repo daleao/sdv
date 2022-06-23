@@ -13,9 +13,10 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Harmony;
-using Extensions;
-using Ultimate;
+using Ultimates;
 
 #endregion using directives
 
@@ -25,7 +26,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuRemoveImmediateProfessionPerkPatch()
     {
-        Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.removeImmediateProfessionPerk));
+        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.removeImmediateProfessionPerk));
     }
 
     #region harmony patches
@@ -53,8 +54,8 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
                 pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
             }
 
-        // unsubscribe unnecessary events
-        EventManager.DisableAllForProfession(profession);
+        // unhook unnecessary events
+        ModEntry.EventManager.UnhookForProfession(profession);
 
         // unregister Ultimate
         if (ModEntry.PlayerState.RegisteredUltimate?.Index != (UltimateIndex) whichProfession) return;
@@ -62,7 +63,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
         if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
             var firstIndex = (UltimateIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
-            Game1.player.WriteData(ModData.UltimateIndex, firstIndex.ToString());
+            ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), firstIndex.ToString());
 #pragma warning disable CS8509
             ModEntry.PlayerState.RegisteredUltimate = firstIndex switch
 #pragma warning restore CS8509
@@ -75,7 +76,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
         }
         else
         {
-            Game1.player.WriteData(ModData.UltimateIndex, null);
+            ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), null);
             ModEntry.PlayerState.RegisteredUltimate = null;
         }
     }
@@ -101,7 +102,6 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

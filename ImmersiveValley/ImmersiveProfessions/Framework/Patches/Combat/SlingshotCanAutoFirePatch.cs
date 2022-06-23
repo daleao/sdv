@@ -8,7 +8,9 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
 
-using Ultimate;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using Ultimates;
 
 #endregion using directives
 
@@ -18,7 +20,7 @@ internal sealed class SlingshotCanAutoFirePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal SlingshotCanAutoFirePatch()
     {
-        Original = RequireMethod<Slingshot>(nameof(Slingshot.CanAutoFire));
+        Target = RequireMethod<Slingshot>(nameof(Slingshot.CanAutoFire));
     }
 
     #region harmony patches

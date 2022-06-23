@@ -9,6 +9,8 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common;
+using Common.Events;
 using Common.Extensions;
 using Extensions;
 
@@ -17,12 +19,6 @@ using Extensions;
 [UsedImplicitly]
 internal sealed class StaticSavingEvent : SavingEvent
 {
-    /// <summary>Construct an instance.</summary>
-    internal StaticSavingEvent()
-    {
-        Enable();
-    }
-
     /// <inheritdoc />
     protected override void OnSavingImpl(object sender, SavingEventArgs e)
     {

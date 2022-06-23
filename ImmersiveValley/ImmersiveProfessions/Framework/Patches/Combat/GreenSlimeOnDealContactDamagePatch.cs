@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -21,7 +22,7 @@ internal sealed class GreenSlimeOnDealContactDamagePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeOnDealContactDamagePatch()
     {
-        Original = RequireMethod<GreenSlime>(nameof(GreenSlime.onDealContactDamage));
+        Target = RequireMethod<GreenSlime>(nameof(GreenSlime.onDealContactDamage));
     }
 
     #region harmony patches
@@ -61,7 +62,6 @@ internal sealed class GreenSlimeOnDealContactDamagePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Piper slime debuff immunity.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

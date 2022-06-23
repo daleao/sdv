@@ -10,6 +10,8 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -20,7 +22,7 @@ internal sealed class LevelUpMenuAddProfessionDescriptionsPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuAddProfessionDescriptionsPatch()
     {
-        Original = RequireMethod<LevelUpMenu>("addProfessionDescriptions");
+        Target = RequireMethod<LevelUpMenu>("addProfessionDescriptions");
     }
 
     #region harmony patches

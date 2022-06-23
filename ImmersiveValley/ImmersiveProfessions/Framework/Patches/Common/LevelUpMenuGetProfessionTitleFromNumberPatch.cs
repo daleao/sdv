@@ -9,6 +9,9 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -17,7 +20,7 @@ internal sealed class LevelUpMenuGetProfessionTitleFromNumberPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuGetProfessionTitleFromNumberPatch()
     {
-        Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getProfessionTitleFromNumber));
+        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getProfessionTitleFromNumber));
     }
 
     #region harmony patches

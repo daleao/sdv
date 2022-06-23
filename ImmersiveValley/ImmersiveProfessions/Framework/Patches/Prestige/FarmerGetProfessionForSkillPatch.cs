@@ -6,6 +6,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -16,7 +17,7 @@ internal sealed class FarmerGetProfessionForSkillPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FarmerGetProfessionForSkillPatch()
     {
-        Original = RequireMethod<Farmer>(nameof(Farmer.getProfessionForSkill));
+        Target = RequireMethod<Farmer>(nameof(Farmer.getProfessionForSkill));
     }
 
     #region harmony patches

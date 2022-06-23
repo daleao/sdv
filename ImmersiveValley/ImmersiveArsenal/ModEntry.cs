@@ -2,12 +2,12 @@
 
 #region using directives
 
-using System;
-using System.Reflection;
-using HarmonyLib;
 using StardewModdingAPI;
 
-using Framework.Events;
+using Common;
+using Common.Commands;
+using Common.Events;
+using Common.Harmony;
 
 #endregion using directives
 
@@ -20,7 +20,6 @@ public class ModEntry : Mod
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
     internal static ITranslationHelper i18n => ModHelper.Translation;
-    internal static Action<string, LogLevel> Log => Instance.Monitor.Log;
 
     internal static int QiChallengeFinalQuestId => "TrulyLegendaryGalaxySword".GetHashCode();
 
@@ -30,16 +29,19 @@ public class ModEntry : Mod
     {
         Instance = this;
 
+        // initialize logger
+        Log.Init(Monitor);
+
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
-        // register events
-        IEvent.HookAll();
+        // hook events
+        new EventManager(helper.Events).HookAll();
 
-        // apply harmony patches
-        new Harmony(ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
+        // apply patches
+        new HarmonyPatcher(ModManifest.UniqueID).ApplyAll();
 
-        // add debug commands
-        helper.ConsoleCommands.Register();
+        // register commands
+        new CommandHandler(helper.ConsoleCommands).Register("ars", ModManifest.UniqueID);
     }
 }

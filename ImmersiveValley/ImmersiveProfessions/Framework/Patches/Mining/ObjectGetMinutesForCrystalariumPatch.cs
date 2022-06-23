@@ -6,6 +6,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -18,7 +19,7 @@ internal sealed class ObjectGetMinutesForCrystalariumPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal ObjectGetMinutesForCrystalariumPatch()
     {
-        Original = RequireMethod<SObject>("getMinutesForCrystalarium");
+        Target = RequireMethod<SObject>("getMinutesForCrystalarium");
     }
 
     #region harmony patches

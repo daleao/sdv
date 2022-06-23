@@ -8,6 +8,8 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common.Events;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -26,7 +28,7 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.PlayerState.DemolitionistExcitedness <= 0) Disable();
+        if (ModEntry.PlayerState.DemolitionistExcitedness <= 0) Unhook();
 
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == _buffId);
         if (buff is not null) return;

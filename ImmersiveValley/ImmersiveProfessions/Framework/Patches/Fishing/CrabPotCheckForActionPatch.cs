@@ -13,7 +13,9 @@ using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
 
+using DaLion.Common;
 using DaLion.Common.Extensions;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -24,7 +26,7 @@ internal sealed class CrabPotCheckForActionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal CrabPotCheckForActionPatch()
     {
-        Original = RequireMethod<CrabPot>(nameof(CrabPot.checkForAction));
+        Target = RequireMethod<CrabPot>(nameof(CrabPot.checkForAction));
     }
 
     #region harmony patches

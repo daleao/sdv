@@ -11,12 +11,16 @@ using StardewValley;
 
 public sealed class SFX : SmartEnum<SFX>
 {
+    #region enum entries
+
     public static readonly SFX BruteRage = new("BruteRage", 0);
     public static readonly SFX PoacherAmbush = new("PoacherCloak", 1);
     public static readonly SFX PoacherSteal = new("PoacherSteal", 2);
     public static readonly SFX PiperEnthrall = new("PiperProvoke", 3);
     public static readonly SFX DesperadoBlossom = new("DesperadoGunCock", 4);
     public static readonly SFX DogStatuePrestige = new("DogStatuePrestige", 5);
+
+    #endregion enum entries
 
     public static ICue SinWave { get; internal set; } = Game1.soundBank?.GetCue("SinWave");
 

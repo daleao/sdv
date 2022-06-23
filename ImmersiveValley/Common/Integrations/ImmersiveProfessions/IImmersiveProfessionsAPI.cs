@@ -43,16 +43,18 @@ public interface IImmersiveProfessionsAPI
 
     /// <inheritdoc cref="IImmersiveProfessions.ITreasureHunt.Fail"/>
     /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
-    /// <returns><c>False</c> if the <see cref="IImmersiveProfessions.ITreasureHunt"/> instance was not active, otherwise <c>true</c>.</returns>
+    /// <returns><see langword="false"> if the <see cref="IImmersiveProfessions.ITreasureHunt"/> instance was not active, otherwise <see langword="true">.</returns>
     public bool InterruptActiveHunt(string type);
 
-    /// <summary>Register a new <see cref="IImmersiveProfessions.TreasureHuntStartedEvent"/> instance.</summary>
+    /// <summary>Register a new <see cref="TreasureHuntStartedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IImmersiveProfessions.IEvent RegisterTreasureHuntStartedEvent(Action<object, IImmersiveProfessions.ITreasureHuntStartedEventArgs> callback, bool enable = true);
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IImmersiveProfessions.IEvent RegisterTreasureHuntStartedEvent(Action<object, IImmersiveProfessions.ITreasureHuntStartedEventArgs> callback, bool hook = true);
 
-    /// <summary>Register a new <see cref="IImmersiveProfessions.TreasureHuntEndedEvent"/> instance.</summary>
+    /// <summary>Register a new <see cref="TreasureHuntEndedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IImmersiveProfessions.IEvent RegisterTreasureHuntEndedEvent(Action<object, IImmersiveProfessions.ITreasureHuntEndedEventArgs> callback, bool enable = true);
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IImmersiveProfessions.IEvent RegisterTreasureHuntEndedEvent(Action<object, IImmersiveProfessions.ITreasureHuntEndedEventArgs> callback, bool hook = true);
 
     #endregion treasure hunts
 
@@ -64,29 +66,35 @@ public interface IImmersiveProfessionsAPI
     /// <summary>Check whether the <see cref="IImmersiveProfessions.UltimateMeter"/> is currently visible.</summary>
     public bool IsShowingUltimateMeter();
 
-    /// <summary>Register a new <see cref="IImmersiveProfessions.UltimateFullyChargedEvent"/> instance.</summary>
+    /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IImmersiveProfessions.IEvent RegisterUltimateActivatedEvent(Action<object, IImmersiveProfessions.IUltimateActivatedEventArgs> callback, bool enable = true);
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IImmersiveProfessions.IEvent RegisterUltimateActivatedEvent(Action<object, IImmersiveProfessions.IUltimateActivatedEventArgs> callback, bool hook = true);
 
-    /// <summary>Register a new <see cref="IImmersiveProfessions.UltimateDeactivatedEvent"/> instance.</summary>
+    /// <summary>Register a new <see cref="UltimateDeactivatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IImmersiveProfessions.IEvent RegisterUltimateDeactivatedEvent(Action<object, IImmersiveProfessions.IUltimateDeactivatedEventArgs> callback, bool enable = true);
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IImmersiveProfessions.IEvent RegisterUltimateDeactivatedEvent(Action<object, IImmersiveProfessions.IUltimateDeactivatedEventArgs> callback, bool hook = true);
 
-    /// <summary>Register a new <see cref="IImmersiveProfessions.UltimateChargeInitiatedEvent"/> instance.</summary>
+    /// <summary>Register a new <see cref="UltimateChargeInitiatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IImmersiveProfessions.IEvent RegisterUltimateChargeInitiatedEvent(Action<object, IImmersiveProfessions.IUltimateChargeInitiatedEventArgs> callback, bool enable = true);
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IImmersiveProfessions.IEvent RegisterUltimateChargeInitiatedEvent(Action<object, IImmersiveProfessions.IUltimateChargeInitiatedEventArgs> callback, bool hook = true);
 
-    /// <summary>Register a new <see cref="IImmersiveProfessions.UltimateChargeIncreasedEvent"/> instance.</summary>
+    /// <summary>Register a new <see cref="UltimateChargeIncreasedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IImmersiveProfessions.IEvent RegisterUltimateChargeIncreasedEvent(Action<object, IImmersiveProfessions.IUltimateChargeIncreasedEventArgs> callback, bool enable = true);
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IImmersiveProfessions.IEvent RegisterUltimateChargeIncreasedEvent(Action<object, IImmersiveProfessions.IUltimateChargeIncreasedEventArgs> callback, bool hook = true);
 
-    /// <summary>Register a new <see cref="IImmersiveProfessions.UltimateFullyChargedEvent"/> instance.</summary>
+    /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IImmersiveProfessions.IEvent RegisterUltimateFullyChargedEvent(Action<object, IImmersiveProfessions.IUltimateFullyChargedEventArgs> callback, bool enable = true);
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IImmersiveProfessions.IEvent RegisterUltimateFullyChargedEvent(Action<object, IImmersiveProfessions.IUltimateFullyChargedEventArgs> callback, bool hook = true);
 
-    /// <summary>Register a new <see cref="IImmersiveProfessions.UltimateEmptiedEvent"/> instance.</summary>
+    /// <summary>Register a new <see cref="UltimateEmptiedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    public IImmersiveProfessions.IEvent RegisterUltimateEmptiedEvent(Action<object, IImmersiveProfessions.IUltimateEmptiedEventArgs> callback,bool enable = true);
+    /// <param name="hook">Whether to immediately hook the event.</param>
+    public IImmersiveProfessions.IEvent RegisterUltimateEmptiedEvent(Action<object, IImmersiveProfessions.IUltimateEmptiedEventArgs> callback,bool hook = true);
 
     #endregion ultimate
 

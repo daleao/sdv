@@ -12,6 +12,8 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
 using Extensions;
 
 #endregion using directives
@@ -22,7 +24,7 @@ internal sealed class LevelUpMenuRevalidateHealthPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuRevalidateHealthPatch()
     {
-        Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.RevalidateHealth));
+        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.RevalidateHealth));
     }
 
     #region harmony patches

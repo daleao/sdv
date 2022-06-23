@@ -7,8 +7,9 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Monsters;
 
+using DaLion.Common.Harmony;
 using Extensions;
-using Ultimate;
+using Ultimates;
 
 #endregion using directives
 
@@ -20,7 +21,7 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeCollisionWithFarmerBehaviorPatch()
     {
-        Original = RequireMethod<GreenSlime>(nameof(GreenSlime.collisionWithFarmerBehavior));
+        Target = RequireMethod<GreenSlime>(nameof(GreenSlime.collisionWithFarmerBehavior));
     }
 
     #region harmony patches

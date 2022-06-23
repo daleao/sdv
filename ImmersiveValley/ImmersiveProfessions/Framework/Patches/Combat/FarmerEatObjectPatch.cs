@@ -6,6 +6,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common.Harmony;
+
 #endregion using directives
 
 [UsedImplicitly]
@@ -14,7 +16,7 @@ internal sealed class FarmerEatObjectPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal FarmerEatObjectPatch()
     {
-        Original = RequireMethod<Farmer>(nameof(Farmer.eatObject));
+        Target = RequireMethod<Farmer>(nameof(Farmer.eatObject));
     }
 
     #region harmony patches

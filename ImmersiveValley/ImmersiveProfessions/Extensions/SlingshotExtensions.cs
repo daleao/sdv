@@ -15,7 +15,7 @@ public static class SlingshotExtensions
 {
     /// <summary>Determines the extra power of Desperado shots.</summary>
     /// <param name="who">The player who is firing the instance.</param>
-    /// <returns>Returns a percentage between 0 and 1.</returns>
+    /// <returns>A percentage between 0 and 1.</returns>
     public static float GetDesperadoOvercharge(this Slingshot slingshot, Farmer who)
     {
         if (slingshot.pullStartTime < 0.0) return 0f;

@@ -12,6 +12,8 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -21,14 +23,17 @@ using Extensions;
 [UsedImplicitly]
 internal sealed class BushMachineGetOutputPatch : BasePatch
 {
-    [CanBeNull] private static MethodInfo _GetMachine;
+    private delegate Bush GetMachineDelegate(object instance);
+
+    private static GetMachineDelegate _GetMachine;
 
     /// <summary>Construct an instance.</summary>
     internal BushMachineGetOutputPatch()
     {
         try
         {
-            Original = "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine".ToType().RequireMethod("GetOutput");
+            Target = "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine".ToType()
+                .RequireMethod("GetOutput");
         }
         catch
         {
@@ -44,13 +49,13 @@ internal sealed class BushMachineGetOutputPatch : BasePatch
     {
         if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine");
-        var machine = (Bush) _GetMachine!.Invoke(__instance, null);
-        if (machine is null || machine.size.Value >= Bush.greenTeaBush) return;
+        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CreateDelegate<GetMachineDelegate>();
+        var machine = _GetMachine(__instance);
+        if (machine.size.Value >= Bush.greenTeaBush) return;
 
         if (!Context.IsMainPlayer || !Game1.player.HasProfession(Profession.Ecologist)) return;
 
-        Game1.player.IncrementData<uint>(ModData.EcologistItemsForaged);
+        ModDataIO.IncrementData<uint>(Game1.player, ModData.EcologistItemsForaged.ToString());
     }
 
     /// <summary>Patch for automated Berry Bush quality.</summary>
@@ -83,7 +88,6 @@ internal sealed class BushMachineGetOutputPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while patching automated Berry Bush quality.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

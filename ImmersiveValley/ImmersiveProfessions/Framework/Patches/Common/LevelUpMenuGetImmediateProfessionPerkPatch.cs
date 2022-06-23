@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+﻿using DaLion.Common.Data;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Common;
 
 #region using directives
 
@@ -14,11 +16,11 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Events.Content;
 using Events.GameLoop;
-using Extensions;
-using Ultimate;
+using Ultimates;
 
 #endregion using directives
 
@@ -28,7 +30,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuGetImmediateProfessionPerkPatch()
     {
-        Original = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getImmediateProfessionPerk));
+        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getImmediateProfessionPerk));
     }
 
     #region harmony patches
@@ -54,7 +56,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
                 pond.UpdateMaximumOccupancy();
 
         // subscribe events
-        EventManager.EnableAllForProfession(profession);
+        ModEntry.EventManager.HookForProfession(profession);
         if (!Context.IsMainPlayer)
         {
             // request the main player
@@ -63,10 +65,9 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
             else if (profession == Profession.Conservationist)
                 ModEntry.Broadcaster.Message("Conservationism", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
         }
-        else
+        else if (profession == Profession.Conservationist)
         {
-            if (profession == Profession.Aquarist) EventManager.Enable(typeof(HostFishPondDataRequestedEvent));
-            else if (profession == Profession.Conservationist) EventManager.Enable(typeof(HostConservationismDayEndingEvent));
+            ModEntry.EventManager.Hook<HostConservationismDayEndingEvent>();
         }
 
         if (whichProfession is < 26 or >= 30 || ModEntry.PlayerState.RegisteredUltimate is not null) return;
@@ -83,7 +84,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
                 UltimateIndex.PiperPandemic => new Enthrall(),
                 UltimateIndex.DesperadoBlossom => new DeathBlossom()
             };
-        Game1.player.WriteData(ModData.UltimateIndex, newIndex.ToString());
+        ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), newIndex.ToString());
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>
@@ -107,7 +108,6 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

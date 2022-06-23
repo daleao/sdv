@@ -11,6 +11,8 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 
+using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -23,7 +25,7 @@ internal sealed class GeodeMenuUpdatePatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GeodeMenuUpdatePatch()
     {
-        Original = RequireMethod<GeodeMenu>(nameof(GeodeMenu.update));
+        Target = RequireMethod<GeodeMenu>(nameof(GeodeMenu.update));
     }
 
     #region harmony patches
@@ -54,7 +56,8 @@ internal sealed class GeodeMenuUpdatePatch : BasePatch
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldstr, ModData.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IncrementData), new[] {typeof(Farmer), typeof(ModData)})
+                        typeof(ModDataIO)
+                            .RequireMethod(nameof(ModDataIO.IncrementData), new[] {typeof(Farmer), typeof(string)})
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
@@ -62,7 +65,6 @@ internal sealed class GeodeMenuUpdatePatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while adding Gemologist counter increment.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

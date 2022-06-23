@@ -10,6 +10,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 
@@ -21,7 +22,7 @@ internal sealed class GameLocationOnStoneDestroyedPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GameLocationOnStoneDestroyedPatch()
     {
-        Original = RequireMethod<GameLocation>(nameof(GameLocation.OnStoneDestroyed));
+        Target = RequireMethod<GameLocation>(nameof(GameLocation.OnStoneDestroyed));
     }
 
     #region harmony patches
@@ -48,7 +49,6 @@ internal sealed class GameLocationOnStoneDestroyedPatch : BasePatch
         catch (Exception ex)
         {
             Log.E($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
-            transpilationFailed = true;
             return null;
         }
 

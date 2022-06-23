@@ -9,8 +9,10 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Monsters;
 
-using Extensions;
-using Ultimate;
+using DaLion.Common;
+using DaLion.Common.Data;
+using DaLion.Common.Harmony;
+using Ultimates;
 
 #endregion using directives
 
@@ -20,7 +22,7 @@ internal sealed class NPCWithinPlayerThresholdPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal NPCWithinPlayerThresholdPatch()
     {
-        Original = RequireMethod<NPC>(nameof(NPC.withinPlayerThreshold), new[] {typeof(int)});
+        Target = RequireMethod<NPC>(nameof(NPC.withinPlayerThreshold), new[] {typeof(int)});
     }
 
     #region harmony patch
@@ -33,7 +35,7 @@ internal sealed class NPCWithinPlayerThresholdPatch : BasePatch
         {
             if (__instance is not Monster) return true; // run original method
 
-            var player = Game1.getFarmer(__instance.ReadDataAs("Target", Game1.player.UniqueMultiplayerID));
+            var player = Game1.getFarmer(ModDataIO.ReadDataAs(__instance, "Target", Game1.player.UniqueMultiplayerID));
             if (!player.IsLocalPlayer || ModEntry.PlayerState.RegisteredUltimate is not Ambush {IsActive: true})
                 return true; // run original method
 

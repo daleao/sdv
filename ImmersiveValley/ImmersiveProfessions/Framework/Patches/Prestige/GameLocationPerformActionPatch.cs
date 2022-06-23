@@ -9,6 +9,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
 using Events.GameLoop;
 using Extensions;
 
@@ -20,7 +22,7 @@ internal sealed class GameLocationPerformActionPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal GameLocationPerformActionPatch()
     {
-        Original = RequireMethod<GameLocation>(nameof(GameLocation.performAction));
+        Target = RequireMethod<GameLocation>(nameof(GameLocation.performAction));
     }
 
     #region harmony patches
@@ -37,7 +39,7 @@ internal sealed class GameLocationPerformActionPatch : BasePatch
         {
             string message;
             if (!ModEntry.Config.AllowPrestigeMultiplePerDay &&
-                (EventManager.Get<PrestigeDayEndingEvent>().IsEnabled ||
+                (ModEntry.EventManager.Get<PrestigeDayEndingEvent>()?.IsHooked == true ||
                  ModEntry.PlayerState.UsedDogStatueToday))
             {
                 message = ModEntry.i18n.Get("prestige.dogstatue.dismiss");

@@ -6,7 +6,8 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
 
-using Ultimate;
+using DaLion.Common.Harmony;
+using Ultimates;
 
 #endregion using directives
 
@@ -16,7 +17,7 @@ internal sealed class DustSpiritBehaviorAtGameTickPatch : BasePatch
     /// <summary>Construct an instance.</summary>
     internal DustSpiritBehaviorAtGameTickPatch()
     {
-        Original = RequireMethod<DustSpirit>(nameof(DustSpirit.behaviorAtGameTick));
+        Target = RequireMethod<DustSpirit>(nameof(DustSpirit.behaviorAtGameTick));
     }
 
     #region harmony patches
