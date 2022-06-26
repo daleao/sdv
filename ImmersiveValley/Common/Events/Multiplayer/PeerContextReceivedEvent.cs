@@ -19,7 +19,7 @@ internal abstract class PeerContextReceivedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnPeerContextReceived(object? sender, PeerContextReceivedEventArgs e)
     {
-        if (Hooked.Value) OnPeerContextReceivedImpl(sender, e);
+        if (IsHooked) OnPeerContextReceivedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnPeerContextReceived" />

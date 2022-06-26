@@ -208,9 +208,9 @@ public class AlchemyMenu : ItemGrabMenu
     private readonly List<Item> _availableIngredients;
 
     // other
-    private int _mouseHeldTicks;
-    private string _locale;
-    private readonly IReflectedField<Dictionary<int, double>> _iconShakeTimerField;
+    private int _mouseHeldTicks = 0;
+    private string _locale = "";
+    private readonly Dictionary<int, double> _iconShakeTimerField = new();
     internal static readonly int SpriteId = (int)Game1.player.UniqueMultiplayerID + 7070707;
 
     #endregion instance fields
@@ -219,7 +219,7 @@ public class AlchemyMenu : ItemGrabMenu
 
     private IEnumerable<Formula> _AllFormulae => ModEntry.PlayerState.KnownFormulae;
     private IEnumerable<Formula> _AbleToMix => _AllFormulae.Where(formula => formula.CanMix(_availableIngredients));
-    private Formula _SelectedFormula => _selectedFormulaIndex < _displayedFormulae.Count ? _displayedFormulae[_selectedFormulaIndex] : null;
+    private Formula? _SelectedFormula => _selectedFormulaIndex < _displayedFormulae.Count ? _displayedFormulae[_selectedFormulaIndex] : null;
     private bool _ReadyToMix => _SelectedFormula?.CanMix() == true;
 
     private static bool _UsingGridView

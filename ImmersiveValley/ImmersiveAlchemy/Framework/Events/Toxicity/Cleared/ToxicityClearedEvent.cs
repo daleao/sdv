@@ -8,6 +8,7 @@ using Common.Events;
 
 #endregion using directives
 
+/// <summary>A dynamic event raised when a player's Toxicity value drops back to zero.</summary>
 internal class ToxicityClearedEvent : ManagedEvent
 {
     protected readonly Action<object?, IToxicityClearedEventArgs> _OnChargeInitiatedImpl;
@@ -25,6 +26,6 @@ internal class ToxicityClearedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnCleared(object? sender, IToxicityClearedEventArgs e)
     {
-        if (Hooked.Value) _OnChargeInitiatedImpl(sender, e);
+        if (IsHooked) _OnChargeInitiatedImpl(sender, e);
     }
 }

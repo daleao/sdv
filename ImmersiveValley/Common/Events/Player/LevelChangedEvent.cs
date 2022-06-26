@@ -19,7 +19,7 @@ internal abstract class LevelChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnLevelChanged(object? sender, LevelChangedEventArgs e)
     {
-        if (Hooked.Value) OnLevelChangedImpl(sender, e);
+        if (IsHooked) OnLevelChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnLevelChanged" />

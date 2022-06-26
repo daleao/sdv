@@ -19,7 +19,7 @@ internal abstract class TimeChangedEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnTimeChanged(object? sender, TimeChangedEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnTimeChangedImpl(sender, e);
+        if (IsHooked) OnTimeChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnTimeChanged" />

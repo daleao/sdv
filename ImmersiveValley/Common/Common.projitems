@@ -62,9 +62,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\SavingEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\UpdateTickedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Player\WarpedEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Specialised\UnvalidatedUpdateTickingEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Specialised\UnvalidatedUpdateTickedEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Specialised\LoadStageChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Specialized\UnvalidatedUpdateTickingEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Specialized\UnvalidatedUpdateTickedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Specialized\LoadStageChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\World\TerrainFeatureListChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\World\ObjectListChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\World\NpcListChangedEvent.cs" />

@@ -1,4 +1,5 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.Display;
+﻿#if DEBUG
+namespace DaLion.Stardew.Professions.Framework.Events.Display;
 
 #region using directives
 
@@ -55,3 +56,4 @@ internal sealed class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
         }
     }
 }
+#endif

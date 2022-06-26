@@ -6,6 +6,7 @@ using StardewValley;
 
 #endregion using directives
 
+/// <summary>Interface for the arguments of an <see cref="UltimateChargeInitiatedEvent"/>.</summary>
 public interface IUltimateChargeInitiatedEventArgs
 {
     /// <summary>The player who triggered the event.</summary>

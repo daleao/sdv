@@ -64,6 +64,7 @@ internal class EventManager
 
         #region hookers
 
+        // content
         foreach (var @event in ManagedEvents.OfType<AssetReadyEvent>())
             modEvents.Content.AssetReady += @event.OnAssetReady;
 
@@ -76,7 +77,7 @@ internal class EventManager
         foreach (var @event in ManagedEvents.OfType<LocaleChangedEvent>())
             modEvents.Content.LocaleChanged += @event.OnLocaleChanged;
 
-
+        // display
         foreach (var @event in ManagedEvents.OfType<MenuChangedEvent>())
             modEvents.Display.MenuChanged += @event.OnMenuChanged;
 
@@ -100,8 +101,8 @@ internal class EventManager
 
         foreach (var @event in ManagedEvents.OfType<WindowResizedEvent>())
             modEvents.Display.WindowResized += @event.OnWindowResized;
-
-
+        
+        // game loop
         foreach (var @event in ManagedEvents.OfType<DayEndingEvent>())
             modEvents.GameLoop.DayEnding += @event.OnDayEnding;
 
@@ -141,7 +142,7 @@ internal class EventManager
         foreach (var @event in ManagedEvents.OfType<UpdateTickingEvent>())
             modEvents.GameLoop.UpdateTicking += @event.OnUpdateTicking;
 
-
+        // input
         foreach (var @event in ManagedEvents.OfType<ButtonPressedEvent>())
             modEvents.Input.ButtonPressed += @event.OnButtonPressed;
 
@@ -157,7 +158,7 @@ internal class EventManager
         foreach (var @event in ManagedEvents.OfType<MouseWheelScrolledEvent>())
             modEvents.Input.MouseWheelScrolled += @event.OnMouseWheelScrolled;
 
-
+        // multiplayer
         foreach (var @event in ManagedEvents.OfType<ModMessageReceivedEvent>())
             modEvents.Multiplayer.ModMessageReceived += @event.OnModMessageReceived;
 
@@ -170,7 +171,7 @@ internal class EventManager
         foreach (var @event in ManagedEvents.OfType<PeerDisconnectedEvent>())
             modEvents.Multiplayer.PeerDisconnected += @event.OnPeerDisconnected;
 
-
+        // player
         foreach (var @event in ManagedEvents.OfType<InventoryChangedEvent>())
             modEvents.Player.InventoryChanged += @event.OnInventoryChanged;
 
@@ -180,17 +181,7 @@ internal class EventManager
         foreach (var @event in ManagedEvents.OfType<WarpedEvent>())
             modEvents.Player.Warped += @event.OnWarped;
 
-
-        foreach (var @event in ManagedEvents.OfType<LoadStageChangedEvent>())
-            modEvents.Specialized.LoadStageChanged += @event.OnLoadStageChanged;
-
-        foreach (var @event in ManagedEvents.OfType<UnvalidatedUpdateTickedEvent>())
-            modEvents.Specialized.UnvalidatedUpdateTicked += @event.OnUnvalidatedUpdateTicked;
-
-        foreach (var @event in ManagedEvents.OfType<UnvalidatedUpdateTickingEvent>())
-            modEvents.Specialized.UnvalidatedUpdateTicking += @event.OnUnvalidatedUpdateTicking;
-
-
+        // world
         foreach (var @event in ManagedEvents.OfType<BuildingListChangedEvent>())
             modEvents.World.BuildingListChanged += @event.OnBuildingListChanged;
 
@@ -217,6 +208,16 @@ internal class EventManager
 
         foreach (var @event in ManagedEvents.OfType<TerrainFeatureListChangedEvent>())
             modEvents.World.TerrainFeatureListChanged += @event.OnTerrainFeatureListChanged;
+
+        // specialized
+        foreach (var @event in ManagedEvents.OfType<LoadStageChangedEvent>())
+            modEvents.Specialized.LoadStageChanged += @event.OnLoadStageChanged;
+
+        foreach (var @event in ManagedEvents.OfType<UnvalidatedUpdateTickedEvent>())
+            modEvents.Specialized.UnvalidatedUpdateTicked += @event.OnUnvalidatedUpdateTicked;
+
+        foreach (var @event in ManagedEvents.OfType<UnvalidatedUpdateTickingEvent>())
+            modEvents.Specialized.UnvalidatedUpdateTicking += @event.OnUnvalidatedUpdateTicking;
 
         #endregion hookers
 
@@ -289,12 +290,6 @@ internal class EventManager
     {
         foreach (var type in eventTypes)
         {
-            if (type.Name.StartsWith("Static"))
-            {
-                Log.D($"[EventManager]: {type.Name} is a static event and cannot be unhooked.");
-                continue;
-            }
-
             if (!type.IsAssignableTo(typeof(IManagedEvent)) || type.IsAbstract)
             {
                 Log.D($"[EventManager]: {type.Name} is not a valid event type.");
@@ -326,6 +321,19 @@ internal class EventManager
         Log.D($"Hooked {toHook.Length} events.");
     }
 
+    /// <summary>Unhook all <see cref="IManagedEvent"/>s in the assembly.</summary>
+    /// <param name="except">Types to be excluded, if any.</param>
+    internal void UnhookAll(params Type[] except)
+    {
+        Log.D($"[EventManager]: Unhooking all events...");
+        var toUnhook = ManagedEvents
+            .Select(e => e.GetType())
+            .Except(except)
+            .ToArray();
+        Hook(toUnhook);
+        Log.D($"Unhooked {toUnhook.Length} events.");
+    }
+
     /// <summary>Unhook all <see cref="IManagedEvent"/> types starting with the specified prefix.</summary>
     /// <param name="prefix">A <see cref="string"/> prefix.</param>
     /// <param name="except">Types to be excluded, if any.</param>
@@ -339,19 +347,6 @@ internal class EventManager
             .ToArray();
         Hook(toHook);
         Log.D($"Hooked {toHook.Length} events.");
-    }
-
-    /// <summary>Unhook all <see cref="IManagedEvent"/>s in the assembly.</summary>
-    /// <param name="except">Types to be excluded, if any.</param>
-    internal void UnhookAll(params Type[] except)
-    {
-        Log.D($"[EventManager]: Unhooking all events...");
-        var toUnhook = ManagedEvents
-            .Select(e => e.GetType())
-            .Except(except)
-            .ToArray();
-        Hook(toUnhook);
-        Log.D($"Unhooked {toUnhook.Length} events.");
     }
 
     /// <summary>Unhook all <see cref="IManagedEvent"/> types starting with the specified prefix.</summary>
@@ -381,8 +376,7 @@ internal class EventManager
         var toUnhook = ManagedEvents
             .Select(e => e.GetType())
             .Where(t => !t.IsAssignableToAnyOf(typeof(GameLaunchedEvent), typeof(SaveCreatedEvent),
-                    typeof(SaveCreatingEvent), typeof(SaveLoadedEvent), typeof(ReturnedToTitleEvent)) &&
-                !t.Name.StartsWith("Debug") && !t.Name.StartsWith("Static"))
+                    typeof(SaveCreatingEvent), typeof(SaveLoadedEvent), typeof(ReturnedToTitleEvent)))
             .ToArray();
         Unhook(toUnhook);
         Log.D($"[EventManager]: Unhooked {toUnhook.Length} events.");

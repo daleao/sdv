@@ -19,7 +19,7 @@ internal abstract class InventoryChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnInventoryChanged(object? sender, InventoryChangedEventArgs e)
     {
-        if (Hooked.Value) OnInventoryChangedImpl(sender, e);
+        if (IsHooked) OnInventoryChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnInventoryChanged" />

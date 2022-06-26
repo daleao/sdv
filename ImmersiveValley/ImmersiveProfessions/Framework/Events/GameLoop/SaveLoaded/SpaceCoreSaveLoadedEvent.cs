@@ -21,7 +21,7 @@ internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
     internal SpaceCoreSaveLoadedEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.SpaceCore")) Hook();
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.SpaceCore")) AlwaysHooked = true;
     }
 
     /// <inheritdoc />

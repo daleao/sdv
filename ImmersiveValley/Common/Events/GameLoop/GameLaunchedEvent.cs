@@ -19,7 +19,7 @@ internal abstract class GameLaunchedEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnGameLaunchedImpl(sender, e);
+        if (IsHooked) OnGameLaunchedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnGameLaunched" />

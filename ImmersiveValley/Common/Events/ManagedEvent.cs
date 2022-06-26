@@ -11,11 +11,14 @@ using StardewModdingAPI.Utilities;
 /// <summary>Base implementation of an event wrapper allowing dynamic hooking / unhooking.</summary>
 internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
 {
+    /// <summary>Whether this event is hooked on each screen.</summary>
+    private readonly PerScreen<bool> _Hooked = new();
+
     /// <summary>The <see cref="EventManager"/> instance that manages this event.</summary>
     protected EventManager Manager { get; init; }
-
-    /// <summary>Whether this event is hooked on each screen.</summary>
-    protected readonly PerScreen<bool> Hooked = new();
+    
+    /// <summary>Allow this event to be raised even when unhooked.</summary>
+    protected bool AlwaysHooked { get; init; } = false;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
@@ -25,24 +28,24 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     }
 
     /// <inheritdoc />
-    public bool IsHooked => Hooked.Value;
+    public bool IsHooked => _Hooked.Value || AlwaysHooked;
 
     /// <inheritdoc />
     public bool IsHookedForScreen(int screenID)
     {
-        return Hooked.GetValueForScreen(screenID);
+        return _Hooked.GetValueForScreen(screenID);
     }
 
     /// <inheritdoc />
     public void Hook()
     {
-        Hooked.Value = true;
+        _Hooked.Value = true;
     }
 
     /// <inheritdoc />
     public void Unhook()
     {
-        Hooked.Value = false;
+        _Hooked.Value = false;
     }
 
     /// <inheritdoc />

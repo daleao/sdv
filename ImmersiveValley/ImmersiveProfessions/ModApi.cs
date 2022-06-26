@@ -25,10 +25,8 @@ public class ModAPI
 {
     /// <summary>Get the value of an Ecologist's forage quality.</summary>
     /// <param name="farmer">The player.</param>
-    public int GetEcologistForageQuality(Farmer farmer)
-    {
-        return farmer.HasProfession(Profession.Ecologist) ? farmer.GetEcologistForageQuality() : SObject.lowQuality;
-    }
+    public int GetEcologistForageQuality(Farmer farmer) =>
+        farmer.HasProfession(Profession.Ecologist) ? farmer.GetEcologistForageQuality() : SObject.lowQuality;
 
     /// <summary>Get the value of a Gemologist's mineral quality.</summary>
     /// <param name="farmer">The player.</param>
@@ -39,40 +37,33 @@ public class ModAPI
 
     /// <summary>Get the value of the a Conservationist's projected tax deduction based on current season's trash collection.</summary>
     /// <param name="farmer">The player.</param>
-    public float GetConservationistProjectedTaxBonus(Farmer farmer)
-    {
+    public float GetConservationistProjectedTaxBonus(Farmer farmer) =>
         // ReSharper disable once PossibleLossOfFraction
-        return ModDataIO.ReadDataAs<int>(farmer, ModData.ConservationistTrashCollectedThisSeason.ToString()) /
+        ModDataIO.ReadDataAs<int>(farmer, ModData.ConservationistTrashCollectedThisSeason.ToString()) /
                ModEntry.Config.TrashNeededPerTaxBonusPct / 100f;
-    }
 
     /// <summary>Get the value of the a Conservationist's effective tax deduction based on the preceding season's trash collection.</summary>
     /// <param name="farmer">The player.</param>
-    public float GetConservationistEffectiveTaxBonus(Farmer farmer)
-    {
-        return farmer.GetConservationistPriceMultiplier() - 1f;
-    }
+    public float GetConservationistEffectiveTaxBonus(Farmer farmer) =>
+        farmer.GetConservationistPriceMultiplier() - 1f;
 
     #region tresure hunts
 
     /// <inheritdoc cref="ITreasureHunt.IsActive"/>
     /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
-    public bool IsHuntActive(string type)
-    {
-        return type.ToLowerInvariant() switch
+    public bool IsHuntActive(string type) =>
+        type.ToLowerInvariant() switch
         {
             "prospector" => ModEntry.PlayerState.ProspectorHunt.IsActive,
             "scavenger" => ModEntry.PlayerState.ScavengerHunt.IsActive,
             _ => throw new ArgumentException(
                 $"{type} is not a valid Treasure Hunt type. Should be either Prospector or Scavenger.")
         };
-    }
 
     /// <inheritdoc cref="ITreasureHunt.TryStart"/>
     /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
-    public bool TryStartNewHunt(GameLocation location, string type)
-    {
-        return type.ToLowerInvariant() switch
+    public bool TryStartNewHunt(GameLocation location, string type) =>
+        type.ToLowerInvariant() switch
         {
             "prospector" => Game1.player.HasProfession(Profession.Prospector) &&
                             ModEntry.PlayerState.ProspectorHunt.TryStart(location),
@@ -81,7 +72,6 @@ public class ModAPI
             _ => throw new ArgumentException(
                 $"{type} is not a valid Treasure Hunt type. Should be either Prospector or Scavenger.")
         };
-    }
 
     /// <inheritdoc cref="ITreasureHunt.ForceStart"/>
     /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
@@ -152,16 +142,12 @@ public class ModAPI
     #region ultimate
 
     /// <summary>Get the local player's currently registered combat Ultimate.</summary>
-    public IUltimate? GetRegisteredUltimate()
-    {
-        return ModEntry.PlayerState.RegisteredUltimate;
-    }
+    public IUltimate? GetRegisteredUltimate() =>
+        ModEntry.PlayerState.RegisteredUltimate;
 
     /// <summary>Check whether the <see cref="UltimateHUD"/> is currently visible.</summary>
-    public bool IsShowingUltimateMeter()
-    {
-        return ModEntry.PlayerState.RegisteredUltimate?.Hud.IsVisible ?? false;
-    }
+    public bool IsShowingUltimateMeter() =>
+        ModEntry.PlayerState.RegisteredUltimate?.Hud.IsVisible ?? false;
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
@@ -240,10 +226,7 @@ public class ModAPI
     #region configs
 
     /// <summary>Get an interface for this mod's config settings.</summary>
-    public JObject GetConfigs()
-    {
-        return new(ModEntry.Config);
-    }
+    public ModConfig GetConfigs() => ModEntry.Config;
 
     #endregion configs
 }

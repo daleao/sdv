@@ -19,7 +19,7 @@ internal abstract class SavingEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnSaving(object? sender, SavingEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnSavingImpl(sender, e);
+        if (IsHooked) OnSavingImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnSaving" />

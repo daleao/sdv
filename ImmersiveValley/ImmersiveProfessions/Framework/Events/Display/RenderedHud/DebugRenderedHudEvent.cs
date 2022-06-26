@@ -1,4 +1,5 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.Display;
+﻿#if DEBUG
+namespace DaLion.Stardew.Professions.Framework.Events.Display;
 
 #region using directives
 
@@ -43,3 +44,4 @@ internal sealed class DebugRenderedHudEvent : RenderedHudEvent
         e.SpriteBatch.DrawString(Game1.dialogueFont, $"Location: {Game1.player.currentLocation.NameOrUniqueName}", new(32f, 166f), Color.White);
     }
 }
+#endif

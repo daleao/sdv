@@ -18,7 +18,10 @@ internal sealed class StaticAssetsInvalidatedEvent : AssetsInvalidatedEvent
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal StaticAssetsInvalidatedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+        AlwaysHooked = true;
+    }
 
     /// <inheritdoc />
     protected override void OnAssetsInvalidatedImpl(object? sender, AssetsInvalidatedEventArgs e)

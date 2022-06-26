@@ -8,6 +8,7 @@ using Common.Events;
 
 #endregion using directives
 
+/// <summary>A dynamic event raised when a <see cref="TreasureHunts.ITreasureHunt"> ends.</summary>
 internal sealed class TreasureHuntEndedEvent : ManagedEvent
 {
     private readonly Action<object?, ITreasureHuntEndedEventArgs> _OnEndedImpl;
@@ -20,11 +21,11 @@ internal sealed class TreasureHuntEndedEvent : ManagedEvent
         _OnEndedImpl = callback;
     }
 
-    /// <summary>Raised when a Treasure Hunt ends.</summary>
+    /// <summary>Raised when a <see cref="TreasureHunts.ITreasureHunt"> ends.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnEnded(object? sender, ITreasureHuntEndedEventArgs e)
     {
-        if (Hooked.Value) _OnEndedImpl(sender, e);
+        if (IsHooked) _OnEndedImpl(sender, e);
     }
 }

@@ -8,6 +8,7 @@ using Common.Events;
 
 #endregion using directives
 
+/// <summary>A dynamic event raised when a <see cref="Ultimates.IUltimate"> reaches the maximum charge value.</summary>
 internal sealed class UltimateFullyChargedEvent : ManagedEvent
 {
     private readonly Action<object?, IUltimateFullyChargedEventArgs> _OnFullyChargedImpl;
@@ -20,11 +21,11 @@ internal sealed class UltimateFullyChargedEvent : ManagedEvent
         _OnFullyChargedImpl = callback;
     }
 
-    /// <summary>Raised when the local player's ultimate charge value reaches max value.</summary>
+    /// <summary>Raised when the local player's <see cref="Ultimates.IUltimate"/> charge value reaches max value.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnFullyCharged(object? sender, IUltimateFullyChargedEventArgs e)
     {
-        if (Hooked.Value) _OnFullyChargedImpl(sender, e);
+        if (IsHooked) _OnFullyChargedImpl(sender, e);
     }
 }

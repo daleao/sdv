@@ -19,7 +19,7 @@ internal abstract class AssetsInvalidatedEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnAssetsInvalidated(object? sender, AssetsInvalidatedEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnAssetsInvalidatedImpl(sender, e);
+        if (IsHooked) OnAssetsInvalidatedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnAssetsInvalidated" />

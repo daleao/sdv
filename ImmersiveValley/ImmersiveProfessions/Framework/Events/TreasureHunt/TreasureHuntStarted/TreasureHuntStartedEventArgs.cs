@@ -10,6 +10,7 @@ using TreasureHunts;
 
 #endregion using directives
 
+/// <summary>The arguments for a <see cref="TreasureHuntStartedEvent"/>.</summary>
 public sealed class TreasureHuntStartedEventArgs : EventArgs, ITreasureHuntStartedEventArgs
 {
     /// <inheritdoc />

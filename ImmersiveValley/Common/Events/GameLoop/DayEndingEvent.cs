@@ -19,7 +19,7 @@ internal abstract class DayEndingEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnDayEnding(object? sender, DayEndingEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnDayEndingImpl(sender, e);
+        if (IsHooked) OnDayEndingImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnDayEnding" />

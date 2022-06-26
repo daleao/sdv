@@ -19,7 +19,7 @@ internal abstract class WarpedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnWarped(object? sender, WarpedEventArgs e)
     {
-        if (Hooked.Value) OnWarpedImpl(sender, e);
+        if (IsHooked) OnWarpedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnWarped" />

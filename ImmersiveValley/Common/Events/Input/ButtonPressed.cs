@@ -19,7 +19,7 @@ internal abstract class ButtonPressedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
     {
-        if (Hooked.Value) OnButtonPressedImpl(sender, e);
+        if (IsHooked) OnButtonPressedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnButtonPressed" />

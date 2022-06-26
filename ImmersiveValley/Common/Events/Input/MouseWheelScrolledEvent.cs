@@ -19,7 +19,7 @@ internal abstract class MouseWheelScrolledEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnMouseWheelScrolled(object? sender, MouseWheelScrolledEventArgs e)
     {
-        if (Hooked.Value) OnMouseWheelScrolledImpl(sender, e);
+        if (IsHooked) OnMouseWheelScrolledImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnMouseWheelScrolled" />

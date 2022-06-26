@@ -8,6 +8,7 @@ using Common.Events;
 
 #endregion using directives
 
+/// <summary>A dynamic event raised when a <see cref="Ultimates.IUltimate"> is gains any charge while it was previously empty.</summary>
 internal sealed class UltimateChargeInitiatedEvent : ManagedEvent
 {
     private readonly Action<object?, IUltimateChargeInitiatedEventArgs> _OnChargeInitiatedImpl;
@@ -20,11 +21,11 @@ internal sealed class UltimateChargeInitiatedEvent : ManagedEvent
         _OnChargeInitiatedImpl = callback;
     }
 
-    /// <summary>Raised when a player's combat Ultimate gains any charge while it was previously empty.</summary>
+    /// <summary>Raised when a player's combat <see cref="Ultimates.IUltimate"/> gains any charge while it was previously empty.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnChargeInitiated(object? sender, IUltimateChargeInitiatedEventArgs e)
     {
-        if (Hooked.Value) _OnChargeInitiatedImpl(sender, e);
+        if (IsHooked) _OnChargeInitiatedImpl(sender, e);
     }
 }

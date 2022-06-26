@@ -19,7 +19,7 @@ internal abstract class CursorMovedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnCursorMoved(object? sender, CursorMovedEventArgs e)
     {
-        if (Hooked.Value) OnCursorMovedImpl(sender, e);
+        if (IsHooked) OnCursorMovedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnCursorMoved" />

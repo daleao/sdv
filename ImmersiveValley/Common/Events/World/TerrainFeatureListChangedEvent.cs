@@ -19,7 +19,7 @@ internal abstract class TerrainFeatureListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnTerrainFeatureListChanged(object? sender, TerrainFeatureListChangedEventArgs e)
     {
-        if (Hooked.Value) OnTerrainFeatureListChangedImpl(sender, e);
+        if (IsHooked) OnTerrainFeatureListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnTerrainFeatureListChanged" />

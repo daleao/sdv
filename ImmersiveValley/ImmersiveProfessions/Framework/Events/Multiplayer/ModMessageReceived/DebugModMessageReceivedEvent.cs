@@ -1,4 +1,5 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+﻿#if DEBUG
+namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 #region using directives
 
@@ -58,3 +59,4 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
         }
     }
 }
+#endif

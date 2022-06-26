@@ -8,6 +8,7 @@ using Common.Events;
 
 #endregion using directives
 
+/// <summary>A dynamic event raised when a <see cref="Ultimates.IUltimate"> is activated.</summary>
 internal sealed class UltimateActivatedEvent : ManagedEvent
 {
     private readonly Action<object?, IUltimateActivatedEventArgs> _OnActivatedImpl;
@@ -20,11 +21,11 @@ internal sealed class UltimateActivatedEvent : ManagedEvent
         _OnActivatedImpl = callback;
     }
 
-    /// <summary>Raised when a player activates their combat Ultimate.</summary>
+    /// <summary>Raised when a player activates the combat <see cref="Ultimate.IUltimate"/>.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnActivated(object? sender, IUltimateActivatedEventArgs e)
     {
-        if (Hooked.Value) _OnActivatedImpl(sender, e);
+        if (IsHooked) _OnActivatedImpl(sender, e);
     }
 }

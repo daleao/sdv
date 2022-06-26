@@ -19,7 +19,7 @@ internal abstract class DayStartedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnDayStarted(object? sender, DayStartedEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnDayStartedImpl(sender, e);
+        if (IsHooked) OnDayStartedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnDayStarted" />

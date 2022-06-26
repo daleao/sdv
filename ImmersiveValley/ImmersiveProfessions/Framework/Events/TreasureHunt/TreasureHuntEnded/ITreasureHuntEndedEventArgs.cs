@@ -8,6 +8,7 @@ using TreasureHunts;
 
 #endregion using directives
 
+/// <summary>Interface for the arguments of a <see cref="TreasureHuntEndedEvent"/>.</summary>
 public interface ITreasureHuntEndedEventArgs
 {
     /// <summary>The player who triggered the event.</summary>

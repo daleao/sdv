@@ -19,7 +19,7 @@ internal abstract class OneSecondUpdateTickingEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnOneSecondUpdateTicking(object? sender, OneSecondUpdateTickingEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnOneSecondUpdateTickingImpl(sender, e);
+        if (IsHooked) OnOneSecondUpdateTickingImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnOneSecondUpdateTicking" />

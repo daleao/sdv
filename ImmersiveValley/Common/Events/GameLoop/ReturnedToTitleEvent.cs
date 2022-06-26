@@ -19,7 +19,7 @@ internal abstract class ReturnedToTitleEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnReturnedToTitle(object? sender, ReturnedToTitleEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnReturnedToTitleImpl(sender, e);
+        if (IsHooked) OnReturnedToTitleImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnReturnedToTitle" />

@@ -19,7 +19,7 @@ internal abstract class ButtonReleasedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnButtonReleased(object? sender, ButtonReleasedEventArgs e)
     {
-        if (Hooked.Value) OnButtonReleasedImpl(sender, e);
+        if (IsHooked) OnButtonReleasedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnButtonReleased" />

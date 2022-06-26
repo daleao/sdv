@@ -19,7 +19,7 @@ internal abstract class LargeTerrainFeatureListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnLargeTerrainFeatureListChanged(object? sender, LargeTerrainFeatureListChangedEventArgs e)
     {
-        if (Hooked.Value) OnLargeTerrainFeatureListChangedImpl(sender, e);
+        if (IsHooked) OnLargeTerrainFeatureListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnLargeTerrainFeatureListChanged" />

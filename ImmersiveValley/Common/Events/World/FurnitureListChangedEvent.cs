@@ -19,7 +19,7 @@ internal abstract class FurnitureListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnFurnitureListChanged(object? sender, FurnitureListChangedEventArgs e)
     {
-        if (Hooked.Value) OnFurnitureListChangedImpl(sender, e);
+        if (IsHooked) OnFurnitureListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnFurnitureListChanged" />

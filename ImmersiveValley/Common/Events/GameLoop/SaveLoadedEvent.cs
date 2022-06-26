@@ -19,7 +19,7 @@ internal abstract class SaveLoadedEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnSaveLoaded(object? sender, SaveLoadedEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnSaveLoadedImpl(sender, e);
+        if (IsHooked) OnSaveLoadedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnSaveLoaded" />

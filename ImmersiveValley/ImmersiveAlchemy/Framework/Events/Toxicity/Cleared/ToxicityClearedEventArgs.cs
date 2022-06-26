@@ -7,6 +7,7 @@ using StardewValley;
 
 #endregion using directives
 
+/// <summary>The arguments for a <see cref="ToxicityClearedEvent"/>.</summary>
 internal class ToxicityClearedEventArgs : EventArgs, IToxicityClearedEventArgs
 {
     /// <inheritdoc />

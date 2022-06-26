@@ -19,7 +19,7 @@ internal abstract class LoadStageChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnLoadStageChanged(object? sender, LoadStageChangedEventArgs e)
     {
-        if (Hooked.Value) OnLoadStageChangedImpl(sender, e);
+        if (IsHooked) OnLoadStageChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnLoadStageChanged" />

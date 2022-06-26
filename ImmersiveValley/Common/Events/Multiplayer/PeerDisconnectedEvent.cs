@@ -19,7 +19,7 @@ internal abstract class PeerDisconnectedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnPeerDisconnected(object? sender, PeerDisconnectedEventArgs e)
     {
-        if (Hooked.Value) OnPeerDisconnectedImpl(sender, e);
+        if (IsHooked) OnPeerDisconnectedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnPeerDisconnected" />

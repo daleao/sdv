@@ -19,7 +19,7 @@ internal abstract class RenderingEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnRendering(object? sender, RenderingEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnRenderingImpl(sender, e);
+        if (IsHooked) OnRenderingImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnRendering" />

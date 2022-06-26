@@ -4,11 +4,11 @@
 
 using System;
 
-using Common.Commands;
 using Common.Events;
 
 #endregion using directives
 
+/// <summary>A dynamic event raised when a player's Toxicity value changes.</summary>
 internal class ToxicityChangedEvent : ManagedEvent
 {
     protected readonly Action<object?, IToxicityChangedEventArgs> _OnChargeInitiatedImpl;
@@ -26,6 +26,6 @@ internal class ToxicityChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnChanged(object? sender, IToxicityChangedEventArgs e)
     {
-        if (Hooked.Value) _OnChargeInitiatedImpl(sender, e);
+        if (IsHooked) _OnChargeInitiatedImpl(sender, e);
     }
 }

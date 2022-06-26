@@ -19,7 +19,7 @@ internal abstract class ModMessageReceivedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnModMessageReceived(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (Hooked.Value) OnModMessageReceivedImpl(sender, e);
+        if (IsHooked) OnModMessageReceivedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnModMessageReceived" />

@@ -8,6 +8,7 @@ using Common.Events;
 
 #endregion using directives
 
+/// <summary>A dynamic event raised when a <see cref="Ultimates.IUltimate"> charge value returns to zero.</summary>
 internal sealed class UltimateEmptiedEvent : ManagedEvent
 {
     private readonly Action<object?, IUltimateEmptiedEventArgs> _OnEmptiedImpl;
@@ -20,11 +21,11 @@ internal sealed class UltimateEmptiedEvent : ManagedEvent
         _OnEmptiedImpl = callback;
     }
 
-    /// <summary>Raised when the local player's ultimate charge value returns to zero.</summary>
+    /// <summary>Raised when the local player's <see cref="Ultimates.IUltimate"/> charge value returns to zero.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnEmptied(object? sender, IUltimateEmptiedEventArgs e)
     {
-        if (Hooked.Value) _OnEmptiedImpl(sender, e);
+        if (IsHooked) _OnEmptiedImpl(sender, e);
     }
 }

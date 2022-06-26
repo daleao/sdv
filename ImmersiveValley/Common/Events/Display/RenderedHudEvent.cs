@@ -19,7 +19,7 @@ internal abstract class RenderedHudEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnRenderedHud(object? sender, RenderedHudEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnRenderedHudImpl(sender, e);
+        if (IsHooked) OnRenderedHudImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnRenderedHud" />

@@ -19,7 +19,7 @@ internal abstract class ChestInventoryChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnChestInventoryChanged(object? sender, ChestInventoryChangedEventArgs e)
     {
-        if (Hooked.Value) OnChestInventoryChangedImpl(sender, e);
+        if (IsHooked) OnChestInventoryChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnChestInventoryChanged" />

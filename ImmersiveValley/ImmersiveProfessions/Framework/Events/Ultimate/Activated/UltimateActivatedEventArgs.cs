@@ -7,6 +7,7 @@ using StardewValley;
 
 #endregion using directives
 
+/// <summary>The arguments for an <see cref="UltimateActivatedEvent"/>.</summary>
 public sealed class UltimateActivatedEventArgs : EventArgs, IUltimateActivatedEventArgs
 {
     /// <inheritdoc />

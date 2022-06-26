@@ -19,7 +19,7 @@ internal abstract class UnvalidatedUpdateTickedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnUnvalidatedUpdateTicked(object? sender, UnvalidatedUpdateTickedEventArgs e)
     {
-        if (Hooked.Value) OnUnvalidatedUpdateTickedImpl(sender, e);
+        if (IsHooked) OnUnvalidatedUpdateTickedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnUnvalidatedUpdateTicked" />

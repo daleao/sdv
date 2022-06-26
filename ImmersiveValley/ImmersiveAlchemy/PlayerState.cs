@@ -10,7 +10,7 @@ using Framework.UI;
 
 internal class PlayerState
 {
-    internal HashSet<Formula> KnownFormulae;
+    internal HashSet<Formula>? KnownFormulae;
     internal int CauldronLevel;
 
     internal bool UsingGridView = false;

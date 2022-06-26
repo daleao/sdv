@@ -8,6 +8,7 @@ using Common.Events;
 
 #endregion using directives
 
+/// <summary>A dynamic event raised when a <see cref="TreasureHunts.ITreasureHunt"> starts.</summary>
 internal sealed class TreasureHuntStartedEvent : ManagedEvent
 {
     private readonly Action<object?, ITreasureHuntStartedEventArgs> _OnStartedImpl;
@@ -24,6 +25,6 @@ internal sealed class TreasureHuntStartedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnStarted(object? sender, ITreasureHuntStartedEventArgs e)
     {
-        if (Hooked.Value) _OnStartedImpl(sender, e);
+        if (IsHooked) _OnStartedImpl(sender, e);
     }
 }

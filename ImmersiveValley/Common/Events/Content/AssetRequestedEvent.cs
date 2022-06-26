@@ -19,7 +19,7 @@ internal abstract class AssetRequestedEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnAssetRequestedImpl(sender, e);
+        if (IsHooked) OnAssetRequestedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnAssetRequested" />

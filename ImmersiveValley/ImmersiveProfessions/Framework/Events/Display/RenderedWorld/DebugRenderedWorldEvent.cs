@@ -1,4 +1,5 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.Display;
+﻿#if DEBUG
+namespace DaLion.Stardew.Professions.Framework.Events.Display;
 
 #region using directives
 
@@ -56,3 +57,4 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
         bb.DrawBorder(_pixel, 3, Color.Red, e.SpriteBatch);
     }
 }
+#endif

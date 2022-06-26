@@ -22,7 +22,10 @@ internal sealed class StaticSavingEvent : SavingEvent
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal StaticSavingEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+        AlwaysHooked = true;
+    }
 
     /// <inheritdoc />
     protected override void OnSavingImpl(object? sender, SavingEventArgs e)

@@ -19,7 +19,7 @@ internal abstract class MenuChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnMenuChanged(object? sender, MenuChangedEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnMenuChangedImpl(sender, e);
+        if (IsHooked) OnMenuChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnMenuChanged" />

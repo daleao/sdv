@@ -19,7 +19,7 @@ internal abstract class BuildingListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnBuildingListChanged(object? sender, BuildingListChangedEventArgs e)
     {
-        if (Hooked.Value) OnBuildingListChangedImpl(sender, e);
+        if (IsHooked) OnBuildingListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnBuildingListChanged" />

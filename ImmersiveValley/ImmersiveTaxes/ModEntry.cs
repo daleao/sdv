@@ -60,6 +60,7 @@ public class ModEntry : Mod
         );
     }
 
+    /// <summary>Calculate projected income tax for the player.</summary>
     private static void DoTaxes(string command, string[] args)
     {
         if (!Context.IsWorldReady)
@@ -69,12 +70,12 @@ public class ModEntry : Mod
         }
 
         var income = ModDataIO.ReadDataAs<int>(Game1.player, ModData.SeasonIncome.ToString());
-        var deductible = ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.mariner)
-            ? ModEntry.ProfessionsAPI.GetConservationistProjectedTaxBonus(Game1.player)
+        var deductible = ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.mariner)
+            ? ProfessionsAPI.GetConservationistProjectedTaxBonus(Game1.player)
             : 0f;
-        var taxable = (int)(income * (1f - deductible));
+        var taxable = (int) (income * (1f - deductible));
         var bracket = Framework.Utils.GetTaxBracket(taxable);
-        var due = (int)Math.Round(income * bracket);
+        var due = (int) Math.Round(income * bracket);
         Log.I(
             "Accounting projections for the current season:" +
             $"\n\t- Income (season-to-date): {income}g" +

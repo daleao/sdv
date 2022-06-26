@@ -15,9 +15,7 @@ public class ModEntry : Mod
         // this will fix a likely KeyNotFoundException
         try
         {
-            var artisanGoodToSourceTypeDict = (IDictionary) AccessTools
-                .TypeByName("BetterArtisanGoodIcons.Content.ContentSourceManager")
-                .RequireField("artisanGoodToSourceType").GetValue(null)!;
+            var artisanGoodToSourceTypeDict = (IDictionary)"BetterArtisanGoodIcons.Content.ContentSourceManager".ToType().RequireField("artisanGoodToSourceType").GetValue(null)!;
             artisanGoodToSourceTypeDict.Add(Globals.MeadAsArtisanGoodEnum, "Flowers");
         }
         catch

@@ -19,7 +19,7 @@ internal abstract class LocaleChangedEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnLocaleChanged(object? sender, LocaleChangedEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnLocaleChangedImpl(sender, e);
+        if (IsHooked) OnLocaleChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnLocaleChanged" />

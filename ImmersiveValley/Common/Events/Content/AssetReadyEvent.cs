@@ -19,7 +19,7 @@ internal abstract class AssetReadyEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnAssetReady(object? sender, AssetReadyEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnAssetReadyImpl(sender, e);
+        if (IsHooked) OnAssetReadyImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnAssetReady" />

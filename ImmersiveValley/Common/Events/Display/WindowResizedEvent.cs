@@ -19,7 +19,7 @@ internal abstract class WindowResizedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnWindowResized(object? sender, WindowResizedEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnWindowResizedImpl(sender, e);
+        if (IsHooked) OnWindowResizedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnWindowResized" />

@@ -19,7 +19,7 @@ internal abstract class RenderedWorldEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnRenderedWorld(object? sender, RenderedWorldEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnRenderedWorldImpl(sender, e);
+        if (IsHooked) OnRenderedWorldImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnRenderedWorld" />

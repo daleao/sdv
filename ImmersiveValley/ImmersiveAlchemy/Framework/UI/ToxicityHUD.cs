@@ -36,7 +36,7 @@ internal class ToxicityHUD
     #region properties
 
     /// <summary>The texture that will be used to draw the gauge.</summary>
-    internal static Texture2D Texture { get; }
+    internal static Texture2D? Texture { get; }
 
     /// <summary>Whether the gauge is being drawn.</summary>
     internal bool IsVisible { get; }

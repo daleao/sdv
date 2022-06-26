@@ -8,6 +8,7 @@ using Common.Events;
 
 #endregion using directives
 
+/// <summary>A dynamic event raised when a player's Toxicity value crosses the overdose threshold.</summary>
 internal class PlayerOverdosedEvent : ManagedEvent
 {
     protected readonly Action<object?, IPlayerOverdosedEventArgs> _OnChargeInitiatedImpl;
@@ -25,6 +26,6 @@ internal class PlayerOverdosedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnOverdosed(object? sender, IPlayerOverdosedEventArgs e)
     {
-        if (Hooked.Value) _OnChargeInitiatedImpl(sender, e);
+        if (IsHooked) _OnChargeInitiatedImpl(sender, e);
     }
 }

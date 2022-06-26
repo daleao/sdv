@@ -19,7 +19,7 @@ internal abstract class NpcListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnNpcListChanged(object? sender, NpcListChangedEventArgs e)
     {
-        if (Hooked.Value) OnNpcListChangedImpl(sender, e);
+        if (IsHooked) OnNpcListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnNpcListChanged" />

@@ -74,10 +74,6 @@ internal class ProfessionEventManager : EventManager
         Log.D("[EventManager]: Initialization of Profession Mod events completed.");
 
         #endregion hookers
-
-#if DEBUG
-        HookStartingWith("Debug");
-#endif
     }
 
     /// <inheritdoc />
@@ -105,13 +101,6 @@ internal class ProfessionEventManager : EventManager
                 Hook<HostPeerDisconnectedEvent>();
             }
         }
-
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
-            Hook<VerifyHudThemeWarpedEvent>();
-
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.SpaceCore"))
-            Hook<SpaceCoreSaveLoadedEvent>();
-
 
         Log.D($"[EventManager]: Done hooking event for {Game1.player.Name}.");
     }

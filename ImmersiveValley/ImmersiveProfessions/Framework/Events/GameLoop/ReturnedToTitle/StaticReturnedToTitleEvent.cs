@@ -15,7 +15,10 @@ internal sealed class StaticReturnedToTitleEvent : ReturnedToTitleEvent
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal StaticReturnedToTitleEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+        AlwaysHooked = true;
+    }
 
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)

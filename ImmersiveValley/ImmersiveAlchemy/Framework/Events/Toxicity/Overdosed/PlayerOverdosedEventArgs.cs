@@ -7,6 +7,7 @@ using StardewValley;
 
 #endregion using directives
 
+/// <summary>The arguments for a <see cref="PlayerOverdosedEvent"/>.</summary>
 internal class PlayerOverdosedEventArgs : EventArgs, IPlayerOverdosedEventArgs
 {
     /// <inheritdoc />

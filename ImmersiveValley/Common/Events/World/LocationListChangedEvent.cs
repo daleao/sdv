@@ -19,7 +19,7 @@ internal abstract class LocationListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnLocationListChanged(object? sender, LocationListChangedEventArgs e)
     {
-        if (Hooked.Value) OnLocationListChangedImpl(sender, e);
+        if (IsHooked) OnLocationListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnLocationListChanged" />

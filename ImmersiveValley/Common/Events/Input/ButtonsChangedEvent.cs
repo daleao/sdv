@@ -19,7 +19,7 @@ internal abstract class ButtonsChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnButtonsChanged(object? sender, ButtonsChangedEventArgs e)
     {
-        if (Hooked.Value) OnButtonsChangedImpl(sender, e);
+        if (IsHooked) OnButtonsChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnButtonsChanged" />

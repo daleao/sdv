@@ -19,7 +19,7 @@ internal abstract class ObjectListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnObjectListChanged(object? sender, ObjectListChangedEventArgs e)
     {
-        if (Hooked.Value) OnObjectListChangedImpl(sender, e);
+        if (IsHooked) OnObjectListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnObjectListChanged" />

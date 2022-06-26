@@ -19,7 +19,7 @@ internal abstract class RenderedActiveMenuEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnRenderedActiveMenu(object? sender, RenderedActiveMenuEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnRenderedActiveMenuImpl(sender, e);
+        if (IsHooked) OnRenderedActiveMenuImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnRenderedActiveMenu" />

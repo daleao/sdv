@@ -19,7 +19,7 @@ internal abstract class DebrisListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnDebrisListChanged(object? sender, DebrisListChangedEventArgs e)
     {
-        if (Hooked.Value) OnDebrisListChangedImpl(sender, e);
+        if (IsHooked) OnDebrisListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnDebrisListChanged" />

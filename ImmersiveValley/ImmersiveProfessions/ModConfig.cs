@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using StardewValley.GameData.FishPond;
-
-namespace DaLion.Stardew.Professions;
+﻿namespace DaLion.Stardew.Professions;
 
 #region using directives
 
@@ -17,7 +13,7 @@ public class ModConfig
     public KeybindList ModKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
     /// <summary>Add custom mod Artisan machines to this list to make them compatible with the profession.</summary>
-    public string[] CustomArtisanMachines { get; set; } = {
+    public string[] CustomArtisanMachines { get; } = {
         "Alembic", // artisan valley
         "Artisanal Soda Maker", // artisanal soda makers
         "Butter Churn", // artisan valley

@@ -6,6 +6,8 @@ using StardewValley;
 
 #endregion using directives
 
+
+/// <summary>Interface for the arguments of a <see cref="ToxicityChangedEvent"/>.</summary>
 public interface IToxicityChangedEventArgs
 {
     /// <summary>The player who triggered the event.</summary>

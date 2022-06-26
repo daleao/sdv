@@ -33,6 +33,8 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
     internal StaticAssetRequestedEvent(ProfessionEventManager manager)
         : base(manager)
     {
+        AlwaysHooked = true;
+
         AssetEditors["Data/achievements"] = (edit: EditAchievementsData, priority: AssetEditPriority.Default);
         AssetEditors["Data/FishPondData"] = (edit: EditFishPondDataData, priority: AssetEditPriority.Late);
         AssetEditors["Data/mail"] = (edit: EditMailData, priority: AssetEditPriority.Default);

@@ -8,6 +8,7 @@ using Common.Events;
 
 #endregion using directives
 
+/// <summary>A dynamic event raised when a player's Toxicity reaches the maximum value.</summary>
 internal class ToxicityFilledEvent : ManagedEvent
 {
     protected readonly Action<object?, IToxicityFilledEventArgs> _OnChargeInitiatedImpl;
@@ -20,11 +21,11 @@ internal class ToxicityFilledEvent : ManagedEvent
         _OnChargeInitiatedImpl = callback;
     }
 
-    /// <summary>Raised when a player's Toxicity value reaches the maximum value.</summary>
+    /// <summary>Raised when a player's Toxicity reaches the maximum value.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnFilled(object? sender, IToxicityFilledEventArgs e)
     {
-        if (Hooked.Value) _OnChargeInitiatedImpl(sender, e);
+        if (IsHooked) _OnChargeInitiatedImpl(sender, e);
     }
 }

@@ -19,7 +19,7 @@ internal abstract class UpdateTickedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
     {
-        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnUpdateTickedImpl(sender, e);
+        if (IsHooked) OnUpdateTickedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnUpdateTicked" />

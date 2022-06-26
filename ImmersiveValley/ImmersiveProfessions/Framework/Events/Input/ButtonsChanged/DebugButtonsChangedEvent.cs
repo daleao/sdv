@@ -1,4 +1,5 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Events.Input;
+﻿#if DEBUG
+namespace DaLion.Stardew.Professions.Framework.Events.Input;
 
 #region using directives
 
@@ -111,3 +112,4 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
         }
     }
 }
+#endif
