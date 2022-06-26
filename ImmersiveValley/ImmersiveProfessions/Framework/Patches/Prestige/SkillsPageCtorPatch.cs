@@ -14,7 +14,7 @@ using Textures;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SkillsPageCtorPatch : BasePatch
+internal sealed class SkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal SkillsPageCtorPatch()
@@ -55,7 +55,7 @@ internal sealed class SkillsPageCtorPatch : BasePatch
 
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 15)
                     {
-                        component.texture = Textures.SkillBarTx;
+                        component.texture = Textures.BarsTx;
                         component.sourceRect = srcRect;
                     }
 
@@ -74,7 +74,7 @@ internal sealed class SkillsPageCtorPatch : BasePatch
 
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 20)
                     {
-                        component.texture = Textures.SkillBarTx;
+                        component.texture = Textures.BarsTx;
                         component.sourceRect = srcRect;
                     }
 

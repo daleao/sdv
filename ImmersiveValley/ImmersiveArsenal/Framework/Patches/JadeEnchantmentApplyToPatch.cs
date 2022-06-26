@@ -12,7 +12,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class JadeEnchantmentApplyToPatch : BasePatch
+internal sealed class JadeEnchantmentApplyToPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal JadeEnchantmentApplyToPatch()

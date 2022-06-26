@@ -14,7 +14,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectPerformObjectDropInActionPatch : BasePatch
+internal sealed class ObjectPerformObjectDropInActionPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectPerformObjectDropInActionPatch()

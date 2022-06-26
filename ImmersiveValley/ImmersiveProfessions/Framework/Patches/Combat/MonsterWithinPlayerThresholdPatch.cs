@@ -17,7 +17,7 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterWithinPlayerThresholdPatch : BasePatch
+internal sealed class MonsterWithinPlayerThresholdPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal MonsterWithinPlayerThresholdPatch()

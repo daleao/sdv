@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BeeHouseMachineResetPatch : BasePatch
+internal sealed class BeeHouseMachineResetPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal BeeHouseMachineResetPatch()
@@ -37,7 +37,7 @@ internal sealed class BeeHouseMachineResetPatch : BasePatch
 
     /// <summary>Patch to increase production frequency of Producer Bee House.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> ObjectDayUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? ObjectDayUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

@@ -17,7 +17,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class Game1ApplySaveFixPatch : BasePatch
+internal sealed class Game1ApplySaveFixPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal Game1ApplySaveFixPatch()
@@ -29,7 +29,7 @@ internal sealed class Game1ApplySaveFixPatch : BasePatch
 
     /// <summary>Replace with custom Qi Challenge.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> Game1ApplySaveFixTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? Game1ApplySaveFixTranspiler(IEnumerable<CodeInstruction> instructions,
         MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

@@ -2,7 +2,10 @@
 
 #region using directives
 
-using System.Reflection;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using StardewValley;
 
 using Extensions.Reflection;
 
@@ -11,36 +14,51 @@ using Extensions.Reflection;
 /// <summary>Provides functionality missing from <see cref="ISpaceCoreAPI"/>.</summary>
 public static class ExtendedSpaceCoreAPI
 {
-    public static MethodInfo GetCustomSkillInstance = null!;
-    public static MethodInfo GetCustomSkillExp = null!;
-    public static FieldInfo GetCustomSkillNewLevels = null!;
-    public static MethodInfo GetSkillName = null!;
-    public static MethodInfo GetProfessions = null!;
-    public static MethodInfo GetProfessionsForLevels = null!;
-    public static MethodInfo GetProfessionStringId = null!;
-    public static MethodInfo GetProfessionDisplayName = null!;
-    public static MethodInfo GetProfessionDescription = null!;
-    public static MethodInfo GetProfessionVanillaId = null!;
-    internal static MethodInfo GetFirstProfession = null!;
-    internal static MethodInfo GetSecondProfession = null!;
+    public static Func<string, object> GetCustomSkillInstance = null!;
+    public static Func<Farmer, string, int> GetCustomSkillExp = null!;
+    public static Func<List<KeyValuePair<string, int>>> GetCustomSkillNewLevels = null!;
+    public static Action<List<KeyValuePair<string, int>>> SetCustomSkillNewLevels = null!;
+    public static Func<object, string> GetSkillName = null!;
+    public static Func<object, IEnumerable> GetProfessions = null!;
+    public static Func<object, IEnumerable> GetProfessionsForLevels = null!;
+    public static Func<object, string> GetProfessionStringId = null!;
+    public static Func<object, string> GetProfessionDisplayName = null!;
+    public static Func<object, string> GetProfessionDescription = null!;
+    public static Func<object, int> GetProfessionVanillaId = null!;
+    public static Func<object, object> GetFirstProfession = null!;
+    public static Func<object, object> GetSecondProfession = null!;
 
     /// <summary>Whether the reflected fields have been initialized.</summary>
     public static bool Initialized { get; private set; }
 
     public static void Init()
     {
-        GetCustomSkillInstance = "SpaceCore.Skills".ToType().RequireMethod("GetSkill");
-        GetCustomSkillExp = "SpaceCore.Skills".ToType().RequireMethod("GetExperienceFor");
-        GetCustomSkillNewLevels = "SpaceCore.Skills".ToType().RequireField("NewLevels");
-        GetSkillName = "SpaceCore.Skills+Skill".ToType().RequireMethod("GetName");
-        GetProfessions = "SpaceCore.Skills+Skill".ToType().RequirePropertyGetter("Professions");
-        GetProfessionsForLevels = "SpaceCore.Skills+Skill".ToType().RequirePropertyGetter("ProfessionsForLevels");
-        GetProfessionStringId = "SpaceCore.Skills+Skill+Profession".ToType().RequirePropertyGetter("Id");
-        GetProfessionDisplayName = "SpaceCore.Skills+Skill+Profession".ToType().RequireMethod("GetName");
-        GetProfessionDescription = "SpaceCore.Skills+Skill+Profession".ToType().RequireMethod("GetDescription");
-        GetProfessionVanillaId = "SpaceCore.Skills+Skill+Profession".ToType().RequireMethod("GetVanillaId");
-        GetFirstProfession = "SpaceCore.Skills+Skill+ProfessionPair".ToType().RequirePropertyGetter("First");
-        GetSecondProfession = "SpaceCore.Skills+Skill+ProfessionPair".ToType().RequirePropertyGetter("Second");
+        GetCustomSkillInstance =
+            "SpaceCore.Skills".ToType().RequireMethod("GetSkill").CompileStaticDelegate<Func<string, object>>();
+        GetCustomSkillExp = "SpaceCore.Skills".ToType().RequireMethod("GetExperienceFor")
+            .CompileStaticDelegate<Func<Farmer, string, int>>();
+        GetCustomSkillNewLevels = "SpaceCore.Skills".ToType().RequireField("NewLevels")
+            .CompileStaticFieldGetterDelegate<Func<List<KeyValuePair<string, int>>>>();
+        SetCustomSkillNewLevels = "SpaceCore.Skills".ToType().RequireField("NewLevels")
+            .CompileStaticFieldSetterDelegate<Action<List<KeyValuePair<string, int>>>>();
+        GetSkillName = "SpaceCore.Skills+Skill".ToType().RequireMethod("GetName")
+            .CompileUnboundDelegate<Func<object, string>>();
+        GetProfessions = "SpaceCore.Skills+Skill".ToType().RequirePropertyGetter("Professions")
+            .CompileUnboundDelegate<Func<object, IEnumerable>>();
+        GetProfessionsForLevels = "SpaceCore.Skills+Skill".ToType().RequirePropertyGetter("ProfessionsForLevels")
+            .CompileUnboundDelegate<Func<object, IEnumerable>>();
+        GetProfessionStringId = "SpaceCore.Skills+Skill+Profession".ToType().RequirePropertyGetter("Id")
+            .CompileUnboundDelegate<Func<object, string>>();
+        GetProfessionDisplayName = "SpaceCore.Skills+Skill+Profession".ToType().RequireMethod("GetName")
+            .CompileUnboundDelegate<Func<object, string>>();
+        GetProfessionDescription = "SpaceCore.Skills+Skill+Profession".ToType().RequireMethod("GetDescription")
+            .CompileUnboundDelegate<Func<object, string>>();
+        GetProfessionVanillaId = "SpaceCore.Skills+Skill+Profession".ToType().RequireMethod("GetVanillaId")
+            .CompileUnboundDelegate<Func<object, int>>();
+        GetFirstProfession = "SpaceCore.Skills+Skill+ProfessionPair".ToType().RequirePropertyGetter("First")
+            .CompileUnboundDelegate<Func<object, object>>();
+        GetSecondProfession = "SpaceCore.Skills+Skill+ProfessionPair".ToType().RequirePropertyGetter("Second")
+            .CompileUnboundDelegate<Func<object, object>>();
 
         Initialized = true;
     }

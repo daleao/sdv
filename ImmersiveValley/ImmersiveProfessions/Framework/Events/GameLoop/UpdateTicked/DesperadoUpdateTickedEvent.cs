@@ -18,8 +18,13 @@ using Sounds;
 [UsedImplicitly]
 internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal DesperadoUpdateTickedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
+    protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         if (Game1.player.CurrentTool is not Slingshot slingshot || slingshot.attachments[0] is null ||
             !Game1.player.usingSlingshot ||

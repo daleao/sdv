@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Common.Integrations;
+﻿namespace DaLion.Common.Integrations;
 
 #region using directives
 
@@ -17,23 +16,17 @@ using StardewValley.Network;
 /// </summary>
 public enum CurrencyType
 {
-	/// <summary>
-	/// The player's gold.
-	/// </summary>
+	/// <summary>The player's gold.</summary>
 	Money,
 	/// <summary>
-	/// The player's earned points at the current festival. This should likely
-	/// never actually be used, since players can't craft while they're at a
-	/// festival in the first place.
+	    /// The player's earned points at the current festival. This should likely
+	    /// never actually be used, since players can't craft while they're at a
+	    /// festival in the first place.
 	/// </summary>
 	FestivalPoints,
-	/// <summary>
-	/// The player's casino points.
-	/// </summary>
+	/// <summary>The player's casino points.</summary>
 	ClubCoins,
-	/// <summary>
-	/// The player's Qi Gems.
-	/// </summary>
+	/// <summary>The player's Qi Gems.</summary>
 	QiGems
 };
 

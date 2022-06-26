@@ -14,7 +14,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MineShaftAddLevelChestsPatch : BasePatch
+internal sealed class MineShaftAddLevelChestsPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal MineShaftAddLevelChestsPatch()

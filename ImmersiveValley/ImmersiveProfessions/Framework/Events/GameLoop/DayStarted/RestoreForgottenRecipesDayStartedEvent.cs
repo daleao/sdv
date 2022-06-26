@@ -17,8 +17,13 @@ using Common.Extensions.Collections;
 [UsedImplicitly]
 internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal RestoreForgottenRecipesDayStartedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnDayStartedImpl(object sender, DayStartedEventArgs e)
+    protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
         var forgottenRecipes = ModDataIO.ReadData(Game1.player, ModData.ForgottenRecipesDict.ToString())
             .ParseDictionary<string, int>();

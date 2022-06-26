@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -16,16 +17,23 @@ using Framework;
 
 #endregion using directives
 
-internal class AddProfessionsCommand : ICommand
+[UsedImplicitly]
+internal sealed class AddProfessionsCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "add_professions";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal AddProfessionsCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Add the specified professions. Does not affect skill levels." + GetUsage();
+    public override string Trigger => "add_professions";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation =>
+        "Add the specified professions to the player. Does not affect skill levels." + GetUsage();
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (!args.Any())
         {
@@ -88,7 +96,7 @@ internal class AddProfessionsCommand : ICommand
                 }
 
                 professionsToAdd.Add(customProfession.Id);
-                Log.I($"Added the {profession.StringId} profession to {Game1.player.Name}.");
+                Log.I($"Added the {customProfession.StringId} profession to {Game1.player.Name}.");
             }
         }
 
@@ -102,17 +110,17 @@ internal class AddProfessionsCommand : ICommand
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
-    private static string GetUsage()
+    private string GetUsage()
     {
-        var result = "\n\nUsage: player_addprofessions [--prestige] <profession1> <profession2> ... <professionN>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Trigger} [--prestige] <profession1> <profession2> ... <professionN>";
         result += "\n\nParameters:";
-        result += "\n\t<profession>\t- a valid profession name, or `all`";
+        result += "\n\t- <profession>\t- a valid profession name, or `all`";
         result += "\n\nOptional flags:";
         result +=
             "\n\t--prestige, -p\t- add the prestiged versions of the specified professions (will automatically add the base versions as well)";
         result += "\n\nExamples:";
-        result += "\n\tplayer_addprofessions artisan brute";
-        result += "\n\tplayer_addprofessions -p all";
+        result += $"\n\t- {Handler.EntryCommand} {Trigger} artisan brute";
+        result += $"\n\t- {Handler.EntryCommand} {Trigger} -p all";
         return result;
     }
 }

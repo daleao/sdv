@@ -13,8 +13,13 @@ using Integrations;
 [UsedImplicitly]
 internal sealed class TweakGameLaunchedEvent : GameLaunchedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    internal TweakGameLaunchedEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnGameLaunchedImpl(object sender, GameLaunchedEventArgs e)
+    protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
         // add Generic Mod Config Menu integration
         new GenericModConfigMenuIntegrationForImmersiveTweaks(

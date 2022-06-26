@@ -16,7 +16,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BuffsDisplayDrawPatch : BasePatch
+internal sealed class BuffsDisplayDrawPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private static readonly int _buffId = (ModEntry.Manifest.UniqueID + Profession.Brute).GetHashCode();
 

@@ -13,7 +13,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CombinedRingLoadDisplayFieldsPatch : BasePatch
+internal sealed class CombinedRingLoadDisplayFieldsPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CombinedRingLoadDisplayFieldsPatch()
@@ -29,7 +29,7 @@ internal sealed class CombinedRingLoadDisplayFieldsPatch : BasePatch
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingsLoadDisplayFieldsPrefix(CombinedRing __instance, ref bool __result)
     {
-        if (!ModEntry.Config.ForgeableIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
+        if (!ModEntry.Config.TheOneIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
             return true; // don't run original logic
 
         if (Game1.objectInformation is null || __instance.indexInTileSheet is null)

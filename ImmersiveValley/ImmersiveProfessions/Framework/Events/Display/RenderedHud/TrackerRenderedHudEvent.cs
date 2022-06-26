@@ -17,8 +17,13 @@ using Extensions;
 [UsedImplicitly]
 internal sealed class TrackerRenderedHudEvent : RenderedHudEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal TrackerRenderedHudEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnRenderedHudImpl(object sender, RenderedHudEventArgs e)
+    protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
         // reveal on-screen trackable objects
         foreach (var pair in Game1.currentLocation.Objects.Pairs.Where(p => p.Value.ShouldBeTracked()))

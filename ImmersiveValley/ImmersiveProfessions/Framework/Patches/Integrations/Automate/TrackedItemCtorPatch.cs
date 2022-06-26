@@ -4,7 +4,6 @@ namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.Automate;
 #region using directives
 
 using System;
-using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
@@ -18,9 +17,9 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TrackedItemCtorPatch : BasePatch
+internal sealed class TrackedItemCtorPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static readonly FieldInfo _Item = "Pathoschild.Stardew.Automate.TrackedItem".ToType().RequireField("Item")!;
+    private static Action<object, Item>? _SetItem;
 
     /// <summary>Construct an instance.</summary>
     internal TrackedItemCtorPatch()
@@ -45,10 +44,12 @@ internal sealed class TrackedItemCtorPatch : BasePatch
         if (!item.ParentSheetIndex.IsIn(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532,
                 533, 534)) return;
 
+        _SetItem ??= "Pathoschild.Stardew.Automate.TrackedItem".ToType().RequireField("Item")
+            .CompileUnboundFieldSetterDelegate<Action<object, Item>>();
         if (item.ParentSheetIndex.IsIn(14, 51))
-            _Item.SetValue(__instance, new MeleeWeapon(item.ParentSheetIndex));
+            _SetItem(__instance, new MeleeWeapon(item.ParentSheetIndex));
         else
-            _Item.SetValue(__instance, new Ring(item.ParentSheetIndex));
+            _SetItem(__instance, new Ring(item.ParentSheetIndex));
     }
 
     #endregion harmony patches

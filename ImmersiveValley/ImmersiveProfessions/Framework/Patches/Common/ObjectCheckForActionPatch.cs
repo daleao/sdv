@@ -21,7 +21,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectCheckForActionPatch : BasePatch
+internal sealed class ObjectCheckForActionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectCheckForActionPatch()
@@ -50,7 +50,7 @@ internal sealed class ObjectCheckForActionPatch : BasePatch
 
     /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium + increase Honey quality with age + increase production frequency of Producer Bee House.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> ObjectCheckForActionTranspiler(
+    private static IEnumerable<CodeInstruction>? ObjectCheckForActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

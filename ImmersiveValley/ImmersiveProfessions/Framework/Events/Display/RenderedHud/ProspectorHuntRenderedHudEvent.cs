@@ -15,8 +15,13 @@ using Common.Events;
 [UsedImplicitly]
 internal sealed class ProspectorHuntRenderedHudEvent : RenderedHudEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal ProspectorHuntRenderedHudEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnRenderedHudImpl(object sender, RenderedHudEventArgs e)
+    protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
         if (!ModEntry.PlayerState.ProspectorHunt.TreasureTile.HasValue) return;
 

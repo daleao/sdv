@@ -16,7 +16,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectGetPriceAfterMultipliersPatch : BasePatch
+internal sealed class ObjectGetPriceAfterMultipliersPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectGetPriceAfterMultipliersPatch()

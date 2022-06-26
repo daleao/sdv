@@ -1,11 +1,11 @@
-﻿#nullable enable
-namespace DaLion.Common.Extensions;
+﻿namespace DaLion.Common.Extensions;
 
 #region using directives
 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -80,8 +80,8 @@ public static class StringExtensions
 
     /// <summary>Try to parse the instance to a generic type.</summary>
     /// <param name="result">Parsed <typeparamref name="T" />-type object if successful, else default.</param>
-    /// <returns>True if parse was successful, otherwise false.</returns>
-    public static bool TryParse<T>(this string s, out T? result)
+    /// <returns><see langword="true"> if parse was successful, otherwise <see langword="false">.</returns>
+    public static bool TryParse<T>(this string s, [NotNullWhen(true)] out T? result)
     {
         result = default;
         if (string.IsNullOrEmpty(s)) return false;
@@ -126,6 +126,8 @@ public static class StringExtensions
         where T : struct
         where U : struct
     {
+        if (string.IsNullOrEmpty(s)) return new();
+
         var split = s.Split(separator);
         if (split.Length < 2)
             throw new InvalidOperationException("Insufficient elements after string split.");
@@ -143,6 +145,8 @@ public static class StringExtensions
         where U : struct
         where V : struct
     {
+        if (string.IsNullOrEmpty(s)) return new();
+
         var split = s.Split(separator);
         if (split.Length < 3)
             throw new InvalidOperationException("Insufficient elements after string split.");
@@ -161,6 +165,8 @@ public static class StringExtensions
         where V : struct
         where W : struct
     {
+        if (string.IsNullOrEmpty(s)) return new();
+
         var split = s.Split(separator);
         if (split.Length < 4)
             throw new InvalidOperationException("Insufficient elements after string split.");
@@ -175,6 +181,8 @@ public static class StringExtensions
     /// <param name="separator">A string separator.</param>
     public static List<T>? ParseList<T>(this string s, string separator = ",")
     {
+        if (string.IsNullOrEmpty(s)) return new();
+
         var split = s.Split(separator);
         try
         {
@@ -192,6 +200,8 @@ public static class StringExtensions
     public static Dictionary<TKey, TValue> ParseDictionary<TKey, TValue>(this string s, string keyValueSeparator = ",",
         string pairSeparator = ";") where TKey : notnull
     {
+        if (string.IsNullOrEmpty(s)) return new();
+
         if (pairSeparator == keyValueSeparator)
             throw new ArgumentException("Pair separator must be different from key-value separator.");
 

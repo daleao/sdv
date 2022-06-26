@@ -13,8 +13,8 @@ using Common.Harmony;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    internal static ModEntry Instance { get; private set; }
-    internal static ModConfig Config { get; set; }
+    internal static ModEntry Instance { get; private set; } = null!;
+    internal static ModConfig Config { get; set; } = null!;
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
@@ -38,7 +38,7 @@ public class ModEntry : Mod
         new EventManager(helper.Events).HookAll();
 
         // apply patches
-        new HarmonyPatcher(ModManifest.UniqueID).ApplyAll();
+        new Harmonizer(ModManifest.UniqueID).ApplyAll();
 
         // check for Better Rings mod
         HasLoadedBetterRings = helper.ModRegistry.IsLoaded("BBR.BetterRings");

@@ -17,7 +17,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerTakeDamagePatch : BasePatch
+internal sealed class FarmerTakeDamagePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerTakeDamagePatch()
@@ -29,7 +29,7 @@ internal sealed class FarmerTakeDamagePatch : BasePatch
 
     /// <summary>Removes damage mitigation soft cap.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> FarmerTakeDamageTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? FarmerTakeDamageTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

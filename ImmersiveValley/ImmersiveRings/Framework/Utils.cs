@@ -9,6 +9,17 @@ using Microsoft.Xna.Framework;
 
 internal static class Utils
 {
+    /// <summary>Get the gemstone of the corresponding ring.</summary>
+    public static readonly Dictionary<int, int> GemstoneByRing = new()
+    {
+        { Constants.AMETHYSTR_RING_INDEX_I, Constants.AMETHYST_INDEX_I },
+        { Constants.TOPAZ_RING_INDEX_I, Constants.TOPAZ_INDEX_I },
+        { Constants.AQUAMARINE_RING_INDEX_I, Constants.AQUAMARINE_INDEX_I },
+        { Constants.JADE_RING_INDEX_I, Constants.JADE_INDEX_I },
+        { Constants.EMERALD_RING_INDEX_I, Constants.EMERALD_INDEX_I },
+        { Constants.RUBY_RING_INDEX_I, Constants.RUBY_INDEX_I }
+    };
+
     /// <summary>Get the color of the corresponding gemstone.</summary>
     public static readonly Dictionary<int, Color> ColorByGemstone = new()
     {

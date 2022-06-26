@@ -16,7 +16,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CrabPotMachineGetStatePatch : BasePatch
+internal sealed class CrabPotMachineGetStatePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CrabPotMachineGetStatePatch()
@@ -36,7 +36,7 @@ internal sealed class CrabPotMachineGetStatePatch : BasePatch
 
     /// <summary>Patch for conflicting Luremaster and Conservationist automation rules.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> CrabPotMachineGetStateTranspiler(
+    private static IEnumerable<CodeInstruction>? CrabPotMachineGetStateTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

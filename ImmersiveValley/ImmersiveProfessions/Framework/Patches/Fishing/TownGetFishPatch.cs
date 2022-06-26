@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TownGetFishPatch : BasePatch
+internal sealed class TownGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private const int ANGLER_INDEX_I = 160;
 
@@ -31,7 +31,7 @@ internal sealed class TownGetFishPatch : BasePatch
 
     /// <summary>Patch for prestiged Angler to recatch Angler.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> TownGetFishTranspiler(
+    private static IEnumerable<CodeInstruction>? TownGetFishTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

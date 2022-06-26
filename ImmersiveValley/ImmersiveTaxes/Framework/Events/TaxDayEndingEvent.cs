@@ -21,8 +21,13 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal sealed class TaxDayEndingEvent : DayEndingEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    internal TaxDayEndingEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
+    protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
         if (Game1.dayOfMonth == 1 && Game1.currentSeason == "spring" && Game1.year == 1)
             Game1.player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxIntro");
@@ -79,6 +84,8 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             }
             case 1 when ModDataIO.ReadDataAs<float>(Game1.player, ModData.DeductionPct.ToString()) < 1f:
             {
+                if (Game1.currentSeason == "spring" && Game1.year == 1) return;
+
                 var amountDue = Game1.player.DoTaxes();
                 ModEntry.LatestAmountDue.Value = amountDue;
                 if (amountDue > 0)

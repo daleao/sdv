@@ -8,13 +8,14 @@ using Common.Events;
 
 #endregion using directives
 
-internal sealed class UltimateActivatedEvent : BaseEvent
+internal sealed class UltimateActivatedEvent : ManagedEvent
 {
-    private readonly Action<object, IUltimateActivatedEventArgs> _OnActivatedImpl;
+    private readonly Action<object?, IUltimateActivatedEventArgs> _OnActivatedImpl;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal UltimateActivatedEvent(Action<object, IUltimateActivatedEventArgs> callback)
+    internal UltimateActivatedEvent(Action<object?, IUltimateActivatedEventArgs> callback)
+        : base(ModEntry.EventManager)
     {
         _OnActivatedImpl = callback;
     }
@@ -22,8 +23,8 @@ internal sealed class UltimateActivatedEvent : BaseEvent
     /// <summary>Raised when a player activates their combat Ultimate.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    internal void OnActivated(object sender, IUltimateActivatedEventArgs e)
+    internal void OnActivated(object? sender, IUltimateActivatedEventArgs e)
     {
-        if (hooked.Value) _OnActivatedImpl(sender, e);
+        if (Hooked.Value) _OnActivatedImpl(sender, e);
     }
 }

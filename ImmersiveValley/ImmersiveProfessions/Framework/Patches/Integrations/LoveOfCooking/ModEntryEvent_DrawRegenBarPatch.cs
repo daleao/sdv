@@ -18,7 +18,7 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ModEntryEvent_DrawRegenBarPatch : BasePatch
+internal sealed class ModEntryEvent_DrawRegenBarPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ModEntryEvent_DrawRegenBarPatch()
@@ -30,7 +30,7 @@ internal sealed class ModEntryEvent_DrawRegenBarPatch : BasePatch
 
     /// <summary>Patch to displace food bar.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> PropagatorPopExtraHeldMushroomsTranspiler(
+    private static IEnumerable<CodeInstruction>? PropagatorPopExtraHeldMushroomsTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

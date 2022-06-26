@@ -29,7 +29,7 @@ using Localization = Utility.Localization;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuUpdatePatch : BasePatch
+internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuUpdatePatch()
@@ -54,7 +54,7 @@ internal sealed class LevelUpMenuUpdatePatch : BasePatch
 
     /// <summary>Patch to prevent duplicate profession acquisition + display end of level up dialogues.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> LevelUpMenuUpdateTranspiler(
+    private static IEnumerable<CodeInstruction>? LevelUpMenuUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -365,7 +365,7 @@ internal sealed class LevelUpMenuUpdatePatch : BasePatch
 
     internal static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
     {
-        var oldProfession = Profession.FromValue((int) ModEntry.PlayerState.RegisteredUltimate.Index);
+        var oldProfession = Profession.FromValue((int) ModEntry.PlayerState.RegisteredUltimate!.Index);
         var newProfession = Profession.FromValue(chosenProfession);
         var pronoun = Localization.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(

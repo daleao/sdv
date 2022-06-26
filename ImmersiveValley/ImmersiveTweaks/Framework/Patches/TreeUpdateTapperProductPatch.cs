@@ -14,7 +14,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TreeUpdateTapperProductPatch : BasePatch
+internal sealed class TreeUpdateTapperProductPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal TreeUpdateTapperProductPatch()

@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Stardew.Professions.Framework;
+﻿namespace DaLion.Stardew.Professions.Framework;
 
 #region using directives
 
@@ -25,22 +24,25 @@ public sealed class LuckSkill : Skill
         StringId = "spacechase0.LuckSkill";
         DisplayName = (string) "LuckSkill.I18n".ToType().RequireMethod("Skill_Name").Invoke(null, null)!;
 
-        //foreach (var (key, value) in api.GetProfessions())
-        //{
-        //    var vanillaId = key;
-        //    var stringId = value.DefaultName;
-        //    var displayName = value.Name;
-        //    var description = value.Description;
-        //    var level = vanillaId % 6 < 2 ? 5 : 10;
-        //    Professions.Add(new CustomProfession(stringId, displayName, description, vanillaId, level, this));
-        //}
+        var fortunateName = (string) "LuckSkill.I18n".ToType().RequireMethod("Fortunate_Name").Invoke(null, null)!;
+        var fortunateDesc = (string)"LuckSkill.I18n".ToType().RequireMethod("Fortunate_Desc").Invoke(null, null)!;
+        var popularHelpeName = (string) "LuckSkill.I18n".ToType().RequireMethod("PopularHelper_Name").Invoke(null, null)!;
+        var popularHelpeDesc = (string) "LuckSkill.I18n".ToType().RequireMethod("PopularHelper_Desc").Invoke(null, null)!;
+        var luckyName = (string) "LuckSkill.I18n".ToType().RequireMethod("Lucky_Name").Invoke(null, null)!;
+        var luckyDesc = (string) "LuckSkill.I18n".ToType().RequireMethod("Lucky_Desc").Invoke(null, null)!;
+        var unUnluckyName = (string) "LuckSkill.I18n".ToType().RequireMethod("UnUnlucky_Name").Invoke(null, null)!;
+        var unUnluckyDesc = (string) "LuckSkill.I18n".ToType().RequireMethod("UnUnlucky_Desc").Invoke(null, null)!;
+        var shootingStarName = (string) "LuckSkill.I18n".ToType().RequireMethod("ShootingStar_Name").Invoke(null, null)!;
+        var shootingStarDesc = (string) "LuckSkill.I18n".ToType().RequireMethod("ShootingStar_Desc").Invoke(null, null)!;
+        var spiritChildName = (string) "LuckSkill.I18n".ToType().RequireMethod("SpiritChild_Name").Invoke(null, null)!;
+        var spiritChildDesc = (string) "LuckSkill.I18n".ToType().RequireMethod("SpiritChild_Desc").Invoke(null, null)!;
 
-        Professions.Add(new CustomProfession("LuckSkill.Fortunate", "Fortunate", "Better daily luck.", 30, 5, this));
-        Professions.Add(new CustomProfession("LuckSkill.PopularHelper", "Popular Helper", "Daily quests occur three times as often.", 31, 5, this));
-        Professions.Add(new CustomProfession("LuckSkill.Lucky", "Lucky", "20% chance for max daily luck.", 32, 10, this));
-        Professions.Add(new CustomProfession("LuckSkill.UnUnlucky", "Un-unlucky", "Never have bad luck.", 33, 10, this));
-        Professions.Add(new CustomProfession("LuckSkill.ShootingStar", "Shooting Star", "Nightly events occur twice as often.", 34, 10, this));
-        Professions.Add(new CustomProfession("LuckSkill.SpiritChild", "Spirit Child", "Giving gifts makes junimos happy. They might help your farm.\n(15% chance for some form of farm advancement.)", 35, 10, this));
+        Professions.Add(new CustomProfession("LuckSkill.Fortunate", fortunateName, fortunateDesc, 30, 5, this));
+        Professions.Add(new CustomProfession("LuckSkill.PopularHelper", popularHelpeName, popularHelpeDesc, 31, 5, this));
+        Professions.Add(new CustomProfession("LuckSkill.Lucky", luckyName, luckyDesc, 32, 10, this));
+        Professions.Add(new CustomProfession("LuckSkill.UnUnlucky", unUnluckyName, unUnluckyDesc, 33, 10, this));
+        Professions.Add(new CustomProfession("LuckSkill.ShootingStar", shootingStarName, shootingStarDesc, 34, 10, this));
+        Professions.Add(new CustomProfession("LuckSkill.SpiritChild", spiritChildName, spiritChildDesc, 35, 10, this));
 
         ProfessionPairs[-1] = new(Professions[0], Professions[1], null, 5);
         ProfessionPairs[Professions[0].Id] = new(Professions[2], Professions[3], Professions[0], 10);

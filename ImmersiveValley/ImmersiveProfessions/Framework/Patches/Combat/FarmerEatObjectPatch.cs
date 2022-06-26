@@ -11,7 +11,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerEatObjectPatch : BasePatch
+internal sealed class FarmerEatObjectPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerEatObjectPatch()

@@ -17,7 +17,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CombinedRingDrawInMenuPatch : BasePatch
+internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CombinedRingDrawInMenuPatch()
@@ -40,7 +40,7 @@ internal sealed class CombinedRingDrawInMenuPatch : BasePatch
         float scaleSize, float transparency, float layerDepth, StackDrawType drawStackNumber, Color color,
         bool drawShadow)
     {
-        if (!ModEntry.Config.ForgeableIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
+        if (!ModEntry.Config.TheOneIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
             return true; // run original logic
 
         try

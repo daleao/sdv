@@ -18,7 +18,7 @@ using Textures;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class NewSkillsPagePerformHoverActionPatch : BasePatch
+internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal NewSkillsPagePerformHoverActionPatch()
@@ -40,7 +40,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatch : BasePatch
     private static void NewSkillsPagePerformHoverActionPostfix(IClickableMenu __instance, int x, int y,
         ref string ___hoverText)
     {
-        ___hoverText = ___hoverText?.Truncate(90);
+        ___hoverText = ___hoverText.Truncate(90);
 
         if (!ModEntry.Config.EnablePrestige) return;
 

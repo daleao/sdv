@@ -16,7 +16,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ExperieneBarDrawExperienceBarPatch : BasePatch
+internal sealed class ExperieneBarDrawExperienceBarPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ExperieneBarDrawExperienceBarPatch()
@@ -35,7 +35,7 @@ internal sealed class ExperieneBarDrawExperienceBarPatch : BasePatch
 
     /// <summary>Patch to move skill icon to the right.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> ExperienceBarDrawExperienceBarTranspiler(
+    private static IEnumerable<CodeInstruction>? ExperienceBarDrawExperienceBarTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

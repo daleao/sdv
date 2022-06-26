@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
@@ -16,11 +17,9 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GeodeCrusherMachineSetInputPatch : BasePatch
+internal sealed class GeodeCrusherMachineSetInputPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private delegate SObject GetMachineDelegate(object instance);
-
-    private static GetMachineDelegate _GetMachine;
+    private static Func<object, SObject>? _GetMachine;
 
     /// <summary>Construct an instance.</summary>
     internal GeodeCrusherMachineSetInputPatch()
@@ -42,9 +41,8 @@ internal sealed class GeodeCrusherMachineSetInputPatch : BasePatch
     [HarmonyPostfix]
     private static void GeodeCrusherMachineSetInputPostfix(object __instance)
     {
-        if (__instance is null) return;
-
-        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CreateDelegate<GetMachineDelegate>();
+        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine")
+            .CompileUnboundDelegate<Func<object, SObject>>();
         var machine = _GetMachine(__instance);
         if (machine.heldObject.Value is null) return;
 

@@ -28,7 +28,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationDamageMonsterPatch : BasePatch
+internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationDamageMonsterPatch()
@@ -48,7 +48,7 @@ internal sealed class GameLocationDamageMonsterPatch : BasePatch
     ///     bonus from Desperado to Poacher Ambush + perform Poacher steal and Piper buff actions + increment Piper Ultimate meter.
     /// </summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> GameLocationDamageMonsterTranspiler(
+    private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CrabPotPerformObjectDropInActionPatch : BasePatch
+internal sealed class CrabPotPerformObjectDropInActionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CrabPotPerformObjectDropInActionPatch()
@@ -29,7 +29,7 @@ internal sealed class CrabPotPerformObjectDropInActionPatch : BasePatch
 
     /// <summary>Patch to allow Conservationist to place bait.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> CrabPotPerformObjectDropInActionTranspiler(
+    private static IEnumerable<CodeInstruction>? CrabPotPerformObjectDropInActionTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

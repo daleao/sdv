@@ -3,8 +3,8 @@
 #region using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -16,17 +16,23 @@ using Extensions;
 
 #endregion using directives
 
-internal class ResetSkillLevelsCommand : ICommand
+[UsedImplicitly]
+internal sealed class ResetSkillLevelsCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "reset_levels";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal ResetSkillLevelsCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation =>
+    public override string Trigger => "reset_levels";
+
+    /// <inheritdoc />
+    public override string Documentation =>
         "Reset the level of the specified skills, or all skills if none are specified. Does not remove professions.";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override void Callback(string[] args)
     {
         if (!args.Any())
         {
@@ -95,10 +101,9 @@ internal class ResetSkillLevelsCommand : ICommand
                     ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, customSkill.StringId,
                         -customSkill.CurrentExp);
 
-                    var newLevels =
-                        (List<KeyValuePair<string, int>>)ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.GetValue(null)!;
-                    ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.SetValue(null,
-                        newLevels.Where(pair => pair.Key != customSkill.StringId).ToList());
+                    var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels();
+                    ExtendedSpaceCoreAPI.SetCustomSkillNewLevels(newLevels
+                        .Where(pair => pair.Key != customSkill.StringId).ToList());
 
                     if (ModEntry.Config.ForgetRecipesOnSkillReset &&
                         customSkill.StringId == "blueberry.LoveOfCooking.CookingSkill")

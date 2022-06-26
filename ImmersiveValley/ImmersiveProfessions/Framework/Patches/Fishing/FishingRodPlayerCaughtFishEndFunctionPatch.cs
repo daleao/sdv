@@ -18,7 +18,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishingRodPlayerCaughtFishEndFunctionPatch : BasePatch
+internal sealed class FishingRodPlayerCaughtFishEndFunctionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishingRodPlayerCaughtFishEndFunctionPatch()
@@ -30,7 +30,7 @@ internal sealed class FishingRodPlayerCaughtFishEndFunctionPatch : BasePatch
 
     /// <summary>Patch for remove annoying repeated message for recatching legendary fish.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> FishingRodPlayerCaughtFishEndFunctionTranspiler(
+    private static IEnumerable<CodeInstruction>? FishingRodPlayerCaughtFishEndFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

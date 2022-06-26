@@ -12,7 +12,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterParseMonsterInfoPatch : BasePatch
+internal sealed class MonsterParseMonsterInfoPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct and instance.</summary>
     internal MonsterParseMonsterInfoPatch()

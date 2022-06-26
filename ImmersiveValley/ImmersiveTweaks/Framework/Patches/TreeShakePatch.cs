@@ -20,7 +20,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TreeShakePatch : BasePatch
+internal sealed class TreeShakePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal TreeShakePatch()
@@ -31,7 +31,7 @@ internal sealed class TreeShakePatch : BasePatch
     #region harmony patches
 
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> TreeShakeTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? TreeShakeTranspiler(IEnumerable<CodeInstruction> instructions,
             MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

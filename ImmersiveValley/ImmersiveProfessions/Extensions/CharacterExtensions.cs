@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using StardewValley;
 
 #endregion using directives
@@ -25,9 +24,8 @@ public static class CharacterExtensions
     /// <param name="distanceToClosestCharacter">The distance to the returned character, or <see cref="double.MaxValue"/> if none was found.</param>
     /// <param name="candidates">The candidate characters, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates (ignore candidates for which the predicate returns <see langword="true">).</param>
-    [CanBeNull]
-    public static T GetClosestCharacter<T>(this Character character, out double distanceToClosestCharacter,
-        IEnumerable<T> candidates = null, Func<T, bool> predicate = null) where T : Character
+    public static T? GetClosestCharacter<T>(this Character character, out double distanceToClosestCharacter,
+        IEnumerable<T>? candidates = null, Func<T, bool>? predicate = null) where T : Character
     {
         predicate ??= _ => true;
         var candidatesArr = candidates?.ToArray() ?? character.currentLocation?.characters.OfType<T>().Where(c => predicate(c)).ToArray();
@@ -40,7 +38,7 @@ public static class CharacterExtensions
             return candidatesArr[0];
         }
 
-        T closest = null;
+        T? closest = null;
         foreach (var candidate in candidatesArr)
         {
             var distanceToThisCandidate = character.DistanceToCharacter(candidate);
@@ -57,9 +55,8 @@ public static class CharacterExtensions
     /// <param name="distanceToClosestFarmer">The distance to the returned farmer, or <see cref="double.MaxValue"/> if none was found.</param>
     /// <param name="candidates">The candidate farmers, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
-    [CanBeNull]
-    public static Farmer GetClosestFarmer(this Character character, out double distanceToClosestFarmer,
-        IEnumerable<Farmer> candidates = null, Func<Farmer, bool> predicate = null)
+    public static Farmer? GetClosestFarmer(this Character character, out double distanceToClosestFarmer,
+        IEnumerable<Farmer>? candidates = null, Func<Farmer, bool>? predicate = null)
     {
         predicate ??= _ => true;
         var candidatesArr = candidates?.ToArray() ?? character.currentLocation?.farmers.Where(f => predicate(f)).ToArray();
@@ -72,7 +69,7 @@ public static class CharacterExtensions
             return candidatesArr[0];
         }
 
-        Farmer closest = null;
+        Farmer? closest = null;
         foreach (var candidate in candidatesArr)
         {
             var distanceToThisCandidate = character.DistanceToCharacter(candidate);

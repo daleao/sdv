@@ -22,7 +22,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectPerformObjectDropInActionPatch : BasePatch
+internal sealed class ObjectPerformObjectDropInActionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectPerformObjectDropInActionPatch()
@@ -92,7 +92,7 @@ internal sealed class ObjectPerformObjectDropInActionPatch : BasePatch
     ///     incubation time.
     /// </summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> ObjectPerformObjectDropInActionTranspiler(
+    private static IEnumerable<CodeInstruction>? ObjectPerformObjectDropInActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

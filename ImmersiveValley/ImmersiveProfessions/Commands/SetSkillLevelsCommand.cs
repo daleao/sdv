@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 
 using Common;
@@ -13,18 +14,24 @@ using Framework.Utility;
 
 #endregion using directives
 
-internal class SetSkillLevelsCommand : ICommand
+[UsedImplicitly]
+internal sealed class SetSkillLevelsCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "set_levels";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal SetSkillLevelsCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation =>
+    public override string Trigger => "set_levels";
+
+    /// <inheritdoc />
+    public override string Documentation =>
         "Set the level of the specified skills. For debug only!! Will not grant recipes or other immediate perks. For a proper level-up use `debug experience` instead." +
         GetUsage();
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override void Callback(string[] args)
     {
         if (args.Length < 2 || args.Length % 2 != 0)
         {
@@ -88,14 +95,14 @@ internal class SetSkillLevelsCommand : ICommand
         }
     }
 
-    private static string GetUsage()
+    private string GetUsage()
     {
-        var result = "\n\nUsage: player_setlevels <skill1> <newLevel> <skill2> <newLevel> ...";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Trigger} <skill1> <newLevel> <skill2> <newLevel> ...";
         result += "\n\nParameters:";
-        result += "\n\t<skill>\t- a valid skill name, or 'all'";
-        result += "\n\t<newLevel>\t- a valid integer level";
+        result += "\n\t- <skill>\t- a valid skill name, or 'all'";
+        result += "\n\t- <newLevel>\t- a valid integer level";
         result += "\n\nExamples:";
-        result += "\n\tplayer_setlevels farming 5 cooking 10";
+        result += $"\n\t- {Handler.EntryCommand} {Trigger} farming 5 cooking 10";
         return result;
     }
 }

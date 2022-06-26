@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
@@ -27,9 +26,8 @@ public static class FarmerExtensions
     /// <param name="distanceToClosestBuilding">The distance to the returned building, or <see cref="double.MaxValue"/> if none was found.</param>
     /// <param name="candidates">The candidate buildings, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates (ignore candidates for which the predicate returns <see langword="true">).</param>
-    [CanBeNull]
-    public static T GetClosestBuilding<T>(this Farmer farmer, out double distanceToClosestBuilding,
-        IEnumerable<T> candidates = null, Func<T, bool> predicate = null) where T : Building
+    public static T? GetClosestBuilding<T>(this Farmer farmer, out double distanceToClosestBuilding,
+        IEnumerable<T>? candidates = null, Func<T, bool>? predicate = null) where T : Building
     {
         predicate ??= _ => true;
         var candidatesArr = candidates?.ToArray() ?? Game1.getFarm().buildings.OfType<T>().Where(c => predicate(c)).ToArray();
@@ -42,7 +40,7 @@ public static class FarmerExtensions
             return candidatesArr[0];
         }
 
-        T closest = null;
+        T? closest = null;
         foreach (var candidate in candidatesArr)
         {
             var distanceToThisCandidate = farmer.DistanceToBuilding(candidate);

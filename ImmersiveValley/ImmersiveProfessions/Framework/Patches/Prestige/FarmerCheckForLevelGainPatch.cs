@@ -11,7 +11,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerCheckForLevelGainPatch : BasePatch
+internal sealed class FarmerCheckForLevelGainPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private const int PRESTIGE_GATE_I = 15000;
 

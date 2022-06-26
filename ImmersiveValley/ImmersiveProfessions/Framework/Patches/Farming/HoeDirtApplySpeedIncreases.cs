@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class HoeDirtApplySpeedIncreases : BasePatch
+internal sealed class HoeDirtApplySpeedIncreases : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal HoeDirtApplySpeedIncreases()
@@ -29,7 +29,7 @@ internal sealed class HoeDirtApplySpeedIncreases : BasePatch
 
     /// <summary>Patch to increase prestiged Agriculturist crop growth speed.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> HoeDirtApplySpeedIncreasesTranspiler(
+    private static IEnumerable<CodeInstruction>? HoeDirtApplySpeedIncreasesTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

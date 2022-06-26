@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmAnimalPetPatch : BasePatch
+internal sealed class FarmAnimalPetPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmAnimalPetPatch()
@@ -29,7 +29,7 @@ internal sealed class FarmAnimalPetPatch : BasePatch
 
     /// <summary>Patch for Rancher to combine Shepherd and Coopmaster friendship bonus.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> FarmAnimalPetTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? FarmAnimalPetTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

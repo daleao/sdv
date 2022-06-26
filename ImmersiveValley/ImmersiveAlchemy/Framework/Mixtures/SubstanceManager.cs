@@ -176,10 +176,10 @@ internal static class SubstanceManager
     {
         foreach (var pack in helper.GetOwned())
         {
-            foreach (var (name, composition) in TryLoadIngredients(pack))
+            foreach (var (name, composition) in LoadIngredients(pack))
                 Ingredients[name] = composition;
 
-            foreach (var (name, type, purity) in TryLoadAlchemyBases(pack))
+            foreach (var (name, type, purity) in LoadAlchemyBases(pack))
                 Bases[name] = (type, purity);
         }
 
@@ -190,7 +190,7 @@ internal static class SubstanceManager
 
     /// <summary>Look for valid ingredients in the content pack.</summary>
     /// <param name="pack">A content pack.</param>
-    internal static IEnumerable<(string, Composition)> TryLoadIngredients(IContentPack pack)
+    internal static IEnumerable<(string, Composition)> LoadIngredients(IContentPack pack)
     {
         var ingredients = pack.ReadJsonFile<List<(string name, Composition composition)>>("ingredients.json");
         if (ingredients is not null) return ingredients;
@@ -201,7 +201,7 @@ internal static class SubstanceManager
 
     /// <summary>Look for valid alchemical bases in the content pack.</summary>
     /// <param name="pack">A content pack.</param>
-    internal static IEnumerable<(string, BaseType, BasePurity)> TryLoadAlchemyBases(IContentPack pack)
+    internal static IEnumerable<(string, BaseType, BasePurity)> LoadAlchemyBases(IContentPack pack)
     {
         var bases = pack.ReadJsonFile<List<(string name, BaseType type, BasePurity purity)>>("bases.json");
         if (bases is not null) return bases;

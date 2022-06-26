@@ -13,9 +13,9 @@ using Framework.Ultimates;
 
 internal class PlayerState
 {
-    private Ultimate _registeredUltimate;
+    private Ultimate? _registeredUltimate;
 
-    internal Ultimate RegisteredUltimate
+    internal Ultimate? RegisteredUltimate
     {
         get => _registeredUltimate;
         set

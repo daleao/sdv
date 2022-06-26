@@ -1,6 +1,4 @@
-﻿using DaLion.Common.Data;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Common;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Common;
 
 #region using directives
 
@@ -17,15 +15,15 @@ using StardewValley.Buildings;
 using StardewValley.Menus;
 
 using DaLion.Common;
+using DaLion.Common.Data;
 using DaLion.Common.Harmony;
-using Events.Content;
 using Events.GameLoop;
 using Ultimates;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
+internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuGetImmediateProfessionPerkPatch()
@@ -89,7 +87,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : BasePatch
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> LevelUpMenuGetImmediateProfessionPerkTranspiler(
+    private static IEnumerable<CodeInstruction>? LevelUpMenuGetImmediateProfessionPerkTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

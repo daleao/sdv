@@ -22,10 +22,11 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotPerformFirePatch : BasePatch
+internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static readonly FieldInfo _CanPlaySound = typeof(Slingshot).RequireField("canPlaySound")!;
-    private static readonly MethodInfo _UpdateAimPos = typeof(Slingshot).RequireMethod("updateAimPos");
+    private static Action<Slingshot>? _UpdateAimPos;
+    
+    private static FieldInfo? _CanPlaySound;
 
     /// <summary>Construct an instance.</summary>
     internal SlingshotPerformFirePatch()
@@ -41,6 +42,7 @@ internal sealed class SlingshotPerformFirePatch : BasePatch
     [HarmonyPriority(Priority.LowerThanNormal)]
     private static bool SlingshotPerformFirePrefix(Slingshot __instance, GameLocation location, Farmer who)
     {
+        _CanPlaySound ??= typeof(Slingshot).RequireField("canPlaySound");
         if (__instance.attachments[0] is null)
         {
             Game1.showRedMessage(Game1.content.LoadString("Strings\\StringsFromCSFiles:Slingshot.cs.14254"));
@@ -53,7 +55,9 @@ internal sealed class SlingshotPerformFirePatch : BasePatch
             return false; // don't run original logic
 
         // calculate projectile velocity
-        _UpdateAimPos.Invoke(__instance, null);
+        _UpdateAimPos ??= typeof(Slingshot).RequireMethod("updateAimPos")
+            .CompileUnboundDelegate<Action<Slingshot>>();
+        _UpdateAimPos(__instance);
         var mouseX = __instance.aimPos.X;
         var mouseY = __instance.aimPos.Y;
         var shootOrigin = __instance.GetShootOrigin(who);
@@ -79,7 +83,7 @@ internal sealed class SlingshotPerformFirePatch : BasePatch
             _ => 1
         };
 
-        BasicProjectile.onCollisionBehavior collisionBehavior;
+        BasicProjectile.onCollisionBehavior? collisionBehavior;
         string collisionSound;
         if (ammo.ParentSheetIndex == 441)
         {

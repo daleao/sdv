@@ -18,8 +18,13 @@ using Ultimates;
 [UsedImplicitly]
 internal sealed class ToggledUltimateModMessageReceivedEvent : ModMessageReceivedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal ToggledUltimateModMessageReceivedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnModMessageReceivedImpl(object sender, ModMessageReceivedEventArgs e)
+    protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
         if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("ToggledUltimate")) return;
 

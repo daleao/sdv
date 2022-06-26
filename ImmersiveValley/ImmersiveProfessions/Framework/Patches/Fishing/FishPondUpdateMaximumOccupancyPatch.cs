@@ -14,7 +14,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondUpdateMaximumOccupancyPatch : BasePatch
+internal sealed class FishPondUpdateMaximumOccupancyPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondUpdateMaximumOccupancyPatch()

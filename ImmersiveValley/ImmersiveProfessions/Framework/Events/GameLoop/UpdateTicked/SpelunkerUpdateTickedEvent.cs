@@ -20,8 +20,13 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
 
     private readonly int _buffId = (ModEntry.Manifest.UniqueID + Profession.Spelunker).GetHashCode();
 
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal SpelunkerUpdateTickedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
+    protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         if (Game1.currentLocation is not MineShaft) return;
 

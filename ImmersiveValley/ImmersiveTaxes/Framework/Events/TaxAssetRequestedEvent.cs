@@ -16,8 +16,13 @@ using Common.Events;
 [UsedImplicitly]
 internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    internal TaxAssetRequestedEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)
+    protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
     {
         if (!e.NameWithoutLocale.IsEquivalentTo("Data/mail")) return;
 

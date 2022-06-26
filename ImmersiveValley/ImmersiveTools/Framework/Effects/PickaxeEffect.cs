@@ -36,11 +36,11 @@ internal class PickaxeEffect : IEffect
     };
 
     /// <inheritdoc />
-    public bool Apply(Vector2 tile, SObject tileObj, TerrainFeature tileFeature, Tool tool,
+    public bool Apply(Vector2 tile, SObject? tileObj, TerrainFeature tileFeature, Tool tool,
         GameLocation location, Farmer who)
     {
         // clear debris
-        if (Config.ClearDebris && (tileObj.IsStone() || tileObj.IsWeed()))
+        if (Config.ClearDebris && (tileObj!.IsStone() || tileObj!.IsWeed()))
             return tool.UseOnTile(tile, location, who);
 
         // break mine containers
@@ -83,12 +83,12 @@ internal class PickaxeEffect : IEffect
             var clump = location.GetResourceClumpCoveringTile(tile, who, out var applyTool);
             if (clump is not null &&
                 (!UpgradeLevelsNeededForResource.TryGetValue(clump.parentSheetIndex.Value,
-                    out var requiredUpgradeLevel) || tool.UpgradeLevel >= requiredUpgradeLevel)) return applyTool(tool);
+                    out var requiredUpgradeLevel) || tool.UpgradeLevel >= requiredUpgradeLevel)) return applyTool!(tool);
         }
 
         // harvest spawned mine objects
         if (Config.HarvestMineSpawns && location is MineShaft && tileObj?.IsSpawnedObject == true &&
-            location.checkAction(new((int)tile.X, (int)tile.Y), Game1.viewport, who))
+            location.checkAction(new((int) tile.X, (int) tile.Y), Game1.viewport, who))
         {
             who.CancelAnimation(FarmerSprite.harvestItemDown, FarmerSprite.harvestItemLeft,
                 FarmerSprite.harvestItemRight, FarmerSprite.harvestItemUp);
@@ -105,6 +105,7 @@ internal class PickaxeEffect : IEffect
     /// <param name="tileObj">The object on the tile.</param>
     /// <param name="tool">The tool selected by the player (if any).</param>
     /// <param name="location">The current location.</param>
+    /// <returns><see langword="true"> if the tool did break a container, otherwise <see langword="false">.</returns>
     private static bool TryBreakContainer(Vector2 tile, SObject tileObj, Tool tool, GameLocation location)
     {
         if (tileObj is BreakableContainer)

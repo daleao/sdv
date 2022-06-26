@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CraftingRecipeGetCraftableCountPatch : BasePatch
+internal sealed class CraftingRecipeGetCraftableCountPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CraftingRecipeGetCraftableCountPatch()

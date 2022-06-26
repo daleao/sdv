@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
@@ -48,10 +49,11 @@ public static class GameLocationExtensions
         return farmers.Any();
     }
 
-    /// <summary>Find a character with the specified hash code.</summary>
+    /// <summary>Find a character with the specified hash code in this location.</summary>
     /// <typeparam name="T">A subtype of <see cref="Character"/>.</typeparam>
     /// <param name="hash">An integer hash code.</param>
-    public static bool FindCharacterByHash<T>(this GameLocation location, int hash, out T character) where T : Character
+    /// <returns><see langword="true"> if a character with the specified hash was found, otherwise <see langword="false">.</returns>
+    public static bool TryGetCharacterByHash<T>(this GameLocation location, int hash, [NotNullWhen(true)] out T? character) where T : Character
     {
         character = location.characters.OfType<T>().FirstOrDefault(c => c.GetHashCode() == hash);
         return character is not null;

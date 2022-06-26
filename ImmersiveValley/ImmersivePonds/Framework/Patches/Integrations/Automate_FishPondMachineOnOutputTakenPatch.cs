@@ -14,22 +14,18 @@ using StardewValley.Menus;
 using StardewValley.Objects;
 
 using Common;
+using Common.Data;
 using Common.Extensions;
 using Common.Extensions.Reflection;
 using Common.Harmony;
-using Extensions;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondMachineOnOutputTakenPatch : BasePatch
+internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.HarmonyPatch
 {
-    private delegate FishPond GetMachineDelegate(object instance);
-
-    private delegate Farmer GetOwnerDelegate(object instance);
-
-    private static GetMachineDelegate _GetMachine;
-    private static GetOwnerDelegate _GetOwner;
+    private static Func<object, FishPond>? _GetMachine;
+    private static Func<object, Farmer>? _GetOwner;
 
     /// <summary>Construct an instance.</summary>
     internal FishPondMachineOnOutputTakenPatch()
@@ -51,13 +47,13 @@ internal sealed class FishPondMachineOnOutputTakenPatch : BasePatch
     [HarmonyPrefix]
     private static bool FishPondMachineOnOutputTakenPrefix(object __instance, Item item)
     {
-        FishPond machine = null;
+        FishPond? machine = null;
         try
         {
-            _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CreateDelegate<GetMachineDelegate>();
+            _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CompileUnboundDelegate<Func<object, FishPond>>();
             machine = _GetMachine(__instance);
             
-            var produce = machine.ReadData("ItemsHeld", null)?.ParseList<string>(";");
+            var produce = ModDataIO.ReadData(machine, "ItemsHeld").ParseList<string>(";");
             if (produce is null)
             {
                 machine.output.Value = null;
@@ -87,26 +83,26 @@ internal sealed class FishPondMachineOnOutputTakenPatch : BasePatch
 
                 machine.output.Value = o;
                 produce.Remove(next);
-                machine.WriteData("ItemsHeld", string.Join(";", produce));
+                ModDataIO.WriteData(machine, "ItemsHeld", string.Join(";", produce));
             }
 
-            if (machine.ReadDataAs<bool>("CheckedToday")) return false; // don't run original logic
+            if (ModDataIO.ReadDataAs<bool>(machine, "CheckedToday")) return false; // don't run original logic
 
             var bonus = (int) (item is StardewValley.Object @object
                 ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
                 : 0);
 
-            _GetOwner ??= __instance.GetType().RequireMethod("GetOwner").CreateDelegate<GetOwnerDelegate>();
-            _GetOwner(__instance)?.gainExperience(Farmer.fishingSkill,
+            _GetOwner ??= __instance.GetType().RequireMethod("GetOwner").CompileUnboundDelegate<Func<object, Farmer>>();
+            _GetOwner(__instance).gainExperience(Farmer.fishingSkill,
                 FishPond.HARVEST_BASE_EXP + bonus);
 
-            machine.WriteData("CheckedToday", true.ToString());
+            ModDataIO.WriteData(machine, "CheckedToday", true.ToString());
             return false; // don't run original logic
         }
         catch (InvalidOperationException ex) when (machine is not null)
         {
             Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-            machine.WriteData("ItemsHeld", null);
+            ModDataIO.WriteData(machine, "ItemsHeld", null);
             return true; // default to original logic
         }
         catch (Exception ex)

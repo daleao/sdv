@@ -13,7 +13,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CombinedRingGetOneFromPatch : BasePatch
+internal sealed class CombinedRingGetOneFromPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CombinedRingGetOneFromPatch()
@@ -29,7 +29,7 @@ internal sealed class CombinedRingGetOneFromPatch : BasePatch
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingGetOneFromPrefix(CombinedRing __instance, Item source)
     {
-        if (!ModEntry.Config.ForgeableIridiumBand || source.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
+        if (!ModEntry.Config.TheOneIridiumBand || source.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
             return true; // run original logic
 
         __instance.ParentSheetIndex = Constants.IRIDIUM_BAND_INDEX_I;

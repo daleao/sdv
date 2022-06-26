@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Common.Extensions.Collections;
+﻿namespace DaLion.Common.Extensions.Collections;
 
 #region using directives
 

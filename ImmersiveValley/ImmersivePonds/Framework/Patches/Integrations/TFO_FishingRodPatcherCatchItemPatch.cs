@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System;
 using System.IO;
 using System.Linq;
 using HarmonyLib;
@@ -11,6 +12,7 @@ using StardewValley;
 using StardewValley.Buildings;
 
 using Common;
+using Common.Data;
 using Common.Extensions;
 using Common.Extensions.Reflection;
 using Common.Harmony;
@@ -21,23 +23,13 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishingRodPatcherCatchItemPatch : BasePatch
+internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPatch
 {
-    private delegate bool GetFromFishPondDelegate(object info);
-
-    private delegate object GetFishingInfoDelegate(object info);
-
-    private delegate Vector2 GetBobberPositionDelegate(object fishingInfo);
-
-    private delegate void SetFishItemDelegate(object info, object newItem);
-
-    private delegate void SetFishQuality(object info, object newQuality);
-
-    private static GetFromFishPondDelegate _GetFromFishPond;
-    private static GetFishingInfoDelegate _GetFishingInfo;
-    private static GetBobberPositionDelegate _GetBobberPosition;
-    private static SetFishItemDelegate _SetFishItem;
-    private static SetFishQuality _SetFishQuality;
+    private static Func<object, bool>? _GetFromFishPond;
+    private static Func<object, object>? _GetFishingInfo;
+    private static Func<object, Vector2>? _GetBobberPosition;
+    private static Action<object, object>? _SetFishItem;
+    private static Action<object, object>? _SetFishQuality;
 
     /// <summary>Construct an instance.</summary>
     internal FishingRodPatcherCatchItemPatch()
@@ -58,48 +50,44 @@ internal sealed class FishingRodPatcherCatchItemPatch : BasePatch
     [HarmonyPrefix]
     private static void FishingRodPatcherCatchItemPrefix(object info)
     {
-        FishPond pond = null;
+        FishPond? pond = null;
         try
         {
             if (!info.GetType().Name.Contains("FishCatch")) return;
 
             _GetFromFishPond ??= info.GetType().RequirePropertyGetter("FromFishPond")
-                .CreateDelegate<GetFromFishPondDelegate>();
+                .CompileUnboundDelegate<Func<object, bool>>();
             var fromFishPond = _GetFromFishPond(info);
             if (!fromFishPond) return;
 
             _GetFishingInfo ??= info.GetType().RequirePropertyGetter("FishingInfo")
-                .CreateDelegate<GetFishingInfoDelegate>();
+                .CompileUnboundDelegate<Func<object, object>>();
             var fishingInfo = _GetFishingInfo(info);
-            if (fishingInfo is null) return;
-
             _GetBobberPosition ??= fishingInfo.GetType().RequirePropertyGetter("BobberPosition")
-                .CreateDelegate<GetBobberPositionDelegate>();
+                .CompileUnboundDelegate<Func<object, Vector2>>();
             var (x, y) = _GetBobberPosition(fishingInfo);
             pond = Game1.getFarm().buildings.OfType<FishPond>().FirstOrDefault(p =>
                 x > p.tileX.Value && x < p.tileX.Value + p.tilesWide.Value - 1 &&
                 y > p.tileY.Value && y < p.tileY.Value + p.tilesHigh.Value - 1);
             if (pond is null) return;
 
-            var fishQualities =
-                pond.ReadData("FishQualities",
-                        $"{pond.FishCount - pond.ReadDataAs<int>("FamilyLivingHere") + 1},0,0,0") // already reduced at this point, so consider + 1
-                    .ParseList<int>()!;
+            var fishQualities = ModDataIO.ReadData(pond, "FishQualities",
+                $"{pond.FishCount - ModDataIO.ReadDataAs<int>(pond, "FamilyLivingHere") + 1},0,0,0").ParseList<int>()!; // already reduced at this point, so consider + 1
             if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > pond.FishCount + 1))
                 throw new InvalidDataException("FishQualities data had incorrect number of values.");
 
             var lowestFish = fishQualities.FindIndex(i => i > 0);
-            _SetFishItem ??= info.GetType().RequirePropertySetter("FishItem").CreateDelegate<SetFishItemDelegate>();
-            _SetFishQuality ??= info.GetType().RequirePropertySetter("FishQuality").CreateDelegate<SetFishQuality>();
+            _SetFishItem ??= info.GetType().RequirePropertySetter("FishItem").CompileUnboundDelegate<Action<object, object>>();
+            _SetFishQuality ??= info.GetType().RequirePropertySetter("FishQuality").CompileUnboundDelegate<Action<object, object>>();
             if (pond.IsLegendaryPond())
             {
-                var familyCount = pond.ReadDataAs<int>("FamilyLivingHere");
+                var familyCount = ModDataIO.ReadDataAs<int>(pond, "FamilyLivingHere");
                 if (fishQualities.Sum() + familyCount != pond.FishCount + 1)
                     throw new InvalidDataException("FamilyLivingHere data is invalid.");
 
                 if (familyCount > 0)
                 {
-                    var familyQualities = pond.ReadData("FamilyQualities", $"{familyCount},0,0,0").ParseList<int>()!;
+                    var familyQualities = ModDataIO.ReadData(pond, "FamilyQualities", $"{familyCount},0,0,0").ParseList<int>()!;
                     if (familyQualities.Count != 4 || familyQualities.Sum() != familyCount)
                         throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
 
@@ -110,8 +98,8 @@ internal sealed class FishingRodPatcherCatchItemPatch : BasePatch
                         _SetFishItem(info, new SObject(whichFish, 1) {Quality = lowestFamily == 3 ? 4 : lowestFamily});
                         _SetFishQuality(info, lowestFamily == 3 ? 4 : lowestFamily);
                         --familyQualities[lowestFamily];
-                        pond.WriteData("FamilyQualities", string.Join(",", familyQualities));
-                        pond.IncrementData("FamilyLivingHere", -1);
+                        ModDataIO.WriteData(pond, "FamilyQualities", string.Join(",", familyQualities));
+                        ModDataIO.IncrementData(pond, "FamilyLivingHere", -1);
                     }
                     else
                     {
@@ -119,7 +107,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : BasePatch
                             new SObject(pond.fishType.Value, 1) {Quality = lowestFamily == 3 ? 4 : lowestFamily});
                         _SetFishQuality(info, lowestFish == 3 ? 4 : lowestFish);
                         --fishQualities[lowestFish];
-                        pond.WriteData("FishQualities", string.Join(",", fishQualities));
+                        ModDataIO.WriteData(pond, "FishQualities", string.Join(",", fishQualities));
                     }
                 }
                 else
@@ -128,7 +116,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : BasePatch
                         new SObject(pond.fishType.Value, 1) {Quality = lowestFish == 3 ? 4 : lowestFish});
                     _SetFishQuality(info, lowestFish == 3 ? 4 : lowestFish);
                     --fishQualities[lowestFish];
-                    pond.WriteData("FishQualities", string.Join(",", fishQualities));
+                    ModDataIO.WriteData(pond, "FishQualities", string.Join(",", fishQualities));
                 }
             }
             else
@@ -139,15 +127,15 @@ internal sealed class FishingRodPatcherCatchItemPatch : BasePatch
                 _SetFishItem(info, new SObject(pond.fishType.Value, 1) {Quality = lowestFish == 3 ? 4 : lowestFish});
                 _SetFishQuality(info, lowestFish == 3 ? 4 : lowestFish);
                 --fishQualities[lowestFish];
-                pond.WriteData("FishQualities", string.Join(",", fishQualities));
+                ModDataIO.WriteData(pond, "FishQualities", string.Join(",", fishQualities));
             }
         }
         catch (InvalidDataException ex) when (pond is not null)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            pond.WriteData("FishQualities", $"{pond.FishCount},0,0,0");
-            pond.WriteData("FamilyQualities", null);
-            pond.WriteData("FamilyLivingHere", null);
+            ModDataIO.WriteData(pond, "FishQualities", $"{pond.FishCount},0,0,0");
+            ModDataIO.WriteData(pond, "FamilyQualities", null);
+            ModDataIO.WriteData(pond, "FamilyLivingHere", null);
         }
     }
 

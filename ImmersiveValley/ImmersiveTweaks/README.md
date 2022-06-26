@@ -31,7 +31,6 @@ Features currently included:
 (Foraging and Farming-related)
 - Makes Bee House, Mushroom Box and Tapper produce improve quality with age, following the example of Fruit Trees. NEW: Quality also considers skill levels.
 - Makes Mushroom Box, Tappers and Berry Bushes reward foraging experience when harvested.
-- Makes Meads take after the flower type of the input Honey item.
 - Makes large Eggs and Milk double the output stack instead of increasing the quality.
 - Prevents Fruit Trees from growing in winter.
 - Allow Botanist/Ecologist perk to apply to hoed Ginger and Coconuts obtained from shaking palm trees.

@@ -47,7 +47,7 @@ internal class UltimateHUD
     #region properties
 
     /// <summary>The texture that will be used to draw the gauge.</summary>
-    internal static Texture2D Texture => Textures.UltimateMeterTx;
+    internal static Texture2D Texture => Textures.MeterTx;
 
     /// <summary>Whether the gauge is being drawn.</summary>
     internal bool IsVisible => ModEntry.EventManager.IsHooked<UltimateMeterRenderingHudEvent>();
@@ -63,7 +63,6 @@ internal class UltimateHUD
     {
         if (_opacity <= 0f) return;
 
-        var isUltimateActive = ModEntry.PlayerState.RegisteredUltimate.IsActive;
         var bonusLevelHeight = (_Owner.MaxValue - Ultimate.BASE_MAX_VALUE_I) * 0.2;
         
         // get bar position
@@ -80,10 +79,10 @@ internal class UltimateHUD
         else topOfBar.X -= 56;
 
         // shake horizontally if full and on stand-by, if active also shake vertically
-        if (_shake || isUltimateActive)
+        if (_shake || _Owner.IsActive)
         {
             topOfBar.X += Game1.random.Next(-3, 4);
-            if (isUltimateActive) topOfBar.Y += Game1.random.Next(-3, 4);
+            if (_Owner.IsActive) topOfBar.Y += Game1.random.Next(-3, 4);
         }
 
         // draw bar in thirds so that it may grow with combat level

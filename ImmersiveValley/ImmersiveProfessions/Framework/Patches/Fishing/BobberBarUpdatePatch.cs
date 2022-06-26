@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BobberBarUpdatePatch : BasePatch
+internal sealed class BobberBarUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal BobberBarUpdatePatch()
@@ -31,7 +31,7 @@ internal sealed class BobberBarUpdatePatch : BasePatch
 
     /// <summary>Patch to slow-down catching bar decrease for Aquarist.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> BobberBarUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? BobberBarUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

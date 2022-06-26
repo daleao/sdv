@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ResourceClumpPerformToolAction : BasePatch
+internal sealed class ResourceClumpPerformToolAction : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ResourceClumpPerformToolAction()
@@ -31,7 +31,7 @@ internal sealed class ResourceClumpPerformToolAction : BasePatch
 
     /// <summary>Patch to add bonus wood for prestiged Lumberjack.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> ResourceClumpPerformToolActionTranspiler(
+    private static IEnumerable<CodeInstruction>? ResourceClumpPerformToolActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

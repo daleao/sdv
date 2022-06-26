@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class QuestionEventSetUpPatch : BasePatch
+internal sealed class QuestionEventSetUpPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal QuestionEventSetUpPatch()
@@ -29,7 +29,7 @@ internal sealed class QuestionEventSetUpPatch : BasePatch
 
     /// <summary>Patch for Breeder to increase barn animal pregnancy chance.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> QuestionEventSetUpTranspiler(
+    private static IEnumerable<CodeInstruction>? QuestionEventSetUpTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

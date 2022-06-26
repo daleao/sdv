@@ -73,13 +73,13 @@ internal class AxeEffect : IEffect
             var clump = location.GetResourceClumpCoveringTile(tile, who, out var applyTool);
 
             // giant crops
-            if (Config.CutGiantCrops && clump is GiantCrop) return applyTool(tool);
+            if (Config.CutGiantCrops && clump is GiantCrop) return applyTool!(tool);
 
             // big stumps and fallen logs
             if (Config.ClearDebris && clump is not null &&
                 UpgradeLevelsNeededForResource.ContainsKey(clump.parentSheetIndex.Value) && tool.UpgradeLevel >=
                 UpgradeLevelsNeededForResource[clump.parentSheetIndex.Value])
-                return applyTool(tool);
+                return applyTool!(tool);
         }
 
         // cut bushes in large terrain features

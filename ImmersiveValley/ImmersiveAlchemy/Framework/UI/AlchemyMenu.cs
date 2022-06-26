@@ -272,7 +272,7 @@ public class AlchemyMenu : ItemGrabMenu
 
     #endregion enums
 
-    public AlchemyMenu(IEnumerable<Chest> containers = null)
+    public AlchemyMenu(IEnumerable<Chest>? containers = null)
         : base(null)
     {
         /// set dimensions and localization

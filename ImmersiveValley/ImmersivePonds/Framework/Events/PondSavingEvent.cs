@@ -14,15 +14,19 @@ using Common.Data;
 using Common.Events;
 using Common.Extensions;
 using Common.Extensions.Collections;
-using Extensions;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class PondSavingEvent : SavingEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    internal PondSavingEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnSavingImpl(object sender, SavingEventArgs e)
+    protected override void OnSavingImpl(object? sender, SavingEventArgs e)
     {
         if (!Context.IsMainPlayer) return;
 
@@ -38,28 +42,28 @@ internal sealed class PondSavingEvent : SavingEvent
         {
             var pondId = pond.GetCenterTile().ToString().GetDeterministicHashCode();
 
-            var fishQualities = pond.ReadData("FishQualities");
+            var fishQualities = ModDataIO.ReadData(pond, "FishQualities");
             if (!string.IsNullOrEmpty(fishQualities)) fishQualitiesDict[pondId] = fishQualities;
 
-            var familyQualities = pond.ReadData("FamilyQualities");
+            var familyQualities = ModDataIO.ReadData(pond, "FamilyQualities");
             if (!string.IsNullOrEmpty(familyQualities)) familyQualitiesDict[pondId] = familyQualities;
 
-            var familyLivingHere = pond.ReadDataAs<int>("FamilyLivingHere");
+            var familyLivingHere = ModDataIO.ReadDataAs<int>(pond, "FamilyLivingHere");
             if (familyLivingHere > 0) familyOccupantsDict[pondId] = familyLivingHere;
 
-            var daysEmpty = pond.ReadDataAs<int>("DaysEmpty");
+            var daysEmpty = ModDataIO.ReadDataAs<int>(pond, "DaysEmpty");
             if (daysEmpty > 0) daysEmptyDict[pondId] = daysEmpty;
 
-            var seaweedLivingHere = pond.ReadDataAs<int>("SeaweedLivingHere");
+            var seaweedLivingHere = ModDataIO.ReadDataAs<int>(pond, "SeaweedLivingHere");
             if (seaweedLivingHere > 0) seaweedOccupantsDict[pondId] = seaweedLivingHere;
 
-            var greenAlgaeLivingHere = pond.ReadDataAs<int>("GreenAlgaeLivingHere");
+            var greenAlgaeLivingHere = ModDataIO.ReadDataAs<int>(pond, "GreenAlgaeLivingHere");
             if (greenAlgaeLivingHere > 0) greenAlgaeOccupantsDict[pondId] = greenAlgaeLivingHere;
 
-            var whiteAlgaeLivingHere = pond.ReadDataAs<int>("WhiteAlgaeLivingHere");
+            var whiteAlgaeLivingHere = ModDataIO.ReadDataAs<int>(pond, "WhiteAlgaeLivingHere");
             if (whiteAlgaeLivingHere > 0) whiteAlgaeOccupantsDict[pondId] = whiteAlgaeLivingHere;
 
-            var itemsHeld = pond.ReadData("ItemsHeld");
+            var itemsHeld = ModDataIO.ReadData(pond, "ItemsHeld");
             if (!string.IsNullOrEmpty(itemsHeld)) itemsHeldDict[pondId] = itemsHeld;
         }
 

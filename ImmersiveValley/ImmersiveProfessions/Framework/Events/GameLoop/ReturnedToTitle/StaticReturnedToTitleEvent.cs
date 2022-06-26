@@ -12,11 +12,16 @@ using Common.Events;
 [UsedImplicitly]
 internal sealed class StaticReturnedToTitleEvent : ReturnedToTitleEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal StaticReturnedToTitleEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnReturnedToTitleImpl(object sender, ReturnedToTitleEventArgs e)
+    protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)
     {
         // unhook events
-        ModEntry.EventManager.UnhookFromLocalPlayer();
+        Manager.UnhookFromLocalPlayer();
 
         // reset mod state
         ModEntry.PlayerState = new();

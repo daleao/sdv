@@ -8,13 +8,14 @@ using Common.Events;
 
 #endregion using directives
 
-internal class ToxicityFilledEvent : BaseEvent
+internal class ToxicityFilledEvent : ManagedEvent
 {
-    protected readonly Action<object, IToxicityFilledEventArgs> _OnChargeInitiatedImpl;
+    protected readonly Action<object?, IToxicityFilledEventArgs> _OnChargeInitiatedImpl;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal ToxicityFilledEvent(Action<object, IToxicityFilledEventArgs> callback)
+    internal ToxicityFilledEvent(Action<object?, IToxicityFilledEventArgs> callback)
+        : base(ModEntry.EventManager)
     {
         _OnChargeInitiatedImpl = callback;
     }
@@ -22,8 +23,8 @@ internal class ToxicityFilledEvent : BaseEvent
     /// <summary>Raised when a player's Toxicity value reaches the maximum value.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    internal void OnFilled(object sender, IToxicityFilledEventArgs e)
+    internal void OnFilled(object? sender, IToxicityFilledEventArgs e)
     {
-        if (hooked.Value) _OnChargeInitiatedImpl(sender, e);
+        if (Hooked.Value) _OnChargeInitiatedImpl(sender, e);
     }
 }

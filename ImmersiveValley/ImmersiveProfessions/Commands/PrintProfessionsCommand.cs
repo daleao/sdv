@@ -4,6 +4,7 @@
 
 using static System.String;
 
+using JetBrains.Annotations;
 using StardewValley;
 
 using Common;
@@ -12,16 +13,22 @@ using Framework;
 
 #endregion using directives
 
-internal class PrintProfessionsCommand : ICommand
+[UsedImplicitly]
+internal sealed class PrintProfessionsCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "professions";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal PrintProfessionsCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "List the current professions.";
+    public override string Trigger => "professions";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "List the player's current professions.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (!Game1.player.professions.Any())
         {

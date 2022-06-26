@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FruitTreePerformToolAction : BasePatch
+internal sealed class FruitTreePerformToolAction : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FruitTreePerformToolAction()
@@ -31,7 +31,7 @@ internal sealed class FruitTreePerformToolAction : BasePatch
 
     /// <summary>Patch to add bonus wood for prestiged Lumberjack.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> FruitTreePerformToolActionTranspiler(
+    private static IEnumerable<CodeInstruction>? FruitTreePerformToolActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

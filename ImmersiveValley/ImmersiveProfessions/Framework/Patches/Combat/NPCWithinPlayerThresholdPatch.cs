@@ -17,7 +17,7 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class NPCWithinPlayerThresholdPatch : BasePatch
+internal sealed class NPCWithinPlayerThresholdPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal NPCWithinPlayerThresholdPatch()

@@ -11,24 +11,32 @@ using System.Linq;
 public static class GenericExtensions
 {
     /// <summary>Determine if the instance is contained by the collection.</summary>
-    /// <param name="collection">A sequence of <typeparamref name="T" /> objects.</param>
-    public static bool IsIn<T>(this T item, params T[] collection)
+    /// <param name="items"><typeparamref name="T" /> objects to check.</param>
+    public static bool IsIn<T>(this T item, params T[] items)
     {
-        return collection.Contains(item);
+        return items.Contains(item);
     }
 
     /// <summary>Determine if the instance is contained by the collection.</summary>
-    /// <param name="collection">A sequence of <typeparamref name="T" /> objects.</param>
+    /// <param name="collection">A sequence of <typeparamref name="T" /> objects to check.</param>
     public static bool IsIn<T>(this T item, IEnumerable<T> collection)
     {
         return collection.Contains(item);
     }
 
     /// <summary>Enumerate this and specified items.</summary>
-    /// <param name="otherItems">Other items to add to the collection.</param>
-    public static IEnumerable<T> Collect<T>(this T item, params T[] otherItems)
+    /// <param name="items"><typeparamref name="T"/> items to add to the collection.</param>
+    public static IEnumerable<T> Collect<T>(this T item, params T[] items)
     {
         yield return item;
-        foreach (var otherItem in otherItems) yield return otherItem;
+        foreach (var next in items) yield return next;
+    }
+
+    /// <summary>Enumerate this and specified <see cref="IEnumerable{T}"/>.</summary>
+    /// <param name="collection">A sequence of <typeparamref name="T"/> items to concatenate to the collection.</param>
+    public static IEnumerable<T> Collect<T>(this T item, IEnumerable<T> collection)
+    {
+        yield return item;
+        foreach (var next in collection) yield return next;
     }
 }

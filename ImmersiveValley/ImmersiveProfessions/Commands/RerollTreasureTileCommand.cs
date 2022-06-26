@@ -2,6 +2,7 @@
 
 #region using directives
 
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 
@@ -11,16 +12,22 @@ using Extensions;
 
 #endregion using directives
 
-internal class RerollTreasureTileCommand : ICommand
+[UsedImplicitly]
+internal sealed class RerollTreasureTileCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "hunt_reset";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal RerollTreasureTileCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Forcefully restart the current Treasure Hunt with a new target treasure tile.";
+    public override string Trigger => "hunt_reset";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Forcefully restart the current Treasure Hunt with a new target treasure tile.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (!ModEntry.PlayerState.ScavengerHunt.IsActive && !ModEntry.PlayerState.ProspectorHunt.IsActive)
         {

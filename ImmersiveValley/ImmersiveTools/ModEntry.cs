@@ -1,6 +1,4 @@
-﻿using DaLion.Common.Commands;
-
-namespace DaLion.Stardew.Tools;
+﻿namespace DaLion.Stardew.Tools;
 
 #region using directives
 
@@ -10,6 +8,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
 using Common;
+using Common.Commands;
 using Common.Events;
 using Common.Harmony;
 using Configs;
@@ -20,13 +19,13 @@ using Framework.Effects;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    internal static ModEntry Instance { get; private set; }
-    internal static ToolConfig Config { get; set; }
+    internal static ModEntry Instance { get; private set; } = null!;
+    internal static ToolConfig Config { get; set; } = null!;
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
 
-    internal static PerScreen<Shockwave> Shockwave { get; } = new(() => null);
+    internal static PerScreen<Shockwave?> Shockwave { get; } = new(() => null);
 
     internal static bool HasLoadedMoonMisadventures { get; private set; }
 
@@ -47,10 +46,10 @@ public class ModEntry : Mod
         new EventManager(helper.Events).HookAll();
 
         // apply patches
-        new HarmonyPatcher(ModManifest.UniqueID).ApplyAll();
+        new Harmonizer(ModManifest.UniqueID).ApplyAll();
 
         // register commands
-        new CommandHandler(helper.ConsoleCommands).Register("itools", ModManifest.UniqueID);
+        new CommandHandler(helper.ConsoleCommands).Register("itools", "Power Tools");
         
         // check for Moon Misadventures mod then verify configs
         HasLoadedMoonMisadventures = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");

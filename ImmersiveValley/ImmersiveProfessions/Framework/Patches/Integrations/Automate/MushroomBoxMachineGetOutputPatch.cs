@@ -19,11 +19,9 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MushroomBoxMachineGetOutputPatch : BasePatch
+internal sealed class MushroomBoxMachineGetOutputPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private delegate SObject GetMachineDelegate(object instance);
-
-    private static GetMachineDelegate _GetMachine;
+    private static Func<object, SObject>? _GetMachine;
 
     /// <summary>Construct an instance.</summary>
     internal MushroomBoxMachineGetOutputPatch()
@@ -50,9 +48,8 @@ internal sealed class MushroomBoxMachineGetOutputPatch : BasePatch
     {
         try
         {
-            if (__instance is null) return;
-
-            _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CreateDelegate<GetMachineDelegate>();
+            _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine")
+                .CompileUnboundDelegate<Func<object, SObject>>();
             var machine = _GetMachine(__instance);
             if (machine.heldObject.Value is null) return;
 

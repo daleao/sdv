@@ -12,7 +12,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class AxeBeginUsingPatch : BasePatch
+internal sealed class AxeBeginUsingPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal AxeBeginUsingPatch()

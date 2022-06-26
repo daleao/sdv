@@ -20,11 +20,9 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LoomMachineSetInputPatch : BasePatch
+internal sealed class LoomMachineSetInputPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private delegate Item GetSampleDelegate(object consumable);
-
-    private static GetSampleDelegate _GetSample;
+    private static Func<object, Item>? _GetSample;
 
     /// <summary>Construct an instance.</summary>
     internal LoomMachineSetInputPatch()
@@ -44,7 +42,7 @@ internal sealed class LoomMachineSetInputPatch : BasePatch
 
     /// <summary>Patch to apply Artisan effects to automated Loom.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> GenericObjectMachineGenericPullRecipeTranspiler(
+    private static IEnumerable<CodeInstruction>? GenericObjectMachineGenericPullRecipeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -84,7 +82,8 @@ internal sealed class LoomMachineSetInputPatch : BasePatch
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.HasProfession(Profession.Artisan)) return;
 
-        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample").CreateDelegate<GetSampleDelegate>();
+        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample")
+            .CompileUnboundDelegate<Func<object, Item>>();
         var output = machine.heldObject.Value;
         if (_GetSample(consumable) is SObject input) output.Quality = input.Quality;
 

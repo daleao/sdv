@@ -34,8 +34,8 @@ public static class GameLocationExtensions
     /// <param name="tile">The tile to check.</param>
     /// <param name="who">The current player.</param>
     /// <param name="applyTool">Applies a tool to the resource clump.</param>
-    public static ResourceClump GetResourceClumpCoveringTile(this GameLocation location, Vector2 tile, Farmer who,
-        out Func<Tool, bool> applyTool)
+    public static ResourceClump? GetResourceClumpCoveringTile(this GameLocation location, Vector2 tile, Farmer who, 
+        out Func<Tool, bool>? applyTool)
     {
         var tileArea = tile.GetAbsoluteTileArea();
 

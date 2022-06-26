@@ -15,7 +15,7 @@ public class Cauldron : Tool
 
     public static string InternalName { get; } = ModEntry.Manifest.UniqueID + ".Tool";
 
-    public static Texture2D Spritesheet { get; } =
+    public static Texture2D SpriteSheet { get; } =
         ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/Cauldron");
 
     /// <summary>Construct an instance.</summary>
@@ -74,7 +74,7 @@ public class Cauldron : Tool
         StackDrawType drawStackNumber, Color color, bool drawShadow)
     {
         var offset = new Vector2(16f) / 2f;
-        spriteBatch.Draw(Spritesheet, location + offset * 4f, _sourceRect, color * transparency, 0f,
+        spriteBatch.Draw(SpriteSheet, location + offset * 4f, _sourceRect, color * transparency, 0f,
             offset, scaleSize * 4f, SpriteEffects.None, layerDepth);
     }
 

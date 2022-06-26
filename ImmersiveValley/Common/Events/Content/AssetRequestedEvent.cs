@@ -7,16 +7,21 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 /// <summary>Wrapper for <see cref="IContentEvents.AssetRequested"/> allowing dynamic hooking / unhooking.</summary>
-internal abstract class AssetRequestedEvent : BaseEvent
+internal abstract class AssetRequestedEvent : ManagedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    protected AssetRequestedEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc cref="IContentEvents.AssetRequested"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    internal void OnAssetRequested(object sender, AssetRequestedEventArgs e)
+    internal void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
     {
-        if (hooked.Value || GetType().Name.StartsWith("Static")) OnAssetRequestedImpl(sender, e);
+        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnAssetRequestedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnAssetRequested" />
-    protected abstract void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e);
+    protected abstract void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e);
 }

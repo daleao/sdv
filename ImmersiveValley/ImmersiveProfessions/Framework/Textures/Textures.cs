@@ -15,20 +15,23 @@ public static class Textures
 
     #region textures
 
-    public static Texture2D Spritesheet =
-        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/spritesheet.png");
-
-    public static Texture2D UltimateMeterTx { get; set; } =
-        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
-
-    public static Texture2D SkillBarTx { get; set; } =
-        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/SkillBars");
-
-    public static Texture2D ProgressionTx { get; set; } =
-        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/PrestigeProgression");
+    public static Texture2D PointerTx { get; } =
+        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/HudPointer");
 
     public static Texture2D MaxIconTx { get; set; } =
         ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/MaxFishSizeIcon");
+    
+    public static Texture2D ProgressionTx { get; set; } =
+        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/PrestigeProgression");
+
+    public static Texture2D BarsTx { get; set; } =
+        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/SkillBars");
+
+    public static Texture2D SpriteTx =
+        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/SpriteSheet");
+
+    public static Texture2D MeterTx { get; set; } =
+        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
 
     #endregion textures
 }

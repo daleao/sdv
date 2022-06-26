@@ -12,7 +12,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class RingOnNewLocationPatch : BasePatch
+internal sealed class RingOnNewLocationPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal RingOnNewLocationPatch()
@@ -28,7 +28,7 @@ internal sealed class RingOnNewLocationPatch : BasePatch
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingOnNewLocationPrefix(Ring __instance, Farmer who)
     {
-        return !ModEntry.Config.ForgeableIridiumBand || __instance.indexInTileSheet.Value != Constants.IRIDIUM_BAND_INDEX_I;
+        return !ModEntry.Config.TheOneIridiumBand || __instance.indexInTileSheet.Value != Constants.IRIDIUM_BAND_INDEX_I;
     }
 
     #endregion harmony patches

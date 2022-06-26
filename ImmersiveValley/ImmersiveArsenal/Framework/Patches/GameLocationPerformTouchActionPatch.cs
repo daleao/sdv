@@ -18,7 +18,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationPerformTouchActionPatch : BasePatch
+internal sealed class GameLocationPerformTouchActionPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationPerformTouchActionPatch()
@@ -30,7 +30,7 @@ internal sealed class GameLocationPerformTouchActionPatch : BasePatch
 
     /// <summary>Apply new galaxy sword conditions.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> GameLocationPerformTouchActionTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? GameLocationPerformTouchActionTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

@@ -4,27 +4,29 @@
 
 using System.Reflection;
 using HarmonyLib;
-using JetBrains.Annotations;
 
 #endregion using directives
 
 /// <summary>Interface for Harmony patches.</summary>
-internal interface IPatch
+internal interface IHarmonyPatch
 {
     /// <summary>The method to be patched.</summary>
-    MethodBase Target { get; }
+    MethodBase? Target { get; }
 
     /// <summary>The <see cref="HarmonyPrefix"/> patch that should be applied, if any.</summary>
-    [CanBeNull] HarmonyMethod Prefix { get; }
+    HarmonyMethod? Prefix { get; }
 
     /// <summary>The <see cref="HarmonyPostfix"/> patch that should be applied, if any.</summary>
-    [CanBeNull] HarmonyMethod Postfix { get; }
+    HarmonyMethod? Postfix { get; }
 
     /// <summary>The <see cref="HarmonyTranspiler"/> patch that should be applied, if any.</summary>
-    [CanBeNull] HarmonyMethod Transpiler { get; }
+    HarmonyMethod? Transpiler { get; }
+
+    /// <summary>The <see cref="HarmonyFinalizer"/> patch that should be applied, if any.</summary>
+    HarmonyMethod? Finalizer { get; }
 
     /// <summary>The <see cref="HarmonyReversePatch"/> patch that should be applied, if any.</summary>
-    [CanBeNull] HarmonyMethod Reverse { get; }
+    HarmonyMethod? Reverse { get; }
 
     /// <summary>Apply internally-defined Harmony patches.</summary>
     /// <param name="harmony">The Harmony instance for this mod.</param>

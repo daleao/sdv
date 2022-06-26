@@ -19,7 +19,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CropHitWithHoePatch : BasePatch
+internal sealed class CropHitWithHoePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CropHitWithHoePatch()
@@ -30,7 +30,7 @@ internal sealed class CropHitWithHoePatch : BasePatch
     #region harmony patches
 
     /// <summary>Apply Botanist/Ecologist perk to wild ginger.</summary>
-    private static IEnumerable<CodeInstruction> CropHitWithHoeTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? CropHitWithHoeTranspiler(IEnumerable<CodeInstruction> instructions,
         MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

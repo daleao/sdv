@@ -8,13 +8,13 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
 
+using Common.Data;
 using Common.Harmony;
-using Extensions;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondCtorPatch : BasePatch
+internal sealed class FishPondCtorPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondCtorPatch()
@@ -28,7 +28,7 @@ internal sealed class FishPondCtorPatch : BasePatch
     [HarmonyPostfix]
     private static void FishPondCtorPostfix(FishPond __instance)
     {
-        __instance.WriteData("DaysEmpty", (-3).ToString()); // it's -3 for good measure (and also immersion; a fresh pond takes longer to get dirty)
+        ModDataIO.WriteData(__instance, "DaysEmpty", (-3).ToString()); // it's -3 for good measure (and also immersion; a fresh pond takes longer to get dirty)
     }
 
     #endregion harmony patches

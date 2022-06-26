@@ -11,7 +11,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ExperienceBarGetExperienceRequiredToLevelPatch : BasePatch
+internal sealed class ExperienceBarGetExperienceRequiredToLevelPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private const int EXP_AT_LEVEL_TEN_I = 15000;
 

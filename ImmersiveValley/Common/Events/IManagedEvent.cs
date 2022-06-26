@@ -1,7 +1,7 @@
 ﻿namespace DaLion.Common.Events;
 
 /// <summary>Interface for an event wrapper allowing dynamic hooking / unhooking.</summary>
-public interface IEvent
+public interface IManagedEvent
 {
     /// <summary>Whether this event is hooked.</summary>
     bool IsHooked { get; }

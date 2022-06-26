@@ -3,22 +3,29 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 
 using Common;
 using Common.Commands;
 
 #endregion using directives
 
-internal class SetUltimateChargeCommand : ICommand
+[UsedImplicitly]
+internal sealed class SetUltimateChargeCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "ready_ult";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal SetUltimateChargeCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Max-out the Special Ability charge, or set it to the specified percentage.";
+    public override string Trigger => "ready_ult";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Max-out the player's Special Ability charge, or set it to the specified percentage.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (ModEntry.PlayerState.RegisteredUltimate is null)
         {

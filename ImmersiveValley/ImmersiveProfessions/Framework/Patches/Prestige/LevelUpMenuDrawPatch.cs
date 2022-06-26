@@ -21,9 +21,9 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuDrawPatch : BasePatch
+internal sealed class LevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static readonly FieldInfo _ProfessionsToChoose = typeof(LevelUpMenu).RequireField("professionsToChoose")!;
+    private static Func<LevelUpMenu, List<int>>? _GetProfessionsToChoose;
 
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuDrawPatch()
@@ -43,7 +43,7 @@ internal sealed class LevelUpMenuDrawPatch : BasePatch
 
     /// <summary>Patch to draw Prestige tooltip during profession selection.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> LevelUpMenuDrawTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? LevelUpMenuDrawTranspiler(IEnumerable<CodeInstruction> instructions,
         MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -123,7 +123,9 @@ internal sealed class LevelUpMenuDrawPatch : BasePatch
     {
         if (!ModEntry.Config.EnablePrestige || !menu.isProfessionChooser || currentLevel > 10) return;
 
-        var professionsToChoose = (List<int>) _ProfessionsToChoose.GetValue(menu)!;
+        _GetProfessionsToChoose ??= typeof(LevelUpMenu).RequireField("professionsToChoose")
+            .CompileUnboundFieldGetterDelegate<Func<LevelUpMenu, List<int>>>();
+        var professionsToChoose = _GetProfessionsToChoose(menu);
         if (!Profession.TryFromValue(professionsToChoose[0], out var leftProfession) ||
             !Profession.TryFromValue(professionsToChoose[1], out var rightProfession)) return;
 

@@ -18,7 +18,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmAnimalDayUpdatePatch : BasePatch
+internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmAnimalDayUpdatePatch()
@@ -33,7 +33,7 @@ internal sealed class FarmAnimalDayUpdatePatch : BasePatch
     ///     produce quality boosts.
     /// </summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> FarmAnimalDayUpdateTranspiler(
+    private static IEnumerable<CodeInstruction>? FarmAnimalDayUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

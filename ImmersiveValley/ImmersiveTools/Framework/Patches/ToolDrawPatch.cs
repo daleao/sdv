@@ -11,7 +11,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ToolDrawPatch : BasePatch
+internal sealed class ToolDrawPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ToolDrawPatch()

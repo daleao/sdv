@@ -16,7 +16,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectDayUpdatePatch : BasePatch
+internal sealed class ObjectDayUpdatePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectDayUpdatePatch()

@@ -20,11 +20,9 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CheesePressMachineSetInputPatch : BasePatch
+internal sealed class CheesePressMachineSetInputPatch : Common.Harmony.HarmonyPatch
 {
-    private delegate Item GetSampleDelegate(object instance);
-
-    private static GetSampleDelegate _GetSample;
+    private static Func<object, Item>? _GetSample;
 
     /// <summary>Construct an instance.</summary>
     internal CheesePressMachineSetInputPatch()
@@ -43,7 +41,7 @@ internal sealed class CheesePressMachineSetInputPatch : BasePatch
     #region harmony patches
 
     /// <summary>Replaces large milk output quality with quantity.</summary>
-    private static IEnumerable<CodeInstruction> CheesePressMachineSetInputTranspiler(
+    private static IEnumerable<CodeInstruction>? CheesePressMachineSetInputTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -87,7 +85,8 @@ internal sealed class CheesePressMachineSetInputPatch : BasePatch
     {
         if (!ModEntry.Config.LargeProducsYieldQuantityOverQuality) return;
 
-        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample").CreateDelegate<GetSampleDelegate>();
+        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample")
+            .CompileUnboundDelegate<Func<object, Item>>();
         if (_GetSample(consumable) is not SObject input) return;
 
         var output = machine.heldObject.Value;

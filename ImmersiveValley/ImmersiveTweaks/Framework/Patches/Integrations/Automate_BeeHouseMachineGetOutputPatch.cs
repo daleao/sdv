@@ -19,7 +19,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BeeHouseMachineGetOutputPatch : BasePatch
+internal sealed class BeeHouseMachineGetOutputPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal BeeHouseMachineGetOutputPatch()
@@ -38,8 +38,8 @@ internal sealed class BeeHouseMachineGetOutputPatch : BasePatch
     #region harmony patches
 
     /// <summary>Adds aging quality to automated bee houses.</summary>
-    private static IEnumerable<CodeInstruction> BeeHouseMachineGetOutputTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? BeeHouseMachineGetOutputTranspiler(
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 

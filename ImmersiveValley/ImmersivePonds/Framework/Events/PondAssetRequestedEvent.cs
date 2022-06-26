@@ -14,8 +14,13 @@ using Common.Events;
 [UsedImplicitly]
 internal sealed class PondAssetRequestedEvent : AssetRequestedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    internal PondAssetRequestedEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)
+    protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
     {
         if (!e.NameWithoutLocale.IsEquivalentTo("Data/FishPondData")) return;
 
@@ -86,6 +91,6 @@ internal sealed class PondAssetRequestedEvent : AssetRequestedEvent
                     SpawnTime = 2
                 }
             });
-        });
+        }, AssetEditPriority.Late);
     }
 }

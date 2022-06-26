@@ -13,7 +13,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BasicProjectileCtorPatch : BasePatch
+internal sealed class BasicProjectileCtorPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal BasicProjectileCtorPatch()

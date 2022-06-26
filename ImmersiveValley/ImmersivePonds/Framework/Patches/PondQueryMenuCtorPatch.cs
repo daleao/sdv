@@ -9,14 +9,14 @@ using StardewValley.Buildings;
 using StardewValley.Menus;
 
 using Common;
+using Common.Data;
 using Common.Extensions;
 using Common.Harmony;
-using Extensions;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class PondQueryMenuCtorPatch : BasePatch
+internal sealed class PondQueryMenuCtorPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuCtorPatch()
@@ -32,26 +32,26 @@ internal sealed class PondQueryMenuCtorPatch : BasePatch
     {
         try
         {
-            fish_pond.ReadData("FishQualities", null)?.ParseTuple<int, int, int, int>();
+            ModDataIO.ReadData(fish_pond, "FishQualities").ParseTuple<int, int, int, int>();
         }
         catch (InvalidOperationException ex)
         {
             Log.W($"FishQualities data is invalid. {ex}\nThe data will be reset");
-            fish_pond.WriteData("FishQualities", $"{fish_pond.FishCount},0,0,0");
-            fish_pond.WriteData("FamilyQualities", null);
-            fish_pond.WriteData("FamilyLivingHere", null);
+            ModDataIO.WriteData(fish_pond, "FishQualities", $"{fish_pond.FishCount},0,0,0");
+            ModDataIO.WriteData(fish_pond, "FamilyQualities", null);
+            ModDataIO.WriteData(fish_pond, "FamilyLivingHere", null);
         }
 
         try
         {
-            fish_pond.ReadData("FamilyQualities", null)?.ParseTuple<int, int, int, int>();
+            ModDataIO.ReadData(fish_pond, "FamilyQualities").ParseTuple<int, int, int, int>();
         }
         catch (InvalidOperationException ex)
         {
             Log.W($"FamilyQuality data is invalid. {ex}\nThe data will be reset");
-            fish_pond.WriteData("FishQualities", $"{fish_pond.FishCount},0,0,0");
-            fish_pond.WriteData("FamilyQualities", null);
-            fish_pond.WriteData("FamilyLivingHere", null);
+            ModDataIO.WriteData(fish_pond, "FishQualities", $"{fish_pond.FishCount},0,0,0");
+            ModDataIO.WriteData(fish_pond, "FamilyQualities", null);
+            ModDataIO.WriteData(fish_pond, "FamilyLivingHere", null);
         }
     }
 

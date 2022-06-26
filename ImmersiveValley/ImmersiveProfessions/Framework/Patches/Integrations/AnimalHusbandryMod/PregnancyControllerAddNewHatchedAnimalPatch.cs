@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : BasePatch
+internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal PregnancyControllerAddNewHatchedAnimalPatch()
@@ -39,7 +39,7 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : BasePatch
     /// <summary>Patch for Rancher husbanded animals to have random starting friendship.</summary>
 
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> PregnancyControllerAddNewHatchedAnimalTranspiler(
+    private static IEnumerable<CodeInstruction>? PregnancyControllerAddNewHatchedAnimalTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

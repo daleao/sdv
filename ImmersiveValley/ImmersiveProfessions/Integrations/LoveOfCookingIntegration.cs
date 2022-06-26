@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Stardew.Professions.Integrations;
+﻿namespace DaLion.Stardew.Professions.Integrations;
 
 #region using directives
 

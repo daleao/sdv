@@ -21,10 +21,9 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class PropagatorPopExtraHeldMushroomsPatch : BasePatch
+internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static readonly FieldInfo _SourceMushroomQuality =
-        "BlueberryMushroomMachine.Propagator".ToType().RequireField("SourceMushroomQuality")!;
+    private static Func<SObject, int>? _GetSourceMushroomQuality;
 
     /// <summary>Construct an instance.</summary>
     internal PropagatorPopExtraHeldMushroomsPatch()
@@ -45,8 +44,6 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : BasePatch
     [HarmonyPostfix]
     private static void PropagatorPopExtraHeldMushroomsPostfix(SObject __instance)
     {
-        if (__instance is null) return;
-
         var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.IsLocalPlayer || !owner.HasProfession(Profession.Ecologist)) return;
 
@@ -55,7 +52,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : BasePatch
 
     /// <summary>Patch for Propagator output quality.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> PropagatorPopExtraHeldMushroomsTranspiler(
+    private static IEnumerable<CodeInstruction>? PropagatorPopExtraHeldMushroomsTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -99,7 +96,10 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : BasePatch
         var owner = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
         if (owner.IsLocalPlayer && owner.HasProfession(Profession.Ecologist)) return owner.GetEcologistForageQuality();
 
-        var sourceMushroomQuality = (int) _SourceMushroomQuality.GetValue(propagator)!;
+        _GetSourceMushroomQuality ??= "BlueberryMushroomMachine.Propagator".ToType()
+            .RequireField("SourceMushroomQuality")
+            .CompileUnboundFieldGetterDelegate<Func<SObject, int>>();
+        var sourceMushroomQuality = _GetSourceMushroomQuality(propagator);
         return sourceMushroomQuality;
     }
 

@@ -23,9 +23,9 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ProjectileUpdatePatch : BasePatch
+internal sealed class ProjectileUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static readonly FieldInfo _DamagesMonsters = typeof(Projectile).RequireField("damagesMonsters")!;
+    private static Func<Projectile, NetBool>? _GetDamagesMonsters;
 
     /// <summary>Construct an instance.</summary>
     internal ProjectileUpdatePatch()
@@ -44,7 +44,9 @@ internal sealed class ProjectileUpdatePatch : BasePatch
         if (__instance is not BasicProjectile projectile) return;
 
         // check if damages monsters
-        var damagesMonsters = ((NetBool) _DamagesMonsters.GetValue(__instance)!).Value;
+        _GetDamagesMonsters ??= typeof(Projectile).RequireField("damagesMonsters")
+            .CompileUnboundFieldGetterDelegate<Func<Projectile, NetBool>>();
+        var damagesMonsters = _GetDamagesMonsters(__instance).Value;
         if (!damagesMonsters) return;
 
         // check for overcharge
@@ -113,7 +115,7 @@ internal sealed class ProjectileUpdatePatch : BasePatch
 
     /// <summary>Patch to detect bounced bullets.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> ProjectileUpdateTranspiler(
+    private static IEnumerable<CodeInstruction>? ProjectileUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

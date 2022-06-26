@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FeedingBasketOverridesDoFunctionPatch : BasePatch
+internal sealed class FeedingBasketOverridesDoFunctionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FeedingBasketOverridesDoFunctionPatch()
@@ -37,7 +37,7 @@ internal sealed class FeedingBasketOverridesDoFunctionPatch : BasePatch
 
     /// <summary>Patch for Rancher to combine Shepherd and Coopmaster friendship bonus.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> InseminationSyringeOverridesDoFunctionTranspiler(
+    private static IEnumerable<CodeInstruction>? InseminationSyringeOverridesDoFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

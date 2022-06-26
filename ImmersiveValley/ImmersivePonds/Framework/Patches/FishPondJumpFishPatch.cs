@@ -12,7 +12,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondJumpFishPatch : BasePatch
+internal sealed class FishPondJumpFishPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondJumpFishPatch()

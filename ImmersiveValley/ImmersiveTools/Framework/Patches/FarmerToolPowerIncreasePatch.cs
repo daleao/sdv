@@ -14,7 +14,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerToolPowerIncreasePatch : BasePatch
+internal sealed class FarmerToolPowerIncreasePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerToolPowerIncreasePatch()

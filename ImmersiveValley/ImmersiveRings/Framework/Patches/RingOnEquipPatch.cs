@@ -12,7 +12,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class RingOnEquipPatch : BasePatch
+internal sealed class RingOnEquipPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal RingOnEquipPatch()
@@ -28,7 +28,7 @@ internal sealed class RingOnEquipPatch : BasePatch
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingOnEquipPrefix(Ring __instance, Farmer who)
     {
-        if (ModEntry.Config.ForgeableIridiumBand &&
+        if (ModEntry.Config.TheOneIridiumBand &&
             __instance.indexInTileSheet.Value == Constants.IRIDIUM_BAND_INDEX_I) return false; // don't run original logic
 
         if (!ModEntry.Config.RebalancedRings) return true; // run original logic

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
@@ -16,11 +17,9 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class PropagatorMachineGetOutputPatch : BasePatch
+internal sealed class PropagatorMachineGetOutputPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private delegate SObject GetEntityDelegate(object instance);
-
-    private static GetEntityDelegate _GetEntity;
+    private static Func<object, SObject>? _GetEntity;
 
     /// <summary>Construct an instance.</summary>
     internal PropagatorMachineGetOutputPatch()
@@ -41,12 +40,9 @@ internal sealed class PropagatorMachineGetOutputPatch : BasePatch
     [HarmonyPostfix]
     private static void PropagatorMachineGetOutputPostfix(object __instance)
     {
-        if (__instance is null) return;
-
-        _GetEntity ??= __instance.GetType().RequirePropertyGetter("Entity").CreateDelegate<GetEntityDelegate>();
+        _GetEntity ??= __instance.GetType().RequirePropertyGetter("Entity")
+            .CompileUnboundDelegate<Func<object, SObject>>();
         var entity = _GetEntity(__instance);
-        if (entity is null) return;
-
         var owner = Game1.getFarmerMaybeOffline(entity.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.HasProfession(Profession.Ecologist)) return;
 

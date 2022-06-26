@@ -14,7 +14,7 @@ using DaLion.Common.Harmony;
 #endregion using directive
 
 [UsedImplicitly]
-internal sealed class GameLocationCanRespecPatch : BasePatch
+internal sealed class GameLocationCanRespecPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationCanRespecPatch()

@@ -1,6 +1,4 @@
-﻿using DaLion.Common;
-
-namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 #region using directives
 
@@ -8,6 +6,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using Common;
 using Common.Events;
 
 #endregion using directives
@@ -15,8 +14,13 @@ using Common.Events;
 [UsedImplicitly]
 internal sealed class RequestUpdateHostStateModMessageReceivedEvent : ModMessageReceivedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal RequestUpdateHostStateModMessageReceivedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnModMessageReceivedImpl(object sender, ModMessageReceivedEventArgs e)
+    protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
         if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("RequestUpdateHostState")) return;
 

@@ -14,7 +14,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuGetProfessionNamePatch : BasePatch
+internal sealed class LevelUpMenuGetProfessionNamePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuGetProfessionNamePatch()

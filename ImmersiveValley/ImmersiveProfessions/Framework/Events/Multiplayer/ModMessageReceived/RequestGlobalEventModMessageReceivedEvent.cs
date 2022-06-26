@@ -15,8 +15,13 @@ using GameLoop;
 [UsedImplicitly]
 internal sealed class RequestGlobalEventModMessageReceivedEvent : ModMessageReceivedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal RequestGlobalEventModMessageReceivedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnModMessageReceivedImpl(object sender, ModMessageReceivedEventArgs e)
+    protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
         if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("RequestEvent")) return;
 
@@ -32,15 +37,15 @@ internal sealed class RequestGlobalEventModMessageReceivedEvent : ModMessageRece
         {
             case "Conservationism":
                 Log.D($"{who.Name} requested {which} event subscription.");
-                ModEntry.EventManager.Hook<HostConservationismDayEndingEvent>();
+                Manager.Hook<HostConservationismDayEndingEvent>();
                 break;
             case "HuntIsOn":
                 Log.D($"Prestiged treasure hunter {who.Name} is hunting for treasure.");
-                ModEntry.EventManager.Hook<HostPrestigeTreasureHuntUpdateTickedEvent>();
+                Manager.Hook<HostPrestigeTreasureHuntUpdateTickedEvent>();
                 break;
             case "HuntIsOff":
                 Log.D($"{who.Name}'s hunt has ended.");
-                ModEntry.EventManager.Unhook<HostPrestigeTreasureHuntUpdateTickedEvent>();
+                Manager.Unhook<HostPrestigeTreasureHuntUpdateTickedEvent>();
                 break;
         }
     }

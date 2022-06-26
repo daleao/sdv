@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : BasePatch
+internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal MeleeWeaponDoAnimateSpecialMovePatch()
@@ -30,7 +30,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : BasePatch
     
     /// <summary>Patch to remove Acrobat cooldown reduction.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> MeleeWeaponDoAnimateSpecialMoveTranspiler(
+    private static IEnumerable<CodeInstruction>? MeleeWeaponDoAnimateSpecialMoveTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

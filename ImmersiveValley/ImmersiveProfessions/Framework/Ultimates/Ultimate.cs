@@ -32,22 +32,22 @@ internal abstract class Ultimate : IUltimate
     #region event handlers
 
     /// <inheritdoc cref="OnActivated"/>
-    internal static event EventHandler<IUltimateActivatedEventArgs> Activated;
+    internal static event EventHandler<IUltimateActivatedEventArgs>? Activated;
 
     /// <inheritdoc cref="OnDeactivated"/>
-    internal static event EventHandler<IUltimateDeactivatedEventArgs> Deactivated;
+    internal static event EventHandler<IUltimateDeactivatedEventArgs>? Deactivated;
 
     /// <inheritdoc cref="OnChargeInitiated"/>
-    internal static event EventHandler<IUltimateChargeInitiatedEventArgs> ChargeInitiated;
+    internal static event EventHandler<IUltimateChargeInitiatedEventArgs>? ChargeInitiated;
 
     /// <inheritdoc cref="OnChargeIncreased"/>
-    internal static event EventHandler<IUltimateChargeIncreasedEventArgs> ChargeIncreased;
+    internal static event EventHandler<IUltimateChargeIncreasedEventArgs>? ChargeIncreased;
 
     /// <inheritdoc cref="OnFullyCharged"/>
-    internal static event EventHandler<IUltimateFullyChargedEventArgs> FullyCharged;
+    internal static event EventHandler<IUltimateFullyChargedEventArgs>? FullyCharged;
 
     /// <inheritdoc cref="OnEmptied"/>
-    internal static event EventHandler<IUltimateEmptiedEventArgs> Emptied;
+    internal static event EventHandler<IUltimateEmptiedEventArgs>? Emptied;
 
     #endregion event handlers
 
@@ -83,9 +83,9 @@ internal abstract class Ultimate : IUltimate
             if (value <= 0)
             {
                 ModEntry.EventManager.Unhook<UltimateGaugeShakeUpdateTickedEvent>();
-                ModEntry.PlayerState.RegisteredUltimate.Hud.ForceStopShake();
+                Hud.ForceStopShake();
 
-                if (ModEntry.PlayerState.RegisteredUltimate.IsActive) ModEntry.PlayerState.RegisteredUltimate.Deactivate();
+                if (IsActive) Deactivate();
 
                 if (!Game1.currentLocation.IsDungeon())
                     ModEntry.EventManager.Hook<UltimateGaugeFadeOutUpdateTickedEvent>();

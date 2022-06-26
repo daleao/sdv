@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CaderaGetFishPatch : BasePatch
+internal sealed class CaderaGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CaderaGetFishPatch()
@@ -29,7 +29,7 @@ internal sealed class CaderaGetFishPatch : BasePatch
 
     /// <summary>Patch for Fisher to reroll reeled fish if first roll resulted in trash.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> GameLocationGetFishTranspiler(
+    private static IEnumerable<CodeInstruction>? GameLocationGetFishTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

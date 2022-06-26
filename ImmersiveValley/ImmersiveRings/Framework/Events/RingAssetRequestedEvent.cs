@@ -22,7 +22,10 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
 
     private static readonly Dictionary<string, (Func<string> provide, AssetLoadPriority priority)> AssetProviders = new();
 
-    internal RingAssetRequestedEvent()
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    internal RingAssetRequestedEvent(EventManager manager)
+        : base(manager)
     {
         AssetEditors["Data/CraftingRecipes"] = (edit: EditCraftingRecipesData, priority: AssetEditPriority.Default);
         AssetEditors["Data/ObjectInformation"] = (edit: EditObjectInformationData, priority: AssetEditPriority.Default);
@@ -37,7 +40,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
     }
 
     /// <inheritdoc />
-    protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)
+    protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
     {
         if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))
             e.Edit(editor.edit, editor.priority);
@@ -76,7 +79,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
             data["Ruby Ring"] = "64 1 336 5/Home/534/Ring/Combat 6";
         }
 
-        if (ModEntry.Config.ForgeableIridiumBand)
+        if (ModEntry.Config.TheOneIridiumBand)
         {
             fields = data["Iridium Band"].Split('/');
             fields[0] = "337 5 768 100 769 100";
@@ -101,7 +104,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
             data[Rings.Constants.JADE_RING_INDEX_I] = string.Join('/', fields);
         }
 
-        if (ModEntry.Config.ForgeableIridiumBand)
+        if (ModEntry.Config.TheOneIridiumBand)
         {
             fields = data[Rings.Constants.IRIDIUM_BAND_INDEX_I].Split('/');
             fields[5] = ModEntry.i18n.Get("rings.iridium");
@@ -132,7 +135,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
             editor.PatchImage(rings, srcArea, targetArea);
         }
 
-        if (ModEntry.Config.ForgeableIridiumBand)
+        if (ModEntry.Config.TheOneIridiumBand)
         {
             if (ModEntry.HasLoadedBetterRings)
             {

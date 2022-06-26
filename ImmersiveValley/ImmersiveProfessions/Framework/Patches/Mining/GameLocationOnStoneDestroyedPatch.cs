@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationOnStoneDestroyedPatch : BasePatch
+internal sealed class GameLocationOnStoneDestroyedPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationOnStoneDestroyedPatch()
@@ -29,7 +29,7 @@ internal sealed class GameLocationOnStoneDestroyedPatch : BasePatch
 
     /// <summary>Patch to remove Prospector double coal chance.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> GameLocationOnStoneDestroyedTranspiler(
+    private static IEnumerable<CodeInstruction>? GameLocationOnStoneDestroyedTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

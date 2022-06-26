@@ -6,13 +6,13 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Buildings;
 
+using Common.Data;
 using Common.Harmony;
-using Extensions;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondOnFishTypeChangedPatch : BasePatch
+internal sealed class FishPondOnFishTypeChangedPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondOnFishTypeChangedPatch()
@@ -28,15 +28,15 @@ internal sealed class FishPondOnFishTypeChangedPatch : BasePatch
     {
         if (__instance.fishType.Value > 0) return;
 
-        __instance.WriteData("FishQualities", null);
-        __instance.WriteData("FamilyQualities", null);
-        __instance.WriteData("FamilyLivingHere", null);
-        __instance.WriteData("DaysEmpty", 0.ToString());
-        __instance.WriteData("SeaweedLivingHere", null);
-        __instance.WriteData("GreenAlgaeLivingHere", null);
-        __instance.WriteData("WhiteAlgaeLivingHere", null);
-        __instance.WriteData("CheckedToday", null);
-        __instance.WriteData("ItemsHeld", null);
+        ModDataIO.WriteData(__instance, "FishQualities", null);
+        ModDataIO.WriteData(__instance, "FamilyQualities", null);
+        ModDataIO.WriteData(__instance, "FamilyLivingHere", null);
+        ModDataIO.WriteData(__instance, "DaysEmpty", 0.ToString());
+        ModDataIO.WriteData(__instance, "SeaweedLivingHere", null);
+        ModDataIO.WriteData(__instance, "GreenAlgaeLivingHere", null);
+        ModDataIO.WriteData(__instance, "WhiteAlgaeLivingHere", null);
+        ModDataIO.WriteData(__instance, "CheckedToday", null);
+        ModDataIO.WriteData(__instance, "ItemsHeld", null);
     }
 
     #endregion harmony patches

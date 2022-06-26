@@ -1,4 +1,3 @@
-#nullable enable
 namespace DaLion.Common.Integrations;
 
 #region using directives
@@ -10,10 +9,13 @@ using StardewModdingAPI;
 #endregion using directives
 
 /// <summary>The base implementation for a mod integration.</summary>
-/// <remarks><see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
+/// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
 public abstract class BaseIntegration : IModIntegration
 {
     #region accessors
+
+    /// <summary>A human-readable name for the mod.</summary>
+    public string ModName { get; }
 
     /// <summary>The mod's unique ID.</summary>
     protected string ModId { get; }
@@ -21,23 +23,20 @@ public abstract class BaseIntegration : IModIntegration
     /// <summary>API for fetching metadata about loaded mods.</summary>
     protected IModRegistry ModRegistry { get; }
 
-    /// <summary>A human-readable name for the mod.</summary>
-    public string Label { get; }
-
     /// <summary>Whether the mod is available.</summary>
     public virtual bool IsLoaded { get; }
 
     #endregion accessors
 
     /// <summary>Construct an instance.</summary>
-    /// <param name="label">A human-readable name for the mod.</param>
+    /// <param name="name">A human-readable name for the mod.</param>
     /// <param name="modId">The mod's unique ID.</param>
     /// <param name="minVersion">The minimum version of the mod that's supported.</param>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    protected BaseIntegration(string label, string modId, string minVersion, IModRegistry modRegistry)
+    protected BaseIntegration(string name, string modId, string minVersion, IModRegistry modRegistry)
     {
         // init
-        Label = label;
+        ModName = name;
         ModId = modId;
         ModRegistry = modRegistry;
 
@@ -48,29 +47,27 @@ public abstract class BaseIntegration : IModIntegration
         if (manifest.Version.IsOlderThan(minVersion))
         {
             Log.W(
-                $"Detected {label} {manifest.Version}, but need {minVersion} or later. Disabled integration with this mod.");
+                $"Detected {name} {manifest.Version}, but need {minVersion} or later. Disabled integration with this mod.");
             return;
         }
 
         IsLoaded = true;
     }
 
-    /// <summary>Get an API for the mod, and show a message if it can't be loaded.</summary>
+    /// <summary>Try to get an API for the mod.</summary>
     /// <typeparam name="TApi">The API type.</typeparam>
-    protected TApi? GetValidatedApi<TApi>() where TApi : class
+    /// <returns><see langword="true"> if an api was retreived, otherwise <see langword="false">.</returns>
+    protected bool TryGetApi<TApi>([NotNullWhen(true)] out TApi? api) where TApi : class
     {
-        var api = ModRegistry.GetApi<TApi>(ModId);
-        if (api is not null) return api;
-
-        Log.W($"Detected {Label}, but couldn't fetch its API. Disabled integration with this mod.");
-        return null;
+        api = ModRegistry.GetApi<TApi>(ModId);
+        return api is not null;
     }
 
     /// <summary>Assert that the integration is loaded.</summary>
     /// <exception cref="InvalidOperationException">The integration isn't loaded.</exception>
     protected virtual void AssertLoaded()
     {
-        if (!IsLoaded) throw new InvalidOperationException($"The {Label} integration isn't loaded.");
+        if (!IsLoaded) throw new InvalidOperationException($"The {ModName} integration isn't loaded.");
     }
 }
 
@@ -91,14 +88,17 @@ public abstract class BaseIntegration<TApi> : BaseIntegration where TApi : class
     #endregion accessors
 
     /// <summary>Construct an instance.</summary>
-    /// <param name="label">A human-readable name for the mod.</param>
+    /// <param name="name">A human-readable name for the mod.</param>
     /// <param name="modID">The mod's unique ID.</param>
     /// <param name="minVersion">The minimum version of the mod that's supported.</param>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    protected BaseIntegration(string label, string modID, string minVersion, IModRegistry modRegistry)
-        : base(label, modID, minVersion, modRegistry)
+    protected BaseIntegration(string name, string modID, string minVersion, IModRegistry modRegistry)
+        : base(name, modID, minVersion, modRegistry)
     {
-        if (base.IsLoaded) ModApi = GetValidatedApi<TApi>();
+        if (base.IsLoaded && TryGetApi<TApi>(out var api))
+            ModApi = api;
+        else
+            Log.W($"Failed to get api from {ModName}.");
     }
 
     /// <summary>Assert that the integration is loaded.</summary>
@@ -106,6 +106,6 @@ public abstract class BaseIntegration<TApi> : BaseIntegration where TApi : class
     [MemberNotNull(nameof(ModApi))]
     protected override void AssertLoaded()
     {
-        if (!IsLoaded) throw new InvalidOperationException($"The {Label} integration isn't loaded.");
+        if (!IsLoaded) throw new InvalidOperationException($"The {ModName} integration isn't loaded.");
     }
 }

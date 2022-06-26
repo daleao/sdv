@@ -16,8 +16,13 @@ using Common.Events;
 [UsedImplicitly]
 internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    internal ArsenalButtonPressedEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnButtonPressedImpl(object sender, ButtonPressedEventArgs e)
+    protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
         if (!ModEntry.Config.WeaponsCostStamina || Game1.eventUp || !Game1.player.CanMove || Game1.player.UsingTool ||
             Game1.player.CurrentTool is not MeleeWeapon weapon || weapon.isScythe()) return;

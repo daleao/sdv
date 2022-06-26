@@ -10,18 +10,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\MultiplayerBroadcaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ConsoleCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataIO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\FieldInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Static\Colors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Static\Tiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\ICommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\IConsoleCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\LocalChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetReadyEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetRequestedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetsInvalidatedEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\BaseEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ManagedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonReleased.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonPressed.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonsChangedEvent.cs" />
@@ -43,7 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\SavedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\TimeChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLoop\UpdateTickingEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\IEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\IManagedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Player\InventoryChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Player\LevelChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Multiplayer\PeerContextReceivedEvent.cs" />
@@ -74,7 +76,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\World\LocationListChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\StringExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Harmony\BasePatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\HarmonyPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\CodeInstructionListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\CollectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\ColorExtensions.cs" />
@@ -92,12 +94,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\Vector2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\HarmonyExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Harmony\HarmonyPatcher.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Harmony\PatchState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\Harmonizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodBaseExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Harmony\IPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\IHarmonyPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BaseIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCrafting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCraftingAPI.cs" />

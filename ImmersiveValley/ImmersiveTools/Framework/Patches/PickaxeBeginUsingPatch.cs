@@ -12,7 +12,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class PickaxeBeginUsingPatch : BasePatch
+internal sealed class PickaxeBeginUsingPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal PickaxeBeginUsingPatch()

@@ -21,17 +21,19 @@ internal sealed class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
     private readonly Texture2D _pixel;
 
     /// <summary>Construct an instance.</summary>
-    internal DebugRenderedActiveMenuEvent()
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal DebugRenderedActiveMenuEvent(ProfessionEventManager manager)
+        : base(manager)
     {
         _pixel = new(Game1.graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
         _pixel.SetData(new[] {Color.White});
     }
 
     internal static List<ClickableComponent> ClickableComponents { get; } = new();
-    internal static ClickableComponent FocusedComponent { get; set; }
+    internal static ClickableComponent? FocusedComponent { get; set; }
 
     /// <inheritdoc />
-    protected override void OnRenderedActiveMenuImpl(object sender, RenderedActiveMenuEventArgs e)
+    protected override void OnRenderedActiveMenuImpl(object? sender, RenderedActiveMenuEventArgs e)
     {
         if (!ModEntry.Config.DebugKey.IsDown()) return;
 

@@ -4,7 +4,6 @@ namespace DaLion.Stardew.Professions.Framework;
 #region using directives
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using StardewValley;
@@ -16,11 +15,6 @@ using Common.Integrations;
 /// <summary>Represents a SpaceCore-provided custom skill.</summary>
 public sealed class CustomSkill : ISkill
 {
-    private delegate int GetExperienceForDelegate(Farmer farmer, string skillName);
-
-    private readonly GetExperienceForDelegate _GetCurrentExpFor =
-        ExtendedSpaceCoreAPI.GetCustomSkillExp.CreateDelegate<GetExperienceForDelegate>();
-
     private readonly ISpaceCoreAPI _api;
 
     /// <inheritdoc />
@@ -30,14 +24,13 @@ public sealed class CustomSkill : ISkill
     public string DisplayName { get; }
 
     /// <inheritdoc />
-    public int CurrentExp => _GetCurrentExpFor(Game1.player, StringId);
+    public int CurrentExp => ExtendedSpaceCoreAPI.GetCustomSkillExp(Game1.player, StringId);
 
     /// <inheritdoc />
     public int CurrentLevel => _api.GetLevelForCustomSkill(Game1.player, StringId);
 
     /// <inheritdoc />
-    public IEnumerable<int> NewLevels =>
-        ((List<KeyValuePair<string, int>>) ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.GetValue(null)!)
+    public IEnumerable<int> NewLevels => ExtendedSpaceCoreAPI.GetCustomSkillNewLevels()
         .Where(pair => pair.Key == StringId).Select(pair => pair.Value);
 
     /// <inheritdoc />
@@ -52,18 +45,18 @@ public sealed class CustomSkill : ISkill
         _api = api;
         StringId = id;
         
-        var instance = ExtendedSpaceCoreAPI.GetCustomSkillInstance.Invoke(null, new object?[] {id})!;
-        DisplayName = (string) ExtendedSpaceCoreAPI.GetSkillName.Invoke(instance, null)!;
+        var instance = ExtendedSpaceCoreAPI.GetCustomSkillInstance(id);
+        DisplayName = ExtendedSpaceCoreAPI.GetSkillName(instance);
 
-        var professions = ((IEnumerable) ExtendedSpaceCoreAPI.GetProfessions.Invoke(instance, null)!).Cast<object>()
+        var professions = ExtendedSpaceCoreAPI.GetProfessions(instance).Cast<object>()
             .ToList();
         var i = 0;
         foreach (var profession in professions)
         {
-            var professionStringId = (string) ExtendedSpaceCoreAPI.GetProfessionStringId.Invoke(profession, null)!;
-            var displayName = (string) ExtendedSpaceCoreAPI.GetProfessionDisplayName.Invoke(profession, null)!;
-            var description = (string) ExtendedSpaceCoreAPI.GetProfessionDescription.Invoke(profession, null)!;
-            var vanillaId = (int) ExtendedSpaceCoreAPI.GetProfessionVanillaId.Invoke(profession, null)!;
+            var professionStringId = ExtendedSpaceCoreAPI.GetProfessionStringId(profession);
+            var displayName = ExtendedSpaceCoreAPI.GetProfessionDisplayName(profession);
+            var description = ExtendedSpaceCoreAPI.GetProfessionDescription(profession);
+            var vanillaId = ExtendedSpaceCoreAPI.GetProfessionVanillaId(profession);
             var level = i++ < 2 ? 5 : 10;
             Professions.Add(new CustomProfession(professionStringId, displayName, description, vanillaId, level, this));
         }

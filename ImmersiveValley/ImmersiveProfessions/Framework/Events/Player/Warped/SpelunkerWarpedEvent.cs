@@ -16,8 +16,13 @@ using Extensions;
 [UsedImplicitly]
 internal sealed class SpelunkerWarpedEvent : WarpedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal SpelunkerWarpedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnWarpedImpl(object sender, WarpedEventArgs e)
+    protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
         if (e.NewLocation.Equals(e.OldLocation)) return;
 
@@ -33,12 +38,12 @@ internal sealed class SpelunkerWarpedEvent : WarpedEvent
                 player.Stamina = Math.Min(player.Stamina + player.MaxStamina * 0.01f, player.MaxStamina);
             }
 
-            ModEntry.EventManager.Hook<SpelunkerUpdateTickedEvent>();
+            Manager.Hook<SpelunkerUpdateTickedEvent>();
         }
         else if (e.NewLocation is not MineShaft && e.OldLocation is MineShaft)
         {
             ModEntry.PlayerState.SpelunkerLadderStreak = 0;
-            ModEntry.EventManager.Hook<SpelunkerUpdateTickedEvent>();
+            Manager.Hook<SpelunkerUpdateTickedEvent>();
         }
     }
 }

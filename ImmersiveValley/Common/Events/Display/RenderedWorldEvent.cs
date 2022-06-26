@@ -7,16 +7,21 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 /// <summary>Wrapper for <see cref="IDisplayEvents.RenderedWorld"/> allowing dynamic hooking / unhooking.</summary>
-internal abstract class RenderedWorldEvent : BaseEvent
+internal abstract class RenderedWorldEvent : ManagedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    protected RenderedWorldEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc cref="IDisplayEvents.RenderedWorld"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    internal void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
+    internal void OnRenderedWorld(object? sender, RenderedWorldEventArgs e)
     {
-        if (hooked.Value || GetType().Name.StartsWith("Static")) OnRenderedWorldImpl(sender, e);
+        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnRenderedWorldImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnRenderedWorld" />
-    protected abstract void OnRenderedWorldImpl(object sender, RenderedWorldEventArgs e);
+    protected abstract void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e);
 }

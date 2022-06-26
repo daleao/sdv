@@ -20,11 +20,9 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CheesePressMachineSetInput : BasePatch
+internal sealed class CheesePressMachineSetInput : DaLion.Common.Harmony.HarmonyPatch
 {
-    private delegate Item GetSampleDelegate(object consumable);
-
-    private static GetSampleDelegate _GetSample;
+    private static Func<object, Item>? _GetSample;
 
     /// <summary>Construct an instance.</summary>
     internal CheesePressMachineSetInput()
@@ -47,7 +45,7 @@ internal sealed class CheesePressMachineSetInput : BasePatch
     /// <summary>Patch to apply Artisan effects to automated Cheese Press.</summary>
     [HarmonyTranspiler]
     [HarmonyPriority(Priority.LowerThanNormal)]
-    private static IEnumerable<CodeInstruction> GenericObjectMachineGenericPullRecipeTranspiler(
+    private static IEnumerable<CodeInstruction>? GenericObjectMachineGenericPullRecipeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -89,7 +87,8 @@ internal sealed class CheesePressMachineSetInput : BasePatch
 
     private static void SetInputSubroutine(SObject machine, object consumable)
     {
-        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample").CreateDelegate<GetSampleDelegate>();
+        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample")
+            .CompileUnboundDelegate<Func<object, Item>>();
         if (_GetSample(consumable) is not SObject input) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;

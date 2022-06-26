@@ -4,7 +4,6 @@
 
 using System;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 
 #endregion using directives
@@ -51,6 +50,7 @@ public interface IImmersiveProfessions
 
         /// <summary>Try to start a new hunt at the specified location.</summary>
         /// <param name="location">The game location.</param>
+        /// <returns><see langword="true"> if a hunt was started, otherwise <see langword="false">.</returns>
         public bool TryStart(GameLocation location);
 
         /// <summary>Forcefully start a new hunt at the specified location.</summary>
@@ -124,7 +124,7 @@ public interface IImmersiveProfessions
         bool IsActive { get; }
 
         /// <summary>Check whether the <see cref="UltimateMeter"/> is currently showing.</summary>
-        bool IsMeterVisible { get; }
+        bool IsHudVisible { get; }
 
         /// <summary>Check whether all activation conditions for this Ultimate are currently met.</summary>
         bool CanActivate { get; }

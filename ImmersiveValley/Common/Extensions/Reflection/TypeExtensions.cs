@@ -4,6 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -14,6 +16,22 @@ using HarmonyLib;
 /// <remarks>Original code by <see href="https://github.com/pardeike">Pardeike</see>.</remarks>
 public static class TypeExtensions
 {
+    /// <summary>Determines whether the current type can be assigned to a variable of any of the candidate types.</summary>
+    /// <param name="candidates">The candidate types.</param>
+    public static bool IsAssignableToAnyOf(this Type type, params Type[] candidates)
+    {
+        return candidates.Any(type.IsAssignableTo);
+    }
+
+    /// <summary>Determines whether an instance of any of the candidate types can be assigned to the current type.</summary>
+    /// <param name="candidates">The candidate types.</param>
+    public static bool IsAssignableFromAnyOf(this Type type, params Type[] candidates)
+    {
+        return candidates.Any(type.IsAssignableFrom);
+    }
+
+    #region safe reflections
+
     /// <summary>Get a constructor and assert that it was found.</summary>
     public static ConstructorInfo RequireConstructor(this Type type)
     {
@@ -23,7 +41,7 @@ public static class TypeExtensions
 
     /// <summary>Get a constructor and assert that it was found.</summary>
     /// <param name="parameters">The method parameter types, or <c>null</c> if it's not overloaded.</param>
-    public static ConstructorInfo RequireConstructor(this Type type, Type[] parameters)
+    public static ConstructorInfo RequireConstructor(this Type type, params Type[]? parameters)
     {
         return AccessTools.Constructor(type, parameters) ??
                throw new MissingMethodException(
@@ -50,7 +68,7 @@ public static class TypeExtensions
     /// <summary>Get a method and assert that it was found.</summary>
     /// <param name="name">The method name.</param>
     /// <param name="parameters">The method parameter types, or <c>null</c> if it's not overloaded.</param>
-    public static MethodInfo RequireMethod(this Type type, string name, Type[] parameters)
+    public static MethodInfo RequireMethod(this Type type, string name, Type[]? parameters)
     {
         return AccessTools.Method(type, name, parameters) ??
                throw new MissingMethodException(
@@ -105,17 +123,18 @@ public static class TypeExtensions
         return methods;
     }
 
-    /// <summary>Determines whether the current type can be assigned to a variable of any of the candidate types.</summary>
-    /// <param name="candidates">The candidate types.</param>
-    public static bool IsAssignableToAnyOf(this Type type, params Type[] candidates)
+    #endregion safe reflections
+
+    #region delegate compilations
+
+    /// <summary>Get <see cref="MethodInfo"/> for this delegate type.</summary>
+    public static MethodInfo GetMethodInfoFromDelegateType(this Type delegateType)
     {
-        return candidates.Any(type.IsAssignableTo);
+        //Contract.Requires<ArgumentException>(delegateType.IsSubclassOf(typeof(MulticastDelegate)),
+        //    $"{delegateType.Name} is not a delegate type.");
+        Debug.Assert(delegateType.IsSubclassOf(typeof(MulticastDelegate)));
+        return delegateType.GetMethod("Invoke")!;
     }
 
-    /// <summary>Determines whether an instance of any of the candidate types can be assigned to the current type.</summary>
-    /// <param name="candidates">The candidate types.</param>
-    public static bool IsAssignableFromAnyOf(this Type type, params Type[] candidates)
-    {
-        return candidates.Any(type.IsAssignableFrom);
-    }
+#endregion delegate compilations
 }

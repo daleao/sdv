@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
@@ -12,11 +13,9 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BushMachineOnOutputReducedPatch : BasePatch
+internal sealed class BushMachineOnOutputReducedPatch : HarmonyPatch
 {
-    private delegate Bush GetMachineDelegate(object instance);
-
-    private static GetMachineDelegate _GetBushMachine;
+    private static Func<object, Bush>? _GetMachine;
 
     /// <summary>Construct an instance.</summary>
     internal BushMachineOnOutputReducedPatch()
@@ -37,10 +36,11 @@ internal sealed class BushMachineOnOutputReducedPatch : BasePatch
     /// <summary>Adds foraging experience for automated berry bushes.</summary>
     private static void BushMachineOnOutputReducedPostfix(object __instance)
     {
-        if (__instance is null || !ModEntry.Config.BerryBushesRewardExp) return;
+        if (!ModEntry.Config.BerryBushesRewardExp) return;
 
-        _GetBushMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CreateDelegate<GetMachineDelegate>();
-        var machine = _GetBushMachine(__instance);
+        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine")
+            .CompileUnboundDelegate<Func<object, Bush>>();
+        var machine = _GetMachine(__instance);
         if (machine.size.Value >= Bush.greenTeaBush) return;
 
         Game1.MasterPlayer.gainExperience(Farmer.foragingSkill, 3);

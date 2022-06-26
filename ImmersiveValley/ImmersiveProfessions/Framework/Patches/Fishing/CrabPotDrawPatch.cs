@@ -19,7 +19,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CrabPotDrawPatch : BasePatch
+internal sealed class CrabPotDrawPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CrabPotDrawPatch()

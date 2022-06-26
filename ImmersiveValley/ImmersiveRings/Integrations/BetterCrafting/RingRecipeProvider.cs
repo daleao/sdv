@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Stardew.Rings.Integrations;
+﻿namespace DaLion.Stardew.Rings.Integrations;
 
 #region using directives
 

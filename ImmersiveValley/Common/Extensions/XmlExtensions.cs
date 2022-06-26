@@ -1,9 +1,9 @@
-#nullable enable
 namespace DaLion.Common.Extensions;
 
 #region using directives
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 #endregion using directives
@@ -23,7 +23,7 @@ public static class XmlElementExtensions
     /// <param name="name">The name of the node.</param>
     /// <param name="result">The parsed value, if successful. Otherwise <c>null</c>.</param>
     /// <returns><see langword="true"> if the node exists and can be parsed, otherwise <see langword="false">.</returns>
-    public static bool TryReadAs<T>(this XmlElement xml, string name, out T? result)
+    public static bool TryReadAs<T>(this XmlElement xml, string name, [NotNullWhen(true)] out T? result)
     {
         result = default;
         if (xml.SelectSingleNode(name) is not XmlElement node) return false;

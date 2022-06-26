@@ -8,15 +8,15 @@ using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 
+using Common.Data;
 using Common.Harmony;
-using Extensions;
 
 using SObject = StardewValley.Object;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ItemGrabMenuReadyToClosePatch : BasePatch
+internal sealed class ItemGrabMenuReadyToClosePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ItemGrabMenuReadyToClosePatch()
@@ -35,7 +35,7 @@ internal sealed class ItemGrabMenuReadyToClosePatch : BasePatch
         var items = __instance.ItemsToGrabMenu?.actualInventory;
         if (items is null || !items.Any() || items.All(i => i is null))
         {
-            pond.WriteData("ItemsHeld", null);
+            ModDataIO.WriteData(pond, "ItemsHeld", null);
             pond.output.Value = null;
             return;
         }
@@ -46,11 +46,11 @@ internal sealed class ItemGrabMenuReadyToClosePatch : BasePatch
         if (objects.Any() && !objects.All(o => o is null))
         {
             var data = objects.Select(o => $"{o.ParentSheetIndex},{o.Stack},{o.Quality}");
-            pond.WriteData("ItemsHeld", string.Join(';', data));
+            ModDataIO.WriteData(pond, "ItemsHeld", string.Join(';', data));
         }
         else
         {
-            pond.WriteData("ItemsHeld", null);
+            ModDataIO.WriteData(pond, "ItemsHeld", null);
         }
 
         pond.output.Value = output;

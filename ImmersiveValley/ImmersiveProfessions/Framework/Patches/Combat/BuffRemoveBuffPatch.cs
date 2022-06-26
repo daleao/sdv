@@ -12,7 +12,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BuffRemoveBuffPatch : BasePatch
+internal sealed class BuffRemoveBuffPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private static readonly int _piperBuffId = (ModEntry.Manifest.UniqueID + Profession.Piper).GetHashCode();
 

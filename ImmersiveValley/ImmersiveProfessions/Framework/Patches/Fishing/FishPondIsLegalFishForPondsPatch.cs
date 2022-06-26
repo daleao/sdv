@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondIsLegalFishForPondsPatch : BasePatch
+internal sealed class FishPondIsLegalFishForPondsPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondIsLegalFishForPondsPatch()
@@ -31,7 +31,7 @@ internal sealed class FishPondIsLegalFishForPondsPatch : BasePatch
 
     /// <summary>Patch for prestiged Aquarist to raise legendary fish.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> FishPondIsLegalFishForPondsTranspiler(
+    private static IEnumerable<CodeInstruction>? FishPondIsLegalFishForPondsTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

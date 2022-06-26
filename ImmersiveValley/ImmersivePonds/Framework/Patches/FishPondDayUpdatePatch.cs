@@ -18,6 +18,7 @@ using StardewValley.Menus;
 using StardewValley.Objects;
 
 using Common;
+using Common.Data;
 using Common.Harmony;
 using Common.Extensions;
 using Common.Extensions.Reflection;
@@ -28,7 +29,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondDayUpdatePatch : BasePatch
+internal sealed class FishPondDayUpdatePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondDayUpdatePatch()
@@ -43,7 +44,7 @@ internal sealed class FishPondDayUpdatePatch : BasePatch
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool FishPondDayUpdatePrefix(FishPond __instance, int dayOfMonth)
     {
-        __instance.WriteData("ItemsHeld", null);
+        ModDataIO.WriteData(__instance, "ItemsHeld", null);
 #if RELEASE
         return true; // run original logic
 #elif DEBUG
@@ -71,7 +72,7 @@ internal sealed class FishPondDayUpdatePatch : BasePatch
         if (__instance.currentOccupants.Value > 0)
         {
             var r = new Random(Guid.NewGuid().GetHashCode());
-            if (r.NextDouble() < StardewValley.Utility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f))
+            if (r.NextDouble() < Utility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f))
                 __instance.output.Value = __instance.GetFishProduce(r);
 
             __instance.daysSinceSpawn.Value += 1;
@@ -114,7 +115,7 @@ internal sealed class FishPondDayUpdatePatch : BasePatch
 
     /// <summary>Spontaneously grow algae + calculate roe production.</summary>
     [HarmonyPostfix]
-    private static void FishPondDayUpdatePostfix(FishPond __instance, ref FishPondData ____fishPondData)
+    private static void FishPondDayUpdatePostfix(FishPond __instance, ref FishPondData? ____fishPondData)
     {
         if (__instance.IsAlgaePond()) return;
 
@@ -123,8 +124,8 @@ internal sealed class FishPondDayUpdatePatch : BasePatch
         // spontaneously grow algae/seaweed
         if (__instance.currentOccupants.Value == 0)
         {
-            __instance.IncrementData<int>("DaysEmpty");
-            if (__instance.ReadDataAs<int>("DaysEmpty") < 3) return;
+            ModDataIO.IncrementData<int>(__instance, "DaysEmpty");
+            if (ModDataIO.ReadDataAs<int>(__instance, "DaysEmpty") < 3) return;
 
             var spawned = r.NextDouble() > 0.25 ? r.Next(152, 154) : 157;
             __instance.fishType.Value = spawned;
@@ -135,24 +136,24 @@ internal sealed class FishPondDayUpdatePatch : BasePatch
             switch (spawned)
             {
                 case Constants.SEAWEED_INDEX_I:
-                    __instance.IncrementData<int>("SeaweedLivingHere");
+                    ModDataIO.IncrementData<int>(__instance, "SeaweedLivingHere");
                     break;
                 case Constants.GREEN_ALGAE_INDEX_I:
-                    __instance.IncrementData<int>("GreenAlgaeLivingHere");
+                    ModDataIO.IncrementData<int>(__instance, "GreenAlgaeLivingHere");
                     break;
                 case Constants.WHITE_ALGAE_INDEX_I:
-                    __instance.IncrementData<int>("WhiteAlgaeLivingHere");
+                    ModDataIO.IncrementData<int>(__instance, "WhiteAlgaeLivingHere");
                     break;
             }
 
-            __instance.WriteData("DaysEmpty", 0.ToString());
+            ModDataIO.WriteData(__instance, "DaysEmpty", 0.ToString());
             return;
         }
 
         try
         {
             var fish = __instance.GetFishObject();
-            var produce = __instance.ReadData("ItemsHeld", null)?.ParseList<string>(";") ?? new();
+            var produce = ModDataIO.ReadData(__instance, "ItemsHeld").ParseList<string>(";") ?? new();
 
             // handle coral
             if (fish.Name == "Coral")
@@ -202,18 +203,18 @@ internal sealed class FishPondDayUpdatePatch : BasePatch
                         break;
                 }
 
-                if (produce.Any()) __instance.WriteData("ItemsHeld", string.Join(";", produce));
+                if (produce.Any()) ModDataIO.WriteData(__instance, "ItemsHeld", string.Join(";", produce));
 
                 return;
             }
 
             // handle fish + squid
-            var fishQualities = __instance.ReadData("FishQualities",
-                    $"{__instance.FishCount - __instance.ReadDataAs<int>("FamilyLivingHere")},0,0,0")
+            var fishQualities = ModDataIO.ReadData(__instance, "FishQualities",
+                    $"{__instance.FishCount - ModDataIO.ReadDataAs<int>(__instance, "FamilyLivingHere")},0,0,0")
                 .ParseList<int>()!;
             if (fishQualities.Count != 4)
                 throw new InvalidDataException("FishQualities data had incorrect number of values.");
-            var familyQualities = __instance.ReadData("FamilyQualities", "0,0,0,0").ParseList<int>()!;
+            var familyQualities = ModDataIO.ReadData(__instance, "FamilyQualities", "0,0,0,0").ParseList<int>()!;
             if (familyQualities.Count != 4)
                 throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
 
@@ -221,7 +222,7 @@ internal sealed class FishPondDayUpdatePatch : BasePatch
             if (totalQualities.Sum() != __instance.FishCount)
                 throw new InvalidDataException("Quality data had incorrect number of values.");
 
-            var productionChancePerFish = Framework.Utils.GetRoeChance(fish.Price, __instance.FishCount - 1);
+            var productionChancePerFish = Utils.GetRoeChance(fish.Price, __instance.FishCount - 1);
             var producedRoes = new int[4];
             for (var i = 0; i < 4; ++i)
                 while (totalQualities[i]-- > 0)
@@ -241,15 +242,16 @@ internal sealed class FishPondDayUpdatePatch : BasePatch
 
             if (__instance.output.Value is not null)
             {
-                __instance.WriteData("ItemsHeld", string.Join(';', produce));
+                ModDataIO.WriteData(__instance, "ItemsHeld", string.Join(';', produce));
                 return;
             }
 
 
             var highest = Array.FindLastIndex(producedRoes, i => i > 0);
-            var forFamily = r.NextDouble() < __instance.ReadDataAs<double>("FamilyLivingHere") / __instance.FishCount;
+            var forFamily = r.NextDouble() <
+                            ModDataIO.ReadDataAs<double>(__instance, "FamilyLivingHere") / __instance.FishCount;
             var fishIndex = forFamily
-                ? Framework.Utils.ExtendedFamilyPairs[__instance.fishType.Value]
+                ? Utils.ExtendedFamilyPairs[__instance.fishType.Value]
                 : __instance.fishType.Value;
             SObject o;
             if (roeIndex == Constants.ROE_INDEX_I)
@@ -272,20 +274,20 @@ internal sealed class FishPondDayUpdatePatch : BasePatch
 
             produce.Remove($"{roeIndex},{producedRoes[highest]},{(highest == 3 ? 4 : highest)}");
             producedRoes[highest] = 0;
-            if (produce.Any()) __instance.WriteData("ItemsHeld", string.Join(';', produce));
+            if (produce.Any()) ModDataIO.WriteData(__instance, "ItemsHeld", string.Join(';', produce));
             __instance.output.Value = o;
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            __instance.WriteData("FishQualities", $"{__instance.FishCount},0,0,0");
-            __instance.WriteData("FamilyQualities", null);
-            __instance.WriteData("FamilyLivingHere", null);
+            ModDataIO.WriteData(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
+            ModDataIO.WriteData(__instance, "FamilyQualities", null);
+            ModDataIO.WriteData(__instance, "FamilyLivingHere", null);
         }
     }
 
     /// <summary>Removes population-based role from <see cref="FishPond.dayUpdate"/> (moved to <see cref="FishPond.GetFishProduce"/>).</summary>
-    private static IEnumerable<CodeInstruction> FishPondDayUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? FishPondDayUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
         MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

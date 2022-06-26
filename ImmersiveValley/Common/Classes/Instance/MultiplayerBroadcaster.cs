@@ -15,7 +15,7 @@ public class MultiplayerBroadcaster
     private readonly IMultiplayerHelper _Helper;
     private readonly string _modID;
     
-    public TaskCompletionSource<string> ResponseReceived;
+    public TaskCompletionSource<string> ResponseReceived = null!;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="modID">The unique id of the mod requesting an instance.</param>

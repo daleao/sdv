@@ -3,8 +3,8 @@
 #region using directives
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -26,7 +26,7 @@ using CollectionExtensions = DaLion.Common.Extensions.Collections.CollectionExte
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SkillLevelUpMenuUpdatePatch : BasePatch
+internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal SkillLevelUpMenuUpdatePatch()
@@ -60,7 +60,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : BasePatch
 
     /// <summary>Patch to prevent duplicate profession acquisition.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> SkillLevelUpMenuUpdateTranspiler(
+    private static IEnumerable<CodeInstruction>? SkillLevelUpMenuUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -195,22 +195,22 @@ internal sealed class SkillLevelUpMenuUpdatePatch : BasePatch
 
     #region injected subroutines
 
-    [CanBeNull]
-    private static object ChooseProfessionPair(object skillInstance, string skillId, int currentLevel)
+    private static object? ChooseProfessionPair(object skillInstance, string skillId, int currentLevel)
     {
         if (currentLevel is not (5 or 10) || !ModEntry.CustomSkills.TryGetValue(skillId, out var skill)) return null;
 
-        var professionPairs = ((IEnumerable) ExtendedSpaceCoreAPI.GetProfessionsForLevels.Invoke(skillInstance, null)!)
-            .Cast<object>().ToList();
+        Debug.Assert(ModEntry.SpaceCoreApi != null, "ModEntry.SpaceCoreApi != null");
+
+        var professionPairs = ExtendedSpaceCoreAPI.GetProfessionsForLevels(skillInstance).Cast<object>().ToList();
         var levelFivePair = professionPairs[0];
         if (currentLevel == 5) return levelFivePair;
 
-        var first = ExtendedSpaceCoreAPI.GetFirstProfession.Invoke(levelFivePair, null)!;
-        var second = ExtendedSpaceCoreAPI.GetSecondProfession.Invoke(levelFivePair, null)!;
-        var firstStringId = (string) ExtendedSpaceCoreAPI.GetProfessionStringId.Invoke(first, null)!;
-        var secondStringId = (string) ExtendedSpaceCoreAPI.GetProfessionStringId.Invoke(second, null)!;
-        var firstId = ModEntry.SpaceCoreApi!.GetProfessionId(skillId, firstStringId);
-        var secondId = ModEntry.SpaceCoreApi!.GetProfessionId(skillId, secondStringId);
+        var first = ExtendedSpaceCoreAPI.GetFirstProfession(levelFivePair);
+        var second = ExtendedSpaceCoreAPI.GetSecondProfession(levelFivePair);
+        var firstStringId = ExtendedSpaceCoreAPI.GetProfessionStringId(first);
+        var secondStringId = ExtendedSpaceCoreAPI.GetProfessionStringId(second);
+        var firstId = ModEntry.SpaceCoreApi.GetProfessionId(skillId, firstStringId);
+        var secondId = ModEntry.SpaceCoreApi.GetProfessionId(skillId, secondStringId);
         var branch = Game1.player.GetMostRecentProfession(firstId.Collect(secondId));
         return branch == firstId ? professionPairs[1] : professionPairs[2];
     }

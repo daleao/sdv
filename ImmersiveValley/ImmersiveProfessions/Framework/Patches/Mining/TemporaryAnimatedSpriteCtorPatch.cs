@@ -13,7 +13,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TemporaryAnimatedSpriteCtorPatch : BasePatch
+internal sealed class TemporaryAnimatedSpriteCtorPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal TemporaryAnimatedSpriteCtorPatch()

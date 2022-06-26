@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 #region using directives
 
@@ -27,7 +26,7 @@ using Localization = Utility.Localization;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
+internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationAnswerDialogueActionPatch()
@@ -114,7 +113,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : BasePatch
                 case "dogStatue_changeUlt":
                 {
                     var currentProfessionKey =
-                        ModEntry.PlayerState.RegisteredUltimate.Index.ToString().SplitCamelCase()[0].ToLowerInvariant();
+                        ModEntry.PlayerState.RegisteredUltimate!.Index.ToString().SplitCamelCase()[0].ToLowerInvariant();
                     var currentProfessionDisplayName =
                         ModEntry.i18n.Get(currentProfessionKey + ".name.male");
                     var currentUlti = ModEntry.i18n.Get(currentProfessionKey + ".ulti");

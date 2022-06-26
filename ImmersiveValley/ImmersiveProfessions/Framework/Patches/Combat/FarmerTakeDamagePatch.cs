@@ -19,7 +19,7 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerTakeDamagePatch : BasePatch
+internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerTakeDamagePatch()
@@ -31,7 +31,7 @@ internal sealed class FarmerTakeDamagePatch : BasePatch
 
     /// <summary>Patch to make Poacher invulnerable in Ambuscade + remove vanilla defense cap + make Brute unkillable in Frenzy + increment Brute rage counter and ultimate meter.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> FarmerTakeDamageTranspiler(
+    private static IEnumerable<CodeInstruction>? FarmerTakeDamageTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 
 using Common;
@@ -11,16 +12,22 @@ using Framework;
 
 #endregion using directives
 
-internal class PrintSkillLevelsCommand : ICommand
+[UsedImplicitly]
+internal sealed class PrintSkillLevelsCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "levels";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal PrintSkillLevelsCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Print the current skill levels and experience.";
+    public override string Trigger => "levels";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Print the player's current skill levels and experience.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         Log.I(
             $"Farming level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Farming)} ({Game1.player.experiencePoints[Skill.Farming]} exp)");

@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Linq;
-
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
@@ -12,18 +12,24 @@ using Common.Commands;
 
 #endregion using directives
 
-internal class GetToolsCommand : ICommand
+[UsedImplicitly]
+internal sealed class GetToolsCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "get";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal GetToolsCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation =>
+    public override string Trigger => "get";
+
+    /// <inheritdoc />
+    public override string Documentation =>
         "Add missing farming and resource tools to the inventory." +
         "\nTo add only specific tools, use `debug` + `ax`, `pick`, `hoe` or `can` instead.";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override void Callback(string[] args)
     {
         if (Game1.player.CurrentTool is not MeleeWeapon weapon)
         {

@@ -17,7 +17,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ProfessionsCheatSetProfessionPatch : BasePatch
+internal sealed class ProfessionsCheatSetProfessionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ProfessionsCheatSetProfessionPatch()
@@ -36,7 +36,7 @@ internal sealed class ProfessionsCheatSetProfessionPatch : BasePatch
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> ProfessionsCheatSetProfessionTranspiler(
+    private static IEnumerable<CodeInstruction>? ProfessionsCheatSetProfessionTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

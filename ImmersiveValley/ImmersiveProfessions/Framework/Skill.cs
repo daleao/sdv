@@ -50,7 +50,12 @@ public class Skill : SmartEnum<Skill>, ISkill
     /// <param name="value">The skill index.</param>
     protected Skill(string name, int value) : base(name, value)
     {
-        if (value == Farmer.luckSkill) return;
+        if (value == Farmer.luckSkill)
+        {
+            StringId = null!;
+            DisplayName = null!;
+            return;
+        }
 
         StringId = Name;
 #pragma warning disable CS8509

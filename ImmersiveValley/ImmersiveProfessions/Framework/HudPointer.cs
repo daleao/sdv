@@ -19,8 +19,7 @@ internal class HudPointer
     private float _height = -42f, _jerk = 1f, _step;
 
     /// <summary>The texture that will be used to draw the indicator.</summary>
-    public Texture2D Texture { get; } =
-        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/HudPointer");
+    public Texture2D Texture => Textures.Textures.PointerTx;
 
     /// <summary>Draw the indicator at the edge of the screen, pointing to a target off-screen.</summary>
     /// <param name="target">The target tile to point to.</param>
@@ -79,15 +78,15 @@ internal class HudPointer
         );
 
         Game1.spriteBatch.Draw(
-            Texture,
-            safePos,
-            srcRect,
-            color,
-            rotation,
-            new(2f, 2f),
-            Game1.pixelZoom,
-            SpriteEffects.None,
-            1f
+            texture: Texture,
+            position: safePos,
+            sourceRectangle: srcRect,
+            color: color,
+            rotation: rotation,
+            origin: new(2f, 2f),
+            scale: Game1.pixelZoom,
+            effects: SpriteEffects.None,
+            layerDepth: 1f
         );
     }
 
@@ -105,19 +104,19 @@ internal class HudPointer
         adjustedPixel = SUtility.ModifyCoordinatesForUIScale(adjustedPixel);
 
         Game1.spriteBatch.Draw(
-            Texture,
-            adjustedPixel,
-            srcRect,
-            color,
-            (float) Math.PI,
-            new(2f, 2f),
-            Game1.pixelZoom,
-            SpriteEffects.None,
-            1f
+            texture: Texture,
+            position: adjustedPixel,
+            sourceRectangle: srcRect,
+            color: color,
+            rotation: (float) Math.PI,
+            origin: new(2f, 2f),
+            scale: Game1.pixelZoom,
+            effects: SpriteEffects.None,
+            layerDepth: 1f
         );
     }
 
-    /// <summary>Advance the indicator's vertical offset motion by one step, in a bobbing fashion.</summary>
+    /// <summary>Advance the indicator's bobbing motion one step.</summary>
     public void Update(uint ticks)
     {
         if (ticks % 4 != 0) return;

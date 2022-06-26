@@ -12,7 +12,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterBuffForAdditionalDifficultyPatch : BasePatch
+internal sealed class MonsterBuffForAdditionalDifficultyPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct and instance.</summary>
     internal MonsterBuffForAdditionalDifficultyPatch()

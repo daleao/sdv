@@ -4,17 +4,19 @@
 
 using System;
 
+using Common.Commands;
 using Common.Events;
 
 #endregion using directives
 
-internal class ToxicityChangedEvent : BaseEvent
+internal class ToxicityChangedEvent : ManagedEvent
 {
-    protected readonly Action<object, IToxicityChangedEventArgs> _OnChargeInitiatedImpl;
+    protected readonly Action<object?, IToxicityChangedEventArgs> _OnChargeInitiatedImpl;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal ToxicityChangedEvent(Action<object, IToxicityChangedEventArgs> callback)
+    internal ToxicityChangedEvent(Action<object?, IToxicityChangedEventArgs> callback)
+        : base(ModEntry.EventManager)
     {
         _OnChargeInitiatedImpl = callback;
     }
@@ -22,8 +24,8 @@ internal class ToxicityChangedEvent : BaseEvent
     /// <summary>Raised when a player's Toxicity value changes.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    internal void OnChanged(object sender, IToxicityChangedEventArgs e)
+    internal void OnChanged(object? sender, IToxicityChangedEventArgs e)
     {
-        if (hooked.Value) _OnChargeInitiatedImpl(sender, e);
+        if (Hooked.Value) _OnChargeInitiatedImpl(sender, e);
     }
 }

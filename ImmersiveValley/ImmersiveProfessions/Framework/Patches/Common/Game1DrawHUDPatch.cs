@@ -24,7 +24,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class Game1DrawHUDPatch : BasePatch
+internal sealed class Game1DrawHUDPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal Game1DrawHUDPatch()
@@ -61,7 +61,7 @@ internal sealed class Game1DrawHUDPatch : BasePatch
 
     /// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

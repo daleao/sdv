@@ -126,7 +126,7 @@ public class ModAPI
     /// <summary>Register a new <see cref="TreasureHuntStartedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
     /// <param name="hook">Whether to immediately hook the event.</param>
-    public IEvent RegisterTreasureHuntStartedEvent(Action<object, ITreasureHuntStartedEventArgs> callback, bool hook)
+    public IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, ITreasureHuntStartedEventArgs> callback, bool hook)
     {
         var e = new TreasureHuntStartedEvent(callback);
         ModEntry.EventManager.Manage(e);
@@ -138,7 +138,7 @@ public class ModAPI
     /// <summary>Register a new <see cref="TreasureHuntEndedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
     /// <param name="hook">Whether to immediately hook the event.</param>
-    public IEvent RegisterTreasureHuntEndedEvent(Action<object, ITreasureHuntEndedEventArgs> callback, bool hook)
+    public IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, ITreasureHuntEndedEventArgs> callback, bool hook)
     {
         var e = new TreasureHuntEndedEvent(callback);
         ModEntry.EventManager.Manage(e);
@@ -151,22 +151,22 @@ public class ModAPI
 
     #region ultimate
 
-    /// <summary>Get a string representation of the local player's currently registered combat Ultimate.</summary>
-    public string GetRegisteredUltimate()
+    /// <summary>Get the local player's currently registered combat Ultimate.</summary>
+    public IUltimate? GetRegisteredUltimate()
     {
-        return ModEntry.PlayerState.RegisteredUltimate.ToString();
+        return ModEntry.PlayerState.RegisteredUltimate;
     }
 
     /// <summary>Check whether the <see cref="UltimateHUD"/> is currently visible.</summary>
     public bool IsShowingUltimateMeter()
     {
-        return ModEntry.PlayerState.RegisteredUltimate.Hud.IsVisible;
+        return ModEntry.PlayerState.RegisteredUltimate?.Hud.IsVisible ?? false;
     }
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
     /// <param name="hook">Whether to immediately hook the event.</param>
-    public IEvent RegisterUltimateActivatedEvent(Action<object, IUltimateActivatedEventArgs> callback, bool hook)
+    public IManagedEvent RegisterUltimateActivatedEvent(Action<object?, IUltimateActivatedEventArgs> callback, bool hook)
     {
         var e = new UltimateActivatedEvent(callback);
         ModEntry.EventManager.Manage(e);
@@ -178,7 +178,7 @@ public class ModAPI
     /// <summary>Register a new <see cref="UltimateDeactivatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
     /// <param name="hook">Whether to immediately hook the event.</param>
-    public IEvent RegisterUltimateDeactivatedEvent(Action<object, IUltimateDeactivatedEventArgs> callback, bool hook)
+    public IManagedEvent RegisterUltimateDeactivatedEvent(Action<object?, IUltimateDeactivatedEventArgs> callback, bool hook)
     {
         var e = new UltimateDeactivatedEvent(callback);
         ModEntry.EventManager.Manage(e);
@@ -190,7 +190,7 @@ public class ModAPI
     /// <summary>Register a new <see cref="UltimateChargeInitiatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
     /// <param name="hook">Whether to immediately hook the event.</param>
-    public IEvent RegisterUltimateChargeInitiatedEvent(Action<object, IUltimateChargeInitiatedEventArgs> callback, bool hook)
+    public IManagedEvent RegisterUltimateChargeInitiatedEvent(Action<object?, IUltimateChargeInitiatedEventArgs> callback, bool hook)
     {
         var e = new UltimateChargeInitiatedEvent(callback);
         ModEntry.EventManager.Manage(e);
@@ -202,7 +202,7 @@ public class ModAPI
     /// <summary>Register a new <see cref="UltimateChargeIncreasedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
     /// <param name="hook">Whether to immediately hook the event.</param>
-    public IEvent RegisterUltimateChargeIncreasedEvent(Action<object, IUltimateChargeIncreasedEventArgs> callback, bool hook)
+    public IManagedEvent RegisterUltimateChargeIncreasedEvent(Action<object?, IUltimateChargeIncreasedEventArgs> callback, bool hook)
     {
         var e = new UltimateChargeIncreasedEvent(callback);
         ModEntry.EventManager.Manage(e);
@@ -214,7 +214,7 @@ public class ModAPI
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
     /// <param name="hook">Whether to immediately hook the event.</param>
-    public IEvent RegisterUltimateFullyChargedEvent(Action<object, IUltimateFullyChargedEventArgs> callback, bool hook)
+    public IManagedEvent RegisterUltimateFullyChargedEvent(Action<object?, IUltimateFullyChargedEventArgs> callback, bool hook)
     {
         var e = new UltimateFullyChargedEvent(callback);
         ModEntry.EventManager.Manage(e);
@@ -226,7 +226,7 @@ public class ModAPI
     /// <summary>Register a new <see cref="UltimateEmptiedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
     /// <param name="hook">Whether to immediately hook the event.</param>
-    public IEvent RegisterUltimateEmptiedEvent(Action<object, IUltimateEmptiedEventArgs> callback, bool hook)
+    public IManagedEvent RegisterUltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback, bool hook)
     {
         var e = new UltimateEmptiedEvent(callback);
         ModEntry.EventManager.Manage(e);

@@ -17,7 +17,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class RingDrawTooltipPatch : BasePatch
+internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal RingDrawTooltipPatch()
@@ -29,7 +29,7 @@ internal sealed class RingDrawTooltipPatch : BasePatch
 
     /// <summary>Fix crab ring tooltip.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> RingDrawTooltipTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? RingDrawTooltipTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

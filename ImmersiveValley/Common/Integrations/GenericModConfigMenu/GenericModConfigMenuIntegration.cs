@@ -10,7 +10,7 @@ using StardewModdingAPI.Utilities;
 
 /// <summary>Handles the logic for integrating with the Generic Mod Configuration Menu mod.</summary>
 /// <typeparam name="TConfig">The mod configuration type.</typeparam>
-/// <remarks><see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
+/// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
 internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGenericModConfigMenuAPI>
     where TConfig : new()
 {
@@ -65,7 +65,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
     ///     You must also call <see cref="AddPageLink" /> to make the page accessible. This is only needed to set up a
     ///     multi-page config UI. If you don't call this method, all options will be part of the mod's main config UI instead.
     /// </remarks>
-    public GenericModConfigMenuIntegration<TConfig> AddPage(string pageId, Func<string> pageTitle = null)
+    public GenericModConfigMenuIntegration<TConfig> AddPage(string pageId, Func<string>? pageTitle = null)
     {
         AssertLoaded();
         ModApi!.AddPage(ConsumerManifest, pageId, pageTitle);
@@ -77,7 +77,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
     /// <param name="text">The link text shown in the form.</param>
     /// <param name="tooltip">The tooltip text shown when the cursor hovers on the link, or <c>null</c> to disable the tooltip.</param>
     public GenericModConfigMenuIntegration<TConfig> AddPageLink(string pageId, Func<string> text,
-        Func<string> tooltip = null)
+        Func<string>? tooltip = null)
     {
         AssertLoaded();
         ModApi!.AddPageLink(ConsumerManifest, pageId, text, tooltip);
@@ -90,7 +90,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
     ///     The tooltip text shown when the cursor hovers on the title, or <c>null</c> to disable the
     ///     tooltip.
     /// </param>
-    public GenericModConfigMenuIntegration<TConfig> AddSectionTitle(Func<string> text, Func<string> tooltip = null)
+    public GenericModConfigMenuIntegration<TConfig> AddSectionTitle(Func<string> text, Func<string>? tooltip = null)
     {
         AssertLoaded();
         ModApi!.AddSectionTitle(ConsumerManifest, text, tooltip);
@@ -141,7 +141,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
     /// <param name="enable">Whether the field is enabled.</param>
     public GenericModConfigMenuIntegration<TConfig> AddDropdown(Func<string> name, Func<string> tooltip,
         Func<TConfig, string> get, Action<TConfig, string> set, string[] allowedValues,
-        Func<string, string> formatAllowedValue, bool enable = true)
+        Func<string, string>? formatAllowedValue, bool enable = true)
     {
         AssertLoaded();
         if (enable)

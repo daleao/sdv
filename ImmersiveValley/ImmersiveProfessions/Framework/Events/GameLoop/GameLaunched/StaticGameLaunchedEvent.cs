@@ -14,8 +14,13 @@ using Integrations;
 [UsedImplicitly]
 internal sealed class StaticGameLaunchedEvent : GameLaunchedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal StaticGameLaunchedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnGameLaunchedImpl(object sender, GameLaunchedEventArgs e)
+    protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
         // add Generic Mod Config Menu integration
         new GenericModConfigMenuIntegrationForImmersiveProfessions(
@@ -44,7 +49,7 @@ internal sealed class StaticGameLaunchedEvent : GameLaunchedEvent
 
         // add Teh's Fishing Overhaul integration
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("TehPers.FishingOverhaul"))
-            new TehsFishingOverhaulIntegration(ModEntry.ModHelper.ModRegistry, ModEntry.ModHelper)
+            new TehsFishingOverhaulIntegration(ModEntry.ModHelper.ModRegistry, ModEntry.ModHelper.Events)
                 .Register();
 
         // add Custom Ore Nodes integration

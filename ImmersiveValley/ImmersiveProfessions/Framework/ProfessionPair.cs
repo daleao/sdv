@@ -4,7 +4,6 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 using Common.Extensions;
 
@@ -16,7 +15,7 @@ using Common.Extensions;
 /// <param name="Requires">The level 5 profession from which this pair branches out of, if this is a level 10 pair.</param>
 /// <param name="Level">Either <c>5</c> or <c>10</c>.</param>
 public record ProfessionPair
-    (IProfession First, IProfession Second, [CanBeNull] IProfession Requires, int Level) : IEnumerable<IProfession>
+    (IProfession First, IProfession Second, IProfession? Requires, int Level) : IEnumerable<IProfession>
 {
     public IEnumerator<IProfession> GetEnumerator()
     {

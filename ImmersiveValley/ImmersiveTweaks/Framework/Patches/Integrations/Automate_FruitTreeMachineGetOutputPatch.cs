@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FruitTreeMachineGetOutputPatch : BasePatch
+internal sealed class FruitTreeMachineGetOutputPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FruitTreeMachineGetOutputPatch()
@@ -36,8 +36,8 @@ internal sealed class FruitTreeMachineGetOutputPatch : BasePatch
     #region harmony patches
 
     /// <summary>Adds custom aging quality to automated fruit tree.</summary>
-    private static IEnumerable<CodeInstruction> FruitTreeMachineGetOutputTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? FruitTreeMachineGetOutputTranspiler(
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("aedenthorn.FruitTreeTweaks")) return instructions;
 

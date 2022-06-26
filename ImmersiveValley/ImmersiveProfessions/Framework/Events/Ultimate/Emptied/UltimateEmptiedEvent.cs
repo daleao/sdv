@@ -8,13 +8,14 @@ using Common.Events;
 
 #endregion using directives
 
-internal sealed class UltimateEmptiedEvent : BaseEvent
+internal sealed class UltimateEmptiedEvent : ManagedEvent
 {
-    private readonly Action<object, IUltimateEmptiedEventArgs> _OnEmptiedImpl;
+    private readonly Action<object?, IUltimateEmptiedEventArgs> _OnEmptiedImpl;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal UltimateEmptiedEvent(Action<object, IUltimateEmptiedEventArgs> callback)
+    internal UltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback)
+        : base(ModEntry.EventManager)
     {
         _OnEmptiedImpl = callback;
     }
@@ -22,8 +23,8 @@ internal sealed class UltimateEmptiedEvent : BaseEvent
     /// <summary>Raised when the local player's ultimate charge value returns to zero.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    internal void OnEmptied(object sender, IUltimateEmptiedEventArgs e)
+    internal void OnEmptied(object? sender, IUltimateEmptiedEventArgs e)
     {
-        if (hooked.Value) _OnEmptiedImpl(sender, e);
+        if (Hooked.Value) _OnEmptiedImpl(sender, e);
     }
 }

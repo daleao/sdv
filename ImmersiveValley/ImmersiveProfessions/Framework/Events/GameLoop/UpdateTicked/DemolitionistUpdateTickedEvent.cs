@@ -20,13 +20,15 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
     private readonly int _buffId;
 
     /// <summary>Construct an instance.</summary>
-    internal DemolitionistUpdateTickedEvent()
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal DemolitionistUpdateTickedEvent(ProfessionEventManager manager)
+        : base(manager)
     {
         _buffId = (ModEntry.Manifest.UniqueID + Profession.Demolitionist).GetHashCode();
     }
 
     /// <inheritdoc />
-    protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
+    protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         if (ModEntry.PlayerState.DemolitionistExcitedness <= 0) Unhook();
 

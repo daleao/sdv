@@ -3,8 +3,8 @@
 #region using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 
 using Common;
@@ -14,16 +14,22 @@ using Framework;
 
 #endregion using directives
 
-internal class ClearNewLevelsCommand : ICommand
+[UsedImplicitly]
+internal sealed class ClearNewLevelsCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "clear_new_levels";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal ClearNewLevelsCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Clear the player's cache of new levels for te specified skills.";
+    public override string Trigger => "clear_new_levels";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Clear the player's cache of new levels for te specified skills.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (!args.Any())
             Game1.player.newLevels.Clear();
@@ -39,10 +45,9 @@ internal class ClearNewLevelsCommand : ICommand
                 {
                     var customSkill = ModEntry.CustomSkills.Values.Single(s =>
                         string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
-                    var newLevels =
-                        (List<KeyValuePair<string, int>>)ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.GetValue(null)!;
-                    ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.SetValue(null,
-                        newLevels.Where(pair => pair.Key != customSkill.StringId).ToList());
+                    var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels();
+                    ExtendedSpaceCoreAPI.SetCustomSkillNewLevels(newLevels
+                        .Where(pair => pair.Key != customSkill.StringId).ToList());
                 }
                 else
                 {

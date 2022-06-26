@@ -15,8 +15,13 @@ using Extensions;
 [UsedImplicitly]
 internal sealed class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal SlimeInflationUpdateTickedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
+    protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var uninflated = ModEntry.PlayerState.PipedSlimes.Where(c => !ModDataIO.ReadDataAs<bool>(c, "DoneInflating"))
             .ToArray();

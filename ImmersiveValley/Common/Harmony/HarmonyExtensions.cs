@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Common.Harmony;
+﻿namespace DaLion.Common.Harmony;
 
 #region using directives
 

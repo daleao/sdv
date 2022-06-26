@@ -16,7 +16,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MeleeWeaponDrawTooltipPatch : BasePatch
+internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal MeleeWeaponDrawTooltipPatch()
@@ -28,7 +28,7 @@ internal sealed class MeleeWeaponDrawTooltipPatch : BasePatch
 
     /// <summary>Make weapon stats human-readable..</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> MeleeWeaponDrawTooltipTranspiler(
+    private static IEnumerable<CodeInstruction>? MeleeWeaponDrawTooltipTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

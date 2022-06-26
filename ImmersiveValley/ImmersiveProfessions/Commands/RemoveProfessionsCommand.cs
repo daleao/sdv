@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -15,16 +16,23 @@ using Framework;
 
 #endregion using directives
 
-internal class RemoveProfessionsCommand : ICommand
+[UsedImplicitly]
+internal sealed class RemoveProfessionsCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "remove_professions";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal RemoveProfessionsCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Remove the specified professions. Does not affect skill levels." + GetUsage();
+    public override string Trigger => "remove_professions";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation =>
+        "Remove the specified professions from the player. Does not affect skill levels." + GetUsage();
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (!args.Any())
         {
@@ -63,7 +71,7 @@ internal class RemoveProfessionsCommand : ICommand
             {
                 professionsToRemove.Add(profession.Id);
                 professionsToRemove.Add(profession.Id + 100);
-                Log.I($"Removed the {profession.StringId} profession from {Game1.player.Name}.");
+                Log.I($"Removed {profession.StringId} profession from {Game1.player.Name}.");
             }
             else
             {
@@ -77,7 +85,7 @@ internal class RemoveProfessionsCommand : ICommand
                 }
 
                 professionsToRemove.Add(customProfession.Id);
-                Log.I($"Removed the {profession.StringId} profession from {Game1.player.Name}.");
+                Log.I($"Removed {customProfession.StringId} profession from {Game1.player.Name}.");
             }
         }
 
@@ -90,18 +98,15 @@ internal class RemoveProfessionsCommand : ICommand
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
-    private static string GetUsage()
+    private string GetUsage()
     {
-        var result = "\n\nUsage: remove_professions [--prestige] <profession1> <profession2> ... <professionN>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Trigger} [--prestige] <profession1> <profession2> ... <professionN>";
         result += "\n\nParameters:";
         result +=
-            "\n\t<profession>\t- a valid profession name, `all` or `unknown`. Use `unknown` to remove rogue professions from uninstalled custom skill mods.";
-        result += "\n\nOptional flags:";
-        result +=
-            "\n\t--prestige, -p\t- add the prestiged versions of the specified professions (will automatically add the base versions as well)";
+            "\n\t- <profession>\t- a valid profession name, `all` or `unknown`. Use `unknown` to remove rogue professions from uninstalled custom skill mods.";
         result += "\n\nExamples:";
-        result += "\n\tplayer_addprofessions artisan brute";
-        result += "\n\tplayer_addprofessions -p all";
+        result += $"\n\t- {Handler.EntryCommand} {Trigger} artisan brute";
+        result += $"\n\t- {Handler.EntryCommand} {Trigger} -p all";
         return result;
     }
 }

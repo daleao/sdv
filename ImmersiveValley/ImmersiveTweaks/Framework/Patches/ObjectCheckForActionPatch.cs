@@ -20,7 +20,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectCheckForActionPatch : BasePatch
+internal sealed class ObjectCheckForActionPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ObjectCheckForActionPatch()
@@ -54,7 +54,7 @@ internal sealed class ObjectCheckForActionPatch : BasePatch
 
     /// <summary>Applies quality to aged bee house.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> ObjectCheckForActionTranspiler(
+    private static IEnumerable<CodeInstruction>? ObjectCheckForActionTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

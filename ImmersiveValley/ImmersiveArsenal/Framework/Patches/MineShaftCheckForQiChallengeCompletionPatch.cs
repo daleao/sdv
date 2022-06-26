@@ -12,7 +12,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MineShaftCheckForQiChallengeCompletionPatch : BasePatch
+internal sealed class MineShaftCheckForQiChallengeCompletionPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal MineShaftCheckForQiChallengeCompletionPatch()

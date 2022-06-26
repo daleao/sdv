@@ -6,6 +6,7 @@ using static System.FormattableString;
 using static System.String;
 
 using System;
+using JetBrains.Annotations;
 using StardewValley;
 
 using Common;
@@ -14,16 +15,22 @@ using Common.Data;
 
 #endregion using directives
 
-internal class PrintModDataCommand : ICommand
+[UsedImplicitly]
+internal sealed class PrintModDataCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "data";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal PrintModDataCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Print the current value of all mod data fields.";
+    public override string Trigger => "data";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Print the current value of all mod data fields.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         var message = $"Farmer {Game1.player.Name}'s mod data:";
         var value = ModDataIO.ReadData(Game1.player, ModData.EcologistItemsForaged.ToString());

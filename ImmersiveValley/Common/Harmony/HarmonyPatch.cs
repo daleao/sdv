@@ -12,43 +12,48 @@ using Extensions.Reflection;
 
 #endregion using directives
 
-/// <summary>Base implementation for Harmony patches.</summary>
-internal abstract class BasePatch : IPatch
+/// <summary>Base implementation of a <see cref="Harmony"/> patch class targeting a single method.</summary>
+internal abstract class HarmonyPatch : IHarmonyPatch
 {
     /// <inheritdoc />
-    public MethodBase Target { get; protected init; }
+    public MethodBase? Target { get; protected init; }
 
     /// <inheritdoc />
-    public HarmonyMethod Prefix { get; }
+    public HarmonyMethod? Prefix { get; }
 
     /// <inheritdoc />
-    public HarmonyMethod Postfix { get; }
+    public HarmonyMethod? Postfix { get; }
 
     /// <inheritdoc />
-    public HarmonyMethod Transpiler { get; }
+    public HarmonyMethod? Transpiler { get; }
 
     /// <inheritdoc />
-    public HarmonyMethod Reverse { get; }
+    public HarmonyMethod? Finalizer { get; }
+
+    /// <inheritdoc />
+    public HarmonyMethod? Reverse { get; }
 
     /// <summary>Construct an instance.</summary>
-    protected BasePatch()
+    protected HarmonyPatch()
     {
-        (Prefix, Postfix, Transpiler, Reverse) = GetHarmonyMethods();
+        (Prefix, Postfix, Transpiler, Finalizer, Reverse) = GetHarmonyMethods();
     }
 
     /// <inheritdoc />
-    void IPatch.Apply(Harmony harmony)
+    void IHarmonyPatch.Apply(Harmony harmony)
     {
-        if (Target is null) throw new MissingMethodException();
+        if (Target is null) throw new MissingMethodException("Target not found.");
 
-        harmony.Patch(Target, Prefix, Postfix, Transpiler);
-        if (Reverse is not null)
-            harmony.CreateReversePatcher(Target, Reverse);
+        harmony.Patch(Target, Prefix, Postfix, Transpiler, Finalizer);
+        if (Reverse is null) return;
+
+        var patcher = harmony.CreateReversePatcher(Target, Reverse);
+        patcher.Patch();
     }
 
     /// <summary>Get a method and assert that it was found.</summary>
     /// <param name="parameters">The method parameter types, or <c>null</c> if it's not overloaded.</param>
-    /// <remarks><see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
+    /// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
     protected ConstructorInfo RequireConstructor<TType>(params Type[] parameters)
     {
         return typeof(TType).RequireConstructor(parameters);
@@ -57,14 +62,14 @@ internal abstract class BasePatch : IPatch
     /// <summary>Get a method and assert that it was found.</summary>
     /// <param name="name">The method name.</param>
     /// <param name="parameters">The method parameter types, or <c>null</c> if it's not overloaded.</param>
-    /// <remarks><see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
-    protected MethodInfo RequireMethod<TType>(string name, Type[] parameters = null)
+    /// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
+    protected MethodInfo RequireMethod<TType>(string name, Type[]? parameters = null)
     {
         return typeof(TType).RequireMethod(name, parameters);
     }
 
     /// <summary>Get all Harmony patch methods in the current patch instance.</summary>
-    private (HarmonyMethod, HarmonyMethod, HarmonyMethod, HarmonyMethod) GetHarmonyMethods()
+    private (HarmonyMethod?, HarmonyMethod?, HarmonyMethod?, HarmonyMethod?, HarmonyMethod?) GetHarmonyMethods()
     {
         // get all static and private inner methods of this class
         var methods = GetType().GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
@@ -77,11 +82,14 @@ internal abstract class BasePatch : IPatch
         var transpiler = methods
             .FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyTranspiler), false).Length > 0)
             .ToHarmonyMethod();
+        var finalizer = methods
+            .FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyFinalizer), false).Length > 0)
+            .ToHarmonyMethod();
         var reverse = methods
             .FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyReversePatch), false).Length > 0)
             .ToHarmonyMethod();
 
-        return (prefix, postfix, transpiler, reverse);
+        return (prefix, postfix, transpiler, finalizer, reverse);
     }
 
     /// <inheritdoc />

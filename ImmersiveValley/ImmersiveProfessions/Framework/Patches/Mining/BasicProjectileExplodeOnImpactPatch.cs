@@ -17,7 +17,7 @@ using Extensions;
 
 // ReSharper disable PossibleLossOfFraction
 [UsedImplicitly]
-internal sealed class BasicProjectileExplodeOnImpact : BasePatch
+internal sealed class BasicProjectileExplodeOnImpact : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal BasicProjectileExplodeOnImpact()

@@ -9,8 +9,9 @@ using JetBrains.Annotations;
 using StardewValley.Buildings;
 
 using Common;
-using Common.Harmony;
+using Common.Data;
 using Common.Extensions;
+using Common.Harmony;
 using Extensions;
 
 using SObject = StardewValley.Object;
@@ -18,7 +19,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondAddFishToPondPatch : BasePatch
+internal sealed class FishPondAddFishToPondPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondAddFishToPondPatch()
@@ -36,50 +37,50 @@ internal sealed class FishPondAddFishToPondPatch : BasePatch
         {
             if (fish.HasContextTag("fish_legendary") && fish.ParentSheetIndex != __instance.fishType.Value)
             {
-                var familyQualities = __instance
-                    .ReadData("FamilyQualities", $"{__instance.ReadDataAs<int>("FamilyLivingHere")},0,0,0")
+                var familyQualities = ModDataIO
+                    .ReadData(__instance, "FamilyQualities", $"{ModDataIO.ReadDataAs<int>(__instance, "FamilyLivingHere")},0,0,0")
                     .ParseList<int>()!;
                 if (familyQualities.Count != 4 ||
-                    familyQualities.Sum() != __instance.ReadDataAs<int>("FamilyLivingHere"))
+                    familyQualities.Sum() != ModDataIO.ReadDataAs<int>(__instance, "FamilyLivingHere"))
                     throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
 
                 ++familyQualities[fish.Quality == 4 ? 3 : fish.Quality];
-                __instance.IncrementData<int>("FamilyLivingHere");
-                __instance.WriteData("FamilyQualities", string.Join(',', familyQualities));
+                ModDataIO.IncrementData<int>(__instance, "FamilyLivingHere");
+                ModDataIO.WriteData(__instance, "FamilyQualities", string.Join(',', familyQualities));
             }
             else if (fish.IsAlgae())
             {
                 switch (fish.ParentSheetIndex)
                 {
                     case Constants.SEAWEED_INDEX_I:
-                        __instance.IncrementData<int>("SeaweedLivingHere");
+                        ModDataIO.IncrementData<int>(__instance, "SeaweedLivingHere");
                         break;
                     case Constants.GREEN_ALGAE_INDEX_I:
-                        __instance.IncrementData<int>("GreenAlgaeLivingHere");
+                        ModDataIO.IncrementData<int>(__instance, "GreenAlgaeLivingHere");
                         break;
                     case Constants.WHITE_ALGAE_INDEX_I:
-                        __instance.IncrementData<int>("WhiteAlgaeLivingHere");
+                        ModDataIO.IncrementData<int>(__instance, "WhiteAlgaeLivingHere");
                         break;
                 }
             }
             else
             {
-                var fishQualities = __instance.ReadData("FishQualities",
-                        $"{__instance.FishCount - __instance.ReadDataAs<int>("FamilyLivingHere") - 1},0,0,0") // already added at this point, so consider - 1
+                var fishQualities = ModDataIO.ReadData(__instance, "FishQualities",
+                        $"{__instance.FishCount - ModDataIO.ReadDataAs<int>(__instance, "FamilyLivingHere") - 1},0,0,0") // already added at this point, so consider - 1
                     .ParseList<int>()!;
                 if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > __instance.FishCount - 1))
                     throw new InvalidDataException("FishQualities data had incorrect number of values.");
 
                 ++fishQualities[fish.Quality == 4 ? 3 : fish.Quality];
-                __instance.WriteData("FishQualities", string.Join(',', fishQualities));
+                ModDataIO.WriteData(__instance, "FishQualities", string.Join(',', fishQualities));
             }
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            __instance.WriteData("FishQualities", $"{__instance.FishCount},0,0,0");
-            __instance.WriteData("FamilyQualities", null);
-            __instance.WriteData("FamilyLivingHere", null);
+            ModDataIO.WriteData(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
+            ModDataIO.WriteData(__instance, "FamilyQualities", null);
+            ModDataIO.WriteData(__instance, "FamilyLivingHere", null);
         }
     }
 

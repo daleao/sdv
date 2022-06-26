@@ -16,7 +16,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class RingCombinePatch : BasePatch
+internal sealed class RingCombinePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal RingCombinePatch()
@@ -32,7 +32,7 @@ internal sealed class RingCombinePatch : BasePatch
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCombinePrefix(Ring __instance, ref Ring __result, Ring ring)
     {
-        if (!ModEntry.Config.ForgeableIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
+        if (!ModEntry.Config.TheOneIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
             return true; // run original logic
 
         try

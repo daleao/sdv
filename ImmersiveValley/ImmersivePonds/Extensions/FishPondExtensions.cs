@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
@@ -14,6 +13,7 @@ using StardewValley.Menus;
 using StardewValley.Objects;
 
 using Common;
+using Common.Data;
 using Common.Extensions;
 using Common.Extensions.Reflection;
 
@@ -24,14 +24,15 @@ using SObject = StardewValley.Object;
 /// <summary>Extensions for the <see cref="FishPond"/> class.</summary>
 public static class FishPondExtensions
 {
-    private static readonly FieldInfo _FishPondData = typeof(FishPond).RequireField("_fishPondData")!;
+    private static readonly Func<FishPond, FishPondData?> _GetFishPondData = typeof(FishPond).RequireField("_fishPondData")
+        .CompileUnboundFieldGetterDelegate<Func<FishPond, FishPondData?>>();
 
     /// <summary>Whether the instance's population has been fully unlocked.</summary>
     public static bool HasUnlockedFinalPopulationGate(this FishPond pond)
     {
-        var fishPondData = (FishPondData) _FishPondData.GetValue(pond);
-        return fishPondData?.PopulationGates is null ||
-               pond.lastUnlockedPopulationGate.Value >= fishPondData.PopulationGates.Keys.Max();
+        var data = _GetFishPondData(pond);
+        return data?.PopulationGates is null ||
+               pond.lastUnlockedPopulationGate.Value >= data.PopulationGates.Keys.Max();
     }
 
     /// <summary>Whether a legendary fish lives in this pond.</summary>
@@ -50,7 +51,7 @@ public static class FishPondExtensions
     /// <param name="who">The player.</param>
     public static void RewardExp(this FishPond pond, Farmer who)
     {
-        if (pond.ReadDataAs<bool>("CheckedToday")) return;
+        if (ModDataIO.ReadDataAs<bool>(pond, "CheckedToday")) return;
 
         var bonus = (int) (pond.output.Value is SObject @object
             ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
@@ -62,8 +63,8 @@ public static class FishPondExtensions
     /// <returns>Always returns <see langword="true"> (required by vanilla code).</returns>
     public static bool OpenChumBucketMenu(this FishPond pond, Farmer who)
     {
-        var produce = pond.ReadData("ItemsHeld", null)?.ParseList<string>(";");
-        if (produce is null)
+        var held = ModDataIO.ReadData(pond, "ItemsHeld").ParseList<string>(";");
+        if (held is null || !held.Any())
         {
             if (who.addItemToInventoryBool(pond.output.Value))
             {
@@ -77,10 +78,10 @@ public static class FishPondExtensions
         }
         else
         {
-            var items = new List<Item> {pond.output.Value};
+            var produce = new List<Item> {pond.output.Value};
             try
             {
-                foreach (var p in produce)
+                foreach (var p in held)
                 {
                     var (index, stack, quality) = p.ParseTuple<int, int, int>();
                     if (index == Constants.ROE_INDEX_I)
@@ -93,25 +94,25 @@ public static class FishPondExtensions
                         o.preservedParentSheetIndex.Value = pond.fishType.Value;
                         o.Price += Convert.ToInt32(split[1]) / 2;
                         o.Quality = quality;
-                        items.Add(o);
+                        produce.Add(o);
                     }
                     else
                     {
-                        items.Add(new SObject(index, stack) {Quality = quality});
+                        produce.Add(new SObject(index, stack) {Quality = quality});
                     }
                 }
 
-                Game1.activeClickableMenu = new ItemGrabMenu(items, pond).setEssential(false);
+                Game1.activeClickableMenu = new ItemGrabMenu(produce, pond).setEssential(false);
                 ((ItemGrabMenu) Game1.activeClickableMenu).source = ItemGrabMenu.source_fishingChest;
             }
             catch (InvalidOperationException ex)
             {
                 Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-                pond.WriteData("ItemsHeld", null);
+                ModDataIO.WriteData(pond, "ItemsHeld", null);
             }
         }
 
-        pond.WriteData("CheckedToday", true.ToString());
+        ModDataIO.WriteData(pond, "CheckedToday", true.ToString());
         return true; // expected by vanilla code
     }
 }

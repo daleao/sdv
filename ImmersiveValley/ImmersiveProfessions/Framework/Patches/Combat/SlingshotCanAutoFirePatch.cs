@@ -15,7 +15,7 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotCanAutoFirePatch : BasePatch
+internal sealed class SlingshotCanAutoFirePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal SlingshotCanAutoFirePatch()

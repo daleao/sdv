@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -11,16 +12,22 @@ using Common.Data;
 
 #endregion using directives
 
-internal class ClearTreeDataCommand : ICommand
+[UsedImplicitly]
+internal sealed class ClearTreeDataCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "deage_trees";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal ClearTreeDataCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Clear the age data of every tree in the world.";
+    public override string Trigger => "deage_trees";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Clear the age data of every tree in the world.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         foreach (var tree in Game1.locations.SelectMany(l => l.terrainFeatures.Values).OfType<Tree>())
             ModDataIO.WriteData(tree, "Age", null);

@@ -21,11 +21,9 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BushMachineGetOutputPatch : BasePatch
+internal sealed class BushMachineGetOutputPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private delegate Bush GetMachineDelegate(object instance);
-
-    private static GetMachineDelegate _GetMachine;
+    private static Func<object, Bush>? _GetMachine;
 
     /// <summary>Construct an instance.</summary>
     internal BushMachineGetOutputPatch()
@@ -47,9 +45,10 @@ internal sealed class BushMachineGetOutputPatch : BasePatch
     [HarmonyPostfix]
     private static void BushMachineGetOutputPostfix(object __instance)
     {
-        if (__instance is null || !ModEntry.Config.ShouldCountAutomatedHarvests) return;
+        if (!ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CreateDelegate<GetMachineDelegate>();
+        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine")
+            .CompileUnboundDelegate<Func<object, Bush>>();
         var machine = _GetMachine(__instance);
         if (machine.size.Value >= Bush.greenTeaBush) return;
 
@@ -60,7 +59,7 @@ internal sealed class BushMachineGetOutputPatch : BasePatch
 
     /// <summary>Patch for automated Berry Bush quality.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> BushMachineGetOutputTranspiler(
+    private static IEnumerable<CodeInstruction>? BushMachineGetOutputTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

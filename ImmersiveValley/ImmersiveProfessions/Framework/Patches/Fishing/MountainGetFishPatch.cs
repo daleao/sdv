@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MountainGetFishPatch : BasePatch
+internal sealed class MountainGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private const int LEGEND_INDEX_I = 163;
 
@@ -31,7 +31,7 @@ internal sealed class MountainGetFishPatch : BasePatch
 
     /// <summary>Patch for prestiged Angler to recatch Legend.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> MountainGetFishTranspiler(
+    private static IEnumerable<CodeInstruction>? MountainGetFishTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

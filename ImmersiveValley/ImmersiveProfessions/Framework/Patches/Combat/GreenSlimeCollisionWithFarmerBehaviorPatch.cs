@@ -14,7 +14,7 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatch : BasePatch
+internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private const int FARMER_INVINCIBILITY_FRAMES_I = 72;
 

@@ -3,22 +3,29 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 
 using Common;
 using Common.Commands;
 
 #endregion using directives
 
-internal class PrintHookedEventsCommand : ICommand
+[UsedImplicitly]
+internal sealed class PrintHookedEventsCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "events";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal PrintHookedEventsCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Print all currently subscribed mod events.";
+    public override string Trigger => "events";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Print all currently subscribed mod events.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         var message = "Hooked events:";
         message = ModEntry.EventManager.Hooked

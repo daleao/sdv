@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System;
 using JetBrains.Annotations;
 using StardewValley;
 
@@ -13,11 +14,9 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TapperMachineResetPatch : BasePatch
+internal sealed class TapperMachineResetPatch : HarmonyPatch
 {
-    private delegate SObject GetMachineDelegate(object instance);
-
-    private static GetMachineDelegate _GetMachine;
+    private static Func<object, SObject>? _GetMachine;
 
     /// <summary>Construct an instance.</summary>
     internal TapperMachineResetPatch()
@@ -38,9 +37,10 @@ internal sealed class TapperMachineResetPatch : BasePatch
     /// <summary>Adds foraging experience for automated tappers.</summary>
     private static void TapperMachineResetPostfix(object __instance)
     {
-        if (__instance is null || !ModEntry.Config.TappersRewardExp) return;
+        if (!ModEntry.Config.TappersRewardExp) return;
 
-        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CreateDelegate<GetMachineDelegate>();
+        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine")
+            .CompileUnboundDelegate<Func<object, SObject>>();
         var machine = _GetMachine(__instance);
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
         owner.gainExperience(Farmer.foragingSkill, 5);

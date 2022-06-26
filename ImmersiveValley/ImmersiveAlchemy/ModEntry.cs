@@ -16,10 +16,10 @@ using Framework;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    internal static ModEntry Instance { get; private set; }
-    internal static ModConfig Config { get; set; }
-    internal static AlchemyEventManager EventManager { get; private set; }
-    internal static PerScreen<PlayerState> PerScreenState { get; private set; }
+    internal static ModEntry Instance { get; private set; } = null!;
+    internal static ModConfig Config { get; set; } = null!;
+    internal static AlchemyEventManager EventManager { get; private set; } = null!;
+    internal static PerScreen<PlayerState> PerScreenState { get; private set; } = null!;
     internal static PlayerState PlayerState
     {
         get => PerScreenState.Value;
@@ -32,8 +32,8 @@ public class ModEntry : Mod
 
     internal static bool LoadedBackpackMod { get; private set; }
 
-    internal static FrameRateCounter FpsCounter { get; private set; }
-    internal static ICursorPosition DebugCursorPosition { get; set; }
+    internal static FrameRateCounter FpsCounter { get; private set; } = null!;
+    internal static ICursorPosition DebugCursorPosition { get; set; } = null!;
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -54,7 +54,7 @@ public class ModEntry : Mod
         EventManager = new(Helper.Events);
 
         // apply harmony patches
-        new HarmonyPatcher(Manifest.UniqueID).ApplyAll();
+        new Harmonizer(Manifest.UniqueID).ApplyAll();
 
         // initialize mod state
         PerScreenState = new(() => new());

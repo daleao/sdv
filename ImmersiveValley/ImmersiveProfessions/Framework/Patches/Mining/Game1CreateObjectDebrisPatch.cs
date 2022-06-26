@@ -18,7 +18,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class Game1CreateObjectDebrisPatch : BasePatch
+internal sealed class Game1CreateObjectDebrisPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal Game1CreateObjectDebrisPatch()

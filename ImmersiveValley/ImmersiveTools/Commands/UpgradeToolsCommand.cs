@@ -3,7 +3,7 @@
 #region using directives
 
 using System;
-
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
@@ -12,16 +12,22 @@ using Common.Commands;
 
 #endregion using directives
 
-internal class UpgradeToolsCommand : ICommand
+[UsedImplicitly]
+internal sealed class UpgradeToolsCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "set";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal UpgradeToolsCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Set the upgrade level of all upgradeable tools in the inventory." + GetUsage();
+    public override string Trigger => "set_upgrade";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Set the upgrade level of all upgradeable tools in the inventory." + GetUsage();
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (Game1.player.CurrentTool is not MeleeWeapon weapon)
         {
@@ -49,20 +55,20 @@ internal class UpgradeToolsCommand : ICommand
 
         foreach (var item in Game1.player.Items)
             if (item is Axe or Hoe or Pickaxe or WateringCan)
-                (item as Tool).UpgradeLevel = (int) upgradeLevel;
+                (item as Tool)!.UpgradeLevel = (int) upgradeLevel;
     }
 
     /// <summary>Tell the dummies how to use the console command.</summary>
-    private static string GetUsage()
+    private string GetUsage()
     {
-        var result = "\n\nUsage: player_upgradetools <level>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Trigger} <level>";
         result += "\n\nParameters:";
         result += "\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'";
         if (ModEntry.HasLoadedMoonMisadventures)
             result += ", 'radioactive', 'mythicite'";
 
         result += "\n\nExample:";
-        result += "\n\t- player_upgradetools iridium";
+        result += $"\n\t- {Handler.EntryCommand} {Trigger} iridium";
         return result;
     }
 }

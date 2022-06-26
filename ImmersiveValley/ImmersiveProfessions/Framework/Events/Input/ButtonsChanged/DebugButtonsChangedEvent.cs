@@ -18,8 +18,13 @@ using Display;
 [UsedImplicitly]
 internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal DebugButtonsChangedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override async void OnButtonsChangedImpl(object sender, ButtonsChangedEventArgs e)
+    protected override async void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
         if (!ModEntry.Config.DebugKey.IsDown() ||
             !e.Pressed.Any(b => b is SButton.MouseRight or SButton.MouseLeft)) return;
@@ -50,7 +55,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                     if (c.getTileLocation() != e.Cursor.Tile) continue;
 
                     var message = string.Empty;
-                    Farmer who = null;
+                    Farmer? who = null;
                     if (c is Farmer farmer)
                     {
                         who = farmer;
@@ -76,7 +81,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                         var events = "";
                         if (who.IsLocalPlayer)
                         {
-                            events = ModEntry.EventManager.Hooked.Aggregate("",
+                            events = Manager.Hooked.Aggregate("",
                                 (current, next) => current + "\n\t\t- " + next.GetType().Name);
                         }
                         else if (Context.IsMultiplayer && who.isActive())
@@ -85,7 +90,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                             if (peer is {IsSplitScreen: true})
                             {
                                 if (peer.ScreenID.HasValue)
-                                    events = ModEntry.EventManager.GetHookedForScreen(peer.ScreenID.Value).Aggregate("",
+                                    events = Manager.GetHookedForScreen(peer.ScreenID.Value).Aggregate("",
                                         (current, next) => current + "\n\t\t- " + next.GetType().Name);
                             }
                             else

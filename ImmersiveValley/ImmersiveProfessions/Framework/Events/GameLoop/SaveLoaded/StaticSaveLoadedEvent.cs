@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 #region using directives
 
@@ -19,11 +18,16 @@ using Ultimates;
 [UsedImplicitly]
 internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal StaticSaveLoadedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnSaveLoadedImpl(object sender, SaveLoadedEventArgs e)
+    protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         // enable events
-        ModEntry.EventManager.HookForLocalPlayer();
+        Manager.HookForLocalPlayer();
 
         // load and initialize Ultimate index
         Log.T("Initializing Ultimate...");
@@ -71,6 +75,6 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
         Game1.player.RevalidateLevels();
 
         // prepare to check for prestige achievement
-        ModEntry.EventManager.Hook<PrestigeAchievementOneSecondUpdateTickedEvent>();
+        Manager.Hook<PrestigeAchievementOneSecondUpdateTickedEvent>();
     }
 }

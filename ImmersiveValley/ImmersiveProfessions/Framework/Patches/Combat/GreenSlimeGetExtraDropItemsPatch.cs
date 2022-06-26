@@ -20,7 +20,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GreenSlimeGetExtraDropItemsPatch : BasePatch
+internal sealed class GreenSlimeGetExtraDropItemsPatch : HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeGetExtraDropItemsPatch()

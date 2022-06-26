@@ -11,7 +11,6 @@ using StardewValley;
 
 using Common.Data;
 using Common.Events;
-using Content;
 using Extensions;
 
 #endregion using directives
@@ -19,8 +18,13 @@ using Extensions;
 [UsedImplicitly]
 internal sealed class HostConservationismDayEndingEvent : DayEndingEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal HostConservationismDayEndingEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
+    protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
         if (Game1.dayOfMonth != 28) return;
 

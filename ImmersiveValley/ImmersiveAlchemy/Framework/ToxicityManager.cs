@@ -28,16 +28,16 @@ internal class ToxicityManager
     #region event handlers
 
     /// <inheritdoc cref="OnChanged"/>
-    internal static event EventHandler<IToxicityChangedEventArgs> Changed;
+    internal static event EventHandler<IToxicityChangedEventArgs>? Changed;
 
     /// <inheritdoc cref="OnCleared"/>
-    internal static event EventHandler<IToxicityClearedEventArgs> Cleared;
+    internal static event EventHandler<IToxicityClearedEventArgs>? Cleared;
 
     /// <inheritdoc cref="OnFilled"/>
-    internal static event EventHandler<IToxicityFilledEventArgs> Filled;
+    internal static event EventHandler<IToxicityFilledEventArgs>? Filled;
 
     /// <inheritdoc cref="OnOverdosed"/>
-    internal static event EventHandler<IPlayerOverdosedEventArgs> Overdosed;
+    internal static event EventHandler<IPlayerOverdosedEventArgs>? Overdosed;
 
     #endregion event handlers
 

@@ -20,7 +20,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondDoActionPatch : BasePatch
+internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondDoActionPatch()
@@ -32,7 +32,7 @@ internal sealed class FishPondDoActionPatch : BasePatch
 
     /// <summary>Inject ItemGrabMenu + allow legendary fish to share a pond with their extended families.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> FishPondDoActionTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? FishPondDoActionTranspiler(IEnumerable<CodeInstruction> instructions,
         MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

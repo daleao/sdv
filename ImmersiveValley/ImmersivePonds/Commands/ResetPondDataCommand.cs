@@ -3,26 +3,34 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 
 using Common;
 using Common.Commands;
+using Common.Data;
 using Extensions;
 
 #endregion using directives
 
-internal class ResetPondDataCommand : ICommand
+[UsedImplicitly]
+internal sealed class ResetPondDataCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "reset_data";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal ResetPondDataCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Reset custom mod data of nearest pond.";
+    public override string Trigger => "reset_data";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Reset custom mod data of nearest pond.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (!Game1.player.currentLocation.Equals(Game1.getFarm()))
         {
@@ -47,14 +55,14 @@ internal class ResetPondDataCommand : ICommand
             return;
         }
 
-        nearest.WriteData("FishQualities", null);
-        nearest.WriteData("FamilyQualities", null);
-        nearest.WriteData("FamilyLivingHere", null);
-        nearest.WriteData("DaysEmpty", 0.ToString());
-        nearest.WriteData("SeaweedLivingHere", null);
-        nearest.WriteData("GreenAlgaeLivingHere", null);
-        nearest.WriteData("WhiteAlgaeLivingHere", null);
-        nearest.WriteData("CheckedToday", null);
-        nearest.WriteData("ItemsHeld", null);
+        ModDataIO.WriteData(nearest, "FishQualities", null);
+        ModDataIO.WriteData(nearest, "FamilyQualities", null);
+        ModDataIO.WriteData(nearest, "FamilyLivingHere", null);
+        ModDataIO.WriteData(nearest, "DaysEmpty", 0.ToString());
+        ModDataIO.WriteData(nearest, "SeaweedLivingHere", null);
+        ModDataIO.WriteData(nearest, "GreenAlgaeLivingHere", null);
+        ModDataIO.WriteData(nearest, "WhiteAlgaeLivingHere", null);
+        ModDataIO.WriteData(nearest, "CheckedToday", null);
+        ModDataIO.WriteData(nearest, "ItemsHeld", null);
     }
 }

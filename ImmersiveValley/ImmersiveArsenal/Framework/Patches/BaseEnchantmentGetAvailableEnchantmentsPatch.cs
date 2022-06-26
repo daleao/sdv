@@ -15,7 +15,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : BasePatch
+internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal BaseEnchantmentGetAvailableEnchantmentsPatch()

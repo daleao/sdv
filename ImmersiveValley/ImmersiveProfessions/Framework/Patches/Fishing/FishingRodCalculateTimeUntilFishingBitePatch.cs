@@ -12,7 +12,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishingRodCalculateTimeUntilFishingBitePatch : BasePatch
+internal sealed class FishingRodCalculateTimeUntilFishingBitePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishingRodCalculateTimeUntilFishingBitePatch()

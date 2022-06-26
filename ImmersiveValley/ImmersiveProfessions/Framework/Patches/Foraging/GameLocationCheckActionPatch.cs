@@ -23,7 +23,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationCheckActionPatch : BasePatch
+internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationCheckActionPatch()
@@ -38,7 +38,7 @@ internal sealed class GameLocationCheckActionPatch : BasePatch
     ///     mod data fields.
     /// </summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> GameLocationCheckActionTranspiler(
+    private static IEnumerable<CodeInstruction>? GameLocationCheckActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

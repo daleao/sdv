@@ -7,16 +7,21 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 /// <summary>Wrapper for <see cref="IDisplayEvents.WindowResized"/> allowing dynamic hooking / unhooking.</summary>
-internal abstract class WindowResizedEvent : BaseEvent
+internal abstract class WindowResizedEvent : ManagedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    protected WindowResizedEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc cref="IDisplayEvents.WindowResized"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    internal void OnWindowResized(object sender, WindowResizedEventArgs e)
+    internal void OnWindowResized(object? sender, WindowResizedEventArgs e)
     {
-        if (hooked.Value || GetType().Name.StartsWith("Static")) OnWindowResizedImpl(sender, e);
+        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnWindowResizedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnWindowResized" />
-    protected abstract void OnWindowResizedImpl(object sender, WindowResizedEventArgs e);
+    protected abstract void OnWindowResizedImpl(object? sender, WindowResizedEventArgs e);
 }

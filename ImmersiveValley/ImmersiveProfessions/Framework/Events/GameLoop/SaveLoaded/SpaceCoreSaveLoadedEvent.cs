@@ -1,8 +1,8 @@
-﻿#nullable enable
-namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.GameLoop;
 
 #region using directives
 
+using System.Diagnostics;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -17,14 +17,18 @@ using Utility;
 internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
 {
     /// <summary>Construct an instance.</summary>
-    internal SpaceCoreSaveLoadedEvent()
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal SpaceCoreSaveLoadedEvent(ProfessionEventManager manager)
+        : base(manager)
     {
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.SpaceCore")) Hook();
     }
 
     /// <inheritdoc />
-    protected override void OnSaveLoadedImpl(object sender, SaveLoadedEventArgs e)
+    protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
+        Debug.Assert(ModEntry.SpaceCoreApi != null, "ModEntry.SpaceCoreApi != null");
+
         // initialize reflected SpaceCore fields
         if (!ExtendedSpaceCoreAPI.Initialized) ExtendedSpaceCoreAPI.Init();
 
@@ -41,7 +45,7 @@ internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
         }
 
         // get remaining SpaceCore skills
-        foreach (var skillId in ModEntry.SpaceCoreApi!.GetCustomSkills())
+        foreach (var skillId in ModEntry.SpaceCoreApi.GetCustomSkills())
         {
             var customSkill = new CustomSkill(skillId, ModEntry.SpaceCoreApi);
             ModEntry.CustomSkills[skillId] = customSkill;

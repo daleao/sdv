@@ -17,7 +17,7 @@ public static class FarmerExtensions
     /// <summary>Count the units of a specific ring in the farmer's inventory, or the specified list of items.</summary>
     /// <param name="index">The ring index.</param>
     /// <param name="list">Optional list of items to override the farmer's inventory.</param>
-    public static int GetRingItemCount(this Farmer farmer, int index, IList<Item> list = null)
+    public static int GetRingItemCount(this Farmer farmer, int index, IList<Item>? list = null)
     {
         list ??= farmer.Items;
         return list.Count(item => item is Ring && item.ParentSheetIndex == index);

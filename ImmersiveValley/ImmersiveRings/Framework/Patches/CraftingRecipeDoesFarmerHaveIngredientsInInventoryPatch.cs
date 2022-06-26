@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch : BasePatch
+internal sealed class CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch()

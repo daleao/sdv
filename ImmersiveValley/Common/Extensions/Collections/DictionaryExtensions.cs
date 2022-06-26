@@ -15,7 +15,7 @@ public static class DictionaryExtensions
     /// <param name="keyValueSeparator">String inserted between key and value.</param>
     /// <param name="pairSeparator">String inserted between pairs.</param>
     public static string Stringify<TKey, TValue>(this Dictionary<TKey, TValue> d, string keyValueSeparator = ",",
-        string pairSeparator = ";")
+        string pairSeparator = ";") where TKey : notnull
     {
         if (string.IsNullOrEmpty(keyValueSeparator) || string.IsNullOrEmpty(pairSeparator))
             throw new ArgumentException("Separator cannot be null or empty.");

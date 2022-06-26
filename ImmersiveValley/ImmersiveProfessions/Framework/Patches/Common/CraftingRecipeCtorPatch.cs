@@ -13,7 +13,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CraftingRecipeCtorPatch : BasePatch
+internal sealed class CraftingRecipeCtorPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CraftingRecipeCtorPatch()

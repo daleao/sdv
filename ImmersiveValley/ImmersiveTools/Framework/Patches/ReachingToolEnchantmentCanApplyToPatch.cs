@@ -12,7 +12,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ReachingToolEnchantmentCanApplyToPatch : BasePatch
+internal sealed class ReachingToolEnchantmentCanApplyToPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ReachingToolEnchantmentCanApplyToPatch()

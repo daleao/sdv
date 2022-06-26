@@ -23,7 +23,7 @@ using SUtility = StardewValley.Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationGetFishPatch : BasePatch
+internal sealed class GameLocationGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private const int MAGNET_INDEX_I = 703;
 
@@ -37,7 +37,7 @@ internal sealed class GameLocationGetFishPatch : BasePatch
 
     /// <summary>Patch for Fisher to reroll reeled fish if first roll resulted in trash.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> GameLocationGetFishTranspiler(
+    private static IEnumerable<CodeInstruction>? GameLocationGetFishTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

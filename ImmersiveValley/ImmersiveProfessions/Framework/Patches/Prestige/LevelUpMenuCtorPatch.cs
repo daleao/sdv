@@ -17,7 +17,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuCtorPatch : BasePatch
+internal sealed class LevelUpMenuCtorPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuCtorPatch()
@@ -29,7 +29,7 @@ internal sealed class LevelUpMenuCtorPatch : BasePatch
 
     /// <summary>Patch to prevent duplicate profession acquisition + display end of level up dialogues.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> LevelUpMenuCtorTranspiler(
+    private static IEnumerable<CodeInstruction>? LevelUpMenuCtorTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

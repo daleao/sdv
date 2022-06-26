@@ -36,7 +36,7 @@ public static class CollectionExtensions
     /// <param name="type">The type to search for.</param>
     /// <param name="removed">The removed instance.</param>
     /// <returns><see langword="true"> if an instance was successfully removed, otherwise <see langword="false">.</returns>
-    public static bool RemoveType<T>(this ICollection<T> collection, Type type, out T removed)
+    public static bool TryRemoveType<T>(this ICollection<T> collection, Type type, out T? removed)
     {
         var toRemove = collection.SingleOrDefault(item => item is not null && item.GetType() == type);
         if (toRemove is not null)

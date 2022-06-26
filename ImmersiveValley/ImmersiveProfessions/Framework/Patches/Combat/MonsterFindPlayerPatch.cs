@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterFindPlayerPatch : BasePatch
+internal sealed class MonsterFindPlayerPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal MonsterFindPlayerPatch()
@@ -33,12 +33,12 @@ internal sealed class MonsterFindPlayerPatch : BasePatch
     /// <summary>Patch to override monster aggro.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
-    private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer __result)
+    private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer? __result)
     {
         try
         {
             var location = Game1.currentLocation;
-            Farmer target = null;
+            Farmer? target = null;
             if (__instance is GreenSlime slime && ModDataIO.ReadDataAs<bool>(slime, "Piped"))
             {
                 var aggroee = slime.GetClosestCharacter(out _,
@@ -58,7 +58,7 @@ internal sealed class MonsterFindPlayerPatch : BasePatch
             {
                 var fakeFarmerId = __instance.GetHashCode();
                 if (ModEntry.HostState.FakeFarmers.TryGetValue(fakeFarmerId, out var fakeFarmer) &&
-                    location.FindCharacterByHash<GreenSlime>(ModDataIO.ReadDataAs<int>(__instance, "Aggroer"),
+                    location.TryGetCharacterByHash<GreenSlime>(ModDataIO.ReadDataAs<int>(__instance, "Aggroer"),
                         out var aggroer))
                 {
                     fakeFarmer.Position = aggroer.Position;

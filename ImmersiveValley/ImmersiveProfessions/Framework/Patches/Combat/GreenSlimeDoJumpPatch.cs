@@ -12,7 +12,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GreenSlimeDoJumpPatch : BasePatch
+internal sealed class GreenSlimeDoJumpPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeDoJumpPatch()

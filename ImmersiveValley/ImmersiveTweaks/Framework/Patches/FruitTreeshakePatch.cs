@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FruitTreeshakePatch : BasePatch
+internal sealed class FruitTreeshakePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FruitTreeshakePatch()
@@ -30,7 +30,7 @@ internal sealed class FruitTreeshakePatch : BasePatch
 
     /// <summary>Customize Fruit Tree age quality.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> FruitTreeshakeTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? FruitTreeshakeTranspiler(IEnumerable<CodeInstruction> instructions,
         MethodBase original)
     {
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("aedenthorn.FruitTreeTweaks")) return instructions;

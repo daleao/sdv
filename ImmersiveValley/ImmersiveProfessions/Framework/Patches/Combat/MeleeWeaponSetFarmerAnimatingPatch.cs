@@ -20,7 +20,7 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
+internal sealed class MeleeWeaponSetFarmerAnimatingPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal MeleeWeaponSetFarmerAnimatingPatch()
@@ -32,7 +32,7 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatch : BasePatch
 
     /// <summary>Patch to increase prestiged Brute attack speed with rage.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> MeleeWeaponSetFarmerAnimatingTranspiler(
+    private static IEnumerable<CodeInstruction>? MeleeWeaponSetFarmerAnimatingTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

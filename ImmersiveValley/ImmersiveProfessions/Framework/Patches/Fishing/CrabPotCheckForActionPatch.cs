@@ -21,7 +21,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CrabPotCheckForActionPatch : BasePatch
+internal sealed class CrabPotCheckForActionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CrabPotCheckForActionPatch()

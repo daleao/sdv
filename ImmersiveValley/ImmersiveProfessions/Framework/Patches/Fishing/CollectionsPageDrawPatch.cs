@@ -23,7 +23,7 @@ using Textures;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CollectionsPageDrawPatch : BasePatch
+internal sealed class CollectionsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CollectionsPageDrawPatch()
@@ -35,7 +35,7 @@ internal sealed class CollectionsPageDrawPatch : BasePatch
 
     /// <summary>Patch to overlay MAX fish size indicator on the Collections page fish tab.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> CollectionsPageDrawTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? CollectionsPageDrawTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

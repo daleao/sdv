@@ -2,7 +2,6 @@
 
 #region using directives
 
-using JetBrains.Annotations;
 using StardewModdingAPI;
 
 using Common;
@@ -17,14 +16,14 @@ using Common.Integrations;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    internal static ModEntry Instance { get; private set; }
-    internal static ModConfig Config { get; set; }
+    internal static ModEntry Instance { get; private set; } = null!;
+    internal static ModConfig Config { get; set; } = null!;
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
     internal static ITranslationHelper i18n => ModHelper.Translation;
 
-    [CanBeNull] internal static IImmersiveProfessionsAPI ProfessionsAPI { get; set; }
+    internal static IImmersiveProfessionsAPI? ProfessionsAPI { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -45,9 +44,9 @@ public class ModEntry : Mod
         new EventManager(helper.Events).HookAll();
 
         // apply patches
-        new HarmonyPatcher(ModManifest.UniqueID).ApplyAll();
+        new Harmonizer(ModManifest.UniqueID).ApplyAll();
 
         // register commands
-        new CommandHandler(helper.ConsoleCommands).Register("iponds", ModManifest.UniqueID);
+        new CommandHandler(helper.ConsoleCommands).Register("iponds", "Aquarism");
     }
 }

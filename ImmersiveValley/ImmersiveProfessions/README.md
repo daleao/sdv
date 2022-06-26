@@ -264,8 +264,9 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - `PrestigeProgressionStyle` _(string)_ - Either "StackedStars", "Gen3Ribbons" or "Gen4Ribbons". Determines the way your Prestige progression is displayed in the Skills page.
 
 ### Profession Configs
-- `ForagesNeededForBestQuality** _(uint)_ - Determines the number of items foraged from the ground, bushes or mushroom boxes, required to reach permanent iridium-quality forage as an Ecologist. Default is 500.
+- `ForagesNeededForBestQuality` _(uint)_ - Determines the number of items foraged from the ground, bushes or mushroom boxes, required to reach permanent iridium-quality forage as an Ecologist. Default is 500.
 - `MineralsNeededForBestQuality` _(uint)_ - As above. Determines the number of minerals (gems or foraged minerals) mined or collected from geode crushers or crystalariums, required to reach permanent iridium-quality minerals as a Gemologist. Default is 500.
+- `ShouldCountAutomatedHarvests` (bool) - Whether Automated machines should count toward Ecologist and Gemologist goals.
 - `ChanceToStartTreasureHunt` _(float)_ - The percent chance of triggering a treasure hunt when entering a new map as Prospector or Scavenger. Note that this only affects that chance the game will try to start a treasure hunt, and the actual chance is slightly lower as the game might fail to choose a valid treasure tile. Increase this value if you don't see enough treasure hunts, or decrease it if you find treasure hunts cumbersome and don't want to lose your streak. Default is 0.2 (20%).
 - `AllowScavengerHuntsOnFarm` _(bool)_ - Whether a Scavenger Hunt can trigger while entering a farm map.
 - `ScavengerHuntHandicap` _(float)_ - This number multiplies the Scavener Hunt time limit. Increase this number if you find that Scavenger hunts end too quickly.
@@ -274,10 +275,11 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - `SpelunkerSpeedCap` _(uint)_ - The maximum speed bonus a Spelunker can reach (values above 10 may cause problems).
 - `EnableGetExcited` _(bool)_ - Toggles the Get Excited buff when a Demolitionist is hit by an explosion.
 - `SeaweedIsJunk` _(bool)_ - Whether Seaweed and Algae are considered junk for fishing purposes.
-- `AnglerMultiplierCeiling` _(float)_ - The maximum fish price multiplier that can be accumulated by Angler.
-- `TrashNeededPerTaxLevel` _(uint)_ - Represents the number of trash items the Conservationist must collect in order to gain a 1% tax deduction the following season. Use this value to balance your game if you use or don't use Automate. Default is 100.
+- `AnglerMultiplierCap` _(float)_ - The maximum fish price multiplier that can be accumulated by Angler.
+- `TrashNeededPerBonusPct` _(uint)_ - Represents the number of trash items the Conservationist must collect in order to gain a 1% tax deduction the following season. Use this value to balance your game if you use or don't use Automate. Default is 100.
 - `TrashNeededPerFriendshipPoint` _(uint)_ - Represents the number of trash items the Prestiged Conservationist must collect in order to gain 1 point of friendship towards all villagers. Default is 100.
-- `TaxDeductionCeiling` _(float)_ - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.25 (25% bonus value on every item).
+- `ConservationistTaxBonusCeiling` _(float)_ - Represents the maximum allowed tax deduction by the Ferngill Revenue Service. Set this to a sensible value to avoid breaking your game. Default is 0.37 (37% bonus value on every item).
+- `PiperBuffCap` _(int)_ - The maximum stacks that can be gained for each buff stat.
 
 ### Special Ability Configs
 - `EnableSpecials` _(bool)_ - Required to allow use of Special Abilities.
@@ -305,23 +307,25 @@ While the vast majority of professions bonuses are non-configurable, some of the
 
 ## Console Commands
 
-The mod provides the following console commands, which you can enter in the SMAPI console for testing, checking or cheating:
+The mod provides several commands under the main entry point `wol`. You can type `wol help` to see a list of available commands. If the command requires any parameters, using the empty command will provide usage information.
 
-- `player_skills` - List the player's current skill levels.
-- `player_resetskills` - Reset the specified skills, or all skills if none are specified.
-- `player_professions` - List the player's current professions.
-- `player_addprofessions` - Add the specified professions to the local player.
-- `player_resetprofessions` - Remove all professions for the specified skills, or all professions if none are specified. Does not affect skill levels.
-- `player_readyult` - Max-out the Ultimate meter, or set it to the specified value (between 0 and 100).
-- `player_changeult` - Change the Ultimate profession to the desired profession.
-- `player_whichult` - Check the currently registered Ultimate profession.
-- `player_maxanimalfriendship` - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
-- `player_maxanimalmood` - Max-out the mood of all owned animals, which affects production frequency as Producer.
-- `player_fishingprogress` - Check your fishing progress and bonus fish value as Angler.
-- `wol_data` - Check current value of all mod data fields (FEcologistItemsForaged, GemologistMineralsCollected, ProspectorHuntStreak, ScavengerHuntStreak, ConservationistTrashCollectedThisSeason, ConservationistActiveTaxBonusPct).
-- `wol_setdata` - Set a new value for one of the mod data fields above.
-- `wol_events` - List currently subscribed mod events (for debugging).
-- `wol_resetthehunt` - Forcefully reset the currently active Treasure Hunt and choose a new target treasure tile.
+- `levels` - List the player's current skill levels and experience.
+- `set_levels` - Set the level of the specified skills to the specified values (only 0 - 10) allowed. (For DEBUG only !! This will not add recipes and other profession perks correctly).
+- `reset_levels` - Reset the specified skills, or all skills if none are specified.
+- `professions` - List the player's current professions.
+- `add_professions` - Add the specified professions to the local player.
+- `remove_professions` - Remove the specified professions from the local player, "all", or "unknown" to only remove leftover professions from uninstalled mods.
+- `which_ult` - Check the currently registered Special Ability.
+- `ready_ult` - Leave argument blank to max-out the Special Ability charge meter, or specify a number between 0 and 100 to set it to the specified percentage.
+- `set_ult` - Change the currently registered Special Ability to that of a different combat profession.
+- `max_animal_friendship` - Max-out the friendship of all owned animals, which affects their sale value as Breeder.
+- `max_animal_mood` - Max-out the mood of all owned animals, which affects production frequency as Producer.
+- `fishingdex` - Check your fishing progress and bonus fish value as Angler.
+- `fishingdex_complete` - Max out your fishing progress and bonus fish value as Angler.
+- `data` - Check current value of all mod data fields (FEcologistItemsForaged, GemologistMineralsCollected, ProspectorHuntStreak, ScavengerHuntStreak, ConservationistTrashCollectedThisSeason, ConservationistActiveTaxBonusPct).
+- `set_data` - Set a new value for one of the mod data fields above.
+- `events` - List currently subscribed mod events (for debugging).
+- `hunt_reset` - Forcefully reset the currently active Treasure Hunt and choose a new target treasure tile.
 
 ## API
 

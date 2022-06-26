@@ -18,8 +18,13 @@ internal sealed class PrestigeDayEndingEvent : DayEndingEvent
 {
     private static Queue<ISkill> _ToReset => ModEntry.PlayerState.SkillsToReset;
 
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal PrestigeDayEndingEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnDayEndingImpl(object sender, DayEndingEventArgs e)
+    protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
         while (_ToReset.Any())
         {

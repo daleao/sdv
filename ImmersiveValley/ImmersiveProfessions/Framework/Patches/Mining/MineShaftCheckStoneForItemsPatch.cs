@@ -19,7 +19,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MineShaftCheckStoneForItemsPatch : BasePatch
+internal sealed class MineShaftCheckStoneForItemsPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal MineShaftCheckStoneForItemsPatch()
@@ -34,7 +34,7 @@ internal sealed class MineShaftCheckStoneForItemsPatch : BasePatch
     ///     geode chance + remove Prospector double coal chance.
     /// </summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> MineShaftCheckStoneForItemsTranspiler(
+    private static IEnumerable<CodeInstruction>? MineShaftCheckStoneForItemsTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

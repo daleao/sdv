@@ -5,24 +5,32 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
 using Common.Commands;
 using Common.Extensions;
+using Framework;
 
 #endregion using directives
 
-internal class MaxFishingAuditCommand : ICommand
+[UsedImplicitly]
+internal sealed class MaxFishingAuditCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "fishdex_complete";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal MaxFishingAuditCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Set all fish to seen and caught at max-size.";
+    public override string Trigger => "fishingdex_complete";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => $"Set all fish to seen and caught at max-size. Relevant for {Profession.Angler}s.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         var fishData = Game1.content
             .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))

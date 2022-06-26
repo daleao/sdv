@@ -16,7 +16,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ToolTilesAffectedPatch : BasePatch
+internal sealed class ToolTilesAffectedPatch : Common.Harmony.HarmonyPatch
 {
     private static int[] AxeAffectedTilesRadii => ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel;
     private static int[] PickaxeAffectedTilesRadii => ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel;

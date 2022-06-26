@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Stardew.Ponds.Framework.Patches;
+﻿namespace DaLion.Stardew.Ponds.Framework.Patches;
 
 #region using directives
 
@@ -12,6 +11,7 @@ using JetBrains.Annotations;
 using StardewValley.Buildings;
 
 using Common;
+using Common.Data;
 using Common.Harmony;
 using Extensions;
 
@@ -20,7 +20,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondGetFishProducePatch : BasePatch
+internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishPondGetFishProducePatch()
@@ -44,21 +44,21 @@ internal sealed class FishPondGetFishProducePatch : BasePatch
             if (__instance.IsAlgaePond())
             {
                 var seaweedProduce = 0;
-                for (var i = 0; i < __instance.ReadDataAs<int>("SeaweedLivingHere"); ++i)
+                for (var i = 0; i < ModDataIO.ReadDataAs<int>(__instance, "SeaweedLivingHere"); ++i)
                 {
                     if (random.NextDouble() < StardewValley.Utility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f))
                         ++seaweedProduce;
                 }
 
                 var greenAlgaeProduced = 0;
-                for (var i = 0; i < __instance.ReadDataAs<int>("GreenAlgaeLivingHere"); ++i)
+                for (var i = 0; i < ModDataIO.ReadDataAs<int>(__instance, "GreenAlgaeLivingHere"); ++i)
                 {
                     if (random.NextDouble() < StardewValley.Utility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f))
                         ++greenAlgaeProduced;
                 }
 
                 var whiteAlgaeProduced = 0;
-                for (var i = 0; i < __instance.ReadDataAs<int>("WhiteAlgaeLivingHere"); ++i)
+                for (var i = 0; i < ModDataIO.ReadDataAs<int>(__instance, "WhiteAlgaeLivingHere"); ++i)
                 {
                     if (random.NextDouble() < StardewValley.Utility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f))
                         ++whiteAlgaeProduced;
@@ -101,7 +101,7 @@ internal sealed class FishPondGetFishProducePatch : BasePatch
                 if (produce.Any())
                 {
                     var data = produce.Select(p => $"{p.Item1},{p.Item2},0");
-                    __instance.WriteData("ItemsHeld", string.Join(';', data));
+                    ModDataIO.WriteData(__instance, "ItemsHeld", string.Join(';', data));
                 }
             }
             else
@@ -140,7 +140,7 @@ internal sealed class FishPondGetFishProducePatch : BasePatch
                 if (produce.Any())
                 {
                     var data = produce.Select(p => $"{p.Item1},{p.Item2},0");
-                    __instance.WriteData("ItemsHeld", string.Join(';', data));
+                    ModDataIO.WriteData(__instance, "ItemsHeld", string.Join(';', data));
                 }
             }
 

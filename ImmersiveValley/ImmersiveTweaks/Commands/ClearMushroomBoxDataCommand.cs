@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Locations;
 
@@ -12,16 +13,22 @@ using Extensions;
 
 #endregion using directives
 
-internal class ClearMushroomBoxDataCommand : ICommand
+[UsedImplicitly]
+internal sealed class ClearMushroomBoxDataCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "deage_shroom_boxes";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal ClearMushroomBoxDataCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Clear the age data of every mushroom box in the farm cave.";
+    public override string Trigger => "deage_shroom_boxes";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Clear the age data of every mushroom box in the farm cave.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         foreach (var @object in Game1.locations.OfType<FarmCave>().SelectMany(fc => fc.Objects.Values)
                      .Where(o => o.IsMushroomBox())) ModDataIO.WriteData(@object, "Age", null);

@@ -12,7 +12,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BuildingDayUpdatePatch : BasePatch
+internal sealed class BuildingDayUpdatePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal BuildingDayUpdatePatch()

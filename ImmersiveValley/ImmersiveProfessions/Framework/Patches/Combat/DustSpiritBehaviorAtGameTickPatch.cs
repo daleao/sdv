@@ -12,7 +12,7 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class DustSpiritBehaviorAtGameTickPatch : BasePatch
+internal sealed class DustSpiritBehaviorAtGameTickPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal DustSpiritBehaviorAtGameTickPatch()

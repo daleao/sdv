@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class InseminationSyringeOverridesDoFunctionPatch : BasePatch
+internal sealed class InseminationSyringeOverridesDoFunctionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal InseminationSyringeOverridesDoFunctionPatch()
@@ -36,7 +36,7 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatch : BasePatch
 
     /// <summary>Patch to reduce gestation of animals inseminated by Breeder.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> InseminationSyringeOverridesDoFunctionTranspiler(
+    private static IEnumerable<CodeInstruction>? InseminationSyringeOverridesDoFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

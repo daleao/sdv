@@ -9,7 +9,7 @@ using StardewModdingAPI.Utilities;
 #endregion using directives
 
 /// <summary>Base implementation for an event wrapper allowing dynamic hooking / unhooking.</summary>
-internal abstract class BaseEvent : IEvent, IEquatable<BaseEvent>
+internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
 {
     protected readonly PerScreen<bool> hooked = new();
 
@@ -41,24 +41,24 @@ internal abstract class BaseEvent : IEvent, IEquatable<BaseEvent>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override int GetHashCode() => GetType().GetHashCode();
 
-    /// <summary>Determines if the specified <see cref="BaseEvent"/> is equal to the current instance.</summary>
-    /// <param name="other">A <see cref="BaseEvent"/> to compare to this instance.</param>
+    /// <summary>Determines if the specified <see cref="ManagedEvent"/> is equal to the current instance.</summary>
+    /// <param name="other">A <see cref="ManagedEvent"/> to compare to this instance.</param>
     /// <returns><see langword="true"/> if <paramref name="other"/> has the same type as this instance; otherwise, <see langword="false">.</returns>
-    public virtual bool Equals(BaseEvent other)
+    public virtual bool Equals(ManagedEvent? other)
     {
         // ReSharper disable once CheckForReferenceEqualityInstead.1
         return GetType().Equals(other?.GetType());
     }
 
     /// <inheritdoc />
-    public override bool Equals(object @object)
+    public override bool Equals(object? @object)
     {
-        return @object is BaseEvent other && Equals(other);
+        return @object is ManagedEvent other && Equals(other);
     }
 
-    public static bool operator ==(BaseEvent left, BaseEvent right) =>
-        (object) left == null ? (object) right == null : left.Equals(right);
+    public static bool operator ==(ManagedEvent? left, ManagedEvent? right) =>
+        (object?) left == null ? (object?) right == null : left.Equals(right);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator !=(BaseEvent left, BaseEvent right) => !(left == right);
+    public static bool operator !=(ManagedEvent? left, ManagedEvent? right) => !(left == right);
 }

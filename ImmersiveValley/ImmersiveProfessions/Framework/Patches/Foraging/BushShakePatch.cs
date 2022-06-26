@@ -20,7 +20,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BushShakePatch : BasePatch
+internal sealed class BushShakePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal BushShakePatch()
@@ -32,7 +32,7 @@ internal sealed class BushShakePatch : BasePatch
 
     /// <summary>Patch to nerf Ecologist berry quality and increment forage counter for wild berries.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> BushShakeTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? BushShakeTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

@@ -11,11 +11,12 @@ using StardewValley;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
+using Utility;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SkillsAddExperiencePatch : BasePatch
+internal sealed class SkillsAddExperiencePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal SkillsAddExperiencePatch()
@@ -36,10 +37,12 @@ internal sealed class SkillsAddExperiencePatch : BasePatch
     [HarmonyPrefix]
     private static void SkillsAddExperiencePrefix(Farmer farmer, string skillName, ref int amt)
     {
-        if (!ModEntry.Config.EnablePrestige || !ModEntry.CustomSkills.TryGetValue(skillName, out var skill)) return;
+        if (!ModEntry.Config.EnablePrestige || !ModEntry.CustomSkills.TryGetValue(skillName, out var skill) ||
+            amt < 0) return;
 
-        amt = (int) (amt * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
-            farmer.GetProfessionsForSkill(skill, true).Count()));
+        amt = Math.Min(
+            (int) (amt * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
+                farmer.GetProfessionsForSkill(skill, true).Count())), Experience.VANILLA_CAP_I - skill.CurrentExp);
     }
 
     #endregion harmony patches

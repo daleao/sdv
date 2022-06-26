@@ -3,24 +3,32 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 
 using Common;
 using Common.Commands;
+using Framework;
 
 #endregion using directives
 
-internal class MaxAnimalMoodCommand : ICommand
+[UsedImplicitly]
+internal sealed class MaxAnimalMoodCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "max_animal_mood";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal MaxAnimalMoodCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Max-out the mood of all owned animals.";
+    public override string Trigger => "max_animal_mood";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => $"Max-out the mood of all owned animals. Relevant for {Profession.Producer}s.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         var animals = Game1.getFarm().getAllFarmAnimals().Where(a =>
             a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer).ToList();

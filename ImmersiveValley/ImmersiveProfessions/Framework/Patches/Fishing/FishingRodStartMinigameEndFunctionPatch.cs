@@ -18,7 +18,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishingRodStartMinigameEndFunctionPatch : BasePatch
+internal sealed class FishingRodStartMinigameEndFunctionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FishingRodStartMinigameEndFunctionPatch()
@@ -30,7 +30,7 @@ internal sealed class FishingRodStartMinigameEndFunctionPatch : BasePatch
 
     /// <summary>Patch to remove Pirate bonus treasure chance.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> FishingRodStartMinigameEndFunctionTranspiler(
+    private static IEnumerable<CodeInstruction>? FishingRodStartMinigameEndFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

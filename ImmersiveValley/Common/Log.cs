@@ -11,7 +11,7 @@ using StardewModdingAPI;
 public static class Log
 {
     /// <inheritdoc cref="IMonitor"/>
-    private static IMonitor _Monitor;
+    private static IMonitor _Monitor = null!;
 
     /// <summary>Initialize static instance.</summary>
     /// <param name="monitor">Encapsulates monitoring and logging for a given module.</param>

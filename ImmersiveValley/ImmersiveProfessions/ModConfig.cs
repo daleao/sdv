@@ -1,4 +1,8 @@
-﻿namespace DaLion.Stardew.Professions;
+﻿using System;
+using System.Collections.Generic;
+using StardewValley.GameData.FishPond;
+
+namespace DaLion.Stardew.Professions;
 
 #region using directives
 

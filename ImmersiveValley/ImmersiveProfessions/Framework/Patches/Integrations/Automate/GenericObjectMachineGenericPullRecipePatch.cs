@@ -21,11 +21,9 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GenericObjectMachineGenericPullRecipePatch : BasePatch
+internal sealed class GenericObjectMachineGenericPullRecipePatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private delegate Item GetSampleDelegate(object consumable);
-
-    private static GetSampleDelegate _GetSample;
+    private static Func<object, Item>? _GetSample;
 
     /// <summary>Construct an instance.</summary>
     internal GenericObjectMachineGenericPullRecipePatch()
@@ -50,7 +48,7 @@ internal sealed class GenericObjectMachineGenericPullRecipePatch : BasePatch
     /// <summary>Patch to apply Artisan effects to automated generic machines.</summary>
     [HarmonyTranspiler]
     [HarmonyPriority(Priority.LowerThanNormal)]
-    private static IEnumerable<CodeInstruction> GenericObjectMachineGenericPullRecipeTranspiler(
+    private static IEnumerable<CodeInstruction>? GenericObjectMachineGenericPullRecipeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -94,7 +92,8 @@ internal sealed class GenericObjectMachineGenericPullRecipePatch : BasePatch
     {
         if (!machine.IsArtisanMachine() || !machine.heldObject.Value.IsArtisanGood()) return;
 
-        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample").CreateDelegate<GetSampleDelegate>();
+        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample")
+            .CompileUnboundDelegate<Func<object, Item>>();
         if (_GetSample(consumable) is not SObject input) return;
 
         var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;

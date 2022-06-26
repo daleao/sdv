@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Common.Data;
+﻿namespace DaLion.Common.Data;
 
 #region using directives
 
@@ -50,7 +49,7 @@ internal static class ModDataIO
     /// <summary>Read from a field in the farmer's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T? ReadDataAs<T>(Farmer farmer, string field, T? defaultValue = default)
+    public static T ReadDataAs<T>(Farmer farmer, string field, T defaultValue = default) where T : struct
     {
         return Game1.MasterPlayer.modData.ReadAs($"{_modID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
@@ -60,30 +59,30 @@ internal static class ModDataIO
     /// <param name="field">The field to read from.</param>
     /// <param name="modId">The unique id of the external mod.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T? ReadDataExtAs<T>(Farmer farmer, string field, string modId, T? defaultValue = default)
+    public static T ReadDataExtAs<T>(Farmer farmer, string field, string modId, T defaultValue = default) where T : struct
     {
         return Game1.MasterPlayer.modData.ReadAs($"{modId}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
     }
 
-    /// <summary>Write to a field in the farmer's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
+    /// <summary>Write to a field in the farmer's <see cref="ModDataDictionary" />, or remove the field if supplied an empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
     public static void WriteData(Farmer farmer, string field, string? value)
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            _Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}");
+            _Broadcaster.MessageHost(value ?? String.Empty, $"RequestUpdateData/Write/{field}");
             return;
         }
 
         Game1.player.modData.Write($"{_modID}/{farmer.UniqueMultiplayerID}/{field}", value);
         Log.V(string.IsNullOrEmpty(value)
-            ? $"[string]: Cleared {farmer.Name}'s {field}."
-            : $"[string]: Wrote {value} to {farmer.Name}'s {field}.");
+            ? $"[ModDataIO]: Cleared {farmer.Name}'s {field}."
+            : $"[ModDataIO]: Wrote {value} to {farmer.Name}'s {field}.");
     }
 
-    /// <summary>Write to a field, external to this mod, in the farmer's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
+    /// <summary>Write to a field, external to this mod, in the farmer's <see cref="ModDataDictionary" />, or remove the field if supplied an empty value.</summary>
     /// <param name="field">The field to write to.</param>
     /// <param name="modId">The unique id of the external mod.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
@@ -91,14 +90,14 @@ internal static class ModDataIO
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            _Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}", modId);
+            _Broadcaster.MessageHost(value ?? string.Empty, $"RequestUpdateData/Write/{field}", modId);
             return;
         }
 
         Game1.player.modData.Write($"{modId}/{farmer.UniqueMultiplayerID}/{field}", value);
         Log.V(string.IsNullOrEmpty(value)
-            ? $"[string]: Cleared {farmer.Name}'s {field}."
-            : $"[string]: Wrote {value} to {farmer.Name}'s {field}.");
+            ? $"[ModDataIO]: Cleared {farmer.Name}'s {field}."
+            : $"[ModDataIO]: Wrote {value} to {farmer.Name}'s {field}.");
     }
 
     /// <summary>Write to a field in the farmer's <see cref="ModDataDictionary" />, only if it doesn't yet have a value.</summary>
@@ -108,12 +107,12 @@ internal static class ModDataIO
     {
         if (Game1.MasterPlayer.modData.ContainsKey($"{_modID}/{farmer.UniqueMultiplayerID}/{field}"))
         {
-            Log.V($"[string]: The data field {field} already existed.");
+            Log.V($"[ModDataIO]: The data field {field} already existed.");
             return true;
         }
 
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
-            _Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}");
+            _Broadcaster.MessageHost(value ?? string.Empty, $"RequestUpdateData/Write/{field}");
         else WriteData(farmer, field, value);
 
         return false;
@@ -127,12 +126,12 @@ internal static class ModDataIO
     {
         if (Game1.MasterPlayer.modData.ContainsKey($"{modId}/{farmer.UniqueMultiplayerID}/{field}"))
         {
-            Log.V($"[string]: The data field {field} already existed.");
+            Log.V($"[ModDataIO]: The data field {field} already existed.");
             return true;
         }
 
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
-            _Broadcaster.MessageHost(value, $"RequestUpdateData/Write/{field}", modId);
+            _Broadcaster.MessageHost(value ?? string.Empty, $"RequestUpdateData/Write/{field}", modId);
         else WriteData(farmer, field, value);
 
         return false;
@@ -152,12 +151,12 @@ internal static class ModDataIO
         var current = ReadData(farmer, field);
         if (current.Contains(value))
         {
-            Log.V($"[string]: {farmer.Name}'s {field} already contained {value}.");
+            Log.V($"[ModDataIO]: {farmer.Name}'s {field} already contained {value}.");
         }
         else
         {
             WriteData(farmer, field, string.IsNullOrEmpty(current) ? value : current + separator + value);
-            Log.V($"[string]: Appended {farmer.Name}'s {field} with {value}");
+            Log.V($"[ModDataIO]: Appended {farmer.Name}'s {field} with {value}");
         }
     }
 
@@ -176,53 +175,49 @@ internal static class ModDataIO
         var current = ReadDataExt(farmer, field, modId);
         if (current.Contains(value))
         {
-            Log.V($"[string]: {farmer.Name}'s {field} already contained {value}.");
+            Log.V($"[ModDataIO]: {farmer.Name}'s {field} already contained {value}.");
         }
         else
         {
             WriteDataExt(farmer, field, string.IsNullOrEmpty(current) ? value : current + separator + value, modId);
-            Log.V($"[string]: Appended {farmer.Name}'s {field} with {value}");
+            Log.V($"[ModDataIO]: Appended {farmer.Name}'s {field} with {value}");
         }
     }
 
     /// <summary>Increment the value of a numeric field in the farmer's <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    public static void IncrementData<T>(Farmer farmer, string field, T amount)
+    public static void IncrementData<T>(Farmer farmer, string field, T amount) where T : struct
     {
-        if (amount == null) throw new ArgumentNullException(nameof(amount));
-
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            _Broadcaster.MessageHost(amount.ToString(), $"RequestUpdateData/Increment/{field}");
+            _Broadcaster.MessageHost(amount.ToString()!, $"RequestUpdateData/Increment/{field}");
             return;
         }
 
         Game1.player.modData.Increment($"{_modID}/{farmer.UniqueMultiplayerID}/{field}", amount);
-        Log.V($"[string]: Incremented {farmer.Name}'s {field} by {amount}.");
+        Log.V($"[ModDataIO]: Incremented {farmer.Name}'s {field} by {amount}.");
     }
 
     /// <summary>Increment the value of a numeric field, external to this mod, in the farmer's <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
     /// <param name="modId">The unique id of the external mod.</param>
-    public static void IncrementDataExt<T>(Farmer farmer, string field, T amount, string modId)
+    public static void IncrementDataExt<T>(Farmer farmer, string field, T amount, string modId) where T : struct
     {
-        if (amount == null) throw new ArgumentNullException(nameof(amount));
-
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
-            _Broadcaster.MessageHost(amount.ToString(), $"RequestUpdateData/Increment/{field}", modId);
+            _Broadcaster.MessageHost(amount.ToString()!, $"RequestUpdateData/Increment/{field}", modId);
             return;
         }
 
         Game1.player.modData.Increment($"{modId}/{farmer.UniqueMultiplayerID}/{field}", amount);
-        Log.V($"[string]: Incremented {farmer.Name}'s {field} by {amount}.");
+        Log.V($"[ModDataIO]: Incremented {farmer.Name}'s {field} by {amount}.");
     }
 
     /// <summary>Increment the value of a numeric field in the farmer's <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    public static void IncrementData<T>(Farmer farmer, string field)
+    public static void IncrementData<T>(Farmer farmer, string field) where T : struct
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -232,13 +227,13 @@ internal static class ModDataIO
 
         Game1.player.modData.Increment($"{_modID}/{farmer.UniqueMultiplayerID}/{field}",
             "1".Parse<T>());
-        Log.V($"[string]: Incremented {farmer.Name}'s {field} by 1.");
+        Log.V($"[ModDataIO]: Incremented {farmer.Name}'s {field} by 1.");
     }
 
     /// <summary>Increment the value of a numeric field, external to this mod, in the farmer's <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="modId">The unique id of the external mod.</param>
-    public static void IncrementDataExt<T>(Farmer farmer, string field, string modId)
+    public static void IncrementDataExt<T>(Farmer farmer, string field, string modId) where T : struct
     {
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
@@ -248,7 +243,7 @@ internal static class ModDataIO
 
         Game1.player.modData.Increment($"{modId}/{farmer.UniqueMultiplayerID}/{field}",
             "1".Parse<T>());
-        Log.V($"[string]: Incremented {farmer.Name}'s {field} by 1.");
+        Log.V($"[ModDataIO]: Incremented {farmer.Name}'s {field} by 1.");
     }
 
     #endregion farmer io
@@ -313,7 +308,7 @@ internal static class ModDataIO
     /// <summary>Increment the value of a numeric field in the building's <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    public static void IncrementData<T>(Building building, string field, T amount)
+    public static void IncrementData<T>(Building building, string field, T amount) where T : struct
     {
         building.modData.Increment($"{_modID}/{field}", amount);
         Log.V($"[ModData]: Incremented {building.GetType().Name}'s {field} by {amount}.");
@@ -321,7 +316,7 @@ internal static class ModDataIO
 
     /// <summary>Increment the value of a numeric field in the building's <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    public static void IncrementData<T>(Building building, string field)
+    public static void IncrementData<T>(Building building, string field) where T : struct
     {
         building.modData.Increment($"{_modID}/{field}",
             "1".Parse<T>());
@@ -343,7 +338,7 @@ internal static class ModDataIO
     /// <summary>Read a field from the character's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T? ReadDataAs<T>(Character character, string field, T? defaultValue = default)
+    public static T ReadDataAs<T>(Character character, string field, T defaultValue = default) where T : struct
     {
         return character.modData.ReadAs($"{_modID}/{field}", defaultValue);
     }
@@ -390,7 +385,7 @@ internal static class ModDataIO
     /// <summary>Increment the value of a numeric field in the character's <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    public static void IncrementData<T>(Character character, string field, T amount)
+    public static void IncrementData<T>(Character character, string field, T amount) where T : struct
     {
         character.modData.Increment($"{_modID}/{field}", amount);
         Log.V($"[ModData]: Incremented {character.Name}'s {field} by {amount}.");
@@ -398,7 +393,7 @@ internal static class ModDataIO
 
     /// <summary>Increment the value of a numeric field in the character's <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    public static void IncrementData<T>(Character character, string field)
+    public static void IncrementData<T>(Character character, string field) where T : struct
     {
         character.modData.Increment($"{_modID}/{field}",
             "1".Parse<T>());
@@ -420,7 +415,7 @@ internal static class ModDataIO
     /// <summary>Read a field from the game location's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T? ReadDataAs<T>(GameLocation location, string field, T? defaultValue = default)
+    public static T ReadDataAs<T>(GameLocation location, string field, T defaultValue = default) where T : struct
     {
         return location.modData.ReadAs($"{_modID}/{field}", defaultValue);
     }
@@ -467,7 +462,7 @@ internal static class ModDataIO
     /// <summary>Increment the value of a numeric field in the game location's <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    public static void IncrementData<T>(GameLocation character, string field, T amount)
+    public static void IncrementData<T>(GameLocation character, string field, T amount) where T : struct
     {
         character.modData.Increment($"{_modID}/{field}", amount);
         Log.V($"[ModData]: Incremented {character.Name}'s {field} by {amount}.");
@@ -475,7 +470,7 @@ internal static class ModDataIO
 
     /// <summary>Increment the value of a numeric field in the game location's <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    public static void IncrementData<T>(GameLocation character, string field)
+    public static void IncrementData<T>(GameLocation character, string field) where T : struct
     {
         character.modData.Increment($"{_modID}/{field}",
             "1".Parse<T>());
@@ -497,7 +492,7 @@ internal static class ModDataIO
     /// <summary>Read a field from the item's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T? ReadDataAs<T>(Item item, string field, T? defaultValue = default)
+    public static T ReadDataAs<T>(Item item, string field, T defaultValue = default) where T : struct
     {
         return item.modData.ReadAs($"{_modID}/{field}", defaultValue);
     }
@@ -544,7 +539,7 @@ internal static class ModDataIO
     /// <summary>Increment the value of a numeric field in the item's <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    public static void IncrementData<T>(Item item, string field, T amount)
+    public static void IncrementData<T>(Item item, string field, T amount) where T : struct
     {
         item.modData.Increment($"{_modID}/{field}", amount);
         Log.V($"[ModData]: Incremented {item.Name}'s {field} by {amount}.");
@@ -552,7 +547,7 @@ internal static class ModDataIO
 
     /// <summary>Increment the value of a numeric field in the item's <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    public static void IncrementData<T>(Item item, string field)
+    public static void IncrementData<T>(Item item, string field) where T : struct
     {
         item.modData.Increment($"{_modID}/{field}",
             "1".Parse<T>());
@@ -574,7 +569,7 @@ internal static class ModDataIO
     /// <summary>Read a field from the terrain feature's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T? ReadDataAs<T>(TerrainFeature feature, string field, T? defaultValue = default)
+    public static T ReadDataAs<T>(TerrainFeature feature, string field, T defaultValue = default) where T : struct
     {
         return feature.modData.ReadAs($"{_modID}/{field}", defaultValue);
     }
@@ -621,7 +616,7 @@ internal static class ModDataIO
     /// <summary>Increment the value of a numeric field in the terrain feature's <see cref="ModDataDictionary" /> by an arbitrary amount.</summary>
     /// <param name="field">The field to update.</param>
     /// <param name="amount">Amount to increment by.</param>
-    public static void IncrementData<T>(TerrainFeature feature, string field, T amount)
+    public static void IncrementData<T>(TerrainFeature feature, string field, T amount) where T : struct
     {
         feature.modData.Increment($"{_modID}/{field}", amount);
         Log.V($"[ModData]: Incremented {feature.GetType().Name}'s {field} by {amount}.");
@@ -629,7 +624,7 @@ internal static class ModDataIO
 
     /// <summary>Increment the value of a numeric field in the terrain feature's <see cref="ModDataDictionary" /> by 1.</summary>
     /// <param name="field">The field to update.</param>
-    public static void IncrementData<T>(TerrainFeature feature, string field)
+    public static void IncrementData<T>(TerrainFeature feature, string field) where T : struct
     {
         feature.modData.Increment($"{_modID}/{field}",
             "1".Parse<T>());

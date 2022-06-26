@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class PlantCropsAbilityCheckSpeedGroPatch : BasePatch
+internal sealed class PlantCropsAbilityCheckSpeedGroPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     internal PlantCropsAbilityCheckSpeedGroPatch()
     {
@@ -35,7 +35,7 @@ internal sealed class PlantCropsAbilityCheckSpeedGroPatch : BasePatch
 
     /// <summary>Patch to apply prestiged Agriculturist crop growth bonus to Better Junimos.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> PlantCropsAbilityCheckSpeedGroTranspiler(
+    private static IEnumerable<CodeInstruction>? PlantCropsAbilityCheckSpeedGroTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

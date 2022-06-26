@@ -7,16 +7,21 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 /// <summary>Wrapper for <see cref="IGameLoopEvents.UpdateTicking"/> allowing dynamic hooking / unhooking.</summary>
-internal abstract class UpdateTickingEvent : BaseEvent
+internal abstract class UpdateTickingEvent : ManagedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    protected UpdateTickingEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc cref="IGameLoopEvents.UpdateTicking"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    internal void OnUpdateTicking(object sender, UpdateTickingEventArgs e)
+    internal void OnUpdateTicking(object? sender, UpdateTickingEventArgs e)
     {
-        if (hooked.Value || GetType().Name.StartsWith("Static")) OnUpdateTickingImpl(sender, e);
+        if (Hooked.Value || GetType().Name.StartsWith("Static")) OnUpdateTickingImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnUpdateTicking" />
-    protected abstract void OnUpdateTickingImpl(object sender, UpdateTickingEventArgs e);
+    protected abstract void OnUpdateTickingImpl(object? sender, UpdateTickingEventArgs e);
 }

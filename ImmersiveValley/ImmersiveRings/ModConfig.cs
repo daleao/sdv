@@ -16,5 +16,5 @@ public class ModConfig
     public bool ImmersiveGlowstoneRecipe { get; set; } = true;
 
     /// <summary>Replaces the iridium band recipe and effect. Adds new forge mechanics.</summary>
-    public bool ForgeableIridiumBand { get; set; } = true;
+    public bool TheOneIridiumBand { get; set; } = true;
 }

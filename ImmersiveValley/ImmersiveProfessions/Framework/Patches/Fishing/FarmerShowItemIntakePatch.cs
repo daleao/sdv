@@ -19,7 +19,7 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerShowItemIntakePatch : BasePatch
+internal sealed class FarmerShowItemIntakePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerShowItemIntakePatch()
@@ -38,7 +38,7 @@ internal sealed class FarmerShowItemIntakePatch : BasePatch
             if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.IsIn(14, 51)) return true; // run original logic
 
             var toShow = (SObject) who.mostRecentlyGrabbedItem;
-            TemporaryAnimatedSprite tempSprite = who.FacingDirection switch
+            TemporaryAnimatedSprite? tempSprite = who.FacingDirection switch
             {
                 2 => who.FarmerSprite.currentAnimationIndex switch
                 {

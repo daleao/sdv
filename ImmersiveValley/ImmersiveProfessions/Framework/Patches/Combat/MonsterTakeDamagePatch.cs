@@ -14,7 +14,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterTakeDamagePatch : BasePatch
+internal sealed class MonsterTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal MonsterTakeDamagePatch()

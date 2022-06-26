@@ -15,8 +15,13 @@ using Common.Events;
 [UsedImplicitly]
 internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal DebugModMessageReceivedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnModMessageReceivedImpl(object sender, ModMessageReceivedEventArgs e)
+    protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
         if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("Debug")) return;
 
@@ -36,7 +41,7 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
                 switch (what)
                 {
                     case "EventsHooked":
-                        var response = ModEntry.EventManager.Hooked.Aggregate("",
+                        var response = Manager.Hooked.Aggregate("",
                             (current, next) => current + "\n\t- " + next.GetType().Name);
                         ModEntry.Broadcaster.Message(response, "Debug/Response",e.FromPlayerID);
 

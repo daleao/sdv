@@ -18,7 +18,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class EventCommandItemAboveHeadPatch : BasePatch
+internal sealed class EventCommandItemAboveHeadPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal EventCommandItemAboveHeadPatch()
@@ -30,7 +30,7 @@ internal sealed class EventCommandItemAboveHeadPatch : BasePatch
 
     /// <summary>Replaces rusty sword with wooden blade in Marlon's intro event.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> EventCommandItemAboveHeadTranspiler(
+    private static IEnumerable<CodeInstruction>? EventCommandItemAboveHeadTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

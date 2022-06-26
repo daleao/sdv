@@ -21,11 +21,9 @@ using SObject = StardewValley.Object;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GenericObjectMachineGenericPullRecipePatch : BasePatch
+internal sealed class GenericObjectMachineGenericPullRecipePatch : Common.Harmony.HarmonyPatch
 {
-    private delegate Item GetSampleDelegate(object instance);
-
-    private static GetSampleDelegate _GetSample;
+    private static Func<object, Item>? _GetSample;
 
     /// <summary>Construct an instance.</summary>
     internal GenericObjectMachineGenericPullRecipePatch()
@@ -46,7 +44,7 @@ internal sealed class GenericObjectMachineGenericPullRecipePatch : BasePatch
     #region harmony patches
 
     /// <summary>Replaces large egg output quality with quantity + add flower memory to automated kegs.</summary>
-    private static IEnumerable<CodeInstruction> GenericObjectMachineGenericPullRecipeTranspiler(
+    private static IEnumerable<CodeInstruction>? GenericObjectMachineGenericPullRecipeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -92,7 +90,8 @@ internal sealed class GenericObjectMachineGenericPullRecipePatch : BasePatch
         if (machine.name != "Mayonnaise Machine" || machine.heldObject.Value is null ||
             !ModEntry.Config.LargeProducsYieldQuantityOverQuality) return;
 
-        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample").CreateDelegate<GetSampleDelegate>();
+        _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample")
+            .CompileUnboundDelegate<Func<object, Item>>();
         if (_GetSample(consumable) is not SObject input) return;
 
         var output = machine.heldObject.Value;

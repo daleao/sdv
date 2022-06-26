@@ -160,4 +160,14 @@ internal static class ObjectLookups
         "Radioactive Carp", // qi extended
         "Pufferchick" // stardew aquarium
     };
+
+    /// <summary>Dictionary of extended family pair by legendary fish id.</summary>
+    internal static readonly Dictionary<int, int> ExtendedFamilyPairs = new()
+    {
+        { 898, 159 },
+        { 899, 160 },
+        { 900, 163 },
+        { 901, 682 },
+        { 902, 775 }
+    };
 }

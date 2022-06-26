@@ -19,7 +19,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class EventSkipEventPatch : BasePatch
+internal sealed class EventSkipEventPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal EventSkipEventPatch()
@@ -31,7 +31,7 @@ internal sealed class EventSkipEventPatch : BasePatch
 
     /// <summary>Replaces rusty sword with wooden blade in Marlon's intro event.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> EventSkipEventTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? EventSkipEventTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

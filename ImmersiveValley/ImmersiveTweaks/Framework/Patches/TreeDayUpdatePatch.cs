@@ -13,7 +13,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TreeDayUpdatePatch : BasePatch
+internal sealed class TreeDayUpdatePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal TreeDayUpdatePatch()

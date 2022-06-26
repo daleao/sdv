@@ -21,13 +21,11 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SkillLevelUpMenuDrawPatch : BasePatch
+internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static readonly FieldInfo _GetIsProfessionChooser =
-        "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireField("isProfessionChooser")!;
+    private static Func<IClickableMenu, bool>? _GetIsProfessionChooser;
 
-    private static readonly FieldInfo _ProfessionsToChoose =
-        "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireField("professionsToChoose")!;
+    private static Func<IClickableMenu, List<int>>? _GetProfessionsToChoose;
 
     /// <summary>Construct an instance.</summary>
     internal SkillLevelUpMenuDrawPatch()
@@ -46,7 +44,7 @@ internal sealed class SkillLevelUpMenuDrawPatch : BasePatch
 
     /// <summary>Patch to draw Prestige tooltip during profession selection.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> SkillLevelUpMenuDrawTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? SkillLevelUpMenuDrawTranspiler(IEnumerable<CodeInstruction> instructions,
         MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -89,10 +87,14 @@ internal sealed class SkillLevelUpMenuDrawPatch : BasePatch
 
     private static void DrawSubroutine(IClickableMenu menu, int currentLevel, SpriteBatch b)
     {
-        if (!ModEntry.Config.EnablePrestige || !(bool) _GetIsProfessionChooser.GetValue(menu)! ||
+        _GetIsProfessionChooser ??= "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireField("isProfessionChooser")
+            .CompileUnboundFieldGetterDelegate<Func<IClickableMenu, bool>>();
+        if (!ModEntry.Config.EnablePrestige || !_GetIsProfessionChooser(menu) ||
             currentLevel > 10) return;
 
-        var professionsToChoose = (List<int>) _ProfessionsToChoose.GetValue(menu)!;
+        _GetProfessionsToChoose ??= "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireField("professionsToChoose")
+            .CompileUnboundFieldGetterDelegate<Func<IClickableMenu, List<int>>>();
+        var professionsToChoose = _GetProfessionsToChoose(menu);
         if (!ModEntry.CustomProfessions.TryGetValue(professionsToChoose[0], out var leftProfession) ||
             !ModEntry.CustomProfessions.TryGetValue(professionsToChoose[1], out var rightProfession)) return;
 

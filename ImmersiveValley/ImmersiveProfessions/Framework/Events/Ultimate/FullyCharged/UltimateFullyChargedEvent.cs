@@ -8,13 +8,14 @@ using Common.Events;
 
 #endregion using directives
 
-internal sealed class UltimateFullyChargedEvent : BaseEvent
+internal sealed class UltimateFullyChargedEvent : ManagedEvent
 {
-    private readonly Action<object, IUltimateFullyChargedEventArgs> _OnFullyChargedImpl;
+    private readonly Action<object?, IUltimateFullyChargedEventArgs> _OnFullyChargedImpl;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal UltimateFullyChargedEvent(Action<object, IUltimateFullyChargedEventArgs> callback)
+    internal UltimateFullyChargedEvent(Action<object?, IUltimateFullyChargedEventArgs> callback)
+        : base(ModEntry.EventManager)
     {
         _OnFullyChargedImpl = callback;
     }
@@ -22,8 +23,8 @@ internal sealed class UltimateFullyChargedEvent : BaseEvent
     /// <summary>Raised when the local player's ultimate charge value reaches max value.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    internal void OnFullyCharged(object sender, IUltimateFullyChargedEventArgs e)
+    internal void OnFullyCharged(object? sender, IUltimateFullyChargedEventArgs e)
     {
-        if (hooked.Value) _OnFullyChargedImpl(sender, e);
+        if (Hooked.Value) _OnFullyChargedImpl(sender, e);
     }
 }

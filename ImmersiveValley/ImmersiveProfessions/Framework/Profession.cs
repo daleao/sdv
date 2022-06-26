@@ -6,6 +6,7 @@ using static System.String;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
 using StardewValley;
@@ -96,7 +97,8 @@ public class Profession : SmartEnum<Profession>, IProfession
     /// <summary>Get the profession corresponding to the specified localized name.</summary>
     /// <param name="name">A localized profession name.</param>
     /// <param name="ignoreCase">Whether to ignore capitalization.</param>
-    public static bool TryFromLocalizedName(string name, bool ignoreCase, out Profession result)
+    /// <returns><see langword="true"> if a matching profession was found, otherwise <see langword="false">.</returns>
+    public static bool TryFromLocalizedName(string name, bool ignoreCase, [NotNullWhen(true)] out Profession? result)
     {
         var stringComparison = ignoreCase
             ? StringComparison.InvariantCultureIgnoreCase

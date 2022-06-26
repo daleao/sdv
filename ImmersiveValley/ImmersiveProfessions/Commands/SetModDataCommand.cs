@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 
@@ -14,16 +15,22 @@ using Framework;
 
 #endregion using directives
 
-internal class SetModDataCommand : ICommand
+[UsedImplicitly]
+internal sealed class SetModDataCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "set_data";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal SetModDataCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Set a new value for the specified mod data field." + GetUsage();
+    public override string Trigger => "set_data";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Set a new value for the specified mod data field." + GetUsage();
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (!args.Any() || args.Length != 2)
         {
@@ -87,15 +94,15 @@ internal class SetModDataCommand : ICommand
         }
     }
 
-    private static string GetUsage()
+    private string GetUsage()
     {
-        var result = "\n\nUsage: wol_setdata <field> <value>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Trigger} <field> <value>";
         result += "\n\nParameters:";
         result += "\n\t<field>\t- the name of the field";
         result += "\\n\t<value>\t- the desired new value";
         result += "\n\nExamples:";
-        result += "\n\twol_setdata EcologistItemsForaged 100";
-        result += "\n\twol_setdata trash 500";
+        result += $"\n\t{Handler.EntryCommand} {Trigger} EcologistItemsForaged 100";
+        result += $"\n\t{Handler.EntryCommand} {Trigger} trash 500";
         result += "\n\nAvailable data fields:";
         result += $"\n\t- {ModData.EcologistItemsForaged} (shortcut 'forages')";
         result += $"\n\t- {ModData.GemologistMineralsCollected} (shortcut 'minerals')";

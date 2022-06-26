@@ -18,9 +18,14 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
     private const int SHEET_INDEX_I = 36;
 
     private readonly int _buffId = (ModEntry.Manifest.UniqueID + Profession.Brute).GetHashCode();
-    
+
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal BruteUpdateTickedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
+    protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         if (ModEntry.PlayerState.BruteRageCounter <= 0) return;
 

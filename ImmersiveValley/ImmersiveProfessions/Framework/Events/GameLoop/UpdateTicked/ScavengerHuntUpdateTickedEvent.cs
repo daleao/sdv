@@ -14,8 +14,13 @@ using Extensions;
 [UsedImplicitly]
 internal sealed class ScavengerHuntUpdateTickedEvent : UpdateTickedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal ScavengerHuntUpdateTickedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnUpdateTickedImpl(object sender, UpdateTickedEventArgs e)
+    protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         ModEntry.PlayerState.ScavengerHunt.Update(e.Ticks);
         if (Game1.player.HasProfession(Profession.Scavenger, true)) Game1.gameTimeInterval = 0;

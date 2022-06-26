@@ -14,7 +14,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationExplodePatch : BasePatch
+internal sealed class GameLocationExplodePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GameLocationExplodePatch()

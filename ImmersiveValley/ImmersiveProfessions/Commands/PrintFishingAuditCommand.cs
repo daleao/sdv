@@ -7,6 +7,7 @@ using static System.FormattableString;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 
@@ -19,16 +20,22 @@ using Framework.Utility;
 
 #endregion using directives
 
-internal class PrintFishingAuditCommand : ICommand
+[UsedImplicitly]
+internal sealed class PrintFishingAuditCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "check_fishdex";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal PrintFishingAuditCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Check how many fish have been caught at max-size.";
+    public override string Trigger => "fishingdex";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => $"Check how many fish have been caught at max-size. Relevant for {Profession.Angler}s";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (!Game1.player.fishCaught.Pairs.Any())
         {

@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Linq;
-
+using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
@@ -12,16 +12,22 @@ using Common.Commands;
 
 #endregion using directives
 
-internal class AddEnchantmentCommand : ICommand
+[UsedImplicitly]
+internal sealed class AddEnchantmentCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "add_enchants";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal AddEnchantmentCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Add the specified enchantment to the selected weapon." + GetUsage();
+    public override string Trigger => "add_enchants";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Add the specified enchantment to the selected weapon." + GetUsage();
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (Game1.player.CurrentTool is not MeleeWeapon weapon)
         {
@@ -31,7 +37,7 @@ internal class AddEnchantmentCommand : ICommand
 
         while (args.Any())
         {
-            BaseEnchantment enchantment = args[0].ToLower() switch
+            BaseEnchantment? enchantment = args[0].ToLower() switch
             {
                 "artful" => new ArchaeologistEnchantment(),
                 "bugkiller" => new BugKillerEnchantment(),
@@ -64,11 +70,11 @@ internal class AddEnchantmentCommand : ICommand
     /// <summary>Tell the dummies how to use the console command.</summary>
     private string GetUsage()
     {
-        var result = "\n\nUsage: tool_addenchantment <enchantment>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Trigger} <enchantment>";
         result += "\n\nParameters:";
         result += "\n\t- <enchantment>: a tool enchantment";
         result += "\n\nExample:";
-        result += "\n\t- tool_addenchantment powerful";
+        result += $"\n\t- {Handler.EntryCommand} {Trigger} powerful";
         return result;
     }
 }

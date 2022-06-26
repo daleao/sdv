@@ -2,22 +2,30 @@
 
 #region using directives
 
+using JetBrains.Annotations;
+
 using Common;
 using Common.Commands;
 using Common.Extensions;
 
 #endregion using directives
 
-internal class PrintRegisteredUltimateCommand : ICommand
+[UsedImplicitly]
+internal sealed class PrintRegisteredUltimateCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "which_ult";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal PrintRegisteredUltimateCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Print the currently registered Special Ability.";
+    public override string Trigger => "which_ult";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Print the player's currently registered Special Ability, if any.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (ModEntry.PlayerState.RegisteredUltimate is null)
         {

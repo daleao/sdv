@@ -21,7 +21,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CropHarvestPatch : BasePatch
+internal sealed class CropHarvestPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CropHarvestPatch()
@@ -36,7 +36,7 @@ internal sealed class CropHarvestPatch : BasePatch
     ///     for Agriculturist + Harvester bonus crop yield.
     /// </summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> CropHarvestTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? CropHarvestTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -23,11 +22,11 @@ using SUtility = StardewValley.Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GreenSlimeUpdatePatch : BasePatch
+internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private const int IMMUNE_TO_DAMAGE_DURATION_I = 450;
 
-    private static readonly FieldInfo _ShellGone = typeof(RockCrab).RequireField("shellGone")!;
+    private static Func<RockCrab, NetBool>? _GetShellGone;
 
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeUpdatePatch()
@@ -52,10 +51,11 @@ internal sealed class GreenSlimeUpdatePatch : BasePatch
                 !monsterBox.Intersects(__instance.GetBoundingBox()))
                 continue;
 
+            _GetShellGone ??= typeof(RockCrab).RequireField("shellGone")
+                .CompileUnboundFieldGetterDelegate<Func<RockCrab, NetBool>>();
             if (monster is Bug bug && bug.isArmoredBug.Value // skip Armored Bugs
                 || monster is LavaCrab && __instance.Sprite.currentFrame % 4 == 0 // skip shelled Lava Crabs
-                || monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 &&
-                !((NetBool) _ShellGone.GetValue(crab))!.Value // skip shelled Rock Crabs
+                || monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !_GetShellGone(crab).Value // skip shelled Rock Crabs
                 || monster is LavaLurk lurk &&
                 lurk.currentState.Value == LavaLurk.State.Submerged // skip submerged Lava Lurks
                 || monster is Spiker) // skip Spikers

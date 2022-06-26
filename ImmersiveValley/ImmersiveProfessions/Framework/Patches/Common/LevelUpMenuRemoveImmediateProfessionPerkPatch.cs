@@ -21,7 +21,7 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
+internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuRemoveImmediateProfessionPerkPatch()
@@ -83,7 +83,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : BasePatch
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> LevelUpMenuRemoveImmediateProfessionPerkTranspiler(
+    private static IEnumerable<CodeInstruction>? LevelUpMenuRemoveImmediateProfessionPerkTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

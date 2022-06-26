@@ -2,13 +2,15 @@
 
 #region using directives
 
+using System.Linq;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley.Buildings;
-using System.Linq;
 using StardewValley;
 
 using Common;
 using Common.Commands;
+using Common.Data;
 using Common.Extensions;
 using Extensions;
 
@@ -16,16 +18,22 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
-internal class SetPondQualityCommand : ICommand
+[UsedImplicitly]
+internal sealed class SetFishQualityCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "set_quality";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal SetFishQualityCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Set the quality of all fish in the nearest pond.";
+    public override string Trigger => "set_quality";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Set the quality of all fish in the nearest pond.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (args.Length != 1)
         {
@@ -72,23 +80,23 @@ internal class SetPondQualityCommand : ICommand
             "best" or "iridium" => SObject.bestQuality
         };
 
-        var familyCount = nearest.ReadDataAs<int>("FamilyLivingHere");
+        var familyCount = ModDataIO.ReadDataAs<int>(nearest, "FamilyLivingHere");
         var familyQualities = new int[4];
         if (familyCount > nearest.FishCount)
         {
             Log.W("FamilyLivingHere data is invalid. The data will be reset.");
             familyCount = 0;
-            nearest.WriteData("FamilyLivingHere", null);
+            ModDataIO.WriteData(nearest, "FamilyLivingHere", null);
         }
 
         if (familyCount > 0)
         {
             familyQualities[newQuality == 4 ? 3 : newQuality] += familyCount;
-            nearest.WriteData("FamilyQualities", string.Join(',', familyQualities));
+            ModDataIO.WriteData(nearest, "FamilyQualities", string.Join(',', familyQualities));
         }
 
         var fishQualities = new int[4];
         fishQualities[newQuality == 4 ? 3 : newQuality] += nearest.FishCount - familyCount;
-        nearest.WriteData("FishQualities", string.Join(',', fishQualities));
+        ModDataIO.WriteData(nearest, "FishQualities", string.Join(',', fishQualities));
     }
 }

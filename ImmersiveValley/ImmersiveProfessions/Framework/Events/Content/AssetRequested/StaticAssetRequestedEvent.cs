@@ -29,10 +29,12 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
         new();
 
     /// <summary>Construct an instance.</summary>
-    internal StaticAssetRequestedEvent()
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal StaticAssetRequestedEvent(ProfessionEventManager manager)
+        : base(manager)
     {
         AssetEditors["Data/achievements"] = (edit: EditAchievementsData, priority: AssetEditPriority.Default);
-        AssetEditors["Data/FishPondData"] = (edit: EditFishPondDataData, priority: AssetEditPriority.Default);
+        AssetEditors["Data/FishPondData"] = (edit: EditFishPondDataData, priority: AssetEditPriority.Late);
         AssetEditors["Data/mail"] = (edit: EditMailData, priority: AssetEditPriority.Default);
         AssetEditors["LooseSprites/Cursors"] = (edit: EditCursorsLooseSprites, priority: AssetEditPriority.Default);
         AssetEditors["TileSheets/BuffsIcons"] = (edit: EditBuffsIconsTileSheets, priority: AssetEditPriority.Default);
@@ -41,12 +43,12 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
         AssetProviders[$"{ModEntry.Manifest.UniqueID}/MaxFishSizeIcon"] = (provide: () => "assets/menus/max.png", priority: AssetLoadPriority.Medium);
         AssetProviders[$"{ModEntry.Manifest.UniqueID}/PrestigeProgression"] = (provide: () => $"assets/sprites/{ModEntry.Config.PrestigeProgressionStyle}.png", priority: AssetLoadPriority.Medium);
         AssetProviders[$"{ModEntry.Manifest.UniqueID}/SkillBars"] = (provide: ProvideSkillBars, priority: AssetLoadPriority.Medium);
-        AssetProviders[$"{ModEntry.Manifest.UniqueID}/Spritesheet"] = (provide: () => "assets/sprites/spritesheet.png", priority: AssetLoadPriority.Medium);
+        AssetProviders[$"{ModEntry.Manifest.UniqueID}/SpriteSheet"] = (provide: () => "assets/sprites/spritesheet.png", priority: AssetLoadPriority.Medium);
         AssetProviders[$"{ModEntry.Manifest.UniqueID}/UltimateMeter"] = (provide: ProvideUltimateMeter, priority: AssetLoadPriority.Medium);
     }
 
     /// <inheritdoc />
-    protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)
+    protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
     {
         if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))
             e.Edit(editor.edit, editor.priority);
@@ -78,7 +80,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
     private static void EditFishPondDataData(IAssetData asset)
     {
         var data = (List<FishPondData>) asset.Data;
-        data.InsertRange(data.Count - 2, new List<FishPondData>()
+        data.InsertRange(data.Count - 2, new List<FishPondData>
         {
             new() // legendary fish
             {
@@ -126,7 +128,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
         var srcArea = new Rectangle(0, 0, 96, 80);
         var targetArea = new Rectangle(0, 624, 96, 80);
 
-        editor.PatchImage(Textures.Spritesheet, srcArea, targetArea);
+        editor.PatchImage(Textures.SpriteTx, srcArea, targetArea);
     }
 
     /// <summary>Patches buffs icons with modded profession buff icons.</summary>
@@ -137,7 +139,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
         var srcArea = new Rectangle(0, 80, 96, 32);
         var targetArea = new Rectangle(0, 48, 96, 32);
 
-        editor.PatchImage(Textures.Spritesheet, srcArea, targetArea);
+        editor.PatchImage(Textures.SpriteTx, srcArea, targetArea);
     }
 
     #endregion editor callbacks

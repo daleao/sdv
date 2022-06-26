@@ -7,16 +7,21 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 /// <summary>Wrapper for <see cref="IInputEvents.ButtonsChanged"/> allowing dynamic hooking / unhooking.</summary>
-internal abstract class ButtonsChangedEvent : BaseEvent
+internal abstract class ButtonsChangedEvent : ManagedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    protected ButtonsChangedEvent(EventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    internal void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
+    internal void OnButtonsChanged(object? sender, ButtonsChangedEventArgs e)
     {
-        if (hooked.Value) OnButtonsChangedImpl(sender, e);
+        if (Hooked.Value) OnButtonsChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnButtonsChanged" />
-    protected abstract void OnButtonsChangedImpl(object sender, ButtonsChangedEventArgs e);
+    protected abstract void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e);
 }

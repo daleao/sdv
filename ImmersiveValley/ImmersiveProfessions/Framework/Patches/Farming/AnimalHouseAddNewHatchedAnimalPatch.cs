@@ -14,7 +14,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class AnimalHouseAddNewHatchedAnimalPatch : BasePatch
+internal sealed class AnimalHouseAddNewHatchedAnimalPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal AnimalHouseAddNewHatchedAnimalPatch()

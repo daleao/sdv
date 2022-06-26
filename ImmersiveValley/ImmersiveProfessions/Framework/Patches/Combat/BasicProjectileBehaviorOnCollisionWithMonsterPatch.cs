@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
@@ -22,9 +21,9 @@ using Ultimates;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BasePatch
+internal sealed class BasicProjectileBehaviorOnCollisionWithMonsterPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static readonly MethodInfo _ExplosionAnimation = typeof(BasicProjectile).RequireMethod("explosionAnimation");
+    private static Action<BasicProjectile, GameLocation>? _ExplosionAnimation;
 
     /// <summary>Construct an instance.</summary>
     internal BasicProjectileBehaviorOnCollisionWithMonsterPatch()
@@ -60,7 +59,9 @@ internal sealed class BasicProjectileBehaviorOnCollisionWithMonsterPatch : BaseP
             }
             else
             {
-                _ExplosionAnimation.Invoke(__instance, new object?[] {location});
+                _ExplosionAnimation ??= typeof(BasicProjectile).RequireMethod("explosionAnimation")
+                    .CompileUnboundDelegate<Action<BasicProjectile, GameLocation>>();
+                _ExplosionAnimation(__instance, location);
                 ModEntry.PlayerState.OverchargedBullets.Remove(__instance.GetHashCode());
             }
 

@@ -18,7 +18,7 @@ using Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerGainExperiencePatch : BasePatch
+internal sealed class FarmerGainExperiencePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerGainExperiencePatch()

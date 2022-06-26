@@ -20,7 +20,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CraftingRecipeDrawRecipeDescriptionPatch : BasePatch
+internal sealed class CraftingRecipeDrawRecipeDescriptionPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CraftingRecipeDrawRecipeDescriptionPatch()

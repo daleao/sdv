@@ -17,7 +17,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GreenSlimeOnDealContactDamagePatch : BasePatch
+internal sealed class GreenSlimeOnDealContactDamagePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GreenSlimeOnDealContactDamagePatch()
@@ -29,7 +29,7 @@ internal sealed class GreenSlimeOnDealContactDamagePatch : BasePatch
 
     /// <summary>Patch to make Piper immune to slimed debuff.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> GreenSlimeOnDealContactDamageTranspiler(
+    private static IEnumerable<CodeInstruction>? GreenSlimeOnDealContactDamageTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

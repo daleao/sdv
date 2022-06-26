@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 
 using Common;
@@ -16,16 +17,22 @@ using Framework.Ultimates;
 
 #endregion using directives
 
-internal class SetRegisteredUltimateCommand : ICommand
+[UsedImplicitly]
+internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "set_ult";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal SetRegisteredUltimateCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Change the currently registered Special Ability.";
+    public override string Trigger => "set_ult";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Change the player's currently registered Special Ability.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (!args.Any() || args.Length > 1)
         {

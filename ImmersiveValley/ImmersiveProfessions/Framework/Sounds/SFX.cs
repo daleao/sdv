@@ -22,7 +22,7 @@ public sealed class SFX : SmartEnum<SFX>
 
     #endregion enum entries
 
-    public static ICue SinWave { get; internal set; } = Game1.soundBank?.GetCue("SinWave");
+    public static ICue? SinWave { get; internal set; } = Game1.soundBank?.GetCue("SinWave");
 
     /// <summary>Construct an instance.</summary>
     /// <param name="name">The profession name.</param>

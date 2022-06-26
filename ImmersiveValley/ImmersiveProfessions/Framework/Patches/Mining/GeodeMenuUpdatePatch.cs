@@ -20,7 +20,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GeodeMenuUpdatePatch : BasePatch
+internal sealed class GeodeMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal GeodeMenuUpdatePatch()
@@ -32,7 +32,7 @@ internal sealed class GeodeMenuUpdatePatch : BasePatch
 
     /// <summary>Patch to increment Gemologist counter for geodes cracked at Clint's.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> GeodeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
+    private static IEnumerable<CodeInstruction>? GeodeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

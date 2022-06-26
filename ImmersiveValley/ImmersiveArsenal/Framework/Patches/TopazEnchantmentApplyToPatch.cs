@@ -12,7 +12,7 @@ using Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TopazEnchantmentApplyToPatch : BasePatch
+internal sealed class TopazEnchantmentApplyToPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal TopazEnchantmentApplyToPatch()

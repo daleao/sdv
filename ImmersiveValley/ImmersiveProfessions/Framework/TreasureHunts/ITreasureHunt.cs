@@ -21,6 +21,7 @@ public interface ITreasureHunt
 
     /// <summary>Try to start a new hunt at the specified location.</summary>
     /// <param name="location">The game location.</param>
+    /// <returns><see langword="true"> if a hunt was started, otherwise <see langword="false">.</returns>
     public bool TryStart(GameLocation location);
 
     /// <summary>Forcefully start a new hunt at the specified location.</summary>

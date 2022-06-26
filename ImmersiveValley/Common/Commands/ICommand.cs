@@ -1,7 +1,7 @@
 ﻿namespace DaLion.Common.Commands;
 
 /// <summary>Interface for a console command.</summary>
-internal interface ICommand
+internal interface IConsoleCommand
 {
     /// <summary>The statement that triggers this command.</summary>
     string Trigger { get; }

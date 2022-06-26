@@ -22,7 +22,7 @@ using SUtility = StardewValley.Utility;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CrabPotDayUpdatePatch : BasePatch
+internal sealed class CrabPotDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal CrabPotDayUpdatePatch()

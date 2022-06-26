@@ -15,18 +15,23 @@ using Textures;
 [UsedImplicitly]
 internal sealed class StaticAssetsInvalidatedEvent : AssetsInvalidatedEvent
 {
+    /// <summary>Construct an instance.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal StaticAssetsInvalidatedEvent(ProfessionEventManager manager)
+        : base(manager) { }
+
     /// <inheritdoc />
-    protected override void OnAssetsInvalidatedImpl(object sender, AssetsInvalidatedEventArgs e)
+    protected override void OnAssetsInvalidatedImpl(object? sender, AssetsInvalidatedEventArgs e)
     {
         if (e.NamesWithoutLocale.Any(name => name.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/SkillBars")))
         {
-            Textures.SkillBarTx =
+            Textures.BarsTx =
                 ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/SkillBars");
         }
 
         if (e.NamesWithoutLocale.Any(name => name.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/UltimateMeter")))
         {
-            Textures.UltimateMeterTx =
+            Textures.MeterTx =
                 ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
         }
 

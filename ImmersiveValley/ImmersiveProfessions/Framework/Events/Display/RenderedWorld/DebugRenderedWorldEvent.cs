@@ -18,16 +18,18 @@ using Common.Extensions.Xna;
 internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
 {
     private readonly Texture2D _pixel;
-
+    
     /// <summary>Construct an instance.</summary>
-    internal DebugRenderedWorldEvent()
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal DebugRenderedWorldEvent(ProfessionEventManager manager)
+        : base(manager)
     {
         _pixel = new(Game1.graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
         _pixel.SetData(new[] { Color.White });
     }
 
     /// <inheritdoc />
-    protected override void OnRenderedWorldImpl(object sender, RenderedWorldEventArgs e)
+    protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)
     {
         if (!ModEntry.Config.DebugKey.IsDown() || ModEntry.DebugCursorPosition is null) return;
 

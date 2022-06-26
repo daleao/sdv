@@ -12,7 +12,7 @@ using Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerGetProfessionForSkillPatch : BasePatch
+internal sealed class FarmerGetProfessionForSkillPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerGetProfessionForSkillPatch()

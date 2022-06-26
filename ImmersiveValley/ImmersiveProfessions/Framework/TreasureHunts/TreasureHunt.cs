@@ -25,19 +25,19 @@ internal abstract class TreasureHunt : ITreasureHunt
     #region event handlers
 
     /// <inheritdoc cref="OnStarted"/>
-    internal static event EventHandler<ITreasureHuntStartedEventArgs> Started;
+    internal static event EventHandler<ITreasureHuntStartedEventArgs>? Started;
 
     /// <inheritdoc cref="OnEnded"/>
-    internal static event EventHandler<ITreasureHuntEndedEventArgs> Ended;
+    internal static event EventHandler<ITreasureHuntEndedEventArgs>? Ended;
 
     #endregion event handlers
 
     protected uint elapsed;
     protected uint timeLimit;
-    protected string huntStartedMessage;
-    protected string huntFailedMessage;
+    protected string huntStartedMessage = null!;
+    protected string huntFailedMessage = null!;
+    protected GameLocation huntLocation = null!;
     protected Rectangle iconSourceRect;
-    protected GameLocation huntLocation;
     protected readonly Random random = new(Guid.NewGuid().GetHashCode());
     
     private double _chanceAccumulator = 1.0;
@@ -84,6 +84,7 @@ internal abstract class TreasureHunt : ITreasureHunt
     #region protected methods
 
     /// <summary>Roll the dice for a new treasure hunt or adjust the odds for the next attempt.</summary>
+    /// <returns><see langword="true"> if the dice roll was successful, otherwise <see langword="false">.</returns>
     protected bool TryStart()
     {
         if (IsActive) return false;

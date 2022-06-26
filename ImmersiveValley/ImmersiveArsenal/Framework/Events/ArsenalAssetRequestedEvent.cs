@@ -34,7 +34,9 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         new();
 
     /// <summary>Construct an instance.</summary>
-    internal ArsenalAssetRequestedEvent()
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    internal ArsenalAssetRequestedEvent(EventManager manager)
+        : base(manager)
     {
         //AssetEditors["Data/Boots"] = (callback: DataBootsEditor, priority: AssetEditPriority.Default);
         AssetEditors["Data/weapons"] = (callback: EditWeaponsData, priority: AssetEditPriority.Late);
@@ -46,7 +48,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     }
 
     /// <inheritdoc />
-    protected override void OnAssetRequestedImpl(object sender, AssetRequestedEventArgs e)
+    protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
     {
         if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))
             e.Edit(editor.callback, editor.priority);

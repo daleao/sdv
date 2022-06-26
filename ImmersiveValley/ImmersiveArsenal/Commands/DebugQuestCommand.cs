@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using JetBrains.Annotations;
 using StardewValley;
 
 using Common;
@@ -10,16 +11,22 @@ using Common.Commands;
 
 #endregion using directives
 
-internal class DebugQuestCommand : ICommand
+[UsedImplicitly]
+internal sealed class DebugQuestCommand : ConsoleCommand
 {
-    /// <inheritdoc />
-    public string Trigger => "debug_quest";
+    /// <summary>Construct an instance.</summary>
+    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
+    internal DebugQuestCommand(CommandHandler handler)
+        : base(handler) { }
 
     /// <inheritdoc />
-    public string Documentation => "Advance to the final stage of Qi's Final Challenge quest.";
+    public override string Trigger => "debug_quest";
 
     /// <inheritdoc />
-    public void Callback(string[] args)
+    public override string Documentation => "Advance to the final stage of Qi's Final Challenge quest.";
+
+    /// <inheritdoc />
+    public override void Callback(string[] args)
     {
         if (Game1.player.hasOrWillReceiveMail("QiChallengeComplete"))
         {

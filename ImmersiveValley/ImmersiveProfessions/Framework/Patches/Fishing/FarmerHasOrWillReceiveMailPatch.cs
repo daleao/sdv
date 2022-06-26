@@ -14,7 +14,7 @@ using DaLion.Common.Harmony;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerHasOrWillReceiveMailPatch : BasePatch
+internal sealed class FarmerHasOrWillReceiveMailPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FarmerHasOrWillReceiveMailPatch()

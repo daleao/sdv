@@ -22,7 +22,7 @@ using Textures;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class NewSkillsPageDrawPatch : BasePatch
+internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal NewSkillsPageDrawPatch()
@@ -41,7 +41,7 @@ internal sealed class NewSkillsPageDrawPatch : BasePatch
 
     /// <summary>Patch to overlay skill bars above skill level 10 + draw prestige ribbons on the skills page.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> NewSkillsPageDrawTranspiler(
+    private static IEnumerable<CodeInstruction>? NewSkillsPageDrawTranspiler(
         IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
