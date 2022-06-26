@@ -2,11 +2,10 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Linq;
 using StardewValley;
 using StardewValley.Objects;
-
+using System.Collections.Generic;
+using System.Linq;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -60,7 +59,7 @@ public static class FarmerExtensions
             list[i].Stack -= toRemove;
             if (list[i].Stack <= 0)
                 list[i] = null;
-            
+
             if (amount > 0) continue;
 
             return 0;

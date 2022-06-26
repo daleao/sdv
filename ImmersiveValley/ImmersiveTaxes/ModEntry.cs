@@ -2,18 +2,16 @@
 
 #region using directives
 
-using static System.FormattableString;
-
-using System;
-using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
-using StardewValley;
-
 using Common;
 using Common.Data;
 using Common.Events;
 using Common.Harmony;
 using Common.Integrations;
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+using StardewValley;
+using System;
+using static System.FormattableString;
 
 #endregion using directives
 
@@ -45,7 +43,7 @@ public class ModEntry : Mod
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();
-        
+
         // hook events
         new EventManager(helper.Events).HookAll();
 
@@ -73,9 +71,9 @@ public class ModEntry : Mod
         var deductible = ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.mariner)
             ? ProfessionsAPI.GetConservationistProjectedTaxBonus(Game1.player)
             : 0f;
-        var taxable = (int) (income * (1f - deductible));
+        var taxable = (int)(income * (1f - deductible));
         var bracket = Framework.Utils.GetTaxBracket(taxable);
-        var due = (int) Math.Round(income * bracket);
+        var due = (int)Math.Round(income * bracket);
         Log.I(
             "Accounting projections for the current season:" +
             $"\n\t- Income (season-to-date): {income}g" +

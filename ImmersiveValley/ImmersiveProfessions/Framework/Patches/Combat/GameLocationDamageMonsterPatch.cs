@@ -2,27 +2,25 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
-using StardewValley;
-using StardewValley.Monsters;
-using StardewValley.Tools;
-
 using DaLion.Common;
 using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Events.GameLoop.DayEnding;
 using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using Sounds;
+using StardewValley;
+using StardewValley.Monsters;
+using StardewValley.Tools;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using Ultimates;
-
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -84,7 +82,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                 )
                 .AddLabels(isNotPrestiged)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // arg 10 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Fighter.Value + 100, forLocalPlayer: false)
                 .Insert(
@@ -115,7 +113,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontBuffDamage),
                     // check for local player
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer)))
                 )
@@ -162,7 +160,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                 )
                 .Advance()
                 .ReplaceWith(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10) // was cgt ; arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // was cgt ; arg 10 = Farmer who
                 )
                 .Advance()
                 .Insert(
@@ -218,13 +216,13 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                 .StripLabels(out var labels) // backup and remove branch labels
                 .InsertWithLabels(
                     labels, // restore backed-up labels
-                    // prepare arguments
+                            // prepare arguments
                     new CodeInstruction(OpCodes.Ldloc_S, damageAmount),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = bool isBomb
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = bool isBomb
                     new CodeInstruction(OpCodes.Ldloc_S, didCrit),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 8), // arg 8 = float critMultiplier
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)8), // arg 8 = float critMultiplier
                     new CodeInstruction(OpCodes.Ldloc_2), // local 2 = Monster monster
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 10), // arg 10 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
                     new CodeInstruction(OpCodes.Call,
                         typeof(GameLocationDamageMonsterPatch).RequireMethod(nameof(DamageMonsterSubroutine)))
                 );
@@ -308,11 +306,11 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                 }
 
                 // increment Poacher ultimate meter
-                if (ModEntry.PlayerState.RegisteredUltimate is Ambush {IsActive: false} ambush1)
+                if (ModEntry.PlayerState.RegisteredUltimate is Ambush { IsActive: false } ambush1)
                     ambush1.ChargeValue += critMultiplier;
             }
 
-            if (ModEntry.PlayerState.RegisteredUltimate is Ambush {IsActive: true} ambush2)
+            if (ModEntry.PlayerState.RegisteredUltimate is Ambush { IsActive: true } ambush2)
                 ambush2.Deactivate();
         }
 
@@ -376,7 +374,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
         // heal if prestiged
         if (who.HasProfession(Profession.Piper, true) && r.NextDouble() < 0.333)
         {
-            var healed = (int) (monster.MaxHealth * 0.025f);
+            var healed = (int)(monster.MaxHealth * 0.025f);
             who.health = Math.Min(who.health + healed, who.maxHealth);
             who.currentLocation.debris.Add(new(healed,
                 new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
@@ -385,7 +383,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
         }
 
         // increment ultimate meter
-        if (ModEntry.PlayerState.RegisteredUltimate is Enthrall {IsActive: false} pandemonium)
+        if (ModEntry.PlayerState.RegisteredUltimate is Enthrall { IsActive: false } pandemonium)
         {
 #pragma warning disable CS8509
             var increment = monster switch

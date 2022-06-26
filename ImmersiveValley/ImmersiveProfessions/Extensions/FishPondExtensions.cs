@@ -2,12 +2,11 @@
 
 #region using directives
 
-using System;
-using System.Linq;
+using Common.Extensions.Reflection;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
-
-using Common.Extensions.Reflection;
+using System;
+using System.Linq;
 
 #endregion using directives
 

@@ -2,13 +2,12 @@ namespace DaLion.Stardew.Tools.Integrations;
 
 #region using directives
 
-using System;
-using StardewModdingAPI;
-using HarmonyLib;
-
 using Common.Integrations;
 using Configs;
 using Framework;
+using HarmonyLib;
+using StardewModdingAPI;
+using System;
 
 #endregion using directives
 
@@ -34,8 +33,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
     /// <summary>Register the config menu if available.</summary>
     public void Register()
     {
-        var allowedUpgrades = new[] {"Copper", "Steel", "Gold", "Iridium"};
-        if (ModEntry.HasLoadedMoonMisadventures) allowedUpgrades.AddRangeToArray(new[] {"Radioactive", "Mythicite"});
+        var allowedUpgrades = new[] { "Copper", "Steel", "Gold", "Iridium" };
+        if (ModEntry.HasLoadedMoonMisadventures) allowedUpgrades.AddRangeToArray(new[] { "Radioactive", "Mythicite" });
 
         // get config menu
         if (!_configMenu.IsLoaded)
@@ -65,8 +64,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
             .AddNumberField(
                 () => "Shockwave Delay",
                 () => "Affects the shockwave travel speed. Lower is faster. Set to 0 for instant.",
-                config => (int) config.TicksBetweenWaves,
-                (config, value) => config.TicksBetweenWaves = (uint) value,
+                config => (int)config.TicksBetweenWaves,
+                (config, value) => config.TicksBetweenWaves = (uint)value,
                 0,
                 10
             )

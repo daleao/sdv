@@ -2,8 +2,8 @@
 
 #region using directives
 
-using System.Reflection;
 using HarmonyLib;
+using System.Reflection;
 
 #endregion using directives
 

@@ -2,15 +2,14 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
+using Common.Extensions;
+using Common.Extensions.Reflection;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Locations;
-
-using Common.Extensions;
-using Common.Extensions.Reflection;
+using System;
+using System.Collections.Generic;
 
 #endregion using directives
 
@@ -36,10 +35,10 @@ public static class MineShaftExtensions
     public static IEnumerable<Vector2> GetLadderTiles(this MineShaft shaft)
     {
         for (var i = 0; i < shaft.Map.GetLayer("Buildings").LayerWidth; ++i)
-        for (var j = 0; j < shaft.Map.GetLayer("Buildings").LayerHeight; ++j)
-        {
-            var index = shaft.getTileIndexAt(new(i, j), "Buildings");
-            if (index.IsIn(173, 174)) yield return new(i, j);
-        }
+            for (var j = 0; j < shaft.Map.GetLayer("Buildings").LayerHeight; ++j)
+            {
+                var index = shaft.getTileIndexAt(new(i, j), "Buildings");
+                if (index.IsIn(173, 174)) yield return new(i, j);
+            }
     }
 }

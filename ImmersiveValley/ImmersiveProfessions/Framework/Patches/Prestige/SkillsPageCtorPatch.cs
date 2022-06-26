@@ -7,8 +7,6 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common.Harmony;
 using Textures;
 
 #endregion using directives

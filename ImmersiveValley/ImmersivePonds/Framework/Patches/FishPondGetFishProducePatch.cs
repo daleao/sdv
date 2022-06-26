@@ -2,19 +2,16 @@
 
 #region using directives
 
+using Common;
+using Common.Data;
+using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley.Buildings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley.Buildings;
-
-using Common;
-using Common.Data;
-using Common.Harmony;
-using Extensions;
-
 using SObject = StardewValley.Object;
 
 #endregion using directives

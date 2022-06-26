@@ -2,14 +2,11 @@
 
 #region using directives
 
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
-
-using DaLion.Common.Harmony;
-using Extensions;
-
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -33,7 +30,7 @@ internal sealed class ObjectCtorPatch : DaLion.Common.Harmony.HarmonyPatch
         var owner = Game1.getFarmer(__instance.owner.Value);
         if (__instance.IsWildBerry() && owner.HasProfession(Profession.Ecologist))
             __instance.Edibility =
-                (int) (__instance.Edibility * (owner.HasProfession(Profession.Ecologist, true) ? 2f : 1.5f));
+                (int)(__instance.Edibility * (owner.HasProfession(Profession.Ecologist, true) ? 2f : 1.5f));
     }
 
     #endregion harmony patches

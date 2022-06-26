@@ -2,16 +2,14 @@
 
 #region using directives
 
-using static System.FormattableString;
-using static System.String;
-
-using System;
-using JetBrains.Annotations;
-using StardewValley;
-
 using Common;
 using Common.Commands;
 using Common.Data;
+using JetBrains.Annotations;
+using StardewValley;
+using System;
+using static System.FormattableString;
+using static System.String;
 
 #endregion using directives
 
@@ -60,8 +58,8 @@ internal sealed class PrintModDataCommand : ConsoleCommand
         value = ModDataIO.ReadData(Game1.player, ModData.ConservationistTrashCollectedThisSeason.ToString());
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
-                       // ReSharper disable once PossibleLossOfFraction
                        ? CurrentCulture(
+                           // ReSharper disable once PossibleLossOfFraction
                            $"{ModData.ConservationistTrashCollectedThisSeason}: {value} (expect a {Math.Min(int.Parse(value) / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f, ModEntry.Config.ConservationistTaxBonusCeiling):p0} tax deduction next season)")
                        : $"Mod data does not contain an entry for {ModData.ConservationistTrashCollectedThisSeason}.");
 

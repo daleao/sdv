@@ -2,8 +2,9 @@
 
 #region using directives
 
-using System;
-using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
@@ -11,11 +12,8 @@ using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Reflection;
 using Ultimates;
 
 #endregion using directives
@@ -46,7 +44,7 @@ internal sealed class BasicProjectileBehaviorOnCollisionWithMonsterPatch : DaLio
             if (n is not Monster monster) return true; // run original logic
 
             var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
-            
+
             // get overcharge
             var bulletPower = 1f;
             if (ModEntry.PlayerState.OverchargedBullets.TryGetValue(__instance.GetHashCode(), out var overcharge))
@@ -78,7 +76,7 @@ internal sealed class BasicProjectileBehaviorOnCollisionWithMonsterPatch : DaLio
             }
 
             // increment Desperado ultimate meter
-            if (firer.IsLocalPlayer && ModEntry.PlayerState.RegisteredUltimate is DeathBlossom {IsActive: false})
+            if (firer.IsLocalPlayer && ModEntry.PlayerState.RegisteredUltimate is DeathBlossom { IsActive: false })
                 ModEntry.PlayerState.RegisteredUltimate.ChargeValue += (didStun ? 18 : 12) - 10 * firer.health / firer.maxHealth;
 
             return false; // don't run original logic

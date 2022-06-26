@@ -29,10 +29,8 @@ internal static class Utils
     /// <param name="held">The index of the currently held fish.</param>
     /// <param name="other">The index of some other fish.</param>
     /// <returns></returns>
-    internal static bool IsExtendedFamilyMember(int held, int other)
-    {
-        return ExtendedFamilyPairs.TryGetValue(other, out var pair) && pair == held;
-    }
+    internal static bool IsExtendedFamilyMember(int held, int other) =>
+        ExtendedFamilyPairs.TryGetValue(other, out var pair) && pair == held;
 
     /// <summary>Get the fish's chance to produce roe given its sale value.</summary>
     /// <param name="value">The fish's sale value.</param>
@@ -49,6 +47,6 @@ internal static class Utils
         ///     5000g -> ~4050g (~13.5% roe chance per fish)
         const double a = 335.0 / 4.0;
         const double b = 275.0 / 2.0;
-        return a / (value + b) * (1.0 + neighbors / 11.0 - 1.0/11.0) * ModEntry.Config.RoeProductionChanceMultiplier;
+        return a / (value + b) * (1.0 + neighbors / 11.0 - 1.0 / 11.0) * ModEntry.Config.RoeProductionChanceMultiplier;
     }
 }

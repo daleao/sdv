@@ -2,10 +2,10 @@
 
 #region using directives
 
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
+using System.Text;
 
 #endregion using directives
 
@@ -20,7 +20,7 @@ public class Cauldron : Tool
 
     /// <summary>Construct an instance.</summary>
     public Cauldron(int upgradeLevel)
-        :base("Cauldron", upgradeLevel, -1, -1, false)
+        : base("Cauldron", upgradeLevel, -1, -1, false)
     {
         _sourceRect = new(16 * UpgradeLevel, 0, 16, 16);
     }

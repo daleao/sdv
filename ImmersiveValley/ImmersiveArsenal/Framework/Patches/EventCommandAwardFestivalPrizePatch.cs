@@ -2,18 +2,17 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using Common;
+using Common.Extensions.Reflection;
+using Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
-
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 

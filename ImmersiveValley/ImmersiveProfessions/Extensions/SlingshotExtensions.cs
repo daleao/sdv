@@ -2,11 +2,10 @@
 
 #region using directives
 
-using System;
+using Framework;
 using StardewValley;
 using StardewValley.Tools;
-
-using Framework;
+using System;
 
 #endregion using directives
 
@@ -20,7 +19,7 @@ public static class SlingshotExtensions
     {
         if (slingshot.pullStartTime < 0.0) return 0f;
 
-        return Math.Clamp((float) ((Game1.currentGameTime.TotalGameTime.TotalSeconds - slingshot.pullStartTime) / 0.3f - 1f) /
+        return Math.Clamp((float)((Game1.currentGameTime.TotalGameTime.TotalSeconds - slingshot.pullStartTime) / 0.3f - 1f) /
                           (who.HasProfession(Profession.Desperado, true) ? 6f : 3f), 0f, 1f);
     }
 }

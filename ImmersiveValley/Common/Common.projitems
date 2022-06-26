@@ -9,13 +9,11 @@
     <Import_RootNamespace>DaLion.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\MultiplayerBroadcaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\Broadcaster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ConsoleCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataIO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\FieldInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\Static\Colors.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\Static\Tiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Instance\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\IConsoleCommand.cs" />
@@ -119,6 +117,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Classes\Static\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\Content\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\Collections\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Extensions\Xna\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Multiplayer\" />
   </ItemGroup>
 </Project>

@@ -2,21 +2,19 @@
 
 #region using directives
 
-using System;
-using System.Reflection;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Xna;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Sounds;
 using StardewValley;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
-
-using DaLion.Common.Harmony;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Extensions.Xna;
-using Extensions;
-using Sounds;
+using System;
+using System.Reflection;
 using Ultimates;
 
 #endregion using directives
@@ -25,7 +23,7 @@ using Ultimates;
 internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private static Action<Slingshot>? _UpdateAimPos;
-    
+
     private static FieldInfo? _CanPlaySound;
 
     /// <summary>Construct an instance.</summary>
@@ -51,7 +49,7 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
         }
 
         var backArmDistance = __instance.GetBackArmDistance(who);
-        if (backArmDistance <= 4 || (bool) _CanPlaySound.GetValue(__instance)!)
+        if (backArmDistance <= 4 || (bool)_CanPlaySound.GetValue(__instance)!)
             return false; // don't run original logic
 
         // calculate projectile velocity
@@ -128,7 +126,7 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
             who.stopJittering();
             SFX.SinWave?.Stop(AudioStopOptions.Immediate);
         }
-        
+
         if (Game1.options.useLegacySlingshotFiring)
         {
             x *= -1f;
@@ -146,8 +144,8 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
         // add main projectile
         var startingPosition = shootOrigin - new Vector2(32f, 32f);
         var damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod * overcharge;
-        var projectile = new BasicProjectile((int) damage, ammo.ParentSheetIndex, bounces, 0,
-            (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition,
+        var projectile = new BasicProjectile((int)damage, ammo.ParentSheetIndex, bounces, 0,
+            (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition,
             collisionSound, "", false, true, location, who, true, collisionBehavior)
         {
             IgnoreLocationCollision = Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
@@ -167,8 +165,8 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
             {
                 damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
                 velocity = velocity.Rotate(45);
-                var blossom = new BasicProjectile((int) damage, ammo.ParentSheetIndex, 0, 0,
-                    (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+                var blossom = new BasicProjectile((int)damage, ammo.ParentSheetIndex, 0, 0,
+                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
                     velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
                     true, location, who, true, collisionBehavior)
                 {
@@ -183,11 +181,11 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
         else if (overcharge >= 1.5f && who.HasProfession(Profession.Desperado, true) && __instance.attachments[0].Stack >= 2)
         {
             // do spreadshot
-            var angle = (int) (MathHelper.Lerp(1f, 0.5f, (overcharge - 1.5f) * 2f) * 15);
+            var angle = (int)(MathHelper.Lerp(1f, 0.5f, (overcharge - 1.5f) * 2f) * 15);
             damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
             velocity = velocity.Rotate(angle);
-            var clockwise = new BasicProjectile((int) damage, ammo.ParentSheetIndex, 0, 0,
-                (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+            var clockwise = new BasicProjectile((int)damage, ammo.ParentSheetIndex, 0, 0,
+                (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
                 velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
                 true, location, who, true, collisionBehavior)
             {
@@ -198,8 +196,8 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
 
             damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
             velocity = velocity.Rotate(-2 * angle);
-            var anticlockwise = new BasicProjectile((int) damage, ammo.ParentSheetIndex, 0, 0,
-                (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+            var anticlockwise = new BasicProjectile((int)damage, ammo.ParentSheetIndex, 0, 0,
+                (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
                 velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
                 true, location, who, true, collisionBehavior)
             {
@@ -216,8 +214,8 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
         {
             // do double strafe
             damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod * 0.6f;
-            var secondary = new BasicProjectile((int) damage, ammo.ParentSheetIndex, 0, 0,
-                (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+            var secondary = new BasicProjectile((int)damage, ammo.ParentSheetIndex, 0, 0,
+                (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
                 velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
                 true, location, who, true, collisionBehavior)
             {

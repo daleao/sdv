@@ -2,14 +2,13 @@
 
 #region using directives
 
-using System;
-using System.Linq;
+using Common.Events;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
-
-using Common.Events;
+using System;
+using System.Linq;
 
 #endregion using directives
 
@@ -35,7 +34,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
 
         var bonusLadderChance = (ModEntry.PlayerState.SpelunkerLadderStreak * 0.5f).ToString("0.0");
         var bonusSpeed = Math.Min(ModEntry.PlayerState.SpelunkerLadderStreak / 10 + 1,
-            (int) ModEntry.Config.SpelunkerSpeedCap);
+            (int)ModEntry.Config.SpelunkerSpeedCap);
         Game1.buffsDisplay.addOtherBuff(
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, bonusSpeed, 0, 0,
                 1,
@@ -46,7 +45,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
                 sheetIndex = SHEET_INDEX_I,
                 millisecondsDuration = 0,
                 description =
-                    ModEntry.i18n.Get("spelunker.buffdesc", new {bonusLadderChance, bonusSpeed})
+                    ModEntry.i18n.Get("spelunker.buffdesc", new { bonusLadderChance, bonusSpeed })
             }
         );
     }

@@ -2,13 +2,11 @@
 
 #region using directives
 
-using System;
-using JetBrains.Annotations;
-using StardewValley;
-
 using Common.Extensions.Reflection;
 using Common.Harmony;
-
+using JetBrains.Annotations;
+using StardewValley;
+using System;
 using SObject = StardewValley.Object;
 
 #endregion using directives

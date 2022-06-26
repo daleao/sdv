@@ -28,7 +28,8 @@ public static class RectangleExtensions
     /// <param name="thickness">Border thickness.</param>
     /// <param name="color">Border color.</param>
     /// <param name="b"><see cref="SpriteBatch" /> to draw to.</param>
-    public static void DrawBorder(this Rectangle r, Texture2D pixel, int thickness, Color color, SpriteBatch b, Vector2 offset)
+    public static void DrawBorder(this Rectangle r, Texture2D pixel, int thickness, Color color, SpriteBatch b,
+        Vector2 offset)
     {
         b.Draw(pixel, new Rectangle(r.X + (int) offset.X, r.Y + (int) offset.Y, r.Width, thickness), color); // top line
         b.Draw(pixel, new Rectangle(r.X + (int) offset.X, r.Y + (int) offset.Y, thickness, r.Height), color); // left line

@@ -2,9 +2,9 @@ namespace DaLion.Common.Integrations;
 
 #region using directives
 
-using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
+using System;
 
 #endregion using directives
 
@@ -36,7 +36,7 @@ internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGener
     /// <param name="getConfig">Get the current config model.</param>
     /// <param name="reset">Reset the mod's config to its default values.</param>
     /// <param name="saveAndApply">Save the mod's current config to the <c>config.json</c> file.</param>
-    public GenericModConfigMenuIntegration(IModRegistry modRegistry, IManifest consumerManifest, 
+    public GenericModConfigMenuIntegration(IModRegistry modRegistry, IManifest consumerManifest,
         Func<TConfig> getConfig, Action reset, Action saveAndApply)
         : base("Generic Mod Config Menu", "spacechase0.GenericModConfigMenu", "1.6.0", modRegistry)
     {

@@ -2,15 +2,14 @@
 
 #region using directives
 
+using Extensions.Reflection;
+using HarmonyLib;
+using StardewModdingAPI.Events;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using HarmonyLib;
-using StardewModdingAPI.Events;
-
-using Extensions.Reflection;
 
 #endregion using directives
 
@@ -19,7 +18,7 @@ internal class EventManager
 {
     /// <summary>Cache of managed <see cref="IManagedEvent"/> instances.</summary>
     protected readonly HashSet<IManagedEvent> ManagedEvents = new();
-    
+
     /// <inheritdoc cref="IModEvents"/>
     protected readonly IModEvents ModEvents;
 
@@ -28,14 +27,14 @@ internal class EventManager
     internal EventManager(IModEvents modEvents)
     {
         ModEvents = modEvents;
-        
+
         Log.D("[EventManager]: Gathering events...");
         var eventTypes = AccessTools
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
             .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract &&
-                         // event classes may or not have the required internal parameterized constructor accepting only the manager instance, depending on whether they are SMAPI or mod-handled
-                         // we only want to construct SMAPI events at this point, so we filter out the rest
-                        t.GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, new[] {GetType()},
+                        // event classes may or not have the required internal parameterized constructor accepting only the manager instance, depending on whether they are SMAPI or mod-handled
+                        // we only want to construct SMAPI events at this point, so we filter out the rest
+                        t.GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { GetType() },
                             null) is not null)
             .ToArray();
 
@@ -48,9 +47,9 @@ internal class EventManager
         {
             try
             {
-                var @event = (IManagedEvent) e
-                    .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, new[] {GetType()}, null)!
-                    .Invoke(new object?[] {this});
+                var @event = (IManagedEvent)e
+                    .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { GetType() }, null)!
+                    .Invoke(new object?[] { this });
                 ManagedEvents.Add(@event);
                 Log.D($"[EventManager]: Managing {@event.GetType().Name}");
             }
@@ -101,7 +100,7 @@ internal class EventManager
 
         foreach (var @event in ManagedEvents.OfType<WindowResizedEvent>())
             modEvents.Display.WindowResized += @event.OnWindowResized;
-        
+
         // game loop
         foreach (var @event in ManagedEvents.OfType<DayEndingEvent>())
             modEvents.GameLoop.DayEnding += @event.OnDayEnding;
@@ -384,10 +383,8 @@ internal class EventManager
 
     /// <summary>Add a new event instance to the set of managed events.</summary>
     /// <param name="event">An <see cref="IManagedEvent"/> instance.</param>
-    internal bool Manage(IManagedEvent @event)
-    {
-        return ManagedEvents.Add(@event);
-    }
+    internal bool Manage(IManagedEvent @event) =>
+        ManagedEvents.Add(@event);
 
     /// <summary>Add a new event instance to the set of managed events.</summary>
     /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</param>
@@ -398,10 +395,7 @@ internal class EventManager
 
     /// <summary>Get an instance of the specified event type.</summary>
     /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
-    internal TEvent? Get<TEvent>() where TEvent : IManagedEvent
-    {
-        return ManagedEvents.OfType<TEvent>().FirstOrDefault();
-    }
+    internal TEvent? Get<TEvent>() where TEvent : IManagedEvent => ManagedEvents.OfType<TEvent>().FirstOrDefault();
 
     /// <summary>Try to get an instance of the specified event type.</summary>
     /// <param name="got">The matched event, if any.</param>
@@ -415,15 +409,11 @@ internal class EventManager
 
     /// <summary>Check if the specified event type is hooked.</summary>
     /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
-    internal bool IsHooked<TEvent>() where TEvent : IManagedEvent
-    {
-        return TryGet<TEvent>(out var got) && got?.IsHooked == true;
-    }
+    internal bool IsHooked<TEvent>() where TEvent : IManagedEvent =>
+        TryGet<TEvent>(out var got) && got?.IsHooked == true;
 
     /// <summary>Enumerate all currently hooked event for the specified screen.</summary>
     /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
-    internal IEnumerable<IManagedEvent> GetHookedForScreen(int screenID)
-    {
-        return ManagedEvents.Where(e => e.IsHookedForScreen(screenID));
-    }
+    internal IEnumerable<IManagedEvent> GetHookedForScreen(int screenID) =>
+        ManagedEvents.Where(e => e.IsHookedForScreen(screenID));
 }

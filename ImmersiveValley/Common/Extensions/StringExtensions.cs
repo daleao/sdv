@@ -19,25 +19,19 @@ public static class StringExtensions
 
     /// <summary>Determine if the string instance contains any of the specified substrings.</summary>
     /// <param name="candidates">A sequence of strings candidates.</param>
-    public static bool ContainsAnyOf(this string s, params string[] candidates)
-    {
-        return candidates.Any(s.Contains);
-    }
+    public static bool ContainsAnyOf(this string s, params string[] candidates) =>
+        candidates.Any(s.Contains);
 
     /// <summary>Determine if the string instance starts with any of the specified substrings.</summary>
     /// <param name="candidates">A sequence of strings candidates.</param>
-    public static bool StartsWithAnyOf(this string s, params string[] candidates)
-    {
-        return candidates.Any(s.StartsWith);
-    }
+    public static bool StartsWithAnyOf(this string s, params string[] candidates) =>
+        candidates.Any(s.StartsWith);
 
     /// <summary>Capitalize the first character in the string instance.</summary>
-    public static string FirstCharToUpper(this string s)
-    {
-        return string.IsNullOrEmpty(s)
+    public static string FirstCharToUpper(this string s) =>
+        string.IsNullOrEmpty(s)
             ? throw new ArgumentException("Argument is null or empty.")
             : s.First().ToString().ToUpper() + s[1..];
-    }
 
     /// <summary>Removes invalid file name or path characters from the string instance.</summary>
     public static string RemoveInvalidChars(this string s)
@@ -47,24 +41,18 @@ public static class StringExtensions
     }
 
     /// <summary>Split a camelCase or PascalCase string into its constituent words.</summary>
-    public static string[] SplitCamelCase(this string s)
-    {
-        return Regex.Split(s, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)").Where(r => !string.IsNullOrEmpty(r)).ToArray();
-    }
+    public static string[] SplitCamelCase(this string s) =>
+        Regex.Split(s, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)").Where(r => !string.IsNullOrEmpty(r)).ToArray();
 
     /// <summary>Trim all whitespace from the string.</summary>
-    public static string TrimAll(this string s)
-    {
-        return _sWhitespace.Replace(s, "");
-    }
+    public static string TrimAll(this string s) =>
+        _sWhitespace.Replace(s, "");
 
     /// <summary>Truncate the string instance to a <paramref name="maxLength" />, ending with ellipses.</summary>
-    public static string Truncate(this string s, int maxLength, string truncationSuffix = "…")
-    {
-        return s.Length > maxLength
+    public static string Truncate(this string s, int maxLength, string truncationSuffix = "…") =>
+        s.Length > maxLength
             ? s[..maxLength] + truncationSuffix
             : s;
-    }
 
     /// <summary>Parse the string instance to a generic type.</summary>
     public static T Parse<T>(this string s)
@@ -73,7 +61,7 @@ public static class StringExtensions
 
         var converter = TypeDescriptor.GetConverter(typeof(T));
         if (converter.CanConvertTo(typeof(T)) && converter.CanConvertFrom(typeof(string)))
-            return (T) converter.ConvertFromString(s) ?? throw new InvalidCastException();
+            return (T)converter.ConvertFromString(s) ?? throw new InvalidCastException();
 
         throw new FormatException();
     }
@@ -92,7 +80,7 @@ public static class StringExtensions
 
         try
         {
-            result = (T) converter.ConvertFromString(s);
+            result = (T)converter.ConvertFromString(s);
             return true;
         }
         catch
@@ -205,8 +193,8 @@ public static class StringExtensions
         if (pairSeparator == keyValueSeparator)
             throw new ArgumentException("Pair separator must be different from key-value separator.");
 
-        var pairs = s.Split(new[] {pairSeparator}, StringSplitOptions.RemoveEmptyEntries);
-        return pairs.Select(p => p.Split(new[] {keyValueSeparator}, StringSplitOptions.RemoveEmptyEntries))
+        var pairs = s.Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries);
+        return pairs.Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries))
             .ToDictionary(p => p[0].Parse<TKey>(), p => p[1].Parse<TValue>());
     }
 }

@@ -2,20 +2,18 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
-
 using DaLion.Common;
 using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
-
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -79,12 +77,12 @@ internal sealed class ObjectCheckForActionPatch : DaLion.Common.Harmony.HarmonyP
                         typeof(SObject).RequirePropertyGetter(nameof(SObject.name))),
                     new CodeInstruction(OpCodes.Ldstr, "Crystalarium"),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(string).RequireMethod(nameof(string.Equals), new[] {typeof(string)})),
+                        typeof(string).RequireMethod(nameof(string.Equals), new[] { typeof(string) })),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Ldstr, ModData.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModDataIO).RequireMethod(nameof(ModDataIO.IncrementData), new[] {typeof(Farmer), typeof(string)})
+                        typeof(ModDataIO).RequireMethod(nameof(ModDataIO.IncrementData), new[] { typeof(Farmer), typeof(string) })
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,8 +13,6 @@ using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Extensions;
 using Textures;
 
 #endregion using directives
@@ -36,7 +35,7 @@ public class AlchemyMenu : ItemGrabMenu
     private const int MARGIN_RIGHT_I = 8 * SCALE_I;
     private const int TEXT_DIVIDER_GAP_I = 1 * SCALE_I;
     private const int TEXT_SPACING_FROM_ICONS_I = 20 * SCALE_I;
-    private const int TEXT_MUFFIN_TOP_OVER_DIVIDER_I = (int) (1.5f * SCALE_I);
+    private const int TEXT_MUFFIN_TOP_OVER_DIVIDER_I = (int)(1.5f * SCALE_I);
     private const int ANIM_FRAME_TIME_I = 100;
     private const int ANIM_FRAMES_I = 8;
     private const int ANIM_TIMER_LIMIT_I = ANIM_FRAME_TIME_I * ANIM_FRAMES_I;
@@ -279,7 +278,7 @@ public class AlchemyMenu : ItemGrabMenu
         width = BookSource.Width * SCALE_I;
         height = 720;
         initializeUpperRightCloseButton();
-        
+
         _locale = LocalizedContentManager.CurrentLanguageCode.ToString();
         if (!MixTextSourceByLocale.TryGetValue(_locale, out _mixTextSource))
             _mixTextSource = MixTextSourceByLocale["en"];
@@ -419,7 +418,7 @@ public class AlchemyMenu : ItemGrabMenu
             .Where(item => item is not null && (item.IsValidIngredient() || item.IsAlchemicalBase())).ToList();
 
         /// align and set some base fields
-        
+
         AlignElements();
 
         okButton = null;
@@ -458,7 +457,7 @@ public class AlchemyMenu : ItemGrabMenu
             var bound = Game1.viewport.Width / 2;
             var scale = Game1.options.uiScale;
             var diff = (pos - bound) * scale;
-            upperRightCloseButton.bounds.X -= (int) Math.Max(0, diff / 2);
+            upperRightCloseButton.bounds.X -= (int)Math.Max(0, diff / 2);
         }
 
         // navigation
@@ -568,7 +567,7 @@ public class AlchemyMenu : ItemGrabMenu
         var mixTextMidpoint = Math.Max(9 * SCALE_I, MixTextSourceByLocale[_locale].Width);
         _mixButton.bounds = new(xOffset, yOffset, MixTextSourceByLocale[_locale].Width * SCALE_I,
             MixTextSourceByLocale[_locale].Height * SCALE_I);
-        
+
         xOffset -= 40 * SCALE_I;
         yOffset -= 9 * SCALE_I;
         _mixIconBounds = new(xOffset, yOffset + 6, 90, 90);
@@ -646,7 +645,7 @@ public class AlchemyMenu : ItemGrabMenu
         _inventoryUpButton.bounds.X = _inventoryDownButton.bounds.X = _inventoryTabButton.bounds.X + xOffset;
         _inventoryUpButton.bounds.Y = _inventoryTabButton.bounds.Y - _inventoryUpButton.bounds.Height - yOffset;
         _inventoryDownButton.bounds.Y = _inventoryTabButton.bounds.Y + _inventoryTabButton.bounds.Height + yOffset;
-        
+
         if (!_ShouldShowInventoryElements) return;
 
         const int areaPadding = 3 * SCALE_I;
@@ -768,7 +767,7 @@ public class AlchemyMenu : ItemGrabMenu
             _listViewClickables[i].downNeighborID = i + 1 < _listViewClickables.Count
                 ? _listViewClickables[i + 1].myID
                 : _listViewClickables[0].myID;
-            
+
             _listViewClickables[i].upNeighborID =
                 i - 1 >= 0 ? _listViewClickables[i - 1].myID : _listViewClickables[^1].myID;
         }
@@ -833,7 +832,7 @@ public class AlchemyMenu : ItemGrabMenu
     public override void snapToDefaultClickableComponent()
     {
         if (!_tabHistory.Any()) return;
-        
+
         switch (_tabHistory.Peek())
         {
             case Tab.Potions:
@@ -921,15 +920,15 @@ public class AlchemyMenu : ItemGrabMenu
     {
         _animTimer += time.ElapsedGameTime.Milliseconds;
         if (_animTimer >= ANIM_TIMER_LIMIT_I) _animTimer = 0;
-        _animFrame = (int) ((float) _animTimer / ANIM_TIMER_LIMIT_I * ANIM_FRAMES_I);
+        _animFrame = (int)((float)_animTimer / ANIM_TIMER_LIMIT_I * ANIM_FRAMES_I);
 
         // expand search bar on selected, contract on deselected
         var delta = 256f / time.ElapsedGameTime.Milliseconds;
         if (_searchBarTextBox.Selected && _searchBarTextBox.Width < _searchBarTextBoxMaxWidth)
-            _searchBarTextBox.Width = (int) Math.Min(_searchBarTextBoxMaxWidth, _searchBarTextBox.Width + delta);
+            _searchBarTextBox.Width = (int)Math.Min(_searchBarTextBoxMaxWidth, _searchBarTextBox.Width + delta);
         else if (!_searchBarTextBox.Selected && _searchBarTextBox.Width > _searchBarTextBoxMinWidth)
-            _searchBarTextBox.Width = (int) Math.Max(_searchBarTextBoxMinWidth, _searchBarTextBox.Width - delta);
-        
+            _searchBarTextBox.Width = (int)Math.Max(_searchBarTextBoxMinWidth, _searchBarTextBox.Width - delta);
+
         _searchBarTextBoxBounds.Width = _searchBarTextBox.Width;
         _searchBarClickable.bounds.Width = _searchBarTextBoxBounds.Width;
 
@@ -945,7 +944,7 @@ public class AlchemyMenu : ItemGrabMenu
 
     private void DrawSearchPage(SpriteBatch b)
     {
-        
+
     }
 
     private void DrawListView(SpriteBatch b)
@@ -955,35 +954,35 @@ public class AlchemyMenu : ItemGrabMenu
 
     private void DrawGridView(SpriteBatch b)
     {
-        
+
     }
 
     private void DrawMixingPage(SpriteBatch b)
     {
-        
+
     }
 
     private void DrawDetailsPage(SpriteBatch b)
     {
-        
+
     }
 
     /// <summary>Replicates <see cref="InventoryMenu.draw"/>, disabling non-ingredient items.</summary>
     /// <param name="b">A <see cref="SpriteBatch"/> to draw to.</param>
     private void DrawEffectiveInventory(SpriteBatch b)
     {
-        
+
     }
 
     private void DrawExtraStuff(SpriteBatch b)
-    { 
+    {
         Game1.mouseCursorTransparency = 1f;
         drawMouse(b);
     }
 
     private void DrawText(SpriteBatch b, string text, float scale, float x, float y, float? w, bool isLeftSide, bool isRightJustified = false, Color? colour = null)
     {
-        
+
     }
 
     private void DrawHorizontalDivider(SpriteBatch b, float x, float y, int w, bool isLeftSide)

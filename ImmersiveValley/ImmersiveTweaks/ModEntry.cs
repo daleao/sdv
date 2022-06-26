@@ -2,14 +2,13 @@
 
 #region using directives
 
-using StardewModdingAPI;
-
 using Common;
 using Common.Commands;
 using Common.Data;
 using Common.Events;
 using Common.Harmony;
 using Common.Integrations;
+using StardewModdingAPI;
 
 #endregion using directives
 
@@ -38,7 +37,7 @@ public class ModEntry : Mod
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();
-        
+
         // hook events
         new EventManager(helper.Events).HookAll();
 

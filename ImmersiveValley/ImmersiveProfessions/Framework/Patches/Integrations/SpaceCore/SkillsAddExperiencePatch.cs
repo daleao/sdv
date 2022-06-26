@@ -2,15 +2,13 @@
 
 #region using directives
 
-using System;
-using System.Linq;
+using DaLion.Common.Extensions.Reflection;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Linq;
 using Utility;
 
 #endregion using directives
@@ -41,7 +39,7 @@ internal sealed class SkillsAddExperiencePatch : DaLion.Common.Harmony.HarmonyPa
             amt < 0) return;
 
         amt = Math.Min(
-            (int) (amt * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
+            (int)(amt * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
                 farmer.GetProfessionsForSkill(skill, true).Count())), Experience.VANILLA_CAP_I - skill.CurrentExp);
     }
 

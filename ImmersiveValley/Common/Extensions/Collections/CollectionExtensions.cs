@@ -13,24 +13,18 @@ public static class CollectionExtensions
 {
     /// <summary>Determine if a collection contains any of the objects in a sequence.</summary>
     /// <param name="candidates">The objects to search for.</param>
-    public static bool ContainsAnyOf<T>(this ICollection<T> collection, params T[] candidates)
-    {
-        return candidates.Any(collection.Contains);
-    }
+    public static bool ContainsAnyOf<T>(this ICollection<T> collection, params T[] candidates) =>
+        candidates.Any(collection.Contains);
 
     /// <summary>Determine if a collection contains any of the objects in a sequence.</summary>
     /// <param name="candidates">The objects to search for.</param>
-    public static bool ContainsAnyOf<T>(this ICollection<T> collection, IEnumerable<T> candidates)
-    {
-        return candidates.Any(collection.Contains);
-    }
+    public static bool ContainsAnyOf<T>(this ICollection<T> collection, IEnumerable<T> candidates) =>
+        candidates.Any(collection.Contains);
 
     /// <summary>Determine if a collection contains any instance of the given types.</summary>
     /// <param name="types">The types to search for.</param>
-    public static bool ContainsType<T>(this ICollection<T> collection, Type type)
-    {
-        return collection.Any(item => item is not null && item.GetType() == type);
-    }
+    public static bool ContainsType<T>(this ICollection<T> collection, Type type) =>
+        collection.Any(item => item is not null && item.GetType() == type);
 
     /// <summary>Remove the first instance of a given type from a collection.</summary>
     /// <param name="type">The type to search for.</param>

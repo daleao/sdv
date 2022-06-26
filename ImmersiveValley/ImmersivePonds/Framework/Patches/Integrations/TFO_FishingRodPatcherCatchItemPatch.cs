@@ -2,22 +2,19 @@
 
 #region using directives
 
-using System;
-using System.IO;
-using System.Linq;
+using Common;
+using Common.Data;
+using Common.Extensions;
+using Common.Extensions.Reflection;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
-
-using Common;
-using Common.Data;
-using Common.Extensions;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using Extensions;
-
+using System;
+using System.IO;
+using System.Linq;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -95,7 +92,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPa
                     if (lowestFamily < lowestFish)
                     {
                         var whichFish = Utils.ExtendedFamilyPairs[pond.fishType.Value];
-                        _SetFishItem(info, new SObject(whichFish, 1) {Quality = lowestFamily == 3 ? 4 : lowestFamily});
+                        _SetFishItem(info, new SObject(whichFish, 1) { Quality = lowestFamily == 3 ? 4 : lowestFamily });
                         _SetFishQuality(info, lowestFamily == 3 ? 4 : lowestFamily);
                         --familyQualities[lowestFamily];
                         ModDataIO.WriteData(pond, "FamilyQualities", string.Join(",", familyQualities));
@@ -104,7 +101,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPa
                     else
                     {
                         _SetFishItem(info,
-                            new SObject(pond.fishType.Value, 1) {Quality = lowestFamily == 3 ? 4 : lowestFamily});
+                            new SObject(pond.fishType.Value, 1) { Quality = lowestFamily == 3 ? 4 : lowestFamily });
                         _SetFishQuality(info, lowestFish == 3 ? 4 : lowestFish);
                         --fishQualities[lowestFish];
                         ModDataIO.WriteData(pond, "FishQualities", string.Join(",", fishQualities));
@@ -113,7 +110,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPa
                 else
                 {
                     _SetFishItem(info,
-                        new SObject(pond.fishType.Value, 1) {Quality = lowestFish == 3 ? 4 : lowestFish});
+                        new SObject(pond.fishType.Value, 1) { Quality = lowestFish == 3 ? 4 : lowestFish });
                     _SetFishQuality(info, lowestFish == 3 ? 4 : lowestFish);
                     --fishQualities[lowestFish];
                     ModDataIO.WriteData(pond, "FishQualities", string.Join(",", fishQualities));
@@ -124,7 +121,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPa
                 if (fishQualities.Sum() != pond.FishCount + 1)
                     throw new InvalidDataException("FishQualities data had incorrect number of values.");
 
-                _SetFishItem(info, new SObject(pond.fishType.Value, 1) {Quality = lowestFish == 3 ? 4 : lowestFish});
+                _SetFishItem(info, new SObject(pond.fishType.Value, 1) { Quality = lowestFish == 3 ? 4 : lowestFish });
                 _SetFishQuality(info, lowestFish == 3 ? 4 : lowestFish);
                 --fishQualities[lowestFish];
                 ModDataIO.WriteData(pond, "FishQualities", string.Join(",", fishQualities));

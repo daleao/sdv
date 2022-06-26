@@ -2,14 +2,12 @@
 
 #region using directives
 
-using System;
-using System.Reflection;
+using DaLion.Common;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
-
-using DaLion.Common;
-using DaLion.Common.Harmony;
+using System;
+using System.Reflection;
 using Ultimates;
 
 #endregion using directives
@@ -32,7 +30,7 @@ internal sealed class SlingshotCanAutoFirePatch : DaLion.Common.Harmony.HarmonyP
         try
         {
             var who = __instance.getLastFarmerToUse();
-            if (who.IsLocalPlayer && ModEntry.PlayerState.RegisteredUltimate is DeathBlossom {IsActive: true})
+            if (who.IsLocalPlayer && ModEntry.PlayerState.RegisteredUltimate is DeathBlossom { IsActive: true })
                 __result = true;
             else
                 __result = false;

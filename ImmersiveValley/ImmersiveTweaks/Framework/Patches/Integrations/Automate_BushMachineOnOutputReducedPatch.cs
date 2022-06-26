@@ -2,13 +2,12 @@
 
 #region using directives
 
-using System;
+using Common.Extensions.Reflection;
+using Common.Harmony;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-
-using Common.Extensions.Reflection;
-using Common.Harmony;
+using System;
 
 #endregion using directives
 

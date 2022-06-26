@@ -2,10 +2,10 @@
 
 #region using directives
 
+using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using HarmonyLib;
 
 #endregion using directives
 
@@ -66,8 +66,6 @@ public static class CodeInstructionListExtensions
     }
 
     /// <summary>Deep copy a list of code instructions.</summary>
-    public static List<CodeInstruction> Clone(this IList<CodeInstruction> list)
-    {
-        return list.Select(instruction => new CodeInstruction(instruction)).ToList();
-    }
+    public static List<CodeInstruction> Clone(this IList<CodeInstruction> list) =>
+        list.Select(instruction => new CodeInstruction(instruction)).ToList();
 }

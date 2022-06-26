@@ -97,13 +97,13 @@ public static class FieldInfoExtensions
         // convert target type if necessary
         var delegateTargetExpression = Expression.Parameter(delegateTargetType);
         var convertedTargetExpression = delegateTargetType != field.DeclaringType
-            ? (Expression) Expression.Convert(delegateTargetExpression, field.DeclaringType!)
+            ? (Expression)Expression.Convert(delegateTargetExpression, field.DeclaringType!)
             : delegateTargetExpression;
 
         // convert assign value type if necessary
         var delegateValueExpression = Expression.Parameter(delegateValueType);
         var convertedValueExpression = delegateValueType != field.FieldType
-            ? (Expression) Expression.Convert(delegateValueExpression, field.FieldType!)
+            ? (Expression)Expression.Convert(delegateValueExpression, field.FieldType!)
             : delegateValueExpression;
 
         // create field call

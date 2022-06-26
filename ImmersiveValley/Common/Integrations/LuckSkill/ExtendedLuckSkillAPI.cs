@@ -2,9 +2,8 @@
 
 #region using directives
 
-using System.Reflection;
-
 using Extensions.Reflection;
+using System.Reflection;
 
 #endregion using directives
 

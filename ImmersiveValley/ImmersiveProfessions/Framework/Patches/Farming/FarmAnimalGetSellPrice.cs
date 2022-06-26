@@ -2,15 +2,13 @@
 
 #region using directives
 
-using System;
-using System.Reflection;
+using DaLion.Common;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Reflection;
 
 #endregion using directives
 
@@ -43,7 +41,7 @@ internal sealed class FarmAnimalGetSellPricePatch : DaLion.Common.Harmony.Harmon
             return true; // default to original logic
         }
 
-        __result = (int) (__instance.price.Value * adjustedFriendship);
+        __result = (int)(__instance.price.Value * adjustedFriendship);
         return false; // don't run original logic
     }
 

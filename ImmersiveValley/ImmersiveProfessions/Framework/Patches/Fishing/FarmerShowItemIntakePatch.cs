@@ -2,18 +2,15 @@
 
 #region using directives
 
-using System;
-using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-
-using DaLion.Common;
-using DaLion.Common.Extensions;
-using DaLion.Common.Harmony;
-
+using System;
+using System.Reflection;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -37,7 +34,7 @@ internal sealed class FarmerShowItemIntakePatch : DaLion.Common.Harmony.HarmonyP
         {
             if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.IsIn(14, 51)) return true; // run original logic
 
-            var toShow = (SObject) who.mostRecentlyGrabbedItem;
+            var toShow = (SObject)who.mostRecentlyGrabbedItem;
             TemporaryAnimatedSprite? tempSprite = who.FacingDirection switch
             {
                 2 => who.FarmerSprite.currentAnimationIndex switch

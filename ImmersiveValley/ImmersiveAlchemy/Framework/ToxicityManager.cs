@@ -2,10 +2,9 @@
 
 #region using directives
 
-using System;
-using StardewValley;
-
 using Events.Toxicity;
+using StardewValley;
+using System;
 
 #endregion using directives
 

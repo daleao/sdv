@@ -2,14 +2,11 @@
 
 #region using directives
 
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-
-using DaLion.Common.Harmony;
-using Extensions;
-
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -35,7 +32,7 @@ internal sealed class TreeUpdateTapperProductPatch : DaLion.Common.Harmony.Harmo
         if (!owner.HasProfession(Profession.Tapper)) return;
 
         if (tapper_instance.MinutesUntilReady > 0)
-            tapper_instance.MinutesUntilReady = (int) (tapper_instance.MinutesUntilReady *
+            tapper_instance.MinutesUntilReady = (int)(tapper_instance.MinutesUntilReady *
                                                        (owner.HasProfession(Profession.Tapper, true) ? 0.5 : 0.75));
     }
 

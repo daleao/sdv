@@ -2,18 +2,17 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
 using StardewValley;
-
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -51,7 +50,7 @@ internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPa
                 .FindFirst( // find index of FarmAnimal.type.Value.Equals("Sheep")
                     new CodeInstruction(OpCodes.Ldstr, "Sheep"),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(string).RequireMethod(nameof(string.Equals), new[] {typeof(string)}))
+                        typeof(string).RequireMethod(nameof(string.Equals), new[] { typeof(string) }))
                 )
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
@@ -112,7 +111,7 @@ internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPa
                 .Advance()
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Math).RequireMethod(nameof(Math.Round), new[] {typeof(double)})),
+                        typeof(Math).RequireMethod(nameof(Math.Round), new[] { typeof(double) })),
                     new CodeInstruction(OpCodes.Conv_U1)
                 );
         }
@@ -138,7 +137,7 @@ internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPa
                 .Return()
                 .Retreat()
                 .Insert( // insert unconditional branch to skip this whole section
-                    new CodeInstruction(OpCodes.Br_S, (Label) resumeExecution2)
+                    new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution2)
                 );
         }
         catch (Exception ex)

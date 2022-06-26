@@ -2,13 +2,10 @@
 
 #region using directives
 
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-
-using DaLion.Common.Harmony;
-using Extensions;
-
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -30,7 +27,7 @@ internal sealed class ObjectGetMinutesForCrystalariumPatch : DaLion.Common.Harmo
     {
         var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         if (owner.HasProfession(Profession.Gemologist))
-            __result = (int) (__result * (owner.HasProfession(Profession.Gemologist, true) ? 0.5 : 0.75));
+            __result = (int)(__result * (owner.HasProfession(Profession.Gemologist, true) ? 0.5 : 0.75));
     }
 
     #endregion harmony patches

@@ -2,16 +2,14 @@
 
 #region using directives
 
-using System.Collections.Generic;
+using Configs;
+using Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
-
-using Configs;
-using Extensions;
-
+using System.Collections.Generic;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -88,7 +86,7 @@ internal class PickaxeEffect : IEffect
 
         // harvest spawned mine objects
         if (Config.HarvestMineSpawns && location is MineShaft && tileObj?.IsSpawnedObject == true &&
-            location.checkAction(new((int) tile.X, (int) tile.Y), Game1.viewport, who))
+            location.checkAction(new((int)tile.X, (int)tile.Y), Game1.viewport, who))
         {
             who.CancelAnimation(FarmerSprite.harvestItemDown, FarmerSprite.harvestItemLeft,
                 FarmerSprite.harvestItemRight, FarmerSprite.harvestItemUp);

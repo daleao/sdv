@@ -2,13 +2,11 @@
 
 #region using directives
 
+using Common.Data;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.TerrainFeatures;
-
-using Common.Data;
-using Common.Harmony;
-using Extensions;
 
 #endregion using directives
 

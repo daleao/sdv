@@ -7,8 +7,6 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
 
-using Common.Harmony;
-
 #endregion using directives
 
 [UsedImplicitly]
@@ -28,7 +26,7 @@ internal sealed class AxeBeginUsingPatch : Common.Harmony.HarmonyPatch
     {
         if (!ModEntry.Config.AxeConfig.EnableCharging ||
             ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown() ||
-            __instance.UpgradeLevel < (int) ModEntry.Config.AxeConfig.RequiredUpgradeForCharging)
+            __instance.UpgradeLevel < (int)ModEntry.Config.AxeConfig.RequiredUpgradeForCharging)
             return true; // run original logic
 
         who.Halt();

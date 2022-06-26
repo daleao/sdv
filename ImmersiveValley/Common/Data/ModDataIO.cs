@@ -2,21 +2,20 @@
 
 #region using directives
 
-using System;
+using Extensions;
+using Extensions.Stardew;
+using Multiplayer;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.TerrainFeatures;
-
-using Classes;
-using Extensions;
-using Extensions.Stardew;
+using System;
 
 #endregion using directives
 
 internal static class ModDataIO
 {
-    private static MultiplayerBroadcaster _Broadcaster = null!;
+    private static Broadcaster _Broadcaster = null!;
     private static string _modID = null!;
 
     public static void Init(IMultiplayerHelper helper, string modID)
@@ -30,40 +29,32 @@ internal static class ModDataIO
     /// <summary>Read from a field in the farmer's <see cref="ModDataDictionary" /> as <see cref="string"/>.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadData(Farmer farmer, string field, string defaultValue = "")
-    {
-        return Game1.MasterPlayer.modData.Read($"{_modID}/{farmer.UniqueMultiplayerID}/{field}",
+    public static string ReadData(Farmer farmer, string field, string defaultValue = "") =>
+        Game1.MasterPlayer.modData.Read($"{_modID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
-    }
 
     /// <summary>Read from a field, external to this mod, in the farmer's <see cref="ModDataDictionary" /> as <see cref="string"/>.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="modId">The unique id of the external mod.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadDataExt(Farmer farmer, string field, string modId, string defaultValue = "")
-    {
-        return Game1.MasterPlayer.modData.Read($"{modId}/{farmer.UniqueMultiplayerID}/{field}",
+    public static string ReadDataExt(Farmer farmer, string field, string modId, string defaultValue = "") =>
+        Game1.MasterPlayer.modData.Read($"{modId}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
-    }
 
     /// <summary>Read from a field in the farmer's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataAs<T>(Farmer farmer, string field, T defaultValue = default) where T : struct
-    {
-        return Game1.MasterPlayer.modData.ReadAs($"{_modID}/{farmer.UniqueMultiplayerID}/{field}",
+    public static T ReadDataAs<T>(Farmer farmer, string field, T defaultValue = default) where T : struct =>
+        Game1.MasterPlayer.modData.ReadAs($"{_modID}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
-    }
 
     /// <summary>Read from a field, external to this mod, in the farmer's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="modId">The unique id of the external mod.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataExtAs<T>(Farmer farmer, string field, string modId, T defaultValue = default) where T : struct
-    {
-        return Game1.MasterPlayer.modData.ReadAs($"{modId}/{farmer.UniqueMultiplayerID}/{field}",
+    public static T ReadDataExtAs<T>(Farmer farmer, string field, string modId, T defaultValue = default) where T : struct =>
+         Game1.MasterPlayer.modData.ReadAs($"{modId}/{farmer.UniqueMultiplayerID}/{field}",
             defaultValue);
-    }
 
     /// <summary>Write to a field in the farmer's <see cref="ModDataDictionary" />, or remove the field if supplied an empty value.</summary>
     /// <param name="field">The field to write to.</param>
@@ -253,18 +244,14 @@ internal static class ModDataIO
     /// <summary>Read a string from the building's <see cref="ModDataDictionary" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadData(Building building, string field, string defaultValue = "")
-    {
-        return building.modData.Read($"{_modID}/{field}", defaultValue);
-    }
+    public static string ReadData(Building building, string field, string defaultValue = "") =>
+        building.modData.Read($"{_modID}/{field}", defaultValue);
 
     /// <summary>Read a field from the building's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataAs<T>(Building building, string field, T defaultValue = default) where T : struct
-    {
-        return building.modData.ReadAs($"{_modID}/{field}", defaultValue);
-    }
+    public static T ReadDataAs<T>(Building building, string field, T defaultValue = default) where T : struct =>
+        building.modData.ReadAs($"{_modID}/{field}", defaultValue);
 
     /// <summary>Write to a field in the building's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
@@ -300,7 +287,7 @@ internal static class ModDataIO
         var current = ReadData(building, field);
         if (current.Contains(value))
             Log.V($"[ModData]: {building.GetType().Name}'s {field} already contained {value}.");
-        
+
         WriteData(building, field, string.IsNullOrEmpty(current) ? value : current + separator + value);
         Log.V($"[ModData]: Appended {building.GetType().Name}'s {field} with {value}");
     }
@@ -330,18 +317,14 @@ internal static class ModDataIO
     /// <summary>Read a string from the character's <see cref="ModDataDictionary" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadData(Character character, string field, string defaultValue = "")
-    {
-        return character.modData.Read($"{_modID}/{field}", defaultValue);
-    }
+    public static string ReadData(Character character, string field, string defaultValue = "") =>
+        character.modData.Read($"{_modID}/{field}", defaultValue);
 
     /// <summary>Read a field from the character's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataAs<T>(Character character, string field, T defaultValue = default) where T : struct
-    {
-        return character.modData.ReadAs($"{_modID}/{field}", defaultValue);
-    }
+    public static T ReadDataAs<T>(Character character, string field, T defaultValue = default) where T : struct =>
+        character.modData.ReadAs($"{_modID}/{field}", defaultValue);
 
     /// <summary>Write to a field in the character's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
@@ -377,7 +360,7 @@ internal static class ModDataIO
         var current = ReadData(character, field);
         if (current.Contains(value))
             Log.V($"[ModData]: {character.Name}'s {field} already contained {value}.");
-        
+
         WriteData(character, field, string.IsNullOrEmpty(current) ? value : current + separator + value);
         Log.V($"[ModData]: Appended {character.Name}'s {field} with {value}");
     }
@@ -407,18 +390,14 @@ internal static class ModDataIO
     /// <summary>Read a string from the game location's <see cref="ModDataDictionary" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadData(GameLocation location, string field, string defaultValue = "")
-    {
-        return location.modData.Read($"{_modID}/{field}", defaultValue);
-    }
+    public static string ReadData(GameLocation location, string field, string defaultValue = "") =>
+        location.modData.Read($"{_modID}/{field}", defaultValue);
 
     /// <summary>Read a field from the game location's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataAs<T>(GameLocation location, string field, T defaultValue = default) where T : struct
-    {
-        return location.modData.ReadAs($"{_modID}/{field}", defaultValue);
-    }
+    public static T ReadDataAs<T>(GameLocation location, string field, T defaultValue = default) where T : struct =>
+        location.modData.ReadAs($"{_modID}/{field}", defaultValue);
 
     /// <summary>Write to a field in the game location's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
@@ -454,7 +433,7 @@ internal static class ModDataIO
         var current = ReadData(character, field);
         if (current.Contains(value))
             Log.V($"[ModData]: {character.Name}'s {field} already contained {value}.");
-        
+
         WriteData(character, field, string.IsNullOrEmpty(current) ? value : current + separator + value);
         Log.V($"[ModData]: Appended {character.Name}'s {field} with {value}");
     }
@@ -484,18 +463,14 @@ internal static class ModDataIO
     /// <summary>Read a string from the item's <see cref="ModDataDictionary" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadData(Item item, string field, string defaultValue = "")
-    {
-        return item.modData.Read($"{_modID}/{field}", defaultValue);
-    }
+    public static string ReadData(Item item, string field, string defaultValue = "") =>
+        item.modData.Read($"{_modID}/{field}", defaultValue);
 
     /// <summary>Read a field from the item's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataAs<T>(Item item, string field, T defaultValue = default) where T : struct
-    {
-        return item.modData.ReadAs($"{_modID}/{field}", defaultValue);
-    }
+    public static T ReadDataAs<T>(Item item, string field, T defaultValue = default) where T : struct =>
+        item.modData.ReadAs($"{_modID}/{field}", defaultValue);
 
     /// <summary>Write to a field in the item's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>
@@ -561,18 +536,14 @@ internal static class ModDataIO
     /// <summary>Read a string from the terrain feature's <see cref="ModDataDictionary" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue">The default value to return if the field does not exist.</param>
-    public static string ReadData(TerrainFeature feature, string field, string defaultValue = "")
-    {
-        return feature.modData.Read($"{_modID}/{field}", defaultValue);
-    }
+    public static string ReadData(TerrainFeature feature, string field, string defaultValue = "") =>
+        feature.modData.Read($"{_modID}/{field}", defaultValue);
 
     /// <summary>Read a field from the terrain feature's <see cref="ModDataDictionary" /> as <typeparamref name="T" />.</summary>
     /// <param name="field">The field to read from.</param>
     /// <param name="defaultValue"> The default value to return if the field does not exist.</param>
-    public static T ReadDataAs<T>(TerrainFeature feature, string field, T defaultValue = default) where T : struct
-    {
-        return feature.modData.ReadAs($"{_modID}/{field}", defaultValue);
-    }
+    public static T ReadDataAs<T>(TerrainFeature feature, string field, T defaultValue = default) where T : struct =>
+        feature.modData.ReadAs($"{_modID}/{field}", defaultValue);
 
     /// <summary>Write to a field in the terrain feature's <see cref="ModDataDictionary" />, or remove the field if supplied with a null or empty value.</summary>
     /// <param name="field">The field to write to.</param>

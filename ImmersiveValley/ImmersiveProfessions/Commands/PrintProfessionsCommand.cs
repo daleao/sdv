@@ -2,14 +2,12 @@
 
 #region using directives
 
-using static System.String;
-
-using JetBrains.Annotations;
-using StardewValley;
-
 using Common;
 using Common.Commands;
 using Framework;
+using JetBrains.Annotations;
+using StardewValley;
+using static System.String;
 
 #endregion using directives
 

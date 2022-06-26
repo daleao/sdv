@@ -2,19 +2,17 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
-
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
-
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -54,7 +52,7 @@ internal sealed class ObjectDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldc_I4_4),
                     new CodeInstruction(OpCodes.Call,
                         typeof(Utility).RequireMethod(nameof(Utility.CalculateMinutesUntilMorning),
-                            new[] {typeof(int), typeof(int)}))
+                            new[] { typeof(int), typeof(int) }))
                 )
                 .AddLabels(isNotProducer)
                 .Insert(

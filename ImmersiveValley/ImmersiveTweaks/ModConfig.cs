@@ -23,7 +23,7 @@ public class ModConfig
 
     /// <summary>If fruit bat cave rewards experience, so should mushroom cave.</summary>
     public bool MushroomBoxesRewardExp { get; set; } = true;
-    
+
     /// <summary>If crab pots reward experience, so should tappers.</summary>
     public bool TappersRewardExp { get; set; } = true;
 
@@ -35,7 +35,7 @@ public class ModConfig
 
     /// <summary>Extends the perks from Botanist/Ecologist profession to Ginger Island dug-up ginger and shaken-off coconuts.</summary>
     public bool ProfessionalForagingInGingerIsland { get; set; } = true;
-    
+
     /// <summary>Bombs within any explosion radius are immediately triggered.</summary>
     public bool ExplosionTriggeredBombs { get; set; } = true;
 }

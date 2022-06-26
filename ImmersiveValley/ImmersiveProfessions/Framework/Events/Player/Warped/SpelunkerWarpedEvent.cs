@@ -2,14 +2,13 @@
 
 #region using directives
 
-using System;
+using Common.Events;
+using Extensions;
+using GameLoop;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
-
-using Common.Events;
-using GameLoop;
-using Extensions;
+using System;
 
 #endregion using directives
 
@@ -34,7 +33,7 @@ internal sealed class SpelunkerWarpedEvent : WarpedEvent
             if (e.Player.HasProfession(Profession.Spelunker, true))
             {
                 var player = e.Player;
-                player.health = Math.Min(player.health + (int) (player.maxHealth * 0.025f), player.maxHealth);
+                player.health = Math.Min(player.health + (int)(player.maxHealth * 0.025f), player.maxHealth);
                 player.Stamina = Math.Min(player.Stamina + player.MaxStamina * 0.01f, player.MaxStamina);
             }
 

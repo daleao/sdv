@@ -2,20 +2,18 @@
 
 #region using directives
 
-using System;
-using Microsoft.Xna.Framework;
-using StardewModdingAPI;
-using StardewValley;
-
+using Common;
 using Events.Display;
 using Events.GameLoop;
 using Events.Input;
 using Events.Player;
 using Extensions;
 using Framework.Events.Ultimate;
+using Microsoft.Xna.Framework;
 using Sounds;
-
-using Common;
+using StardewModdingAPI;
+using StardewValley;
+using System;
 
 #endregion using directives
 
@@ -27,7 +25,7 @@ internal abstract class Ultimate : IUltimate
     private int _activationTimer;
     private double _chargeValue;
 
-    private static int _ActivationTimerMax => (int) (ModEntry.Config.SpecialActivationDelay * 60);
+    private static int _ActivationTimerMax => (int)(ModEntry.Config.SpecialActivationDelay * 60);
 
     #region event handlers
 
@@ -96,7 +94,7 @@ internal abstract class Ultimate : IUltimate
             else
             {
                 var delta = value - _chargeValue;
-                var scaledDelta = delta * ((double) MaxValue / BASE_MAX_VALUE_I) * (delta >= 0
+                var scaledDelta = delta * ((double)MaxValue / BASE_MAX_VALUE_I) * (delta >= 0
                     ? ModEntry.Config.SpecialGainFactor
                     : ModEntry.Config.SpecialDrainFactor);
                 value = Math.Min(scaledDelta + _chargeValue, MaxValue);
@@ -127,7 +125,7 @@ internal abstract class Ultimate : IUltimate
     public int MaxValue => BASE_MAX_VALUE_I + (Game1.player.CombatLevel > 10 ? Game1.player.CombatLevel * 5 : 0);
 
     /// <inheritdoc />
-    public float PercentCharge => (float) (ChargeValue / MaxValue);
+    public float PercentCharge => (float)(ChargeValue / MaxValue);
 
     /// <inheritdoc />
     public bool IsFullyCharged => ChargeValue >= MaxValue;
@@ -165,10 +163,7 @@ internal abstract class Ultimate : IUltimate
     #region public methods
 
     /// <inheritdoc />
-    public override string ToString()
-    {
-        return Index.ToString();
-    }
+    public override string ToString() => Index.ToString();
 
     #endregion public methods
 

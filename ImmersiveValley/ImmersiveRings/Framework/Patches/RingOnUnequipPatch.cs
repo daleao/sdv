@@ -7,8 +7,6 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Objects;
 
-using Common.Harmony;
-
 #endregion using directives
 
 [UsedImplicitly]

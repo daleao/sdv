@@ -2,12 +2,11 @@
 
 #region using directives
 
-using StardewModdingAPI;
-
 using Common;
 using Common.Commands;
 using Common.Events;
 using Common.Harmony;
+using StardewModdingAPI;
 
 #endregion using directives
 

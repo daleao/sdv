@@ -2,16 +2,15 @@
 
 #region using directives
 
-using System;
+using Common.Events;
+using Extensions;
 using JetBrains.Annotations;
+using Sounds;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Tools;
-
-using Common.Events;
-using Extensions;
+using System;
 using Ultimates;
-using Sounds;
 
 #endregion using directives
 
@@ -28,7 +27,7 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
     {
         if (Game1.player.CurrentTool is not Slingshot slingshot || slingshot.attachments[0] is null ||
             !Game1.player.usingSlingshot ||
-            ModEntry.PlayerState.RegisteredUltimate is DeathBlossom {IsActive: true}) return;
+            ModEntry.PlayerState.RegisteredUltimate is DeathBlossom { IsActive: true }) return;
 
         var overcharge = slingshot.GetDesperadoOvercharge(Game1.player);
         if (overcharge <= 0f) return;

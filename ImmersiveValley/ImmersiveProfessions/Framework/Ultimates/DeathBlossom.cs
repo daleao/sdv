@@ -3,9 +3,8 @@
 #region using directives
 
 using Microsoft.Xna.Framework;
-using StardewValley;
-
 using Sounds;
+using StardewValley;
 
 #endregion using directives
 
@@ -21,7 +20,7 @@ internal sealed class DeathBlossom : Ultimate
     #region public properties
 
     /// <summary>The ID of the buff that displays while Death Blossom is active.</summary>
-    public static int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int) UltimateIndex.DesperadoBlossom + 4).GetHashCode();
+    public static int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.DesperadoBlossom + 4).GetHashCode();
 
     /// <inheritdoc />
     public override UltimateIndex Index => UltimateIndex.DesperadoBlossom;
@@ -55,7 +54,7 @@ internal sealed class DeathBlossom : Ultimate
                 which = BuffId,
                 sheetIndex = 51,
                 glow = GlowColor,
-                millisecondsDuration = (int) (15000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
+                millisecondsDuration = (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
                 description = ModEntry.i18n.Get("desperado.ultidesc")
             }
         );

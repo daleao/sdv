@@ -2,11 +2,11 @@
 
 #region using directives
 
+using HarmonyLib;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using HarmonyLib;
 
 #endregion using directives
 
@@ -18,10 +18,8 @@ public static class MethodInfoExtensions
     ///     Returns a new <see cref="HarmonyMethod" /> instance if <paramref name="method" /> is not null, or <c>null</c>
     ///     otherwise.
     /// </returns>
-    public static HarmonyMethod? ToHarmonyMethod(this MethodInfo? method)
-    {
-        return method is null ? null : new HarmonyMethod(method);
-    }
+    public static HarmonyMethod? ToHarmonyMethod(this MethodInfo? method) =>
+        method is null ? null : new HarmonyMethod(method);
 
     /// <summary>Creates a delegate of the specified type that represents the specified instance method.</summary>
     /// <typeparam name="TDelegate">A delegate type which mirrors the desired method and accepts the target instance type as the first parameter.</typeparam>
@@ -51,7 +49,7 @@ public static class MethodInfoExtensions
             {
                 DelegateArgumentExpression = delegateArgumentExpression,
                 ConvertedArgumentExpression = methodParamType != delegateParamType
-                    ? (Expression) Expression.Convert(delegateArgumentExpression, methodParamType)
+                    ? (Expression)Expression.Convert(delegateArgumentExpression, methodParamType)
                     : delegateArgumentExpression
             };
         }).ToArray();
@@ -59,7 +57,7 @@ public static class MethodInfoExtensions
         // convert target type if necessary
         var delegateTargetExpression = Expression.Parameter(delegateTargetType);
         var convertedTargetExpression = delegateTargetType != method.DeclaringType
-            ? (Expression) Expression.Convert(delegateTargetExpression, method.DeclaringType!)
+            ? (Expression)Expression.Convert(delegateTargetExpression, method.DeclaringType!)
             : delegateTargetExpression;
 
         // create method call
@@ -72,7 +70,7 @@ public static class MethodInfoExtensions
         // convert return type if necessary
         var convertedCallExpression = delegateInfo.ReturnType != method.ReturnType
             ? Expression.Convert(callExpression, delegateInfo.ReturnType)
-            : (Expression) callExpression;
+            : (Expression)callExpression;
 
         // collect arguments and target
         return Expression.Lambda<TDelegate>(

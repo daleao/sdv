@@ -5,8 +5,6 @@
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
-
-using DaLion.Common.Harmony;
 using Ultimates;
 
 #endregion using directives
@@ -27,7 +25,7 @@ internal sealed class DustSpiritBehaviorAtGameTickPatch : DaLion.Common.Harmony.
     private static void DustSpiritBehaviorAtGameTickPostfix(DustSpirit __instance, ref bool ___seenFarmer)
     {
         if (!__instance.Player.IsLocalPlayer || ModEntry.PlayerState.RegisteredUltimate is not
-                Ambush {IsActive: true}) return;
+                Ambush { IsActive: true }) return;
         ___seenFarmer = false;
     }
 

@@ -2,13 +2,12 @@
 
 #region using directives
 
-using System;
-using System.Globalization;
-using StardewValley;
-using StardewValley.Monsters;
-
 using Common;
 using Common.Data;
+using StardewValley;
+using StardewValley.Monsters;
+using System;
+using System.Globalization;
 
 #endregion using directives
 
@@ -37,7 +36,7 @@ public static class GreenSlimeExtensions
         if (ModEntry.HostState.FakeFarmers.ContainsKey(fakeFarmerId)) return;
 
         ModEntry.HostState.FakeFarmers[fakeFarmerId] = new()
-            {UniqueMultiplayerID = fakeFarmerId, currentLocation = slime.currentLocation};
+        { UniqueMultiplayerID = fakeFarmerId, currentLocation = slime.currentLocation };
         Log.D($"Created fake farmer with id {fakeFarmerId}.");
     }
 
@@ -49,7 +48,7 @@ public static class GreenSlimeExtensions
         if (slime.Scale <= 1.4f || slime.Scale < originalScale * 2f &&
             Game1.random.NextDouble() > 0.2 - Game1.player.DailyLuck / 2 - Game1.player.LuckLevel * 0.01) return;
 
-        slime.Health += (int) Math.Round(slime.Health * slime.Scale * slime.Scale);
+        slime.Health += (int)Math.Round(slime.Health * slime.Scale * slime.Scale);
         slime.moveTowardPlayerThreshold.Value = 9999;
         if (Game1.random.NextDouble() < 1.0 / 3.0) slime.addedSpeed += Game1.random.Next(3);
         if (slime.Scale >= 1.8f) slime.willDestroyObjectsUnderfoot = true;

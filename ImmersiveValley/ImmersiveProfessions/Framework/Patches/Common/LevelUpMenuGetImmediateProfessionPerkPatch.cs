@@ -2,22 +2,21 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Data;
+using DaLion.Common.Harmony;
+using Events.GameLoop;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-
-using DaLion.Common;
-using DaLion.Common.Data;
-using DaLion.Common.Harmony;
-using Events.GameLoop;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using Ultimates;
 
 #endregion using directives
@@ -40,7 +39,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
         if (!Profession.TryFromValue(whichProfession, out var profession) ||
             whichProfession == Farmer.luckSkill) return;
 
-        if ((Skill) profession.Skill == Skill.Combat)
+        if ((Skill)profession.Skill == Skill.Combat)
         {
             Game1.player.maxHealth += 5;
             Game1.player.health = Game1.player.maxHealth;
@@ -69,9 +68,9 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
         }
 
         if (whichProfession is < 26 or >= 30 || ModEntry.PlayerState.RegisteredUltimate is not null) return;
-        
+
         // register Ultimate
-        var newIndex = (UltimateIndex) whichProfession;
+        var newIndex = (UltimateIndex)whichProfession;
         ModEntry.PlayerState.RegisteredUltimate =
 #pragma warning disable CS8509
             ModEntry.PlayerState.RegisteredUltimate = newIndex switch

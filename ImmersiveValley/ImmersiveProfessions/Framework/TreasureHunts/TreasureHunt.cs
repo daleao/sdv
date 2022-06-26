@@ -2,11 +2,10 @@
 
 #region using directives
 
-using System;
+using Framework.Events.TreasureHunt;
 using Microsoft.Xna.Framework;
 using StardewValley;
-
-using Framework.Events.TreasureHunt;
+using System;
 
 #endregion using directives
 
@@ -39,7 +38,7 @@ internal abstract class TreasureHunt : ITreasureHunt
     protected GameLocation huntLocation = null!;
     protected Rectangle iconSourceRect;
     protected readonly Random random = new(Guid.NewGuid().GetHashCode());
-    
+
     private double _chanceAccumulator = 1.0;
 
     /// <summary>Construct an instance.</summary>

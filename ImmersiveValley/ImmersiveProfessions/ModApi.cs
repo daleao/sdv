@@ -2,11 +2,6 @@
 
 #region using directives
 
-using System;
-using Microsoft.Xna.Framework;
-using Newtonsoft.Json.Linq;
-using StardewValley;
-
 using Common.Data;
 using Common.Events;
 using Extensions;
@@ -15,7 +10,9 @@ using Framework.Events.TreasureHunt;
 using Framework.Events.Ultimate;
 using Framework.TreasureHunts;
 using Framework.Ultimates;
-
+using Microsoft.Xna.Framework;
+using StardewValley;
+using System;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -30,10 +27,8 @@ public class ModAPI
 
     /// <summary>Get the value of a Gemologist's mineral quality.</summary>
     /// <param name="farmer">The player.</param>
-    public int GetGemologistMineralQuality(Farmer farmer)
-    {
-        return farmer.HasProfession(Profession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
-    }
+    public int GetGemologistMineralQuality(Farmer farmer) =>
+        farmer.HasProfession(Profession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
 
     /// <summary>Get the value of the a Conservationist's projected tax deduction based on current season's trash collection.</summary>
     /// <param name="farmer">The player.</param>

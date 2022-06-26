@@ -2,23 +2,22 @@
 
 #region using directives
 
-using System.Linq;
+using Common.Data;
+using Events.GameLoop;
+using Extensions;
 using Microsoft.Xna.Framework;
+using Sounds;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-
-using Common.Data;
-using Extensions;
-using Events.GameLoop;
-using Sounds;
+using System.Linq;
 
 #endregion using directives
 
 /// <summary>Handles Piper ultimate activation.</summary>
 internal sealed class Enthrall : Ultimate
 {
-    private static int _InflationCost => (int) (35 * ModEntry.Config.SpecialDrainFactor);
+    private static int _InflationCost => (int)(35 * ModEntry.Config.SpecialDrainFactor);
 
     /// <summary>Construct an instance.</summary>
     internal Enthrall()
@@ -87,8 +86,8 @@ internal sealed class Enthrall : Ultimate
             {
                 Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
                 var justCreated = Game1.currentLocation.characters[^1];
-                justCreated.setTrajectory((int) (bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
-                    (int) (bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
+                justCreated.setTrajectory((int)(bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
+                    (int)(bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
                 justCreated.willDestroyObjectsUnderfoot = false;
                 justCreated.moveTowardPlayer(4);
                 justCreated.Scale = 0.75f + Game1.random.Next(-5, 10) / 100f;

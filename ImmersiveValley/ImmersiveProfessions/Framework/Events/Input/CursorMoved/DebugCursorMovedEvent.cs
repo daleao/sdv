@@ -3,10 +3,9 @@ namespace DaLion.Stardew.Professions.Framework.Events.Input;
 
 #region using directives
 
+using Common.Events;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
-
-using Common.Events;
 
 #endregion using directives
 

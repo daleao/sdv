@@ -2,21 +2,20 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Prestige;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Prestige;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using Textures;
 
 #endregion using directives
@@ -29,7 +28,7 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
     {
         try
         {
-            Target = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("draw", new[] {typeof(SpriteBatch)});
+            Target = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("draw", new[] { typeof(SpriteBatch) });
         }
         catch
         {
@@ -77,14 +76,14 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Beq_S, notRibbons),
                     new CodeInstruction(OpCodes.Ldc_I4_S,
-                        (int) ((Textures.RIBBON_WIDTH_I + 5) * Textures.RIBBON_SCALE_F)),
+                        (int)((Textures.RIBBON_WIDTH_I + 5) * Textures.RIBBON_SCALE_F)),
                     new CodeInstruction(OpCodes.Sub),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .InsertWithLabels(
-                    new[] {notRibbons},
+                    new[] { notRibbons },
                     new CodeInstruction(OpCodes.Ldc_I4_S,
-                        (int) ((Textures.STARS_WIDTH_I + 4) * Textures.STARS_SCALE_F)),
+                        (int)((Textures.STARS_WIDTH_I + 4) * Textures.STARS_SCALE_F)),
                     new CodeInstruction(OpCodes.Sub)
                 );
         }
@@ -148,7 +147,7 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                 .GetOperand(out var resumeExecution)
                 .Advance()
                 .InsertWithLabels(
-                    new[] {isSkillLevel20},
+                    new[] { isSkillLevel20 },
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Cornsilk))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );

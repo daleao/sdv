@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-
-using DaLion.Common.Harmony;
+using System;
 
 #endregion using directives
 

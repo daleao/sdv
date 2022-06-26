@@ -3,12 +3,11 @@ namespace DaLion.Stardew.Professions.Framework.Events.Display;
 
 #region using directives
 
+using Common.Events;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
-
-using Common.Events;
 
 #endregion using directives
 
@@ -24,7 +23,7 @@ internal sealed class DebugRenderedHudEvent : RenderedHudEvent
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
         if (!ModEntry.Config.DebugKey.IsDown()) return;
-        
+
         // show FPS counter
         ModEntry.FpsCounter?.Draw(Game1.currentGameTime);
 

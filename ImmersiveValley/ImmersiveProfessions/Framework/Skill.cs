@@ -2,10 +2,10 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Linq;
 using Ardalis.SmartEnum;
 using StardewValley;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 
@@ -77,8 +77,5 @@ public class Skill : SmartEnum<Skill>, ISkill
     }
 
     /// <summary>Get the range of indices corresponding to vanilla professions.</summary>
-    public static IEnumerable<int> GetRange()
-    {
-        return Enumerable.Range(0, 5);
-    }
+    public static IEnumerable<int> GetRange() => Enumerable.Range(0, 5);
 }

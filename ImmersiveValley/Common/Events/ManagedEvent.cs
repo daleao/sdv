@@ -2,9 +2,9 @@
 
 #region using directives
 
+using StardewModdingAPI.Utilities;
 using System;
 using System.Runtime.CompilerServices;
-using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
@@ -16,7 +16,7 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
 
     /// <summary>The <see cref="EventManager"/> instance that manages this event.</summary>
     protected EventManager Manager { get; init; }
-    
+
     /// <summary>Allow this event to be raised even when unhooked.</summary>
     protected bool AlwaysHooked { get; init; } = false;
 
@@ -31,10 +31,7 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     public bool IsHooked => _Hooked.Value || AlwaysHooked;
 
     /// <inheritdoc />
-    public bool IsHookedForScreen(int screenID)
-    {
-        return _Hooked.GetValueForScreen(screenID);
-    }
+    public bool IsHookedForScreen(int screenID) => _Hooked.GetValueForScreen(screenID);
 
     /// <inheritdoc />
     public void Hook()
@@ -71,7 +68,7 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     }
 
     public static bool operator ==(ManagedEvent? left, ManagedEvent? right) =>
-        (object?) left == null ? (object?) right == null : left.Equals(right);
+        (object?)left == null ? (object?)right == null : left.Equals(right);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator !=(ManagedEvent? left, ManagedEvent? right) => !(left == right);

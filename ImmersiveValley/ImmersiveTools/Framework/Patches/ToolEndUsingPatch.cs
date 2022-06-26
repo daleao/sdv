@@ -2,14 +2,12 @@
 
 #region using directives
 
-using System;
-using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
-
-using Common.Harmony;
+using System;
+using System.Linq;
 
 #endregion using directives
 
@@ -37,13 +35,13 @@ internal sealed class ToolEndUsingPatch : Common.Harmony.HarmonyPatch
         {
             case Axe:
                 who.Stamina -=
-                    (float) Math.Pow(ModEntry.Config.StaminaCostMultiplier * power - who.ForagingLevel * 0.1f, 2f);
+                    (float)Math.Pow(ModEntry.Config.StaminaCostMultiplier * power - who.ForagingLevel * 0.1f, 2f);
                 radius = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1);
                 break;
 
             case Pickaxe:
                 who.Stamina -=
-                    (float) Math.Pow(ModEntry.Config.StaminaCostMultiplier * power - who.MiningLevel * 0.1f, 2f);
+                    (float)Math.Pow(ModEntry.Config.StaminaCostMultiplier * power - who.MiningLevel * 0.1f, 2f);
                 radius = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1);
                 break;
         }

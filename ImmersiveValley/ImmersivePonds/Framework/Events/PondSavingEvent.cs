@@ -2,18 +2,17 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
-using StardewValley.Buildings;
-using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using StardewValley;
-
 using Common.Data;
 using Common.Events;
 using Common.Extensions;
 using Common.Extensions.Collections;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewModdingAPI.Events;
+using StardewValley;
+using StardewValley.Buildings;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 

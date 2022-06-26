@@ -2,10 +2,9 @@ namespace DaLion.Stardew.Professions.Integrations;
 
 #region using directives
 
-using System;
-using StardewModdingAPI;
-
 using Common.Integrations;
+using StardewModdingAPI;
+using System;
 
 #endregion using directives
 
@@ -57,7 +56,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                     ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/SkillBars");
                     ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
                 },
-                new[] {"Automatic", "Brown", "Pink", "Off"},
+                new[] { "Automatic", "Brown", "Pink", "Off" },
                 null
             )
             .AddDropdown(
@@ -87,16 +86,16 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
             .AddNumberField(
                 () => "Forages Needed for Best Quality",
                 () => "Ecologists must forage this many items to reach iridium quality.",
-                config => (int) config.ForagesNeededForBestQuality,
-                (config, value) => config.ForagesNeededForBestQuality = (uint) value,
+                config => (int)config.ForagesNeededForBestQuality,
+                (config, value) => config.ForagesNeededForBestQuality = (uint)value,
                 0,
                 1000
             )
             .AddNumberField(
                 () => "Minerals Needed for Best Quality",
                 () => "Gemologists must mine this many minerals to reach iridium quality.",
-                config => (int) config.MineralsNeededForBestQuality,
-                (config, value) => config.MineralsNeededForBestQuality = (uint) value,
+                config => (int)config.MineralsNeededForBestQuality,
+                (config, value) => config.MineralsNeededForBestQuality = (uint)value,
                 0,
                 1000
             );
@@ -114,7 +113,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
             .AddNumberField(
                 () => "Chance to Start Treasure Hunt",
                 () => "The chance that your Scavenger or Prospector hunt senses will start tingling.",
-                config => (float) config.ChanceToStartTreasureHunt,
+                config => (float)config.ChanceToStartTreasureHunt,
                 (config, value) => config.ChanceToStartTreasureHunt = value,
                 0f,
                 1f,
@@ -156,8 +155,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
             .AddNumberField(
                 () => "Spelunker Speed Cap",
                 () => "The maximum speed a Spelunker can reach in the mines.",
-                config => (int) config.SpelunkerSpeedCap,
-                (config, value) => config.SpelunkerSpeedCap = (uint) value,
+                config => (int)config.SpelunkerSpeedCap,
+                (config, value) => config.SpelunkerSpeedCap = (uint)value,
                 1,
                 10
             )
@@ -185,24 +184,24 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
             .AddNumberField(
                 () => "Legendary Pond Population Cap",
                 () => "The maximum population of Aquarist Fish Ponds with legendary fish.",
-                config => (int) config.LegendaryPondPopulationCap,
-                (config, value) => config.LegendaryPondPopulationCap = (uint) value,
+                config => (int)config.LegendaryPondPopulationCap,
+                (config, value) => config.LegendaryPondPopulationCap = (uint)value,
                 1,
                 12
             )
             .AddNumberField(
                 () => "Trash Needed Per Tax Bonus Percent",
                 () => "Conservationists must collect this much trash for every 1% tax deduction the following season.",
-                config => (int) config.TrashNeededPerTaxBonusPct,
-                (config, value) => config.TrashNeededPerTaxBonusPct = (uint) value,
+                config => (int)config.TrashNeededPerTaxBonusPct,
+                (config, value) => config.TrashNeededPerTaxBonusPct = (uint)value,
                 10,
                 1000
             )
             .AddNumberField(
                 () => "Trash Needed Per Friendship Point",
                 () => "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
-                config => (int) config.TrashNeededPerFriendshipPoint,
-                (config, value) => config.TrashNeededPerFriendshipPoint = (uint) value,
+                config => (int)config.TrashNeededPerFriendshipPoint,
+                (config, value) => config.TrashNeededPerFriendshipPoint = (uint)value,
                 10,
                 1000
             )
@@ -250,7 +249,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 () => "Gain Factor",
                 () =>
                     "Affects the rate at which one builds the Ultimate gauge. Increase this if you feel the gauge raises too slowly.",
-                config => (float) config.SpecialGainFactor,
+                config => (float)config.SpecialGainFactor,
                 (config, value) => config.SpecialGainFactor = value,
                 0.1f,
                 2f
@@ -259,7 +258,7 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 () => "Drain Factor",
                 () =>
                     "Affects the rate at which the Ultimate gauge depletes during Ultimate. Lower numbers make Ultimate last longer.",
-                config => (float) config.SpecialDrainFactor,
+                config => (float)config.SpecialDrainFactor,
                 (config, value) => config.SpecialDrainFactor = value,
                 0.1f,
                 2f
@@ -305,8 +304,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
             .AddNumberField(
                 () => "Required Experience Per Extended Level",
                 () => "How much skill experience is required for each level-up beyond level 10.",
-                config => (int) config.RequiredExpPerExtendedLevel,
-                (config, value) => config.RequiredExpPerExtendedLevel = (uint) value,
+                config => (int)config.RequiredExpPerExtendedLevel,
+                (config, value) => config.RequiredExpPerExtendedLevel = (uint)value,
                 1000,
                 10000,
                 500
@@ -315,8 +314,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 () => "Cost of Prestige Respec",
                 () =>
                     "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
-                config => (int) config.PrestigeRespecCost,
-                (config, value) => config.PrestigeRespecCost = (uint) value,
+                config => (int)config.PrestigeRespecCost,
+                (config, value) => config.PrestigeRespecCost = (uint)value,
                 0,
                 100000,
                 10000
@@ -324,8 +323,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
             .AddNumberField(
                 () => "Cost of Changing Ultimate",
                 () => "Monetary cost of changing the combat Ultimate. Set to 0 to change for free.",
-                config => (int) config.ChangeUltCost,
-                (config, value) => config.ChangeUltCost = (uint) value,
+                config => (int)config.ChangeUltCost,
+                (config, value) => config.ChangeUltCost = (uint)value,
                 0,
                 100000,
                 10000

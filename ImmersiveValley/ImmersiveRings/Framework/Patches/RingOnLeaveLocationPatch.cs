@@ -4,10 +4,7 @@
 
 using HarmonyLib;
 using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Objects;
-
-using Common.Harmony;
 
 #endregion using directives
 
@@ -26,10 +23,8 @@ internal sealed class RingOnLeaveLocationPatch : Common.Harmony.HarmonyPatch
     /// <summary>Rebalances Jade and Topaz rings + Crab.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
-    private static bool RingOnLeaveLocationPrefix(Ring __instance, Farmer who)
-    {
-        return !ModEntry.Config.TheOneIridiumBand || __instance.indexInTileSheet.Value != Constants.IRIDIUM_BAND_INDEX_I;
-    }
+    private static bool RingOnLeaveLocationPrefix(Ring __instance) =>
+        !ModEntry.Config.TheOneIridiumBand || __instance.indexInTileSheet.Value != Constants.IRIDIUM_BAND_INDEX_I;
 
     #endregion harmony patches
 }

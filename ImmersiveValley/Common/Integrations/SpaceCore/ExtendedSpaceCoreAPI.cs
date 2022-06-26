@@ -2,12 +2,11 @@
 
 #region using directives
 
+using Extensions.Reflection;
+using StardewValley;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using StardewValley;
-
-using Extensions.Reflection;
 
 #endregion using directives
 

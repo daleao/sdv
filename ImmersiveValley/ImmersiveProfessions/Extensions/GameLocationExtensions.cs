@@ -2,20 +2,18 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+using Common.Extensions;
+using Framework;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using xTile.Dimensions;
-
-using Common.Extensions;
-using Framework;
-
 using SUtility = StardewValley.Utility;
 
 #endregion using directives
@@ -103,11 +101,11 @@ public static class GameLocationExtensions
     public static bool IsTileValidForTreasure(this GameLocation location, Vector2 tile)
     {
         return (!location.objects.TryGetValue(tile, out var o) || o == null) &&
-               location.doesTileHaveProperty((int) tile.X, (int) tile.Y, "Spawnable", "Back") != null &&
-               !location.doesEitherTileOrTileIndexPropertyEqual((int) tile.X, (int) tile.Y, "Spawnable", "Back", "F") &&
+               location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Spawnable", "Back") != null &&
+               !location.doesEitherTileOrTileIndexPropertyEqual((int)tile.X, (int)tile.Y, "Spawnable", "Back", "F") &&
                location.isTileLocationTotallyClearAndPlaceable(tile) &&
-               location.getTileIndexAt((int) tile.X, (int) tile.Y, "AlwaysFront") == -1 &&
-               location.getTileIndexAt((int) tile.X, (int) tile.Y, "Front") == -1 && !location.isBehindBush(tile) &&
+               location.getTileIndexAt((int)tile.X, (int)tile.Y, "AlwaysFront") == -1 &&
+               location.getTileIndexAt((int)tile.X, (int)tile.Y, "Front") == -1 && !location.isBehindBush(tile) &&
                !location.isBehindTree(tile);
     }
 
@@ -116,9 +114,9 @@ public static class GameLocationExtensions
     public static bool IsTileClearOfDebris(this GameLocation location, Vector2 tile)
     {
         return (from debris in location.debris
-            where debris.item is not null && debris.Chunks.Count > 0
-            select new Vector2((int) (debris.Chunks[0].position.X / Game1.tileSize) + 1,
-                (int) (debris.Chunks[0].position.Y / Game1.tileSize) + 1)).All(debrisTile => debrisTile != tile);
+                where debris.item is not null && debris.Chunks.Count > 0
+                select new Vector2((int)(debris.Chunks[0].position.X / Game1.tileSize) + 1,
+                    (int)(debris.Chunks[0].position.Y / Game1.tileSize) + 1)).All(debrisTile => debrisTile != tile);
     }
 
     /// <summary>Force a tile to be affected by the hoe.</summary>
@@ -126,9 +124,9 @@ public static class GameLocationExtensions
     public static bool MakeTileDiggable(this GameLocation location, Vector2 tile)
     {
         var (x, y) = tile;
-        if (location.doesTileHaveProperty((int) x, (int) y, "Diggable", "Back") is not null) return true;
+        if (location.doesTileHaveProperty((int)x, (int)y, "Diggable", "Back") is not null) return true;
 
-        var digSpot = new Location((int) x * Game1.tileSize, (int) y * Game1.tileSize);
+        var digSpot = new Location((int)x * Game1.tileSize, (int)y * Game1.tileSize);
         location.Map.GetLayer("Back").PickTile(digSpot, Game1.viewport.Size).Properties["Diggable"] = true;
         return false;
     }

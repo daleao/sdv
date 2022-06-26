@@ -2,18 +2,17 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley.Locations;
-
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley.Locations;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -39,7 +38,7 @@ internal sealed class MineShaftGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
         ///	Before each of the three fish rolls
 
         var i = 0;
-        repeat:
+    repeat:
         try
         {
             var isNotFisher = generator.DefineLabel();

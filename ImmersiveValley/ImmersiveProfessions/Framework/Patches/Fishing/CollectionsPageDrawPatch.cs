@@ -2,22 +2,21 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using Textures;
 
 #endregion using directives
@@ -28,7 +27,7 @@ internal sealed class CollectionsPageDrawPatch : DaLion.Common.Harmony.HarmonyPa
     /// <summary>Construct an instance.</summary>
     internal CollectionsPageDrawPatch()
     {
-        Target = RequireMethod<CollectionsPage>(nameof(CollectionsPage.draw), new[] {typeof(SpriteBatch)});
+        Target = RequireMethod<CollectionsPage>(nameof(CollectionsPage.draw), new[] { typeof(SpriteBatch) });
     }
 
     #region harmony patches
@@ -78,9 +77,9 @@ internal sealed class CollectionsPageDrawPatch : DaLion.Common.Harmony.HarmonyPa
 
         var currentPage = page.currentPage;
         foreach (var c in from c in page.collections[currentTab][currentPage]
-                 let index = Convert.ToInt32(c.name.Split(' ')[0])
-                 where Game1.player.HasCaughtMaxSized(index)
-                 select c)
+                          let index = Convert.ToInt32(c.name.Split(' ')[0])
+                          where Game1.player.HasCaughtMaxSized(index)
+                          select c)
         {
             var destRect = new Rectangle(c.bounds.Right - Textures.MaxIconTx.Width * 2,
                 c.bounds.Bottom - Textures.MaxIconTx.Height * 2, Textures.MaxIconTx.Width * 2,

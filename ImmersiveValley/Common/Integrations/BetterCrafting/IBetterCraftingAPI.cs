@@ -2,11 +2,11 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
+using System;
+using System.Collections.Generic;
 
 #endregion using directives
 
@@ -43,17 +43,17 @@ public interface IBetterCraftingAPI
     /// <param name="listed_recipes">An optional list of recipes by name. If provided, only these recipes will be listed in the crafting menu.</param>
     /// <returns>Whether or not the menu was opened successfully</returns>
     public bool OpenCraftingMenu(
-		bool cooking,
-		bool silent_open = false,
-		GameLocation? location = null,
-		Vector2? position = null,
-		Rectangle? area = null,
-		bool discover_containers = true,
-		IList<Tuple<object, GameLocation>>? containers = null,
-		IList<string>? listed_recipes = null
-	);
+        bool cooking,
+        bool silent_open = false,
+        GameLocation? location = null,
+        Vector2? position = null,
+        Rectangle? area = null,
+        bool discover_containers = true,
+        IList<Tuple<object, GameLocation>>? containers = null,
+        IList<string>? listed_recipes = null
+    );
 
-	public Type GetMenuType();
+    public Type GetMenuType();
 
     #endregion gui
 

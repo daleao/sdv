@@ -2,16 +2,14 @@
 
 #region using directives
 
-using System;
+using Common;
+using Common.Data;
+using Common.Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-
-using Common;
-using Common.Data;
-using Common.Extensions;
-using Common.Harmony;
+using System;
 
 #endregion using directives
 

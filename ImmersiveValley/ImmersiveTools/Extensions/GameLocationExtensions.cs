@@ -2,14 +2,14 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 
@@ -22,7 +22,7 @@ public static class GameLocationExtensions
 
         clumps = location switch
         {
-            Forest {log: { }} forest => clumps.Concat(new[] {forest.log}),
+            Forest { log: { } } forest => clumps.Concat(new[] { forest.log }),
             Woods woods when woods.stumps.Any() => clumps.Concat(woods.stumps),
             _ => clumps
         };
@@ -34,7 +34,7 @@ public static class GameLocationExtensions
     /// <param name="tile">The tile to check.</param>
     /// <param name="who">The current player.</param>
     /// <param name="applyTool">Applies a tool to the resource clump.</param>
-    public static ResourceClump? GetResourceClumpCoveringTile(this GameLocation location, Vector2 tile, Farmer who, 
+    public static ResourceClump? GetResourceClumpCoveringTile(this GameLocation location, Vector2 tile, Farmer who,
         out Func<Tool, bool>? applyTool)
     {
         var tileArea = tile.GetAbsoluteTileArea();

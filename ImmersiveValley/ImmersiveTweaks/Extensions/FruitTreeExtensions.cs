@@ -17,7 +17,7 @@ public static class FruitTreeExtensions
     {
         var skillFactor = 1f + Game1.player.FarmingLevel * 0.1f;
         var age = tree.daysUntilMature.Value < 0 ? tree.daysUntilMature.Value * -1 : 0;
-        age = (int) (age * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
+        age = (int)(age * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
         if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.lumberjack)) age *= 2;
 
         if (ModEntry.Config.DeterministicAgeQuality)

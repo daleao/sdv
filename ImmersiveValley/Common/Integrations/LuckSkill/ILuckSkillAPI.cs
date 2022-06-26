@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 public interface ILuckSkillAPI
 {
-	IDictionary<int, IProfession> GetProfessions();
+    IDictionary<int, IProfession> GetProfessions();
 
     public interface IProfession
     {

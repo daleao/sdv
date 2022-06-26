@@ -2,9 +2,10 @@
 
 #region using directives
 
-using System;
-using System.Linq;
-using System.Reflection;
+using Common;
+using Common.Data;
+using Common.Extensions;
+using Common.Extensions.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -12,12 +13,9 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
-
-using Common;
-using Common.Data;
-using Common.Extensions;
-using Common.Extensions.Reflection;
-using Common.Harmony;
+using System;
+using System.Linq;
+using System.Reflection;
 
 #endregion using directives
 
@@ -52,9 +50,9 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
         {
             _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CompileUnboundDelegate<Func<object, FishPond>>();
             machine = _GetMachine(__instance);
-            
+
             var produce = ModDataIO.ReadData(machine, "ItemsHeld").ParseList<string>(";");
-            if (produce is null)
+            if (produce?.Any() != true)
             {
                 machine.output.Value = null;
             }
@@ -78,7 +76,7 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
                 }
                 else
                 {
-                    o = new(index, stack) {Quality = quality};
+                    o = new(index, stack) { Quality = quality };
                 }
 
                 machine.output.Value = o;
@@ -88,7 +86,7 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
 
             if (ModDataIO.ReadDataAs<bool>(machine, "CheckedToday")) return false; // don't run original logic
 
-            var bonus = (int) (item is StardewValley.Object @object
+            var bonus = (int)(item is StardewValley.Object @object
                 ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
                 : 0);
 

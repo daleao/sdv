@@ -2,17 +2,16 @@
 
 #region using directives
 
-using System.Linq;
-using HarmonyLib;
-using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
-
 using Common;
 using Common.Commands;
 using Common.Events;
 using Common.Harmony;
 using Configs;
 using Framework.Effects;
+using HarmonyLib;
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+using System.Linq;
 
 #endregion using directives
 
@@ -50,7 +49,7 @@ public class ModEntry : Mod
 
         // register commands
         new CommandHandler(helper.ConsoleCommands).Register("itools", "Power Tools");
-        
+
         // check for Moon Misadventures mod then verify configs
         HasLoadedMoonMisadventures = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");
     }
@@ -65,8 +64,8 @@ public class ModEntry : Mod
         if (Config.AxeConfig.RadiusAtEachPowerLevel.Length < 5)
         {
             Log.W("Missing values in AxeConfig.RadiusAtEachPowerLevel. The default values will be restored.");
-            Config.AxeConfig.RadiusAtEachPowerLevel = new[] {1, 2, 3, 4, 5};
-            if (HasLoadedMoonMisadventures) Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] {6, 7});
+            Config.AxeConfig.RadiusAtEachPowerLevel = new[] { 1, 2, 3, 4, 5 };
+            if (HasLoadedMoonMisadventures) Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
         }
         else if (Config.AxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
         {
@@ -79,7 +78,7 @@ public class ModEntry : Mod
         if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Length < 5)
         {
             Log.W("Missing values PickaxeConfig.RadiusAtEachPowerLevel. The default values will be restored.");
-            Config.PickaxeConfig.RadiusAtEachPowerLevel = new[] {1, 2, 3, 4, 5};
+            Config.PickaxeConfig.RadiusAtEachPowerLevel = new[] { 1, 2, 3, 4, 5 };
             if (HasLoadedMoonMisadventures) Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
         }
         else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
@@ -170,7 +169,7 @@ public class ModEntry : Mod
                 case < 7:
                     Log.I("Adding default radius values for higher Axe upgrades.");
                     Config.AxeConfig.RadiusAtEachPowerLevel =
-                        Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] {6, 7});
+                        Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
                     break;
 
                 case > 7:
@@ -184,7 +183,7 @@ public class ModEntry : Mod
                 case < 7:
                     Log.I("Adding default radius values for higher Pickaxe upgrades.");
                     Config.PickaxeConfig.RadiusAtEachPowerLevel =
-                        Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] {6, 7});
+                        Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
                     break;
 
                 case > 7:

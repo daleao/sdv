@@ -2,20 +2,17 @@
 
 #region using directives
 
-using System;
+using DaLion.Common.Classes;
+using DaLion.Common.Extensions.Reflection;
+using Events.GameLoop;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
-
-using DaLion.Common.Classes;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Events.GameLoop;
-using Extensions;
+using System;
 using Utility;
-
 using Multiplayer = StardewValley.Multiplayer;
 using SObject = StardewValley.Object;
 
@@ -56,7 +53,7 @@ internal sealed class GameLocationExplodePatch : DaLion.Common.Harmony.HarmonyPa
         {
             if (!__instance.objects.TryGetValue(tile, out var tileObj) || !tileObj.IsStone()) continue;
 
-            int tileX = (int) tile.X, tileY = (int) tile.Y;
+            int tileX = (int)tile.X, tileY = (int)tile.Y;
             if (isBlaster)
             {
                 if (__instance is MineShaft)
@@ -81,7 +78,7 @@ internal sealed class GameLocationExplodePatch : DaLion.Common.Harmony.HarmonyPa
                     }
 
                     if (!isPrestigedBlaster) continue;
-                    
+
                     // since I'm generous, add a whole third check for prestiged 
                     if (r.NextDouble() < 0.05 * (1.0 + chanceModifier) *
                         (tileObj.ParentSheetIndex is 40 or 42 ? 1.2 : 0.8) &&
@@ -200,7 +197,7 @@ internal sealed class GameLocationExplodePatch : DaLion.Common.Harmony.HarmonyPa
                     Game1.createObjectDebris(74, tileX, tileY,
                         who.UniqueMultiplayerID, __instance);
             }
-            else if(__instance is MineShaft shaft)
+            else if (__instance is MineShaft shaft)
             {
                 // bonus geode
                 if (r.NextDouble() < 0.022 * (1.0 + chanceModifier) || isPrestigedDemolitionist && r.NextDouble() < 0.022 * (1.0 + chanceModifier))
@@ -248,7 +245,7 @@ internal sealed class GameLocationExplodePatch : DaLion.Common.Harmony.HarmonyPa
         if (!who.IsLocalPlayer || !isDemolitionist || !ModEntry.Config.EnableGetExcited) return;
 
         // get excited speed buff
-        var distanceFromEpicenter = (int) (tileLocation - who.getTileLocation()).Length();
+        var distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
         if (distanceFromEpicenter < radius * 2 + 1) ModEntry.PlayerState.DemolitionistExcitedness = 4;
         if (distanceFromEpicenter < radius + 1) ModEntry.PlayerState.DemolitionistExcitedness += 2;
         ModEntry.EventManager.Hook<DemolitionistUpdateTickedEvent>();

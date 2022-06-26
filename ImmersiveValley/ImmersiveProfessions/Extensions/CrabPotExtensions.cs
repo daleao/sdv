@@ -2,17 +2,15 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Framework;
+using Framework.Utility;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
-
-using Framework;
-using Framework.Utility;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
@@ -22,34 +20,22 @@ using SUtility = StardewValley.Utility;
 public static class CrabPotExtensions
 {
     /// <summary>Whether the crab pot instance is using magnet as bait.</summary>
-    public static bool HasMagnet(this CrabPot crabpot)
-    {
-        return crabpot.bait.Value is not null &&
-               crabpot.bait.Value.ParentSheetIndex == 703;
-    }
+    public static bool HasMagnet(this CrabPot crabpot) =>
+        crabpot.bait.Value?.ParentSheetIndex == 703;
 
     /// <summary>Whether the crab pot instance is using wild bait.</summary>
-    public static bool HasWildBait(this CrabPot crabpot)
-    {
-        return crabpot.bait.Value is not null &&
-               crabpot.bait.Value.ParentSheetIndex == 774;
-    }
+    public static bool HasWildBait(this CrabPot crabpot) =>
+        crabpot.bait.Value?.ParentSheetIndex == 774;
 
     /// <summary>Whether the crab pot instance is using magic bait.</summary>
-    public static bool HasMagicBait(this CrabPot crabpot)
-    {
-        return crabpot.bait.Value is not null &&
-               crabpot.bait.Value.ParentSheetIndex == 908;
-    }
+    public static bool HasMagicBait(this CrabPot crabpot) =>
+        crabpot.bait.Value?.ParentSheetIndex == 908;
 
     /// <summary>Whether the crab pot instance should catch ocean-specific shellfish.</summary>
     /// <param name="location">The location of the crab pot.</param>
-    public static bool ShouldCatchOceanFish(this CrabPot crabpot, GameLocation location)
-    {
-        return location is Beach ||
-               location.catchOceanCrabPotFishFromThisSpot((int) crabpot.TileLocation.X,
-                   (int) crabpot.TileLocation.Y);
-    }
+    public static bool ShouldCatchOceanFish(this CrabPot crabpot, GameLocation location) =>
+        location is Beach ||
+        location.catchOceanCrabPotFishFromThisSpot((int)crabpot.TileLocation.X, (int)crabpot.TileLocation.Y);
 
     /// <summary>Whether the given crab pot instance is holding an object that can only be caught via Luremaster profession.</summary>
     public static bool HasSpecialLuremasterCatch(this CrabPot crabpot)
@@ -238,19 +224,9 @@ public static class CrabPotExtensions
     /// <param name="location">The game location of the crab pot.</param>
     /// <remarks>The time portion is commented out because doesn't make sense for crab pots that only update once during the night.</remarks>
     private static bool IsCorrectLocationAndTimeForThisFish(string[] specificFishData, int specificFishLocation,
-        Vector2 tileLocation, GameLocation location)
-    {
-        return specificFishLocation == -1 || specificFishLocation == location.getFishingLocation(tileLocation);
-
-        //var specificFishSpawnTimes = specificFishData[5].Split(' ');
-        //if (specificFishLocation == -1 || specificFishLocation == location.getFishingLocation(tileLocation))
-        //    for (var t = 0; t < specificFishSpawnTimes.Length; t += 2)
-        //        if (Game1.timeOfDay >= Convert.ToInt32(specificFishSpawnTimes[t]) &&
-        //            Game1.timeOfDay < Convert.ToInt32(specificFishSpawnTimes[t + 1]))
-        //            return true;
-
-        //return false;
-    }
+        Vector2 tileLocation, GameLocation location) => specificFishLocation == -1 ||
+                                                        specificFishLocation ==
+                                                        location.getFishingLocation(tileLocation);
 
     /// <summary>Whether the current weather matches the specific fish data.</summary>
     /// <param name="specificFishData">Raw game file data for this fish.</param>

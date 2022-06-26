@@ -2,21 +2,19 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using Common;
+using Common.Extensions.Reflection;
+using Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
-
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -27,7 +25,7 @@ internal sealed class ForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
     /// <summary>Construct an instance.</summary>
     internal ForgeMenuUpdatePatch()
     {
-        Target = RequireMethod<ForgeMenu>(nameof(ForgeMenu.update), new[] {typeof(GameTime)});
+        Target = RequireMethod<ForgeMenu>(nameof(ForgeMenu.update), new[] { typeof(GameTime) });
     }
 
     #region harmony patches

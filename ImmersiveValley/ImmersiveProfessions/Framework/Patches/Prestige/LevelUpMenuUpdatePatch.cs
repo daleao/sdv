@@ -2,18 +2,6 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
-using Netcode;
-using StardewValley;
-using StardewValley.Menus;
-
 using DaLion.Common;
 using DaLion.Common.Data;
 using DaLion.Common.Extensions;
@@ -21,8 +9,18 @@ using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Events.GameLoop;
 using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
+using Netcode;
+using StardewValley;
+using StardewValley.Menus;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using Ultimates;
-
 using CollectionExtensions = DaLion.Common.Extensions.Collections.CollectionExtensions;
 using Localization = Utility.Localization;
 
@@ -34,7 +32,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuUpdatePatch()
     {
-        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.update), new[] {typeof(GameTime)});
+        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.update), new[] { typeof(GameTime) });
     }
 
     #region harmony patches
@@ -145,7 +143,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
         var shouldProposeFinalQuestion = generator.DeclareLocal(typeof(bool));
         var shouldCongratulateFullSkillMastery = generator.DeclareLocal(typeof(bool));
         var i = 0;
-        repeat1:
+    repeat1:
         try
         {
             helper
@@ -177,13 +175,13 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                 )
                 .InsertWithLabels(
                     // branch here if the player already had the chosen profession
-                    new[] {dontGetImmediatePerks},
+                    new[] { dontGetImmediatePerks },
                     // check if current level is above 10 (i.e. prestige level)
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10),
                     new CodeInstruction(OpCodes.Ble_Un_S, isNotPrestigeLevel), // branch out if not
-                    // add chosenProfession + 100 to player's professions
+                                                                               // add chosenProfession + 100 to player's professions
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 100),
@@ -194,7 +192,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                 )
                 .InsertWithLabels(
                     // branch here if was not prestige level
-                    new[] {isNotPrestigeLevel},
+                    new[] { isNotPrestigeLevel },
                     // load the chosen profession onto the stack
                     new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
                     // check if should propose final question
@@ -264,7 +262,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                 )
                 .InsertWithLabels(
                     // branch here after checking for proposal
-                    new[] {dontProposeFinalQuestion},
+                    new[] { dontProposeFinalQuestion },
                     // check if should congratulate on full prestige
                     new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateFullSkillMastery),
                     new CodeInstruction(OpCodes.Brfalse_S, dontCongratulateOnFullPrestige),
@@ -334,17 +332,13 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
 
     #region injected subroutines
 
-    private static int GetCurrentBranchForSkill(int currentSkill)
-    {
-        return Game1.player.GetCurrentBranchForSkill(Skill.FromValue(currentSkill));
-    }
+    private static int GetCurrentBranchForSkill(int currentSkill) =>
+        Game1.player.GetCurrentBranchForSkill(Skill.FromValue(currentSkill));
 
-    internal static bool ShouldProposeFinalQuestion(int chosenProfession)
-    {
-        return ModEntry.Config.EnablePrestige && chosenProfession is >= 26 and < 30 &&
+    internal static bool ShouldProposeFinalQuestion(int chosenProfession) =>
+        ModEntry.Config.EnablePrestige && chosenProfession is >= 26 and < 30 &&
                ModEntry.PlayerState.RegisteredUltimate is not null &&
-               (int) ModEntry.PlayerState.RegisteredUltimate.Index != chosenProfession;
-    }
+               (int)ModEntry.PlayerState.RegisteredUltimate.Index != chosenProfession;
 
     internal static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
     {
@@ -365,7 +359,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
 
     internal static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
     {
-        var oldProfession = Profession.FromValue((int) ModEntry.PlayerState.RegisteredUltimate!.Index);
+        var oldProfession = Profession.FromValue((int)ModEntry.PlayerState.RegisteredUltimate!.Index);
         var newProfession = Profession.FromValue(chosenProfession);
         var pronoun = Localization.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(
@@ -378,11 +372,11 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                     newProfession = newProfession.GetDisplayName(Game1.player.IsMale),
                     newUlti = ModEntry.i18n.Get(newProfession.StringId.ToLower() + ".ulti")
                 }),
-            Game1.currentLocation.createYesNoResponses(), delegate(Farmer _, string answer)
+            Game1.currentLocation.createYesNoResponses(), delegate (Farmer _, string answer)
             {
                 if (answer == "Yes")
                 {
-                    var newIndex = (UltimateIndex) chosenProfession;
+                    var newIndex = (UltimateIndex)chosenProfession;
                     ModEntry.PlayerState.RegisteredUltimate =
 #pragma warning disable CS8509
                         ModEntry.PlayerState.RegisteredUltimate = newIndex switch
@@ -403,7 +397,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
     internal static void CongratulateOnFullSkillMastery(int chosenProfession)
     {
         Game1.drawObjectDialogue(ModEntry.i18n.Get("prestige.levelup.unlocked",
-            new {whichSkill = Skill.FromValue(chosenProfession / 6).DisplayName}));
+            new { whichSkill = Skill.FromValue(chosenProfession / 6).DisplayName }));
 
         if (!Game1.player.HasAllProfessions()) return;
 
@@ -415,12 +409,10 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
         ModEntry.EventManager.Hook<AchievementUnlockedDayStartedEvent>();
     }
 
-    private static bool ShouldSuppressClick(int hovered, int currentLevel)
-    {
-        return Profession.TryFromValue(hovered, out var profession) &&
+    private static bool ShouldSuppressClick(int hovered, int currentLevel) =>
+        Profession.TryFromValue(hovered, out var profession) &&
                (currentLevel == 5 && Game1.player.HasAllProfessionsBranchingFrom(profession) ||
                 currentLevel == 10 && Game1.player.HasProfession(profession));
-    }
 
     #endregion injected subroutines
 }

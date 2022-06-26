@@ -2,9 +2,9 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Extensions;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -12,11 +12,9 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
-
-using DaLion.Common;
-using DaLion.Common.Extensions;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 #endregion using directives
 
@@ -47,7 +45,7 @@ internal sealed class CrabPotCheckForActionPatch : DaLion.Common.Harmony.Harmony
             bool addedToInvetory;
             if (__instance.heldObject.Value.ParentSheetIndex.IsIn(14, 51)) // caught a weapon
             {
-                var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex) {specialItem = true};
+                var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex) { specialItem = true };
                 addedToInvetory = who.addItemToInventoryBool(weapon);
                 who.mostRecentlyGrabbedItem = weapon;
             }

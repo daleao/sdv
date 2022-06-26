@@ -2,6 +2,9 @@
 
 #region using directives
 
+
+/* Unmerged change from project 'ImmersiveRings'
+Before:
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -9,6 +12,127 @@ using System.Reflection;
 using HarmonyLib;
 
 using Extensions.Reflection;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+*/
+
+/* Unmerged change from project 'ImmersiveTools'
+Before:
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+
+using Extensions.Reflection;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+*/
+
+/* Unmerged change from project 'ImmersiveTweaks'
+Before:
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+
+using Extensions.Reflection;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+*/
+
+/* Unmerged change from project 'ImmersivePonds'
+Before:
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+
+using Extensions.Reflection;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+*/
+
+/* Unmerged change from project 'ImmersiveAlchemy'
+Before:
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+
+using Extensions.Reflection;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+*/
+
+/* Unmerged change from project 'ImmersiveArsenal'
+Before:
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+
+using Extensions.Reflection;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+*/
+
+/* Unmerged change from project 'ImmersiveProfessions'
+Before:
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+
+using Extensions.Reflection;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+*/
+using HarmonyLib;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 
 #endregion using directives
 
@@ -42,7 +166,7 @@ internal class Harmonizer
         {
             try
             {
-                var patch = (IHarmonyPatch) p
+                var patch = (IHarmonyPatch)p
                     .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, Type.EmptyTypes, null)!
                     .Invoke(Array.Empty<object>());
                 patch.Apply(_Harmony);

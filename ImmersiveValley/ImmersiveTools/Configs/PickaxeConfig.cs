@@ -16,7 +16,7 @@ public class PickaxeConfig
     public UpgradeLevel RequiredUpgradeForCharging { get; set; } = UpgradeLevel.Copper;
 
     /// <summary>The radius of affected tiles at each upgrade level.</summary>
-    public int[] RadiusAtEachPowerLevel { get; set; } = {1, 2, 3, 4, 5};
+    public int[] RadiusAtEachPowerLevel { get; set; } = { 1, 2, 3, 4, 5 };
 
     /// <summary>Whether to break boulders and meteorites.</summary>
     public bool BreakBouldersAndMeteorites { get; set; } = true;

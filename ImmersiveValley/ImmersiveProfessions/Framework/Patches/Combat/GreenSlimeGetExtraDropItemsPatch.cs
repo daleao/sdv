@@ -2,19 +2,17 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using DaLion.Common.Extensions;
+using DaLion.Common.Harmony;
+using Extensions;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-
-using DaLion.Common.Extensions;
-using DaLion.Common.Harmony;
-using Extensions;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using SObject = StardewValley.Object;
 
 #endregion using directives

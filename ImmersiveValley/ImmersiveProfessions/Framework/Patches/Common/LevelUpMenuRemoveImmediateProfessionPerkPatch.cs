@@ -2,20 +2,19 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Data;
+using DaLion.Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common;
-using DaLion.Common.Data;
-using DaLion.Common.Harmony;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using Ultimates;
 
 #endregion using directives
@@ -38,7 +37,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
         if (!Profession.TryFromValue(whichProfession, out var profession) ||
             whichProfession == Farmer.luckSkill) return;
 
-        if ((Skill) profession.Skill == Skill.Combat)
+        if ((Skill)profession.Skill == Skill.Combat)
         {
             Game1.player.maxHealth -= 5;
             Game1.player.health = Math.Max(Game1.player.health, Game1.player.maxHealth);
@@ -58,11 +57,11 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
         ModEntry.EventManager.UnhookForProfession(profession);
 
         // unregister Ultimate
-        if (ModEntry.PlayerState.RegisteredUltimate?.Index != (UltimateIndex) whichProfession) return;
+        if (ModEntry.PlayerState.RegisteredUltimate?.Index != (UltimateIndex)whichProfession) return;
 
         if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
-            var firstIndex = (UltimateIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
+            var firstIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
             ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), firstIndex.ToString());
 #pragma warning disable CS8509
             ModEntry.PlayerState.RegisteredUltimate = firstIndex switch

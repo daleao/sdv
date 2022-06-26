@@ -17,7 +17,7 @@ public static class XmlElementExtensions
     {
         if (xml.TryReadAs<T>(name, out var result)) return result;
         throw new ArgumentException($"Element [{name}] was not found in {xml.Name}.");
-	}
+    }
 
     /// <summary>Try to read the specified node in the <see cref="XmlElement"/> instance.</summary>
     /// <param name="name">The name of the node.</param>
@@ -38,7 +38,7 @@ public static class XmlElementExtensions
     {
         if (xml.TryRead(name, out var result)) return result;
         throw new ArgumentException($"Element [{name}] was not found in {xml.Name}.");
-	}
+    }
 
     /// <summary>Try to read the specified node in the <see cref="XmlElement"/> instance as <see cref="string"/>.</summary>
     /// <param name="name">The name of the node.</param>

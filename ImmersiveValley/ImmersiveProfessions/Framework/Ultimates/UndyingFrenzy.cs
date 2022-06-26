@@ -3,13 +3,12 @@ namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
 #region using directives
 
-using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
+using Sounds;
 using StardewValley;
 using StardewValley.Monsters;
-
-using Sounds;
+using System;
+using System.Linq;
 
 #endregion using directives
 
@@ -28,7 +27,7 @@ internal sealed class UndyingFrenzy : Ultimate
     #region public properties
 
     /// <summary>The ID of the buff that displays while Frenzy is active.</summary>
-    public static int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int) UltimateIndex.BruteFrenzy + 4).GetHashCode();
+    public static int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.BruteFrenzy + 4).GetHashCode();
 
     /// <inheritdoc />
     public override UltimateIndex Index => UltimateIndex.BruteFrenzy;
@@ -69,7 +68,7 @@ internal sealed class UndyingFrenzy : Ultimate
                 which = BuffId,
                 sheetIndex = 48,
                 glow = GlowColor,
-                millisecondsDuration = (int) (15000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
+                millisecondsDuration = (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
                 description = ModEntry.i18n.Get("brute.ultidesc")
             }
         );
@@ -83,7 +82,7 @@ internal sealed class UndyingFrenzy : Ultimate
         Game1.buffsDisplay.removeOtherBuff(BuffId);
 
         var who = Game1.player;
-        var healed = (int) (who.maxHealth * ModEntry.PlayerState.BruteKillCounter * 0.05f);
+        var healed = (int)(who.maxHealth * ModEntry.PlayerState.BruteKillCounter * 0.05f);
         who.health = Math.Min(who.health + healed, who.maxHealth);
         who.currentLocation.debris.Add(new(healed,
             new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));

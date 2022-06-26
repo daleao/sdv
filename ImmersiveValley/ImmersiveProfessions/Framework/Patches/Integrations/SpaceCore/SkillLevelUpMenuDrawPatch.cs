@@ -2,21 +2,20 @@
 
 #region using directives
 
-using System;
-using System.Reflection.Emit;
-using System.Collections.Generic;
-using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -32,7 +31,7 @@ internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyP
     {
         try
         {
-            Target = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("draw", new[] {typeof(SpriteBatch)});
+            Target = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("draw", new[] { typeof(SpriteBatch) });
         }
         catch
         {
@@ -61,7 +60,7 @@ internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyP
                 )
                 .Advance()
                 .GetOperand(out var isNotProfessionChooser)
-                .FindLabel((Label) isNotProfessionChooser)
+                .FindLabel((Label)isNotProfessionChooser)
                 .Retreat()
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),

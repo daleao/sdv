@@ -2,17 +2,16 @@
 
 #region using directives
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
-
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
 
 #endregion using directives
 
@@ -47,7 +46,7 @@ internal sealed class GameLocationBreakStonePatch : DaLion.Common.Harmony.Harmon
                 )
                 .AddLabels(isNotPrestiged)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Miner.Value + 100, forLocalPlayer: false)
                 .Insert(
@@ -77,7 +76,7 @@ internal sealed class GameLocationBreakStonePatch : DaLion.Common.Harmony.Harmon
                 .Return()
                 .InsertWithLabels( // insert unconditional branch to skip this check and restore backed-up labels to this branch
                     labels,
-                    new CodeInstruction(OpCodes.Br, (Label) isNotGeologist)
+                    new CodeInstruction(OpCodes.Br, (Label)isNotGeologist)
                 );
         }
         catch (Exception ex)
@@ -99,7 +98,7 @@ internal sealed class GameLocationBreakStonePatch : DaLion.Common.Harmony.Harmon
                 .GetOperand(out var isNotProspector) // copy destination
                 .Return()
                 .Insert( // insert uncoditional branch to skip this check
-                    new CodeInstruction(OpCodes.Br_S, (Label) isNotProspector)
+                    new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector)
                 );
         }
         catch (Exception ex)

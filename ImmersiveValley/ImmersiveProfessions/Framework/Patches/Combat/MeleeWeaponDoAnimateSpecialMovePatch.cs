@@ -2,18 +2,17 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
-
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -27,7 +26,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : DaLion.Common.Harmo
     }
 
     #region harmony patches
-    
+
     /// <summary>Patch to remove Acrobat cooldown reduction.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? MeleeWeaponDoAnimateSpecialMoveTranspiler(
@@ -38,7 +37,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : DaLion.Common.Harmo
         /// Skipped: if (lastUser.professions.Contains(<acrobat_id>) cooldown /= 2
 
         var i = 0;
-        repeat:
+    repeat:
         try
         {
             helper // find index of acrobat check
@@ -51,7 +50,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : DaLion.Common.Harmo
                 .GetOperand(out var isNotAcrobat) // copy destination
                 .Return()
                 .Insert( // insert unconditional branch to skip this check
-                    new CodeInstruction(OpCodes.Br_S, (Label) isNotAcrobat)
+                    new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)
                 )
                 .Retreat()
                 .AddLabels(labels) // restore bakced-up labels to inserted branch

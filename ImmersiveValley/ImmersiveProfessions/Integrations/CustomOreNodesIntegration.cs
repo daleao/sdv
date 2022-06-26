@@ -2,11 +2,10 @@
 
 #region using directives
 
-using System.Linq;
-using StardewModdingAPI;
-
 using Common.Extensions.Reflection;
 using Common.Integrations;
+using StardewModdingAPI;
+using System.Linq;
 
 #endregion using directives
 
@@ -26,6 +25,6 @@ internal class CustomOreNodesIntegration : BaseIntegration<ICustomOreNodesAPI>
         var _getCustomOreNodeParentSheetIndex =
             "CustomOreNodes.CustomOreNode".ToType().RequireField("parentSheetIndex")!;
         Framework.Utility.ObjectLookups.ResourceNodeIds = Framework.Utility.ObjectLookups.ResourceNodeIds.Concat(
-            ModApi!.GetCustomOreNodes().Select(n => (int) _getCustomOreNodeParentSheetIndex.GetValue(n)!));
+            ModApi!.GetCustomOreNodes().Select(n => (int)_getCustomOreNodeParentSheetIndex.GetValue(n)!));
     }
 }

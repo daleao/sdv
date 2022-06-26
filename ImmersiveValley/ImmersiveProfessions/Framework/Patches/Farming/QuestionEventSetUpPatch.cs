@@ -2,17 +2,16 @@
 
 #region using directives
 
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley.Events;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley.Events;
-
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
 
 #endregion using directives
 
@@ -62,7 +61,7 @@ internal sealed class QuestionEventSetUpPatch : DaLion.Common.Harmony.HarmonyPat
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .InsertWithLabels(
-                    new[] {isNotPrestiged},
+                    new[] { isNotPrestiged },
                     new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 3), // x3 for regular
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );

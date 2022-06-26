@@ -2,12 +2,11 @@
 
 #region using directives
 
+using Common.Events;
+using Extensions;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
-
-using Common.Events;
-using Extensions;
 using Ultimates;
 
 #endregion using directives
@@ -55,7 +54,7 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
                     ModEntry.i18n.Get(
                         "brute.buffdesc" + (Game1.player.HasProfession(Profession.Brute, true)
                             ? ".prestiged"
-                            : string.Empty), new {magnitude})
+                            : string.Empty), new { magnitude })
             }
         );
     }

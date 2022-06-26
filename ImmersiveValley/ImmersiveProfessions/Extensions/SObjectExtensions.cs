@@ -2,14 +2,12 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Linq;
-using StardewModdingAPI.Utilities;
-using StardewValley;
-
 using Common.Extensions;
 using Framework;
-
+using StardewModdingAPI.Utilities;
+using StardewValley;
+using System.Collections.Generic;
+using System.Linq;
 using ObjectLookups = Framework.Utility.ObjectLookups;
 using SObject = StardewValley.Object;
 

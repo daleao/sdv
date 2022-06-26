@@ -2,21 +2,18 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Data;
+using DaLion.Common.Extensions;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Objects;
-
-using DaLion.Common;
-using DaLion.Common.Data;
-using DaLion.Common.Extensions;
-using DaLion.Common.Harmony;
-using Extensions;
-
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using SUtility = StardewValley.Utility;
 
 #endregion using directives

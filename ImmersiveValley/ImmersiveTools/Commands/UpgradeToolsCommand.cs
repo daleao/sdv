@@ -2,13 +2,12 @@
 
 #region using directives
 
-using System;
+using Common;
+using Common.Commands;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
-
-using Common;
-using Common.Commands;
+using System;
 
 #endregion using directives
 
@@ -55,7 +54,7 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
 
         foreach (var item in Game1.player.Items)
             if (item is Axe or Hoe or Pickaxe or WateringCan)
-                (item as Tool)!.UpgradeLevel = (int) upgradeLevel;
+                (item as Tool)!.UpgradeLevel = (int)upgradeLevel;
     }
 
     /// <summary>Tell the dummies how to use the console command.</summary>

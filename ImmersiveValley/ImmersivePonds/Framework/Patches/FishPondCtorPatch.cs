@@ -2,14 +2,12 @@
 
 #region using directives
 
+using Common.Data;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
-
-using Common.Data;
-using Common.Harmony;
 
 #endregion using directives
 

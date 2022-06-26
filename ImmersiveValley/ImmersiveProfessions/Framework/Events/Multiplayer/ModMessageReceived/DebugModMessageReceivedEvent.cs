@@ -3,13 +3,12 @@ namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 #region using directives
 
-using System.Linq;
+using Common;
+using Common.Events;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
-
-using Common;
-using Common.Events;
+using System.Linq;
 
 #endregion using directives
 
@@ -44,7 +43,7 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
                     case "EventsHooked":
                         var response = Manager.Hooked.Aggregate("",
                             (current, next) => current + "\n\t- " + next.GetType().Name);
-                        ModEntry.Broadcaster.Message(response, "Debug/Response",e.FromPlayerID);
+                        ModEntry.Broadcaster.Message(response, "Debug/Response", e.FromPlayerID);
 
                         break;
                 }

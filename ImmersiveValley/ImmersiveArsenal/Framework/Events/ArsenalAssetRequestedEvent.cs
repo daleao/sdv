@@ -2,14 +2,13 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
+using Common.Events;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-
-using Common.Events;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 #endregion using directives
 

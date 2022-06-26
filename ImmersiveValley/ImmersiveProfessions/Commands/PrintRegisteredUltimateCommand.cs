@@ -2,11 +2,10 @@
 
 #region using directives
 
-using JetBrains.Annotations;
-
 using Common;
 using Common.Commands;
 using Common.Extensions;
+using JetBrains.Annotations;
 
 #endregion using directives
 

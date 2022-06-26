@@ -2,13 +2,10 @@
 
 #region using directives
 
+using Common.Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-
-using Common.Extensions;
-using Common.Harmony;
-
 using SObject = StardewValley.Object;
 
 #endregion using directives

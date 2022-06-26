@@ -2,9 +2,8 @@
 
 #region using directives
 
-using System;
-
 using Common.Events;
+using System;
 
 #endregion using directives
 

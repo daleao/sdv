@@ -1,17 +1,15 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
-    
+
 #region using directives
 
-using System.Linq;
+using DaLion.Common.Extensions;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common.Extensions;
-using DaLion.Common.Harmony;
-using Extensions;
+using System.Linq;
 using Textures;
 
 #endregion using directives
@@ -41,18 +39,18 @@ internal sealed class SkillsPagePerformHoverActionPatch : DaLion.Common.Harmony.
             ModConfig.ProgressionStyle.StackedStars => new(
                 __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I - 14,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
-                Textures.PROGRESSION_VERTICAL_OFFSET_I - 4, (int) (Textures.STARS_WIDTH_I * Textures.STARS_SCALE_F),
-                (int) (Textures.STARS_WIDTH_I * Textures.STARS_SCALE_F)),
+                Textures.PROGRESSION_VERTICAL_OFFSET_I - 4, (int)(Textures.STARS_WIDTH_I * Textures.STARS_SCALE_F),
+                (int)(Textures.STARS_WIDTH_I * Textures.STARS_SCALE_F)),
             ModConfig.ProgressionStyle.Gen3Ribbons => new(
                 __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
-                Textures.PROGRESSION_VERTICAL_OFFSET_I, (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
-                (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)),
+                Textures.PROGRESSION_VERTICAL_OFFSET_I, (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
+                (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)),
             ModConfig.ProgressionStyle.Gen4Ribbons => new(
                 __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
-                Textures.PROGRESSION_VERTICAL_OFFSET_I, (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
-                (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)),
+                Textures.PROGRESSION_VERTICAL_OFFSET_I, (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
+                (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)),
             _ => Rectangle.Empty
         };
 
@@ -73,11 +71,11 @@ internal sealed class SkillsPagePerformHoverActionPatch : DaLion.Common.Harmony.
 
             bounds.Width = ModEntry.Config.PrestigeProgressionStyle is ModConfig.ProgressionStyle.Gen3Ribbons
                 or ModConfig.ProgressionStyle.Gen4Ribbons
-                ? (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
-                : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
+                ? (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
+                : (int)((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
             if (!bounds.Contains(x, y)) continue;
 
-            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new {count});
+            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count });
             ___hoverText = professionsForThisSkill
                 .Select(p => p.GetDisplayName(Game1.player.IsMale))
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
@@ -95,11 +93,11 @@ internal sealed class SkillsPagePerformHoverActionPatch : DaLion.Common.Harmony.
 
             bounds.Width = ModEntry.Config.PrestigeProgressionStyle is ModConfig.ProgressionStyle.Gen3Ribbons
                 or ModConfig.ProgressionStyle.Gen4Ribbons
-                ? (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
-                : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
+                ? (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
+                : (int)((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
             if (!bounds.Contains(x, y)) continue;
 
-            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new {count});
+            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count });
             ___hoverText = professionsForThisSkill
                 .Select(p => p.GetDisplayName())
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");

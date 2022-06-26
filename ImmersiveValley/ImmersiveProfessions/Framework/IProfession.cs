@@ -2,10 +2,9 @@
 
 #region using directives
 
-using System.Linq;
-using System.Collections.Generic;
-
 using Common.Extensions;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 

@@ -2,10 +2,10 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Xna;
+using DaLion.Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -14,11 +14,10 @@ using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Extensions.Xna;
-using DaLion.Common.Harmony;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -61,7 +60,7 @@ internal sealed class ProjectileUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
         {
             if (!ModEntry.PlayerState.PiercedBullets.Remove(projectile.GetHashCode())) return;
 
-            projectile.damageToFarmer.Value = (int) (projectile.damageToFarmer.Value * 0.6f);
+            projectile.damageToFarmer.Value = (int)(projectile.damageToFarmer.Value * 0.6f);
             __result = false;
             return;
         }
@@ -77,12 +76,12 @@ internal sealed class ProjectileUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
         var isBulletTravelingVertically = Math.Abs(angle) is >= 45 and <= 135;
         if (isBulletTravelingVertically)
         {
-            newHitbox.Inflate((int) (originalHitbox.Width * bulletPower), 0);
+            newHitbox.Inflate((int)(originalHitbox.Width * bulletPower), 0);
             if (newHitbox.Width <= originalHitbox.Width) return;
         }
         else
         {
-            newHitbox.Inflate(0, (int) (originalHitbox.Height * bulletPower));
+            newHitbox.Inflate(0, (int)(originalHitbox.Height * bulletPower));
             if (newHitbox.Height <= originalHitbox.Height) return;
         }
 
@@ -108,7 +107,7 @@ internal sealed class ProjectileUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
         var lerpFactor = (actualDistance - (actualBulletRadius + monsterRadius)) /
                          (extendedBulletRadius - actualBulletRadius);
         var multiplier = MathHelper.Lerp(1f, 0f, lerpFactor);
-        var damage = (int) (projectile.damageToFarmer.Value * multiplier);
+        var damage = (int)(projectile.damageToFarmer.Value * multiplier);
         location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, multiplier + bulletPower, 0,
             0f, 1f, true, firer);
     }
@@ -149,7 +148,7 @@ internal sealed class ProjectileUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(GameLocation).RequireMethod(nameof(GameLocation.doesPositionCollideWithCharacter),
-                            new[] {typeof(Rectangle), typeof(bool)})),
+                            new[] { typeof(Rectangle), typeof(bool) })),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Bgt_Un_S, notTrickShot),
                     // add to bounced bullet set

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Point"/> class.</summary>
 internal static class PointExtensions
 {
     /// <summary>Draw a border of specified height and width starting at the <see cref="Point"/> instance.</summary>

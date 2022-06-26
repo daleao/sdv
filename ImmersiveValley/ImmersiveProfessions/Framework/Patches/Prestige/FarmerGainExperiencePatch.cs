@@ -2,17 +2,15 @@
 
 #region using directives
 
-using System;
-using System.Linq;
-using System.Reflection;
+using DaLion.Common;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
-
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Linq;
+using System.Reflection;
 using Utility;
 
 #endregion using directives
@@ -47,11 +45,11 @@ internal sealed class FarmerGainExperiencePatch : DaLion.Common.Harmony.HarmonyP
             }
 
             var canGainPrestigeLevels = ModEntry.Config.EnablePrestige && __instance.HasAllProfessionsInSkill(skill);
-            
-            howMuch = (int) (howMuch * ModEntry.Config.BaseSkillExpMultiplierPerSkill[which]);
+
+            howMuch = (int)(howMuch * ModEntry.Config.BaseSkillExpMultiplierPerSkill[which]);
             if (ModEntry.Config.EnablePrestige)
             {
-                howMuch = (int) (howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
+                howMuch = (int)(howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
                     __instance.GetProfessionsForSkill(skill, true).Count()));
             }
 

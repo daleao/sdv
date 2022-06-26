@@ -2,20 +2,18 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+using Common;
+using Common.Extensions;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-
-using Common;
-using Common.Extensions;
-using Common.Harmony;
-using Extensions;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 #endregion using directives
 
@@ -47,8 +45,8 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatch : Common.Harmony.
                 ? 8
                 : 0;
             b.Draw(Game1.staminaRect,
-                new Rectangle((int) (position.X + 8f),
-                    (int) (position.Y + 32f + Game1.smallFont.MeasureString("Ing!").Y) - (int) (lineExpansion * 1.5f) -
+                new Rectangle((int)(position.X + 8f),
+                    (int)(position.Y + 32f + Game1.smallFont.MeasureString("Ing!").Y) - (int)(lineExpansion * 1.5f) -
                     6,
                     width - 32, 2), Game1.textColor * 0.35f);
 
@@ -93,7 +91,7 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatch : Common.Harmony.
 
                 textDrawPosition.X = position.X + width - 40f;
                 b.Draw(Game1.mouseCursors,
-                    new Rectangle((int) textDrawPosition.X, (int) textDrawPosition.Y + 2, 22, 26),
+                    new Rectangle((int)textDrawPosition.X, (int)textDrawPosition.Y + 2, 22, 26),
                     new Rectangle(268, 1436, 11, 13), Color.White);
                 Utility.drawTextWithShadow(b, (foundInBackpack + foundInContainers).ToString(), Game1.smallFont,
                     textDrawPosition -
@@ -103,8 +101,8 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatch : Common.Harmony.
             }
 
             b.Draw(Game1.staminaRect,
-                new Rectangle((int) position.X + 8,
-                    (int) position.Y + lineExpansion + 64 + 4 + __instance.recipeList.Count * 36, width - 32, 2),
+                new Rectangle((int)position.X + 8,
+                    (int)position.Y + lineExpansion + 64 + 4 + __instance.recipeList.Count * 36, width - 32, 2),
                 Game1.textColor * 0.35f);
             Utility.drawTextWithShadow(b, Game1.parseText(__instance.description, Game1.smallFont, width - 8),
                 Game1.smallFont, position + new Vector2(0f, __instance.recipeList.Count * 36f + lineExpansion + 76f),

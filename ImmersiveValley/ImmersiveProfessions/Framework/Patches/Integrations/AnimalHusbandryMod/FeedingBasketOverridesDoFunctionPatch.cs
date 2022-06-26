@@ -2,18 +2,17 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
-
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -70,7 +69,7 @@ internal sealed class FeedingBasketOverridesDoFunctionPatch : DaLion.Common.Harm
                     new CodeInstruction(OpCodes.Nop)
                 )
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 5) // arg 5 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5) // arg 5 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Rancher.Value, forLocalPlayer: false)
                 .Insert(
@@ -81,7 +80,7 @@ internal sealed class FeedingBasketOverridesDoFunctionPatch : DaLion.Common.Harm
                 )
                 .Insert(got)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 5)
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5)
                 )
                 .InsertProfessionCheck(Profession.Rancher.Value + 100, forLocalPlayer: false)
                 .Insert(

@@ -2,12 +2,11 @@
 
 #region using directives
 
+using Common;
+using Common.Events;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
-
-using Common;
-using Common.Events;
 
 #endregion using directives
 

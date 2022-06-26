@@ -2,21 +2,19 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
-
 using DaLion.Common;
 using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
-
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -117,7 +115,7 @@ internal sealed class ObjectPerformObjectDropInActionPatch : DaLion.Common.Harmo
                     new CodeInstruction(OpCodes.Ldstr, ModData.GemologistMineralsCollected.ToString()),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModDataIO).RequireMethod(nameof(ModDataIO.IncrementData),
-                                new[] {typeof(Farmer), typeof(string)})
+                                new[] { typeof(Farmer), typeof(string) })
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);
@@ -133,7 +131,7 @@ internal sealed class ObjectPerformObjectDropInActionPatch : DaLion.Common.Harmo
 
         helper.GoTo(0);
         var i = 0;
-        repeat:
+    repeat:
         try
         {
             var notPrestigedBreeder = generator.DefineLabel();

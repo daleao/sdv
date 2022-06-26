@@ -2,19 +2,18 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using Netcode;
-using StardewValley.TerrainFeatures;
-
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using Netcode;
+using StardewValley.TerrainFeatures;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -62,7 +61,7 @@ internal sealed class TreePerformBushDestroy : DaLion.Common.Harmony.HarmonyPatc
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .InsertWithLabels(
-                    new[] {isPrestiged},
+                    new[] { isPrestiged },
                     new CodeInstruction(OpCodes.Pop),
                     new CodeInstruction(OpCodes.Ldc_R8, 1.4)
                 );

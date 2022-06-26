@@ -2,24 +2,21 @@
 
 #region using directives
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+using Common;
+using Common.Data;
+using Common.Extensions;
+using Common.Extensions.Reflection;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Tools;
-
-using Common;
-using Common.Data;
-using Common.Extensions;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using Extensions;
-
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using SObject = StardewValley.Object;
 
 #endregion using directives

@@ -2,11 +2,10 @@
 
 #region using directives
 
-using System.Linq;
-using JetBrains.Annotations;
-
 using Common;
 using Common.Commands;
+using JetBrains.Annotations;
+using System.Linq;
 
 #endregion using directives
 
@@ -52,6 +51,6 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
         }
 
         ModEntry.PlayerState.RegisteredUltimate.ChargeValue =
-            (double) value * ModEntry.PlayerState.RegisteredUltimate.MaxValue / 100.0;
+            (double)value * ModEntry.PlayerState.RegisteredUltimate.MaxValue / 100.0;
     }
 }

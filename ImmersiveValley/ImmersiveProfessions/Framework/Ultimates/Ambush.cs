@@ -3,14 +3,13 @@ namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
 #region using directives
 
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Netcode;
+using Sounds;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-
-using Sounds;
+using System.Linq;
 
 #endregion using directives
 
@@ -26,7 +25,7 @@ internal sealed class Ambush : Ultimate
     #region public properties
 
     /// <summary>The ID of the buff that displays while Ambush is active.</summary>
-    public static int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int) UltimateIndex.PoacherAmbush + 4).GetHashCode();
+    public static int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.PoacherAmbush + 4).GetHashCode();
 
     /// <inheritdoc />
     public override UltimateIndex Index => UltimateIndex.PoacherAmbush;
@@ -87,7 +86,7 @@ internal sealed class Ambush : Ultimate
                 which = BuffId,
                 sheetIndex = 49,
                 glow = GlowColor,
-                millisecondsDuration = (int) (30000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
+                millisecondsDuration = (int)(30000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
                 description = ModEntry.i18n.Get("poacher.ultidesc.hidden")
             }
         );
@@ -106,7 +105,7 @@ internal sealed class Ambush : Ultimate
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == BuffId);
         var timeLeft = buff?.millisecondsDuration ?? 0;
         Game1.buffsDisplay.removeOtherBuff(BuffId);
-        
+
         Game1.player.addedSpeed += 3;
 
         var buffId = BuffId - 4;
@@ -138,10 +137,8 @@ internal sealed class Ambush : Ultimate
     }
 
     /// <summary>Whether the double crit. power buff is active.</summary>
-    internal bool ShouldBuffCritPower()
-    {
-        return IsActive || Game1.buffsDisplay.otherBuffs.Any(b => b.which == BuffId - 4);
-    }
+    internal bool ShouldBuffCritPower() =>
+        IsActive || Game1.buffsDisplay.otherBuffs.Any(b => b.which == BuffId - 4);
 
     #endregion internal methods
 }

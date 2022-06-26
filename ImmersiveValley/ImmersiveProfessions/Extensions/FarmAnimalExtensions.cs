@@ -2,8 +2,8 @@
 
 #region using directives
 
-using System;
 using StardewValley;
+using System;
 
 #endregion
 

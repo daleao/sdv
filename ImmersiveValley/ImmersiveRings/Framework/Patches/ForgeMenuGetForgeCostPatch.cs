@@ -2,14 +2,12 @@
 
 #region using directives
 
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
-using Common.Harmony;
-
-using Extensions;
 
 #endregion using directives
 
@@ -29,9 +27,9 @@ internal sealed class ForgeMenuGetForgeCostPatch : Common.Harmony.HarmonyPatch
     private static bool ForgeMenuGetForgeCostPrefix(ref int __result, Item left_item, Item right_item)
     {
         if (!ModEntry.Config.TheOneIridiumBand ||
-            left_item is not Ring {ParentSheetIndex: Constants.IRIDIUM_BAND_INDEX_I} || right_item is not Ring right ||
+            left_item is not Ring { ParentSheetIndex: Constants.IRIDIUM_BAND_INDEX_I } || right_item is not Ring right ||
             !right.IsGemRing()) return true; // run original logic
-        
+
         __result = 10;
         return false; // don't run original logic
     }

@@ -2,11 +2,9 @@
 
 #region using directives
 
+using Common.Data;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-
-using Common.Data;
-
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -14,17 +12,14 @@ using SObject = StardewValley.Object;
 /// <summary>Extensions for the <see cref="Tree"/> class.</summary>
 public static class TreeExtensions
 {
-   /// <summary>Whether a given tree can hold a Tapper.</summary>
-    public static bool CanBeTapped(this Tree tree)
-    {
-        return tree.treeType.Value is Tree.bushyTree or Tree.leafyTree or Tree.pineTree or Tree.mushroomTree
+    /// <summary>Whether a given tree can hold a Tapper.</summary>
+    public static bool CanBeTapped(this Tree tree) =>
+        tree.treeType.Value is Tree.bushyTree or Tree.leafyTree or Tree.pineTree or Tree.mushroomTree
             or Tree.mahoganyTree;
-    }
 
     /// <summary>Get a string representation of a given tree's species.</summary>
-    public static string NameFromType(this Tree tree)
-    {
-        return tree.treeType.Value switch
+    public static string NameFromType(this Tree tree) =>
+        tree.treeType.Value switch
         {
             Tree.bushyTree => "Oak Tree",
             Tree.leafyTree => "Mahogany Tree",
@@ -37,13 +32,12 @@ public static class TreeExtensions
             Tree.palmTree2 => "Palm Tree 2",
             _ => "Unknown Tree"
         };
-    }
 
     /// <summary>Get an object quality value based on this tree's age.</summary>
     public static int GetQualityFromAge(this Tree tree)
     {
         var skillFactor = 1f + Game1.player.ForagingLevel * 0.1f;
-        var age = (int) (ModDataIO.ReadDataAs<int>(tree, "Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
+        var age = (int)(ModDataIO.ReadDataAs<int>(tree, "Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
         if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.lumberjack)) age *= 2;
 
         if (ModEntry.Config.DeterministicAgeQuality)

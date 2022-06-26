@@ -2,23 +2,21 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
-
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -46,7 +44,7 @@ internal sealed class Game1DrawHUDPatch : DaLion.Common.Harmony.HarmonyPatch
 
         }
         // track berry bushes + coconut trees as Scavenger
-        else if (Game1.player.HasProfession(Profession.Scavenger) && Game1.currentLocation is {IsOutdoors: true} outdoors)
+        else if (Game1.player.HasProfession(Profession.Scavenger) && Game1.currentLocation is { IsOutdoors: true } outdoors)
         {
             foreach (var bush in outdoors.largeTerrainFeatures.OfType<Bush>().Where(b =>
                       !b.townBush.Value && b.tileSheetOffset.Value == 1 &&

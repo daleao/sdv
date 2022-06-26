@@ -2,13 +2,11 @@
 
 #region using directives
 
-using static System.FormattableString;
-
-using System;
-using StardewValley;
-
 using Common;
 using Common.Data;
+using StardewValley;
+using System;
+using static System.FormattableString;
 
 #endregion using directives
 
@@ -20,9 +18,9 @@ public static class FarmerExtensions
     {
         var income = ModDataIO.ReadDataAs<int>(farmer, ModData.SeasonIncome.ToString());
         var deductible = ModDataIO.ReadDataAs<float>(farmer, ModData.DeductionPct.ToString());
-        var taxable = (int) (income * (1f - deductible));
+        var taxable = (int)(income * (1f - deductible));
         var bracket = Framework.Utils.GetTaxBracket(taxable);
-        var due = (int) Math.Round(income * bracket);
+        var due = (int)Math.Round(income * bracket);
         Log.I(
             $"Accounting results for {farmer.Name} over the closing {Game1.game1.GetPrecedingSeason()} season:" +
             $"\n\t- Total income: {income}g" +

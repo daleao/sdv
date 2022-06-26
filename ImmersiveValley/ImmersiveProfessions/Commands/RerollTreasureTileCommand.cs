@@ -2,13 +2,12 @@
 
 #region using directives
 
-using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
-using StardewValley;
-
 using Common;
 using Common.Commands;
 using Extensions;
+using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
+using StardewValley;
 
 #endregion using directives
 

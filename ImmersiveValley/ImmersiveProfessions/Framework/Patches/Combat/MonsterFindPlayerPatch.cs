@@ -2,19 +2,17 @@
 
 #region using directives
 
-using System;
-using System.Linq;
-using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Data;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Monsters;
-
-using DaLion.Common;
-using DaLion.Common.Data;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Linq;
+using System.Reflection;
 
 #endregion using directives
 

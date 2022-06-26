@@ -2,21 +2,18 @@
 
 #region using directives
 
-using System;
-using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Data;
+using DaLion.Common.Extensions.Reflection;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.Monsters;
-
-using DaLion.Common;
-using DaLion.Common.Data;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-
+using System;
+using System.Linq;
 using SUtility = StardewValley.Utility;
 
 #endregion using directives
@@ -32,7 +29,7 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
     internal GreenSlimeUpdatePatch()
     {
         Target = RequireMethod<GreenSlime>(nameof(GreenSlime.update),
-            new[] {typeof(GameTime), typeof(GameLocation)});
+            new[] { typeof(GameTime), typeof(GameLocation) });
     }
 
     #region harmony patches
@@ -62,7 +59,7 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                 continue;
 
             // damage monster
-            var damageToMonster = (int) Math.Max(1,
+            var damageToMonster = (int)Math.Max(1,
                                       (__instance.DamageToFarmer +
                                        Game1.random.Next(-__instance.DamageToFarmer / 4,
                                            __instance.DamageToFarmer / 4)) * __instance.Scale) -
@@ -71,7 +68,7 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
             var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
                 : SUtility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
-            monster.takeDamage(damageToMonster, (int) xTrajectory, (int) yTrajectory, false, 1.0, "slime");
+            monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1.0, "slime");
             monster.currentLocation.debris.Add(new(damageToMonster,
                 new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f, monster));
             monster.setInvincibleCountdown(IMMUNE_TO_DAMAGE_DURATION_I);
@@ -81,7 +78,7 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
             if (!ModEntry.HostState.FakeFarmers.TryGetValue(fakeFarmerId, out var fakeFarmer))
             {
                 fakeFarmer = ModEntry.HostState.FakeFarmers[fakeFarmerId] =
-                    new() {UniqueMultiplayerID = fakeFarmerId, currentLocation = __instance.currentLocation};
+                    new() { UniqueMultiplayerID = fakeFarmerId, currentLocation = __instance.currentLocation };
                 Log.D($"Created fake farmer with id {fakeFarmerId}.");
             }
 
@@ -94,7 +91,7 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                                     monster.DamageToFarmer + Game1.random.Next(-monster.DamageToFarmer / 4,
                                         monster.DamageToFarmer / 4)) -
                                 __instance.resilience.Value;
-            __instance.takeDamage(damageToSlime, (int) -xTrajectory, (int) -yTrajectory, false, 1.0, "slime");
+            __instance.takeDamage(damageToSlime, (int)-xTrajectory, (int)-yTrajectory, false, 1.0, "slime");
             if (__instance.Health <= 0) break;
         }
     }

@@ -1,11 +1,13 @@
-﻿namespace DaLion.Common.Extensions.Xna;
+﻿using System.Linq;
+
+namespace DaLion.Common.Extensions.Xna;
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 #endregion using directives
 
@@ -16,7 +18,7 @@ public static class Vector2Extensions
     public static double AngleWithHorizontal(this Vector2 v)
     {
         var (x, y) = v;
-        return MathHelper.ToDegrees((float) Math.Atan2(0f - y, 0f - x));
+        return MathHelper.ToDegrees((float)Math.Atan2(0f - y, 0f - x));
     }
 
     /// <summary>Rotates the instance by t to a Vector2 by <paramref name="degrees" />.</summary>
@@ -29,8 +31,8 @@ public static class Vector2Extensions
     /// <summary>Rotates the instance by <paramref name="degrees" />.</summary>
     public static Vector2 Rotate(this Vector2 v, double degrees)
     {
-        var sin = (float) Math.Sin(degrees * Math.PI / 180);
-        var cos = (float) Math.Cos(degrees * Math.PI / 180);
+        var sin = (float)Math.Sin(degrees * Math.PI / 180);
+        var cos = (float)Math.Cos(degrees * Math.PI / 180);
 
         var tx = v.X;
         var ty = v.Y;
@@ -65,35 +67,36 @@ public static class Vector2Extensions
         foreach (var neighbour in GetFourNeighbours(v, w, h)) yield return neighbour;
     }
 
-    /// <summary>Draw a border of specified height and width starting at the <see cref="Vector2"/> instance.</summary>
-    /// <param name="height">The height of the border.</param>
-    /// <param name="width">The width of the border.</param>
-    /// <param name="pixel">The border pixel texture.</param>
-    /// <param name="thickness">Border thickness.</param>
-    /// <param name="color">Border color.</param>
-    /// <param name="b"><see cref="SpriteBatch" /> to draw to.</param>
-    public static void DrawBorder(this Vector2 v, int height, int width, Texture2D pixel, int thickness, Color color, SpriteBatch b)
+    /// <summary>Search for region boundaries using a Flood Fill algorithm.</summary>
+    /// <param name="origin">The starting point for the fill, as a <see cref="Vector2"/>.</param>
+    /// <param name="width">The width of the region.</param>
+    /// <param name="height">The height of the region.</param>
+    /// <param name="predicate">The boundary condition.</param>
+    /// <returns>The set of points belonging to the region, as <see cref="Vector2"/>.</returns>
+    public static IEnumerable<Vector2> FloodFill(Vector2 origin, int width, int height, Func<Vector2, bool> predicate)
     {
-        var (x, y) = v;
-        b.Draw(pixel, new Rectangle((int) x, (int) y, width, thickness), color); // top line
-        b.Draw(pixel, new Rectangle((int) x, (int) y, thickness, height), color); // left line
-        b.Draw(pixel, new Rectangle((int) x + width - thickness, (int) y, thickness, height), color); // right line
-        b.Draw(pixel, new Rectangle((int) x, (int) y + height - thickness, width, thickness), color); // bottom line
-    }
+        if (origin.X <= 0) origin = new(origin.X + 1, origin.Y);
+        else if (origin.Y <= 0) origin = new(origin.X, origin.Y + 1);
+        else if (origin.X >= width - 1) origin = new(origin.X - 1, origin.Y);
+        else if (origin.Y >= height - 1) origin = new(origin.X, origin.Y - 1);
 
-    /// <summary>Draw a border of specified height and width starting at the <see cref="Vector2"/> instance.</summary>
-    /// <param name="height">The height of the border.</param>
-    /// <param name="width">The width of the border.</param>
-    /// <param name="pixel">The border pixel texture.</param>
-    /// <param name="thickness">Border thickness.</param>
-    /// <param name="color">Border color.</param>
-    /// <param name="b"><see cref="SpriteBatch" /> to draw to.</param>
-    public static void DrawBorder(this Vector2 v, int height, int width, Texture2D pixel, int thickness, Color color, SpriteBatch b, Vector2 offset)
-    {
-        var (x, y) = v + offset;
-        b.Draw(pixel, new Rectangle((int) x, (int) y, width, thickness), color); // top line
-        b.Draw(pixel, new Rectangle((int) x, (int) y, thickness, height), color); // left line
-        b.Draw(pixel, new Rectangle((int) x + width - thickness, (int) y, thickness, height), color); // right line
-        b.Draw(pixel, new Rectangle((int) x, (int) y + height - thickness, width, thickness), color); // bottom line
+        var result = new List<Vector2>();
+        var visited = new HashSet<Vector2>();
+        var toVisit = new Queue<Vector2>();
+        toVisit.Enqueue(origin);
+        while (toVisit.Any())
+        {
+            var tile = toVisit.Dequeue();
+            if (!visited.Add(tile))
+                continue;
+
+            if (!predicate(tile)) continue;
+
+            result.Add(tile);
+            foreach (var neighbour in tile.GetEightNeighbours(width, height).Where(v => !visited.Contains(v)))
+                toVisit.Enqueue(neighbour);
+        }
+
+        return result;
     }
 }

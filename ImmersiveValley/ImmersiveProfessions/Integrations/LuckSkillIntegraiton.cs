@@ -2,9 +2,8 @@
 
 #region using directives
 
-using StardewModdingAPI;
-
 using Common.Integrations;
+using StardewModdingAPI;
 
 #endregion using directives
 

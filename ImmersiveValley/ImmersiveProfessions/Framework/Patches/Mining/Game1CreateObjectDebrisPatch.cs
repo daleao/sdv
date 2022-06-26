@@ -2,17 +2,14 @@
 
 #region using directives
 
-using System;
-using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Data;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-
-using DaLion.Common;
-using DaLion.Common.Data;
-using DaLion.Common.Harmony;
-using Extensions;
-
+using System;
+using System.Reflection;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -24,7 +21,7 @@ internal sealed class Game1CreateObjectDebrisPatch : DaLion.Common.Harmony.Harmo
     internal Game1CreateObjectDebrisPatch()
     {
         Target = RequireMethod<Game1>(nameof(Game1.createObjectDebris),
-            new[] {typeof(int), typeof(int), typeof(int), typeof(long), typeof(GameLocation)});
+            new[] { typeof(int), typeof(int), typeof(int), typeof(long), typeof(GameLocation) });
     }
 
     #region harmony patches

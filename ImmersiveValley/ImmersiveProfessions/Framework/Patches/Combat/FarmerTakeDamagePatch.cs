@@ -2,18 +2,17 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
-
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using Ultimates;
 
 #endregion using directives
@@ -175,7 +174,7 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Dup), // consumed by getter of BruteRageCounter
                     new CodeInstruction(OpCodes.Dup), // consumed by setter of LastTimeInCombat 
                     new CodeInstruction(OpCodes.Dup), // consumed by getter of RegisteredUltimate
-                    // check for frenzy
+                                                      // check for frenzy
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
                     new CodeInstruction(OpCodes.Isinst, typeof(UndyingFrenzy)),

@@ -2,11 +2,6 @@
 
 #region using directives
 
-using System;
-using System.Linq;
-using JetBrains.Annotations;
-using StardewValley;
-
 using Common;
 using Common.Commands;
 using Common.Data;
@@ -14,6 +9,10 @@ using Common.Extensions;
 using Extensions;
 using Framework;
 using Framework.Ultimates;
+using JetBrains.Annotations;
+using StardewValley;
+using System;
+using System.Linq;
 
 #endregion using directives
 
@@ -53,7 +52,7 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
             return;
         }
 
-        var profession = Profession.FromValue((int) index);
+        var profession = Profession.FromValue((int)index);
         if (!Game1.player.HasProfession(profession))
         {
             Log.W("You don't have this profession.");

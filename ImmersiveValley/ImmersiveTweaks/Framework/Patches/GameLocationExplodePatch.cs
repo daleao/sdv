@@ -2,14 +2,12 @@
 
 #region using directives
 
-using System.Linq;
+using Common.Classes;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
-
-using Common.Classes;
-using Common.Harmony;
+using System.Linq;
 
 #endregion using directives
 

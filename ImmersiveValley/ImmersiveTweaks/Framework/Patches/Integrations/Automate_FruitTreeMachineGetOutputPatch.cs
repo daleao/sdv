@@ -2,17 +2,16 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-
 using Common;
 using Common.Extensions.Reflection;
 using Common.Harmony;
 using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -46,7 +45,7 @@ internal sealed class FruitTreeMachineGetOutputPatch : Common.Harmony.HarmonyPat
         /// From: int quality = 0;
         /// To: int quality = this.GetQualityFromAge();
         /// Removed all remaining age checks for quality
-        
+
         try
         {
             helper

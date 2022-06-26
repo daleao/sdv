@@ -2,21 +2,19 @@
 
 #region using directives
 
-using static System.FormattableString;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
-using StardewModdingAPI.Utilities;
-using StardewValley;
-
 using Common;
 using Common.Commands;
 using Common.Extensions;
 using Extensions;
 using Framework;
 using Framework.Utility;
+using JetBrains.Annotations;
+using StardewModdingAPI.Utilities;
+using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using static System.FormattableString;
 
 #endregion using directives
 

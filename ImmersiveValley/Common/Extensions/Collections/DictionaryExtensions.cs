@@ -19,7 +19,7 @@ public static class DictionaryExtensions
     {
         if (string.IsNullOrEmpty(keyValueSeparator) || string.IsNullOrEmpty(pairSeparator))
             throw new ArgumentException("Separator cannot be null or empty.");
-        
+
         if (pairSeparator == keyValueSeparator)
             throw new ArgumentException("Pair separator must be different from key-value separator.");
 

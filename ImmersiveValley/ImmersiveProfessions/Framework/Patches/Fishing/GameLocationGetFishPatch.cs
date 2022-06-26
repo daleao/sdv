@@ -2,21 +2,19 @@
 
 #region using directives
 
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley;
+using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
-using StardewValley.Tools;
-
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
@@ -72,7 +70,7 @@ internal sealed class GameLocationGetFishPatch : DaLion.Common.Harmony.HarmonyPa
                 )
                 .AddLabels(shouldntReroll) // branch here if shouldn't reroll
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4), // arg 4 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
                     new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
                     new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),
                     new CodeInstruction(OpCodes.Call,
@@ -101,13 +99,11 @@ internal sealed class GameLocationGetFishPatch : DaLion.Common.Harmony.HarmonyPa
 
     #region private methods
 
-    private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
-    {
-        return (currentFish is > 166 and < 173 || ModEntry.Config.SeaweedIsJunk && currentFish.IsAlgae())
+    private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled) =>
+        (currentFish is > 166 and < 173 || ModEntry.Config.SeaweedIsJunk && currentFish.IsAlgae())
                && who.CurrentTool is FishingRod rod
                && rod.getBaitAttachmentIndex() != MAGNET_INDEX_I
                && who.HasProfession(Profession.Fisher) && !hasRerolled;
-    }
 
     #endregion private methods
 }

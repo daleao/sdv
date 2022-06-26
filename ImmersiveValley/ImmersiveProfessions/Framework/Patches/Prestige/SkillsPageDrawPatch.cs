@@ -1,23 +1,22 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
-    
+
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using Textures;
 
 #endregion using directives
@@ -28,7 +27,7 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
     /// <summary>Construct an instance.</summary>
     internal SkillsPageDrawPatch()
     {
-        Target = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] {typeof(SpriteBatch)});
+        Target = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] { typeof(SpriteBatch) });
     }
 
     #region harmony patches
@@ -70,14 +69,14 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Beq_S, notRibbons),
                     new CodeInstruction(OpCodes.Ldc_I4_S,
-                        (int) ((Textures.RIBBON_WIDTH_I + 5) * Textures.RIBBON_SCALE_F)),
+                        (int)((Textures.RIBBON_WIDTH_I + 5) * Textures.RIBBON_SCALE_F)),
                     new CodeInstruction(OpCodes.Sub),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .InsertWithLabels(
-                    new[] {notRibbons},
+                    new[] { notRibbons },
                     new CodeInstruction(OpCodes.Ldc_I4_S,
-                        (int) ((Textures.STARS_WIDTH_I + 4) * Textures.STARS_SCALE_F)),
+                        (int)((Textures.STARS_WIDTH_I + 4) * Textures.STARS_SCALE_F)),
                     new CodeInstruction(OpCodes.Sub)
                 );
         }
@@ -139,7 +138,7 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 .GetOperand(out var resumeExecution)
                 .Advance()
                 .InsertWithLabels(
-                    new[] {isSkillLevel20},
+                    new[] { isSkillLevel20 },
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Cornsilk))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );
@@ -182,7 +181,7 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
     #endregion harmony patches
 
     #region injected subroutines
-    
+
     internal static void DrawExtendedLevelBars(int levelIndex, int skillIndex, int x, int y, int addedX,
         int skillLevel, SpriteBatch b)
     {

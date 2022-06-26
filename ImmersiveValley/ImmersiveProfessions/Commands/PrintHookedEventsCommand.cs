@@ -2,11 +2,10 @@
 
 #region using directives
 
-using System.Linq;
-using JetBrains.Annotations;
-
 using Common;
 using Common.Commands;
+using JetBrains.Annotations;
+using System.Linq;
 
 #endregion using directives
 

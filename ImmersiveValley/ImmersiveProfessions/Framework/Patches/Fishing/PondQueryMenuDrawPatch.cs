@@ -2,9 +2,10 @@
 
 #region using directives
 
-using System;
-using System.Linq;
-using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -14,13 +15,9 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
-
-using DaLion.Common;
-using DaLion.Common.Extensions;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-
+using System;
+using System.Linq;
+using System.Reflection;
 using SObject = StardewValley.Object;
 using SUtility = StardewValley.Utility;
 
@@ -49,8 +46,8 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
     {
-        Target = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] {typeof(SpriteBatch)});
-        Prefix!.after = new[] {"DaLion.ImmersivePonds"};
+        Target = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] { typeof(SpriteBatch) });
+        Prefix!.after = new[] { "DaLion.ImmersivePonds" };
     }
 
     #region harmony patches
@@ -86,8 +83,8 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                     ____fishItem.DisplayName);
                 var textSize = Game1.smallFont.MeasureString(pondNameText);
                 Game1.DrawBox(
-                    x: (int) (Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f),
-                    y: __instance.yPositionOnScreen - 4 + 128, (int) (textSize.X + 64f), 64
+                    x: (int)(Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f),
+                    y: __instance.yPositionOnScreen - 4 + 128, (int)(textSize.X + 64f), 64
                 );
                 SUtility.drawTextWithShadow(
                     b: b,
@@ -131,17 +128,17 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                     ),
                     color: Game1.textColor
                 );
-                
+
                 int x = 0, y = 0;
                 var slotsToDraw = ____pond.maxOccupants.Value;
                 var slotSpacing = isLegendaryPond ? LEGENDARY_SLOT_SPACING_F : AQUARIST_SLOT_SPACING_F;
                 for (var i = 0; i < slotsToDraw; ++i)
                 {
-                    var yOffset = (float) Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
+                    var yOffset = (float)Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
                     var xPos = __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
                         slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f + slotSpacing * 4f * x - 12f;
                     if (isLegendaryPond) xPos += LEGENDARY_X_OFFSET_F;
-                    var yPos = __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * slotSpacing + 275.2f;
+                    var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + y * 4 * slotSpacing + 275.2f;
 
                     if (i < ____pond.FishCount)
                         ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide, Color.White,
@@ -173,7 +170,7 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                     _DrawHorizontalPartition ??= typeof(PondQueryMenu).RequireMethod("drawHorizontalPartition")
                         .CompileUnboundDelegate<DrawHorizontalPartitionDelegate>();
                     _DrawHorizontalPartition(__instance, b,
-                        (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
+                        (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
                     SUtility.drawWithShadow(
                         b: b,
                         texture: Game1.mouseCursors,
@@ -183,7 +180,7 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                         ),
                         sourceRect: new(412, 495, 5, 4),
                         color: Color.White,
-                        rotation: (float) Math.PI / 2f,
+                        rotation: (float)Math.PI / 2f,
                         origin: Vector2.Zero
                     );
                     var bringText =

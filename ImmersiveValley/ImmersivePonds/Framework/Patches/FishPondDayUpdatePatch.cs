@@ -2,12 +2,12 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
+using Common;
+using Common.Data;
+using Common.Extensions;
+using Common.Extensions.Reflection;
+using Common.Harmony;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -16,14 +16,12 @@ using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using StardewValley.Objects;
-
-using Common;
-using Common.Data;
-using Common.Harmony;
-using Common.Extensions;
-using Common.Extensions.Reflection;
-using Extensions;
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using SObject = StardewValley.Object;
 
 #endregion using directives

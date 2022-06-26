@@ -2,11 +2,10 @@
 
 #region using directives
 
-using System.Collections.Generic;
+using Common.Integrations;
 using StardewValley;
 using StardewValley.Objects;
-
-using Common.Integrations;
+using System.Collections.Generic;
 
 #endregion using directives
 
@@ -126,8 +125,5 @@ internal class RingRecipeProvider : IRecipeProvider
     /// </summary>
     /// <param name="cooking">Whether we want cooking recipes or crafting recipes.</param>
     /// <returns>An enumeration of this provider's additional recipes, or null.</returns>
-    public IEnumerable<IRecipe>? GetAdditionalRecipes(bool cooking)
-    {
-        return null;
-    }
+    public IEnumerable<IRecipe>? GetAdditionalRecipes(bool cooking) => null;
 }

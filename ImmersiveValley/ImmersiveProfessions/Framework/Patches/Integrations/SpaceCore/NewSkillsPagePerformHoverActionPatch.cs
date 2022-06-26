@@ -2,17 +2,15 @@
 
 #region using directives
 
-using System.Linq;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common.Extensions;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
+using System.Linq;
 using Textures;
 
 #endregion using directives
@@ -52,7 +50,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmo
                     __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I - 22,
                     __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
                     Textures.PROGRESSION_VERTICAL_OFFSET_I + 8, 0,
-                    (int) (Textures.SINGLE_STAR_WIDTH_I * Textures.STARS_SCALE_F)
+                    (int)(Textures.SINGLE_STAR_WIDTH_I * Textures.STARS_SCALE_F)
                 );
                 break;
             case ModConfig.ProgressionStyle.Gen3Ribbons:
@@ -60,8 +58,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmo
                 bounds = new(
                     __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
                     __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
-                    Textures.PROGRESSION_VERTICAL_OFFSET_I, (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
-                    (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F));
+                    Textures.PROGRESSION_VERTICAL_OFFSET_I, (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
+                    (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F));
                 break;
             default:
                 bounds = Rectangle.Empty;
@@ -85,11 +83,11 @@ internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmo
 
             bounds.Width = ModEntry.Config.PrestigeProgressionStyle is ModConfig.ProgressionStyle.Gen3Ribbons
                 or ModConfig.ProgressionStyle.Gen4Ribbons
-                ? (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
-                : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
+                ? (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
+                : (int)((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
             if (!bounds.Contains(x, y)) continue;
 
-            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new {count});
+            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count });
             ___hoverText = professionsForThisSkill
                 .Select(p => p.GetDisplayName(Game1.player.IsMale))
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
@@ -107,11 +105,11 @@ internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmo
 
             bounds.Width = ModEntry.Config.PrestigeProgressionStyle is ModConfig.ProgressionStyle.Gen3Ribbons
                 or ModConfig.ProgressionStyle.Gen4Ribbons
-                ? (int) (Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
-                : (int) ((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
+                ? (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
+                : (int)((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
             if (!bounds.Contains(x, y)) continue;
 
-            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new {count});
+            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count });
             ___hoverText = professionsForThisSkill
                 .Select(p => p.GetDisplayName())
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");

@@ -3,9 +3,9 @@
 #region using directives
 
 using Ardalis.SmartEnum;
-using System.IO;
 using Microsoft.Xna.Framework.Audio;
 using StardewValley;
+using System.IO;
 
 #endregion using directives
 

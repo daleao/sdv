@@ -2,12 +2,11 @@
 
 #region using directives
 
-using JetBrains.Annotations;
-using StardewModdingAPI.Events;
-
 using Common.Events;
 using Common.Extensions.Stardew;
 using Integrations;
+using JetBrains.Annotations;
+using StardewModdingAPI.Events;
 
 #endregion using directives
 
@@ -65,7 +64,7 @@ internal sealed class StaticGameLaunchedEvent : GameLaunchedEvent
         ModEntry.RingsConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveRings");
         ModEntry.TaxesConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveTaxes");
         ModEntry.TweaksConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveTweaks");
-        
+
         // add SVE integration
         ModEntry.SVEConfig = ModEntry.ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP");
     }

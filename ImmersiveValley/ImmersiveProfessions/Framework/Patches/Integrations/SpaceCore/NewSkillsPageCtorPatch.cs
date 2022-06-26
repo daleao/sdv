@@ -2,15 +2,13 @@
 
 #region using directives
 
-using System.Collections.Generic;
+using DaLion.Common.Extensions.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
+using System.Collections.Generic;
 using Textures;
 
 #endregion using directives
@@ -24,7 +22,7 @@ internal sealed class NewSkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatc
         try
         {
             Target = "SpaceCore.Interface.NewSkillsPage".ToType()
-                .RequireConstructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
+                .RequireConstructor(new[] { typeof(int), typeof(int), typeof(int), typeof(int) });
         }
         catch
         {

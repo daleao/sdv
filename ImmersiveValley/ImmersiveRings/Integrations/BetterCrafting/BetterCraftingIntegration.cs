@@ -2,10 +2,9 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using StardewModdingAPI;
-
 using Common.Integrations;
+using StardewModdingAPI;
+using System.Collections.Generic;
 
 #endregion using directives
 
@@ -23,7 +22,7 @@ internal class BetterCraftingIntegration : BaseIntegration<IBetterCraftingAPI>
     {
         AssertLoaded();
         ModApi!.AddRecipeProvider(new RingRecipeProvider(ModApi));
-        
+
         var newRingRecipes = new List<string>
         {
             "Glow Ring", "Magnet Ring", "Amethyst Ring", "Topaz Ring", "Aquamarine Ring", "Jade Ring", "Emerald Ring",

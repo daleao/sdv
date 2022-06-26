@@ -2,21 +2,19 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using Common;
+using Common.Extensions.Reflection;
+using Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
-
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -29,7 +27,7 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
     {
         try
         {
-            Target = "SpaceCore.Interface.NewForgeMenu".ToType().RequireMethod("update", new[] {typeof(GameTime)});
+            Target = "SpaceCore.Interface.NewForgeMenu".ToType().RequireMethod("update", new[] { typeof(GameTime) });
         }
         catch
         {

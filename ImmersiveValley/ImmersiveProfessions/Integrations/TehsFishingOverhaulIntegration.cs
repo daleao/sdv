@@ -2,18 +2,17 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+using Common.Integrations;
+using Extensions;
+using Framework;
 using HarmonyLib;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Tools;
-
-using Common.Integrations;
-using Extensions;
-using Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 #endregion using directives
 
@@ -125,29 +124,29 @@ internal class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifiedFishi
             {
                 // prestiged status was just lost
                 case (not false, false):
-                {
-                    // Add flags for all legendary fish that have been caught
-                    foreach (var (id, flag) in legendaryFlags)
-                        if (Game1.player.fishCaught.ContainsKey(id) && !Game1.player.mailReceived.Contains(flag))
-                            Game1.player.mailReceived.Add(flag);
+                    {
+                        // Add flags for all legendary fish that have been caught
+                        foreach (var (id, flag) in legendaryFlags)
+                            if (Game1.player.fishCaught.ContainsKey(id) && !Game1.player.mailReceived.Contains(flag))
+                                Game1.player.mailReceived.Add(flag);
 
-                    break;
-                }
+                        break;
+                    }
 
                 // has the prestiged status
                 case (_, true):
-                {
-                    // remove all legendary caught flags so they can be caught again
-                    // note: does not remove the fish from the collections tab
-                    foreach (var flag in legendaryFlags.Values) Game1.player.RemoveMail(flag);
+                    {
+                        // remove all legendary caught flags so they can be caught again
+                        // note: does not remove the fish from the collections tab
+                        foreach (var flag in legendaryFlags.Values) Game1.player.RemoveMail(flag);
 
-                    // if Recatchable Legendaries is installed, reset the conversation topics
-                    if (ModRegistry.IsLoaded("TehPers.RecatchableLegendaries"))
-                        foreach (var topic in recatchableLegendariesTopics)
-                            Game1.player.activeDialogueEvents.Remove(topic);
+                        // if Recatchable Legendaries is installed, reset the conversation topics
+                        if (ModRegistry.IsLoaded("TehPers.RecatchableLegendaries"))
+                            foreach (var topic in recatchableLegendariesTopics)
+                                Game1.player.activeDialogueEvents.Remove(topic);
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             // update previous state

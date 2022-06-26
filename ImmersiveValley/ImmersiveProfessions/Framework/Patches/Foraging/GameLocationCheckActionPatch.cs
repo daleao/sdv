@@ -2,22 +2,20 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
-using StardewValley.Network;
-
 using DaLion.Common;
 using DaLion.Common.Data;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
-
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley;
+using StardewValley.Network;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -112,7 +110,7 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                     new CodeInstruction(OpCodes.Br_S)
                 )
                 .Advance()
-                .InsertWithLabels(new[] {gemologistCheck}, got) // insert copy with destination label for branches from previous section
+                .InsertWithLabels(new[] { gemologistCheck }, got) // insert copy with destination label for branches from previous section
                 .Return()
                 .AdvanceUntil( // find repeated botanist check
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist)
@@ -134,7 +132,7 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                 )
                 .Advance()
                 .ReplaceWith( // remove 'not' and set correct branch destination
-                    new(OpCodes.Brfalse_S, (Label) shouldntSetCustomQuality)
+                    new(OpCodes.Brfalse_S, (Label)shouldntSetCustomQuality)
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Call,

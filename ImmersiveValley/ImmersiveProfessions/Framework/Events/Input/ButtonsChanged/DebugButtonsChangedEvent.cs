@@ -3,16 +3,15 @@ namespace DaLion.Stardew.Professions.Framework.Events.Input;
 
 #region using directives
 
-using System.Linq;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using StardewValley;
-
 using Common;
 using Common.Events;
 using Common.Extensions;
 using Display;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewModdingAPI.Events;
+using StardewValley;
+using System.Linq;
 
 #endregion using directives
 
@@ -88,7 +87,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                         else if (Context.IsMultiplayer && who.isActive())
                         {
                             var peer = ModEntry.ModHelper.Multiplayer.GetConnectedPlayer(who.UniqueMultiplayerID);
-                            if (peer is {IsSplitScreen: true})
+                            if (peer is { IsSplitScreen: true })
                             {
                                 if (peer.ScreenID.HasValue)
                                     events = Manager.GetHookedForScreen(peer.ScreenID.Value).Aggregate("",

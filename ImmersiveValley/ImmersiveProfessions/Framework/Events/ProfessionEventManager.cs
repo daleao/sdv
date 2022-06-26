@@ -2,22 +2,21 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using StardewValley;
-
 using Common;
 using Common.Events;
 using Events.GameLoop;
 using Events.Input;
 using Events.Multiplayer;
 using Events.Player;
-using Extensions;
-using Events.Ultimate;
 using Events.TreasureHunt;
+using Events.Ultimate;
+using Extensions;
+using StardewModdingAPI;
+using StardewModdingAPI.Events;
+using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TreasureHunts;
 using Ultimates;
 
@@ -29,13 +28,13 @@ internal class ProfessionEventManager : EventManager
     /// <summary>Look-up of event types required by each profession.</summary>
     private readonly Dictionary<Profession, List<Type>> EventsByProfession = new()
     {
-        {Profession.Brute, new() {typeof(BruteWarpedEvent)}},
-        {Profession.Conservationist, new() {typeof(HostConservationismDayEndingEvent)}},
-        {Profession.Desperado, new() {typeof(DesperadoUpdateTickedEvent)}},
-        {Profession.Piper, new() {typeof(PiperWarpedEvent)}},
-        {Profession.Prospector, new() {typeof(ProspectorHuntDayStartedEvent), typeof(ProspectorWarpedEvent), typeof(TrackerButtonsChangedEvent)}},
-        {Profession.Scavenger, new() {typeof(ScavengerHuntDayStartedEvent), typeof(ScavengerWarpedEvent), typeof(TrackerButtonsChangedEvent)}},
-        {Profession.Spelunker, new() {typeof(SpelunkerWarpedEvent)}}
+        { Profession.Brute, new() { typeof(BruteWarpedEvent) } },
+        { Profession.Conservationist, new() { typeof(HostConservationismDayEndingEvent) } },
+        { Profession.Desperado, new() { typeof(DesperadoUpdateTickedEvent) } },
+        { Profession.Piper, new() { typeof(PiperWarpedEvent) } },
+        { Profession.Prospector, new() { typeof(ProspectorHuntDayStartedEvent), typeof(ProspectorWarpedEvent), typeof(TrackerButtonsChangedEvent) } },
+        { Profession.Scavenger, new() { typeof(ScavengerHuntDayStartedEvent), typeof(ScavengerWarpedEvent), typeof(TrackerButtonsChangedEvent) } },
+        { Profession.Spelunker, new() { typeof(SpelunkerWarpedEvent) } }
     };
 
     /// <summary>Construct an instance.</summary>

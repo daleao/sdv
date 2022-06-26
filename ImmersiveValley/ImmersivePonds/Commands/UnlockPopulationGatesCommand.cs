@@ -2,15 +2,14 @@
 
 #region using directives
 
-using System.Linq;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley.Buildings;
-using StardewValley;
-
 using Common;
 using Common.Commands;
 using Extensions;
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewValley;
+using StardewValley.Buildings;
+using System.Linq;
 
 #endregion using directives
 

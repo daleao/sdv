@@ -3,12 +3,11 @@ namespace DaLion.Stardew.Professions.Framework;
 
 #region using directives
 
+using Common.Integrations;
+using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using StardewValley;
-
-using Common.Integrations;
 
 #endregion using directives
 
@@ -44,7 +43,7 @@ public sealed class CustomSkill : ISkill
     {
         _api = api;
         StringId = id;
-        
+
         var instance = ExtendedSpaceCoreAPI.GetCustomSkillInstance(id);
         DisplayName = ExtendedSpaceCoreAPI.GetSkillName(instance);
 

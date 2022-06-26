@@ -2,12 +2,10 @@
 
 #region using directives
 
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Tools;
-
-using DaLion.Common.Harmony;
-using Extensions;
 
 #endregion using directives
 
@@ -28,7 +26,7 @@ internal sealed class SlingshotGetRequiredChargeTimePatch : DaLion.Common.Harmon
     {
         var firer = __instance.getLastFarmerToUse();
         if (!firer.IsLocalPlayer || !firer.HasProfession(Profession.Desperado)) return;
-        
+
         __result *= 0.5f;
     }
 

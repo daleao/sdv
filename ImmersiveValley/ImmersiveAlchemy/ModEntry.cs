@@ -2,14 +2,13 @@
 
 #region using directives
 
-using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
-using StardewValley;
-
 using Common;
 using Common.Data;
 using Common.Harmony;
 using Framework;
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+using StardewValley;
 
 #endregion using directives
 
@@ -46,7 +45,7 @@ public class ModEntry : Mod
 
         // initialize data
         ModDataIO.Init(helper.Multiplayer, ModManifest.UniqueID);
-        
+
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
@@ -88,8 +87,5 @@ public class ModEntry : Mod
     }
 
     /// <inheritdoc />
-    public override object GetApi()
-    {
-        return new ModAPI();
-    }
+    public override object GetApi() => new ModAPI();
 }

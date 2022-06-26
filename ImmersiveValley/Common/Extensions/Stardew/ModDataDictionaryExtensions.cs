@@ -2,11 +2,10 @@
 
 #region using directives
 
+using Extensions;
+using StardewValley;
 using System;
 using System.Linq.Expressions;
-using StardewValley;
-
-using Extensions;
 
 #endregion using directives
 
@@ -17,12 +16,10 @@ public static class ModDataDictionaryExtensions
     /// <param name="key">The dictionary key to read from.</param>
     /// <param name="defaultValue">The default value to return if the key does not exist.</param>
     /// <returns>The value of the specified key if it exists, or a default value if it doesn't.</returns>
-    public static string Read(this ModDataDictionary data, string key, string defaultValue = "")
-    {
-        return data.TryGetValue(key, out var rawValue)
+    public static string Read(this ModDataDictionary data, string key, string defaultValue = "") =>
+        data.TryGetValue(key, out var rawValue)
             ? rawValue
             : defaultValue;
-    }
 
     /// <summary>Read a value from the <see cref="ModDataDictionary" /> and try to parse it as type <typeparamref name="T" />.</summary>
     /// <param name="key">The dictionary key to read from.</param>
@@ -31,12 +28,10 @@ public static class ModDataDictionaryExtensions
     ///     The value of the specified key if it exists, parsed as type <typeparamref name="T" />, or a default value if
     ///     the key doesn't exist or fails to parse.
     /// </returns>
-    public static T ReadAs<T>(this ModDataDictionary data, string key, T defaultValue = default) where T : struct
-    {
-        return data.TryGetValue(key, out var rawValue) && rawValue.TryParse(out T parsedValue)
+    public static T ReadAs<T>(this ModDataDictionary data, string key, T defaultValue = default) where T : struct =>
+        data.TryGetValue(key, out var rawValue) && rawValue.TryParse(out T parsedValue)
             ? parsedValue
             : defaultValue;
-    }
 
     /// <summary>Write a string value to the <see cref="ModDataDictionary" />, or remove the corresponding key if supplied with a null or empty string.</summary>
     /// <param name="key">The dictionary key to write to.</param>
@@ -76,12 +71,10 @@ public static class ModDataDictionaryExtensions
     /// <param name="key">The dictionary key to update.</param>
     /// <param name="value">The object value to append.</param>
     /// <returns>Interface to <paramref name="data" />.</returns>
-    public static ModDataDictionary Append<T>(this ModDataDictionary data, string key, T value, string separator)
-    {
-        return data.TryGetValue(key, out var currentValue)
+    public static ModDataDictionary Append<T>(this ModDataDictionary data, string key, T value, string separator) =>
+        data.TryGetValue(key, out var currentValue)
             ? data.Write(key, currentValue + separator + value)
             : data.Write(key, value?.ToString());
-    }
 
     /// <summary>Increment a numeric value in the <see cref="ModDataDictionary" />.</summary>
     /// <param name="key">The dictionary key to update.</param>

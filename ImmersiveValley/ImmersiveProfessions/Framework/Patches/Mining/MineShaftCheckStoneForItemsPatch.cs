@@ -2,19 +2,18 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
-using StardewValley.Locations;
-
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using StardewValley;
+using StardewValley.Locations;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -61,7 +60,7 @@ internal sealed class MineShaftCheckStoneForItemsPatch : DaLion.Common.Harmony.H
                     new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     // prepare profession check
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 4) // arg 4 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Spelunker.Value, forLocalPlayer: false)
                 .Insert(
@@ -87,7 +86,7 @@ internal sealed class MineShaftCheckStoneForItemsPatch : DaLion.Common.Harmony.H
         /// Skipped: if (who.professions.Contains(<geologist_id>)) ...
 
         var i = 0;
-        repeat1:
+    repeat1:
         try
         {
             helper // find index of geologist check
@@ -101,7 +100,7 @@ internal sealed class MineShaftCheckStoneForItemsPatch : DaLion.Common.Harmony.H
                 .Return()
                 .InsertWithLabels( // insert unconditional branch to skip this check and restore backed-up labels to this branch
                     labels,
-                    new CodeInstruction(OpCodes.Br_S, (Label) isNotGeologist)
+                    new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist)
                 );
         }
         catch (Exception ex)
@@ -117,7 +116,7 @@ internal sealed class MineShaftCheckStoneForItemsPatch : DaLion.Common.Harmony.H
         /// To: random.NextDouble() < <value> * (1.0 + chanceModifier)
 
         i = 0;
-        repeat2:
+    repeat2:
         try
         {
             helper // find index of excavator check

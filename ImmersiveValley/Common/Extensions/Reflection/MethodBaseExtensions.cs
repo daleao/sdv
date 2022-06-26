@@ -2,12 +2,12 @@
 
 #region using directives
 
+using HarmonyLib;
+using StardewModdingAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using HarmonyLib;
-using StardewModdingAPI;
 
 #endregion using directives
 

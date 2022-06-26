@@ -2,15 +2,12 @@
 
 #region using directives
 
-using System.Linq;
+using Common.Data;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-
-using Common.Data;
-using Common.Harmony;
-
+using System.Linq;
 using SObject = StardewValley.Object;
 
 #endregion using directives

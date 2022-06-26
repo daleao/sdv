@@ -2,11 +2,9 @@
 
 #region using directives
 
+using DaLion.Common.Extensions.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
 
 #endregion using directives
 
@@ -38,7 +36,7 @@ internal sealed class ExperienceBarGetExperienceRequiredToLevelPatch : DaLion.Co
 
         __result = currentLevel >= 20
             ? 0
-            : EXP_AT_LEVEL_TEN_I + (currentLevel - 10 + 1) * (int) ModEntry.Config.RequiredExpPerExtendedLevel;
+            : EXP_AT_LEVEL_TEN_I + (currentLevel - 10 + 1) * (int)ModEntry.Config.RequiredExpPerExtendedLevel;
         return false; // don't run original logic
     }
 

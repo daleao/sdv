@@ -2,21 +2,19 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Common;
+using Common.Data;
+using Common.Extensions;
+using Common.Extensions.Reflection;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using StardewValley.Objects;
-
-using Common;
-using Common.Data;
-using Common.Extensions;
-using Common.Extensions.Reflection;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -36,16 +34,12 @@ public static class FishPondExtensions
     }
 
     /// <summary>Whether a legendary fish lives in this pond.</summary>
-    public static bool IsLegendaryPond(this FishPond pond)
-    {
-        return pond.GetFishObject().HasContextTag("fish_legendary");
-    }
+    public static bool IsLegendaryPond(this FishPond pond) =>
+        pond.GetFishObject().HasContextTag("fish_legendary");
 
     /// <summary>Whether this pond is infested with algae.</summary>
-    public static bool IsAlgaePond(this FishPond pond)
-    {
-        return pond.fishType.Value.IsAlgae();
-    }
+    public static bool IsAlgaePond(this FishPond pond) =>
+        pond.fishType.Value.IsAlgae();
 
     /// <summary>Give the player fishing experience for harvesting the pond.</summary>
     /// <param name="who">The player.</param>
@@ -53,7 +47,7 @@ public static class FishPondExtensions
     {
         if (ModDataIO.ReadDataAs<bool>(pond, "CheckedToday")) return;
 
-        var bonus = (int) (pond.output.Value is SObject @object
+        var bonus = (int)(pond.output.Value is SObject @object
             ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
             : 0);
         who.gainExperience(Farmer.fishingSkill, FishPond.HARVEST_BASE_EXP + bonus);
@@ -64,7 +58,7 @@ public static class FishPondExtensions
     public static bool OpenChumBucketMenu(this FishPond pond, Farmer who)
     {
         var held = ModDataIO.ReadData(pond, "ItemsHeld").ParseList<string>(";");
-        if (held is null || !held.Any())
+        if (held?.Any() != true)
         {
             if (who.addItemToInventoryBool(pond.output.Value))
             {
@@ -78,7 +72,7 @@ public static class FishPondExtensions
         }
         else
         {
-            var produce = new List<Item> {pond.output.Value};
+            var produce = new List<Item> { pond.output.Value };
             try
             {
                 foreach (var p in held)
@@ -98,12 +92,12 @@ public static class FishPondExtensions
                     }
                     else
                     {
-                        produce.Add(new SObject(index, stack) {Quality = quality});
+                        produce.Add(new SObject(index, stack) { Quality = quality });
                     }
                 }
 
                 Game1.activeClickableMenu = new ItemGrabMenu(produce, pond).setEssential(false);
-                ((ItemGrabMenu) Game1.activeClickableMenu).source = ItemGrabMenu.source_fishingChest;
+                ((ItemGrabMenu)Game1.activeClickableMenu).source = ItemGrabMenu.source_fishingChest;
             }
             catch (InvalidOperationException ex)
             {

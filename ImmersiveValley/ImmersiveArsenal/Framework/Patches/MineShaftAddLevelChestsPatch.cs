@@ -9,8 +9,6 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 
-using Common.Harmony;
-
 #endregion using directives
 
 [UsedImplicitly]

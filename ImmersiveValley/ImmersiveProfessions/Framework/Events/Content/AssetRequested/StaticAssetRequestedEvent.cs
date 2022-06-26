@@ -2,8 +2,9 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
+using Common.Data;
+using Common.Events;
+using Common.Extensions;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,10 +12,8 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.GameData.FishPond;
-
-using Common.Data;
-using Common.Events;
-using Common.Extensions;
+using System;
+using System.Collections.Generic;
 using Textures;
 
 #endregion using directives
@@ -81,7 +80,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Patches fish pond data with legendary fish data.</summary>
     private static void EditFishPondDataData(IAssetData asset)
     {
-        var data = (List<FishPondData>) asset.Data;
+        var data = (List<FishPondData>)asset.Data;
         data.InsertRange(data.Count - 2, new List<FishPondData>
         {
             new() // legendary fish
@@ -119,7 +118,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
             : Game1.CurrentSeasonDisplayName;
 
         string message = ModEntry.i18n.Get(key,
-            new {honorific, taxBonus = FormattableString.CurrentCulture($"{taxBonus:p0}"), farm, season});
+            new { honorific, taxBonus = FormattableString.CurrentCulture($"{taxBonus:p0}"), farm, season });
         data[$"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice"] = message;
     }
 
@@ -208,7 +207,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
             if (vintage != "off")
                 return path + $"gauge_vintage_{vintage}.png";
         }
-        
+
         return path + "gauge.png";
     }
 

@@ -6,8 +6,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 
-using Common.Harmony;
-
 #endregion using directives
 
 [UsedImplicitly]
@@ -23,10 +21,7 @@ internal sealed class ToolDrawPatch : Common.Harmony.HarmonyPatch
 
     /// <summary>Hide affected tiles overlay.</summary>
     [HarmonyPrefix]
-    private static bool ToolDrawPrefix()
-    {
-        return !ModEntry.Config.HideAffectedTiles;
-    }
+    private static bool ToolDrawPrefix() => !ModEntry.Config.HideAffectedTiles;
 
     #endregion harmony patches
 }

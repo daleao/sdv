@@ -2,25 +2,23 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
-using Netcode;
-using StardewValley;
-
 using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Common.Integrations;
 using Extensions;
-
+using HarmonyLib;
+using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
+using Netcode;
+using StardewValley;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using CollectionExtensions = DaLion.Common.Extensions.Collections.CollectionExtensions;
 
 #endregion using directives
@@ -33,7 +31,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
     {
         try
         {
-            Target = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("update", new[] {typeof(GameTime)});
+            Target = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("update", new[] { typeof(GameTime) });
         }
         catch
         {
@@ -101,7 +99,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
 
         /// From: Game1.player.professions.Add(professionsToChoose[i]);
         /// To: if (!Game1.player.professions.AddOrReplace(professionsToChoose[i]))
-        
+
         var dontGetImmediatePerks = generator.DefineLabel();
         var i = 0;
     repeat:
@@ -215,12 +213,10 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
         return branch == firstId ? professionPairs[1] : professionPairs[2];
     }
 
-    private static bool ShouldSuppressClick(int hovered, int currentLevel)
-    {
-        return ModEntry.CustomProfessions.TryGetValue(hovered, out var profession) &&
+    private static bool ShouldSuppressClick(int hovered, int currentLevel) =>
+        ModEntry.CustomProfessions.TryGetValue(hovered, out var profession) &&
                (currentLevel == 5 && Game1.player.HasAllProfessionsBranchingFrom(profession) ||
                currentLevel == 10 && Game1.player.HasProfession(profession));
-    }
 
     #endregion injected subroutines
 }

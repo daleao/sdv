@@ -2,17 +2,15 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+using Common;
+using Common.Extensions;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
-
-using Common;
-using Common.Extensions;
-using Common.Harmony;
-using Extensions;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 #endregion using directives
 
@@ -22,7 +20,7 @@ internal sealed class CraftingRecipeGetCraftableCountPatch : Common.Harmony.Harm
     /// <summary>Construct an instance.</summary>
     internal CraftingRecipeGetCraftableCountPatch()
     {
-        Target = RequireMethod<CraftingRecipe>(nameof(CraftingRecipe.getCraftableCount), new[] {typeof(IList<Item>)});
+        Target = RequireMethod<CraftingRecipe>(nameof(CraftingRecipe.getCraftableCount), new[] { typeof(IList<Item>) });
         Prefix!.priority = Priority.HigherThanNormal;
     }
 

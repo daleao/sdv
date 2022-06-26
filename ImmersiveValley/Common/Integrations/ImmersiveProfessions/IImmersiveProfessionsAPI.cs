@@ -2,9 +2,9 @@
 
 #region using directives
 
-using System;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using System;
 
 #endregion using directives
 

@@ -2,13 +2,12 @@
 
 #region using directives
 
-using System.Linq;
-using StardewModdingAPI.Events;
-using StardewValley;
-
 using Common;
 using Common.Events;
 using Events.Toxicity;
+using StardewModdingAPI.Events;
+using StardewValley;
+using System.Linq;
 
 #endregion using directives
 

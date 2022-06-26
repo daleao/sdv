@@ -2,13 +2,12 @@
 
 #region using directives
 
-using System.Diagnostics;
+using Common.Events;
+using Common.Integrations;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
-
-using Common.Events;
-using Common.Integrations;
+using System.Diagnostics;
 using Utility;
 
 #endregion using directives
@@ -41,7 +40,7 @@ internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
             var luckSkill = new LuckSkill(ModEntry.LuckSkillApi);
             ModEntry.CustomSkills["spacechase0.LuckSkill"] = luckSkill;
             foreach (var profession in luckSkill.Professions)
-                ModEntry.CustomProfessions[profession.Id] = (CustomProfession) profession;
+                ModEntry.CustomProfessions[profession.Id] = (CustomProfession)profession;
         }
 
         // get remaining SpaceCore skills
@@ -50,7 +49,7 @@ internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
             var customSkill = new CustomSkill(skillId, ModEntry.SpaceCoreApi);
             ModEntry.CustomSkills[skillId] = customSkill;
             foreach (var profession in customSkill.Professions)
-                ModEntry.CustomProfessions[profession.Id] = (CustomProfession) profession;
+                ModEntry.CustomProfessions[profession.Id] = (CustomProfession)profession;
         }
 
         // revalidate custom skill levels

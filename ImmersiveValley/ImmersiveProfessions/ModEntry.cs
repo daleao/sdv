@@ -2,19 +2,18 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
-using StardewValley;
-
 using Common;
-using Common.Classes;
+using Common.Multiplayer;
 using Common.Commands;
 using Common.Data;
 using Common.Harmony;
 using Common.Integrations;
 using Framework;
+using Newtonsoft.Json.Linq;
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+using StardewValley;
+using System.Collections.Generic;
 
 #endregion using directives
 
@@ -25,7 +24,7 @@ public class ModEntry : Mod
     internal static ModEntry Instance { get; private set; } = null!;
     internal static ModConfig Config { get; set; } = null!;
     internal static ProfessionEventManager EventManager { get; private set; } = null!;
-    internal static MultiplayerBroadcaster Broadcaster { get; private set; } = null!;
+    internal static Broadcaster Broadcaster { get; private set; } = null!;
     internal static HostState HostState { get; private set; } = null!;
     internal static PerScreen<PlayerState> PerScreenState { get; private set; } = null!;
     internal static PlayerState PlayerState
@@ -70,7 +69,7 @@ public class ModEntry : Mod
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();
-        
+
         // initialize mod events
         EventManager = new(Helper.Events);
 
@@ -107,8 +106,5 @@ public class ModEntry : Mod
     }
 
     /// <inheritdoc />
-    public override object GetApi()
-    {
-        return new ModAPI();
-    }
+    public override object GetApi() => new ModAPI();
 }

@@ -2,20 +2,17 @@
 
 #region using directives
 
-using System;
-using System.IO;
-using System.Linq;
+using Common;
+using Common.Data;
+using Common.Extensions;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Buildings;
-
-using Common;
-using Common.Data;
-using Common.Extensions;
-using Common.Harmony;
-using Extensions;
-
+using System;
+using System.IO;
+using System.Linq;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -72,7 +69,7 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
 
                 if (familyCount > 0 &&
                     Game1.random.NextDouble() <
-                    (double) familyCount /
+                    (double)familyCount /
                     (__instance.FishCount -
                      1)) // fish pond count has already been incremented at this point, so we consider -1;
                     forFamily = true;

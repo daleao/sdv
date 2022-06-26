@@ -2,13 +2,11 @@
 
 #region using directives
 
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Monsters;
-
-using DaLion.Common.Harmony;
-using Extensions;
 using Ultimates;
 
 #endregion using directives
@@ -34,7 +32,7 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatch : DaLion.Common
 
         var who = __instance.Player;
         if (!who.IsLocalPlayer ||
-            ModEntry.PlayerState.RegisteredUltimate is not Enthrall {IsActive: false} pandemonium ||
+            ModEntry.PlayerState.RegisteredUltimate is not Enthrall { IsActive: false } pandemonium ||
             ModEntry.PlayerState.SlimeContactTimer > 0) return;
 
         pandemonium.ChargeValue += Game1.random.Next(1, 4);

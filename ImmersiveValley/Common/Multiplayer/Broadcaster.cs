@@ -1,25 +1,25 @@
-﻿namespace DaLion.Common.Classes;
+﻿namespace DaLion.Common.Multiplayer;
 
 #region using directives
 
-using System.Threading.Tasks;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using System.Threading.Tasks;
 
 #endregion using directives
 
 /// <summary>Provides methods for synchronous and asynchronous communication between remote online players.</summary>
-public class MultiplayerBroadcaster
+public class Broadcaster
 {
     private readonly IMultiplayerHelper _Helper;
     private readonly string _modID;
-    
+
     public TaskCompletionSource<string> ResponseReceived = null!;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="modID">The unique id of the mod requesting an instance.</param>
-    public MultiplayerBroadcaster(IMultiplayerHelper helper, string modID)
+    public Broadcaster(IMultiplayerHelper helper, string modID)
     {
         _Helper = helper;
         _modID = modID;
@@ -30,7 +30,7 @@ public class MultiplayerBroadcaster
     /// <param name="messageType">The message type.</param>
     public void Broadcast(string message, string messageType)
     {
-        _Helper.SendMessage(message, messageType, new[] {_modID});
+        _Helper.SendMessage(message, messageType, new[] { _modID });
     }
 
     /// <summary>Send a synchronous message to a multiplayer peer.</summary>
@@ -39,7 +39,7 @@ public class MultiplayerBroadcaster
     /// <param name="playerId">The unique id of the recipient.</param>
     public void Message(string message, string messageType, long playerId)
     {
-        _Helper.SendMessage(message, messageType, new[] {_modID}, new[] {playerId});
+        _Helper.SendMessage(message, messageType, new[] { _modID }, new[] { playerId });
     }
 
     /// <summary>Send a synchronous message to a multiplayer peer that should be received by an external mod.</summary>
@@ -48,7 +48,7 @@ public class MultiplayerBroadcaster
     /// <param name="playerId">The unique id of the recipient.</param>
     public void Message(string message, string messageType, long playerId, string modId)
     {
-        _Helper.SendMessage(message, messageType, new[] {modId}, new[] {playerId});
+        _Helper.SendMessage(message, messageType, new[] { modId }, new[] { playerId });
     }
 
     /// <summary>Send a synchronous message to the multiplayer host.</summary>
@@ -56,7 +56,7 @@ public class MultiplayerBroadcaster
     /// <param name="messageType">The message type.</param>
     public void MessageHost(string message, string messageType)
     {
-        _Helper.SendMessage(message, messageType, new[] {_modID}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
+        _Helper.SendMessage(message, messageType, new[] { _modID }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
     }
 
     /// <summary>Send a synchronous message to the multiplayer host that should be received by an external mod.</summary>
@@ -64,7 +64,7 @@ public class MultiplayerBroadcaster
     /// <param name="messageType">The message type.</param>
     public void MessageHost(string message, string messageType, string modId)
     {
-        _Helper.SendMessage(message, messageType, new[] {modId}, new[] {Game1.MasterPlayer.UniqueMultiplayerID});
+        _Helper.SendMessage(message, messageType, new[] { modId }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
     }
 
     /// <summary>Send an asynchronous request to a multiplayer peer and await a response.</summary>
@@ -73,7 +73,7 @@ public class MultiplayerBroadcaster
     /// <param name="playerId">The unique id of the recipient.</param>
     public async Task<string> RequestAsync(string message, string messageType, long playerId)
     {
-        _Helper.SendMessage(message, messageType, new[] {_modID}, new[] {playerId});
+        _Helper.SendMessage(message, messageType, new[] { _modID }, new[] { playerId });
 
         ResponseReceived = new();
         return await ResponseReceived.Task;

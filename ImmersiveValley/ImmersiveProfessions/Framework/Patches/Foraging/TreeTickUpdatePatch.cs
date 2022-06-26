@@ -2,19 +2,18 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-using Netcode;
-using StardewValley.TerrainFeatures;
-
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using Netcode;
+using StardewValley.TerrainFeatures;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -40,7 +39,7 @@ internal sealed class TreeTickUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
         /// To: Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <lumberjack_id>) ? 1.4 : Game1.getFarmer(lastPlayerToHit).professions.Contains(12) ? 1.25 : 1.0
 
         var i = 0;
-        repeat1:
+    repeat1:
         try
         {
             var isPrestiged = generator.DefineLabel();
@@ -64,7 +63,7 @@ internal sealed class TreeTickUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .InsertWithLabels(
-                    new[] {isPrestiged},
+                    new[] { isPrestiged },
                     new CodeInstruction(OpCodes.Pop),
                     new CodeInstruction(OpCodes.Ldc_R8, 1.4)
                 );
@@ -111,7 +110,7 @@ internal sealed class TreeTickUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 
         helper.GoTo(0);
         i = 0;
-        repeat2:
+    repeat2:
         try
         {
             var notPrestigedArborist1 = generator.DefineLabel();

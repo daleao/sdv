@@ -2,15 +2,14 @@
 
 #region using directives
 
-using System.Linq;
-using JetBrains.Annotations;
-using StardewModdingAPI.Events;
-using StardewValley;
-
 using Common;
 using Common.Data;
 using Common.Events;
 using Extensions;
+using JetBrains.Annotations;
+using StardewModdingAPI.Events;
+using StardewValley;
+using System.Linq;
 using Ultimates;
 
 #endregion using directives
@@ -40,16 +39,16 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
         {
             case UltimateIndex.None when Game1.player.professions.Any(p => p is >= 26 and < 30):
                 Log.W("Player eligible for Ultimate but not currently registered to any. Setting to a default value.");
-                superModeIndex = (UltimateIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
+                superModeIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
                 ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), superModeIndex.ToString());
 
                 break;
 
-            case > UltimateIndex.None when !Game1.player.professions.Contains((int) superModeIndex):
+            case > UltimateIndex.None when !Game1.player.professions.Contains((int)superModeIndex):
                 Log.W($"Missing corresponding profession for {superModeIndex} Ultimate. Resetting to a default value.");
                 if (Game1.player.professions.Any(p => p is >= 26 and < 30))
                 {
-                    superModeIndex = (UltimateIndex) Game1.player.professions.First(p => p is >= 26 and < 30);
+                    superModeIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
                     ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), superModeIndex.ToString());
                 }
                 else

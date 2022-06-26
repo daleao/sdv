@@ -3,16 +3,15 @@ namespace DaLion.Stardew.Professions.Framework.Events.Display;
 
 #region using directives
 
-using System.Collections.Generic;
+using Common.Events;
+using Common.Extensions.Xna;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
-
-using Common.Events;
-using Common.Extensions.Xna;
+using System.Collections.Generic;
 
 #endregion using directives
 
@@ -27,7 +26,7 @@ internal sealed class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
         : base(manager)
     {
         _pixel = new(Game1.graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-        _pixel.SetData(new[] {Color.White});
+        _pixel.SetData(new[] { Color.White });
     }
 
     internal static List<ClickableComponent> ClickableComponents { get; } = new();
@@ -52,7 +51,7 @@ internal sealed class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
             if (ModEntry.DebugCursorPosition is null) continue;
 
             var (cursorX, cursorY) = ModEntry.DebugCursorPosition.GetScaledScreenPixels();
-            if (component.containsPoint((int) cursorX, (int) cursorY)) FocusedComponent = component;
+            if (component.containsPoint((int)cursorX, (int)cursorY)) FocusedComponent = component;
         }
     }
 }

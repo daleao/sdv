@@ -2,12 +2,10 @@
 
 #region using directives
 
+using DaLion.Common.Data;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
-
-using DaLion.Common.Data;
-using DaLion.Common.Harmony;
 
 #endregion using directives
 

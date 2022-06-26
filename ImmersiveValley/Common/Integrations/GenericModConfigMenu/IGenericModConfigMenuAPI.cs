@@ -2,9 +2,9 @@ namespace DaLion.Common.Integrations;
 
 #region using directives
 
-using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
+using System;
 
 #endregion using directives
 

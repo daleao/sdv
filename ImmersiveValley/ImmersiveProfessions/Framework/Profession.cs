@@ -2,16 +2,14 @@
 
 #region using directives
 
-using static System.String;
-
+using Ardalis.SmartEnum;
+using Common.Extensions;
+using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Ardalis.SmartEnum;
-using StardewValley;
-
-using Common.Extensions;
+using static System.String;
 
 #endregion using directives
 
@@ -37,7 +35,7 @@ public class Profession : SmartEnum<Profession>, IProfession
     public static readonly Profession Forager = new("Forager", Farmer.gatherer, 5);
     public static readonly Profession Arborist = new("Arborist", Farmer.lumberjack, 10);
     public static readonly Profession Tapper = new("Tapper", Farmer.tapper, 10);
-    public static readonly Profession Ecologist = new ("Ecologist", Farmer.botanist, 10);
+    public static readonly Profession Ecologist = new("Ecologist", Farmer.botanist, 10);
     public static readonly Profession Scavenger = new("Scavenger", Farmer.tracker, 10);
     public static readonly Profession Miner = new("Miner", Farmer.miner, 5);
     public static readonly Profession Blaster = new("Blaster", Farmer.geologist, 5);
@@ -83,16 +81,12 @@ public class Profession : SmartEnum<Profession>, IProfession
     }
 
     /// <inheritdoc />
-    public string GetDisplayName(bool male = true)
-    {
-        return ModEntry.i18n.Get(Name.ToLowerInvariant() + ".name" + (male ? ".male" : ".female"));
-    }
+    public string GetDisplayName(bool male = true) =>
+        ModEntry.i18n.Get(Name.ToLowerInvariant() + ".name" + (male ? ".male" : ".female"));
 
     /// <inheritdoc />
-    public string GetDescription(bool prestiged = false)
-    {
-        return ModEntry.i18n.Get(Name.ToLowerInvariant() + ".desc" + (prestiged ? ".prestiged" : Empty));
-    }
+    public string GetDescription(bool prestiged = false) =>
+        ModEntry.i18n.Get(Name.ToLowerInvariant() + ".desc" + (prestiged ? ".prestiged" : Empty));
 
     /// <summary>Get the profession corresponding to the specified localized name.</summary>
     /// <param name="name">A localized profession name.</param>

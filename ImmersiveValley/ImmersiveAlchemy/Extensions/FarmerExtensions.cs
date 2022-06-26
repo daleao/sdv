@@ -2,14 +2,11 @@
 
 #region using directives
 
-using System.Linq;
-
-using SpaceCore;
-using StardewValley;
 using Framework;
 using Framework.Enums;
-
-using SObject = StardewValley.Object;
+using SpaceCore;
+using StardewValley;
+using System.Linq;
 
 #endregion using directives
 
@@ -20,23 +17,15 @@ public static class FarmerExtensions
         Skills.AddExperience(farmer, AlchemySkill.InternalName, howMuch);
     }
 
-    public static int GetAlchemyLevel(this Farmer farmer)
-    {
-        return Skills.GetSkillLevel(farmer, AlchemySkill.InternalName);
-    }
+    public static int GetAlchemyLevel(this Farmer farmer) =>
+        Skills.GetSkillLevel(farmer, AlchemySkill.InternalName);
 
-    public static int GetTotalCurrentAlchemyExperience(this Farmer farmer)
-    {
-        return Skills.GetExperienceFor(farmer, AlchemySkill.InternalName);
-    }
+    public static int GetTotalCurrentAlchemyExperience(this Farmer farmer) =>
+        Skills.GetExperienceFor(farmer, AlchemySkill.InternalName);
 
-    public static bool HasEnoughSubstanceInInventory(this Farmer farmer, PrimarySubstance substance, int amount)
-    {
-        return farmer.Items.Any(item => item.ContainsPrimarySubstance(substance, out var density) && item.Stack * density >= amount);
-    }
+    public static bool HasEnoughSubstanceInInventory(this Farmer farmer, PrimarySubstance substance, int amount) =>
+        farmer.Items.Any(item => item.ContainsPrimarySubstance(substance, out var density) && item.Stack * density >= amount);
 
-    public static bool HasEnoughBaseInInventory(this Farmer farmer, BaseType type)
-    {
-        return farmer.Items.Any(item => item.IsAlchemicalBase(type, out var purity) && item.Stack * purity >= 4);
-    }
+    public static bool HasEnoughBaseInInventory(this Farmer farmer, BaseType type) =>
+        farmer.Items.Any(item => item.IsAlchemicalBase(type, out var purity) && item.Stack * purity >= 4);
 }

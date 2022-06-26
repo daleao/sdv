@@ -2,12 +2,11 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using SpaceCore;
-using StardewValley;
-
 using Common;
 using Extensions;
+using SpaceCore;
+using StardewValley;
+using System.Collections.Generic;
 
 #endregion using directives
 

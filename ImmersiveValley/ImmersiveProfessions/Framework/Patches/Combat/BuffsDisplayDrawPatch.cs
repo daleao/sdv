@@ -2,16 +2,14 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common.Harmony;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 
@@ -23,7 +21,7 @@ internal sealed class BuffsDisplayDrawPatch : DaLion.Common.Harmony.HarmonyPatch
     /// <summary>Construct an instance.</summary>
     internal BuffsDisplayDrawPatch()
     {
-        Target = RequireMethod<BuffsDisplay>(nameof(BuffsDisplay.draw), new[] {typeof(SpriteBatch)});
+        Target = RequireMethod<BuffsDisplay>(nameof(BuffsDisplay.draw), new[] { typeof(SpriteBatch) });
     }
 
     /// <summary>Patch to draw Brute Rage buff.</summary>

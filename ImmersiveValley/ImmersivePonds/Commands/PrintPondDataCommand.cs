@@ -2,18 +2,16 @@
 
 #region using directives
 
-using System.Linq;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley.Buildings;
-using StardewValley;
-
 using Common;
 using Common.Commands;
 using Common.Data;
 using Common.Extensions;
 using Extensions;
-
+using JetBrains.Annotations;
+using StardewModdingAPI;
+using StardewValley;
+using StardewValley.Buildings;
+using System.Linq;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -64,7 +62,7 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
 
         var fish = nearest.GetFishObject();
         var message = $"{fish.Name} pond's mod data:";
-        
+
         var fishQualities = ModDataIO.ReadData(nearest, "FishQualities").ParseList<int>()!;
         message += "\n\tFish qualities:" +
                    $"\n\t\t- Regular: {fishQualities[0]}" +

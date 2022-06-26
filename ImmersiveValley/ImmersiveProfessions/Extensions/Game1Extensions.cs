@@ -2,11 +2,10 @@
 
 #region using directives
 
-using System.Linq;
+using Framework;
 using StardewModdingAPI;
 using StardewValley;
-
-using Framework;
+using System.Linq;
 
 #endregion using directives
 

@@ -4,12 +4,11 @@ namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
 #region using directives
 
+using Events.Display;
+using Events.GameLoop;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-
-using Events.Display;
-using Events.GameLoop;
 
 #endregion using directives
 

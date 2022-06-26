@@ -2,17 +2,16 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-using JetBrains.Annotations;
-
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
+using HarmonyLib;
+using JetBrains.Annotations;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -60,14 +59,14 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatch : DaLion.Commo
                 .AddLabels(isNotBreeder)
                 .InsertWithLabels(
                     labels,
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 5) // arg 5 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5) // arg 5 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Breeder.Value, forLocalPlayer: false)
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder),
                     new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
                     new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte) 5)
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5)
                 )
                 .InsertProfessionCheck(Profession.Breeder.Value + 100, forLocalPlayer: false)
                 .Insert(
@@ -76,14 +75,14 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatch : DaLion.Commo
                     new CodeInstruction(OpCodes.Br_S, resumeDivision)
                 )
                 .InsertWithLabels(
-                    new[] {isNotPrestiged},
+                    new[] { isNotPrestiged },
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0)
                 )
                 .InsertWithLabels(
-                    new[] {resumeDivision},
+                    new[] { resumeDivision },
                     new CodeInstruction(OpCodes.Div),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Math).RequireMethod(nameof(Math.Round), new[] {typeof(double)})),
+                        typeof(Math).RequireMethod(nameof(Math.Round), new[] { typeof(double) })),
                     new CodeInstruction(OpCodes.Conv_I4),
                     new CodeInstruction(OpCodes.Stloc_S, daysUntilBirth)
                 );

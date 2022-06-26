@@ -20,7 +20,7 @@ public static class Textures
 
     public static Texture2D MaxIconTx { get; set; } =
         ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/MaxFishSizeIcon");
-    
+
     public static Texture2D ProgressionTx { get; set; } =
         ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/PrestigeProgression");
 

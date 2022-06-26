@@ -2,19 +2,18 @@
 
 #region using directives
 
-using System;
-using System.Linq;
+using Common;
+using Common.Events;
+using Extensions;
+using GameLoop;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-
-using Common;
-using Common.Events;
-using Extensions;
-using GameLoop;
+using System;
+using System.Linq;
 
 #endregion using directives
 
@@ -40,7 +39,7 @@ internal sealed class PiperWarpedEvent : WarpedEvent
             Manager.Hook<PiperUpdateTickedEvent>();
             return;
         }
-        
+
         if (!isDungeon || e.NewLocation is MineShaft shaft1 && shaft1.isLevelSlimeArea())
             return;
 
@@ -74,36 +73,36 @@ internal sealed class PiperWarpedEvent : WarpedEvent
             switch (e.NewLocation)
             {
                 case MineShaft shaft:
-                {
-                    pipedSlime = new(Vector2.Zero, shaft.mineLevel);
-                    if (shaft.GetAdditionalDifficulty() > 0 &&
-                        r.NextDouble() < Math.Min(shaft.GetAdditionalDifficulty() * 0.1f, 0.5f))
-                        pipedSlime.stackedSlimes.Value = r.NextDouble() < 0.0099999997764825821 ? 4 : 2;
-
-                    shaft.BuffMonsterIfNecessary(pipedSlime);
-                    break;
-                }
-                case Woods:
-                {
-                    pipedSlime = Game1.currentSeason switch
                     {
-                        "fall" => new(Vector2.Zero, r.NextDouble() < 0.5 ? 40 : 0),
-                        "winter" => new(Vector2.Zero, 40),
-                        _ => new(Vector2.Zero, 0)
-                    };
-                    break;
-                }
+                        pipedSlime = new(Vector2.Zero, shaft.mineLevel);
+                        if (shaft.GetAdditionalDifficulty() > 0 &&
+                            r.NextDouble() < Math.Min(shaft.GetAdditionalDifficulty() * 0.1f, 0.5f))
+                            pipedSlime.stackedSlimes.Value = r.NextDouble() < 0.0099999997764825821 ? 4 : 2;
+
+                        shaft.BuffMonsterIfNecessary(pipedSlime);
+                        break;
+                    }
+                case Woods:
+                    {
+                        pipedSlime = Game1.currentSeason switch
+                        {
+                            "fall" => new(Vector2.Zero, r.NextDouble() < 0.5 ? 40 : 0),
+                            "winter" => new(Vector2.Zero, 40),
+                            _ => new(Vector2.Zero, 0)
+                        };
+                        break;
+                    }
                 case VolcanoDungeon:
-                {
-                    pipedSlime = new(Vector2.Zero, 0);
-                    pipedSlime.makeTigerSlime();
-                    break;
-                }
+                    {
+                        pipedSlime = new(Vector2.Zero, 0);
+                        pipedSlime.makeTigerSlime();
+                        break;
+                    }
                 default:
-                {
-                    pipedSlime = new(Vector2.Zero, 121);
-                    break;
-                }
+                    {
+                        pipedSlime = new(Vector2.Zero, 121);
+                        break;
+                    }
             }
 
             // adjust color
@@ -113,9 +112,9 @@ internal sealed class PiperWarpedEvent : WarpedEvent
             }
             else
             {
-                pipedSlime.color.R = (byte) (tamedSlime.color.R + r.Next(-20, 21));
-                pipedSlime.color.G = (byte) (tamedSlime.color.G + r.Next(-20, 21));
-                pipedSlime.color.B = (byte) (tamedSlime.color.B + r.Next(-20, 21));
+                pipedSlime.color.R = (byte)(tamedSlime.color.R + r.Next(-20, 21));
+                pipedSlime.color.G = (byte)(tamedSlime.color.G + r.Next(-20, 21));
+                pipedSlime.color.B = (byte)(tamedSlime.color.B + r.Next(-20, 21));
             }
 
             // spawn

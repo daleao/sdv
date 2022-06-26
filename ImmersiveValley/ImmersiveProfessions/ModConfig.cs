@@ -45,7 +45,7 @@ public class ModConfig
         "Wax Barrel", // artisan valley
         "Yogurt Jar" // artisan valley
     };
-    
+
     /// <summary>You must forage this many items before your forage becomes iridium-quality.</summary>
     public uint ForagesNeededForBestQuality { get; set; } = 500;
 
@@ -97,7 +97,7 @@ public class ModConfig
 
     /// <summary>The maximum income deduction allowed by the Ferngill Revenue Service.</summary>
     public float ConservationistTaxBonusCeiling { get; set; } = 0.37f;
-    
+
     /// <summary>The maximum stacks that can be gained for each buff stat.</summary>
     public uint PiperBuffCap { get; set; } = 10;
 
@@ -157,7 +157,7 @@ public class ModConfig
     public float MonsterDefenseMultiplier { get; set; } = 1f;
 
     /// <summary>Enable if using the Vintage Interface v2 mod. Accepted values: "Brown", "Pink", "Off", "Automatic".</summary>
-    public VintageInterfaceStyle VintageInterfaceSupport{ get; set; } = VintageInterfaceStyle.Automatic;
+    public VintageInterfaceStyle VintageInterfaceSupport { get; set; } = VintageInterfaceStyle.Automatic;
 
     /// <summary>Determines the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons", "Gen4Ribbons".</summary>
     public ProgressionStyle PrestigeProgressionStyle { get; set; } = ProgressionStyle.StackedStars;

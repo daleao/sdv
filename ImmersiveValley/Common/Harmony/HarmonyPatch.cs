@@ -2,13 +2,12 @@
 
 #region using directives
 
+using Extensions.Reflection;
+using HarmonyLib;
 using System;
-using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Reflection;
-using HarmonyLib;
-
-using Extensions.Reflection;
+using System.Runtime.CompilerServices;
 
 #endregion using directives
 
@@ -54,19 +53,15 @@ internal abstract class HarmonyPatch : IHarmonyPatch
     /// <summary>Get a method and assert that it was found.</summary>
     /// <param name="parameters">The method parameter types, or <c>null</c> if it's not overloaded.</param>
     /// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
-    protected ConstructorInfo RequireConstructor<TType>(params Type[] parameters)
-    {
-        return typeof(TType).RequireConstructor(parameters);
-    }
+    protected ConstructorInfo RequireConstructor<TType>(params Type[] parameters) =>
+        typeof(TType).RequireConstructor(parameters);
 
     /// <summary>Get a method and assert that it was found.</summary>
     /// <param name="name">The method name.</param>
     /// <param name="parameters">The method parameter types, or <c>null</c> if it's not overloaded.</param>
     /// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
-    protected MethodInfo RequireMethod<TType>(string name, Type[]? parameters = null)
-    {
-        return typeof(TType).RequireMethod(name, parameters);
-    }
+    protected MethodInfo RequireMethod<TType>(string name, Type[]? parameters = null) =>
+        typeof(TType).RequireMethod(name, parameters);
 
     /// <summary>Get all Harmony patch methods in the current patch instance.</summary>
     private (HarmonyMethod?, HarmonyMethod?, HarmonyMethod?, HarmonyMethod?, HarmonyMethod?) GetHarmonyMethods()

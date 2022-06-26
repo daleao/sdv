@@ -2,17 +2,14 @@
 
 #region using directives
 
+using DaLion.Common.Extensions;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Netcode;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-
-using DaLion.Common.Harmony;
-using DaLion.Common.Extensions;
-using Extensions;
-
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -46,7 +43,7 @@ internal sealed class ProjectileBehaviorOnCollisionPatch : DaLion.Common.Harmony
                 SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
             || ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
             location.debris.Add(new(___currentTileSheetIndex.Value - 1,
-                new((int) ___position.X, (int) ___position.Y), firer.getStandingPosition()));
+                new((int)___position.X, (int)___position.Y), firer.getStandingPosition()));
     }
 
     #endregion harmony patches

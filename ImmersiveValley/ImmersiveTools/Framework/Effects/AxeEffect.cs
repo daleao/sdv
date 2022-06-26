@@ -2,15 +2,13 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Linq;
+using Configs;
+using Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-
-using Configs;
-using Extensions;
-
+using System.Collections.Generic;
+using System.Linq;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -58,7 +56,7 @@ internal class AxeEffect : IEffect
                 return ShouldCut(bush) && tool.UseOnTile(tile, location, who);
 
             // clear crops
-            case HoeDirt {crop: { }} dirt:
+            case HoeDirt { crop: { } } dirt:
                 if (Config.ClearDeadCrops && dirt.crop.dead.Value)
                     return tool.UseOnTile(tile, location, who);
                 else if (Config.ClearLiveCrops && !dirt.crop.dead.Value)
@@ -94,34 +92,27 @@ internal class AxeEffect : IEffect
 
     /// <summary>Get whether a given tree should be chopped.</summary>
     /// <param name="tree">The tree to check.</param>
-    private bool ShouldCut(Tree tree)
-    {
-        return tree.growthStage.Value switch
+    private bool ShouldCut(Tree tree) =>
+        tree.growthStage.Value switch
         {
             Tree.seedStage => Config.ClearTreeSeeds, // seed
             < Tree.treeStage => Config.ClearTreeSaplings, // sapling
             _ => tree.tapped.Value ? Config.CutTappedTrees : Config.CutGrownTrees // full-ground
         };
-    }
 
     /// <summary>Get whether a given tree should be chopped.</summary>
     /// <param name="tree">The tree to check.</param>
-    private bool ShouldCut(FruitTree tree)
-    {
-        return tree.growthStage.Value switch
+    private bool ShouldCut(FruitTree tree) =>
+        tree.growthStage.Value switch
         {
             Tree.seedStage => Config.ClearFruitTreeSeeds, // seed
             < Tree.treeStage => Config.ClearFruitTreeSaplings, // sapling
             _ => Config.CutGrownFruitTrees // full-grown
         };
-    }
 
     /// <summary>Get whether bushes should be chopped.</summary>
     /// <param name="bush">A bush.</param>
-    private bool ShouldCut(Bush bush)
-    {
-        return Config.ClearBushes;
-    }
+    private bool ShouldCut(Bush bush) => Config.ClearBushes;
 
     #endregion private methods
 }

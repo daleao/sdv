@@ -2,12 +2,12 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 
@@ -16,10 +16,8 @@ public static class FarmerExtensions
 {
     /// <summary>Get the tile distance between the farmer and any building in the <see cref="GameLocation"/>.</summary>
     /// <param name="building">The target building.</param>
-    public static double DistanceToBuilding(this Farmer farmer, Building building)
-    {
-        return (farmer.getTileLocation() - new Vector2(building.tileX.Value, building.tileY.Value)).Length();
-    }
+    public static double DistanceToBuilding(this Farmer farmer, Building building) =>
+        (farmer.getTileLocation() - new Vector2(building.tileX.Value, building.tileY.Value)).Length();
 
     /// <summary>Find the closest building to this instance in the current <see cref="GameLocation"/>. </summary>
     /// <typeparam name="T">A subtype of <see cref="Building"/>.</typeparam>

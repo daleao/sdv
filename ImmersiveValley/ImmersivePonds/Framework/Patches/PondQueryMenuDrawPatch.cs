@@ -3,9 +3,11 @@ namespace DaLion.Stardew.Ponds.Framework.Patches;
 
 #region using directives
 
-using System;
-using System.Linq;
-using System.Reflection;
+using Common;
+using Common.Data;
+using Common.Extensions;
+using Common.Extensions.Reflection;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -15,14 +17,9 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
-
-using Common;
-using Common.Data;
-using Common.Extensions;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using Extensions;
-
+using System;
+using System.Linq;
+using System.Reflection;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -48,8 +45,8 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
     {
-        Target = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] {typeof(SpriteBatch)});
-        Prefix!.before = new[] {"DaLion.ImmersiveProfessions"};
+        Target = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] { typeof(SpriteBatch) });
+        Prefix!.before = new[] { "DaLion.ImmersiveProfessions" };
     }
 
     #region harmony patches
@@ -92,7 +89,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                         PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Name"),
                         ____fishItem.DisplayName);
                 var textSize = Game1.smallFont.MeasureString(pondNameText);
-                Game1.DrawBox((int) (Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f),
+                Game1.DrawBox((int)(Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f),
                     __instance.yPositionOnScreen - 4 + 128, (int)(textSize.X + 64f), 64);
                 Utility.drawTextWithShadow(b, pondNameText, Game1.smallFont,
                     new(Game1.uiViewport.Width / 2 - textSize.X * 0.5f,
@@ -151,10 +148,10 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
 
                 for (var i = 0; i < slotsToDraw; ++i)
                 {
-                    var yOffset = (float) Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
+                    var yOffset = (float)Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
                     var xPos = __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
                         slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f + slotSpacing * 4f * x + 12f;
-                    var yPos = __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * slotSpacing + 275.2f;
+                    var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + y * 4 * slotSpacing + 275.2f;
                     if (unlockedMaxPopulation) xPos -= 24f;
                     else if (isLegendaryPond) xPos += 60f;
 
@@ -210,7 +207,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 );
                 if (hasUnresolvedNeeds)
                 {
-                    _DrawHorizontalPartition(__instance, b, (int) (__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
+                    _DrawHorizontalPartition(__instance, b, (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
                     Utility.drawWithShadow(
                         b: b,
                         texture: Game1.mouseCursors,
@@ -220,7 +217,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                         ),
                         sourceRect: new(412, 495, 5, 4),
                         color: Color.White,
-                        rotation: (float) Math.PI / 2f,
+                        rotation: (float)Math.PI / 2f,
                         origin: Vector2.Zero
                     );
                     var bringText =
@@ -232,7 +229,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                     var iconX = textX + textSize.X + 4f;
                     if (LocalizedContentManager.CurrentLanguageCode.IsIn(
                             LocalizedContentManager.LanguageCode.ja,
-                            LocalizedContentManager.LanguageCode.ko, 
+                            LocalizedContentManager.LanguageCode.ko,
                             LocalizedContentManager.LanguageCode.tr)
                     )
                     {
@@ -309,7 +306,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                         destinationRectangle: Game1.graphics.GraphicsDevice.Viewport.Bounds,
                         color: Color.Black * 0.75f
                     );
-                    
+
                     const int padding = 16;
                     ____confirmationBoxRectangle.Width += padding;
                     ____confirmationBoxRectangle.Height += padding;
@@ -397,10 +394,10 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
         int x = 0, y = 0;
         for (var i = 0; i < slotsToDraw; ++i)
         {
-            var yOffset = (float) Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
+            var yOffset = (float)Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
             var xPos = __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
                 SLOT_SPACING_F * Math.Min(totalSlots, 5) * 4f * 0.5f + SLOT_SPACING_F * 4f * x - 12f;
-            var yPos = __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f;
+            var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + y * 4 * SLOT_SPACING_F + 275.2f;
 
             var quality = numBestQuality-- > 0
                 ? SObject.bestQuality
@@ -426,7 +423,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 : new(346, 392, 8, 8);
             yOffset = quality < SObject.bestQuality
                 ? 0f
-                : (float) ((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) +
+                : (float)((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) +
                             1f) * 0.05f);
             b.Draw(
                 texture: Game1.mouseCursors,
@@ -452,10 +449,10 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
             slotsToDraw = familyCount;
             for (var i = 0; i < slotsToDraw; ++i)
             {
-                var yOffset = (float) Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
+                var yOffset = (float)Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
                 var xPos = __instance.xPositionOnScreen - 20 + PondQueryMenu.width / 2 -
                     SLOT_SPACING_F * Math.Min(totalSlots, 5) * 4f * 0.5f + SLOT_SPACING_F * 4f * x - 12f;
-                var yPos = __instance.yPositionOnScreen + (int) (yOffset * 4f) + y * 4 * SLOT_SPACING_F +
+                var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + y * 4 * SLOT_SPACING_F +
                            275.2f;
 
                 var quality = numBestFamilyQuality-- > 0
@@ -472,7 +469,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                     : new(346, 392, 8, 8);
                 yOffset = quality < SObject.bestQuality
                     ? 0f
-                    : (float) ((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) +
+                    : (float)((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) +
                                 1f) * 0.05f);
                 b.Draw(Game1.mouseCursors, new(xPos + xOffset, yPos + yOffset + 50f), qualityRect, Color.White,
                     0f, new(4f, 4f), 3f * 0.75f * (1f + yOffset), SpriteEffects.None, 0.9f);

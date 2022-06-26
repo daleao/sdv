@@ -2,12 +2,11 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Linq;
-using StardewValley;
-
 using Enums;
 using Extensions;
+using StardewValley;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 
@@ -17,7 +16,7 @@ public class Formula : CraftingRecipe
     public int[] Coefficients { get; }
 
     /// <summary>The <see cref="BaseType"/> required to mix this formula.</summary>
-    public BaseType RequiredBase { get;}
+    public BaseType RequiredBase { get; }
 
     /// <summary>Construct an instance.</summary>
     /// <param name="name">The name of the generated item.</param>
@@ -36,7 +35,7 @@ public class Formula : CraftingRecipe
         if (!Game1.player.HasEnoughBaseInInventory(RequiredBase)) return false;
 
         for (var i = 0; i < 6; ++i)
-            if (!Game1.player.HasEnoughSubstanceInInventory((PrimarySubstance) i, Coefficients[i]))
+            if (!Game1.player.HasEnoughSubstanceInInventory((PrimarySubstance)i, Coefficients[i]))
                 return false;
 
         return true;
@@ -50,7 +49,7 @@ public class Formula : CraftingRecipe
 
         for (var i = 0; i < 6; ++i)
             if (!availableIngredients.Any(
-                    item => item.ContainsPrimarySubstance((PrimarySubstance) i, out var density) &&
+                    item => item.ContainsPrimarySubstance((PrimarySubstance)i, out var density) &&
                             item.Stack * density >= Coefficients[i]))
                 return false;
 

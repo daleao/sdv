@@ -2,16 +2,14 @@
 
 #region using directives
 
-using System;
-using System.Reflection;
+using DaLion.Common;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Projectiles;
-
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Reflection;
 
 #endregion using directives
 

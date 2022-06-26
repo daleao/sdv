@@ -2,14 +2,12 @@
 
 #region using directives
 
-using System.Linq;
+using DaLion.Common.Data;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
-
-using DaLion.Common.Data;
-using DaLion.Common.Harmony;
-using Extensions;
+using System.Linq;
 
 #endregion using directives
 
@@ -20,7 +18,7 @@ internal sealed class MonsterTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatc
     internal MonsterTakeDamagePatch()
     {
         Target = RequireMethod<Monster>(nameof(Monster.takeDamage),
-            new[] {typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(string)});
+            new[] { typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(string) });
     }
 
     #region harmony patches

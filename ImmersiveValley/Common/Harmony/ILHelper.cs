@@ -2,12 +2,12 @@
 
 #region using directives
 
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using HarmonyLib;
 
 #endregion using directives
 
@@ -24,7 +24,7 @@ public class ILHelper
         Original = original;
         Instructions = instructions.ToList();
         Locals = Instructions.Where(insn => (insn.IsLdloc() || insn.IsStloc()) && insn.operand is not null)
-            .Select(insn => (LocalBuilder) insn.operand)
+            .Select(insn => (LocalBuilder)insn.operand)
             .ToHashSet()
             .ToDictionary(lb => lb.LocalIndex, lb => lb);
 
@@ -145,24 +145,15 @@ public class ILHelper
 
     /// <summary>Alias for <see cref="FindNext(CodeInstruction[])" />.</summary>
     /// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
-    public ILHelper AdvanceUntil(params CodeInstruction[] pattern)
-    {
-        return FindNext(pattern);
-    }
+    public ILHelper AdvanceUntil(params CodeInstruction[] pattern) => FindNext(pattern);
 
     /// <summary>Move the index pointer backward an integer number of steps.</summary>
     /// <param name="steps">Number of steps by which to move the index pointer.</param>
-    public ILHelper Retreat(int steps = 1)
-    {
-        return Advance(-steps);
-    }
+    public ILHelper Retreat(int steps = 1) => Advance(-steps);
 
     /// <summary>Alias for <see cref="FindPrevious(CodeInstruction[])" />.</summary>
     /// <param name="pattern">Sequence of <see cref="CodeInstruction" /> objects to match.</param>
-    public ILHelper RetreatUntil(params CodeInstruction[] pattern)
-    {
-        return FindPrevious(pattern);
-    }
+    public ILHelper RetreatUntil(params CodeInstruction[] pattern) => FindPrevious(pattern);
 
     /// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
     /// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
@@ -285,7 +276,7 @@ public class ILHelper
     {
         GetLabels(out labels);
         return RemoveLabels();
-       
+
     }
 
     /// <summary>Return the opcode of the code instruction at the currently pointed index.</summary>

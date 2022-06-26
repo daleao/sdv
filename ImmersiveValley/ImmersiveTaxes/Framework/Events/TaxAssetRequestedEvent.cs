@@ -2,14 +2,12 @@
 
 #region using directives
 
-using static System.FormattableString;
-
+using Common.Data;
+using Common.Events;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
-
-using Common.Data;
-using Common.Events;
+using static System.FormattableString;
 
 #endregion using directives
 
@@ -39,16 +37,16 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
             var farm = Game1.getFarm().Name;
             var interest = CurrentCulture($"{ModEntry.Config.AnnualInterest:p0}");
 
-            data[$"{ModEntry.Manifest.UniqueID}/TaxNotice"] = ModEntry.i18n.Get("tax.notice", new {honorific, due});
+            data[$"{ModEntry.Manifest.UniqueID}/TaxNotice"] = ModEntry.i18n.Get("tax.notice", new { honorific, due });
             data[$"{ModEntry.Manifest.UniqueID}/TaxOutstanding"] =
-                ModEntry.i18n.Get("tax.outstanding", new {honorific, due, outstanding, farm, interest,});
+                ModEntry.i18n.Get("tax.outstanding", new { honorific, due, outstanding, farm, interest, });
 #pragma warning disable CS8509
             data[$"{ModEntry.Manifest.UniqueID}/TaxDeduction"] = deductible switch
 #pragma warning restore CS8509
             {
-                >= 1f => ModEntry.i18n.Get("tax.deduction.max", new {honorific}),
+                >= 1f => ModEntry.i18n.Get("tax.deduction.max", new { honorific }),
                 >= 0f => ModEntry.i18n.Get("tax.deduction",
-                    new {honorific, deductible = CurrentCulture($"{deductible:p0}")})
+                    new { honorific, deductible = CurrentCulture($"{deductible:p0}") })
             };
         });
     }

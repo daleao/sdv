@@ -2,12 +2,11 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using StardewValley.Monsters;
-
 using Framework;
 using Framework.TreasureHunts;
 using Framework.Ultimates;
+using StardewValley.Monsters;
+using System.Collections.Generic;
 
 #endregion using directives
 

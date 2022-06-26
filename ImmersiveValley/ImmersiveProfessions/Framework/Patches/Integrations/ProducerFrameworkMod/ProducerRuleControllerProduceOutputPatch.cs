@@ -2,16 +2,13 @@
 
 #region using directives
 
-using System;
+using DaLion.Common.Extensions.Reflection;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-
+using System;
 using SObject = StardewValley.Object;
 
 #endregion using directives

@@ -2,7 +2,10 @@
 
 #region using directives
 
-using System;
+using Extensions.Collections;
+
+/* Unmerged change from project 'ImmersiveRings'
+Before:
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +13,128 @@ using HarmonyLib;
 using StardewModdingAPI;
 
 using Extensions.Collections;
+After:
 using Extensions.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+using System;
+using System.Collections.Generic;
+using System.Collections;
+*/
+
+/* Unmerged change from project 'ImmersiveTools'
+Before:
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+
+using Extensions.Collections;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+using System;
+using System.Collections.Generic;
+using System.Collections;
+*/
+
+/* Unmerged change from project 'ImmersiveTweaks'
+Before:
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+
+using Extensions.Collections;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+using System;
+using System.Collections.Generic;
+using System.Collections;
+*/
+
+/* Unmerged change from project 'ImmersivePonds'
+Before:
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+
+using Extensions.Collections;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+using System;
+using System.Collections.Generic;
+using System.Collections;
+*/
+
+/* Unmerged change from project 'ImmersiveAlchemy'
+Before:
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+
+using Extensions.Collections;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+using System;
+using System.Collections.Generic;
+using System.Collections;
+*/
+
+/* Unmerged change from project 'ImmersiveArsenal'
+Before:
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+
+using Extensions.Collections;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+using System;
+using System.Collections.Generic;
+using System.Collections;
+*/
+
+/* Unmerged change from project 'ImmersiveProfessions'
+Before:
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+
+using Extensions.Collections;
+After:
+using Extensions.Reflection;
+using HarmonyLib;
+using StardewModdingAPI;
+using System;
+using System.Collections.Generic;
+using System.Collections;
+*/
+using HarmonyLib;
+using StardewModdingAPI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 #endregion using directives
 
@@ -46,9 +170,9 @@ internal class CommandHandler
         {
             try
             {
-                var command = (IConsoleCommand) c
-                    .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, new[] {GetType()}, null)!
-                    .Invoke(new object?[] {this});
+                var command = (IConsoleCommand)c
+                    .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { GetType() }, null)!
+                    .Invoke(new object?[] { this });
                 _HandledCommands.Add(command.Trigger, command);
                 Log.D($"[CommandHandler]: Handling {command.GetType().Name}");
             }
@@ -85,7 +209,7 @@ internal class CommandHandler
                 $"For example, typing `{command} help` will invoke the `help` command, which lists all available commands.");
             return;
         }
-            
+
         if (string.Equals(args[0], "help", StringComparison.InvariantCultureIgnoreCase))
         {
             var result = "Available commands:";

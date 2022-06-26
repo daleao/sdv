@@ -2,13 +2,12 @@
 
 #region using directives
 
+using Common.Events;
+using Extensions;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
-
-using Common.Events;
-using Extensions;
 using TreasureHunts;
 
 #endregion using directives

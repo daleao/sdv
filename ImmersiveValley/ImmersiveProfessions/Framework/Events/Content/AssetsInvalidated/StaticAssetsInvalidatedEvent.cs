@@ -2,12 +2,11 @@
 
 #region using directives
 
-using System.Linq;
-using Microsoft.Xna.Framework.Graphics;
-using JetBrains.Annotations;
-using StardewModdingAPI.Events;
-
 using Common.Events;
+using JetBrains.Annotations;
+using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI.Events;
+using System.Linq;
 using Textures;
 
 #endregion using directives

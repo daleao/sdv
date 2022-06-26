@@ -2,10 +2,9 @@
 
 #region using directives
 
+using Common.Extensions;
 using System.Collections;
 using System.Collections.Generic;
-
-using Common.Extensions;
 
 #endregion using directives
 
@@ -17,13 +16,7 @@ using Common.Extensions;
 public record ProfessionPair
     (IProfession First, IProfession Second, IProfession? Requires, int Level) : IEnumerable<IProfession>
 {
-    public IEnumerator<IProfession> GetEnumerator()
-    {
-        return First.Collect(Second).GetEnumerator();
-    }
+    public IEnumerator<IProfession> GetEnumerator() => First.Collect(Second).GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

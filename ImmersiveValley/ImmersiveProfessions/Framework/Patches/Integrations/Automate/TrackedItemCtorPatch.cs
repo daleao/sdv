@@ -3,16 +3,14 @@ namespace DaLion.Stardew.Professions.Framework.Patches.Integrations.Automate;
 
 #region using directives
 
-using System;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
-
-using DaLion.Common.Extensions;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
+using System;
 
 #endregion using directives
 
@@ -27,7 +25,7 @@ internal sealed class TrackedItemCtorPatch : DaLion.Common.Harmony.HarmonyPatch
         try
         {
             Target = "Pathoschild.Stardew.Automate.TrackedItem".ToType()
-                .RequireConstructor(new[] {typeof(Item), typeof(Action<Item>), typeof(Action<Item>)});
+                .RequireConstructor(new[] { typeof(Item), typeof(Action<Item>), typeof(Action<Item>) });
         }
         catch
         {

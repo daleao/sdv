@@ -2,10 +2,9 @@
 
 #region using directives
 
-using StardewValley;
-
 using Framework;
 using Framework.Enums;
+using StardewValley;
 
 #endregion using directives
 
@@ -20,7 +19,7 @@ public static class ItemExtensions
         density = 0;
         if (!SubstanceManager.Ingredients.TryGetValue(item.Name, out var composition) || composition.Primary != which) return false;
 
-        density = (int) composition.Density;
+        density = (int)composition.Density;
         return true;
     }
 
@@ -44,7 +43,7 @@ public static class ItemExtensions
         purity = 0;
         if (!SubstanceManager.Bases.TryGetValue(item.Name, out var @base) || @base.Type != type) return false;
 
-        purity = (int) @base.Purity;
+        purity = (int)@base.Purity;
         return true;
     }
 }

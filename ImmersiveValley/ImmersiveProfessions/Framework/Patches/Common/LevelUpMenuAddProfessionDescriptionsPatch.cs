@@ -2,17 +2,15 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+using DaLion.Common;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 #endregion using directives
 
@@ -34,7 +32,7 @@ internal sealed class LevelUpMenuAddProfessionDescriptionsPatch : DaLion.Common.
     {
         try
         {
-            if (!Profession.TryFromName(professionName, out var profession) || (Skill) profession.Skill == Skill.Luck) return true; // run original logic
+            if (!Profession.TryFromName(professionName, out var profession) || (Skill)profession.Skill == Skill.Luck) return true; // run original logic
 
             descriptions.Add(profession.GetDisplayName(Game1.player.IsMale));
 

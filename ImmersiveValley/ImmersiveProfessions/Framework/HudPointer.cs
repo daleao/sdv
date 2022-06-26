@@ -2,11 +2,10 @@
 
 #region using directives
 
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-
+using System;
 using SUtility = StardewValley.Utility;
 
 #endregion using directives
@@ -34,12 +33,12 @@ internal class HudPointer
         if (target.X * 64f > Game1.viewport.MaxCorner.X - 64)
         {
             onScreenPosition.X = vpBounds.Right - 8;
-            rotation = (float) Math.PI / 2f;
+            rotation = (float)Math.PI / 2f;
         }
         else if (target.X * 64f < Game1.viewport.X)
         {
             onScreenPosition.X = 8f;
-            rotation = -(float) Math.PI / 2f;
+            rotation = -(float)Math.PI / 2f;
         }
         else
         {
@@ -49,7 +48,7 @@ internal class HudPointer
         if (target.Y * 64f > Game1.viewport.MaxCorner.Y - 64)
         {
             onScreenPosition.Y = vpBounds.Bottom - 8;
-            rotation = (float) Math.PI;
+            rotation = (float)Math.PI;
         }
         else if (target.Y * 64f < Game1.viewport.Y)
         {
@@ -60,16 +59,16 @@ internal class HudPointer
             onScreenPosition.Y = target.Y * 64f - Game1.viewport.Y;
         }
 
-        if ((int) onScreenPosition.X == 8 && (int) onScreenPosition.Y == 8) rotation += (float) Math.PI / 4f;
+        if ((int)onScreenPosition.X == 8 && (int)onScreenPosition.Y == 8) rotation += (float)Math.PI / 4f;
 
-        if ((int) onScreenPosition.X == 8 && (int) onScreenPosition.Y == vpBounds.Bottom - 8)
-            rotation += (float) Math.PI / 4f;
+        if ((int)onScreenPosition.X == 8 && (int)onScreenPosition.Y == vpBounds.Bottom - 8)
+            rotation += (float)Math.PI / 4f;
 
-        if ((int) onScreenPosition.X == vpBounds.Right - 8 && (int) onScreenPosition.Y == 8)
-            rotation -= (float) Math.PI / 4f;
+        if ((int)onScreenPosition.X == vpBounds.Right - 8 && (int)onScreenPosition.Y == 8)
+            rotation -= (float)Math.PI / 4f;
 
-        if ((int) onScreenPosition.X == vpBounds.Right - 8 && (int) onScreenPosition.Y == vpBounds.Bottom - 8)
-            rotation -= (float) Math.PI / 4f;
+        if ((int)onScreenPosition.X == vpBounds.Right - 8 && (int)onScreenPosition.Y == vpBounds.Bottom - 8)
+            rotation -= (float)Math.PI / 4f;
 
         var srcRect = new Rectangle(0, 0, Texture.Width, Texture.Height);
         var safePos = SUtility.makeSafe(
@@ -108,7 +107,7 @@ internal class HudPointer
             position: adjustedPixel,
             sourceRectangle: srcRect,
             color: color,
-            rotation: (float) Math.PI,
+            rotation: (float)Math.PI,
             origin: new(2f, 2f),
             scale: Game1.pixelZoom,
             effects: SpriteEffects.None,

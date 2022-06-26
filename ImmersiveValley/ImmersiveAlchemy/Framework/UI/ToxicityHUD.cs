@@ -2,12 +2,11 @@
 
 #region using directives
 
-using System;
+using Common.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-
-using Common.Events;
+using System;
 
 #endregion using directives
 
@@ -53,11 +52,11 @@ internal class ToxicityHUD
         if (_opacity <= 0f) return;
 
         var bonusLevelHeight = (ToxicityManager.MaxTolerance - ToxicityManager.BASE_TOLERANCE_I) * 0.2;
-        
+
         // get bar position
         var topOfBar = new Vector2(
             Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Right - 56,
-            Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 16 - TEXTURE_HEIGHT_I * 4 - (float) bonusLevelHeight
+            Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 16 - TEXTURE_HEIGHT_I * 4 - (float)bonusLevelHeight
         );
 
         if (Game1.isOutdoorMapSmallerThanViewport())
@@ -92,8 +91,8 @@ internal class ToxicityHUD
         // middle
         var srcY = 16;
         srcRect = new(0, srcY, width, 20);
-        destRect = new((int) topOfBar.X, (int) (topOfBar.Y + srcY * 4f), width * 4,
-            16 + (TEXTURE_HEIGHT_I - 32) * 4 + (int) Math.Ceiling(bonusLevelHeight));
+        destRect = new((int)topOfBar.X, (int)(topOfBar.Y + srcY * 4f), width * 4,
+            16 + (TEXTURE_HEIGHT_I - 32) * 4 + (int)Math.Ceiling(bonusLevelHeight));
         b.Draw(
             Texture,
             destRect,
@@ -106,7 +105,7 @@ internal class ToxicityHUD
         srcRect = new(0, srcY, width, 16);
         b.Draw(
             Texture,
-            new(topOfBar.X, topOfBar.Y + srcY * 4f + (float) bonusLevelHeight),
+            new(topOfBar.X, topOfBar.Y + srcY * 4f + (float)bonusLevelHeight),
             srcRect,
             Color.White * _opacity,
             0f,
@@ -117,16 +116,16 @@ internal class ToxicityHUD
         );
 
         // draw fill
-        var fillPct = (double) ToxicityManager.ToxicityValue / ToxicityManager.MaxTolerance;
+        var fillPct = (double)ToxicityManager.ToxicityValue / ToxicityManager.MaxTolerance;
         var fullBarHeight = INITIAL_BAR_HEIGHT_I + bonusLevelHeight;
-        var srcHeight = (int) (42 * fillPct);
-        var destHeight = (int) (fullBarHeight * fillPct);
+        var srcHeight = (int)(42 * fillPct);
+        var destHeight = (int)(fullBarHeight * fillPct);
 
         width = 6;
         srcY = TEXTURE_HEIGHT_I - 2 - srcHeight;
         srcRect = new(12, srcY, width, srcHeight);
-        destRect = new((int) topOfBar.X + 12,
-            (int) (topOfBar.Y + (TEXTURE_HEIGHT_I - 44) * 4 + (float) fullBarHeight - destHeight), width * 4, destHeight);
+        destRect = new((int)topOfBar.X + 12,
+            (int)(topOfBar.Y + (TEXTURE_HEIGHT_I - 44) * 4 + (float)fullBarHeight - destHeight), width * 4, destHeight);
 
         b.Draw(
             Texture,
@@ -155,7 +154,7 @@ internal class ToxicityHUD
         // draw hover text
         if (Game1.getOldMouseX() >= topOfBar.X && Game1.getOldMouseY() >= topOfBar.Y &&
             Game1.getOldMouseX() < topOfBar.X + 36f)
-            Game1.drawWithBorder( Math.Max(0, ToxicityManager.ToxicityValue) + "/" + ToxicityManager.MaxTolerance, Color.Black * 0f,
+            Game1.drawWithBorder(Math.Max(0, ToxicityManager.ToxicityValue) + "/" + ToxicityManager.MaxTolerance, Color.Black * 0f,
                 Color.White,
                 topOfBar + new Vector2(0f - Game1.dialogueFont.MeasureString("999/999").X - 32f, 64f));
     }

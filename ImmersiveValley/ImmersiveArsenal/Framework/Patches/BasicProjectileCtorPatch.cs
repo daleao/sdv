@@ -8,8 +8,6 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Projectiles;
 
-using Common.Harmony;
-
 #endregion using directives
 
 [UsedImplicitly]

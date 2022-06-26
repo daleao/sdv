@@ -2,21 +2,20 @@
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
-
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 #endregion using directives
 
@@ -28,7 +27,7 @@ internal sealed class LevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
     /// <summary>Construct an instance.</summary>
     internal LevelUpMenuDrawPatch()
     {
-        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.draw), new[] {typeof(SpriteBatch)});
+        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.draw), new[] { typeof(SpriteBatch) });
     }
 
     #region harmony patches
@@ -88,7 +87,7 @@ internal sealed class LevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 )
                 .Advance()
                 .GetOperand(out var isNotProfessionChooser)
-                .FindLabel((Label) isNotProfessionChooser)
+                .FindLabel((Label)isNotProfessionChooser)
                 .Retreat()
                 .Insert(
                     new CodeInstruction(OpCodes.Ldarg_0),
@@ -112,12 +111,10 @@ internal sealed class LevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
 
     #region injected subroutines
 
-    internal static string GetChooseProfessionText(int currentLevel)
-    {
-        return currentLevel > 10
+    internal static string GetChooseProfessionText(int currentLevel) =>
+        currentLevel > 10
             ? ModEntry.i18n.Get("prestige.levelup.prestige")
             : Game1.content.LoadString("Strings\\UI:LevelUp_ChooseProfession");
-    }
 
     private static void DrawSubroutine(LevelUpMenu menu, int currentLevel, SpriteBatch b)
     {

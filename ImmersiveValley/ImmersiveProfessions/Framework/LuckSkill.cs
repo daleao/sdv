@@ -2,10 +2,9 @@
 
 #region using directives
 
-using StardewValley;
-
 using Common.Extensions.Reflection;
 using Common.Integrations;
+using StardewValley;
 
 #endregion using directives
 
@@ -22,20 +21,20 @@ public sealed class LuckSkill : Skill
 
         _api = api;
         StringId = "spacechase0.LuckSkill";
-        DisplayName = (string) "LuckSkill.I18n".ToType().RequireMethod("Skill_Name").Invoke(null, null)!;
+        DisplayName = (string)"LuckSkill.I18n".ToType().RequireMethod("Skill_Name").Invoke(null, null)!;
 
-        var fortunateName = (string) "LuckSkill.I18n".ToType().RequireMethod("Fortunate_Name").Invoke(null, null)!;
+        var fortunateName = (string)"LuckSkill.I18n".ToType().RequireMethod("Fortunate_Name").Invoke(null, null)!;
         var fortunateDesc = (string)"LuckSkill.I18n".ToType().RequireMethod("Fortunate_Desc").Invoke(null, null)!;
-        var popularHelpeName = (string) "LuckSkill.I18n".ToType().RequireMethod("PopularHelper_Name").Invoke(null, null)!;
-        var popularHelpeDesc = (string) "LuckSkill.I18n".ToType().RequireMethod("PopularHelper_Desc").Invoke(null, null)!;
-        var luckyName = (string) "LuckSkill.I18n".ToType().RequireMethod("Lucky_Name").Invoke(null, null)!;
-        var luckyDesc = (string) "LuckSkill.I18n".ToType().RequireMethod("Lucky_Desc").Invoke(null, null)!;
-        var unUnluckyName = (string) "LuckSkill.I18n".ToType().RequireMethod("UnUnlucky_Name").Invoke(null, null)!;
-        var unUnluckyDesc = (string) "LuckSkill.I18n".ToType().RequireMethod("UnUnlucky_Desc").Invoke(null, null)!;
-        var shootingStarName = (string) "LuckSkill.I18n".ToType().RequireMethod("ShootingStar_Name").Invoke(null, null)!;
-        var shootingStarDesc = (string) "LuckSkill.I18n".ToType().RequireMethod("ShootingStar_Desc").Invoke(null, null)!;
-        var spiritChildName = (string) "LuckSkill.I18n".ToType().RequireMethod("SpiritChild_Name").Invoke(null, null)!;
-        var spiritChildDesc = (string) "LuckSkill.I18n".ToType().RequireMethod("SpiritChild_Desc").Invoke(null, null)!;
+        var popularHelpeName = (string)"LuckSkill.I18n".ToType().RequireMethod("PopularHelper_Name").Invoke(null, null)!;
+        var popularHelpeDesc = (string)"LuckSkill.I18n".ToType().RequireMethod("PopularHelper_Desc").Invoke(null, null)!;
+        var luckyName = (string)"LuckSkill.I18n".ToType().RequireMethod("Lucky_Name").Invoke(null, null)!;
+        var luckyDesc = (string)"LuckSkill.I18n".ToType().RequireMethod("Lucky_Desc").Invoke(null, null)!;
+        var unUnluckyName = (string)"LuckSkill.I18n".ToType().RequireMethod("UnUnlucky_Name").Invoke(null, null)!;
+        var unUnluckyDesc = (string)"LuckSkill.I18n".ToType().RequireMethod("UnUnlucky_Desc").Invoke(null, null)!;
+        var shootingStarName = (string)"LuckSkill.I18n".ToType().RequireMethod("ShootingStar_Name").Invoke(null, null)!;
+        var shootingStarDesc = (string)"LuckSkill.I18n".ToType().RequireMethod("ShootingStar_Desc").Invoke(null, null)!;
+        var spiritChildName = (string)"LuckSkill.I18n".ToType().RequireMethod("SpiritChild_Name").Invoke(null, null)!;
+        var spiritChildDesc = (string)"LuckSkill.I18n".ToType().RequireMethod("SpiritChild_Desc").Invoke(null, null)!;
 
         Professions.Add(new CustomProfession("LuckSkill.Fortunate", fortunateName, fortunateDesc, 30, 5, this));
         Professions.Add(new CustomProfession("LuckSkill.PopularHelper", popularHelpeName, popularHelpeDesc, 31, 5, this));

@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Monsters;
-
-using DaLion.Common.Harmony;
+using System;
 
 #endregion using directives
 
@@ -26,9 +24,9 @@ internal sealed class MonsterParseMonsterInfoPatch : DaLion.Common.Harmony.Harmo
     [HarmonyPostfix]
     private static void MonsterParseMonsterInfoPostfix(Monster __instance)
     {
-        __instance.Health = (int) Math.Round(__instance.Health * ModEntry.Config.MonsterHealthMultiplier);
-        __instance.DamageToFarmer = (int) Math.Round(__instance.DamageToFarmer * ModEntry.Config.MonsterDamageMultiplier);
-        __instance.resilience.Value = (int) Math.Round(__instance.resilience.Value * ModEntry.Config.MonsterDefenseMultiplier);
+        __instance.Health = (int)Math.Round(__instance.Health * ModEntry.Config.MonsterHealthMultiplier);
+        __instance.DamageToFarmer = (int)Math.Round(__instance.DamageToFarmer * ModEntry.Config.MonsterDamageMultiplier);
+        __instance.resilience.Value = (int)Math.Round(__instance.resilience.Value * ModEntry.Config.MonsterDefenseMultiplier);
     }
 
     #endregion harmony patches

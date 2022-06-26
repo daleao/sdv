@@ -3,18 +3,6 @@ namespace DaLion.Stardew.Professions.Extensions;
 
 #region using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using StardewModdingAPI;
-using StardewModdingAPI.Utilities;
-using StardewValley;
-using StardewValley.Buildings;
-using StardewValley.Menus;
-using StardewValley.Monsters;
-
 using Common;
 using Common.Data;
 using Common.Extensions;
@@ -22,7 +10,17 @@ using Common.Extensions.Collections;
 using Framework;
 using Framework.Ultimates;
 using Framework.Utility;
-
+using Microsoft.Xna.Framework;
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+using StardewValley;
+using StardewValley.Buildings;
+using StardewValley.Menus;
+using StardewValley.Monsters;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -41,40 +39,30 @@ public static class FarmerExtensions
 
     /// <summary>Whether the farmer has acquired both level ten professions branching from the specified level five profession.</summary>
     /// <param name="profession">The <see cref="IProfession"/> to check.</param>
-    public static bool HasAllProfessionsBranchingFrom(this Farmer farmer, IProfession profession)
-    {
-        return profession.BranchingProfessions.All(farmer.professions.Contains);
-    }
+    public static bool HasAllProfessionsBranchingFrom(this Farmer farmer, IProfession profession) =>
+        profession.BranchingProfessions.All(farmer.professions.Contains);
 
     /// <summary>Whether the farmer has all six professions in the specified skill.</summary>
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
-    public static bool HasAllProfessionsInSkill(this Farmer farmer, ISkill skill)
-    {
-        return skill.ProfessionIds.All(farmer.professions.Contains);
-    }
+    public static bool HasAllProfessionsInSkill(this Farmer farmer, ISkill skill) =>
+        skill.ProfessionIds.All(farmer.professions.Contains);
 
     /// <summary>Whether the farmer has all available professions (vanilla + modded).</summary>
-    public static bool HasAllProfessions(this Farmer farmer)
-    {
-        return Enumerable.Range(0, 30).Concat(ModEntry.CustomProfessions.Values.Select(p => p.Id))
+    public static bool HasAllProfessions(this Farmer farmer) =>
+        Enumerable.Range(0, 30).Concat(ModEntry.CustomProfessions.Values.Select(p => p.Id))
             .All(farmer.professions.Contains);
-    }
 
     /// <summary>Get the last 1st-tier profession acquired by the farmer in the specified skill.</summary>
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
-    public static int GetCurrentBranchForSkill(this Farmer farmer, ISkill skill)
-    {
-        return farmer.professions.Where(pid => pid.IsIn(skill.TierOneProfessionIds)).DefaultIfEmpty(-1).Last();
-    }
+    public static int GetCurrentBranchForSkill(this Farmer farmer, ISkill skill) =>
+        farmer.professions.Where(pid => pid.IsIn(skill.TierOneProfessionIds)).DefaultIfEmpty(-1).Last();
 
     /// <summary>Get the last level 2nd-tier profession acquired by the farmer in the specified skill branch.</summary>
     /// <param name="branch">The branch (level 5 <see cref="IProfession"/>) to check.</param>
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
-    public static int GetCurrentProfessionForBranch(this Farmer farmer, IProfession branch)
-    {
-        return farmer.professions.Where(pid => pid.IsIn(branch.BranchingProfessions)).DefaultIfEmpty(-1).Last();
-    }
+    public static int GetCurrentProfessionForBranch(this Farmer farmer, IProfession branch) =>
+        farmer.professions.Where(pid => pid.IsIn(branch.BranchingProfessions)).DefaultIfEmpty(-1).Last();
 
     /// <summary>Get all the farmer's professions associated with a specific skill.</summary>
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
@@ -97,22 +85,18 @@ public static class FarmerExtensions
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
     /// <param name="excludeTierOneProfessions">Whether to exclude level 5 professions from the count.</param>
     public static IEnumerable<IProfession> GetMissingProfessionsInSkill(this Farmer farmer, ISkill skill,
-        bool excludeTierOneProfessions = false)
-    {
-        return excludeTierOneProfessions
+        bool excludeTierOneProfessions = false) =>
+        excludeTierOneProfessions
             ? skill.Professions.Where(p => p.Level == 10 && !farmer.professions.Contains(p.Id))
             : skill.Professions.Where(p => !farmer.professions.Contains(p.Id));
-    }
 
     /// <summary>Get the last acquired profession by the farmer in the specified subset, or simply the last acquired profession if no subset is specified.</summary>
     /// <param name="subset">An array of profession ids.</param>
     /// <returns>The last acquired profession, or -1 if none was found.</returns>
-    public static int GetMostRecentProfession(this Farmer farmer, IEnumerable<int>? subset = null)
-    {
-        return subset is null
+    public static int GetMostRecentProfession(this Farmer farmer, IEnumerable<int>? subset = null) =>
+        subset is null
             ? farmer.professions[^1]
             : farmer.professions.Where(p => p.IsIn(subset)).DefaultIfEmpty(-1).Last();
-    }
 
     /// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
@@ -154,10 +138,8 @@ public static class FarmerExtensions
     }
 
     /// <summary>Whether the farmer can reset any skill for prestige.</summary>
-    public static bool CanResetAnySkill(this Farmer farmer)
-    {
-        return Skill.List.Any(farmer.CanResetSkill) || ModEntry.CustomSkills.Values.Any(farmer.CanResetSkill);
-    }
+    public static bool CanResetAnySkill(this Farmer farmer) =>
+        Skill.List.Any(farmer.CanResetSkill) || ModEntry.CustomSkills.Values.Any(farmer.CanResetSkill);
 
     /// <summary>Get the cost of resetting the specified skill.</summary>
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
@@ -175,7 +157,7 @@ public static class FarmerExtensions
             _ => 0
         };
 
-        return (int) (baseCost * multiplier);
+        return (int)(baseCost * multiplier);
     }
 
     /// <summary>Reset the skill's level, optionally removing associated recipes, but maintaining acquired profession.</summary>
@@ -291,51 +273,51 @@ public static class FarmerExtensions
             switch (skill.CurrentLevel)
             {
                 case >= 10 when !canGainPrestigeLevels:
-                {
-                    if (skill.CurrentLevel > 10) Game1.player.SetSkillLevel(skill, 10);
-                    if (skill.CurrentExp > Experience.VANILLA_CAP_I)
-                        Game1.player.experiencePoints[skill] = Experience.VANILLA_CAP_I;
-                    break;
-                }
-                case >= 20 when canGainPrestigeLevels:
-                {
-                    if (skill.CurrentLevel > 20) Game1.player.SetSkillLevel(skill, 20);
-                    if (skill.CurrentExp > Experience.PrestigeCap)
-                        Game1.player.experiencePoints[skill] = Experience.PrestigeCap;
-                    break;
-                }
-                default:
-                {
-                    var expectedLevel = 0;
-                    var level = 1;
-                    while (level <= 10 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
-
-                    if (canGainPrestigeLevels && skill.CurrentExp - Experience.VANILLA_CAP_I > 0)
-                        while (level <= 20 && skill.CurrentExp >= Experience.ExperienceByLevel[level++])
-                            ++expectedLevel;
-
-                    if (skill.CurrentLevel != expectedLevel)
                     {
-                        if (skill.CurrentLevel < expectedLevel)
-                            for (var levelup = skill.CurrentLevel + 1; levelup <= expectedLevel; ++levelup)
-                            {
-                                var point = new Point(skill, levelup);
-                                if (!Game1.player.newLevels.Contains(point))
-                                    Game1.player.newLevels.Add(point);
-                            }
-
-                        farmer.SetSkillLevel(skill, expectedLevel);
+                        if (skill.CurrentLevel > 10) Game1.player.SetSkillLevel(skill, 10);
+                        if (skill.CurrentExp > Experience.VANILLA_CAP_I)
+                            Game1.player.experiencePoints[skill] = Experience.VANILLA_CAP_I;
+                        break;
                     }
-
-                    farmer.experiencePoints[skill] = skill.CurrentLevel switch
+                case >= 20 when canGainPrestigeLevels:
                     {
-                        >= 10 when !canGainPrestigeLevels => Experience.VANILLA_CAP_I,
-                        >= 20 when canGainPrestigeLevels => Experience.PrestigeCap,
-                        _ => Game1.player.experiencePoints[skill]
-                    };
+                        if (skill.CurrentLevel > 20) Game1.player.SetSkillLevel(skill, 20);
+                        if (skill.CurrentExp > Experience.PrestigeCap)
+                            Game1.player.experiencePoints[skill] = Experience.PrestigeCap;
+                        break;
+                    }
+                default:
+                    {
+                        var expectedLevel = 0;
+                        var level = 1;
+                        while (level <= 10 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
 
-                    break;
-                }
+                        if (canGainPrestigeLevels && skill.CurrentExp - Experience.VANILLA_CAP_I > 0)
+                            while (level <= 20 && skill.CurrentExp >= Experience.ExperienceByLevel[level++])
+                                ++expectedLevel;
+
+                        if (skill.CurrentLevel != expectedLevel)
+                        {
+                            if (skill.CurrentLevel < expectedLevel)
+                                for (var levelup = skill.CurrentLevel + 1; levelup <= expectedLevel; ++levelup)
+                                {
+                                    var point = new Point(skill, levelup);
+                                    if (!Game1.player.newLevels.Contains(point))
+                                        Game1.player.newLevels.Add(point);
+                                }
+
+                            farmer.SetSkillLevel(skill, expectedLevel);
+                        }
+
+                        farmer.experiencePoints[skill] = skill.CurrentLevel switch
+                        {
+                            >= 10 when !canGainPrestigeLevels => Experience.VANILLA_CAP_I,
+                            >= 20 when canGainPrestigeLevels => Experience.PrestigeCap,
+                            _ => Game1.player.experiencePoints[skill]
+                        };
+
+                        break;
+                    }
             }
         }
     }
@@ -417,11 +399,9 @@ public static class FarmerExtensions
     }
 
     /// <summary>Get all available Ultimate's not currently registered.</summary>
-    public static IEnumerable<UltimateIndex> GetUnchosenUltimates(this Farmer farmer)
-    {
-        return farmer.professions.Where(p => Enum.IsDefined(typeof(UltimateIndex), p)).Cast<UltimateIndex>()
-            .Except(new[] {ModEntry.PlayerState.RegisteredUltimate!.Index, UltimateIndex.None});
-    }
+    public static IEnumerable<UltimateIndex> GetUnchosenUltimates(this Farmer farmer) =>
+        farmer.professions.Where(p => Enum.IsDefined(typeof(UltimateIndex), p)).Cast<UltimateIndex>()
+            .Except(new[] { ModEntry.PlayerState.RegisteredUltimate!.Index, UltimateIndex.None });
 
     /// <summary>Whether the farmer has caught the specified fish at max size.</summary>
     /// <param name="index">The fish's index.</param>
@@ -441,23 +421,19 @@ public static class FarmerExtensions
     }
 
     /// <summary>The price bonus applied to animal produce sold by Producer.</summary>
-    public static float GetProducerPriceBonus(this Farmer farmer)
-    {
-        return Game1.getFarm().buildings.Where(b =>
+    public static float GetProducerPriceBonus(this Farmer farmer) =>
+        Game1.getFarm().buildings.Where(b =>
             (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-            b.buildingType.Contains("Deluxe") && ((AnimalHouse) b.indoors.Value).isFull()).Sum(_ => 0.05f);
-    }
+            b.buildingType.Contains("Deluxe") && ((AnimalHouse)b.indoors.Value).isFull()).Sum(_ => 0.05f);
 
     /// <summary>The bonus catching bar speed for prestiged Fisher.</summary>
     /// <remarks>UNUSED.</remarks>
-    public static float GetFisherBonusCatchingBarSpeed(this Farmer farmer, int whichFish)
-    {
-        return farmer.fishCaught.TryGetValue(whichFish, out var caughtData)
+    public static float GetFisherBonusCatchingBarSpeed(this Farmer farmer, int whichFish) =>
+        farmer.fishCaught.TryGetValue(whichFish, out var caughtData)
             ? caughtData[0] >= ModEntry.Config.FishNeededForInstantCatch
                 ? 1f
                 : Math.Max(caughtData[0] * (0.1f / ModEntry.Config.FishNeededForInstantCatch) * 0.0002f, 0.002f)
             : 0.002f;
-    }
 
     /// <summary>The price bonus applied to fish sold by Angler.</summary>
     public static float GetAnglerPriceBonus(this Farmer farmer)
@@ -494,10 +470,8 @@ public static class FarmerExtensions
     }
 
     /// <summary>The price bonus applied to all items sold by Conservationist.</summary>
-    public static float GetConservationistPriceMultiplier(this Farmer farmer)
-    {
-        return 1f + ModDataIO.ReadDataAs<float>(farmer, ModData.ConservationistActiveTaxBonusPct.ToString());
-    }
+    public static float GetConservationistPriceMultiplier(this Farmer farmer) =>
+        1f + ModDataIO.ReadDataAs<float>(farmer, ModData.ConservationistActiveTaxBonusPct.ToString());
 
     /// <summary>The quality of items foraged by Ecologist.</summary>
     public static int GetEcologistForageQuality(this Farmer farmer)
@@ -522,11 +496,9 @@ public static class FarmerExtensions
     }
 
     /// <summary>Enumerate the Slimes currently inhabiting owned Slimes Hutches.</summary>
-    public static IEnumerable<GreenSlime> GetRaisedSlimes(this Farmer farmer)
-    {
-        return Game1.getFarm().buildings
+    public static IEnumerable<GreenSlime> GetRaisedSlimes(this Farmer farmer) =>
+        Game1.getFarm().buildings
             .Where(b => (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                         b.indoors.Value is SlimeHutch && !b.isUnderConstruction())
             .SelectMany(b => b.indoors.Value.characters.OfType<GreenSlime>());
-    }
 }
