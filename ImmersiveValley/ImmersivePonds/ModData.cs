@@ -9,5 +9,6 @@ public enum ModData
     SeaweedOccupantsDict,
     GreenAlgaeOccupantsDict,
     WhiteAlgaeOccupantsDict,
-    HeldItemsDict
+    HeldItemsDict,
+    HeldMineralsDict
 }

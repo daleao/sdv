@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -28,6 +29,13 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
     }
 
     #region harmony patches
+
+    /// <summary>Allow contagious radioactivity.</summary>
+    [HarmonyPostfix]
+    private static void FishPondDoActionPostfix(FishPond __instance, ref bool __result, Farmer who)
+    {
+        if (__result || who.ActiveObject is not {Category: SObject.metalResources} metallic) return;
+    }
 
     /// <summary>Inject ItemGrabMenu + allow legendary fish to share a pond with their extended families.</summary>
     [HarmonyTranspiler]

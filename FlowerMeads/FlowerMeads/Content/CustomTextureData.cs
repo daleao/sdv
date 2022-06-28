@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FlowerMeads.Content;
+namespace BetterMeadIcons.Content;
 
 internal class CustomTextureData
 {

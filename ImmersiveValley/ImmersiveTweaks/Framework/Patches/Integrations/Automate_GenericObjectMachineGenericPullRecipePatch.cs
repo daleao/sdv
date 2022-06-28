@@ -85,34 +85,43 @@ internal sealed class GenericObjectMachineGenericPullRecipePatch : Common.Harmon
 
     private static void GenericPullRecipeSubroutine(SObject machine, object consumable)
     {
-        if (machine.name != "Mayonnaise Machine" || machine.heldObject.Value is null ||
+        if (machine.name is "Keg" or "Mayonnaise Machine" || machine.heldObject.Value is null ||
             !ModEntry.Config.LargeProducsYieldQuantityOverQuality) return;
 
         _GetSample ??= consumable.GetType().RequirePropertyGetter("Sample")
             .CompileUnboundDelegate<Func<object, Item>>();
-        if (_GetSample(consumable) is not SObject input) return;
+        if (_GetSample(consumable) is not SObject input || machine.heldObject.Value is not { } output) return;
 
-        var output = machine.heldObject.Value;
-        if (input.Name.ContainsAnyOf("Large", "L."))
+        switch (machine.name)
         {
-            output.Stack = 2;
-            output.Quality = SObject.lowQuality;
-        }
-        else
-        {
-            switch (input.ParentSheetIndex)
-            {
-                // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-                case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
-                    "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+            case "Keg" when output.ParentSheetIndex == 340 && output.preservedParentSheetIndex.Value > 0 &&
+                            ModEntry.Config.KegsRememberHoneyFlower:
+                output.name = input.name.Split(" Honey")[0] + " Mead";
+                output.honeyType.Value = (SObject.HoneyType) input.preservedParentSheetIndex.Value;
+                output.preservedParentSheetIndex.Value = input.preservedParentSheetIndex.Value;
+                output.Price = input.Price * 2;
+                break;
+            case "Mayonnaise Machine" when ModEntry.Config.LargeProducsYieldQuantityOverQuality:
+                if (input.Name.ContainsAnyOf("Large", "L."))
+                {
+                    output.Stack = 2;
                     output.Quality = SObject.lowQuality;
-                    break;
-                // golden mayonnaise keeps giving gives single output but keeps golden quality
-                case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
-                    "ughitsmegan.goldenmayoForProducerFrameworkMod"):
-                    output.Stack = 1;
-                    break;
-            }
+                }
+                else switch (input.ParentSheetIndex)
+                {
+                    // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
+                    case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
+                        "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+                        output.Quality = SObject.lowQuality;
+                        break;
+                    // golden mayonnaise keeps giving gives single output but keeps golden quality
+                    case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
+                        "ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                        output.Stack = 1;
+                        break;
+                }
+
+                break;
         }
     }
 

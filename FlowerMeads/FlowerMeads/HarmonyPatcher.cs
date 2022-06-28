@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using BetterMeadIcons.Content;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,10 +13,9 @@ using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
-using FlowerMeads.Content;
 using SObject = StardewValley.Object;
 
-namespace FlowerMeads;
+namespace BetterMeadIcons;
 
 internal static class HarmonyPatcher
 {
@@ -27,44 +27,9 @@ internal static class HarmonyPatcher
 
     private static MethodInfo? _GetSampleFromGenericMachine;
 
-
     internal static void Apply(Harmony harmony)
     {
-        harmony.Patch(
-            original: typeof(SObject).RequireMethod(nameof(SObject.performObjectDropInAction)),
-            prefix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectPerformObjectDropInPrefix))),
-            postfix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectPerformObjectDropInPostfix)))
-        );
-
-        harmony.Patch(
-            original: typeof(SObject).RequireMethod("loadDisplayName"),
-            postfix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectLoadDisplayNamePostfix)))
-        );
-    }
-
-    internal static void ApplyAutomate(Harmony harmony)
-    {
-        harmony.Patch(
-            original: "Pathoschild.Stardew.Automate.Framework.GenericObjectMachine`1".ToType()
-                .MakeGenericType(typeof(SObject))
-                .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
-                .FirstOrDefault(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3),
-            transpiler: new(typeof(HarmonyPatcher).RequireMethod(nameof(GenericObjectMachineGenericPullRecipeTranspiler)))
-        );
-    }
-
-    internal static void ApplyBAGI(Harmony harmony)
-    {
-        harmony.Patch(
-            original: "BetterArtisanGoodIcons.ArtisanGoodTextureProvider".ToType().RequireMethod("GetSourceName"),
-            prefix: new(typeof(HarmonyPatcher), nameof(ArtisanGoodTextureProviderGetSourceNamePrefix))
-        );
-
-        harmony.Patch(
-            original: "BetterArtisanGoodIcons.Content.ContentSourceManager".ToType().RequireMethod("GetTextureProviders"),
-            postfix: new(typeof(HarmonyPatcher), nameof(ContentSourceManagerGetTextureProvidersPostfix))
-        );
-
+        // vanilla patches for mead rendering
         harmony.Patch(
             original: typeof(Furniture).RequireMethod(nameof(Furniture.draw),
                 new[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(float) }),
@@ -103,6 +68,46 @@ internal static class HarmonyPatcher
             prefix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectDrawWhenHeldPrefix)),
                 before: new[] { "cat.betterartisangoodicons" })
         );
+
+        // BAGI patches
+        harmony.Patch(
+            original: "BetterArtisanGoodIcons.ArtisanGoodTextureProvider".ToType().RequireMethod("GetSourceName"),
+            prefix: new(typeof(HarmonyPatcher), nameof(ArtisanGoodTextureProviderGetSourceNamePrefix))
+        );
+
+        harmony.Patch(
+            original: "BetterArtisanGoodIcons.Content.ContentSourceManager".ToType().RequireMethod("GetTextureProviders"),
+            postfix: new(typeof(HarmonyPatcher), nameof(ContentSourceManagerGetTextureProvidersPostfix))
+        );
+
+        // vanilla patches for keg behavior
+        harmony.Patch(
+            original: typeof(SObject).RequireMethod(nameof(SObject.performObjectDropInAction)),
+            prefix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectPerformObjectDropInPrefix))),
+            postfix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectPerformObjectDropInPostfix)))
+        );
+
+        harmony.Patch(
+            original: typeof(SObject).RequireMethod("loadDisplayName"),
+            postfix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectLoadDisplayNamePostfix)))
+        );
+
+        // Automate compatibility patch
+        try
+        {
+            harmony.Patch(
+                original: "Pathoschild.Stardew.Automate.Framework.GenericObjectMachine`1".ToType()
+                    .MakeGenericType(typeof(SObject))
+                    .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
+                    .FirstOrDefault(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3),
+                transpiler: new(
+                    typeof(HarmonyPatcher).RequireMethod(nameof(GenericObjectMachineGenericPullRecipeTranspiler)))
+            );
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     #region harmony patches
@@ -513,7 +518,7 @@ internal static class HarmonyPatcher
             dropInItem is not SObject {ParentSheetIndex: 340, preservedParentSheetIndex.Value: > 0} honey) return;
 
         __instance.heldObject.Value.name = honey.name.Split(" Honey")[0] + " Mead";
-        __instance.heldObject.Value.honeyType.Value = (SObject.HoneyType)honey.preservedParentSheetIndex.Value;
+        __instance.heldObject.Value.honeyType.Value = (SObject.HoneyType) honey.preservedParentSheetIndex.Value;
         __instance.heldObject.Value.preservedParentSheetIndex.Value =
             honey.preservedParentSheetIndex.Value;
         __instance.heldObject.Value.Price = honey.Price * 2;
@@ -534,14 +539,10 @@ internal static class HarmonyPatcher
     {
         var l = instructions.ToList();
         var i = 0;
-        while (l[++i].opcode != OpCodes.Call)
-        {
-        }
+        while (l[++i].opcode != OpCodes.Call) { }
 
         var got = new[] {l[i - 1], l[i]};
-        while (l[++i].opcode != OpCodes.Ret)
-        {
-        }
+        while (l[++i].opcode != OpCodes.Ret) { }
 
         l.InsertRange(i - 1, got);
         l.InsertRange(i + 1, new[]

@@ -1,6 +1,6 @@
 using StardewModdingAPI;
 
-namespace FlowerMeads.Content;
+namespace BetterMeadIcons.Content;
 
 internal class ContentPackSource : TextureDataContentSource
 {

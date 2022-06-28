@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 
-namespace FlowerMeads;
+namespace BetterMeadIcons;
 
 /// <summary>Provides extensions for simplified reflection on C# types.</summary>
 /// <remarks>Credit to <c>Pardeike</c>.</remarks>
@@ -81,29 +80,5 @@ public static class TypeExtensions
     {
         return AccessTools.Property(type, name)?.GetSetMethod(true) ??
                throw new MissingMethodException($"Cannot find property setter {name} in type {type.FullName}.");
-    }
-
-    /// <summary>Get all inner types of a given type.</summary>
-    /// <param name="parent">The parent type.</param>
-    public static IEnumerable<Type> GetAllInnerTypes(this Type parent)
-    {
-        yield return parent;
-        foreach (var t1 in parent.GetNestedTypes(AccessTools.all))
-        foreach (var t2 in GetAllInnerTypes(t1))
-            yield return t2;
-    }
-
-    /// <summary>Get all inner types starting with a given string.</summary>
-    /// <param name="prefix">A string prefix.</param>
-    public static List<MethodInfo> GetInnerMethodsStartingWith(this Type type, string prefix)
-    {
-        var methods = type.GetAllInnerTypes()
-            .SelectMany(AccessTools.GetDeclaredMethods)
-            .Where(m => prefix == "*" || m.Name.StartsWith(prefix))
-            .ToList();
-        if (!methods.Any())
-            throw new MissingMethodException(
-                $"Cannot find method starting with {prefix} in any inner type of {type.FullName}.");
-        return methods;
     }
 }

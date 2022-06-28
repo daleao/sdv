@@ -21,16 +21,17 @@ internal sealed class ToolGameLaunchedEvent : GameLaunchedEvent
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
         // add Generic Mod Config Menu integration
-        new GenericModConfigMenuIntegrationForImmersiveTools(
-            getConfig: () => ModEntry.Config,
-            reset: () =>
-            {
-                ModEntry.Config = new();
-                ModEntry.ModHelper.WriteConfig(ModEntry.Config);
-            },
-            saveAndApply: () => { ModEntry.ModHelper.WriteConfig(ModEntry.Config); },
-            modRegistry: ModEntry.ModHelper.ModRegistry,
-            manifest: ModEntry.Manifest
-        ).Register();
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.GenericModConfigMenu"))
+            new GenericModConfigMenuIntegrationForImmersiveTools(
+                getConfig: () => ModEntry.Config,
+                reset: () =>
+                {
+                    ModEntry.Config = new();
+                    ModEntry.ModHelper.WriteConfig(ModEntry.Config);
+                },
+                saveAndApply: () => { ModEntry.ModHelper.WriteConfig(ModEntry.Config); },
+                modRegistry: ModEntry.ModHelper.ModRegistry,
+                manifest: ModEntry.Manifest
+            ).Register();
     }
 }

@@ -5,7 +5,6 @@
 using Common;
 using Common.Commands;
 using Common.Data;
-using Common.Extensions;
 using Extensions;
 using Framework;
 using Framework.Ultimates;
@@ -45,14 +44,16 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
             return;
         }
 
-        args[0] = args[0].ToLowerInvariant().FirstCharToUpper();
-        if (!Enum.TryParse<UltimateIndex>(args[0], true, out var index))
+        var index = Array.FindIndex(Enum.GetNames<UltimateIndex>(),
+            name => name.Contains(args[0], StringComparison.InvariantCultureIgnoreCase));
+        if (index < 0)
         {
-            Log.W("You must enter a valid 2nd-tier combat profession.");
+            Log.W("You must enter a valid 2nd-tier combat profession or special ability name.");
             return;
         }
 
-        var profession = Profession.FromValue((int)index);
+        var value = Enum.GetValues<UltimateIndex>()[index];
+        var profession = Profession.FromValue((int) value);
         if (!Game1.player.HasProfession(profession))
         {
             Log.W("You don't have this profession.");
@@ -60,7 +61,7 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
         }
 
 #pragma warning disable CS8509
-        ModEntry.PlayerState.RegisteredUltimate = index switch
+        ModEntry.PlayerState.RegisteredUltimate = value switch
 #pragma warning restore CS8509
         {
             UltimateIndex.BruteFrenzy => new UndyingFrenzy(),

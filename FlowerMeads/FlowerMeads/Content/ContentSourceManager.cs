@@ -6,7 +6,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 
-namespace FlowerMeads.Content;
+namespace BetterMeadIcons.Content;
 
 internal class ContentSourceManager
 {

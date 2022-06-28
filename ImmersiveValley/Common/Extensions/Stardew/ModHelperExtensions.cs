@@ -24,7 +24,7 @@ public static class ModHelperExtensions
         }
 
         Log.V($"{uniqueID} mod found. Integrations will be enabled.");
-        var modEntry = (IMod)modInfo.GetType().GetProperty("Mod")!.GetValue(modInfo)!;
+        var modEntry = (IMod) modInfo.GetType().GetProperty("Mod")!.GetValue(modInfo)!;
         return modEntry.Helper.ReadConfig<JObject>();
     }
 
@@ -41,7 +41,7 @@ public static class ModHelperExtensions
         }
 
         Log.V($"{uniqueID} mod found. Integrations will be enabled.");
-        var modPath = (string)modInfo.GetType().GetProperty("DirectoryPath")!.GetValue(modInfo)!;
+        var modPath = (string) modInfo.GetType().GetProperty("DirectoryPath")!.GetValue(modInfo)!;
         try
         {
             return JObject.Parse(File.ReadAllText(modPath + "\\config.json"));

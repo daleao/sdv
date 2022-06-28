@@ -42,8 +42,8 @@
   "scavenger.huntstarted": "Seus sentidos de Rastreador estão formigando...",
   "scavenger.huntfailed": "O formigamento some.",
 
-  "lenhador.name.male": "Lenhador",
-  "lenhador.name.female": "Lenhadora",
+  "lumberjack.name.male": "Lenhador",
+  "lumberjack.name.female": "Lenhadora",
   "lumberjack.desc": "Árvores abatidas rendem 25% mais madeira.",
   "lumberjack.desc.prestiged": "Árvores abatidas rendem 25% >> 40% mais madeira.",
   "arborist.name.male": "Arborista",

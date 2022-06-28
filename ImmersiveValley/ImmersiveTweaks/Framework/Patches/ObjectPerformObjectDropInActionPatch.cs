@@ -36,24 +36,40 @@ internal sealed class ObjectPerformObjectDropInActionPatch : Common.Harmony.Harm
         bool probe)
     {
         // if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
-        if (probe || __state || __instance.name != "Mayonnaise Machine" || __instance.heldObject.Value is null || dropInItem is not SObject ||
-            !ModEntry.Config.LargeProducsYieldQuantityOverQuality) return;
+        if (probe || __state || __instance.name is not "Keg" or "Mayonnaise Machine" ||
+            dropInItem is not SObject input || __instance.heldObject.Value is not { } output) return;
 
         // large milk/eggs give double output at normal quality
-        if (dropInItem.Name.ContainsAnyOf("Large", "L."))
+        switch (__instance.name)
         {
-            __instance.heldObject.Value.Stack = 2;
-            __instance.heldObject.Value.Quality = SObject.lowQuality;
-        }
-        else switch (dropInItem.ParentSheetIndex)
-        {
-            // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-            case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.ostrichmayoForProducerFrameworkMod"):
-                __instance.heldObject.Value.Quality = SObject.lowQuality;
+            case "Keg" when input.ParentSheetIndex == 340 && input.preservedParentSheetIndex.Value > 0 &&
+                            ModEntry.Config.KegsRememberHoneyFlower:
+                output.name = input.name.Split(" Honey")[0] + " Mead";
+                output.honeyType.Value = (SObject.HoneyType) input.preservedParentSheetIndex.Value;
+                output.preservedParentSheetIndex.Value =
+                    input.preservedParentSheetIndex.Value;
+                output.Price = input.Price * 2;
                 break;
-            // golden mayonnaise keeps giving gives single output but keeps golden quality
-            case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"):
-                __instance.heldObject.Value.Stack = 1;
+            case "Mayonnaise Machine" when ModEntry.Config.LargeProducsYieldQuantityOverQuality:
+                if (input.Name.ContainsAnyOf("Large", "L."))
+                {
+                    output.Stack = 2;
+                    output.Quality = SObject.lowQuality;
+                }
+                else switch (dropInItem.ParentSheetIndex)
+                {
+                    // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
+                    case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
+                        "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+                        output.Quality = SObject.lowQuality;
+                        break;
+                    // golden mayonnaise keeps giving gives single output but keeps golden quality
+                    case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
+                        "ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                        output.Stack = 1;
+                        break;
+                }
+
                 break;
         }
     }

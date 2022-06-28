@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FlowerMeads;
+namespace BetterMeadIcons;
 
 internal class Globals
 {

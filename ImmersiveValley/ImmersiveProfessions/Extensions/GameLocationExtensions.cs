@@ -84,8 +84,7 @@ public static class GameLocationExtensions
     /// <summary>Whether this location can is a dungeon.</summary>
     public static bool IsDungeon(this GameLocation location)
     {
-        return location is MineShaft shaft && !shaft.IsTreasureOrSafeRoom() ||
-               location is BugLand or VolcanoDungeon ||
+        return location is MineShaft or BugLand or VolcanoDungeon ||
                location.NameOrUniqueName.ContainsAnyOf("CrimsonBadlands", "DeepWoods", "Highlands", "RidgeForest",
                    "SpiritRealm", "AsteroidsDungeon");
     }

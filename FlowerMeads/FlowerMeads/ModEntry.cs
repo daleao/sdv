@@ -1,22 +1,26 @@
-﻿#nullable enable
-using System.Collections;
+﻿using System.Collections;
 using HarmonyLib;
 using StardewModdingAPI;
 
-namespace FlowerMeads;
+namespace BetterMeadIcons;
 
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
+    private readonly Harmony _Harmony;
+
     /// <summary>Construct an instance.</summary>
     public ModEntry()
     {
-        // add mead entry to BAGI's ContentSourceManager dictionary
-        // this will fix a likely KeyNotFoundException
         try
         {
+            // add a mead entry to BAGI's ContentSourceManager dictionary to prevent a likely KeyNotFoundException
             var artisanGoodToSourceTypeDict = (IDictionary)"BetterArtisanGoodIcons.Content.ContentSourceManager".ToType().RequireField("artisanGoodToSourceType").GetValue(null)!;
             artisanGoodToSourceTypeDict.Add(Globals.MeadAsArtisanGoodEnum, "Flowers");
+
+            // patches must be applied in the constructor in order to take effect before BAGI loads its content packs
+            _Harmony = new("DaLion.Meads");
+            HarmonyPatcher.Apply(_Harmony);
         }
         catch
         {
@@ -28,14 +32,5 @@ public class ModEntry : Mod
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
     {
-        // apply patches
-        var harmony = new Harmony(ModManifest.UniqueID);
-        HarmonyPatcher.Apply(harmony);
-
-        if (helper.ModRegistry.IsLoaded("Pathoschild.Automate"))
-            HarmonyPatcher.ApplyAutomate(harmony);
-
-        if (helper.ModRegistry.IsLoaded("cat.betterartisangoodicons"))
-            HarmonyPatcher.ApplyBAGI(harmony);
     }
 }

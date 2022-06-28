@@ -44,6 +44,8 @@ internal sealed class PondSaveLoadedEvent : SaveLoadedEvent
             ModDataIO.ReadData(Game1.player, ModData.WhiteAlgaeOccupantsDict.ToString()).ParseDictionary<int, int>();
         var itemsHeldDict = ModDataIO.ReadData(Game1.player, ModData.HeldItemsDict.ToString())
             .ParseDictionary<int, string>(">", "/");
+        var mineralsHeldDict = ModDataIO.ReadData(Game1.player, ModData.HeldMineralsDict.ToString())
+            .ParseDictionary<int, string>(">", "/");
 
         foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
                      (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
@@ -74,6 +76,9 @@ internal sealed class PondSaveLoadedEvent : SaveLoadedEvent
 
             if (itemsHeldDict.TryGetValue(pondId, out var itemsHeld))
                 ModDataIO.WriteData(pond, "ItemsHeld", itemsHeld);
+
+            if (mineralsHeldDict.TryGetValue(pondId, out var mineralsHeld))
+                ModDataIO.WriteData(pond, "MineralsHeld", mineralsHeld);
         }
     }
 }
