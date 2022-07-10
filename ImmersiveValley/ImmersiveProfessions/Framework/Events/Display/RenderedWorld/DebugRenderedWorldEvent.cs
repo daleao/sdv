@@ -31,7 +31,7 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)
     {
-        if (!ModEntry.Config.DebugKey.IsDown()) return;
+        if (ModEntry.DebugCursorPosition is null) return;
 
         var bb = new Rectangle();
         if (Game1.currentLocation.Objects.TryGetValue(ModEntry.DebugCursorPosition.Tile, out var o))

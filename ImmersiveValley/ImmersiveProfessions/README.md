@@ -73,88 +73,88 @@ Integration is provided for Automate and several popular mods. See the [compatib
 
 ### ![](https://i.imgur.com/p9QdB6L.png) Farming
 
-- ![](resources/sprites/loose/harvester.png) **Harvester (Lv5)** - 10% *(20%)* chance for extra yield from harvested crops.
+- ![](resources/assets/sprites/loose/harvester.png) **Harvester (Lv5)** - 10% *(20%)* chance for extra yield from harvested crops.
     - Yields an equivalent 10% monetary bonus to vanilla on average, while also benefiting anybody who will not sell raw crops.
-- ![](resources/sprites/loose/agriculturist.png) **Agriculturist (Lv10)** - Crops grow 10% *(20%)* faster. Grow best-quality crops organically without fertilizer.
+- ![](resources/assets/sprites/loose/agriculturist.png) **Agriculturist (Lv10)** - Crops grow 10% *(20%)* faster. Grow best-quality crops organically without fertilizer.
     - Allows harvesting of iridium-quality crops without any fertilizer. The chance is unchanged from vanilla, and is equal to half the chance of gold quality. Fertilizers will still massively increase that chance.
-- ![](resources/sprites/loose/artisan.png) **Artisan (Lv10)** - All artisan machines work 10% *(25%)* faster. Machine output quality is at least as good as input ingredient quality.
+- ![](resources/assets/sprites/loose/artisan.png) **Artisan (Lv10)** - All artisan machines work 10% *(25%)* faster. Machine output quality is at least as good as input ingredient quality.
     - Essentially implements [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) (QAP), but exclusively for Artisans. Also adds 5% chance to promote the output quality by one level. In multiplayer, **the bonus production speed applies only to machines crafted by the player with this profession, and only when that player uses the machine**.
-- ![](resources/sprites/loose/miner.png) **Rancher (Lv5)** - Befriend animals 2× *(3×)* quicker.
+- ![](resources/assets/sprites/loose/miner.png) **Rancher (Lv5)** - Befriend animals 2× *(3×)* quicker.
     - Gain double mood and friendship points from petting. Newborn animals are born with some starting friendship between 150 and 250 (out of 1000 maximum), chosen at random.
-- ![](resources/sprites/loose/breeder.png) **Breeder (Lv10)** - Incubation 2× *(3×)* faster and natural pregnancy 3× *(5×)* more likely. Increase value of animals at high friendship.
+- ![](resources/assets/sprites/loose/breeder.png) **Breeder (Lv10)** - Incubation 2× *(3×)* faster and natural pregnancy 3× *(5×)* more likely. Increase value of animals at high friendship.
     - At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x. Animal Husbandry: gestation following insemination is also 2x *(3x)* faster.
-- ![](resources/sprites/loose/producer.png) **Producer (Lv10)** - Happy animals produce 2× *(3×)* as frequently. Produce worth 5% more for every full barn or coop.
+- ![](resources/assets/sprites/loose/producer.png) **Producer (Lv10)** - Happy animals produce 2× *(3×)* as frequently. Produce worth 5% more for every full barn or coop.
     - Note that happiness (mood) is **not** the same as friendship. Also note this will **not** allow certain animals (i.e. cows and chickens) to produce more than once per day. Bonus produce value also applies to artisan goods derived from animal products (i.e. cheeses, mayos and cloth), honey (bees are animals), and meat (Animal Husbandry or Fresh Meat). Only deluxe buildings can be considered full. **Note that honey is also considered an animal product.** There is no limit to the scaling. In multiplayer, **the bonus applies only to barns and coops owned by the player with this profession, and only when that player sells the produce**.
 
 ### ![](https://i.imgur.com/jf88nPt.png) Foraging
 
-- ![](resources/sprites/loose/forager.png) **Lv5 - Forager** - 20% *(40%)* chance for double yield of foraged items.
+- ![](resources/assets/sprites/loose/forager.png) **Lv5 - Forager** - 20% *(40%)* chance for double yield of foraged items.
     - _Unchanged effect from vanilla. Only the name is changed._
-- ![](resources/sprites/loose/ecologist.png) **Ecologist (Lv10)** - Wild berries restore 50% *(100%)* more health and energy. Progressively identify forage of higher quality.
+- ![](resources/assets/sprites/loose/ecologist.png) **Ecologist (Lv10)** - Wild berries restore 50% *(100%)* more health and energy. Progressively identify forage of higher quality.
     - All foraged items will have the same deterministic quality. This immediate gives inventory convenience. However the quality will start off at silver, and progress to iridium when enough items have been foraged. Applies to Mushroom Boxes, but only if the cave owner (i.e. the host player) has the profession.
-- ![](resources/sprites/loose/scavenger.png) **Scavenger (Lv10)** - Location of foragable items revealed. Occasionally detect buried treasure. *Time freezes during Scavenger Hunts.*
+- ![](resources/assets/sprites/loose/scavenger.png) **Scavenger (Lv10)** - Location of foragable items revealed. Occasionally detect buried treasure. *Time freezes during Scavenger Hunts.*
     - On switching maps while outside you will occasionally detect hidden buried treasure. Find it and dig it up (with a hoe) within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items.
     - _Bonus: holding [ModKey](#configs) will highlight all foragables on-screen._
-- ![](resources/sprites/loose/lumberjack.png) **Lumberjack (Lv5)** - Felled trees yield 25% *(40%)* more wood.
+- ![](resources/assets/sprites/loose/lumberjack.png) **Lumberjack (Lv5)** - Felled trees yield 25% *(40%)* more wood.
     - _Unchanged effect from vanilla. Only the name is changed._
-- ![](resources/sprites/loose/arborist.png) **Arborist (Lv10)** - All trees grow faster. Normal trees can drop *(twice as much)* hardwood.
+- ![](resources/assets/sprites/loose/arborist.png) **Arborist (Lv10)** - All trees grow faster. Normal trees can drop *(twice as much)* hardwood.
     - Bonus tree growth works as a global buff; i.e. in multiplayer, all trees will be affected as long as any player in the session has this profession, and the effect will stack for all additional online players that share this profession. _The hardwood bonus is unchanged from vanilla._
-- ![](resources/sprites/loose/tapper.png) **Tapper (Lv10)** - Tappers are cheaper to craft. Tapped trees give syrup 25% *(50%)* faster.
+- ![](resources/assets/sprites/loose/tapper.png) **Tapper (Lv10)** - Tappers are cheaper to craft. Tapped trees give syrup 25% *(50%)* faster.
     - New regular recipe: x25 wood, x1 copper bar.
     - New Heavy recipe: x20 hardwood, x1 iridium bar, x1 radioactive ore.
 
 ### ![](https://i.imgur.com/TidtIw0.png) Mining 
 
-- ![](resources/sprites/loose/miner.png) **Miner (Lv5)** - +1 *(+2)* ore per ore vein.
+- ![](resources/assets/sprites/loose/miner.png) **Miner (Lv5)** - +1 *(+2)* ore per ore vein.
     - _Unchanged from vanilla._
-- ![](resources/sprites/loose/spelunker.png) **Spelunker (Lv10)** - Chance to find ladders and shafts increases with every mine level. +1 speed every 10 levels. *Also recover some health and stamina with every mine level.*
+- ![](resources/assets/sprites/loose/spelunker.png) **Spelunker (Lv10)** - Chance to find ladders and shafts increases with every mine level. +1 speed every 10 levels. *Also recover some health and stamina with every mine level.*
     - Plus 0.5% ladder chance per level. Bonus ladder chance resets every time you leave the mines. **This includes taking the stairs back to the mine entrance.**
-- ![](resources/sprites/loose/prospector.png) **Prospector (Lv10)** - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals. *Time freezes during Scavenger Hunts.*
+- ![](resources/assets/sprites/loose/prospector.png) **Prospector (Lv10)** - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals. *Time freezes during Scavenger Hunts.*
     - Analogous to Scavenger. Tracks any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items. Completing a hunt automatically reveals a ladder.
     - _Bonus: holding [ModKey](#configs) will highlight all nodes and ladders on-screen._
-- ![](resources/sprites/loose/blaster.png) **Blaster (Lv5)** - Craft twice as many explosives. Exploded rocks yield 2× *(3×)* as much coal.
-- ![](resources/sprites/loose/demolitionist.png) **Demolitionist (Lv10)** - Bomb radius +1. Exploded rocks yield 20% *(40%)* more resources.
+- ![](resources/assets/sprites/loose/blaster.png) **Blaster (Lv5)** - Craft twice as many explosives. Exploded rocks yield 2× *(3×)* as much coal.
+- ![](resources/assets/sprites/loose/demolitionist.png) **Demolitionist (Lv10)** - Bomb radius +1. Exploded rocks yield 20% *(40%)* more resources.
     - _Bonus: [Get excited!](https://www.youtube.com/watch?v=0nlJuwO0GDs) when hit by an explosion._
-- ![](resources/sprites/loose/gemologist.png) **Gemologist (Lv10)** - Progressively identify gems and minerals of higher quality. Crystalariums work 25% *(50%)* faster.
+- ![](resources/assets/sprites/loose/gemologist.png) **Gemologist (Lv10)** - Progressively identify gems and minerals of higher quality. Crystalariums work 25% *(50%)* faster.
     - Analogous to Ecologist. All gems and minerals mined from nodes have a fixed quality, starting at silver and increasing once enough minerals have been collected. Minerals collected from Crystalariums and Geode Crushers are counted for this total, **but not those from geodes broken at Clint's**. In multiplayer, **the bonus Crystalarium speed applies only to machines crafted by the player with this profession, and only when used by that player**.
 
 ### ![](https://i.imgur.com/XvdVsAn.png) Fishing
 
-- ![](resources/sprites/loose/fisher.png) **Fisher (Lv5)** - Fish bite faster *(instantly)*. Live bait reduces the chance to fish junk.
+- ![](resources/assets/sprites/loose/fisher.png) **Fisher (Lv5)** - Fish bite faster *(instantly)*. Live bait reduces the chance to fish junk.
     - Here, "junk" includes algae and seaweed.
-- ![](resources/sprites/loose/angler.png) **Angler (Lv10)** - Fish worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish. *Can recatch legendary fish.*
+- ![](resources/assets/sprites/loose/angler.png) **Angler (Lv10)** - Fish worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish. *Can recatch legendary fish.*
     - "Legendary fish" includes the Extended Family Qi challenge varieties, counted only once.
-- ![](resources/sprites/loose/aquarist.png) **Aquarist (Lv10)** - Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a fish pond. *Can raise legendary fish.*
+- ![](resources/assets/sprites/loose/aquarist.png) **Aquarist (Lv10)** - Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a fish pond. *Can raise legendary fish.*
     - The catching bar decays 5.5% slower per unique Fish Pond. Six ponds equal a permanent Trap Bobber. In multiplayer, **only counts Fish Ponds owned by the player with this profession**.
     - *Legendary fish and extended family can be raised in the same pond.*
-- ![](resources/sprites/loose/trapper.png) **Trapper (Lv5)** - Crab pots are cheaper to craft. Can trap higher-quality *(highest-quality)* haul.
+- ![](resources/assets/sprites/loose/trapper.png) **Trapper (Lv5)** - Crab pots are cheaper to craft. Can trap higher-quality *(highest-quality)* haul.
     - All trapped fish can have quality up to gold. Chance depends on your fishing level (same formula as forage). _Recipe is unchanged from vanilla._
-- ![](resources/sprites/loose/luremaster.png) **Luremaster (Lv10)** - Crab pots no longer produce junk. Use different baits to attract different catch. *60% chance to preserve bait.*
+- ![](resources/assets/sprites/loose/luremaster.png) **Luremaster (Lv10)** - Crab pots no longer produce junk. Use different baits to attract different catch. *60% chance to preserve bait.*
     - Each type bait will also apply it's regular fishing effects:
         - **Regular bait:** 25% chance to catch fish, subject to the same location and season limitations as regular fishing.
         - **Wild bait:** 25% chance to also double the haul.
         - **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even weapons.
         - **Magic bait:** 25% chance to catch fish of any location or season. Also upgrades all catch to iridium-quality.
-- ![](resources/sprites/loose/conservationist.png) **Conservationist (Lv10)** - Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions. *Cleaning the Valley's waters also merits favor with the villagers.*
+- ![](resources/assets/sprites/loose/conservationist.png) **Conservationist (Lv10)** - Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions. *Cleaning the Valley's waters also merits favor with the villagers.*
     - Every 100 (configurable) junk items collected will earn you a 1% tax deduction the following season (max 25%, also configurable), increasing the value of all shipped goods. You will receive a formal mail from the Ferngill Revenue Service each season informing your currrent tax bracket.
 
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
-- ![](resources/sprites/loose/fighter.png) **Fighter (Lv5)** - Damage +10% *(+20%)*. +15 HP.
+- ![](resources/assets/sprites/loose/fighter.png) **Fighter (Lv5)** - Damage +10% *(+20%)*. +15 HP.
     - _Unchanged from vanilla._
-- ![](resources/sprites/loose/brute.png) **Brute (Lv10)** - Taking damage builds rage, improving combat prowess. +25 HP. *Rage also grants attack speed.*
+- ![](resources/assets/sprites/loose/brute.png) **Brute (Lv10)** - Taking damage builds rage, improving combat prowess. +25 HP. *Rage also grants attack speed.*
     - You may want to consider building defense bonuses. In vanilla, defense has a soft cap, not allowing damage reduction beyond 50%. This mod removes that cap, making defense more effective.
     - **Rage:** Damage +1% per stack. Max 100 stacks. Lose 1 stack every 5 seconds after 30 seconds out of combat. *Attack speed +0.5% per stack*.
-- ![](resources/sprites/loose/poacher.png) **Bushwhacker (Lv10)** - Crit. chance +50%. Crit. strikes can poach items. *Successfully poaching an item refunds special move cooldown.*
+- ![](resources/assets/sprites/loose/poacher.png) **Bushwhacker (Lv10)** - Crit. chance +50%. Crit. strikes can poach items. *Successfully poaching an item refunds special move cooldown.*
     - Monsters can only be poached once.
-- ![](resources/sprites/loose/rascal.png) **Rascal (Lv5)** - Slingshot damage +25% *(+50%)*. 60% chance to recover spent ammo.
+- ![](resources/assets/sprites/loose/rascal.png) **Rascal (Lv5)** - Slingshot damage +25% *(+50%)*. 60% chance to recover spent ammo.
     - In vanilla, slingshot projectiles have a short "grace period" during which it will ignore collision with enemies. This mod removes that grace period, allowing projectiles to hit enemies immediately in front of the Farmer. All professions are affected.
     -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but can ricochet once. If prestiged, trick shots stun enemies for 5s._
-- ![](resources/sprites/loose/desperado.png) **Desperado (Lv10)** - Charge slingshot 50% faster. Can overcharge slingshots for more power, or quick-release for a double-shot. *Overcharged shots become spreadshots.*
+- ![](resources/assets/sprites/loose/desperado.png) **Desperado (Lv10)** - Charge slingshot 50% faster. Can overcharge slingshots for more power, or quick-release for a double-shot. *Overcharged shots become spreadshots.*
     - **Overcharge:** Continue to hold the tool button to reveal the overcharge meter.
     - **Quick-shots:** Release the shot as soon as it completes charging to perform double-shots.
     - **Spreadhots:** Fire three projectiles in a cone. Requires overcharging at least half the bar. The higher the bar the narrower the cone. 
-- ![](resources/sprites/loose/piper.png) **Slimed Piper (Lv10)** - Attract more Slimes in dangerous areas. Chance to gain a random buff when a Slime is defeated. *Chance to also recover some health and energy when a Slime is defeated.*
+- ![](resources/assets/sprites/loose/piper.png) **Slimed Piper (Lv10)** - Attract more Slimes in dangerous areas. Chance to gain a random buff when a Slime is defeated. *Chance to also recover some health and energy when a Slime is defeated.*
     - Each Slime raised in a hutch adds a chance to spawn an extra Slime in dungeons, up to the number of enemies on the map.
     - Buffs are the same as food/drink buffs (skill levels, attack, defense, speed, luck, max energy, magnetism). Lasts 3 minutes and stacks indefinitely, refreshing the duration each time.
     - _Bonus: immune to the Slimed debuff, even without a Slime Charmer ring._
@@ -188,14 +188,14 @@ On top the regular perks listed above, every level 10 Combat profession also gra
 
 Note that only a single special ability can be registered at any time; if the Combat skill is reset, you will be asked the moment you choose your next profession whether you wish to keep or replace your current special ability. The four special abilities are:
 
-- ![](resources/sprites/loose/undyingrage.png) **Undying Frenzy (Brute / Amazon)** - Doubles rage accumulation for 15s. Immune to passing out. When the effect ends, recovers 5% health for every enemy slain while the buff was active.
+- ![](resources/assets/sprites/loose/undyingrage.png) **Undying Frenzy (Brute / Amazon)** - Doubles rage accumulation for 15s. Immune to passing out. When the effect ends, recovers 5% health for every enemy slain while the buff was active.
     - Charged by taking damage or defeating enemies. Charges more quickly if wielding a blunt weapon.
-- ![](resources/sprites/loose/cloaking.png) **Ambuscade (Bushwhacker)** - Become invisible and untargetable for 30s. Effect ends prematurely if the player attacks an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration.
+- ![](resources/assets/sprites/loose/cloaking.png) **Ambuscade (Bushwhacker)** - Become invisible and untargetable for 30s. Effect ends prematurely if the player attacks an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration.
     - Charged by scoring critical hits. Consider wielding a dagger.
-- ![](resources/sprites/loose/bullettime.png) **Death Blossom (Desperado)** - Enable auto-reload for 15s. Fire in eight directions at once.
+- ![](resources/assets/sprites/loose/bullettime.png) **Death Blossom (Desperado)** - Enable auto-reload for 15s. Fire in eight directions at once.
   - Journey of the Prairie King, "IRL".
   - Charged by hitting monsters with projectiles. Charges more quickly when low on health.
-- ![](resources/sprites/loose/superfluidity.png) **Enthrall (Slimed Piper / Slime Enchantress)** - Charm nearby Slimes for 30s. Charmed Slimes increase in size and power and will seek out other enemies. Enemies hit will aggro onto the Slime.
+- ![](resources/assets/sprites/loose/superfluidity.png) **Enthrall (Slimed Piper / Slime Enchantress)** - Charm nearby Slimes for 30s. Charmed Slimes increase in size and power and will seek out other enemies. Enemies hit will aggro onto the Slime.
   - Slimes scale up factor is random, up to twice the original size. Slimes gain a proportional damage and health boost.
   - If defeated, engorged Slimes break up into smaller baby Slimes.
   - There is also a low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert the Slime to prismatic variant.

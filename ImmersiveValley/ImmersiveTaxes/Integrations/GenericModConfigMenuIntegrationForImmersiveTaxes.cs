@@ -9,7 +9,7 @@ using System;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration for Immersive Taxes.</summary>
-internal class GenericModConfigMenuIntegrationForImmersiveTaxes
+internal sealed class GenericModConfigMenuIntegrationForImmersiveTaxes
 {
     /// <summary>The Generic Mod Config Menu integration.</summary>
     private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;

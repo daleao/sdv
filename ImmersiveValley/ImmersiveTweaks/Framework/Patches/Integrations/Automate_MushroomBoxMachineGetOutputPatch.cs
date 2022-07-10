@@ -54,6 +54,9 @@ internal sealed class MushroomBoxMachineGetOutputPatch : HarmonyPatch
                 held.Quality = Math.Max(ModEntry.ProfessionsAPI.GetEcologistForageQuality(owner), held.Quality);
             else
                 held.Quality = SObject.bestQuality;
+
+            if (ModEntry.Config.MushroomBoxesRewardExp)
+                Game1.player.gainExperience(Farmer.foragingSkill, 1);
         }
         catch (Exception ex)
         {

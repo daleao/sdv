@@ -12,5 +12,5 @@ public static class StringExtensions
 {
     /// <summary>Get a type by name and assert that it was found.</summary>
     public static Type ToType(this string name) =>
-        AccessTools.TypeByName(name) ?? throw new($"Cannot find type named {name}.");
+        AccessTools.TypeByName(name) ?? throw new($"Couldn't find type named {name}.");
 }

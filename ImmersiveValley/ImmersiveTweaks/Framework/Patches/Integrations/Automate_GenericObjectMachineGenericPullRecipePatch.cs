@@ -97,7 +97,7 @@ internal sealed class GenericObjectMachineGenericPullRecipePatch : Common.Harmon
             case "Keg" when output.ParentSheetIndex == 340 && output.preservedParentSheetIndex.Value > 0 &&
                             ModEntry.Config.KegsRememberHoneyFlower:
                 output.name = input.name.Split(" Honey")[0] + " Mead";
-                output.honeyType.Value = (SObject.HoneyType) input.preservedParentSheetIndex.Value;
+                output.honeyType.Value = (SObject.HoneyType)input.preservedParentSheetIndex.Value;
                 output.preservedParentSheetIndex.Value = input.preservedParentSheetIndex.Value;
                 output.Price = input.Price * 2;
                 break;
@@ -111,12 +111,12 @@ internal sealed class GenericObjectMachineGenericPullRecipePatch : Common.Harmon
                 {
                     // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
                     case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
-                        "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+                "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
                         output.Quality = SObject.lowQuality;
                         break;
                     // golden mayonnaise keeps giving gives single output but keeps golden quality
                     case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
-                        "ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                "ughitsmegan.goldenmayoForProducerFrameworkMod"):
                         output.Stack = 1;
                         break;
                 }

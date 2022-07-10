@@ -32,10 +32,10 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatch : DaLion.Common
 
         var who = __instance.Player;
         if (!who.IsLocalPlayer ||
-            ModEntry.PlayerState.RegisteredUltimate is not Enthrall { IsActive: false } pandemonium ||
+            ModEntry.PlayerState.RegisteredUltimate is not Pandemic { IsActive: false } pandemic ||
             ModEntry.PlayerState.SlimeContactTimer > 0) return;
 
-        pandemonium.ChargeValue += Game1.random.Next(1, 4);
+        pandemic.ChargeValue += Game1.random.Next(1, 4);
         ModEntry.PlayerState.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
     }
 

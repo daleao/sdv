@@ -1,14 +1,9 @@
-﻿//namespace DaLion.Stardew.Alchemy.Framework.Patches;
-
-//#region using directives
-
+﻿//using DaLion.Common;
+//using DaLion.Common.Harmony;
 //using HarmonyLib;
 //using JetBrains.Annotations;
 
-//using DaLion.Common;
-//using DaLion.Common.Harmony;
-
-//#endregion using directives
+//namespace DaLion.Stardew.Alchemy.Framework.Patches;
 
 ///// <summary>Wildcard prefix patch for on-demand debugging.</summary>
 //[UsedImplicitly]

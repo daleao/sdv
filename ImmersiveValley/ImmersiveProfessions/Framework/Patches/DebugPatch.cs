@@ -1,36 +1,32 @@
-﻿//namespace DaLion.Stardew.Professions.Framework.Patches;
+﻿using DaLion.Common;
+using HarmonyLib;
+using JetBrains.Annotations;
 
-//#region using directives
+namespace DaLion.Stardew.Professions.Framework.Patches;
 
-//using HarmonyLib;
-//using JetBrains.Annotations;
+/// <summary>Wildcard prefix patch for on-demand debugging.</summary>
+[UsedImplicitly]
+internal class DebugPatch : DaLion.Common.Harmony.HarmonyPatch
+{
+    /// <summary>Construct an instance.</summary>
+    internal DebugPatch()
+    {
+#if DEBUG
+        //Target = RequireMethod<>(nameof(.));
+#endif
+    }
 
-//using DaLion.Common;
-//using DaLion.Common.Harmony;
+    #region harmony patches
 
-//#endregion using directives
+    [HarmonyPrefix]
+    private static bool DebugPrefix(object __instance)
+    {
+        Log.D("DebugPatch called!");
 
-///// <summary>Wildcard prefix patch for on-demand debugging.</summary>
-//[UsedImplicitly]
-//internal class DebugPatch : BasePatch
-//{
-//    /// <summary>Construct an instance.</summary>
-//    internal DebugPatch()
-//    {
-//#if DEBUG
-//        Target = RequireMethod<>(nameof(.));
-//#endif
-//    }
 
-//    #region harmony patches
 
-//    [HarmonyPrefix]
-//    private static bool DebugPrefix(object __instance)
-//    {
-//        Log.D("DebugPatch called!");
+        return false; // don't run original logic
+    }
 
-//        return true; // run original logic
-//    }
-
-//    #endregion harmony patches
-//}
+    #endregion harmony patches
+}

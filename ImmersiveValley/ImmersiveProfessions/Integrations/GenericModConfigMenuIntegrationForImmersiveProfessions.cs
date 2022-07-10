@@ -2,14 +2,18 @@ namespace DaLion.Stardew.Professions.Integrations;
 
 #region using directives
 
+using Common.Extensions.Collections;
 using Common.Integrations;
 using StardewModdingAPI;
+using StardewValley;
+using StardewValley.Buildings;
 using System;
+using System.Linq;
 
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration for Immersive Professions.</summary>
-internal class GenericModConfigMenuIntegrationForImmersiveProfessions
+internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
 {
     /// <summary>The Generic Mod Config Menu integration.</summary>
     private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;
@@ -89,7 +93,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 config => (int)config.ForagesNeededForBestQuality,
                 (config, value) => config.ForagesNeededForBestQuality = (uint)value,
                 0,
-                1000
+                1000,
+                10
             )
             .AddNumberField(
                 () => "Minerals Needed for Best Quality",
@@ -97,7 +102,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 config => (int)config.MineralsNeededForBestQuality,
                 (config, value) => config.MineralsNeededForBestQuality = (uint)value,
                 0,
-                1000
+                1000,
+                10
             );
 
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
@@ -110,6 +116,30 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
             );
 
         _configMenu
+            .AddNumberField(
+                () => "Tracking Pointer Scale",
+                () => "Changes the size of the pointer used to track objects by Prospector and Scavenger professions.",
+                config => config.TrackPointerScale,
+                (config, value) => config.TrackPointerScale = value,
+                0.2f,
+                2f,
+                0.2f
+            )
+            .AddNumberField(
+                () => "Track Pointer Bobbing Rate",
+                () => "Changes the speed at which the tracking pointer bounces up and down (higher is faster).",
+                config => config.TrackPointerBobbingRate,
+                (config, value) => config.TrackPointerBobbingRate = value,
+                0.5f,
+                2f,
+                0.05f
+            )
+            .AddCheckbox(
+                () => "Disable Constant Tracking Arrows",
+                () => "If enabled, Prospector and Scavenger will only track off-screen objects while ModKey is held.",
+                config => config.DisableAlwaysTrack,
+                (config, value) => config.DisableAlwaysTrack = value
+            )
             .AddNumberField(
                 () => "Chance to Start Treasure Hunt",
                 () => "The chance that your Scavenger or Prospector hunt senses will start tingling.",
@@ -185,7 +215,13 @@ internal class GenericModConfigMenuIntegrationForImmersiveProfessions
                 () => "Legendary Pond Population Cap",
                 () => "The maximum population of Aquarist Fish Ponds with legendary fish.",
                 config => (int)config.LegendaryPondPopulationCap,
-                (config, value) => config.LegendaryPondPopulationCap = (uint)value,
+                (config, value) =>
+                {
+                    config.LegendaryPondPopulationCap = (uint)value;
+                    Game1.getFarm().buildings.OfType<FishPond>()
+                        .Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+                                    !p.isUnderConstruction()).ForEach(p => p.UpdateMaximumOccupancy());
+                },
                 1,
                 12
             )

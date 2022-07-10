@@ -16,13 +16,13 @@ public static class FarmerExtensions
     /// <summary>Calculate due income tax for the player.</summary>
     public static int DoTaxes(this Farmer farmer)
     {
-        var income = ModDataIO.ReadDataAs<int>(farmer, ModData.SeasonIncome.ToString());
-        var deductible = ModDataIO.ReadDataAs<float>(farmer, ModData.DeductionPct.ToString());
+        var income = ModDataIO.ReadFrom<int>(farmer, "SeasonIncome");
+        var deductible = ModDataIO.ReadFrom<float>(farmer, "DeductionPct");
         var taxable = (int)(income * (1f - deductible));
         var bracket = Framework.Utils.GetTaxBracket(taxable);
-        var due = (int)Math.Round(income * bracket);
+        var due = (int)Math.Round(taxable * bracket);
         Log.I(
-            $"Accounting results for {farmer.Name} over the closing {Game1.game1.GetPrecedingSeason()} season:" +
+            $"Accounting results for {farmer.Name} over the closing {Game1.game1.GetPrecedingSeason()} season, year {Game1.year}:" +
             $"\n\t- Total income: {income}g" +
             CurrentCulture($"\n\t- Tax deductions: {deductible:p0}") +
             $"\n\t- Taxable income: {taxable}g" +

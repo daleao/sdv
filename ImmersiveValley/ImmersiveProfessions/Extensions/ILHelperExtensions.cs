@@ -41,7 +41,7 @@ public static class ILHelperExtensions
     }
 
     /// <summary>
-    ///     InsertWithLabels a sequence of code instructions at the currently pointed index to test if the local player has a given
+    ///     Insert a sequence of code instructions at the currently pointed index to test if the local player has a given
     ///     profession.
     /// </summary>
     /// <param name="professionIndex">The profession id.</param>

@@ -20,6 +20,7 @@ public class Skill : SmartEnum<Skill>, ISkill
     public static readonly Skill Foraging = new("Foraging", Farmer.foragingSkill);
     public static readonly Skill Mining = new("Mining", Farmer.miningSkill);
     public static readonly Skill Combat = new("Combat", Farmer.combatSkill);
+
     public static readonly Skill Luck = new LuckSkill(ModEntry.LuckSkillApi);
 
     #endregion enum entries
@@ -74,6 +75,7 @@ public class Skill : SmartEnum<Skill>, ISkill
         ProfessionPairs[-1] = new(Professions[0], Professions[1], null, 5);
         ProfessionPairs[Professions[0].Id] = new(Professions[2], Professions[3], Professions[0], 10);
         ProfessionPairs[Professions[1].Id] = new(Professions[4], Professions[5], Professions[1], 10);
+
     }
 
     /// <summary>Get the range of indices corresponding to vanilla professions.</summary>

@@ -27,10 +27,6 @@ internal class PlayerState
     internal TreasureHunt ScavengerHunt { get; set; } = new ScavengerHunt();
     internal TreasureHunt ProspectorHunt { get; set; } = new ProspectorHunt();
     internal HudPointer Pointer { get; set; } = new();
-    internal Dictionary<int, float> OverchargedBullets { get; } = new();
-    internal HashSet<int> BlossomBullets { get; } = new();
-    internal HashSet<int> BouncedBullets { get; } = new();
-    internal HashSet<int> PiercedBullets { get; } = new();
     internal HashSet<GreenSlime> PipedSlimes { get; } = new();
     internal int[] AppliedPiperBuffs { get; } = new int[12];
     internal int BruteRageCounter { get; set; }

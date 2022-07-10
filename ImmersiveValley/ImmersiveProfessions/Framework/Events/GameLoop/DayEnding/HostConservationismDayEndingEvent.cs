@@ -30,14 +30,14 @@ internal sealed class HostConservationismDayEndingEvent : DayEndingEvent
         foreach (var farmer in Game1.getAllFarmers().Where(f => f.HasProfession(Profession.Conservationist)))
         {
             var trashCollectedThisSeason =
-                ModDataIO.ReadDataAs<uint>(farmer, ModData.ConservationistTrashCollectedThisSeason.ToString());
+                ModDataIO.ReadFrom<uint>(farmer, "ConservationistTrashCollectedThisSeason");
             if (trashCollectedThisSeason <= 0) return;
 
             var taxBonusForNextSeason =
                 // ReSharper disable once PossibleLossOfFraction
                 Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f,
                     ModEntry.Config.ConservationistTaxBonusCeiling);
-            ModDataIO.WriteData(farmer, ModData.ConservationistActiveTaxBonusPct.ToString(),
+            ModDataIO.WriteTo(farmer, "ConservationistActiveTaxBonusPct",
                 taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
             if (taxBonusForNextSeason > 0 && ModEntry.TaxesConfig is null)
             {
@@ -45,7 +45,7 @@ internal sealed class HostConservationismDayEndingEvent : DayEndingEvent
                 farmer.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
             }
 
-            ModDataIO.WriteData(farmer, ModData.ConservationistTrashCollectedThisSeason.ToString(), "0");
+            ModDataIO.WriteTo(farmer, "ConservationistTrashCollectedThisSeason", "0");
         }
     }
 }

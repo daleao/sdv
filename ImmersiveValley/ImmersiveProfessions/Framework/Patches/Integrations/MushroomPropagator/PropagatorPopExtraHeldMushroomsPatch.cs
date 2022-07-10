@@ -45,7 +45,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
         var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
         if (!owner.IsLocalPlayer || !owner.HasProfession(Profession.Ecologist)) return;
 
-        ModDataIO.IncrementData<uint>(Game1.player, ModData.EcologistItemsForaged.ToString());
+        ModDataIO.Increment<uint>(Game1.player, "EcologistItemsForaged");
     }
 
     /// <summary>Patch for Propagator output quality.</summary>

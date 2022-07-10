@@ -22,7 +22,7 @@ internal sealed class SlingshotDrawPatch : DaLion.Common.Harmony.HarmonyPatch
         Target = RequireMethod<Slingshot>(nameof(Slingshot.draw));
     }
 
-    /// <summary>Patch to draw slingshot overcharge meter for Desperado.</summary>
+    /// <summary>Patch to draw Slingshot overcharge meter for Desperado.</summary>
     [HarmonyPostfix]
     internal static void SlingshotDrawPostfix(Slingshot __instance, SpriteBatch b)
     {

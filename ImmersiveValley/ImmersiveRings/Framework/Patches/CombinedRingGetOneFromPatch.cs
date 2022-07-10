@@ -27,7 +27,7 @@ internal sealed class CombinedRingGetOneFromPatch : Common.Harmony.HarmonyPatch
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingGetOneFromPrefix(CombinedRing __instance, Item source)
     {
-        if (!ModEntry.Config.TheOneIridiumBand || source.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
+        if (source.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
             return true; // run original logic
 
         __instance.ParentSheetIndex = Constants.IRIDIUM_BAND_INDEX_I;

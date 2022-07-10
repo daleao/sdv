@@ -24,7 +24,7 @@ internal sealed class GreenSlimeDoJumpPatch : DaLion.Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     private static bool GreenSlimeDoJumpPrefix(GreenSlime __instance)
     {
-        ModDataIO.WriteData(__instance, "Jumping", 200.ToString());
+        ModDataIO.WriteTo(__instance, "Jumping", 200.ToString());
         return true; // run original logic
     }
 

@@ -23,7 +23,7 @@ internal sealed class BuffRemoveBuffPatch : DaLion.Common.Harmony.HarmonyPatch
     #region harmony patches
 
     [HarmonyPrefix]
-    private static void BuffUpdatePrefix(Buff __instance)
+    private static void BuffRemoveBuffPrefix(Buff __instance)
     {
         if (__instance.which == _piperBuffId && __instance.millisecondsDuration <= 0)
             Array.Clear(ModEntry.PlayerState.AppliedPiperBuffs, 0, 12);

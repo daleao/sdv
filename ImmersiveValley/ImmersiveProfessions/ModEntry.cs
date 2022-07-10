@@ -3,11 +3,11 @@
 #region using directives
 
 using Common;
-using Common.Multiplayer;
 using Common.Commands;
 using Common.Data;
 using Common.Harmony;
 using Common.Integrations;
+using Common.Multiplayer;
 using Framework;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
@@ -52,8 +52,8 @@ public class ModEntry : Mod
     internal static ITranslationHelper i18n => ModHelper.Translation;
 
 
-    internal static FrameRateCounter FpsCounter { get; private set; } = null!;
-    internal static ICursorPosition DebugCursorPosition { get; set; } = null!;
+    internal static FrameRateCounter? FpsCounter { get; private set; }
+    internal static ICursorPosition? DebugCursorPosition { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>

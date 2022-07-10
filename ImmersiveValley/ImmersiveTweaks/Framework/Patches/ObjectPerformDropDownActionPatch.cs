@@ -26,7 +26,7 @@ internal sealed class ObjectPerformDropDownActionPatch : Common.Harmony.HarmonyP
     private static void ObjectPerformDropDownActionPostfix(SObject __instance)
     {
         if (__instance.IsBeeHouse() || __instance.IsMushroomBox())
-            ModDataIO.WriteData(__instance, "Age", null);
+            ModDataIO.WriteTo(__instance, "Age", null);
     }
 
     #endregion harmony patches

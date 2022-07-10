@@ -202,7 +202,7 @@ internal class CommandHandler
     /// <param name="args">The supplied arguments.</param>
     internal void Entry(string command, string[] args)
     {
-        if (!args.Any())
+        if (args.Length <= 0)
         {
             Log.I(
                 $"This is the entry point for all {Mod} console commands. Use it by specifying a command to be executed. " +

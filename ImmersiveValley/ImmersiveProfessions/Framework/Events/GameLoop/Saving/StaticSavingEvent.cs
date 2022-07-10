@@ -10,7 +10,6 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using System;
 using System.Linq;
 
 #endregion using directives
@@ -64,20 +63,27 @@ internal sealed class StaticSavingEvent : SavingEvent
                     continue;
                 }
 
-                if (!Enum.TryParse<ModData>(split[2], out var field))
+                var allFields = new[]
+                {
+                    "EcologistItemsForaged", "GemologistMineralsCollected", "ProspectorHuntStreak",
+                    "ScavengerHuntStreak", "ConservationistTrashCollectedThisSeason",
+                    "ConservationistActiveTaxBonusPct", "ForgottenRecipesDict", "UltimateIndex"
+                };
+                var field = split[2];
+                if (!field.IsIn(allFields))
                 {
                     data.Remove(key);
                     ++count;
                     continue;
                 }
 
-                if (!Profession.TryFromName(field.ToString().SplitCamelCase()[0], out var profession) ||
+                if (!Profession.TryFromName(field.SplitCamelCase()[0], out var profession) ||
                     Game1.player.HasProfession(profession)) continue;
 
                 data.Remove(key);
                 ++count;
             }
 
-        Log.D($"[ModData]: Found {count} rogue data fields.");
+        Log.D($"[ModData]: Removed {count} rogue data fields.");
     }
 }

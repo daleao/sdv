@@ -11,7 +11,7 @@ using System;
 /// <summary>Handles the logic for integrating with the Generic Mod Configuration Menu mod.</summary>
 /// <typeparam name="TConfig">The mod configuration type.</typeparam>
 /// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
-internal class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGenericModConfigMenuAPI>
+internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration<IGenericModConfigMenuAPI>
     where TConfig : new()
 {
     #region fields

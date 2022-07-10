@@ -28,6 +28,7 @@ internal sealed class CropHitWithHoePatch : Common.Harmony.HarmonyPatch
     #region harmony patches
 
     /// <summary>Apply Botanist/Ecologist perk to wild ginger.</summary>
+    [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? CropHitWithHoeTranspiler(IEnumerable<CodeInstruction> instructions,
         MethodBase original)
     {

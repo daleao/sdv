@@ -153,7 +153,7 @@ public static class TypeExtensions
             .SelectMany(AccessTools.GetDeclaredMethods)
             .Where(m => prefix == "*" || m.Name.StartsWith(prefix))
             .ToList();
-        if (!methods.Any())
+        if (methods.Count <= 0)
             throw new MissingMethodException(
                 $"Couldn't find method starting with {prefix} in any inner type of {type.FullName}.");
         return methods;

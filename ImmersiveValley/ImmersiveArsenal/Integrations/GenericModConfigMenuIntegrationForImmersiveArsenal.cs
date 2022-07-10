@@ -9,7 +9,7 @@ using System;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration for Immersive Arsenal.</summary>
-internal class GenericModConfigMenuIntegrationForImmersiveArsenal
+internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
 {
     /// <summary>The Generic Mod Config Menu integration.</summary>
     private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;
@@ -37,16 +37,34 @@ internal class GenericModConfigMenuIntegrationForImmersiveArsenal
         _configMenu
             .Register()
             .AddCheckbox(
+                () => "Rebalanced Weapons",
+                () => "Make weapons more unique and useful.",
+                config => config.RebalancedWeapons,
+                (config, value) => config.RebalancedWeapons = value
+            )
+            .AddCheckbox(
                 () => "Rebalanced Enchants",
                 () => "Improves certain underwhelming enchantments.",
                 config => config.RebalancedEnchants,
                 (config, value) => config.RebalancedEnchants = value
             )
             .AddCheckbox(
-                () => "Weapons Cost Stamina",
-                () => "Weapons should cost energy to use.",
-                config => config.WeaponsCostStamina,
-                (config, value) => config.WeaponsCostStamina = value
+                () => "Allow Slingshot Crit",
+                () => "Allows Slingshot to deal critical damage and be affected by critical modifiers.",
+                config => config.AllowSlingshotCrit,
+                (config, value) => config.AllowSlingshotCrit = value
+            )
+            .AddCheckbox(
+                () => "Allow Slingshot Enchants",
+                () => "Allow Slingshot to be enchanted with weapon enchantments (Prismatic Shard) at the Forge.",
+                config => config.AllowSlingshotEnchants,
+                (config, value) => config.AllowSlingshotEnchants = value
+            )
+            .AddCheckbox(
+                () => "Allow Slingshot Forges",
+                () => "Allow Slingshot to be enchanted with weapon forges (gemstones) at the Forge.",
+                config => config.AllowSlingshotForges,
+                (config, value) => config.AllowSlingshotForges = value
             )
             .AddCheckbox(
                 () => "Remove Slingshot Grace Period",
@@ -61,10 +79,16 @@ internal class GenericModConfigMenuIntegrationForImmersiveArsenal
                 (config, value) => config.RemoveDefenseSoftCap = value
             )
             .AddCheckbox(
-                () => "Truly Legendary Galaxy Sword",
-                () => "The Galaxy Sword should not be so easy to get.",
-                config => config.TrulyLegendaryGalaxySword,
-                (config, value) => config.TrulyLegendaryGalaxySword = value
+                () => "Woody Replaces Rusty",
+                () => "Replace the starting Rusty Sword with a Wooden Blade.",
+                config => config.WoodyReplacesRusty,
+                (config, value) => config.WoodyReplacesRusty = value
+            )
+            .AddCheckbox(
+                () => "Infinity Plus One Sword",
+                () => "Replace lame Galaxy and Infinity weapons with something truly legendary.",
+                config => config.InfinityPlusOneWeapons,
+                (config, value) => config.InfinityPlusOneWeapons = value
             );
     }
 }

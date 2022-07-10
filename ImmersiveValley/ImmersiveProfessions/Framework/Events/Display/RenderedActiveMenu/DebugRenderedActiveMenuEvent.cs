@@ -35,8 +35,6 @@ internal sealed class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
     /// <inheritdoc />
     protected override void OnRenderedActiveMenuImpl(object? sender, RenderedActiveMenuEventArgs e)
     {
-        if (!ModEntry.Config.DebugKey.IsDown()) return;
-
         ClickableComponents.Clear();
         var activeMenu = Game1.activeClickableMenu;
         if (activeMenu.allClickableComponents is null) activeMenu.populateClickableComponentList();

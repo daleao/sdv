@@ -48,29 +48,29 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
             y > p.tileY.Value && y < p.tileY.Value + p.tilesHigh.Value - 1);
         if (pond is null || pond.FishCount < 0) return;
 
-        if (pond.IsAlgaePond())
+        if (pond.HasAlgae())
         {
             fishQuality = SObject.lowQuality;
 
-            var seaweedCount = ModDataIO.ReadDataAs<int>(pond, "SeaweedLivingHere");
-            var greenAlgaeCount = ModDataIO.ReadDataAs<int>(pond, "GreenAlgaeLivingHere");
-            var whiteAlgaeCount = ModDataIO.ReadDataAs<int>(pond, "WhiteAlgaeLivingHere");
+            var seaweedCount = ModDataIO.ReadFrom<int>(pond, "SeaweedLivingHere");
+            var greenAlgaeCount = ModDataIO.ReadFrom<int>(pond, "GreenAlgaeLivingHere");
+            var whiteAlgaeCount = ModDataIO.ReadFrom<int>(pond, "WhiteAlgaeLivingHere");
 
             var roll = Game1.random.Next(seaweedCount + greenAlgaeCount + whiteAlgaeCount);
             if (roll < seaweedCount)
             {
                 whichFish = Constants.SEAWEED_INDEX_I;
-                ModDataIO.WriteData(pond, "SeaweedLivingHere", (--seaweedCount).ToString());
+                ModDataIO.WriteTo(pond, "SeaweedLivingHere", (--seaweedCount).ToString());
             }
             else if (roll < seaweedCount + greenAlgaeCount)
             {
                 whichFish = Constants.GREEN_ALGAE_INDEX_I;
-                ModDataIO.WriteData(pond, "GreenAlgaeLivingHere", (--greenAlgaeCount).ToString());
+                ModDataIO.WriteTo(pond, "GreenAlgaeLivingHere", (--greenAlgaeCount).ToString());
             }
             else if (roll < seaweedCount + greenAlgaeCount + whiteAlgaeCount)
             {
                 whichFish = Constants.WHITE_ALGAE_INDEX_I;
-                ModDataIO.WriteData(pond, "WhiteAlgaeLivingHere", (--whiteAlgaeCount).ToString());
+                ModDataIO.WriteTo(pond, "WhiteAlgaeLivingHere", (--whiteAlgaeCount).ToString());
             }
 
             return;
@@ -78,22 +78,22 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
 
         try
         {
-            var fishQualities = ModDataIO.ReadData(pond, "FishQualities",
-                $"{pond.FishCount - ModDataIO.ReadDataAs<int>(pond, "FamilyLivingHere")},0,0,0").ParseList<int>()!;
+            var fishQualities = ModDataIO.ReadFrom(pond, "FishQualities",
+                $"{pond.FishCount - ModDataIO.ReadFrom<int>(pond, "FamilyLivingHere")},0,0,0").ParseList<int>()!;
             if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > pond.FishCount + 1)) // FishCount has already been decremented at this point, so we increment 1 to compensate
                 throw new InvalidDataException("FishQualities data had incorrect number of values.");
 
             var lowestFish = fishQualities.FindIndex(i => i > 0);
-            if (pond.IsLegendaryPond())
+            if (pond.HasLegendaryFish())
             {
-                var familyCount = ModDataIO.ReadDataAs<int>(pond, "FamilyLivingHere");
+                var familyCount = ModDataIO.ReadFrom<int>(pond, "FamilyLivingHere");
                 if (fishQualities.Sum() + familyCount != pond.FishCount + 1) // FishCount has already been decremented at this point, so we increment 1 to compensate
                     throw new InvalidDataException("FamilyLivingHere data is invalid.");
 
                 if (familyCount > 0)
                 {
                     var familyQualities =
-                        ModDataIO.ReadData(pond, "FamilyQualities", $"{ModDataIO.ReadDataAs<int>(pond, "FamilyLivingHere")},0,0,0")
+                        ModDataIO.ReadFrom(pond, "FamilyQualities", $"{ModDataIO.ReadFrom<int>(pond, "FamilyLivingHere")},0,0,0")
                             .ParseList<int>()!;
                     if (familyQualities.Count != 4 || familyQualities.Sum() != familyCount)
                         throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
@@ -104,36 +104,36 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
                         whichFish = Utils.ExtendedFamilyPairs[whichFish];
                         fishQuality = lowestFamily == 3 ? 4 : lowestFamily;
                         --familyQualities[lowestFamily];
-                        ModDataIO.WriteData(pond, "FamilyQualities", string.Join(",", familyQualities));
-                        ModDataIO.IncrementData(pond, "FamilyLivingHere", -1);
+                        ModDataIO.WriteTo(pond, "FamilyQualities", string.Join(",", familyQualities));
+                        ModDataIO.Increment(pond, "FamilyLivingHere", -1);
                     }
                     else
                     {
                         fishQuality = lowestFish == 3 ? 4 : lowestFish;
                         --fishQualities[lowestFish];
-                        ModDataIO.WriteData(pond, "FishQualities", string.Join(",", fishQualities));
+                        ModDataIO.WriteTo(pond, "FishQualities", string.Join(",", fishQualities));
                     }
                 }
                 else
                 {
                     fishQuality = lowestFish == 3 ? 4 : lowestFish;
                     --fishQualities[lowestFish];
-                    ModDataIO.WriteData(pond, "FishQualities", string.Join(",", fishQualities));
+                    ModDataIO.WriteTo(pond, "FishQualities", string.Join(",", fishQualities));
                 }
             }
             else
             {
                 fishQuality = lowestFish == 3 ? 4 : lowestFish;
                 --fishQualities[lowestFish];
-                ModDataIO.WriteData(pond, "FishQualities", string.Join(",", fishQualities));
+                ModDataIO.WriteTo(pond, "FishQualities", string.Join(",", fishQualities));
             }
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            ModDataIO.WriteData(pond, "FishQualities", $"{pond.FishCount},0,0,0");
-            ModDataIO.WriteData(pond, "FamilyQualities", null);
-            ModDataIO.WriteData(pond, "FamilyLivingHere", null);
+            ModDataIO.WriteTo(pond, "FishQualities", $"{pond.FishCount},0,0,0");
+            ModDataIO.WriteTo(pond, "FamilyQualities", null);
+            ModDataIO.WriteTo(pond, "FamilyLivingHere", null);
         }
         catch (Exception ex)
         {

@@ -15,14 +15,24 @@ internal class HudPointer
 {
     private const float MAX_STEP_F = 3f, MIN_STEP_F = -3f;
 
+    private readonly Rectangle _srcRect;
+
     private float _height = -42f, _jerk = 1f, _step;
 
-    /// <summary>The texture that will be used to draw the indicator.</summary>
+    private float _Scale => ModEntry.Config.TrackPointerScale;
+
+    /// <summary>Construct an instance.</summary>
+    public HudPointer()
+    {
+        _srcRect = new(0, 0, Texture.Width, Texture.Height);
+    }
+
+    /// <summary>The texture that will be used to draw the pointer.</summary>
     public Texture2D Texture => Textures.Textures.PointerTx;
 
-    /// <summary>Draw the indicator at the edge of the screen, pointing to a target off-screen.</summary>
+    /// <summary>Draw the pointer at the edge of the screen, pointing to a target tile off-screen.</summary>
     /// <param name="target">The target tile to point to.</param>
-    /// <param name="color">The color of the indicator.</param>
+    /// <param name="color">The color of the pointer.</param>
     public void DrawAsTrackingPointer(Vector2 target, Color color)
     {
         if (SUtility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
@@ -70,55 +80,53 @@ internal class HudPointer
         if ((int)onScreenPosition.X == vpBounds.Right - 8 && (int)onScreenPosition.Y == vpBounds.Bottom - 8)
             rotation -= (float)Math.PI / 4f;
 
-        var srcRect = new Rectangle(0, 0, Texture.Width, Texture.Height);
         var safePos = SUtility.makeSafe(
-            renderSize: new(srcRect.Width * Game1.pixelZoom, srcRect.Height * Game1.pixelZoom),
+            renderSize: new(_srcRect.Width * Game1.pixelZoom * _Scale, _srcRect.Height * Game1.pixelZoom * _Scale),
             renderPos: onScreenPosition
         );
 
         Game1.spriteBatch.Draw(
             texture: Texture,
             position: safePos,
-            sourceRectangle: srcRect,
+            sourceRectangle: _srcRect,
             color: color,
             rotation: rotation,
             origin: new(2f, 2f),
-            scale: Game1.pixelZoom,
+            scale: Game1.pixelZoom * _Scale,
             effects: SpriteEffects.None,
             layerDepth: 1f
         );
     }
 
-    /// <summary>Draw the indicator over a target tile on-screen.</summary>
+    /// <summary>Draw the pointer over a target tile on-screen.</summary>
     /// <param name="target">A target tile.</param>
-    /// <param name="color">The color of the indicator.</param>
+    /// <param name="color">The color of the pointer.</param>
     /// <remarks>Credit to <c>Bpendragon</c>.</remarks>
     public void DrawOverTile(Vector2 target, Color color)
     {
         if (!SUtility.isOnScreen(target * 64f + new Vector2(32f, 32f), 64)) return;
 
-        var srcRect = new Rectangle(0, 0, 5, 4);
-        var targetPixel = new Vector2(target.X * 64f + 32f, target.Y * 64f + 32f + _height);
+        var targetPixel = new Vector2(target.X * Game1.tileSize + 32f, target.Y * Game1.tileSize + 32f + _height);
         var adjustedPixel = Game1.GlobalToLocal(Game1.viewport, targetPixel);
         adjustedPixel = SUtility.ModifyCoordinatesForUIScale(adjustedPixel);
 
         Game1.spriteBatch.Draw(
             texture: Texture,
             position: adjustedPixel,
-            sourceRectangle: srcRect,
+            sourceRectangle: _srcRect,
             color: color,
             rotation: (float)Math.PI,
             origin: new(2f, 2f),
-            scale: Game1.pixelZoom,
+            scale: Game1.pixelZoom * _Scale,
             effects: SpriteEffects.None,
             layerDepth: 1f
         );
     }
 
-    /// <summary>Advance the indicator's bobbing motion one step.</summary>
+    /// <summary>Advance the pointer's bobbing motion one step.</summary>
     public void Update(uint ticks)
     {
-        if (ticks % 4 != 0) return;
+        if (ticks % (4f / ModEntry.Config.TrackPointerBobbingRate) != 0) return;
 
         if (_step is MAX_STEP_F or MIN_STEP_F) _jerk = -_jerk;
         _step += _jerk;

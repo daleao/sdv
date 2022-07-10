@@ -110,11 +110,11 @@ public static class StringExtensions
 
     /// <summary>Split the string with provided <paramref name="separator"/> and parse the resulting elements into a tuple.</summary>
     /// <param name="separator">A string separator.</param>
-    public static (T t, U u) ParseTuple<T, U>(this string s, string separator = ",")
+    public static (T, U)? ParseTuple<T, U>(this string s, string separator = ",")
         where T : struct
         where U : struct
     {
-        if (string.IsNullOrEmpty(s)) return new();
+        if (string.IsNullOrEmpty(s)) return null;
 
         var split = s.Split(separator);
         if (split.Length < 2)
@@ -128,12 +128,12 @@ public static class StringExtensions
 
     /// <summary>Split the string with provided <paramref name="separator"/> and parse the resulting elements into a tuple.</summary>
     /// <param name="separator">A string separator.</param>
-    public static (T, U, V) ParseTuple<T, U, V>(this string s, string separator = ",")
+    public static (T, U, V)? ParseTuple<T, U, V>(this string s, string separator = ",")
         where T : struct
         where U : struct
         where V : struct
     {
-        if (string.IsNullOrEmpty(s)) return new();
+        if (string.IsNullOrEmpty(s)) return null;
 
         var split = s.Split(separator);
         if (split.Length < 3)
@@ -147,13 +147,13 @@ public static class StringExtensions
 
     /// <summary>Split the string with provided <paramref name="separator"/> and parse the resulting elements into a tuple.</summary>
     /// <param name="separator">A string separator.</param>
-    public static (T, U, V, W) ParseTuple<T, U, V, W>(this string s, string separator = ",")
+    public static (T, U, V, W)? ParseTuple<T, U, V, W>(this string s, string separator = ",")
         where T : struct
         where U : struct
         where V : struct
         where W : struct
     {
-        if (string.IsNullOrEmpty(s)) return new();
+        if (string.IsNullOrEmpty(s)) return null;
 
         var split = s.Split(separator);
         if (split.Length < 4)

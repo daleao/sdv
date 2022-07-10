@@ -9,7 +9,7 @@ using System;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration for Immersive Ponds.</summary>
-internal class GenericModConfigMenuIntegrationForImmersivePonds
+internal sealed class GenericModConfigMenuIntegrationForImmersivePonds
 {
     /// <summary>The Generic Mod Config Menu integration.</summary>
     private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;

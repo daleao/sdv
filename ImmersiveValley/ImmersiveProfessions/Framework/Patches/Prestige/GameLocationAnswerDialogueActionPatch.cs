@@ -148,10 +148,10 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                             {
                                 UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
                                 UltimateIndex.PoacherAmbush => new Ambush(),
-                                UltimateIndex.PiperPandemic => new Enthrall(),
+                                UltimateIndex.PiperPandemic => new Pandemic(),
                                 UltimateIndex.DesperadoBlossom => new DeathBlossom()
                             };
-                            ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), newIndex.ToString());
+                            ModDataIO.WriteTo(Game1.player, "UltimateIndex", newIndex.ToString());
 
                             // play sound effect
                             SFX.DogStatuePrestige.Play();

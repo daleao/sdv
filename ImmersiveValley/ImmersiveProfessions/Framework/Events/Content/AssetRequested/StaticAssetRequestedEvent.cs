@@ -5,6 +5,7 @@
 using Common.Data;
 using Common.Events;
 using Common.Extensions;
+using Common.Extensions.Collections;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -81,25 +82,29 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
     private static void EditFishPondDataData(IAssetData asset)
     {
         var data = (List<FishPondData>)asset.Data;
-        data.InsertRange(data.Count - 2, new List<FishPondData>
+        var index = data.FindIndex(0, d => d.RequiredTags.Contains("category_fish"));
+        data.Insert(index, new() // legendary fish
         {
-            new() // legendary fish
+            PopulationGates = null,
+            ProducedItems = new()
             {
-                PopulationGates = null,
-                ProducedItems = new()
+                new()
                 {
-                    new()
-                    {
-                        Chance = 1f,
-                        ItemID = 812, // roe
-                        MinQuantity = 1,
-                        MaxQuantity = 1
-                    }
-                },
-                RequiredTags = new() {"fish_legendary"},
-                SpawnTime = int.MaxValue
-            }
+                    Chance = 1f,
+                    ItemID = 812, // roe
+                    MinQuantity = 1,
+                    MaxQuantity = 1
+                }
+            },
+            RequiredTags = new() { "fish_legendary" },
+            SpawnTime = 999999
         });
+
+        data.Move(d => d.RequiredTags.Contains("item_mutant_carp"), index);
+        data.Move(d => d.RequiredTags.Contains("item_legend"), index);
+        data.Move(d => d.RequiredTags.Contains("item_crimsonfish"), index);
+        data.Move(d => d.RequiredTags.Contains("item_glacierfish"), index);
+        data.Move(d => d.RequiredTags.Contains("item_angler"), index);
     }
 
     /// <summary>Patches mail data with mail from the Ferngill Revenue Service.</summary>
@@ -107,7 +112,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
     {
         var data = asset.AsDictionary<string, string>().Data;
         var taxBonus =
-            ModDataIO.ReadDataAs<float>(Game1.player, ModData.ConservationistActiveTaxBonusPct.ToString());
+            ModDataIO.ReadFrom<float>(Game1.player, "ConservationistActiveTaxBonusPct");
         var key = taxBonus >= ModEntry.Config.ConservationistTaxBonusCeiling
             ? "conservationist.mail.max"
             : "conservationist.mail";
@@ -181,8 +186,8 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
         if (ModEntry.SVEConfig is not null)
         {
             if (ModEntry.SVEConfig.Value<bool?>("DisableGaldoranTheme") == false &&
-                (Game1.currentLocation.NameOrUniqueName.IsIn("Custom_CastleVillageOutpost", "Custom_CrimsonBadlands",
-                     "Custom_IridiumQuarry", "Custom_TreasureCave") ||
+                (Game1.currentLocation?.NameOrUniqueName.IsIn("Custom_CastleVillageOutpost", "Custom_CrimsonBadlands",
+                     "Custom_IridiumQuarry", "Custom_TreasureCave") == true ||
                  ModEntry.SVEConfig.Value<bool?>("UseGaldoranThemeAllTimes") == true))
             {
                 return path + "gauge_galdora.png";

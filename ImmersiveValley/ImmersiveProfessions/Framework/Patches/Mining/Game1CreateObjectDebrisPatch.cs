@@ -43,7 +43,7 @@ internal sealed class Game1CreateObjectDebrisPatch : DaLion.Common.Harmony.Harmo
                 itemQuality = who.GetGemologistMineralQuality()
             });
 
-            ModDataIO.IncrementData<uint>(who, ModData.GemologistMineralsCollected.ToString());
+            ModDataIO.Increment<uint>(who, "GemologistMineralsCollected");
             return false; // don't run original logic
         }
         catch (Exception ex)

@@ -55,7 +55,7 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
                 (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                 !p.isUnderConstruction())
             .ToHashSet();
-        if (!ponds.Any())
+        if (ponds.Count <= 0)
         {
             Log.W("You don't own any Fish Ponds.");
             return;
@@ -78,23 +78,23 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
             "best" or "iridium" => SObject.bestQuality
         };
 
-        var familyCount = ModDataIO.ReadDataAs<int>(nearest, "FamilyLivingHere");
+        var familyCount = ModDataIO.ReadFrom<int>(nearest, "FamilyLivingHere");
         var familyQualities = new int[4];
         if (familyCount > nearest.FishCount)
         {
             Log.W("FamilyLivingHere data is invalid. The data will be reset.");
             familyCount = 0;
-            ModDataIO.WriteData(nearest, "FamilyLivingHere", null);
+            ModDataIO.WriteTo(nearest, "FamilyLivingHere", null);
         }
 
         if (familyCount > 0)
         {
             familyQualities[newQuality == 4 ? 3 : newQuality] += familyCount;
-            ModDataIO.WriteData(nearest, "FamilyQualities", string.Join(',', familyQualities));
+            ModDataIO.WriteTo(nearest, "FamilyQualities", string.Join(',', familyQualities));
         }
 
         var fishQualities = new int[4];
         fishQualities[newQuality == 4 ? 3 : newQuality] += nearest.FishCount - familyCount;
-        ModDataIO.WriteData(nearest, "FishQualities", string.Join(',', fishQualities));
+        ModDataIO.WriteTo(nearest, "FishQualities", string.Join(',', fishQualities));
     }
 }

@@ -9,6 +9,11 @@
   "UpdateKeys": [ "Nexus:11537" ],
   "Dependencies": [
     {
+      "UniqueID": "spacechase0.DynamicGameAssets",
+      "MinimumVersion": "1.4.3",
+      "IsRequired": true
+    },
+    {
       "UniqueID": "spacechase0.GenericModConfigMenu",
       "MinimumVersion": "1.8.0",
       "IsRequired": false
@@ -17,10 +22,8 @@
       "UniqueID": "DaLion.ImmersiveProfessions",
       "MinimumVersion": "5.0.0",
       "IsRequired": false
-    },
-    {
-      "UniqueID": "FlashShifter.StardewValleyExpandedCP",
-      "IsRequired": false
     }
-  ]
+  ],
+  "DGA.FormatVersion": 2,
+  "DGA.ConditionsFormatVersion": "1.23.0"
 }

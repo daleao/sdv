@@ -38,19 +38,17 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
         var r = new Random(Guid.NewGuid().GetHashCode());
         if (__instance.fishType.Value.IsAlgae())
         {
-            var spawned = r.NextDouble() > 0.25
-                ? r.Next(Constants.SEAWEED_INDEX_I, Constants.GREEN_ALGAE_INDEX_I + 1)
-                : 157;
+            var spawned = Utils.ChooseAlgae(__instance.fishType.Value, r);
             switch (spawned)
             {
                 case Constants.SEAWEED_INDEX_I:
-                    ModDataIO.IncrementData<int>(__instance, "SeaweedLivingHere");
+                    ModDataIO.Increment<int>(__instance, "SeaweedLivingHere");
                     break;
                 case Constants.GREEN_ALGAE_INDEX_I:
-                    ModDataIO.IncrementData<int>(__instance, "GreenAlgaeLivingHere");
+                    ModDataIO.Increment<int>(__instance, "GreenAlgaeLivingHere");
                     break;
                 case Constants.WHITE_ALGAE_INDEX_I:
-                    ModDataIO.IncrementData<int>(__instance, "WhiteAlgaeLivingHere");
+                    ModDataIO.Increment<int>(__instance, "WhiteAlgaeLivingHere");
                     break;
             }
 
@@ -61,9 +59,9 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
         {
             var forFamily = false;
             var familyCount = 0;
-            if (__instance.IsLegendaryPond())
+            if (__instance.HasLegendaryFish())
             {
-                familyCount = ModDataIO.ReadDataAs<int>(__instance, "FamilyLivingHere");
+                familyCount = ModDataIO.ReadFrom<int>(__instance, "FamilyLivingHere");
                 if (0 > familyCount || familyCount > __instance.FishCount)
                     throw new InvalidDataException("FamilyLivingHere data is invalid.");
 
@@ -78,7 +76,7 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
             var @default = forFamily
                 ? $"{familyCount},0,0,0"
                 : $"{__instance.FishCount - familyCount - 1},0,0,0";
-            var qualities = ModDataIO.ReadData(__instance, forFamily ? "FamilyQualities" : "FishQualities", @default)
+            var qualities = ModDataIO.ReadFrom(__instance, forFamily ? "FamilyQualities" : "FishQualities", @default)
                 .ParseList<int>()!;
             if (qualities.Count != 4 ||
                 qualities.Sum() != (forFamily ? familyCount : __instance.FishCount - familyCount - 1))
@@ -87,7 +85,7 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
             if (qualities.Sum() == 0)
             {
                 ++qualities[0];
-                ModDataIO.WriteData(__instance, forFamily ? "FamilyQualities" : "FishQualities",
+                ModDataIO.WriteTo(__instance, forFamily ? "FamilyQualities" : "FishQualities",
                     string.Join(',', qualities));
                 return;
             }
@@ -102,14 +100,14 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
                         : SObject.lowQuality;
 
             ++qualities[fishlingQuality == 4 ? 3 : fishlingQuality];
-            ModDataIO.WriteData(__instance, forFamily ? "FamilyQualities" : "FishQualities", string.Join(',', qualities));
+            ModDataIO.WriteTo(__instance, forFamily ? "FamilyQualities" : "FishQualities", string.Join(',', qualities));
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            ModDataIO.WriteData(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
-            ModDataIO.WriteData(__instance, "FamilyQualities", null);
-            ModDataIO.WriteData(__instance, "FamilyLivingHere", null);
+            ModDataIO.WriteTo(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
+            ModDataIO.WriteTo(__instance, "FamilyQualities", null);
+            ModDataIO.WriteTo(__instance, "FamilyLivingHere", null);
         }
     }
 

@@ -14,10 +14,12 @@ internal sealed class TreasureHuntStartedEvent : ManagedEvent
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal TreasureHuntStartedEvent(Action<object?, ITreasureHuntStartedEventArgs> callback)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    internal TreasureHuntStartedEvent(Action<object?, ITreasureHuntStartedEventArgs> callback, bool alwaysHooked = false)
         : base(ModEntry.EventManager)
     {
         _OnStartedImpl = callback;
+        AlwaysHooked = alwaysHooked;
     }
 
     /// <param name="sender">The event sender.</param>

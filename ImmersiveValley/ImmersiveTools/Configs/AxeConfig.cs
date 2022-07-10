@@ -57,6 +57,9 @@ public class AxeConfig
     /// <summary>Whether to play the shockwave animation when the charged Axe is released.</summary>
     public bool PlayShockwaveAnimation { get; set; } = true;
 
-    /// <summary>Whether the Pickaxe can be enchanted with Reaching.</summary>
+    /// <summary>Whether the Axe can be enchanted with Reaching.</summary>
     public bool AllowReachingEnchantment { get; set; } = true;
+
+    /// <summary>Whether the Axe can be enchanted with Master.</summary>
+    public bool AllowMasterEnchantment { get; set; } = true;
 }

@@ -152,8 +152,8 @@
   "piper.desc": "위험한 지역에서 슬라임을 유인하세요. 슬라임 처치 시 확률적으로 랜덤 버프 획득.",
   "piper.desc.prestiged": "슬라임 처치 시 일정 확률로 체력과 에너지를 회복합니다.",
   "piper.buff": "슬라임",
-  "piper.buffdesc": "농사 +{{farming}}\n낚시 +{{fishing}}\n채집 +{{foraging}}\n채광 +{{mining}}\n공격력 +{{attack}}\n방어력 +{{defense}}\n행운 +{{luck}}\n속도 +{{speed}}\n최대 에너지 +{{energy}}\n자력 범위 +{{magnetic}}",
-  "piper.ulti": "매혹",
+  "piper.ulti.male": "매혹",
+  "piper.ulti.female": "매혹",
   "piper.ultidesc": "근처에 있는 모든 슬라임을 인챈트합니다. 마법에 걸린 슬라임은 크기와 힘이 증가하고 다른 적을 쫓습니다.",
 
   "ulti.canteat": "지금은 불가능합니다.",

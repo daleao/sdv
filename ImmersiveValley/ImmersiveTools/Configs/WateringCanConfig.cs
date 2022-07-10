@@ -15,4 +15,10 @@ public class WateringCanConfig
         new[] {6, 1},
         new[] {5, 2}
     };
+
+    /// <summary>Whether the Watering Can can be enchanted with Swift.</summary>
+    public bool AllowSwiftEnchantment = true;
+
+    /// <summary>Whether the Watering Can can be enchanted with Master.</summary>
+    public bool AllowMasterEnchantment { get; set; } = true;
 }

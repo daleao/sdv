@@ -34,7 +34,7 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (!args.Any())
+        if (args.Length <= 0)
         {
             Log.W("You must specify at least one profession." + GetUsage());
             return;

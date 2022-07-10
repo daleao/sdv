@@ -25,11 +25,11 @@ internal sealed class GreenSlimeBehaviorAtGameTickPatch : DaLion.Common.Harmony.
     [HarmonyPostfix]
     private static void GreenSlimeBehaviorAtGameTickPostfix(GreenSlime __instance, ref int ___readyToJump)
     {
-        var timeLeft = ModDataIO.ReadDataAs<int>(__instance, "Jumping");
+        var timeLeft = ModDataIO.ReadFrom<int>(__instance, "Jumping");
         if (timeLeft <= 0) return;
 
         timeLeft -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-        ModDataIO.WriteData(__instance, "Jumping", timeLeft <= 0 ? null : timeLeft.ToString());
+        ModDataIO.WriteTo(__instance, "Jumping", timeLeft <= 0 ? null : timeLeft.ToString());
 
         //if (!__instance.Player.HasProfession(Profession.Piper)) return;
 

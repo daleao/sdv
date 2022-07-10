@@ -51,15 +51,15 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
             _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CompileUnboundDelegate<Func<object, FishPond>>();
             machine = _GetMachine(__instance);
 
-            var produce = ModDataIO.ReadData(machine, "ItemsHeld").ParseList<string>(";");
-            if (produce?.Any() != true)
+            var produce = ModDataIO.ReadFrom(machine, "ItemsHeld").ParseList<string>(";");
+            if (produce?.Count is not > 0)
             {
                 machine.output.Value = null;
             }
             else
             {
                 var next = produce.First();
-                var (index, stack, quality) = next.ParseTuple<int, int, int>();
+                var (index, stack, quality) = next.ParseTuple<int, int, int>()!.Value;
                 StardewValley.Object o;
                 if (index == 812) // roe
                 {
@@ -76,15 +76,15 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
                 }
                 else
                 {
-                    o = new(index, stack) { Quality = quality };
+                    o = new(index, stack, quality: quality);
                 }
 
                 machine.output.Value = o;
                 produce.Remove(next);
-                ModDataIO.WriteData(machine, "ItemsHeld", string.Join(";", produce));
+                ModDataIO.WriteTo(machine, "ItemsHeld", string.Join(";", produce));
             }
 
-            if (ModDataIO.ReadDataAs<bool>(machine, "CheckedToday")) return false; // don't run original logic
+            if (ModDataIO.ReadFrom<bool>(machine, "CheckedToday")) return false; // don't run original logic
 
             var bonus = (int)(item is StardewValley.Object @object
                 ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
@@ -94,13 +94,13 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
             _GetOwner(__instance).gainExperience(Farmer.fishingSkill,
                 FishPond.HARVEST_BASE_EXP + bonus);
 
-            ModDataIO.WriteData(machine, "CheckedToday", true.ToString());
+            ModDataIO.WriteTo(machine, "CheckedToday", true.ToString());
             return false; // don't run original logic
         }
         catch (InvalidOperationException ex) when (machine is not null)
         {
             Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-            ModDataIO.WriteData(machine, "ItemsHeld", null);
+            ModDataIO.WriteTo(machine, "ItemsHeld", null);
             return true; // default to original logic
         }
         catch (Exception ex)

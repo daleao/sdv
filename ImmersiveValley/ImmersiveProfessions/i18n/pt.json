@@ -114,7 +114,7 @@
   "conservationist.desc.prestiged": "Ganhe também favor com os aldeões ao limpar as águas do Vale.",
   "conservationist.mail": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Temos o prazer de informar que, após análise de suas atividades ambientalistas, determinamos que você se qualifica para uma dedução de imposto de renda de {{taxBonus}} de acordo com a seção 501(c)(3) do Código de Receita de Tributos e Contribuições de Ferngill. Como tal, todos os rendimentos tributáveis ​​de {{farm}} serão aumentados pelo valor supracitado, válido durante a atual temporada de {{season}}.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Taxation Deduction",
   "conservationist.mail.max": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Temos o prazer de informar que, após análise de suas atividades ambientalistas, determinamos que você se qualifica para a dedução máxima de imposto de renda de {{taxBonus}} acordo com a seção 501(c)(3) do Código de Receita de Tributos e Contribuições de Ferngill. Como tal, todos os rendimentos tributáveis ​​de {{farm}} serão aumentados pelo valor supracitado, válido durante a atual temporada de {{season}}.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Taxation Deduction",
-  
+
   // combat
   "fighter.name.male": "Guerreiro",
   "fighter.name.female": "Guerreira",
@@ -152,8 +152,8 @@
   "piper.desc": "Atrae mais Gosmas em lugares perigosos. Chance de ganhar efeitos aleatórios ao eliminar Gosmas.",
   "piper.desc.prestiged": "Chance de também recuperar vida e energia ao eliminar Gosmas.",
   "piper.buff": "Coberto de gosma",
-  "piper.buffdesc": "Cultivo +{{farming}}\nPesca +{{fishing}}\nColeta +{{foraging}}\nMineração +{{mining}}\nAtaque +{{attack}}\nDefesa +{{defense}}\nSorte +{{luck}}\nVelocidade +{{speed}}\nEnergia máx. +{{energy}}\nRaio magnético +{{magnetic}}",
-  "piper.ulti": "Encantar",
+  "piper.ulti.male": "Encantar!",
+  "piper.ulti.female": "Encantar!",
   "piper.ultidesc": "Encanta as Gosmas próximas. Gosmas encantadas aumentam em tamanho e poder e perseguem outros inimigos.",
 
   "ulti.canteat": "Impossível fazer isso agora.",

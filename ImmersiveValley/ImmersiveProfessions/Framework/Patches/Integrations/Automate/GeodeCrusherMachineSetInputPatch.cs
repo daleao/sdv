@@ -50,7 +50,7 @@ internal sealed class GeodeCrusherMachineSetInputPatch : DaLion.Common.Harmony.H
         machine.heldObject.Value.Quality = owner.GetGemologistMineralQuality();
         if (!ModEntry.Config.ShouldCountAutomatedHarvests) return;
 
-        ModDataIO.IncrementData<uint>(owner, ModData.GemologistMineralsCollected.ToString());
+        ModDataIO.Increment<uint>(owner, "GemologistMineralsCollected");
     }
 
     #endregion harmony patches

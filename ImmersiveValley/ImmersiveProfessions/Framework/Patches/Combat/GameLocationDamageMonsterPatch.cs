@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
 using Ultimates;
 using SObject = StardewValley.Object;
 
@@ -184,7 +185,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                     // check for crit. pow. buff
                     new CodeInstruction(OpCodes.Ldloc_S, ambush),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Ambush).RequireMethod(nameof(Ambush.ShouldBuffCritPower))),
+                        typeof(Ambush).RequirePropertyGetter(nameof(Ambush.IsGrantingCritBuff))),
                     new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow)
                 )
                 .RemoveUntil(
@@ -279,10 +280,10 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
         // try to steal
         if (who.HasProfession(Profession.Poacher))
         {
-            if (who.CurrentTool is MeleeWeapon weapon && didCrit)
+            if (who.CurrentTool is MeleeWeapon && didCrit)
             {
-                if (!ModDataIO.ReadDataAs<bool>(monster, "Stolen") &&
-                    Game1.random.NextDouble() < 0.15)
+                if (!ModDataIO.ReadFrom<bool>(monster, "Stolen") &&
+                    Game1.random.NextDouble() < 0.2)
                 {
                     var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
                         .Concat(monster.getExtraDropItems()).ToList();
@@ -290,7 +291,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                     if (itemToSteal is not null && !itemToSteal.Name.Contains("Error") &&
                         who.addItemToInventoryBool(itemToSteal))
                     {
-                        ModDataIO.WriteData(monster, "Stolen", bool.TrueString);
+                        ModDataIO.WriteTo(monster, "Stolen", bool.TrueString);
 
                         // play sound effect
                         SFX.PoacherSteal.Play();
@@ -352,19 +353,18 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                     which = buffId,
                     sheetIndex = 38,
                     millisecondsDuration = 180000,
-                    description = ModEntry.i18n.Get("piper.buffdesc", new
-                    {
-                        farming = applied[0],
-                        fishing = applied[1],
-                        foraging = applied[5],
-                        mining = applied[2],
-                        attack = applied[11],
-                        defense = applied[10],
-                        luck = applied[4],
-                        speed = applied[9],
-                        energy = applied[7],
-                        magnetic = applied[8]
-                    })
+                    description = GetPiperBuffDescription(
+                        applied[0],
+                        applied[1],
+                        applied[5],
+                        applied[2],
+                        applied[11],
+                        applied[10],
+                        applied[4],
+                        applied[9],
+                        applied[7],
+                        applied[8]
+                    )
                 });
 
                 ModEntry.EventManager.Hook<PiperDayEndingEvent>();
@@ -372,18 +372,19 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
         }
 
         // heal if prestiged
-        if (who.HasProfession(Profession.Piper, true) && r.NextDouble() < 0.333)
+        if (who.HasProfession(Profession.Piper, true) && r.NextDouble() < 0.333 + who.DailyLuck / 2.0)
         {
             var healed = (int)(monster.MaxHealth * 0.025f);
             who.health = Math.Min(who.health + healed, who.maxHealth);
             who.currentLocation.debris.Add(new(healed,
                 new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
+            Game1.playSound("healSound");
 
             who.Stamina = Math.Min(who.Stamina + who.Stamina * 0.01f, who.MaxStamina);
         }
 
         // increment ultimate meter
-        if (ModEntry.PlayerState.RegisteredUltimate is Enthrall { IsActive: false } pandemonium)
+        if (ModEntry.PlayerState.RegisteredUltimate is Pandemic { IsActive: false } pandemic)
         {
 #pragma warning disable CS8509
             var increment = monster switch
@@ -393,9 +394,107 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                 BigSlime => 8,
             };
 
-            pandemonium.ChargeValue += increment + r.Next(-2, 3);
+            pandemic.ChargeValue += increment + r.Next(-2, 3);
         }
     }
 
     #endregion injected subroutines
+
+    #region helper methods
+
+    private static string GetPiperBuffDescription(int farming, int fishing, int foraging, int mining, int attack, int defense, int luck, int speed, int energy, int magnetic)
+    {
+        var builder = new StringBuilder();
+        if (farming > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.480") + "+" + farming);
+            else
+                builder.AppendLine("+" + farming + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.480"));
+        }
+
+        if (fishing > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.483") + "+" + fishing);
+            else
+                builder.AppendLine("+" + fishing + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.483"));
+        }
+
+        if (foraging > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.492") + "+" + foraging);
+            else
+                builder.AppendLine("+" + foraging + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.492"));
+        }
+
+        if (mining > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.486") + "+" + mining);
+            else
+                builder.AppendLine("+" + mining + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.486"));
+        }
+
+        if (attack > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.504") + "+" + attack);
+            else
+                builder.AppendLine("+" + attack + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.504"));
+        }
+
+        if (defense > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.501") + "+" + defense);
+            else
+                builder.AppendLine("+" + defense + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.501"));
+        }
+
+        if (mining > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.486") + "+" + mining);
+            else
+                builder.AppendLine("+" + mining + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.486"));
+        }
+
+        if (luck > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.489") + "+" + luck);
+            else
+                builder.AppendLine("+" + luck + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.489"));
+        }
+
+        if (speed > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.507") + "+" + speed);
+            else
+                builder.AppendLine("+" + speed + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.507"));
+        }
+
+        if (energy > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.495") + "+" + energy);
+            else
+                builder.AppendLine("+" + energy + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.495"));
+        }
+
+        if (magnetic > 0)
+        {
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
+                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.498") + "+" + magnetic);
+            else
+                builder.AppendLine("+" + magnetic + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.498"));
+        }
+
+        return builder.ToString();
+    }
+
+    #endregion helper methods
 }

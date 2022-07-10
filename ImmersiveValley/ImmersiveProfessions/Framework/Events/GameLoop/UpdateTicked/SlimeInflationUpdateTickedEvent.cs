@@ -22,9 +22,9 @@ internal sealed class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        var uninflated = ModEntry.PlayerState.PipedSlimes.Where(c => !ModDataIO.ReadDataAs<bool>(c, "DoneInflating"))
+        var uninflated = ModEntry.PlayerState.PipedSlimes.Where(c => !ModDataIO.ReadFrom<bool>(c, "DoneInflating"))
             .ToArray();
-        if (!uninflated.Any())
+        if (uninflated.Length <= 0)
         {
             Unhook();
             return;

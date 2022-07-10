@@ -6,6 +6,7 @@ using Common;
 using Common.Commands;
 using Common.Events;
 using Common.Harmony;
+using Common.Integrations;
 using StardewModdingAPI;
 
 #endregion using directives
@@ -20,7 +21,7 @@ public class ModEntry : Mod
     internal static IManifest Manifest => Instance.ModManifest;
     internal static ITranslationHelper i18n => ModHelper.Translation;
 
-    internal static int QiChallengeFinalQuestId => "TrulyLegendaryGalaxySword".GetHashCode();
+    internal static IDynamicGameAssetsAPI? DynamicGameAssetsApi { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>

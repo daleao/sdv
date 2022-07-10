@@ -43,7 +43,7 @@ internal sealed class ObjectCheckForActionPatch : DaLion.Common.Harmony.HarmonyP
     {
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession(Profession.Ecologist))
-            ModDataIO.IncrementData<uint>(Game1.player, ModData.EcologistItemsForaged.ToString());
+            ModDataIO.Increment<uint>(Game1.player, "EcologistItemsForaged");
     }
 
     /// <summary>Patch to increment Gemologist counter for gems collected from Crystalarium + increase Honey quality with age + increase production frequency of Producer Bee House.</summary>
@@ -80,9 +80,9 @@ internal sealed class ObjectCheckForActionPatch : DaLion.Common.Harmony.HarmonyP
                         typeof(string).RequireMethod(nameof(string.Equals), new[] { typeof(string) })),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Ldstr, ModData.GemologistMineralsCollected.ToString()),
+                    new CodeInstruction(OpCodes.Ldstr, "GemologistMineralsCollected"),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModDataIO).RequireMethod(nameof(ModDataIO.IncrementData), new[] { typeof(Farmer), typeof(string) })
+                        typeof(ModDataIO).RequireMethod(nameof(ModDataIO.Increment), new[] { typeof(Farmer), typeof(string) })
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseGemologistCounter);

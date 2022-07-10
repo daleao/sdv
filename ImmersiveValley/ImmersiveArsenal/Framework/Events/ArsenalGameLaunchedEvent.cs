@@ -33,5 +33,8 @@ internal sealed class ArsenalGameLaunchedEvent : GameLaunchedEvent
                 modRegistry: ModEntry.ModHelper.ModRegistry,
                 manifest: ModEntry.Manifest
             ).Register();
+
+        // add Hero Soul item
+        new DynamicGameAssetsIntegration(ModEntry.ModHelper.ModRegistry).Register();
     }
 }

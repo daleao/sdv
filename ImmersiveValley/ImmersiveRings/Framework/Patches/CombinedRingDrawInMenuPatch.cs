@@ -38,7 +38,7 @@ internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
         float scaleSize, float transparency, float layerDepth, StackDrawType drawStackNumber, Color color,
         bool drawShadow)
     {
-        if (!ModEntry.Config.TheOneIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
+        if (__instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
             return true; // run original logic
 
         try

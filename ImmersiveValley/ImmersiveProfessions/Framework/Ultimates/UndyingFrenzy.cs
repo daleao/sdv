@@ -20,9 +20,7 @@ internal sealed class UndyingFrenzy : Ultimate
 
     /// <summary>Construct an instance.</summary>
     internal UndyingFrenzy()
-    : base(Color.OrangeRed, Color.OrangeRed)
-    {
-    }
+    : base(Color.OrangeRed, Color.OrangeRed) { }
 
     #region public properties
 

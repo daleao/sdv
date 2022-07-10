@@ -53,7 +53,7 @@ public class ModEntry : Mod
         // register commands
         helper.ConsoleCommands.Add(
             "do_taxes",
-            "Check accounting stats for the current season-to-date.",
+            "Check accounting stats for the current season-to-date, or the closing season if checking on the 1st day of the season.",
             DoTaxes
         );
     }
@@ -67,21 +67,25 @@ public class ModEntry : Mod
             return;
         }
 
-        var income = ModDataIO.ReadDataAs<int>(Game1.player, ModData.SeasonIncome.ToString());
+        var forClosingSeason = Game1.dayOfMonth == 1;
+        var income = ModDataIO.ReadFrom<int>(Game1.player, "SeasonIncome");
         var deductible = ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.mariner)
-            ? ProfessionsAPI.GetConservationistProjectedTaxBonus(Game1.player)
+            ? forClosingSeason
+                ? ModDataIO.ReadFrom<float>(Game1.player, "DeductionPct")
+                : ProfessionsAPI.GetConservationistProjectedTaxBonus(Game1.player)
             : 0f;
         var taxable = (int)(income * (1f - deductible));
         var bracket = Framework.Utils.GetTaxBracket(taxable);
-        var due = (int)Math.Round(income * bracket);
+        var due = (int)Math.Round(taxable * bracket);
         Log.I(
-            "Accounting projections for the current season:" +
+            "Accounting " + (forClosingSeason ? "report" : "projections") + " for the " + (forClosingSeason ? "closing" : "current") + " season:" +
             $"\n\t- Income (season-to-date): {income}g" +
             CurrentCulture($"\n\t- Eligible deductions: {deductible:p0}") +
             $"\n\t- Taxable income: {taxable}g" +
             CurrentCulture($"\n\t- Current tax bracket: {bracket:p0}") +
             $"\n\t- Due income tax: {due}g." +
-            $"\n\t- Total projected income tax: {due * 28 / Game1.dayOfMonth}g."
+            $"\n\t- Total projected income tax: {due * 28 / Game1.dayOfMonth}g." +
+            $"\nRequested on {Game1.currentSeason} {Game1.dayOfMonth}, year {Game1.year}."
         );
     }
 }

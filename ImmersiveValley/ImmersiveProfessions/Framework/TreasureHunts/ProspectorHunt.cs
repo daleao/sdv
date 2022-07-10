@@ -101,7 +101,7 @@ internal sealed class ProspectorHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
-        ModDataIO.WriteData(Game1.player, ModData.ProspectorHuntStreak.ToString(), "0");
+        ModDataIO.WriteTo(Game1.player, "ProspectorHuntStreak", "0");
         End(false);
     }
 
@@ -136,7 +136,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         if (shaft.shouldCreateLadderOnThisLevel() && !shaft.GetLadderTiles().Any())
             shaft.createLadderDown((int)TreasureTile!.Value.X, (int)TreasureTile!.Value.Y);
 
-        ModDataIO.IncrementData<uint>(Game1.player, ModData.ProspectorHuntStreak.ToString());
+        ModDataIO.Increment<uint>(Game1.player, "ProspectorHuntStreak");
         End(true);
     }
 
@@ -273,7 +273,7 @@ internal sealed class ProspectorHunt : TreasureHunt
 
                         case 2: // special items
                             var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
-                            var streak = ModDataIO.ReadDataAs<uint>(Game1.player, ModData.ProspectorHuntStreak.ToString());
+                            var streak = ModDataIO.ReadFrom<uint>(Game1.player, "ProspectorHuntStreak");
                             if (random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
                                 treasuresAndQuantities.Add(-1, 1); // femur
 

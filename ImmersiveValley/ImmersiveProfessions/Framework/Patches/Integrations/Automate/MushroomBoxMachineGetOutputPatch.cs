@@ -54,7 +54,7 @@ internal sealed class MushroomBoxMachineGetOutputPatch : DaLion.Common.Harmony.H
             if (!owner.HasProfession(Profession.Ecologist) || !ModEntry.Config.ShouldCountAutomatedHarvests)
                 return;
 
-            ModDataIO.IncrementData<uint>(owner, ModData.EcologistItemsForaged.ToString());
+            ModDataIO.Increment<uint>(owner, "EcologistItemsForaged");
         }
         catch (Exception ex)
         {

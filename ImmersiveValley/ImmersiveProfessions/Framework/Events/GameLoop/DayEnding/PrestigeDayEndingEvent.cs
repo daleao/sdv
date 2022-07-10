@@ -8,7 +8,6 @@ using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
 using System.Collections.Generic;
-using System.Linq;
 
 #endregion using directives
 
@@ -25,7 +24,7 @@ internal sealed class PrestigeDayEndingEvent : DayEndingEvent
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
-        while (_ToReset.Any())
+        while (_ToReset.Count > 0)
         {
             var toReset = _ToReset.Dequeue();
             switch (toReset)

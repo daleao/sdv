@@ -112,9 +112,9 @@ internal sealed class ObjectPerformObjectDropInActionPatch : DaLion.Common.Harmo
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseGemologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldstr, ModData.GemologistMineralsCollected.ToString()),
+                    new CodeInstruction(OpCodes.Ldstr, "GemologistMineralsCollected"),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModDataIO).RequireMethod(nameof(ModDataIO.IncrementData),
+                        typeof(ModDataIO).RequireMethod(nameof(ModDataIO.Increment),
                                 new[] { typeof(Farmer), typeof(string) })
                             .MakeGenericMethod(typeof(uint)))
                 )

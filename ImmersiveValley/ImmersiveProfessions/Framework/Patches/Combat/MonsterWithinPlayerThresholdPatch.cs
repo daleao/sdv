@@ -31,7 +31,7 @@ internal sealed class MonsterWithinPlayerThresholdPatch : DaLion.Common.Harmony.
     {
         try
         {
-            var player = Game1.getFarmer(ModDataIO.ReadDataAs(__instance, "Target", Game1.player.UniqueMultiplayerID));
+            var player = Game1.getFarmer(ModDataIO.ReadFrom(__instance, "Target", Game1.player.UniqueMultiplayerID));
             if (!player.IsLocalPlayer || ModEntry.PlayerState.RegisteredUltimate is not Ambush { IsActive: true })
                 return true; // run original method
 

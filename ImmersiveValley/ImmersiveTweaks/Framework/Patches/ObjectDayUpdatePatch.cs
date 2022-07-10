@@ -31,11 +31,11 @@ internal sealed class ObjectDayUpdatePatch : Common.Harmony.HarmonyPatch
     {
         if (__instance.IsBeeHouse() && ModEntry.Config.AgeBeeHouses)
         {
-            ModDataIO.IncrementData<int>(__instance, "Age");
+            ModDataIO.Increment<int>(__instance, "Age");
         }
         else if (__instance.IsMushroomBox())
         {
-            if (ModEntry.Config.AgeMushroomBoxes) ModDataIO.IncrementData<int>(__instance, "Age");
+            if (ModEntry.Config.AgeMushroomBoxes) ModDataIO.Increment<int>(__instance, "Age");
 
             if (__instance.heldObject.Value is null) return;
 

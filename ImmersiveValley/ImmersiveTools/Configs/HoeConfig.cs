@@ -15,4 +15,7 @@ public class HoeConfig
         new[] {6, 1},
         new[] {5, 2}
     };
+
+    /// <summary>Whether the Hoe can be enchanted with Master.</summary>
+    public bool AllowMasterEnchantment { get; set; } = true;
 }

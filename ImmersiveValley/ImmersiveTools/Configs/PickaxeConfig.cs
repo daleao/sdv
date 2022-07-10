@@ -53,4 +53,7 @@ public class PickaxeConfig
 
     /// <summary>Whether the Pickaxe can be enchanted with Reaching.</summary>
     public bool AllowReachingEnchantment { get; set; } = true;
+
+    /// <summary>Whether the Pickaxe can be enchanted with Master.</summary>
+    public bool AllowMasterEnchantment { get; set; } = true;
 }

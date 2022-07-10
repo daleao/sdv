@@ -246,7 +246,7 @@ public class AlchemyMenu : ItemGrabMenu
         set => ModEntry.PlayerState.Autofill = value;
     }
 
-    private bool _UseHorizontalInventorySelection => _inventorySelectButtons.Any() && Context.IsSplitScreen;
+    private bool _UseHorizontalInventorySelection => _inventorySelectButtons.Count > 0 && Context.IsSplitScreen;
     private bool _ShouldShowInventoryElements => _adjacentContainers.Count > 1;
 
     #endregion properties
@@ -403,7 +403,7 @@ public class AlchemyMenu : ItemGrabMenu
 
         containers ??= Enumerable.Empty<Chest>();
         _adjacentContainers.AddRange(containers.Take(MAX_EXTRA_INVENTORIES_I));
-        if (_adjacentContainers.Any())
+        if (_adjacentContainers.Count > 0)
         {
             var destRect = new Rectangle(-1, -1, 16 * SCALE_I, 16 * SCALE_I);
             _inventorySelectButtons.Add(new("backpack", destRect, null, null, Textures.InterfaceTx,
@@ -831,7 +831,7 @@ public class AlchemyMenu : ItemGrabMenu
 
     public override void snapToDefaultClickableComponent()
     {
-        if (!_tabHistory.Any()) return;
+        if (_tabHistory.Count <= 0) return;
 
         switch (_tabHistory.Peek())
         {

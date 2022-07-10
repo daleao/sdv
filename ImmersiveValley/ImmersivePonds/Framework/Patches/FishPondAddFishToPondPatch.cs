@@ -35,49 +35,49 @@ internal sealed class FishPondAddFishToPondPatch : Common.Harmony.HarmonyPatch
             if (fish.HasContextTag("fish_legendary") && fish.ParentSheetIndex != __instance.fishType.Value)
             {
                 var familyQualities = ModDataIO
-                    .ReadData(__instance, "FamilyQualities", $"{ModDataIO.ReadDataAs<int>(__instance, "FamilyLivingHere")},0,0,0")
+                    .ReadFrom(__instance, "FamilyQualities", $"{ModDataIO.ReadFrom<int>(__instance, "FamilyLivingHere")},0,0,0")
                     .ParseList<int>()!;
                 if (familyQualities.Count != 4 ||
-                    familyQualities.Sum() != ModDataIO.ReadDataAs<int>(__instance, "FamilyLivingHere"))
+                    familyQualities.Sum() != ModDataIO.ReadFrom<int>(__instance, "FamilyLivingHere"))
                     throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
 
                 ++familyQualities[fish.Quality == 4 ? 3 : fish.Quality];
-                ModDataIO.IncrementData<int>(__instance, "FamilyLivingHere");
-                ModDataIO.WriteData(__instance, "FamilyQualities", string.Join(',', familyQualities));
+                ModDataIO.Increment<int>(__instance, "FamilyLivingHere");
+                ModDataIO.WriteTo(__instance, "FamilyQualities", string.Join(',', familyQualities));
             }
             else if (fish.IsAlgae())
             {
                 switch (fish.ParentSheetIndex)
                 {
                     case Constants.SEAWEED_INDEX_I:
-                        ModDataIO.IncrementData<int>(__instance, "SeaweedLivingHere");
+                        ModDataIO.Increment<int>(__instance, "SeaweedLivingHere");
                         break;
                     case Constants.GREEN_ALGAE_INDEX_I:
-                        ModDataIO.IncrementData<int>(__instance, "GreenAlgaeLivingHere");
+                        ModDataIO.Increment<int>(__instance, "GreenAlgaeLivingHere");
                         break;
                     case Constants.WHITE_ALGAE_INDEX_I:
-                        ModDataIO.IncrementData<int>(__instance, "WhiteAlgaeLivingHere");
+                        ModDataIO.Increment<int>(__instance, "WhiteAlgaeLivingHere");
                         break;
                 }
             }
             else
             {
-                var fishQualities = ModDataIO.ReadData(__instance, "FishQualities",
-                        $"{__instance.FishCount - ModDataIO.ReadDataAs<int>(__instance, "FamilyLivingHere") - 1},0,0,0") // already added at this point, so consider - 1
+                var fishQualities = ModDataIO.ReadFrom(__instance, "FishQualities",
+                        $"{__instance.FishCount - ModDataIO.ReadFrom<int>(__instance, "FamilyLivingHere") - 1},0,0,0") // already added at this point, so consider - 1
                     .ParseList<int>()!;
                 if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > __instance.FishCount - 1))
                     throw new InvalidDataException("FishQualities data had incorrect number of values.");
 
                 ++fishQualities[fish.Quality == 4 ? 3 : fish.Quality];
-                ModDataIO.WriteData(__instance, "FishQualities", string.Join(',', fishQualities));
+                ModDataIO.WriteTo(__instance, "FishQualities", string.Join(',', fishQualities));
             }
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            ModDataIO.WriteData(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
-            ModDataIO.WriteData(__instance, "FamilyQualities", null);
-            ModDataIO.WriteData(__instance, "FamilyLivingHere", null);
+            ModDataIO.WriteTo(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
+            ModDataIO.WriteTo(__instance, "FamilyQualities", null);
+            ModDataIO.WriteTo(__instance, "FamilyLivingHere", null);
         }
     }
 

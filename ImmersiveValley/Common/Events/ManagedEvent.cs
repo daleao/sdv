@@ -2,6 +2,7 @@
 
 #region using directives
 
+using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using System;
 using System.Runtime.CompilerServices;
@@ -16,6 +17,9 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
 
     /// <summary>The <see cref="EventManager"/> instance that manages this event.</summary>
     protected EventManager Manager { get; init; }
+
+    /// <inheritdoc cref="EventPriority"/>
+    protected EventPriority Priority { get; init; }
 
     /// <summary>Allow this event to be raised even when unhooked.</summary>
     protected bool AlwaysHooked { get; init; } = false;
@@ -34,16 +38,10 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     public bool IsHookedForScreen(int screenID) => _Hooked.GetValueForScreen(screenID);
 
     /// <inheritdoc />
-    public void Hook()
-    {
-        _Hooked.Value = true;
-    }
+    public bool Hook() => !_Hooked.Value && (_Hooked.Value = true);
 
     /// <inheritdoc />
-    public void Unhook()
-    {
-        _Hooked.Value = false;
-    }
+    public bool Unhook() => _Hooked.Value && !(_Hooked.Value = false);
 
     /// <inheritdoc />
     public override string ToString() => GetType().Name;

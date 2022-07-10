@@ -23,8 +23,6 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("Debug")) return;
-
         var command = e.Type.Split('/')[1];
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)

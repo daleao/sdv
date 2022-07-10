@@ -33,7 +33,7 @@ public interface IProfession
     string GetDescription(bool prestiged = false);
 
     /// <summary>Get the professions which branch off from this profession, if any.</summary>
-    IEnumerable<int> BranchingProfessions =>
+    virtual IEnumerable<int> BranchingProfessions =>
         Level != 5 || !Skill.ProfessionPairs.TryGetValue(Id, out var pair)
         ? Enumerable.Empty<int>()
         : pair.First.Id.Collect(pair.Second.Id);

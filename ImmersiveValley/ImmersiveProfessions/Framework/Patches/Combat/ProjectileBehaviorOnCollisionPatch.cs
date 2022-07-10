@@ -25,16 +25,12 @@ internal sealed class ProjectileBehaviorOnCollisionPatch : DaLion.Common.Harmony
 
     #region harmony patches
 
-    /// <summary>Patch for Rascal chance to recover ammunition.</summary>
+    /// <summary>Patch for Rascal chance to recover ammunition + detect ricochet.</summary>
     [HarmonyPostfix]
     private static void ProjectileBehaviorOnCollisionPostfix(Projectile __instance, NetInt ___currentTileSheetIndex,
         NetPosition ___position, NetCharacterRef ___theOneWhoFiredMe, GameLocation location)
     {
-        if (__instance is not BasicProjectile projectile) return;
-
-        var hashCode = projectile.GetHashCode();
-        ModEntry.PlayerState.BouncedBullets.Remove(hashCode);
-        if (ModEntry.PlayerState.BlossomBullets.Remove(hashCode)) return;
+        if (__instance is not ImmersiveProjectile projectile || projectile.IsBlossomPetal) return;
 
         var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
         if (!firer.HasProfession(Profession.Rascal)) return;

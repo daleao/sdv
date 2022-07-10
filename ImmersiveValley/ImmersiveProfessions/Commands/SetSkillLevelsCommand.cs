@@ -60,7 +60,7 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
         }
 
         var argsList = args.ToList();
-        while (argsList.Any())
+        while (argsList.Count > 0)
         {
             if (!int.TryParse(args[1], out var newLevel))
             {

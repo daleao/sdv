@@ -152,8 +152,8 @@
   "piper.desc": "在危险区域吸引史莱姆。杀死史莱姆时有机会获得随机增益。",
   "piper.desc.prestiged": "击败史莱姆时有机会恢复一些生命值和能量。",
   "piper.buff": "粘滑的",
-  "piper.buffdesc": "耕种 +{{farming}}\n钓鱼 +{{fishing}}\n采集 +{{foraging}}\n采矿 +{{mining}}\n攻击 +{{attack}}\n防御 +{{defense}}\n运气 +{{luck}}\n速度 +{{speed}}\n最大能量 +{{energy}}\n磁半径 +{{magnetic}}",
-  "piper.ulti": "陶醉",
+  "piper.ulti.male": "陶醉",
+  "piper.ulti.female": "陶醉",
   "piper.ultidesc": "附魔附近的所有史莱姆。 附魔史莱姆会增加体型和力量并追逐其他敌人。",
 
   "ulti.canteat": "现在不能这样做。",

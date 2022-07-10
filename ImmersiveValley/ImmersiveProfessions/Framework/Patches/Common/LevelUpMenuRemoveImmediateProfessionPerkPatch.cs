@@ -37,7 +37,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
         if (!Profession.TryFromValue(whichProfession, out var profession) ||
             whichProfession == Farmer.luckSkill) return;
 
-        if ((Skill)profession.Skill == Skill.Combat)
+        if ((Skill)profession.Skill == Farmer.combatSkill)
         {
             Game1.player.maxHealth -= 5;
             Game1.player.health = Math.Max(Game1.player.health, Game1.player.maxHealth);
@@ -62,20 +62,20 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
         if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
             var firstIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
-            ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), firstIndex.ToString());
+            ModDataIO.WriteTo(Game1.player, "UltimateIndex", firstIndex.ToString());
 #pragma warning disable CS8509
             ModEntry.PlayerState.RegisteredUltimate = firstIndex switch
 #pragma warning restore CS8509
             {
                 UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
                 UltimateIndex.PoacherAmbush => new Ambush(),
-                UltimateIndex.PiperPandemic => new Enthrall(),
+                UltimateIndex.PiperPandemic => new Pandemic(),
                 UltimateIndex.DesperadoBlossom => new DeathBlossom()
             };
         }
         else
         {
-            ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), null);
+            ModDataIO.WriteTo(Game1.player, "UltimateIndex", null);
             ModEntry.PlayerState.RegisteredUltimate = null;
         }
     }

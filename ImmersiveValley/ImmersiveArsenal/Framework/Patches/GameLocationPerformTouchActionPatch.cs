@@ -35,39 +35,33 @@ internal sealed class GameLocationPerformTouchActionPatch : Common.Harmony.Harmo
         var helper = new ILHelper(original, instructions);
 
         /// From: Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, 74)
-        /// To: Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, ModEntry.Config.TrulyLegendaryGalaxySword ? Constants.GALAXY_SOUL_INDEX_I : 74)
+        /// To: if (DoesPlayerMeetGalaxyConditions())
         ///     -- and also
         /// Injected: this.playSound("thunder");
 
-        var trulyLegendaryGalaxySword = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 74)
+                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Callvirt,
+                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.ActiveObject)))
                 )
-                .Insert(
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.TrulyLegendaryGalaxySword))),
-                    new CodeInstruction(OpCodes.Brtrue_S, trulyLegendaryGalaxySword)
-                )
-                .Advance()
-                .AddLabels(resumeExecution)
-                .Insert(
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
-                .InsertWithLabels(
-                    new[] { trulyLegendaryGalaxySword },
-                    new CodeInstruction(OpCodes.Ldc_I4, Constants.GALAXY_SOUL_INDEX_I)
-                )
+                .StripLabels(out var labels)
                 .AdvanceUntil(
+                    new CodeInstruction(OpCodes.Brfalse)
+                )
+                .GetOperand(out var didNotMeetConditions)
+                .Return()
+                .RemoveUntil(
                     new CodeInstruction(OpCodes.Brtrue)
                 )
-                .Advance()
-                .Insert(
+                .InsertWithLabels(
+                    labels,
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(GameLocationPerformTouchActionPatch).RequireMethod(
+                            nameof(DoesPlayerMeetGalaxyConditions))),
+                    new CodeInstruction(OpCodes.Brfalse, didNotMeetConditions),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldstr, "thunder"),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
@@ -77,7 +71,7 @@ internal sealed class GameLocationPerformTouchActionPatch : Common.Harmony.Harmo
         }
         catch (Exception ex)
         {
-            Log.E($"Failed injecting custom legendary sword conditions.\nHelper returned {ex}");
+            Log.E($"Failed injecting custom galaxy sword conditions.\nHelper returned {ex}");
             return null;
         }
 
@@ -88,18 +82,22 @@ internal sealed class GameLocationPerformTouchActionPatch : Common.Harmony.Harmo
 
     #region injected subroutines
 
-    private static bool CheckLegendarySwordConditions()
+    private static bool DoesPlayerMeetGalaxyConditions()
     {
-        if (ModEntry.Config.TrulyLegendaryGalaxySword)
+        if (Game1.player.ActiveObject is null ||
+            !Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, Constants.PRISMATIC_SHARD_INDEX_I) ||
+            Game1.player.mailReceived.Contains("galaxySword"))
+            return false;
+
+        if (ModEntry.Config.InfinityPlusOneWeapons)
         {
             return Game1.player.Items.Any(item =>
-                       item.ParentSheetIndex == Constants.IRIDIUM_BAR_INDEX_I && item.Stack >= 20) &&
+                       item?.ParentSheetIndex == Constants.IRIDIUM_BAR_INDEX_I && item.Stack >= 10) &&
                    Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject,
                        Constants.PRISMATIC_SHARD_INDEX_I);
         }
 
-        return Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject,
-            Constants.PRISMATIC_SHARD_INDEX_I);
+        return true;
     }
 
     #endregion injected subroutines

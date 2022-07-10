@@ -30,26 +30,26 @@ internal sealed class PondQueryMenuCtorPatch : Common.Harmony.HarmonyPatch
     {
         try
         {
-            ModDataIO.ReadData(fish_pond, "FishQualities").ParseTuple<int, int, int, int>();
+            ModDataIO.ReadFrom(fish_pond, "FishQualities").ParseTuple<int, int, int, int>();
         }
         catch (InvalidOperationException ex)
         {
             Log.W($"FishQualities data is invalid. {ex}\nThe data will be reset");
-            ModDataIO.WriteData(fish_pond, "FishQualities", $"{fish_pond.FishCount},0,0,0");
-            ModDataIO.WriteData(fish_pond, "FamilyQualities", null);
-            ModDataIO.WriteData(fish_pond, "FamilyLivingHere", null);
+            ModDataIO.WriteTo(fish_pond, "FishQualities", $"{fish_pond.FishCount},0,0,0");
+            ModDataIO.WriteTo(fish_pond, "FamilyQualities", null);
+            ModDataIO.WriteTo(fish_pond, "FamilyLivingHere", null);
         }
 
         try
         {
-            ModDataIO.ReadData(fish_pond, "FamilyQualities").ParseTuple<int, int, int, int>();
+            ModDataIO.ReadFrom(fish_pond, "FamilyQualities").ParseTuple<int, int, int, int>();
         }
         catch (InvalidOperationException ex)
         {
             Log.W($"FamilyQuality data is invalid. {ex}\nThe data will be reset");
-            ModDataIO.WriteData(fish_pond, "FishQualities", $"{fish_pond.FishCount},0,0,0");
-            ModDataIO.WriteData(fish_pond, "FamilyQualities", null);
-            ModDataIO.WriteData(fish_pond, "FamilyLivingHere", null);
+            ModDataIO.WriteTo(fish_pond, "FishQualities", $"{fish_pond.FishCount},0,0,0");
+            ModDataIO.WriteTo(fish_pond, "FamilyQualities", null);
+            ModDataIO.WriteTo(fish_pond, "FamilyLivingHere", null);
         }
     }
 

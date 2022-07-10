@@ -226,9 +226,9 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
     private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
     {
         if (who.HasProfession(Profession.Ecologist) && obj.isForage(location) && !obj.IsForagedMineral())
-            ModDataIO.IncrementData<uint>(who, ModData.EcologistItemsForaged.ToString());
+            ModDataIO.Increment<uint>(who, "EcologistItemsForaged");
         else if (who.HasProfession(Profession.Gemologist) && obj.IsForagedMineral())
-            ModDataIO.IncrementData<uint>(who, ModData.GemologistMineralsCollected.ToString());
+            ModDataIO.Increment<uint>(who, "GemologistMineralsCollected");
     }
 
     #endregion private methods

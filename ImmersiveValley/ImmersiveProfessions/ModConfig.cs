@@ -12,6 +12,9 @@ public class ModConfig
     /// <summary>Mod key used by Prospector and Scavenger professions.</summary>
     public KeybindList ModKey { get; set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
+    /// <summary>Whether Harvester and Agriculturist perks should apply to crops harvested by Junimos.</summary>
+    public bool ShouldJunimosInheritProfessions { get; set; } = false;
+
     /// <summary>Add custom mod Artisan machines to this list to make them compatible with the profession.</summary>
     public string[] CustomArtisanMachines { get; } = {
         "Alembic", // artisan valley
@@ -55,6 +58,15 @@ public class ModConfig
     /// <summary>If enabled, Automated machines will contribute toward EcologistItemsForaged and GemologistMineralsCollected.</summary>
     public bool ShouldCountAutomatedHarvests { get; set; } = false;
 
+    /// <summary>Changes the size of the pointer used to track objects by Prospector and Scavenger professions.</summary>
+    public float TrackPointerScale { get; set; } = 1f;
+
+    /// <summary>Changes the speed at which the tracking pointer bounces up and down (higher is faster).</summary>
+    public float TrackPointerBobbingRate { get; set; } = 1f;
+
+    /// <summary>If enabled, Prospector and Scavenger will only track off-screen object while <see cref="ModKey"/> is held.</summary>
+    public bool DisableAlwaysTrack { get; set; } = false;
+
     /// <summary>The chance that a scavenger or prospector hunt will trigger in the right conditions.</summary>
     public double ChanceToStartTreasureHunt { get; set; } = 0.1;
 
@@ -85,6 +97,9 @@ public class ModConfig
 
     /// <summary>If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.</summary>
     public float AnglerMultiplierCap { get; set; } = 1f;
+
+    /// <summary>Whether to display the MAX icon below fish in the Collections Menu which have been caught at the maximum size.</summary>
+    public bool ShowFishCollectionMaxIcon { get; set; } = true;
 
     /// <summary>The maximum population of Aquarist Fish Ponds with legendary fish.</summary>
     public uint LegendaryPondPopulationCap { get; set; } = 6;

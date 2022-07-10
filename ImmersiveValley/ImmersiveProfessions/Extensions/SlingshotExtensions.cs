@@ -2,7 +2,6 @@
 
 #region using directives
 
-using Framework;
 using StardewValley;
 using StardewValley.Tools;
 using System;
@@ -19,7 +18,11 @@ public static class SlingshotExtensions
     {
         if (slingshot.pullStartTime < 0.0) return 0f;
 
-        return Math.Clamp((float)((Game1.currentGameTime.TotalGameTime.TotalSeconds - slingshot.pullStartTime) / 0.3f - 1f) /
-                          (who.HasProfession(Profession.Desperado, true) ? 6f : 3f), 0f, 1f);
+        // divides number of seconds elapsed since pull and divide by required charged time to obtain `units of required charge time`,
+        // from which we subtract 1 to account for the initially charge before the overcharge began, and finally divide by twice the number of units we want to impose (3)
+        // to account for Desperado's halving of required charge time
+        return Math.Clamp(
+            (float)((Game1.currentGameTime.TotalGameTime.TotalSeconds - slingshot.pullStartTime) /
+                slingshot.GetRequiredChargeTime() - 1f) / 6f, 0f, 1f);
     }
 }

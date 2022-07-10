@@ -7,16 +7,14 @@ using StardewModdingAPI;
 
 #endregion using directives
 
-internal class LoveOfCookingIntegration : BaseIntegration<ICookingSkillAPI>
+internal sealed class LoveOfCookingIntegration : BaseIntegration<ICookingSkillAPI>
 {
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     public LoveOfCookingIntegration(IModRegistry modRegistry)
-        : base("LoveOfCooking", "blueberry.LoveOfCooking", "1.0.27", modRegistry)
-    {
-    }
+        : base("LoveOfCooking", "blueberry.LoveOfCooking", "1.0.27", modRegistry) { }
 
-    /// <summary>Cache the SpaceCore API.</summary>
+    /// <summary>Cache the Love Of Cooking API.</summary>
     public void Register()
     {
         AssertLoaded();

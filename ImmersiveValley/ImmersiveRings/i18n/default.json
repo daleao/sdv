@@ -1,5 +1,13 @@
 ﻿{
   "rings.jade": "Increases critical strike power by 30%.",
   "rings.topaz": "Increases defense by 3.",
-  "rings.iridium": "A band made of iridium."
+  "rings.iridium": "A band made of iridium.",
+  "ui.itemhover.damage": "+{{amount}} Damage",
+  "ui.itemhover.precision": "+{{amount}} Precision",
+  "resonance.ruby": "Ruby Resonance",
+  "resonance.aquamarine": "Aquamarine Resonance",
+  "resonance.jade": "Jade Resonance",
+  "resonance.emerald": "Emerald Resonance",
+  "resonance.amethyst": "Amethyst Resonance",
+  "resonance.topaz": "Topaz Resonance"
 }

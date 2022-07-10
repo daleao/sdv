@@ -152,8 +152,8 @@
   "piper.desc": "Atrae más Babas en lugares peligrosos. Chance de obtener efectos aleatorios al eliminar Babas",
   "piper.desc.prestiged": "Chance de también recuperar un poco de salud y energía al eliminar Babas.",
   "piper.buff": "Pringue de baba",
-  "piper.buffdesc": "Agricultura +{{farming}}\nPesca +{{fishing}}\nRecolección +{{foraging}}\nMinería +{{mining}}\nAtaque +{{attack}}\nDefensa +{{defense}}\nSuerte +{{luck}}\nVelocidad +{{speed}}\nEnergía máx. +{{energy}}\nMagnetismo +{{magnetic}}",
-  "piper.ulti": "Cautivar",
+  "piper.ulti.male": "Cautivar!",
+  "piper.ulti.female": "Cautivar!",
   "piper.ultidesc": "Encanta las Baba cercanas. Las Babas encantadas aumentan de tamaño y poder y acechan a otros enemigos.",
 
   "ulti.canteat": "Imposible hacer eso ahora.",
@@ -184,7 +184,7 @@
 
   // gender
   "honorific.male": "Estimado",
-  "honorific.female": "Estimata", 
+  "honorific.female": "Estimata",
   "pronoun.definite.male": "en el",
   "pronoun.definite.female": "en la",
   "pronoun.indefinite.male": "un",

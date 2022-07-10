@@ -33,7 +33,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (!args.Any())
+        if (args.Length <= 0)
         {
             Log.W("You must specify at least one profession." + GetUsage());
             return;
@@ -88,11 +88,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
             }
         }
 
-        foreach (var pid in professionsToRemove.Distinct())
-        {
-            Game1.player.professions.Remove(pid);
-            LevelUpMenu.removeImmediateProfessionPerk(pid);
-        }
+        foreach (var pid in professionsToRemove.Distinct()) GameLocation.RemoveProfession(pid);
 
         LevelUpMenu.RevalidateHealth(Game1.player);
     }

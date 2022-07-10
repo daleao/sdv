@@ -37,7 +37,7 @@ public static class TreeExtensions
     public static int GetQualityFromAge(this Tree tree)
     {
         var skillFactor = 1f + Game1.player.ForagingLevel * 0.1f;
-        var age = (int)(ModDataIO.ReadDataAs<int>(tree, "Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
+        var age = (int)(ModDataIO.ReadFrom<int>(tree, "Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
         if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.lumberjack)) age *= 2;
 
         if (ModEntry.Config.DeterministicAgeQuality)

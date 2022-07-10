@@ -39,7 +39,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
         if (!Profession.TryFromValue(whichProfession, out var profession) ||
             whichProfession == Farmer.luckSkill) return;
 
-        if ((Skill)profession.Skill == Skill.Combat)
+        if ((Skill)profession.Skill == Farmer.combatSkill)
         {
             Game1.player.maxHealth += 5;
             Game1.player.health = Game1.player.maxHealth;
@@ -78,10 +78,10 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
             {
                 UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
                 UltimateIndex.PoacherAmbush => new Ambush(),
-                UltimateIndex.PiperPandemic => new Enthrall(),
+                UltimateIndex.PiperPandemic => new Pandemic(),
                 UltimateIndex.DesperadoBlossom => new DeathBlossom()
             };
-        ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), newIndex.ToString());
+        ModDataIO.WriteTo(Game1.player, "UltimateIndex", newIndex.ToString());
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>

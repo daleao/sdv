@@ -28,7 +28,7 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (!Game1.player.professions.Any())
+        if (Game1.player.professions.Count <= 0)
         {
             Log.I($"Farmer {Game1.player.Name} doesn't have any professions.");
             return;

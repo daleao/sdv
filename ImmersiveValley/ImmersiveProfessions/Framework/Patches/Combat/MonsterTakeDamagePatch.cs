@@ -27,15 +27,15 @@ internal sealed class MonsterTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatc
     [HarmonyPostfix]
     private static void MonsterTakeDamagePostfix(Monster __instance)
     {
-        if (__instance is not GreenSlime slime || !ModDataIO.ReadDataAs<bool>(slime, "Piped") ||
+        if (__instance is not GreenSlime slime || !ModDataIO.ReadFrom<bool>(slime, "Piped") ||
             slime.Health > 0) return;
 
         foreach (var monster in slime.currentLocation.characters.OfType<Monster>()
-                     .Where(m => !m.IsSlime() && ModDataIO.ReadDataAs<bool>(m, "Aggroed") &&
-                                 ModDataIO.ReadDataAs<int>(m, "Aggroer") == slime.GetHashCode()))
+                     .Where(m => !m.IsSlime() && ModDataIO.ReadFrom<bool>(m, "Aggroed") &&
+                                 ModDataIO.ReadFrom<int>(m, "Aggroer") == slime.GetHashCode()))
         {
-            ModDataIO.WriteData(monster, "Aggroed", false.ToString());
-            ModDataIO.WriteData(monster, "Aggroer", null);
+            ModDataIO.WriteTo(monster, "Aggroed", false.ToString());
+            ModDataIO.WriteTo(monster, "Aggroer", null);
         }
     }
 

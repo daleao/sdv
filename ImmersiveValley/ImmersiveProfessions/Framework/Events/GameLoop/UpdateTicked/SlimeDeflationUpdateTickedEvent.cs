@@ -22,11 +22,11 @@ internal sealed class SlimeDeflationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        var undeflated = ModEntry.PlayerState.PipedSlimes.Where(c => ModDataIO.ReadDataAs<double>(c, "PipeTimer") <= 0)
+        var undeflated = ModEntry.PlayerState.PipedSlimes.Where(c => ModDataIO.ReadFrom<double>(c, "PipeTimer") <= 0)
             .ToArray();
         foreach (var piped in undeflated)
             piped.Deflate();
 
-        if (!ModEntry.PlayerState.PipedSlimes.Any()) Unhook();
+        if (ModEntry.PlayerState.PipedSlimes.Count <= 0) Unhook();
     }
 }

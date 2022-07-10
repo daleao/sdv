@@ -15,7 +15,7 @@ using System.Runtime.CompilerServices;
 internal abstract class HarmonyPatch : IHarmonyPatch
 {
     /// <inheritdoc />
-    public MethodBase? Target { get; protected init; }
+    public MethodBase? Target { get; protected set; }
 
     /// <inheritdoc />
     public HarmonyMethod? Prefix { get; }
@@ -41,7 +41,13 @@ internal abstract class HarmonyPatch : IHarmonyPatch
     /// <inheritdoc />
     void IHarmonyPatch.Apply(Harmony harmony)
     {
-        if (Target is null) throw new MissingMethodException("Target not found.");
+        ApplyImpl(harmony);
+    }
+
+    /// <inheritdoc cref="IHarmonyPatch.Apply"/>
+    protected virtual void ApplyImpl(Harmony harmony)
+    {
+        if (Target is null) throw new MissingMethodException("Patch target not defined.");
 
         harmony.Patch(Target, Prefix, Postfix, Transpiler, Finalizer);
         if (Reverse is null) return;

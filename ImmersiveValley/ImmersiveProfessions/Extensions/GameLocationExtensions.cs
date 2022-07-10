@@ -44,7 +44,7 @@ public static class GameLocationExtensions
             foreach (var farmer in location.farmers.Where(farmer => farmer.HasProfession(profession)))
                 farmers.Add(farmer);
 
-        return farmers.Any();
+        return farmers.Count > 0;
     }
 
     /// <summary>Find a character with the specified hash code in this location.</summary>

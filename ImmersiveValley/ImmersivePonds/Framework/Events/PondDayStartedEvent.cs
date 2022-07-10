@@ -29,6 +29,6 @@ internal sealed class PondDayStartedEvent : DayStartedEvent
         foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
                      (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                      !p.isUnderConstruction()))
-            ModDataIO.WriteData(pond, "CheckedToday", false.ToString());
+            ModDataIO.WriteTo(pond, "CheckedToday", false.ToString());
     }
 }

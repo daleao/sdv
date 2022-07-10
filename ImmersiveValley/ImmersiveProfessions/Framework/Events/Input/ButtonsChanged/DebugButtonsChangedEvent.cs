@@ -21,13 +21,20 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal DebugButtonsChangedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+        AlwaysHooked = true;
+    }
 
     /// <inheritdoc />
     protected override async void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
-        if (!ModEntry.Config.DebugKey.IsDown() ||
-            !e.Pressed.Any(b => b is SButton.MouseRight or SButton.MouseLeft)) return;
+        if (ModEntry.Config.DebugKey.JustPressed())
+            ModEntry.EventManager.HookStartingWith("Debug");
+        else if (ModEntry.Config.DebugKey.GetState() == SButtonState.Released)
+            ModEntry.EventManager.UnhookStartingWith("Debug");
+
+        if (!e.Pressed.Any(b => b is SButton.MouseRight or SButton.MouseLeft)) return;
 
         if (DebugRenderedActiveMenuEvent.FocusedComponent is not null)
         {
@@ -38,7 +45,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                 (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(component)}");
             Log.D(message);
         }
-        else
+        else if (Context.IsWorldReady)
         {
             if (Game1.currentLocation.Objects.TryGetValue(e.Cursor.Tile, out var o))
             {

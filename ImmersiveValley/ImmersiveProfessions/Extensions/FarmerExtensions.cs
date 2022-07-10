@@ -102,12 +102,12 @@ public static class FarmerExtensions
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
     public static bool CanResetSkill(this Farmer farmer, ISkill skill)
     {
-        if (skill is Skill vanillaSkill && vanillaSkill == Skill.Luck && ModEntry.LuckSkillApi is null) return false;
+        if (skill is Skill vanillaSkill && vanillaSkill == Farmer.luckSkill && ModEntry.LuckSkillApi is null) return false;
 
-        var isSkillLevelTen = skill.CurrentLevel == 10;
+        var isSkillLevelTen = skill.CurrentLevel >= 10;
         if (!isSkillLevelTen)
         {
-            Log.D($"{skill.StringId} skill cannot be reset because it's level is not 10.");
+            Log.D($"{skill.StringId} skill cannot be reset because it's level is lower than 10.");
             return false;
         }
 
@@ -118,9 +118,9 @@ public static class FarmerExtensions
             return false;
         }
 
-        var hasAtLeastOneButNotAllProfessionsInSkill =
+        var hasProfessionsLeftToAcquire =
             farmer.GetProfessionsForSkill(skill, true).Count() is > 0 and < 4;
-        if (!hasAtLeastOneButNotAllProfessionsInSkill)
+        if (!hasProfessionsLeftToAcquire)
         {
             Log.D(
                 $"{skill.StringId} cannot be reset because {farmer.Name} either already has all professions in the skill, or none at all.");
@@ -199,7 +199,7 @@ public static class FarmerExtensions
             farmer.ForgetRecipesForSkill(skill, true);
 
         // revalidate health
-        if (skill == Skill.Combat) LevelUpMenu.RevalidateHealth(farmer);
+        if (skill == Farmer.combatSkill) LevelUpMenu.RevalidateHealth(farmer);
 
         Log.D($"Farmer {farmer.Name}'s {skill.DisplayName} skill has been reset.");
     }
@@ -261,7 +261,7 @@ public static class FarmerExtensions
     {
         foreach (var skill in Skill.List)
         {
-            if (skill == Skill.Luck && ModEntry.LuckSkillApi is null)
+            if (skill == Farmer.luckSkill && skill.CurrentExp > 0 && ModEntry.LuckSkillApi is null)
             {
                 Log.W(
                     $"Local player {Game1.player.Name} has gained Luck experience, but Luck Skill mod is not installed. The Luck skill will be reset.");
@@ -269,7 +269,7 @@ public static class FarmerExtensions
                 continue;
             }
 
-            var canGainPrestigeLevels = ModEntry.Config.EnablePrestige && farmer.HasAllProfessionsInSkill(skill);
+            var canGainPrestigeLevels = ModEntry.Config.EnablePrestige && farmer.HasAllProfessionsInSkill(skill) && skill != Farmer.luckSkill;
             switch (skill.CurrentLevel)
             {
                 case >= 10 when !canGainPrestigeLevels:
@@ -327,7 +327,7 @@ public static class FarmerExtensions
     /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
     public static void ForgetRecipesForSkill(this Farmer farmer, Skill skill, bool addToRecoveryDict = false)
     {
-        var forgottenRecipesDict = ModDataIO.ReadData(farmer, ModData.ForgottenRecipesDict.ToString())
+        var forgottenRecipesDict = ModDataIO.ReadFrom(farmer, "ForgottenRecipesDict")
             .ParseDictionary<string, int>();
 
         // remove associated crafting recipes
@@ -363,7 +363,7 @@ public static class FarmerExtensions
         }
 
         if (addToRecoveryDict)
-            ModDataIO.WriteData(farmer, ModData.ForgottenRecipesDict.ToString(), forgottenRecipesDict.Stringify());
+            ModDataIO.WriteTo(farmer, "ForgottenRecipesDict", forgottenRecipesDict.Stringify());
     }
 
     /// <summary>Remove all recipes associated with the specified skill from the farmer.</summary>
@@ -373,7 +373,7 @@ public static class FarmerExtensions
     {
         Debug.Assert(ModEntry.CookingSkillApi is not null);
 
-        var forgottenRecipesDict = ModDataIO.ReadData(farmer, ModData.ForgottenRecipesDict.ToString())
+        var forgottenRecipesDict = ModDataIO.ReadFrom(farmer, "ForgottenRecipesDict")
             .ParseDictionary<string, int>();
 
         // remove associated cooking recipes
@@ -395,7 +395,7 @@ public static class FarmerExtensions
 
 
         if (addToRecoveryDict)
-            ModDataIO.WriteData(farmer, ModData.ForgottenRecipesDict.ToString(), forgottenRecipesDict.Stringify());
+            ModDataIO.WriteTo(farmer, "ForgottenRecipesDict", forgottenRecipesDict.Stringify());
     }
 
     /// <summary>Get all available Ultimate's not currently registered.</summary>
@@ -471,12 +471,12 @@ public static class FarmerExtensions
 
     /// <summary>The price bonus applied to all items sold by Conservationist.</summary>
     public static float GetConservationistPriceMultiplier(this Farmer farmer) =>
-        1f + ModDataIO.ReadDataAs<float>(farmer, ModData.ConservationistActiveTaxBonusPct.ToString());
+        1f + ModDataIO.ReadFrom<float>(farmer, "ConservationistActiveTaxBonusPct");
 
     /// <summary>The quality of items foraged by Ecologist.</summary>
     public static int GetEcologistForageQuality(this Farmer farmer)
     {
-        var itemsForaged = ModDataIO.ReadDataAs<uint>(farmer, ModData.EcologistItemsForaged.ToString());
+        var itemsForaged = ModDataIO.ReadFrom<uint>(farmer, "EcologistItemsForaged");
         return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
             ? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -487,7 +487,7 @@ public static class FarmerExtensions
     /// <summary>The quality of minerals collected by Gemologist.</summary>
     public static int GetGemologistMineralQuality(this Farmer farmer)
     {
-        var mineralsCollected = ModDataIO.ReadDataAs<uint>(farmer, ModData.GemologistMineralsCollected.ToString());
+        var mineralsCollected = ModDataIO.ReadFrom<uint>(farmer, "GemologistMineralsCollected");
         return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
             ? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
                 ? SObject.medQuality

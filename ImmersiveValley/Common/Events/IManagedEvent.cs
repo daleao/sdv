@@ -11,8 +11,10 @@ public interface IManagedEvent
     bool IsHookedForScreen(int screenID);
 
     /// <summary>Hook this event on the current screen.</summary>
-    void Hook();
+    /// <returns><see langword="true"> if the event's hooked status was changed, otherwise <see langword="false">.</returns>
+    bool Hook();
 
     /// <summary>Unhook this event on the current screen.</summary>
-    void Unhook();
+    /// <returns><see langword="true"> if the event's hooked status was changed, otherwise <see langword="false">.</returns>
+    bool Unhook();
 }

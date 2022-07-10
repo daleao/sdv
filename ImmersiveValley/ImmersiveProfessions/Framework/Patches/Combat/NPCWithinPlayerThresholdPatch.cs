@@ -33,7 +33,7 @@ internal sealed class NPCWithinPlayerThresholdPatch : DaLion.Common.Harmony.Harm
         {
             if (__instance is not Monster) return true; // run original method
 
-            var player = Game1.getFarmer(ModDataIO.ReadDataAs(__instance, "Target", Game1.player.UniqueMultiplayerID));
+            var player = Game1.getFarmer(ModDataIO.ReadFrom(__instance, "Target", Game1.player.UniqueMultiplayerID));
             if (!player.IsLocalPlayer || ModEntry.PlayerState.RegisteredUltimate is not Ambush { IsActive: true })
                 return true; // run original method
 

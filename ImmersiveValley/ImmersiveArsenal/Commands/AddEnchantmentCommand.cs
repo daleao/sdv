@@ -28,16 +28,23 @@ internal sealed class AddEnchantmentCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (Game1.player.CurrentTool is not MeleeWeapon weapon)
+        if (Game1.player.CurrentTool is not ({ } tool and (MeleeWeapon or Slingshot)))
         {
-            Log.W("You must select a weapon first.");
+            Log.W("You must select a weapon or slingshot first.");
             return;
         }
 
-        while (args.Any())
+        while (args.Length > 0)
         {
             BaseEnchantment? enchantment = args[0].ToLower() switch
             {
+                "ruby" => new RubyEnchantment(),
+                "aquamarine" => new AquamarineEnchantment(),
+                "jade" => new JadeEnchantment(),
+                "emerald" => new EmeraldEnchantment(),
+                "amethyst" => new AmethystEnchantment(),
+                "topaz" => new TopazEnchantment(),
+                "diamond" => new DiamondEnchantment(),
                 "artful" => new ArchaeologistEnchantment(),
                 "bugkiller" => new BugKillerEnchantment(),
                 "crusader" => new CrusaderEnchantment(),
@@ -53,14 +60,14 @@ internal sealed class AddEnchantmentCommand : ConsoleCommand
                 return;
             }
 
-            if (!enchantment.CanApplyTo(weapon))
+            if (!enchantment.CanApplyTo(tool))
             {
-                Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {weapon.DisplayName}.");
+                Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
                 return;
             }
 
-            weapon.enchantments.Add(enchantment);
-            Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {weapon.DisplayName}.");
+            tool.enchantments.Add(enchantment);
+            Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
 
             args = args.Skip(1).ToArray();
         }

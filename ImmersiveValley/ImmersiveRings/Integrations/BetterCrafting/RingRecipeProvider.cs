@@ -10,7 +10,7 @@ using System.Collections.Generic;
 #endregion using directives
 
 /// <summary>Provides <see cref="IRecipe"/> wrappers for Ring recipes with consume other Rings.</summary>
-internal class RingRecipeProvider : IRecipeProvider
+internal sealed class RingRecipeProvider : IRecipeProvider
 {
     private readonly IBetterCraftingAPI _api;
 

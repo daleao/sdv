@@ -54,7 +54,7 @@ internal sealed class SewerGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
                 .Advance()
                 .AddLabels(chooseLegendary)
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_S, 4) // arg 4 = Farmer who
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Angler.Value + 100, forLocalPlayer: false)
                 .Insert(

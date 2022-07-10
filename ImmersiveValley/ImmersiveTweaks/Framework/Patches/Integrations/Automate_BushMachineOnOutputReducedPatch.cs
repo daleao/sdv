@@ -42,7 +42,7 @@ internal sealed class BushMachineOnOutputReducedPatch : HarmonyPatch
         var machine = _GetMachine(__instance);
         if (machine.size.Value >= Bush.greenTeaBush) return;
 
-        Game1.MasterPlayer.gainExperience(Farmer.foragingSkill, 3);
+        Game1.MasterPlayer.gainExperience(Farmer.foragingSkill, 5);
     }
 
     #endregion harmony patches

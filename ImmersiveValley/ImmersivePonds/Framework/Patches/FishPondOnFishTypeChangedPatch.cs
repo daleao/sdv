@@ -26,15 +26,15 @@ internal sealed class FishPondOnFishTypeChangedPatch : Common.Harmony.HarmonyPat
     {
         if (__instance.fishType.Value > 0) return;
 
-        ModDataIO.WriteData(__instance, "FishQualities", null);
-        ModDataIO.WriteData(__instance, "FamilyQualities", null);
-        ModDataIO.WriteData(__instance, "FamilyLivingHere", null);
-        ModDataIO.WriteData(__instance, "DaysEmpty", 0.ToString());
-        ModDataIO.WriteData(__instance, "SeaweedLivingHere", null);
-        ModDataIO.WriteData(__instance, "GreenAlgaeLivingHere", null);
-        ModDataIO.WriteData(__instance, "WhiteAlgaeLivingHere", null);
-        ModDataIO.WriteData(__instance, "CheckedToday", null);
-        ModDataIO.WriteData(__instance, "ItemsHeld", null);
+        ModDataIO.WriteTo(__instance, "FishQualities", null);
+        ModDataIO.WriteTo(__instance, "FamilyQualities", null);
+        ModDataIO.WriteTo(__instance, "FamilyLivingHere", null);
+        ModDataIO.WriteTo(__instance, "DaysEmpty", 0.ToString());
+        ModDataIO.WriteTo(__instance, "SeaweedLivingHere", null);
+        ModDataIO.WriteTo(__instance, "GreenAlgaeLivingHere", null);
+        ModDataIO.WriteTo(__instance, "WhiteAlgaeLivingHere", null);
+        ModDataIO.WriteTo(__instance, "CheckedToday", null);
+        ModDataIO.WriteTo(__instance, "ItemsHeld", null);
     }
 
     #endregion harmony patches

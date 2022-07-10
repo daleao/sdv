@@ -41,7 +41,7 @@ internal sealed class ResetPondDataCommand : ConsoleCommand
                 (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                 !p.isUnderConstruction())
             .ToHashSet();
-        if (!ponds.Any())
+        if (ponds.Count <= 0)
         {
             Log.W("You don't own any Fish Ponds.");
             return;
@@ -54,14 +54,14 @@ internal sealed class ResetPondDataCommand : ConsoleCommand
             return;
         }
 
-        ModDataIO.WriteData(nearest, "FishQualities", null);
-        ModDataIO.WriteData(nearest, "FamilyQualities", null);
-        ModDataIO.WriteData(nearest, "FamilyLivingHere", null);
-        ModDataIO.WriteData(nearest, "DaysEmpty", 0.ToString());
-        ModDataIO.WriteData(nearest, "SeaweedLivingHere", null);
-        ModDataIO.WriteData(nearest, "GreenAlgaeLivingHere", null);
-        ModDataIO.WriteData(nearest, "WhiteAlgaeLivingHere", null);
-        ModDataIO.WriteData(nearest, "CheckedToday", null);
-        ModDataIO.WriteData(nearest, "ItemsHeld", null);
+        ModDataIO.WriteTo(nearest, "FishQualities", null);
+        ModDataIO.WriteTo(nearest, "FamilyQualities", null);
+        ModDataIO.WriteTo(nearest, "FamilyLivingHere", null);
+        ModDataIO.WriteTo(nearest, "DaysEmpty", 0.ToString());
+        ModDataIO.WriteTo(nearest, "SeaweedLivingHere", null);
+        ModDataIO.WriteTo(nearest, "GreenAlgaeLivingHere", null);
+        ModDataIO.WriteTo(nearest, "WhiteAlgaeLivingHere", null);
+        ModDataIO.WriteTo(nearest, "CheckedToday", null);
+        ModDataIO.WriteTo(nearest, "ItemsHeld", null);
     }
 }

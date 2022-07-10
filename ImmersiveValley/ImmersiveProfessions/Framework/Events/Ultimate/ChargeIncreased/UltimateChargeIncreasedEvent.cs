@@ -14,10 +14,12 @@ internal sealed class UltimateChargeIncreasedEvent : ManagedEvent
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal UltimateChargeIncreasedEvent(Action<object?, IUltimateChargeIncreasedEventArgs> callback)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    internal UltimateChargeIncreasedEvent(Action<object?, IUltimateChargeIncreasedEventArgs> callback, bool alwaysHooked = false)
         : base(ModEntry.EventManager)
     {
         _OnChargeIncreasedImpl = callback;
+        AlwaysHooked = alwaysHooked;
     }
 
     /// <summary>Raised when a player's combat <see cref="Ultimates.IUltimate"/> gains any charge.</summary>

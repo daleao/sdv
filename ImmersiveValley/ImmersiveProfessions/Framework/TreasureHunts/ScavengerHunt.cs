@@ -135,7 +135,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
-        ModDataIO.WriteData(Game1.player, ModData.ScavengerHuntStreak.ToString(), "0");
+        ModDataIO.WriteTo(Game1.player, "ScavengerHuntStreak", "0");
         End(false);
     }
 
@@ -176,7 +176,7 @@ internal sealed class ScavengerHunt : TreasureHunt
 
         var getTreasure = new DelayedAction(200, BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
-        ModDataIO.IncrementData<uint>(Game1.player, ModData.ScavengerHuntStreak.ToString());
+        ModDataIO.Increment<uint>(Game1.player, "ScavengerHuntStreak");
         End(true);
     }
 
@@ -356,7 +356,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                             case 2:
                                 var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
                                 var streak =
-                                    ModDataIO.ReadDataAs<uint>(Game1.player, ModData.ScavengerHuntStreak.ToString());
+                                    ModDataIO.ReadFrom<uint>(Game1.player, "ScavengerHuntStreak");
                                 if (random.NextDouble() < 0.025 * luckModifier &&
                                     !Game1.player.specialItems.Contains(15))
                                     treasures.Add(new MeleeWeapon(15) { specialItem = true }); // forest sword

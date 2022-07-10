@@ -87,34 +87,34 @@ public static class ColorExtensions
         switch (hi)
         {
             case 0:
-                color.R = (byte) v;
-                color.G = (byte) t;
-                color.B = (byte) p;
+                color.R = (byte)v;
+                color.G = (byte)t;
+                color.B = (byte)p;
                 break;
             case 1:
-                color.R = (byte) q;
-                color.G = (byte) v;
-                color.B = (byte) p;
+                color.R = (byte)q;
+                color.G = (byte)v;
+                color.B = (byte)p;
                 break;
             case 2:
-                color.R = (byte) p;
-                color.G = (byte) v;
-                color.B = (byte) t;
+                color.R = (byte)p;
+                color.G = (byte)v;
+                color.B = (byte)t;
                 break;
             case 3:
-                color.R = (byte) p;
-                color.G = (byte) q;
-                color.B = (byte) v;
+                color.R = (byte)p;
+                color.G = (byte)q;
+                color.B = (byte)v;
                 break;
             case 4:
-                color.R = (byte) t;
-                color.G = (byte) p;
-                color.B = (byte) v;
+                color.R = (byte)t;
+                color.G = (byte)p;
+                color.B = (byte)v;
                 break;
             default:
-                color.R = (byte) v;
-                color.G = (byte) p;
-                color.B = (byte) q;
+                color.R = (byte)v;
+                color.G = (byte)p;
+                color.B = (byte)q;
                 break;
         };
 

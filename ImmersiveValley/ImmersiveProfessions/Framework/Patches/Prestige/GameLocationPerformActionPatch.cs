@@ -27,10 +27,9 @@ internal sealed class GameLocationPerformActionPatch : DaLion.Common.Harmony.Har
 
     /// <summary>Patch to change Statue of Uncertainty into Statue of Prestige.</summary>
     [HarmonyPrefix]
-    private static bool GameLocationPerformActionPrefix(GameLocation __instance, string action, Farmer who)
+    private static bool GameLocationPerformActionPrefix(GameLocation __instance, string? action, Farmer who)
     {
-        if (!ModEntry.Config.EnablePrestige || action is null || action.Split(' ')[0] != "DogStatue" ||
-            !who.IsLocalPlayer)
+        if (!ModEntry.Config.EnablePrestige || action?.StartsWith("DogStatue") != true || !who.IsLocalPlayer)
             return true; // run original logic
 
         try

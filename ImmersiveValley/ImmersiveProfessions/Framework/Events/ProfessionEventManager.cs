@@ -4,6 +4,7 @@
 
 using Common;
 using Common.Events;
+using Events.Display;
 using Events.GameLoop;
 using Events.Input;
 using Events.Multiplayer;
@@ -32,8 +33,8 @@ internal class ProfessionEventManager : EventManager
         { Profession.Conservationist, new() { typeof(HostConservationismDayEndingEvent) } },
         { Profession.Desperado, new() { typeof(DesperadoUpdateTickedEvent) } },
         { Profession.Piper, new() { typeof(PiperWarpedEvent) } },
-        { Profession.Prospector, new() { typeof(ProspectorHuntDayStartedEvent), typeof(ProspectorWarpedEvent), typeof(TrackerButtonsChangedEvent) } },
-        { Profession.Scavenger, new() { typeof(ScavengerHuntDayStartedEvent), typeof(ScavengerWarpedEvent), typeof(TrackerButtonsChangedEvent) } },
+        { Profession.Prospector, new() { typeof(ProspectorHuntDayStartedEvent), typeof(ProspectorRenderedHudEvent), typeof(ProspectorWarpedEvent), typeof(TrackerButtonsChangedEvent) } },
+        { Profession.Scavenger, new() { typeof(ScavengerHuntDayStartedEvent), typeof(ScavengerRenderedHudEvent), typeof(ScavengerWarpedEvent), typeof(TrackerButtonsChangedEvent) } },
         { Profession.Spelunker, new() { typeof(SpelunkerWarpedEvent) } }
     };
 

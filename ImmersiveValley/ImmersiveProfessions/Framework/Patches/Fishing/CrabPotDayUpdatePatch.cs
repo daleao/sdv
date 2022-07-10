@@ -78,10 +78,10 @@ internal sealed class CrabPotDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                     whichFish = __instance.GetTrash(location, r);
                     if (isConservationist && whichFish.IsTrash())
                     {
-                        ModDataIO.IncrementData<uint>(owner,
-                            ModData.ConservationistTrashCollectedThisSeason.ToString());
-                        if (owner.HasProfession(Profession.Conservationist, true) && ModDataIO.ReadDataAs<uint>(owner,
-                                ModData.ConservationistTrashCollectedThisSeason.ToString()) %
+                        ModDataIO.Increment<uint>(owner,
+                            "ConservationistTrashCollectedThisSeason");
+                        if (owner.HasProfession(Profession.Conservationist, true) && ModDataIO.ReadFrom<uint>(owner,
+                                "ConservationistTrashCollectedThisSeason") %
                             ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
                             SUtility.improveFriendshipWithEveryoneInRegion(owner, 1, 2);
                     }

@@ -83,8 +83,8 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
             }
 
             fakeFarmer.Position = __instance.Position;
-            ModDataIO.WriteData(monster, "Aggroed", true.ToString());
-            ModDataIO.WriteData(monster, "Aggroer", __instance.GetHashCode().ToString());
+            ModDataIO.WriteTo(monster, "Aggroed", true.ToString());
+            ModDataIO.WriteTo(monster, "Aggroer", __instance.GetHashCode().ToString());
 
             // get damaged by monster
             var damageToSlime = Math.Max(1,

@@ -14,10 +14,12 @@ internal sealed class TreasureHuntEndedEvent : ManagedEvent
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal TreasureHuntEndedEvent(Action<object?, ITreasureHuntEndedEventArgs> callback)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    internal TreasureHuntEndedEvent(Action<object?, ITreasureHuntEndedEventArgs> callback, bool alwaysHooked = false)
         : base(ModEntry.EventManager)
     {
         _OnEndedImpl = callback;
+        AlwaysHooked = alwaysHooked;
     }
 
     /// <summary>Raised when a <see cref="TreasureHunts.ITreasureHunt"> ends.</summary>

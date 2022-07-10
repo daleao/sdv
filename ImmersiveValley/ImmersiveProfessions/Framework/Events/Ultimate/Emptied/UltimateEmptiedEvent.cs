@@ -14,10 +14,12 @@ internal sealed class UltimateEmptiedEvent : ManagedEvent
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal UltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    internal UltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback, bool alwaysHooked = false)
         : base(ModEntry.EventManager)
     {
         _OnEmptiedImpl = callback;
+        AlwaysHooked = alwaysHooked;
     }
 
     /// <summary>Raised when the local player's <see cref="Ultimates.IUltimate"/> charge value returns to zero.</summary>

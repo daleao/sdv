@@ -34,15 +34,15 @@ internal sealed class ToolEndUsingPatch : Common.Harmony.HarmonyPatch
         switch (tool)
         {
             case Axe:
-                who.Stamina -=
-                    (float)Math.Pow(ModEntry.Config.StaminaCostMultiplier * power - who.ForagingLevel * 0.1f, 2f);
                 radius = ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1);
+                who.Stamina -=
+                    (float)Math.Pow(Math.Max((radius + 1) * power - who.ForagingLevel * 0.1f, 0.1f), 2f) * ModEntry.Config.StaminaCostMultiplier;
                 break;
 
             case Pickaxe:
-                who.Stamina -=
-                    (float)Math.Pow(ModEntry.Config.StaminaCostMultiplier * power - who.MiningLevel * 0.1f, 2f);
                 radius = ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1);
+                who.Stamina -=
+                    (float)Math.Pow(Math.Max((radius + 1) * power - who.MiningLevel * 0.1f, 0.1f), 2f) * ModEntry.Config.StaminaCostMultiplier;
                 break;
         }
 

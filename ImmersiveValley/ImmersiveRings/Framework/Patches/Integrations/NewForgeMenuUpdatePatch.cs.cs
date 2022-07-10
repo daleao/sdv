@@ -64,15 +64,18 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
                 .AddLabels(vanillaUnforge)
                 .Insert(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call, typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.TheOneIridiumBand))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.TheOneIridiumBand))),
                     new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[15]),
-                    new CodeInstruction(OpCodes.Call, typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
                     new CodeInstruction(OpCodes.Ldc_I4, Constants.IRIDIUM_BAND_INDEX_I),
                     new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[15]),
-                    new CodeInstruction(OpCodes.Call, typeof(ForgeMenuUpdatePatch).RequireMethod(nameof(UnforgeIridiumBand))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ForgeMenuUpdatePatch).RequireMethod(nameof(UnforgeIridiumBand))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );
         }

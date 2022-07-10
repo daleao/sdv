@@ -26,8 +26,8 @@ internal sealed class ObjectPerformObjectDropInActionPatch : Common.Harmony.Harm
     // ReSharper disable once RedundantAssignment
     private static void ObjectPerformObjectDropInActionPrefix(SObject __instance, ref bool __state)
     {
-        __state = __instance.heldObject.Value !=
-                  null; // remember whether this machine was already holding an object
+        __state = __instance.heldObject
+            .Value is not null; // remember whether this machine was already holding an object
     }
 
     /// <summary>Tweaks golden and ostrich egg artisan products + gives flower memory to kegs.</summary>
@@ -36,7 +36,7 @@ internal sealed class ObjectPerformObjectDropInActionPatch : Common.Harmony.Harm
         bool probe)
     {
         // if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
-        if (probe || __state || __instance.name is not "Keg" or "Mayonnaise Machine" ||
+        if (probe || __state || __instance.name is not ("Keg" or "Mayonnaise Machine") ||
             dropInItem is not SObject input || __instance.heldObject.Value is not { } output) return;
 
         // large milk/eggs give double output at normal quality
@@ -45,7 +45,7 @@ internal sealed class ObjectPerformObjectDropInActionPatch : Common.Harmony.Harm
             case "Keg" when input.ParentSheetIndex == 340 && input.preservedParentSheetIndex.Value > 0 &&
                             ModEntry.Config.KegsRememberHoneyFlower:
                 output.name = input.name.Split(" Honey")[0] + " Mead";
-                output.honeyType.Value = (SObject.HoneyType) input.preservedParentSheetIndex.Value;
+                output.honeyType.Value = (SObject.HoneyType)input.preservedParentSheetIndex.Value;
                 output.preservedParentSheetIndex.Value =
                     input.preservedParentSheetIndex.Value;
                 output.Price = input.Price * 2;
@@ -60,12 +60,12 @@ internal sealed class ObjectPerformObjectDropInActionPatch : Common.Harmony.Harm
                 {
                     // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
                     case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
-                        "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+                "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
                         output.Quality = SObject.lowQuality;
                         break;
                     // golden mayonnaise keeps giving gives single output but keeps golden quality
                     case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
-                        "ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                "ughitsmegan.goldenmayoForProducerFrameworkMod"):
                         output.Stack = 1;
                         break;
                 }

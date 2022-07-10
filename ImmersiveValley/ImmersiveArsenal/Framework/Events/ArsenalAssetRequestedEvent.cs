@@ -15,7 +15,8 @@ using System.Globalization;
 [UsedImplicitly]
 internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 {
-    private const int
+    private const int NAME_I = 0,
+        DESCRIPTION_I = 1,
         MIN_DAMAGE_I = 2,
         MAX_DAMAGE_I = 3,
         KNOCKBACK_I = 4,
@@ -38,9 +39,9 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         : base(manager)
     {
         //AssetEditors["Data/Boots"] = (callback: DataBootsEditor, priority: AssetEditPriority.Default);
+        AssetEditors["Data/ObjectInformation"] =
+            (callback: EditDataObjectInformation, priority: AssetEditPriority.Default);
         AssetEditors["Data/weapons"] = (callback: EditWeaponsData, priority: AssetEditPriority.Late);
-        AssetEditors["Data/Quests"] = (callback: EditQuestsData, priority: AssetEditPriority.Default);
-        AssetEditors["Data/mail"] = (callback: EditMailData, priority: AssetEditPriority.Default);
         AssetEditors["Strings/Locations"] = (callback: EditLocationsStrings, priority: AssetEditPriority.Default);
         AssetEditors["Strings/StringsFromCSFiles"] =
             (callback: EditStringsFromCSFilesStrings, priority: AssetEditPriority.Default);
@@ -111,27 +112,15 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         }
     }
 
-    /// <summary>Edits quest data with custom legendary sword quest.</summary>
-    private static void EditQuestsData(IAssetData asset)
+    /// <summary>Edits galaxy soul description.</summary>
+    private static void EditDataObjectInformation(IAssetData asset)
     {
-        if (!ModEntry.Config.TrulyLegendaryGalaxySword) return;
-
         var data = asset.AsDictionary<int, string>().Data;
-        var title = ModEntry.i18n.Get("quests.QiChallengeFinal.title");
-        var description = ModEntry.i18n.Get("quests.QiChallengeFinal.desc");
-        var objective = ModEntry.i18n.Get("quests.QiChallengeFinal.obj");
-        data[ModEntry.QiChallengeFinalQuestId] = $"Basic/{title}/{description}/{objective}/-1/-1/0/-1/false";
-    }
 
-    /// <summary>Edits mail data with custom legendary sword quest mail.</summary>
-    private static void EditMailData(IAssetData asset)
-    {
-        if (!ModEntry.Config.TrulyLegendaryGalaxySword) return;
-
-        var data = asset.AsDictionary<string, string>().Data;
-        data["MeleeWeapon"] = ModEntry.i18n.Get("mail.skullCave");
-        data["QiChallengeFirst"] = ModEntry.i18n.Get("mail.QiChallengeFirst", new { ModEntry.QiChallengeFinalQuestId });
-        data["QiChallengeComplete"] = ModEntry.i18n.Get("mail.QiChallengeComplete");
+        // edit galaxy soul description
+        var fields = data[Arsenal.Constants.GALAXY_SOUL_INDEX_I].Split('/');
+        fields[5] = ModEntry.i18n.Get("galaxysoul.desc");
+        data[Arsenal.Constants.GALAXY_SOUL_INDEX_I] = string.Join('/', fields);
     }
 
     /// <summary>Edits weapons data with rebalanced stats.</summary>
@@ -268,6 +257,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                     fields[CRIT_POWER_I] = 1.333.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 2: // dark sword
+                    fields[DESCRIPTION_I] = ModEntry.i18n.Get("darkblade.desc");
                     fields[MIN_DAMAGE_I] = 50.ToString();
                     fields[MAX_DAMAGE_I] = 65.ToString();
                     fields[KNOCKBACK_I] = 1.ToString();
@@ -744,7 +734,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits location string data with custom legendary sword rhyme.</summary>
     private static void EditLocationsStrings(IAssetData asset)
     {
-        if (!ModEntry.Config.TrulyLegendaryGalaxySword) return;
+        if (!ModEntry.Config.InfinityPlusOneWeapons) return;
 
         var data = asset.AsDictionary<string, string>().Data;
         data["Town_DwarfGrave_Translated"] = ModEntry.i18n.Get("locations.Town_DwarfGrave_Translated");
@@ -753,10 +743,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits strings data with custom legendary sword reward prompt.</summary>
     private static void EditStringsFromCSFilesStrings(IAssetData asset)
     {
-        if (!ModEntry.Config.TrulyLegendaryGalaxySword) return;
+        if (!ModEntry.Config.InfinityPlusOneWeapons) return;
 
         var data = asset.AsDictionary<string, string>().Data;
-        data["MeleeWeapon.cs.14122"] = ModEntry.i18n.Get("csfiles.MeleeWeapon.cs.14122");
+        data["MeleeWeapon.cs.14122"] = ModEntry.i18n.Get("fromcsfiles.MeleeWeapon.cs.14122");
     }
 
     #endregion editor callbacks

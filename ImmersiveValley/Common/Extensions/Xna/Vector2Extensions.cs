@@ -5,7 +5,6 @@ namespace DaLion.Common.Extensions.Xna;
 #region using directives
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -84,7 +83,7 @@ public static class Vector2Extensions
         var visited = new HashSet<Vector2>();
         var toVisit = new Queue<Vector2>();
         toVisit.Enqueue(origin);
-        while (toVisit.Any())
+        while (toVisit.Count > 0)
         {
             var tile = toVisit.Dequeue();
             if (!visited.Add(tile))

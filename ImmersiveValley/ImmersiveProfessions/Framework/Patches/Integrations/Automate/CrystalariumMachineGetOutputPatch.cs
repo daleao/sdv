@@ -49,7 +49,7 @@ internal sealed class CrystalariumMachineGetOutputPatch : DaLion.Common.Harmony.
         if (!owner.HasProfession(Profession.Gemologist) ||
             !machine.heldObject.Value.IsForagedMineral() && !machine.heldObject.Value.IsGemOrMineral()) return;
 
-        ModDataIO.IncrementData<uint>(owner, ModData.GemologistMineralsCollected.ToString());
+        ModDataIO.Increment<uint>(owner, "GemologistMineralsCollected");
     }
 
     #endregion harmony patches

@@ -14,10 +14,12 @@ internal sealed class UltimateFullyChargedEvent : ManagedEvent
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal UltimateFullyChargedEvent(Action<object?, IUltimateFullyChargedEventArgs> callback)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    internal UltimateFullyChargedEvent(Action<object?, IUltimateFullyChargedEventArgs> callback, bool alwaysHooked = false)
         : base(ModEntry.EventManager)
     {
         _OnFullyChargedImpl = callback;
+        AlwaysHooked = alwaysHooked;
     }
 
     /// <summary>Raised when the local player's <see cref="Ultimates.IUltimate"/> charge value reaches max value.</summary>

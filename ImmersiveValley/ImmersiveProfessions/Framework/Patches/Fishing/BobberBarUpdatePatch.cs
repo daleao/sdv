@@ -62,7 +62,7 @@ internal sealed class BobberBarUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
         //}
         //catch (Exception ex)
         //{
-        //    Log.E($"Failed while patching Fisher catching bar gain. Helper returned {ex}");
+        //    Log.E($"Failed while patching Fisher catching bar gain.\nHelper returned {ex}");
         //    return null;
         //}
 
@@ -97,7 +97,7 @@ internal sealed class BobberBarUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching Aquarist catching bar loss. Helper returned {ex}");
+            Log.E($"Failed while patching Aquarist catching bar loss.\nHelper returned {ex}");
             return null;
         }
 

@@ -44,7 +44,7 @@ internal sealed class FarmerGainExperiencePatch : DaLion.Common.Harmony.HarmonyP
                 return false; // don't run original logic
             }
 
-            var canGainPrestigeLevels = ModEntry.Config.EnablePrestige && __instance.HasAllProfessionsInSkill(skill);
+            var canGainPrestigeLevels = ModEntry.Config.EnablePrestige && __instance.HasAllProfessionsInSkill(skill) && skill != Farmer.luckSkill;
 
             howMuch = (int)(howMuch * ModEntry.Config.BaseSkillExpMultiplierPerSkill[which]);
             if (ModEntry.Config.EnablePrestige)

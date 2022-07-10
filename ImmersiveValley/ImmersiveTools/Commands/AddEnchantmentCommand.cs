@@ -34,7 +34,7 @@ internal sealed class AddEnchantmentCommand : ConsoleCommand
             return;
         }
 
-        while (args.Any())
+        while (args.Length > 0)
         {
             BaseEnchantment? enchantment = args[0].ToLower() switch
             {

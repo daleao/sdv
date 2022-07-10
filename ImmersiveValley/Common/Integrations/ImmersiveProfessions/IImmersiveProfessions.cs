@@ -23,10 +23,10 @@ public interface IImmersiveProfessions
         bool IsHookedForScreen(int screenId);
 
         /// <summary>Hook this event on the current screen.</summary>
-        void Hook();
+        bool Hook();
 
         /// <summary>Unhook this event on the current screen.</summary>
-        void Unhook();
+        bool Unhook();
     }
 
     #region treasure hunt

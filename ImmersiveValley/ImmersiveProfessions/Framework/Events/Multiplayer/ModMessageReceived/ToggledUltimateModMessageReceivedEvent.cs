@@ -40,7 +40,7 @@ internal sealed class ToggledUltimateModMessageReceivedEvent : ModMessageReceive
         {
             case "Active":
                 Log.D($"{who.Name} activated their Ultimate.");
-                index = ModDataIO.ReadDataAs<UltimateIndex>(who, ModData.UltimateIndex.ToString());
+                index = ModDataIO.ReadFrom<UltimateIndex>(who, "UltimateIndex");
                 var glowingColor = index switch
                 {
                     UltimateIndex.BruteFrenzy => Color.OrangeRed,
@@ -59,7 +59,7 @@ internal sealed class ToggledUltimateModMessageReceivedEvent : ModMessageReceive
 
             case "Inactive":
                 Log.D($"{who.Name}'s Ultimate has ended.");
-                index = ModDataIO.ReadDataAs<UltimateIndex>(who, ModData.UltimateIndex.ToString());
+                index = ModDataIO.ReadFrom<UltimateIndex>(who, "UltimateIndex");
                 who.stopGlowing();
                 if (Context.IsMainPlayer && index == UltimateIndex.PoacherAmbush)
                     ModEntry.HostState.PoachersInAmbush.Remove(e.FromPlayerID);

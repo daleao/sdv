@@ -22,25 +22,37 @@ public class ModAPI
 {
     /// <summary>Get the value of an Ecologist's forage quality.</summary>
     /// <param name="farmer">The player.</param>
-    public int GetEcologistForageQuality(Farmer farmer) =>
-        farmer.HasProfession(Profession.Ecologist) ? farmer.GetEcologistForageQuality() : SObject.lowQuality;
+    public int GetEcologistForageQuality(Farmer? farmer = null)
+    {
+        farmer ??= Game1.player;
+        return farmer.HasProfession(Profession.Ecologist) ? farmer.GetEcologistForageQuality() : SObject.lowQuality;
+    }
 
     /// <summary>Get the value of a Gemologist's mineral quality.</summary>
     /// <param name="farmer">The player.</param>
-    public int GetGemologistMineralQuality(Farmer farmer) =>
-        farmer.HasProfession(Profession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
+    public int GetGemologistMineralQuality(Farmer? farmer = null)
+    {
+        farmer ??= Game1.player;
+        return farmer.HasProfession(Profession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
+    }
 
     /// <summary>Get the value of the a Conservationist's projected tax deduction based on current season's trash collection.</summary>
     /// <param name="farmer">The player.</param>
-    public float GetConservationistProjectedTaxBonus(Farmer farmer) =>
+    public float GetConservationistProjectedTaxBonus(Farmer? farmer = null)
+    {
+        farmer ??= Game1.player;
         // ReSharper disable once PossibleLossOfFraction
-        ModDataIO.ReadDataAs<int>(farmer, ModData.ConservationistTrashCollectedThisSeason.ToString()) /
+        return ModDataIO.ReadFrom<int>(farmer, "ConservationistTrashCollectedThisSeason") /
                ModEntry.Config.TrashNeededPerTaxBonusPct / 100f;
+    }
 
     /// <summary>Get the value of the a Conservationist's effective tax deduction based on the preceding season's trash collection.</summary>
     /// <param name="farmer">The player.</param>
-    public float GetConservationistEffectiveTaxBonus(Farmer farmer) =>
-        farmer.GetConservationistPriceMultiplier() - 1f;
+    public float GetConservationistEffectiveTaxBonus(Farmer? farmer = null)
+    {
+        farmer ??= Game1.player;
+        return farmer.GetConservationistPriceMultiplier() - 1f;
+    }
 
     #region tresure hunts
 
@@ -110,25 +122,21 @@ public class ModAPI
 
     /// <summary>Register a new <see cref="TreasureHuntStartedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="hook">Whether to immediately hook the event.</param>
-    public IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, ITreasureHuntStartedEventArgs> callback, bool hook)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    public IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, ITreasureHuntStartedEventArgs> callback, bool alwaysHooked = false)
     {
-        var e = new TreasureHuntStartedEvent(callback);
+        var e = new TreasureHuntStartedEvent(callback, alwaysHooked);
         ModEntry.EventManager.Manage(e);
-        if (hook) e.Hook();
-
         return e;
     }
 
     /// <summary>Register a new <see cref="TreasureHuntEndedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="hook">Whether to immediately hook the event.</param>
-    public IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, ITreasureHuntEndedEventArgs> callback, bool hook)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    public IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, ITreasureHuntEndedEventArgs> callback, bool alwaysHooked = false)
     {
-        var e = new TreasureHuntEndedEvent(callback);
+        var e = new TreasureHuntEndedEvent(callback, alwaysHooked);
         ModEntry.EventManager.Manage(e);
-        if (hook) e.Hook();
-
         return e;
     }
 
@@ -146,73 +154,61 @@ public class ModAPI
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="hook">Whether to immediately hook the event.</param>
-    public IManagedEvent RegisterUltimateActivatedEvent(Action<object?, IUltimateActivatedEventArgs> callback, bool hook)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    public IManagedEvent RegisterUltimateActivatedEvent(Action<object?, IUltimateActivatedEventArgs> callback, bool alwaysHooked = false)
     {
-        var e = new UltimateActivatedEvent(callback);
+        var e = new UltimateActivatedEvent(callback, alwaysHooked);
         ModEntry.EventManager.Manage(e);
-        if (hook) e.Hook();
-
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateDeactivatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="hook">Whether to immediately hook the event.</param>
-    public IManagedEvent RegisterUltimateDeactivatedEvent(Action<object?, IUltimateDeactivatedEventArgs> callback, bool hook)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    public IManagedEvent RegisterUltimateDeactivatedEvent(Action<object?, IUltimateDeactivatedEventArgs> callback, bool alwaysHooked = false)
     {
-        var e = new UltimateDeactivatedEvent(callback);
+        var e = new UltimateDeactivatedEvent(callback, alwaysHooked);
         ModEntry.EventManager.Manage(e);
-        if (hook) e.Hook();
-
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateChargeInitiatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="hook">Whether to immediately hook the event.</param>
-    public IManagedEvent RegisterUltimateChargeInitiatedEvent(Action<object?, IUltimateChargeInitiatedEventArgs> callback, bool hook)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    public IManagedEvent RegisterUltimateChargeInitiatedEvent(Action<object?, IUltimateChargeInitiatedEventArgs> callback, bool alwaysHooked = false)
     {
-        var e = new UltimateChargeInitiatedEvent(callback);
+        var e = new UltimateChargeInitiatedEvent(callback, alwaysHooked);
         ModEntry.EventManager.Manage(e);
-        if (hook) e.Hook();
-
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateChargeIncreasedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="hook">Whether to immediately hook the event.</param>
-    public IManagedEvent RegisterUltimateChargeIncreasedEvent(Action<object?, IUltimateChargeIncreasedEventArgs> callback, bool hook)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    public IManagedEvent RegisterUltimateChargeIncreasedEvent(Action<object?, IUltimateChargeIncreasedEventArgs> callback, bool alwaysHooked = false)
     {
-        var e = new UltimateChargeIncreasedEvent(callback);
+        var e = new UltimateChargeIncreasedEvent(callback, alwaysHooked);
         ModEntry.EventManager.Manage(e);
-        if (hook) e.Hook();
-
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="hook">Whether to immediately hook the event.</param>
-    public IManagedEvent RegisterUltimateFullyChargedEvent(Action<object?, IUltimateFullyChargedEventArgs> callback, bool hook)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    public IManagedEvent RegisterUltimateFullyChargedEvent(Action<object?, IUltimateFullyChargedEventArgs> callback, bool alwaysHooked = false)
     {
-        var e = new UltimateFullyChargedEvent(callback);
+        var e = new UltimateFullyChargedEvent(callback, alwaysHooked);
         ModEntry.EventManager.Manage(e);
-        if (hook) e.Hook();
-
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateEmptiedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="hook">Whether to immediately hook the event.</param>
-    public IManagedEvent RegisterUltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback, bool hook)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    public IManagedEvent RegisterUltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback, bool alwaysHooked = false)
     {
-        var e = new UltimateEmptiedEvent(callback);
+        var e = new UltimateEmptiedEvent(callback, alwaysHooked);
         ModEntry.EventManager.Manage(e);
-        if (hook) e.Hook();
-
         return e;
     }
 

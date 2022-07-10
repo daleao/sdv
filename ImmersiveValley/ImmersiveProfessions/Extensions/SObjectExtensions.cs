@@ -19,7 +19,7 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is an artisan good.</summary>
     public static bool IsArtisanGood(this SObject @object)
     {
-        return @object.Category == SObject.artisanGoodsCategory || @object.ParentSheetIndex == 395; // exception for coffee
+        return @object.Category is SObject.artisanGoodsCategory or SObject.syrupCategory || @object.ParentSheetIndex == 395; // exception for coffee
     }
 
     /// <summary>Whether a given object is an artisan good.</summary>
@@ -115,13 +115,11 @@ public static class SObjectExtensions
     }
 
     /// <summary>Whether the player should track a given object.</summary>
-    public static bool ShouldBeTracked(this SObject @object)
-    {
-        return Game1.player.HasProfession(Profession.Scavenger) &&
-               (@object.IsSpawnedObject && !@object.IsForagedMineral() || @object.IsSpringOnion() || @object.IsArtifactSpot())
-               || Game1.player.HasProfession(Profession.Prospector) &&
-               (@object.IsStone() && @object.IsResourceNode() || @object.IsForagedMineral());
-    }
+    public static bool ShouldBeTrackedBy(this SObject @object, Profession profession) =>
+        profession == Profession.Scavenger && (@object.IsSpawnedObject && !@object.IsForagedMineral() ||
+                                                             @object.IsSpringOnion() || @object.IsArtifactSpot()) ||
+        profession == Profession.Prospector && (@object.IsStone() && @object.IsResourceNode() ||
+                                                              @object.IsForagedMineral() || @object.IsArtifactSpot());
 
     /// <summary>Whether the owner of this instance has the specified profession.</summary>
     /// <param name="index">A valid profession index.</param>

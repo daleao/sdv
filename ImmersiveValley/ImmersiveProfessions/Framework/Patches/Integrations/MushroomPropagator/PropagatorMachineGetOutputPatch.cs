@@ -44,9 +44,9 @@ internal sealed class PropagatorMachineGetOutputPatch : DaLion.Common.Harmony.Ha
         if (!owner.HasProfession(Profession.Ecologist)) return;
 
         if (owner.IsLocalPlayer && !ModEntry.Config.ShouldCountAutomatedHarvests)
-            ModDataIO.IncrementData(Game1.player, ModData.EcologistItemsForaged.ToString(), -1);
+            ModDataIO.Increment(Game1.player, "EcologistItemsForaged", -1);
         else if (ModEntry.Config.ShouldCountAutomatedHarvests)
-            ModDataIO.IncrementData<uint>(owner, ModData.EcologistItemsForaged.ToString());
+            ModDataIO.Increment<uint>(owner, "EcologistItemsForaged");
     }
 
     #endregion harmony patches

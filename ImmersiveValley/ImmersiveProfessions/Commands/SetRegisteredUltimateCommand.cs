@@ -32,7 +32,7 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (!args.Any() || args.Length > 1)
+        if (args.Length != 1)
         {
             Log.W("You must specify a single value.");
             return;
@@ -53,7 +53,7 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
         }
 
         var value = Enum.GetValues<UltimateIndex>()[index];
-        var profession = Profession.FromValue((int) value);
+        var profession = Profession.FromValue((int)value);
         if (!Game1.player.HasProfession(profession))
         {
             Log.W("You don't have this profession.");
@@ -66,10 +66,10 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
         {
             UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
             UltimateIndex.PoacherAmbush => new Ambush(),
-            UltimateIndex.PiperPandemic => new Enthrall(),
+            UltimateIndex.PiperPandemic => new Pandemic(),
             UltimateIndex.DesperadoBlossom => new DeathBlossom()
         };
 
-        ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), index.ToString());
+        ModDataIO.WriteTo(Game1.player, "UltimateIndex", index.ToString());
     }
 }

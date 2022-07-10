@@ -25,13 +25,11 @@ internal sealed class FishPondUpdateMaximumOccupancyPatch : DaLion.Common.Harmon
     /// <summary>Patch for Aquarist increased max fish pond capacity.</summary>
     [HarmonyPostfix]
     private static void FishPondUpdateMaximumOccupancyPostfix(FishPond __instance,
-        FishPondData ____fishPondData)
+        FishPondData? ____fishPondData)
     {
-        if (__instance is null) return;
-
         if (__instance.IsLegendaryPond())
         {
-            __instance.maxOccupants.Set(6);
+            __instance.maxOccupants.Set((int)ModEntry.Config.LegendaryPondPopulationCap);
         }
         else if (____fishPondData is not null)
         {

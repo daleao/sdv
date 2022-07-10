@@ -52,7 +52,7 @@ internal sealed class ExperieneBarDrawExperienceBarPatch : DaLion.Common.Harmony
         }
         catch (Exception ex)
         {
-            Log.E($"Failed to budge Ui Info Suite experience bar skill icon. Helper returned {ex}");
+            Log.E($"Failed to budge Ui Info Suite experience bar skill icon.\nHelper returned {ex}");
             return null;
         }
 

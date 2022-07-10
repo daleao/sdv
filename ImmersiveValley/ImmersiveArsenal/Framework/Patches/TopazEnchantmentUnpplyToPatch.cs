@@ -24,9 +24,15 @@ internal sealed class TopazEnchantmentUnpplyToPatch : Common.Harmony.HarmonyPatc
     [HarmonyPostfix]
     private static void TopazEnchantmentUnpplyToPostfix(TopazEnchantment __instance, Item item)
     {
-        if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalancedEnchants) return;
-
-        weapon.addedDefense.Value -= 4 * __instance.GetLevel();
+        switch (item)
+        {
+            case MeleeWeapon weapon when ModEntry.Config.RebalancedEnchants:
+                weapon.addedDefense.Value -= 4 * __instance.GetLevel();
+                break;
+            case Slingshot:
+                Game1.player.resilience -= ModEntry.Config.RebalancedEnchants ? 5 : 1;
+                break;
+        }
     }
 
     #endregion harmony patches

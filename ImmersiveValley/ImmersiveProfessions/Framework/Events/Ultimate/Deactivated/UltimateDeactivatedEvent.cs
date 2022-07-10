@@ -14,10 +14,12 @@ internal sealed class UltimateDeactivatedEvent : ManagedEvent
 
     /// <summary>Construct an instance.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
-    internal UltimateDeactivatedEvent(Action<object?, IUltimateDeactivatedEventArgs> callback)
+    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
+    internal UltimateDeactivatedEvent(Action<object?, IUltimateDeactivatedEventArgs> callback, bool alwaysHooked = false)
         : base(ModEntry.EventManager)
     {
         _OnDeactivatedImpl = callback;
+        AlwaysHooked = alwaysHooked;
     }
 
     /// <summary>Raised when a player's combat <see cref="Ultimates.IUltimate"/> ends.</summary>

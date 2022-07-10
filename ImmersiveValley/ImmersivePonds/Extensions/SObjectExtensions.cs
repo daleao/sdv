@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Common.Extensions;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -21,4 +22,12 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is a non-radioactive metal ingot.</summary>
     public static bool IsNonRadioactiveIngot(this SObject @object) =>
         @object.ParentSheetIndex is 334 or 335 or 336 or 337;
+
+    /// <summary>Whether a given object is a radioactive fish.</summary>
+    public static bool IsRadioactiveFish(this SObject @object) =>
+        @object.Category == SObject.FishCategory && @object.Name.ContainsAnyOf("Mutant", "Radioactive");
+
+    /// <summary>Whether a given object is a legendary fish.</summary>
+    public static bool IsLegendary(this SObject @object) =>
+        @object.HasContextTag("fish_legendary");
 }

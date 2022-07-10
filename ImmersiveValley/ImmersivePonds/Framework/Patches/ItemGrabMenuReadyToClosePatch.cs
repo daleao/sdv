@@ -3,10 +3,12 @@
 #region using directives
 
 using Common.Data;
+using Common.Extensions.Collections;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using StardewValley.Objects;
 using System.Linq;
 using SObject = StardewValley.Object;
 
@@ -25,32 +27,35 @@ internal sealed class ItemGrabMenuReadyToClosePatch : Common.Harmony.HarmonyPatc
 
     /// <summary>Update ItemsHeld data on grab menu close.</summary>
     [HarmonyPostfix]
-    private static void ItemGrabMenuReadyToClosePostfix(ItemGrabMenu __instance)
+    private static void ItemGrabMenuReadyToClosePostfix(ItemGrabMenu __instance, ref bool __result)
     {
         if (__instance.context is not FishPond pond) return;
 
-        var items = __instance.ItemsToGrabMenu?.actualInventory;
-        if (items is null || !items.Any() || items.All(i => i is null))
+        var inventory = __instance.ItemsToGrabMenu?.actualInventory.WhereNotNull().ToList();
+        if (inventory?.Count is not > 0)
         {
-            ModDataIO.WriteData(pond, "ItemsHeld", null);
+            ModDataIO.WriteTo(pond, "ItemsHeld", null);
             pond.output.Value = null;
             return;
         }
 
-        var objects = items.Cast<SObject>().ToList();
-        var output = objects.OrderByDescending(o => o?.Price).First();
-        objects.Remove(output);
-        if (objects.Any() && !objects.All(o => o is null))
+        var output = inventory.OrderByDescending(i => i is ColoredObject
+            ? new SObject(i.ParentSheetIndex, 1).salePrice()
+            : i.salePrice())
+        .First() as SObject;
+        inventory.Remove(output!);
+        if (inventory.Count > 0)
         {
-            var data = objects.Select(o => $"{o.ParentSheetIndex},{o.Stack},{o.Quality}");
-            ModDataIO.WriteData(pond, "ItemsHeld", string.Join(';', data));
+            var serialized = inventory.Select(i => $"{i.ParentSheetIndex},{i.Stack},{((SObject)i).Quality}");
+            ModDataIO.WriteTo(pond, "ItemsHeld", string.Join(';', serialized));
         }
         else
         {
-            ModDataIO.WriteData(pond, "ItemsHeld", null);
+            ModDataIO.WriteTo(pond, "ItemsHeld", null);
         }
 
         pond.output.Value = output;
+        __result = true; // ready to close
     }
 
     #endregion harmony patches

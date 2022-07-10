@@ -26,7 +26,7 @@ internal sealed class FishPondCtorPatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void FishPondCtorPostfix(FishPond __instance)
     {
-        ModDataIO.WriteData(__instance, "DaysEmpty", (-3).ToString()); // it's -3 for good measure (and also immersion; a fresh pond takes longer to get dirty)
+        ModDataIO.WriteTo(__instance, "DaysEmpty", (-3).ToString()); // it's -3 for good measure (and also immersion; a fresh pond takes longer to get dirty)
     }
 
     #endregion harmony patches

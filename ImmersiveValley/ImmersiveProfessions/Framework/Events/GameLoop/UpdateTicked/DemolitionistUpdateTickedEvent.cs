@@ -14,7 +14,7 @@ using System.Linq;
 [UsedImplicitly]
 internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
 {
-    private const int SHEET_INDEX_I = 41;
+    private const int BUFF_SHEET_INDEX_I = 41;
 
     private readonly int _buffId;
 
@@ -53,7 +53,7 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
                     "demolitionist.name" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = _buffId,
-                sheetIndex = SHEET_INDEX_I,
+                sheetIndex = BUFF_SHEET_INDEX_I,
                 millisecondsDuration = 555,
                 description = ModEntry.i18n.Get("demolitionist.buffdesc")
             }

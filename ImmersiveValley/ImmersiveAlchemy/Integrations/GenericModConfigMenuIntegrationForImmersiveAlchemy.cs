@@ -9,7 +9,7 @@ using System;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration for Immersive Professions.</summary>
-internal class GenericModConfigMenuIntegrationForImmersiveAlchemy
+internal sealed class GenericModConfigMenuIntegrationForImmersiveAlchemy
 {
     /// <summary>The Generic Mod Config Menu integration.</summary>
     private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Events.GameLoop;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -22,12 +23,19 @@ internal sealed class TemporaryAnimatedSpriteCtorPatch : DaLion.Common.Harmony.H
 
     #region harmony patches
 
-    /// <summary>Patch to increase Demolitionist bomb radius.</summary>
+    /// <summary>Patch to increase Demolitionist bomb radius + allow manual detonation.</summary>
     [HarmonyPostfix]
     private static void TemporaryAnimatedSpriteCtorPostfix(TemporaryAnimatedSprite __instance, Farmer owner)
     {
-        if (owner.HasProfession(Profession.Demolitionist)) ++__instance.bombRadius;
+        if (!owner.HasProfession(Profession.Demolitionist)) return;
+
+        ++__instance.bombRadius;
         if (owner.HasProfession(Profession.Demolitionist, true)) ++__instance.bombRadius;
+
+        if (!ModEntry.Config.ModKey.IsDown()) return;
+
+        __instance.totalNumberOfLoops = int.MaxValue;
+        ModEntry.EventManager.Hook<ManualDetonationUpdateTickedEvent>();
     }
 
     #endregion harmony patches

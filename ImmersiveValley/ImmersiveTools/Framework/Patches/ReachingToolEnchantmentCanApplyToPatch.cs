@@ -20,7 +20,7 @@ internal sealed class ReachingToolEnchantmentCanApplyToPatch : Common.Harmony.Ha
 
     #region harmony patches
 
-    /// <summary>Allow apply reaching enchant.</summary>
+    /// <summary>Allow apply Reaching enchant to Axe and Pickaxe.</summary>
     [HarmonyPrefix]
     // ReSharper disable once RedundantAssignment
     private static bool ReachingToolEnchantmentCanApplyToPrefix(ref bool __result, Item item)

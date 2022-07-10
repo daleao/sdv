@@ -36,9 +36,9 @@ public interface ISkill
 
     /// <summary>Subset of <see cref="ProfessionIds"/> containing only the level five profession ids.</summary>
     /// <remarks>Should always contain exactly 2 elements.</remarks>
-    IEnumerable<int> TierOneProfessionIds => ProfessionIds.Take(2);
+    virtual IEnumerable<int> TierOneProfessionIds => ProfessionIds.Take(2);
 
     /// <summary>Subset of <see cref="ProfessionIds"/> containing only the level ten profession ids.</summary>
     /// <remarks>Should always contains exactly 4 elements. The elements are assumed to be ordered correctly with respect to <see cref="TierOneProfessionIds"/>, such that elements 0 and 1 in this array correspond to branches of element 0 in the latter, and elements 2 and 3 correspond to branches of element 1.</remarks>
-    IEnumerable<int> TierTwoProfessionIds => ProfessionIds.TakeLast(4);
+    virtual IEnumerable<int> TierTwoProfessionIds => ProfessionIds.TakeLast(4);
 }

@@ -32,10 +32,10 @@ public static class TreeExtensions
         {
             case 4:
                 {
-                    foreach (var pair in environment.terrainFeatures.Pairs)
-                        if (pair.Value is Tree otherTree && !otherTree.Equals(tree) &&
+                    foreach (var (tile, feature) in environment.terrainFeatures.Pairs)
+                        if (feature is Tree otherTree && !otherTree.Equals(tree) &&
                             otherTree.growthStage.Value >= 5 &&
-                            otherTree.getBoundingBox(pair.Key).Intersects(growthRect))
+                            otherTree.getBoundingBox(tile).Intersects(growthRect))
                             return false;
                     break;
                 }

@@ -15,7 +15,7 @@ using System.Linq;
 [UsedImplicitly]
 internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
 {
-    private const int SHEET_INDEX_I = 40;
+    private const int BUFF_SHEET_INDEX_I = 40;
 
     private readonly int _buffId = (ModEntry.Manifest.UniqueID + Profession.Spelunker).GetHashCode();
 
@@ -42,7 +42,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
                 ModEntry.i18n.Get("spelunker.name" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = _buffId,
-                sheetIndex = SHEET_INDEX_I,
+                sheetIndex = BUFF_SHEET_INDEX_I,
                 millisecondsDuration = 0,
                 description =
                     ModEntry.i18n.Get("spelunker.buffdesc", new { bonusLadderChance, bonusSpeed })

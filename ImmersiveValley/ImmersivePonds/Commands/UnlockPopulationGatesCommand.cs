@@ -31,14 +31,14 @@ internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Any())
+        if (args.Length > 0)
             Log.W("Additional arguments will be ignored.");
 
         var ponds = Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
                 (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                 !p.isUnderConstruction())
             .ToHashSet();
-        if (!ponds.Any())
+        if (ponds.Count <= 0)
         {
             Log.W("You don't own any Fish Ponds.");
             return;

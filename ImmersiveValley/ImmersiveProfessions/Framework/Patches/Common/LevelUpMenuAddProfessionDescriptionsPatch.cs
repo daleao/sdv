@@ -32,7 +32,7 @@ internal sealed class LevelUpMenuAddProfessionDescriptionsPatch : DaLion.Common.
     {
         try
         {
-            if (!Profession.TryFromName(professionName, out var profession) || (Skill)profession.Skill == Skill.Luck) return true; // run original logic
+            if (!Profession.TryFromName(professionName, out var profession) || (Skill)profession.Skill == Farmer.luckSkill) return true; // run original logic
 
             descriptions.Add(profession.GetDisplayName(Game1.player.IsMale));
 

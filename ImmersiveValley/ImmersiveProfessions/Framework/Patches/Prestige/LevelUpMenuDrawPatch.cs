@@ -71,7 +71,7 @@ internal sealed class LevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level up menu choose profession text. Helper returned {ex}");
+            Log.E($"Failed while patching level up menu choose profession text.\nHelper returned {ex}");
             return null;
         }
 
@@ -100,7 +100,7 @@ internal sealed class LevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level up menu prestige tooltip draw. Helper returned {ex}");
+            Log.E($"Failed while patching level up menu prestige tooltip draw.\nHelper returned {ex}");
             return null;
         }
 

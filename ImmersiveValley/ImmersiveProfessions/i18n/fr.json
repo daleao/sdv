@@ -152,8 +152,8 @@
   "piper.desc": "Attirez plus de Slimes dans des zones dangereuses. Chance de gagner des effets aléatoires en battant des Slimes.",
   "piper.desc.prestiged": "Chance d’égalmente récuperer de la santé et de l’énergie en battant des Slimes.",
   "piper.buff": "Englué(e)",
-  "piper.buffdesc": "Agriculture +{{farming}}\nPêche +{{fishing}}\nCueillette +{{foraging}}\nExtraction minière +{{mining}}\nAttaque +{{attack}}\nDéfense +{{defense}}\nChance +{{luck}}\nVitesse +{{speed}}\nÉnergie max +{{energy}}\nRayon magnétique +{{magnetic}}",
-  "piper.ulti": "Captiver",
+  "piper.ulti.male": "Captiver!",
+  "piper.ulti.female": "Captiver!",
   "piper.ultidesc": "Enchantez les Slime à proximité. Les Slimes enchantés augmentent en taille et en puissance et traquent les autres ennemis.",
 
   "ulti.canteat": "Impossible de faire ça maintenant.",
@@ -194,5 +194,5 @@
   "season.spring": "printanière",
   "season.summer": "estivale",
   "season.fall": "d'automne",
-  "season.winter": "d'hiver" 
+  "season.winter": "d'hiver"
 }

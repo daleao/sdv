@@ -5,6 +5,7 @@
 using Common;
 using Common.Data;
 using Common.Extensions;
+using Common.Extensions.Collections;
 using Common.Extensions.Reflection;
 using Microsoft.Xna.Framework;
 using StardewValley;
@@ -33,19 +34,45 @@ public static class FishPondExtensions
                pond.lastUnlockedPopulationGate.Value >= data.PopulationGates.Keys.Max();
     }
 
-    /// <summary>Whether a legendary fish lives in this pond.</summary>
-    public static bool IsLegendaryPond(this FishPond pond) =>
-        pond.GetFishObject().HasContextTag("fish_legendary");
-
     /// <summary>Whether this pond is infested with algae.</summary>
-    public static bool IsAlgaePond(this FishPond pond) =>
+    public static bool HasAlgae(this FishPond pond) =>
         pond.fishType.Value.IsAlgae();
+
+    /// <summary>Whether a radioactive fish lives in this pond.</summary>
+    public static bool HasRadioactiveFish(this FishPond pond) =>
+        pond.GetFishObject().IsRadioactiveFish();
+
+    /// <summary>Whether a legendary fish lives in this pond.</summary>
+    public static bool HasLegendaryFish(this FishPond pond) =>
+        pond.GetFishObject().IsLegendary();
+
+    /// <summary>Get the number of days required to enrich a given metallic resource.<summary>
+    public static int GetEnrichmentDuration(this FishPond pond, SObject metallic)
+    {
+        var maxPopulation = pond.HasLegendaryFish()
+            ? ModEntry.ProfessionsAPI?.GetConfigs().LegendaryPondPopulationCap ?? 12
+            : 12;
+        var populationFactor = pond.FishCount < maxPopulation / 2f
+            ? 0f
+            : maxPopulation / 2f / pond.FishCount;
+        if (populationFactor == 0) return 0;
+
+        var days = 0;
+        if (metallic.Name.Contains("Copper")) days = 16;
+        else if (metallic.Name.Contains("Iron")) days = 8;
+        else if (metallic.Name.Contains("Gold")) days = 4;
+        else if (metallic.Name.Contains("Iridium")) days = 2;
+
+        if (metallic.IsNonRadioactiveIngot()) days *= 3;
+
+        return (int)Math.Max(days * populationFactor, 1);
+    }
 
     /// <summary>Give the player fishing experience for harvesting the pond.</summary>
     /// <param name="who">The player.</param>
     public static void RewardExp(this FishPond pond, Farmer who)
     {
-        if (ModDataIO.ReadDataAs<bool>(pond, "CheckedToday")) return;
+        if (ModDataIO.ReadFrom<bool>(pond, "CheckedToday")) return;
 
         var bonus = (int)(pond.output.Value is SObject @object
             ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
@@ -57,8 +84,8 @@ public static class FishPondExtensions
     /// <returns>Always returns <see langword="true"> (required by vanilla code).</returns>
     public static bool OpenChumBucketMenu(this FishPond pond, Farmer who)
     {
-        var held = ModDataIO.ReadData(pond, "ItemsHeld").ParseList<string>(";");
-        if (held?.Any() != true)
+        var held = pond.DeserializeObjectListData("ItemsHeld");
+        if (held.Count <= 0)
         {
             if (who.addItemToInventoryBool(pond.output.Value))
             {
@@ -72,41 +99,58 @@ public static class FishPondExtensions
         }
         else
         {
-            var produce = new List<Item> { pond.output.Value };
+            var inventory = new List<Item> { pond.output.Value };
             try
             {
-                foreach (var p in held)
+                foreach (var h in held)
                 {
-                    var (index, stack, quality) = p.ParseTuple<int, int, int>();
-                    if (index == Constants.ROE_INDEX_I)
+                    if (h.ParentSheetIndex == Constants.ROE_INDEX_I)
                     {
-                        var split = Game1.objectInformation[pond.fishType.Value].Split('/');
-                        var c = pond.fishType.Value == 698 ? new(61, 55, 42) : TailoringMenu.GetDyeColor(pond.GetFishObject()) ?? Color.Orange;
-                        var o = new ColoredObject(Constants.ROE_INDEX_I, stack, c);
+                        var fishIndex = pond.fishType.Value;
+                        var split = Game1.objectInformation[fishIndex].Split('/');
+                        var c = fishIndex == 698
+                            ? new(61, 55, 42)
+                            : TailoringMenu.GetDyeColor(pond.GetFishObject()) ?? Color.Orange;
+                        var o = new ColoredObject(Constants.ROE_INDEX_I, h.Stack, c);
                         o.name = split[0] + " Roe";
                         o.preserve.Value = SObject.PreserveType.Roe;
-                        o.preservedParentSheetIndex.Value = pond.fishType.Value;
+                        o.preservedParentSheetIndex.Value = fishIndex;
                         o.Price += Convert.ToInt32(split[1]) / 2;
-                        o.Quality = quality;
-                        produce.Add(o);
+                        o.Quality = ((SObject)h).Quality;
+                        inventory.Add(o);
                     }
                     else
                     {
-                        produce.Add(new SObject(index, stack) { Quality = quality });
+                        inventory.Add(h);
                     }
                 }
 
-                Game1.activeClickableMenu = new ItemGrabMenu(produce, pond).setEssential(false);
-                ((ItemGrabMenu)Game1.activeClickableMenu).source = ItemGrabMenu.source_fishingChest;
+                var menu = new ItemGrabMenu(inventory, pond).setEssential(false);
+                menu.source = ItemGrabMenu.source_fishingChest;
+                Game1.activeClickableMenu = menu;
             }
             catch (InvalidOperationException ex)
             {
                 Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-                ModDataIO.WriteData(pond, "ItemsHeld", null);
+                ModDataIO.WriteTo(pond, "ItemsHeld", null);
             }
         }
 
-        ModDataIO.WriteData(pond, "CheckedToday", true.ToString());
+        ModDataIO.WriteTo(pond, "CheckedToday", true.ToString());
         return true; // expected by vanilla code
+    }
+
+    /// <summary>Read a serialized item list from the fish pond's mod data and return a deserialized list of <see cref="SObject"/>.</summary>
+    /// <param name="pond">The <see cref="FishPond"/>.</param>
+    /// <param name="field">The data field.</param>
+    internal static List<Item> DeserializeObjectListData(this FishPond pond, string field)
+    {
+        return ModDataIO.ReadFrom(pond, field)
+            .ParseList<string>(";")?
+            .Select(s => s.ParseTuple<int, int, int>())
+            .WhereNotNull()
+            .Select(t => new SObject(t.Item1, t.Item2, quality: t.Item3))
+            .Cast<Item>()
+            .ToList() ?? new List<Item>();
     }
 }

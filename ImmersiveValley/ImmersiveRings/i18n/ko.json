@@ -1,5 +1,11 @@
 ﻿{
   "rings.jade": "옥 반지/치명타 위력을 50% 증가시켜줍니다.",
   "rings.topaz": "방어력이 5 증가합니다.",
-  "rings.iridium": "이리듐으로 만든 반지."
+  "rings.iridium": "이리듐으로 만든 반지.",
+  "resonance.ruby": "Ruby Resonance",
+  "resonance.aquamarine": "Aquamarine Resonance",
+  "resonance.jade": "Jade Resonance",
+  "resonance.emerald": "Emerald Resonance",
+  "resonance.amethyst": "Amethyst Resonance",
+  "resonance.topaz": "Topaz Resonance"
 }

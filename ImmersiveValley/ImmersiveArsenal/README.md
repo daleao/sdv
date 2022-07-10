@@ -25,9 +25,10 @@
 This mod brings the following immersive changes to vanilla weapons:
 
 - Rebalances the weapons stats, creating a more natural progression between the many available weapons and emphasizing the advantages and disadvantages of each weapon type, creating more unique gameplay opportunities.
-- Rebalances the Jade and Topaz enchants:
+- Rebalances the Jade, Topaz and Vampiric enchants:
     - **Jade:** *+10% -> +50% crit. power per level.* Vanilla 10% crit. power grants a 10% damage bonus that only applies to crits. This makes it significantly worse than the Ruby enchantment, which grants the same 10% bonus, but all the time. At 50% crit. power, the Jade ring becomes a better choice than the Ruby ring when crit. chance is at least 20%. It should also be high enough to consider over more crit. chance.
     - **Topaz:** *+1 -> +5 defense per level.* A much needed buff to make this a viable alternative for defensive builds.
+    - **Vampiric:** *9% chance to steal ~9% of monster health on kill.* -> *Drains 1% health on-hit, but steals ~5% of monster health on kill.* The original 9% chance made this enchantment too unreliable. The new enchantment is considerably more useful, and more interesting.
 - Weapons cost stamina. Because why wouldn't they? This adds another strategic element to combat which also helps to balance different weapon types; as you can no longer spam your weapon, you must ponder whether to maximize the damage of a single heavy hit, or rely on quick light stabs to land critical hits. Same formula as other tools, with stamina cost decreasing with Combat level.
 - Removes slingshot grace period, which in vanilla causes slingshot projectiles to ignore targets that get too close. This essentially made slingshots unreliable as a main weapon. Well, no more!
 - Removes the 50% damage mitigation soft cap from vanilla. This significantly dimished the value of defense bonuses and defensive builds. Now, you can stack resistance until the hard cap, which is 1 point of damage per hit received.

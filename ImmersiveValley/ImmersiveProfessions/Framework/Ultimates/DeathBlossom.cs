@@ -13,9 +13,7 @@ internal sealed class DeathBlossom : Ultimate
 {
     /// <summary>Construct an instance.</summary>
     internal DeathBlossom()
-    : base(Color.DarkGoldenrod, Color.SandyBrown)
-    {
-    }
+    : base(Color.DarkGoldenrod, Color.SandyBrown) { }
 
     #region public properties
 

@@ -7,16 +7,14 @@ using StardewModdingAPI;
 
 #endregion using directives
 
-internal class ImmersiveProfessionsIntegration : BaseIntegration<IImmersiveProfessionsAPI>
+internal sealed class ImmersiveProfessionsIntegration : BaseIntegration<IImmersiveProfessionsAPI>
 {
     /// <summary>Construct an instance.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     public ImmersiveProfessionsIntegration(IModRegistry modRegistry)
-        : base("Immersive Professions", "DaLion.ImmersiveProfessions", "4.0.0", modRegistry)
-    {
-    }
+        : base("Immersive Professions", "DaLion.ImmersiveProfessions", "4.0.0", modRegistry) { }
 
-    /// <summary>Register the ring recipe provider.</summary>
+    /// <summary>Cache the Immersive Professions API.</summary>
     public void Register()
     {
         AssertLoaded();

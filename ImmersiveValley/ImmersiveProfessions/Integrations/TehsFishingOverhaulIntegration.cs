@@ -16,7 +16,7 @@ using System.Linq.Expressions;
 
 #endregion using directives
 
-internal class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifiedFishingAPI>
+internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifiedFishingAPI>
 {
     // Mail flags added by TFO to track legendary fish progress
     private static readonly Dictionary<int, string> legendaryFlags = new()

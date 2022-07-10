@@ -59,7 +59,7 @@ internal sealed class CollectionsPageDrawPatch : DaLion.Common.Harmony.HarmonyPa
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching to draw collections page MAX icons. Helper returned {ex}");
+            Log.E($"Failed while patching to draw collections page MAX icons.\nHelper returned {ex}");
             return null;
         }
 
@@ -72,6 +72,8 @@ internal sealed class CollectionsPageDrawPatch : DaLion.Common.Harmony.HarmonyPa
 
     private static void DrawMaxIcons(CollectionsPage page, SpriteBatch b)
     {
+        if (!ModEntry.Config.ShowFishCollectionMaxIcon) return;
+
         var currentTab = page.currentTab;
         if (currentTab != CollectionsPage.fishTab) return;
 

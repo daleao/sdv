@@ -30,6 +30,6 @@ internal sealed class ClearMushroomBoxDataCommand : ConsoleCommand
     public override void Callback(string[] args)
     {
         foreach (var @object in Game1.locations.OfType<FarmCave>().SelectMany(fc => fc.Objects.Values)
-                     .Where(o => o.IsMushroomBox())) ModDataIO.WriteData(@object, "Age", null);
+                     .Where(o => o.IsMushroomBox())) ModDataIO.WriteTo(@object, "Age", null);
     }
 }

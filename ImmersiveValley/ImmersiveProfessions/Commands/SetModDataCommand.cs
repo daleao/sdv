@@ -10,7 +10,6 @@ using Framework;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewValley;
-using System.Linq;
 
 #endregion using directives
 
@@ -31,7 +30,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (!args.Any() || args.Length != 2)
+        if (args.Length != 2)
         {
             Log.W("You must specify a data field and value." + GetUsage());
             return;
@@ -54,7 +53,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             case "forage":
             case "itemsforaged":
             case "ecologist":
-            case "ecologistitemsforaged":
+            case "EcologistItemsForaged":
                 SetEcologistItemsForaged(value);
                 break;
 
@@ -103,11 +102,11 @@ internal sealed class SetModDataCommand : ConsoleCommand
         result += $"\n\t{Handler.EntryCommand} {Trigger} EcologistItemsForaged 100";
         result += $"\n\t{Handler.EntryCommand} {Trigger} trash 500";
         result += "\n\nAvailable data fields:";
-        result += $"\n\t- {ModData.EcologistItemsForaged} (shortcut 'forages')";
-        result += $"\n\t- {ModData.GemologistMineralsCollected} (shortcut 'minerals')";
-        result += $"\n\t- {ModData.ProspectorHuntStreak} (shortcut 'phunt')";
-        result += $"\n\t- {ModData.ScavengerHuntStreak} (shortcut 'shunt')";
-        result += $"\n\t- {ModData.ConservationistTrashCollectedThisSeason} (shortcut 'trash')";
+        result += $"\n\t- EcologistItemsForaged (shortcut 'forages')";
+        result += $"\n\t- GemologistMineralsCollected (shortcut 'minerals')";
+        result += $"\n\t- ProspectorHuntStreak (shortcut 'phunt')";
+        result += $"\n\t- ScavengerHuntStreak (shortcut 'shunt')";
+        result += $"\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')";
         result += GetAvailableFields();
         return result;
     }
@@ -115,11 +114,11 @@ internal sealed class SetModDataCommand : ConsoleCommand
     private static string GetAvailableFields()
     {
         var result = "\n\nAvailable data fields:";
-        result += $"\n\t- {ModData.EcologistItemsForaged} (shortcut 'forages')";
-        result += $"\n\t- {ModData.GemologistMineralsCollected} (shortcut 'minerals')";
-        result += $"\n\t- {ModData.ProspectorHuntStreak} (shortcut 'phunt')";
-        result += $"\n\t- {ModData.ScavengerHuntStreak} (shortcut 'shunt')";
-        result += $"\n\t- {ModData.ConservationistTrashCollectedThisSeason} (shortcut 'trash')";
+        result += $"\n\t- EcologistItemsForaged (shortcut 'forages')";
+        result += $"\n\t- GemologistMineralsCollected (shortcut 'minerals')";
+        result += $"\n\t- ProspectorHuntStreak (shortcut 'phunt')";
+        result += $"\n\t- ScavengerHuntStreak (shortcut 'shunt')";
+        result += $"\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')";
         return result;
     }
 
@@ -133,7 +132,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        ModDataIO.WriteData(Game1.player, ModData.EcologistItemsForaged.ToString(), value.ToString());
+        ModDataIO.WriteTo(Game1.player, "EcologistItemsForaged", value.ToString());
         Log.I($"Items foraged as Ecologist was set to {value}.");
     }
 
@@ -145,7 +144,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        ModDataIO.WriteData(Game1.player, ModData.GemologistMineralsCollected.ToString(), value.ToString());
+        ModDataIO.WriteTo(Game1.player, "GemologistMineralsCollected", value.ToString());
         Log.I($"Minerals collected as Gemologist was set to {value}.");
     }
 
@@ -157,7 +156,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        ModDataIO.WriteData(Game1.player, ModData.ProspectorHuntStreak.ToString(), value.ToString());
+        ModDataIO.WriteTo(Game1.player, "ProspectorHuntStreak", value.ToString());
         Log.I($"Prospector Hunt was streak set to {value}.");
     }
 
@@ -169,7 +168,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        ModDataIO.WriteData(Game1.player, ModData.ScavengerHuntStreak.ToString(), value.ToString());
+        ModDataIO.WriteTo(Game1.player, "ScavengerHuntStreak", value.ToString());
         Log.I($"Scavenger Hunt streak was set to {value}.");
     }
 
@@ -181,7 +180,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        ModDataIO.WriteData(Game1.player, ModData.ConservationistTrashCollectedThisSeason.ToString(), value.ToString());
+        ModDataIO.WriteTo(Game1.player, "ConservationistTrashCollectedThisSeason", value.ToString());
         Log.I($"Conservationist trash collected in the current season was set to {value}.");
     }
 

@@ -3,6 +3,9 @@
 #region using directives
 
 using Common;
+using Common.Data;
+using Common.Extensions;
+using Common.Extensions.Collections;
 using Common.Extensions.Reflection;
 using Common.Harmony;
 using Extensions;
@@ -13,6 +16,7 @@ using StardewValley;
 using StardewValley.Buildings;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using SObject = StardewValley.Object;
@@ -22,6 +26,11 @@ using SObject = StardewValley.Object;
 [UsedImplicitly]
 internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
 {
+    private delegate void ShowObjectThrownIntoPondAnimationDelegate(FishPond instance, Farmer who, SObject whichObject,
+        DelayedAction.delayedBehavior? callback = null);
+
+    private static ShowObjectThrownIntoPondAnimationDelegate? _ShowObjectThrownIntoPondAnimation;
+
     /// <summary>Construct an instance.</summary>
     internal FishPondDoActionPatch()
     {
@@ -30,17 +39,10 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
 
     #region harmony patches
 
-    /// <summary>Allow contagious radioactivity.</summary>
-    [HarmonyPostfix]
-    private static void FishPondDoActionPostfix(FishPond __instance, ref bool __result, Farmer who)
-    {
-        if (__result || who.ActiveObject is not {Category: SObject.metalResources} metallic) return;
-    }
-
-    /// <summary>Inject ItemGrabMenu + allow legendary fish to share a pond with their extended families.</summary>
+    /// <summary>Inject ItemGrabMenu + allow legendary fish to share a pond with their extended families + secretly enrich metals in radioactive ponds.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? FishPondDoActionTranspiler(IEnumerable<CodeInstruction> instructions,
-        MethodBase original)
+        ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -116,8 +118,75 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
             return null;
         }
 
+        /// Injected: TryThrowMetalIntoPond(this, who)
+        /// Before: if (fishType >= 0) open PondQueryMenu ...
+
+        var resumeExecution = generator.DefineLabel();
+        try
+        {
+            helper
+                .FindLast(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.fishType)))
+                )
+                .StripLabels(out var labels)
+                .AddLabels(resumeExecution)
+                .InsertWithLabels(
+                    labels,
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldarg_2),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(FishPondDoActionPatch).RequireMethod(nameof(TryThrowMetalIntoPond))),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                    new CodeInstruction(OpCodes.Ldc_I4_1),
+                    new CodeInstruction(OpCodes.Ret)
+                );
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed while adding metal enrichment to radioactive ponds.\nHelper returned {ex}");
+            return null;
+        }
+
         return helper.Flush();
     }
 
     #endregion harmony patches
+
+    #region injected subroutines
+
+    private static bool TryThrowMetalIntoPond(FishPond pond, Farmer who)
+    {
+        if (who.ActiveObject is not { Category: SObject.metalResources } metallic ||
+            !(metallic.IsNonRadioactiveOre() || metallic.IsNonRadioactiveIngot()) ||
+            !pond.HasRadioactiveFish()) return false;
+
+        var heldMinerals =
+            ModDataIO.ReadFrom(pond, "MetalsHeld")
+                .ParseList<string>(";")?
+                .Select(li => li.ParseTuple<int, int>())
+                .WhereNotNull()
+                .ToList()
+            ?? new List<(int, int)>();
+        var count = heldMinerals.Sum(m => new SObject(m.Item1, 1).IsNonRadioactiveIngot() ? 5 : 1);
+        if (count >= 20)
+        {
+            Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Buildings:PondFull"));
+            return true;
+        }
+
+        var days = pond.GetEnrichmentDuration(metallic);
+        if (days == 0) return false;
+
+        heldMinerals.Add((metallic.ParentSheetIndex, days));
+        ModDataIO.WriteTo(pond, "MetalsHeld",
+            string.Join(';', heldMinerals.Select(m => string.Join(',', m.Item1, m.Item2))));
+        _ShowObjectThrownIntoPondAnimation ??= typeof(FishPond).RequireMethod("showObjectThrownIntoPondAnimation")
+            .CompileUnboundDelegate<ShowObjectThrownIntoPondAnimationDelegate>();
+        _ShowObjectThrownIntoPondAnimation(pond, who, who.ActiveObject);
+        who.reduceActiveItemByOne();
+        return true;
+    }
+
+    #endregion injected subroutines
 }

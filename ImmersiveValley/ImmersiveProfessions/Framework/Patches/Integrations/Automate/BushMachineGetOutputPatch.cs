@@ -53,7 +53,7 @@ internal sealed class BushMachineGetOutputPatch : DaLion.Common.Harmony.HarmonyP
 
         if (!Context.IsMainPlayer || !Game1.player.HasProfession(Profession.Ecologist)) return;
 
-        ModDataIO.IncrementData<uint>(Game1.player, ModData.EcologistItemsForaged.ToString());
+        ModDataIO.Increment<uint>(Game1.player, "EcologistItemsForaged");
     }
 
     /// <summary>Patch for automated Berry Bush quality.</summary>

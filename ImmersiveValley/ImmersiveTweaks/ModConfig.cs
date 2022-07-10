@@ -15,7 +15,7 @@ public class ModConfig
     /// <summary>Increases or decreases the default age threshold for quality increase for Bee Houses, Trees and Fruit Trees.</summary>
     public float AgeImproveQualityFactor { get; set; } = 1f;
 
-    /// <summary>Whether age-dependent qualities should be deterministic (true) or stochastic (false).</summary>
+    /// <summary>Whether age-dependent qualities should be deterministic (true) or stochastic/random (false).</summary>
     public bool DeterministicAgeQuality { get; set; } = true;
 
     /// <summary>If wild forage rewards experience, berry bushes should qualify.</summary>

@@ -126,6 +126,9 @@ internal class EventManager
         foreach (var @event in ManagedEvents.OfType<SaveCreatingEvent>())
             modEvents.GameLoop.SaveCreating += @event.OnSaveCreating;
 
+        foreach (var @event in ManagedEvents.OfType<SavedEvent>())
+            modEvents.GameLoop.Saved += @event.OnSaved;
+
         foreach (var @event in ManagedEvents.OfType<SaveLoadedEvent>())
             modEvents.GameLoop.SaveLoaded += @event.OnSaveLoaded;
 
@@ -240,8 +243,7 @@ internal class EventManager
             return;
         }
 
-        e.Hook();
-        Log.D($"[EventManager]: Hooked {typeof(TEvent).Name}.");
+        if (e.Hook()) Log.D($"[EventManager]: Hooked {typeof(TEvent).Name}.");
     }
 
     /// <summary>Hook the specified <see cref="IManagedEvent"/> types.</summary>
@@ -263,8 +265,7 @@ internal class EventManager
                 continue;
             }
 
-            e.Hook();
-            Log.D($"[EventManager]: Hooked {type.Name}.");
+            if (e.Hook()) Log.D($"[EventManager]: Hooked {type.Name}.");
         }
     }
 
@@ -279,8 +280,7 @@ internal class EventManager
             return;
         }
 
-        e.Unhook();
-        Log.D($"[EventManager]: Unhook {typeof(TEvent).Name}.");
+        if (e.Unhook()) Log.D($"[EventManager]: Unhooked {typeof(TEvent).Name}.");
     }
 
     /// <summary>Unhook events from the event listener.</summary>
@@ -302,8 +302,7 @@ internal class EventManager
                 continue;
             }
 
-            e.Unhook();
-            Log.D($"[EventManager]: Unhooked {type.Name}.");
+            if (e.Unhook()) Log.D($"[EventManager]: Unhooked {type.Name}.");
         }
     }
 

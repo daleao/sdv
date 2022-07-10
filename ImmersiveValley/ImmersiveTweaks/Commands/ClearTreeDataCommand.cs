@@ -29,6 +29,6 @@ internal sealed class ClearTreeDataCommand : ConsoleCommand
     public override void Callback(string[] args)
     {
         foreach (var tree in Game1.locations.SelectMany(l => l.terrainFeatures.Values).OfType<Tree>())
-            ModDataIO.WriteData(tree, "Age", null);
+            ModDataIO.WriteTo(tree, "Age", null);
     }
 }

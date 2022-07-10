@@ -84,7 +84,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level 15 profession choices. Helper returned {ex}");
+            Log.E($"Failed while patching level 15 profession choices.\nHelper returned {ex}");
             return null;
         }
 
@@ -124,7 +124,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession. Helper returned {ex}");
+            Log.E($"Failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession.\nHelper returned {ex}");
             return null;
         }
 
@@ -214,7 +214,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level up profession redundancy and injecting dialogues. Helper returned {ex}");
+            Log.E($"Failed while patching level up profession redundancy and injecting dialogues.\nHelper returned {ex}");
             return null;
         }
 
@@ -274,7 +274,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while injecting level up profession final question. Helper returned {ex}");
+            Log.E($"Failed while injecting level up profession final question.\nHelper returned {ex}");
             return null;
         }
 
@@ -321,7 +321,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level up menu choice suppression. Helper returned {ex}");
+            Log.E($"Failed while patching level up menu choice suppression.\nHelper returned {ex}");
             return null;
         }
 
@@ -343,7 +343,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
     internal static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
     {
         if (currentLevel != 10 || !Skill.TryFromValue(chosenProfession / 6, out var skill) ||
-            skill == Skill.Luck) return false;
+            skill == Farmer.luckSkill) return false;
 
         var hasAllProfessions = Game1.player.HasAllProfessionsInSkill(skill);
         Log.D($"Farmer {Game1.player.Name} " + (hasAllProfessions
@@ -384,10 +384,10 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                         {
                             UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
                             UltimateIndex.PoacherAmbush => new Ambush(),
-                            UltimateIndex.PiperPandemic => new Enthrall(),
+                            UltimateIndex.PiperPandemic => new Pandemic(),
                             UltimateIndex.DesperadoBlossom => new DeathBlossom()
                         };
-                    ModDataIO.WriteData(Game1.player, ModData.UltimateIndex.ToString(), newIndex.ToString());
+                    ModDataIO.WriteTo(Game1.player, "UltimateIndex", newIndex.ToString());
                 }
 
                 if (shouldCongratulateFullSkillMastery) CongratulateOnFullSkillMastery(chosenProfession);

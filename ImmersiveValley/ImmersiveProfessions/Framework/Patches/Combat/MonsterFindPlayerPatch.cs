@@ -37,7 +37,7 @@ internal sealed class MonsterFindPlayerPatch : DaLion.Common.Harmony.HarmonyPatc
         {
             var location = Game1.currentLocation;
             Farmer? target = null;
-            if (__instance is GreenSlime slime && ModDataIO.ReadDataAs<bool>(slime, "Piped"))
+            if (__instance is GreenSlime slime && ModDataIO.ReadFrom<bool>(slime, "Piped"))
             {
                 var aggroee = slime.GetClosestCharacter(out _,
                     location.characters.OfType<Monster>().Where(m => !m.IsSlime()));
@@ -48,15 +48,15 @@ internal sealed class MonsterFindPlayerPatch : DaLion.Common.Harmony.HarmonyPatc
                     {
                         fakeFarmer.Position = aggroee.Position;
                         target = fakeFarmer;
-                        ModDataIO.WriteData(slime, "Aggroee", aggroee.GetHashCode().ToString());
+                        ModDataIO.WriteTo(slime, "Aggroee", aggroee.GetHashCode().ToString());
                     }
                 }
             }
-            else if (ModDataIO.ReadDataAs<bool>(__instance, "Aggroed"))
+            else if (ModDataIO.ReadFrom<bool>(__instance, "Aggroed"))
             {
                 var fakeFarmerId = __instance.GetHashCode();
                 if (ModEntry.HostState.FakeFarmers.TryGetValue(fakeFarmerId, out var fakeFarmer) &&
-                    location.TryGetCharacterByHash<GreenSlime>(ModDataIO.ReadDataAs<int>(__instance, "Aggroer"),
+                    location.TryGetCharacterByHash<GreenSlime>(ModDataIO.ReadFrom<int>(__instance, "Aggroer"),
                         out var aggroer))
                 {
                     fakeFarmer.Position = aggroer.Position;

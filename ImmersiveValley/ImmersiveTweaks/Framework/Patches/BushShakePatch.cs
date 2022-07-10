@@ -25,7 +25,7 @@ internal sealed class BushShakePatch : Common.Harmony.HarmonyPatch
     // ReSharper disable once RedundantAssignment
     private static bool BushShakePrefix(Bush __instance, ref bool __state)
     {
-        __state = __instance is not null && __instance.tileSheetOffset.Value == 1 && !__instance.townBush.Value &&
+        __state = __instance.tileSheetOffset.Value == 1 && !__instance.townBush.Value &&
                   __instance.inBloom(Game1.GetSeasonForLocation(__instance.currentLocation), Game1.dayOfMonth) &&
                   __instance.size.Value < Bush.greenTeaBush && ModEntry.Config.BerryBushesRewardExp;
 
@@ -37,7 +37,7 @@ internal sealed class BushShakePatch : Common.Harmony.HarmonyPatch
     private static void BushShakePostfix(Bush __instance, bool __state)
     {
         if (__state && __instance.tileSheetOffset.Value == 0)
-            Game1.player.gainExperience(Farmer.foragingSkill, 3);
+            Game1.player.gainExperience(Farmer.foragingSkill, 5);
     }
 
     #endregion harmony patches

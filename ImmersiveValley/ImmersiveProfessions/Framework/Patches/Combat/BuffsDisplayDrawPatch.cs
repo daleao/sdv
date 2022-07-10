@@ -28,11 +28,11 @@ internal sealed class BuffsDisplayDrawPatch : DaLion.Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     internal static void BuffsDisplayDrawPostfix(Dictionary<ClickableTextureComponent, Buff> ___buffs, SpriteBatch b)
     {
-        var (key, value) = ___buffs.FirstOrDefault(p => p.Value.which == _buffId);
-        if (value is null) return;
+        var (clickableTextureComponent, buff) = ___buffs.FirstOrDefault(p => p.Value.which == _buffId);
+        if (buff is null) return;
 
         var counter = ModEntry.PlayerState.BruteRageCounter;
         b.DrawString(Game1.tinyFont, counter.ToString(),
-            new(key.bounds.Right - (counter >= 10 ? 16 : 8), key.bounds.Bottom - 24), Color.White);
+            new(clickableTextureComponent.bounds.Right - (counter >= 10 ? 16 : 8), clickableTextureComponent.bounds.Bottom - 24), Color.White);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace DaLion.Common.Harmony;
+﻿using DaLion.Common.Extensions.Collections;
+
+namespace DaLion.Common.Harmony;
 
 #region using directives
 
@@ -40,7 +42,7 @@ public class ILHelper
     {
         get
         {
-            if (_indexStack is null || !_indexStack.Any())
+            if (_indexStack.Count <= 0)
                 throw new IndexOutOfRangeException("The index stack is either null or empty.");
 
             return _indexStack.Peek();
@@ -52,7 +54,7 @@ public class ILHelper
     {
         get
         {
-            if (Instructions is null || !Instructions.Any())
+            if (Instructions.Count <= 0)
                 throw new IndexOutOfRangeException("The active instruction list is either null or empty.");
 
             return Instructions.Count - 1;
@@ -165,7 +167,7 @@ public class ILHelper
         return this;
     }
 
-    /// <summary>Insert a sequence of code instructions at the currently pointed index.</summary>
+    /// <summary>Insert a sequence of code instructions at the currently pointed index and add the specified labels to the first instruction in the sequence.</summary>
     /// <param name="labels">Any labels to add at the start of the insertion.</param>
     /// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to insert.</param>
     /// <remarks>The instruction at the current address is pushed forward, such that the index pointer continues to point to the same instruction after insertion.</remarks>
@@ -174,6 +176,27 @@ public class ILHelper
         instructions[0].labels.AddRange(labels);
         Instructions.InsertRange(CurrentIndex, instructions);
         _indexStack.Push(CurrentIndex + instructions.Length);
+        return this;
+    }
+
+    /// <summary>Add a sequence of code instructions to the end of the instructions list.</summary>
+    /// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to add.</param>
+    /// <remarks>The index pointer is moved to the first instruction in the added sequence.</remarks>
+    public ILHelper Add(params CodeInstruction[] instructions)
+    {
+        Instructions.AddRange(instructions);
+        _indexStack.Push(LastIndex - instructions.Length);
+        return this;
+    }
+
+    /// <summary>Add a sequence of code instructions to the end of the instructions list and add the specified labels to the first instruction in the sequence.</summary>
+    /// <param name="instructions">Sequence of <see cref="CodeInstruction" /> objects to add.</param>
+    /// <remarks>The index pointer is moved to the first instruction in the added sequence.</remarks>
+    public ILHelper AddWithLabels(Label[] labels, params CodeInstruction[] instructions)
+    {
+        instructions[0].labels.AddRange(labels);
+        Instructions.AddRange(instructions);
+        _indexStack.Push(LastIndex - instructions.Length);
         return this;
     }
 
@@ -253,6 +276,13 @@ public class ILHelper
     public ILHelper RemoveLabels()
     {
         Instructions[CurrentIndex].labels.Clear();
+        return this;
+    }
+
+    /// <summary>Remove labels from the code instruction at the currently pointed index.</summary>
+    public ILHelper RemoveLabels(params Label[] labels)
+    {
+        labels.ForEach(l => Instructions[CurrentIndex].labels.Remove(l));
         return this;
     }
 

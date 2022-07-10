@@ -79,10 +79,10 @@ internal sealed class BushShakePatch : DaLion.Common.Harmony.HarmonyPatch
                 .Insert(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldstr, ModData.EcologistItemsForaged.ToString()),
+                    new CodeInstruction(OpCodes.Ldstr, "EcologistItemsForaged"),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModDataIO)
-                            .RequireMethod(nameof(ModDataIO.IncrementData), new[] { typeof(Farmer), typeof(string) })
+                            .RequireMethod(nameof(ModDataIO.Increment), new[] { typeof(Farmer), typeof(string) })
                             .MakeGenericMethod(typeof(uint)))
                 )
                 .AddLabels(dontIncreaseEcologistCounter);

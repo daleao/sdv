@@ -22,8 +22,6 @@ internal sealed class DebugRenderedHudEvent : RenderedHudEvent
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
-        if (!ModEntry.Config.DebugKey.IsDown()) return;
-
         // show FPS counter
         ModEntry.FpsCounter?.Draw(Game1.currentGameTime);
 

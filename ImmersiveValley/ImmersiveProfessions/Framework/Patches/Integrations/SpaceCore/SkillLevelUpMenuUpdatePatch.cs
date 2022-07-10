@@ -93,7 +93,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession. Helper returned {ex}");
+            Log.E($"Failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession.\nHelper returned {ex}");
             return null;
         }
 
@@ -132,7 +132,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level up profession redundancy. Helper returned {ex}");
+            Log.E($"Failed while patching level up profession redundancy.\nHelper returned {ex}");
             return null;
         }
 
@@ -182,7 +182,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level up menu choice suppression. Helper returned {ex}");
+            Log.E($"Failed while patching level up menu choice suppression.\nHelper returned {ex}");
             return null;
         }
 

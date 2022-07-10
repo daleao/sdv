@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace DaLion.Stardew.Ponds.Framework;
+﻿namespace DaLion.Stardew.Ponds.Framework;
 
 #region using directives
 
+using StardewValley;
+using System;
 using System.Collections.Generic;
 
 #endregion using directives
@@ -13,24 +13,39 @@ internal static class Utils
     /// <summary>Dictionary of extended family pair by legendary fish id.</summary>
     internal static readonly Dictionary<int, int> ExtendedFamilyPairs = new()
     {
-        { 159, 898 },
-        { 160, 899 },
-        { 163, 900 },
-        { 682, 901 },
-        { 775, 902 },
-        { 898, 159 },
-        { 899, 160 },
-        { 900, 163 },
-        { 901, 682 },
-        { 902, 775 }
+        { Constants.CRIMSONFISH_INDEX_I, Constants.SON_OF_CRIMSONFISH_INDEX_I },
+        { Constants.ANGLER_INDEX_I, Constants.MS_ANGLER_INDEX_I },
+        { Constants.LEGEND_INDEX_I, Constants.LEGEND_II_INDEX_I },
+        { Constants.MUTANT_CARP_INDEX_I, Constants.RADIOACTIVE_CARP_INDEX_I },
+        { Constants.GLACIERFISH_INDEX_I, Constants.GLACIERFISH_JR_INDEX_I },
+        { Constants.SON_OF_CRIMSONFISH_INDEX_I, Constants.CRIMSONFISH_INDEX_I },
+        { Constants.MS_ANGLER_INDEX_I, Constants.ANGLER_INDEX_I },
+        { Constants.LEGEND_II_INDEX_I, Constants.LEGEND_INDEX_I },
+        { Constants.RADIOACTIVE_CARP_INDEX_I, Constants.MUTANT_CARP_INDEX_I },
+        { Constants.GLACIERFISH_JR_INDEX_I, Constants.GLACIERFISH_INDEX_I }
     };
 
     /// <summary>Whether the currently held fish is a family member of another.</summary>
     /// <param name="held">The index of the currently held fish.</param>
     /// <param name="other">The index of some other fish.</param>
-    /// <returns></returns>
     internal static bool IsExtendedFamilyMember(int held, int other) =>
         ExtendedFamilyPairs.TryGetValue(other, out var pair) && pair == held;
+
+    /// <summary>Return the item index of a random algae.</summary>
+    /// <param name="bias">A particular type of algae that should be favored.</param>
+    /// <param name="r">An optional random number generator.</param>
+    internal static int ChooseAlgae(int? bias = null, Random? r = null)
+    {
+        r ??= Game1.random;
+        if (bias.HasValue && r.NextDouble() > 2.0 / 3.0) return bias.Value;
+
+        return r.NextDouble() switch
+        {
+            > 2.0 / 3.0 => Constants.GREEN_ALGAE_INDEX_I,
+            > 1.0 / 3.0 => Constants.SEAWEED_INDEX_I,
+            _ => Constants.WHITE_ALGAE_INDEX_I
+        };
+    }
 
     /// <summary>Get the fish's chance to produce roe given its sale value.</summary>
     /// <param name="value">The fish's sale value.</param>

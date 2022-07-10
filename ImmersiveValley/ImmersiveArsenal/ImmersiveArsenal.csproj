@@ -23,4 +23,10 @@
 
   <Import Project="..\Common\Common.projitems" Label="Shared" Condition="Exists('..\Common\Common.projitems')" />
 
+  <ItemGroup>
+	<Compile Remove="resources\**" />
+	<EmbeddedResource Remove="resources\**" />
+	<None Remove="resources\**" />
+  </ItemGroup>
+
 </Project>

@@ -31,43 +31,43 @@ internal sealed class PrintModDataCommand : ConsoleCommand
     public override void Callback(string[] args)
     {
         var message = $"Farmer {Game1.player.Name}'s mod data:";
-        var value = ModDataIO.ReadData(Game1.player, ModData.EcologistItemsForaged.ToString());
+        var value = ModDataIO.ReadFrom(Game1.player, "EcologistItemsForaged");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
-                       ? $"{ModData.EcologistItemsForaged}: {value} ({ModEntry.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
-                       : $"Mod data does not contain an entry for {ModData.EcologistItemsForaged}.");
+                       ? $"EcologistItemsForaged: {value} ({ModEntry.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                       : "Mod data does not contain an entry for EcologistItemsForaged.");
 
-        value = ModDataIO.ReadData(Game1.player, ModData.GemologistMineralsCollected.ToString());
+        value = ModDataIO.ReadFrom(Game1.player, "GemologistMineralsCollected");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
-                       ? $"{ModData.GemologistMineralsCollected}: {value} ({ModEntry.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
-                       : $"Mod data does not contain an entry for {ModData.GemologistMineralsCollected}.");
+                       ? $"GemologistMineralsCollected: {value} ({ModEntry.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                       : "Mod data does not contain an entry for GemologistMineralsCollected.");
 
-        value = ModDataIO.ReadData(Game1.player, ModData.ProspectorHuntStreak.ToString());
+        value = ModDataIO.ReadFrom(Game1.player, "ProspectorHuntStreak");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
-                       ? $"{ModData.ProspectorHuntStreak}: {value} (affects treasure quality)"
-                       : $"Mod data does not contain an entry for {ModData.ProspectorHuntStreak}.");
+                       ? $"ProspectorHuntStreak: {value} (affects treasure quality)"
+                       : "Mod data does not contain an entry for ProspectorHuntStreak.");
 
-        value = ModDataIO.ReadData(Game1.player, ModData.ScavengerHuntStreak.ToString());
+        value = ModDataIO.ReadFrom(Game1.player, "ScavengerHuntStreak");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
-                       ? $"{ModData.ScavengerHuntStreak}: {value} (affects treasure quality)"
-                       : $"Mod data does not contain an entry for {ModData.ScavengerHuntStreak}.");
+                       ? $"ScavengerHuntStreak: {value} (affects treasure quality)"
+                       : "Mod data does not contain an entry for ScavengerHuntStreak.");
 
-        value = ModDataIO.ReadData(Game1.player, ModData.ConservationistTrashCollectedThisSeason.ToString());
+        value = ModDataIO.ReadFrom(Game1.player, "ConservationistTrashCollectedThisSeason");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? CurrentCulture(
                            // ReSharper disable once PossibleLossOfFraction
-                           $"{ModData.ConservationistTrashCollectedThisSeason}: {value} (expect a {Math.Min(int.Parse(value) / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f, ModEntry.Config.ConservationistTaxBonusCeiling):p0} tax deduction next season)")
-                       : $"Mod data does not contain an entry for {ModData.ConservationistTrashCollectedThisSeason}.");
+                           $"ConservationistTrashCollectedThisSeason: {value} (expect a {Math.Min(int.Parse(value) / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f, ModEntry.Config.ConservationistTaxBonusCeiling):p0} tax deduction next season)")
+                       : "Mod data does not contain an entry for ConservationistTrashCollectedThisSeason.");
 
-        value = ModDataIO.ReadData(Game1.player, ModData.ConservationistActiveTaxBonusPct.ToString());
+        value = ModDataIO.ReadFrom(Game1.player, "ConservationistActiveTaxBonusPct");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
-                       ? CurrentCulture($"{ModData.ConservationistActiveTaxBonusPct}: {float.Parse(value):p0}")
-                       : $"Mod data does not contain an entry for {ModData.ConservationistActiveTaxBonusPct}.");
+                       ? CurrentCulture($"ConservationistActiveTaxBonusPct: {float.Parse(value):p0}")
+                       : "Mod data does not contain an entry for ConservationistActiveTaxBonusPct.");
 
         Log.I(message);
     }
