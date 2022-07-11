@@ -39,7 +39,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harm
 
             // add looter enchant
             new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-            new(OpCodes.Newobj, typeof(SpoilerEnchantment).RequireConstructor()),
+            new(OpCodes.Newobj, typeof(CarvingEnchantment).RequireConstructor()),
             new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
         });
 

@@ -41,7 +41,7 @@ internal sealed class MushroomBoxMachineGetOutputPatch : Common.Harmony.HarmonyP
     {
         try
         {
-            if (!ModEntry.Config.AgeMushroomBoxes) return;
+            if (!ModEntry.Config.AgeImprovesMushroomBoxes) return;
 
             _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine")
                 .CompileUnboundDelegate<Func<object, SObject>>();
@@ -49,7 +49,7 @@ internal sealed class MushroomBoxMachineGetOutputPatch : Common.Harmony.HarmonyP
             if (machine.heldObject.Value is not { } held) return;
 
             var owner = Game1.getFarmerMaybeOffline(machine.owner.Value) ?? Game1.MasterPlayer;
-            if (!owner.professions.Contains(Farmer.botanist))
+            if (!owner.professions.Contains(Farmer.botanist) && ModEntry.Config.AgeImprovesMushroomBoxes)
                 held.Quality = held.GetQualityFromAge();
             else if (ModEntry.ProfessionsAPI is not null)
                 held.Quality = Math.Max(ModEntry.ProfessionsAPI.GetEcologistForageQuality(owner), held.Quality);

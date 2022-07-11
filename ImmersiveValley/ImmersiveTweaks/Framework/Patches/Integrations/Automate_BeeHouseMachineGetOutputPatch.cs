@@ -40,20 +40,27 @@ internal sealed class BeeHouseMachineGetOutputPatch : Common.Harmony.HarmonyPatc
     /// <summary>Adds aging quality to automated bee houses.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? BeeHouseMachineGetOutputTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: @object.Quality = @object.GetQualityFromAge();
+        /// Injected: if (ModEntry.Config.AgeImprovesBeeHouses) object.Quality = @object.GetQualityFromAge();
         /// Before: StardewValley.Object result = @object;
 
+        var resumeExecution = generator.DefineLabel();
         try
         {
             helper
                 .FindLast(
                     new CodeInstruction(OpCodes.Stloc_S, helper.Locals[4])
                 )
+                .AddLabels(resumeExecution)
                 .Insert(
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AgeImprovesBeeHouses))),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,

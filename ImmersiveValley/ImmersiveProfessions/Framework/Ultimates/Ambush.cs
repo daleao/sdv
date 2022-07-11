@@ -3,6 +3,7 @@ namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
 #region using directives
 
+using Events.GameLoop;
 using Microsoft.Xna.Framework;
 using Netcode;
 using Sounds;
@@ -51,6 +52,7 @@ internal sealed class Ambush : Ultimate
     {
         base.Activate();
 
+        ModEntry.PlayerState.SecondsOutOfAmbush = 0d;
         foreach (var monster in Game1.currentLocation.characters.OfType<Monster>()
                      .Where(m => m.Player.IsLocalPlayer))
         {
@@ -77,8 +79,12 @@ internal sealed class Ambush : Ultimate
             }
         }
 
+        var critBuff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == BuffId - 4);
+        var duration = critBuff?.millisecondsDuration ??
+                       (int) (15000 * ((double) MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor);
+        Game1.buffsDisplay.removeOtherBuff(BuffId - 4);
         Game1.buffsDisplay.removeOtherBuff(BuffId);
-        Game1.player.addedSpeed -= 3;
+        Game1.player.addedSpeed -= 2;
         Game1.buffsDisplay.addOtherBuff(
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
@@ -88,7 +94,7 @@ internal sealed class Ambush : Ultimate
                 which = BuffId,
                 sheetIndex = 49,
                 glow = GlowColor,
-                millisecondsDuration = (int)(30000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
+                millisecondsDuration = duration,
                 description = ModEntry.i18n.Get("poacher.ultidesc.hidden")
             }
         );
@@ -107,7 +113,7 @@ internal sealed class Ambush : Ultimate
         var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == BuffId);
         var timeLeft = buff?.millisecondsDuration ?? 0;
         Game1.buffsDisplay.removeOtherBuff(BuffId);
-        Game1.player.addedSpeed += 3;
+        Game1.player.addedSpeed += 2;
         if (timeLeft > 0)
         {
             var buffId = BuffId - 4;
@@ -120,7 +126,7 @@ internal sealed class Ambush : Ultimate
                 {
                     which = buffId,
                     sheetIndex = 37,
-                    millisecondsDuration = 2 * timeLeft,
+                    millisecondsDuration = timeLeft * 2,
                     description = ModEntry.i18n.Get("poacher.ultidesc.revealed")
                 }
             );
@@ -131,6 +137,7 @@ internal sealed class Ambush : Ultimate
         else
             ModEntry.Broadcaster.Message("DeactivatedAmbush", "UpdateHostState", Game1.MasterPlayer.UniqueMultiplayerID);
 
+        ModEntry.EventManager.Hook<PoacherUpdateTickedEvent>();
     }
 
     /// <inheritdoc />

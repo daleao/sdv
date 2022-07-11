@@ -31,9 +31,9 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
         if (Game1.game1.IsActive && Game1.shouldTimePass() && ModEntry.PlayerState.BruteRageCounter > 0 &&
             e.IsOneSecond)
         {
-            ++ModEntry.PlayerState.SecondsSinceLastCombat;
+            ++ModEntry.PlayerState.SecondsOutOfCombat;
             // decay counter every 5 seconds after 30 seconds out of combat
-            if (ModEntry.PlayerState.SecondsSinceLastCombat > 30 && e.IsMultipleOf(300))
+            if (ModEntry.PlayerState.SecondsOutOfCombat > 30 && e.IsMultipleOf(300))
                 --ModEntry.PlayerState.BruteRageCounter;
         }
 

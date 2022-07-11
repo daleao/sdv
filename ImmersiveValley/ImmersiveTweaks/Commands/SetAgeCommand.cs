@@ -10,7 +10,6 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -26,21 +25,27 @@ internal sealed class SetAgeCommand : ConsoleCommand
     public override string Trigger => "age";
 
     /// <inheritdoc />
-    public override string Documentation => "Age the nearest object of the specified type.";
+    public override string Documentation =>
+        "Set the age of the nearest specified object or tree to the desired value. You can also use the value `clear` to delete the respective mod data.";
 
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
         if (args.Length is <2 or >3)
         {
-            Log.W("You must specify an object type and age value." + GetUsage());
+            Log.W("You must specify a target type and age value." + GetUsage());
             return;
         }
 
         var all = args.Any(a => a is "-a" or "--all");
         if (all) args = args.Except(new[] { "-a", "--all" }).ToArray();
 
-        if (!int.TryParse(args[1], out var newAge))
+        bool clear = false;
+        if (args[1].ToLowerInvariant() is ("clear" or "null"))
+        {
+            clear = true;
+        }
+        else if (!int.TryParse(args[1], out _))
         {
             Log.W($"{args[1]} is not a valid age value. Please specify a valid number of days.");
             return;
@@ -53,9 +58,8 @@ internal sealed class SetAgeCommand : ConsoleCommand
                 if (all)
                 {
                     foreach (var tree in Game1.locations.SelectMany(l => l.terrainFeatures.Values.OfType<Tree>()))
-                        ModDataIO.WriteTo(tree, "Age", args[1]);
-                    Log.I($"Set all tree age data to {args[1]} days.");
-
+                        ModDataIO.WriteTo(tree, "Age", clear ? null : args[1]);
+                    Log.I(clear ? "Cleared all tree age data." : $"Set all tree age data to {args[1]} days.");
                     break;
                 }
 
@@ -66,8 +70,10 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     return;
                 }
 
-                ModDataIO.WriteTo(nearest, "Age", args[1]);
-                Log.I($"Set {nearest.NameFromType()}'s age data to {args[1]} days.");
+                ModDataIO.WriteTo(nearest, "Age", clear ? null : args[1]);
+                Log.I(clear
+                    ? $"Cleared {nearest.NameFromType()}'s age data"
+                    : $"Set {nearest.NameFromType()}'s age data to {args[1]} days.");
                 break;
             }
             case "bee":
@@ -79,9 +85,8 @@ internal sealed class SetAgeCommand : ConsoleCommand
                 {
                     foreach (var hive in Game1.locations.SelectMany(l =>
                                  l.objects.Values.Where(o => o.Name == "Bee House")))
-                        ModDataIO.WriteTo(hive, "Age", args[1]);
-                    Log.I($"Set all bee house age data to {args[1]} days.");
-
+                        ModDataIO.WriteTo(hive, "Age", clear ? null : args[1]);
+                    Log.I(clear ? "Cleared all bee house age data." : $"Set all bee house age data to {args[1]} days.");
                     break;
                 }
 
@@ -92,8 +97,8 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     return;
                 }
 
-                ModDataIO.WriteTo(nearest, "Age", args[1]);
-                Log.I($"Set Bee House's age data to {args[1]} days.");
+                ModDataIO.WriteTo(nearest, "Age", clear ? null : args[1]);
+                Log.I(clear ? "Cleared Bee House's age data." : $"Set Bee House's age data to {args[1]} days.");
                 break;
             }
             case "mushroom":
@@ -106,9 +111,10 @@ internal sealed class SetAgeCommand : ConsoleCommand
                 {
                     foreach (var box in Game1.locations.SelectMany(l =>
                                  l.objects.Values.Where(o => o.Name == "Mushroom Box")))
-                        ModDataIO.WriteTo(box, "Age", args[1]);
-                    Log.I($"Set all mushroom box age data to {args[1]} days.");
-
+                        ModDataIO.WriteTo(box, "Age", clear ? null : args[1]);
+                    Log.I(clear
+                        ? "Cleared all mushroom box age data."
+                        : $"Set all mushroom box age data to {args[1]} days.");
                     break;
                 }
 
@@ -119,8 +125,8 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     return;
                 }
 
-                ModDataIO.WriteTo(nearest, "Age", args[1]);
-                Log.I($"Set Mushroom Box's age data to {args[1]} days.");
+                ModDataIO.WriteTo(nearest, "Age", clear ? null : args[1]);
+                Log.I(clear ? "Cleared Mushroom Box's age data." : $"Set Mushroom Box's age data to {args[1]} days.");
                 break;
             }
         }

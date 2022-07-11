@@ -4,13 +4,13 @@
 public class ModConfig
 {
     /// <summary>Honey quality should improve as the hive gets older.</summary>
-    public bool AgeBeeHouses { get; set; } = true;
+    public bool AgeImprovesBeeHouses { get; set; } = true;
 
     /// <summary>Mushroom quality should improve as the boxes get older.</summary>
-    public bool AgeMushroomBoxes { get; set; } = true;
+    public bool AgeImprovesMushroomBoxes { get; set; } = true;
 
     /// <summary>Tree sap quality should improve as the tree ages.</summary>
-    public bool AgeSapTrees { get; set; } = true;
+    public bool AgeImprovesTreeSap { get; set; } = true;
 
     /// <summary>Increases or decreases the default age threshold for quality increase for Bee Houses, Trees and Fruit Trees.</summary>
     public float AgeImproveQualityFactor { get; set; } = 1f;

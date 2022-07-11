@@ -253,7 +253,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
         // record last time in combat
         if (who.HasProfession(Profession.Brute))
         {
-            ModEntry.PlayerState.SecondsSinceLastCombat = 0;
+            ModEntry.PlayerState.SecondsOutOfCombat = 0;
 
             if (who.CurrentTool is MeleeWeapon weapon &&
                 ModEntry.PlayerState.RegisteredUltimate is UndyingFrenzy frenzy && monster.Health <= 0)
@@ -277,7 +277,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
             }
         }
 
-        // try to steal
+        // try to steal or assassinate
         if (who.HasProfession(Profession.Poacher))
         {
             if (who.CurrentTool is MeleeWeapon && didCrit)
@@ -311,8 +311,13 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                     ambush1.ChargeValue += critMultiplier;
             }
 
-            if (ModEntry.PlayerState.RegisteredUltimate is Ambush { IsActive: true } ambush2)
-                ambush2.Deactivate();
+            if (ModEntry.PlayerState.RegisteredUltimate is Ambush ambush2)
+            {
+                if (ambush2.IsActive)
+                    ambush2.Deactivate();
+                else if (monster.Health <= 0 && ModEntry.PlayerState.SecondsOutOfAmbush <= 1.5d)
+                    ambush2.Activate();
+            }
         }
 
         if (!monster.IsSlime() || monster.Health > 0 || !who.HasProfession(Profession.Piper)) return;

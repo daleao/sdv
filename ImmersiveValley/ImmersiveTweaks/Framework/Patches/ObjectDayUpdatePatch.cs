@@ -29,14 +29,13 @@ internal sealed class ObjectDayUpdatePatch : Common.Harmony.HarmonyPatch
     [HarmonyPriority(Priority.LowerThanNormal)]
     private static void ObjectDayUpdatePostfix(SObject __instance)
     {
-        if (__instance.IsBeeHouse() && ModEntry.Config.AgeBeeHouses)
+        if (__instance.IsBeeHouse() && ModEntry.Config.AgeImprovesBeeHouses)
         {
             ModDataIO.Increment<int>(__instance, "Age");
         }
-        else if (__instance.IsMushroomBox())
+        else if (__instance.IsMushroomBox() && ModEntry.Config.AgeImprovesMushroomBoxes)
         {
-            if (ModEntry.Config.AgeMushroomBoxes) ModDataIO.Increment<int>(__instance, "Age");
-
+            ModDataIO.Increment<int>(__instance, "Age");
             if (__instance.heldObject.Value is null) return;
 
             __instance.heldObject.Value.Quality = ModEntry.ProfessionsAPI is null

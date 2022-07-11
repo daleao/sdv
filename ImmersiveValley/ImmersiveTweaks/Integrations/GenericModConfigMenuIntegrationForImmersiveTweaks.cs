@@ -39,14 +39,14 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveTweaks
             .AddCheckbox(
                 () => "Age Tapper Trees",
                 () => "Allows regular trees to age and improve their syrup quality every year.",
-                config => config.AgeSapTrees,
-                (config, value) => config.AgeSapTrees = value
+                config => config.AgeImprovesTreeSap,
+                (config, value) => config.AgeImprovesTreeSap = value
             )
             .AddCheckbox(
                 () => "Age Bee Houses",
                 () => "Allows bee houses to age and improve their honey quality every year.",
-                config => config.AgeBeeHouses,
-                (config, value) => config.AgeBeeHouses = value
+                config => config.AgeImprovesBeeHouses,
+                (config, value) => config.AgeImprovesBeeHouses = value
             )
             .
             AddNumberField(

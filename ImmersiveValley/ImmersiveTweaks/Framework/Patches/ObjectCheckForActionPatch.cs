@@ -53,13 +53,14 @@ internal sealed class ObjectCheckForActionPatch : Common.Harmony.HarmonyPatch
     /// <summary>Applies quality to aged bee house.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? ObjectCheckForActionTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: heldObject.Value.Quality = this.GetQualityFromAge();
+        /// Injected: if (ModEntry.Config.AgeImprovesBeeHouses) heldObject.Value.Quality = this.GetQualityFromAge();
         /// After: heldObject.Value.preservedParentSheetIndex.Value = honey_type;
 
+        var resumeExecution = generator.DefineLabel();
         try
         {
             helper
@@ -79,6 +80,14 @@ internal sealed class ObjectCheckForActionPatch : Common.Harmony.HarmonyPatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Call,
                         typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation)))
+                )
+                .AddLabels(resumeExecution)
+                .Insert(
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AgeImprovesBeeHouses))),
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution)
                 )
                 .Insert(got)
                 .Insert(

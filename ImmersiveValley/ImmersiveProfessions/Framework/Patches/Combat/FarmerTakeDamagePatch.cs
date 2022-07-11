@@ -182,7 +182,7 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
                     // record last time in combat
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).RequirePropertySetter(nameof(PlayerState.SecondsSinceLastCombat))),
+                        typeof(PlayerState).RequirePropertySetter(nameof(PlayerState.SecondsOutOfCombat))),
                     // increment rage counter
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.BruteRageCounter))),

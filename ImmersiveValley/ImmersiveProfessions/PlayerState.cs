@@ -31,7 +31,8 @@ internal class PlayerState
     internal int[] AppliedPiperBuffs { get; } = new int[12];
     internal int BruteRageCounter { get; set; }
     internal int BruteKillCounter { get; set; }
-    internal int SecondsSinceLastCombat { get; set; }
+    internal int SecondsOutOfCombat { get; set; }
+    internal double SecondsOutOfAmbush { get; set; }
     internal int DemolitionistExcitedness { get; set; }
     internal int SpelunkerLadderStreak { get; set; }
     internal int SlimeContactTimer { get; set; }
