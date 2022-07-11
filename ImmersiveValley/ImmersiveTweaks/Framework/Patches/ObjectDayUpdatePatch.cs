@@ -40,9 +40,11 @@ internal sealed class ObjectDayUpdatePatch : Common.Harmony.HarmonyPatch
             if (__instance.heldObject.Value is null) return;
 
             __instance.heldObject.Value.Quality = ModEntry.ProfessionsAPI is null
-                ? __instance.GetQualityFromAge()
+                ? Game1.player.professions.Contains(Farmer.botanist)
+                    ? SObject.bestQuality
+                    : __instance.GetQualityFromAge()
                 : Math.Max(ModEntry.ProfessionsAPI.GetEcologistForageQuality(Game1.player),
-                    __instance.heldObject.Value.Quality);
+                    __instance.GetQualityFromAge());
         }
     }
 

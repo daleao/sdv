@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>FlowerMeads</AssemblyName>
-    <RootNamespace>FlowerMeads</RootNamespace>
+    <AssemblyName>BetterMeadIcons</AssemblyName>
+    <RootNamespace>BetterMeadIcons</RootNamespace>
     <Version>1.0.0</Version>
     <TargetFramework>net5.0</TargetFramework>
 	<EnableHarmony>true</EnableHarmony>
-	<BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
   </PropertyGroup>
 
   <PropertyGroup>

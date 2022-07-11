@@ -218,11 +218,12 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) =>
                 {
                     config.LegendaryPondPopulationCap = (uint)value;
-                    Game1.getFarm().buildings.OfType<FishPond>()
+                    if (Context.IsWorldReady)
+                        Game1.getFarm().buildings.OfType<FishPond>()
                         .Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                                     !p.isUnderConstruction()).ForEach(p => p.UpdateMaximumOccupancy());
                 },
-                1,
+                4,
                 12
             )
             .AddNumberField(

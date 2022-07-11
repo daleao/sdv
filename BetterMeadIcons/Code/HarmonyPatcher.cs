@@ -1,10 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using BetterMeadIcons.Content;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -24,8 +21,6 @@ internal static class HarmonyPatcher
 
     private static readonly GetDrawInfoDelegate _GetDrawInfo = "BetterArtisanGoodIcons.ArtisanGoodsManager".ToType()
         .RequireMethod("GetDrawInfo").CreateDelegate<GetDrawInfoDelegate>();
-
-    private static MethodInfo? _GetSampleFromGenericMachine;
 
     internal static void Apply(Harmony harmony)
     {
@@ -79,35 +74,6 @@ internal static class HarmonyPatcher
             original: "BetterArtisanGoodIcons.Content.ContentSourceManager".ToType().RequireMethod("GetTextureProviders"),
             postfix: new(typeof(HarmonyPatcher), nameof(ContentSourceManagerGetTextureProvidersPostfix))
         );
-
-        // vanilla patches for keg behavior
-        harmony.Patch(
-            original: typeof(SObject).RequireMethod(nameof(SObject.performObjectDropInAction)),
-            prefix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectPerformObjectDropInPrefix))),
-            postfix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectPerformObjectDropInPostfix)))
-        );
-
-        harmony.Patch(
-            original: typeof(SObject).RequireMethod("loadDisplayName"),
-            postfix: new(typeof(HarmonyPatcher).RequireMethod(nameof(ObjectLoadDisplayNamePostfix)))
-        );
-
-        // Automate compatibility patch
-        try
-        {
-            harmony.Patch(
-                original: "Pathoschild.Stardew.Automate.Framework.GenericObjectMachine`1".ToType()
-                    .MakeGenericType(typeof(SObject))
-                    .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
-                    .FirstOrDefault(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3),
-                transpiler: new(
-                    typeof(HarmonyPatcher).RequireMethod(nameof(GenericObjectMachineGenericPullRecipeTranspiler)))
-            );
-        }
-        catch
-        {
-            // ignored
-        }
     }
 
     #region harmony patches
@@ -142,13 +108,8 @@ internal static class HarmonyPatcher
         if (__instance.heldObject.Value is not
             { ParentSheetIndex: Globals.MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
 
-        //var parameters = new object?[] { __instance, null, null, null };
-        //var got = _GetDrawInfo.Invoke(null, parameters)!;
         var got = _GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
         if (!got) return true; // run original logic
-
-        //var spritesheet = (Texture2D)parameters[1]!;
-        //var sourceRectangle = (Rectangle)parameters[2]!;
 
         // draw the furniture
         if (x == -1)
@@ -230,13 +191,8 @@ internal static class HarmonyPatcher
         if (!__instance.bigCraftable.Value || !__instance.readyForHarvest.Value || __instance.heldObject.Value is not
             { ParentSheetIndex: Globals.MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
 
-        //var parameters = new object?[] { __instance, null, null, null };
-        //var got = (bool)_GetDrawInfo.Invoke(null, parameters)!;
         var got = _GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
         if (!got) return true; // run original logic
-
-        //var spritesheet = (Texture2D)parameters[1]!;
-        //var position = (Rectangle)parameters[2]!;
 
         var (sx, sy) = __instance.getScale() * Game1.pixelZoom;
 
@@ -316,13 +272,8 @@ internal static class HarmonyPatcher
 
         if (__instance is not { ParentSheetIndex: Globals.MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
 
-        //var parameters = new object?[] { __instance, null, null, null };
-        //var got = (bool)_GetDrawInfo.Invoke(null, parameters)!;
         var got = _GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
         if (!got) return true; // run original logic
-
-        //var spritesheet = (Texture2D)parameters[1]!;
-        //var sourceRectangle = (Rectangle)parameters[2]!;
 
         if (__instance.Fragility != 2)
         {
@@ -370,13 +321,8 @@ internal static class HarmonyPatcher
     {
         if (__instance is not { ParentSheetIndex: Globals.MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
 
-        //var parameters = new object?[] { __instance, null, null, null };
-        //var got = (bool)_GetDrawInfo.Invoke(null, parameters)!;
         var got = _GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
         if (!got) return true; // run original logic
-
-        //var spritesheet = (Texture2D)parameters[1]!;
-        //var sourceRectangle = (Rectangle)parameters[2]!;
 
         if (drawShadow)
         {
@@ -459,13 +405,8 @@ internal static class HarmonyPatcher
     {
         if (__instance is not { ParentSheetIndex: Globals.MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
 
-        //var parameters = new object?[] { __instance, null, null, null };
-        //var got = (bool)_GetDrawInfo.Invoke(null, parameters)!;
         var got = _GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
         if (!got) return true; // run original logic
-
-        //var spritesheet = (Texture2D)parameters[1]!;
-        //var sourceRectangle = (Rectangle)parameters[2]!;
 
         spriteBatch.Draw(
             texture: spritesheet,
@@ -501,79 +442,5 @@ internal static class HarmonyPatcher
         return false; // don't run original logic
     }
 
-    /// <summary>Remember state before action.</summary>
-    // ReSharper disable once RedundantAssignment
-    private static void ObjectPerformObjectDropInPrefix(SObject __instance, ref bool __state)
-    {
-        __state = __instance.heldObject.Value !=
-                  null; // remember whether this machine was already holding an object
-    }
-
-    /// <summary>Tweaks golden and ostrich egg artisan products + gives flower memory to kegs.</summary>
-    private static void ObjectPerformObjectDropInPostfix(SObject __instance, bool __state, Item dropInItem,
-        bool probe)
-    {
-        // if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
-        if (probe || __state || __instance.name != "Keg" || __instance.heldObject.Value is null ||
-            dropInItem is not SObject {ParentSheetIndex: 340, preservedParentSheetIndex.Value: > 0} honey) return;
-
-        __instance.heldObject.Value.name = honey.name.Split(" Honey")[0] + " Mead";
-        __instance.heldObject.Value.honeyType.Value = (SObject.HoneyType) honey.preservedParentSheetIndex.Value;
-        __instance.heldObject.Value.preservedParentSheetIndex.Value =
-            honey.preservedParentSheetIndex.Value;
-        __instance.heldObject.Value.Price = honey.Price * 2;
-    }
-
-    /// <summary>Add flower name to mead display name.</summary>
-    private static void ObjectLoadDisplayNamePostfix(SObject __instance, ref string __result)
-    {
-        if (!__instance.name.Contains("Mead") || __instance.preservedParentSheetIndex.Value <= 0) return;
-
-        var prefix = Game1.objectInformation[__instance.preservedParentSheetIndex.Value].Split('/')[4];
-        __result = prefix + ' ' + __result;
-    }
-
-    /// <summary>Replaces large egg output quality with quantity + add flower memory to automated kegs.</summary>
-    private static IEnumerable<CodeInstruction> GenericObjectMachineGenericPullRecipeTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
-    {
-        var l = instructions.ToList();
-        var i = 0;
-        while (l[++i].opcode != OpCodes.Call) { }
-
-        var got = new[] {l[i - 1], l[i]};
-        while (l[++i].opcode != OpCodes.Ret) { }
-
-        l.InsertRange(i - 1, got);
-        l.InsertRange(i + 1, new[]
-        {
-            new CodeInstruction(OpCodes.Ldloc_0),
-            new CodeInstruction(OpCodes.Call, typeof(HarmonyPatcher).RequireMethod(nameof(GenericPullRecipeSubroutine)))
-        });
-       
-        return l.AsEnumerable();
-    }
-
     #endregion harmony patches
-
-    #region injected subroutines
-
-    private static void GenericPullRecipeSubroutine(SObject machine, object consumable)
-    {
-        if (machine.name != "Keg") return;
-
-        _GetSampleFromGenericMachine ??= consumable.GetType().RequirePropertyGetter("Sample");
-        if (_GetSampleFromGenericMachine.Invoke(consumable, null) is not SObject
-            {
-                ParentSheetIndex: 340, preservedParentSheetIndex.Value: > 0
-            } input) return;
-
-        var output = machine.heldObject.Value;
-        output.name = input.name.Split(" Honey")[0] + " Mead";
-        output.honeyType.Value = (SObject.HoneyType)input.preservedParentSheetIndex.Value;
-        output.preservedParentSheetIndex.Value = input.preservedParentSheetIndex.Value;
-        output.Price = input.Price * 2;
-    }
-
-    #endregion injected subroutines
 }

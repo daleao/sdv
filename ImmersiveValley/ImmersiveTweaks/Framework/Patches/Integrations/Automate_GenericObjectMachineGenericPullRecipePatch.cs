@@ -42,6 +42,7 @@ internal sealed class GenericObjectMachineGenericPullRecipePatch : Common.Harmon
     #region harmony patches
 
     /// <summary>Replaces large egg output quality with quantity + add flower memory to automated kegs.</summary>
+    [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? GenericObjectMachineGenericPullRecipeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

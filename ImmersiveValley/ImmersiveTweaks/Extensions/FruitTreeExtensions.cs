@@ -16,10 +16,10 @@ public static class FruitTreeExtensions
     public static int GetQualityFromAge(this FruitTree tree)
     {
         var skillFactor = 1f + Game1.player.FarmingLevel * 0.1f;
+        if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.lumberjack)) ++skillFactor;
+
         var age = tree.daysUntilMature.Value < 0 ? tree.daysUntilMature.Value * -1 : 0;
         age = (int)(age * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
-        if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.lumberjack)) age *= 2;
-
         if (ModEntry.Config.DeterministicAgeQuality)
         {
             return age switch

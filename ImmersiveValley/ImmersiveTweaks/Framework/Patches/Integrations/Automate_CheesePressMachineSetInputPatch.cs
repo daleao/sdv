@@ -39,6 +39,7 @@ internal sealed class CheesePressMachineSetInputPatch : Common.Harmony.HarmonyPa
     #region harmony patches
 
     /// <summary>Replaces large milk output quality with quantity.</summary>
+    [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? CheesePressMachineSetInputTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

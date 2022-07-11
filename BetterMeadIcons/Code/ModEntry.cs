@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using HarmonyLib;
 using StardewModdingAPI;
 
 namespace BetterMeadIcons;
@@ -7,8 +6,6 @@ namespace BetterMeadIcons;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    private readonly Harmony _Harmony;
-
     /// <summary>Construct an instance.</summary>
     public ModEntry()
     {
@@ -19,8 +16,7 @@ public class ModEntry : Mod
             artisanGoodToSourceTypeDict.Add(Globals.MeadAsArtisanGoodEnum, "Flowers");
 
             // patches must be applied in the constructor in order to take effect before BAGI loads its content packs
-            _Harmony = new("DaLion.Meads");
-            HarmonyPatcher.Apply(_Harmony);
+            HarmonyPatcher.Apply(new("DaLion.Meads"));
         }
         catch
         {

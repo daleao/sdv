@@ -24,8 +24,7 @@ public static class SObjectExtensions
     {
         var skillFactor = 1f + Game1.player.FarmingLevel * 0.1f;
         var age = (int)(ModDataIO.ReadFrom<int>(@object, "Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
-        if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.shepherd)) age *= 2;
-
+        
         if (ModEntry.Config.DeterministicAgeQuality)
         {
             return age switch
@@ -37,7 +36,7 @@ public static class SObjectExtensions
             };
         }
 
-        return age switch
+        return Game1.random.Next(age) switch
         {
             >= 336 => SObject.bestQuality,
             >= 224 => SObject.highQuality,

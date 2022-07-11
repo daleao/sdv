@@ -1,7 +1,7 @@
 {
     "Name": "Legendary Fish Pond Data",
     "Author": "DaLion",
-    "Version": "1.0.0",
+    "Version": "1.0.1",
     "Description": "Adds Fish Pond data for legendary fish.",
     "UniqueID": "DaLion.LegendaryFishPondData",
     "UpdateKeys": ["Nexus:8111Pond"],

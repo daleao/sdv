@@ -1,7 +1,7 @@
 <table align="center"><tr><td align="center" width="9999">
 
 <!-- LOGO, TITLE, DESCRIPTION -->
-![](https://gitlab.com/theLion/smapi-mods/-/raw/main/ImmersiveProfessions/title_2.png)
+![](title_2.png)
 # A Professions Overhaul
 ![](https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png)
@@ -264,9 +264,15 @@ While the vast majority of professions bonuses are non-configurable, some of the
 - `PrestigeProgressionStyle` _(string)_ - Either "StackedStars", "Gen3Ribbons" or "Gen4Ribbons". Determines the way your Prestige progression is displayed in the Skills page.
 
 ### Profession Configs
+
+- `CustomArtisanMachines` _(string list)_ - List of mod-added Artisan machines, for compatibility with the Artisan profession.
+- `ShouldJunimosInheritProfessions` _(bool)_ - Whether professions bonuses (namely Harvester) should apply to Junimo harvesters.
 - `ForagesNeededForBestQuality` _(uint)_ - Determines the number of items foraged from the ground, bushes or mushroom boxes, required to reach permanent iridium-quality forage as an Ecologist. Default is 500.
 - `MineralsNeededForBestQuality` _(uint)_ - As above. Determines the number of minerals (gems or foraged minerals) mined or collected from geode crushers or crystalariums, required to reach permanent iridium-quality minerals as a Gemologist. Default is 500.
-- `ShouldCountAutomatedHarvests` (bool) - Whether Automated machines should count toward Ecologist and Gemologist goals.
+- `ShouldCountAutomatedHarvests` _(bool)_ - Whether Automated machines should count toward Ecologist and Gemologist goals.
+- `TrackPointerScale` _(float)_ - Changes the size of the pointer used to track objects by Prospector and Scavenger professions.
+- `TrackPointerBobbingRate` _(float)_ - Changes the speed at which the tracking pointer bounces up and down (higher is faster).
+- `DisableAlwaysTrack` _(bool)_ - If enabled, Prospector and Scavenger will only track off-screen object while ModKey is held.
 - `ChanceToStartTreasureHunt` _(float)_ - The percent chance of triggering a treasure hunt when entering a new map as Prospector or Scavenger. Note that this only affects that chance the game will try to start a treasure hunt, and the actual chance is slightly lower as the game might fail to choose a valid treasure tile. Increase this value if you don't see enough treasure hunts, or decrease it if you find treasure hunts cumbersome and don't want to lose your streak. Default is 0.2 (20%).
 - `AllowScavengerHuntsOnFarm` _(bool)_ - Whether a Scavenger Hunt can trigger while entering a farm map.
 - `ScavengerHuntHandicap` _(float)_ - This number multiplies the Scavener Hunt time limit. Increase this number if you find that Scavenger hunts end too quickly.

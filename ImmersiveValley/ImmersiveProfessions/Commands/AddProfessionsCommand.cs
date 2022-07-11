@@ -111,7 +111,7 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Trigger} [--prestige] <profession1> <profession2> ... <professionN>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Trigger} [--prestige / -p] <profession1> <profession2> ... <professionN>";
         result += "\n\nParameters:";
         result += "\n\t- <profession>\t- a valid profession name, or `all`";
         result += "\n\nOptional flags:";

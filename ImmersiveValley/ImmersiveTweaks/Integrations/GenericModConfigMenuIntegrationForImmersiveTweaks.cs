@@ -102,6 +102,12 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveTweaks
                 (config, value) => config.ProfessionalForagingInGingerIsland = value
             )
             .AddCheckbox(
+                () => "Kegs Remember Honey Flower",
+                () => "Allows Kegs to produce Flower Meads.",
+                config => config.KegsRememberHoneyFlower,
+                (config, value) => config.KegsRememberHoneyFlower = value
+            )
+            .AddCheckbox(
                 () => "Explosion Triggered Bombs",
                 () => "Bombs within any explosion radius are immediately triggered.",
                 config => config.ExplosionTriggeredBombs,
