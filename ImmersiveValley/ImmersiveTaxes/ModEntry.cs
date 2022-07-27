@@ -3,10 +3,10 @@
 #region using directives
 
 using Common;
-using Common.Data;
 using Common.Events;
 using Common.Harmony;
-using Common.Integrations;
+using Common.Integrations.WalkOfLife;
+using Common.ModData;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
@@ -18,7 +18,6 @@ using static System.FormattableString;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-    internal static PerScreen<int> LatestAmountDue { get; } = new(() => 0);
 
     internal static ModEntry Instance { get; private set; } = null!;
     internal static ModConfig Config { get; set; } = null!;
@@ -27,6 +26,7 @@ public class ModEntry : Mod
     internal static IManifest Manifest => Instance.ModManifest;
     internal static ITranslationHelper i18n => ModHelper.Translation;
 
+    internal static PerScreen<int> LatestAmountDue { get; } = new(() => 0);
     internal static IImmersiveProfessionsAPI? ProfessionsAPI { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
@@ -44,11 +44,11 @@ public class ModEntry : Mod
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
-        // hook events
-        new EventManager(helper.Events).HookAll();
+        // enable events
+        new EventManager(helper.Events).EnableAll();
 
         // apply patches
-        new Harmonizer(ModManifest.UniqueID).ApplyAll();
+        new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
 
         // register commands
         helper.ConsoleCommands.Add(
@@ -68,10 +68,10 @@ public class ModEntry : Mod
         }
 
         var forClosingSeason = Game1.dayOfMonth == 1;
-        var income = ModDataIO.ReadFrom<int>(Game1.player, "SeasonIncome");
+        var income = ModDataIO.Read<int>(Game1.player, "SeasonIncome");
         var deductible = ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.mariner)
             ? forClosingSeason
-                ? ModDataIO.ReadFrom<float>(Game1.player, "DeductionPct")
+                ? ModDataIO.Read<float>(Game1.player, "DeductionPct")
                 : ProfessionsAPI.GetConservationistProjectedTaxBonus(Game1.player)
             : 0f;
         var taxable = (int)(income * (1f - deductible));

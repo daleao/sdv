@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IDisplayEvents.RenderedActiveMenu"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IDisplayEvents.RenderedActiveMenu"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class RenderedActiveMenuEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class RenderedActiveMenuEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnRenderedActiveMenu(object? sender, RenderedActiveMenuEventArgs e)
     {
-        if (IsHooked) OnRenderedActiveMenuImpl(sender, e);
+        if (IsEnabled) OnRenderedActiveMenuImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnRenderedActiveMenu" />

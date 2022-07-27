@@ -21,7 +21,7 @@ internal sealed class BuildingDayUpdatePatch : Common.Harmony.HarmonyPatch
     #region harmony patches
 
 #if DEBUG
-    /// <summary>Stub for base FishPond.dayUpdate</summary>
+    /// <summary>Stub for base <see cref="FishPond.dayUpdate">.</summary>
     /// <remarks>Required by DayUpdate prefix.</remarks>
     [HarmonyReversePatch]
     internal static void BuildingDayUpdateReverse(object instance, int dayOfMonth)

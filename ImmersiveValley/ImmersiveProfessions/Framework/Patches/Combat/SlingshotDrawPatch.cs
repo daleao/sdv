@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Tools;
 using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -30,8 +31,7 @@ internal sealed class SlingshotDrawPatch : DaLion.Common.Harmony.HarmonyPatch
 
         var lastUser = __instance.getLastFarmerToUse();
         if (!lastUser.usingSlingshot || !lastUser.IsLocalPlayer || !lastUser.HasProfession(Profession.Desperado) ||
-            ModEntry.PlayerState.RegisteredUltimate is DeathBlossom { IsActive: true })
-            return;
+            lastUser.get_Ultimate() is DeathBlossom { IsActive: true }) return;
 
         var overcharge = __instance.GetDesperadoOvercharge(Game1.player);
         if (overcharge <= 0f) return;

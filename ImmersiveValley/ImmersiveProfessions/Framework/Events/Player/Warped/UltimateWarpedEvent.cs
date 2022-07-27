@@ -7,10 +7,12 @@ using Display;
 using Extensions;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
+using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, UltimateEvent]
 internal sealed class UltimateWarpedEvent : WarpedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -25,12 +27,12 @@ internal sealed class UltimateWarpedEvent : WarpedEvent
 
         if (e.NewLocation.IsDungeon())
         {
-            Manager.Hook<UltimateMeterRenderingHudEvent>();
+            Manager.Enable<UltimateMeterRenderingHudEvent>();
         }
         else
         {
-            ModEntry.PlayerState.RegisteredUltimate!.ChargeValue = 0.0;
-            Manager.Unhook<UltimateMeterRenderingHudEvent>();
+            e.Player.get_Ultimate()!.ChargeValue = 0.0;
+            Manager.Disable<UltimateMeterRenderingHudEvent>();
         }
     }
 }

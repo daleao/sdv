@@ -2,13 +2,17 @@
 
 #region using directives
 
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IMultiplayerEvents.PeerContextReceived"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IMultiplayerEvents.PeerContextReceived"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class PeerContextReceivedEvent : ManagedEvent
 {
+    /// <inheritdoc />
+    public override bool IsEnabled => Context.IsMultiplayer;
+
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected PeerContextReceivedEvent(EventManager manager)
@@ -19,7 +23,7 @@ internal abstract class PeerContextReceivedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnPeerContextReceived(object? sender, PeerContextReceivedEventArgs e)
     {
-        if (IsHooked) OnPeerContextReceivedImpl(sender, e);
+        if (IsEnabled) OnPeerContextReceivedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnPeerContextReceived" />

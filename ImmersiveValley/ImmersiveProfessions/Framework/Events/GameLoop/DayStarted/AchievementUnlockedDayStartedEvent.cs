@@ -28,6 +28,6 @@ internal sealed class AchievementUnlockedDayStartedEvent : DayStartedEvent
         Game1.playSound("achievement");
         Game1.addHUDMessage(new(name, true));
 
-        Unhook();
+        Disable();
     }
 }

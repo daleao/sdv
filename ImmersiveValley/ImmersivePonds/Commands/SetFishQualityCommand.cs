@@ -4,8 +4,8 @@
 
 using Common;
 using Common.Commands;
-using Common.Data;
 using Common.Extensions;
+using Common.ModData;
 using Extensions;
 using JetBrains.Annotations;
 using StardewModdingAPI;
@@ -25,7 +25,7 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "set_quality";
+    public override string[] Triggers { get; } = { "set_quality", "set", "quality" };
 
     /// <inheritdoc />
     public override string Documentation => "Set the quality of all fish in the nearest pond.";
@@ -78,23 +78,23 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
             "best" or "iridium" => SObject.bestQuality
         };
 
-        var familyCount = ModDataIO.ReadFrom<int>(nearest, "FamilyLivingHere");
+        var familyCount = ModDataIO.Read<int>(nearest, "FamilyLivingHere");
         var familyQualities = new int[4];
         if (familyCount > nearest.FishCount)
         {
             Log.W("FamilyLivingHere data is invalid. The data will be reset.");
             familyCount = 0;
-            ModDataIO.WriteTo(nearest, "FamilyLivingHere", null);
+            ModDataIO.Write(nearest, "FamilyLivingHere", null);
         }
 
         if (familyCount > 0)
         {
             familyQualities[newQuality == 4 ? 3 : newQuality] += familyCount;
-            ModDataIO.WriteTo(nearest, "FamilyQualities", string.Join(',', familyQualities));
+            ModDataIO.Write(nearest, "FamilyQualities", string.Join(',', familyQualities));
         }
 
         var fishQualities = new int[4];
         fishQualities[newQuality == 4 ? 3 : newQuality] += nearest.FishCount - familyCount;
-        ModDataIO.WriteTo(nearest, "FishQualities", string.Join(',', fishQualities));
+        ModDataIO.Write(nearest, "FishQualities", string.Join(',', fishQualities));
     }
 }

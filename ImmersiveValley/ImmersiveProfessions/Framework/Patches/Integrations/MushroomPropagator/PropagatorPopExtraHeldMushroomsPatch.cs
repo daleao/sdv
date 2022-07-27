@@ -3,8 +3,9 @@
 #region using directives
 
 using DaLion.Common;
-using DaLion.Common.Data;
+using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
 using DaLion.Common.Harmony;
 using Extensions;
 using HarmonyLib;
@@ -18,7 +19,7 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("blueberry.MushroomPropagator")]
 internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private static Func<SObject, int>? _GetSourceMushroomQuality;
@@ -26,38 +27,56 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
     /// <summary>Construct an instance.</summary>
     internal PropagatorPopExtraHeldMushroomsPatch()
     {
-        try
-        {
-            Target = "BlueberryMushroomMachine.Propagator".ToType().RequireMethod("PopExtraHeldMushrooms");
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = "BlueberryMushroomMachine.Propagator".ToType().RequireMethod("PopExtraHeldMushrooms");
     }
 
     #region harmony patches
 
-    /// <summary>Patch for Propagator forage increment.</summary>
-    [HarmonyPostfix]
-    private static void PropagatorPopExtraHeldMushroomsPostfix(SObject __instance)
-    {
-        var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
-        if (!owner.IsLocalPlayer || !owner.HasProfession(Profession.Ecologist)) return;
-
-        ModDataIO.Increment<uint>(Game1.player, "EcologistItemsForaged");
-    }
-
-    /// <summary>Patch for Propagator output quality.</summary>
+    /// <summary>Patch for Propagator output quantity (Harvester) and quality (Ecologist).</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? PropagatorPopExtraHeldMushroomsTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
+
+        /// From: ceq 0
+        /// To: Game1.player.professions.Contains(<forager_id>) ? !cgt 0 : clt 0
+
+        var isNotPrestiged = generator.DefineLabel();
+        var resumeExecution = generator.DefineLabel();
+        try
+        {
+            helper
+                .FindProfessionCheck(Profession.Forager.Value) // find index of forager check
+                .AdvanceUntil(
+                    new CodeInstruction(OpCodes.Ldc_I4_0)
+                )
+                .SetOpCode(OpCodes.Ldc_I4_1)
+                .Advance()
+                .InsertProfessionCheck(Profession.Forager.Value + 100)
+                .Insert(
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                    new CodeInstruction(OpCodes.Cgt_Un),
+                    new CodeInstruction(OpCodes.Not),
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
+                )
+                .InsertWithLabels(
+                    new[] { isNotPrestiged },
+                    new CodeInstruction(OpCodes.Clt_Un)
+                )
+                .Remove()
+                .AddLabels(resumeExecution);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed while patching Blueberry's Mushroom Propagator output quantity.\nHelper returned {ex}");
+            return null;
+        }
 
         /// From: int popQuality = Game1.player.professions.Contains(<ecologist_id>) ? 4 : SourceMushroomQuality);
         /// To: int popQuality = PopExtraHeldMushroomsSubroutine(this);
 
+        var owner = generator.DeclareLocal(typeof(Farmer));
         try
         {
             helper
@@ -75,6 +94,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
                             nameof(PopExtraHeldMushroomsSubroutine)))
                 )
                 .RemoveLabels();
+
         }
         catch (Exception ex)
         {
@@ -91,15 +111,15 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
 
     private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
     {
-        var owner = Game1.getFarmerMaybeOffline(propagator.owner.Value) ?? Game1.MasterPlayer;
-        if (owner.IsLocalPlayer && owner.HasProfession(Profession.Ecologist)) return owner.GetEcologistForageQuality();
-
+        var who = ModEntry.Config.LaxOwnershipRequirements ? Game1.player : propagator.GetOwner();
         _GetSourceMushroomQuality ??= "BlueberryMushroomMachine.Propagator".ToType()
             .RequireField("SourceMushroomQuality")
-            .CompileUnboundFieldGetterDelegate<Func<SObject, int>>();
-        var sourceMushroomQuality = _GetSourceMushroomQuality(propagator);
-        return sourceMushroomQuality;
+            .CompileUnboundFieldGetterDelegate<SObject, int>();
+        return who.HasProfession(Profession.Ecologist)
+            ? who.GetEcologistForageQuality()
+            : _GetSourceMushroomQuality(propagator);
     }
 
     #endregion injected subroutines
+
 }

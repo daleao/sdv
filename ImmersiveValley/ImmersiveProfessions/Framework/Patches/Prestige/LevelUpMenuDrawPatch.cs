@@ -121,7 +121,7 @@ internal sealed class LevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
         if (!ModEntry.Config.EnablePrestige || !menu.isProfessionChooser || currentLevel > 10) return;
 
         _GetProfessionsToChoose ??= typeof(LevelUpMenu).RequireField("professionsToChoose")
-            .CompileUnboundFieldGetterDelegate<Func<LevelUpMenu, List<int>>>();
+            .CompileUnboundFieldGetterDelegate<LevelUpMenu, List<int>>();
         var professionsToChoose = _GetProfessionsToChoose(menu);
         if (!Profession.TryFromValue(professionsToChoose[0], out var leftProfession) ||
             !Profession.TryFromValue(professionsToChoose[1], out var rightProfession)) return;

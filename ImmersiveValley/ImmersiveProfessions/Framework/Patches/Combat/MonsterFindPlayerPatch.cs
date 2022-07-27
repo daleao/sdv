@@ -1,9 +1,11 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿using DaLion.Stardew.Professions.Framework.VirtualProperties;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
 using DaLion.Common;
-using DaLion.Common.Data;
+using DaLion.Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -37,37 +39,35 @@ internal sealed class MonsterFindPlayerPatch : DaLion.Common.Harmony.HarmonyPatc
         {
             var location = Game1.currentLocation;
             Farmer? target = null;
-            if (__instance is GreenSlime slime && ModDataIO.ReadFrom<bool>(slime, "Piped"))
+            if (__instance is GreenSlime slime && slime.get_Piper() is not null)
             {
-                var aggroee = slime.GetClosestCharacter(out _,
-                    location.characters.OfType<Monster>().Where(m => !m.IsSlime()));
+                var aggroee = slime.GetClosestNPC(location.characters.OfType<Monster>().Where(m => !m.IsSlime()));
                 if (aggroee is not null)
                 {
-                    var fakeFarmerId = slime.GetHashCode();
-                    if (ModEntry.HostState.FakeFarmers.TryGetValue(fakeFarmerId, out var fakeFarmer))
+                    var fakeFarmer = slime.get_FakeFarmer();
+                    if (fakeFarmer is not null)
                     {
                         fakeFarmer.Position = aggroee.Position;
                         target = fakeFarmer;
-                        ModDataIO.WriteTo(slime, "Aggroee", aggroee.GetHashCode().ToString());
                     }
                 }
             }
-            else if (ModDataIO.ReadFrom<bool>(__instance, "Aggroed"))
+            else
             {
-                var fakeFarmerId = __instance.GetHashCode();
-                if (ModEntry.HostState.FakeFarmers.TryGetValue(fakeFarmerId, out var fakeFarmer) &&
-                    location.TryGetCharacterByHash<GreenSlime>(ModDataIO.ReadFrom<int>(__instance, "Aggroer"),
-                        out var aggroer))
+                var taunter = __instance.get_Taunter();
+                if (taunter is not null)
                 {
-                    fakeFarmer.Position = aggroer.Position;
-                    target = fakeFarmer;
+                    var fakeFarmer = __instance.get_FakeFarmer();
+                    if (fakeFarmer is not null)
+                    {
+                        fakeFarmer.Position = taunter.Position;
+                        target = fakeFarmer;
+                    }
                 }
             }
 
             __result = target ?? (Context.IsMultiplayer
-                ? __instance.GetClosestFarmer(out _,
-                    predicate: f => !ModEntry.HostState.FakeFarmers.ContainsKey(f.UniqueMultiplayerID) &&
-                                    !ModEntry.HostState.PoachersInAmbush.Contains(f.UniqueMultiplayerID))
+                ? __instance.GetClosestFarmer(predicate: f => !f.get_IsFake().Value && !f.IsInAmbush())
                 : Game1.player);
             return false; // don't run original logic
         }

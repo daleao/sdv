@@ -4,10 +4,10 @@
 
 using Common;
 using Common.Commands;
-using Common.Data;
 using Extensions;
 using Framework;
 using Framework.Ultimates;
+using Framework.VirtualProperties;
 using JetBrains.Annotations;
 using StardewValley;
 using System;
@@ -24,7 +24,7 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "set_ult";
+    public override string[] Triggers { get; } = { "set_ult" };
 
     /// <inheritdoc />
     public override string Documentation => "Change the player's currently registered Special Ability.";
@@ -60,16 +60,6 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
             return;
         }
 
-#pragma warning disable CS8509
-        ModEntry.PlayerState.RegisteredUltimate = value switch
-#pragma warning restore CS8509
-        {
-            UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
-            UltimateIndex.PoacherAmbush => new Ambush(),
-            UltimateIndex.PiperPandemic => new Pandemic(),
-            UltimateIndex.DesperadoBlossom => new DeathBlossom()
-        };
-
-        ModDataIO.WriteTo(Game1.player, "UltimateIndex", index.ToString());
+        Game1.player.set_Ultimate(Ultimate.FromIndex(value));
     }
 }

@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Data;
+using Common.ModData;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -26,7 +26,7 @@ internal sealed class ObjectPerformDropDownActionPatch : Common.Harmony.HarmonyP
     private static void ObjectPerformDropDownActionPostfix(SObject __instance)
     {
         if (__instance.IsBeeHouse() || __instance.IsMushroomBox())
-            ModDataIO.WriteTo(__instance, "Age", null);
+            ModDataIO.Write(__instance, "Age", null);
     }
 
     #endregion harmony patches

@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Common;
-using DaLion.Common.Data;
 using DaLion.Common.Harmony;
 using Events.GameLoop;
 using HarmonyLib;
@@ -18,6 +17,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -39,12 +39,6 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
         if (!Profession.TryFromValue(whichProfession, out var profession) ||
             whichProfession == Farmer.luckSkill) return;
 
-        if ((Skill)profession.Skill == Farmer.combatSkill)
-        {
-            Game1.player.maxHealth += 5;
-            Game1.player.health = Game1.player.maxHealth;
-        }
-
         // add immediate perks
         if (profession == Profession.Aquarist)
             foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
@@ -53,7 +47,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
                 pond.UpdateMaximumOccupancy();
 
         // subscribe events
-        ModEntry.EventManager.HookForProfession(profession);
+        ModEntry.EventManager.EnableForProfession(profession);
         if (!Context.IsMainPlayer)
         {
             // request the main player
@@ -64,24 +58,14 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
         }
         else if (profession == Profession.Conservationist)
         {
-            ModEntry.EventManager.Hook<HostConservationismDayEndingEvent>();
+            ModEntry.EventManager.Enable<ConservationismDayEndingEvent>();
         }
 
-        if (whichProfession is < 26 or >= 30 || ModEntry.PlayerState.RegisteredUltimate is not null) return;
+        if (whichProfession is < 26 or >= 30 || Game1.player.get_Ultimate() is not null) return;
 
         // register Ultimate
         var newIndex = (UltimateIndex)whichProfession;
-        ModEntry.PlayerState.RegisteredUltimate =
-#pragma warning disable CS8509
-            ModEntry.PlayerState.RegisteredUltimate = newIndex switch
-#pragma warning restore CS8509
-            {
-                UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
-                UltimateIndex.PoacherAmbush => new Ambush(),
-                UltimateIndex.PiperPandemic => new Pandemic(),
-                UltimateIndex.DesperadoBlossom => new DeathBlossom()
-            };
-        ModDataIO.WriteTo(Game1.player, "UltimateIndex", newIndex.ToString());
+        Game1.player.set_Ultimate(Ultimate.FromIndex(newIndex));
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>

@@ -23,7 +23,7 @@ public static class MineShaftExtensions
     public static bool IsTreasureOrSafeRoom(this MineShaft shaft)
     {
         _GetNetIsTreasureRoom ??= typeof(MineShaft).RequireField("netIsTreasureRoom")
-            .CompileUnboundFieldGetterDelegate<Func<MineShaft, NetBool>>();
+            .CompileUnboundFieldGetterDelegate<MineShaft, NetBool>();
         return shaft.mineLevel <= 120 && shaft.mineLevel % 10 == 0 ||
                shaft.mineLevel == 220 && Game1.player.secretNotesSeen.Contains(10) &&
                !Game1.player.mailReceived.Contains("qiCave") || _GetNetIsTreasureRoom(shaft).Value;

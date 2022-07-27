@@ -2,8 +2,8 @@
 
 #region using directives
 
-using Common.Data;
 using Common.Events;
+using Common.ModData;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -30,8 +30,8 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
             var data = asset.AsDictionary<string, string>().Data;
 
             var due = ModEntry.LatestAmountDue.Value.ToString();
-            var deductible = ModDataIO.ReadFrom<float>(Game1.player, "DeductionPct");
-            var outstanding = ModDataIO.ReadFrom<int>(Game1.player, "DebtOutstanding").ToString();
+            var deductible = ModDataIO.Read<float>(Game1.player, "DeductionPct");
+            var outstanding = ModDataIO.Read<int>(Game1.player, "DebtOutstanding").ToString();
             var honorific = ModEntry.i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
             var farm = Game1.getFarm().Name;
             var interest = CurrentCulture($"{ModEntry.Config.AnnualInterest:p0}");

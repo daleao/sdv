@@ -23,14 +23,14 @@ using Ultimates;
 
 #endregion using directives
 
-/// <summary>Manages dynamic hooking and unhooking of profession events.</summary>
+/// <summary>Manages dynamic enabling and disabling of profession events.</summary>
 internal class ProfessionEventManager : EventManager
 {
     /// <summary>Look-up of event types required by each profession.</summary>
     private readonly Dictionary<Profession, List<Type>> EventsByProfession = new()
     {
         { Profession.Brute, new() { typeof(BruteWarpedEvent) } },
-        { Profession.Conservationist, new() { typeof(HostConservationismDayEndingEvent) } },
+        { Profession.Conservationist, new() { typeof(ConservationismDayEndingEvent) } },
         { Profession.Desperado, new() { typeof(DesperadoUpdateTickedEvent) } },
         { Profession.Piper, new() { typeof(PiperWarpedEvent) } },
         { Profession.Prospector, new() { typeof(ProspectorHuntDayStartedEvent), typeof(ProspectorRenderedHudEvent), typeof(ProspectorWarpedEvent), typeof(TrackerButtonsChangedEvent) } },
@@ -77,14 +77,14 @@ internal class ProfessionEventManager : EventManager
     }
 
     /// <inheritdoc />
-    internal override void HookForLocalPlayer()
+    internal override void EnableForLocalPlayer()
     {
-        Log.D($"[EventManager]: Hooking profession events for {Game1.player.Name}...");
+        Log.D($"[EventManager]: Enabling profession events for {Game1.player.Name}...");
         foreach (var pid in Game1.player.professions)
             try
             {
                 if (Profession.TryFromValue(pid, out var profession))
-                    HookForProfession(profession);
+                    EnableForProfession(profession);
             }
             catch (IndexOutOfRangeException)
             {
@@ -93,32 +93,32 @@ internal class ProfessionEventManager : EventManager
 
         if (Context.IsMultiplayer)
         {
-            Log.D("[EventManager]: Hooking multiplayer events...");
-            Hook<ToggledUltimateModMessageReceivedEvent>();
+            Log.D("[EventManager]: Enabling multiplayer events...");
+            Enable<UltimateToggledModMessageReceivedEvent>();
             if (Context.IsMainPlayer)
             {
-                Hook<HostPeerConnectedEvent>();
-                Hook<HostPeerDisconnectedEvent>();
+                Enable<HostPeerConnectedEvent>();
+                Enable<HostPeerDisconnectedEvent>();
             }
         }
 
-        Log.D($"[EventManager]: Done hooking event for {Game1.player.Name}.");
+        Log.D($"[EventManager]: Done enabling event for {Game1.player.Name}.");
     }
 
-    /// <summary>Hook all events required by the specified profession.</summary>
+    /// <summary>Enable all events required by the specified profession.</summary>
     /// <param name="profession">A profession.</param>
-    internal void HookForProfession(Profession profession)
+    internal void EnableForProfession(Profession profession)
     {
         if (profession == Profession.Conservationist && !Context.IsMainPlayer ||
             !EventsByProfession.TryGetValue(profession, out var events)) return;
 
-        Log.D($"[EventManager]: Hooking events for {profession}...");
-        Hook(events.ToArray());
+        Log.D($"[EventManager]: Enabling events for {profession}...");
+        Enable(events.ToArray());
     }
 
-    /// <summary>Unhook all events related to the specified profession.</summary>
+    /// <summary>Disable all events related to the specified profession.</summary>
     /// <param name="profession">A profession.</param>
-    internal void UnhookForProfession(Profession profession)
+    internal void DisableForProfession(Profession profession)
     {
         if (profession == Profession.Conservationist && Game1.game1.DoesAnyPlayerHaveProfession(Profession.Conservationist, out _)
             || !EventsByProfession.TryGetValue(profession, out var events)) return;
@@ -130,7 +130,7 @@ internal class ProfessionEventManager : EventManager
             profession == Profession.Scavenger && Game1.player.HasProfession(Profession.Prospector))
             except.Add(typeof(TrackerButtonsChangedEvent));
 
-        Log.D($"[EventManager]: Unhooking {profession} events...");
-        Unhook(events.Except(except).ToArray());
+        Log.D($"[EventManager]: Disabling {profession} events...");
+        Disable(events.Except(except).ToArray());
     }
 }

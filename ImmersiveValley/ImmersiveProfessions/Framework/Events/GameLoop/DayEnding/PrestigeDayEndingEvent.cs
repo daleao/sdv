@@ -14,7 +14,7 @@ using System.Collections.Generic;
 [UsedImplicitly]
 internal sealed class PrestigeDayEndingEvent : DayEndingEvent
 {
-    private static Queue<ISkill> _ToReset => ModEntry.PlayerState.SkillsToReset;
+    private static Queue<ISkill> _ToReset => ModEntry.State.SkillsToReset;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
@@ -38,6 +38,6 @@ internal sealed class PrestigeDayEndingEvent : DayEndingEvent
             }
         }
 
-        Unhook();
+        Disable();
     }
 }

@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Monsters;
 using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -31,12 +32,11 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatch : DaLion.Common
         if (!__instance.currentLocation.IsDungeon()) return;
 
         var who = __instance.Player;
-        if (!who.IsLocalPlayer ||
-            ModEntry.PlayerState.RegisteredUltimate is not Pandemic { IsActive: false } pandemic ||
-            ModEntry.PlayerState.SlimeContactTimer > 0) return;
+        if (!who.IsLocalPlayer || who.get_Ultimate() is not Concerto { IsActive: false } concerto ||
+            ModEntry.State.SlimeContactTimer > 0) return;
 
-        pandemic.ChargeValue += Game1.random.Next(1, 4);
-        ModEntry.PlayerState.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
+        concerto.ChargeValue += Game1.random.Next(1, 4);
+        ModEntry.State.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
     }
 
     #endregion harmony patches

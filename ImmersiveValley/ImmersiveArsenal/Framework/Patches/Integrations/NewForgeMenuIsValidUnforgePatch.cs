@@ -2,29 +2,22 @@
 
 #region using directives
 
+using Common.Attributes;
 using Common.Extensions.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Menus;
 using StardewValley.Tools;
-using System;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
 internal sealed class NewForgeMenuIsValidUnforgePatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal NewForgeMenuIsValidUnforgePatch()
     {
-        try
-        {
-            Target = "SpaceCore.Interface.NewForgeMenu".ToType().RequireMethod("IsValidUnforge");
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = "SpaceCore.Interface.NewForgeMenu".ToType().RequireMethod("IsValidUnforge");
     }
 
     #region harmony patches
@@ -34,7 +27,7 @@ internal sealed class NewForgeMenuIsValidUnforgePatch : Common.Harmony.HarmonyPa
     private static void NewForgeMenuIsValidUnforgePostfix(IClickableMenu __instance, ref bool __result)
     {
         SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot ??= "SpaceCore.Interface.NewForgeMenu".ToType().RequireField("leftIngredientSpot")
-            .CompileUnboundFieldGetterDelegate<Func<IClickableMenu, ClickableTextureComponent>>();
+            .CompileUnboundFieldGetterDelegate<IClickableMenu, ClickableTextureComponent>();
         var item = SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot(__instance).item;
         __result = item switch
         {

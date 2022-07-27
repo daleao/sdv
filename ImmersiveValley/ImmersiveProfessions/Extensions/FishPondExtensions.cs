@@ -14,7 +14,7 @@ using System.Linq;
 public static class FishPondExtensions
 {
     private static readonly Func<FishPond, FishPondData?> _GetFishPondData = typeof(FishPond).RequireField("_fishPondData")
-        .CompileUnboundFieldGetterDelegate<Func<FishPond, FishPondData?>>();
+        .CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>();
 
     /// <summary>Whether the instance's population has been fully unlocked.</summary>
     public static bool HasUnlockedFinalPopulationGate(this FishPond pond)

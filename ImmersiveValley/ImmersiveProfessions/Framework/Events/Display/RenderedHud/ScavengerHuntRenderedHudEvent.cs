@@ -8,12 +8,15 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 using System;
+using TreasureHunts;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class ScavengerHuntRenderedHudEvent : RenderedHudEvent
 {
+    private ScavengerHunt? Hunt;
+
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal ScavengerHuntRenderedHudEvent(ProfessionEventManager manager)
@@ -22,16 +25,17 @@ internal sealed class ScavengerHuntRenderedHudEvent : RenderedHudEvent
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
-        if (!ModEntry.PlayerState.ScavengerHunt.TreasureTile.HasValue) return;
+        Hunt ??= (ScavengerHunt)ModEntry.State.ScavengerHunt.Value;
+        if (!Hunt.TreasureTile.HasValue) return;
 
-        var treasureTile = ModEntry.PlayerState.ScavengerHunt.TreasureTile.Value;
+        var treasureTile = Hunt.TreasureTile.Value;
 
         // track target
-        ModEntry.PlayerState.Pointer.DrawAsTrackingPointer(treasureTile, Color.Violet);
+        ModEntry.Pointer.Value.DrawAsTrackingPointer(treasureTile, Color.Violet);
 
         // reveal if close enough
         var distanceSquared = (Game1.player.getTileLocation() - treasureTile).LengthSquared();
         if (distanceSquared <= Math.Pow(ModEntry.Config.TreasureDetectionDistance, 2))
-            ModEntry.PlayerState.Pointer.DrawOverTile(treasureTile, Color.Violet);
+            ModEntry.Pointer.Value.DrawOverTile(treasureTile, Color.Violet);
     }
 }

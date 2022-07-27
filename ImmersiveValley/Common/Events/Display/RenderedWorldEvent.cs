@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IDisplayEvents.RenderedWorld"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IDisplayEvents.RenderedWorld"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class RenderedWorldEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class RenderedWorldEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnRenderedWorld(object? sender, RenderedWorldEventArgs e)
     {
-        if (IsHooked) OnRenderedWorldImpl(sender, e);
+        if (IsEnabled) OnRenderedWorldImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnRenderedWorld" />

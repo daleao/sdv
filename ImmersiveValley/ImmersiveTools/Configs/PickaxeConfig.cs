@@ -36,9 +36,6 @@ public class PickaxeConfig
     /// <summary>Whether to clear tilled dirt.</summary>
     public bool ClearDirt { get; set; } = true;
 
-    /// <summary>Whether to clear bushes.</summary>
-    public bool ClearBushes { get; set; } = true;
-
     /// <summary>Whether to clear live crops.</summary>
     public bool ClearLiveCrops { get; set; } = false;
 

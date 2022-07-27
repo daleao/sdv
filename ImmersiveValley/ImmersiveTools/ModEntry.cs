@@ -25,8 +25,7 @@ public class ModEntry : Mod
     internal static IManifest Manifest => Instance.ModManifest;
 
     internal static PerScreen<Shockwave?> Shockwave { get; } = new(() => null);
-
-    internal static bool HasLoadedMoonMisadventures { get; private set; }
+    internal static bool IsMoonMisadventuresLoaded { get; private set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -38,20 +37,20 @@ public class ModEntry : Mod
         Log.Init(Monitor);
 
         // check for Moon Misadventures before verifying configs
-        HasLoadedMoonMisadventures = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");
-        
+        IsMoonMisadventuresLoaded = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");
+
         // get and verify configs
         Config = Helper.ReadConfig<ToolConfig>();
         VerifyConfigs();
 
-        // hook events
-        new EventManager(helper.Events).HookAll();
+        // enable events
+        new EventManager(helper.Events).EnableAll();
 
         // apply patches
-        new Harmonizer(ModManifest.UniqueID).ApplyAll();
+        new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
 
         // register commands
-        new CommandHandler(helper.ConsoleCommands).Register("itools", "Power Tools");
+        new CommandHandler(helper.ConsoleCommands).Register("tan", "Tooth & Nail");
     }
 
     #region private methods
@@ -65,7 +64,7 @@ public class ModEntry : Mod
         {
             Log.W("Missing values in AxeConfig.RadiusAtEachPowerLevel. The default values will be restored.");
             Config.AxeConfig.RadiusAtEachPowerLevel = new[] { 1, 2, 3, 4, 5 };
-            if (HasLoadedMoonMisadventures) Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
+            if (IsMoonMisadventuresLoaded) Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
         }
         else if (Config.AxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
         {
@@ -79,7 +78,7 @@ public class ModEntry : Mod
         {
             Log.W("Missing values PickaxeConfig.RadiusAtEachPowerLevel. The default values will be restored.");
             Config.PickaxeConfig.RadiusAtEachPowerLevel = new[] { 1, 2, 3, 4, 5 };
-            if (HasLoadedMoonMisadventures) Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
+            if (IsMoonMisadventuresLoaded) Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
         }
         else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
         {
@@ -100,7 +99,7 @@ public class ModEntry : Mod
                     new[] {6, 1},
                     new[] {5, 2}
                 };
-            if (HasLoadedMoonMisadventures)
+            if (IsMoonMisadventuresLoaded)
                 Config.HoeConfig.AffectedTiles.AddRangeToArray(new[]
                 {
                     new[] {7, 3},
@@ -127,7 +126,7 @@ public class ModEntry : Mod
                 new[] {6, 1},
                 new[] {5, 2}
             };
-            if (HasLoadedMoonMisadventures)
+            if (IsMoonMisadventuresLoaded)
                 Config.WateringCanConfig.AffectedTiles.AddRangeToArray(new[]
                 {
                     new[] {7, 3},
@@ -160,7 +159,7 @@ public class ModEntry : Mod
             Config.TicksBetweenWaves = 4;
         }
 
-        if (HasLoadedMoonMisadventures)
+        if (IsMoonMisadventuresLoaded)
         {
             Log.I("Moon Misadventures detected.");
 

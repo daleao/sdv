@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion region using directives
 
-/// <summary>Wrapper for <see cref="IWorldEvents.ChestInventoryChanged"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IWorldEvents.ChestInventoryChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class ChestInventoryChangedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class ChestInventoryChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnChestInventoryChanged(object? sender, ChestInventoryChangedEventArgs e)
     {
-        if (IsHooked) OnChestInventoryChangedImpl(sender, e);
+        if (IsEnabled) OnChestInventoryChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnChestInventoryChanged" />

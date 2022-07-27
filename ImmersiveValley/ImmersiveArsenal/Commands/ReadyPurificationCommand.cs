@@ -4,7 +4,7 @@
 
 using Common;
 using Common.Commands;
-using Common.Data;
+using Common.ModData;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.Tools;
@@ -21,7 +21,7 @@ internal sealed class ReadyPurificationCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "ready_purify";
+    public override string[] Triggers { get; } = { "ready_dark_sword", "ready_sword", "ready_purify" };
 
     /// <inheritdoc />
     public override string Documentation => "Ready a currently held Dark Sword for purification.";
@@ -39,6 +39,6 @@ internal sealed class ReadyPurificationCommand : ConsoleCommand
             return;
         }
 
-        ModDataIO.WriteTo(darkSword, "EnemiesSlain", ModEntry.Config.RequiredKillCountToPurifyDarkSword.ToString());
+        ModDataIO.Write(darkSword, "EnemiesSlain", ModEntry.Config.RequiredKillCountToPurifyDarkSword.ToString());
     }
 }

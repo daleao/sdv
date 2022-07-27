@@ -3,7 +3,7 @@
 #region using directives
 
 using Common.Events;
-using Common.Extensions.Stardew;
+using Common.Extensions.SMAPI;
 using Integrations;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
@@ -18,7 +18,7 @@ internal sealed class StaticGameLaunchedEvent : GameLaunchedEvent
     internal StaticGameLaunchedEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        AlwaysHooked = true;
+        AlwaysEnabled = true;
     }
 
     /// <inheritdoc />
@@ -41,13 +41,16 @@ internal sealed class StaticGameLaunchedEvent : GameLaunchedEvent
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.SpaceCore"))
             new SpaceCoreIntegration(ModEntry.ModHelper.ModRegistry).Register();
 
+        // add Luck Skill integration
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.LuckSkill"))
+            new LuckSkillIntegration(ModEntry.ModHelper.ModRegistry).Register();
+
         // add Love Of Cooking integration
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("blueberry.LoveOfCooking"))
             new LoveOfCookingIntegration(ModEntry.ModHelper.ModRegistry).Register();
 
-        // add Luck Skill integration
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.LuckSkill"))
-            new LuckSkillIntegration(ModEntry.ModHelper.ModRegistry).Register();
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
+            new AutomateIntegration(ModEntry.ModHelper.ModRegistry).Register(ModEntry.ModHelper);
 
         // add Teh's Fishing Overhaul integration
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("TehPers.FishingOverhaul"))

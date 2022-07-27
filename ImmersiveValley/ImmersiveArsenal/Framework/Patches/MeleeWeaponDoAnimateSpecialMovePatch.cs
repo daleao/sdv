@@ -8,6 +8,7 @@ using Common.Harmony;
 using Enchantments;
 using HarmonyLib;
 using JetBrains.Annotations;
+using StardewValley;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,32 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : Common.Harmony.Harm
     internal MeleeWeaponDoAnimateSpecialMovePatch()
     {
         Target = RequireMethod<MeleeWeapon>("doAnimateSpecialMove");
+        Postfix!.before = new[] { "DaLion.ImmersiveRings" };
     }
 
     #region harmony patches
+
+    /// <summary>Implement Topaz enchantment CDR.</summary>
+    [HarmonyPostfix]
+    [HarmonyBefore("DaLion.ImmersiveRings")]
+    private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
+    {
+        if (ModEntry.Config.TopazPerk != ModConfig.Perk.Cooldown) return;
+
+        var cdr = __instance.GetEnchantmentLevel<TopazEnchantment>() * 0.1f;
+
+        if (MeleeWeapon.attackSwordCooldown > 0)
+            MeleeWeapon.attackSwordCooldown = (int)(MeleeWeapon.attackSwordCooldown * (1f - cdr));
+
+        if (MeleeWeapon.defenseCooldown > 0)
+            MeleeWeapon.defenseCooldown = (int)(MeleeWeapon.defenseCooldown * (1f - cdr));
+
+        if (MeleeWeapon.daggerCooldown > 0)
+            MeleeWeapon.daggerCooldown = (int)(MeleeWeapon.daggerCooldown * (1f - cdr));
+
+        if (MeleeWeapon.clubCooldown > 0)
+            MeleeWeapon.clubCooldown = (int)(MeleeWeapon.clubCooldown * (1f - cdr));
+    }
 
     /// <summary>Doubles hit count of Infinity Dagger's special stab move.</summary>
     [HarmonyTranspiler]

@@ -3,8 +3,8 @@
 #region using directives
 
 using Common;
-using Common.Data;
 using Common.Events;
+using Common.ModData;
 using Extensions;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
@@ -42,7 +42,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     var deductible = ModEntry.ProfessionsAPI.GetConservationistEffectiveTaxBonus(Game1.player);
                     if (deductible <= 0f) break;
 
-                    ModDataIO.WriteTo(Game1.player, "DeductionPct",
+                    ModDataIO.Write(Game1.player, "DeductionPct",
                         deductible.ToString(CultureInfo.InvariantCulture));
                     ModEntry.ModHelper.GameContent.InvalidateCache("Data/mail");
                     Game1.player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxDeduction");
@@ -55,7 +55,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                         " An FRS deduction notice has been posted for tomorrow.");
                     break;
                 }
-            case 1 when ModDataIO.ReadFrom<float>(Game1.player, "DeductionPct") < 1f:
+            case 1 when ModDataIO.Read<float>(Game1.player, "DeductionPct") < 1f:
                 {
                     if (Game1.currentSeason == "spring" && Game1.year == 1) break;
 
@@ -89,13 +89,13 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                             " An FRS collection notice has been posted for tomorrow.");
                     }
 
-                    ModDataIO.WriteTo(Game1.player, "SeasonIncome", "0");
+                    ModDataIO.Write(Game1.player, "SeasonIncome", "0");
 
                     break;
                 }
             default:
                 {
-                    var debtOutstanding = ModDataIO.ReadFrom<int>(Game1.player, "DebtOutstanding");
+                    var debtOutstanding = ModDataIO.Read<int>(Game1.player, "DebtOutstanding");
                     if (debtOutstanding <= 0) break;
 
                     if (dayIncome >= debtOutstanding)
@@ -116,7 +116,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     }
 
                     Game1.player.Money = dayIncome;
-                    ModDataIO.WriteTo(Game1.player, "DebtOutstanding", debtOutstanding.ToString());
+                    ModDataIO.Write(Game1.player, "DebtOutstanding", debtOutstanding.ToString());
                     break;
                 }
         }

@@ -3,6 +3,7 @@
 #region using directives
 
 using Common;
+using Common.Attributes;
 using Common.Extensions.Reflection;
 using Common.Harmony;
 using Enchantments;
@@ -21,7 +22,7 @@ using SObject = StardewValley.Object;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
 internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
 {
     private static readonly Type _NewForgeMenuType = "SpaceCore.Interface.NewForgeMenu".ToType();
@@ -29,14 +30,7 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
     /// <summary>Construct an instance.</summary>
     internal NewForgeMenuUpdatePatch()
     {
-        try
-        {
-            Target = _NewForgeMenuType.RequireMethod("update", new[] { typeof(GameTime) });
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = _NewForgeMenuType.RequireMethod("update", new[] { typeof(GameTime) });
     }
 
     #region harmony patches
@@ -150,7 +144,7 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
     {
         SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot ??= "SpaceCore.Interface.NewForgeMenu".ToType()
             .RequireField("leftIngredientSpot")
-            .CompileUnboundFieldGetterDelegate<Func<IClickableMenu, ClickableTextureComponent>>();
+            .CompileUnboundFieldGetterDelegate<IClickableMenu, ClickableTextureComponent>();
 
         var heroSoul = (SObject)ModEntry.DynamicGameAssetsApi!.SpawnDGAItem(ModEntry.Manifest.UniqueID + "/Hero Soul");
         heroSoul.Stack = 3;
@@ -169,9 +163,9 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
             .CompileUnboundDelegate<Func<IClickableMenu, Item, Item, int>>();
         SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot ??= "SpaceCore.Interface.NewForgeMenu".ToType()
             .RequireField("leftIngredientSpot")
-            .CompileUnboundFieldGetterDelegate<Func<IClickableMenu, ClickableTextureComponent>>();
+            .CompileUnboundFieldGetterDelegate<IClickableMenu, ClickableTextureComponent>();
         SpaceCoreUtils.SetNewForgeMenuHeldItem ??= "SpaceCore.Interface.NewForgeMenu".ToType().RequireField("heldItem")
-            .CompileUnboundFieldSetterDelegate<Action<IClickableMenu, Item>>();
+            .CompileUnboundFieldSetterDelegate<IClickableMenu, Item>();
 
         var cost = 0;
         var forgeLevels = slingshot.GetTotalForgeLevels(true);

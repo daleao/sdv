@@ -3,11 +3,11 @@
 #region using directives
 
 using Common;
-using Common.Data;
 using Common.Extensions;
 using Common.Extensions.Collections;
 using Common.Extensions.Reflection;
 using Common.Harmony;
+using Common.ModData;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -162,7 +162,7 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
             !pond.HasRadioactiveFish()) return false;
 
         var heldMinerals =
-            ModDataIO.ReadFrom(pond, "MetalsHeld")
+            ModDataIO.Read(pond, "MetalsHeld")
                 .ParseList<string>(";")?
                 .Select(li => li.ParseTuple<int, int>())
                 .WhereNotNull()
@@ -179,7 +179,7 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
         if (days == 0) return false;
 
         heldMinerals.Add((metallic.ParentSheetIndex, days));
-        ModDataIO.WriteTo(pond, "MetalsHeld",
+        ModDataIO.Write(pond, "MetalsHeld",
             string.Join(';', heldMinerals.Select(m => string.Join(',', m.Item1, m.Item2))));
         _ShowObjectThrownIntoPondAnimation ??= typeof(FishPond).RequireMethod("showObjectThrownIntoPondAnimation")
             .CompileUnboundDelegate<ShowObjectThrownIntoPondAnimationDelegate>();

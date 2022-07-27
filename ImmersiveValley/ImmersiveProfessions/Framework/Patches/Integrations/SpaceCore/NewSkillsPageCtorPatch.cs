@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -13,21 +14,14 @@ using Textures;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
 internal sealed class NewSkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal NewSkillsPageCtorPatch()
     {
-        try
-        {
-            Target = "SpaceCore.Interface.NewSkillsPage".ToType()
-                .RequireConstructor(new[] { typeof(int), typeof(int), typeof(int), typeof(int) });
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = "SpaceCore.Interface.NewSkillsPage".ToType()
+            .RequireConstructor(new[] { typeof(int), typeof(int), typeof(int), typeof(int) });
     }
 
     #region harmony patches

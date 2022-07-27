@@ -5,6 +5,7 @@
 using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -58,11 +59,13 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
     {
         try
         {
-            var owner = Game1.getFarmerMaybeOffline(____pond.owner.Value) ?? Game1.MasterPlayer;
-            if (!owner.HasProfession(Profession.Aquarist)) return true; // run original logic
+            if (!____pond.GetOwner().HasProfession(Profession.Aquarist) && !(ModEntry.Config.LaxOwnershipRequirements &&
+                                                                             Game1.game1.DoesAnyPlayerHaveProfession(
+                                                                                 Profession.Aquarist, out _)))
+                return true; // run original logic
 
             _GetFishPondData ??= typeof(FishPond).RequireField("_fishPondData")
-                .CompileUnboundFieldGetterDelegate<Func<FishPond, FishPondData?>>();
+                .CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>();
             var fishPondData = _GetFishPondData(____pond);
             var populationGates = fishPondData?.PopulationGates;
             var isLegendaryPond = ____fishItem.HasContextTag("fish_legendary");

@@ -30,7 +30,7 @@ internal sealed class CraftingRecipeConsumeIngredientsPatch : Common.Harmony.Har
     /// <summary>Overrides ingredient consumption to allow non-SObject types.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
-    private static bool CraftingRecipeConsumeIngredientsPrefix(CraftingRecipe __instance, IList<Chest> additional_materials)
+    private static bool CraftingRecipeConsumeIngredientsPrefix(CraftingRecipe __instance, IList<Chest?>? additional_materials)
     {
         if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
             !ModEntry.Config.CraftableGlowAndMagnetRings && !ModEntry.Config.ImmersiveGlowstoneRecipe) return true; // run original logic

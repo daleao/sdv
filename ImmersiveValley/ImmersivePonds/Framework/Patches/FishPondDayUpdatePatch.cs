@@ -3,11 +3,11 @@
 #region using directives
 
 using Common;
-using Common.Data;
 using Common.Extensions;
 using Common.Extensions.Collections;
 using Common.Extensions.Reflection;
 using Common.Harmony;
+using Common.ModData;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -41,7 +41,7 @@ internal sealed class FishPondDayUpdatePatch : Common.Harmony.HarmonyPatch
         if (__instance.HasRadioactiveFish())
         {
             var heldMetals =
-                ModDataIO.ReadFrom(__instance, "MetalsHeld")
+                ModDataIO.Read(__instance, "MetalsHeld")
                     .ParseList<string>(";")?
                     .Select(li => li.ParseTuple<int, int>())
                     .WhereNotNull()
@@ -52,7 +52,7 @@ internal sealed class FishPondDayUpdatePatch : Common.Harmony.HarmonyPatch
                 heldMetals[i] = (metal, --daysLeft);
             }
 
-            ModDataIO.WriteTo(__instance, "MetalsHeld",
+            ModDataIO.Write(__instance, "MetalsHeld",
                 string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
         }
 
@@ -134,7 +134,7 @@ internal sealed class FishPondDayUpdatePatch : Common.Harmony.HarmonyPatch
 
         // if pond is empty, spontaneously grow algae/seaweed
         ModDataIO.Increment<int>(__instance, "DaysEmpty");
-        if (ModDataIO.ReadFrom<int>(__instance, "DaysEmpty") < ModEntry.Config.DaysUntilAlgaeSpawn + 1) return;
+        if (ModDataIO.Read<int>(__instance, "DaysEmpty") < ModEntry.Config.DaysUntilAlgaeSpawn + 1) return;
 
         var spawned = Utils.ChooseAlgae(r: r);
         __instance.fishType.Value = spawned;
@@ -155,7 +155,7 @@ internal sealed class FishPondDayUpdatePatch : Common.Harmony.HarmonyPatch
                 break;
         }
 
-        ModDataIO.WriteTo(__instance, "DaysEmpty", null);
+        ModDataIO.Write(__instance, "DaysEmpty", null);
     }
 
     /// <summary>Removes population-based roll from <see cref="FishPond.dayUpdate"/> (moved to <see cref="FishPond.GetFishProduce"/>).</summary>

@@ -12,6 +12,7 @@ using StardewValley.Projectiles;
 using StardewValley.Tools;
 using System;
 using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -19,7 +20,8 @@ using Ultimates;
 internal class ImmersiveProjectile : BasicProjectile
 {
     private static Action<BasicProjectile, GameLocation>? _ExplosionAnimation;
-    public Slingshot WhatFiredMe { get; init; }
+    public Item WhatAmI { get; }
+    public Slingshot WhatFiredMe { get; }
     public float Overcharge { get; set; }
     public bool DidBounce { get; set; }
     public bool DidPierce { get; set; }
@@ -35,8 +37,12 @@ internal class ImmersiveProjectile : BasicProjectile
             spriteFromObjectSheet, collisionBehavior)
     {
         WhatFiredMe = whatFiredMe;
+        WhatAmI = whatFiredMe.attachments[0].getOne();
         Overcharge = overcharge;
         IsBlossomPetal = isPetal;
+        if (damagesMonsters && firer is Farmer &&
+            ModEntry.ArsenalConfig?.Value<bool?>("RemoveSlingshotGracePeriod") == true)
+            ignoreTravelGracePeriod.Value = true;
     }
 
     public override void behaviorOnCollisionWithMonster(NPC n, GameLocation location)
@@ -51,10 +57,10 @@ internal class ImmersiveProjectile : BasicProjectile
 
         var firer = theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
         var damage = damageToFarmer.Value;
-        var knockback = WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>() * (1f + firer.knockbackModifier) *
+        var knockback = (1f + WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>()) * (1f + firer.knockbackModifier) *
                         Overcharge;
         var crate = ModEntry.ArsenalConfig?.Value<bool?>("AllowSlingshotCrit") == true
-            ? (0.05f + 0.046f * WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>()) *
+            ? (0.05f + 0.046f * WhatFiredMe.GetEnchantmentLevel<AquamarineEnchantment>()) *
               (1f + firer.critChanceModifier)
             : 0;
         var cpower =
@@ -63,26 +69,38 @@ internal class ImmersiveProjectile : BasicProjectile
         if (currentTileSheetIndex == 766) // piper slime
         {
             // heal if slime
-            if (monster is GreenSlime slime && ModEntry.PlayerState.PipedSlimes.Contains(slime))
+            if (monster.IsSlime())
             {
                 var amount = Game1.random.Next(damage - 2, damage + 2);
                 monster.Health = Math.Min(monster.Health + amount, monster.MaxHealth);
                 location.debris.Add(new(amount,
                     new(monster.getStandingX() + 8, monster.getStandingY()), Color.Lime, 1f, monster));
                 Game1.playSound("healSound");
+
+                _ExplosionAnimation ??= typeof(BasicProjectile).RequireMethod("explosionAnimation")
+                    .CompileUnboundDelegate<Action<BasicProjectile, GameLocation>>();
+                _ExplosionAnimation(this, location);
             }
             // debuff if not
             else
             {
                 location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, knockback, 0, crate,
-                    cpower, false, firer);
+                    cpower, true, firer);
+                if (!monster.CanBeSlowed() || !(Game1.random.NextDouble() < 2.0 / 3.0)) return;
+
+                monster.get_SlowIntensity().Value = 2;
+                monster.get_SlowTimer().Value = 5123 + Game1.random.Next(-2, 3) * 456;
+                monster.set_Slower(firer);
             }
 
             return;
         }
 
+        location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, knockback, 0, crate, cpower, true,
+            firer);
+
         // check for piercing
-        if (Game1.random.NextDouble() < (Overcharge - 1f) / 2f)
+        if (!WhatAmI.IsSquishyAmmo() && Game1.random.NextDouble() < (Overcharge - 1f) / 2f)
         {
             DidPierce = true;
         }
@@ -93,31 +111,20 @@ internal class ImmersiveProjectile : BasicProjectile
             _ExplosionAnimation(this, location);
         }
 
-        location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, knockback, 0, 0f, 1f, false,
-            firer);
-
         // check for stun
-        var didStun = false;
-        if (firer.HasProfession(Profession.Rascal, true) && DidBounce)
-        {
+        if (!DidPierce && firer.HasProfession(Profession.Rascal, true) && DidBounce)
             monster.stunTime = 5000;
-            didStun = true;
-        }
 
         // increment Desperado ultimate meter
-        if (firer.IsLocalPlayer && ModEntry.PlayerState.RegisteredUltimate is DeathBlossom { IsActive: false })
-            ModEntry.PlayerState.RegisteredUltimate.ChargeValue +=
-                (didStun ? 18 : 12) - 10 * firer.health / firer.maxHealth;
+        if (firer.IsLocalPlayer && firer.get_Ultimate() is DeathBlossom { IsActive: false } blossom)
+            blossom.ChargeValue += (DidBounce ? 18 : 12) - 10 * firer.health / firer.maxHealth;
     }
 
     public override bool update(GameTime time, GameLocation location)
     {
         var didCollide = base.update(time, location);
 
-        if (!damagesMonsters.Value) return didCollide;
-
-        // check for overcharge
-        if (Overcharge <= 1f) return didCollide;
+        if (!damagesMonsters.Value || Overcharge <= 1f || travelDistance < maxTravelDistance.Value) return didCollide;
 
         // check if already collided
         if (didCollide)
@@ -185,4 +192,7 @@ internal class ImmersiveProjectile : BasicProjectile
             crate, cpower, true, firer);
         return didCollide;
     }
+
+    /// <summary>Whether the projectile is a stone or mineral ore.</summary>
+    public bool IsMineralAmmo() => (currentTileSheetIndex - 1).IsMineralAmmoIndex();
 }

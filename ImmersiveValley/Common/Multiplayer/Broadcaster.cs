@@ -18,7 +18,7 @@ public class Broadcaster
     public TaskCompletionSource<string> ResponseReceived = null!;
 
     /// <summary>Construct an instance.</summary>
-    /// <param name="modID">The unique id of the mod requesting an instance.</param>
+    /// <param name="modID">The unique ID of the mod requesting an instance.</param>
     public Broadcaster(IMultiplayerHelper helper, string modID)
     {
         _Helper = helper;
@@ -36,7 +36,7 @@ public class Broadcaster
     /// <summary>Send a synchronous message to a multiplayer peer.</summary>
     /// <param name="message">The message to send.</param>
     /// <param name="messageType">The message type.</param>
-    /// <param name="playerId">The unique id of the recipient.</param>
+    /// <param name="playerId">The unique ID of the recipient.</param>
     public void Message(string message, string messageType, long playerId)
     {
         _Helper.SendMessage(message, messageType, new[] { _modID }, new[] { playerId });
@@ -45,7 +45,7 @@ public class Broadcaster
     /// <summary>Send a synchronous message to a multiplayer peer that should be received by an external mod.</summary>
     /// <param name="message">The message to send.</param>
     /// <param name="messageType">The message type.</param>
-    /// <param name="playerId">The unique id of the recipient.</param>
+    /// <param name="playerId">The unique ID of the recipient.</param>
     public void Message(string message, string messageType, long playerId, string modId)
     {
         _Helper.SendMessage(message, messageType, new[] { modId }, new[] { playerId });
@@ -70,7 +70,7 @@ public class Broadcaster
     /// <summary>Send an asynchronous request to a multiplayer peer and await a response.</summary>
     /// <param name="message">The message to send.</param>
     /// <param name="messageType">The message type.</param>
-    /// <param name="playerId">The unique id of the recipient.</param>
+    /// <param name="playerId">The unique ID of the recipient.</param>
     public async Task<string> RequestAsync(string message, string messageType, long playerId)
     {
         _Helper.SendMessage(message, messageType, new[] { _modID }, new[] { playerId });

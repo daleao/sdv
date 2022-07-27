@@ -1,8 +1,8 @@
-﻿#if DEBUG
-namespace DaLion.Stardew.Professions.Framework.Events.Display;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Display;
 
 #region using directives
 
+using Common.Attributes;
 using Common.Events;
 using Common.Extensions.Xna;
 using JetBrains.Annotations;
@@ -14,7 +14,7 @@ using System.Linq;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, DebugOnly]
 internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
 {
     private readonly Texture2D _pixel;
@@ -54,6 +54,20 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
         bb.X -= Game1.viewport.X;
         bb.Y -= Game1.viewport.Y;
         bb.DrawBorder(_pixel, 3, Color.Red, e.SpriteBatch);
+
+        var (x, y) = Game1.player.getTileLocation() * Game1.tileSize;
+#pragma warning disable CS8509
+        Rectangle facingBox = Game1.player.FacingDirection switch
+#pragma warning restore CS8509
+        {
+            Game1.up => new((int)x, (int)y - Game1.tileSize, Game1.tileSize, Game1.tileSize),
+            Game1.right => new((int)x + Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
+            Game1.down => new((int)x, (int)y + Game1.tileSize, Game1.tileSize, Game1.tileSize),
+            Game1.left => new((int)x - Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
+        };
+
+        facingBox.X -= Game1.viewport.X;
+        facingBox.Y -= Game1.viewport.Y;
+        facingBox.DrawBorder(_pixel, 3, Color.Red, e.SpriteBatch);
     }
 }
-#endif

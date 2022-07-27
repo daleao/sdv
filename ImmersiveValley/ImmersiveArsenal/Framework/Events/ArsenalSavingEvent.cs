@@ -17,7 +17,10 @@ internal sealed class ArsenalSavingEvent : SavingEvent
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal ArsenalSavingEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+        AlwaysEnabled = true;
+    }
 
     /// <inheritdoc />
     protected override void OnSavingImpl(object? sender, SavingEventArgs e)

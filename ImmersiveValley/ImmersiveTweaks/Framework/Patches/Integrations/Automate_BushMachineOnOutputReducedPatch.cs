@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Common.Attributes;
 using Common.Extensions.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -11,7 +12,7 @@ using System;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("Pathoschild.Automate")]
 internal sealed class BushMachineOnOutputReducedPatch : Common.Harmony.HarmonyPatch
 {
     private static Func<object, Bush>? _GetMachine;
@@ -19,15 +20,8 @@ internal sealed class BushMachineOnOutputReducedPatch : Common.Harmony.HarmonyPa
     /// <summary>Construct an instance.</summary>
     internal BushMachineOnOutputReducedPatch()
     {
-        try
-        {
-            Target = "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine".ToType()
-                .RequireMethod("OnOutputReduced");
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine".ToType()
+            .RequireMethod("OnOutputReduced");
     }
 
     #region harmony patches

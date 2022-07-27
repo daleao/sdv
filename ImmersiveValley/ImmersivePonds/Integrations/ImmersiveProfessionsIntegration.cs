@@ -3,6 +3,7 @@
 #region using directives
 
 using Common.Integrations;
+using Common.Integrations.WalkOfLife;
 using StardewModdingAPI;
 
 #endregion using directives

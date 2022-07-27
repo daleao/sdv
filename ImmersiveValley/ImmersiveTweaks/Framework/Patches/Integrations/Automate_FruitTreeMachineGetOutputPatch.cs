@@ -3,6 +3,7 @@
 #region using directives
 
 using Common;
+using Common.Attributes;
 using Common.Extensions.Reflection;
 using Common.Harmony;
 using Extensions;
@@ -15,21 +16,14 @@ using System.Reflection.Emit;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("Pathoschild.Automate")]
 internal sealed class FruitTreeMachineGetOutputPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal FruitTreeMachineGetOutputPatch()
     {
-        try
-        {
-            Target = "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.FruitTreeMachine".ToType()
-                .RequireMethod("GetOutput");
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.FruitTreeMachine".ToType()
+            .RequireMethod("GetOutput");
     }
 
     #region harmony patches

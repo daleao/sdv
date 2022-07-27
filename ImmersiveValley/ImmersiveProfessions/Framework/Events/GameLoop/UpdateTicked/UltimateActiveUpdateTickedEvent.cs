@@ -4,13 +4,14 @@
 
 using Common.Events;
 using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
+using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, UltimateEvent]
 internal sealed class UltimateActiveUpdateTickedEvent : UpdateTickedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -21,14 +22,10 @@ internal sealed class UltimateActiveUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (!Game1.player.isGlowing)
-        {
-            var glowColor = ModEntry.PlayerState.RegisteredUltimate!.GlowColor;
-            if (glowColor != Color.White)
-                Game1.player.startGlowing(ModEntry.PlayerState.RegisteredUltimate.GlowColor, false, 0.05f);
-        }
+        var ultimate = Game1.player.get_Ultimate();
+        Game1.player.startGlowing(ultimate!.GlowColor, false, 0.05f);
 
-        if (Game1.game1.IsActive && Game1.shouldTimePass())
-            ModEntry.PlayerState.RegisteredUltimate!.Countdown(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds);
+        if ((Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass())
+            ultimate!.Countdown(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds);
     }
 }

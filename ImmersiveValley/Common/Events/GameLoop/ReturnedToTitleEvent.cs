@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IGameLoopEvents.ReturnedToTitle"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IGameLoopEvents.ReturnedToTitle"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class ReturnedToTitleEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class ReturnedToTitleEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnReturnedToTitle(object? sender, ReturnedToTitleEventArgs e)
     {
-        if (IsHooked) OnReturnedToTitleImpl(sender, e);
+        if (IsEnabled) OnReturnedToTitleImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnReturnedToTitle" />

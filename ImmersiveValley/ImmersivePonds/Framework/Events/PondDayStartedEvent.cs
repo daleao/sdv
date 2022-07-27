@@ -2,8 +2,8 @@
 
 #region using directives
 
-using Common.Data;
 using Common.Events;
+using Common.ModData;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -29,6 +29,6 @@ internal sealed class PondDayStartedEvent : DayStartedEvent
         foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
                      (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                      !p.isUnderConstruction()))
-            ModDataIO.WriteTo(pond, "CheckedToday", false.ToString());
+            ModDataIO.Write(pond, "CheckedToday", false.ToString());
     }
 }

@@ -3,8 +3,9 @@
 #region using directives
 
 using DaLion.Common;
-using DaLion.Common.Data;
 using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Common.ModData;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -35,7 +36,7 @@ internal sealed class CrabPotDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
     {
         try
         {
-            var owner = Game1.getFarmerMaybeOffline(__instance.owner.Value) ?? Game1.MasterPlayer;
+            var owner = ModEntry.Config.LaxOwnershipRequirements ? Game1.player : __instance.GetOwner();
             var isConservationist = owner.HasProfession(Profession.Conservationist);
             if (__instance.bait.Value is null && !isConservationist || __instance.heldObject.Value is not null)
                 return false; // don't run original logic
@@ -76,11 +77,11 @@ internal sealed class CrabPotDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                 if (__instance.bait.Value is not null || isConservationist)
                 {
                     whichFish = __instance.GetTrash(location, r);
-                    if (isConservationist && whichFish.IsTrash())
+                    if (isConservationist && whichFish.IsTrashIndex())
                     {
                         ModDataIO.Increment<uint>(owner,
                             "ConservationistTrashCollectedThisSeason");
-                        if (owner.HasProfession(Profession.Conservationist, true) && ModDataIO.ReadFrom<uint>(owner,
+                        if (owner.HasProfession(Profession.Conservationist, true) && ModDataIO.Read<uint>(owner,
                                 "ConservationistTrashCollectedThisSeason") %
                             ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
                             SUtility.improveFriendshipWithEveryoneInRegion(owner, 1, 2);

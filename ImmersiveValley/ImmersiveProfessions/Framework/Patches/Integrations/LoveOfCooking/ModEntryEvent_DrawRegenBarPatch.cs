@@ -3,38 +3,41 @@
 #region using directives
 
 using DaLion.Common;
+using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("blueberry.LoveOfCooking"), Deprecated]
 internal sealed class ModEntryEvent_DrawRegenBarPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ModEntryEvent_DrawRegenBarPatch()
     {
-        //Target = "LoveOfCooking.ModEntry".ToType().RequireMethod("Event_DrawRegenBar");
+        Target = "LoveOfCooking.ModEntry".ToType().RequireMethod("Event_DrawRegenBar");
     }
 
     #region harmony patches
 
     /// <summary>Patch to displace food bar.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? PropagatorPopExtraHeldMushroomsTranspiler(
+    private static IEnumerable<CodeInstruction>? ModEntryEvent_DrawRegenBarTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Inject: if (ModEntry.PlayerState.RegisteredUltimate?.Hud.IsVisible) topOfBar.X -= 56f;
+        /// Inject: if (Game1.player.get_Ultimate()?.Hud.IsVisible) topOfBar.X -= 56f;
         /// Before: e.SpriteBatch.Draw( ... )
 
         var resumeExecution = ilGenerator.DefineLabel();
@@ -48,17 +51,17 @@ internal sealed class ModEntryEvent_DrawRegenBarPatch : DaLion.Common.Harmony.Ha
                 .AddLabels(resumeExecution)
                 .InsertWithLabels(
                     labels,
-                    // check if RegisteredUltimate is null
+                    // check if Ultimate is null
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                        typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.get_Ultimate))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // check if RegisteredUltimate.Hud.IsVisible
+                    // check if Ultimate.Hud.IsVisible
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                        typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.get_Ultimate))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Ultimate).RequirePropertyGetter(nameof(Ultimate.Hud))),
                     new CodeInstruction(OpCodes.Call,

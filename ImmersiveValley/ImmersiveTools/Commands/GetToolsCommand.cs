@@ -2,7 +2,6 @@
 
 #region using directives
 
-using Common;
 using Common.Commands;
 using JetBrains.Annotations;
 using StardewValley;
@@ -20,22 +19,16 @@ internal sealed class GetToolsCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "get";
+    public override string[] Triggers { get; } = { "get_tools", "get" };
 
     /// <inheritdoc />
     public override string Documentation =>
-        "Add missing farming and resource tools to the inventory." +
+        "Add missing farming and resource tools to the inventory" +
         "\nTo add only specific tools, use `debug` + `ax`, `pick`, `hoe` or `can` instead.";
 
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (Game1.player.CurrentTool is not MeleeWeapon weapon)
-        {
-            Log.W("You must select a weapon first.");
-            return;
-        }
-
         if (!Game1.player.Items.OfType<Axe>().Any())
             Game1.player.Items.Add(new Axe().getOne());
 

@@ -3,6 +3,7 @@
 #region using directives
 
 using Common.Integrations;
+using Common.Integrations.BetterCrafting;
 using StardewModdingAPI;
 using System.Collections.Generic;
 

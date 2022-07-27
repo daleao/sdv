@@ -3,8 +3,8 @@
 #region using directives
 
 using StardewValley;
-
 using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -22,9 +22,7 @@ internal static class Localization
             case LocalizedContentManager.LanguageCode.fr:
             case LocalizedContentManager.LanguageCode.pt:
                 return ModEntry.i18n.Get("pronoun.definite" +
-                                                          (ModEntry.PlayerState.RegisteredUltimate is Ambush
-                                                              ? ".male"
-                                                              : ".female"));
+                                         (Game1.player.get_Ultimate() is Ambush ? ".male" : ".female"));
 
             default:
                 return string.Empty;

@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IDisplayEvents.WindowResized"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IDisplayEvents.WindowResized"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class WindowResizedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class WindowResizedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnWindowResized(object? sender, WindowResizedEventArgs e)
     {
-        if (IsHooked) OnWindowResizedImpl(sender, e);
+        if (IsEnabled) OnWindowResizedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnWindowResized" />

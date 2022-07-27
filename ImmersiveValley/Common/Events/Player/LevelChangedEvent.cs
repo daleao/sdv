@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IPlayerEvents.LevelChanged"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IPlayerEvents.LevelChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class LevelChangedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class LevelChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnLevelChanged(object? sender, LevelChangedEventArgs e)
     {
-        if (IsHooked) OnLevelChangedImpl(sender, e);
+        if (IsEnabled) OnLevelChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnLevelChanged" />

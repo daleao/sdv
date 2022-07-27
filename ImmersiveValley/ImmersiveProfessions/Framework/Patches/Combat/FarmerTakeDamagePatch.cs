@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -35,7 +36,7 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: else if (this.IsLocalPlayer && RegisteredUltimate is Ambush {IsActive: true}) monsterDamageCapable = false;
+        /// Injected: else if (this.IsLocalPlayer && this.get_Ultimate() is Ambush {IsActive: true}) monsterDamageCapable = false;
 
         var alreadyUndamageableOrNotAmbuscade = generator.DefineLabel();
         var ambush = generator.DeclareLocal(typeof(Ambush));
@@ -57,10 +58,9 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
                         typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
                     // check for ambush
+                    new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
+                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.get_Ultimate))),
                     new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
                     new CodeInstruction(OpCodes.Stloc_S, ambush),
                     new CodeInstruction(OpCodes.Ldloc_S, ambush),
@@ -81,12 +81,12 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
             return null;
         }
 
-        /// Injected: if (this.IsLocalPlayer && RegisteredUltimate is Frenzy {IsActive: true}) health = 1;
+        /// Injected: if (this.IsLocalPlayer && this.get_Ultimate() is Frenzy {IsActive: true}) health = 1;
         /// After: if (health <= 0)
         /// Before: GetEffectsOfRingMultiplier(863)
 
         var isNotUndyingButMayHaveDailyRevive = generator.DefineLabel();
-        var frenzy = generator.DeclareLocal(typeof(UndyingFrenzy));
+        var frenzy = generator.DeclareLocal(typeof(Frenzy));
         try
         {
             helper
@@ -110,11 +110,10 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
                         typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
                     // check for frenzy
+                    new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(UndyingFrenzy)),
+                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.get_Ultimate))),
+                    new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
                     new CodeInstruction(OpCodes.Stloc_S, frenzy),
                     new CodeInstruction(OpCodes.Ldloc, frenzy),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
@@ -170,22 +169,22 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     // load the player state
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.PlayerState))), // consumed by setter of BruteRageCounter
+                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.State))), // consumed by setter of BruteRageCounter
                     new CodeInstruction(OpCodes.Dup), // consumed by getter of BruteRageCounter
                     new CodeInstruction(OpCodes.Dup), // consumed by setter of LastTimeInCombat 
-                    new CodeInstruction(OpCodes.Dup), // consumed by getter of RegisteredUltimate
                                                       // check for frenzy
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.RegisteredUltimate))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(UndyingFrenzy)),
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.get_Ultimate))),
+                    new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
                     new CodeInstruction(OpCodes.Stloc_S, frenzy),
                     // record last time in combat
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).RequirePropertySetter(nameof(PlayerState.SecondsOutOfCombat))),
+                        typeof(ModState).RequirePropertySetter(nameof(ModState.SecondsOutOfCombat))),
                     // increment rage counter
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).RequirePropertyGetter(nameof(PlayerState.BruteRageCounter))),
+                        typeof(ModState).RequirePropertyGetter(nameof(ModState.BruteRageCounter))),
                     new CodeInstruction(OpCodes.Ldloc_S, frenzy),
                     new CodeInstruction(OpCodes.Brfalse_S, doesNotHaveFrenzyOrIsNotActive),
                     new CodeInstruction(OpCodes.Ldloc_S, frenzy),
@@ -205,7 +204,7 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Call,
                         typeof(Math).RequireMethod(nameof(Math.Min), new[] { typeof(int), typeof(int) })),
                     new CodeInstruction(OpCodes.Callvirt,
-                        typeof(PlayerState).RequirePropertySetter(nameof(PlayerState.BruteRageCounter))),
+                        typeof(ModState).RequirePropertySetter(nameof(ModState.BruteRageCounter))),
                     // check frenzy once again
                     new CodeInstruction(OpCodes.Ldloc_S, frenzy),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),

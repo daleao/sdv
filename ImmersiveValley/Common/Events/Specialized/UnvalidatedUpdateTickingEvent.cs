@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion region using directives
 
-/// <summary>Wrapper for <see cref="ISpecializedEvents.UnvalidatedUpdateTicking"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="ISpecializedEvents.UnvalidatedUpdateTicking"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class UnvalidatedUpdateTickingEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class UnvalidatedUpdateTickingEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnUnvalidatedUpdateTicking(object? sender, UnvalidatedUpdateTickingEventArgs e)
     {
-        if (IsHooked) OnUnvalidatedUpdateTickingImpl(sender, e);
+        if (IsEnabled) OnUnvalidatedUpdateTickingImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnUnvalidatedUpdateTicking" />

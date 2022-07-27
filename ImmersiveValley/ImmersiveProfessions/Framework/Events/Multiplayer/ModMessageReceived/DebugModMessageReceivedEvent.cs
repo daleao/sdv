@@ -1,9 +1,9 @@
-﻿#if DEBUG
-namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Multiplayer;
 
 #region using directives
 
 using Common;
+using Common.Attributes;
 using Common.Events;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
@@ -12,17 +12,22 @@ using System.Linq;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, DebugOnly]
 internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal DebugModMessageReceivedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+        AlwaysEnabled = true;
+    }
 
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
+        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("Debug")) return;
+
         var command = e.Type.Split('/')[1];
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)
@@ -38,8 +43,8 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
                 var what = e.ReadAs<string>();
                 switch (what)
                 {
-                    case "EventsHooked":
-                        var response = Manager.Hooked.Aggregate("",
+                    case "EventsEnabled":
+                        var response = Manager.Enabled.Aggregate("",
                             (current, next) => current + "\n\t- " + next.GetType().Name);
                         ModEntry.Broadcaster.Message(response, "Debug/Response", e.FromPlayerID);
 
@@ -56,4 +61,3 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
         }
     }
 }
-#endif

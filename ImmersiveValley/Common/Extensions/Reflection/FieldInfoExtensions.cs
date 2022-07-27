@@ -16,11 +16,11 @@ public static class FieldInfoExtensions
 
     /// <summary>Creates a delegate of the specified type that represents the specified unbound instance field getter.</summary>
     /// <typeparam name="TDelegate">A delegate type which returns the desired field type and accepts the target instance type as a parameter.</typeparam>
-    public static TDelegate CompileUnboundFieldGetterDelegate<TDelegate>(this FieldInfo field) where TDelegate : Delegate
+    public static Func<TInstance, TField> CompileUnboundFieldGetterDelegate<TInstance, TField>(this FieldInfo field)
     {
         if (field.IsStatic) throw new InvalidOperationException("Field cannot be static");
 
-        var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
+        var delegateInfo = typeof(Func<TInstance, TField>).GetMethodInfoFromDelegateType();
         var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
         if (delegateParamTypes.Length != 1)
             throw new InvalidOperationException(
@@ -45,17 +45,16 @@ public static class FieldInfoExtensions
             ? Expression.Convert(fieldExpression, delegateInfo.ReturnType)
             : (Expression)fieldExpression;
 
-        return Expression.Lambda<TDelegate>(convertedFieldExpression, delegateTargetExpression)
-            .Compile();
+        return Expression.Lambda<Func<TInstance, TField>>(convertedFieldExpression, delegateTargetExpression).Compile();
     }
 
     /// <summary>Creates a delegate of the specified type that represents the specified static field getter.</summary>
     /// <typeparam name="TDelegate">A delegate type which returns the desired field type and accepts no parameters.</typeparam>
-    public static TDelegate CompileStaticFieldGetterDelegate<TDelegate>(this FieldInfo field) where TDelegate : Delegate
+    public static Func<TField> CompileStaticFieldGetterDelegate<TField>(this FieldInfo field)
     {
         if (!field.IsStatic) throw new InvalidOperationException("Field must be static");
 
-        var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
+        var delegateInfo = typeof(Func<TField>).GetMethodInfoFromDelegateType();
 
         // create field call
         var fieldExpression = Expression.Field(
@@ -68,8 +67,7 @@ public static class FieldInfoExtensions
             ? Expression.Convert(fieldExpression, delegateInfo.ReturnType)
             : (Expression)fieldExpression;
 
-        return Expression.Lambda<TDelegate>(convertedFieldExpression)
-            .Compile();
+        return Expression.Lambda<Func<TField>>(convertedFieldExpression).Compile();
     }
 
     #endregion getters
@@ -78,11 +76,11 @@ public static class FieldInfoExtensions
 
     /// <summary>Creates a delegate of the specified type that represents the specified unbound instance field setter.</summary>
     /// <typeparam name="TDelegate">A delegate type which accepts the target instance and assignment value type parameters and returns void.</typeparam>
-    public static TDelegate CompileUnboundFieldSetterDelegate<TDelegate>(this FieldInfo field) where TDelegate : Delegate
+    public static Action<TInstance, TField> CompileUnboundFieldSetterDelegate<TInstance, TField>(this FieldInfo field)
     {
         if (field.IsStatic) throw new InvalidOperationException("Field cannot be static");
 
-        var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
+        var delegateInfo = typeof(Action<TInstance, TField>).GetMethodInfoFromDelegateType();
         if (delegateInfo.ReturnType != typeof(void))
             throw new InvalidOperationException("Delegate return type must be void.");
 
@@ -118,17 +116,18 @@ public static class FieldInfoExtensions
             convertedValueExpression
         );
 
-        return Expression.Lambda<TDelegate>(ssignExpression, delegateTargetExpression, delegateValueExpression)
+        return Expression
+            .Lambda<Action<TInstance, TField>>(ssignExpression, delegateTargetExpression, delegateValueExpression)
             .Compile();
     }
 
     /// <summary>Creates a delegate of the specified type that represents the specified static field setter.</summary>
     /// <typeparam name="TDelegate">A delegate type which accepts the target instance type as a parameter and returns void.</typeparam>
-    public static TDelegate CompileStaticFieldSetterDelegate<TDelegate>(this FieldInfo field) where TDelegate : Delegate
+    public static Action<TField> CompileStaticFieldSetterDelegate<TField>(this FieldInfo field)
     {
         if (!field.IsStatic) throw new InvalidOperationException("Field must be static");
 
-        var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
+        var delegateInfo = typeof(Action<TField>).GetMethodInfoFromDelegateType();
         if (delegateInfo.ReturnType != typeof(void))
             throw new InvalidOperationException("Delegate return type must be void.");
 
@@ -157,8 +156,7 @@ public static class FieldInfoExtensions
             convertedValueExpression
         );
 
-        return Expression.Lambda<TDelegate>(ssignExpression, delegateValueExpression)
-            .Compile();
+        return Expression.Lambda<Action<TField>>(ssignExpression, delegateValueExpression).Compile();
     }
 
     #endregion setters

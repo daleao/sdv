@@ -27,7 +27,7 @@ internal sealed class RingDrawInMenuPatch : Common.Harmony.HarmonyPatch
 
     #region harmony patches
 
-    /// <summary>Stub for base Ring.drawInMenu</summary>
+    /// <summary>Stub for base <see cref="Ring.drawInMenu"/>.</summary>
     [HarmonyReversePatch]
     internal static void RingDrawInMenuReverse(object instance, SpriteBatch spriteBatch, Vector2 location,
         float scaleSize, float transparency, float layerDepth, StackDrawType drawStackNumber, Color color,

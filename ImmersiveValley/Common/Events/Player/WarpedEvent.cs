@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion region using directives
 
-/// <summary>Wrapper for <see cref="IPlayerEvents.Warped"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IPlayerEvents.Warped"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class WarpedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class WarpedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnWarped(object? sender, WarpedEventArgs e)
     {
-        if (IsHooked) OnWarpedImpl(sender, e);
+        if (IsEnabled) OnWarpedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnWarped" />

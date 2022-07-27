@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IGameLoopEvents.TimeChanged"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IGameLoopEvents.TimeChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class TimeChangedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class TimeChangedEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnTimeChanged(object? sender, TimeChangedEventArgs e)
     {
-        if (IsHooked) OnTimeChangedImpl(sender, e);
+        if (IsEnabled) OnTimeChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnTimeChanged" />

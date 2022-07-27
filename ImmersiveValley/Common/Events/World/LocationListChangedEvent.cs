@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion region using directives
 
-/// <summary>Wrapper for <see cref="IWorldEvents.LocationListChanged"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IWorldEvents.LocationListChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class LocationListChangedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class LocationListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnLocationListChanged(object? sender, LocationListChangedEventArgs e)
     {
-        if (IsHooked) OnLocationListChangedImpl(sender, e);
+        if (IsEnabled) OnLocationListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnLocationListChanged" />

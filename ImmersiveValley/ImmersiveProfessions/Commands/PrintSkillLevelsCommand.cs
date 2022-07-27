@@ -20,7 +20,7 @@ internal sealed class PrintSkillLevelsCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "levels";
+    public override string[] Triggers { get; } = { "print_levels", "levels", "print_skills", "skills", "print_exp", "experience", "exp" };
 
     /// <inheritdoc />
     public override string Documentation => "Print the player's current skill levels and experience.";

@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Common.Extensions;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -30,13 +29,13 @@ internal sealed class ProjectileBehaviorOnCollisionPatch : DaLion.Common.Harmony
     private static void ProjectileBehaviorOnCollisionPostfix(Projectile __instance, NetInt ___currentTileSheetIndex,
         NetPosition ___position, NetCharacterRef ___theOneWhoFiredMe, GameLocation location)
     {
-        if (__instance is not ImmersiveProjectile projectile || projectile.IsBlossomPetal) return;
+        if (__instance is not ImmersiveProjectile projectile || projectile.IsBlossomPetal ||
+            !projectile.IsMineralAmmo()) return;
 
         var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
         if (!firer.HasProfession(Profession.Rascal)) return;
 
-        if ((___currentTileSheetIndex.Value - 1).IsIn(SObject.copper, SObject.iron, SObject.gold,
-                SObject.iridium, SObject.stone) && Game1.random.NextDouble() < 0.6
+        if ((___currentTileSheetIndex.Value - 1).IsMineralAmmoIndex() && Game1.random.NextDouble() < 0.6
             || ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.3)
             location.debris.Add(new(___currentTileSheetIndex.Value - 1,
                 new((int)___position.X, (int)___position.Y), firer.getStandingPosition()));

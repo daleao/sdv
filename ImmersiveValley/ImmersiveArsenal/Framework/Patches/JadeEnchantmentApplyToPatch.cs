@@ -21,12 +21,13 @@ internal sealed class JadeEnchantmentApplyToPatch : Common.Harmony.HarmonyPatch
     #region harmony patches
 
     /// <summary>Rebalances Jade enchant.</summary>
-    [HarmonyPostfix]
-    private static void JadeEnchantmentApplyToPostfix(JadeEnchantment __instance, Item item)
+    [HarmonyPrefix]
+    private static bool JadeEnchantmentApplyToPrefix(JadeEnchantment __instance, Item item)
     {
-        if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalancedEnchants) return;
+        if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalancedEnchants) return true; // run original logic
 
-        weapon.critMultiplier.Value += 0.4f * __instance.GetLevel();
+        weapon.critMultiplier.Value += 0.5f * __instance.GetLevel();
+        return false; // don't run original logic
     }
 
     #endregion harmony patches

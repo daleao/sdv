@@ -107,8 +107,7 @@ internal class Shockwave
 
         if (_currentRadius++ < _finalRadius) return;
 
-        if (ModEntry.Config.EnableDebug) Log.D(_tileGrids[^1].ToString());
-
+        Log.D(_tileGrids[^1].ToString());
         ModEntry.Shockwave.Value = null;
     }
 

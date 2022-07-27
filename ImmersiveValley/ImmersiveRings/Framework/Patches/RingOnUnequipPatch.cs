@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Common.ModData;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley;
@@ -33,8 +34,19 @@ internal sealed class RingOnUnequipPatch : Common.Harmony.HarmonyPatch
 
         switch (__instance.indexInTileSheet.Value)
         {
-            case Constants.TOPAZ_RING_INDEX_I: // topaz to give +3 defense
-                who.resilience -= 3;
+            case Constants.TOPAZ_RING_INDEX_I: // topaz to give defense or cdr
+                // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+                switch (ModEntry.Config.TopazPerk)
+                {
+                    case ModConfig.Perk.Cooldown:
+                        ModDataIO.Increment(who, "CooldownReduction", -0.1f);
+                        break;
+                    case ModConfig.Perk.Defense:
+                        who.resilience -= 3;
+                        break;
+                    case ModConfig.Perk.Precision:
+                        return true; // run original logic
+                }
                 return false; // don't run original logic
             case Constants.JADE_RING_INDEX_I: // jade ring to give +30% crit. power
                 who.critPowerModifier -= 0.3f;

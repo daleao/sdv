@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Data;
+using Common.ModData;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;

@@ -22,8 +22,8 @@ public static class HarmonyExtensions
         return enumerable;
     }
 
-    /// <summary>Get the patches applied to methods patched by the harmony instance, with the specified unique id.</summary>
-    /// <param name="uniqueID">A unique id to search for.</param>
+    /// <summary>Get the patches applied to methods patched by the harmony instance, with the specified unique ID.</summary>
+    /// <param name="uniqueID">A unique ID to search for.</param>
     public static IEnumerable<Patch> GetPatchesById(this Harmony harmony, string uniqueID)
         => harmony.GetPatches(p => p.owner == uniqueID);
 }

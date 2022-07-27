@@ -24,7 +24,7 @@ internal sealed class PiperDayEndingEvent : DayEndingEvent
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
         Game1.buffsDisplay.removeOtherBuff(_piperBuffId);
-        Array.Clear(ModEntry.PlayerState.AppliedPiperBuffs, 0, 12);
-        Unhook();
+        Array.Clear(ModEntry.State.AppliedPiperBuffs, 0, 12);
+        Disable();
     }
 }

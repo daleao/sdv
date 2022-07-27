@@ -1,9 +1,10 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+﻿using DaLion.Stardew.Professions.Framework.VirtualProperties;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 #region using directives
 
 using DaLion.Common;
-using DaLion.Common.Data;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -337,8 +338,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
 
     internal static bool ShouldProposeFinalQuestion(int chosenProfession) =>
         ModEntry.Config.EnablePrestige && chosenProfession is >= 26 and < 30 &&
-               ModEntry.PlayerState.RegisteredUltimate is not null &&
-               (int)ModEntry.PlayerState.RegisteredUltimate.Index != chosenProfession;
+        Game1.player.get_Ultimate() is not null && Game1.player.get_UltimateIndex().Value != chosenProfession;
 
     internal static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
     {
@@ -359,7 +359,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
 
     internal static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
     {
-        var oldProfession = Profession.FromValue((int)ModEntry.PlayerState.RegisteredUltimate!.Index);
+        var oldProfession = Profession.FromValue(Game1.player.get_UltimateIndex().Value);
         var newProfession = Profession.FromValue(chosenProfession);
         var pronoun = Localization.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(
@@ -375,20 +375,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
             Game1.currentLocation.createYesNoResponses(), delegate (Farmer _, string answer)
             {
                 if (answer == "Yes")
-                {
-                    var newIndex = (UltimateIndex)chosenProfession;
-                    ModEntry.PlayerState.RegisteredUltimate =
-#pragma warning disable CS8509
-                        ModEntry.PlayerState.RegisteredUltimate = newIndex switch
-#pragma warning restore CS8509
-                        {
-                            UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
-                            UltimateIndex.PoacherAmbush => new Ambush(),
-                            UltimateIndex.PiperPandemic => new Pandemic(),
-                            UltimateIndex.DesperadoBlossom => new DeathBlossom()
-                        };
-                    ModDataIO.WriteTo(Game1.player, "UltimateIndex", newIndex.ToString());
-                }
+                    Game1.player.set_Ultimate(Ultimate.FromIndex((UltimateIndex)chosenProfession));
 
                 if (shouldCongratulateFullSkillMastery) CongratulateOnFullSkillMastery(chosenProfession);
             });
@@ -406,7 +393,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                                                (Game1.player.IsMale ? ".male" : ".female"));
         if (Game1.player.achievements.Contains(title.GetDeterministicHashCode())) return;
 
-        ModEntry.EventManager.Hook<AchievementUnlockedDayStartedEvent>();
+        ModEntry.EventManager.Enable<AchievementUnlockedDayStartedEvent>();
     }
 
     private static bool ShouldSuppressClick(int hovered, int currentLevel) =>

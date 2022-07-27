@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IGameLoopEvents.OneSecondUpdateTicked"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IGameLoopEvents.OneSecondUpdateTicked"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class OneSecondUpdateTickedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class OneSecondUpdateTickedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnOneSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
     {
-        if (IsHooked) OnOneSecondUpdateTickedImpl(sender, e);
+        if (IsEnabled) OnOneSecondUpdateTickedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnOneSecondUpdateTicked" />

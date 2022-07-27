@@ -20,7 +20,7 @@ internal sealed class AddEnchantmentCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "add_enchants";
+    public override string[] Triggers { get; } = { "add_enchants", "add", "enchant" };
 
     /// <inheritdoc />
     public override string Documentation => "Add the specified enchantment to the selected tool." + GetUsage();
@@ -74,11 +74,11 @@ internal sealed class AddEnchantmentCommand : ConsoleCommand
     /// <summary>Tell the dummies how to use the console command.</summary>
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Trigger} <enchantment>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} <enchantment>";
         result += "\n\nParameters:";
         result += "\n\t- <enchantment>: a tool enchantment";
         result += "\n\nExample:";
-        result += $"\n\t- {Handler.EntryCommand} {Trigger} powerful";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} powerful";
         return result;
     }
 }

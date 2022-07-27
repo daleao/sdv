@@ -4,15 +4,18 @@
 
 using Common;
 using Common.Commands;
-using Common.Data;
 using Common.Harmony;
-using Common.Integrations;
+using Common.Integrations.LoveOfCooking;
+using Common.Integrations.LuckSkill;
+using Common.Integrations.SpaceCore;
+using Common.ModData;
 using Common.Multiplayer;
 using Framework;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using System;
 using System.Collections.Generic;
 
 #endregion using directives
@@ -20,18 +23,16 @@ using System.Collections.Generic;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
-
     internal static ModEntry Instance { get; private set; } = null!;
     internal static ModConfig Config { get; set; } = null!;
     internal static ProfessionEventManager EventManager { get; private set; } = null!;
-    internal static Broadcaster Broadcaster { get; private set; } = null!;
-    internal static HostState HostState { get; private set; } = null!;
-    internal static PerScreen<PlayerState> PerScreenState { get; private set; } = null!;
-    internal static PlayerState PlayerState
+    internal static PerScreen<ModState> PerScreenState { get; private set; } = null!;
+    internal static ModState State
     {
         get => PerScreenState.Value;
         set => PerScreenState.Value = value;
     }
+    internal static Broadcaster Broadcaster { get; private set; } = null!;
 
     internal static JObject? ArsenalConfig { get; set; }
     internal static JObject? PondsConfig { get; set; }
@@ -40,20 +41,22 @@ public class ModEntry : Mod
     internal static JObject? TweaksConfig { get; set; }
     internal static JObject? SVEConfig { get; set; }
     internal static ISpaceCoreAPI? SpaceCoreApi { get; set; }
-    internal static ICookingSkillAPI? CookingSkillApi { get; set; }
     internal static ILuckSkillAPI? LuckSkillApi { get; set; }
+    internal static ICookingSkillAPI? CookingSkillApi { get; set; }
 
     /// <remarks><see cref="ISkill"/> is used instead of <see cref="CustomSkill"/> because the dictionary must also cache <see cref="LuckSkill"/> which does not use SpaceCore.</remarks>
     internal static Dictionary<string, ISkill> CustomSkills { get; set; } = new();
     internal static Dictionary<int, CustomProfession> CustomProfessions { get; set; } = new();
+    internal static Lazy<HudPointer> Pointer { get; } = new(() => new());
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
     internal static ITranslationHelper i18n => ModHelper.Translation;
 
-
+#if DEBUG
     internal static FrameRateCounter? FpsCounter { get; private set; }
     internal static ICursorPosition? DebugCursorPosition { get; set; }
+#endif
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -74,14 +77,13 @@ public class ModEntry : Mod
         EventManager = new(Helper.Events);
 
         // apply harmony patches
-        new Harmonizer(Manifest.UniqueID).ApplyAll();
-
-        // initialize multiplayer broadcaster
-        Broadcaster = new(helper.Multiplayer, ModManifest.UniqueID);
+        new Harmonizer(helper.ModRegistry, Manifest.UniqueID).ApplyAll();
 
         // initialize mod state
         PerScreenState = new(() => new());
-        if (Context.IsMainPlayer) HostState = new();
+
+        // initialize multiplayer broadcaster
+        Broadcaster = new(helper.Multiplayer, ModManifest.UniqueID);
 
         // register commands
         new CommandHandler(helper.ConsoleCommands).Register("wol", "Walk Of Life");

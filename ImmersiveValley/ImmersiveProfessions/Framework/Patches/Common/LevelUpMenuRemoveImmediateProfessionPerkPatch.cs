@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Common;
-using DaLion.Common.Data;
 using DaLion.Common.Harmony;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -16,6 +15,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -37,12 +37,6 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
         if (!Profession.TryFromValue(whichProfession, out var profession) ||
             whichProfession == Farmer.luckSkill) return;
 
-        if ((Skill)profession.Skill == Farmer.combatSkill)
-        {
-            Game1.player.maxHealth -= 5;
-            Game1.player.health = Math.Max(Game1.player.health, Game1.player.maxHealth);
-        }
-
         // remove immediate perks
         if (profession == Profession.Aquarist)
             foreach (var pond in Game1.getFarm().buildings.Where(p =>
@@ -53,30 +47,20 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
                 pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
             }
 
-        // unhook unnecessary events
-        ModEntry.EventManager.UnhookForProfession(profession);
+        // disable unnecessary events
+        ModEntry.EventManager.DisableForProfession(profession);
 
         // unregister Ultimate
-        if (ModEntry.PlayerState.RegisteredUltimate?.Index != (UltimateIndex)whichProfession) return;
+        if (Game1.player.get_Ultimate()?.Index != (UltimateIndex)whichProfession) return;
 
         if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
             var firstIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
-            ModDataIO.WriteTo(Game1.player, "UltimateIndex", firstIndex.ToString());
-#pragma warning disable CS8509
-            ModEntry.PlayerState.RegisteredUltimate = firstIndex switch
-#pragma warning restore CS8509
-            {
-                UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
-                UltimateIndex.PoacherAmbush => new Ambush(),
-                UltimateIndex.PiperPandemic => new Pandemic(),
-                UltimateIndex.DesperadoBlossom => new DeathBlossom()
-            };
+            Game1.player.set_Ultimate(Ultimate.FromIndex(firstIndex));
         }
         else
         {
-            ModDataIO.WriteTo(Game1.player, "UltimateIndex", null);
-            ModEntry.PlayerState.RegisteredUltimate = null;
+            Game1.player.set_Ultimate(null);
         }
     }
 

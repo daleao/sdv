@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IPlayerEvents.InventoryChanged"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IPlayerEvents.InventoryChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class InventoryChangedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class InventoryChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnInventoryChanged(object? sender, InventoryChangedEventArgs e)
     {
-        if (IsHooked) OnInventoryChangedImpl(sender, e);
+        if (IsEnabled) OnInventoryChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnInventoryChanged" />

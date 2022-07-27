@@ -3,9 +3,9 @@
 #region using directives
 
 using Common;
-using Common.Data;
 using Common.Extensions;
 using Common.Extensions.Collections;
+using Common.ModData;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -52,19 +52,19 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
             {
                 var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
 
-                var population = ModDataIO.ReadFrom<int>(__instance, "GreenAlgaeLivingHere");
+                var population = ModDataIO.Read<int>(__instance, "GreenAlgaeLivingHere");
                 var chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                     if (random.NextDouble() < chance)
                         ++algaeStacks[0];
 
-                population = ModDataIO.ReadFrom<int>(__instance, "WhiteAlgaeLivingHere");
+                population = ModDataIO.Read<int>(__instance, "WhiteAlgaeLivingHere");
                 chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                     if (random.NextDouble() < chance)
                         ++algaeStacks[1];
 
-                population = ModDataIO.ReadFrom<int>(__instance, "SeaweedLivingHere");
+                population = ModDataIO.Read<int>(__instance, "SeaweedLivingHere");
                 chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                     if (random.NextDouble() < chance)
@@ -108,7 +108,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
 
                 if (__result is not null) held.Remove(__result);
                 var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},0");
-                ModDataIO.WriteTo(__instance, "ItemsHeld", string.Join(';', serialized));
+                ModDataIO.Write(__instance, "ItemsHeld", string.Join(';', serialized));
                 return false; // don't run original logic
             }
 
@@ -156,14 +156,14 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
             }
             else
             {
-                var fishQualities = ModDataIO.ReadFrom(__instance, "FishQualities",
-                        $"{__instance.FishCount - ModDataIO.ReadFrom<int>(__instance, "FamilyLivingHere")},0,0,0")
+                var fishQualities = ModDataIO.Read(__instance, "FishQualities",
+                        $"{__instance.FishCount - ModDataIO.Read<int>(__instance, "FamilyLivingHere")},0,0,0")
                     .ParseList<int>()!;
                 if (fishQualities.Count != 4)
                     throw new InvalidDataException("FishQualities data had incorrect number of values.");
 
                 var familyQualities =
-                    ModDataIO.ReadFrom(__instance, "FamilyQualities", "0,0,0,0").ParseList<int>()!;
+                    ModDataIO.Read(__instance, "FamilyQualities", "0,0,0,0").ParseList<int>()!;
                 if (familyQualities.Count != 4)
                     throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
 
@@ -194,7 +194,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                 if (__instance.HasRadioactiveFish())
                 {
                     var heldMetals =
-                        ModDataIO.ReadFrom(__instance, "MetalsHeld")
+                        ModDataIO.Read(__instance, "MetalsHeld")
                             .ParseList<string>(";")?
                             .Select(li => li.ParseTuple<int, int>())
                             .WhereNotNull()
@@ -203,13 +203,13 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                     if (readyToHarvest.Count > 0)
                     {
                         held.AddRange(readyToHarvest.Select(m =>
-                            m.Item1.IsNonRadioactiveOre()
+                            m.Item1.IsNonRadioactiveOreIndex()
                                 ? new SObject(Constants.RADIOACTIVE_ORE_INDEX_I, 1)
                                 : new(Constants.RADIOACTIVE_BAR_INDEX_I, 1)));
                         heldMetals = heldMetals.Except(readyToHarvest).ToList();
                     }
 
-                    ModDataIO.WriteTo(__instance, "MetalsHeld",
+                    ModDataIO.Write(__instance, "MetalsHeld",
                         string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
                 }
             }
@@ -223,18 +223,18 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
             if (held.Count > 0)
             {
                 var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},{((SObject)p).Quality}");
-                ModDataIO.WriteTo(__instance, "ItemsHeld", string.Join(';', serialized));
+                ModDataIO.Write(__instance, "ItemsHeld", string.Join(';', serialized));
             }
             else
             {
-                ModDataIO.WriteTo(__instance, "ItemsHeld", null);
+                ModDataIO.Write(__instance, "ItemsHeld", null);
             }
 
             if (__result!.ParentSheetIndex != Constants.ROE_INDEX_I) return false; // don't run original logic
 
             var fishIndex = fish.ParentSheetIndex;
             if (fish.IsLegendary() && random.NextDouble() <
-                ModDataIO.ReadFrom<double>(__instance, "FamilyLivingHere") / __instance.FishCount)
+                ModDataIO.Read<double>(__instance, "FamilyLivingHere") / __instance.FishCount)
                 fishIndex = Utils.ExtendedFamilyPairs[fishIndex];
 
             var split = Game1.objectInformation[fishIndex].Split('/');
@@ -254,9 +254,9 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            ModDataIO.WriteTo(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
-            ModDataIO.WriteTo(__instance, "FamilyQualities", null);
-            ModDataIO.WriteTo(__instance, "FamilyLivingHere", null);
+            ModDataIO.Write(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
+            ModDataIO.Write(__instance, "FamilyQualities", null);
+            ModDataIO.Write(__instance, "FamilyLivingHere", null);
             return true; // default to original logic
         }
         catch (Exception ex)

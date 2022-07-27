@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IContentEvents.AssetReady"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IContentEvents.AssetReady"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class AssetReadyEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class AssetReadyEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnAssetReady(object? sender, AssetReadyEventArgs e)
     {
-        if (IsHooked) OnAssetReadyImpl(sender, e);
+        if (IsEnabled) OnAssetReadyImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnAssetReady" />

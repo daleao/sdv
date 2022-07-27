@@ -49,7 +49,7 @@ internal class UltimateHUD
     internal static Texture2D Texture => Textures.MeterTx;
 
     /// <summary>Whether the gauge is being drawn.</summary>
-    internal bool IsVisible => ModEntry.EventManager.IsHooked<UltimateMeterRenderingHudEvent>();
+    internal bool IsVisible => ModEntry.EventManager.IsEnabled<UltimateMeterRenderingHudEvent>();
 
     #endregion properties
 
@@ -223,8 +223,8 @@ internal class UltimateHUD
         _opacity = (float)(-1.0 / (1.0 + Math.Exp(12.0 * ratio - 6.0)) + 1.0);
         if (_fadeOutTimer > 0) return;
 
-        ModEntry.EventManager.Unhook<UltimateGaugeFadeOutUpdateTickedEvent>();
-        ModEntry.EventManager.Unhook<UltimateMeterRenderingHudEvent>();
+        ModEntry.EventManager.Disable<UltimateGaugeFadeOutUpdateTickedEvent>();
+        ModEntry.EventManager.Disable<UltimateMeterRenderingHudEvent>();
         _fadeOutTimer = FADE_OUT_DELAY_I + FADE_OUT_DURATION_I;
         _opacity = 1f;
     }

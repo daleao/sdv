@@ -25,6 +25,6 @@ internal class ToxicityChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnChanged(object? sender, IToxicityChangedEventArgs e)
     {
-        if (IsHooked) _OnChargeInitiatedImpl(sender, e);
+        if (IsEnabled) _OnChargeInitiatedImpl(sender, e);
     }
 }

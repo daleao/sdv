@@ -31,10 +31,10 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         AssetEditors["Maps/springobjects"] = (edit: EditSpringObjectsMaps, priority: AssetEditPriority.Late);
 
         AssetProviders[$"{ModEntry.Manifest.UniqueID}/Gemstones"] = (() =>
-            "assets/gemstones" + (ModEntry.HasLoadedBetterRings ? "_better" : string.Empty) + ".png",
+            "assets/gemstones" + (ModEntry.IsBetterRingsLoaded ? "_better" : string.Empty) + ".png",
             AssetLoadPriority.Medium);
         AssetProviders[$"{ModEntry.Manifest.UniqueID}/Rings"] = (() =>
-            "assets/rings" + (ModEntry.HasLoadedBetterRings ? "_better" : string.Empty) + ".png",
+            "assets/rings" + (ModEntry.IsBetterRingsLoaded ? "_better" : string.Empty) + ".png",
             AssetLoadPriority.Medium);
     }
 
@@ -70,12 +70,12 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
 
         if (ModEntry.Config.CraftableGemRings)
         {
+            data["Emerald Ring"] = "60 1 336 5/Home/533/Ring/Combat 6";
+            data["Aquamarine Ring"] = "62 1 335 5/Home/531/Ring/Combat 4";
+            data["Ruby Ring"] = "64 1 336 5/Home/534/Ring/Combat 6";
             data["Amethyst Ring"] = "66 1 334 5/Home/529/Ring/Combat 2";
             data["Topaz Ring"] = "68 1 334 5/Home/530/Ring/Combat 2";
-            data["Aquamarine Ring"] = "62 1 335 5/Home/531/Ring/Combat 4";
             data["Jade Ring"] = "70 1 335 5/Home/532/Ring/Combat 4";
-            data["Emerald Ring"] = "60 1 336 5/Home/533/Ring/Combat 6";
-            data["Ruby Ring"] = "64 1 336 5/Home/534/Ring/Combat 6";
         }
 
         if (ModEntry.Config.TheOneIridiumBand)
@@ -95,7 +95,15 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         if (ModEntry.Config.RebalancedRings)
         {
             fields = data[Rings.Constants.TOPAZ_RING_INDEX_I].Split('/');
-            fields[5] = ModEntry.i18n.Get("rings.topaz");
+#pragma warning disable CS8524
+            fields[5] = ModEntry.Config.TopazPerk switch
+#pragma warning restore CS8524
+            {
+                ModConfig.Perk.Cooldown => ModEntry.i18n.Get("rings.topaz.cdr"),
+                ModConfig.Perk.Defense => ModEntry.i18n.Get("rings.topaz.defense"),
+                ModConfig.Perk.Precision => fields[5]
+            };
+
             data[Rings.Constants.TOPAZ_RING_INDEX_I] = string.Join('/', fields);
 
             fields = data[Rings.Constants.JADE_RING_INDEX_I].Split('/');
@@ -120,7 +128,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         var rings = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/Rings");
         if (ModEntry.Config.CraftableGemRings)
         {
-            if (ModEntry.HasLoadedBetterRings)
+            if (ModEntry.IsBetterRingsLoaded)
             {
                 srcArea = new(16, 0, 96, 16);
                 targetArea = new(16, 352, 96, 16);
@@ -136,7 +144,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
 
         if (ModEntry.Config.TheOneIridiumBand)
         {
-            if (ModEntry.HasLoadedBetterRings)
+            if (ModEntry.IsBetterRingsLoaded)
             {
                 srcArea = new(0, 0, 16, 16);
                 targetArea = new(368, 336, 16, 16);

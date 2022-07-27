@@ -3,9 +3,10 @@
 #region using directives
 
 using Common;
-using Common.Data;
+using Common.Attributes;
 using Common.Extensions;
 using Common.Extensions.Reflection;
+using Common.ModData;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -19,7 +20,7 @@ using System.Reflection;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("Pathoschild.Automate")]
 internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.HarmonyPatch
 {
     private static Func<object, FishPond>? _GetMachine;
@@ -28,15 +29,8 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
     /// <summary>Construct an instance.</summary>
     internal FishPondMachineOnOutputTakenPatch()
     {
-        try
-        {
-            Target = "Pathoschild.Stardew.Automate.Framework.Machines.Buildings.FishPondMachine".ToType()
-                .RequireMethod("OnOutputTaken");
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = "Pathoschild.Stardew.Automate.Framework.Machines.Buildings.FishPondMachine".ToType()
+            .RequireMethod("OnOutputTaken");
     }
 
     #region harmony patches
@@ -51,7 +45,7 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
             _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CompileUnboundDelegate<Func<object, FishPond>>();
             machine = _GetMachine(__instance);
 
-            var produce = ModDataIO.ReadFrom(machine, "ItemsHeld").ParseList<string>(";");
+            var produce = ModDataIO.Read(machine, "ItemsHeld").ParseList<string>(";");
             if (produce?.Count is not > 0)
             {
                 machine.output.Value = null;
@@ -81,10 +75,10 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
 
                 machine.output.Value = o;
                 produce.Remove(next);
-                ModDataIO.WriteTo(machine, "ItemsHeld", string.Join(";", produce));
+                ModDataIO.Write(machine, "ItemsHeld", string.Join(";", produce));
             }
 
-            if (ModDataIO.ReadFrom<bool>(machine, "CheckedToday")) return false; // don't run original logic
+            if (ModDataIO.Read<bool>(machine, "CheckedToday")) return false; // don't run original logic
 
             var bonus = (int)(item is StardewValley.Object @object
                 ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
@@ -94,13 +88,13 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
             _GetOwner(__instance).gainExperience(Farmer.fishingSkill,
                 FishPond.HARVEST_BASE_EXP + bonus);
 
-            ModDataIO.WriteTo(machine, "CheckedToday", true.ToString());
+            ModDataIO.Write(machine, "CheckedToday", true.ToString());
             return false; // don't run original logic
         }
         catch (InvalidOperationException ex) when (machine is not null)
         {
             Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-            ModDataIO.WriteTo(machine, "ItemsHeld", null);
+            ModDataIO.Write(machine, "ItemsHeld", null);
             return true; // default to original logic
         }
         catch (Exception ex)

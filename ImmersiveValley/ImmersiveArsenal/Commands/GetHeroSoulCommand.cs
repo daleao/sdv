@@ -19,7 +19,7 @@ internal sealed class GetHeroSoulCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "hero_soul";
+    public override string[] Triggers { get; } = { "get_hero_soul", "get_soul", "hero_soul", "soul" };
 
     /// <inheritdoc />
     public override string Documentation => "Add the specified amount of Hero Soul to the local player's inventory.";

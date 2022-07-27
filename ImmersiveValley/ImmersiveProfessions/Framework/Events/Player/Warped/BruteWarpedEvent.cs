@@ -25,12 +25,12 @@ internal sealed class BruteWarpedEvent : WarpedEvent
 
         if (e.NewLocation.IsDungeon() || e.NewLocation.HasMonsters())
         {
-            Manager.Hook<BruteUpdateTickedEvent>();
+            Manager.Enable<BruteUpdateTickedEvent>();
         }
         else
         {
-            ModEntry.PlayerState.BruteRageCounter = 0;
-            Manager.Hook<BruteUpdateTickedEvent>();
+            ModEntry.State.BruteRageCounter = 0;
+            Manager.Enable<BruteUpdateTickedEvent>();
         }
     }
 }

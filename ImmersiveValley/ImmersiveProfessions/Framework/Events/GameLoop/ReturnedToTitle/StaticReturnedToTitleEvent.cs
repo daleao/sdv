@@ -16,16 +16,16 @@ internal sealed class StaticReturnedToTitleEvent : ReturnedToTitleEvent
     internal StaticReturnedToTitleEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        AlwaysHooked = true;
+        AlwaysEnabled = true;
     }
 
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)
     {
-        // unhook events
-        Manager.UnhookFromLocalPlayer();
+        // disable events
+        Manager.DisableForLocalPlayer();
 
         // reset mod state
-        ModEntry.PlayerState = new();
+        ModEntry.State = new();
     }
 }

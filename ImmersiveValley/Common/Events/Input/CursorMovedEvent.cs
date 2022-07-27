@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IInputEvents.CursorMoved"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IInputEvents.CursorMoved"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class CursorMovedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class CursorMovedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnCursorMoved(object? sender, CursorMovedEventArgs e)
     {
-        if (IsHooked) OnCursorMovedImpl(sender, e);
+        if (IsEnabled) OnCursorMovedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnCursorMoved" />

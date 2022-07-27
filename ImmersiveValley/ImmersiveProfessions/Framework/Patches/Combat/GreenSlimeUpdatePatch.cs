@@ -2,8 +2,6 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Data;
 using DaLion.Common.Extensions.Reflection;
 using Extensions;
 using HarmonyLib;
@@ -14,6 +12,7 @@ using StardewValley;
 using StardewValley.Monsters;
 using System;
 using System.Linq;
+using VirtualProperties;
 using SUtility = StardewValley.Utility;
 
 #endregion using directives
@@ -36,10 +35,12 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 
     /// <summary>Patch for Slimes to damage monsters around Piper.</summary>
     [HarmonyPostfix]
-    private static void GreenSlimeUpdatePostfix(GreenSlime __instance)
+    private static void GreenSlimeUpdatePostfix(GreenSlime __instance, GameTime time)
     {
-        if (!ModEntry.PlayerState.PipedSlimes.Contains(__instance)) return;
+        var pipeTimer = __instance.get_PipeTimer();
+        if (pipeTimer.Value <= 0) return;
 
+        pipeTimer.Value -= time.ElapsedGameTime.Milliseconds;
         foreach (var monster in __instance.currentLocation.characters.OfType<Monster>().Where(m => !m.IsSlime()))
         {
             var monsterBox = monster.GetBoundingBox();
@@ -49,7 +50,7 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                 continue;
 
             _GetShellGone ??= typeof(RockCrab).RequireField("shellGone")
-                .CompileUnboundFieldGetterDelegate<Func<RockCrab, NetBool>>();
+                .CompileUnboundFieldGetterDelegate<RockCrab, NetBool>();
             if (monster is Bug bug && bug.isArmoredBug.Value // skip Armored Bugs
                 || monster is LavaCrab && __instance.Sprite.currentFrame % 4 == 0 // skip shelled Lava Crabs
                 || monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !_GetShellGone(crab).Value // skip shelled Rock Crabs
@@ -74,17 +75,10 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
             monster.setInvincibleCountdown(IMMUNE_TO_DAMAGE_DURATION_I);
 
             // aggro monsters
-            var fakeFarmerId = monster.GetHashCode();
-            if (!ModEntry.HostState.FakeFarmers.TryGetValue(fakeFarmerId, out var fakeFarmer))
-            {
-                fakeFarmer = ModEntry.HostState.FakeFarmers[fakeFarmerId] =
-                    new() { UniqueMultiplayerID = fakeFarmerId, currentLocation = __instance.currentLocation };
-                Log.D($"Created fake farmer with id {fakeFarmerId}.");
-            }
+            if (monster.get_Taunter() is null) monster.set_Taunter(__instance);
 
-            fakeFarmer.Position = __instance.Position;
-            ModDataIO.WriteTo(monster, "Aggroed", true.ToString());
-            ModDataIO.WriteTo(monster, "Aggroer", __instance.GetHashCode().ToString());
+            var fakeFarmer = monster.get_FakeFarmer();
+            if (fakeFarmer is not null) fakeFarmer.Position = __instance.Position;
 
             // get damaged by monster
             var damageToSlime = Math.Max(1,

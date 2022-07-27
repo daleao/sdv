@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IContentEvents.LocaleChanged"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IContentEvents.LocaleChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class LocaleChangedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class LocaleChangedEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnLocaleChanged(object? sender, LocaleChangedEventArgs e)
     {
-        if (IsHooked) OnLocaleChangedImpl(sender, e);
+        if (IsEnabled) OnLocaleChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnLocaleChanged" />

@@ -17,6 +17,7 @@ using StardewValley.Tools;
 using System;
 using System.Reflection;
 using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -29,14 +30,16 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
     internal SlingshotPerformFirePatch()
     {
         Target = RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
-        Prefix!.priority = Priority.LowerThanNormal;
+        Prefix!.priority = Priority.High;
+        Prefix!.after = new[] { "DaLion.ImmersiveArsenal" };
     }
 
     #region harmony patches
 
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and Ultimate.</summary>
     [HarmonyPrefix]
-    [HarmonyPriority(Priority.LowerThanNormal)]
+    [HarmonyPriority(Priority.High)]
+    [HarmonyAfter("DaLion.ImmersiveArsenal")]
     private static bool SlingshotPerformFirePrefix(Slingshot __instance, ref bool ___canPlaySound,
         GameLocation location, Farmer who)
     {
@@ -97,8 +100,9 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
                     break;
                 default:
                     collisionBehavior = null;
-                    collisionSound = ammo.Category == -4 ? "slimedead" : "hammer";
-                    ++ammo.ParentSheetIndex;
+                    collisionSound = ammo.IsSquishyAmmo() ? "slimedead" : "hammer";
+                    if (damageBase > 1) ++ammo.ParentSheetIndex;
+
                     break;
             }
 
@@ -135,7 +139,8 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
 
             // calculate bounces
             var bounces = 0;
-            if (who.HasProfession(Profession.Rascal) && ModEntry.Config.ModKey.IsDown())
+            if (who.HasProfession(Profession.Rascal) && (ammo.ParentSheetIndex - 1).IsMineralAmmoIndex() &&
+                ModEntry.Config.ModKey.IsDown())
             {
                 ++bounces;
                 damageMod *= 0.6f;
@@ -145,19 +150,19 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod * overcharge;
             var projectile = new ImmersiveProjectile(__instance, overcharge, false, (int)damage, ammo.ParentSheetIndex,
-                bounces, 0,
-                (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition,
+                bounces, 0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition,
                 collisionSound, "", false, true, location, who, true, collisionBehavior)
             {
                 IgnoreLocationCollision = Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
             };
+
             location.projectiles.Add(projectile);
 
             // add auxiliary projectiles
             var velocity = new Vector2(x, y);
             var speed = velocity.Length();
             velocity.Normalize();
-            if (who.IsLocalPlayer && ModEntry.PlayerState.RegisteredUltimate is DeathBlossom { IsActive: true })
+            if (who.IsLocalPlayer && who.get_Ultimate() is DeathBlossom { IsActive: true })
             {
                 // do Death Blossom
                 for (var i = 0; i < 7; ++i)
@@ -165,10 +170,9 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
                     damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
                     velocity = velocity.Rotate(45);
                     var blossom = new ImmersiveProjectile(__instance, 1f, true, (int)damage, ammo.ParentSheetIndex, 0,
-                        0,
-                        (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
-                        velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
-                        true, location, who, true, collisionBehavior)
+                        0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+                        velocity.Y * speed, startingPosition, collisionSound, string.Empty, false, true, location, who,
+                        true, collisionBehavior)
                     {
                         IgnoreLocationCollision =
                             Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null
@@ -185,26 +189,26 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
                 damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
                 velocity = velocity.Rotate(angle);
                 var clockwise = new ImmersiveProjectile(__instance, 1f, true, (int)damage, ammo.ParentSheetIndex, 0, 0,
-                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
-                    velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
-                    true, location, who, true, collisionBehavior)
+                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed, velocity.Y * speed,
+                    startingPosition, collisionSound, string.Empty, false, true, location, who, true, collisionBehavior)
                 {
                     IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
                                               Game1.currentMinigame is not null
                 };
+
                 location.projectiles.Add(clockwise);
 
                 damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
                 velocity = velocity.Rotate(-2 * angle);
                 var anticlockwise = new ImmersiveProjectile(__instance, 1f, true, (int)damage, ammo.ParentSheetIndex,
-                    0, 0,
-                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
-                    velocity.Y * speed, startingPosition, collisionSound, string.Empty, false,
-                    true, location, who, true, collisionBehavior)
+                    0, 0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+                    velocity.Y * speed, startingPosition, collisionSound, string.Empty, false, true, location, who,
+                    true, collisionBehavior)
                 {
                     IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
                                               Game1.currentMinigame is not null
                 };
+
                 location.projectiles.Add(anticlockwise);
 
                 __instance.attachments[0].Stack -= 2;

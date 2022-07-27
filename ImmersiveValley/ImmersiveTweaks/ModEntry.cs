@@ -4,10 +4,10 @@
 
 using Common;
 using Common.Commands;
-using Common.Data;
 using Common.Events;
 using Common.Harmony;
-using Common.Integrations;
+using Common.Integrations.WalkOfLife;
+using Common.ModData;
 using StardewModdingAPI;
 
 #endregion using directives
@@ -38,11 +38,11 @@ public class ModEntry : Mod
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
-        // hook events
-        new EventManager(helper.Events).HookAll();
+        // enable events
+        new EventManager(helper.Events).EnableAll();
 
         // apply patches
-        new Harmonizer(ModManifest.UniqueID).ApplyAll();
+        new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
 
         // register commands
         new CommandHandler(helper.ConsoleCommands).Register("qol", "Quality Of Life");

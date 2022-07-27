@@ -4,6 +4,7 @@
 
 using Common;
 using Common.Extensions.Reflection;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -12,6 +13,7 @@ using StardewValley.Projectiles;
 using StardewValley.Tools;
 using System;
 using System.Reflection;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -24,18 +26,24 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
     internal SlingshotPerformFirePatch()
     {
         Target = RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
-        Prefix!.after = new[] { "DaLion.ImmersiveProfessions" };
+        Prefix!.priority = Priority.High;
+        Prefix!.before = new[] { "DaLion.ImmersiveProfessions" };
     }
 
     #region harmony patches
 
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and Ultimate.</summary>
     [HarmonyPrefix]
-    [HarmonyAfter("DaLion.ImmersiveProfessions")]
+    [HarmonyPriority(Priority.High)]
+    [HarmonyBefore("DaLion.ImmersiveProfessions")]
     private static bool SlingshotPerformFirePrefix(Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
     {
         try
         {
+            if (__instance.get_IsOnSpecial()) return false; // don't run original logic
+
+            if (ModEntry.IsImmersiveProfessionsLoaded) return true; // pass on to Immersive Professions
+
             if (__instance.attachments[0] is null)
             {
                 Game1.showRedMessage(Game1.content.LoadString("Strings\\StringsFromCSFiles:Slingshot.cs.14254"));
@@ -88,8 +96,9 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
                     break;
                 default:
                     collisionBehavior = null;
-                    collisionSound = ammo.Category == -4 ? "slimedead" : "hammer";
-                    ++ammo.ParentSheetIndex;
+                    collisionSound = ammo.IsSquishyAmmo() ? "slimedead" : "hammer";
+                    if (damageBase > 1) ++ammo.ParentSheetIndex;
+
                     break;
             }
 

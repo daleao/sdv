@@ -29,7 +29,7 @@ internal sealed class LevelUpMenuGetProfessionTitleFromNumberPatch : DaLion.Comm
     {
         try
         {
-            if (!Profession.TryFromValue(whichProfession, out var profession)) return true; // run original logic
+            if (!Profession.TryFromValue(whichProfession, out var profession) || (Skill)profession.Skill == Farmer.luckSkill) return true; // run original logic
 
             __result = profession.GetDisplayName(Game1.player.IsMale);
             return false; // don't run original logic

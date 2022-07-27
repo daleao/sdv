@@ -11,6 +11,7 @@ using StardewValley;
 using System;
 using System.Linq;
 using System.Reflection;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -36,8 +37,8 @@ internal sealed class GameLocationPerformActionPatch : DaLion.Common.Harmony.Har
         {
             string message;
             if (!ModEntry.Config.AllowPrestigeMultiplePerDay &&
-                (ModEntry.EventManager.Get<PrestigeDayEndingEvent>()?.IsHooked == true ||
-                 ModEntry.PlayerState.UsedDogStatueToday))
+                (ModEntry.EventManager.Get<PrestigeDayEndingEvent>()?.IsEnabled == true ||
+                 ModEntry.State.UsedDogStatueToday))
             {
                 message = ModEntry.i18n.Get("prestige.dogstatue.dismiss");
                 Game1.drawObjectDialogue(message);
@@ -55,12 +56,12 @@ internal sealed class GameLocationPerformActionPatch : DaLion.Common.Harmony.Har
                 return false; // don't run original logic
             }
 
-            if (who.HasAllProfessions() && !ModEntry.PlayerState.UsedDogStatueToday)
+            if (who.HasAllProfessions() && !ModEntry.State.UsedDogStatueToday)
             {
                 message = ModEntry.i18n.Get("prestige.dogstatue.what");
                 var options = Array.Empty<Response>();
 
-                if (ModEntry.PlayerState.RegisteredUltimate is not null)
+                if (Game1.player.get_Ultimate() is not null)
                     options = options.Concat(new Response[]
                     {
                         new("changeUlt", ModEntry.i18n.Get("prestige.dogstatue.changeult") +

@@ -48,15 +48,15 @@ internal class ImmersiveProjectile : BasicProjectile
 
         var firer = theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
         var damage = damageToFarmer.Value;
-        var knockback = WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>() * (1f + firer.knockbackModifier);
+        var knockback = (1f + WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>()) * (1f + firer.knockbackModifier);
         var crate = ModEntry.Config.AllowSlingshotCrit
-            ? (0.05f + 0.046f * WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>()) *
+            ? (0.05f + 0.046f * WhatFiredMe.GetEnchantmentLevel<AquamarineEnchantment>()) *
               (1f + firer.critChanceModifier)
             : 0;
         var cpower =
             (1f + (ModEntry.Config.RebalancedEnchants ? 0.5f : 0.1f) *
                 WhatFiredMe.GetEnchantmentLevel<JadeEnchantment>()) * (1f + firer.critPowerModifier);
-        location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, knockback, 0, crate, cpower, false,
+        location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, knockback, 0, crate, cpower, true,
             firer);
     }
 }

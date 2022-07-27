@@ -33,22 +33,22 @@ internal sealed class PickaxeBeginUsingPatch : Common.Harmony.HarmonyPatch
         __instance.Update(who.FacingDirection, 0, who);
         switch (who.FacingDirection)
         {
-            case 0: // up
+            case Game1.up:
                 who.FarmerSprite.setCurrentFrame(176);
                 __instance.Update(0, 0, who);
                 break;
 
-            case 1: // right
+            case Game1.right:
                 who.FarmerSprite.setCurrentFrame(168);
                 __instance.Update(1, 0, who);
                 break;
 
-            case 2: // down
+            case Game1.down:
                 who.FarmerSprite.setCurrentFrame(160);
                 __instance.Update(2, 0, who);
                 break;
 
-            case 3: // left
+            case Game1.left:
                 who.FarmerSprite.setCurrentFrame(184);
                 __instance.Update(3, 0, who);
                 break;

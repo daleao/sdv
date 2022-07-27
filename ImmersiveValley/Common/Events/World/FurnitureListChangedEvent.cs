@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion region using directives
 
-/// <summary>Wrapper for <see cref="IWorldEvents.FurnitureListChanged"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IWorldEvents.FurnitureListChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class FurnitureListChangedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class FurnitureListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnFurnitureListChanged(object? sender, FurnitureListChangedEventArgs e)
     {
-        if (IsHooked) OnFurnitureListChangedImpl(sender, e);
+        if (IsEnabled) OnFurnitureListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnFurnitureListChanged" />

@@ -2,7 +2,7 @@ namespace DaLion.Stardew.Taxes.Integrations;
 
 #region using directives
 
-using Common.Integrations;
+using Common.Integrations.GenericModConfigMenu;
 using StardewModdingAPI;
 using System;
 

@@ -97,7 +97,7 @@ internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
 
             // draw top gem
             color = Utils.ColorByGemstone[__instance.combinedRings[0].ParentSheetIndex] * transparency;
-            offset = ModEntry.HasLoadedBetterRings ? new Vector2(19f, 3f) : new(23f, 11f);
+            offset = ModEntry.IsBetterRingsLoaded ? new Vector2(19f, 3f) : new(23f, 11f);
             spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                 new Rectangle(0, 0, 4, 4), color, 0f, Vector2.Zero, scaleSize * 4f, SpriteEffects.None, layerDepth);
 
@@ -105,7 +105,7 @@ internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
             {
                 // draw bottom gem (or left, in case of better rings)
                 color = Utils.ColorByGemstone[__instance.combinedRings[1].ParentSheetIndex] * transparency;
-                offset = ModEntry.HasLoadedBetterRings ? new Vector2(23f, 19f) : new(23f, 43f);
+                offset = ModEntry.IsBetterRingsLoaded ? new Vector2(23f, 19f) : new(23f, 43f);
                 spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                     new Rectangle(4, 0, 4, 4), color, 0, Vector2.Zero, scaleSize * 4f, SpriteEffects.None,
                     layerDepth);
@@ -115,7 +115,7 @@ internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
             {
                 // draw left gem (or right, in case of better rings)
                 color = Utils.ColorByGemstone[__instance.combinedRings[2].ParentSheetIndex] * transparency;
-                offset = ModEntry.HasLoadedBetterRings ? new Vector2(35f, 7f) : new(7f, 27f);
+                offset = ModEntry.IsBetterRingsLoaded ? new Vector2(35f, 7f) : new(7f, 27f);
                 spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                     new Rectangle(8, 0, 4, 4), color, 0f, Vector2.Zero, scaleSize * 4f, SpriteEffects.None, layerDepth);
             }
@@ -124,7 +124,7 @@ internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
             {
                 // draw right gem (or bottom, in case of better rings)
                 color = Utils.ColorByGemstone[__instance.combinedRings[3].ParentSheetIndex] * transparency;
-                offset = ModEntry.HasLoadedBetterRings ? new Vector2(39f, 23f) : new(39f, 27f);
+                offset = ModEntry.IsBetterRingsLoaded ? new Vector2(39f, 23f) : new(39f, 27f);
                 spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                     new Rectangle(12, 0, 4, 4), color, 0f, Vector2.Zero, scaleSize * 4f, SpriteEffects.None,
                     layerDepth);

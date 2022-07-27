@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Common.Attributes;
 using Common.Extensions.Reflection;
 using Extensions;
 using HarmonyLib;
@@ -11,20 +12,13 @@ using StardewValley.Objects;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
 internal sealed class NewForgeMenuGetForgeCostPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal NewForgeMenuGetForgeCostPatch()
     {
-        try
-        {
-            Target = "SpaceCore.Interface.NewForgeMenu".ToType().RequireMethod("GetForgeCost");
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = "SpaceCore.Interface.NewForgeMenu".ToType().RequireMethod("GetForgeCost");
     }
 
     #region harmony patches

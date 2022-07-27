@@ -4,7 +4,9 @@
 
 using Common;
 using Common.Commands;
+using Framework.VirtualProperties;
 using JetBrains.Annotations;
+using StardewValley;
 
 #endregion using directives
 
@@ -17,7 +19,7 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "ready_ult";
+    public override string[] Triggers { get; } = { "ready_ult", "rdy" };
 
     /// <inheritdoc />
     public override string Documentation => "Max-out the player's Special Ability charge, or set it to the specified percentage.";
@@ -25,7 +27,8 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (ModEntry.PlayerState.RegisteredUltimate is null)
+        var ultimate = Game1.player.get_Ultimate();
+        if (ultimate is null)
         {
             Log.W("Not registered to an Ultimate.");
             return;
@@ -33,7 +36,7 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
 
         if (args.Length <= 0)
         {
-            ModEntry.PlayerState.RegisteredUltimate.ChargeValue = ModEntry.PlayerState.RegisteredUltimate.MaxValue;
+            ultimate.ChargeValue = ultimate.MaxValue;
             return;
         }
 
@@ -49,7 +52,6 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
             return;
         }
 
-        ModEntry.PlayerState.RegisteredUltimate.ChargeValue =
-            (double)value * ModEntry.PlayerState.RegisteredUltimate.MaxValue / 100.0;
+        ultimate.ChargeValue = (double)value * ultimate.MaxValue / 100.0;
     }
 }

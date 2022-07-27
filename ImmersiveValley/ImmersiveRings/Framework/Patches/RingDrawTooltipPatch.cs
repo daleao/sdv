@@ -1,12 +1,12 @@
-﻿using DaLion.Stardew.Rings.Extensions;
-
-namespace DaLion.Stardew.Rings.Framework.Patches;
+﻿namespace DaLion.Stardew.Rings.Framework.Patches;
 
 #region using directives
 
 using Common;
 using Common.Extensions.Reflection;
 using Common.Harmony;
+using Common.ModData;
+using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -126,6 +126,18 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
+        // write bonus knockback
+        if (addedKnockback > 0)
+        {
+            var amount = $"+{addedKnockback:p0}";
+            co = new(0, 120, 120);
+            Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
+                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            Utility.drawTextWithShadow(spriteBatch, Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount),
+                font, new(x + 68, y + 28), co * 0.9f * alpha);
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
         // write bonus crit rate
         if (addedCritChance > 0)
         {
@@ -159,7 +171,7 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             co = new(0, 120, 120);
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(110, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            Utility.drawTextWithShadow(spriteBatch, ModEntry.i18n.Get("ui.itemhover.precision", new { addedPrecision = amount }), font,
+            Utility.drawTextWithShadow(spriteBatch, ModEntry.i18n.Get("ui.itemhover.precision", new { amount }), font,
                 new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
@@ -176,15 +188,17 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus knockback
-        if (addedKnockback > 0)
+        // write bonus cooldown reduction
+        var cdr = ModDataIO.Read<float>(Game1.player, "CooldownReduction");
+        if (cdr > 0)
         {
-            var amount = $"+{addedKnockback:p0}";
+            var amount = $"+{cdr:p0}";
             co = new(0, 120, 120);
-            Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
+            Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(150, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            Utility.drawTextWithShadow(spriteBatch, Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount),
-                font, new(x + 68, y + 28), co * 0.9f * alpha);
+            Utility.drawTextWithShadow(spriteBatch, ModEntry.i18n.Get("ui.itemhover.cdr", new { amount }), font,
+                new(x + 68, y + 28),
+                co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 

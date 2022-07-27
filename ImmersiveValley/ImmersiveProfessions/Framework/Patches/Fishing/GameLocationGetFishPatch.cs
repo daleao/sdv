@@ -100,7 +100,7 @@ internal sealed class GameLocationGetFishPatch : DaLion.Common.Harmony.HarmonyPa
     #region private methods
 
     private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled) =>
-        (currentFish is > 166 and < 173 || ModEntry.Config.SeaweedIsJunk && currentFish.IsAlgae())
+        (currentFish is > 166 and < 173 || ModEntry.Config.SeaweedIsTrash && currentFish.IsAlgaeIndex())
                && who.CurrentTool is FishingRod rod
                && rod.getBaitAttachmentIndex() != MAGNET_INDEX_I
                && who.HasProfession(Profession.Fisher) && !hasRerolled;

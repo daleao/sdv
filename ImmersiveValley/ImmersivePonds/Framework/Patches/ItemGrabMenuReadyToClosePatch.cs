@@ -2,8 +2,8 @@
 
 #region using directives
 
-using Common.Data;
 using Common.Extensions.Collections;
+using Common.ModData;
 using HarmonyLib;
 using JetBrains.Annotations;
 using StardewValley.Buildings;
@@ -34,7 +34,7 @@ internal sealed class ItemGrabMenuReadyToClosePatch : Common.Harmony.HarmonyPatc
         var inventory = __instance.ItemsToGrabMenu?.actualInventory.WhereNotNull().ToList();
         if (inventory?.Count is not > 0)
         {
-            ModDataIO.WriteTo(pond, "ItemsHeld", null);
+            ModDataIO.Write(pond, "ItemsHeld", null);
             pond.output.Value = null;
             return;
         }
@@ -47,11 +47,11 @@ internal sealed class ItemGrabMenuReadyToClosePatch : Common.Harmony.HarmonyPatc
         if (inventory.Count > 0)
         {
             var serialized = inventory.Select(i => $"{i.ParentSheetIndex},{i.Stack},{((SObject)i).Quality}");
-            ModDataIO.WriteTo(pond, "ItemsHeld", string.Join(';', serialized));
+            ModDataIO.Write(pond, "ItemsHeld", string.Join(';', serialized));
         }
         else
         {
-            ModDataIO.WriteTo(pond, "ItemsHeld", null);
+            ModDataIO.Write(pond, "ItemsHeld", null);
         }
 
         pond.output.Value = output;

@@ -21,7 +21,7 @@ internal sealed class PiperUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         // countdown contact timer
-        if (ModEntry.PlayerState.SlimeContactTimer > 0 && Game1.game1.IsActive && Game1.shouldTimePass())
-            --ModEntry.PlayerState.SlimeContactTimer;
+        if (ModEntry.State.SlimeContactTimer > 0 && (Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass())
+            --ModEntry.State.SlimeContactTimer;
     }
 }

@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Data;
+using Common.ModData;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;

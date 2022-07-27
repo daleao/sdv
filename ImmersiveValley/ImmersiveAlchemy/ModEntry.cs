@@ -3,8 +3,8 @@
 #region using directives
 
 using Common;
-using Common.Data;
 using Common.Harmony;
+using Common.ModData;
 using Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
@@ -31,9 +31,6 @@ public class ModEntry : Mod
 
     internal static bool LoadedBackpackMod { get; private set; }
 
-    internal static FrameRateCounter FpsCounter { get; private set; } = null!;
-    internal static ICursorPosition DebugCursorPosition { get; set; } = null!;
-
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
@@ -53,7 +50,7 @@ public class ModEntry : Mod
         EventManager = new(Helper.Events);
 
         // apply harmony patches
-        new Harmonizer(Manifest.UniqueID).ApplyAll();
+        new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
 
         // initialize mod state
         PerScreenState = new(() => new());
@@ -78,12 +75,6 @@ public class ModEntry : Mod
 
         // check for Larger Backpack mod
         LoadedBackpackMod = helper.ModRegistry.IsLoaded("spacechase0.BiggerBackpack");
-
-#if DEBUG
-        // start FPS counter
-        FpsCounter = new(GameRunner.instance);
-        helper.Reflection.GetMethod(FpsCounter, "LoadContent").Invoke();
-#endif
     }
 
     /// <inheritdoc />

@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IGameLoopEvents.Saved"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IGameLoopEvents.Saved"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class SavedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class SavedEvent : ManagedEvent
     /// <param name="e">The event data.</param>
     internal void OnSaved(object? sender, SavedEventArgs e)
     {
-        if (IsHooked) OnSavedImpl(sender, e);
+        if (IsEnabled) OnSavedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnSaved" />

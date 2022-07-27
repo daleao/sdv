@@ -170,10 +170,18 @@ internal class CommandHandler
         {
             try
             {
+#if RELEASE
+                var debugOnlyAttribute =
+                    (DebugOnlyAttribute?)c.GetCustomAttributes(typeof(DebugOnlyAttribute), false).FirstOrDefault();
+                if (debugOnlyAttribute is not null) continue;
+#endif
+
                 var command = (IConsoleCommand)c
                     .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { GetType() }, null)!
                     .Invoke(new object?[] { this });
-                _HandledCommands.Add(command.Trigger, command);
+                foreach (var trigger in command.Triggers)
+                    _HandledCommands.Add(trigger, command);
+
                 Log.D($"[CommandHandler]: Handling {command.GetType().Name}");
             }
             catch (Exception ex)
@@ -213,20 +221,32 @@ internal class CommandHandler
         if (string.Equals(args[0], "help", StringComparison.InvariantCultureIgnoreCase))
         {
             var result = "Available commands:";
-            _HandledCommands.Values.ForEach(c => { result += $"\n\t-{command} {c.Trigger}"; });
+            _HandledCommands.Values.Distinct().ForEach(c =>
+            {
+                result +=
+                    $"\n\t-{command} {c.Triggers.First()}";
+            });
             Log.I(result);
-            return;
-        }
-
-        if (!Context.IsWorldReady)
-        {
-            Log.W("You must load a save before running this command.");
             return;
         }
 
         if (!_HandledCommands.TryGetValue(args[0].ToLowerInvariant(), out var handled))
         {
             Log.W($"{args[0]} is not a valid command. Use `{command} help` to see available sub-commands.");
+            return;
+        }
+
+        if (args.Length > 1 && (string.Equals(args[1], "help", StringComparison.InvariantCultureIgnoreCase) ||
+                                string.Equals(args[1], "doc", StringComparison.InvariantCultureIgnoreCase)))
+        {
+            Log.I(
+                $"{handled.Documentation}\n\nAliases: {string.Join(',', handled.Triggers.Skip(1).Select(t => "`" + t + "`"))}");
+            return;
+        }
+
+        if (!Context.IsWorldReady)
+        {
+            Log.W("You must load a save before running this command.");
             return;
         }
 

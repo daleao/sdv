@@ -1,4 +1,4 @@
-﻿namespace DaLion.Common.Integrations;
+﻿namespace DaLion.Common.Integrations.WalkOfLife;
 
 #region using directives
 
@@ -31,71 +31,71 @@ public interface IImmersiveProfessionsAPI
     #region tresure hunts
 
     /// <inheritdoc cref="IImmersiveProfessions.ITreasureHunt.IsActive"/>
-    /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
-    bool IsHuntActive(string type);
+    /// <param name="type">The type of treasure hunt.</param>
+    bool IsHuntActive(IImmersiveProfessions.TreasureHuntType type);
 
     /// <inheritdoc cref="IImmersiveProfessions.ITreasureHunt.TryStart"/>
-    /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
-    bool TryStartNewHunt(GameLocation location, string type);
+    /// <param name="location">The hunt location.</param>
+    /// <param name="type">The type of treasure hunt.</param>
+    bool TryStartNewHunt(GameLocation location, IImmersiveProfessions.TreasureHuntType type);
 
     /// <inheritdoc cref="IImmersiveProfessions.ITreasureHunt.ForceStart"/>
-    /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
-    void ForceStartNewHunt(GameLocation location, Vector2 target, string type);
+    /// <param name="location">The hunt location.</param>
+    /// <param name="target">The target tile.</param>
+    /// <param name="type">The type of treasure hunt.</param>
+    void ForceStartNewHunt(GameLocation location, Vector2 target, IImmersiveProfessions.TreasureHuntType type);
 
     /// <inheritdoc cref="IImmersiveProfessions.ITreasureHunt.Fail"/>
-    /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
+    /// <param name="type">The type of treasure hunt.</param>
     /// <returns><see langword="false"> if the <see cref="IImmersiveProfessions.ITreasureHunt"/> instance was not active, otherwise <see langword="true">.</returns>
-    bool InterruptActiveHunt(string type);
+    bool InterruptActiveHunt(IImmersiveProfessions.TreasureHuntType type);
 
     /// <summary>Register a new <see cref="TreasureHuntStartedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    IImmersiveProfessions.IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, IImmersiveProfessions.ITreasureHuntStartedEventArgs> callback, bool alwaysHooked = false);
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    IImmersiveProfessions.IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, IImmersiveProfessions.ITreasureHuntStartedEventArgs> callback, bool alwaysEnabled = false);
 
     /// <summary>Register a new <see cref="TreasureHuntEndedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    IImmersiveProfessions.IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, IImmersiveProfessions.ITreasureHuntEndedEventArgs> callback, bool alwaysHooked = false);
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    IImmersiveProfessions.IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, IImmersiveProfessions.ITreasureHuntEndedEventArgs> callback, bool alwaysEnabled = false);
 
     #endregion treasure hunts
 
     #region ultimate
 
-    /// <summary>Get a the local player's currently registered combat Ultimate.</summary>
-    IImmersiveProfessions.IUltimate? GetRegisteredUltimate();
-
-    /// <summary>Check whether the <see cref="IImmersiveProfessions.UltimateMeter"/> is currently visible.</summary>
-    bool IsShowingUltimateMeter();
+    /// <summary>Get a player's currently registered combat Ultimate, if any.</summary>
+    IImmersiveProfessions.IUltimate? GetRegisteredUltimate(Farmer? farmer = null);
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether this event.</param>
-    IImmersiveProfessions.IManagedEvent RegisterUltimateActivatedEvent(Action<object?, IImmersiveProfessions.IUltimateActivatedEventArgs> callback, bool alwaysHooked = false);
+    /// <param name="alwaysEnabled">Whether this event.</param>
+    IImmersiveProfessions.IManagedEvent RegisterUltimateActivatedEvent(Action<object?, IImmersiveProfessions.IUltimateActivatedEventArgs> callback, bool alwaysEnabled = false);
 
     /// <summary>Register a new <see cref="UltimateDeactivatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    IImmersiveProfessions.IManagedEvent RegisterUltimateDeactivatedEvent(Action<object?, IImmersiveProfessions.IUltimateDeactivatedEventArgs> callback, bool alwaysHooked = false);
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    IImmersiveProfessions.IManagedEvent RegisterUltimateDeactivatedEvent(Action<object?, IImmersiveProfessions.IUltimateDeactivatedEventArgs> callback, bool alwaysEnabled = false);
 
     /// <summary>Register a new <see cref="UltimateChargeInitiatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    IImmersiveProfessions.IManagedEvent RegisterUltimateChargeInitiatedEvent(Action<object?, IImmersiveProfessions.IUltimateChargeInitiatedEventArgs> callback, bool alwaysHooked = false);
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    IImmersiveProfessions.IManagedEvent RegisterUltimateChargeInitiatedEvent(Action<object?, IImmersiveProfessions.IUltimateChargeInitiatedEventArgs> callback, bool alwaysEnabled = false);
 
     /// <summary>Register a new <see cref="UltimateChargeIncreasedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    IImmersiveProfessions.IManagedEvent RegisterUltimateChargeIncreasedEvent(Action<object?, IImmersiveProfessions.IUltimateChargeIncreasedEventArgs> callback, bool alwaysHooked = false);
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    IImmersiveProfessions.IManagedEvent RegisterUltimateChargeIncreasedEvent(Action<object?, IImmersiveProfessions.IUltimateChargeIncreasedEventArgs> callback, bool alwaysEnabled = false);
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    IImmersiveProfessions.IManagedEvent RegisterUltimateFullyChargedEvent(Action<object?, IImmersiveProfessions.IUltimateFullyChargedEventArgs> callback, bool alwaysHooked = false);
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    IImmersiveProfessions.IManagedEvent RegisterUltimateFullyChargedEvent(Action<object?, IImmersiveProfessions.IUltimateFullyChargedEventArgs> callback, bool alwaysEnabled = false);
 
     /// <summary>Register a new <see cref="UltimateEmptiedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    IImmersiveProfessions.IManagedEvent RegisterUltimateEmptiedEvent(Action<object?, IImmersiveProfessions.IUltimateEmptiedEventArgs> callback, bool alwaysHooked = false);
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    IImmersiveProfessions.IManagedEvent RegisterUltimateEmptiedEvent(Action<object?, IImmersiveProfessions.IUltimateEmptiedEventArgs> callback, bool alwaysEnabled = false);
 
     #endregion ultimate
 

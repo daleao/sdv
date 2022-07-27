@@ -1,4 +1,4 @@
-﻿namespace DaLion.Common.Integrations;
+﻿namespace DaLion.Common.Integrations.JsonAssets;
 
 #region using directives
 

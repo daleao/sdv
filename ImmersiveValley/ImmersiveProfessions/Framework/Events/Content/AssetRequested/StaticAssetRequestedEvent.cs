@@ -2,10 +2,10 @@
 
 #region using directives
 
-using Common.Data;
 using Common.Events;
 using Common.Extensions;
 using Common.Extensions.Collections;
+using Common.ModData;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,7 +33,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
     internal StaticAssetRequestedEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        AlwaysHooked = true;
+        AlwaysEnabled = true;
 
         AssetEditors["Data/achievements"] = (edit: EditAchievementsData, priority: AssetEditPriority.Default);
         AssetEditors["Data/FishPondData"] = (edit: EditFishPondDataData, priority: AssetEditPriority.Late);
@@ -112,7 +112,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
     {
         var data = asset.AsDictionary<string, string>().Data;
         var taxBonus =
-            ModDataIO.ReadFrom<float>(Game1.player, "ConservationistActiveTaxBonusPct");
+            ModDataIO.Read<float>(Game1.player, "ConservationistActiveTaxBonusPct");
         var key = taxBonus >= ModEntry.Config.ConservationistTaxBonusCeiling
             ? "conservationist.mail.max"
             : "conservationist.mail";

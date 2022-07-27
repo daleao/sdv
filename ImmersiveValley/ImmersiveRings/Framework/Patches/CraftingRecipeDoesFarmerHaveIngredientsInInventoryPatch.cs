@@ -29,7 +29,7 @@ internal sealed class CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch : 
     /// <summary>Overrides ingredient search to allow non-Object types.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
-    private static bool CraftingRecipeDoesFarmerHaveIngredientsInInventoryPrefix(CraftingRecipe __instance, ref bool __result, IList<Item> extraToCheck)
+    private static bool CraftingRecipeDoesFarmerHaveIngredientsInInventoryPrefix(CraftingRecipe __instance, ref bool __result, IList<Item>? extraToCheck)
     {
         if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
             !ModEntry.Config.CraftableGlowAndMagnetRings && !ModEntry.Config.ImmersiveGlowstoneRecipe) return true; // run original logic

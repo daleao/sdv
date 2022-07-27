@@ -5,10 +5,13 @@
 using Common.Events;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
+using StardewValley;
+using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, UltimateEvent]
 internal sealed class UltimateInputUpdateTickedEvent : UpdateTickedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,6 +22,6 @@ internal sealed class UltimateInputUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.Config.SpecialActivationKey.IsDown()) ModEntry.PlayerState.RegisteredUltimate!.UpdateInput();
+        if (ModEntry.Config.SpecialActivationKey.IsDown()) Game1.player.get_Ultimate()!.UpdateInput();
     }
 }

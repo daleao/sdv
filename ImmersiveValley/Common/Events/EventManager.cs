@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Attributes;
 using Extensions.Reflection;
 using HarmonyLib;
 using StardewModdingAPI.Events;
@@ -13,7 +14,7 @@ using System.Reflection;
 
 #endregion using directives
 
-/// <summary>Instantiates and manages dynamic hooking and unhooking of <see cref="ManagedEvent"/> classes in the assembly.</summary>
+/// <summary>Instantiates and manages dynamic enabling and disabling of <see cref="ManagedEvent"/> classes in the assembly.</summary>
 internal class EventManager
 {
     /// <summary>Cache of managed <see cref="IManagedEvent"/> instances.</summary>
@@ -38,15 +39,21 @@ internal class EventManager
                             null) is not null)
             .ToArray();
 
-#if RELEASE
-        eventTypes = eventTypes.Where(t => !t.Name.StartsWith("Debug")).ToArray();
-#endif
-
         Log.D($"[EventManager]: Found {eventTypes.Length} event classes. Initializing events...");
         foreach (var e in eventTypes)
         {
             try
             {
+#if RELEASE
+                var debugOnlyAttribute =
+                    (DebugOnlyAttribute?)e.GetCustomAttributes(typeof(DebugOnlyAttribute), false).FirstOrDefault();
+                if (debugOnlyAttribute is not null) continue;
+#endif
+
+                var deprecatedAttr =
+                    (DeprecatedAttribute?)e.GetCustomAttributes(typeof(DeprecatedAttribute), false).FirstOrDefault();
+                if (deprecatedAttr is not null) continue;
+
                 var @event = (IManagedEvent)e
                     .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { GetType() }, null)!
                     .Invoke(new object?[] { this });
@@ -229,12 +236,12 @@ internal class EventManager
     /// <summary>Enumerate all managed event instances.</summary>
     internal IEnumerable<IManagedEvent> Events => ManagedEvents;
 
-    /// <summary>Enumerate all currently hooked events for the local player.</summary>
-    internal IEnumerable<IManagedEvent> Hooked => ManagedEvents.Where(e => e.IsHooked);
+    /// <summary>Enumerate all currently enabled events for the local player.</summary>
+    internal IEnumerable<IManagedEvent> Enabled => ManagedEvents.Where(e => e.IsEnabled);
 
-    /// <summary>Hook a single <see cref="IManagedEvent"/>.</summary>
-    /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to hook.</typeparam>
-    internal void Hook<TEvent>() where TEvent : IManagedEvent
+    /// <summary>Enable a single <see cref="IManagedEvent"/>.</summary>
+    /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to enable.</typeparam>
+    internal void Enable<TEvent>() where TEvent : IManagedEvent
     {
         var e = Get<TEvent>();
         if (e is null)
@@ -243,12 +250,12 @@ internal class EventManager
             return;
         }
 
-        if (e.Hook()) Log.D($"[EventManager]: Hooked {typeof(TEvent).Name}.");
+        if (e.Enable()) Log.D($"[EventManager]: Enabled {typeof(TEvent).Name}.");
     }
 
-    /// <summary>Hook the specified <see cref="IManagedEvent"/> types.</summary>
-    /// <param name="eventTypes">The <see cref="IManagedEvent"/> types to hook.</param>
-    internal void Hook(params Type[] eventTypes)
+    /// <summary>Enable the specified <see cref="IManagedEvent"/> types.</summary>
+    /// <param name="eventTypes">The <see cref="IManagedEvent"/> types to enable.</param>
+    internal void Enable(params Type[] eventTypes)
     {
         foreach (var type in eventTypes)
         {
@@ -265,13 +272,13 @@ internal class EventManager
                 continue;
             }
 
-            if (e.Hook()) Log.D($"[EventManager]: Hooked {type.Name}.");
+            if (e.Enable()) Log.D($"[EventManager]: Enabled {type.Name}.");
         }
     }
 
-    /// <summary>Unhook a single <see cref="IManagedEvent"/>.</summary>
-    /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to unhook.</typeparam>
-    internal void Unhook<TEvent>() where TEvent : IManagedEvent
+    /// <summary>Disable a single <see cref="IManagedEvent"/>.</summary>
+    /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to disable.</typeparam>
+    internal void Disable<TEvent>() where TEvent : IManagedEvent
     {
         var e = Get<TEvent>();
         if (e is null)
@@ -280,12 +287,12 @@ internal class EventManager
             return;
         }
 
-        if (e.Unhook()) Log.D($"[EventManager]: Unhooked {typeof(TEvent).Name}.");
+        if (e.Disable()) Log.D($"[EventManager]: Disabled {typeof(TEvent).Name}.");
     }
 
-    /// <summary>Unhook events from the event listener.</summary>
-    /// <param name="eventTypes">The <see cref="IManagedEvent"/> types to unhook.</param>
-    internal void Unhook(params Type[] eventTypes)
+    /// <summary>Disable events from the event listener.</summary>
+    /// <param name="eventTypes">The <see cref="IManagedEvent"/> types to disable.</param>
+    internal void Disable(params Type[] eventTypes)
     {
         foreach (var type in eventTypes)
         {
@@ -302,82 +309,86 @@ internal class EventManager
                 continue;
             }
 
-            if (e.Unhook()) Log.D($"[EventManager]: Unhooked {type.Name}.");
+            if (e.Disable()) Log.D($"[EventManager]: Disabled {type.Name}.");
         }
     }
 
-    /// <summary>Hook all <see cref="IManagedEvent"/>s in the assembly.</summary>
+    /// <summary>Enable all <see cref="IManagedEvent"/>s in the assembly.</summary>
     /// <param name="except">Types to be excluded, if any.</param>
-    internal void HookAll(params Type[] except)
+    internal void EnableAll(params Type[] except)
     {
-        Log.D($"[EventManager]: Hooking all events...");
-        var toHook = ManagedEvents
+        var preamble = "[EventManager]: Enabling all ";
+        if (except.Length > 0) preamble += $"but {except.Length} ";
+        preamble += "events...";
+        Log.D(preamble);
+        var toEnable = ManagedEvents
             .Select(e => e.GetType())
             .Except(except)
             .ToArray();
-        Hook(toHook);
-        Log.D($"Hooked {toHook.Length} events.");
+        Enable(toEnable);
+        Log.D($"Enabled {toEnable.Length} events.");
     }
 
-    /// <summary>Unhook all <see cref="IManagedEvent"/>s in the assembly.</summary>
+    /// <summary>Disable all <see cref="IManagedEvent"/>s in the assembly.</summary>
     /// <param name="except">Types to be excluded, if any.</param>
-    internal void UnhookAll(params Type[] except)
+    internal void DisableAll(params Type[] except)
     {
-        Log.D($"[EventManager]: Unhooking all events...");
-        var toUnhook = ManagedEvents
+        var preamble = "[EventManager]: Disabling all ";
+        if (except.Length > 0) preamble += $"but {except.Length} ";
+        preamble += "events...";
+        Log.D(preamble);
+        var toDisable = ManagedEvents
             .Select(e => e.GetType())
             .Except(except)
             .ToArray();
-        Hook(toUnhook);
-        Log.D($"Unhooked {toUnhook.Length} events.");
+        Enable(toDisable);
+        Log.D($"Disabled {toDisable.Length} events.");
     }
 
-    /// <summary>Unhook all <see cref="IManagedEvent"/> types starting with the specified prefix.</summary>
-    /// <param name="prefix">A <see cref="string"/> prefix.</param>
+    /// <summary>Enable all <see cref="IManagedEvent"/> types starting with attribute <typeparamref name="T"/>.</summary>
     /// <param name="except">Types to be excluded, if any.</param>
-    internal void HookStartingWith(string prefix, params Type[] except)
+    internal void EnableWithAttribute<T>(params Type[] except) where T : Attribute
     {
-        Log.D($"[EventManager]: Searching for '{prefix}' events...");
-        var toHook = ManagedEvents
+        Log.D($"[EventManager]: Searching for events with {typeof(T).Name}...");
+        var toEnable = ManagedEvents
             .Select(e => e.GetType())
-            .Where(t => t.Name.StartsWith(prefix))
+            .Where(t => t.GetCustomAttribute<T>() is not null)
             .Except(except)
             .ToArray();
-        Hook(toHook);
-        Log.D($"Hooked {toHook.Length} events.");
+        Enable(toEnable);
+        Log.D($"[EventManager]: Enabled {toEnable.Length} events.");
     }
 
-    /// <summary>Unhook all <see cref="IManagedEvent"/> types starting with the specified prefix.</summary>
-    /// <param name="prefix">A <see cref="string" /> prefix.</param>
+    /// <summary>Disable all <see cref="IManagedEvent"/> types starting with attribute <typeparamref name="T"/>.</summary>
     /// <param name="except">Types to be excluded, if any.</param>
-    internal void UnhookStartingWith(string prefix, params Type[] except)
+    internal void DisableWithAttribute<T>(params Type[] except) where T : Attribute
     {
-        Log.D($"[EventManager]: Searching for events beginning with '{prefix}'...");
-        var toUnhook = ManagedEvents
+        Log.D($"[EventManager]: Searching for events beginning with {typeof(T).Name}...");
+        var toDisable = ManagedEvents
             .Select(e => e.GetType())
-            .Where(t => t.Name.StartsWith(prefix))
+            .Where(t => t.GetCustomAttribute<T>() is not null)
             .Except(except)
             .ToArray();
-        Unhook(toUnhook);
-        Log.D($"[EventManager]: Unhooked {toUnhook.Length} events.");
+        Disable(toDisable);
+        Log.D($"[EventManager]: Disabled {toDisable.Length} events.");
     }
 
-    /// <summary>Hook save-dependent events.</summary>
-    internal virtual void HookForLocalPlayer()
+    /// <summary>Enable save-dependent events.</summary>
+    internal virtual void EnableForLocalPlayer()
     {
     }
 
-    /// <summary>Unhook save-dependent events.</summary>
-    internal virtual void UnhookFromLocalPlayer()
+    /// <summary>Disable save-dependent events.</summary>
+    internal virtual void DisableForLocalPlayer()
     {
-        Log.D("[EventManager]: Unhooking local player events...");
-        var toUnhook = ManagedEvents
+        Log.D("[EventManager]: Disabling local player events...");
+        var toDisable = ManagedEvents
             .Select(e => e.GetType())
-            .Where(t => !t.IsAssignableToAnyOf(typeof(GameLaunchedEvent), typeof(SaveCreatedEvent),
-                    typeof(SaveCreatingEvent), typeof(SaveLoadedEvent), typeof(ReturnedToTitleEvent)))
+            .Where(t => !t.IsAssignableToAnyOf(typeof(SaveCreatedEvent), typeof(SaveCreatingEvent),
+                typeof(SaveLoadedEvent), typeof(ReturnedToTitleEvent)))
             .ToArray();
-        Unhook(toUnhook);
-        Log.D($"[EventManager]: Unhooked {toUnhook.Length} events.");
+        Disable(toDisable);
+        Log.D($"[EventManager]: Disabled {toDisable.Length} events.");
     }
 
     /// <summary>Add a new event instance to the set of managed events.</summary>
@@ -406,13 +417,13 @@ internal class EventManager
         return got is not null;
     }
 
-    /// <summary>Check if the specified event type is hooked.</summary>
+    /// <summary>Check if the specified event type is enabled.</summary>
     /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
-    internal bool IsHooked<TEvent>() where TEvent : IManagedEvent =>
-        TryGet<TEvent>(out var got) && got?.IsHooked == true;
+    internal bool IsEnabled<TEvent>() where TEvent : IManagedEvent =>
+        TryGet<TEvent>(out var got) && got?.IsEnabled == true;
 
-    /// <summary>Enumerate all currently hooked event for the specified screen.</summary>
+    /// <summary>Enumerate all currently enabled event for the specified screen.</summary>
     /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
-    internal IEnumerable<IManagedEvent> GetHookedForScreen(int screenID) =>
-        ManagedEvents.Where(e => e.IsHookedForScreen(screenID));
+    internal IEnumerable<IManagedEvent> GetEnabledForScreen(int screenID) =>
+        ManagedEvents.Where(e => e.IsEnabledForScreen(screenID));
 }

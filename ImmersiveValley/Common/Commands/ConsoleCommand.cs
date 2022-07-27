@@ -13,7 +13,7 @@ internal abstract class ConsoleCommand : IConsoleCommand
     }
 
     /// <inheritdoc />
-    public abstract string Trigger { get; }
+    public abstract string[] Triggers { get; }
 
     /// <inheritdoc />
     public abstract string Documentation { get; }

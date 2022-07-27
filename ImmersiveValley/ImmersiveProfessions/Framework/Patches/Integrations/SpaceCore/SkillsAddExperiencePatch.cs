@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using Extensions;
 using HarmonyLib;
@@ -13,20 +14,13 @@ using Utility;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
 internal sealed class SkillsAddExperiencePatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal SkillsAddExperiencePatch()
     {
-        try
-        {
-            Target = "SpaceCore.Skills".ToType().RequireMethod("AddExperience");
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = "SpaceCore.Skills".ToType().RequireMethod("AddExperience");
     }
 
     #region harmony patches

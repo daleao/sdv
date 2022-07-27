@@ -6,10 +6,12 @@ using Common.Events;
 using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley;
+using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, UltimateEvent]
 internal sealed class UltimateMeterRenderingHudEvent : RenderingHudEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -20,12 +22,13 @@ internal sealed class UltimateMeterRenderingHudEvent : RenderingHudEvent
     /// <inheritdoc />
     protected override void OnRenderingHudImpl(object? sender, RenderingHudEventArgs e)
     {
-        if (ModEntry.PlayerState.RegisteredUltimate is null)
+        var ultimate = Game1.player.get_Ultimate();
+        if (ultimate is null)
         {
-            Unhook();
+            Disable();
             return;
         }
 
-        if (!Game1.eventUp) ModEntry.PlayerState.RegisteredUltimate.Hud.Draw(e.SpriteBatch);
+        if (!Game1.eventUp) ultimate.Hud.Draw(e.SpriteBatch);
     }
 }

@@ -60,6 +60,20 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
             hasForge = true;
         }
 
+        // write bonus knockback
+        if (__instance.hasEnchantmentOfType<AmethystEnchantment>())
+        {
+            var amount =
+                $"+{__instance.GetEnchantmentLevel<AmethystEnchantment>() * 1}";
+            co = new(0, 120, 120);
+            Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
+                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            Utility.drawTextWithShadow(spriteBatch, Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount),
+                font, new(x + 68, y + 28), co * 0.9f * alpha);
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+            hasForge = true;
+        }
+
         // write bonus crit rate
         if (__instance.hasEnchantmentOfType<AquamarineEnchantment>())
         {
@@ -102,22 +116,8 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
             hasForge = true;
         }
 
-        // write bonus knockback
-        if (__instance.hasEnchantmentOfType<AmethystEnchantment>())
-        {
-            var amount =
-                $"+{__instance.GetEnchantmentLevel<AmethystEnchantment>() * 1}";
-            co = new(0, 120, 120);
-            Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
-                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            Utility.drawTextWithShadow(spriteBatch, Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount),
-                font, new(x + 68, y + 28), co * 0.9f * alpha);
-            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            hasForge = true;
-        }
-
         // write bonus defense
-        if (__instance.hasEnchantmentOfType<TopazEnchantment>())
+        if (__instance.hasEnchantmentOfType<TopazEnchantment>() && ModEntry.Config.TopazPerk == ModConfig.Perk.Defense)
         {
             var amount =
                 $"+{__instance.GetEnchantmentLevel<TopazEnchantment>() * (ModEntry.Config.RebalancedEnchants ? 5 : 1)}";

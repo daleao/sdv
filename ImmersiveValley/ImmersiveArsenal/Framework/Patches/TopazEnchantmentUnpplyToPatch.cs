@@ -21,18 +21,22 @@ internal sealed class TopazEnchantmentUnpplyToPatch : Common.Harmony.HarmonyPatc
     #region harmony patches
 
     /// <summary>Rebalances Topaz enchant.</summary>
-    [HarmonyPostfix]
-    private static void TopazEnchantmentUnpplyToPostfix(TopazEnchantment __instance, Item item)
+    [HarmonyPrefix]
+    private static bool TopazEnchantmentUnpplyToPrefix(TopazEnchantment __instance, Item item)
     {
+        if (ModEntry.Config.TopazPerk != ModConfig.Perk.Defense) return false; // don't run original logic
+
         switch (item)
         {
             case MeleeWeapon weapon when ModEntry.Config.RebalancedEnchants:
-                weapon.addedDefense.Value -= 4 * __instance.GetLevel();
+                weapon.addedDefense.Value -= (ModEntry.Config.RebalancedEnchants ? 5 : 1) * __instance.GetLevel();
                 break;
             case Slingshot:
-                Game1.player.resilience -= ModEntry.Config.RebalancedEnchants ? 5 : 1;
+                Game1.player.resilience -= (ModEntry.Config.RebalancedEnchants ? 5 : 1) * __instance.GetLevel();
                 break;
         }
+
+        return false; // don't run original logic
     }
 
     #endregion harmony patches

@@ -4,9 +4,9 @@ namespace DaLion.Stardew.Ponds.Framework.Patches;
 #region using directives
 
 using Common;
-using Common.Data;
 using Common.Extensions;
 using Common.Extensions.Reflection;
+using Common.ModData;
 using Extensions;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -39,7 +39,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
         .RequireMethod("drawHorizontalPartition").CompileUnboundDelegate<DrawHorizontalPartitionDelegate>();
 
     private static readonly Func<FishPond, FishPondData?> _GetFishPondData = typeof(FishPond).RequireField("_fishPondData")
-        .CompileUnboundFieldGetterDelegate<Func<FishPond, FishPondData?>>();
+        .CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>();
 
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
@@ -134,13 +134,13 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
             SObject? itemToDraw = null;
             if (isAlgaePond)
             {
-                seaweedCount = ModDataIO.ReadFrom<int>(____pond, "SeaweedLivingHere");
-                greenAlgaeCount = ModDataIO.ReadFrom<int>(____pond, "GreenAlgaeLivingHere");
-                whiteAlgaeCount = ModDataIO.ReadFrom<int>(____pond, "WhiteAlgaeLivingHere");
+                seaweedCount = ModDataIO.Read<int>(____pond, "SeaweedLivingHere");
+                greenAlgaeCount = ModDataIO.Read<int>(____pond, "GreenAlgaeLivingHere");
+                whiteAlgaeCount = ModDataIO.Read<int>(____pond, "WhiteAlgaeLivingHere");
             }
             else if (isLegendaryPond)
             {
-                familyCount = ModDataIO.ReadFrom<int>(____pond, "FamilyLivingHere");
+                familyCount = ModDataIO.Read<int>(____pond, "FamilyLivingHere");
                 itemToDraw = ____fishItem;
             }
             else
@@ -199,7 +199,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
             if (!isAlgaePond)
             {
                 var (_, numMedQuality, numHighQuality, numBestQuality) =
-                    ModDataIO.ReadFrom(____pond, "FishQualities", $"{____pond.FishCount - familyCount},0,0,0")
+                    ModDataIO.Read(____pond, "FishQualities", $"{____pond.FishCount - familyCount},0,0,0")
                         .ParseTuple<int, int, int, int>()!.Value;
                 if (numBestQuality + numHighQuality + numMedQuality > 0)
                 {
@@ -260,7 +260,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 if (familyCount > 0)
                 {
                     var (_, numMedFamilyQuality, numHighFamilyQuality, numBestFamilyQuality) =
-                        ModDataIO.ReadFrom(____pond, "FamilyQualities", $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!.Value;
+                        ModDataIO.Read(____pond, "FamilyQualities", $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!.Value;
                     if (numBestFamilyQuality + numHighFamilyQuality + numMedFamilyQuality > 0)
                     {
                         for (var i = ____pond.FishCount - familyCount; i < ____pond.FishCount; ++i)

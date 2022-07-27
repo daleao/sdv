@@ -19,7 +19,6 @@ internal sealed class ScavengerHuntDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        if (ModEntry.PlayerState.ScavengerHunt is not null)
-            ModEntry.PlayerState.ScavengerHunt.ResetChanceAccumulator();
+        ModEntry.State.ScavengerHunt.Value.ResetChanceAccumulator();
     }
 }

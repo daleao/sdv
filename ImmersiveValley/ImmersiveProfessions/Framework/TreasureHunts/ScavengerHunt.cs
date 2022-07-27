@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Data;
+using Common.ModData;
 using Common.Multiplayer;
 using Events.Display;
 using Events.GameLoop;
@@ -19,6 +19,7 @@ using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using VirtualProperties;
 using SObject = StardewValley.Object;
 
 #endregion using directives
@@ -72,9 +73,9 @@ internal sealed class ScavengerHunt : TreasureHunt
         timeLimit = Math.Max(timeLimit, 30);
 
         elapsed = 0;
-        ModEntry.EventManager.Hook<PointerUpdateTickedEvent>();
-        ModEntry.EventManager.Hook<ScavengerHuntRenderedHudEvent>();
-        ModEntry.EventManager.Hook<ScavengerHuntUpdateTickedEvent>();
+        ModEntry.EventManager.Enable<PointerUpdateTickedEvent>();
+        ModEntry.EventManager.Enable<ScavengerHuntRenderedHudEvent>();
+        ModEntry.EventManager.Enable<ScavengerHuntUpdateTickedEvent>();
         Game1.addHUDMessage(new HuntNotification(huntStartedMessage, iconSourceRect));
         if (Context.IsMultiplayer)
         {
@@ -82,10 +83,11 @@ internal sealed class ScavengerHunt : TreasureHunt
 
             if (Game1.player.HasProfession(Profession.Scavenger, true))
             {
+                Game1.player.get_IsHuntingTreasure().Value = true;
                 if (!Context.IsMainPlayer)
                     ModEntry.Broadcaster.Message("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
                 else
-                    ModEntry.EventManager.Hook<HostPrestigeTreasureHuntUpdateTickedEvent>();
+                    ModEntry.EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
             }
         }
 
@@ -106,9 +108,9 @@ internal sealed class ScavengerHunt : TreasureHunt
         timeLimit = Math.Max(timeLimit, 30);
 
         elapsed = 0;
-        ModEntry.EventManager.Hook<PointerUpdateTickedEvent>();
-        ModEntry.EventManager.Hook<ScavengerHuntRenderedHudEvent>();
-        ModEntry.EventManager.Hook<ScavengerHuntUpdateTickedEvent>();
+        ModEntry.EventManager.Enable<PointerUpdateTickedEvent>();
+        ModEntry.EventManager.Enable<ScavengerHuntRenderedHudEvent>();
+        ModEntry.EventManager.Enable<ScavengerHuntUpdateTickedEvent>();
         Game1.addHUDMessage(new HuntNotification(huntStartedMessage, iconSourceRect));
         if (Context.IsMultiplayer)
         {
@@ -116,15 +118,11 @@ internal sealed class ScavengerHunt : TreasureHunt
 
             if (Game1.player.HasProfession(Profession.Scavenger, true))
             {
+                Game1.player.get_IsHuntingTreasure().Value = true;
                 if (!Context.IsMainPlayer)
-                {
                     ModEntry.Broadcaster.Message("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
-                }
                 else
-                {
-                    ModEntry.EventManager.Hook<HostPrestigeTreasureHuntUpdateTickedEvent>();
-                    ModEntry.HostState.PlayersHuntingTreasure.Add(Game1.player.UniqueMultiplayerID);
-                }
+                    ModEntry.EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
             }
         }
 
@@ -135,7 +133,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
-        ModDataIO.WriteTo(Game1.player, "ScavengerHuntStreak", "0");
+        ModDataIO.Write(Game1.player, "ScavengerHuntStreak", "0");
         End(false);
     }
 
@@ -183,8 +181,9 @@ internal sealed class ScavengerHunt : TreasureHunt
     /// <inheritdoc />
     protected override void End(bool found)
     {
-        ModEntry.EventManager.Unhook<ScavengerHuntRenderedHudEvent>();
-        ModEntry.EventManager.Unhook<ScavengerHuntUpdateTickedEvent>();
+        Game1.player.get_IsHuntingTreasure().Value = false;
+        ModEntry.EventManager.Disable<ScavengerHuntRenderedHudEvent>();
+        ModEntry.EventManager.Disable<ScavengerHuntUpdateTickedEvent>();
         TreasureTile = null;
         if (!Context.IsMultiplayer || Context.IsMainPlayer ||
             !Game1.player.HasProfession(Profession.Scavenger, true)) return;
@@ -356,7 +355,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                             case 2:
                                 var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
                                 var streak =
-                                    ModDataIO.ReadFrom<uint>(Game1.player, "ScavengerHuntStreak");
+                                    ModDataIO.Read<uint>(Game1.player, "ScavengerHuntStreak");
                                 if (random.NextDouble() < 0.025 * luckModifier &&
                                     !Game1.player.specialItems.Contains(15))
                                     treasures.Add(new MeleeWeapon(15) { specialItem = true }); // forest sword

@@ -18,7 +18,7 @@ internal sealed class GaldoraHudThemeWarpedEvent : WarpedEvent
         : base(manager)
     {
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
-            AlwaysHooked = true;
+            AlwaysEnabled = true;
     }
 
     /// <inheritdoc />

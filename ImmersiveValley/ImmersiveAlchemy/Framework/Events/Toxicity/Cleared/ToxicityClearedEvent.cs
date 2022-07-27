@@ -25,6 +25,6 @@ internal class ToxicityClearedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnCleared(object? sender, IToxicityClearedEventArgs e)
     {
-        if (IsHooked) _OnChargeInitiatedImpl(sender, e);
+        if (IsEnabled) _OnChargeInitiatedImpl(sender, e);
     }
 }

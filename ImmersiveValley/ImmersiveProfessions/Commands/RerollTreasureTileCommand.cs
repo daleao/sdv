@@ -20,23 +20,24 @@ internal sealed class RerollTreasureTileCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "hunt_reset";
+    public override string[] Triggers { get; } = { "reset_the_hunt", "hunt_reset", "reroll_treasure" };
 
     /// <inheritdoc />
-    public override string Documentation => "Forcefully restart the current Treasure Hunt with a new target treasure tile.";
+    public override string Documentation =>
+        "Forcefully restart the current Treasure Hunt with a new target treasure tile.";
 
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (!ModEntry.PlayerState.ScavengerHunt.IsActive && !ModEntry.PlayerState.ProspectorHunt.IsActive)
+        if (!ModEntry.State.ScavengerHunt.Value.IsActive && !ModEntry.State.ProspectorHunt.Value.IsActive)
         {
             Log.W("There is no Treasure Hunt currently active.");
             return;
         }
 
-        if (ModEntry.PlayerState.ScavengerHunt.IsActive)
+        if (ModEntry.State.ScavengerHunt.Value.IsActive)
         {
-            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.PlayerState.ScavengerHunt, "ChooseTreasureTile")
+            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.State.ScavengerHunt, "ChooseTreasureTile")
                 .Invoke<Vector2?>(Game1.currentLocation);
             if (v is null)
             {
@@ -45,15 +46,15 @@ internal sealed class RerollTreasureTileCommand : ConsoleCommand
             }
 
             Game1.currentLocation.MakeTileDiggable(v.Value);
-            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.PlayerState.ScavengerHunt, "TreasureTile")
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.ScavengerHunt, "TreasureTile")
                 .SetValue(v);
-            ModEntry.ModHelper.Reflection.GetField<uint>(ModEntry.PlayerState.ScavengerHunt, "elapsed").SetValue(0);
+            ModEntry.ModHelper.Reflection.GetField<uint>(ModEntry.State.ScavengerHunt, "elapsed").SetValue(0);
 
             Log.I("The Scavenger Hunt was reset.");
         }
-        else if (ModEntry.PlayerState.ProspectorHunt.IsActive)
+        else if (ModEntry.State.ProspectorHunt.Value.IsActive)
         {
-            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.PlayerState.ProspectorHunt, "ChooseTreasureTile")
+            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.State.ProspectorHunt, "ChooseTreasureTile")
                 .Invoke<Vector2?>(Game1.currentLocation);
             if (v is null)
             {
@@ -61,9 +62,9 @@ internal sealed class RerollTreasureTileCommand : ConsoleCommand
                 return;
             }
 
-            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.PlayerState.ProspectorHunt, "TreasureTile")
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.ProspectorHunt, "TreasureTile")
                 .SetValue(v);
-            ModEntry.ModHelper.Reflection.GetField<int>(ModEntry.PlayerState.ProspectorHunt, "Elapsed").SetValue(0);
+            ModEntry.ModHelper.Reflection.GetField<int>(ModEntry.State.ProspectorHunt, "Elapsed").SetValue(0);
 
             Log.I("The Prospector Hunt was reset.");
         }

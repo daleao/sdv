@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion region using directives
 
-/// <summary>Wrapper for <see cref="ISpecializedEvents.LoadStageChanged"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="ISpecializedEvents.LoadStageChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class LoadStageChangedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class LoadStageChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnLoadStageChanged(object? sender, LoadStageChangedEventArgs e)
     {
-        if (IsHooked) OnLoadStageChangedImpl(sender, e);
+        if (IsEnabled) OnLoadStageChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnLoadStageChanged" />

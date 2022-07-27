@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Common.Attributes;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using Extensions;
@@ -15,20 +16,13 @@ using Textures;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
 internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal NewSkillsPagePerformHoverActionPatch()
     {
-        try
-        {
-            Target = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("performHoverAction");
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("performHoverAction");
     }
 
     #region harmony patches

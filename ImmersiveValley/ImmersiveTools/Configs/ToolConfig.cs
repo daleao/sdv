@@ -35,7 +35,4 @@ public class ToolConfig
 
     /// <summary>Affects the shockwave travel speed. Lower is faster. Set to 0 for instant.</summary>
     public uint TicksBetweenWaves { get; set; } = 4;
-
-    /// <summary>Whether to enable debugging features.</summary>
-    public bool EnableDebug { get; set; } = false;
 }

@@ -9,11 +9,11 @@ using System.Runtime.CompilerServices;
 
 #endregion using directives
 
-/// <summary>Base implementation of an event wrapper allowing dynamic hooking / unhooking.</summary>
+/// <summary>Base implementation of an event wrapper allowing dynamic enabling / disabling.</summary>
 internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
 {
-    /// <summary>Whether this event is hooked on each screen.</summary>
-    private readonly PerScreen<bool> _Hooked = new();
+    /// <summary>Whether this event is enabled on each screen.</summary>
+    private readonly PerScreen<bool> _Enabled = new();
 
     /// <summary>The <see cref="EventManager"/> instance that manages this event.</summary>
     protected EventManager Manager { get; init; }
@@ -21,8 +21,8 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     /// <inheritdoc cref="EventPriority"/>
     protected EventPriority Priority { get; init; }
 
-    /// <summary>Allow this event to be raised even when unhooked.</summary>
-    protected bool AlwaysHooked { get; init; } = false;
+    /// <summary>Allow this event to be raised even when disabled.</summary>
+    protected bool AlwaysEnabled { get; init; } = false;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
@@ -32,16 +32,16 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     }
 
     /// <inheritdoc />
-    public bool IsHooked => _Hooked.Value || AlwaysHooked;
+    public virtual bool IsEnabled => _Enabled.Value || AlwaysEnabled;
 
     /// <inheritdoc />
-    public bool IsHookedForScreen(int screenID) => _Hooked.GetValueForScreen(screenID);
+    public bool IsEnabledForScreen(int screenID) => _Enabled.GetValueForScreen(screenID);
 
     /// <inheritdoc />
-    public bool Hook() => !_Hooked.Value && (_Hooked.Value = true);
+    public bool Enable() => !_Enabled.Value && (_Enabled.Value = true);
 
     /// <inheritdoc />
-    public bool Unhook() => _Hooked.Value && !(_Hooked.Value = false);
+    public bool Disable() => _Enabled.Value && !(_Enabled.Value = false);
 
     /// <inheritdoc />
     public override string ToString() => GetType().Name;
@@ -53,17 +53,11 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     /// <summary>Determines if the specified <see cref="ManagedEvent"/> is equal to the current instance.</summary>
     /// <param name="other">A <see cref="ManagedEvent"/> to compare to this instance.</param>
     /// <returns><see langword="true"/> if <paramref name="other"/> has the same type as this instance; otherwise, <see langword="false">.</returns>
-    public virtual bool Equals(ManagedEvent? other)
-    {
-        // ReSharper disable once CheckForReferenceEqualityInstead.1
-        return GetType().Equals(other?.GetType());
-    }
+    // ReSharper disable once CheckForReferenceEqualityInstead.1
+    public virtual bool Equals(ManagedEvent? other) => GetType().Equals(other?.GetType());
 
     /// <inheritdoc />
-    public override bool Equals(object? @object)
-    {
-        return @object is ManagedEvent other && Equals(other);
-    }
+    public override bool Equals(object? @object) => @object is ManagedEvent other && Equals(other);
 
     public static bool operator ==(ManagedEvent? left, ManagedEvent? right) =>
         (object?)left == null ? (object?)right == null : left.Equals(right);

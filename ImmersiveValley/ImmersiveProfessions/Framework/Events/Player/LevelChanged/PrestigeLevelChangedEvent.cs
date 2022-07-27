@@ -20,6 +20,6 @@ internal sealed class PrestigeLevelChangedEvent : LevelChangedEvent
     /// <inheritdoc />
     protected override void OnLevelChangedImpl(object? sender, LevelChangedEventArgs e)
     {
-        Manager.Hook<RestoreForgottenRecipesDayStartedEvent>();
+        Manager.Enable<RestoreForgottenRecipesDayStartedEvent>();
     }
 }

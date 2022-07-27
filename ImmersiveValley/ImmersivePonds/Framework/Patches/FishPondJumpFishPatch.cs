@@ -24,7 +24,7 @@ internal sealed class FishPondJumpFishPatch : Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     private static bool FishPondJumpFishPrefix(FishPond __instance, ref bool __result)
     {
-        if (!__instance.fishType.Value.IsAlgae()) return true; // run original logic
+        if (!__instance.fishType.Value.IsAlgaeIndex()) return true; // run original logic
 
         __result = false;
         return false; // don't run original logic

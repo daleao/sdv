@@ -3,9 +3,9 @@
 #region using directives
 
 using Common;
-using Common.Data;
 using Common.Events;
 using Common.Extensions.Collections;
+using Common.ModData;
 using Extensions;
 using JetBrains.Annotations;
 using StardewModdingAPI;
@@ -14,6 +14,7 @@ using StardewValley;
 using StardewValley.Buildings;
 using System.Linq;
 using Ultimates;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -25,57 +26,40 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
     internal StaticSaveLoadedEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        AlwaysHooked = true;
+        AlwaysEnabled = true;
     }
 
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         // enable events
-        Manager.HookForLocalPlayer();
+        Manager.EnableForLocalPlayer();
 
         // load and initialize Ultimate index
         Log.T("Initializing Ultimate...");
 
-        var superModeIndex = ModDataIO.ReadFrom(Game1.player, "UltimateIndex", UltimateIndex.None);
-        switch (superModeIndex)
+        var ultimateIndex = ModDataIO.Read(Game1.player, "UltimateIndex", UltimateIndex.None);
+        switch (ultimateIndex)
         {
             case UltimateIndex.None when Game1.player.professions.Any(p => p is >= 26 and < 30):
                 Log.W($"{Game1.player.Name} is eligible for an Ultimate but is not currently registered to any. A default one will be chosen.");
-                superModeIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
-                ModDataIO.WriteTo(Game1.player, "UltimateIndex", superModeIndex.ToString());
-                Log.W($"{Game1.player.Name}'s Ultimate was set to {superModeIndex}.");
+                ultimateIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
+                Log.W($"{Game1.player.Name}'s Ultimate was set to {ultimateIndex}.");
 
                 break;
 
-            case > UltimateIndex.None when !Game1.player.professions.Contains((int)superModeIndex):
-                Log.W($"Missing corresponding profession for {superModeIndex} Ultimate. Resetting to a default value.");
+            case > UltimateIndex.None when !Game1.player.professions.Contains((int)ultimateIndex):
+                Log.W($"Missing corresponding profession for {ultimateIndex} Ultimate. Resetting to a default value.");
                 if (Game1.player.professions.Any(p => p is >= 26 and < 30))
-                {
-                    superModeIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
-                    ModDataIO.WriteTo(Game1.player, "UltimateIndex", superModeIndex.ToString());
-                }
+                    ultimateIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
                 else
-                {
-                    superModeIndex = UltimateIndex.None;
-                    ModDataIO.WriteTo(Game1.player, "UltimateIndex", null);
-                }
+                    ultimateIndex = UltimateIndex.None;
 
                 break;
         }
 
-        if (superModeIndex > UltimateIndex.None)
-        {
-#pragma warning disable CS8509
-            ModEntry.PlayerState.RegisteredUltimate = superModeIndex switch
-#pragma warning restore CS8509
-            {
-                UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
-                UltimateIndex.PoacherAmbush => new Ambush(),
-                UltimateIndex.PiperPandemic => new Pandemic(),
-                UltimateIndex.DesperadoBlossom => new DeathBlossom()
-            };
-        }
+        if (ultimateIndex > UltimateIndex.None)
+            Game1.player.set_Ultimate(Ultimate.FromIndex(ultimateIndex));
 
         // revalidate levels
         Game1.player.RevalidateLevels();
@@ -86,6 +70,6 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
                         !p.isUnderConstruction()).ForEach(p => p.UpdateMaximumOccupancy());
 
         // prepare to check for prestige achievement
-        Manager.Hook<PrestigeAchievementOneSecondUpdateTickedEvent>();
+        Manager.Enable<PrestigeAchievementOneSecondUpdateTickedEvent>();
     }
 }

@@ -27,8 +27,8 @@ public static class MethodBaseExtensions
         foreach (var patch in patches.Finalizers.Where(predicate)) yield return patch;
     }
 
-    /// <summary>Get the patches applied to this method with the specified unique id.</summary>
-    /// <param name="uniqueID">A unique id to search for.</param>
+    /// <summary>Get the patches applied to this method with the specified unique ID.</summary>
+    /// <param name="uniqueID">A unique ID to search for.</param>
     public static IEnumerable<Patch> GetAppliedPatchesById(this MethodBase method, IMonitor monitor, string uniqueID)
         => method.GetAppliedPatches(p => p.owner == uniqueID);
 }

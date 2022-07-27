@@ -2,9 +2,10 @@ namespace DaLion.Stardew.Arsenal.Integrations;
 
 #region using directives
 
-using Common.Integrations;
+using Common.Integrations.GenericModConfigMenu;
 using StardewModdingAPI;
 using System;
+using System.Linq;
 
 #endregion using directives
 
@@ -37,16 +38,34 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
         _configMenu
             .Register()
             .AddCheckbox(
+                () => "Bring Back Stabby Swords",
+                () => "Replace the defensive special move of some swords with a lunge move.\nAFTER DISABLING THIS SETTING YOU MUST TRASH ALL OWNED STABBING SWORDS.",
+                config => config.BringBackStabbySwords,
+                (config, value) => config.BringBackStabbySwords = value
+            )
+            .AddCheckbox(
                 () => "Rebalanced Weapons",
                 () => "Make weapons more unique and useful.",
                 config => config.RebalancedWeapons,
-                (config, value) => config.RebalancedWeapons = value
+                (config, value) =>
+                {
+                    config.RebalancedWeapons = value;
+                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/weapons");
+                }
             )
             .AddCheckbox(
                 () => "Rebalanced Enchants",
                 () => "Improves certain underwhelming enchantments.",
                 config => config.RebalancedEnchants,
                 (config, value) => config.RebalancedEnchants = value
+            )
+            .AddDropdown(
+                () => "Topaz Perk",
+                () => "The stat improved by the Topaz enchantment.\nYOU MUST REMOVE ALL EXISTING TOPAZ ENCHANTMENTS BEFORE CHANGING THIS SETTING.",
+                config => config.TopazPerk.ToString(),
+                (config, value) => config.TopazPerk = Enum.Parse<ModConfig.Perk>(value),
+                Enum.GetValues<ModConfig.Perk>().Select(p => p.ToString()).ToArray(),
+                null
             )
             .AddCheckbox(
                 () => "Allow Slingshot Crit",
@@ -88,7 +107,12 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 () => "Infinity Plus One Sword",
                 () => "Replace lame Galaxy and Infinity weapons with something truly legendary.",
                 config => config.InfinityPlusOneWeapons,
-                (config, value) => config.InfinityPlusOneWeapons = value
-            );
+                (config, value) =>
+                {
+                    config.InfinityPlusOneWeapons = value;
+                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/ObjectInformation");
+                    ModEntry.ModHelper.GameContent.InvalidateCache("Strings/Locations");
+                    ModEntry.ModHelper.GameContent.InvalidateCache("Strings/StringsFromCSFiles");
+                });
     }
 }

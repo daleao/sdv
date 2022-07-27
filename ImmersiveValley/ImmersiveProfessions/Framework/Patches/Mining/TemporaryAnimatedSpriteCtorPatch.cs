@@ -35,7 +35,7 @@ internal sealed class TemporaryAnimatedSpriteCtorPatch : DaLion.Common.Harmony.H
         if (!ModEntry.Config.ModKey.IsDown()) return;
 
         __instance.totalNumberOfLoops = int.MaxValue;
-        ModEntry.EventManager.Hook<ManualDetonationUpdateTickedEvent>();
+        ModEntry.EventManager.Enable<ManualDetonationUpdateTickedEvent>();
     }
 
     #endregion harmony patches

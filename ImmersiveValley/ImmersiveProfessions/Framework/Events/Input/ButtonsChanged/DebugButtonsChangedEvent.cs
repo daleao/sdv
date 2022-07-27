@@ -1,9 +1,9 @@
-﻿#if DEBUG
-namespace DaLion.Stardew.Professions.Framework.Events.Input;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Input;
 
 #region using directives
 
 using Common;
+using Common.Attributes;
 using Common.Events;
 using Common.Extensions;
 using Display;
@@ -15,7 +15,7 @@ using System.Linq;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, DebugOnly]
 internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -23,18 +23,19 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
     internal DebugButtonsChangedEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        AlwaysHooked = true;
+        AlwaysEnabled = true;
     }
 
     /// <inheritdoc />
     protected override async void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
         if (ModEntry.Config.DebugKey.JustPressed())
-            ModEntry.EventManager.HookStartingWith("Debug");
+            ModEntry.EventManager.EnableWithAttribute<DebugOnlyAttribute>();
         else if (ModEntry.Config.DebugKey.GetState() == SButtonState.Released)
-            ModEntry.EventManager.UnhookStartingWith("Debug");
+            ModEntry.EventManager.DisableWithAttribute<DebugOnlyAttribute>();
 
-        if (!e.Pressed.Any(b => b is SButton.MouseRight or SButton.MouseLeft)) return;
+        if (!ModEntry.Config.DebugKey.IsDown() ||
+            !e.Pressed.Any(b => b is SButton.MouseRight or SButton.MouseLeft)) return;
 
         if (DebugRenderedActiveMenuEvent.FocusedComponent is not null)
         {
@@ -88,7 +89,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                         var events = "";
                         if (who.IsLocalPlayer)
                         {
-                            events = Manager.Hooked.Aggregate("",
+                            events = Manager.Enabled.Aggregate("",
                                 (current, next) => current + "\n\t\t- " + next.GetType().Name);
                         }
                         else if (Context.IsMultiplayer && who.isActive())
@@ -97,18 +98,18 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                             if (peer is { IsSplitScreen: true })
                             {
                                 if (peer.ScreenID.HasValue)
-                                    events = Manager.GetHookedForScreen(peer.ScreenID.Value).Aggregate("",
+                                    events = Manager.GetEnabledForScreen(peer.ScreenID.Value).Aggregate("",
                                         (current, next) => current + "\n\t\t- " + next.GetType().Name);
                             }
                             else
                             {
-                                events = await ModEntry.Broadcaster.RequestAsync("EventsHooked", "Debug/Request",
+                                events = await ModEntry.Broadcaster.RequestAsync("EventsEnabled", "Debug/Request",
                                     who.UniqueMultiplayerID);
                             }
                         }
 
                         if (!string.IsNullOrEmpty(events)) message += "\n\n\tEvents:" + events;
-                        else message += "\n\nCouldn't read player's hooked events.";
+                        else message += "\n\nCouldn't read player's enabled events.";
                     }
 
                     Log.D(message);
@@ -118,4 +119,3 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
         }
     }
 }
-#endif

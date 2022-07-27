@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Common;
-using DaLion.Common.Data;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Collections;
 using Events.GameLoop;
@@ -18,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Ultimates;
+using VirtualProperties;
 using Localization = Utility.Localization;
 
 #endregion using directives
@@ -110,7 +110,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                 case "dogStatue_changeUlt":
                     {
                         var currentProfessionKey =
-                            ModEntry.PlayerState.RegisteredUltimate!.Index.ToString().SplitCamelCase()[0].ToLowerInvariant();
+                            Game1.player.get_Ultimate()!.Index.ToString().SplitCamelCase()[0].ToLowerInvariant();
                         var currentProfessionDisplayName =
                             ModEntry.i18n.Get(currentProfessionKey + ".name.male");
                         var currentUlti = ModEntry.i18n.Get(currentProfessionKey + ".ulti");
@@ -141,17 +141,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
 
                             // change ultimate
                             var newIndex = Enum.Parse<UltimateIndex>(choice.Split("_")[1]);
-                            ModEntry.PlayerState.RegisteredUltimate =
-#pragma warning disable CS8509
-                            ModEntry.PlayerState.RegisteredUltimate = newIndex switch
-#pragma warning restore CS8509
-                            {
-                                UltimateIndex.BruteFrenzy => new UndyingFrenzy(),
-                                UltimateIndex.PoacherAmbush => new Ambush(),
-                                UltimateIndex.PiperPandemic => new Pandemic(),
-                                UltimateIndex.DesperadoBlossom => new DeathBlossom()
-                            };
-                            ModDataIO.WriteTo(Game1.player, "UltimateIndex", newIndex.ToString());
+                            Game1.player.set_Ultimate(Ultimate.FromIndex(newIndex));
 
                             // play sound effect
                             SFX.DogStatuePrestige.Play();
@@ -170,8 +160,8 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                             DelayedAction.playSoundAfterDelay("dog_bark", 1300);
                             DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
-                            ModEntry.PlayerState.UsedDogStatueToday = true;
-                            ModEntry.EventManager.Hook<PrestigeDayStartedEvent>();
+                            ModEntry.State.UsedDogStatueToday = true;
+                            ModEntry.EventManager.Enable<PrestigeDayStartedEvent>();
                         });
                         return false; // don't run original logic
                     }
@@ -201,8 +191,8 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                                 }
 
                                 // prepare to prestige at night
-                                ModEntry.PlayerState.SkillsToReset.Enqueue(skill);
-                                ModEntry.EventManager.Hook<PrestigeDayEndingEvent>();
+                                ModEntry.State.SkillsToReset.Enqueue(skill);
+                                ModEntry.EventManager.Enable<PrestigeDayEndingEvent>();
 
                                 // play sound effect
                                 SFX.DogStatuePrestige.Play();
@@ -232,8 +222,8 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                                 Game1.drawObjectDialogue(
                                     Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
 
-                                ModEntry.PlayerState.UsedDogStatueToday = true;
-                                ModEntry.EventManager.Hook<PrestigeDayStartedEvent>();
+                                ModEntry.State.UsedDogStatueToday = true;
+                                ModEntry.EventManager.Enable<PrestigeDayStartedEvent>();
                             }
                         }
                         else if (ModEntry.CustomSkills.TryGetValue(skillName, out var customSkill))
@@ -255,8 +245,8 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                                 }
 
                                 // prepare to prestige at night
-                                ModEntry.PlayerState.SkillsToReset.Enqueue(customSkill);
-                                ModEntry.EventManager.Hook<PrestigeDayEndingEvent>();
+                                ModEntry.State.SkillsToReset.Enqueue(customSkill);
+                                ModEntry.EventManager.Enable<PrestigeDayEndingEvent>();
 
                                 // play sound effect
                                 SFX.DogStatuePrestige.Play();

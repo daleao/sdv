@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IGameLoopEvents.DayStarted"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IGameLoopEvents.DayStarted"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class DayStartedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class DayStartedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnDayStarted(object? sender, DayStartedEventArgs e)
     {
-        if (IsHooked) OnDayStartedImpl(sender, e);
+        if (IsEnabled) OnDayStartedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnDayStarted" />

@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Arsenal.Framework.Patches;
+﻿using StardewValley.Tools;
+
+namespace DaLion.Stardew.Arsenal.Framework.Patches;
 
 #region using directives
 
@@ -25,6 +27,13 @@ internal sealed class FarmerTakeDamagePatch : Common.Harmony.HarmonyPatch
     }
 
     #region harmony patches
+
+    /// <summary>Grant i-frames during stabby sword lunge.</summary>
+    [HarmonyPrefix]
+    private static bool FarmerTakeDamagePrefix(Farmer __instance)
+    {
+        return __instance.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.stabbingSword, isOnSpecial: true };
+    }
 
     /// <summary>Removes damage mitigation soft cap.</summary>
     [HarmonyTranspiler]

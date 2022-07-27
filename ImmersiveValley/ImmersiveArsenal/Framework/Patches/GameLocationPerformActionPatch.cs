@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Data;
+using Common.ModData;
 using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -29,7 +29,7 @@ internal sealed class GameLocationPerformActionPatch : Common.Harmony.HarmonyPat
     {
         if (!ModEntry.Config.InfinityPlusOneWeapons || action?.StartsWith("Yoba") != true || !who.IsLocalPlayer ||
             who.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DARK_SWORD_INDEX_I } darkSword ||
-            ModDataIO.ReadFrom<int>(darkSword, "EnemiesSlain") < ModEntry.Config.RequiredKillCountToPurifyDarkSword ||
+            ModDataIO.Read<int>(darkSword, "EnemiesSlain") < ModEntry.Config.RequiredKillCountToPurifyDarkSword ||
             who.mailReceived.Contains("holyBlade")) return true; // run original logic
 
         who.Halt();

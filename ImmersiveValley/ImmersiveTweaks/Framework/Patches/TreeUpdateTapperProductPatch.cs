@@ -23,7 +23,7 @@ internal sealed class TreeUpdateTapperProductPatch : Common.Harmony.HarmonyPatch
 
     /// <summary>Adds age quality to tapper product.</summary>
     [HarmonyPostfix]
-    private static void TreeUpdateTapperProductPostfix(Tree __instance, SObject tapper_instance)
+    private static void TreeUpdateTapperProductPostfix(Tree __instance, SObject? tapper_instance)
     {
         if (tapper_instance is not null)
             tapper_instance.heldObject.Value.Quality = __instance.GetQualityFromAge();

@@ -1,10 +1,9 @@
-﻿using StardewValley;
-
-namespace DaLion.Stardew.Rings.Framework;
+﻿namespace DaLion.Stardew.Rings.Framework;
 
 #region using directives
 
 using Ardalis.SmartEnum;
+using StardewValley;
 
 #endregion using directives
 

@@ -3,10 +3,10 @@
 #region using directives
 
 using Common;
-using Common.Data;
 using Common.Extensions;
 using Common.Extensions.Collections;
 using Common.Extensions.Reflection;
+using Common.ModData;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
@@ -24,7 +24,7 @@ using SObject = StardewValley.Object;
 public static class FishPondExtensions
 {
     private static readonly Func<FishPond, FishPondData?> _GetFishPondData = typeof(FishPond).RequireField("_fishPondData")
-        .CompileUnboundFieldGetterDelegate<Func<FishPond, FishPondData?>>();
+        .CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>();
 
     /// <summary>Whether the instance's population has been fully unlocked.</summary>
     public static bool HasUnlockedFinalPopulationGate(this FishPond pond)
@@ -36,7 +36,7 @@ public static class FishPondExtensions
 
     /// <summary>Whether this pond is infested with algae.</summary>
     public static bool HasAlgae(this FishPond pond) =>
-        pond.fishType.Value.IsAlgae();
+        pond.fishType.Value.IsAlgaeIndex();
 
     /// <summary>Whether a radioactive fish lives in this pond.</summary>
     public static bool HasRadioactiveFish(this FishPond pond) =>
@@ -72,7 +72,7 @@ public static class FishPondExtensions
     /// <param name="who">The player.</param>
     public static void RewardExp(this FishPond pond, Farmer who)
     {
-        if (ModDataIO.ReadFrom<bool>(pond, "CheckedToday")) return;
+        if (ModDataIO.Read<bool>(pond, "CheckedToday")) return;
 
         var bonus = (int)(pond.output.Value is SObject @object
             ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
@@ -132,11 +132,11 @@ public static class FishPondExtensions
             catch (InvalidOperationException ex)
             {
                 Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-                ModDataIO.WriteTo(pond, "ItemsHeld", null);
+                ModDataIO.Write(pond, "ItemsHeld", null);
             }
         }
 
-        ModDataIO.WriteTo(pond, "CheckedToday", true.ToString());
+        ModDataIO.Write(pond, "CheckedToday", true.ToString());
         return true; // expected by vanilla code
     }
 
@@ -145,7 +145,7 @@ public static class FishPondExtensions
     /// <param name="field">The data field.</param>
     internal static List<Item> DeserializeObjectListData(this FishPond pond, string field)
     {
-        return ModDataIO.ReadFrom(pond, field)
+        return ModDataIO.Read(pond, field)
             .ParseList<string>(";")?
             .Select(s => s.ParseTuple<int, int, int>())
             .WhereNotNull()

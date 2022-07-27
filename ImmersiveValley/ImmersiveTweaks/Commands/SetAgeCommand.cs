@@ -4,12 +4,14 @@
 
 using Common;
 using Common.Commands;
-using Common.Data;
+using Common.Extensions.Stardew;
+using Common.ModData;
 using Extensions;
 using JetBrains.Annotations;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using System.Linq;
+using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -22,7 +24,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "age";
+    public override string[] Triggers { get; } = { "set_age", "age" };
 
     /// <inheritdoc />
     public override string Documentation =>
@@ -31,7 +33,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length is <2 or >3)
+        if (args.Length is < 2 or > 3)
         {
             Log.W("You must specify a target type and age value." + GetUsage());
             return;
@@ -54,95 +56,97 @@ internal sealed class SetAgeCommand : ConsoleCommand
         switch (args[0].ToLowerInvariant())
         {
             case "tree":
-            {
-                if (all)
                 {
-                    foreach (var tree in Game1.locations.SelectMany(l => l.terrainFeatures.Values.OfType<Tree>()))
-                        ModDataIO.WriteTo(tree, "Age", clear ? null : args[1]);
-                    Log.I(clear ? "Cleared all tree age data." : $"Set all tree age data to {args[1]} days.");
+                    if (all)
+                    {
+                        foreach (var tree in Game1.locations.SelectMany(l => l.terrainFeatures.Values.OfType<Tree>()))
+                            ModDataIO.Write(tree, "Age", clear ? null : args[1]);
+                        Log.I(clear ? "Cleared all tree age data." : $"Set all tree age data to {args[1]} days.");
+                        break;
+                    }
+
+                    var nearest = Game1.player.GetClosestTerrainFeature<Tree>();
+                    if (nearest is null)
+                    {
+                        Log.W("There are no trees nearby.");
+                        return;
+                    }
+
+                    ModDataIO.Write(nearest, "Age", clear ? null : args[1]);
+                    Log.I(clear
+                        ? $"Cleared {nearest.NameFromType()}'s age data"
+                        : $"Set {nearest.NameFromType()}'s age data to {args[1]} days.");
                     break;
                 }
-
-                var nearest = Game1.player.GetClosestTree(out _);
-                if (nearest is null)
-                {
-                    Log.W("There are no trees nearby.");
-                    return;
-                }
-
-                ModDataIO.WriteTo(nearest, "Age", clear ? null : args[1]);
-                Log.I(clear
-                    ? $"Cleared {nearest.NameFromType()}'s age data"
-                    : $"Set {nearest.NameFromType()}'s age data to {args[1]} days.");
-                break;
-            }
             case "bee":
             case "hive":
             case "beehive":
             case "beehouse":
-            {
-                if (all)
                 {
-                    foreach (var hive in Game1.locations.SelectMany(l =>
-                                 l.objects.Values.Where(o => o.Name == "Bee House")))
-                        ModDataIO.WriteTo(hive, "Age", clear ? null : args[1]);
-                    Log.I(clear ? "Cleared all bee house age data." : $"Set all bee house age data to {args[1]} days.");
+                    if (all)
+                    {
+                        foreach (var hive in Game1.locations.SelectMany(l =>
+                                     l.objects.Values.Where(o => o.Name == "Bee House")))
+                            ModDataIO.Write(hive, "Age", clear ? null : args[1]);
+                        Log.I(clear ? "Cleared all bee house age data." : $"Set all bee house age data to {args[1]} days.");
+                        break;
+                    }
+
+                    var nearest =
+                        Game1.player.GetClosestObject<SObject>(predicate: o => o.bigCraftable.Value && o.Name == "Bee House");
+                    if (nearest is null)
+                    {
+                        Log.W("There are no bee houses nearby.");
+                        return;
+                    }
+
+                    ModDataIO.Write(nearest, "Age", clear ? null : args[1]);
+                    Log.I(clear ? "Cleared Bee House's age data." : $"Set Bee House's age data to {args[1]} days.");
                     break;
                 }
-
-                var nearest = Game1.player.GetClosestBigCraftable(out _, predicate: o => o.Name == "Bee House");
-                if (nearest is null)
-                {
-                    Log.W("There are no bee houses nearby.");
-                    return;
-                }
-
-                ModDataIO.WriteTo(nearest, "Age", clear ? null : args[1]);
-                Log.I(clear ? "Cleared Bee House's age data." : $"Set Bee House's age data to {args[1]} days.");
-                break;
-            }
             case "mushroom":
             case "shroom":
             case "box":
             case "mushroombox":
             case "shroombox":
-            {
-                if (all)
                 {
-                    foreach (var box in Game1.locations.SelectMany(l =>
-                                 l.objects.Values.Where(o => o.Name == "Mushroom Box")))
-                        ModDataIO.WriteTo(box, "Age", clear ? null : args[1]);
-                    Log.I(clear
-                        ? "Cleared all mushroom box age data."
-                        : $"Set all mushroom box age data to {args[1]} days.");
+                    if (all)
+                    {
+                        foreach (var box in Game1.locations.SelectMany(l =>
+                                     l.objects.Values.Where(o => o.Name == "Mushroom Box")))
+                            ModDataIO.Write(box, "Age", clear ? null : args[1]);
+                        Log.I(clear
+                            ? "Cleared all mushroom box age data."
+                            : $"Set all mushroom box age data to {args[1]} days.");
+                        break;
+                    }
+
+                    var nearest =
+                        Game1.player.GetClosestObject<SObject>(predicate: o => o.bigCraftable.Value && o.Name == "Mushroom Box");
+                    if (nearest is null)
+                    {
+                        Log.W("There are no mushroom boxes nearby.");
+                        return;
+                    }
+
+                    ModDataIO.Write(nearest, "Age", clear ? null : args[1]);
+                    Log.I(clear ? "Cleared Mushroom Box's age data." : $"Set Mushroom Box's age data to {args[1]} days.");
                     break;
                 }
-
-                var nearest = Game1.player.GetClosestBigCraftable(out _, predicate: o => o.Name == "Mushroom Box");
-                if (nearest is null)
-                {
-                    Log.W("There are no mushroom boxes nearby.");
-                    return;
-                }
-
-                ModDataIO.WriteTo(nearest, "Age", clear ? null : args[1]);
-                Log.I(clear ? "Cleared Mushroom Box's age data." : $"Set Mushroom Box's age data to {args[1]} days.");
-                break;
-            }
         }
     }
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Trigger} [--all / -a] <target type> <age>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} [--all / -a] <target type> <age>";
         result += "\n\nParameters:";
         result += "\n\t- <target type>\t- one of 'tree', 'beehive' or 'mushroombox'";
         result += "\n\nOptional flags:";
         result +=
             "\n\t--all, -a\t- set the age of all instances of the specified type, instead of just the nearest one.";
         result += "\n\nExamples:";
-        result += $"\n\t- {Handler.EntryCommand} {Trigger} hive 112";
-        result += $"\n\t- {Handler.EntryCommand} {Trigger} -a tree 224";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} hive 112";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} -a tree 224";
         return result;
     }
 }

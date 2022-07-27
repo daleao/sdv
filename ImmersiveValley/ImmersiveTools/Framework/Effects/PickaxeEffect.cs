@@ -41,21 +41,17 @@ internal class PickaxeEffect : IEffect
         if (Config.ClearDebris && (tileObj!.IsStone() || tileObj!.IsWeed()))
             return tool.UseOnTile(tile, location, who);
 
-        // break mine containers
-        if (Config.BreakMineContainers && tileObj is not null)
-            return TryBreakContainer(tile, tileObj, tool, location);
+        // clear placed paths & flooring
+        if (Config.ClearFlooring && tileFeature is Flooring)
+            return tool.UseOnTile(tile, location, who);
 
         // clear placed objects
         if (Config.ClearObjects && tileObj is not null)
             return tool.UseOnTile(tile, location, who);
 
-        // clear placed paths & flooring
-        if (Config.ClearFlooring && tileFeature is Flooring)
-            return tool.UseOnTile(tile, location, who);
-
-        // clear bushes
-        if (Config.ClearBushes && tileFeature is Bush)
-            return tool.UseOnTile(tile, location, who);
+        // break mine containers
+        if (Config.BreakMineContainers && tileObj is not null)
+            return TryBreakContainer(tile, tileObj, tool, location);
 
         // handle dirt
         if (tileFeature is HoeDirt dirt)

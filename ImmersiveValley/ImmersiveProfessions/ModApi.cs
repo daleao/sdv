@@ -2,14 +2,15 @@
 
 #region using directives
 
-using Common.Data;
 using Common.Events;
+using Common.ModData;
 using Extensions;
 using Framework;
 using Framework.Events.TreasureHunt;
 using Framework.Events.Ultimate;
 using Framework.TreasureHunts;
 using Framework.Ultimates;
+using Framework.VirtualProperties;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using System;
@@ -42,7 +43,7 @@ public class ModAPI
     {
         farmer ??= Game1.player;
         // ReSharper disable once PossibleLossOfFraction
-        return ModDataIO.ReadFrom<int>(farmer, "ConservationistTrashCollectedThisSeason") /
+        return ModDataIO.Read<int>(farmer, "ConservationistTrashCollectedThisSeason") /
                ModEntry.Config.TrashNeededPerTaxBonusPct / 100f;
     }
 
@@ -57,85 +58,86 @@ public class ModAPI
     #region tresure hunts
 
     /// <inheritdoc cref="ITreasureHunt.IsActive"/>
-    /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
-    public bool IsHuntActive(string type) =>
-        type.ToLowerInvariant() switch
+    /// <param name="type">The type of treasure hunt.</param>
+    public bool IsHuntActive(TreasureHuntType type) =>
+#pragma warning disable CS8524
+        type switch
+#pragma warning restore CS8524
         {
-            "prospector" => ModEntry.PlayerState.ProspectorHunt.IsActive,
-            "scavenger" => ModEntry.PlayerState.ScavengerHunt.IsActive,
-            _ => throw new ArgumentException(
-                $"{type} is not a valid Treasure Hunt type. Should be either Prospector or Scavenger.")
+            TreasureHuntType.Prospector => ModEntry.State.ProspectorHunt.Value.IsActive,
+            TreasureHuntType.Scavenger => ModEntry.State.ScavengerHunt.Value.IsActive,
         };
 
     /// <inheritdoc cref="ITreasureHunt.TryStart"/>
-    /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
-    public bool TryStartNewHunt(GameLocation location, string type) =>
-        type.ToLowerInvariant() switch
+    /// /// <param name="location">The hunt location.</param>
+    /// <param name="type">The type of treasure hunt.</param>
+    public bool TryStartNewHunt(GameLocation location, TreasureHuntType type) =>
+#pragma warning disable CS8524
+        type switch
+#pragma warning restore CS8524
         {
-            "prospector" => Game1.player.HasProfession(Profession.Prospector) &&
-                            ModEntry.PlayerState.ProspectorHunt.TryStart(location),
-            "scavenger" => Game1.player.HasProfession(Profession.Scavenger) &&
-                           ModEntry.PlayerState.ScavengerHunt.TryStart(location),
-            _ => throw new ArgumentException(
-                $"{type} is not a valid Treasure Hunt type. Should be either Prospector or Scavenger.")
+            TreasureHuntType.Prospector => Game1.player.HasProfession(Profession.Prospector) &&
+                                            ModEntry.State.ProspectorHunt.Value.TryStart(location),
+            TreasureHuntType.Scavenger => Game1.player.HasProfession(Profession.Scavenger) &&
+                                            ModEntry.State.ScavengerHunt.Value.TryStart(location),
         };
 
     /// <inheritdoc cref="ITreasureHunt.ForceStart"/>
-    /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
-    public void ForceStartNewHunt(GameLocation location, Vector2 target, string type)
+    /// <param name="location">The hunt location.</param>
+    /// <param name="target">The target tile.</param>
+    /// <param name="type">The type of treasure hunt.</param>
+    public void ForceStartNewHunt(GameLocation location, Vector2 target, TreasureHuntType type)
     {
-        switch (type.ToLowerInvariant())
+        // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+        switch (type)
         {
-            case "prospector":
+            case TreasureHuntType.Prospector:
                 if (!Game1.player.HasProfession(Profession.Prospector))
                     throw new InvalidOperationException("Player does not have the Prospector profession.");
-                ModEntry.PlayerState.ProspectorHunt.ForceStart(location, target);
+                ModEntry.State.ProspectorHunt.Value.ForceStart(location, target);
                 break;
-            case "scavenger":
+            case TreasureHuntType.Scavenger:
                 if (!Game1.player.HasProfession(Profession.Scavenger))
                     throw new InvalidOperationException("Player does not have the Scavenger profession.");
-                ModEntry.PlayerState.ScavengerHunt.ForceStart(location, target);
+                ModEntry.State.ScavengerHunt.Value.ForceStart(location, target);
                 break;
-            default:
-                throw new ArgumentException(
-                    $"{type} is not a valid Treasure Hunt type. Should be either Prospector or Scavenger.");
         }
     }
 
     /// <inheritdoc cref="ITreasureHunt.Fail"/>
-    /// <param name="type">Either "Prospector" or "Scavenger" (case insensitive).</param>
+    /// <param name="type">The type of treasure hunt.</param>
     /// <returns><see langword="false"> if the <see cref="ITreasureHunt"/> instance was not active, otherwise <see langword="true">.</returns>
-    public bool InterruptActiveHunt(string type)
+    public bool InterruptActiveHunt(TreasureHuntType type)
     {
-        var hunt = type.ToLowerInvariant() switch
+#pragma warning disable CS8524
+        var hunt = type switch
+#pragma warning restore CS8524
         {
-            "prospector" => ModEntry.PlayerState.ProspectorHunt,
-            "scavenger" => ModEntry.PlayerState.ScavengerHunt,
-            _ => throw new ArgumentException(
-                $"{type} is not a valid Treasure Hunt type. Should be either Prospector or Scavenger.")
+            TreasureHuntType.Prospector => ModEntry.State.ProspectorHunt,
+            TreasureHuntType.Scavenger => ModEntry.State.ScavengerHunt,
         };
-        if (!hunt.IsActive) return false;
+        if (!hunt.IsValueCreated || !hunt.Value.IsActive) return false;
 
-        hunt.Fail();
+        hunt.Value.Fail();
         return true;
     }
 
     /// <summary>Register a new <see cref="TreasureHuntStartedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    public IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, ITreasureHuntStartedEventArgs> callback, bool alwaysHooked = false)
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    public IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, ITreasureHuntStartedEventArgs> callback, bool alwaysEnabled = false)
     {
-        var e = new TreasureHuntStartedEvent(callback, alwaysHooked);
+        var e = new TreasureHuntStartedEvent(callback, alwaysEnabled);
         ModEntry.EventManager.Manage(e);
         return e;
     }
 
     /// <summary>Register a new <see cref="TreasureHuntEndedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    public IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, ITreasureHuntEndedEventArgs> callback, bool alwaysHooked = false)
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    public IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, ITreasureHuntEndedEventArgs> callback, bool alwaysEnabled = false)
     {
-        var e = new TreasureHuntEndedEvent(callback, alwaysHooked);
+        var e = new TreasureHuntEndedEvent(callback, alwaysEnabled);
         ModEntry.EventManager.Manage(e);
         return e;
     }
@@ -144,70 +146,67 @@ public class ModAPI
 
     #region ultimate
 
-    /// <summary>Get the local player's currently registered combat Ultimate.</summary>
-    public IUltimate? GetRegisteredUltimate() =>
-        ModEntry.PlayerState.RegisteredUltimate;
-
-    /// <summary>Check whether the <see cref="UltimateHUD"/> is currently visible.</summary>
-    public bool IsShowingUltimateMeter() =>
-        ModEntry.PlayerState.RegisteredUltimate?.Hud.IsVisible ?? false;
+    /// <summary>Get a player's currently registered combat Ultimate, if any.</summary>
+    /// <param name="farmer">The player.</param>
+    public IUltimate? GetRegisteredUltimate(Farmer? farmer = null) =>
+        farmer is null ? Game1.player.get_Ultimate() : farmer.get_Ultimate();
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    public IManagedEvent RegisterUltimateActivatedEvent(Action<object?, IUltimateActivatedEventArgs> callback, bool alwaysHooked = false)
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    public IManagedEvent RegisterUltimateActivatedEvent(Action<object?, IUltimateActivatedEventArgs> callback, bool alwaysEnabled = false)
     {
-        var e = new UltimateActivatedEvent(callback, alwaysHooked);
+        var e = new UltimateActivatedEvent(callback, alwaysEnabled);
         ModEntry.EventManager.Manage(e);
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateDeactivatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    public IManagedEvent RegisterUltimateDeactivatedEvent(Action<object?, IUltimateDeactivatedEventArgs> callback, bool alwaysHooked = false)
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    public IManagedEvent RegisterUltimateDeactivatedEvent(Action<object?, IUltimateDeactivatedEventArgs> callback, bool alwaysEnabled = false)
     {
-        var e = new UltimateDeactivatedEvent(callback, alwaysHooked);
+        var e = new UltimateDeactivatedEvent(callback, alwaysEnabled);
         ModEntry.EventManager.Manage(e);
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateChargeInitiatedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    public IManagedEvent RegisterUltimateChargeInitiatedEvent(Action<object?, IUltimateChargeInitiatedEventArgs> callback, bool alwaysHooked = false)
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    public IManagedEvent RegisterUltimateChargeInitiatedEvent(Action<object?, IUltimateChargeInitiatedEventArgs> callback, bool alwaysEnabled = false)
     {
-        var e = new UltimateChargeInitiatedEvent(callback, alwaysHooked);
+        var e = new UltimateChargeInitiatedEvent(callback, alwaysEnabled);
         ModEntry.EventManager.Manage(e);
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateChargeIncreasedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    public IManagedEvent RegisterUltimateChargeIncreasedEvent(Action<object?, IUltimateChargeIncreasedEventArgs> callback, bool alwaysHooked = false)
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    public IManagedEvent RegisterUltimateChargeIncreasedEvent(Action<object?, IUltimateChargeIncreasedEventArgs> callback, bool alwaysEnabled = false)
     {
-        var e = new UltimateChargeIncreasedEvent(callback, alwaysHooked);
+        var e = new UltimateChargeIncreasedEvent(callback, alwaysEnabled);
         ModEntry.EventManager.Manage(e);
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateFullyChargedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    public IManagedEvent RegisterUltimateFullyChargedEvent(Action<object?, IUltimateFullyChargedEventArgs> callback, bool alwaysHooked = false)
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    public IManagedEvent RegisterUltimateFullyChargedEvent(Action<object?, IUltimateFullyChargedEventArgs> callback, bool alwaysEnabled = false)
     {
-        var e = new UltimateFullyChargedEvent(callback, alwaysHooked);
+        var e = new UltimateFullyChargedEvent(callback, alwaysEnabled);
         ModEntry.EventManager.Manage(e);
         return e;
     }
 
     /// <summary>Register a new <see cref="UltimateEmptiedEvent"/> instance.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <param name="alwaysHooked">Whether the event should be allowed to override the <c>hooked</c> flag.</param>
-    public IManagedEvent RegisterUltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback, bool alwaysHooked = false)
+    /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
+    public IManagedEvent RegisterUltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback, bool alwaysEnabled = false)
     {
-        var e = new UltimateEmptiedEvent(callback, alwaysHooked);
+        var e = new UltimateEmptiedEvent(callback, alwaysEnabled);
         ModEntry.EventManager.Manage(e);
         return e;
     }

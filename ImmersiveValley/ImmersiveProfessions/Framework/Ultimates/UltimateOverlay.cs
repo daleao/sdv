@@ -41,7 +41,7 @@ internal class UltimateOverlay
     {
         if (_opacity < MAX_OPACITY_F) _opacity += 0.01f;
         if (_opacity >= MAX_OPACITY_F)
-            ModEntry.EventManager.Unhook<UltimateOverlayFadeInUpdateTickedEvent>();
+            ModEntry.EventManager.Disable<UltimateOverlayFadeInUpdateTickedEvent>();
     }
 
     /// <summary>Gradually decrease the overlay's opacity.</summary>
@@ -49,7 +49,7 @@ internal class UltimateOverlay
     {
         if (_opacity > 0) _opacity -= 0.01f;
         if (!(_opacity <= 0)) return;
-        ModEntry.EventManager.Unhook<UltimateOverlayFadeOutUpdateTickedEvent>();
-        ModEntry.EventManager.Unhook<UltimateOverlayRenderedWorldEvent>();
+        ModEntry.EventManager.Disable<UltimateOverlayFadeOutUpdateTickedEvent>();
+        ModEntry.EventManager.Disable<UltimateOverlayRenderedWorldEvent>();
     }
 }

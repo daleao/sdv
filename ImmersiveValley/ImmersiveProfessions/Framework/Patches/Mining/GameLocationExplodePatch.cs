@@ -48,7 +48,7 @@ internal sealed class GameLocationExplodePatch : DaLion.Common.Harmony.HarmonyPa
         var r = new Random(Guid.NewGuid().GetHashCode());
         var circle = new CircleTileGrid(tileLocation, radius);
         _GetMultiplayer ??= typeof(Game1).RequireField("multiplayer")
-            .CompileStaticFieldGetterDelegate<Func<Multiplayer>>();
+            .CompileStaticFieldGetterDelegate<Multiplayer>();
         foreach (var tile in circle.Tiles)
         {
             if (!__instance.objects.TryGetValue(tile, out var tileObj) || !tileObj.IsStone()) continue;
@@ -246,9 +246,9 @@ internal sealed class GameLocationExplodePatch : DaLion.Common.Harmony.HarmonyPa
 
         // get excited speed buff
         var distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
-        if (distanceFromEpicenter < radius * 2 + 1) ModEntry.PlayerState.DemolitionistExcitedness = 4;
-        if (distanceFromEpicenter < radius + 1) ModEntry.PlayerState.DemolitionistExcitedness += 2;
-        ModEntry.EventManager.Hook<DemolitionistUpdateTickedEvent>();
+        if (distanceFromEpicenter < radius * 2 + 1) ModEntry.State.DemolitionistExcitedness = 4;
+        if (distanceFromEpicenter < radius + 1) ModEntry.State.DemolitionistExcitedness += 2;
+        ModEntry.EventManager.Enable<DemolitionistUpdateTickedEvent>();
     }
 
     #endregion harmony patches

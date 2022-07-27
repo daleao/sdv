@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for <see cref="IInputEvents.ButtonReleased"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IInputEvents.ButtonReleased"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class ButtonReleasedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class ButtonReleasedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnButtonReleased(object? sender, ButtonReleasedEventArgs e)
     {
-        if (IsHooked) OnButtonReleasedImpl(sender, e);
+        if (IsEnabled) OnButtonReleasedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnButtonReleased" />

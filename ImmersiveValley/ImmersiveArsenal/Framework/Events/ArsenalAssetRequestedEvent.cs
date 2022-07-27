@@ -38,6 +38,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     internal ArsenalAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
+        AlwaysEnabled = true;
+
         //AssetEditors["Data/Boots"] = (callback: DataBootsEditor, priority: AssetEditPriority.Default);
         AssetEditors["Data/ObjectInformation"] =
             (callback: EditDataObjectInformation, priority: AssetEditPriority.Default);
@@ -115,6 +117,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits galaxy soul description.</summary>
     private static void EditDataObjectInformation(IAssetData asset)
     {
+        if (!ModEntry.Config.InfinityPlusOneWeapons) return;
+
         var data = asset.AsDictionary<int, string>().Data;
 
         // edit galaxy soul description

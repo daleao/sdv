@@ -19,7 +19,7 @@ internal sealed class StaticAssetsInvalidatedEvent : AssetsInvalidatedEvent
     internal StaticAssetsInvalidatedEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        AlwaysHooked = true;
+        AlwaysEnabled = true;
     }
 
     /// <inheritdoc />

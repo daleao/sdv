@@ -35,7 +35,7 @@ internal sealed class MeleeWeaponTriggerClubFunctionPatch : Common.Harmony.Harmo
     {
         var helper = new ILHelper(original, instructions);
 
-        /// Injected: if (this.hasEnchantmentOfType<InfinityEnchantment>() areaOfEffect.Inflate(78, 78);
+        /// Injected: if (this.hasEnchantmentOfType<InfinityEnchantment>() areaOfEffect.Inflate(96, 96);
         /// After: new Rectangle((int)lastUser.Position.X - 192, lastUser.GetBoundingBox().Y - 192, 384, 384)
 
         var notInfinity = generator.DefineLabel();
@@ -62,8 +62,8 @@ internal sealed class MeleeWeaponTriggerClubFunctionPatch : Common.Harmony.Harmo
                             .MakeGenericMethod(typeof(InfinityEnchantment))),
                     new CodeInstruction(OpCodes.Brfalse_S, notInfinity),
                     new CodeInstruction(OpCodes.Ldloca_S, aoe),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 178), // subtract 100 before release !!
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 178), // subtract 100 before release !!
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 96),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 96),
                     new CodeInstruction(OpCodes.Call,
                         typeof(Rectangle).RequireMethod(nameof(Rectangle.Inflate), new[] { typeof(int), typeof(int) }))
                 );

@@ -25,6 +25,6 @@ internal class PlayerOverdosedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnOverdosed(object? sender, IPlayerOverdosedEventArgs e)
     {
-        if (IsHooked) _OnChargeInitiatedImpl(sender, e);
+        if (IsEnabled) _OnChargeInitiatedImpl(sender, e);
     }
 }

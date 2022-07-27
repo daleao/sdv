@@ -4,8 +4,8 @@
 
 using Common;
 using Common.Commands;
-using Common.Data;
 using Common.Extensions;
+using Common.ModData;
 using Extensions;
 using JetBrains.Annotations;
 using StardewModdingAPI;
@@ -25,7 +25,7 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string Trigger => "data";
+    public override string[] Triggers { get; } = { "print_data", "print", "data" };
 
     /// <inheritdoc />
     public override string Documentation => "Print all mod data fields for the nearest pond.";
@@ -55,7 +55,7 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
 
         if (nearest.fishType.Value < 0)
         {
-            var daysEmpty = ModDataIO.ReadFrom<int>(nearest, "DaysEmpty");
+            var daysEmpty = ModDataIO.Read<int>(nearest, "DaysEmpty");
             Log.I($"Empty for {daysEmpty} days.");
             return;
         }
@@ -63,7 +63,7 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
         var fish = nearest.GetFishObject();
         var message = $"{fish.Name} pond's mod data:";
 
-        var fishQualities = ModDataIO.ReadFrom(nearest, "FishQualities").ParseList<int>()!;
+        var fishQualities = ModDataIO.Read(nearest, "FishQualities").ParseList<int>()!;
         message += "\n\tFish qualities:" +
                    $"\n\t\t- Regular: {fishQualities[0]}" +
                    $"\n\t\t- Silver: {fishQualities[1]}" +
@@ -72,11 +72,11 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
 
         if (fish.HasContextTag("fish_legendary"))
         {
-            var familyLivingHere = ModDataIO.ReadFrom<int>(nearest, "FamilyLivingHere");
+            var familyLivingHere = ModDataIO.Read<int>(nearest, "FamilyLivingHere");
             message += $"\n\n\tExtended family members: {familyLivingHere}";
             if (familyLivingHere > 0)
             {
-                var familyQualities = ModDataIO.ReadFrom(nearest, "FamilyQualities").ParseList<int>()!;
+                var familyQualities = ModDataIO.Read(nearest, "FamilyQualities").ParseList<int>()!;
                 message += "\n\n\tFamily member qualities:" +
                            $"\n\t\t- Regular: {familyQualities[0]}" +
                            $"\n\t\t- Silver: {familyQualities[1]}" +
@@ -87,16 +87,16 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
         else if (fish.IsAlgae())
         {
 
-            var seaweedLivingHere = ModDataIO.ReadFrom<int>(nearest, "SeaweedLivingHere");
-            var greenAlgaeLivingHere = ModDataIO.ReadFrom<int>(nearest, "GreenAlgaeLivingHere");
-            var whiteAlgaeLivingHere = ModDataIO.ReadFrom<int>(nearest, "WhiteAlgaeLivingHere");
+            var seaweedLivingHere = ModDataIO.Read<int>(nearest, "SeaweedLivingHere");
+            var greenAlgaeLivingHere = ModDataIO.Read<int>(nearest, "GreenAlgaeLivingHere");
+            var whiteAlgaeLivingHere = ModDataIO.Read<int>(nearest, "WhiteAlgaeLivingHere");
             message += "\n\n\tAlgae species living here:" +
                        $"\n\t\t- Seaweed: {seaweedLivingHere}" +
                        $"\n\t\t- Green Algae: {greenAlgaeLivingHere}" +
                        $"\n\t\t- White Algae: {whiteAlgaeLivingHere}";
         }
 
-        var held = ModDataIO.ReadFrom(nearest, "ItemsHeld").ParseList<string>(";");
+        var held = ModDataIO.Read(nearest, "ItemsHeld").ParseList<string>(";");
         if (held?.Count is > 0)
         {
             message += "\n\n\tAdditional items held:";
@@ -121,7 +121,7 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
             message += "\n\n\tThe pond holds no items.:";
         }
 
-        var hasOrHasnt = ModDataIO.ReadFrom<bool>(nearest, "CheckedToday") ? "has" : "hasn't";
+        var hasOrHasnt = ModDataIO.Read<bool>(nearest, "CheckedToday") ? "has" : "hasn't";
         message += $"\n\n\tThe pond {hasOrHasnt} been checked today.";
         Log.I(message);
     }

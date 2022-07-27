@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion region using directives
 
-/// <summary>Wrapper for <see cref="IWorldEvents.DebrisListChanged"/> allowing dynamic hooking / unhooking.</summary>
+/// <summary>Wrapper for <see cref="IWorldEvents.DebrisListChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class DebrisListChangedEvent : ManagedEvent
 {
     /// <summary>Construct an instance.</summary>
@@ -19,7 +19,7 @@ internal abstract class DebrisListChangedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnDebrisListChanged(object? sender, DebrisListChangedEventArgs e)
     {
-        if (IsHooked) OnDebrisListChangedImpl(sender, e);
+        if (IsEnabled) OnDebrisListChangedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnDebrisListChanged" />

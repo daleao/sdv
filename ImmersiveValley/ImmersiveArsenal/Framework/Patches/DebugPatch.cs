@@ -1,40 +1,26 @@
-﻿using HarmonyLib;
+﻿using DaLion.Common.Attributes;
+using HarmonyLib;
 using JetBrains.Annotations;
-using StardewValley.Menus;
+using StardewValley;
 
 namespace DaLion.Stardew.Arsenal.Framework.Patches;
 
-[UsedImplicitly]
-internal sealed class DebugPatch : Common.Harmony.HarmonyPatch
+/// <summary>Wildcard prefix patch for on-demand debugging.</summary>
+[UsedImplicitly, DebugOnly]
+internal class DebugPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal DebugPatch()
     {
-        //Target = RequireMethod<ForgeMenu>("_ValidateCraft");
+        Target = RequireMethod<Farmer>("set_CanMove");
     }
 
     #region harmony patches
 
-    /// <summary>Debug patch.</summary>
     [HarmonyPrefix]
-    private static bool DebugPrefix(ForgeMenu __instance)
+    private static bool DebugPrefix(Farmer __instance, bool value)
     {
-        return false;
-        //switch (__instance.type.Value)
-        //{
-        //    case MeleeWeapon.stabbingSword:
-        //        __instance.addedAreaOfEffect.Value += 50;
-        //        break;
-        //    case MeleeWeapon.dagger:
-        //        __instance.addedAreaOfEffect.Value += 50;
-        //        break;
-        //    case MeleeWeapon.club:
-        //        __instance.addedAreaOfEffect.Value += 50;
-        //        break;
-        //    case MeleeWeapon.defenseSword:
-        //        __instance.addedAreaOfEffect.Value += 50;
-        //        break;
-        //}
+        return true; // don't run original logic
     }
 
     #endregion harmony patches

@@ -1,32 +1,31 @@
-﻿namespace DaLion.Common.Integrations;
+﻿namespace DaLion.Common.Integrations.WalkOfLife;
 
 #region using directives
 
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using System;
 
 #endregion using directives
 
 /// <summary>Interface for proxying.</summary>
 public interface IImmersiveProfessions
 {
-    /// <summary>Interface for an event wrapper allowing dynamic hooking / unhooking.</summary>
+    /// <summary>Interface for an event wrapper allowing dynamic enabling / disabling.</summary>
     public interface IManagedEvent
     {
-        /// <summary>Whether this event is hooked.</summary>
-        bool IsHooked { get; }
+        /// <summary>Whether this event is enabled.</summary>
+        bool IsEnabled { get; }
 
-        /// <summary>Whether this event is hooked for a specific splitscreen player.</summary>
+        /// <summary>Whether this event is enabled for a specific splitscreen player.</summary>
         /// <param name="screenId">The player's screen id.</param>
-        bool IsHookedForScreen(int screenId);
+        bool IsEnabledForScreen(int screenId);
 
-        /// <summary>Hook this event on the current screen.</summary>
-        bool Hook();
+        /// <summary>Enable this event on the current screen.</summary>
+        bool Enable();
 
-        /// <summary>Unhook this event on the current screen.</summary>
-        bool Unhook();
+        /// <summary>Disable this event on the current screen.</summary>
+        bool Disable();
     }
 
     #region treasure hunt
@@ -104,34 +103,25 @@ public interface IImmersiveProfessions
     }
 
     /// <summary>Interface for Ultimate abilities.</summary>
-    public interface IUltimate : IDisposable
+    public interface IUltimate
     {
-        /// <summary>The index of this Ultimate, which corresponds to the index of the corresponding combat profession.</summary>
+        /// <summary>The index of this Ultimate, which equals the index of the corresponding combat profession.</summary>
         UltimateIndex Index { get; }
-
-        /// <summary>The current charge value.</summary>
-        double ChargeValue { get; }
-
-        /// <summary>The maximum charge value.</summary>
-        int MaxValue { get; }
-
-        /// <summary>The current charge value as a percentage.</summary>
-        float PercentCharge { get; }
-
-        /// <summary>Whether the current charge value is at max.</summary>
-        bool IsFullyCharged { get; }
-
-        /// <summary>Whether the current charge value is at zero.</summary>
-        bool IsEmpty { get; }
 
         /// <summary>Whether this Ultimate is currently active.</summary>
         bool IsActive { get; }
 
-        /// <summary>Check whether the <see cref="UltimateMeter"/> is currently showing.</summary>
-        bool IsHudVisible { get; }
+        /// <summary>The current charge value.</summary>
+        double ChargeValue { get; set; }
+
+        /// <summary>The maximum charge value.</summary>
+        int MaxValue { get; }
 
         /// <summary>Check whether all activation conditions for this Ultimate are currently met.</summary>
         bool CanActivate { get; }
+
+        /// <summary>Check whether the <see cref="UltimateHUD"/> is currently showing.</summary>
+        bool IsHudVisible { get; }
     }
 
     /// <summary>Interface for the arguments of an <see cref="UltimateActivatedEvent"/>.</summary>
@@ -195,6 +185,9 @@ public interface IImmersiveProfessions
         /// <summary>Mod key used by Prospector and Scavenger professions.</summary>
         KeybindList ModKey { get; set; }
 
+        /// <summary>Whether Harvester and Agriculturist perks should apply to crops harvested by Junimos.</summary>
+        bool ShouldJunimosInheritProfessions { get; set; }
+
         /// <summary>Add custom mod Artisan machines to this list to make them compatible with the profession.</summary>
         string[] CustomArtisanMachines { get; }
 
@@ -204,8 +197,17 @@ public interface IImmersiveProfessions
         /// <summary>You must mine this many minerals before your mined minerals become iridium-quality.</summary>
         uint MineralsNeededForBestQuality { get; set; }
 
-        /// <summary>If enabled, Automated machines will contribute toward EcologistItemsForaged and GemologistMineralsCollected.</summary>
-        bool ShouldCountAutomatedHarvests { get; set; }
+        /// <summary>If enabled, machine and building ownership will be ignored when determining whether to apply profession bonuses.</summary>
+        bool LaxOwnershipRequirements { get; set; }
+
+        /// <summary>Changes the size of the pointer used to track objects by Prospector and Scavenger professions.</summary>
+        float TrackPointerScale { get; set; }
+
+        /// <summary>Changes the speed at which the tracking pointer bounces up and down (higher is faster).</summary>
+        float TrackPointerBobbingRate { get; set; }
+
+        /// <summary>If enabled, Prospector and Scavenger will only track off-screen object while <see cref="ModKey"/> is held.</summary>
+        bool DisableAlwaysTrack { get; set; }
 
         /// <summary>The chance that a scavenger or prospector hunt will trigger in the right conditions.</summary>
         double ChanceToStartTreasureHunt { get; set; }
@@ -229,7 +231,7 @@ public interface IImmersiveProfessions
         bool EnableGetExcited { get; set; }
 
         /// <summary>Whether Seaweed and Algae are considered junk for fishing purposes.</summary>
-        bool SeaweedIsJunk { get; set; }
+        bool SeaweedIsTrash { get; set; }
 
         /// <summary>You must catch this many fish of a given species to achieve instant catch.</summary>
         /// <remarks>Unused.</remarks>
@@ -313,9 +315,6 @@ public interface IImmersiveProfessions
 
         /// <summary>Determines the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons", "Gen4Ribbons".</summary>
         ProgressionStyle PrestigeProgressionStyle { get; set; }
-
-        /// <summary>Key used by trigger UI debugging events.</summary>
-        KeybindList DebugKey { get; set; }
 
         #region dropdown enums
 

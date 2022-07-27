@@ -1,4 +1,4 @@
-﻿namespace DaLion.Common.Integrations;
+﻿namespace DaLion.Common.Integrations.SpaceCore;
 
 #region using directives
 
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 #endregion using directives
 
 /// <summary>Provides functionality missing from <see cref="ISpaceCoreAPI"/>.</summary>
-public static class ExtendedSpaceCoreAPI
+internal static class ExtendedSpaceCoreAPI
 {
     public static Func<string, object> GetCustomSkillInstance = null!;
     public static Func<Farmer, string, int> GetCustomSkillExp = null!;
@@ -30,6 +30,7 @@ public static class ExtendedSpaceCoreAPI
     /// <summary>Whether the reflected fields have been initialized.</summary>
     public static bool Initialized { get; private set; }
 
+    /// <summary>Initialize reflected fields and compile delegates.</summary>
     public static void Init()
     {
         GetCustomSkillInstance =
@@ -37,9 +38,9 @@ public static class ExtendedSpaceCoreAPI
         GetCustomSkillExp = "SpaceCore.Skills".ToType().RequireMethod("GetExperienceFor")
             .CompileStaticDelegate<Func<Farmer, string, int>>();
         GetCustomSkillNewLevels = "SpaceCore.Skills".ToType().RequireField("NewLevels")
-            .CompileStaticFieldGetterDelegate<Func<List<KeyValuePair<string, int>>>>();
+            .CompileStaticFieldGetterDelegate<List<KeyValuePair<string, int>>>();
         SetCustomSkillNewLevels = "SpaceCore.Skills".ToType().RequireField("NewLevels")
-            .CompileStaticFieldSetterDelegate<Action<List<KeyValuePair<string, int>>>>();
+            .CompileStaticFieldSetterDelegate<List<KeyValuePair<string, int>>>();
         GetSkillName = "SpaceCore.Skills+Skill".ToType().RequireMethod("GetName")
             .CompileUnboundDelegate<Func<object, string>>();
         GetProfessions = "SpaceCore.Skills+Skill".ToType().RequirePropertyGetter("Professions")

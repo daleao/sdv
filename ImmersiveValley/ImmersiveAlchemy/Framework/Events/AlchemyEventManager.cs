@@ -11,14 +11,14 @@ using System.Linq;
 
 #endregion using directives
 
-/// <summary>Manages dynamic hooking and unhooking of alchemy events.</summary>
+/// <summary>Manages dynamic enabling and disabling of alchemy events.</summary>
 internal class AlchemyEventManager : EventManager
 {
     /// <summary>Construct an instance.</summary>
     public AlchemyEventManager(IModEvents modEvents)
     : base(modEvents)
     {
-        Log.D("[EventManager]: Hooking Alchemy mod events...");
+        Log.D("[EventManager]: Enabling Alchemy mod events...");
 
         #region hookers
 
@@ -37,19 +37,15 @@ internal class AlchemyEventManager : EventManager
         Log.D($"[EventManager]: Initialization of Alchemy mod events completed.");
 
         #endregion hookers
-
-#if DEBUG
-        HookStartingWith("Debug");
-#endif
     }
 
     /// <inheritdoc />
-    internal override void HookForLocalPlayer()
+    internal override void EnableForLocalPlayer()
     {
-        Log.D($"[EventManager]: Hooking profession events for {Game1.player.Name}...");
+        Log.D($"[EventManager]: Enabling profession events for {Game1.player.Name}...");
 
 
 
-        Log.D($"[EventManager]: Done hooking event for {Game1.player.Name}.");
+        Log.D($"[EventManager]: Done enabling event for {Game1.player.Name}.");
     }
 }

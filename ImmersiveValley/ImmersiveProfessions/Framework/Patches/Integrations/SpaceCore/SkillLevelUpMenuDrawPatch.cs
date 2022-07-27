@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Common;
+using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
@@ -19,7 +20,7 @@ using System.Reflection.Emit;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
 internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private static Func<IClickableMenu, bool>? _GetIsProfessionChooser;
@@ -29,14 +30,7 @@ internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyP
     /// <summary>Construct an instance.</summary>
     internal SkillLevelUpMenuDrawPatch()
     {
-        try
-        {
-            Target = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("draw", new[] { typeof(SpriteBatch) });
-        }
-        catch
-        {
-            // ignored
-        }
+        Target = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("draw", new[] { typeof(SpriteBatch) });
     }
 
     #region harmony patches
@@ -87,12 +81,12 @@ internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyP
     private static void DrawSubroutine(IClickableMenu menu, int currentLevel, SpriteBatch b)
     {
         _GetIsProfessionChooser ??= "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireField("isProfessionChooser")
-            .CompileUnboundFieldGetterDelegate<Func<IClickableMenu, bool>>();
+            .CompileUnboundFieldGetterDelegate<IClickableMenu, bool>();
         if (!ModEntry.Config.EnablePrestige || !_GetIsProfessionChooser(menu) ||
             currentLevel > 10) return;
 
         _GetProfessionsToChoose ??= "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireField("professionsToChoose")
-            .CompileUnboundFieldGetterDelegate<Func<IClickableMenu, List<int>>>();
+            .CompileUnboundFieldGetterDelegate<IClickableMenu, List<int>>();
         var professionsToChoose = _GetProfessionsToChoose(menu);
         if (!ModEntry.CustomProfessions.TryGetValue(professionsToChoose[0], out var leftProfession) ||
             !ModEntry.CustomProfessions.TryGetValue(professionsToChoose[1], out var rightProfession)) return;
