@@ -41,7 +41,7 @@ internal sealed class SlingshotDrawPatch : DaLion.Common.Harmony.HarmonyPatch
         b.Draw(Game1.staminaRect,
             new((int)Game1.GlobalToLocal(Game1.viewport, lastUser.Position).X - 36,
                 (int)Game1.GlobalToLocal(Game1.viewport, lastUser.Position).Y - 148, (int)(164f * overcharge), 25),
-            Game1.staminaRect.Bounds, Utility.getRedToGreenLerpColor(overcharge), 0f, Vector2.Zero, SpriteEffects.None,
+            Game1.staminaRect.Bounds, StardewValley.Utility.getRedToGreenLerpColor(overcharge), 0f, Vector2.Zero, SpriteEffects.None,
             0.887f);
     }
 }

@@ -65,7 +65,7 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
 
             var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
-                : Utility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
+                : StardewValley.Utility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
             monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1.0, "slime");
             monster.currentLocation.debris.Add(new(damageToMonster,
                 new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f, monster));

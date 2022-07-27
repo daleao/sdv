@@ -104,6 +104,6 @@ public class Broadcaster
     /// <param name="text">The text to send.</param>
     public static void SendDirectMessage(long playerID, LocalizedContentManager.LanguageCode code, string text)
     {
-        Game1.server.sendMessage(playerID, Multiplayer.chatMessage, Game1.player, code, text);
+        Game1.server.sendMessage(playerID, StardewValley.Multiplayer.chatMessage, Game1.player, code, text);
     }
 }
