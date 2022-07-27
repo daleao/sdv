@@ -6,10 +6,26 @@
 		<Version>3.0.0</Version>
 		<TargetFramework>net5.0</TargetFramework>
 		<EnableHarmony>true</EnableHarmony>
-		<BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
 		<LangVersion>latest</LangVersion>
 		<nullable>enable</nullable>
 		<WarningsAsErrors>Nullable</WarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<BundleExtraAssemblies>System,ThirdParty</BundleExtraAssemblies>
+		<IgnoreModFilePatterns>
+			\.xcf$, <!-- GIMP files-->
+			System.*.dll$, <!-- System would bundle these.-->
+			^Microsoft.(?!.*(Toolkit.Diagnostics.dll)), <!-- Everyone but MS.Toolkit.Diagnostics-->
+			^runtimes[/\\].*,
+			.*[/\\]Microsoft.*, <!-- CodeDiagnostics in a bunch of languages?-->
+			^JetBrains,<!-- Should never be bundled.-->
+			^Skia <!-- Skiasharp is included with the game-->
+		</IgnoreModFilePatterns>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Optimize>True</Optimize>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,16 +36,20 @@
 		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.1" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<Using Include="StardewValley" />
+		<Using Include="StardewModdingAPI" />
+		<Using Include="JetBrains.Annotations" />
+		<Using Alias="Object" Include="System.Object" />
+		<Using Alias="SObject" Include="StardewValley.Object" />
+	</ItemGroup>
+
 	<Import Project="..\Common\Common.projitems" Label="Shared" Condition="Exists('..\Common\Common.projitems')" />
 
 	<ItemGroup>
 		<Compile Remove="resources\**" />
 		<EmbeddedResource Remove="resources\**" />
 		<None Remove="resources\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Framework\Attributes\" />
 	</ItemGroup>
 
 </Project>

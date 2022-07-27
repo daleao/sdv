@@ -5,8 +5,6 @@
 using DaLion.Common.Extensions;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 
 #endregion using directives
 

@@ -7,8 +7,6 @@ using Common.Commands;
 using Common.Extensions;
 using Extensions;
 using Framework;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;

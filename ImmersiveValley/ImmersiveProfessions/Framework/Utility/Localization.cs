@@ -2,7 +2,6 @@
 
 #region using directives
 
-using StardewValley;
 using Ultimates;
 using VirtualProperties;
 

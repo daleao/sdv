@@ -8,13 +8,10 @@ using DaLion.Common.Harmony;
 using DaLion.Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -69,7 +66,7 @@ internal sealed class ObjectCheckForActionPatch : DaLion.Common.Harmony.HarmonyP
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldc_I4_4),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Utility).RequireMethod(nameof(Utility.CalculateMinutesUntilMorning),
+                        typeof(StardewValley.Utility).RequireMethod(nameof(StardewValley.Utility.CalculateMinutesUntilMorning),
                             new[] { typeof(int), typeof(int) }))
                 )
                 .AddLabels(isNotProducer)

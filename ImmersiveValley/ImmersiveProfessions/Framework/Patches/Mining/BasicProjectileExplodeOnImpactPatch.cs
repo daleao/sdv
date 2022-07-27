@@ -5,8 +5,6 @@
 using DaLion.Common;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Projectiles;
 using System;
 using System.Reflection;

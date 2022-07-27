@@ -7,11 +7,9 @@ using Common.Extensions;
 using Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewValley.Buildings;
 using System.IO;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

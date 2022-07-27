@@ -8,9 +8,7 @@ using Events.Display;
 using Events.GameLoop;
 using Extensions;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
@@ -20,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using VirtualProperties;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

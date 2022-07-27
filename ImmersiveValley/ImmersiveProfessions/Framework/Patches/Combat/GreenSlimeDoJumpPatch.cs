@@ -5,7 +5,6 @@
 using DaLion.Common.Attributes;
 using DaLion.Common.ModData;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewValley.Monsters;
 
 #endregion using directives

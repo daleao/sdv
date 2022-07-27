@@ -4,7 +4,6 @@
 
 using Common;
 using Common.ModData;
-using StardewValley;
 using System;
 using static System.FormattableString;
 

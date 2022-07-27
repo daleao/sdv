@@ -3,7 +3,6 @@
 #region using directives
 
 using Ardalis.SmartEnum;
-using StardewValley;
 
 #endregion using directives
 

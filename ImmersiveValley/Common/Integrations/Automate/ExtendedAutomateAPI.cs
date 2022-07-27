@@ -6,15 +6,12 @@ using Extensions.Reflection;
 using Extensions.SMAPI;
 using Extensions.Stardew;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using System;
 using System.Collections;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

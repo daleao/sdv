@@ -5,8 +5,6 @@
 using Common;
 using Common.Commands;
 using Common.ModData;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Tools;
 using System.Linq;
 

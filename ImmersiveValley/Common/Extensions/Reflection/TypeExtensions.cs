@@ -2,62 +2,6 @@
 
 #region using directives
 
-
-/* Unmerged change from project 'ImmersiveRings'
-Before:
-using System;
-After:
-using HarmonyLib;
-using System;
-*/
-
-/* Unmerged change from project 'ImmersiveTools'
-Before:
-using System;
-After:
-using HarmonyLib;
-using System;
-*/
-
-/* Unmerged change from project 'ImmersiveTweaks'
-Before:
-using System;
-After:
-using HarmonyLib;
-using System;
-*/
-
-/* Unmerged change from project 'ImmersivePonds'
-Before:
-using System;
-After:
-using HarmonyLib;
-using System;
-*/
-
-/* Unmerged change from project 'ImmersiveAlchemy'
-Before:
-using System;
-After:
-using HarmonyLib;
-using System;
-*/
-
-/* Unmerged change from project 'ImmersiveArsenal'
-Before:
-using System;
-After:
-using HarmonyLib;
-using System;
-*/
-
-/* Unmerged change from project 'ImmersiveProfessions'
-Before:
-using System;
-After:
-using HarmonyLib;
-using System;
-*/
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -127,7 +71,6 @@ public static class TypeExtensions
     public static MethodInfo RequirePropertyGetter(this Type type, string name) =>
         AccessTools.Property(type, name)?.GetGetMethod(true) ??
         throw new MissingMethodException($"Couldn't find property getter {name} in type {type.FullName}.");
-
 
     /// <summary>Get a property setter and assert that it was found.</summary>
     /// <param name="name">The property name.</param>

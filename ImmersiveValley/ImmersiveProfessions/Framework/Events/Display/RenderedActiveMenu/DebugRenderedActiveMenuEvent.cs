@@ -5,11 +5,9 @@
 using Common.Attributes;
 using Common.Events;
 using Common.Extensions.Xna;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
-using StardewValley;
 using StardewValley.Menus;
 using System.Collections.Generic;
 

@@ -4,10 +4,8 @@
 
 using Common.Events;
 using Extensions;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
-using StardewValley;
 using StardewValley.Locations;
 using System.Linq;
 

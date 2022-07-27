@@ -6,8 +6,6 @@ using Common;
 using Common.Harmony;
 using Enchantments;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;

@@ -4,10 +4,8 @@
 
 using Common.Attributes;
 using Common.Events;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
-using StardewValley;
 
 #endregion using directives
 

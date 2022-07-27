@@ -5,9 +5,7 @@
 using DaLion.Common;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using System;
 using System.Linq;
 using System.Reflection;

@@ -2,13 +2,13 @@
 
 #region using directives
 
+using Common.Enums;
 using Common.Events;
+using Common.Exceptions;
 using Common.Extensions.Reflection;
 using Enchantments;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
-using StardewValley;
 using StardewValley.Tools;
 using System;
 
@@ -37,25 +37,33 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
         {
             _BeginSpecialMove(sword, user);
             _animationFrames = sword.hasEnchantmentOfType<InfinityEnchantment>() ? 24 : 15; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
-#pragma warning disable CS8509
-            var frame = user.FacingDirection switch
+            var frame = (FacingDirection)user.FacingDirection switch
             {
-                Game1.up => 276,
-                Game1.right => 274,
-                Game1.down => 272,
-                Game1.left => 278
+                FacingDirection.Up => 276,
+                FacingDirection.Right => 274,
+                FacingDirection.Down => 272,
+                FacingDirection.Left => 278,
+                _ => throw new UnexpectedEnumValueException<FacingDirection>((FacingDirection)user.FacingDirection)
             };
 
             ((FarmerSprite)user.Sprite).setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
 
-            Vector2 trajectory = user.FacingDirection switch
+            Vector2 trajectory;
+            if (ModEntry.IsCombatControlsLoaded && !Game1.options.gamepadControls)
             {
-                Game1.up => new(0, 25), // south
-                Game1.right => new(25, 0), // east
-                Game1.down => new(0, -25), // north
-                Game1.left => new(-25, 0), // west
-            };
-#pragma warning restore CS8509
+                trajectory = Common.Utility.GetRelativeCursorDirection() * 25f;
+            }
+            else
+            {
+                trajectory = (FacingDirection)user.FacingDirection switch
+                {
+                    FacingDirection.Up => new(0, 25f), // south
+                    FacingDirection.Right => new(25f, 0), // east
+                    FacingDirection.Down => new(0, -25f), // north
+                    FacingDirection.Left => new(-25f, 0), // west
+                    _ => throw new UnexpectedEnumValueException<FacingDirection>((FacingDirection)user.FacingDirection)
+                };
+            }
 
             trajectory *= 1f + Game1.player.addedSpeed / 10f;
             user.setTrajectory(trajectory);

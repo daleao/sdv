@@ -9,7 +9,6 @@ using Common.Harmony;
 using Configs;
 using Framework.Effects;
 using HarmonyLib;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using System.Linq;
 

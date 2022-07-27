@@ -1,11 +1,5 @@
 ﻿namespace DaLion.Stardew.Professions.Extensions;
 
-#region using directives
-
-using SObject = StardewValley.Object;
-
-#endregion using directives
-
 /// <summary>Extensions for the <see cref="int"/> primitive type.</summary>
 public static class Int32Extensions
 {

@@ -3,7 +3,6 @@
 #region using directives
 
 using Newtonsoft.Json.Linq;
-using StardewModdingAPI;
 using System.IO;
 
 #endregion using directives

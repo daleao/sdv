@@ -1,11 +1,5 @@
 ﻿namespace DaLion.Stardew.Arsenal.Extensions;
 
-#region using directives
-
-using StardewValley;
-
-#endregion using directives
-
 /// <summary>Extensions for the <see cref="Item"/> class.</summary>
 public static class ItemExtensions
 {
@@ -15,5 +9,5 @@ public static class ItemExtensions
 
     /// <summary>Whether the ammo should make squishy noises upon collision.</summary>
     public static bool IsSquishyAmmo(this Item ammo) =>
-        ammo.Category is Object.EggCategory or Object.FruitsCategory or Object.VegetableCategory;
+        ammo.Category is SObject.EggCategory or SObject.FruitsCategory or SObject.VegetableCategory;
 }

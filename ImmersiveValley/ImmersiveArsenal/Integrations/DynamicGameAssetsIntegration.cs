@@ -4,7 +4,6 @@
 
 using Common.Integrations;
 using Common.Integrations.DynamicGameAssets;
-using StardewModdingAPI;
 using System.IO;
 
 #endregion using directives

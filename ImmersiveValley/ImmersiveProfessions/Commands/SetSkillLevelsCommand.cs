@@ -6,8 +6,6 @@ using Common;
 using Common.Commands;
 using Framework;
 using Framework.Utility;
-using JetBrains.Annotations;
-using StardewValley;
 using System;
 using System.Linq;
 

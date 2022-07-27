@@ -3,7 +3,6 @@
 #region using directives
 
 using Ardalis.SmartEnum;
-using StardewValley;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -59,15 +58,14 @@ public class Skill : SmartEnum<Skill>, ISkill
         }
 
         StringId = Name;
-#pragma warning disable CS8509
         DisplayName = value switch
-#pragma warning restore CS8509
         {
             Farmer.farmingSkill => Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11604"),
             Farmer.fishingSkill => Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11607"),
             Farmer.foragingSkill => Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11606"),
             Farmer.miningSkill => Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11605"),
             Farmer.combatSkill => Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11608"),
+            _ => string.Empty
         };
 
         foreach (var pid in Enumerable.Range(value * 6, 6))

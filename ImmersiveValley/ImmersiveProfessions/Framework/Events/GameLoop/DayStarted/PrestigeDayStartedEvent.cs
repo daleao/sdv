@@ -3,7 +3,6 @@
 #region using directives
 
 using Common.Events;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
 #endregion using directives

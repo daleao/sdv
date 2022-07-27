@@ -8,8 +8,6 @@ using Events.Display;
 using Events.GameLoop;
 using Extensions;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
 using System;

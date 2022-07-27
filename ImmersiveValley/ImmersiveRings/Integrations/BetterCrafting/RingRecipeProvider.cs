@@ -3,7 +3,6 @@
 #region using directives
 
 using Common.Integrations.BetterCrafting;
-using StardewValley;
 using StardewValley.Objects;
 using System.Collections.Generic;
 

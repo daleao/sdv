@@ -5,7 +5,6 @@ namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
 using Microsoft.Xna.Framework;
 using Sounds;
-using StardewValley;
 using System;
 
 #endregion using directives

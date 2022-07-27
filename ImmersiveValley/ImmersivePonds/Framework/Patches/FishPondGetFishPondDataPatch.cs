@@ -5,8 +5,6 @@ namespace DaLion.Stardew.Ponds.Framework.Patches;
 
 using Common.Extensions.Reflection;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using System.Collections.Generic;

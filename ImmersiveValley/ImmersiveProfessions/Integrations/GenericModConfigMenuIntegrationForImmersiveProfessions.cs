@@ -4,8 +4,6 @@ namespace DaLion.Stardew.Professions.Integrations;
 
 using Common.Extensions.Collections;
 using Common.Integrations.GenericModConfigMenu;
-using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Buildings;
 using System;
 using System.Linq;
@@ -73,16 +71,13 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                     ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/PrestigeProgression");
                 },
                 new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
-                value =>
-                {
-                    return value switch
+                value => value switch
                     {
                         "StackedStars" => "Stacked Stars",
                         "Gen3Ribbons" => "Gen 3 Ribbons",
                         "Gen4Ribbons" => "Gen 4 Ribbons",
                         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
-                    };
-                }
+                    }
             )
 
             // professions
@@ -251,7 +246,6 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 1f,
                 0.05f
             )
-
 
             // ultimate
             .AddSectionTitle(() => "Special Ability Settings")

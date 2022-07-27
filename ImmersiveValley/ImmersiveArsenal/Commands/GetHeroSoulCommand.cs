@@ -4,9 +4,6 @@
 
 using Common;
 using Common.Commands;
-using JetBrains.Annotations;
-using StardewValley;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -36,6 +33,6 @@ internal sealed class GetHeroSoulCommand : ConsoleCommand
 
         var heroSoul = (SObject)ModEntry.DynamicGameAssetsApi!.SpawnDGAItem(ModEntry.Manifest.UniqueID + "/Hero Soul");
         heroSoul.Stack = stack;
-        Utility.CollectOrDrop(heroSoul);
+        StardewValley.Utility.CollectOrDrop(heroSoul);
     }
 }

@@ -6,7 +6,6 @@ using Common.Integrations.GenericModConfigMenu;
 using Configs;
 using Framework;
 using HarmonyLib;
-using StardewModdingAPI;
 using System;
 
 #endregion using directives

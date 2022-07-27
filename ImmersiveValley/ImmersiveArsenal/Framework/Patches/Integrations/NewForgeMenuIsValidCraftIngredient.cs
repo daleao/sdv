@@ -6,8 +6,6 @@ using Common.Attributes;
 using Common.Extensions.Reflection;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 
 #endregion using directives
 

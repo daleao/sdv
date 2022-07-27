@@ -15,23 +15,26 @@ public static class FieldInfoExtensions
     #region getters
 
     /// <summary>Creates a delegate of the specified type that represents the specified unbound instance field getter.</summary>
-    /// <typeparam name="TDelegate">A delegate type which returns the desired field type and accepts the target instance type as a parameter.</typeparam>
+    /// <typeparam name="TInstance">The type of the instance that will be received by the delegate.</typeparam>
+    /// <typeparam name="TField">The type that will be returned by the delegate.</typeparam>
     public static Func<TInstance, TField> CompileUnboundFieldGetterDelegate<TInstance, TField>(this FieldInfo field)
     {
-        if (field.IsStatic) throw new InvalidOperationException("Field cannot be static");
+        if (field.IsStatic) throw new InvalidOperationException("Field cannot be static.");
 
-        var delegateInfo = typeof(Func<TInstance, TField>).GetMethodInfoFromDelegateType();
-        var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
-        if (delegateParamTypes.Length != 1)
-            throw new InvalidOperationException(
-                "Delegate type must accept a single target instance parameter.");
+        var delegateInstanceType = typeof(TInstance);
+        if (!delegateInstanceType.IsAssignableTo(field.DeclaringType))
+            throw new ArgumentException(
+                $"{delegateInstanceType.FullName} is not assignable to {field.DeclaringType?.FullName}");
 
-        var delegateTargetType = delegateParamTypes[0];
+        var delegateReturnType = typeof(TField);
+        if (!delegateReturnType.IsAssignableFrom(field.FieldType))
+            throw new ArgumentException(
+                $"{delegateReturnType.FullName} is not assignable from {field.FieldType.FullName}");
 
         // convert target type if necessary
-        var delegateTargetExpression = Expression.Parameter(delegateTargetType);
-        var convertedTargetExpression = delegateTargetType != field.DeclaringType
-            ? (Expression)Expression.Convert(delegateTargetExpression, field.DeclaringType!)
+        var delegateTargetExpression = Expression.Parameter(delegateInstanceType);
+        var convertedTargetExpression = delegateInstanceType != field.DeclaringType
+            ? (Expression)Expression.Convert(delegateTargetExpression, field.DeclaringType)
             : delegateTargetExpression;
 
         // create field call
@@ -41,20 +44,23 @@ public static class FieldInfoExtensions
         );
 
         // convert return type if necessary
-        var convertedFieldExpression = delegateInfo.ReturnType != field.FieldType
-            ? Expression.Convert(fieldExpression, delegateInfo.ReturnType)
+        var convertedFieldExpression = delegateReturnType != field.FieldType
+            ? Expression.Convert(fieldExpression, delegateReturnType)
             : (Expression)fieldExpression;
 
         return Expression.Lambda<Func<TInstance, TField>>(convertedFieldExpression, delegateTargetExpression).Compile();
     }
 
     /// <summary>Creates a delegate of the specified type that represents the specified static field getter.</summary>
-    /// <typeparam name="TDelegate">A delegate type which returns the desired field type and accepts no parameters.</typeparam>
+    /// <typeparam name="TField">The type that will be returned by the delegate.</typeparam>
     public static Func<TField> CompileStaticFieldGetterDelegate<TField>(this FieldInfo field)
     {
         if (!field.IsStatic) throw new InvalidOperationException("Field must be static");
 
-        var delegateInfo = typeof(Func<TField>).GetMethodInfoFromDelegateType();
+        var delegateReturnType = typeof(TField);
+        if (!delegateReturnType.IsAssignableFrom(field.FieldType))
+            throw new ArgumentException(
+                $"{delegateReturnType.FullName} is not assignable from {field.FieldType.FullName}");
 
         // create field call
         var fieldExpression = Expression.Field(
@@ -63,8 +69,8 @@ public static class FieldInfoExtensions
         );
 
         // convert return type if necessary
-        var convertedFieldExpression = delegateInfo.ReturnType != field.FieldType
-            ? Expression.Convert(fieldExpression, delegateInfo.ReturnType)
+        var convertedFieldExpression = delegateReturnType != field.FieldType
+            ? Expression.Convert(fieldExpression, delegateReturnType)
             : (Expression)fieldExpression;
 
         return Expression.Lambda<Func<TField>>(convertedFieldExpression).Compile();
@@ -75,33 +81,32 @@ public static class FieldInfoExtensions
     #region setters
 
     /// <summary>Creates a delegate of the specified type that represents the specified unbound instance field setter.</summary>
-    /// <typeparam name="TDelegate">A delegate type which accepts the target instance and assignment value type parameters and returns void.</typeparam>
+    /// <typeparam name="TInstance">The type of the instance that will be received by the delegate.</typeparam>
+    /// <typeparam name="TField">The type that will be received by the field.</typeparam>
     public static Action<TInstance, TField> CompileUnboundFieldSetterDelegate<TInstance, TField>(this FieldInfo field)
     {
-        if (field.IsStatic) throw new InvalidOperationException("Field cannot be static");
+        if (field.IsStatic) throw new InvalidOperationException("Field cannot be static.");
 
-        var delegateInfo = typeof(Action<TInstance, TField>).GetMethodInfoFromDelegateType();
-        if (delegateInfo.ReturnType != typeof(void))
-            throw new InvalidOperationException("Delegate return type must be void.");
+        var delegateInstanceType = typeof(TInstance);
+        if (!delegateInstanceType.IsAssignableTo(field.DeclaringType))
+            throw new ArgumentException(
+                $"{delegateInstanceType.FullName} is not assignable to {field.DeclaringType?.FullName}");
 
-        var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
-        if (delegateParamTypes.Length != 2)
-            throw new InvalidOperationException(
-                "Delegate type must accept both a target instance and assign value parameters.");
-
-        var delegateTargetType = delegateParamTypes[0];
-        var delegateValueType = delegateParamTypes[1];
+        var delegateValueType = typeof(TField);
+        if (!delegateValueType.IsAssignableTo(field.FieldType))
+            throw new ArgumentException(
+                $"{delegateValueType.FullName} is not assignable to {field.FieldType.FullName}");
 
         // convert target type if necessary
-        var delegateTargetExpression = Expression.Parameter(delegateTargetType);
-        var convertedTargetExpression = delegateTargetType != field.DeclaringType
-            ? (Expression)Expression.Convert(delegateTargetExpression, field.DeclaringType!)
+        var delegateTargetExpression = Expression.Parameter(delegateInstanceType);
+        var convertedTargetExpression = delegateInstanceType != field.DeclaringType
+            ? (Expression)Expression.Convert(delegateTargetExpression, field.DeclaringType)
             : delegateTargetExpression;
 
         // convert assign value type if necessary
         var delegateValueExpression = Expression.Parameter(delegateValueType);
         var convertedValueExpression = delegateValueType != field.FieldType
-            ? (Expression)Expression.Convert(delegateValueExpression, field.FieldType!)
+            ? (Expression)Expression.Convert(delegateValueExpression, field.FieldType)
             : delegateValueExpression;
 
         // create field call
@@ -111,37 +116,31 @@ public static class FieldInfoExtensions
         );
 
         // create assignment call
-        var ssignExpression = Expression.Assign(
+        var assignExpression = Expression.Assign(
             fieldExpression,
             convertedValueExpression
         );
 
         return Expression
-            .Lambda<Action<TInstance, TField>>(ssignExpression, delegateTargetExpression, delegateValueExpression)
+            .Lambda<Action<TInstance, TField>>(assignExpression, delegateTargetExpression, delegateValueExpression)
             .Compile();
     }
 
     /// <summary>Creates a delegate of the specified type that represents the specified static field setter.</summary>
-    /// <typeparam name="TDelegate">A delegate type which accepts the target instance type as a parameter and returns void.</typeparam>
+    /// <typeparam name="TField">The type that will be received by the field.</typeparam>
     public static Action<TField> CompileStaticFieldSetterDelegate<TField>(this FieldInfo field)
     {
         if (!field.IsStatic) throw new InvalidOperationException("Field must be static");
 
-        var delegateInfo = typeof(Action<TField>).GetMethodInfoFromDelegateType();
-        if (delegateInfo.ReturnType != typeof(void))
-            throw new InvalidOperationException("Delegate return type must be void.");
-
-        var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
-        if (delegateParamTypes.Length != 1)
-            throw new InvalidOperationException(
-                "Delegate type must accept both a single assign value parameters.");
-
-        var delegateValueType = delegateParamTypes[0];
+        var delegateValueType = typeof(TField);
+        if (!delegateValueType.IsAssignableTo(field.FieldType))
+            throw new ArgumentException(
+                $"{delegateValueType.FullName} is not assignable to {field.FieldType.FullName}");
 
         // convert assign value type if necessary
         var delegateValueExpression = Expression.Parameter(delegateValueType);
         var convertedValueExpression = delegateValueType != field.FieldType
-            ? (Expression)Expression.Convert(delegateValueExpression, field.FieldType!)
+            ? (Expression)Expression.Convert(delegateValueExpression, field.FieldType)
             : delegateValueExpression;
 
         // create field call
@@ -151,12 +150,12 @@ public static class FieldInfoExtensions
         );
 
         // create assignment call
-        var ssignExpression = Expression.Assign(
+        var assignExpression = Expression.Assign(
             fieldExpression,
             convertedValueExpression
         );
 
-        return Expression.Lambda<Action<TField>>(ssignExpression, delegateValueExpression).Compile();
+        return Expression.Lambda<Action<TField>>(assignExpression, delegateValueExpression).Compile();
     }
 
     #endregion setters

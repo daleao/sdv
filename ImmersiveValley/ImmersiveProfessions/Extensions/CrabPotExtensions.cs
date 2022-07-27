@@ -5,14 +5,11 @@
 using Framework;
 using Framework.Utility;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SObject = StardewValley.Object;
-using SUtility = StardewValley.Utility;
 
 #endregion using directives
 
@@ -57,7 +54,7 @@ public static class CrabPotExtensions
         var rawFishDataWithLocation = GetRawFishDataWithLocation(rawFishData);
 
         var keys = rawFishDataWithLocation.Keys.ToArray();
-        SUtility.Shuffle(r, keys);
+        Utility.Shuffle(r, keys);
         var counter = 0;
         foreach (var key in keys)
         {
@@ -123,7 +120,7 @@ public static class CrabPotExtensions
     public static int ChoosePirateTreasure(this CrabPot crabpot, Farmer owner, Random r)
     {
         var keys = ObjectLookups.TrapperPirateTreasureTable.Keys.ToArray();
-        SUtility.Shuffle(r, keys);
+        Utility.Shuffle(r, keys);
         foreach (var key in keys)
         {
             if (key == 14 && owner.specialItems.Contains(14) || key == 51 && owner.specialItems.Contains(51) ||

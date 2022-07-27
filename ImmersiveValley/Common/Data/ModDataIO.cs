@@ -4,8 +4,6 @@
 
 using Extensions;
 using Multiplayer;
-using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.TerrainFeatures;
 
@@ -59,6 +57,12 @@ internal static class ModDataIO
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
     public static void Write(Farmer farmer, string field, string? value)
     {
+        if (string.IsNullOrEmpty(field))
+        {
+            Log.W("[ModData] Received empty field string.");
+            return;
+        }
+
         if (Context.IsMultiplayer && !Context.IsMainPlayer)
         {
             _Broadcaster.MessageHost($"Write/{field}/{value ?? string.Empty}", "UpdateData");
@@ -256,6 +260,12 @@ internal static class ModDataIO
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
     public static void Write(Building building, string field, string? value)
     {
+        if (string.IsNullOrEmpty(field))
+        {
+            Log.W("[ModData] Received empty field string.");
+            return;
+        }
+
         building.modData.Write($"{ModID}/{field}", value);
         Log.V(string.IsNullOrEmpty(value)
             ? $"[ModData]: Cleared {building.GetType().Name}'s {field}."
@@ -329,6 +339,12 @@ internal static class ModDataIO
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
     public static void Write(Character character, string field, string? value)
     {
+        if (string.IsNullOrEmpty(field))
+        {
+            Log.W("[ModData] Received empty field string.");
+            return;
+        }
+
         character.modData.Write($"{ModID}/{field}", value);
         Log.V(string.IsNullOrEmpty(value)
             ? $"[ModData]: Cleared {character.Name}'s {field}."
@@ -402,6 +418,12 @@ internal static class ModDataIO
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
     public static void Write(GameLocation location, string field, string? value)
     {
+        if (string.IsNullOrEmpty(field))
+        {
+            Log.W("[ModData] Received empty field string.");
+            return;
+        }
+
         location.modData.Write($"{ModID}/{field}", value);
         Log.V(string.IsNullOrEmpty(value)
             ? $"[ModData]: Cleared {location.Name}'s {field}."
@@ -475,6 +497,12 @@ internal static class ModDataIO
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
     public static void Write(Item item, string field, string? value)
     {
+        if (string.IsNullOrEmpty(field))
+        {
+            Log.W("[ModData] Received empty field string.");
+            return;
+        }
+
         item.modData.Write($"{ModID}/{field}", value);
         Log.V(string.IsNullOrEmpty(value)
             ? $"[ModData]: Cleared {item.Name}'s {field}."
@@ -548,6 +576,12 @@ internal static class ModDataIO
     /// <param name="value">The value to write, or <c>null</c> to remove the field.</param>
     public static void Write(TerrainFeature feature, string field, string? value)
     {
+        if (string.IsNullOrEmpty(field))
+        {
+            Log.W("[ModData] Received empty field string.");
+            return;
+        }
+
         feature.modData.Write($"{ModID}/{field}", value);
         Log.V(string.IsNullOrEmpty(value)
             ? $"[ModData]: Cleared {feature.GetType().Name}'s {field}."

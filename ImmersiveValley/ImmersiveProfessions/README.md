@@ -41,9 +41,7 @@
 
 </td></tr></table>
 
-
 Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too.
-
 
 ## Features
 
@@ -181,7 +179,6 @@ All custom mod skills based on SpaceCore are compatible with the skill reset fea
 
 On top the regular perks listed above, every level 10 Combat profession also grants a unique special ability. This ability must be charged by performing certain actions during combat. You can track the current charge by a the HUD bar labeled "S" ("special", or "super").
 
-
 ## Special Abilities
 
 On top the regular perks listed above, every level 10 Combat profession also grants a unique special ability. This ability must be charged by performing certain actions during combat. You can track the current charge by a the HUD bar labeled "S" ("special", or "super").
@@ -201,7 +198,6 @@ Note that only a single special ability can be registered at any time; if the Co
   - There is also a low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert the Slime to prismatic variant.
   - Nearby Big Slimes explode immediately.
   - Charged by being touched by Slimes, or by defeating Slimes and Big Slimes.
-
 
 After all possible skills have had their level cap raised, the Statue of Prestige will let you switch between the four abilities for free, though a cost can be configured.
 
@@ -380,7 +376,6 @@ To consume the API, copy both interfaces from the [Common.Integrations](../Commo
     <td><img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo."></td>
   </tr>
 </table>
-
 
 
 ## License

@@ -5,7 +5,6 @@
 using Common;
 using Common.Harmony;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;

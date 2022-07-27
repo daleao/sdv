@@ -4,8 +4,6 @@
 
 using DaLion.Common;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Menus;
 using System;
 using System.Reflection;

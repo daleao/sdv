@@ -3,7 +3,6 @@
 #region using directives
 
 using Extensions;
-using StardewValley;
 using System;
 using System.Linq.Expressions;
 

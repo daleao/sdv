@@ -5,7 +5,6 @@
 using Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewValley.TerrainFeatures;
 
 #endregion using directives

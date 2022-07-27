@@ -3,7 +3,6 @@
 #region using directives
 
 using Common.Events;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using StardewValley.GameData.FishPond;
 using System.Collections.Generic;

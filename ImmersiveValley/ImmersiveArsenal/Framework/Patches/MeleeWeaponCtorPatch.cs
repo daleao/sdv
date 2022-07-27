@@ -8,7 +8,6 @@ using Common.Harmony;
 using Common.ModData;
 using Enchantments;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Netcode;
 using StardewValley.Tools;
 using System;

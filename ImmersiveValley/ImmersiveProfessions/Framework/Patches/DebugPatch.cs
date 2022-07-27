@@ -1,7 +1,6 @@
 ﻿using DaLion.Common;
 using DaLion.Common.Attributes;
 using HarmonyLib;
-using JetBrains.Annotations;
 
 namespace DaLion.Stardew.Professions.Framework.Patches;
 
@@ -21,7 +20,6 @@ internal class DebugPatch : DaLion.Common.Harmony.HarmonyPatch
     private static bool DebugPrefix(object __instance)
     {
         Log.D("DebugPatch called!");
-
 
 
         return false; // don't run original logic

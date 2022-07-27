@@ -2,8 +2,6 @@
 
 #region using directives
 
-using StardewValley;
-
 using TreasureHunts;
 
 #endregion using directives

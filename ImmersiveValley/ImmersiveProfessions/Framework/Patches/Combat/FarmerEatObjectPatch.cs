@@ -3,8 +3,6 @@
 #region using directives
 
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using VirtualProperties;
 
 #endregion using directives

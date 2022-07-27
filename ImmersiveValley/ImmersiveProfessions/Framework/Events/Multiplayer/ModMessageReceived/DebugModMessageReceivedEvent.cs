@@ -5,9 +5,7 @@
 using Common;
 using Common.Attributes;
 using Common.Events;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
-using StardewValley;
 using System.Linq;
 
 #endregion using directives

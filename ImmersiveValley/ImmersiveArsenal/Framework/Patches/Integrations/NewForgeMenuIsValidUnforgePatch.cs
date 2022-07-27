@@ -5,7 +5,6 @@
 using Common.Attributes;
 using Common.Extensions.Reflection;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewValley.Menus;
 using StardewValley.Tools;
 

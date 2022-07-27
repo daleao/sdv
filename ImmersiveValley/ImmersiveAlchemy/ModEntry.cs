@@ -6,7 +6,6 @@ using Common;
 using Common.Harmony;
 using Common.ModData;
 using Framework;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 

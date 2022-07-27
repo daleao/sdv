@@ -3,10 +3,8 @@
 #region using directives
 
 using Common.Events;
-using JetBrains.Annotations;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Events;
-using StardewValley;
 using System;
 
 #endregion using directives

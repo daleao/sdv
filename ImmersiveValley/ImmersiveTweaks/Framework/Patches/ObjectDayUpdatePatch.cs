@@ -5,10 +5,7 @@
 using Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using System;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

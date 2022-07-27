@@ -2,10 +2,7 @@
 
 #region using directives
 
-using StardewValley;
 using StardewValley.TerrainFeatures;
-
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

@@ -8,9 +8,7 @@ using Common.Extensions.Collections;
 using Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
@@ -19,7 +17,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -53,19 +50,19 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                 var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
 
                 var population = ModDataIO.Read<int>(__instance, "GreenAlgaeLivingHere");
-                var chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
+                var chance = StardewValley.Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                     if (random.NextDouble() < chance)
                         ++algaeStacks[0];
 
                 population = ModDataIO.Read<int>(__instance, "WhiteAlgaeLivingHere");
-                chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
+                chance = StardewValley.Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                     if (random.NextDouble() < chance)
                         ++algaeStacks[1];
 
                 population = ModDataIO.Read<int>(__instance, "SeaweedLivingHere");
-                chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
+                chance = StardewValley.Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                     if (random.NextDouble() < chance)
                         ++algaeStacks[2];
@@ -95,13 +92,12 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                     if (__result is null)
                     {
                         var max = algaeStacks.ToList().IndexOfMax();
-#pragma warning disable CS8509
                         __result = max switch
-#pragma warning restore CS8509
                         {
                             0 => new(Constants.GREEN_ALGAE_INDEX_I, algaeStacks[0]),
                             1 => new(Constants.WHITE_ALGAE_INDEX_I, algaeStacks[1]),
-                            2 => new(Constants.SEAWEED_INDEX_I, algaeStacks[2])
+                            2 => new(Constants.SEAWEED_INDEX_I, algaeStacks[2]),
+                            _ => null
                         };
                     }
                 }
@@ -119,7 +115,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                 held.AddRange(from item in fishPondData.ProducedItems.Where(item =>
                         item.ItemID is not Constants.ROE_INDEX_I or Constants.SQUID_INK_INDEX_I &&
                         __instance.currentOccupants.Value >= item.RequiredPopulation &&
-                        random.NextDouble() < Utility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f) &&
+                        random.NextDouble() < StardewValley.Utility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f) &&
                         random.NextDouble() < item.Chance)
                               let stack = random.Next(item.MinQuantity, item.MaxQuantity + 1)
                               select new SObject(item.ItemID, stack));
@@ -217,7 +213,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
             if (held.Count <= 0) return false; // don't run original logic
 
             // choose output
-            Utility.consolidateStacks(held);
+            StardewValley.Utility.consolidateStacks(held);
             __result = held.OrderByDescending(h => h.salePrice()).First() as SObject;
             held.Remove(__result!);
             if (held.Count > 0)

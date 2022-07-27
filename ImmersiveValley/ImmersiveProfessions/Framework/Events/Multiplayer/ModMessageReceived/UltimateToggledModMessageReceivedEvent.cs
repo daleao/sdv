@@ -5,10 +5,8 @@
 using Common;
 using Common.Events;
 using Common.ModData;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
-using StardewValley;
 using Ultimates;
 
 #endregion using directives

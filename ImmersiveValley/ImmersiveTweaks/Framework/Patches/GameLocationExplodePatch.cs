@@ -4,9 +4,7 @@
 
 using Common.Classes;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using System;
 using System.Linq;
 

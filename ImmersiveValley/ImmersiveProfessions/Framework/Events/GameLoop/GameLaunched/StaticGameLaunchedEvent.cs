@@ -5,7 +5,6 @@
 using Common.Events;
 using Common.Extensions.SMAPI;
 using Integrations;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 
 #endregion using directives

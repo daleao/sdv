@@ -4,8 +4,6 @@
 
 using Common;
 using Common.Commands;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Tools;
 using System;
 using System.Linq;

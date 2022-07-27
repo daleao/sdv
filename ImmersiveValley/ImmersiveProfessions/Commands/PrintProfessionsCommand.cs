@@ -5,8 +5,6 @@
 using Common;
 using Common.Commands;
 using Framework;
-using JetBrains.Annotations;
-using StardewValley;
 using static System.String;
 
 #endregion using directives

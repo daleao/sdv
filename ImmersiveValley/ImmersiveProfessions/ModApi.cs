@@ -12,9 +12,7 @@ using Framework.TreasureHunts;
 using Framework.Ultimates;
 using Framework.VirtualProperties;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using System;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

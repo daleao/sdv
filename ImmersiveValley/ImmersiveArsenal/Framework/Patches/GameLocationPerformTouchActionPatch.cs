@@ -6,8 +6,6 @@ using Common;
 using Common.Extensions.Reflection;
 using Common.Harmony;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,7 +83,7 @@ internal sealed class GameLocationPerformTouchActionPatch : Common.Harmony.Harmo
     private static bool DoesPlayerMeetGalaxyConditions()
     {
         if (Game1.player.ActiveObject is null ||
-            !Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, Constants.PRISMATIC_SHARD_INDEX_I) ||
+            !StardewValley.Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, Constants.PRISMATIC_SHARD_INDEX_I) ||
             Game1.player.mailReceived.Contains("galaxySword"))
             return false;
 
@@ -93,7 +91,7 @@ internal sealed class GameLocationPerformTouchActionPatch : Common.Harmony.Harmo
         {
             return Game1.player.Items.Any(item =>
                        item?.ParentSheetIndex == Constants.IRIDIUM_BAR_INDEX_I && item.Stack >= 10) &&
-                   Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject,
+                   StardewValley.Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject,
                        Constants.PRISMATIC_SHARD_INDEX_I);
         }
 

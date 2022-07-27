@@ -28,6 +28,9 @@ public static class MethodInfoExtensions
         if (method.IsStatic) throw new InvalidOperationException("Method cannot be static.");
 
         var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
+        if (!delegateInfo.ReturnType.IsAssignableFrom(method.ReturnType))
+            throw new ArgumentException(
+                $"{delegateInfo.ReturnType.FullName} is not assignable from {method.ReturnType.FullName}");
 
         var methodParamTypes = method.GetParameters().Select(m => m.ParameterType).ToArray();
         var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
@@ -35,11 +38,22 @@ public static class MethodInfoExtensions
             throw new InvalidOperationException(
                 "Delegate type must accept at least the target instance parameter.");
 
-        var delegateTargetType = delegateParamTypes[0];
+        var delegateInstanceType = delegateParamTypes[0];
+        if (!delegateInstanceType.IsAssignableTo(method.DeclaringType))
+            throw new ArgumentException(
+                $"{delegateInstanceType.FullName} is not assignable to {method.DeclaringType?.FullName}");
+
         delegateParamTypes = delegateParamTypes.Skip(1).ToArray();
         if (delegateParamTypes.Length != methodParamTypes.Length)
             throw new InvalidOperationException(
                 "Mismatched method and delegate parameter count.");
+
+        for (var i = 0; i < delegateParamTypes.Length; ++i)
+        {
+            if (!delegateParamTypes[i].IsAssignableTo(methodParamTypes[i]))
+                throw new ArgumentException(
+                    $"{delegateParamTypes[i].FullName} is not assignable to {methodParamTypes[i].FullName}");
+        }
 
         // convert argument types if necessary
         var arguments = methodParamTypes.Zip(delegateParamTypes, (methodParamType, delegateParamType) =>
@@ -55,8 +69,8 @@ public static class MethodInfoExtensions
         }).ToArray();
 
         // convert target type if necessary
-        var delegateTargetExpression = Expression.Parameter(delegateTargetType);
-        var convertedTargetExpression = delegateTargetType != method.DeclaringType
+        var delegateTargetExpression = Expression.Parameter(delegateInstanceType);
+        var convertedTargetExpression = delegateInstanceType != method.DeclaringType
             ? (Expression)Expression.Convert(delegateTargetExpression, method.DeclaringType!)
             : delegateTargetExpression;
 
@@ -86,12 +100,22 @@ public static class MethodInfoExtensions
         if (!method.IsStatic) throw new InvalidOperationException("Method must be static.");
 
         var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
+        if (!delegateInfo.ReturnType.IsAssignableFrom(method.ReturnType))
+            throw new ArgumentException(
+                $"{delegateInfo.ReturnType.FullName} is not assignable from {method.ReturnType.FullName}");
 
         var methodParamTypes = method.GetParameters().Select(m => m.ParameterType).ToArray();
         var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
         if (delegateParamTypes.Length != methodParamTypes.Length)
             throw new InvalidOperationException(
                 "Mismatched method and delegate parameter count.");
+
+        for (var i = 0; i < delegateParamTypes.Length; ++i)
+        {
+            if (!delegateParamTypes[i].IsAssignableTo(methodParamTypes[i]))
+                throw new ArgumentException(
+                    $"{delegateParamTypes[i].FullName} is not assignable to {methodParamTypes[i].FullName}");
+        }
 
         // convert argument types if necessary
         var arguments = methodParamTypes.Zip(delegateParamTypes, (methodParamType, delegateParamType) =>

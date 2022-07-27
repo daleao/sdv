@@ -8,7 +8,6 @@ using Common.Events;
 using Common.Harmony;
 using Common.Integrations.WalkOfLife;
 using Common.ModData;
-using StardewModdingAPI;
 
 #endregion using directives
 

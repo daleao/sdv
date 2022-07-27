@@ -3,7 +3,6 @@
 #region using directives
 
 using Netcode;
-using StardewValley;
 using StardewValley.Monsters;
 using System.Runtime.CompilerServices;
 
@@ -26,10 +25,8 @@ public static class Monster_Feared
         return holder.fearTimer;
     }
 
-    public static void set_FearTmer(this Monster monster, NetInt newVal)
-    {
-        // Net types should not have a setter as they are readonly
-    }
+    // Net types are readonly
+    public static void set_FearTmer(this Monster monster, NetInt newVal) { }
 
     public static NetInt get_FearIntensity(this Monster monster)
     {
@@ -37,10 +34,8 @@ public static class Monster_Feared
         return holder.fearIntensity;
     }
 
-    public static void set_FearIntensity(this Monster monster, NetInt newVal)
-    {
-        // Net types should not have a setter as they are readonly
-    }
+    // Net types are readonly
+    public static void set_FearIntensity(this Monster monster, NetInt newVal) { }
 
     public static Farmer get_Fearer(this Monster monster)
     {

@@ -7,13 +7,10 @@ using Common.Extensions;
 using Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Buildings;
 using System;
 using System.IO;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -69,13 +66,12 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
             ModDataIO.Write(__instance, "SeaweedLivingHere", null);
             ModDataIO.Write(__instance, "GreenAlgaeLivingHere", null);
             ModDataIO.Write(__instance, "WhiteAlgaeLivingHere", null);
-#pragma warning disable CS8509
             var field = __instance.fishType.Value switch
-#pragma warning restore CS8509
             {
                 Constants.SEAWEED_INDEX_I => "SeaweedLivingHere",
                 Constants.GREEN_ALGAE_INDEX_I => "GreenAlgaeLivingHere",
-                Constants.WHITE_ALGAE_INDEX_I => "WhiteAlgaeLivingHere"
+                Constants.WHITE_ALGAE_INDEX_I => "WhiteAlgaeLivingHere",
+                _ => string.Empty
             };
 
             ModDataIO.Write(__instance, field, __instance.FishCount.ToString());

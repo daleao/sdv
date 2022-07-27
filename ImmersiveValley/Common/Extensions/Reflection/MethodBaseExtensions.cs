@@ -3,7 +3,6 @@
 #region using directives
 
 using HarmonyLib;
-using StardewModdingAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;

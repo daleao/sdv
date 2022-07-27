@@ -9,17 +9,14 @@ using Common.Extensions.Reflection;
 using Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Utilities;
-using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using System;
 using System.Reflection;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -82,7 +79,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 x: (int)(Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f),
                 y: __instance.yPositionOnScreen - 4 + 128, (int)(textSize.X + 64f), 64
             );
-            Utility.drawTextWithShadow(
+            StardewValley.Utility.drawTextWithShadow(
                 b: b,
                 text: pondNameText,
                 font: Game1.smallFont,
@@ -107,7 +104,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Population"),
                 string.Concat(____pond.FishCount), ____pond.maxOccupants.Value);
             textSize = Game1.smallFont.MeasureString(populationText);
-            Utility.drawTextWithShadow(
+            StardewValley.Utility.drawTextWithShadow(
                 b: b, populationText,
                 font: Game1.smallFont,
                 position: new(
@@ -312,7 +309,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
 
             // draw more stuff
             textSize = Game1.smallFont.MeasureString(displayedText);
-            Utility.drawTextWithShadow(
+            StardewValley.Utility.drawTextWithShadow(
                 b: b,
                 text: displayedText,
                 font: Game1.smallFont,
@@ -326,7 +323,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
             if (hasUnresolvedNeeds)
             {
                 _DrawHorizontalPartition(__instance, b, (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
-                Utility.drawWithShadow(
+                StardewValley.Utility.drawWithShadow(
                     b: b,
                     texture: Game1.mouseCursors,
                     position: new(
@@ -356,7 +353,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                     textX = leftX + 76;
                 }
 
-                Utility.drawTextWithShadow(
+                StardewValley.Utility.drawTextWithShadow(
                     b: b,
                     text: bringText,
                     font: Game1.smallFont,
@@ -405,7 +402,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 );
 
                 if (____pond.neededItemCount.Value > 1)
-                    Utility.drawTinyDigits(
+                    StardewValley.Utility.drawTinyDigits(
                         toDraw: ____pond.neededItemCount.Value,
                         b: b,
                         position: new(

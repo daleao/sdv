@@ -6,7 +6,6 @@ using Common.Extensions.Reflection;
 using Common.Extensions.Xna;
 using Extensions;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Projectiles;
 using StardewValley.Tools;

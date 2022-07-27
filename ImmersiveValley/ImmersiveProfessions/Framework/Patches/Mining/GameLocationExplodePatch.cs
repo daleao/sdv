@@ -7,14 +7,11 @@ using DaLion.Common.Extensions.Reflection;
 using Events.GameLoop;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Locations;
 using System;
 using Utility;
 using Multiplayer = StardewValley.Multiplayer;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

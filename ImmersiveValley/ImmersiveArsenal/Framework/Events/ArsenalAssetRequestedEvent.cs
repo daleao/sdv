@@ -3,8 +3,6 @@
 #region using directives
 
 using Common.Events;
-using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using System;
 using System.Collections.Generic;

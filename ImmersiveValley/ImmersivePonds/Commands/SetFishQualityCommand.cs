@@ -4,15 +4,11 @@
 
 using Common;
 using Common.Commands;
-using Common.Extensions;
+using Common.Enums;
 using Common.ModData;
 using Extensions;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Buildings;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -39,12 +35,6 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
             return;
         }
 
-        if (!args[0].IsIn("low", "med", "high", "best"))
-        {
-            Log.W("Quality should be one of `low`, `med`, `high` or `best`");
-            return;
-        }
-
         if (!Game1.player.currentLocation.Equals(Game1.getFarm()))
         {
             Log.W("You must be at the farm to do this.");
@@ -68,15 +58,20 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
             return;
         }
 
-#pragma warning disable CS8509
         var newQuality = args[0] switch
-#pragma warning restore CS8509
         {
-            "low" or "normal" or "regular" or "white" => SObject.lowQuality,
-            "med" or "silver" => SObject.medQuality,
-            "high" or "gold" => SObject.highQuality,
-            "best" or "iridium" => SObject.bestQuality
+            "low" or "normal" or "regular" or "white" => Quality.Regular,
+            "med" or "silver" => Quality.Silver,
+            "high" or "gold" => Quality.Gold,
+            "best" or "iridium" => Quality.Iridium,
+            _ => (Quality)(-1)
         };
+
+        if (newQuality < 0)
+        {
+            Log.W("Unexpected quality. Should be either low/regular, med/silver, high/gold or best/iridium.");
+            return;
+        }
 
         var familyCount = ModDataIO.Read<int>(nearest, "FamilyLivingHere");
         var familyQualities = new int[4];
@@ -89,12 +84,12 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
 
         if (familyCount > 0)
         {
-            familyQualities[newQuality == 4 ? 3 : newQuality] += familyCount;
+            familyQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += familyCount;
             ModDataIO.Write(nearest, "FamilyQualities", string.Join(',', familyQualities));
         }
 
         var fishQualities = new int[4];
-        fishQualities[newQuality == 4 ? 3 : newQuality] += nearest.FishCount - familyCount;
+        fishQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += nearest.FishCount - familyCount;
         ModDataIO.Write(nearest, "FishQualities", string.Join(',', fishQualities));
     }
 }

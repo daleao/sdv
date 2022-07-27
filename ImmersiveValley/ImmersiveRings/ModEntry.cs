@@ -6,7 +6,6 @@ using Common;
 using Common.Events;
 using Common.Harmony;
 using Framework.Events;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives

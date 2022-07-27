@@ -3,9 +3,7 @@
 #region using directives
 
 using Common.Events;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
-using StardewValley;
 using StardewValley.Locations;
 using System;
 using System.Linq;

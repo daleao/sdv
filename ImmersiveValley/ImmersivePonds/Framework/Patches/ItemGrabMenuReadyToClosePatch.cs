@@ -5,12 +5,10 @@
 using Common.Extensions.Collections;
 using Common.ModData;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

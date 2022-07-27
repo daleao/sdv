@@ -3,13 +3,13 @@
 #region using directives
 
 using Common.Attributes;
+using Common.Enums;
 using Common.Events;
+using Common.Exceptions;
 using Common.Extensions.Xna;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
-using StardewValley;
 using System.Linq;
 
 #endregion using directives
@@ -56,14 +56,13 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
         bb.DrawBorder(_pixel, 3, Color.Red, e.SpriteBatch);
 
         var (x, y) = Game1.player.getTileLocation() * Game1.tileSize;
-#pragma warning disable CS8509
-        Rectangle facingBox = Game1.player.FacingDirection switch
-#pragma warning restore CS8509
+        Rectangle facingBox = (FacingDirection)Game1.player.FacingDirection switch
         {
-            Game1.up => new((int)x, (int)y - Game1.tileSize, Game1.tileSize, Game1.tileSize),
-            Game1.right => new((int)x + Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
-            Game1.down => new((int)x, (int)y + Game1.tileSize, Game1.tileSize, Game1.tileSize),
-            Game1.left => new((int)x - Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
+            FacingDirection.Up => new((int)x, (int)y - Game1.tileSize, Game1.tileSize, Game1.tileSize),
+            FacingDirection.Right => new((int)x + Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
+            FacingDirection.Down => new((int)x, (int)y + Game1.tileSize, Game1.tileSize, Game1.tileSize),
+            FacingDirection.Left => new((int)x - Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
+            _ => throw new UnexpectedEnumValueException<FacingDirection>((FacingDirection)Game1.player.FacingDirection)
         };
 
         facingBox.X -= Game1.viewport.X;

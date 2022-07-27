@@ -4,7 +4,6 @@
 
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewValley.Tools;
 
 #endregion using directives

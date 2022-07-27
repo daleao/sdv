@@ -6,11 +6,8 @@ using DaLion.Common;
 using DaLion.Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using System;
 using System.Reflection;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

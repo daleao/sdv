@@ -7,8 +7,6 @@ using Common.Extensions.Reflection;
 using Common.Harmony;
 using Enchantments;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Reflection;

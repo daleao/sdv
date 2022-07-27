@@ -7,7 +7,6 @@ namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 using DaLion.Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 

@@ -4,7 +4,6 @@ namespace DaLion.Stardew.Professions.Framework;
 #region using directives
 
 using Common.Integrations.SpaceCore;
-using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Linq;

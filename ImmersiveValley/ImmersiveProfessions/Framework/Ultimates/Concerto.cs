@@ -9,7 +9,6 @@ using Events.GameLoop;
 using Extensions;
 using Microsoft.Xna.Framework;
 using Sounds;
-using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 using System.Linq;

@@ -3,7 +3,6 @@
 #region using directives
 
 using Common.Events;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using System.Linq;

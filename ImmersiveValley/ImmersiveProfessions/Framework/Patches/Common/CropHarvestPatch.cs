@@ -8,8 +8,6 @@ using DaLion.Common.Harmony;
 using DaLion.Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Characters;
 using System;
 using System.Collections.Generic;
@@ -179,8 +177,9 @@ internal sealed class CropHarvestPatch : DaLion.Common.Harmony.HarmonyPatch
 
     private static bool ShouldIncreaseHarvestYield(JunimoHarvester? junimoHarvester, Random r)
     {
-        var harvester = junimoHarvester is null ? Game1.player : junimoHarvester.GetOwner();
-        return harvester.HasProfession(Profession.Harvester) &&
+        var harvester = junimoHarvester is null ? Game1.player :
+            ModEntry.Config.ShouldJunimosInheritProfessions ? junimoHarvester.GetOwner() : null;
+        return harvester?.HasProfession(Profession.Harvester) == true &&
                r.NextDouble() < (harvester.HasProfession(Profession.Harvester, true) ? 0.2 : 0.1);
     }
 

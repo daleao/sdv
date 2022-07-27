@@ -3,7 +3,6 @@ namespace DaLion.Stardew.Tweex.Integrations;
 #region using directives
 
 using Common.Integrations.GenericModConfigMenu;
-using StardewModdingAPI;
 using System;
 
 #endregion using directives

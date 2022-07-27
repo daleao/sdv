@@ -6,16 +6,13 @@ using Common;
 using Common.Extensions.Reflection;
 using Common.Harmony;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -92,10 +89,10 @@ internal sealed class ForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
         foreach (var ring in combinedRings)
         {
             var gemstone = Utils.GemstoneByRing[ring.ParentSheetIndex];
-            Utility.CollectOrDrop(new SObject(gemstone, 1));
-            Utility.CollectOrDrop(new SObject(848, 5));
+            StardewValley.Utility.CollectOrDrop(new SObject(gemstone, 1));
+            StardewValley.Utility.CollectOrDrop(new SObject(848, 5));
         }
-        Utility.CollectOrDrop(iridiumBand);
+        StardewValley.Utility.CollectOrDrop(iridiumBand);
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }

@@ -3,14 +3,12 @@
 #region using directives
 
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -137,7 +135,6 @@ public interface IConsumable
     /// <summary>Whether the consumables needed for this requirement are ready.</summary>
     bool IsMet { get; }
 
-
     /*********
     ** Public methods
     *********/
@@ -162,7 +159,6 @@ public interface IContainer : IAutomatable, IEnumerable<ITrackedStack>
 
     /// <summary>Whether this is a Junimo chest, which shares a global inventory with all other Junimo chests.</summary>
     bool IsJunimoChest { get; }
-
 
     /*********
     ** Public methods
@@ -194,7 +190,6 @@ public interface IMachine : IAutomatable
     /// <summary>A unique ID for the machine type.</summary>
     /// <remarks>This value should be identical for two machines if they have the exact same behavior and input logic. For example, if one machine in a group can't process input due to missing items, Automate will skip any other empty machines of that type in the same group since it assumes they need the same inputs.</remarks>
     string MachineTypeID { get; }
-
 
     /*********
     ** Public methods
@@ -228,7 +223,6 @@ public interface IRecipe
 
     /// <summary>The time needed to prepare an output (given an input).</summary>
     Func<Item, int> Minutes { get; }
-
 
     /*********
     ** Methods
@@ -311,7 +305,6 @@ public interface ITrackedStack
 
     /// <summary>The number of items in the stack.</summary>
     int Count { get; }
-
 
     /*********
     ** Public methods

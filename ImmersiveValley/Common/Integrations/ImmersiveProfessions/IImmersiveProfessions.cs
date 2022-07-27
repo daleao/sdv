@@ -4,7 +4,6 @@
 
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
-using StardewValley;
 
 #endregion using directives
 
@@ -87,7 +86,6 @@ public interface IImmersiveProfessions
         /// <summary>The coordinates of the target tile.</summary>
         Vector2 Target { get; }
     }
-
 
     #endregion treasure hunt
 

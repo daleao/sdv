@@ -3,7 +3,6 @@
 #region using directives
 
 using Netcode;
-using StardewValley;
 using StardewValley.Monsters;
 using System.Runtime.CompilerServices;
 
@@ -30,10 +29,8 @@ public static class GreenSlime_Piped
         return holder.pipeTimer;
     }
 
-    public static void set_PipeTimer(this GreenSlime slime, NetInt newVal)
-    {
-        // Net types should not have a setter as they are readonly
-    }
+    // Net types are readonly
+    public static void set_PipeTimer(this GreenSlime slime, NetInt newVal) { }
 
     public static Farmer? get_Piper(this GreenSlime slime)
     {

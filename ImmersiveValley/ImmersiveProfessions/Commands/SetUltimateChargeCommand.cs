@@ -5,8 +5,6 @@
 using Common;
 using Common.Commands;
 using Framework.VirtualProperties;
-using JetBrains.Annotations;
-using StardewValley;
 
 #endregion using directives
 

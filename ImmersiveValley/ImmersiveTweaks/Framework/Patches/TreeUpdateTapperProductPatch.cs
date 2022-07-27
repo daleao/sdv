@@ -4,9 +4,7 @@
 
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewValley.TerrainFeatures;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

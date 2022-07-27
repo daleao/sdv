@@ -5,7 +5,6 @@
 using Common.Events;
 using Display;
 using Extensions;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using Ultimates;
 using VirtualProperties;

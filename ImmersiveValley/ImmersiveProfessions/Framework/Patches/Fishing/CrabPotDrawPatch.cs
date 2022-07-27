@@ -5,11 +5,9 @@
 using DaLion.Common;
 using DaLion.Common.Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Utilities;
-using StardewValley;
 using StardewValley.Objects;
 using System;
 using System.Reflection;

@@ -5,9 +5,7 @@
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Menus;
 using System.Collections.Generic;
 using Textures;

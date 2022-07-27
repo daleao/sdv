@@ -5,9 +5,6 @@
 using DaLion.Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

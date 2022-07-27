@@ -9,6 +9,18 @@
 	<LangVersion>latest</LangVersion>
 	<nullable>enable</nullable>
   </PropertyGroup>
+	
+  <PropertyGroup>
+	<IgnoreModFilePatterns>
+	  \.xcf$, <!-- GIMP files-->
+	  System.*.dll$, <!-- System would bundle these.-->
+	  ^Microsoft.(?!.*(Toolkit.Diagnostics.dll)), <!-- Everyone but MS.Toolkit.Diagnostics-->
+	  ^runtimes[/\\].*,
+	  .*[/\\]Microsoft.*, <!-- CodeDiagnostics in a bunch of languages?-->
+	  ^JetBrains,<!-- Should never be bundled.-->
+	  ^Skia <!-- Skiasharp is included with the game-->
+	</IgnoreModFilePatterns>
+  </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>True</Optimize>
@@ -21,7 +33,15 @@
 	<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.1" />
   </ItemGroup>
 
-  <Import Project="..\Common\Common.projitems" Label="Shared" Condition="Exists('..\Common\Common.projitems')" />
+  <ItemGroup>
+	<Using Include="StardewValley" />
+	<Using Include="StardewModdingAPI" />
+	<Using Include="JetBrains.Annotations" />
+	<Using Alias="Object" Include="System.Object" />
+	<Using Alias="SObject" Include="StardewValley.Object" />
+  </ItemGroup>
+
+	<Import Project="..\Common\Common.projitems" Label="Shared" Condition="Exists('..\Common\Common.projitems')" />
 
   <ItemGroup>
 	<Compile Remove="resources\**" />

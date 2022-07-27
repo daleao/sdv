@@ -4,10 +4,7 @@
 
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

@@ -6,9 +6,7 @@ using Common;
 using Common.Extensions.Reflection;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 using System;
@@ -61,7 +59,7 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
             var mouseX = __instance.aimPos.X;
             var mouseY = __instance.aimPos.Y;
             var shootOrigin = __instance.GetShootOrigin(who);
-            var (x, y) = Utility.getVelocityTowardPoint(shootOrigin, __instance.AdjustForHeight(new(mouseX, mouseY)),
+            var (x, y) = StardewValley.Utility.getVelocityTowardPoint(shootOrigin, __instance.AdjustForHeight(new(mouseX, mouseY)),
                 (15 + Game1.random.Next(4, 6)) * (1f + who.weaponSpeedModifier));
 
             var ammo = __instance.attachments[0].getOne();

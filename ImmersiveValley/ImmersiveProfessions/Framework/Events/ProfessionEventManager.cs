@@ -12,9 +12,7 @@ using Events.Player;
 using Events.TreasureHunt;
 using Events.Ultimate;
 using Extensions;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +61,6 @@ internal class ProfessionEventManager : EventManager
 
         foreach (var @event in ManagedEvents.OfType<UltimateFullyChargedEvent>())
             Ultimate.FullyCharged += @event.OnFullyCharged;
-
 
         foreach (var @event in ManagedEvents.OfType<TreasureHuntEndedEvent>())
             TreasureHunt.Ended += @event.OnEnded;

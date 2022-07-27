@@ -7,9 +7,6 @@ using Common.Commands;
 using Common.ModData;
 using Extensions;
 using Framework;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
 using System.Linq;
 
 #endregion using directives

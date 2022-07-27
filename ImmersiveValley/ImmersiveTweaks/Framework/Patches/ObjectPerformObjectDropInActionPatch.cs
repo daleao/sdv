@@ -4,9 +4,6 @@
 
 using Common.Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

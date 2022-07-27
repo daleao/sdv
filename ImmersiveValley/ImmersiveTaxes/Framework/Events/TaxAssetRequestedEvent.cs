@@ -4,9 +4,7 @@
 
 using Common.Events;
 using Common.ModData;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
-using StardewValley;
 using static System.FormattableString;
 
 #endregion using directives
@@ -41,13 +39,12 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
             data[$"{ModEntry.Manifest.UniqueID}/TaxNotice"] = ModEntry.i18n.Get("tax.notice", new { honorific, due });
             data[$"{ModEntry.Manifest.UniqueID}/TaxOutstanding"] =
                 ModEntry.i18n.Get("tax.outstanding", new { honorific, due, outstanding, farm, interest, });
-#pragma warning disable CS8509
             data[$"{ModEntry.Manifest.UniqueID}/TaxDeduction"] = deductible switch
-#pragma warning restore CS8509
             {
                 >= 1f => ModEntry.i18n.Get("tax.deduction.max", new { honorific }),
                 >= 0f => ModEntry.i18n.Get("tax.deduction",
-                    new { honorific, deductible = CurrentCulture($"{deductible:p0}") })
+                    new { honorific, deductible = CurrentCulture($"{deductible:p0}") }),
+                _ => string.Empty
             };
         });
     }

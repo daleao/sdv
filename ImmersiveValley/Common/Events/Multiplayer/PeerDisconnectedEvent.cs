@@ -2,7 +2,6 @@
 
 #region using directives
 
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
 #endregion using directives

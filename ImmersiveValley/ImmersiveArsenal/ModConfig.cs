@@ -36,6 +36,9 @@ public class ModConfig
     /// <summary>Guaranteed smash crit on Duggies. Guaranteed smash miss on flying enemies..</summary>
     public bool ImmersiveClubSmash { get; set; } = true;
 
+    /// <summary>Make parry great again by increasing it's damage by 10% per defense point.</summary>
+    public bool DefenseImprovesParryDamage { get; set; } = true;
+
     /// <summary>Replace the starting Rusty Sword with a Wooden Blade.</summary>
     public bool WoodyReplacesRusty { get; set; } = true;
 

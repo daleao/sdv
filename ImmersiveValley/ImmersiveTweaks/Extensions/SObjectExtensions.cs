@@ -3,8 +3,6 @@
 #region using directives
 
 using Common.ModData;
-using StardewValley;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

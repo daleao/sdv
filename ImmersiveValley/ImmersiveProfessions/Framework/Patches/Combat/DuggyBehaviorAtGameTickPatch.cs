@@ -7,7 +7,6 @@ using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;

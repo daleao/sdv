@@ -8,7 +8,6 @@ using Common.Events;
 using Common.Harmony;
 using Common.Integrations.DynamicGameAssets;
 using Framework.Events;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
@@ -28,6 +27,7 @@ public class ModEntry : Mod
     internal static IDynamicGameAssetsAPI? DynamicGameAssetsApi { get; set; }
     internal static bool IsImmersiveProfessionsLoaded { get; private set; }
     internal static bool IsImmersiveRingsLoaded { get; private set; }
+    internal static bool IsCombatControlsLoaded { get; private set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -38,9 +38,10 @@ public class ModEntry : Mod
         // initialize logger
         Log.Init(Monitor);
 
-        // check for Immersive mods
+        // check for loaded mod integrations
         IsImmersiveProfessionsLoaded = helper.ModRegistry.IsLoaded("DaLion.ImmersiveProfessions");
         IsImmersiveRingsLoaded = helper.ModRegistry.IsLoaded("DaLion.ImmersiveRings");
+        IsCombatControlsLoaded = helper.ModRegistry.IsLoaded("NormanPCN.CombatControlsRedux");
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();

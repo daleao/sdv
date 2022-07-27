@@ -2,7 +2,6 @@ namespace DaLion.Common.Integrations;
 
 #region using directives
 
-using StardewModdingAPI;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
@@ -70,7 +69,6 @@ public abstract class BaseIntegration : IModIntegration
         if (!IsLoaded) throw new InvalidOperationException($"The {ModName} integration isn't loaded.");
     }
 }
-
 
 /// <summary>The base implementation for a mod integration.</summary>
 /// <typeparam name="TApi">The API type.</typeparam>

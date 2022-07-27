@@ -7,9 +7,7 @@ using Common.Events;
 using Common.Harmony;
 using Common.Integrations.WalkOfLife;
 using Common.ModData;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-using StardewValley;
 using System;
 using static System.FormattableString;
 

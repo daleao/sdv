@@ -3,7 +3,6 @@ namespace DaLion.Stardew.Arsenal.Integrations;
 #region using directives
 
 using Common.Integrations.GenericModConfigMenu;
-using StardewModdingAPI;
 using System;
 using System.Linq;
 

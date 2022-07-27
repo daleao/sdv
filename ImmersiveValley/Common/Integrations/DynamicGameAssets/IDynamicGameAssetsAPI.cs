@@ -3,7 +3,6 @@
 #region using directives
 
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 
 #endregion using directives
 

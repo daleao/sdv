@@ -2,11 +2,11 @@
 
 #region using directives
 
+using Common.Enums;
 using Common.Events;
+using Common.Exceptions;
 using Extensions;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
-using StardewValley;
 using StardewValley.Tools;
 using VirtualProperties;
 
@@ -32,14 +32,13 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
             ++_currentFrame;
             if (_currentFrame == 0)
             {
-#pragma warning disable CS8509
-                var frame = user.FacingDirection switch
-#pragma warning restore CS8509
+                var frame = (FacingDirection)user.FacingDirection switch
                 {
-                    Game1.up => 176,
-                    Game1.right => 168,
-                    Game1.down => 160,
-                    Game1.left => 184
+                    FacingDirection.Up => 176,
+                    FacingDirection.Right => 168,
+                    FacingDirection.Down => 160,
+                    FacingDirection.Left => 184,
+                    _ => throw new UnexpectedEnumValueException<FacingDirection>((FacingDirection)user.FacingDirection)
                 };
 
                 var sprite = (FarmerSprite)user.Sprite;

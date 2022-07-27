@@ -3,8 +3,6 @@
 #region using directives
 
 using Common.Commands;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Tools;
 using System.Linq;
 

@@ -7,16 +7,12 @@ using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using SObject = StardewValley.Object;
-using SUtility = StardewValley.Utility;
 
 #endregion using directives
 
@@ -46,10 +42,10 @@ internal sealed class GameLocationGetFishPatch : DaLion.Common.Harmony.HarmonyPa
         var startOfFishRoll = generator.DefineLabel();
         var shouldntReroll = generator.DefineLabel();
         var hasRerolled = generator.DeclareLocal(typeof(bool));
-        var shuffleMethod = typeof(SUtility).GetMethods().Where(mi => mi.Name == "Shuffle").ElementAtOrDefault(1);
+        var shuffleMethod = typeof(StardewValley.Utility).GetMethods().Where(mi => mi.Name == "Shuffle").ElementAtOrDefault(1);
         if (shuffleMethod is null)
         {
-            Log.E($"Failed to acquire {typeof(SUtility)}::Shuffle method.");
+            Log.E($"Failed to acquire {typeof(StardewValley.Utility)}::Shuffle method.");
             return null;
         }
 

@@ -7,9 +7,7 @@ using Common.Extensions.Reflection;
 using Common.Harmony;
 using Enchantments;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
@@ -17,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -135,7 +132,7 @@ internal sealed class ForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
     {
         var heroSoul = (SObject)ModEntry.DynamicGameAssetsApi!.SpawnDGAItem(ModEntry.Manifest.UniqueID + "/Hero Soul");
         heroSoul.Stack = 3;
-        Utility.CollectOrDrop(heroSoul);
+        StardewValley.Utility.CollectOrDrop(heroSoul);
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }
@@ -157,7 +154,7 @@ internal sealed class ForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
         menu.heldItem = slingshot;
-        Utility.CollectOrDrop(new SObject(848, cost / 2));
+        StardewValley.Utility.CollectOrDrop(new SObject(848, cost / 2));
     }
 
     #endregion injected subroutines

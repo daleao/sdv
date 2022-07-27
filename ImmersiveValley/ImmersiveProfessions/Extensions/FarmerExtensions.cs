@@ -12,16 +12,13 @@ using Framework.Ultimates;
 using Framework.Utility;
 using Framework.VirtualProperties;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -390,7 +387,6 @@ public static class FarmerExtensions
 
             farmer.cookingRecipes.Remove(key);
         }
-
 
         if (addToRecoveryDict)
             ModDataIO.Write(farmer, "ForgottenRecipesDict", forgottenRecipesDict.Stringify());

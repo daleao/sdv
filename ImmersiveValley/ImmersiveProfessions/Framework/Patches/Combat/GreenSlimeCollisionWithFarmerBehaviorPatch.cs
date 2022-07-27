@@ -4,8 +4,6 @@
 
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Monsters;
 using Ultimates;
 using VirtualProperties;

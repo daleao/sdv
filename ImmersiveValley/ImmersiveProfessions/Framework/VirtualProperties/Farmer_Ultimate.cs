@@ -4,7 +4,6 @@
 
 using Common.ModData;
 using Netcode;
-using StardewValley;
 using System.Runtime.CompilerServices;
 using Ultimates;
 
@@ -27,10 +26,8 @@ public static class Farmer_Ultimate
         return holder.ultimateIndex;
     }
 
-    public static void set_UltimateIndex(this Farmer farmer, NetInt newVal)
-    {
-        // Net types should not have a setter as they are readonly
-    }
+    // Net types are readonly
+    public static void set_UltimateIndex(this Farmer farmer, NetInt newVal) { }
 
     public static NetBool get_IsUltimateActive(this Farmer farmer)
     {
@@ -38,10 +35,8 @@ public static class Farmer_Ultimate
         return holder.isUltimateActive;
     }
 
-    public static void set_IsUltimateActive(this Farmer farmer, NetBool newVal)
-    {
-        // Net types should not have a setter as they are readonly
-    }
+    // Net types are readonly
+    public static void set_IsUltimateActive(this Farmer farmer, NetBool newVal) { }
 
     public static Ultimate? get_Ultimate(this Farmer farmer)
     {

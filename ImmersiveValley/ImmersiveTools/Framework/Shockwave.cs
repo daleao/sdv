@@ -6,7 +6,6 @@ using Common;
 using Common.Classes;
 using Extensions;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Tools;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ internal class Shockwave
 {
     private const int SHOCKWAVE_DELAY_MS_I = 150;
 
-    private readonly IEffect _effect;
+    private readonly IEffect? _effect;
     private readonly Tool _tool;
     private readonly Vector2 _epicenter;
     private readonly GameLocation _location;
@@ -37,12 +36,11 @@ internal class Shockwave
         _farmer = who;
         _location = who.currentLocation;
         _tool = who.CurrentTool;
-#pragma warning disable CS8509
         _effect = _tool switch
-#pragma warning restore CS8509
         {
             Axe => new AxeEffect(ModEntry.Config.AxeConfig),
-            Pickaxe => new PickaxeEffect(ModEntry.Config.PickaxeConfig)
+            Pickaxe => new PickaxeEffect(ModEntry.Config.PickaxeConfig),
+            _ => null
         };
 
         _epicenter = new((int)(_farmer.GetToolLocation().X / Game1.tileSize),
@@ -91,7 +89,7 @@ internal class Shockwave
                 // apply tool effects
                 _location.objects.TryGetValue(tile, out var tileObj);
                 _location.terrainFeatures.TryGetValue(tile, out var tileFeature);
-                _effect.Apply(tile, tileObj, tileFeature, _tool, _location, _farmer);
+                _effect!.Apply(tile, tileObj, tileFeature, _tool, _location, _farmer);
             });
 
             var pixelPos = new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize);
@@ -120,7 +118,7 @@ internal class Shockwave
     /// <param name="facingDirection">The direction to face.</param>
     private static void GetRadialAdjacentTile(Vector2 epicenter, Vector2 tile, out Vector2 adjacent, out int facingDirection)
     {
-        facingDirection = Utility.getDirectionFromChange(tile, epicenter);
+        facingDirection = StardewValley.Utility.getDirectionFromChange(tile, epicenter);
         adjacent = facingDirection switch
         {
             Game1.up => new(tile.X, tile.Y + 1),

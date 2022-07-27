@@ -3,8 +3,6 @@
 #region using directives
 
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;

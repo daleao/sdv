@@ -4,15 +4,12 @@
 
 using Common;
 using Common.Commands;
+using Common.Enums;
 using Common.Extensions;
 using Common.ModData;
 using Extensions;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Buildings;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -102,18 +99,9 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
             message += "\n\n\tAdditional items held:";
             foreach (var item in held)
             {
-                var (index, stack, quality) = item.ParseTuple<int, int, int>()!.Value;
+                var (index, stack, quality) = item.ParseTuple<int, int, Quality>()!.Value;
                 var @object = new SObject(index, stack);
-#pragma warning disable CS8509
-                var qualityString = quality switch
-#pragma warning restore CS8509
-                {
-                    SObject.lowQuality => "regular",
-                    SObject.medQuality => "silver",
-                    SObject.highQuality => "gold",
-                    SObject.bestQuality => "iridium"
-                };
-                message += $"\n\t\t- {@object.Name} x{stack} ({qualityString})";
+                message += $"\n\t\t- {@object.Name} x{stack} ({quality})";
             }
         }
         else

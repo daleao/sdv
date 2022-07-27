@@ -25,7 +25,6 @@
 This mod is a collection of small tweaks and fixes to any vanilla inconsistencies or balancing issues that I can find, and that are not large enough to merit their own mod.
 Most of these features were originally a part of [Walk Of Life](https://www.nexusmods.com/stardewvalley/mods/8111) and therefore are intended to be used with it, but that is not a requirement.
 
-
 Features currently included:
 
 (Foraging and Farming-related)

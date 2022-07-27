@@ -8,16 +8,13 @@ using Common.Extensions.Reflection;
 using Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Tools;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -90,13 +87,12 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
             ModDataIO.Write(pond, "SeaweedLivingHere", null);
             ModDataIO.Write(pond, "GreenAlgaeLivingHere", null);
             ModDataIO.Write(pond, "WhiteAlgaeLivingHere", null);
-#pragma warning disable CS8509
             var field = pond.fishType.Value switch
-#pragma warning restore CS8509
             {
                 Constants.SEAWEED_INDEX_I => "SeaweedLivingHere",
                 Constants.GREEN_ALGAE_INDEX_I => "GreenAlgaeLivingHere",
-                Constants.WHITE_ALGAE_INDEX_I => "WhiteAlgaeLivingHere"
+                Constants.WHITE_ALGAE_INDEX_I => "WhiteAlgaeLivingHere",
+                _ => string.Empty
             };
 
             ModDataIO.Write(pond, field, pond.FishCount.ToString());

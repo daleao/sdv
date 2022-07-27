@@ -4,7 +4,6 @@
 
 using Common.Events;
 using Extensions;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
 using System.Linq;
 using VirtualProperties;

@@ -4,9 +4,7 @@
 
 using Common.ModData;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Tools;
 using System;
 

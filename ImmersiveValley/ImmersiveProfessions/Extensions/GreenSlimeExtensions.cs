@@ -1,11 +1,9 @@
-﻿using DaLion.Stardew.Professions.Framework.VirtualProperties;
-
-namespace DaLion.Stardew.Professions.Extensions;
+﻿namespace DaLion.Stardew.Professions.Extensions;
 
 #region using directives
 
 using Common.ModData;
-using StardewValley;
+using Framework.VirtualProperties;
 using StardewValley.Monsters;
 using System;
 
@@ -15,10 +13,7 @@ using System;
 public static class GreenSlimeExtensions
 {
     /// <summary>Whether the Slime instance is currently jumping.</summary>
-    public static bool IsJumping(this GreenSlime slime)
-    {
-        return !string.IsNullOrEmpty(ModDataIO.Read(slime, "Jumping"));
-    }
+    public static bool IsJumping(this GreenSlime slime) => !string.IsNullOrEmpty(ModDataIO.Read(slime, "Jumping"));
 
     /// <summary>Grow this Slime one stage.</summary>
     public static void Inflate(this GreenSlime slime)

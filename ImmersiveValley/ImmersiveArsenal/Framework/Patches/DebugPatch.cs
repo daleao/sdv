@@ -1,7 +1,5 @@
 ﻿using DaLion.Common.Attributes;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 
 namespace DaLion.Stardew.Arsenal.Framework.Patches;
 

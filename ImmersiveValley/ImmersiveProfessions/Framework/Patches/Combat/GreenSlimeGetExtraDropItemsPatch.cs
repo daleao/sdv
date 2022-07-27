@@ -5,15 +5,11 @@
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions;
 using Extensions;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

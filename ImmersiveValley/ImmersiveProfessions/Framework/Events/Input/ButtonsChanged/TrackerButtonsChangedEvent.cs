@@ -4,8 +4,6 @@
 
 using Common.Events;
 using GameLoop;
-using JetBrains.Annotations;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
 #endregion using directives

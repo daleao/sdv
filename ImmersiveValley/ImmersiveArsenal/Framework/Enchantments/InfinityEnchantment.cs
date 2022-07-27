@@ -2,30 +2,16 @@
 
 #region using directives
 
-using StardewValley;
-
 #endregion using directives
 
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes Infinity weapons.</summary>
 public class InfinityEnchantment : BaseWeaponEnchantment
 {
-    public override bool IsSecondaryEnchantment()
-    {
-        return true;
-    }
+    public override bool IsSecondaryEnchantment() => true;
 
-    public override bool IsForge()
-    {
-        return false;
-    }
+    public override bool IsForge() => false;
 
-    public override int GetMaximumLevel()
-    {
-        return 1;
-    }
+    public override int GetMaximumLevel() => 1;
 
-    public override bool ShouldBeDisplayed()
-    {
-        return false;
-    }
+    public override bool ShouldBeDisplayed() => false;
 }

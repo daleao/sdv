@@ -3,7 +3,6 @@
 #region using directives
 
 using Netcode;
-using StardewValley;
 using StardewValley.Monsters;
 using System.Runtime.CompilerServices;
 
@@ -26,10 +25,8 @@ public static class Monster_Slowed
         return holder.slowTimer;
     }
 
-    public static void set_SlowTmer(this Monster monster, NetInt newVal)
-    {
-        // Net types should not have a setter as they are readonly
-    }
+    // Net types are readonly
+    public static void set_SlowTmer(this Monster monster, NetInt newVal) { }
 
     public static NetInt get_SlowIntensity(this Monster monster)
     {
@@ -37,10 +34,8 @@ public static class Monster_Slowed
         return holder.slowIntensity;
     }
 
-    public static void set_SlowIntensity(this Monster monster, NetInt newVal)
-    {
-        // Net types should not have a setter as they are readonly
-    }
+    // Net types are readonly
+    public static void set_SlowIntensity(this Monster monster, NetInt newVal) { }
 
     public static Farmer get_Slower(this Monster monster)
     {

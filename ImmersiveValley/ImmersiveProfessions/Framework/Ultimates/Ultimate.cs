@@ -11,8 +11,6 @@ using Extensions;
 using Framework.Events.Ultimate;
 using Microsoft.Xna.Framework;
 using Sounds;
-using StardewModdingAPI;
-using StardewValley;
 using System;
 using VirtualProperties;
 

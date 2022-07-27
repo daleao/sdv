@@ -4,12 +4,9 @@
 
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Netcode;
-using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

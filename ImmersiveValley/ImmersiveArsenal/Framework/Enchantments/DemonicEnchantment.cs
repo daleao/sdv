@@ -3,7 +3,6 @@
 #region using directives
 
 using Common.ModData;
-using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
 using System;
@@ -13,25 +12,13 @@ using System;
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes the Dark Sword.</summary>
 public class DemonicEnchantment : BaseWeaponEnchantment
 {
-    public override bool IsSecondaryEnchantment()
-    {
-        return true;
-    }
+    public override bool IsSecondaryEnchantment() => true;
 
-    public override bool IsForge()
-    {
-        return false;
-    }
+    public override bool IsForge() => false;
 
-    public override int GetMaximumLevel()
-    {
-        return 1;
-    }
+    public override int GetMaximumLevel() => 1;
 
-    public override bool ShouldBeDisplayed()
-    {
-        return false;
-    }
+    public override bool ShouldBeDisplayed() => false;
 
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {

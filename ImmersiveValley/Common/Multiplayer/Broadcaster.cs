@@ -2,8 +2,6 @@
 
 #region using directives
 
-using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Menus;
 using System.Threading.Tasks;
 

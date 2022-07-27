@@ -8,7 +8,6 @@ using Common.Extensions.Collections;
 using Common.Extensions.Reflection;
 using Common.ModData;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
@@ -16,7 +15,6 @@ using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -143,14 +141,12 @@ public static class FishPondExtensions
     /// <summary>Read a serialized item list from the fish pond's mod data and return a deserialized list of <see cref="SObject"/>.</summary>
     /// <param name="pond">The <see cref="FishPond"/>.</param>
     /// <param name="field">The data field.</param>
-    internal static List<Item> DeserializeObjectListData(this FishPond pond, string field)
-    {
-        return ModDataIO.Read(pond, field)
+    internal static List<Item> DeserializeObjectListData(this FishPond pond, string field) =>
+        ModDataIO.Read(pond, field)
             .ParseList<string>(";")?
             .Select(s => s.ParseTuple<int, int, int>())
             .WhereNotNull()
             .Select(t => new SObject(t.Item1, t.Item2, quality: t.Item3))
             .Cast<Item>()
             .ToList() ?? new List<Item>();
-    }
 }

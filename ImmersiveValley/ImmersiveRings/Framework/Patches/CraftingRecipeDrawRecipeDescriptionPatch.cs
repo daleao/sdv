@@ -6,11 +6,9 @@ using Common;
 using Common.Extensions;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Utilities;
-using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -50,7 +48,7 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatch : Common.Harmony.
                     6,
                     width - 32, 2), Game1.textColor * 0.35f);
 
-            Utility.drawTextWithShadow(b,
+            StardewValley.Utility.drawTextWithShadow(b,
                 Game1.content.LoadString(
                     PathUtilities.NormalizeAssetName("Strings/StringsFromCSFiles:CraftingRecipe.cs.567")),
                 Game1.smallFont,
@@ -78,11 +76,11 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatch : Common.Harmony.
                     Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet,
                         __instance.getSpriteIndexFromRawIndex(index), 16, 16), Color.White, 0f, Vector2.Zero, 2f,
                     SpriteEffects.None, 0.86f);
-                Utility.drawTinyDigits(required, b,
+                StardewValley.Utility.drawTinyDigits(required, b,
                     new(position.X + 32f - Game1.tinyFont.MeasureString(required.ToString()).X,
                         position.Y + i * 36f + 85f), 2f, 0.87f, Color.AntiqueWhite);
                 var textDrawPosition = new Vector2(position.X + 32f + 8f, position.Y + i * 36f + 68f);
-                Utility.drawTextWithShadow(b, ingredientNameText, Game1.smallFont, textDrawPosition, drawColor);
+                StardewValley.Utility.drawTextWithShadow(b, ingredientNameText, Game1.smallFont, textDrawPosition, drawColor);
                 if (!Game1.options.showAdvancedCraftingInformation)
                 {
                     ++i;
@@ -93,7 +91,7 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatch : Common.Harmony.
                 b.Draw(Game1.mouseCursors,
                     new Rectangle((int)textDrawPosition.X, (int)textDrawPosition.Y + 2, 22, 26),
                     new Rectangle(268, 1436, 11, 13), Color.White);
-                Utility.drawTextWithShadow(b, (foundInBackpack + foundInContainers).ToString(), Game1.smallFont,
+                StardewValley.Utility.drawTextWithShadow(b, (foundInBackpack + foundInContainers).ToString(), Game1.smallFont,
                     textDrawPosition -
                     new Vector2(Game1.smallFont.MeasureString(foundInBackpack + foundInContainers + " ").X, 0f),
                     drawColor);
@@ -104,7 +102,7 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatch : Common.Harmony.
                 new Rectangle((int)position.X + 8,
                     (int)position.Y + lineExpansion + 64 + 4 + __instance.recipeList.Count * 36, width - 32, 2),
                 Game1.textColor * 0.35f);
-            Utility.drawTextWithShadow(b, Game1.parseText(__instance.description, Game1.smallFont, width - 8),
+            StardewValley.Utility.drawTextWithShadow(b, Game1.parseText(__instance.description, Game1.smallFont, width - 8),
                 Game1.smallFont, position + new Vector2(0f, __instance.recipeList.Count * 36f + lineExpansion + 76f),
                 Game1.textColor * 0.75f);
 

@@ -8,14 +8,11 @@ using DaLion.Common.Extensions.Stardew;
 using DaLion.Common.ModData;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewModdingAPI.Utilities;
-using StardewValley;
 using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using SUtility = StardewValley.Utility;
 
 #endregion using directives
 
@@ -84,7 +81,7 @@ internal sealed class CrabPotDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                         if (owner.HasProfession(Profession.Conservationist, true) && ModDataIO.Read<uint>(owner,
                                 "ConservationistTrashCollectedThisSeason") %
                             ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
-                            SUtility.improveFriendshipWithEveryoneInRegion(owner, 1, 2);
+                            StardewValley.Utility.improveFriendshipWithEveryoneInRegion(owner, 1, 2);
                     }
                 }
                 else

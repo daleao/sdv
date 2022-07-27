@@ -8,8 +8,6 @@ using Extensions;
 using Framework;
 using Framework.Ultimates;
 using Framework.VirtualProperties;
-using JetBrains.Annotations;
-using StardewValley;
 using System;
 using System.Linq;
 

@@ -9,10 +9,8 @@ using DaLion.Common.ModData;
 using Events.GameLoop.DayEnding;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Sounds;
-using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
 using System;
@@ -23,7 +21,6 @@ using System.Reflection.Emit;
 using System.Text;
 using Ultimates;
 using VirtualProperties;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -397,12 +394,11 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
         // increment ultimate meter
         if (ultimate is Concerto { IsActive: false } concerto)
         {
-#pragma warning disable CS8509
             var increment = monster switch
-#pragma warning restore CS8509
             {
                 GreenSlime slime => 4 * slime.Scale,
                 BigSlime => 8,
+                _ => 0
             };
 
             concerto.ChargeValue += increment + r.Next(-2, 3);

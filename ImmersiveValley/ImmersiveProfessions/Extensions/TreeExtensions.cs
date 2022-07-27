@@ -4,7 +4,6 @@
 
 using Common.Extensions;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.TerrainFeatures;
 
 #endregion using directives

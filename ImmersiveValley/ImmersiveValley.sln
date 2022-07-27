@@ -17,13 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveTools", "Immersive
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveTweaks", "ImmersiveTweaks\ImmersiveTweaks.csproj", "{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveAlchemy", "ImmersiveAlchemy\ImmersiveAlchemy.csproj", "{00689238-D9B7-4BE4-87C4-D023A7ED2014}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersiveTaxes", "ImmersiveTaxes\ImmersiveTaxes.csproj", "{F0D2CB06-5108-41EC-8B3F-EBE2ACFFF12B}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Common\Common.projitems*{00689238-d9b7-4be4-87c4-d023a7ed2014}*SharedItemsImports = 5
 		Common\Common.projitems*{0c5f1531-281e-468c-b47f-1e78e3b9c02e}*SharedItemsImports = 13
 		Common\Common.projitems*{2076552a-a1cc-41e9-af7f-9cecc1b33a78}*SharedItemsImports = 5
 		Common\Common.projitems*{388cbb99-61dd-47ba-a58c-6ebb0870b633}*SharedItemsImports = 5
@@ -62,10 +59,6 @@ Global
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2076552A-A1CC-41E9-AF7F-9CECC1B33A78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00689238-D9B7-4BE4-87C4-D023A7ED2014}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00689238-D9B7-4BE4-87C4-D023A7ED2014}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00689238-D9B7-4BE4-87C4-D023A7ED2014}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00689238-D9B7-4BE4-87C4-D023A7ED2014}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F0D2CB06-5108-41EC-8B3F-EBE2ACFFF12B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F0D2CB06-5108-41EC-8B3F-EBE2ACFFF12B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0D2CB06-5108-41EC-8B3F-EBE2ACFFF12B}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -4,8 +4,6 @@
 
 using Common.Extensions.Reflection;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;

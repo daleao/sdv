@@ -6,8 +6,6 @@ using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using System;
 using System.Linq;
 using Utility;

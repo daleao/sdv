@@ -5,8 +5,6 @@
 using DaLion.Common;
 using DaLion.Common.ModData;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using StardewValley.Monsters;
 using System;
 using System.Reflection;

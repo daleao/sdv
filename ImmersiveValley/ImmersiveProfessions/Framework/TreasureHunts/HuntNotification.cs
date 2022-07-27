@@ -4,10 +4,8 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewValley;
 using StardewValley.Menus;
 using System;
-using SUtility = StardewValley.Utility;
 
 #endregion using directives
 
@@ -77,11 +75,11 @@ internal class HuntNotification : HUDMessage
             SpriteEffects.None, 1f);
         itemBoxPosition.X += 51f;
         itemBoxPosition.Y += 51f;
-        if (number > 1) SUtility.drawTinyDigits(number, b, itemBoxPosition, 3f, 1f, Color.White * transparency);
+        if (number > 1) Utility.drawTinyDigits(number, b, itemBoxPosition, 3f, 1f, Color.White * transparency);
 
         itemBoxPosition.X += 32f;
         itemBoxPosition.Y -= 33f;
-        SUtility.drawTextWithShadow(b, message, Game1.smallFont, itemBoxPosition, Game1.textColor * transparency,
+        Utility.drawTextWithShadow(b, message, Game1.smallFont, itemBoxPosition, Game1.textColor * transparency,
             1f, 1f, -1, -1, transparency);
     }
 }

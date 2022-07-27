@@ -5,9 +5,7 @@
 using Common;
 using Common.Commands;
 using Extensions;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
-using StardewValley;
 
 #endregion using directives
 

@@ -4,9 +4,7 @@
 
 using Common.Events;
 using Extensions;
-using JetBrains.Annotations;
 using StardewModdingAPI.Events;
-using StardewValley;
 using TreasureHunts;
 
 #endregion using directives

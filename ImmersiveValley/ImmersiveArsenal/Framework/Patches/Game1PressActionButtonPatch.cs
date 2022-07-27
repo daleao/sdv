@@ -4,9 +4,7 @@
 
 using Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Input;
-using StardewValley;
 using StardewValley.Tools;
 using VirtualProperties;
 

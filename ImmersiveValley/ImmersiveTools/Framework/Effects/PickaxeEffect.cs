@@ -5,12 +5,10 @@
 using Configs;
 using Extensions;
 using Microsoft.Xna.Framework;
-using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using System.Collections.Generic;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

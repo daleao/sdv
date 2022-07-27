@@ -5,9 +5,6 @@
 using DaLion.Common;
 using DaLion.Common.Harmony;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewModdingAPI;
-using StardewValley;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;

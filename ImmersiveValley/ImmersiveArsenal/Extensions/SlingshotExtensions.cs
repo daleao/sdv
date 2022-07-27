@@ -4,12 +4,13 @@ namespace DaLion.Stardew.Arsenal.Extensions;
 #region using directives
 
 using Common;
+using Common.Enums;
+using Common.Exceptions;
 using Common.Extensions.Reflection;
 using Framework.Events;
 using Framework.VirtualProperties;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewValley;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 using System;
@@ -94,14 +95,13 @@ public static class SlingshotExtensions
     public static Rectangle GetAreaOfEffect(this Slingshot slingshot, Farmer who)
     {
         var (x, y) = who.getTileLocation() * Game1.tileSize;
-#pragma warning disable CS8509
-        return who.FacingDirection switch
-#pragma warning restore CS8509
+        return (FacingDirection)who.FacingDirection switch
         {
-            Game1.up => new((int)x, (int)y - Game1.tileSize, Game1.tileSize, Game1.tileSize),
-            Game1.right => new((int)x + Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
-            Game1.down => new((int)x, (int)y + Game1.tileSize, Game1.tileSize, Game1.tileSize),
-            Game1.left => new((int)x - Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
+            FacingDirection.Up => new((int)x, (int)y - Game1.tileSize, Game1.tileSize, Game1.tileSize),
+            FacingDirection.Right => new((int)x + Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
+            FacingDirection.Down => new((int)x, (int)y + Game1.tileSize, Game1.tileSize, Game1.tileSize),
+            FacingDirection.Left => new((int)x - Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
+            _ => throw new UnexpectedEnumValueException<FacingDirection>((FacingDirection)who.FacingDirection)
         };
     }
 

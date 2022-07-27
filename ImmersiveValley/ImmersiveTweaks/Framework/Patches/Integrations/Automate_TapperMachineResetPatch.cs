@@ -6,10 +6,7 @@ using Common.Attributes;
 using Common.Extensions.Reflection;
 using Common.Extensions.Stardew;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
 using System;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
