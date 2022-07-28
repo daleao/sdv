@@ -30,7 +30,7 @@ public static class StringExtensions
     /// <summary>Capitalize the first character in the string instance.</summary>
     public static string FirstCharToUpper(this string s) =>
         string.IsNullOrEmpty(s)
-            ? throw new ArgumentException("Argument is null or empty.")
+            ? s
             : s.First().ToString().ToUpper() + s[1..];
 
     /// <summary>Removes invalid file name or path characters from the string instance.</summary>
@@ -55,20 +55,20 @@ public static class StringExtensions
             : s;
 
     /// <summary>Parse the string instance to a generic type.</summary>
-    public static T Parse<T>(this string s)
+    public static T? Parse<T>(this string s)
     {
-        if (string.IsNullOrEmpty(s)) throw new ArgumentException("Cannot parse null or empty string.");
+        if (string.IsNullOrEmpty(s)) ThrowHelper.ThrowArgumentException("Cannot parse null or empty string.");
 
         var converter = TypeDescriptor.GetConverter(typeof(T));
-        if (converter.CanConvertTo(typeof(T)) && converter.CanConvertFrom(typeof(string)))
-            return (T)converter.ConvertFromString(s) ?? throw new InvalidCastException();
+        if (!converter.CanConvertTo(typeof(T)) || !converter.CanConvertFrom(typeof(string)))
+            ThrowHelper.ThrowInvalidOperationException("Cannot convert string to the specified type.");
 
-        throw new FormatException();
+        return (T)converter.ConvertFromString(s);
     }
 
     /// <summary>Try to parse the instance to a generic type.</summary>
     /// <param name="result">Parsed <typeparamref name="T" />-type object if successful, else default.</param>
-    /// <returns><see langword="true"> if parse was successful, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if parse was successful, otherwise <see langword="false"/>.</returns>
     public static bool TryParse<T>(this string s, [NotNullWhen(true)] out T? result)
     {
         result = default;
@@ -118,12 +118,12 @@ public static class StringExtensions
 
         var split = s.Split(separator);
         if (split.Length < 2)
-            throw new InvalidOperationException("Insufficient elements after string split.");
+            ThrowHelper.ThrowInvalidOperationException("Insufficient elements after string split.");
 
-        if (!split[0].TryParse<T>(out var t) || !split[1].TryParse<U>(out var u))
-            throw new InvalidOperationException("The string could not be parsed");
+        if (split[0].TryParse<T>(out var t) && split[1].TryParse<U>(out var u)) return (t, u);
 
-        return (t, u);
+        ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {s}.");
+        return null;
     }
 
     /// <summary>Split the string with provided <paramref name="separator"/> and parse the resulting elements into a tuple.</summary>
@@ -137,12 +137,13 @@ public static class StringExtensions
 
         var split = s.Split(separator);
         if (split.Length < 3)
-            throw new InvalidOperationException("Insufficient elements after string split.");
+            ThrowHelper.ThrowInvalidOperationException("Insufficient elements after string split.");
 
-        if (!split[0].TryParse<T>(out var t) || !split[1].TryParse<U>(out var u) || !split[2].TryParse<V>(out var v))
-            throw new InvalidOperationException("The string could not be parsed");
+        if (split[0].TryParse<T>(out var t) && split[1].TryParse<U>(out var u) && split[2].TryParse<V>(out var v))
+            return (t, u, v);
 
-        return (t, u, v);
+        ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {s}.");
+        return null;
     }
 
     /// <summary>Split the string with provided <paramref name="separator"/> and parse the resulting elements into a tuple.</summary>
@@ -157,29 +158,35 @@ public static class StringExtensions
 
         var split = s.Split(separator);
         if (split.Length < 4)
-            throw new InvalidOperationException("Insufficient elements after string split.");
+            ThrowHelper.ThrowInvalidOperationException("Insufficient elements after string split.");
 
-        if (!split[0].TryParse<T>(out var t) || !split[1].TryParse<U>(out var u) || !split[2].TryParse<V>(out var v) || !split[3].TryParse<W>(out var w))
-            throw new InvalidOperationException("The string could not be parsed");
+        if (split[0].TryParse<T>(out var t) && split[1].TryParse<U>(out var u) && split[2].TryParse<V>(out var v) &&
+            split[3].TryParse<W>(out var w)) return (t, u, v, w);
 
-        return (t, u, v, w);
+        ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {s}.");
+        return null;
     }
 
     /// <summary>Split the string with provided <paramref name="separator"/> and parse the resulting elements into a list.</summary>
     /// <param name="separator">A string separator.</param>
-    public static List<T>? ParseList<T>(this string s, string separator = ",")
+    public static List<T?> ParseList<T>(this string s, string separator = ",")
     {
         if (string.IsNullOrEmpty(s)) return new();
 
         var split = s.Split(separator);
-        try
+        var list = new List<T?>();
+        foreach (var item in split)
         {
-            return split.Select(e => e.Parse<T>()).ToList();
+            if (item.TryParse<T>(out var parsed))
+            {
+                list.Add(parsed);
+                continue;
+            }
+
+            ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {s}.");
         }
-        catch
-        {
-            return null;
-        }
+
+        return list;
     }
 
     /// <summary>Parse a flattened string of key-value pairs back into a <see cref="Dictionary{TKey,TValue}" />.</summary>
@@ -191,10 +198,24 @@ public static class StringExtensions
         if (string.IsNullOrEmpty(s)) return new();
 
         if (pairSeparator == keyValueSeparator)
-            throw new ArgumentException("Pair separator must be different from key-value separator.");
+            ThrowHelper.ThrowArgumentException("Pair separator must be different from key-value separator.");
 
-        var pairs = s.Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries);
-        return pairs.Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries))
-            .ToDictionary(p => p[0].Parse<TKey>(), p => p[1].Parse<TValue>());
+        var pairs = s
+            .Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries));
+
+        var dict = new Dictionary<TKey, TValue>();
+        foreach (var p in pairs)
+        {
+            if (p[0].TryParse<TKey>(out var key) && !dict.ContainsKey(key) && p[1].TryParse<TValue>(out var value))
+            {
+                dict[key] = value;
+                continue;
+            }
+
+            ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {s}.");
+        }
+
+        return dict;
     }
 }

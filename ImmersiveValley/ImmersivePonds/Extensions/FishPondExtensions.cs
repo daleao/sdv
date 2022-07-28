@@ -21,13 +21,13 @@ using System.Linq;
 /// <summary>Extensions for the <see cref="FishPond"/> class.</summary>
 public static class FishPondExtensions
 {
-    private static readonly Func<FishPond, FishPondData?> _GetFishPondData = typeof(FishPond).RequireField("_fishPondData")
-        .CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>();
+    private static readonly Lazy<Func<FishPond, FishPondData?>> _GetFishPondData = new(() =>
+        typeof(FishPond).RequireField("_fishPondData").CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>());
 
     /// <summary>Whether the instance's population has been fully unlocked.</summary>
     public static bool HasUnlockedFinalPopulationGate(this FishPond pond)
     {
-        var data = _GetFishPondData(pond);
+        var data = _GetFishPondData.Value(pond);
         return data?.PopulationGates is null ||
                pond.lastUnlockedPopulationGate.Value >= data.PopulationGates.Keys.Max();
     }
@@ -144,7 +144,7 @@ public static class FishPondExtensions
     internal static List<Item> DeserializeObjectListData(this FishPond pond, string field) =>
         ModDataIO.Read(pond, field)
             .ParseList<string>(";")?
-            .Select(s => s.ParseTuple<int, int, int>())
+            .Select(s => s?.ParseTuple<int, int, int>())
             .WhereNotNull()
             .Select(t => new SObject(t.Item1, t.Item2, quality: t.Item3))
             .Cast<Item>()

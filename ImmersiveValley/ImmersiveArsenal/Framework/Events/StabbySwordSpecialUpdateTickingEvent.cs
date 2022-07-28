@@ -17,8 +17,8 @@ using System;
 [UsedImplicitly]
 internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
 {
-    private static readonly Action<MeleeWeapon, Farmer> _BeginSpecialMove = typeof(MeleeWeapon).RequireMethod("beginSpecialMove")
-        .CompileUnboundDelegate<Action<MeleeWeapon, Farmer>>();
+    private static readonly Lazy<Action<MeleeWeapon, Farmer>> _BeginSpecialMove = new(() =>
+        typeof(MeleeWeapon).RequireMethod("beginSpecialMove").CompileUnboundDelegate<Action<MeleeWeapon, Farmer>>());
 
     private static int _currentFrame = -1, _animationFrames;
 
@@ -35,7 +35,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
         ++_currentFrame;
         if (_currentFrame == 0)
         {
-            _BeginSpecialMove(sword, user);
+            _BeginSpecialMove.Value(sword, user);
             _animationFrames = sword.hasEnchantmentOfType<InfinityEnchantment>() ? 24 : 15; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
             var frame = (FacingDirection)user.FacingDirection switch
             {
@@ -43,7 +43,8 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
                 FacingDirection.Right => 274,
                 FacingDirection.Down => 272,
                 FacingDirection.Left => 278,
-                _ => throw new UnexpectedEnumValueException<FacingDirection>((FacingDirection)user.FacingDirection)
+                _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
+                    (FacingDirection)user.FacingDirection)
             };
 
             ((FarmerSprite)user.Sprite).setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
@@ -61,7 +62,8 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
                     FacingDirection.Right => new(25f, 0), // east
                     FacingDirection.Down => new(0, -25f), // north
                     FacingDirection.Left => new(-25f, 0), // west
-                    _ => throw new UnexpectedEnumValueException<FacingDirection>((FacingDirection)user.FacingDirection)
+                    _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, Vector2>(
+                        (FacingDirection)user.FacingDirection)
                 };
             }
 

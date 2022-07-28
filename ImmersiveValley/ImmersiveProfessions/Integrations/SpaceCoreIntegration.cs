@@ -19,6 +19,5 @@ internal sealed class SpaceCoreIntegration : BaseIntegration<ISpaceCoreAPI>
     {
         AssertLoaded();
         ModEntry.SpaceCoreApi = ModApi;
-        ExtendedSpaceCoreAPI.Init();
     }
 }

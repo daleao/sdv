@@ -21,7 +21,8 @@ using System.Reflection;
 [UsedImplicitly]
 internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyPatch
 {
-    private static Func<FishingRod, Vector2>? _CalculateBobberTile;
+    private static readonly Lazy<Func<FishingRod, Vector2>> _CalculateBobberTile = new(() =>
+        typeof(FishingRod).RequireMethod("calculateBobberTile").CompileUnboundDelegate<Func<FishingRod, Vector2>>());
 
     /// <summary>Construct an instance.</summary>
     internal FishingRodPullFishFromWaterPatch()
@@ -37,9 +38,7 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
     {
         if (!fromFishPond || whichFish.IsTrashIndex()) return;
 
-        _CalculateBobberTile ??= typeof(FishingRod).RequireMethod("calculateBobberTile")
-            .CompileUnboundDelegate<Func<FishingRod, Vector2>>();
-        var (x, y) = _CalculateBobberTile.Invoke(__instance);
+        var (x, y) = _CalculateBobberTile.Value(__instance);
         var pond = Game1.getFarm().buildings.OfType<FishPond>().FirstOrDefault(p =>
             x > p.tileX.Value && x < p.tileX.Value + p.tilesWide.Value - 1 &&
             y > p.tileY.Value && y < p.tileY.Value + p.tilesHigh.Value - 1);
@@ -76,7 +75,7 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
                             ModDataIO.Read<int>(__instance, "GreenAlgaeLivingHere") +
                             ModDataIO.Read<int>(__instance, "WhiteAlgaeLivingHere");
                 if (total != pond.FishCount)
-                    throw new InvalidDataException("Mismatch between algae population data and actual population.");
+                    ThrowHelper.ThrowInvalidDataException("Mismatch between algae population data and actual population.");
 
                 return;
             }
@@ -107,14 +106,14 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
             var fishQualities = ModDataIO.Read(pond, "FishQualities",
                 $"{pond.FishCount - ModDataIO.Read<int>(pond, "FamilyLivingHere")},0,0,0").ParseList<int>()!;
             if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > pond.FishCount + 1)) // FishCount has already been decremented at this point, so we increment 1 to compensate
-                throw new InvalidDataException("FishQualities data had incorrect number of values.");
+                ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
 
             var lowestFish = fishQualities.FindIndex(i => i > 0);
             if (pond.HasLegendaryFish())
             {
                 var familyCount = ModDataIO.Read<int>(pond, "FamilyLivingHere");
                 if (fishQualities.Sum() + familyCount != pond.FishCount + 1) // FishCount has already been decremented at this point, so we increment 1 to compensate
-                    throw new InvalidDataException("FamilyLivingHere data is invalid.");
+                    ThrowHelper.ThrowInvalidDataException("FamilyLivingHere data is invalid.");
 
                 if (familyCount > 0)
                 {
@@ -122,7 +121,7 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
                         ModDataIO.Read(pond, "FamilyQualities", $"{ModDataIO.Read<int>(pond, "FamilyLivingHere")},0,0,0")
                             .ParseList<int>()!;
                     if (familyQualities.Count != 4 || familyQualities.Sum() != familyCount)
-                        throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
+                        ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
 
                     var lowestFamily = familyQualities.FindIndex(i => i > 0);
                     if (lowestFamily < lowestFish || lowestFamily == lowestFish && Game1.random.NextDouble() < 0.5)

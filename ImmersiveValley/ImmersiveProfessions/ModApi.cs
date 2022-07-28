@@ -91,12 +91,12 @@ public class ModAPI
         {
             case TreasureHuntType.Prospector:
                 if (!Game1.player.HasProfession(Profession.Prospector))
-                    throw new InvalidOperationException("Player does not have the Prospector profession.");
+                    ThrowHelper.ThrowInvalidOperationException("Player does not have the Prospector profession.");
                 ModEntry.State.ProspectorHunt.Value.ForceStart(location, target);
                 break;
             case TreasureHuntType.Scavenger:
                 if (!Game1.player.HasProfession(Profession.Scavenger))
-                    throw new InvalidOperationException("Player does not have the Scavenger profession.");
+                    ThrowHelper.ThrowInvalidOperationException("Player does not have the Scavenger profession.");
                 ModEntry.State.ScavengerHunt.Value.ForceStart(location, target);
                 break;
         }
@@ -104,7 +104,7 @@ public class ModAPI
 
     /// <inheritdoc cref="ITreasureHunt.Fail"/>
     /// <param name="type">The type of treasure hunt.</param>
-    /// <returns><see langword="false"> if the <see cref="ITreasureHunt"/> instance was not active, otherwise <see langword="true">.</returns>
+    /// <returns><see langword="false"/> if the <see cref="ITreasureHunt"/> instance was not active, otherwise <see langword="true"/>.</returns>
     public bool InterruptActiveHunt(TreasureHuntType type)
     {
 #pragma warning disable CS8524

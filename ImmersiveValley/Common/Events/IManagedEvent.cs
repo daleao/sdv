@@ -11,10 +11,10 @@ public interface IManagedEvent
     bool IsEnabledForScreen(int screenID);
 
     /// <summary>Enable this event on the current screen.</summary>
-    /// <returns><see langword="true"> if the event's enabled status was changed, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     bool Enable();
 
     /// <summary>Disable this event on the current screen.</summary>
-    /// <returns><see langword="true"> if the event's enabled status was changed, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     bool Disable();
 }

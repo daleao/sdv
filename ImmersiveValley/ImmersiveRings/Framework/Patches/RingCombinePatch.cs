@@ -38,7 +38,7 @@ internal sealed class RingCombinePatch : Common.Harmony.HarmonyPatch
             if (__instance is CombinedRing combined)
             {
                 if (combined.combinedRings.Count >= 4)
-                    throw new InvalidOperationException("Unexpected number of combined rings.");
+                    ThrowHelper.ThrowInvalidOperationException("Unexpected number of combined rings.");
 
                 toCombine.AddRange(combined.combinedRings);
             }

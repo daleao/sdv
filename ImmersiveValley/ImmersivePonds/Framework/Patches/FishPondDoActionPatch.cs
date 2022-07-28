@@ -26,7 +26,9 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
     private delegate void ShowObjectThrownIntoPondAnimationDelegate(FishPond instance, Farmer who, SObject whichObject,
         DelayedAction.delayedBehavior? callback = null);
 
-    private static ShowObjectThrownIntoPondAnimationDelegate? _ShowObjectThrownIntoPondAnimation;
+    private static readonly Lazy<ShowObjectThrownIntoPondAnimationDelegate> _ShowObjectThrownIntoPondAnimation =
+        new(() => typeof(FishPond).RequireMethod("showObjectThrownIntoPondAnimation")
+            .CompileUnboundDelegate<ShowObjectThrownIntoPondAnimationDelegate>());
 
     /// <summary>Construct an instance.</summary>
     internal FishPondDoActionPatch()
@@ -161,7 +163,7 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
         var heldMinerals =
             ModDataIO.Read(pond, "MetalsHeld")
                 .ParseList<string>(";")?
-                .Select(li => li.ParseTuple<int, int>())
+                .Select(li => li?.ParseTuple<int, int>())
                 .WhereNotNull()
                 .ToList()
             ?? new List<(int, int)>();
@@ -178,9 +180,7 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
         heldMinerals.Add((metallic.ParentSheetIndex, days));
         ModDataIO.Write(pond, "MetalsHeld",
             string.Join(';', heldMinerals.Select(m => string.Join(',', m.Item1, m.Item2))));
-        _ShowObjectThrownIntoPondAnimation ??= typeof(FishPond).RequireMethod("showObjectThrownIntoPondAnimation")
-            .CompileUnboundDelegate<ShowObjectThrownIntoPondAnimationDelegate>();
-        _ShowObjectThrownIntoPondAnimation(pond, who, who.ActiveObject);
+        _ShowObjectThrownIntoPondAnimation.Value(pond, who, who.ActiveObject);
         who.reduceActiveItemByOne();
         return true;
     }

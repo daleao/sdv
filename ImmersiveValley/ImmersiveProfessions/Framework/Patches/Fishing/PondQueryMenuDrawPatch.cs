@@ -27,13 +27,19 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
     private delegate void DrawHorizontalPartitionDelegate(IClickableMenu instance, SpriteBatch b, int yPosition,
         bool small = false, int red = -1, int green = -1, int blue = -1);
 
-    private static Func<PondQueryMenu, string>? _GetDisplayedText;
+    private static readonly Lazy<Func<PondQueryMenu, string>> _GetDisplayedText = new(() =>
+        typeof(PondQueryMenu).RequireMethod("getDisplayedText").CompileUnboundDelegate<Func<PondQueryMenu, string>>());
 
-    private static Func<PondQueryMenu, string, int>? _MeasureExtraTextHeight;
+    private static readonly Lazy<Func<PondQueryMenu, string, int>> _MeasureExtraTextHeight = new(() =>
+        typeof(PondQueryMenu).RequireMethod("measureExtraTextHeight")
+            .CompileUnboundDelegate<Func<PondQueryMenu, string, int>>());
 
-    private static DrawHorizontalPartitionDelegate? _DrawHorizontalPartition;
+    private static readonly Lazy<DrawHorizontalPartitionDelegate> _DrawHorizontalPartition = new(() =>
+        typeof(PondQueryMenu).RequireMethod("drawHorizontalPartition")
+            .CompileUnboundDelegate<DrawHorizontalPartitionDelegate>());
 
-    private static Func<FishPond, FishPondData?>? _GetFishPondData;
+    private static readonly Lazy<Func<FishPond, FishPondData?>> _GetFishPondData = new(() =>
+        typeof(FishPond).RequireField("_fishPondData").CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>());
 
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
@@ -60,9 +66,7 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                                                                                  Profession.Aquarist, out _)))
                 return true; // run original logic
 
-            _GetFishPondData ??= typeof(FishPond).RequireField("_fishPondData")
-                .CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>();
-            var fishPondData = _GetFishPondData(____pond);
+            var fishPondData = _GetFishPondData.Value(____pond);
             var populationGates = fishPondData?.PopulationGates;
             var isLegendaryPond = ____fishItem.HasContextTag("fish_legendary");
             if (!isLegendaryPond && populationGates is not null &&
@@ -97,16 +101,12 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                 ),
                 color: Color.Black
             );
-            _GetDisplayedText ??= typeof(PondQueryMenu).RequireMethod("getDisplayedText")
-                .CompileUnboundDelegate<Func<PondQueryMenu, string>>();
-            var displayedText = _GetDisplayedText(__instance);
+            var displayedText = _GetDisplayedText.Value(__instance);
             var extraHeight = 0;
             if (hasUnresolvedNeeds)
                 extraHeight += 116;
 
-            _MeasureExtraTextHeight ??= typeof(PondQueryMenu).RequireMethod("measureExtraTextHeight")
-                .CompileUnboundDelegate<Func<PondQueryMenu, string, int>>();
-            var extraTextHeight = _MeasureExtraTextHeight(__instance, displayedText);
+            var extraTextHeight = _MeasureExtraTextHeight.Value(__instance, displayedText);
             Game1.drawDialogueBox(
                 x: __instance.xPositionOnScreen,
                 y: __instance.yPositionOnScreen + 128,
@@ -180,9 +180,7 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
 
             if (hasUnresolvedNeeds)
             {
-                _DrawHorizontalPartition ??= typeof(PondQueryMenu).RequireMethod("drawHorizontalPartition")
-                    .CompileUnboundDelegate<DrawHorizontalPartitionDelegate>();
-                _DrawHorizontalPartition(__instance, b,
+                _DrawHorizontalPartition.Value(__instance, b,
                     (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
                 StardewValley.Utility.drawWithShadow(
                     b: b,

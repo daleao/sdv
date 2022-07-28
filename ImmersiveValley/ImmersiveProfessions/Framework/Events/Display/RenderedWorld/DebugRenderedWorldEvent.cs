@@ -56,13 +56,14 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
         bb.DrawBorder(_pixel, 3, Color.Red, e.SpriteBatch);
 
         var (x, y) = Game1.player.getTileLocation() * Game1.tileSize;
-        Rectangle facingBox = (FacingDirection)Game1.player.FacingDirection switch
+        var facingBox = (FacingDirection)Game1.player.FacingDirection switch
         {
             FacingDirection.Up => new((int)x, (int)y - Game1.tileSize, Game1.tileSize, Game1.tileSize),
             FacingDirection.Right => new((int)x + Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
             FacingDirection.Down => new((int)x, (int)y + Game1.tileSize, Game1.tileSize, Game1.tileSize),
             FacingDirection.Left => new((int)x - Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
-            _ => throw new UnexpectedEnumValueException<FacingDirection>((FacingDirection)Game1.player.FacingDirection)
+            _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, Rectangle>(
+                (FacingDirection)Game1.player.FacingDirection)
         };
 
         facingBox.X -= Game1.viewport.X;

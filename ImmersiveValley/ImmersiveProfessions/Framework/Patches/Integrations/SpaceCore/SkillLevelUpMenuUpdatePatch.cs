@@ -188,14 +188,14 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
     {
         if (currentLevel is not (5 or 10) || !ModEntry.CustomSkills.TryGetValue(skillId, out var skill)) return null;
 
-        var professionPairs = ExtendedSpaceCoreAPI.GetProfessionsForLevels(skillInstance).Cast<object>().ToList();
+        var professionPairs = ExtendedSpaceCoreAPI.GetProfessionsForLevels.Value(skillInstance).Cast<object>().ToList();
         var levelFivePair = professionPairs[0];
         if (currentLevel == 5) return levelFivePair;
 
-        var first = ExtendedSpaceCoreAPI.GetFirstProfession(levelFivePair);
-        var second = ExtendedSpaceCoreAPI.GetSecondProfession(levelFivePair);
-        var firstStringId = ExtendedSpaceCoreAPI.GetProfessionStringId(first);
-        var secondStringId = ExtendedSpaceCoreAPI.GetProfessionStringId(second);
+        var first = ExtendedSpaceCoreAPI.GetFirstProfession.Value(levelFivePair);
+        var second = ExtendedSpaceCoreAPI.GetSecondProfession.Value(levelFivePair);
+        var firstStringId = ExtendedSpaceCoreAPI.GetProfessionStringId.Value(first);
+        var secondStringId = ExtendedSpaceCoreAPI.GetProfessionStringId.Value(second);
         var firstId = ModEntry.SpaceCoreApi!.GetProfessionId(skillId, firstStringId);
         var secondId = ModEntry.SpaceCoreApi.GetProfessionId(skillId, secondStringId);
         var branch = Game1.player.GetMostRecentProfession(firstId.Collect(secondId));

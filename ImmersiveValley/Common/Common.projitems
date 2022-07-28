@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\FacingDirection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Quality.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ThrowHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\UnexpectedEnumValueException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ConsoleCommand.cs" />

@@ -13,13 +13,13 @@ using System.Linq;
 /// <summary>Extensions for the <see cref="FishPond"/> class.</summary>
 public static class FishPondExtensions
 {
-    private static readonly Func<FishPond, FishPondData?> _GetFishPondData = typeof(FishPond).RequireField("_fishPondData")
-        .CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>();
+    private static readonly Lazy<Func<FishPond, FishPondData?>> _GetFishPondData = new(() =>
+        typeof(FishPond).RequireField("_fishPondData").CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>());
 
     /// <summary>Whether the instance's population has been fully unlocked.</summary>
     public static bool HasUnlockedFinalPopulationGate(this FishPond pond)
     {
-        var fishPondData = _GetFishPondData(pond);
+        var fishPondData = _GetFishPondData.Value(pond);
         return fishPondData?.PopulationGates is null ||
                pond.lastUnlockedPopulationGate.Value >= fishPondData.PopulationGates.Keys.Max();
     }

@@ -156,16 +156,16 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                         $"{__instance.FishCount - ModDataIO.Read<int>(__instance, "FamilyLivingHere")},0,0,0")
                     .ParseList<int>()!;
                 if (fishQualities.Count != 4)
-                    throw new InvalidDataException("FishQualities data had incorrect number of values.");
+                    ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
 
                 var familyQualities =
                     ModDataIO.Read(__instance, "FamilyQualities", "0,0,0,0").ParseList<int>()!;
                 if (familyQualities.Count != 4)
-                    throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
+                    ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
 
                 var totalQualities = fishQualities.Zip(familyQualities, (first, second) => first + second).ToList();
                 if (totalQualities.Sum() != __instance.FishCount)
-                    throw new InvalidDataException("Quality data had incorrect number of values.");
+                    ThrowHelper.ThrowInvalidDataException("Quality data had incorrect number of values.");
 
                 var productionChancePerFish = Utils.GetRoeChance(fish.Price, __instance.FishCount - 1);
                 var producedRoes = new int[4];
@@ -192,7 +192,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                     var heldMetals =
                         ModDataIO.Read(__instance, "MetalsHeld")
                             .ParseList<string>(";")?
-                            .Select(li => li.ParseTuple<int, int>())
+                            .Select(li => li?.ParseTuple<int, int>())
                             .WhereNotNull()
                             .ToList() ?? new List<(int, int)>();
                     var readyToHarvest = heldMetals.Where(m => m.Item2 <= 0).ToList();

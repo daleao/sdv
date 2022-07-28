@@ -4,7 +4,6 @@ namespace DaLion.Stardew.Professions.Framework;
 #region using directives
 
 using Common.Integrations.SpaceCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,13 +21,13 @@ public sealed class CustomSkill : ISkill
     public string DisplayName { get; }
 
     /// <inheritdoc />
-    public int CurrentExp => ExtendedSpaceCoreAPI.GetCustomSkillExp(Game1.player, StringId);
+    public int CurrentExp => ExtendedSpaceCoreAPI.GetCustomSkillExp.Value(Game1.player, StringId);
 
     /// <inheritdoc />
     public int CurrentLevel => _api.GetLevelForCustomSkill(Game1.player, StringId);
 
     /// <inheritdoc />
-    public IEnumerable<int> NewLevels => ExtendedSpaceCoreAPI.GetCustomSkillNewLevels()
+    public IEnumerable<int> NewLevels => ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.Value()
         .Where(pair => pair.Key == StringId).Select(pair => pair.Value);
 
     /// <inheritdoc />
@@ -43,24 +42,24 @@ public sealed class CustomSkill : ISkill
         _api = api;
         StringId = id;
 
-        var instance = ExtendedSpaceCoreAPI.GetCustomSkillInstance(id);
-        DisplayName = ExtendedSpaceCoreAPI.GetSkillName(instance);
+        var instance = ExtendedSpaceCoreAPI.GetCustomSkillInstance.Value(id);
+        DisplayName = ExtendedSpaceCoreAPI.GetSkillName.Value(instance);
 
-        var professions = ExtendedSpaceCoreAPI.GetProfessions(instance).Cast<object>()
+        var professions = ExtendedSpaceCoreAPI.GetProfessions.Value(instance).Cast<object>()
             .ToList();
         var i = 0;
         foreach (var profession in professions)
         {
-            var professionStringId = ExtendedSpaceCoreAPI.GetProfessionStringId(profession);
-            var displayName = ExtendedSpaceCoreAPI.GetProfessionDisplayName(profession);
-            var description = ExtendedSpaceCoreAPI.GetProfessionDescription(profession);
-            var vanillaId = ExtendedSpaceCoreAPI.GetProfessionVanillaId(profession);
+            var professionStringId = ExtendedSpaceCoreAPI.GetProfessionStringId.Value(profession);
+            var displayName = ExtendedSpaceCoreAPI.GetProfessionDisplayName.Value(profession);
+            var description = ExtendedSpaceCoreAPI.GetProfessionDescription.Value(profession);
+            var vanillaId = ExtendedSpaceCoreAPI.GetProfessionVanillaId.Value(profession);
             var level = i++ < 2 ? 5 : 10;
             Professions.Add(new CustomProfession(professionStringId, displayName, description, vanillaId, level, this));
         }
 
         if (Professions.Count != 6)
-            throw new InvalidOperationException(
+            ThrowHelper.ThrowInvalidOperationException(
                 $"The custom skill {id} did not provide the expected number of professions.");
 
         ProfessionPairs[-1] = new(Professions[0], Professions[1], null, 5);

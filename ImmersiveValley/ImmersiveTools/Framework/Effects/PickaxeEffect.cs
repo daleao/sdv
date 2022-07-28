@@ -97,7 +97,7 @@ internal class PickaxeEffect : IEffect
     /// <param name="tileObj">The object on the tile.</param>
     /// <param name="tool">The tool selected by the player (if any).</param>
     /// <param name="location">The current location.</param>
-    /// <returns><see langword="true"> if the tool did break a container, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if the tool did break a container, otherwise <see langword="false"/>.</returns>
     private static bool TryBreakContainer(Vector2 tile, SObject tileObj, Tool tool, GameLocation location)
     {
         if (tileObj is BreakableContainer)

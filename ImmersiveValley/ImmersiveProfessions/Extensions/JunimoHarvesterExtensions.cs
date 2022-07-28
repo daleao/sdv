@@ -13,13 +13,14 @@ using System;
 /// <summary>Extensions for the <see cref="JunimoHarvester"/> class.</summary>
 public static class JunimoHarvesterExtensions
 {
-    private static readonly Func<JunimoHarvester, JunimoHut?> _GetHome = typeof(JunimoHarvester)
-        .RequirePropertyGetter("home").CompileUnboundDelegate<Func<JunimoHarvester, JunimoHut?>>();
+    private static readonly Lazy<Func<JunimoHarvester, JunimoHut?>> _GetHome = new(() =>
+        typeof(JunimoHarvester).RequirePropertyGetter("home")
+            .CompileUnboundDelegate<Func<JunimoHarvester, JunimoHut?>>());
 
     /// <summary>The the <see cref="Farmer"/> who built the <see cref="JunimoHut"/> which houses the <see cref="JunimoHarvester"/>.</summary>
     public static Farmer GetOwner(this JunimoHarvester junimo)
     {
-        var home = _GetHome(junimo);
+        var home = _GetHome.Value(junimo);
         if (home is null) return Game1.MasterPlayer;
 
         return Game1.getFarmerMaybeOffline(home.owner.Value) ?? Game1.MasterPlayer;

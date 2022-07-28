@@ -76,7 +76,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                         "StackedStars" => "Stacked Stars",
                         "Gen3Ribbons" => "Gen 3 Ribbons",
                         "Gen4Ribbons" => "Gen 4 Ribbons",
-                        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+                        _ => ThrowHelper.ThrowArgumentOutOfRangeException<string>(nameof(value), value, null)
                     }
             )
 

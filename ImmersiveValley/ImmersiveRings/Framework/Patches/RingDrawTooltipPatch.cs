@@ -21,7 +21,8 @@ using System.Reflection.Emit;
 [UsedImplicitly]
 internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
 {
-    private static Func<Item, int>? _GetDescriptionWidth;
+    private static readonly Lazy<Func<Item, int>> _GetDescriptionWidth = new(() =>
+        typeof(Item).RequireMethod("getDescriptionWidth").CompileUnboundDelegate<Func<Item, int>>());
 
     /// <summary>Construct an instance.</summary>
     internal RingDrawTooltipPatch()
@@ -101,10 +102,7 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // write description
-        _GetDescriptionWidth ??=
-            typeof(Item).RequireMethod("getDescriptionWidth").CompileUnboundDelegate<Func<Item, int>>();
-
-        var descriptionWidth = _GetDescriptionWidth(__instance);
+        var descriptionWidth = _GetDescriptionWidth.Value(__instance);
         StardewValley.Utility.drawTextWithShadow(spriteBatch,
             Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth), font, new(x + 16, y + 20),
             Game1.textColor);

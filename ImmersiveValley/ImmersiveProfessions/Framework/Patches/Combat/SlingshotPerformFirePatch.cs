@@ -22,7 +22,8 @@ using VirtualProperties;
 [UsedImplicitly]
 internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static Action<Slingshot>? _UpdateAimPos;
+    private static readonly Lazy<Action<Slingshot>> _UpdateAimPos = new(() =>
+        typeof(Slingshot).RequireMethod("updateAimPos").CompileUnboundDelegate<Action<Slingshot>>());
 
     /// <summary>Construct an instance.</summary>
     internal SlingshotPerformFirePatch()
@@ -55,9 +56,7 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
                 return false; // don't run original logic
 
             // calculate projectile velocity
-            _UpdateAimPos ??= typeof(Slingshot).RequireMethod("updateAimPos")
-                .CompileUnboundDelegate<Action<Slingshot>>();
-            _UpdateAimPos(__instance);
+            _UpdateAimPos.Value(__instance);
             var mouseX = __instance.aimPos.X;
             var mouseY = __instance.aimPos.Y;
             var shootOrigin = __instance.GetShootOrigin(who);

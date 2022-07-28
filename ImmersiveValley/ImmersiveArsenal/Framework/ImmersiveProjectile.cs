@@ -14,7 +14,10 @@ using System;
 /// <summary>A Slingshot <see cref="BasicProjectile"/> that remembers where it came from.</summary>
 internal class ImmersiveProjectile : BasicProjectile
 {
-    private static Action<BasicProjectile, GameLocation>? _ExplosionAnimation;
+    private static readonly Lazy<Action<BasicProjectile, GameLocation>> _ExplosionAnimation = new(() =>
+        typeof(BasicProjectile).RequireMethod("explosionAnimation")
+            .CompileUnboundDelegate<Action<BasicProjectile, GameLocation>>());
+
     public Slingshot WhatFiredMe { get; init; }
 
     public ImmersiveProjectile(Slingshot whatFiredMe, int damageToFarmer, int parentSheetIndex, int bouncesTillDestruct,
@@ -41,10 +44,7 @@ internal class ImmersiveProjectile : BasicProjectile
             return;
         }
 
-        _ExplosionAnimation ??= typeof(BasicProjectile).RequireMethod("explosionAnimation")
-            .CompileUnboundDelegate<Action<BasicProjectile, GameLocation>>();
-        _ExplosionAnimation(this, location);
-
+        _ExplosionAnimation.Value(this, location);
         var firer = theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
         var damage = damageToFarmer.Value;
         var knockback = (1f + WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>()) * (1f + firer.knockbackModifier);

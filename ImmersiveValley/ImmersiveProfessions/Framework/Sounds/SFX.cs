@@ -3,6 +3,7 @@
 #region using directives
 
 using Ardalis.SmartEnum;
+using Common.Exceptions;
 using Microsoft.Xna.Framework.Audio;
 using System.IO;
 
@@ -31,7 +32,7 @@ public sealed class SFX : SmartEnum<SFX>
         var path = Path.Combine(ModEntry.ModHelper.DirectoryPath, "assets", "sfx", name + ".wav");
         using var fs = new FileStream(path, FileMode.Open);
         var soundEffect = SoundEffect.FromStream(fs);
-        if (soundEffect is null) throw new FileLoadException($"Failed to load audio at {path}.");
+        if (soundEffect is null) ThrowHelperExtensions.ThrowFileLoadException($"Failed to load audio at {path}.");
 
         CueDefinition cueDefinition = new()
         {

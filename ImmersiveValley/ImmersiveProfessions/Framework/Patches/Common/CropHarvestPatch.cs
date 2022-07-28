@@ -70,7 +70,7 @@ internal sealed class CropHarvestPatch : DaLion.Common.Harmony.HarmonyPatch
         var mi = typeof(ModDataIO)
                      .GetMethods()
                      .FirstOrDefault(mi => mi.Name.Contains(nameof(ModDataIO.Increment)) && mi.GetParameters().Length == 3)?
-                     .MakeGenericMethod(typeof(uint)) ?? throw new MissingMethodException("Increment method not found.");
+                     .MakeGenericMethod(typeof(uint)) ?? ThrowHelper.ThrowMissingMethodException<MethodInfo>("Increment method not found.");
 
         var dontIncreaseEcologistCounter = generator.DefineLabel();
         try

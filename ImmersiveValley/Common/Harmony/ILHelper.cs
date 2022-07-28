@@ -1,9 +1,9 @@
-﻿using DaLion.Common.Extensions.Collections;
-
-namespace DaLion.Common.Harmony;
+﻿namespace DaLion.Common.Harmony;
 
 #region using directives
 
+using Exceptions;
+using Extensions.Collections;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ public class ILHelper
         get
         {
             if (_indexStack.Count <= 0)
-                throw new IndexOutOfRangeException("The index stack is either null or empty.");
+                ThrowHelperExtensions.ThrowIndexOutOfRangeException("The index stack is either null or empty.");
 
             return _indexStack.Peek();
         }
@@ -55,7 +55,7 @@ public class ILHelper
         get
         {
             if (Instructions.Count <= 0)
-                throw new IndexOutOfRangeException("The active instruction list is either null or empty.");
+                ThrowHelperExtensions.ThrowIndexOutOfRangeException("The active instruction list is either null or empty.");
 
             return Instructions.Count - 1;
         }
@@ -67,7 +67,7 @@ public class ILHelper
     {
         var index = Instructions.IndexOf(pattern);
         if (index < 0)
-            throw new IndexOutOfRangeException(
+            ThrowHelperExtensions.ThrowIndexOutOfRangeException(
                 $"Couldn't find instruction pattern.\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
 
         _indexStack.Push(index);
@@ -83,7 +83,7 @@ public class ILHelper
 
         var index = Instructions.Count - reversedInstructions.IndexOf(pattern.Reverse().ToArray()) - pattern.Length;
         if (index < 0)
-            throw new IndexOutOfRangeException(
+            ThrowHelperExtensions.ThrowIndexOutOfRangeException(
                 $"Couldn't find instruction pattern:\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
 
         _indexStack.Push(index);
@@ -96,7 +96,7 @@ public class ILHelper
     {
         var index = Instructions.IndexOf(pattern, CurrentIndex + 1);
         if (index < 0)
-            throw new IndexOutOfRangeException(
+            ThrowHelperExtensions.ThrowIndexOutOfRangeException(
                 $"Couldn't find instruction pattern:\n---- BEGIN ----\n{string.Join("\n", pattern.ToArray<object>())}\n----- END -----");
 
         _indexStack.Push(index);
@@ -128,7 +128,7 @@ public class ILHelper
     {
         var index = Instructions.IndexOf(label, fromCurrentIndex ? CurrentIndex + 1 : 0);
         if (index < 0)
-            throw new IndexOutOfRangeException($"Couldn't find label: {label}.");
+            ThrowHelperExtensions.ThrowIndexOutOfRangeException($"Couldn't find label: {label}.");
 
         _indexStack.Push(index);
         return this;
@@ -139,7 +139,7 @@ public class ILHelper
     public ILHelper Advance(int steps = 1)
     {
         if (CurrentIndex + steps < 0 || CurrentIndex + steps > LastIndex)
-            throw new IndexOutOfRangeException("New index is out of range.");
+            ThrowHelperExtensions.ThrowIndexOutOfRangeException("New index is out of range.");
 
         _indexStack.Push(CurrentIndex + steps);
         return this;
@@ -236,7 +236,7 @@ public class ILHelper
     /// <param name="count">Number of code instructions to remove.</param>
     public ILHelper Remove(int count = 1)
     {
-        if (CurrentIndex + count > LastIndex) throw new IndexOutOfRangeException("Can't remove item out of range.");
+        if (CurrentIndex + count > LastIndex) ThrowHelperExtensions.ThrowIndexOutOfRangeException("Can't remove item out of range.");
 
         Instructions.RemoveRange(CurrentIndex, count);
         return this;
@@ -353,9 +353,9 @@ public class ILHelper
     /// <param name="index">The index to move to.</param>
     public ILHelper GoTo(int index)
     {
-        if (index < 0) throw new IndexOutOfRangeException("Can't go to a negative index.");
+        if (index < 0) ThrowHelperExtensions.ThrowIndexOutOfRangeException("Can't go to a negative index.");
 
-        if (index > LastIndex) throw new IndexOutOfRangeException("New index is out of range.");
+        if (index > LastIndex) ThrowHelperExtensions.ThrowIndexOutOfRangeException("New index is out of range.");
 
         _indexStack.Push(index);
         return this;

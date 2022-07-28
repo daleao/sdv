@@ -50,7 +50,7 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
             }
             else
             {
-                var next = produce.First();
+                var next = produce.First()!;
                 var (index, stack, quality) = next.ParseTuple<int, int, int>()!.Value;
                 StardewValley.Object o;
                 if (index == 812) // roe

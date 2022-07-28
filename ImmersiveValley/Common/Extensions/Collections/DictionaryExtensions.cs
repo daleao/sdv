@@ -18,10 +18,10 @@ public static class DictionaryExtensions
         string pairSeparator = ";") where TKey : notnull
     {
         if (string.IsNullOrEmpty(keyValueSeparator) || string.IsNullOrEmpty(pairSeparator))
-            throw new ArgumentException("Separator cannot be null or empty.");
+            ThrowHelper.ThrowArgumentException("Separator cannot be null or empty.");
 
         if (pairSeparator == keyValueSeparator)
-            throw new ArgumentException("Pair separator must be different from key-value separator.");
+            ThrowHelper.ThrowArgumentException("Pair separator must be different from key-value separator.");
 
         return d.Count <= 0 ? string.Empty : string.Join(pairSeparator, d.Select(p => $"{p.Key}{keyValueSeparator}{p.Value}"));
     }

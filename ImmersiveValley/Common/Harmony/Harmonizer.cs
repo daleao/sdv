@@ -64,7 +64,7 @@ internal class Harmonizer
                 var patch = (IHarmonyPatch?)p
                     .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, Type.EmptyTypes, null)
                     ?.Invoke(Array.Empty<object>());
-                if (patch is null) throw new MissingMethodException("Didn't find internal parameterless constructor.");
+                if (patch is null) ThrowHelper.ThrowMissingMethodException("Didn't find internal parameterless constructor.");
 
                 patch.Apply(_Harmony);
                 Log.D($"[Harmonizer]: Applied {p.Name} to {patch.Target!.DeclaringType}::{patch.Target.Name}.");

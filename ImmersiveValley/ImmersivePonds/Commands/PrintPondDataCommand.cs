@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Ponds.Commands;
+﻿using DaLion.Common.Extensions.Collections;
+
+namespace DaLion.Stardew.Ponds.Commands;
 
 #region using directives
 
@@ -94,10 +96,10 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
         }
 
         var held = ModDataIO.Read(nearest, "ItemsHeld").ParseList<string>(";");
-        if (held?.Count is > 0)
+        if (held.Count > 0)
         {
             message += "\n\n\tAdditional items held:";
-            foreach (var item in held)
+            foreach (var item in held.WhereNotNull())
             {
                 var (index, stack, quality) = item.ParseTuple<int, int, Quality>()!.Value;
                 var @object = new SObject(index, stack);

@@ -18,7 +18,8 @@ using Multiplayer = StardewValley.Multiplayer;
 [UsedImplicitly]
 internal sealed class GameLocationExplodePatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static Func<Multiplayer>? _GetMultiplayer;
+    private static Lazy<Func<Multiplayer>> _GetMultiplayer = new(() =>
+        typeof(Game1).RequireField("multiplayer").CompileStaticFieldGetterDelegate<Multiplayer>());
 
     /// <summary>Construct an instance.</summary>
     internal GameLocationExplodePatch()
@@ -44,8 +45,6 @@ internal sealed class GameLocationExplodePatch : DaLion.Common.Harmony.HarmonyPa
         var chanceModifier = who.DailyLuck / 2.0 + who.LuckLevel * 0.001 + who.MiningLevel * 0.005;
         var r = new Random(Guid.NewGuid().GetHashCode());
         var circle = new CircleTileGrid(tileLocation, radius);
-        _GetMultiplayer ??= typeof(Game1).RequireField("multiplayer")
-            .CompileStaticFieldGetterDelegate<Multiplayer>();
         foreach (var tile in circle.Tiles)
         {
             if (!__instance.objects.TryGetValue(tile, out var tileObj) || !tileObj.IsStone()) continue;
@@ -66,7 +65,7 @@ internal sealed class GameLocationExplodePatch : DaLion.Common.Harmony.HarmonyPa
                         if (isPrestigedBlaster)
                             Game1.createObjectDebris(SObject.coal, tileX, tileY,
                                 who.UniqueMultiplayerID, __instance);
-                        _GetMultiplayer()
+                        _GetMultiplayer.Value()
                             .broadcastSprites(__instance,
                                 new TemporaryAnimatedSprite(25,
                                     new(tile.X * Game1.tileSize, tile.Y * Game1.tileSize), Color.White,
@@ -86,7 +85,7 @@ internal sealed class GameLocationExplodePatch : DaLion.Common.Harmony.HarmonyPa
                         if (isPrestigedBlaster)
                             Game1.createObjectDebris(SObject.coal, tileX, tileY,
                                 who.UniqueMultiplayerID, __instance);
-                        _GetMultiplayer()
+                        _GetMultiplayer.Value()
                             .broadcastSprites(__instance,
                                 new TemporaryAnimatedSprite(25,
                                     new(tile.X * Game1.tileSize, tile.Y * Game1.tileSize), Color.White,

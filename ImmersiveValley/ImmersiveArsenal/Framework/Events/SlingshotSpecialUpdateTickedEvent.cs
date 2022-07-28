@@ -38,7 +38,8 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                     FacingDirection.Right => 168,
                     FacingDirection.Down => 160,
                     FacingDirection.Left => 184,
-                    _ => throw new UnexpectedEnumValueException<FacingDirection>((FacingDirection)user.FacingDirection)
+                    _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
+                        (FacingDirection)user.FacingDirection)
                 };
 
                 var sprite = (FarmerSprite)user.Sprite;

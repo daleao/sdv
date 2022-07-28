@@ -15,7 +15,8 @@ using System.Linq;
 [UsedImplicitly]
 internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
 {
-    private static Func<Item, int>? _GetDescriptionWidth;
+    private static readonly Lazy<Func<Item, int>> _GetDescriptionWidth = new(() =>
+        typeof(Item).RequireMethod("getDescriptionWidth").CompileUnboundDelegate<Func<Item, int>>());
 
     /// <summary>Construct an instance.</summary>
     internal MeleeWeaponDrawTooltipPatch()
@@ -30,11 +31,8 @@ internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
     private static bool MeleeWeaponDrawTooltipPrefix(MeleeWeapon __instance, SpriteBatch spriteBatch, ref int x,
         ref int y, SpriteFont font, float alpha)
     {
-        _GetDescriptionWidth ??=
-            typeof(Item).RequireMethod("getDescriptionWidth").CompileUnboundDelegate<Func<Item, int>>();
-
         // write description
-        var descriptionWidth = _GetDescriptionWidth(__instance);
+        var descriptionWidth = _GetDescriptionWidth.Value(__instance);
         Utility.drawTextWithShadow(spriteBatch,
             Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth), font, new(x + 16, y + 20),
             Game1.textColor);

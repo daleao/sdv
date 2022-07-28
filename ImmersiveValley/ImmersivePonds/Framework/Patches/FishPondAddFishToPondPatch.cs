@@ -37,7 +37,7 @@ internal sealed class FishPondAddFishToPondPatch : Common.Harmony.HarmonyPatch
                     .ParseList<int>()!;
                 if (familyQualities.Count != 4 ||
                     familyQualities.Sum() != ModDataIO.Read<int>(__instance, "FamilyLivingHere"))
-                    throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
+                    ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
 
                 ++familyQualities[fish.Quality == 4 ? 3 : fish.Quality];
                 ModDataIO.Increment<int>(__instance, "FamilyLivingHere");
@@ -64,7 +64,7 @@ internal sealed class FishPondAddFishToPondPatch : Common.Harmony.HarmonyPatch
                         $"{__instance.FishCount - ModDataIO.Read<int>(__instance, "FamilyLivingHere") - 1},0,0,0") // already added at this point, so consider - 1
                     .ParseList<int>()!;
                 if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > __instance.FishCount - 1))
-                    throw new InvalidDataException("FishQualities data had incorrect number of values.");
+                    ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
 
                 ++fishQualities[fish.Quality == 4 ? 3 : fish.Quality];
                 ModDataIO.Write(__instance, "FishQualities", string.Join(',', fishQualities));

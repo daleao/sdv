@@ -108,7 +108,7 @@ public static class ILHelperExtensions
     private static CodeInstruction LoadConstantIntegerIL(int number)
     {
         if (number > byte.MaxValue)
-            throw new ArgumentException($"Number is too large. Should be less than {byte.MaxValue}.");
+            ThrowHelper.ThrowArgumentException($"Number is too large. Should be less than {byte.MaxValue}.");
 
         return number switch
         {

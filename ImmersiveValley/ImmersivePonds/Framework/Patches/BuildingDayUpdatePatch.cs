@@ -2,9 +2,9 @@
 
 #region using directives
 
+using Common.Exceptions;
 using HarmonyLib;
 using StardewValley.Buildings;
-using System;
 
 #endregion using directives
 
@@ -26,7 +26,7 @@ internal sealed class BuildingDayUpdatePatch : Common.Harmony.HarmonyPatch
     internal static void BuildingDayUpdateReverse(object instance, int dayOfMonth)
     {
         // its a stub so it has no initial content
-        throw new NotImplementedException("It's a stub.");
+        ThrowHelperExtensions.ThrowNotImplementedException("It's a stub.");
     }
 #endif
 

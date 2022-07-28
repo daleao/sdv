@@ -43,7 +43,7 @@ internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
         {
             var count = __instance.combinedRings.Count;
             if (count is < 1 or > 4)
-                throw new InvalidOperationException("Unexpected number of combined rings.");
+                ThrowHelper.ThrowInvalidOperationException("Unexpected number of combined rings.");
 
             var oldScaleSize = scaleSize;
             scaleSize = 1f;

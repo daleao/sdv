@@ -19,7 +19,9 @@ using System.Reflection.Emit;
 [UsedImplicitly, RequiresMod("blueberry.MushroomPropagator")]
 internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static Func<SObject, int>? _GetSourceMushroomQuality;
+    private static readonly Lazy<Func<SObject, int>> _GetSourceMushroomQuality = new(() =>
+        "BlueberryMushroomMachine.Propagator".ToType().RequireField("SourceMushroomQuality")
+            .CompileUnboundFieldGetterDelegate<SObject, int>());
 
     /// <summary>Construct an instance.</summary>
     internal PropagatorPopExtraHeldMushroomsPatch()
@@ -109,12 +111,9 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
     private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
     {
         var who = ModEntry.Config.LaxOwnershipRequirements ? Game1.player : propagator.GetOwner();
-        _GetSourceMushroomQuality ??= "BlueberryMushroomMachine.Propagator".ToType()
-            .RequireField("SourceMushroomQuality")
-            .CompileUnboundFieldGetterDelegate<SObject, int>();
         return who.HasProfession(Profession.Ecologist)
             ? who.GetEcologistForageQuality()
-            : _GetSourceMushroomQuality(propagator);
+            : _GetSourceMushroomQuality.Value(propagator);
     }
 
     #endregion injected subroutines

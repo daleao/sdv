@@ -98,8 +98,8 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
                     ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, customSkill.StringId,
                         -customSkill.CurrentExp);
 
-                    var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels();
-                    ExtendedSpaceCoreAPI.SetCustomSkillNewLevels(newLevels
+                    var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.Value();
+                    ExtendedSpaceCoreAPI.SetCustomSkillNewLevels.Value(newLevels
                         .Where(pair => pair.Key != customSkill.StringId).ToList());
 
                     if (ModEntry.Config.ForgetRecipesOnSkillReset &&

@@ -18,7 +18,10 @@ using VirtualProperties;
 /// <summary>A <see cref="BasicProjectile"/> that remembers where it came from and some other properties.</summary>
 internal class ImmersiveProjectile : BasicProjectile
 {
-    private static Action<BasicProjectile, GameLocation>? _ExplosionAnimation;
+    private static readonly Lazy<Action<BasicProjectile, GameLocation>> _ExplosionAnimation = new(() =>
+        typeof(BasicProjectile).RequireMethod("explosionAnimation")
+            .CompileUnboundDelegate<Action<BasicProjectile, GameLocation>>());
+
     public Item WhatAmI { get; }
     public Slingshot WhatFiredMe { get; }
     public float Overcharge { get; set; }
@@ -75,10 +78,7 @@ internal class ImmersiveProjectile : BasicProjectile
                 location.debris.Add(new(amount,
                     new(monster.getStandingX() + 8, monster.getStandingY()), Color.Lime, 1f, monster));
                 Game1.playSound("healSound");
-
-                _ExplosionAnimation ??= typeof(BasicProjectile).RequireMethod("explosionAnimation")
-                    .CompileUnboundDelegate<Action<BasicProjectile, GameLocation>>();
-                _ExplosionAnimation(this, location);
+                _ExplosionAnimation.Value(this, location);
             }
             // debuff if not
             else
@@ -100,15 +100,9 @@ internal class ImmersiveProjectile : BasicProjectile
 
         // check for piercing
         if (!WhatAmI.IsSquishyAmmo() && Game1.random.NextDouble() < (Overcharge - 1f) / 2f)
-        {
             DidPierce = true;
-        }
         else
-        {
-            _ExplosionAnimation ??= typeof(BasicProjectile).RequireMethod("explosionAnimation")
-                .CompileUnboundDelegate<Action<BasicProjectile, GameLocation>>();
-            _ExplosionAnimation(this, location);
-        }
+            _ExplosionAnimation.Value(this, location);
 
         // check for stun
         if (!DidPierce && firer.HasProfession(Profession.Rascal, true) && DidBounce)

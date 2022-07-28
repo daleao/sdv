@@ -30,17 +30,19 @@
 
 	<ItemGroup>
 		<PackageReference Include="Ardalis.SmartEnum" Version="2.1.0" />
+		<PackageReference Include="FastExpressionCompiler.LightExpression" Version="3.3.3" />
 		<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+		<PackageReference Include="Microsoft.Toolkit.Diagnostics" Version="7.1.2" />
 		<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="StardewValley" />
-		<Using Include="StardewModdingAPI" />
 		<Using Include="JetBrains.Annotations" />
-		<Using Alias="Object" Include="System.Object" />
+		<Using Include="Microsoft.Toolkit.Diagnostics" />
+		<Using Include="StardewModdingAPI" />
+		<Using Include="StardewValley" />
 		<Using Alias="SObject" Include="StardewValley.Object" />
 	</ItemGroup>
 

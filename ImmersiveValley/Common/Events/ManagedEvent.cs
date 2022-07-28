@@ -52,7 +52,7 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
 
     /// <summary>Determines if the specified <see cref="ManagedEvent"/> is equal to the current instance.</summary>
     /// <param name="other">A <see cref="ManagedEvent"/> to compare to this instance.</param>
-    /// <returns><see langword="true"/> if <paramref name="other"/> has the same type as this instance; otherwise, <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if <paramref name="other"/> has the same type as this instance; otherwise, <see langword="false"/>.</returns>
     // ReSharper disable once CheckForReferenceEqualityInstead.1
     public virtual bool Equals(ManagedEvent? other) => GetType().Equals(other?.GetType());
 

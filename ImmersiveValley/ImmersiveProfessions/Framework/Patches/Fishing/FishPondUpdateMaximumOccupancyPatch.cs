@@ -1,6 +1,4 @@
-﻿using StardewValley;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 #region using directives
 

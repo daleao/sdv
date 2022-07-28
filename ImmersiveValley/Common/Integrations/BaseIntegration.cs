@@ -55,7 +55,7 @@ public abstract class BaseIntegration : IModIntegration
 
     /// <summary>Try to get an API for the mod.</summary>
     /// <typeparam name="TApi">The API type.</typeparam>
-    /// <returns><see langword="true"> if an api was retreived, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if an api was retrieved, otherwise <see langword="false"/>.</returns>
     protected bool TryGetApi<TApi>([NotNullWhen(true)] out TApi? api) where TApi : class
     {
         api = ModRegistry.GetApi<TApi>(ModId);
@@ -66,7 +66,7 @@ public abstract class BaseIntegration : IModIntegration
     /// <exception cref="InvalidOperationException">The integration isn't loaded.</exception>
     protected virtual void AssertLoaded()
     {
-        if (!IsLoaded) throw new InvalidOperationException($"The {ModName} integration isn't loaded.");
+        if (!IsLoaded) ThrowHelper.ThrowInvalidOperationException($"The {ModName} integration isn't loaded.");
     }
 }
 
@@ -104,6 +104,6 @@ public abstract class BaseIntegration<TApi> : BaseIntegration where TApi : class
     [MemberNotNull(nameof(ModApi))]
     protected override void AssertLoaded()
     {
-        if (!IsLoaded) throw new InvalidOperationException($"The {ModName} integration isn't loaded.");
+        if (!IsLoaded) ThrowHelper.ThrowInvalidOperationException($"The {ModName} integration isn't loaded.");
     }
 }

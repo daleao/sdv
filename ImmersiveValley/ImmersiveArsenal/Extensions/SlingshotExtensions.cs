@@ -20,8 +20,8 @@ using System;
 /// <summary>Extensions for the <see cref="Slingshot"/> class.</summary>
 public static class SlingshotExtensions
 {
-    private static readonly Action<Tool, Farmer> _SetLastUser =
-        typeof(Tool).RequireField("lastUser").CompileUnboundFieldSetterDelegate<Tool, Farmer>();
+    private static readonly Lazy<Action<Tool, Farmer>> _SetLastUser = new(() =>
+        typeof(Tool).RequireField("lastUser").CompileUnboundFieldSetterDelegate<Tool, Farmer>());
 
     /// <summary>Analogous to <see cref="MeleeWeapon.animateSpecialMove"/>.</summary>
     public static void AnimateSpecialMove(this Slingshot slingshot)
@@ -68,7 +68,7 @@ public static class SlingshotExtensions
         who.FarmerSprite.PauseForSingleAnimation = false;
 
         var dummyWeapon = new MeleeWeapon { BaseName = string.Empty };
-        _SetLastUser(dummyWeapon, who);
+        _SetLastUser.Value(dummyWeapon, who);
         var v = new Vector2(x / 64, y / 64);
 
         if (location.terrainFeatures.ContainsKey(v) &&
@@ -101,7 +101,7 @@ public static class SlingshotExtensions
             FacingDirection.Right => new((int)x + Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
             FacingDirection.Down => new((int)x, (int)y + Game1.tileSize, Game1.tileSize, Game1.tileSize),
             FacingDirection.Left => new((int)x - Game1.tileSize, (int)y, Game1.tileSize, Game1.tileSize),
-            _ => throw new UnexpectedEnumValueException<FacingDirection>((FacingDirection)who.FacingDirection)
+            _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, Rectangle>((FacingDirection)who.FacingDirection)
         };
     }
 

@@ -47,7 +47,7 @@ public static class ListExtensions
     /// <summary>Move the specified item to position <paramref name="newIndex"/>.</summary>
     /// <param name="item">The item to be moved.</param>
     /// <param name="newIndex">The new position.</param>
-    /// <returns><see langword="true"> if a matching item was found and moved, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if a matching item was found and moved, otherwise <see langword="false"/>.</returns>
     public static bool Move<T>(this IList<T> list, T item, int newIndex)
     {
         if (item is null) return false;
@@ -62,7 +62,7 @@ public static class ListExtensions
     /// <summary>Move the first item in the list to match the specified predicate to the specified new position.</summary>
     /// <param name="predicate">A delegate that identifies the item to be moved.</param>
     /// <param name="newIndex">The new position.</param>
-    /// <returns><see langword="true"> if a matching item was moved, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if a matching item was moved, otherwise <see langword="false"/>.</returns>
     public static bool Move<T>(this IList<T> list, Func<T, bool> predicate, int newIndex)
     {
         var toBeMoved = list.FirstOrDefault(predicate);

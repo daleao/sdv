@@ -410,7 +410,7 @@ internal class EventManager
     /// <summary>Try to get an instance of the specified event type.</summary>
     /// <param name="got">The matched event, if any.</param>
     /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
-    /// <returns><see langword="true"> if a matching event was found, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if a matching event was found, otherwise <see langword="false"/>.</returns>
     internal bool TryGet<TEvent>([NotNullWhen(true)] out TEvent? got) where TEvent : IManagedEvent
     {
         got = Get<TEvent>();

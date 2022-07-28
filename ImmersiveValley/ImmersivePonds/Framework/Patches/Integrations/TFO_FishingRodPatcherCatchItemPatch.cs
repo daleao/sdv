@@ -62,7 +62,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPa
             var fishQualities = ModDataIO.Read(pond, "FishQualities",
                 $"{pond.FishCount - ModDataIO.Read<int>(pond, "FamilyLivingHere") + 1},0,0,0").ParseList<int>()!; // already reduced at this point, so consider + 1
             if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > pond.FishCount + 1))
-                throw new InvalidDataException("FishQualities data had incorrect number of values.");
+                ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
 
             var lowestFish = fishQualities.FindIndex(i => i > 0);
             _SetFishItem ??= info.GetType().RequirePropertySetter("FishItem").CompileUnboundDelegate<Action<object, object>>();
@@ -71,13 +71,13 @@ internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPa
             {
                 var familyCount = ModDataIO.Read<int>(pond, "FamilyLivingHere");
                 if (fishQualities.Sum() + familyCount != pond.FishCount + 1)
-                    throw new InvalidDataException("FamilyLivingHere data is invalid.");
+                    ThrowHelper.ThrowInvalidDataException("FamilyLivingHere data is invalid.");
 
                 if (familyCount > 0)
                 {
                     var familyQualities = ModDataIO.Read(pond, "FamilyQualities", $"{familyCount},0,0,0").ParseList<int>()!;
                     if (familyQualities.Count != 4 || familyQualities.Sum() != familyCount)
-                        throw new InvalidDataException("FamilyQualities data had incorrect number of values.");
+                        ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
 
                     var lowestFamily = familyQualities.FindIndex(i => i > 0);
                     if (lowestFamily < lowestFish)
@@ -110,7 +110,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPa
             else
             {
                 if (fishQualities.Sum() != pond.FishCount + 1)
-                    throw new InvalidDataException("FishQualities data had incorrect number of values.");
+                    ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
 
                 _SetFishItem(info, new SObject(pond.fishType.Value, 1, quality: lowestFish == 3 ? 4 : lowestFish));
                 _SetFishQuality(info, lowestFish == 3 ? 4 : lowestFish);

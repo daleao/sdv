@@ -18,15 +18,27 @@ using System.Linq;
 /// <summary>Provides functionality missing from <see cref="IAutomateAPI"/>.</summary>
 internal static class ExtendedAutomateAPI
 {
-    private static IMod? _Mod = null!;
-    private static Func<IMod, object> GetMachineManager = null!;
-    private static Func<object, object> GetMachineData = null!;
-    private static Func<object, object> GetActiveTiles = null!;
-    private static Func<object, object> GetContainers = null!;
-    private static Func<object, Chest> GetChest = null!;
+    private static IMod? _Mod;
 
-    /// <summary>Whether the reflected fields have been initialized.</summary>
-    public static bool Initialized { get; private set; }
+    private static readonly Lazy<Func<IMod, object>> GetMachineManager = new(() =>
+        "Pathoschild.Stardew.Automate.ModEntry".ToType().RequireField("MachineManager")
+            .CompileUnboundFieldGetterDelegate<IMod, object>());
+
+    private static readonly Lazy<Func<object, object>> GetMachineData = new(() =>
+        "Pathoschild.Stardew.Automate.Framework.MachineManager".ToType().RequireField("MachineData")
+            .CompileUnboundFieldGetterDelegate<object, object>());
+
+    private static readonly Lazy<Func<object, object>> GetActiveTiles = new(() =>
+        "Pathoschild.Stardew.Automate.Framework.MachineDataForLocation".ToType().RequirePropertyGetter("ActiveTiles")
+            .CompileUnboundDelegate<Func<object, object>>());
+
+    private static readonly Lazy<Func<object, object>> GetContainers = new(() =>
+        "Pathoschild.Stardew.Automate.Framework.IMachineGroup".ToType().RequirePropertyGetter("Containers")
+            .CompileUnboundDelegate<Func<object, object>>());
+
+    private static readonly Lazy<Func<object, Chest>> GetChest = new(() =>
+        "Pathoschild.Stardew.Automate.Framework.Storage.ChestContainer".ToType().RequireField("Chest")
+            .CompileUnboundFieldGetterDelegate<object, Chest>());
 
     #region public methods
 
@@ -34,37 +46,26 @@ internal static class ExtendedAutomateAPI
     public static void Init(IModHelper helper)
     {
         _Mod = helper.GetModEntryFor("Pathoschild.Automate")!;
-
-        GetMachineManager = "Pathoschild.Stardew.Automate.ModEntry".ToType().RequireField("MachineManager")
-            .CompileUnboundFieldGetterDelegate<IMod, object>();
-        GetMachineData = "Pathoschild.Stardew.Automate.Framework.MachineManager".ToType().RequireField("MachineData")
-            .CompileUnboundFieldGetterDelegate<object, object>();
-        GetActiveTiles = "Pathoschild.Stardew.Automate.Framework.MachineDataForLocation".ToType().RequirePropertyGetter("ActiveTiles")
-            .CompileUnboundDelegate<Func<object, object>>();
-        GetContainers = "Pathoschild.Stardew.Automate.Framework.IMachineGroup".ToType().RequirePropertyGetter("Containers")
-            .CompileUnboundDelegate<Func<object, object>>();
-        GetChest = "Pathoschild.Stardew.Automate.Framework.Storage.ChestContainer".ToType().RequireField("Chest")
-            .CompileUnboundFieldGetterDelegate<object, Chest>();
-
-        Initialized = true;
     }
 
     /// <summary>Get the closest <see cref="Chest"/> to the given automated <see cref="Building"/> machine.</summary>
     /// <param name="machine">An automated <see cref="Building"/> machine.</param>
     public static Chest GetClosestContainerTo(Building machine)
     {
-        var machineManager = GetMachineManager(_Mod!);
-        var machineData = (IDictionary)GetMachineData(machineManager);
+        if (_Mod is null) ThrowHelper.ThrowInvalidOperationException("The extended API was not initialized.");
+
+        var machineManager = GetMachineManager.Value(_Mod!);
+        var machineData = (IDictionary)GetMachineData.Value(machineManager);
         var locationKey = GetLocationKey(Game1.getFarm());
         var index = machineData.Keys.Cast<string>().ToList().FindIndex(s => s == locationKey);
         var machineDataForLocation = machineData.Values.Cast<object>().ElementAt(index)!;
-        var activeTiles = (IDictionary)GetActiveTiles(machineDataForLocation);
+        var activeTiles = (IDictionary)GetActiveTiles.Value(machineDataForLocation);
         var index2 = activeTiles.Keys.Cast<Vector2>().ToList()
             .FindIndex(v => v == new Vector2(machine.tileX.Value, machine.tileY.Value));
         var machineGroup = activeTiles.Keys.Cast<object>().ElementAt(index2);
 
-        var containers = (Array)GetContainers(machineGroup);
-        var chests = containers.Cast<object>().Select(c => GetChest(c));
+        var containers = (Array)GetContainers.Value(machineGroup);
+        var chests = containers.Cast<object>().Select(c => GetChest.Value(c));
 
         return machine.GetClosestObject(chests)!;
     }
@@ -74,16 +75,18 @@ internal static class ExtendedAutomateAPI
     /// <param name="location">The machine's location.</param>
     public static Chest GetClosestContainerTo(SObject machine, GameLocation location)
     {
-        var machineManager = GetMachineManager(_Mod!);
-        var machineData = (IDictionary)GetMachineData(machineManager);
+        if (_Mod is null) ThrowHelper.ThrowInvalidOperationException("The extended API was not initialized.");
+
+        var machineManager = GetMachineManager.Value(_Mod!);
+        var machineData = (IDictionary)GetMachineData.Value(machineManager);
         var locationKey = GetLocationKey(location);
         var index = machineData.Keys.Cast<string>().ToList().FindIndex(s => s == locationKey);
         var machineDataForLocation = machineData.Values.Cast<object>().ElementAt(index)!;
-        var activeTiles = (IDictionary)GetActiveTiles(machineDataForLocation);
+        var activeTiles = (IDictionary)GetActiveTiles.Value(machineDataForLocation);
         var index2 = activeTiles.Keys.Cast<Vector2>().ToList().FindIndex(v => v == machine.TileLocation);
         var machineGroup = activeTiles.Values.Cast<object>().ElementAt(index2);
-        var containers = (Array)GetContainers(machineGroup);
-        var chests = containers.Cast<object>().Select(c => GetChest(c));
+        var containers = (Array)GetContainers.Value(machineGroup);
+        var chests = containers.Cast<object>().Select(c => GetChest.Value(c));
 
         return machine.GetClosestObject(location, chests)!;
     }
@@ -92,16 +95,18 @@ internal static class ExtendedAutomateAPI
     /// <param name="machine">An automated <see cref="TerrainFeature"/> machine.</param>
     public static Chest GetClosestContainerTo(TerrainFeature machine)
     {
-        var machineManager = GetMachineManager(_Mod!);
-        var machineData = (IDictionary)GetMachineData(machineManager);
+        if (_Mod is null) ThrowHelper.ThrowInvalidOperationException("The extended API was not initialized.");
+
+        var machineManager = GetMachineManager.Value(_Mod!);
+        var machineData = (IDictionary)GetMachineData.Value(machineManager);
         var locationKey = GetLocationKey(machine.currentLocation);
         var index = machineData.Keys.Cast<string>().ToList().FindIndex(s => s == locationKey);
         var machineDataForLocation = machineData.Values.Cast<object>().ElementAt(index)!;
-        var activeTiles = (IDictionary)GetActiveTiles(machineDataForLocation);
+        var activeTiles = (IDictionary)GetActiveTiles.Value(machineDataForLocation);
         var index2 = activeTiles.Keys.Cast<Vector2>().ToList().FindIndex(v => v == machine.currentTileLocation);
         var machineGroup = activeTiles.Keys.Cast<object>().ElementAt(index2);
-        var containers = (Array)GetContainers(machineGroup);
-        var chests = containers.Cast<object>().Select(c => GetChest(c));
+        var containers = (Array)GetContainers.Value(machineGroup);
+        var chests = containers.Cast<object>().Select(c => GetChest.Value(c));
 
         return machine.GetClosestObject(chests)!;
     }

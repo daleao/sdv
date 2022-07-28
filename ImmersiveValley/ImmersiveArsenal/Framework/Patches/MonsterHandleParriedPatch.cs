@@ -3,7 +3,6 @@
 #region using directives
 
 using Common.Extensions.Reflection;
-using Enchantments;
 using HarmonyLib;
 using StardewValley.Monsters;
 using StardewValley.Tools;
@@ -38,7 +37,7 @@ internal sealed class MonsterHandleParriedPatch : Common.Harmony.HarmonyPatch
         _GetWho ??= args.GetType().RequirePropertyGetter("who").CompileUnboundDelegate<Func<object, Farmer>>();
         var who = _GetWho(args);
 
-        if (who.CurrentTool is not MeleeWeapon {type.Value: MeleeWeapon.defenseSword} weapon) return;
+        if (who.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.defenseSword } weapon) return;
 
         var multiplier = 1f + (weapon.addedDefense.Value + who.resilience);
         _SetDamage ??= args.GetType().RequireField("damage").CompileUnboundFieldSetterDelegate<object, int>();

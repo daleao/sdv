@@ -82,7 +82,7 @@ internal abstract class TreasureHunt : ITreasureHunt
     #region protected methods
 
     /// <summary>Roll the dice for a new treasure hunt or adjust the odds for the next attempt.</summary>
-    /// <returns><see langword="true"> if the dice roll was successful, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if the dice roll was successful, otherwise <see langword="false"/>.</returns>
     protected bool TryStart()
     {
         if (IsActive) return false;
@@ -100,7 +100,7 @@ internal abstract class TreasureHunt : ITreasureHunt
     /// <summary>Check if a treasure hunt can be started immediately and adjust the odds for the next attempt.</summary>
     protected virtual void ForceStart()
     {
-        if (IsActive) throw new InvalidOperationException("A Treasure Hunt is already active in this instance.");
+        if (IsActive) ThrowHelper.ThrowInvalidOperationException("A Treasure Hunt is already active in this instance.");
         _chanceAccumulator = 1.0;
     }
 

@@ -13,7 +13,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
-using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using System;
 using System.Reflection;
@@ -26,17 +25,16 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
     private delegate void DrawHorizontalPartitionDelegate(IClickableMenu instance, SpriteBatch b, int yPosition,
         bool small = false, int red = -1, int green = -1, int blue = -1);
 
-    private static readonly Func<PondQueryMenu, string> _GetDisplayedText = typeof(PondQueryMenu)
-        .RequireMethod("getDisplayedText").CompileUnboundDelegate<Func<PondQueryMenu, string>>();
+    private static readonly Lazy<Func<PondQueryMenu, string>> _GetDisplayedText = new(() =>
+        typeof(PondQueryMenu).RequireMethod("getDisplayedText").CompileUnboundDelegate<Func<PondQueryMenu, string>>());
 
-    private static readonly Func<PondQueryMenu, string, int> _MeasureExtraTextHeight = typeof(PondQueryMenu)
-        .RequireMethod("measureExtraTextHeight").CompileUnboundDelegate<Func<PondQueryMenu, string, int>>();
+    private static readonly Lazy<Func<PondQueryMenu, string, int>> _MeasureExtraTextHeight = new(() =>
+        typeof(PondQueryMenu).RequireMethod("measureExtraTextHeight")
+            .CompileUnboundDelegate<Func<PondQueryMenu, string, int>>());
 
-    private static readonly DrawHorizontalPartitionDelegate _DrawHorizontalPartition = typeof(PondQueryMenu)
-        .RequireMethod("drawHorizontalPartition").CompileUnboundDelegate<DrawHorizontalPartitionDelegate>();
-
-    private static readonly Func<FishPond, FishPondData?> _GetFishPondData = typeof(FishPond).RequireField("_fishPondData")
-        .CompileUnboundFieldGetterDelegate<FishPond, FishPondData?>();
+    private static readonly Lazy<DrawHorizontalPartitionDelegate> _DrawHorizontalPartition = new(() =>
+        typeof(PondQueryMenu).RequireMethod("drawHorizontalPartition")
+            .CompileUnboundDelegate<DrawHorizontalPartitionDelegate>());
 
     /// <summary>Construct an instance.</summary>
     internal PondQueryMenuDrawPatch()
@@ -87,11 +85,11 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                     x: Game1.uiViewport.Width / 2 - textSize.X * 0.5f,
                     y: __instance.yPositionOnScreen - 4 + 160f - textSize.Y * 0.5f), Color.Black
             );
-            var displayedText = _GetDisplayedText(__instance);
+            var displayedText = _GetDisplayedText.Value(__instance);
             var extraHeight = 0;
             if (hasUnresolvedNeeds) extraHeight += 116;
 
-            var extraTextHeight = _MeasureExtraTextHeight(__instance, displayedText);
+            var extraTextHeight = _MeasureExtraTextHeight.Value(__instance, displayedText);
             Game1.drawDialogueBox(
                 x: __instance.xPositionOnScreen,
                 y: __instance.yPositionOnScreen + 128,
@@ -322,7 +320,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
 
             if (hasUnresolvedNeeds)
             {
-                _DrawHorizontalPartition(__instance, b, (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
+                _DrawHorizontalPartition.Value(__instance, b, (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
                 StardewValley.Utility.drawWithShadow(
                     b: b,
                     texture: Game1.mouseCursors,

@@ -1,6 +1,4 @@
-﻿using StardewValley;
-
-#region using directives
+﻿#region using directives
 
 namespace DaLion.Common.Extensions.Stardew;
 

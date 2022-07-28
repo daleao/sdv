@@ -2,11 +2,11 @@
 
 #region using directives
 
+using Common.Exceptions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Objects;
-using System;
 
 #endregion using directives
 
@@ -32,7 +32,7 @@ internal sealed class RingDrawInMenuPatch : Common.Harmony.HarmonyPatch
         bool drawShadow)
     {
         // its a stub so it has no initial content
-        throw new NotImplementedException("It's a stub.");
+        ThrowHelperExtensions.ThrowNotImplementedException("It's a stub.");
     }
 
     #endregion harmony patches

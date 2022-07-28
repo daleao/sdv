@@ -55,7 +55,7 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
                             ModDataIO.Read<int>(__instance, "GreenAlgaeLivingHere") +
                             ModDataIO.Read<int>(__instance, "WhiteAlgaeLivingHere");
                 if (total != __instance.FishCount)
-                    throw new InvalidDataException("Mismatch between algae population data and actual population.");
+                    ThrowHelper.ThrowInvalidDataException("Mismatch between algae population data and actual population.");
 
                 return;
             }
@@ -85,7 +85,7 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
             {
                 familyCount = ModDataIO.Read<int>(__instance, "FamilyLivingHere");
                 if (0 > familyCount || familyCount > __instance.FishCount)
-                    throw new InvalidDataException(
+                    ThrowHelper.ThrowInvalidDataException(
                         "FamilyLivingHere data is negative or greater than actual population.");
 
                 if (familyCount > 0 &&
@@ -104,7 +104,7 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
                 .ParseList<int>()!;
             if (qualities.Count != 4 ||
                 qualities.Sum() != (forFamily ? familyCount : __instance.FishCount - familyCount - 1))
-                throw new InvalidDataException("Mismatch between FishQualities data and actual population.");
+                ThrowHelper.ThrowInvalidDataException("Mismatch between FishQualities data and actual population.");
 
             if (qualities.Sum() == 0)
             {

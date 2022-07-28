@@ -29,7 +29,7 @@ public class DemonicEnchantment : BaseWeaponEnchantment
     {
         var sword = who.CurrentTool as MeleeWeapon;
         if (sword?.hasEnchantmentOfType<DemonicEnchantment>() != true)
-            throw new InvalidOperationException("Current tool does not have Demonic Enchantment");
+            ThrowHelper.ThrowInvalidOperationException("Current tool does not have Demonic Enchantment");
 
         ModDataIO.Increment<uint>(sword, "EnemiesSlain");
     }

@@ -41,7 +41,7 @@ internal sealed class FishPondDayUpdatePatch : Common.Harmony.HarmonyPatch
             var heldMetals =
                 ModDataIO.Read(__instance, "MetalsHeld")
                     .ParseList<string>(";")?
-                    .Select(li => li.ParseTuple<int, int>())
+                    .Select(li => li?.ParseTuple<int, int>())
                     .WhereNotNull()
                     .ToList() ?? new List<(int, int)>();
             for (var i = 0; i < heldMetals.Count; ++i)

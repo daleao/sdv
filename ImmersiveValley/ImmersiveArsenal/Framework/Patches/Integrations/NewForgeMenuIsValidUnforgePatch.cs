@@ -25,9 +25,7 @@ internal sealed class NewForgeMenuIsValidUnforgePatch : Common.Harmony.HarmonyPa
     [HarmonyPostfix]
     private static void NewForgeMenuIsValidUnforgePostfix(IClickableMenu __instance, ref bool __result)
     {
-        SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot ??= "SpaceCore.Interface.NewForgeMenu".ToType().RequireField("leftIngredientSpot")
-            .CompileUnboundFieldGetterDelegate<IClickableMenu, ClickableTextureComponent>();
-        var item = SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot(__instance).item;
+        var item = SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot.Value(__instance).item;
         __result = item switch
         {
             Slingshot slingshot when slingshot.GetTotalForgeLevels() > 0 => true,

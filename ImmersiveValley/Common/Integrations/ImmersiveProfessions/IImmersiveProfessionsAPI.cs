@@ -46,7 +46,7 @@ public interface IImmersiveProfessionsAPI
 
     /// <inheritdoc cref="IImmersiveProfessions.ITreasureHunt.Fail"/>
     /// <param name="type">The type of treasure hunt.</param>
-    /// <returns><see langword="false"> if the <see cref="IImmersiveProfessions.ITreasureHunt"/> instance was not active, otherwise <see langword="true">.</returns>
+    /// <returns><see langword="false"/> if the <see cref="IImmersiveProfessions.ITreasureHunt"/> instance was not active, otherwise <see langword="true"/>.</returns>
     bool InterruptActiveHunt(IImmersiveProfessions.TreasureHuntType type);
 
     /// <summary>Register a new <see cref="TreasureHuntStartedEvent"/> instance.</summary>

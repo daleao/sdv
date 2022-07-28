@@ -90,7 +90,7 @@ public class Profession : SmartEnum<Profession>, IProfession
     /// <summary>Get the profession corresponding to the specified localized name.</summary>
     /// <param name="name">A localized profession name.</param>
     /// <param name="ignoreCase">Whether to ignore capitalization.</param>
-    /// <returns><see langword="true"> if a matching profession was found, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if a matching profession was found, otherwise <see langword="false"/>.</returns>
     public static bool TryFromLocalizedName(string name, bool ignoreCase, [NotNullWhen(true)] out Profession? result)
     {
         var stringComparison = ignoreCase

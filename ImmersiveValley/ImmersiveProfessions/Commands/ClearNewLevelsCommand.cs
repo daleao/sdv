@@ -43,8 +43,8 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
                 {
                     var customSkill = ModEntry.CustomSkills.Values.Single(s =>
                         string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
-                    var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels();
-                    ExtendedSpaceCoreAPI.SetCustomSkillNewLevels(newLevels
+                    var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.Value();
+                    ExtendedSpaceCoreAPI.SetCustomSkillNewLevels.Value(newLevels
                         .Where(pair => pair.Key != customSkill.StringId).ToList());
                 }
                 else

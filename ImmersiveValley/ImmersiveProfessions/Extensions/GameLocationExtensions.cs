@@ -47,7 +47,7 @@ public static class GameLocationExtensions
     /// <summary>Find a character with the specified hash code in this location.</summary>
     /// <typeparam name="T">A subtype of <see cref="Character"/>.</typeparam>
     /// <param name="hash">An integer hash code.</param>
-    /// <returns><see langword="true"> if a character with the specified hash was found, otherwise <see langword="false">.</returns>
+    /// <returns><see langword="true"/> if a character with the specified hash was found, otherwise <see langword="false"/>.</returns>
     public static bool TryGetCharacterByHash<T>(this GameLocation location, int hash, [NotNullWhen(true)] out T? character) where T : Character
     {
         character = location.characters.OfType<T>().FirstOrDefault(c => c.GetHashCode() == hash);
@@ -92,20 +92,20 @@ public static class GameLocationExtensions
     /// <param name="tile">The tile to check.</param>
     public static bool IsTileValidForTreasure(this GameLocation location, Vector2 tile) =>
         (!location.objects.TryGetValue(tile, out var o) || o == null) &&
-        location.doesTileHaveProperty((int) tile.X, (int) tile.Y, "Spawnable", "Back") != null &&
-        !location.doesEitherTileOrTileIndexPropertyEqual((int) tile.X, (int) tile.Y, "Spawnable", "Back", "F") &&
+        location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Spawnable", "Back") != null &&
+        !location.doesEitherTileOrTileIndexPropertyEqual((int)tile.X, (int)tile.Y, "Spawnable", "Back", "F") &&
         location.isTileLocationTotallyClearAndPlaceable(tile) &&
-        location.getTileIndexAt((int) tile.X, (int) tile.Y, "AlwaysFront") == -1 &&
-        location.getTileIndexAt((int) tile.X, (int) tile.Y, "Front") == -1 && !location.isBehindBush(tile) &&
+        location.getTileIndexAt((int)tile.X, (int)tile.Y, "AlwaysFront") == -1 &&
+        location.getTileIndexAt((int)tile.X, (int)tile.Y, "Front") == -1 && !location.isBehindBush(tile) &&
         !location.isBehindTree(tile);
 
     /// <summary>Check if a tile is clear of debris.</summary>
     /// <param name="tile">The tile to check.</param>
     public static bool IsTileClearOfDebris(this GameLocation location, Vector2 tile) =>
         (from debris in location.debris
-            where debris.item is not null && debris.Chunks.Count > 0
-            select new Vector2((int) (debris.Chunks[0].position.X / Game1.tileSize) + 1,
-                (int) (debris.Chunks[0].position.Y / Game1.tileSize) + 1)).All(debrisTile => debrisTile != tile);
+         where debris.item is not null && debris.Chunks.Count > 0
+         select new Vector2((int)(debris.Chunks[0].position.X / Game1.tileSize) + 1,
+             (int)(debris.Chunks[0].position.Y / Game1.tileSize) + 1)).All(debrisTile => debrisTile != tile);
 
     /// <summary>Force a tile to be affected by the hoe.</summary>
     /// <param name="tile">The tile to change.</param>

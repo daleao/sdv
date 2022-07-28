@@ -15,9 +15,9 @@ public static class KeybindListExtensions
     /// <param name="b">A <see cref="KeybindList"/> to compare with.</param>
     public static bool HasCommonKeybind(this KeybindList a, KeybindList b) =>
         (from keybindA in a.Keybinds
-            from keybindB in b.Keybinds
-            let buttonsA = new HashSet<SButton>(keybindA.Buttons)
-            let buttonsB = new HashSet<SButton>(keybindB.Buttons)
-            where buttonsA.SetEquals(buttonsB)
-            select buttonsA).Any();
+         from keybindB in b.Keybinds
+         let buttonsA = new HashSet<SButton>(keybindA.Buttons)
+         let buttonsB = new HashSet<SButton>(keybindB.Buttons)
+         where buttonsA.SetEquals(buttonsB)
+         select buttonsA).Any();
 }

@@ -30,13 +30,13 @@ public static class TypeExtensions
     /// <summary>Get a constructor and assert that it was found.</summary>
     public static ConstructorInfo RequireConstructor(this Type type) =>
         AccessTools.Constructor(type) ??
-        throw new MissingMethodException($"Couldn't find constructor for type {type.FullName}.");
+        ThrowHelper.ThrowMissingMethodException<ConstructorInfo>($"Couldn't find constructor for type {type.FullName}.");
 
     /// <summary>Get a constructor and assert that it was found.</summary>
     /// <param name="parameters">The method parameter types, or <c>null</c> if it's not overloaded.</param>
     public static ConstructorInfo RequireConstructor(this Type type, params Type[]? parameters) =>
         AccessTools.Constructor(type, parameters) ??
-        throw new MissingMethodException(
+        ThrowHelper.ThrowMissingMethodException<ConstructorInfo>(
             $"Couldn't find constructor {parameters.Description()} for type {type.FullName}.");
 
     /// <summary>Get a constructor and assert that it was found.</summary>
@@ -50,33 +50,33 @@ public static class TypeExtensions
     /// <param name="name">The method name.</param>
     public static MethodInfo RequireMethod(this Type type, string name) =>
         AccessTools.Method(type, name) ??
-        throw new MissingMethodException($"Couldn't find method {name} in type {type.FullName}.");
+        ThrowHelper.ThrowMissingMethodException<MethodInfo>($"Couldn't find method {name} in type {type.FullName}.");
 
     /// <summary>Get a method and assert that it was found.</summary>
     /// <param name="name">The method name.</param>
     /// <param name="parameters">The method parameter types, or <c>null</c> if it's not overloaded.</param>
     public static MethodInfo RequireMethod(this Type type, string name, Type[]? parameters) =>
         AccessTools.Method(type, name, parameters) ??
-        throw new MissingMethodException(
+        ThrowHelper.ThrowMissingMethodException<MethodInfo>(
             $"Couldn't find method {name} {parameters.Description()} in type {type.FullName}.");
 
     /// <summary>Get a field and assert that it was found.</summary>
     /// <param name="name">The field name.</param>
     public static FieldInfo RequireField(this Type type, string name) =>
         AccessTools.Field(type, name) ??
-        throw new MissingFieldException($"Couldnd't find field {name} in type {type.FullName}.");
+        ThrowHelper.ThrowMissingFieldException<FieldInfo>($"Couldnd't find field {name} in type {type.FullName}.");
 
     /// <summary>Get a property getter and assert that it was found.</summary>
     /// <param name="name">The property name.</param>
     public static MethodInfo RequirePropertyGetter(this Type type, string name) =>
         AccessTools.Property(type, name)?.GetGetMethod(true) ??
-        throw new MissingMethodException($"Couldn't find property getter {name} in type {type.FullName}.");
+        ThrowHelper.ThrowMissingMethodException<MethodInfo>($"Couldn't find property getter {name} in type {type.FullName}.");
 
     /// <summary>Get a property setter and assert that it was found.</summary>
     /// <param name="name">The property name.</param>
     public static MethodInfo RequirePropertySetter(this Type type, string name) =>
         AccessTools.Property(type, name)?.GetSetMethod(true) ??
-        throw new MissingMethodException($"Couldn't find property setter {name} in type {type.FullName}.");
+        ThrowHelper.ThrowMissingMethodException<MethodInfo>($"Couldn't find property setter {name} in type {type.FullName}.");
 
     /// <summary>Get all inner types of a given type.</summary>
     /// <param name="parent">The parent type.</param>
@@ -97,7 +97,7 @@ public static class TypeExtensions
             .Where(m => prefix == "*" || m.Name.StartsWith(prefix))
             .ToList();
         if (methods.Count <= 0)
-            throw new MissingMethodException(
+            ThrowHelper.ThrowMissingMethodException(
                 $"Couldn't find method starting with {prefix} in any inner type of {type.FullName}.");
         return methods;
     }
