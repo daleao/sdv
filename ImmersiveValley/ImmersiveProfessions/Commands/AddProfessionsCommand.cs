@@ -71,7 +71,7 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
             }
             else
             {
-                var customProfession = ModEntry.CustomProfessions.Values.SingleOrDefault(p =>
+                var customProfession = ModEntry.CustomProfessions.Values.FirstOrDefault(p =>
                     string.Equals(arg, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
                     string.Equals(arg, p.GetDisplayName().TrimAll(), StringComparison.InvariantCultureIgnoreCase));
                 if (customProfession is null)

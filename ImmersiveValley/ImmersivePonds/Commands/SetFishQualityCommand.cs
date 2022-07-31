@@ -5,7 +5,7 @@
 using Common;
 using Common.Commands;
 using Common.Enums;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using StardewValley.Buildings;
 using System.Linq;
@@ -73,23 +73,23 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
             return;
         }
 
-        var familyCount = ModDataIO.Read<int>(nearest, "FamilyLivingHere");
+        var familyCount = nearest.Read<int>("FamilyLivingHere");
         var familyQualities = new int[4];
         if (familyCount > nearest.FishCount)
         {
             Log.W("FamilyLivingHere data is invalid. The data will be reset.");
             familyCount = 0;
-            ModDataIO.Write(nearest, "FamilyLivingHere", null);
+            nearest.Write("FamilyLivingHere", null);
         }
 
         if (familyCount > 0)
         {
             familyQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += familyCount;
-            ModDataIO.Write(nearest, "FamilyQualities", string.Join(',', familyQualities));
+            nearest.Write("FamilyQualities", string.Join(',', familyQualities));
         }
 
         var fishQualities = new int[4];
         fishQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += nearest.FishCount - familyCount;
-        ModDataIO.Write(nearest, "FishQualities", string.Join(',', fishQualities));
+        nearest.Write("FishQualities", string.Join(',', fishQualities));
     }
 }

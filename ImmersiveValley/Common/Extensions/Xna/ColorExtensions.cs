@@ -116,7 +116,7 @@ public static class ColorExtensions
                 color.G = (byte)p;
                 color.B = (byte)q;
                 break;
-        };
+        }
 
         return color;
     }

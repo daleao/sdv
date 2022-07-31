@@ -5,7 +5,7 @@
 using Common.Events;
 using Common.Extensions;
 using Common.Extensions.Collections;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using StardewModdingAPI.Events;
 using System.Linq;
 
@@ -22,7 +22,7 @@ internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        var forgottenRecipes = ModDataIO.Read(Game1.player, "ForgottenRecipesDict")
+        var forgottenRecipes = Game1.player.Read("ForgottenRecipesDict")
             .ParseDictionary<string, int>();
         if (forgottenRecipes.Count <= 0)
         {
@@ -45,7 +45,7 @@ internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
             }
         }
 
-        ModDataIO.Write(Game1.player, "ForgottenRecipesDict", forgottenRecipes.Count > 0
+        Game1.player.Write("ForgottenRecipesDict", forgottenRecipes.Count > 0
             ? forgottenRecipes.Stringify()
             : null);
         Disable();

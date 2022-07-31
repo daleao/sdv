@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Common;
-using DaLion.Common.ModData;
+using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Monsters;
 using System;
@@ -32,7 +32,7 @@ internal sealed class NPCWithinPlayerThresholdPatch : DaLion.Common.Harmony.Harm
         {
             if (__instance is not Monster) return true; // run original method
 
-            var player = Game1.getFarmer(ModDataIO.Read(__instance, "Target", Game1.player.UniqueMultiplayerID));
+            var player = Game1.getFarmer(__instance.Read("Target", Game1.player.UniqueMultiplayerID));
             if (!player.IsLocalPlayer || player.get_Ultimate() is not Ambush { IsActive: true })
                 return true; // run original method
 

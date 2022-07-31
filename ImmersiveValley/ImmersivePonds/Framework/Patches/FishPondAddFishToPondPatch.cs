@@ -4,7 +4,7 @@
 
 using Common;
 using Common.Extensions;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
 using StardewValley.Buildings;
@@ -32,50 +32,50 @@ internal sealed class FishPondAddFishToPondPatch : Common.Harmony.HarmonyPatch
         {
             if (fish.HasContextTag("fish_legendary") && fish.ParentSheetIndex != __instance.fishType.Value)
             {
-                var familyQualities = ModDataIO
-                    .Read(__instance, "FamilyQualities", $"{ModDataIO.Read<int>(__instance, "FamilyLivingHere")},0,0,0")
-                    .ParseList<int>()!;
+                var familyQualities = __instance
+                    .Read("FamilyQualities", $"{__instance.Read<int>("FamilyLivingHere")},0,0,0")
+                    .ParseList<int>();
                 if (familyQualities.Count != 4 ||
-                    familyQualities.Sum() != ModDataIO.Read<int>(__instance, "FamilyLivingHere"))
+                    familyQualities.Sum() != __instance.Read<int>("FamilyLivingHere"))
                     ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
 
                 ++familyQualities[fish.Quality == 4 ? 3 : fish.Quality];
-                ModDataIO.Increment<int>(__instance, "FamilyLivingHere");
-                ModDataIO.Write(__instance, "FamilyQualities", string.Join(',', familyQualities));
+                __instance.Increment("FamilyLivingHere");
+                __instance.Write("FamilyQualities", string.Join(',', familyQualities));
             }
             else if (fish.IsAlgae())
             {
                 switch (fish.ParentSheetIndex)
                 {
                     case Constants.SEAWEED_INDEX_I:
-                        ModDataIO.Increment<int>(__instance, "SeaweedLivingHere");
+                        __instance.Increment("SeaweedLivingHere");
                         break;
                     case Constants.GREEN_ALGAE_INDEX_I:
-                        ModDataIO.Increment<int>(__instance, "GreenAlgaeLivingHere");
+                        __instance.Increment("GreenAlgaeLivingHere");
                         break;
                     case Constants.WHITE_ALGAE_INDEX_I:
-                        ModDataIO.Increment<int>(__instance, "WhiteAlgaeLivingHere");
+                        __instance.Increment("WhiteAlgaeLivingHere");
                         break;
                 }
             }
             else
             {
-                var fishQualities = ModDataIO.Read(__instance, "FishQualities",
-                        $"{__instance.FishCount - ModDataIO.Read<int>(__instance, "FamilyLivingHere") - 1},0,0,0") // already added at this point, so consider - 1
-                    .ParseList<int>()!;
+                var fishQualities = __instance.Read("FishQualities",
+                        $"{__instance.FishCount - __instance.Read<int>("FamilyLivingHere") - 1},0,0,0") // already added at this point, so consider - 1
+                    .ParseList<int>();
                 if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > __instance.FishCount - 1))
                     ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
 
                 ++fishQualities[fish.Quality == 4 ? 3 : fish.Quality];
-                ModDataIO.Write(__instance, "FishQualities", string.Join(',', fishQualities));
+                __instance.Write("FishQualities", string.Join(',', fishQualities));
             }
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            ModDataIO.Write(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
-            ModDataIO.Write(__instance, "FamilyQualities", null);
-            ModDataIO.Write(__instance, "FamilyLivingHere", null);
+            __instance.Write("FishQualities", $"{__instance.FishCount},0,0,0");
+            __instance.Write("FamilyQualities", null);
+            __instance.Write("FamilyLivingHere", null);
         }
     }
 

@@ -6,8 +6,8 @@ using Common;
 using Common.Extensions;
 using Common.Extensions.Collections;
 using Common.Extensions.Reflection;
+using Common.Extensions.Stardew;
 using Common.Harmony;
-using Common.ModData;
 using Extensions;
 using HarmonyLib;
 using StardewValley.Buildings;
@@ -39,7 +39,7 @@ internal sealed class FishPondDayUpdatePatch : Common.Harmony.HarmonyPatch
         if (__instance.HasRadioactiveFish())
         {
             var heldMetals =
-                ModDataIO.Read(__instance, "MetalsHeld")
+                __instance.Read("MetalsHeld")
                     .ParseList<string>(";")?
                     .Select(li => li?.ParseTuple<int, int>())
                     .WhereNotNull()
@@ -50,7 +50,7 @@ internal sealed class FishPondDayUpdatePatch : Common.Harmony.HarmonyPatch
                 heldMetals[i] = (metal, --daysLeft);
             }
 
-            ModDataIO.Write(__instance, "MetalsHeld",
+            __instance.Write("MetalsHeld",
                 string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
         }
 
@@ -131,8 +131,8 @@ internal sealed class FishPondDayUpdatePatch : Common.Harmony.HarmonyPatch
         var r = new Random(Guid.NewGuid().GetHashCode());
 
         // if pond is empty, spontaneously grow algae/seaweed
-        ModDataIO.Increment<int>(__instance, "DaysEmpty");
-        if (ModDataIO.Read<int>(__instance, "DaysEmpty") < ModEntry.Config.DaysUntilAlgaeSpawn + 1) return;
+        __instance.Increment("DaysEmpty");
+        if (__instance.Read<int>("DaysEmpty") < ModEntry.Config.DaysUntilAlgaeSpawn + 1) return;
 
         var spawned = Utils.ChooseAlgae(r: r);
         __instance.fishType.Value = spawned;
@@ -143,17 +143,17 @@ internal sealed class FishPondDayUpdatePatch : Common.Harmony.HarmonyPatch
         switch (spawned)
         {
             case Constants.SEAWEED_INDEX_I:
-                ModDataIO.Increment<int>(__instance, "SeaweedLivingHere");
+                __instance.Increment("SeaweedLivingHere");
                 break;
             case Constants.GREEN_ALGAE_INDEX_I:
-                ModDataIO.Increment<int>(__instance, "GreenAlgaeLivingHere");
+                __instance.Increment("GreenAlgaeLivingHere");
                 break;
             case Constants.WHITE_ALGAE_INDEX_I:
-                ModDataIO.Increment<int>(__instance, "WhiteAlgaeLivingHere");
+                __instance.Increment("WhiteAlgaeLivingHere");
                 break;
         }
 
-        ModDataIO.Write(__instance, "DaysEmpty", null);
+        __instance.Write("DaysEmpty", null);
     }
 
     /// <summary>Removes population-based roll from <see cref="FishPond.dayUpdate"/> (moved to <see cref="FishPond.GetFishProduce"/>).</summary>

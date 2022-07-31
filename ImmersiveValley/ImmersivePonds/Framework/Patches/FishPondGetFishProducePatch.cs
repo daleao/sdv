@@ -5,7 +5,7 @@
 using Common;
 using Common.Extensions;
 using Common.Extensions.Collections;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -13,7 +13,6 @@ using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -49,19 +48,19 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
             {
                 var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
 
-                var population = ModDataIO.Read<int>(__instance, "GreenAlgaeLivingHere");
+                var population = __instance.Read<int>("GreenAlgaeLivingHere");
                 var chance = StardewValley.Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                     if (random.NextDouble() < chance)
                         ++algaeStacks[0];
 
-                population = ModDataIO.Read<int>(__instance, "WhiteAlgaeLivingHere");
+                population = __instance.Read<int>("WhiteAlgaeLivingHere");
                 chance = StardewValley.Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                     if (random.NextDouble() < chance)
                         ++algaeStacks[1];
 
-                population = ModDataIO.Read<int>(__instance, "SeaweedLivingHere");
+                population = __instance.Read<int>("SeaweedLivingHere");
                 chance = StardewValley.Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                     if (random.NextDouble() < chance)
@@ -104,7 +103,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
 
                 if (__result is not null) held.Remove(__result);
                 var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},0");
-                ModDataIO.Write(__instance, "ItemsHeld", string.Join(';', serialized));
+                __instance.Write("ItemsHeld", string.Join(';', serialized));
                 return false; // don't run original logic
             }
 
@@ -152,14 +151,14 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
             }
             else
             {
-                var fishQualities = ModDataIO.Read(__instance, "FishQualities",
-                        $"{__instance.FishCount - ModDataIO.Read<int>(__instance, "FamilyLivingHere")},0,0,0")
-                    .ParseList<int>()!;
+                var fishQualities = __instance.Read("FishQualities",
+                        $"{__instance.FishCount - __instance.Read<int>("FamilyLivingHere")},0,0,0")
+                    .ParseList<int>();
                 if (fishQualities.Count != 4)
                     ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
 
                 var familyQualities =
-                    ModDataIO.Read(__instance, "FamilyQualities", "0,0,0,0").ParseList<int>()!;
+                    __instance.Read("FamilyQualities", "0,0,0,0").ParseList<int>();
                 if (familyQualities.Count != 4)
                     ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
 
@@ -190,11 +189,11 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                 if (__instance.HasRadioactiveFish())
                 {
                     var heldMetals =
-                        ModDataIO.Read(__instance, "MetalsHeld")
-                            .ParseList<string>(";")?
+                        __instance.Read("MetalsHeld")
+                            .ParseList<string>(";")
                             .Select(li => li?.ParseTuple<int, int>())
                             .WhereNotNull()
-                            .ToList() ?? new List<(int, int)>();
+                            .ToList();
                     var readyToHarvest = heldMetals.Where(m => m.Item2 <= 0).ToList();
                     if (readyToHarvest.Count > 0)
                     {
@@ -205,7 +204,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                         heldMetals = heldMetals.Except(readyToHarvest).ToList();
                     }
 
-                    ModDataIO.Write(__instance, "MetalsHeld",
+                    __instance.Write("MetalsHeld",
                         string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
                 }
             }
@@ -219,18 +218,18 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
             if (held.Count > 0)
             {
                 var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},{((SObject)p).Quality}");
-                ModDataIO.Write(__instance, "ItemsHeld", string.Join(';', serialized));
+                __instance.Write("ItemsHeld", string.Join(';', serialized));
             }
             else
             {
-                ModDataIO.Write(__instance, "ItemsHeld", null);
+                __instance.Write("ItemsHeld", null);
             }
 
             if (__result!.ParentSheetIndex != Constants.ROE_INDEX_I) return false; // don't run original logic
 
             var fishIndex = fish.ParentSheetIndex;
             if (fish.IsLegendary() && random.NextDouble() <
-                ModDataIO.Read<double>(__instance, "FamilyLivingHere") / __instance.FishCount)
+                __instance.Read<double>("FamilyLivingHere") / __instance.FishCount)
                 fishIndex = Utils.ExtendedFamilyPairs[fishIndex];
 
             var split = Game1.objectInformation[fishIndex].Split('/');
@@ -250,9 +249,9 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            ModDataIO.Write(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
-            ModDataIO.Write(__instance, "FamilyQualities", null);
-            ModDataIO.Write(__instance, "FamilyLivingHere", null);
+            __instance.Write("FishQualities", $"{__instance.FishCount},0,0,0");
+            __instance.Write("FamilyQualities", null);
+            __instance.Write("FamilyLivingHere", null);
             return true; // default to original logic
         }
         catch (Exception ex)

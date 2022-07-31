@@ -6,7 +6,7 @@ using Common;
 using Common.Extensions;
 using Common.Extensions.Collections;
 using Common.Extensions.Reflection;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
@@ -70,7 +70,7 @@ public static class FishPondExtensions
     /// <param name="who">The player.</param>
     public static void RewardExp(this FishPond pond, Farmer who)
     {
-        if (ModDataIO.Read<bool>(pond, "CheckedToday")) return;
+        if (pond.Read<bool>("CheckedToday")) return;
 
         var bonus = (int)(pond.output.Value is SObject @object
             ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
@@ -130,11 +130,11 @@ public static class FishPondExtensions
             catch (InvalidOperationException ex)
             {
                 Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-                ModDataIO.Write(pond, "ItemsHeld", null);
+                pond.Write("ItemsHeld", null);
             }
         }
 
-        ModDataIO.Write(pond, "CheckedToday", true.ToString());
+        pond.Write("CheckedToday", true.ToString());
         return true; // expected by vanilla code
     }
 
@@ -142,7 +142,7 @@ public static class FishPondExtensions
     /// <param name="pond">The <see cref="FishPond"/>.</param>
     /// <param name="field">The data field.</param>
     internal static List<Item> DeserializeObjectListData(this FishPond pond, string field) =>
-        ModDataIO.Read(pond, field)
+        pond.Read(field)
             .ParseList<string>(";")?
             .Select(s => s?.ParseTuple<int, int, int>())
             .WhereNotNull()

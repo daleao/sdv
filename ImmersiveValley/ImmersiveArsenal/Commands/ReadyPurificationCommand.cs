@@ -4,7 +4,7 @@
 
 using Common;
 using Common.Commands;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using StardewValley.Tools;
 using System.Linq;
 
@@ -37,6 +37,6 @@ internal sealed class ReadyPurificationCommand : ConsoleCommand
             return;
         }
 
-        ModDataIO.Write(darkSword, "EnemiesSlain", ModEntry.Config.RequiredKillCountToPurifyDarkSword.ToString());
+        darkSword.Write("EnemiesSlain", ModEntry.Config.RequiredKillCountToPurifyDarkSword.ToString());
     }
 }

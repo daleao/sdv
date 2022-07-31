@@ -4,6 +4,7 @@
 
 using Common;
 using Common.Events;
+using Common.Extensions.Stardew;
 using Common.Harmony;
 using Common.Integrations.WalkOfLife;
 using Common.ModData;
@@ -59,6 +60,7 @@ public class ModEntry : Mod
     /// <summary>Calculate projected income tax for the player.</summary>
     private static void DoTaxes(string command, string[] args)
     {
+        var player = Game1.player;
         if (!Context.IsWorldReady)
         {
             Log.W("You must load a save before running this command.");
@@ -66,11 +68,11 @@ public class ModEntry : Mod
         }
 
         var forClosingSeason = Game1.dayOfMonth == 1;
-        var income = ModDataIO.Read<int>(Game1.player, "SeasonIncome");
-        var deductible = ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.mariner)
+        var income = player.Read<int>("SeasonIncome");
+        var deductible = ProfessionsAPI is not null && player.professions.Contains(Farmer.mariner)
             ? forClosingSeason
-                ? ModDataIO.Read<float>(Game1.player, "DeductionPct")
-                : ProfessionsAPI.GetConservationistProjectedTaxBonus(Game1.player)
+                ? player.Read<float>("DeductionPct")
+                : ProfessionsAPI.GetConservationistProjectedTaxBonus(player)
             : 0f;
         var taxable = (int)(income * (1f - deductible));
         var bracket = Framework.Utils.GetTaxBracket(taxable);

@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Tools;
 
@@ -27,7 +27,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : Common.Harmony.Harm
     {
         if (ModEntry.Config.TopazPerk != ModConfig.Perk.Cooldown) return;
 
-        var cdr = ModDataIO.Read<float>(__instance.getLastFarmerToUse(), "CooldownReduction");
+        var cdr = __instance.getLastFarmerToUse().Read<float>("CooldownReduction");
         if (cdr <= 0f) return;
 
         if (MeleeWeapon.attackSwordCooldown > 0)

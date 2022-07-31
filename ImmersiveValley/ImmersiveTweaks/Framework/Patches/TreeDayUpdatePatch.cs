@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
@@ -25,7 +25,7 @@ internal sealed class TreeDayUpdatePatch : Common.Harmony.HarmonyPatch
     private static void TreeDayUpdatePostfix(Tree __instance)
     {
         if (__instance.growthStage.Value >= Tree.treeStage && __instance.CanBeTapped() &&
-            ModEntry.Config.AgeImprovesTreeSap) ModDataIO.Increment<int>(__instance, "Age");
+            ModEntry.Config.AgeImprovesTreeSap) __instance.Increment("Age");
     }
 
     #endregion harmony patches

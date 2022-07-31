@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
@@ -27,7 +27,7 @@ internal sealed class GameLocationPerformActionPatch : Common.Harmony.HarmonyPat
     {
         if (!ModEntry.Config.InfinityPlusOneWeapons || action?.StartsWith("Yoba") != true || !who.IsLocalPlayer ||
             who.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DARK_SWORD_INDEX_I } darkSword ||
-            ModDataIO.Read<int>(darkSword, "EnemiesSlain") < ModEntry.Config.RequiredKillCountToPurifyDarkSword ||
+            darkSword.Read<int>("EnemiesSlain") < ModEntry.Config.RequiredKillCountToPurifyDarkSword ||
             who.mailReceived.Contains("holyBlade")) return true; // run original logic
 
         who.Halt();

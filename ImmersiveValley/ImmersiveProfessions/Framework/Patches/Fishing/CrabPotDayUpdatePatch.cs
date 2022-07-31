@@ -5,7 +5,6 @@
 using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Stardew;
-using DaLion.Common.ModData;
 using Extensions;
 using HarmonyLib;
 using StardewModdingAPI.Utilities;
@@ -76,12 +75,11 @@ internal sealed class CrabPotDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                     whichFish = __instance.GetTrash(location, r);
                     if (isConservationist && whichFish.IsTrashIndex())
                     {
-                        ModDataIO.Increment<uint>(owner,
-                            "ConservationistTrashCollectedThisSeason");
-                        if (owner.HasProfession(Profession.Conservationist, true) && ModDataIO.Read<uint>(owner,
-                                "ConservationistTrashCollectedThisSeason") %
-                            ModEntry.Config.TrashNeededPerFriendshipPoint == 0)
-                            StardewValley.Utility.improveFriendshipWithEveryoneInRegion(owner, 1, 2);
+                        owner.Increment("ConservationistTrashCollectedThisSeason");
+                        if (owner.HasProfession(Profession.Conservationist, true) &&
+                            owner.Read<uint>("ConservationistTrashCollectedThisSeason") %
+                            ModEntry.Config.TrashNeededPerFriendshipPoint ==
+                            0) StardewValley.Utility.improveFriendshipWithEveryoneInRegion(owner, 1, 2);
                     }
                 }
                 else

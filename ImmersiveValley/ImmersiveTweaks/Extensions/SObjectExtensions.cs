@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 
 #endregion using directives
 
@@ -21,7 +21,7 @@ public static class SObjectExtensions
     public static int GetQualityFromAge(this SObject @object)
     {
         var skillFactor = 1f + Game1.player.FarmingLevel * 0.1f;
-        var age = (int)(ModDataIO.Read<int>(@object, "Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
+        var age = (int)(@object.Read<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
 
         if (ModEntry.Config.DeterministicAgeQuality)
         {

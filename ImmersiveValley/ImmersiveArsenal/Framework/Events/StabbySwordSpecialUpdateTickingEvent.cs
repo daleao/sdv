@@ -36,6 +36,10 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
         if (_currentFrame == 0)
         {
             _BeginSpecialMove.Value(sword, user);
+
+            var trajectory = Common.Utility.VectorFromFacingDirection((FacingDirection)user.FacingDirection) * (25f + Game1.player.addedSpeed * 2.5f);
+            user.setTrajectory(trajectory);
+
             _animationFrames = sword.hasEnchantmentOfType<InfinityEnchantment>() ? 24 : 15; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
             var frame = (FacingDirection)user.FacingDirection switch
             {
@@ -48,27 +52,6 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
             };
 
             ((FarmerSprite)user.Sprite).setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
-
-            Vector2 trajectory;
-            if (ModEntry.IsCombatControlsLoaded && !Game1.options.gamepadControls)
-            {
-                trajectory = Common.Utility.GetRelativeCursorDirection() * 25f;
-            }
-            else
-            {
-                trajectory = (FacingDirection)user.FacingDirection switch
-                {
-                    FacingDirection.Up => new(0, 25f), // south
-                    FacingDirection.Right => new(25f, 0), // east
-                    FacingDirection.Down => new(0, -25f), // north
-                    FacingDirection.Left => new(-25f, 0), // west
-                    _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, Vector2>(
-                        (FacingDirection)user.FacingDirection)
-                };
-            }
-
-            trajectory *= 1f + Game1.player.addedSpeed / 10f;
-            user.setTrajectory(trajectory);
             Game1.playSound("daggerswipe");
         }
         else if (_currentFrame > _animationFrames)

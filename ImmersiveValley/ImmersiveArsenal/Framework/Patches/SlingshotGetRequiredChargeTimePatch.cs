@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Arsenal.Framework.Patches.Combat;
+﻿namespace DaLion.Stardew.Arsenal.Framework.Patches;
 
 #region using directives
 

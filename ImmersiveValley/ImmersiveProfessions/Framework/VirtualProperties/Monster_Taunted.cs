@@ -27,7 +27,7 @@ public static class Monster_Taunted
     {
         var holder = Values.GetOrCreateValue(monster);
         holder.taunter = taunter;
-        holder.fakeFarmer = new()
+        holder.fakeFarmer = taunter is null ? null : new()
         { UniqueMultiplayerID = monster.GetHashCode(), currentLocation = monster.currentLocation };
     }
 

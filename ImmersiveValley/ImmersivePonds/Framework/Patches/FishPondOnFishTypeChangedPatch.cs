@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Buildings;
 
@@ -25,15 +25,15 @@ internal sealed class FishPondOnFishTypeChangedPatch : Common.Harmony.HarmonyPat
     {
         if (__instance.fishType.Value > 0) return;
 
-        ModDataIO.Write(__instance, "FishQualities", null);
-        ModDataIO.Write(__instance, "FamilyQualities", null);
-        ModDataIO.Write(__instance, "FamilyLivingHere", null);
-        ModDataIO.Write(__instance, "DaysEmpty", 0.ToString());
-        ModDataIO.Write(__instance, "SeaweedLivingHere", null);
-        ModDataIO.Write(__instance, "GreenAlgaeLivingHere", null);
-        ModDataIO.Write(__instance, "WhiteAlgaeLivingHere", null);
-        ModDataIO.Write(__instance, "CheckedToday", null);
-        ModDataIO.Write(__instance, "ItemsHeld", null);
+        __instance.Write("FishQualities", null);
+        __instance.Write("FamilyQualities", null);
+        __instance.Write("FamilyLivingHere", null);
+        __instance.Write("DaysEmpty", 0.ToString());
+        __instance.Write("SeaweedLivingHere", null);
+        __instance.Write("GreenAlgaeLivingHere", null);
+        __instance.Write("WhiteAlgaeLivingHere", null);
+        __instance.Write("CheckedToday", null);
+        __instance.Write("ItemsHeld", null);
     }
 
     #endregion harmony patches

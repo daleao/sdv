@@ -19,19 +19,23 @@ internal sealed class SlingshotCanAutoFirePatch : DaLion.Common.Harmony.HarmonyP
     internal SlingshotCanAutoFirePatch()
     {
         Target = RequireMethod<Slingshot>(nameof(Slingshot.CanAutoFire));
+        Prefix!.priority = Priority.High;
+        Prefix!.before = new[] { "DaLion.ImmersiveArsenal" };
     }
 
     #region harmony patches
 
     /// <summary>Patch to allow auto-fire during Desperado Ultimate.</summary>
     [HarmonyPrefix]
+    [HarmonyPriority(Priority.High)]
+    [HarmonyBefore("DaLion.ImmersiveArsenal")]
     private static bool SlingshotCanAutoFirePrefix(Slingshot __instance, ref bool __result)
     {
         try
         {
             var who = __instance.getLastFarmerToUse();
             __result = who.IsLocalPlayer && who.get_Ultimate() is DeathBlossom { IsActive: true };
-            return false; // don't run original logic
+            return !__result;
         }
         catch (Exception ex)
         {

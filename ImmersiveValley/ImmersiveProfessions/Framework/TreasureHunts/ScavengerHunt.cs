@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Common.Multiplayer;
 using Events.Display;
 using Events.GameLoop;
@@ -130,7 +130,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
-        ModDataIO.Write(Game1.player, "ScavengerHuntStreak", "0");
+        Game1.player.Write("ScavengerHuntStreak", "0");
         End(false);
     }
 
@@ -171,7 +171,7 @@ internal sealed class ScavengerHunt : TreasureHunt
 
         var getTreasure = new DelayedAction(200, BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
-        ModDataIO.Increment<uint>(Game1.player, "ScavengerHuntStreak");
+        Game1.player.Increment("ScavengerHuntStreak");
         End(true);
     }
 
@@ -352,7 +352,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                             case 2:
                                 var luckModifier = 1.0 + Game1.player.DailyLuck * 10;
                                 var streak =
-                                    ModDataIO.Read<uint>(Game1.player, "ScavengerHuntStreak");
+                                    Game1.player.Read<uint>("ScavengerHuntStreak");
                                 if (random.NextDouble() < 0.025 * luckModifier &&
                                     !Game1.player.specialItems.Contains(15))
                                     treasures.Add(new MeleeWeapon(15) { specialItem = true }); // forest sword

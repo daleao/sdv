@@ -10,11 +10,11 @@ using System.Linq;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class AddEnchantmentCommand : ConsoleCommand
+internal sealed class AddEnchantmentsCommand : ConsoleCommand
 {
     /// <summary>Construct an instance.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal AddEnchantmentCommand(CommandHandler handler)
+    internal AddEnchantmentsCommand(CommandHandler handler)
         : base(handler) { }
 
     /// <inheritdoc />
@@ -26,9 +26,9 @@ internal sealed class AddEnchantmentCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (Game1.player.CurrentTool is not MeleeWeapon weapon)
+        if (Game1.player.CurrentTool is not ({ } tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod)))
         {
-            Log.W("You must select a weapon first.");
+            Log.W("You must select a tool first.");
             return;
         }
 
@@ -53,17 +53,17 @@ internal sealed class AddEnchantmentCommand : ConsoleCommand
             if (enchantment is null)
             {
                 Log.W($"Ignoring unknown enchantment {args[0]}.");
-                return;
+                continue;
             }
 
-            if (!enchantment.CanApplyTo(weapon))
+            if (!enchantment.CanApplyTo(tool))
             {
-                Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {weapon.DisplayName}.");
-                return;
+                Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
+                continue;
             }
 
-            weapon.enchantments.Add(enchantment);
-            Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {weapon.DisplayName}.");
+            tool.enchantments.Add(enchantment);
+            Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
 
             args = args.Skip(1).ToArray();
         }

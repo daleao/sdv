@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Common.Multiplayer;
 using Events.Display;
 using Events.GameLoop;
@@ -97,7 +97,7 @@ internal sealed class ProspectorHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(huntFailedMessage));
-        ModDataIO.Write(Game1.player, "ProspectorHuntStreak", "0");
+        Game1.player.Write("ProspectorHuntStreak", "0");
         End(false);
     }
 
@@ -132,7 +132,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         if (shaft.shouldCreateLadderOnThisLevel() && !shaft.GetLadderTiles().Any())
             shaft.createLadderDown((int)TreasureTile!.Value.X, (int)TreasureTile!.Value.Y);
 
-        ModDataIO.Increment<uint>(Game1.player, "ProspectorHuntStreak");
+        Game1.player.Increment("ProspectorHuntStreak");
         End(true);
     }
 
@@ -270,7 +270,7 @@ internal sealed class ProspectorHunt : TreasureHunt
 
                         case 2: // special items
                             var luckModifier = Math.Max(0, 1.0 + Game1.player.DailyLuck * mineLevel / 4);
-                            var streak = ModDataIO.Read<uint>(Game1.player, "ProspectorHuntStreak");
+                            var streak = Game1.player.Read<uint>("ProspectorHuntStreak");
                             if (random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
                                 treasuresAndQuantities.Add(-1, 1); // femur
 

@@ -15,7 +15,7 @@ internal sealed class ImmersiveProfessionsIntegration : BaseIntegration<IImmersi
     public ImmersiveProfessionsIntegration(IModRegistry modRegistry)
         : base("Immersive Professions", "DaLion.ImmersiveProfessions", "4.0.0", modRegistry) { }
 
-    /// <summary>Register the ring recipe provider.</summary>
+    /// <summary>Cache the immersive professions api.</summary>
     public void Register()
     {
         AssertLoaded();

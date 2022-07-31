@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Framework.VirtualProperties;
 using StardewValley.Monsters;
 using System;
@@ -13,7 +13,7 @@ using System;
 public static class GreenSlimeExtensions
 {
     /// <summary>Whether the Slime instance is currently jumping.</summary>
-    public static bool IsJumping(this GreenSlime slime) => !string.IsNullOrEmpty(ModDataIO.Read(slime, "Jumping"));
+    public static bool IsJumping(this GreenSlime slime) => !string.IsNullOrEmpty(slime.Read("Jumping"));
 
     /// <summary>Grow this Slime one stage.</summary>
     public static void Inflate(this GreenSlime slime)

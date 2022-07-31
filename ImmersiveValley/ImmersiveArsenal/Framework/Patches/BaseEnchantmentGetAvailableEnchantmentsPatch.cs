@@ -3,6 +3,7 @@
 #region using directives
 
 using Common.Extensions.Reflection;
+using Enchantments;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +28,36 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harm
         IEnumerable<CodeInstruction> instructions)
     {
         var l = instructions.ToList();
+        l.RemoveRange(4, 3); // remove artful enchant
         l.InsertRange(l.Count - 2, new List<CodeInstruction>
         {
             // add magic / sunburst enchant
             new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
             new(OpCodes.Newobj, typeof(MagicEnchantment).RequireConstructor()),
+            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+            // add cleaving enchant
+            new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+            new(OpCodes.Newobj, typeof(CleavingEnchantment).RequireConstructor()),
+            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+            // add energized enchant
+            new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+            new(OpCodes.Newobj, typeof(EnergizedEnchantment).RequireConstructor()),
+            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+            // add tribute enchant
+            new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+            new(OpCodes.Newobj, typeof(TributeEnchantment).RequireConstructor()),
+            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+            // add gatling enchant
+            new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+            new(OpCodes.Newobj, typeof(GatlingEnchantment).RequireConstructor()),
+            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+            // add quincy enchant
+            new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+            new(OpCodes.Newobj, typeof(QuincyEnchantment).RequireConstructor()),
+            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+            // add spreading enchant
+            new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+            new(OpCodes.Newobj, typeof(SpreadingEnchantment).RequireConstructor()),
             new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add)))
         });
 

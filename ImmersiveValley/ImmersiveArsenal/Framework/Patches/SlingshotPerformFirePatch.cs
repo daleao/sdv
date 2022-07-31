@@ -1,4 +1,7 @@
-﻿namespace DaLion.Stardew.Arsenal.Framework.Patches;
+﻿using DaLion.Stardew.Arsenal.Framework.Enchantments;
+using System.Linq;
+
+namespace DaLion.Stardew.Arsenal.Framework.Patches;
 
 #region using directives
 
@@ -41,9 +44,12 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
         {
             if (__instance.get_IsOnSpecial()) return false; // don't run original logic
 
-            if (ModEntry.IsImmersiveProfessionsLoaded) return true; // pass on to Immersive Professions
+            var hasQuincyEnchantment = __instance.hasEnchantmentOfType<QuincyEnchantment>();
+            if ((__instance.attachments[0] is not null || hasQuincyEnchantment) &&
+                ModEntry.ProfessionsApi is not null) return true; // hand over to Immersive Professions
 
-            if (__instance.attachments[0] is null)
+            if (__instance.attachments[0] is null && !hasQuincyEnchantment &&
+                !location.DoesTileHaveSnow(who.getTileLocation()))
             {
                 Game1.showRedMessage(Game1.content.LoadString("Strings\\StringsFromCSFiles:Slingshot.cs.14254"));
                 ___canPlaySound = true;
@@ -61,11 +67,11 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
             var (x, y) = StardewValley.Utility.getVelocityTowardPoint(shootOrigin, __instance.AdjustForHeight(new(mouseX, mouseY)),
                 (15 + Game1.random.Next(4, 6)) * (1f + who.weaponSpeedModifier));
 
-            var ammo = __instance.attachments[0].getOne();
-            if (--__instance.attachments[0].Stack <= 0)
+            var ammo = __instance.attachments[0]?.getOne();
+            if (ammo is not null && --__instance.attachments[0].Stack <= 0)
                 __instance.attachments[0] = null;
 
-            var damageBase = ammo.ParentSheetIndex switch
+            var damageBase = ammo?.ParentSheetIndex switch
             {
                 388 => 2, // wood
                 390 => 5, // stone
@@ -76,12 +82,13 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
                 909 => 75, // radioactive ore
                 382 => 15, // coal
                 441 => 20, // explosive
-                _ => 1
+                null => hasQuincyEnchantment ? 5 : 0, // quincy or snowball
+                _ => 1 // fish, fruit or vegetable
             };
 
             BasicProjectile.onCollisionBehavior? collisionBehavior;
             string collisionSound;
-            switch (ammo.ParentSheetIndex)
+            switch (ammo?.ParentSheetIndex)
             {
                 case 441:
                     collisionBehavior = BasicProjectile.explodeOnImpact;
@@ -90,6 +97,10 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
                 case 909:
                     collisionBehavior = null;
                     collisionSound = "hammer";
+                    break;
+                case null:
+                    collisionBehavior = null;
+                    collisionSound = hasQuincyEnchantment ? "debuffHit" : "snowyStep";
                     break;
                 default:
                     collisionBehavior = null;
@@ -114,14 +125,15 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
 
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
-            var projectile = new ImmersiveProjectile(__instance, (int)damage, ammo.ParentSheetIndex, 0, 0,
+            var index = ammo?.ParentSheetIndex ?? (__instance.hasEnchantmentOfType<QuincyEnchantment>() ? 14 : 9);
+            var projectile = new ImmersiveProjectile(__instance, (int)damage, index, 0, index == 14 ? 5 : 0,
                 (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition,
-                collisionSound, "", false, true, location, who, true, collisionBehavior)
+                collisionSound, "", false, true, location, who, ammo is not null, collisionBehavior)
             {
                 IgnoreLocationCollision = Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
             };
-            location.projectiles.Add(projectile);
 
+            location.projectiles.Add(projectile);
             ___canPlaySound = true;
             return false; // don't run original logic
 
@@ -131,6 +143,15 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
             Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
+    }
+
+    /// <summary>Patch to perform <see cref="Enchantments.BaseSlingshotEnchantment.OnFire"/> action.</summary>
+    [HarmonyPostfix]
+    private static void SlingshotPerformFirePostfix(Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
+    {
+        var projectile = location.projectiles.Last();
+        foreach (var enchantment in __instance.enchantments.OfType<BaseSlingshotEnchantment>())
+            enchantment.OnFire(__instance, projectile as BasicProjectile, location, who);
     }
 
     #endregion harmony patches

@@ -6,7 +6,7 @@ using Common;
 using Common.Attributes;
 using Common.Extensions;
 using Common.Extensions.Reflection;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
@@ -43,8 +43,8 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
             _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CompileUnboundDelegate<Func<object, FishPond>>();
             machine = _GetMachine(__instance);
 
-            var produce = ModDataIO.Read(machine, "ItemsHeld").ParseList<string>(";");
-            if (produce?.Count is not > 0)
+            var produce = machine.Read("ItemsHeld").ParseList<string>(";");
+            if (produce.Count <= 0)
             {
                 machine.output.Value = null;
             }
@@ -73,10 +73,10 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
 
                 machine.output.Value = o;
                 produce.Remove(next);
-                ModDataIO.Write(machine, "ItemsHeld", string.Join(";", produce));
+                machine.Write("ItemsHeld", string.Join(";", produce));
             }
 
-            if (ModDataIO.Read<bool>(machine, "CheckedToday")) return false; // don't run original logic
+            if (machine.Read<bool>("CheckedToday")) return false; // don't run original logic
 
             var bonus = (int)(item is StardewValley.Object @object
                 ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
@@ -86,13 +86,13 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
             _GetOwner(__instance).gainExperience(Farmer.fishingSkill,
                 FishPond.HARVEST_BASE_EXP + bonus);
 
-            ModDataIO.Write(machine, "CheckedToday", true.ToString());
+            machine.Write("CheckedToday", true.ToString());
             return false; // don't run original logic
         }
         catch (InvalidOperationException ex) when (machine is not null)
         {
             Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-            ModDataIO.Write(machine, "ItemsHeld", null);
+            machine.Write("ItemsHeld", null);
             return true; // default to original logic
         }
         catch (Exception ex)

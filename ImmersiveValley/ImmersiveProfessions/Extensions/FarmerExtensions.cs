@@ -6,7 +6,7 @@ namespace DaLion.Stardew.Professions.Extensions;
 using Common;
 using Common.Extensions;
 using Common.Extensions.Collections;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Framework;
 using Framework.Ultimates;
 using Framework.Utility;
@@ -45,9 +45,12 @@ public static class FarmerExtensions
         skill.ProfessionIds.All(farmer.professions.Contains);
 
     /// <summary>Whether the farmer has all available professions (vanilla + modded).</summary>
-    public static bool HasAllProfessions(this Farmer farmer) =>
-        Enumerable.Range(0, 30).Concat(ModEntry.CustomProfessions.Values.Select(p => p.Id))
-            .All(farmer.professions.Contains);
+    public static bool HasAllProfessions(this Farmer farmer, bool includeCustom = false)
+    {
+        var allProfessions = Enumerable.Range(0, 30);
+        if (includeCustom) allProfessions = allProfessions.Concat(ModEntry.CustomProfessions.Values.Select(p => p.Id));
+        return allProfessions.All(farmer.professions.Contains);
+    }
 
     /// <summary>Get the last 1st-tier profession acquired by the farmer in the specified skill.</summary>
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
@@ -324,7 +327,7 @@ public static class FarmerExtensions
     /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
     public static void ForgetRecipesForSkill(this Farmer farmer, Skill skill, bool addToRecoveryDict = false)
     {
-        var forgottenRecipesDict = ModDataIO.Read(farmer, "ForgottenRecipesDict")
+        var forgottenRecipesDict = farmer.Read("ForgottenRecipesDict")
             .ParseDictionary<string, int>();
 
         // remove associated crafting recipes
@@ -360,7 +363,7 @@ public static class FarmerExtensions
         }
 
         if (addToRecoveryDict)
-            ModDataIO.Write(farmer, "ForgottenRecipesDict", forgottenRecipesDict.Stringify());
+            farmer.Write("ForgottenRecipesDict", forgottenRecipesDict.Stringify());
     }
 
     /// <summary>Remove all recipes associated with the specified skill from the farmer.</summary>
@@ -368,7 +371,7 @@ public static class FarmerExtensions
     /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
     public static void ForgetRecipesForLoveOfCookingSkill(this Farmer farmer, bool addToRecoveryDict = false)
     {
-        var forgottenRecipesDict = ModDataIO.Read(farmer, "ForgottenRecipesDict")
+        var forgottenRecipesDict = farmer.Read("ForgottenRecipesDict")
             .ParseDictionary<string, int>();
 
         // remove associated cooking recipes
@@ -389,7 +392,7 @@ public static class FarmerExtensions
         }
 
         if (addToRecoveryDict)
-            ModDataIO.Write(farmer, "ForgottenRecipesDict", forgottenRecipesDict.Stringify());
+            farmer.Write("ForgottenRecipesDict", forgottenRecipesDict.Stringify());
     }
 
     /// <summary>Get all available Ultimate's not currently registered.</summary>
@@ -465,12 +468,12 @@ public static class FarmerExtensions
 
     /// <summary>The price bonus applied to all items sold by Conservationist.</summary>
     public static float GetConservationistPriceMultiplier(this Farmer farmer) =>
-        1f + ModDataIO.Read<float>(farmer, "ConservationistActiveTaxBonusPct");
+        1f + farmer.Read<float>("ConservationistActiveTaxBonusPct");
 
     /// <summary>The quality of items foraged by Ecologist.</summary>
     public static int GetEcologistForageQuality(this Farmer farmer)
     {
-        var itemsForaged = ModDataIO.Read<uint>(farmer, "EcologistItemsForaged");
+        var itemsForaged = farmer.Read<uint>("EcologistItemsForaged");
         return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
             ? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -481,7 +484,7 @@ public static class FarmerExtensions
     /// <summary>The quality of minerals collected by Gemologist.</summary>
     public static int GetGemologistMineralQuality(this Farmer farmer)
     {
-        var mineralsCollected = ModDataIO.Read<uint>(farmer, "GemologistMineralsCollected");
+        var mineralsCollected = farmer.Read<uint>("GemologistMineralsCollected");
         return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
             ? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
                 ? SObject.medQuality

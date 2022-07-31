@@ -1,11 +1,7 @@
 ﻿namespace DaLion.Stardew.Arsenal.Framework.Enchantments;
 
-#region using directives
-
-#endregion using directives
-
-/// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes Infinity weapons.</summary>
-public class InfinityEnchantment : BaseWeaponEnchantment
+/// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes the Holy Blade.</summary>
+public class HolyEnchantment : BaseWeaponEnchantment
 {
     public override bool IsSecondaryEnchantment() => true;
 

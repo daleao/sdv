@@ -4,8 +4,8 @@
 
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
 using DaLion.Common.Harmony;
-using DaLion.Common.ModData;
 using Extensions;
 using HarmonyLib;
 using System;
@@ -28,6 +28,7 @@ internal sealed class ObjectCheckForActionPatch : DaLion.Common.Harmony.HarmonyP
 
     /// <summary>Patch to remember object state.</summary>
     [HarmonyPrefix]
+    // ReSharper disable once RedundantAssignment
     private static bool ObjectCheckForActionPrefix(SObject __instance, ref bool __state)
     {
         __state = __instance.heldObject.Value is not null;
@@ -40,7 +41,7 @@ internal sealed class ObjectCheckForActionPatch : DaLion.Common.Harmony.HarmonyP
     {
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession(Profession.Ecologist))
-            ModDataIO.Increment<uint>(Game1.player, "EcologistItemsForaged");
+            Game1.player.Increment("EcologistItemsForaged");
     }
 
     /// <summary>Patch to increase production frequency of Producer Bee House.</summary>
@@ -75,13 +76,13 @@ internal sealed class ObjectCheckForActionPatch : DaLion.Common.Harmony.HarmonyP
                     new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = Profession.Producer
                     new CodeInstruction(OpCodes.Ldc_I4_0), // false for not prestiged
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
+                        typeof(Extensions.SObjectExtensions).RequireMethod(nameof(Extensions.SObjectExtensions.DoesOwnerHaveProfession))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotProducer),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldc_I4_3),
                     new CodeInstruction(OpCodes.Ldc_I4_1), // true for prestiged
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.DoesOwnerHaveProfession))),
+                        typeof(Extensions.SObjectExtensions).RequireMethod(nameof(Extensions.SObjectExtensions.DoesOwnerHaveProfession))),
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution),

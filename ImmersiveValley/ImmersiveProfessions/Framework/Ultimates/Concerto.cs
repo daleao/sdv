@@ -1,10 +1,7 @@
-﻿using DaLion.Stardew.Professions.Framework.VirtualProperties;
-
-namespace DaLion.Stardew.Professions.Framework.Ultimates;
+﻿namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
 #region using directives
 
-using Common.ModData;
 using Events.GameLoop;
 using Extensions;
 using Microsoft.Xna.Framework;
@@ -12,6 +9,7 @@ using Sounds;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 using System.Linq;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -47,8 +45,8 @@ public sealed class Concerto : Ultimate
     {
         base.Activate();
 
-        foreach (var slime in Game1.player.currentLocation.characters.OfType<GreenSlime>().Where(c =>
-                     c.IsWithinPlayerThreshold() && c.Scale < 2f && !ModDataIO.Read<bool>(c, "Piped")))
+        foreach (var slime in Game1.player.currentLocation.characters.OfType<GreenSlime>()
+                     .Where(c => c.IsWithinPlayerThreshold() && c.Scale < 2f))
         {
             if (Game1.random.NextDouble() <= 0.012 + Game1.player.team.AverageDailyLuck() / 10.0)
             {

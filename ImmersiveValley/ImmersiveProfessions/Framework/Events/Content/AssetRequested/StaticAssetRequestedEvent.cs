@@ -5,7 +5,7 @@
 using Common.Events;
 using Common.Extensions;
 using Common.Extensions.Collections;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
@@ -109,7 +109,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
     {
         var data = asset.AsDictionary<string, string>().Data;
         var taxBonus =
-            ModDataIO.Read<float>(Game1.player, "ConservationistActiveTaxBonusPct");
+            Game1.player.Read<float>("ConservationistActiveTaxBonusPct");
         var key = taxBonus >= ModEntry.Config.ConservationistTaxBonusCeiling
             ? "conservationist.mail.max"
             : "conservationist.mail";

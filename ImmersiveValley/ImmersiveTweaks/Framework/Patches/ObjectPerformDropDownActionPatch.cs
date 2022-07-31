@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
 
@@ -24,7 +24,7 @@ internal sealed class ObjectPerformDropDownActionPatch : Common.Harmony.HarmonyP
     private static void ObjectPerformDropDownActionPostfix(SObject __instance)
     {
         if (__instance.IsBeeHouse() || __instance.IsMushroomBox())
-            ModDataIO.Write(__instance, "Age", null);
+            __instance.Write("Age", null);
     }
 
     #endregion harmony patches

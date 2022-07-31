@@ -6,8 +6,8 @@ using Common;
 using Common.Extensions;
 using Common.Extensions.Collections;
 using Common.Extensions.Reflection;
+using Common.Extensions.Stardew;
 using Common.Harmony;
-using Common.ModData;
 using Extensions;
 using HarmonyLib;
 using Netcode;
@@ -107,7 +107,7 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
                 .Retreat()
                 .Insert(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(Framework.Utils).RequireMethod(nameof(Framework.Utils.IsExtendedFamilyMember)))
+                        typeof(Utils).RequireMethod(nameof(Utils.IsExtendedFamilyMember)))
                 )
                 .SetOpCode(OpCodes.Brtrue_S);
         }
@@ -161,12 +161,11 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
             !pond.HasRadioactiveFish()) return false;
 
         var heldMinerals =
-            ModDataIO.Read(pond, "MetalsHeld")
-                .ParseList<string>(";")?
+            pond.Read("MetalsHeld")
+                .ParseList<string>(";")
                 .Select(li => li?.ParseTuple<int, int>())
                 .WhereNotNull()
-                .ToList()
-            ?? new List<(int, int)>();
+                .ToList();
         var count = heldMinerals.Sum(m => new SObject(m.Item1, 1).IsNonRadioactiveIngot() ? 5 : 1);
         if (count >= 20)
         {
@@ -178,7 +177,7 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
         if (days == 0) return false;
 
         heldMinerals.Add((metallic.ParentSheetIndex, days));
-        ModDataIO.Write(pond, "MetalsHeld",
+        pond.Write("MetalsHeld",
             string.Join(';', heldMinerals.Select(m => string.Join(',', m.Item1, m.Item2))));
         _ShowObjectThrownIntoPondAnimation.Value(pond, who, who.ActiveObject);
         who.reduceActiveItemByOne();

@@ -35,4 +35,7 @@ public class ToolConfig
 
     /// <summary>Affects the shockwave travel speed. Lower is faster. Set to 0 for instant.</summary>
     public uint TicksBetweenWaves { get; set; } = 4;
+
+    /// <summary>Face the current cursor position before swinging your tools.</summary>
+    public bool FaceMouseCursor { get; set; } = true;
 }

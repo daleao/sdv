@@ -1,4 +1,5 @@
 ﻿// ReSharper disable PossibleLossOfFraction
+
 namespace DaLion.Stardew.Arsenal.Extensions;
 
 #region using directives

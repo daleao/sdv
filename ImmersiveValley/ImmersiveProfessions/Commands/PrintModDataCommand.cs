@@ -4,7 +4,7 @@
 
 using Common;
 using Common.Commands;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using System;
 using static System.FormattableString;
 using static System.String;
@@ -28,32 +28,33 @@ internal sealed class PrintModDataCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        var message = $"Farmer {Game1.player.Name}'s mod data:";
-        var value = ModDataIO.Read(Game1.player, "EcologistItemsForaged");
+        var player = Game1.player;
+        var message = $"Farmer {player.Name}'s mod data:";
+        var value = player.Read("EcologistItemsForaged");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"EcologistItemsForaged: {value} ({ModEntry.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
                        : "Mod data does not contain an entry for EcologistItemsForaged.");
 
-        value = ModDataIO.Read(Game1.player, "GemologistMineralsCollected");
+        value = player.Read("GemologistMineralsCollected");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"GemologistMineralsCollected: {value} ({ModEntry.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
                        : "Mod data does not contain an entry for GemologistMineralsCollected.");
 
-        value = ModDataIO.Read(Game1.player, "ProspectorHuntStreak");
+        value = player.Read("ProspectorHuntStreak");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"ProspectorHuntStreak: {value} (affects treasure quality)"
                        : "Mod data does not contain an entry for ProspectorHuntStreak.");
 
-        value = ModDataIO.Read(Game1.player, "ScavengerHuntStreak");
+        value = player.Read("ScavengerHuntStreak");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"ScavengerHuntStreak: {value} (affects treasure quality)"
                        : "Mod data does not contain an entry for ScavengerHuntStreak.");
 
-        value = ModDataIO.Read(Game1.player, "ConservationistTrashCollectedThisSeason");
+        value = player.Read("ConservationistTrashCollectedThisSeason");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? CurrentCulture(
@@ -61,7 +62,7 @@ internal sealed class PrintModDataCommand : ConsoleCommand
                            $"ConservationistTrashCollectedThisSeason: {value} (expect a {Math.Min(int.Parse(value) / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f, ModEntry.Config.ConservationistTaxBonusCeiling):p0} tax deduction next season)")
                        : "Mod data does not contain an entry for ConservationistTrashCollectedThisSeason.");
 
-        value = ModDataIO.Read(Game1.player, "ConservationistActiveTaxBonusPct");
+        value = player.Read("ConservationistActiveTaxBonusPct");
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? CurrentCulture($"ConservationistActiveTaxBonusPct: {float.Parse(value):p0}")

@@ -6,7 +6,7 @@ namespace DaLion.Stardew.Ponds.Framework.Patches;
 using Common;
 using Common.Extensions;
 using Common.Extensions.Reflection;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -129,13 +129,13 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
             SObject? itemToDraw = null;
             if (isAlgaePond)
             {
-                seaweedCount = ModDataIO.Read<int>(____pond, "SeaweedLivingHere");
-                greenAlgaeCount = ModDataIO.Read<int>(____pond, "GreenAlgaeLivingHere");
-                whiteAlgaeCount = ModDataIO.Read<int>(____pond, "WhiteAlgaeLivingHere");
+                seaweedCount = ____pond.Read<int>("SeaweedLivingHere");
+                greenAlgaeCount = ____pond.Read<int>("GreenAlgaeLivingHere");
+                whiteAlgaeCount = ____pond.Read<int>("WhiteAlgaeLivingHere");
             }
             else if (isLegendaryPond)
             {
-                familyCount = ModDataIO.Read<int>(____pond, "FamilyLivingHere");
+                familyCount = ____pond.Read<int>("FamilyLivingHere");
                 itemToDraw = ____fishItem;
             }
             else
@@ -194,7 +194,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
             if (!isAlgaePond)
             {
                 var (_, numMedQuality, numHighQuality, numBestQuality) =
-                    ModDataIO.Read(____pond, "FishQualities", $"{____pond.FishCount - familyCount},0,0,0")
+                    ____pond.Read("FishQualities", $"{____pond.FishCount - familyCount},0,0,0")
                         .ParseTuple<int, int, int, int>()!.Value;
                 if (numBestQuality + numHighQuality + numMedQuality > 0)
                 {
@@ -255,7 +255,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 if (familyCount > 0)
                 {
                     var (_, numMedFamilyQuality, numHighFamilyQuality, numBestFamilyQuality) =
-                        ModDataIO.Read(____pond, "FamilyQualities", $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!.Value;
+                        ____pond.Read("FamilyQualities", $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!.Value;
                     if (numBestFamilyQuality + numHighFamilyQuality + numMedFamilyQuality > 0)
                     {
                         for (var i = ____pond.FishCount - familyCount; i < ____pond.FishCount; ++i)

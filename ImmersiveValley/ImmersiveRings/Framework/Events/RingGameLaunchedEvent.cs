@@ -19,8 +19,10 @@ internal class RingGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
+        var registry = ModEntry.ModHelper.ModRegistry;
+
         // add Generic Mod Config Menu integration
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.GenericModConfigMenu"))
+        if (registry.IsLoaded("spacechase0.GenericModConfigMenu"))
             new GenericModConfigMenuIntegrationForImmersiveRings(
                 getConfig: () => ModEntry.Config,
                 reset: () =>
@@ -29,12 +31,12 @@ internal class RingGameLaunchedEvent : GameLaunchedEvent
                     ModEntry.ModHelper.WriteConfig(ModEntry.Config);
                 },
                 saveAndApply: () => { ModEntry.ModHelper.WriteConfig(ModEntry.Config); },
-                modRegistry: ModEntry.ModHelper.ModRegistry,
+                modRegistry: registry,
                 manifest: ModEntry.Manifest
             ).Register();
 
         // add Better Crafting integration
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("leclair.bettercrafting"))
-            new BetterCraftingIntegration(ModEntry.ModHelper.ModRegistry).Register();
+        if (registry.IsLoaded("leclair.bettercrafting"))
+            new BetterCraftingIntegration(registry).Register();
     }
 }

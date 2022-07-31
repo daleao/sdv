@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
@@ -24,7 +24,7 @@ internal sealed class FishPondCtorPatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void FishPondCtorPostfix(FishPond __instance)
     {
-        ModDataIO.Write(__instance, "DaysEmpty", (-3).ToString()); // it's -3 for good measure (and also immersion; a fresh pond takes longer to get dirty)
+        __instance.Write("DaysEmpty", (-3).ToString()); // it's -3 for good measure (and also immersion; a fresh pond takes longer to get dirty)
     }
 
     #endregion harmony patches

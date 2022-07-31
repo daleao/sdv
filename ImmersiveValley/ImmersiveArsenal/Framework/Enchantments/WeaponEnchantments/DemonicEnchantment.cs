@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using StardewValley.Monsters;
 using StardewValley.Tools;
 using System;
@@ -31,6 +31,6 @@ public class DemonicEnchantment : BaseWeaponEnchantment
         if (sword?.hasEnchantmentOfType<DemonicEnchantment>() != true)
             ThrowHelper.ThrowInvalidOperationException("Current tool does not have Demonic Enchantment");
 
-        ModDataIO.Increment<uint>(sword, "EnemiesSlain");
+        sword.Increment("EnemiesSlain");
     }
 }

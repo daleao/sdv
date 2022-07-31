@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Common.Attributes;
-using DaLion.Common.ModData;
+using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Monsters;
 
@@ -24,7 +24,7 @@ internal sealed class GreenSlimeDoJumpPatch : DaLion.Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     private static bool GreenSlimeDoJumpPrefix(GreenSlime __instance)
     {
-        ModDataIO.Write(__instance, "Jumping", 200.ToString());
+        __instance.Write("Jumping", 200.ToString());
         return true; // run original logic
     }
 

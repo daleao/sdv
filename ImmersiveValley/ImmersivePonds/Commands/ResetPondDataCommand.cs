@@ -4,7 +4,7 @@
 
 using Common;
 using Common.Commands;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using StardewValley.Buildings;
 using System.Linq;
@@ -51,14 +51,14 @@ internal sealed class ResetPondDataCommand : ConsoleCommand
             return;
         }
 
-        ModDataIO.Write(nearest, "FishQualities", null);
-        ModDataIO.Write(nearest, "FamilyQualities", null);
-        ModDataIO.Write(nearest, "FamilyLivingHere", null);
-        ModDataIO.Write(nearest, "DaysEmpty", 0.ToString());
-        ModDataIO.Write(nearest, "SeaweedLivingHere", null);
-        ModDataIO.Write(nearest, "GreenAlgaeLivingHere", null);
-        ModDataIO.Write(nearest, "WhiteAlgaeLivingHere", null);
-        ModDataIO.Write(nearest, "CheckedToday", null);
-        ModDataIO.Write(nearest, "ItemsHeld", null);
+        nearest.Write("FishQualities", null);
+        nearest.Write("FamilyQualities", null);
+        nearest.Write("FamilyLivingHere", null);
+        nearest.Write("DaysEmpty", 0.ToString());
+        nearest.Write("SeaweedLivingHere", null);
+        nearest.Write("GreenAlgaeLivingHere", null);
+        nearest.Write("WhiteAlgaeLivingHere", null);
+        nearest.Write("CheckedToday", null);
+        nearest.Write("ItemsHeld", null);
     }
 }

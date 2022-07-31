@@ -88,7 +88,7 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
         if (__instance.hasEnchantmentOfType<JadeEnchantment>())
         {
             var amount =
-                $"{__instance.GetEnchantmentLevel<JadeEnchantment>() * (ModEntry.Config.RebalancedEnchants ? 0.5f : 0.1f):p0}";
+                $"{__instance.GetEnchantmentLevel<JadeEnchantment>() * (ModEntry.Config.RebalancedForges ? 0.5f : 0.1f):p0}";
             co = new(0, 120, 120);
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 16, y + 16 + 4),
                 new Rectangle(160, 428, 10, 10), Color.White, 0f, Vector2.Zero, 4f, false, 1f);
@@ -116,7 +116,7 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
         if (__instance.hasEnchantmentOfType<TopazEnchantment>() && ModEntry.Config.TopazPerk == ModConfig.Perk.Defense)
         {
             var amount =
-                $"+{__instance.GetEnchantmentLevel<TopazEnchantment>() * (ModEntry.Config.RebalancedEnchants ? 5 : 1)}";
+                $"+{__instance.GetEnchantmentLevel<TopazEnchantment>() * (ModEntry.Config.RebalancedForges ? 5 : 1)}";
             co = new(0, 120, 120);
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(110, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);

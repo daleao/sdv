@@ -16,7 +16,7 @@ public static class SlingshotExtensions
     /// <returns>A percentage between 0 and 1.</returns>
     public static float GetDesperadoOvercharge(this Slingshot slingshot, Farmer who)
     {
-        if (slingshot.pullStartTime < 0.0) return 0f;
+        if (slingshot.pullStartTime < 0.0 || slingshot.CanAutoFire()) return 0f;
 
         // divides number of seconds elapsed since pull and divide by required charged time to obtain `units of required charge time`,
         // from which we subtract 1 to account for the initially charge before the overcharge began, and finally divide by twice the number of units we want to impose (3)

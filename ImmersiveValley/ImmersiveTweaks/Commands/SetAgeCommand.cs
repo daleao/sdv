@@ -5,7 +5,6 @@
 using Common;
 using Common.Commands;
 using Common.Extensions.Stardew;
-using Common.ModData;
 using Extensions;
 using StardewValley.TerrainFeatures;
 using System.Linq;
@@ -57,7 +56,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     if (all)
                     {
                         foreach (var tree in Game1.locations.SelectMany(l => l.terrainFeatures.Values.OfType<Tree>()))
-                            ModDataIO.Write(tree, "Age", clear ? null : args[1]);
+                            tree.Write("Age", clear ? null : args[1]);
                         Log.I(clear ? "Cleared all tree age data." : $"Set all tree age data to {args[1]} days.");
                         break;
                     }
@@ -69,7 +68,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                         return;
                     }
 
-                    ModDataIO.Write(nearest, "Age", clear ? null : args[1]);
+                    nearest.Write("Age", clear ? null : args[1]);
                     Log.I(clear
                         ? $"Cleared {nearest.NameFromType()}'s age data"
                         : $"Set {nearest.NameFromType()}'s age data to {args[1]} days.");
@@ -84,7 +83,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     {
                         foreach (var hive in Game1.locations.SelectMany(l =>
                                      l.objects.Values.Where(o => o.Name == "Bee House")))
-                            ModDataIO.Write(hive, "Age", clear ? null : args[1]);
+                            hive.Write("Age", clear ? null : args[1]);
                         Log.I(clear ? "Cleared all bee house age data." : $"Set all bee house age data to {args[1]} days.");
                         break;
                     }
@@ -97,7 +96,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                         return;
                     }
 
-                    ModDataIO.Write(nearest, "Age", clear ? null : args[1]);
+                    nearest.Write("Age", clear ? null : args[1]);
                     Log.I(clear ? "Cleared Bee House's age data." : $"Set Bee House's age data to {args[1]} days.");
                     break;
                 }
@@ -111,7 +110,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     {
                         foreach (var box in Game1.locations.SelectMany(l =>
                                      l.objects.Values.Where(o => o.Name == "Mushroom Box")))
-                            ModDataIO.Write(box, "Age", clear ? null : args[1]);
+                            box.Write("Age", clear ? null : args[1]);
                         Log.I(clear
                             ? "Cleared all mushroom box age data."
                             : $"Set all mushroom box age data to {args[1]} days.");
@@ -126,7 +125,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                         return;
                     }
 
-                    ModDataIO.Write(nearest, "Age", clear ? null : args[1]);
+                    nearest.Write("Age", clear ? null : args[1]);
                     Log.I(clear ? "Cleared Mushroom Box's age data." : $"Set Mushroom Box's age data to {args[1]} days.");
                     break;
                 }

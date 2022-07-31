@@ -3,6 +3,7 @@
 #region using directives
 
 using Microsoft.Xna.Framework;
+using ModData;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Locations;
@@ -10,7 +11,6 @@ using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -191,4 +191,33 @@ public static class TerrainFeatureExtensions
 
         return closest;
     }
+
+    /// <inheritdoc cref="ModDataIO.Read"/>
+    public static string Read(this TerrainFeature feature, string field, string defaultValue = "", string modId = "") =>
+        ModDataIO.Read(feature, field, defaultValue, modId);
+
+    /// <inheritdoc cref="ModDataIO.Read{T}"/>
+    public static T Read<T>(this TerrainFeature feature, string field, T defaultValue = default, string modId = "") where T : struct =>
+        ModDataIO.Read(feature, field, defaultValue, modId);
+
+    /// <inheritdoc cref="ModDataIO.Write"/>
+    public static void Write(this TerrainFeature building, string field, string? value) =>
+        ModDataIO.Write(building, field, value);
+
+    /// <inheritdoc cref="ModDataIO.WriteIfNotExists"/>
+    public static void WriteIfNotExists(this TerrainFeature feature, string field, string? value) =>
+        ModDataIO.WriteIfNotExists(feature, field, value);
+
+    /// <inheritdoc cref="ModDataIO.Append"/>
+    public static void Append(this TerrainFeature feature, string field, string value, string separator = ",") =>
+        ModDataIO.Append(feature, field, value, separator);
+
+    /// <inheritdoc cref="ModDataIO.Increment{T}"/>
+    public static void Increment<T>(this TerrainFeature feature, string field, T amount) where T : struct =>
+        ModDataIO.Increment(feature, field, amount);
+
+    /// <summary>Increment the value of a numeric field in the building's <see cref="ModDataDictionary" /> by 1.</summary>
+    /// <param name="field">The field to update.</param>
+    public static void Increment(this TerrainFeature feature, string field) =>
+        ModDataIO.Increment(feature, field, 1);
 }

@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Enchantments;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -30,7 +30,7 @@ internal sealed class MeleeWeaponTransformPatch : Common.Harmony.HarmonyPatch
         {
             // dark sword -> holy blade
             case Constants.HOLY_BLADE_INDEX_I:
-                ModDataIO.Write(__instance, "EnemiesSlain", null);
+                __instance.Write("EnemiesSlain", null);
                 __instance.enchantments.Remove(__instance.GetEnchantmentOfType<DemonicEnchantment>());
                 __instance.enchantments.Add(new HolyEnchantment());
                 break;

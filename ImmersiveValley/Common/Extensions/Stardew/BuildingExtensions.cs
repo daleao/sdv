@@ -3,13 +3,13 @@
 #region using directives
 
 using Microsoft.Xna.Framework;
+using ModData;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
@@ -20,7 +20,7 @@ public static class BuildingExtensions
     public static bool IsFull(this Building building) =>
         building.currentOccupants.Value >= building.maxOccupants.Value;
 
-    /// <summary>Get the <see cref="Farmer"/> instance that owns this building.</summary>
+    /// <summary>Get the <see cref="Building"/> instance that owns this building.</summary>
     public static Farmer GetOwner(this Building building) =>
         Game1.getFarmerMaybeOffline(building.owner.Value) ?? Game1.MasterPlayer;
 
@@ -76,14 +76,14 @@ public static class BuildingExtensions
         return closest;
     }
 
-    /// <summary>Find the closest <see cref="Farmer"/> to this building in the current <see cref="GameLocation"/>.</summary>
-    /// <param name="candidates">The candidate farmers, if already available.</param>
+    /// <summary>Find the closest <see cref="Building"/> to this building in the current <see cref="GameLocation"/>.</summary>
+    /// <param name="candidates">The candidate buildings, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
-    public static Farmer? GetClosestFarmer(this Building building, IEnumerable<Farmer>? candidates = null,
-        Func<Farmer, bool>? predicate = null)
+    public static Building? GetClosestBuilding(this Building building, IEnumerable<Building>? candidates = null,
+        Func<Building, bool>? predicate = null)
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ?? Game1.getFarm().farmers.Where(f => predicate(f)).ToArray();
+        var candidatesArr = candidates?.ToArray() ?? Game1.getFarm().buildings.Where(f => predicate(f)).ToArray();
         var distanceToClosest = double.MaxValue;
         switch (candidatesArr.Length)
         {
@@ -93,7 +93,7 @@ public static class BuildingExtensions
                 return candidatesArr[0];
         }
 
-        Farmer? closest = null;
+        Building? closest = null;
         foreach (var candidate in candidatesArr)
         {
             var distanceToThisCandidate = building.DistanceTo(candidate);
@@ -198,4 +198,33 @@ public static class BuildingExtensions
 
         return closest;
     }
+
+    /// <inheritdoc cref="ModDataIO.Read"/>
+    public static string Read(this Building building, string field, string defaultValue = "", string modId = "") =>
+        ModDataIO.Read(building, field, defaultValue, modId);
+
+    /// <inheritdoc cref="ModDataIO.Read{T}"/>
+    public static T Read<T>(this Building building, string field, T defaultValue = default, string modId = "") where T : struct =>
+        ModDataIO.Read(building, field, defaultValue, modId);
+
+    /// <inheritdoc cref="ModDataIO.Write"/>
+    public static void Write(this Building building, string field, string? value) =>
+        ModDataIO.Write(building, field, value);
+
+    /// <inheritdoc cref="ModDataIO.WriteIfNotExists"/>
+    public static void WriteIfNotExists(this Building building, string field, string? value) =>
+        ModDataIO.WriteIfNotExists(building, field, value);
+
+    /// <inheritdoc cref="ModDataIO.Append"/>
+    public static void Append(this Building building, string field, string value, string separator = ",") =>
+        ModDataIO.Append(building, field, value, separator);
+
+    /// <inheritdoc cref="ModDataIO.Increment{T}"/>
+    public static void Increment<T>(this Building building, string field, T amount) where T : struct =>
+        ModDataIO.Increment(building, field, amount);
+
+    /// <summary>Increment the value of a numeric field in the building's <see cref="ModDataDictionary" /> by 1.</summary>
+    /// <param name="field">The field to update.</param>
+    public static void Increment(this Building building, string field) =>
+        ModDataIO.Increment(building, field, 1);
 }

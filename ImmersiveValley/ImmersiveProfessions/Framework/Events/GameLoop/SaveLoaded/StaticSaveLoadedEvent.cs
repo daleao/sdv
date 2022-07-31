@@ -5,7 +5,7 @@
 using Common;
 using Common.Events;
 using Common.Extensions.Collections;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using StardewModdingAPI.Events;
 using StardewValley.Buildings;
@@ -29,26 +29,28 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
+        var player = Game1.player;
+
         // enable events
         Manager.EnableForLocalPlayer();
 
         // load and initialize Ultimate index
         Log.T("Initializing Ultimate...");
 
-        var ultimateIndex = ModDataIO.Read(Game1.player, "UltimateIndex", UltimateIndex.None);
+        var ultimateIndex = Game1.player.Read("UltimateIndex", UltimateIndex.None);
         switch (ultimateIndex)
         {
-            case UltimateIndex.None when Game1.player.professions.Any(p => p is >= 26 and < 30):
-                Log.W($"{Game1.player.Name} is eligible for an Ultimate but is not currently registered to any. A default one will be chosen.");
-                ultimateIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
-                Log.W($"{Game1.player.Name}'s Ultimate was set to {ultimateIndex}.");
+            case UltimateIndex.None when player.professions.Any(p => p is >= 26 and < 30):
+                Log.W($"{player.Name} is eligible for an Ultimate but is not currently registered to any. A default one will be chosen.");
+                ultimateIndex = (UltimateIndex)player.professions.First(p => p is >= 26 and < 30);
+                Log.W($"{player.Name}'s Ultimate was set to {ultimateIndex}.");
 
                 break;
 
-            case > UltimateIndex.None when !Game1.player.professions.Contains((int)ultimateIndex):
+            case > UltimateIndex.None when !player.professions.Contains((int)ultimateIndex):
                 Log.W($"Missing corresponding profession for {ultimateIndex} Ultimate. Resetting to a default value.");
-                if (Game1.player.professions.Any(p => p is >= 26 and < 30))
-                    ultimateIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
+                if (player.professions.Any(p => p is >= 26 and < 30))
+                    ultimateIndex = (UltimateIndex)player.professions.First(p => p is >= 26 and < 30);
                 else
                     ultimateIndex = UltimateIndex.None;
 

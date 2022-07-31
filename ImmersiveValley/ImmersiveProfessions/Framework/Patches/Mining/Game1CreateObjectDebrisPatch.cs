@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Common;
-using DaLion.Common.ModData;
+using DaLion.Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
 using System;
@@ -40,7 +40,7 @@ internal sealed class Game1CreateObjectDebrisPatch : DaLion.Common.Harmony.Harmo
                 itemQuality = who.GetGemologistMineralQuality()
             });
 
-            ModDataIO.Increment<uint>(who, "GemologistMineralsCollected");
+            who.Increment("GemologistMineralsCollected");
             return false; // don't run original logic
         }
         catch (Exception ex)

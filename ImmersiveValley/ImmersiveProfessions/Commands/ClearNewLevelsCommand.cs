@@ -38,18 +38,19 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
                 {
                     Game1.player.newLevels.Set(Game1.player.newLevels.Where(p => p.X != skill).ToList());
                 }
-                else if (ModEntry.CustomSkills.Values.Any(s =>
-                             string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase)))
+                else
                 {
-                    var customSkill = ModEntry.CustomSkills.Values.Single(s =>
+                    var customSkill = ModEntry.CustomSkills.Values.FirstOrDefault(s =>
                         string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
+                    if (customSkill is null)
+                    {
+                        Log.W($"Ignoring unknown skill {arg}.");
+                        continue;
+                    }
+
                     var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.Value();
                     ExtendedSpaceCoreAPI.SetCustomSkillNewLevels.Value(newLevels
                         .Where(pair => pair.Key != customSkill.StringId).ToList());
-                }
-                else
-                {
-                    Log.W($"Ignoring unknown skill {arg}.");
                 }
             }
     }

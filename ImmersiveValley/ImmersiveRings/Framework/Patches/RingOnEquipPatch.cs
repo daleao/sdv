@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Objects;
 
@@ -37,7 +37,7 @@ internal sealed class RingOnEquipPatch : Common.Harmony.HarmonyPatch
                 switch (ModEntry.Config.TopazPerk)
                 {
                     case ModConfig.Perk.Cooldown:
-                        ModDataIO.Increment(who, "CooldownReduction", 0.1f);
+                        who.Increment("CooldownReduction", 0.1f);
                         break;
                     case ModConfig.Perk.Defense:
                         who.resilience += 3;

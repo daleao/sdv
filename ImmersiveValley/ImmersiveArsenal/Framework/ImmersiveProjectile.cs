@@ -18,7 +18,8 @@ internal class ImmersiveProjectile : BasicProjectile
         typeof(BasicProjectile).RequireMethod("explosionAnimation")
             .CompileUnboundDelegate<Action<BasicProjectile, GameLocation>>());
 
-    public Slingshot WhatFiredMe { get; init; }
+    public Slingshot WhatFiredMe { get; }
+    public bool IsQuincy { get; }
 
     public ImmersiveProjectile(Slingshot whatFiredMe, int damageToFarmer, int parentSheetIndex, int bouncesTillDestruct,
         int tailLength, float rotationVelocity, float xVelocity, float yVelocity, Vector2 startingPosition,
@@ -30,8 +31,8 @@ internal class ImmersiveProjectile : BasicProjectile
             spriteFromObjectSheet, collisionBehavior)
     {
         WhatFiredMe = whatFiredMe;
-        if (damagesMonsters && firer is Farmer && ModEntry.Config.RemoveSlingshotGracePeriod)
-            ignoreTravelGracePeriod.Value = true;
+        if (ModEntry.Config.RemoveSlingshotGracePeriod) ignoreTravelGracePeriod.Value = true;
+        if (!spriteFromObjectSheet) IsQuincy = true;
     }
 
     public override void behaviorOnCollisionWithMonster(NPC n, GameLocation location)
@@ -53,7 +54,7 @@ internal class ImmersiveProjectile : BasicProjectile
               (1f + firer.critChanceModifier)
             : 0;
         var cpower =
-            (1f + (ModEntry.Config.RebalancedEnchants ? 0.5f : 0.1f) *
+            (1f + (ModEntry.Config.RebalancedForges ? 0.5f : 0.1f) *
                 WhatFiredMe.GetEnchantmentLevel<JadeEnchantment>()) * (1f + firer.critPowerModifier);
         location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, knockback, 0, crate, cpower, true,
             firer);

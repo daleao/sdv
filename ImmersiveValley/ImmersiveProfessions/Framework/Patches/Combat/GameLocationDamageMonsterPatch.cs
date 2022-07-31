@@ -4,8 +4,8 @@
 
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
 using DaLion.Common.Harmony;
-using DaLion.Common.ModData;
 using Events.GameLoop.DayEnding;
 using Extensions;
 using HarmonyLib;
@@ -277,7 +277,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
         {
             if (who.CurrentTool is MeleeWeapon && didCrit)
             {
-                if (!ModDataIO.Read<bool>(monster, "Stolen") &&
+                if (!monster.Read<bool>("Stolen") &&
                     Game1.random.NextDouble() < 0.2)
                 {
                     var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
@@ -286,7 +286,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                     if (itemToSteal is not null && !itemToSteal.Name.Contains("Error") &&
                         who.addItemToInventoryBool(itemToSteal))
                     {
-                        ModDataIO.Write(monster, "Stolen", bool.TrueString);
+                        monster.Write("Stolen", bool.TrueString);
 
                         // play sound effect
                         SFX.PoacherSteal.Play();

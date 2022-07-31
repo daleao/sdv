@@ -4,7 +4,7 @@
 
 using Common;
 using Common.Extensions;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
 using StardewValley.Buildings;
@@ -41,19 +41,19 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
                 switch (spawned)
                 {
                     case Constants.SEAWEED_INDEX_I:
-                        ModDataIO.Increment<int>(__instance, "SeaweedLivingHere");
+                        __instance.Increment("SeaweedLivingHere");
                         break;
                     case Constants.GREEN_ALGAE_INDEX_I:
-                        ModDataIO.Increment<int>(__instance, "GreenAlgaeLivingHere");
+                        __instance.Increment("GreenAlgaeLivingHere");
                         break;
                     case Constants.WHITE_ALGAE_INDEX_I:
-                        ModDataIO.Increment<int>(__instance, "WhiteAlgaeLivingHere");
+                        __instance.Increment("WhiteAlgaeLivingHere");
                         break;
                 }
 
-                var total = ModDataIO.Read<int>(__instance, "SeaweedLivingHere") +
-                            ModDataIO.Read<int>(__instance, "GreenAlgaeLivingHere") +
-                            ModDataIO.Read<int>(__instance, "WhiteAlgaeLivingHere");
+                var total = __instance.Read<int>("SeaweedLivingHere") +
+                            __instance.Read<int>("GreenAlgaeLivingHere") +
+                            __instance.Read<int>("WhiteAlgaeLivingHere");
                 if (total != __instance.FishCount)
                     ThrowHelper.ThrowInvalidDataException("Mismatch between algae population data and actual population.");
 
@@ -63,9 +63,9 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            ModDataIO.Write(__instance, "SeaweedLivingHere", null);
-            ModDataIO.Write(__instance, "GreenAlgaeLivingHere", null);
-            ModDataIO.Write(__instance, "WhiteAlgaeLivingHere", null);
+            __instance.Write("SeaweedLivingHere", null);
+            __instance.Write("GreenAlgaeLivingHere", null);
+            __instance.Write("WhiteAlgaeLivingHere", null);
             var field = __instance.fishType.Value switch
             {
                 Constants.SEAWEED_INDEX_I => "SeaweedLivingHere",
@@ -74,7 +74,7 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
                 _ => string.Empty
             };
 
-            ModDataIO.Write(__instance, field, __instance.FishCount.ToString());
+            __instance.Write(field, __instance.FishCount.ToString());
         }
 
         try
@@ -83,7 +83,7 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
             var familyCount = 0;
             if (__instance.HasLegendaryFish())
             {
-                familyCount = ModDataIO.Read<int>(__instance, "FamilyLivingHere");
+                familyCount = __instance.Read<int>("FamilyLivingHere");
                 if (0 > familyCount || familyCount > __instance.FishCount)
                     ThrowHelper.ThrowInvalidDataException(
                         "FamilyLivingHere data is negative or greater than actual population.");
@@ -99,9 +99,9 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
             var @default = forFamily
                 ? $"{familyCount},0,0,0"
                 : $"{__instance.FishCount - familyCount - 1},0,0,0";
-            var qualities = ModDataIO
-                .Read(__instance, forFamily ? "FamilyQualities" : "FishQualities", @default)
-                .ParseList<int>()!;
+            var qualities = __instance
+                .Read(forFamily ? "FamilyQualities" : "FishQualities", @default)
+                .ParseList<int>();
             if (qualities.Count != 4 ||
                 qualities.Sum() != (forFamily ? familyCount : __instance.FishCount - familyCount - 1))
                 ThrowHelper.ThrowInvalidDataException("Mismatch between FishQualities data and actual population.");
@@ -109,7 +109,7 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
             if (qualities.Sum() == 0)
             {
                 ++qualities[0];
-                ModDataIO.Write(__instance, forFamily ? "FamilyQualities" : "FishQualities",
+                __instance.Write(forFamily ? "FamilyQualities" : "FishQualities",
                     string.Join(',', qualities));
                 return;
             }
@@ -124,15 +124,15 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
                         : SObject.lowQuality;
 
             ++qualities[fishlingQuality == 4 ? 3 : fishlingQuality];
-            ModDataIO.Write(__instance, forFamily ? "FamilyQualities" : "FishQualities",
+            __instance.Write(forFamily ? "FamilyQualities" : "FishQualities",
                 string.Join(',', qualities));
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            ModDataIO.Write(__instance, "FishQualities", $"{__instance.FishCount},0,0,0");
-            ModDataIO.Write(__instance, "FamilyQualities", null);
-            ModDataIO.Write(__instance, "FamilyLivingHere", null);
+            __instance.Write("FishQualities", $"{__instance.FishCount},0,0,0");
+            __instance.Write("FamilyQualities", null);
+            __instance.Write("FamilyLivingHere", null);
         }
     }
 

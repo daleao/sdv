@@ -8,6 +8,7 @@ using Common.Events;
 using Common.Harmony;
 using Configs;
 using Framework.Effects;
+using Framework.Events;
 using HarmonyLib;
 using StardewModdingAPI.Utilities;
 using System.Linq;
@@ -19,6 +20,7 @@ public class ModEntry : Mod
 {
     internal static ModEntry Instance { get; private set; } = null!;
     internal static ToolConfig Config { get; set; } = null!;
+    internal static EventManager Manager { get; private set; } = null!;
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
@@ -43,7 +45,8 @@ public class ModEntry : Mod
         VerifyConfigs();
 
         // enable events
-        new EventManager(helper.Events).EnableAll();
+        Manager = new(helper.Events);
+        Manager.EnableAll(typeof(ToolButtonPressedEvent));
 
         // apply patches
         new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();

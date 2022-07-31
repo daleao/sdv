@@ -90,11 +90,16 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
                     if (ModEntry.Config.ForgetRecipesOnSkillReset && skill < Skill.Luck)
                         Game1.player.ForgetRecipesForSkill(skill);
                 }
-                else if (ModEntry.CustomSkills.Values.Any(s =>
-                             string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase)))
+                else
                 {
-                    var customSkill = ModEntry.CustomSkills.Values.Single(s =>
+                    var customSkill = ModEntry.CustomSkills.Values.FirstOrDefault(s =>
                         string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
+                    if (customSkill is null)
+                    {
+                        Log.W($"Ignoring unknown skill {arg}.");
+                        continue;
+                    }
+
                     ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, customSkill.StringId,
                         -customSkill.CurrentExp);
 
@@ -105,10 +110,6 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
                     if (ModEntry.Config.ForgetRecipesOnSkillReset &&
                         customSkill.StringId == "blueberry.LoveOfCooking.CookingSkill")
                         Game1.player.ForgetRecipesForLoveOfCookingSkill();
-                }
-                else
-                {
-                    Log.W($"Ignoring unknown skill {arg}.");
                 }
         }
     }

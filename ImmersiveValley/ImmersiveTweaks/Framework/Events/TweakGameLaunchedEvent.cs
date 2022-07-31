@@ -19,8 +19,10 @@ internal sealed class TweakGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
+        var registry = ModEntry.ModHelper.ModRegistry;
+
         // add Generic Mod Config Menu integration
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.GenericModConfigMenu"))
+        if (registry.IsLoaded("spacechase0.GenericModConfigMenu"))
             new GenericModConfigMenuIntegrationForImmersiveTweaks(
                 getConfig: () => ModEntry.Config,
                 reset: () =>
@@ -29,12 +31,12 @@ internal sealed class TweakGameLaunchedEvent : GameLaunchedEvent
                     ModEntry.ModHelper.WriteConfig(ModEntry.Config);
                 },
                 saveAndApply: () => { ModEntry.ModHelper.WriteConfig(ModEntry.Config); },
-                modRegistry: ModEntry.ModHelper.ModRegistry,
+                modRegistry: registry,
                 manifest: ModEntry.Manifest
             ).Register();
 
         // add Immersive Professions integration
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("DaLion.ImmersiveProfessions"))
-            new ImmersiveProfessionsIntegration(ModEntry.ModHelper.ModRegistry).Register();
+        if (registry.IsLoaded("DaLion.ImmersiveProfessions"))
+            new ImmersiveProfessionsIntegration(registry).Register();
     }
 }

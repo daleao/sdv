@@ -10,7 +10,6 @@ using StardewValley;
 using System.Collections.Generic;
 using System.Linq;
 using ObjectLookups = Framework.Utility.ObjectLookups;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 

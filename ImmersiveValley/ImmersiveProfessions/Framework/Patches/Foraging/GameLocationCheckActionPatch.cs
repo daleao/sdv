@@ -5,8 +5,8 @@
 using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
 using DaLion.Common.Harmony;
-using DaLion.Common.ModData;
 using Extensions;
 using HarmonyLib;
 using StardewValley.Network;
@@ -50,7 +50,7 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                     new CodeInstruction(OpCodes.Ldarg_0) // start of objects[key].isForage() check
                 )
                 .GetInstructionsUntil(out got, pattern: new CodeInstruction(OpCodes.Callvirt, // copy objects[key]
-                        typeof(OverlaidDictionary).RequirePropertyGetter("Item"))
+                    typeof(OverlaidDictionary).RequirePropertyGetter("Item"))
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Brfalse_S) // end of check
@@ -60,7 +60,8 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                 .Insert(got) // insert objects[key]
                 .Insert( // check if is foraged mineral and branch if true
                     new CodeInstruction(OpCodes.Call,
-                        typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.IsForagedMineral))),
+                        typeof(Extensions.SObjectExtensions).RequireMethod(nameof(Extensions.SObjectExtensions
+                            .IsForagedMineral))),
                     new CodeInstruction(OpCodes.Brtrue_S, shouldntSetCustomQuality)
                 )
                 .AdvanceUntil(
@@ -68,7 +69,8 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                 )
                 .ReplaceWith( // replace with custom quality
                     new(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality)))
+                        typeof(Extensions.FarmerExtensions).RequireMethod(nameof(Extensions.FarmerExtensions
+                            .GetEcologistForageQuality)))
                 )
                 .Insert(
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player)))
@@ -107,7 +109,8 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                     new CodeInstruction(OpCodes.Br_S)
                 )
                 .Advance()
-                .InsertWithLabels(new[] { gemologistCheck }, got) // insert copy with destination label for branches from previous section
+                .InsertWithLabels(new[] { gemologistCheck },
+                    got) // insert copy with destination label for branches from previous section
                 .Return()
                 .AdvanceUntil( // find repeated botanist check
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist)
@@ -133,10 +136,11 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality)))
+                        typeof(Extensions.FarmerExtensions).RequireMethod(nameof(Extensions.FarmerExtensions
+                            .GetEcologistForageQuality)))
                 )
                 .SetOperand(
-                    typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions
+                    typeof(Extensions.FarmerExtensions).RequireMethod(nameof(Extensions.FarmerExtensions
                         .GetGemologistMineralQuality))
                 ); // set correct custom quality method call
         }
@@ -223,9 +227,9 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
     private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
     {
         if (who.HasProfession(Profession.Ecologist) && obj.isForage(location) && !obj.IsForagedMineral())
-            ModDataIO.Increment<uint>(who, "EcologistItemsForaged");
+            who.Increment("EcologistItemsForaged");
         else if (who.HasProfession(Profession.Gemologist) && obj.IsForagedMineral())
-            ModDataIO.Increment<uint>(who, "GemologistMineralsCollected");
+            who.Increment("GemologistMineralsCollected");
     }
 
     #endregion private methods

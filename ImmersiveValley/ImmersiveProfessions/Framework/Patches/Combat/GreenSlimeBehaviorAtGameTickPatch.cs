@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Common.Attributes;
-using DaLion.Common.ModData;
+using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Monsters;
 
@@ -24,11 +24,11 @@ internal sealed class GreenSlimeBehaviorAtGameTickPatch : DaLion.Common.Harmony.
     [HarmonyPostfix]
     private static void GreenSlimeBehaviorAtGameTickPostfix(GreenSlime __instance, ref int ___readyToJump)
     {
-        var timeLeft = ModDataIO.Read<int>(__instance, "Jumping");
+        var timeLeft = __instance.Read<int>("Jumping");
         if (timeLeft <= 0) return;
 
         timeLeft -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-        ModDataIO.Write(__instance, "Jumping", timeLeft <= 0 ? null : timeLeft.ToString());
+        __instance.Write("Jumping", timeLeft <= 0 ? null : timeLeft.ToString());
 
         //if (!__instance.Player.HasProfession(Profession.Piper)) return;
 

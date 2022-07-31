@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using StardewValley.TerrainFeatures;
 
 #endregion using directives
@@ -37,7 +37,7 @@ public static class TreeExtensions
         var skillFactor = 1f + Game1.player.ForagingLevel * 0.1f;
         if (ModEntry.ProfessionsAPI is not null && Game1.player.professions.Contains(Farmer.lumberjack)) ++skillFactor;
 
-        var age = (int)(ModDataIO.Read<int>(tree, "Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
+        var age = (int)(tree.Read<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
         if (ModEntry.Config.DeterministicAgeQuality)
         {
             return age switch

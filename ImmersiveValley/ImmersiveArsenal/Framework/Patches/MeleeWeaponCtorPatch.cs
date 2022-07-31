@@ -4,8 +4,8 @@
 
 using Common;
 using Common.Extensions.Reflection;
+using Common.Extensions.Stardew;
 using Common.Harmony;
-using Common.ModData;
 using Enchantments;
 using HarmonyLib;
 using Netcode;
@@ -39,7 +39,7 @@ internal sealed class MeleeWeaponCtorPatch : Common.Harmony.HarmonyPatch
             case Constants.DARK_SWORD_INDEX_I:
                 __instance.enchantments.Add(new DemonicEnchantment());
                 __instance.specialItem = true;
-                ModDataIO.Write(__instance, "EnemiesSlain", 0.ToString());
+                __instance.Write("EnemiesSlain", 0.ToString());
                 break;
             case Constants.HOLY_BLADE_INDEX_I:
                 __instance.enchantments.Add(new HolyEnchantment());

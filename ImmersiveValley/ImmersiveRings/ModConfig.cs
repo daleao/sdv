@@ -21,6 +21,7 @@ public class ModConfig
     /// <summary>Replaces the iridium band recipe and effect. Adds new forge mechanics.</summary>
     public bool TheOneIridiumBand { get; set; } = true;
 
+    /// <summary>Available perks for the Topaz gemstone.</summary>
     public enum Perk
     {
         Defense,

@@ -5,6 +5,7 @@ namespace DaLion.Stardew.Tools.Integrations;
 using Common.Integrations.GenericModConfigMenu;
 using Configs;
 using Framework;
+using Framework.Events;
 using HarmonyLib;
 using System;
 
@@ -82,6 +83,17 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
                 () => "If 'RequireModkey' is enabled, you must hold this key to begin charging.",
                 config => config.Modkey,
                 (config, value) => config.Modkey = value
+            )
+            .AddCheckbox(
+                () => "Face Towards Mouse Cursor",
+                () => "If using mouse and keyboard, turn to face towards the current cursor position before swinging your tools.",
+                config => config.FaceMouseCursor,
+                (config, value) =>
+                {
+                    config.FaceMouseCursor = value;
+                    if (value) ModEntry.Manager.Enable<ToolButtonPressedEvent>();
+                    else ModEntry.Manager.Disable<ToolButtonPressedEvent>();
+                }
             )
 
             // page links

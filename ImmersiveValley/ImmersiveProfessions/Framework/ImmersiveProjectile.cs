@@ -22,7 +22,7 @@ internal class ImmersiveProjectile : BasicProjectile
         typeof(BasicProjectile).RequireMethod("explosionAnimation")
             .CompileUnboundDelegate<Action<BasicProjectile, GameLocation>>());
 
-    public Item WhatAmI { get; }
+    public Item? WhatAmI { get; }
     public Slingshot WhatFiredMe { get; }
     public float Overcharge { get; set; }
     public bool DidBounce { get; set; }
@@ -39,11 +39,10 @@ internal class ImmersiveProjectile : BasicProjectile
             spriteFromObjectSheet, collisionBehavior)
     {
         WhatFiredMe = whatFiredMe;
-        WhatAmI = whatFiredMe.attachments[0].getOne();
+        WhatAmI = whatFiredMe.attachments[0]?.getOne();
         Overcharge = overcharge;
         IsBlossomPetal = isPetal;
-        if (damagesMonsters && firer is Farmer &&
-            ModEntry.ArsenalConfig?.Value<bool?>("RemoveSlingshotGracePeriod") == true)
+        if (ModEntry.ArsenalConfig?.Value<bool?>("RemoveSlingshotGracePeriod") == true)
             ignoreTravelGracePeriod.Value = true;
     }
 
@@ -51,7 +50,7 @@ internal class ImmersiveProjectile : BasicProjectile
     {
         if (!damagesMonsters.Value) return;
 
-        if (n is not Monster monster)
+        if (n is not Monster { IsMonster: true } monster)
         {
             base.behaviorOnCollisionWithMonster(n, location);
             return;
@@ -99,7 +98,7 @@ internal class ImmersiveProjectile : BasicProjectile
             firer);
 
         // check for piercing
-        if (!WhatAmI.IsSquishyAmmo() && Game1.random.NextDouble() < (Overcharge - 1f) / 2f)
+        if (IsMineralAmmo() && Game1.random.NextDouble() < (Overcharge - 1f) / 2f)
             DidPierce = true;
         else
             _ExplosionAnimation.Value(this, location);
@@ -110,7 +109,7 @@ internal class ImmersiveProjectile : BasicProjectile
 
         // increment Desperado ultimate meter
         if (firer.IsLocalPlayer && firer.get_Ultimate() is DeathBlossom { IsActive: false } blossom)
-            blossom.ChargeValue += (DidBounce ? 18 : 12) - 10 * firer.health / firer.maxHealth;
+            blossom.ChargeValue += (DidBounce || DidPierce ? 18 : 12) - 10 * firer.health / firer.maxHealth;
     }
 
     public override bool update(GameTime time, GameLocation location)
@@ -187,5 +186,14 @@ internal class ImmersiveProjectile : BasicProjectile
     }
 
     /// <summary>Whether the projectile is a stone or mineral ore.</summary>
-    public bool IsMineralAmmo() => (currentTileSheetIndex - 1).IsMineralAmmoIndex();
+    public bool IsMineralAmmo() => WhatAmI?.ParentSheetIndex.IsMineralAmmoIndex() == true;
+
+    /// <summary>Whether the projectile is a slab of slime.</summary>
+    public bool IsSlimeAmmo() => WhatAmI?.ParentSheetIndex == 766;
+
+    /// <summary>Whether the projectile is explosive.</summary>
+    public bool IsExplosiveAmmo() => WhatAmI?.ParentSheetIndex == 442;
+
+    /// <summary>Whether the ammo should make squishy noises upon collision.</summary>
+    public bool IsSquishyAmmo() => WhatAmI?.IsSquishyAmmo() == true;
 }

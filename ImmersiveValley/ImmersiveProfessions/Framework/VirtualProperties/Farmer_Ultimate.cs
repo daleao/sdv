@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Netcode;
 using System.Runtime.CompilerServices;
 using Ultimates;
@@ -51,6 +51,6 @@ public static class Farmer_Ultimate
 
         var newIndex = newVal?.Index ?? UltimateIndex.None;
         holder.ultimateIndex.Value = (int)newIndex;
-        ModDataIO.Write(farmer, "UltimateIndex", newIndex.ToString());
+        farmer.Write("UltimateIndex", newIndex.ToString());
     }
 }

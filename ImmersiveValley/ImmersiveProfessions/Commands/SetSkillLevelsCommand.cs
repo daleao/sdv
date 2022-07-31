@@ -69,7 +69,7 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
             var skillName = args[0];
             if (!Skill.TryFromName(skillName, true, out var skill))
             {
-                var found = ModEntry.CustomSkills.Values.SingleOrDefault(s =>
+                var found = ModEntry.CustomSkills.Values.FirstOrDefault(s =>
                     string.Equals(s.StringId, skillName, StringComparison.CurrentCultureIgnoreCase) ||
                     string.Equals(s.DisplayName, skillName, StringComparison.CurrentCultureIgnoreCase));
                 if (found is not CustomSkill customSkill)

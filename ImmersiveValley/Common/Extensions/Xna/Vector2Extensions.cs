@@ -1,12 +1,11 @@
-﻿using System.Linq;
-
-namespace DaLion.Common.Extensions.Xna;
+﻿namespace DaLion.Common.Extensions.Xna;
 
 #region using directives
 
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 
@@ -17,17 +16,27 @@ public static class Vector2Extensions
     public static double AngleWithHorizontal(this Vector2 v)
     {
         var (x, y) = v;
-        return MathHelper.ToDegrees((float)Math.Atan2(0f - y, 0f - x));
+        return Math.Atan2(0f - y, 0f - x) * (180 / Math.PI);
     }
 
-    /// <summary>Rotates the instance by t to a Vector2 by <paramref name="degrees" />.</summary>
+    /// <summary>Get the angle between the instance and the specified vector.</summary>
+    public static double AngleBetween(this Vector2 a, Vector2 b)
+    {
+        var (ax, ay) = a;
+        var (bx, by) = b;
+        double sin = ax * by - bx * ay;
+        double cos = ax * bx + ay * by;
+        return Math.Atan2(sin, cos) * (180 / Math.PI);
+    }
+
+    /// <summary>Rotates the instance by 90 degrees.</summary>
     public static Vector2 Perpendicular(this Vector2 v)
     {
         var (x, y) = v;
         return new(y, -x);
     }
 
-    /// <summary>Rotates the instance by <paramref name="degrees" />.</summary>
+    /// <summary>Rotates the instance by the specified angle.</summary>
     public static Vector2 Rotate(this Vector2 v, double degrees)
     {
         var sin = (float)Math.Sin(degrees * Math.PI / 180);

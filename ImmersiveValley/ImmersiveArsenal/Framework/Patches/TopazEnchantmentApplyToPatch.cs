@@ -26,11 +26,11 @@ internal sealed class TopazEnchantmentApplyToPatch : Common.Harmony.HarmonyPatch
 
         switch (item)
         {
-            case MeleeWeapon weapon when ModEntry.Config.RebalancedEnchants:
-                weapon.addedDefense.Value += (ModEntry.Config.RebalancedEnchants ? 5 : 1) * __instance.GetLevel();
+            case MeleeWeapon weapon when ModEntry.Config.RebalancedForges:
+                weapon.addedDefense.Value += (ModEntry.Config.RebalancedForges ? 5 : 1) * __instance.GetLevel();
                 break;
             case Slingshot:
-                Game1.player.resilience += (ModEntry.Config.RebalancedEnchants ? 5 : 1) * __instance.GetLevel();
+                Game1.player.resilience += (ModEntry.Config.RebalancedForges ? 5 : 1) * __instance.GetLevel();
                 break;
         }
 

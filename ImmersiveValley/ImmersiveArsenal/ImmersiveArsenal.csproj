@@ -50,5 +50,12 @@
 	<EmbeddedResource Remove="resources\**" />
 	<None Remove="resources\**" />
   </ItemGroup>
+	
+  <ItemGroup>
+	<Reference Include="SpaceCore">
+	  <HintPath>$(GamePath)\Mods - Common\Shared Dependencies\SpaceCore\SpaceCore.dll</HintPath>
+	  <Private>false</Private>
+	</Reference>
+  </ItemGroup>
 
 </Project>

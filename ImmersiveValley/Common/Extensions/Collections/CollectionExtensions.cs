@@ -32,7 +32,7 @@ public static class CollectionExtensions
     /// <returns><see langword="true"/> if an instance was successfully removed, otherwise <see langword="false"/>.</returns>
     public static bool TryRemoveType<T>(this ICollection<T> collection, Type type, out T? removed)
     {
-        var toRemove = collection.SingleOrDefault(item => item is not null && item.GetType() == type);
+        var toRemove = collection.FirstOrDefault(item => item is not null && item.GetType() == type);
         if (toRemove is not null)
         {
             removed = toRemove;

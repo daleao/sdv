@@ -15,5 +15,13 @@
   "fromcsfiles.MeleeWeapon.cs.14122": "The iridium in your backpack is reacting to the prismatic shard. It changes shape before your very eyes! You feel tremendous power from this blade.^^     You've found the =Galaxy Sword=  ^",
 
   "ui.itemhover.damage": "{{amount}} Damage",
-  "ui.itemhover.cdr": "{{amount}} Cooldown Reduction"
+  "ui.itemhover.cdr": "{{amount}} Cooldown Reduction",
+
+  "enchantments.energized": "Energized",
+  "enchantments.carving": "Carving",
+  "enchantments.cleaving": "Cleaving",
+  "enchantments.tribute": "Tribute",
+  "enchantments.gatling": "Gatling",
+  "enchantments.spreading": "Spreading",
+  "enchantments.quincy": "Quincy"
 }

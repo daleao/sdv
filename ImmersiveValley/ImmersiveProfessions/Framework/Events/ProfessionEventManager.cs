@@ -29,7 +29,6 @@ internal class ProfessionEventManager : EventManager
     {
         { Profession.Brute, new() { typeof(BruteWarpedEvent) } },
         { Profession.Conservationist, new() { typeof(ConservationismDayEndingEvent) } },
-        { Profession.Desperado, new() { typeof(DesperadoUpdateTickedEvent) } },
         { Profession.Piper, new() { typeof(PiperWarpedEvent) } },
         { Profession.Prospector, new() { typeof(ProspectorHuntDayStartedEvent), typeof(ProspectorRenderedHudEvent), typeof(ProspectorWarpedEvent), typeof(TrackerButtonsChangedEvent) } },
         { Profession.Scavenger, new() { typeof(ScavengerHuntDayStartedEvent), typeof(ScavengerRenderedHudEvent), typeof(ScavengerWarpedEvent), typeof(TrackerButtonsChangedEvent) } },

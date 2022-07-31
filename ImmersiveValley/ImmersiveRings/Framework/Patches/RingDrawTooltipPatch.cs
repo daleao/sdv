@@ -4,8 +4,8 @@
 
 using Common;
 using Common.Extensions.Reflection;
+using Common.Extensions.Stardew;
 using Common.Harmony;
-using Common.ModData;
 using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -185,7 +185,7 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // write bonus cooldown reduction
-        var cdr = ModDataIO.Read<float>(Game1.player, "CooldownReduction");
+        var cdr = Game1.player.Read<float>("CooldownReduction");
         if (cdr > 0)
         {
             var amount = $"+{cdr:p0}";

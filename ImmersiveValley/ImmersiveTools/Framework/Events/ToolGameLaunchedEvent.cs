@@ -19,8 +19,10 @@ internal sealed class ToolGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
+        var registry = ModEntry.ModHelper.ModRegistry;
+
         // add Generic Mod Config Menu integration
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.GenericModConfigMenu"))
+        if (registry.IsLoaded("spacechase0.GenericModConfigMenu"))
             new GenericModConfigMenuIntegrationForImmersiveTools(
                 getConfig: () => ModEntry.Config,
                 reset: () =>
@@ -29,8 +31,10 @@ internal sealed class ToolGameLaunchedEvent : GameLaunchedEvent
                     ModEntry.ModHelper.WriteConfig(ModEntry.Config);
                 },
                 saveAndApply: () => { ModEntry.ModHelper.WriteConfig(ModEntry.Config); },
-                modRegistry: ModEntry.ModHelper.ModRegistry,
+                modRegistry: registry,
                 manifest: ModEntry.Manifest
             ).Register();
+
+        if (ModEntry.Config.FaceMouseCursor) ModEntry.Manager.Enable<ToolButtonPressedEvent>();
     }
 }

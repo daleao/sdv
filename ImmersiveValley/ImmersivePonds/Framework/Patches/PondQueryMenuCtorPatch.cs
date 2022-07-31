@@ -4,7 +4,7 @@
 
 using Common;
 using Common.Extensions;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.Menus;
@@ -29,26 +29,26 @@ internal sealed class PondQueryMenuCtorPatch : Common.Harmony.HarmonyPatch
     {
         try
         {
-            ModDataIO.Read(fish_pond, "FishQualities").ParseTuple<int, int, int, int>();
+            fish_pond.Read("FishQualities").ParseTuple<int, int, int, int>();
         }
         catch (InvalidOperationException ex)
         {
             Log.W($"FishQualities data is invalid. {ex}\nThe data will be reset");
-            ModDataIO.Write(fish_pond, "FishQualities", $"{fish_pond.FishCount},0,0,0");
-            ModDataIO.Write(fish_pond, "FamilyQualities", null);
-            ModDataIO.Write(fish_pond, "FamilyLivingHere", null);
+            fish_pond.Write("FishQualities", $"{fish_pond.FishCount},0,0,0");
+            fish_pond.Write("FamilyQualities", null);
+            fish_pond.Write("FamilyLivingHere", null);
         }
 
         try
         {
-            ModDataIO.Read(fish_pond, "FamilyQualities").ParseTuple<int, int, int, int>();
+            fish_pond.Read("FamilyQualities").ParseTuple<int, int, int, int>();
         }
         catch (InvalidOperationException ex)
         {
             Log.W($"FamilyQuality data is invalid. {ex}\nThe data will be reset");
-            ModDataIO.Write(fish_pond, "FishQualities", $"{fish_pond.FishCount},0,0,0");
-            ModDataIO.Write(fish_pond, "FamilyQualities", null);
-            ModDataIO.Write(fish_pond, "FamilyLivingHere", null);
+            fish_pond.Write("FishQualities", $"{fish_pond.FishCount},0,0,0");
+            fish_pond.Write("FamilyQualities", null);
+            fish_pond.Write("FamilyLivingHere", null);
         }
     }
 

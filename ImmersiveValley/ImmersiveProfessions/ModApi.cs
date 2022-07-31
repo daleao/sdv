@@ -3,7 +3,7 @@
 #region using directives
 
 using Common.Events;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using Framework;
 using Framework.Events.TreasureHunt;
@@ -41,7 +41,7 @@ public class ModAPI
     {
         farmer ??= Game1.player;
         // ReSharper disable once PossibleLossOfFraction
-        return ModDataIO.Read<int>(farmer, "ConservationistTrashCollectedThisSeason") /
+        return farmer.Read<int>("ConservationistTrashCollectedThisSeason") /
                ModEntry.Config.TrashNeededPerTaxBonusPct / 100f;
     }
 

@@ -3,6 +3,7 @@
 #region using directives
 
 using Microsoft.Xna.Framework;
+using ModData;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Locations;
@@ -10,15 +11,14 @@ using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SObject = StardewValley.Object;
 
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="Character"/> class.</summary>
 public static class CharacterExtensions
 {
-    /// <summary>Get the tile distance between the character and a target <see cref="Building"/> in the same <see cref="GameLocation"/>.</summary>
-    /// <param name="building">The target building.</param>
+    /// <summary>Get the tile distance between the character and a target <see cref="Character"/> in the same <see cref="GameLocation"/>.</summary>
+    /// <param name="character">The target character.</param>
     public static double DistanceTo(this Character character, Building building) =>
         (character.getTileLocation() - new Vector2(building.tileX.Value, building.tileY.Value)).Length();
 
@@ -37,17 +37,17 @@ public static class CharacterExtensions
     public static double DistanceTo(this Character character, TerrainFeature terrain) =>
         (character.getTileLocation() - terrain.currentTileLocation).Length();
 
-    /// <summary>Find the closest <see cref="Building"/> to this character in the current <see cref="GameLocation"/>.</summary>
-    /// <typeparam name="T">A subtype of <see cref="Building"/>.</typeparam>
-    /// <param name="candidates">The candidate buildings, if already available.</param>
+    /// <summary>Find the closest <see cref="Character"/> to this character in the current <see cref="GameLocation"/>.</summary>
+    /// <typeparam name="T">A subtype of <see cref="Character"/>.</typeparam>
+    /// <param name="candidates">The candidate characters, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
-    public static T? GetClosestBuilding<T>(this Character character, IEnumerable<T>? candidates = null,
-        Func<T, bool>? predicate = null) where T : Building
+    public static T? GetClosestCharacter<T>(this Character character, IEnumerable<T>? candidates = null,
+        Func<T, bool>? predicate = null) where T : Character
     {
         if (character.currentLocation is not BuildableGameLocation buildable) return null;
 
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ?? buildable.buildings.OfType<T>().Where(b => predicate(b)).ToArray();
+        var candidatesArr = candidates?.ToArray() ?? buildable.characters.OfType<T>().Where(b => predicate(b)).ToArray();
         var distanceToClosest = double.MaxValue;
         switch (candidatesArr.Length)
         {
@@ -196,4 +196,33 @@ public static class CharacterExtensions
 
         return closest;
     }
+
+    /// <inheritdoc cref="ModDataIO.Read"/>
+    public static string Read(this Character character, string field, string defaultValue = "", string modId = "") =>
+        ModDataIO.Read(character, field, defaultValue, modId);
+
+    /// <inheritdoc cref="ModDataIO.Read{T}"/>
+    public static T Read<T>(this Character character, string field, T defaultValue = default, string modId = "") where T : struct =>
+        ModDataIO.Read(character, field, defaultValue, modId);
+
+    /// <inheritdoc cref="ModDataIO.Write"/>
+    public static void Write(this Character character, string field, string? value) =>
+        ModDataIO.Write(character, field, value);
+
+    /// <inheritdoc cref="ModDataIO.WriteIfNotExists"/>
+    public static void WriteIfNotExists(this Character character, string field, string? value) =>
+        ModDataIO.WriteIfNotExists(character, field, value);
+
+    /// <inheritdoc cref="ModDataIO.Append"/>
+    public static void Append(this Character character, string field, string value, string separator = ",") =>
+        ModDataIO.Append(character, field, value, separator);
+
+    /// <inheritdoc cref="ModDataIO.Increment{T}"/>
+    public static void Increment<T>(this Character character, string field, T amount) where T : struct =>
+        ModDataIO.Increment(character, field, amount);
+
+    /// <summary>Increment the value of a numeric field in the character's <see cref="ModDataDictionary" /> by 1.</summary>
+    /// <param name="field">The field to update.</param>
+    public static void Increment(this Character character, string field) =>
+        ModDataIO.Increment(character, field, 1);
 }

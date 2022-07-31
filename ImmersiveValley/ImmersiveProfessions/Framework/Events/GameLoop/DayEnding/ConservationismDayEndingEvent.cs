@@ -3,7 +3,7 @@
 #region using directives
 
 using Common.Events;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Extensions;
 using StardewModdingAPI.Events;
 using System;
@@ -28,14 +28,14 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
         foreach (var farmer in Game1.getAllFarmers().Where(f => f.HasProfession(Profession.Conservationist)))
         {
             var trashCollectedThisSeason =
-                ModDataIO.Read<uint>(farmer, "ConservationistTrashCollectedThisSeason");
+                farmer.Read<uint>("ConservationistTrashCollectedThisSeason");
             if (trashCollectedThisSeason <= 0) return;
 
             var taxBonusForNextSeason =
                 // ReSharper disable once PossibleLossOfFraction
                 Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f,
                     ModEntry.Config.ConservationistTaxBonusCeiling);
-            ModDataIO.Write(farmer, "ConservationistActiveTaxBonusPct",
+            farmer.Write("ConservationistActiveTaxBonusPct",
                 taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
             if (taxBonusForNextSeason > 0 && ModEntry.TaxesConfig is null)
             {
@@ -43,7 +43,7 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
                 farmer.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
             }
 
-            ModDataIO.Write(farmer, "ConservationistTrashCollectedThisSeason", "0");
+            farmer.Write("ConservationistTrashCollectedThisSeason", "0");
         }
     }
 }

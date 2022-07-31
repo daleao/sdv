@@ -4,7 +4,7 @@
 
 using Common;
 using Common.Events;
-using Common.ModData;
+using Common.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using Ultimates;
@@ -32,12 +32,11 @@ internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceive
         }
 
         var newState = e.ReadAs<string>();
-        UltimateIndex index;
         switch (newState)
         {
             case "Active":
                 Log.D($"{who.Name} activated their Ultimate ability.");
-                index = ModDataIO.Read<UltimateIndex>(who, "UltimateIndex");
+                var index = who.Read<UltimateIndex>("UltimateIndex");
                 var glowingColor = index switch
                 {
                     UltimateIndex.BruteFrenzy => Color.OrangeRed,
