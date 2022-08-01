@@ -26,7 +26,7 @@ public static class GreenSlimeExtensions
         slime.MaxHealth += (int)Math.Round(slime.Health * slime.Scale * slime.Scale);
         slime.Health = slime.MaxHealth;
         slime.moveTowardPlayerThreshold.Value = 9999;
-        if (Game1.random.NextDouble() < 1.0 / 3.0) slime.addedSpeed += Game1.random.Next(3);
+        if (Game1.random.NextDouble() < 1d / 3d) slime.addedSpeed += Game1.random.Next(3);
         if (slime.Scale >= 1.8f) slime.willDestroyObjectsUnderfoot = true;
 
         slime.set_Inflated(true);

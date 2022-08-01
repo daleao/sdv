@@ -26,8 +26,6 @@ internal sealed class VampiricEnchantmentOnMonsterSlayPatch : Common.Harmony.Har
     {
         if (!ModEntry.Config.NewWeaponEnchants) return true; // run original logic
 
-        if (Game1.random.NextDouble() > 0.5) return false; // don't run original logic
-
         var amount = Math.Max((int)((m.MaxHealth + Game1.random.Next(-m.MaxHealth / 10, m.MaxHealth / 15)) * 0.05f),
             1);
         who.health = Math.Min(who.health + amount, (int)(who.maxHealth * 1.1));

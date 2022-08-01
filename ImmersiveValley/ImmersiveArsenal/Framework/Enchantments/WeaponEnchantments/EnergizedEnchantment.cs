@@ -3,6 +3,7 @@
 #region using directives
 
 using Events;
+using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 using System.Xml.Serialization;
 
@@ -17,13 +18,12 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
     {
         if (ModEntry.EnergizeStacks.Value >= 100)
         {
-            // do energized...
-
+            DoLightningStrike(monster, location, who, amount);
             ModEntry.EnergizeStacks.Value = 0;
         }
         else
         {
-            ++ModEntry.EnergizeStacks.Value;
+            ModEntry.EnergizeStacks.Value += 6;
         }
     }
 
@@ -40,4 +40,23 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
     }
 
     public override string GetName() => ModEntry.i18n.Get("enchantments.energized");
+
+    private void DoLightningStrike(Monster monster, GameLocation location, Farmer who, int amount)
+    {
+        var lightningEvent = new Farm.LightningStrikeEvent
+        {
+            bigFlash = true,
+            createBolt = true,
+            boltPosition = monster.Position + new Vector2(32f, 32f)
+        };
+
+        Game1.delayedActions.Add(new(200, () =>
+        {
+            Game1.flashAlpha = (float) (0.5 + Game1.random.NextDouble());
+            Game1.playSound("thunder");
+            Utility.drawLightningBolt(lightningEvent.boltPosition, location);
+            location.damageMonster(new(monster.getTileX() - 6, monster.getTileY() - 6, 12, 12), amount * 3, amount * 5,
+                false, who);
+        }));
+    }
 }

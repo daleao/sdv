@@ -219,7 +219,7 @@ internal class UltimateHUD
         if (_fadeOutTimer >= FADE_OUT_DURATION_I) return;
 
         var ratio = (float)_fadeOutTimer / FADE_OUT_DURATION_I;
-        _opacity = (float)(-1.0 / (1.0 + Math.Exp(12.0 * ratio - 6.0)) + 1.0);
+        _opacity = (float)(-1d / (1d + Math.Exp(12d * ratio - 6d)) + 1d);
         if (_fadeOutTimer > 0) return;
 
         ModEntry.EventManager.Disable<UltimateGaugeFadeOutUpdateTickedEvent>();

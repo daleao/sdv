@@ -65,7 +65,7 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
             var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
                 : StardewValley.Utility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
-            monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1.0, "slime");
+            monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1d, "slime");
             monster.currentLocation.debris.Add(new(damageToMonster,
                 new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f, monster));
             monster.setInvincibleCountdown(IMMUNE_TO_DAMAGE_DURATION_I);
@@ -81,7 +81,7 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                                     monster.DamageToFarmer + Game1.random.Next(-monster.DamageToFarmer / 4,
                                         monster.DamageToFarmer / 4)) -
                                 __instance.resilience.Value;
-            __instance.takeDamage(damageToSlime, (int)-xTrajectory, (int)-yTrajectory, false, 1.0, "slime");
+            __instance.takeDamage(damageToSlime, (int)-xTrajectory, (int)-yTrajectory, false, 1d, "slime");
             if (__instance.Health <= 0) break;
         }
     }

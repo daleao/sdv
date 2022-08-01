@@ -5,7 +5,6 @@ namespace DaLion.Stardew.Arsenal.Integrations;
 using Common.Integrations.GenericModConfigMenu;
 using Framework.Events;
 using System;
-using System.Linq;
 
 #endregion using directives
 
@@ -89,7 +88,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 (config, value) => config.WoodyReplacesRusty = value
             )
             .AddCheckbox(
-                () => "Infinity Plus One Sword",
+                () => "Infinity-Plus-One Weapons",
                 () => "Replace lame Galaxy and Infinity weapons with something truly legendary.",
                 config => config.InfinityPlusOneWeapons,
                 (config, value) =>
@@ -148,22 +147,58 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 config => config.RebalancedForges,
                 (config, value) => config.RebalancedForges = value
             )
-            .AddDropdown(
-                () => "Topaz Perk",
-                () =>
-                    "The stat improved by the Topaz enchantment.\nYOU MUST REMOVE ALL EXISTING TOPAZ ENCHANTMENTS BEFORE CHANGING THIS SETTING.",
-                config => config.TopazPerk.ToString(),
-                (config, value) => config.TopazPerk = Enum.Parse<ModConfig.Perk>(value),
-                Enum.GetValues<ModConfig.Perk>().Select(p => p.ToString()).ToArray(),
-                null
-            )
 
-            .AddSectionTitle(() => "Misc. Settings")
+            .AddSectionTitle(() => "Player Settings")
             .AddCheckbox(
                 () => "Remove Defense Soft Cap",
                 () => "Damage mitigation should not be soft-capped at 50%.",
-                config => config.RemoveDefenseSoftCap,
-                (config, value) => config.RemoveDefenseSoftCap = value
+                config => config.RemoveFarmerDefenseSoftCap,
+                (config, value) => config.RemoveFarmerDefenseSoftCap = value
+            )
+            
+
+            .AddSectionTitle(() => "Monster Settings")
+            .AddNumberField(
+                () => "Monster Health Multiplier",
+                () => "Increases the health of all enemies.",
+                config => config.MonsterHealthMultiplier,
+                (config, value) => config.MonsterHealthMultiplier = value,
+                1f,
+                3f
+            )
+            .AddNumberField(
+                () => "Monster Damage Multiplier",
+                () => "Increases the damage dealt by all enemies.",
+                config => config.MonsterDamageMultiplier,
+                (config, value) => config.MonsterDamageMultiplier = value,
+                1f,
+                3f
+            )
+            .AddNumberField(
+                () => "Monster Defense Multiplier",
+                () => "Increases the damage resistance of all enemies.",
+                config => config.MonsterDefenseMultiplier,
+                (config, value) => config.MonsterDefenseMultiplier = value,
+                1f,
+                3f
+            )
+            .AddCheckbox(
+                () => "Improve Enemy Defense",
+                () => "Effectively squares the defense of enemy monsters.",
+                config => config.ImprovedEnemyDefense,
+                (config, value) => config.ImprovedEnemyDefense = value
+            )
+            .AddCheckbox(
+                () => "Crits Ignore Defense",
+                () => "Damage mitigation is skipped for critical hits.",
+                config => config.CritsIgnoreDefense,
+                (config, value) => config.CritsIgnoreDefense = value
+            )
+            .AddCheckbox(
+                () => "Varied Monster Stats",
+                () => "Randomizes monster stats, subject to daily luck bias, to add variability to monster encounters.",
+                config => config.VariedMonsterStats,
+                (config, value) => config.VariedMonsterStats = value
             );
     }
 }

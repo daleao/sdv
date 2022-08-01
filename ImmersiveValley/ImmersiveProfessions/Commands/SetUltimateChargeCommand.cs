@@ -50,6 +50,6 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
             return;
         }
 
-        ultimate.ChargeValue = (double)value * ultimate.MaxValue / 100.0;
+        ultimate.ChargeValue = (double)value * ultimate.MaxValue / 100d;
     }
 }

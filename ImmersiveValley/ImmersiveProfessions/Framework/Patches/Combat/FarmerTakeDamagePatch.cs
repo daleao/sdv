@@ -216,7 +216,7 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
                         typeof(IUltimate).RequirePropertyGetter(nameof(IUltimate.ChargeValue))),
                     new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = int damage
                     new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Ldc_R8, 4.0),
+                    new CodeInstruction(OpCodes.Ldc_R8, 4d),
                     new CodeInstruction(OpCodes.Div),
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Callvirt,

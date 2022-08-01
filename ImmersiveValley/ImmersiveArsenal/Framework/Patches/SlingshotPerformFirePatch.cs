@@ -1,18 +1,17 @@
-﻿using DaLion.Stardew.Arsenal.Framework.Enchantments;
-using System.Linq;
-
-namespace DaLion.Stardew.Arsenal.Framework.Patches;
+﻿namespace DaLion.Stardew.Arsenal.Framework.Patches;
 
 #region using directives
 
 using Common;
 using Common.Extensions.Reflection;
+using Enchantments;
 using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 using System;
+using System.Linq;
 using System.Reflection;
 using VirtualProperties;
 

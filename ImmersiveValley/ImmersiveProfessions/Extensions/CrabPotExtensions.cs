@@ -146,11 +146,11 @@ public static class CrabPotExtensions
         if (!owner.HasProfession(Profession.Trapper) || fish.IsPirateTreasure() || fish.IsAlgae())
             return SObject.lowQuality;
 
-        return owner.HasProfession(Profession.Trapper, true) && r.NextDouble() < owner.FishingLevel / 60.0
+        return owner.HasProfession(Profession.Trapper, true) && r.NextDouble() < owner.FishingLevel / 60d
             ? SObject.bestQuality
-            : r.NextDouble() < owner.FishingLevel / 30.0
+            : r.NextDouble() < owner.FishingLevel / 30d
                 ? SObject.highQuality
-                : r.NextDouble() < owner.FishingLevel / 15.0
+                : r.NextDouble() < owner.FishingLevel / 15d
                     ? SObject.medQuality
                     : SObject.lowQuality;
     }

@@ -57,7 +57,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
             if (!ModEntry.IsImmersiveProfessionsLoaded && lastUser.professions.Contains(Farmer.acrobat)) ModEntry.SlingshotCooldown.Value
  /= 2;
             if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>()) ModEntry.SlingshotCooldown.Value /= 2;
-            if (ModEntry.Config.TopazPerk == ModConfig.Perk.Cooldown)
+            if (slingshot.hasEnchantmentOfType<GarnetEnchantment>())
                 ModEntry.SlingshotCooldown.Value = (int)(ModEntry.SlingshotCooldown.Value *
                                                          (1f - slingshot.GetEnchantmentLevel<TopazEnchantment>() * 0.1f));
             if (ModEntry.IsImmersiveRingsLoaded)

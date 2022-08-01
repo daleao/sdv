@@ -31,6 +31,12 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
         Manager = manager;
     }
 
+    /// <summary>Invoked once when the event is enabled.</summary>
+    protected virtual void OnEnabled() { }
+
+    /// <summary>Invoked once when the event is disabled.</summary>
+    protected virtual void OnDisabled() { }
+
     /// <inheritdoc />
     public virtual bool IsEnabled => _Enabled.Value || AlwaysEnabled;
 
@@ -38,10 +44,22 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     public bool IsEnabledForScreen(int screenID) => _Enabled.GetValueForScreen(screenID);
 
     /// <inheritdoc />
-    public bool Enable() => !_Enabled.Value && (_Enabled.Value = true);
+    public bool Enable()
+    {
+        if (_Enabled.Value || !(_Enabled.Value = true)) return false;
+
+        OnEnabled();
+        return true;
+    }
 
     /// <inheritdoc />
-    public bool Disable() => _Enabled.Value && !(_Enabled.Value = false);
+    public bool Disable()
+    {
+        if (!_Enabled.Value || (_Enabled.Value = false)) return false;
+        
+        OnDisabled();
+        return true;
+    }
 
     /// <inheritdoc />
     public override string ToString() => GetType().Name;

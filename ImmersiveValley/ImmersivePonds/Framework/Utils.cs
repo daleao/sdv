@@ -36,12 +36,12 @@ internal static class Utils
     internal static int ChooseAlgae(int? bias = null, Random? r = null)
     {
         r ??= Game1.random;
-        if (bias.HasValue && r.NextDouble() > 2.0 / 3.0) return bias.Value;
+        if (bias.HasValue && r.NextDouble() > 2d / 3d) return bias.Value;
 
         return r.NextDouble() switch
         {
-            > 2.0 / 3.0 => Constants.GREEN_ALGAE_INDEX_I,
-            > 1.0 / 3.0 => Constants.SEAWEED_INDEX_I,
+            > 2d / 3d => Constants.GREEN_ALGAE_INDEX_I,
+            > 1d / 3d => Constants.SEAWEED_INDEX_I,
             _ => Constants.WHITE_ALGAE_INDEX_I
         };
     }
@@ -59,8 +59,8 @@ internal static class Utils
         ///     30g -> ~324g (~90% roe chance per fish)
         ///     700g -> ~1512g (~18% roe chance per fish)
         ///     5000g -> ~4050g (~13.5% roe chance per fish)
-        const double a = 335.0 / 4.0;
-        const double b = 275.0 / 2.0;
-        return a / (value + b) * (1.0 + neighbors / 11.0 - 1.0 / 11.0) * ModEntry.Config.RoeProductionChanceMultiplier;
+        const double a = 335d / 4d;
+        const double b = 275d / 2d;
+        return a / (value + b) * (1d + neighbors / 11d - 1d / 11d) * ModEntry.Config.RoeProductionChanceMultiplier;
     }
 }

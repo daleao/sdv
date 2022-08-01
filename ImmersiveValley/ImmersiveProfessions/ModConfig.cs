@@ -129,10 +129,10 @@ public class ModConfig
     public float SpecialActivationDelay { get; set; } = 1f;
 
     /// <summary>Affects the rate at which one builds the Ultimate meter. Increase this if you feel the gauge raises too slowly.</summary>
-    public double SpecialGainFactor { get; set; } = 1.0;
+    public double SpecialGainFactor { get; set; } = 1d;
 
     /// <summary>Affects the rate at which the Ultimate meter depletes during Ultimate. Decrease this to make Ultimate last longer.</summary>
-    public double SpecialDrainFactor { get; set; } = 1.0;
+    public double SpecialDrainFactor { get; set; } = 1d;
 
     /// <summary>Required to apply prestige changes.</summary>
     public bool EnablePrestige { get; set; } = true;
@@ -161,15 +161,6 @@ public class ModConfig
     /// <summary>Multiplies all skill experience gained from the start of the game.</summary>
     /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat.</remarks>
     public float[] BaseSkillExpMultiplierPerSkill { get; set; } = { 1f, 1f, 1f, 1f, 1f, 1f };
-
-    /// <summary>Increases the health of all monsters.</summary>
-    public float MonsterHealthMultiplier { get; set; } = 1f;
-
-    /// <summary>Increases the damage dealt by all monsters.</summary>
-    public float MonsterDamageMultiplier { get; set; } = 1f;
-
-    /// <summary>Increases the resistance of all monsters.</summary>
-    public float MonsterDefenseMultiplier { get; set; } = 1f;
 
     /// <summary>Enable if using the Vintage Interface v2 mod. Accepted values: "Brown", "Pink", "Off", "Automatic".</summary>
     public VintageInterfaceStyle VintageInterfaceSupport { get; set; } = VintageInterfaceStyle.Automatic;

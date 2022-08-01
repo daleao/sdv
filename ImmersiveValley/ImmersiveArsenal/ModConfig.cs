@@ -51,18 +51,26 @@ public class ModConfig
     /// <summary>Improves certain underwhelming enchantments.</summary>
     public bool RebalancedForges { get; set; } = true;
 
-    /// <summary>The stat improved by Topaz forge.</summary>
-    public Perk TopazPerk { get; set; } = Perk.Cooldown;
 
-    /// <summary>Available perks for the Topaz gemstone.</summary>
-    public enum Perk
-    {
-        Defense,
-        Cooldown,
-        Precision
-    }
+    /// <summary>Removes the 50% soft-cap on player defense.</summary>
+    public bool RemoveFarmerDefenseSoftCap { get; set; } = true;
+
+    /// <summary>Monster defense is effectively squared.</summary>
+    public bool ImprovedEnemyDefense { get; set; } = true;
+    
+    /// <summary>Damage mitigation is skipped for critical hits.</summary>
+    public bool CritsIgnoreDefense { get; set; } = true;
 
 
-    /// <summary>Damage mitigation should not be soft-capped at 50%.</summary>
-    public bool RemoveDefenseSoftCap { get; set; } = true;
+    /// <summary>Increases the health of all monsters.</summary>
+    public float MonsterHealthMultiplier { get; set; } = 1.5f;
+
+    /// <summary>Increases the damage dealt by all monsters.</summary>
+    public float MonsterDamageMultiplier { get; set; } = 1f;
+
+    /// <summary>Increases the resistance of all monsters.</summary>
+    public float MonsterDefenseMultiplier { get; set; } = 1f;
+
+    /// <summary>Randomizes monster stats to add variability to monster encounters.</summary>
+    public bool VariedMonsterStats { get; set; } = true;
 }

@@ -61,7 +61,7 @@ public class SpreadingEnchantment : BaseSlingshotEnchantment
         var index = immersive.IsQuincy ? 14 : _GetCurrentTileSheetIndex.Value(projectile).Value;
 
         velocity = velocity.Rotate(angle);
-        var rDamage = (int)(damage * (1.0 + Game1.random.Next(-2, 3) / 10.0));
+        var rDamage = (int)(damage * (1d + Game1.random.Next(-2, 3) / 10d));
         var clockwise = new ImmersiveProjectile(slingshot, rDamage, index, 0, 0,
             (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed, velocity.Y * speed,
             startingPosition, _GetCollisionSound.Value(projectile).Value, string.Empty, false, true, location, who,

@@ -32,9 +32,8 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : Common.Harmony.Harm
     [HarmonyBefore("DaLion.ImmersiveRings")]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
-        if (ModEntry.Config.TopazPerk != ModConfig.Perk.Cooldown) return;
-
-        var cdr = __instance.GetEnchantmentLevel<TopazEnchantment>() * 0.1f;
+        var cdr = __instance.GetEnchantmentLevel<GarnetEnchantment>() * 0.1f;
+        if (cdr <= 0f) return;
 
         if (MeleeWeapon.attackSwordCooldown > 0)
             MeleeWeapon.attackSwordCooldown = (int)(MeleeWeapon.attackSwordCooldown * (1f - cdr));

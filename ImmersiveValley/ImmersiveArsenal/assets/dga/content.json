@@ -8,5 +8,15 @@
 		"CanTrash": false,
 		"HideFromShippingCollection": true,
 		"IsGiftable": false,
+    },
+	{
+        "$ItemType": "Object",
+        "ID": "Garnet",
+        "Category": "Gem",
+		"Texture": "garnet.png:0",
+		"SellPrice": 300,
+		"CanTrash": true,
+		"HideFromShippingCollection": false,
+		"IsGiftable": true,
     }
 ]

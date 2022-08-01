@@ -34,7 +34,7 @@ internal sealed class ProjectileBehaviorOnCollisionPatch : DaLion.Common.Harmony
         if (projectile.IsSlimeAmmo() && firer.get_Ultimate() is Concerto { IsActive: false } concerto)
             concerto.ChargeValue += Game1.random.Next(5);
 
-        if (firer.HasProfession(Profession.Rascal) && (projectile.IsMineralAmmo() && Game1.random.NextDouble() < 0.5 ||
+        if (firer.HasProfession(Profession.Rascal) && (projectile.IsMineralAmmo() && Game1.random.NextDouble() < 0.6 ||
             ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.25))
             location.debris.Add(new(___currentTileSheetIndex.Value - 1, new((int)___position.X, (int)___position.Y),
                 firer.getStandingPosition()));

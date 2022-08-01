@@ -117,6 +117,29 @@ internal sealed class GameLocationDamageMonsterPatch : Common.Harmony.HarmonyPat
             return null;
         }
 
+        /// Injected: Monster.set_GotCrit(true);
+        /// After: playSound("crit");
+        
+        try
+        {
+            helper
+                .FindNext(
+                    new CodeInstruction(OpCodes.Ldstr, "crit")
+                )
+                .Advance(3)
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldloc_2),
+                    new CodeInstruction(OpCodes.Ldc_I4_1),
+                    new CodeInstruction(OpCodes.Call,
+                        typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.set_GotCrit)))
+                );
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed recording crit flag.\nHelper returned {ex}");
+            return null;
+        }
+
         /// From: else if (damageAmount > 0) { ... }
         /// To: else { DoSlingshotSpecial(monster, who); if (damageAmount > 0) { ... } }
 

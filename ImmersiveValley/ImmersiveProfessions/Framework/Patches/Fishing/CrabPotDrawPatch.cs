@@ -38,8 +38,8 @@ internal sealed class CrabPotDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 return true; // run original logic
 
             __instance.tileIndexToShow = 714;
-            ___yBob = (float)(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 500.0 + x * 64) *
-                8.0 + 8.0);
+            ___yBob = (float)(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 500d + x * 64) *
+                8d + 8d);
             if (___yBob <= 0.001f)
                 Game1.currentLocation.temporarySprites.Add(new(
                     PathUtilities.NormalizeAssetName("TileSheets/animations"), new(0, 0, 64, 64), 150f, 8, 0,
@@ -64,7 +64,7 @@ internal sealed class CrabPotDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 (y * 64 + __instance.directionOffset.Value.Y + x % 4) / 9999f);
             var yOffset = 4f *
                           (float)Math.Round(
-                              Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0), 2);
+                              Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250d), 2);
             spriteBatch.Draw(Game1.mouseCursors,
                 Game1.GlobalToLocal(Game1.viewport,
                     __instance.directionOffset.Value + new Vector2(x * 64f - 8f, y * 64f - 96f - 16f + yOffset)),

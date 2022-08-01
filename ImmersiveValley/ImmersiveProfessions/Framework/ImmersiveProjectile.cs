@@ -84,7 +84,7 @@ internal class ImmersiveProjectile : BasicProjectile
             {
                 location.damageMonster(monster.GetBoundingBox(), damage, damage + 1, false, knockback, 0, crate,
                     cpower, true, firer);
-                if (!monster.CanBeSlowed() || !(Game1.random.NextDouble() < 2.0 / 3.0)) return;
+                if (!monster.CanBeSlowed() || !(Game1.random.NextDouble() < 2d / 3d)) return;
 
                 monster.get_SlowIntensity().Value = 2;
                 monster.get_SlowTimer().Value = 5123 + Game1.random.Next(-2, 3) * 456;

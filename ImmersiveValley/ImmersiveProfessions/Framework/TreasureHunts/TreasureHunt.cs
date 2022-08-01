@@ -38,7 +38,7 @@ internal abstract class TreasureHunt : ITreasureHunt
     protected Rectangle iconSourceRect;
     protected readonly Random random = new(Guid.NewGuid().GetHashCode());
 
-    private double _chanceAccumulator = 1.0;
+    private double _chanceAccumulator = 1d;
 
     /// <summary>Construct an instance.</summary>
     internal TreasureHunt()
@@ -64,7 +64,7 @@ internal abstract class TreasureHunt : ITreasureHunt
     /// <summary>Reset the accumulated bonus chance to trigger a new hunt.</summary>
     internal void ResetChanceAccumulator()
     {
-        _chanceAccumulator = 1.0;
+        _chanceAccumulator = 1d;
     }
 
     /// <summary>Check for completion or failure.</summary>
@@ -89,11 +89,11 @@ internal abstract class TreasureHunt : ITreasureHunt
 
         if (random.NextDouble() > ModEntry.Config.ChanceToStartTreasureHunt * _chanceAccumulator)
         {
-            _chanceAccumulator *= 1.0 + Game1.player.DailyLuck;
+            _chanceAccumulator *= 1d + Game1.player.DailyLuck;
             return false;
         }
 
-        _chanceAccumulator = 1.0;
+        _chanceAccumulator = 1d;
         return true;
     }
 
@@ -101,7 +101,7 @@ internal abstract class TreasureHunt : ITreasureHunt
     protected virtual void ForceStart()
     {
         if (IsActive) ThrowHelper.ThrowInvalidOperationException("A Treasure Hunt is already active in this instance.");
-        _chanceAccumulator = 1.0;
+        _chanceAccumulator = 1d;
     }
 
     /// <summary>Select a random tile and make sure it is a valid treasure target.</summary>

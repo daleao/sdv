@@ -1,6 +1,4 @@
-﻿using DaLion.Stardew.Professions.Framework.VirtualProperties;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
@@ -8,6 +6,7 @@ using Extensions;
 using HarmonyLib;
 using StardewValley.Monsters;
 using System.Linq;
+using VirtualProperties;
 
 #endregion using directives
 

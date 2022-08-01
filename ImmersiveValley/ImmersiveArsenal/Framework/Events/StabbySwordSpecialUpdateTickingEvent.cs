@@ -63,7 +63,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
             MeleeWeapon.attackSwordCooldown = MeleeWeapon.attackSwordCooldownTime;
             if (!ModEntry.IsImmersiveProfessionsLoaded && user.professions.Contains(Farmer.acrobat)) MeleeWeapon.attackSwordCooldown /= 2;
             if (sword.hasEnchantmentOfType<ArtfulEnchantment>()) MeleeWeapon.attackSwordCooldown /= 2;
-            if (ModEntry.Config.TopazPerk == ModConfig.Perk.Cooldown)
+            if (sword.hasEnchantmentOfType<GarnetEnchantment>())
                 MeleeWeapon.attackSwordCooldown = (int) (MeleeWeapon.attackSwordCooldown *
                                                          (1f - sword.GetEnchantmentLevel<TopazEnchantment>() * 0.1f));
 #endif

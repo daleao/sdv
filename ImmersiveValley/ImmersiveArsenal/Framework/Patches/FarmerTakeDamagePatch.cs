@@ -60,7 +60,7 @@ internal sealed class FarmerTakeDamagePatch : Common.Harmony.HarmonyPatch
                     labels,
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.RemoveDefenseSoftCap))),
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.RemoveFarmerDefenseSoftCap))),
                     new CodeInstruction(OpCodes.Brtrue_S, skipSoftCap)
                 )
                 .AdvanceUntil(

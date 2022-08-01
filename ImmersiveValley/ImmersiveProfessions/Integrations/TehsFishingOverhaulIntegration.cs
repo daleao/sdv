@@ -104,7 +104,7 @@ internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifi
             (who, chance) => who.CurrentTool is FishingRod rod &&
                              rod.getBaitAttachmentIndex() != 703 // magnet
                              && who.HasProfession(Profession.Fisher)
-                ? 1 - Math.Pow(1 - chance, 2.0)
+                ? 1 - Math.Pow(1 - chance, 2d)
                 : chance);
 
         // remove Pirate perks

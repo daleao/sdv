@@ -22,8 +22,6 @@ internal sealed class TopazEnchantmentApplyToPatch : Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     private static bool TopazEnchantmentApplyToPrefix(TopazEnchantment __instance, Item item)
     {
-        if (ModEntry.Config.TopazPerk != ModConfig.Perk.Defense) return false; // don't run original logic
-
         switch (item)
         {
             case MeleeWeapon weapon when ModEntry.Config.RebalancedForges:

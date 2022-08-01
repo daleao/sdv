@@ -3,6 +3,7 @@
 #region using directives
 
 using Common.Extensions.Reflection;
+using Enchantments;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -128,7 +129,7 @@ internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // write bonus cooldown reduction
-        if (__instance.hasEnchantmentOfType<TopazEnchantment>() && ModEntry.Config.TopazPerk == ModConfig.Perk.Cooldown)
+        if (__instance.hasEnchantmentOfType<GarnetEnchantment>())
         {
             var cdr = __instance.GetEnchantmentLevel<TopazEnchantment>() * 0.1f;
             var amount = $"{cdr:p0}";
@@ -144,8 +145,7 @@ internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
         if (__instance.addedDefense.Value > 0)
         {
             co = Game1.textColor;
-            if (__instance.hasEnchantmentOfType<TopazEnchantment>() &&
-                ModEntry.Config.TopazPerk == ModConfig.Perk.Defense) co = new(0, 120, 120);
+            if (__instance.hasEnchantmentOfType<TopazEnchantment>()) co = new(0, 120, 120);
 
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(110, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);

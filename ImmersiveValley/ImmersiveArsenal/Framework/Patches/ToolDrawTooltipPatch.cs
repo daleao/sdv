@@ -3,6 +3,7 @@
 #region using directives
 
 using Common.Extensions.Reflection;
+using Enchantments;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -112,8 +113,22 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
             hasForge = true;
         }
 
+        // write bonus cooldown reduction
+        if (__instance.hasEnchantmentOfType<GarnetEnchantment>())
+        {
+            var amount =
+                $"+{__instance.GetEnchantmentLevel<GarnetEnchantment>() * 0.1f:p0}";
+            co = new(0, 120, 120);
+            Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(150, 428, 10, 10),
+                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            Utility.drawTextWithShadow(spriteBatch, ModEntry.i18n.Get("ui.itemhover.damage", new {amount}), font,
+                new(x + 68, y + 28), co * 0.9f * alpha);
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+            hasForge = true;
+        }
+
         // write bonus defense
-        if (__instance.hasEnchantmentOfType<TopazEnchantment>() && ModEntry.Config.TopazPerk == ModConfig.Perk.Defense)
+        if (__instance.hasEnchantmentOfType<TopazEnchantment>())
         {
             var amount =
                 $"+{__instance.GetEnchantmentLevel<TopazEnchantment>() * (ModEntry.Config.RebalancedForges ? 5 : 1)}";
