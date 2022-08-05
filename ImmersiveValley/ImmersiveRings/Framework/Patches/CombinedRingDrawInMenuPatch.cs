@@ -49,53 +49,14 @@ internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
             scaleSize = 1f;
             location.Y -= (oldScaleSize - 1f) * 32f;
 
-            // draw left half
-            var src = Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet,
-                __instance.indexInTileSheet.Value, 16, 16);
-            src.X += 5;
-            src.Y += 7;
-            src.Width = 4;
-            src.Height = 6;
-            spriteBatch.Draw(Game1.objectSpriteSheet,
-                location + new Vector2(51f, 51f) * scaleSize + new Vector2(-12f, 8f) * scaleSize, src,
-                color * transparency, 0f, new Vector2(1.5f, 2f) * 4f * scaleSize, scaleSize * 4f, SpriteEffects.None,
-                layerDepth);
-            src.X++;
-            src.Y += 4;
-            src.Width = 3;
-            src.Height = 1;
-            spriteBatch.Draw(Game1.objectSpriteSheet,
-                location + new Vector2(51f, 51f) * scaleSize + new Vector2(-8f, 4f) * scaleSize, src,
-                color * transparency, 0f, new Vector2(1.5f, 2f) * 4f * scaleSize, scaleSize * 4f, SpriteEffects.None,
-                layerDepth);
-
-            // draw right half
-            src = Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, __instance.indexInTileSheet.Value,
-                16, 16);
-            src.X += 9;
-            src.Y += 7;
-            src.Width = 4;
-            src.Height = 6;
-            spriteBatch.Draw(Game1.objectSpriteSheet,
-                location + new Vector2(51f, 51f) * scaleSize + new Vector2(4f, 8f) * scaleSize, src,
-                color * transparency, 0f, new Vector2(1.5f, 2f) * 4f * scaleSize, scaleSize * 4f, SpriteEffects.None,
-                layerDepth);
-            src.Y += 4;
-            src.Width = 3;
-            src.Height = 1;
-            spriteBatch.Draw(Game1.objectSpriteSheet,
-                location + new Vector2(51f, 51f) * scaleSize + new Vector2(4f, 4f) * scaleSize, src,
-                color * transparency, 0f, new Vector2(1.5f, 2f) * 4f * scaleSize, scaleSize * 4f, SpriteEffects.None,
-                layerDepth);
-
-            RingDrawInMenuPatch.RingDrawInMenuReverse(__instance, spriteBatch, location + new Vector2(-5f, -1f),
-                scaleSize, transparency, layerDepth, drawStackNumber, color, drawShadow);
+            RingDrawInMenuPatch.RingDrawInMenuReverse(__instance, spriteBatch, location, scaleSize, transparency,
+                layerDepth, drawStackNumber, color, drawShadow);
 
             Vector2 offset;
 
             // draw top gem
             color = Utils.ColorByGemstone[__instance.combinedRings[0].ParentSheetIndex] * transparency;
-            offset = ModEntry.IsBetterRingsLoaded ? new Vector2(19f, 3f) : new(23f, 11f);
+            offset = ModEntry.IsBetterRingsLoaded ? new Vector2(19f, 3f) : new(24f, 12f);
             spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                 new Rectangle(0, 0, 4, 4), color, 0f, Vector2.Zero, scaleSize * 4f, SpriteEffects.None, layerDepth);
 
@@ -103,7 +64,7 @@ internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
             {
                 // draw bottom gem (or left, in case of better rings)
                 color = Utils.ColorByGemstone[__instance.combinedRings[1].ParentSheetIndex] * transparency;
-                offset = ModEntry.IsBetterRingsLoaded ? new Vector2(23f, 19f) : new(23f, 43f);
+                offset = ModEntry.IsBetterRingsLoaded ? new Vector2(23f, 19f) : new(24f, 44f);
                 spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                     new Rectangle(4, 0, 4, 4), color, 0, Vector2.Zero, scaleSize * 4f, SpriteEffects.None,
                     layerDepth);
@@ -113,7 +74,7 @@ internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
             {
                 // draw left gem (or right, in case of better rings)
                 color = Utils.ColorByGemstone[__instance.combinedRings[2].ParentSheetIndex] * transparency;
-                offset = ModEntry.IsBetterRingsLoaded ? new Vector2(35f, 7f) : new(7f, 27f);
+                offset = ModEntry.IsBetterRingsLoaded ? new Vector2(35f, 7f) : new(8f, 28f);
                 spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                     new Rectangle(8, 0, 4, 4), color, 0f, Vector2.Zero, scaleSize * 4f, SpriteEffects.None, layerDepth);
             }
@@ -122,7 +83,7 @@ internal sealed class CombinedRingDrawInMenuPatch : Common.Harmony.HarmonyPatch
             {
                 // draw right gem (or bottom, in case of better rings)
                 color = Utils.ColorByGemstone[__instance.combinedRings[3].ParentSheetIndex] * transparency;
-                offset = ModEntry.IsBetterRingsLoaded ? new Vector2(39f, 23f) : new(39f, 27f);
+                offset = ModEntry.IsBetterRingsLoaded ? new Vector2(39f, 23f) : new(40f, 28f);
                 spriteBatch.Draw(Textures.GemstonesTx, location + offset * scaleSize,
                     new Rectangle(12, 0, 4, 4), color, 0f, Vector2.Zero, scaleSize * 4f, SpriteEffects.None,
                     layerDepth);

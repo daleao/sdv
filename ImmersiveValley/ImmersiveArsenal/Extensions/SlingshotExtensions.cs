@@ -1,5 +1,4 @@
 ﻿// ReSharper disable PossibleLossOfFraction
-
 namespace DaLion.Stardew.Arsenal.Extensions;
 
 #region using directives
@@ -27,7 +26,7 @@ public static class SlingshotExtensions
     /// <summary>Analogous to <see cref="MeleeWeapon.animateSpecialMove"/>.</summary>
     public static void AnimateSpecialMove(this Slingshot slingshot)
     {
-        if (Game1.fadeToBlack || ModEntry.SlingshotCooldown.Value > 0) return;
+        if (Game1.fadeToBlack || ModEntry.State.SlingshotCooldown > 0) return;
 
         var user = slingshot.getLastFarmerToUse();
         if (user is null || user.CurrentTool != slingshot) return;
@@ -35,7 +34,7 @@ public static class SlingshotExtensions
         if (user.isEmoteAnimating) user.EndEmoteAnimation();
 
         slingshot.BeginSpecialMove(user);
-        ModEntry.Manager.Enable<SlingshotSpecialUpdateTickedEvent>();
+        ModEntry.EventManager.Enable<SlingshotSpecialUpdateTickedEvent>();
     }
 
     /// <summary>Analogous to <see cref="MeleeWeapon.beginSpecialMove"/>.</summary>
@@ -132,7 +131,13 @@ public static class SlingshotExtensions
                         break;
                     case 3:
                         b.Draw(Tool.weaponsTexture,
-                            new(playerPosition.X + 118f, playerPosition.Y - 68f), sourceRect,
+                            new(playerPosition.X + 115f, playerPosition.Y - 60f), sourceRect,
+                            Color.White, (float)Math.PI / 2f, Vector2.Zero, 4f, SpriteEffects.None,
+                            Math.Max(0f, (who.getStandingY() + 64) / 10000f));
+                        break;
+                    case >=4:
+                        b.Draw(Tool.weaponsTexture,
+                            new(playerPosition.X + 115f, playerPosition.Y - 54f), sourceRect,
                             Color.White, (float)Math.PI / 2f, Vector2.Zero, 4f, SpriteEffects.None,
                             Math.Max(0f, (who.getStandingY() + 64) / 10000f));
                         break;
@@ -158,7 +163,12 @@ public static class SlingshotExtensions
                             Math.Max(0f, (who.getStandingY() + 64) / 10000f));
                         break;
                     case 3:
-                        b.Draw(Tool.weaponsTexture, new(playerPosition.X - 54f, playerPosition.Y - 4f),
+                        b.Draw(Tool.weaponsTexture, new(playerPosition.X - 53f, playerPosition.Y + 4f),
+                            sourceRect, Color.White, -(float)Math.PI / 2f, Vector2.Zero, 4f, SpriteEffects.None,
+                            Math.Max(0f, (who.getStandingY() + 64) / 10000f));
+                        break;
+                    case >=4:
+                        b.Draw(Tool.weaponsTexture, new(playerPosition.X - 53f, playerPosition.Y + 10f),
                             sourceRect, Color.White, -(float)Math.PI / 2f, Vector2.Zero, 4f, SpriteEffects.None,
                             Math.Max(0f, (who.getStandingY() + 64) / 10000f));
                         break;
@@ -183,7 +193,7 @@ public static class SlingshotExtensions
                             Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None,
                             Math.Max(0f, (who.getStandingY() + 32) / 10000f));
                         break;
-                    case 3:
+                    case >=3:
                         if (facingDirection == Game1.down)
                             b.Draw(Tool.weaponsTexture, new(playerPosition.X + 61f, playerPosition.Y + 55f), sourceRect,
                                 Color.White, (float)Math.PI, Vector2.Zero, 4f, SpriteEffects.None,

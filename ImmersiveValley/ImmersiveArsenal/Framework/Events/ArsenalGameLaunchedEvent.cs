@@ -45,6 +45,6 @@ internal sealed class ArsenalGameLaunchedEvent : GameLaunchedEvent
         if (registry.IsLoaded("DaLion.ImmersiveProfessions"))
             new ImmersiveProfessionsIntegration(registry).Register();
 
-        if (ModEntry.Config.FaceMouseCursor) ModEntry.Manager.Enable<ArsenalButtonPressedEvent>();
+        if (ModEntry.Config.FaceMouseCursor) ModEntry.EventManager.Enable<ArsenalButtonPressedEvent>();
     }
 }

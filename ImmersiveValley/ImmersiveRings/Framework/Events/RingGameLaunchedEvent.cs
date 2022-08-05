@@ -35,6 +35,10 @@ internal class RingGameLaunchedEvent : GameLaunchedEvent
                 manifest: ModEntry.Manifest
             ).Register();
 
+        // add Garnet ring
+        if (registry.IsLoaded("spacechase0.JsonAssets"))
+            new JsonAssetsIntegration(registry).Register();
+
         // add Better Crafting integration
         if (registry.IsLoaded("leclair.bettercrafting"))
             new BetterCraftingIntegration(registry).Register();

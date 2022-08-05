@@ -35,6 +35,7 @@ internal sealed class CraftingRecipeCtorPatch : Common.Harmony.HarmonyPatch
             "Amethyst Ring" => new Ring(Constants.AMETHYST_RING_INDEX_I).DisplayName,
             "Topaz Ring" => new Ring(Constants.TOPAZ_RING_INDEX_I).DisplayName,
             "Jade Ring" => new Ring(Constants.JADE_RING_INDEX_I).DisplayName,
+            "Garnet Ring" => new Ring(ModEntry.GarnetRingIndex).DisplayName,
             _ => __instance.DisplayName
         };
     }

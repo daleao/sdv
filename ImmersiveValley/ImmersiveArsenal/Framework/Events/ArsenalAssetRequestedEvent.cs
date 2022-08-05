@@ -47,8 +47,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         AssetEditors["Strings/Locations"] = (callback: EditLocationsStrings, priority: AssetEditPriority.Default);
         AssetEditors["Strings/StringsFromCSFiles"] =
             (callback: EditStringsFromCSFilesStrings, priority: AssetEditPriority.Default);
+        AssetEditors["TileSheets/animations"] =
+            (callback: EditAnimationsTileSheet, priority: AssetEditPriority.Default);
         AssetEditors["TileSheets/BuffsIcons"] =
-            (callback: EditBuffsIconsTileSheets, priority: AssetEditPriority.Default);
+            (callback: EditBuffsIconsTileSheet, priority: AssetEditPriority.Default);
     }
 
     /// <inheritdoc />
@@ -124,7 +126,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<int, string>().Data;
 
         // edit galaxy soul description
-        var fields = data[Arsenal.Constants.GALAXY_SOUL_INDEX_I].Split('/');
+        var fields = data[Constants.GALAXY_SOUL_INDEX_I].Split('/');
         fields[5] = ModEntry.i18n.Get("galaxysoul.desc");
         data[Arsenal.Constants.GALAXY_SOUL_INDEX_I] = string.Join('/', fields);
     }
@@ -755,8 +757,20 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         data["MeleeWeapon.cs.14122"] = ModEntry.i18n.Get("fromcsfiles.MeleeWeapon.cs.14122");
     }
 
+    /// <summary>Patches animations with snowball collision.</summary>
+    private static void EditAnimationsTileSheet(IAssetData asset)
+    {
+        var editor = asset.AsImage();
+        editor.ExtendImage(640, 3392);
+        var srcArea = new Rectangle(0, 0, 640, 64);
+        var targetArea = new Rectangle(0, 3328, 640, 64);
+
+        editor.PatchImage(ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/animations/snowball.png"), srcArea,
+            targetArea);
+    }
+
     /// <summary>Patches buffs icons with energized buff icon.</summary>
-    private static void EditBuffsIconsTileSheets(IAssetData asset)
+    private static void EditBuffsIconsTileSheet(IAssetData asset)
     {
         var editor = asset.AsImage();
         editor.ExtendImage(192, 64);

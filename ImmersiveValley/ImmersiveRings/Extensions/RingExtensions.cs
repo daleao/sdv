@@ -13,5 +13,5 @@ public static class RingExtensions
     public static bool IsGemRing(this Ring ring) =>
         ring.ParentSheetIndex is Constants.RUBY_RING_INDEX_I or Constants.AQUAMARINE_RING_INDEX_I
             or Constants.JADE_RING_INDEX_I or Constants.EMERALD_RING_INDEX_I or Constants.AMETHYST_RING_INDEX_I
-            or Constants.TOPAZ_RING_INDEX_I;
+            or Constants.TOPAZ_RING_INDEX_I || ring.ParentSheetIndex == ModEntry.GarnetRingIndex;
 }

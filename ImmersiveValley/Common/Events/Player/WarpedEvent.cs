@@ -19,7 +19,7 @@ internal abstract class WarpedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnWarped(object? sender, WarpedEventArgs e)
     {
-        if (IsEnabled) OnWarpedImpl(sender, e);
+        if (IsEnabled && !e.NewLocation.Equals(e.OldLocation)) OnWarpedImpl(sender, e);
     }
 
     /// <inheritdoc cref="OnWarped" />

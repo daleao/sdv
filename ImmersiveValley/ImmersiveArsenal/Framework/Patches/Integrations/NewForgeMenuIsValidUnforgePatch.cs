@@ -4,6 +4,7 @@
 
 using Common.Attributes;
 using Common.Extensions.Reflection;
+using Common.Integrations.SpaceCore;
 using HarmonyLib;
 using StardewValley.Menus;
 using StardewValley.Tools;
@@ -25,7 +26,7 @@ internal sealed class NewForgeMenuIsValidUnforgePatch : Common.Harmony.HarmonyPa
     [HarmonyPostfix]
     private static void NewForgeMenuIsValidUnforgePostfix(IClickableMenu __instance, ref bool __result)
     {
-        var item = SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot.Value(__instance).item;
+        var item = ExtendedSpaceCoreAPI.GetNewForgeMenuLeftIngredientSpot.Value(__instance).item;
         __result = item switch
         {
             Slingshot slingshot when slingshot.GetTotalForgeLevels() > 0 => true,

@@ -3,6 +3,7 @@
 #region using directives
 
 using Extensions.Reflection;
+using StardewValley.Menus;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -61,4 +62,20 @@ internal static class ExtendedSpaceCoreAPI
     public static readonly Lazy<Func<object, object>> GetSecondProfession = new(() =>
         "SpaceCore.Skills+Skill+ProfessionPair".ToType().RequirePropertyGetter("Second")
             .CompileUnboundDelegate<Func<object, object>>());
+
+    internal static Lazy<Func<IClickableMenu, ClickableTextureComponent>> GetNewForgeMenuLeftIngredientSpot = new(() =>
+        "SpaceCore.Interface.NewForgeMenu".ToType().RequireField("leftIngredientSpot")
+            .CompileUnboundFieldGetterDelegate<IClickableMenu, ClickableTextureComponent>());
+
+    internal static Lazy<Func<IClickableMenu, int, int>> GetNewForgeMenuForgeCostAtLevel = new(() =>
+        "SpaceCore.Interface.NewForgeMenu".ToType().RequireMethod("GetForgeCostAtLevel")
+            .CompileUnboundDelegate<Func<IClickableMenu, int, int>>());
+
+    internal static Lazy<Func<IClickableMenu, Item, Item, int>> GetNewForgeMenuForgeCost = new(() =>
+        "SpaceCore.Interface.NewForgeMenu".ToType().RequireMethod("GetForgeCost")
+            .CompileUnboundDelegate<Func<IClickableMenu, Item, Item, int>>());
+
+    internal static Lazy<Action<IClickableMenu, Item>> SetNewForgeMenuHeldItem = new(() =>
+        "SpaceCore.Interface.NewForgeMenu".ToType().RequireField("heldItem")
+            .CompileUnboundFieldSetterDelegate<IClickableMenu, Item>());
 }

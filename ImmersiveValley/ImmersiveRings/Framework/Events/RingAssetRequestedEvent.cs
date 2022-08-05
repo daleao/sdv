@@ -42,7 +42,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))
             e.Edit(editor.edit, editor.priority);
         else if (AssetProviders.TryGetValue(e.NameWithoutLocale.Name, out var provider))
-            e.LoadFromModFile<Texture2D>(provider.provide.Invoke(), provider.priority);
+            e.LoadFromModFile<Texture2D>(provider.provide(), provider.priority);
     }
 
     #region editor callbacks
@@ -92,68 +92,42 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
 
         if (ModEntry.Config.RebalancedRings)
         {
-            fields = data[Rings.Constants.TOPAZ_RING_INDEX_I].Split('/');
-#pragma warning disable CS8524
-            fields[5] = ModEntry.Config.TopazPerk switch
-#pragma warning restore CS8524
-            {
-                ModConfig.Perk.Cooldown => ModEntry.i18n.Get("rings.topaz.cdr"),
-                ModConfig.Perk.Defense => ModEntry.i18n.Get("rings.topaz.defense"),
-                ModConfig.Perk.Precision => fields[5]
-            };
+            fields = data[Constants.TOPAZ_RING_INDEX_I].Split('/');
+            fields[5] = ModEntry.i18n.Get("rings.topaz.description");
+            data[Constants.TOPAZ_RING_INDEX_I] = string.Join('/', fields);
 
-            data[Rings.Constants.TOPAZ_RING_INDEX_I] = string.Join('/', fields);
-
-            fields = data[Rings.Constants.JADE_RING_INDEX_I].Split('/');
-            fields[5] = ModEntry.i18n.Get("rings.jade");
-            data[Rings.Constants.JADE_RING_INDEX_I] = string.Join('/', fields);
+            fields = data[Constants.JADE_RING_INDEX_I].Split('/');
+            fields[5] = ModEntry.i18n.Get("rings.jade.description");
+            data[Constants.JADE_RING_INDEX_I] = string.Join('/', fields);
         }
 
         if (ModEntry.Config.TheOneIridiumBand)
         {
-            fields = data[Rings.Constants.IRIDIUM_BAND_INDEX_I].Split('/');
-            fields[5] = ModEntry.i18n.Get("rings.iridium");
-            data[Rings.Constants.IRIDIUM_BAND_INDEX_I] = string.Join('/', fields);
+            fields = data[Constants.IRIDIUM_BAND_INDEX_I].Split('/');
+            fields[5] = ModEntry.i18n.Get("rings.iridium.description");
+            data[Constants.IRIDIUM_BAND_INDEX_I] = string.Join('/', fields);
         }
     }
 
-    /// <summary>Edits spring objects with better rings-style custom rings.</summary>
+    /// <summary>Edits spring objects with new and custom rings.</summary>
     private static void EditSpringObjectsMaps(IAssetData asset)
     {
         var editor = asset.AsImage();
         Rectangle srcArea, targetArea;
 
-        var rings = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/Rings");
+        var ringsTx = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/Rings");
         if (ModEntry.Config.CraftableGemRings)
         {
-            if (ModEntry.IsBetterRingsLoaded)
-            {
-                srcArea = new(16, 0, 96, 16);
-                targetArea = new(16, 352, 96, 16);
-            }
-            else
-            {
-                srcArea = new(18, 0, 88, 12);
-                targetArea = new(21, 353, 88, 12);
-            }
-
-            editor.PatchImage(rings, srcArea, targetArea);
+            srcArea = new(16, 0, 96, 16);
+            targetArea = new(16, 352, 96, 16);
+            editor.PatchImage(ringsTx, srcArea, targetArea);
         }
 
         if (ModEntry.Config.TheOneIridiumBand)
         {
-            if (ModEntry.IsBetterRingsLoaded)
-            {
-                srcArea = new(0, 0, 16, 16);
-                targetArea = new(368, 336, 16, 16);
-            }
-            else
-            {
-                srcArea = new(0, 2, 12, 12);
-                targetArea = new(371, 339, 12, 12);
-            }
-
-            editor.PatchImage(rings, srcArea, targetArea);
+            srcArea = new(0, 0, 16, 16);
+            targetArea = new(368, 336, 16, 16);
+            editor.PatchImage(ringsTx, srcArea, targetArea);
         }
     }
 

@@ -4,7 +4,7 @@
 
 using Common.Attributes;
 using Common.Commands;
-using Framework;
+using Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
 using System;
@@ -34,7 +34,7 @@ internal sealed class DebugPurificationCommand : ConsoleCommand
         Game1.player.faceDirection(2);
         Game1.player.showCarrying();
         Game1.player.jitterStrength = 1f;
-        Game1.pauseThenDoFunction(3000, Utils.GetHolyBlade);
+        Game1.pauseThenDoFunction(3000, FarmerExtensions.GetHolyBlade);
         Game1.changeMusicTrack("none", false, Game1.MusicContext.Event);
         Game1.currentLocation.playSound("crit");
         Game1.screenGlowOnce(Color.Transparent, true, 0.01f, 0.999f);

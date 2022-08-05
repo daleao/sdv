@@ -4,6 +4,7 @@
 
 using Common;
 using Common.Extensions.Reflection;
+using Common.Integrations.WalkOfLife;
 using Enchantments;
 using Extensions;
 using HarmonyLib;
@@ -37,15 +38,16 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
     [HarmonyBefore("DaLion.ImmersiveProfessions")]
-    private static bool SlingshotPerformFirePrefix(Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
+    private static bool SlingshotPerformFirePrefix(Slingshot __instance, ref int? __state, ref bool ___canPlaySound, GameLocation location, Farmer who)
     {
         try
         {
+            __state = __instance.attachments[0]?.Stack;
             if (__instance.get_IsOnSpecial()) return false; // don't run original logic
 
             var hasQuincyEnchantment = __instance.hasEnchantmentOfType<QuincyEnchantment>();
-            if ((__instance.attachments[0] is not null || hasQuincyEnchantment) &&
-                ModEntry.ProfessionsApi is not null) return true; // hand over to Immersive Professions
+            if (ModEntry.ProfessionsApi is not null && (__instance.attachments[0] is not null || hasQuincyEnchantment))
+                return true; // hand over to Immersive Professions
 
             if (__instance.attachments[0] is null && !hasQuincyEnchantment &&
                 !location.DoesTileHaveSnow(who.getTileLocation()))
@@ -81,7 +83,7 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
                 909 => 75, // radioactive ore
                 382 => 15, // coal
                 441 => 20, // explosive
-                null => hasQuincyEnchantment ? 5 : 0, // quincy or snowball
+                null => hasQuincyEnchantment ? 5 : 1, // quincy or snowball
                 _ => 1 // fish, fruit or vegetable
             };
 
@@ -99,7 +101,7 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
                     break;
                 case null:
                     collisionBehavior = null;
-                    collisionSound = hasQuincyEnchantment ? "debuffHit" : "snowyStep";
+                    collisionSound = hasQuincyEnchantment ? "debuffHit": "snowyStep";
                     break;
                 default:
                     collisionBehavior = null;
@@ -124,12 +126,16 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
 
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
-            var index = ammo?.ParentSheetIndex ?? (__instance.hasEnchantmentOfType<QuincyEnchantment>() ? 14 : 9);
-            var projectile = new ImmersiveProjectile(__instance, (int)damage, index, 0, index == 14 ? 5 : 0,
-                (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition,
-                collisionSound, "", false, true, location, who, ammo is not null, collisionBehavior)
+            var index = ammo?.ParentSheetIndex ?? (__instance.hasEnchantmentOfType<QuincyEnchantment>()
+                ? Constants.QUINCY_PROJECTILE_INDEX_I 
+                : Constants.SNOWBALL_PROJECTILE_INDEX_I);
+            var projectile = new ImmersiveProjectile(__instance, (int) damage, index, 0,
+                index == Constants.QUINCY_PROJECTILE_INDEX_I ? 5 : 0,
+                (float) (Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition, collisionSound, index == Constants.QUINCY_PROJECTILE_INDEX_I ? "debuffSpell" : "",
+                false, index != Constants.SNOWBALL_PROJECTILE_INDEX_I, location, who, ammo is not null,
+                collisionBehavior)
             {
-                IgnoreLocationCollision = Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
+                IgnoreLocationCollision = Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null,
             };
 
             location.projectiles.Add(projectile);
@@ -144,13 +150,22 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
         }
     }
 
-    /// <summary>Patch to perform <see cref="Enchantments.BaseSlingshotEnchantment.OnFire"/> action.</summary>
+    /// <summary>Perform <see cref="BaseSlingshotEnchantment.OnFire"/> action.</summary>
     [HarmonyPostfix]
-    private static void SlingshotPerformFirePostfix(Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
+    private static void SlingshotPerformFirePostfix(Slingshot __instance, int? __state, GameLocation location, Farmer who)
     {
-        var projectile = location.projectiles.Last();
+        if (__state is not null && __instance.attachments[0].Stack == __state || location.projectiles.Count <= 0) return;
+
+        var ultimate = ModEntry.ProfessionsApi?.GetRegisteredUltimate();
+        if (ultimate is not null && ultimate.Index == IImmersiveProfessions.UltimateIndex.Blossom &&
+            ultimate.IsActive) return;
+
+        var projectile = location.projectiles[^1];
+        var typeName = projectile.GetType().FullName;
+        if (typeName is null || !typeName.Contains("DaLion") || !typeName.Contains("ImmersiveProjectile")) return;
+
         foreach (var enchantment in __instance.enchantments.OfType<BaseSlingshotEnchantment>())
-            enchantment.OnFire(__instance, projectile as BasicProjectile, location, who);
+            enchantment.OnFire(__instance, (BasicProjectile)projectile, location, who);
     }
 
     #endregion harmony patches

@@ -14,8 +14,7 @@ internal sealed class EnergizedUpdateTickedEvent : UpdateTickedEvent
 
     private readonly int _buffId = (ModEntry.Manifest.UniqueID + "Energized").GetHashCode();
     
-    private uint _lastStepsTaken;
-    private uint _stepCounter;
+    private uint _previousStepsTaken;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
@@ -25,19 +24,19 @@ internal sealed class EnergizedUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnEnabled()
     {
-        _lastStepsTaken = Game1.stats.StepsTaken;
+        _previousStepsTaken = Game1.stats.StepsTaken;
     }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (Game1.stats.StepsTaken > _lastStepsTaken && Game1.stats.StepsTaken % 6 == 0)
+        if (Game1.stats.StepsTaken > _previousStepsTaken && Game1.stats.StepsTaken % 6 == 0)
         {
-            ++ModEntry.EnergizeStacks.Value;
-            _lastStepsTaken = Game1.stats.StepsTaken;
+            ++ModEntry.State.EnergizeStacks;
+            _previousStepsTaken = Game1.stats.StepsTaken;
         }
 
-        if (ModEntry.EnergizeStacks.Value <= 0 || Game1.player.hasBuff(_buffId)) return;
+        if (ModEntry.State.EnergizeStacks <= 0 || Game1.player.hasBuff(_buffId)) return;
 
         Game1.buffsDisplay.addOtherBuff(
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

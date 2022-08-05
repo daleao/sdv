@@ -4,7 +4,6 @@ namespace DaLion.Stardew.Rings.Integrations;
 
 using Common.Integrations.GenericModConfigMenu;
 using System;
-using System.Linq;
 
 #endregion using directives
 
@@ -45,18 +44,6 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveRings
                     config.RebalancedRings = value;
                     ModEntry.ModHelper.GameContent.InvalidateCache("Data/ObjectInformation");
                 }
-            )
-            .AddDropdown(
-                () => "Topaz Perk",
-                () => "The stat improved by the Topaz Ring.\nYOU MUST UNEQUIP ALL EXISTING TOPAZ RINGS OR TOPAZ-FORGED IRIDIUM BANDS BEFORE CHANGING THIS SETTING.",
-                config => config.TopazPerk.ToString(),
-                (config, value) =>
-                {
-                    config.TopazPerk = Enum.Parse<ModConfig.Perk>(value);
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/ObjectInformation");
-                },
-                Enum.GetValues<ModConfig.Perk>().Select(p => p.ToString()).ToArray(),
-                null
             )
             .AddCheckbox(
                 () => "Craftable Gemstone Rings",

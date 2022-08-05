@@ -20,11 +20,11 @@ internal sealed class Game1DrawToolPatch : Common.Harmony.HarmonyPatch
 
     #region harmony patches
 
-    /// <summary>Immersively adjust Marlon's intro event.</summary>
+    /// <summary>Draw slingshot during stunning slam..</summary>
     [HarmonyPrefix]
     private static bool Game1DrawToolPrefix(Farmer f)
     {
-        if (Game1.pickingTool || f.CurrentTool is not Slingshot slingshot || !slingshot.get_IsOnSpecial()) return true; // run original logic
+        if (f.CurrentTool is not Slingshot slingshot || !slingshot.get_IsOnSpecial()) return true; // run original logic
 
         var position = f.getLocalPosition(Game1.viewport) + f.jitter + f.armOffset;
         var sourceRect =

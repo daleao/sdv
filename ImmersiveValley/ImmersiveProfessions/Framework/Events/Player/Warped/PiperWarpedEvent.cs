@@ -28,8 +28,6 @@ internal sealed class PiperWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (e.NewLocation.Equals(e.OldLocation)) return;
-
         var isDungeon = e.NewLocation.IsDungeon();
         var hasMonsters = e.NewLocation.HasMonsters();
         if (!isDungeon && !hasMonsters)

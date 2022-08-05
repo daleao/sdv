@@ -34,7 +34,7 @@ internal sealed class GameLocationPerformActionPatch : Common.Harmony.HarmonyPat
         who.faceDirection(2);
         who.showCarrying();
         who.jitterStrength = 1f;
-        Game1.pauseThenDoFunction(3000, Utils.GetHolyBlade);
+        Game1.pauseThenDoFunction(3000, Extensions.FarmerExtensions.GetHolyBlade);
         Game1.changeMusicTrack("none", false, Game1.MusicContext.Event);
         __instance.playSound("crit");
         Game1.screenGlowOnce(Color.Transparent, true, 0.01f, 0.999f);

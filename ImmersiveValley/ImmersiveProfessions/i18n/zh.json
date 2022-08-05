@@ -143,7 +143,7 @@
   "rascal.desc.prestiged": "诡计射击使敌人昏迷5秒。",
   "desperado.name.male": "亡命之徒",
   "desperado.name.female": "亡命之徒",
-  "desperado.desc": "射速提高50%。能够对弹弓进行过度充电以使用更大的力量进行射击，或者快速释放以进行双重射击。",
+  "desperado.desc": "较低的 HP 可以更快地射击。能够对弹弓进行过度充电以使用更大的力量进行射击，或者快速释放以进行双重射击。",
   "desperado.desc.prestiged": "过度充电的射击就像霰弹枪一样射击。",
   "desperado.ulti": "死亡绽放",
   "desperado.ultidesc": "自动换弹。同时向八个方向射击。",

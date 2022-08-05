@@ -131,7 +131,7 @@ internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
         // write bonus cooldown reduction
         if (__instance.hasEnchantmentOfType<GarnetEnchantment>())
         {
-            var cdr = __instance.GetEnchantmentLevel<TopazEnchantment>() * 0.1f;
+            var cdr = __instance.GetEnchantmentLevel<GarnetEnchantment>() * 0.1f;
             var amount = $"{cdr:p0}";
             co = new(0, 120, 120);
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(150, 428, 10, 10),

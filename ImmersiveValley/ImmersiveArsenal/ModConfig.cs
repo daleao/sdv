@@ -33,19 +33,19 @@ public class ModConfig
 
 
     /// <summary>Allows slingshots to deal critical damage and be affected by critical modifiers.</summary>
-    public bool AllowSlingshotCrit { get; set; } = true;
+    public bool EnableSlingshotCrits { get; set; } = true;
 
     /// <summary>Enable new enchantments for slingshots, as well as some old ones..</summary>
-    public bool NewSlingshotEnchants { get; set; } = true;
+    public bool EnableSlingshotEnchants { get; set; } = true;
 
     /// <summary>Allow slingshots to be enchanted with weapon forges (gemstones) at the Forge.</summary>
-    public bool AllowSlingshotForges { get; set; } = true;
+    public bool EnableSlingshotForges { get; set; } = true;
 
     /// <summary>Add new stunning smack special move for slingshots.</summary>
-    public bool AllowSlingshotSpecialMove { get; set; } = true;
+    public bool EnableSlingshotSpecialMove { get; set; } = true;
 
     /// <summary>Projectiles should not be useless for the first 100ms.</summary>
-    public bool RemoveSlingshotGracePeriod { get; set; } = true;
+    public bool DisableSlingshotGracePeriod { get; set; } = true;
 
 
     /// <summary>Improves certain underwhelming enchantments.</summary>

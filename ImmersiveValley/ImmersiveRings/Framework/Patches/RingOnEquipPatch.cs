@@ -32,19 +32,8 @@ internal sealed class RingOnEquipPatch : Common.Harmony.HarmonyPatch
 
         switch (__instance.indexInTileSheet.Value)
         {
-            case Constants.TOPAZ_RING_INDEX_I: // topaz to give defense or cdr
-                // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
-                switch (ModEntry.Config.TopazPerk)
-                {
-                    case ModConfig.Perk.Cooldown:
-                        who.Increment("CooldownReduction", 0.1f);
-                        break;
-                    case ModConfig.Perk.Defense:
-                        who.resilience += 3;
-                        break;
-                    case ModConfig.Perk.Precision:
-                        return true; // run original logic
-                }
+            case Constants.TOPAZ_RING_INDEX_I: // topaz to give defense
+                who.resilience += 3;
                 return false; // don't run original logic
             case Constants.JADE_RING_INDEX_I: // jade ring to give +30% crit. power
                 who.critPowerModifier += 0.3f;
@@ -53,7 +42,11 @@ internal sealed class RingOnEquipPatch : Common.Harmony.HarmonyPatch
                 who.resilience += 10;
                 return false; // don't run original logic
             default:
-                return true; // run original logic
+                if (__instance.ParentSheetIndex != ModEntry.GarnetRingIndex) return true; // run original logic
+                
+                // garnet ring to give +10% cdr
+                who.Increment("CooldownReduction", 0.1f);
+                return false; // don't run original logic
         }
     }
 

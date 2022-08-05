@@ -4,7 +4,6 @@
 
 using Common.Integrations;
 using Common.Integrations.DynamicGameAssets;
-using System.IO;
 
 #endregion using directives
 
@@ -20,6 +19,6 @@ internal sealed class DynamicGameAssetsIntegration : BaseIntegration<IDynamicGam
     {
         AssertLoaded();
         ModEntry.DynamicGameAssetsApi = ModApi;
-        ModApi.AddEmbeddedPack(ModEntry.Manifest, Path.Combine(ModEntry.ModHelper.DirectoryPath, "assets", "dga"));
+        //ModApi.AddEmbeddedPack(ModEntry.Manifest, Path.Combine(ModEntry.ModHelper.DirectoryPath, "assets", "dga"));
     }
 }

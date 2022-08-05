@@ -10,7 +10,6 @@ public class Constants
         AMETHYST_INDEX_I = 66,
         TOPAZ_INDEX_I = 68,
         JADE_INDEX_I = 70,
-        GARNET_INDEX_I = 1000,
 
         // rings
         SMALL_GLOW_RING_INDEX_I = 516,
@@ -26,7 +25,6 @@ public class Constants
         RUBY_RING_INDEX_I = 534,
         CRAB_RING_INDEX_I = 810,
         GLOWSTONE_RING_INDEX_I = 888,
-        GARNET_RING_INDEX_I = 1000,
 
         // other
         SUN_ESSENCE_INDEX_I = 768,

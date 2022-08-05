@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿using DaLion.Stardew.Professions.Framework.Events.Input;
+
+namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 
@@ -23,11 +25,7 @@ internal sealed class SlingshotTickUpdatePatch : DaLion.Common.Harmony.HarmonyPa
     [HarmonyPostfix]
     internal static void SlingshotTickUpdatePostfix(Slingshot __instance, Farmer who)
     {
-        if (!who.HasProfession(Profession.Desperado) || who.CurrentTool != __instance || __instance.attachments[0] is null ||
-            !who.usingSlingshot) return;
-
-        who.CanMove = true;
-        who.speed = who.HasProfession(Profession.Desperado, true) ? 5 : 2;
+        if (!who.HasProfession(Profession.Desperado) || who.CurrentTool != __instance || !who.usingSlingshot) return;
 
         var overcharge = __instance.GetDesperadoOvercharge(who);
         if (overcharge <= 0f) return;

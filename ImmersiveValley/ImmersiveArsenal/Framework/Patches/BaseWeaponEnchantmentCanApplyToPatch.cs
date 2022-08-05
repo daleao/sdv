@@ -33,9 +33,9 @@ internal sealed class BaseWeaponEnchantmentCanApplyToPatch : Common.Harmony.Harm
 
         if (item is not Slingshot || __instance.IsSecondaryEnchantment()) return;
 
-        __result = __instance.IsForge() && ModEntry.Config.AllowSlingshotForges ||
+        __result = __instance.IsForge() && ModEntry.Config.EnableSlingshotForges ||
                    __instance is BugKillerEnchantment or CrusaderEnchantment &&
-                   ModEntry.Config.NewSlingshotEnchants;
+                   ModEntry.Config.EnableSlingshotEnchants;
     }
 
     #endregion harmony patches

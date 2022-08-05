@@ -6,6 +6,7 @@ using Common;
 using Common.Attributes;
 using Common.Extensions.Reflection;
 using Common.Harmony;
+using Common.Integrations.SpaceCore;
 using Enchantments;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -85,7 +86,7 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
             return null;
         }
 
-        /// Injected: else if (leftIngredientSpot.item is Slingshot slingshot && ModEntry.Config.AllowSlingshotForges)
+        /// Injected: else if (leftIngredientSpot.item is Slingshot slingshot && ModEntry.Config.EnableSlingshotForges)
         ///             UnforgeSlingshot(leftIngredientSpot.item);
         /// Between: MeleeWeapon and CombinedRing unforge behaviors...
 
@@ -116,7 +117,7 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing),
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AllowSlingshotForges))),
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnableSlingshotForges))),
                     new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldloc_S, slingshot),
@@ -142,7 +143,7 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
         var heroSoul = (SObject)ModEntry.DynamicGameAssetsApi!.SpawnDGAItem(ModEntry.Manifest.UniqueID + "/Hero Soul");
         heroSoul.Stack = 3;
         StardewValley.Utility.CollectOrDrop(heroSoul);
-        SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot.Value(menu).item = null;
+        ExtendedSpaceCoreAPI.GetNewForgeMenuLeftIngredientSpot.Value(menu).item = null;
         Game1.playSound("coin");
     }
 
@@ -151,19 +152,19 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
         var cost = 0;
         var forgeLevels = slingshot.GetTotalForgeLevels(true);
         for (var i = 0; i < forgeLevels; ++i)
-            cost += SpaceCoreUtils.GetNewForgeMenuForgeCostAtLevel.Value(menu, i);
+            cost += ExtendedSpaceCoreAPI.GetNewForgeMenuForgeCostAtLevel.Value(menu, i);
 
         if (slingshot.hasEnchantmentOfType<DiamondEnchantment>())
-            cost += SpaceCoreUtils.GetNewForgeMenuForgeCost.Value(menu,
-                SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot.Value(menu).item, new SObject(72, 1));
+            cost += ExtendedSpaceCoreAPI.GetNewForgeMenuForgeCost.Value(menu,
+                ExtendedSpaceCoreAPI.GetNewForgeMenuLeftIngredientSpot.Value(menu).item, new SObject(72, 1));
 
         for (var i = slingshot.enchantments.Count - 1; i >= 0; --i)
             if (slingshot.enchantments[i].IsForge())
                 slingshot.RemoveEnchantment(slingshot.enchantments[i]);
 
-        SpaceCoreUtils.GetNewForgeMenuLeftIngredientSpot.Value(menu).item = null;
+        ExtendedSpaceCoreAPI.GetNewForgeMenuLeftIngredientSpot.Value(menu).item = null;
         Game1.playSound("coin");
-        SpaceCoreUtils.SetNewForgeMenuHeldItem.Value(menu, slingshot);
+        ExtendedSpaceCoreAPI.SetNewForgeMenuHeldItem.Value(menu, slingshot);
         StardewValley.Utility.CollectOrDrop(new SObject(848, cost / 2));
     }
 

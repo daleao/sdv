@@ -23,7 +23,7 @@ internal sealed class GaldoraHudThemeWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (e.NewLocation.Equals(e.OldLocation) || e.NewLocation.GetType() == e.OldLocation.GetType()) return;
+        if (e.NewLocation.GetType() == e.OldLocation.GetType()) return;
 
         if (e.NewLocation.NameOrUniqueName.IsIn("Custom_CastleVillageOutpost", "Custom_CrimsonBadlands",
                 "Custom_IridiumQuarry", "Custom_TreasureCave"))

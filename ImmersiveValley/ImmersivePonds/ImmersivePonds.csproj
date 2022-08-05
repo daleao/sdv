@@ -9,6 +9,7 @@
 	<LangVersion>latest</LangVersion>
 	<nullable>enable</nullable>
 	<WarningsAsErrors>Nullable</WarningsAsErrors>
+	<DefineConstants>NETESCAPADES_ENUMGENERATORS_EMBED_ATTRIBUTES</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -32,6 +33,9 @@
 	<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
 	<PackageReference Include="Microsoft.Toolkit.Diagnostics" Version="7.1.2" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+	<PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04"
+	                  PrivateAssets="all"
+	                  ExcludeAssets="compile;runtime" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.1" />
   </ItemGroup>

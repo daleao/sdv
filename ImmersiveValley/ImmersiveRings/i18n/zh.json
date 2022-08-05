@@ -1,11 +1,19 @@
 ﻿{
-  "rings.jade": "翡翠戒指/增加50%的致命一击能量。",
-  "rings.topaz": "增加5点防御。",
-  "rings.iridium": "由铱制成的戒指。",
-  "resonance.ruby": "Ruby Resonance",
-  "resonance.aquamarine": "Aquamarine Resonance",
-  "resonance.jade": "Jade Resonance",
-  "resonance.emerald": "Emerald Resonance",
-  "resonance.amethyst": "Amethyst Resonance",
-  "resonance.topaz": "Topaz Resonance"
+  "gems.garnet.name": "石榴石",
+  "gems.garnet.description": "来自远方的美丽公主的同名。",
+  "resonance.ruby": "红宝石共振",
+  "resonance.aquamarine": "海蓝宝石共振",
+  "resonance.jade": "翡翠共振",
+  "resonance.emerald": "翡翠共振",
+  "resonance.amethyst": "紫水晶共振",
+  "resonance.topaz": "黄玉共振",
+  "resonance.garnet": "石榴石共振",
+  "rings.jade.description": "翡翠戒指/增加50%的致命一击能量。",
+  "rings.topaz.description": "增加5点防御。",
+  "rings.garnet.name": "石榴石戒指",
+  "rings.garnet.description": "特殊招式冷却时间减少 10%。",
+  "rings.iridium.description": "由铱制成的戒指。",
+  "ui.itemhover.damage": "+{{amount}} 损害",
+  "ui.itemhover.precision": "+{{amount}} 精确",
+  "ui.itemhover.cdr": "+{{amount}} 冷却缩减"
 }

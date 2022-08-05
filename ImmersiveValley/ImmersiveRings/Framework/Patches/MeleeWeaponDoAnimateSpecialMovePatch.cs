@@ -25,8 +25,6 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : Common.Harmony.Harm
     [HarmonyAfter("DaLion.ImmersiveArsenal")]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
-        if (ModEntry.Config.TopazPerk != ModConfig.Perk.Cooldown) return;
-
         var cdr = __instance.getLastFarmerToUse().Read<float>("CooldownReduction");
         if (cdr <= 0f) return;
 

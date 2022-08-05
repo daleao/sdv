@@ -313,7 +313,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                             case 0:
                                 treasures.Add(new SObject(random.Next(535, 538), random.Next(1, 4))); // geodes
                                 if (random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
-                                    treasures.Last().Stack *= 2;
+                                    treasures[^1].Stack *= 2;
 
                                 break;
 
@@ -345,7 +345,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                                         break;
                                 }
 
-                                if (random.NextDouble() < 0.05) treasures.Last().Stack *= 2;
+                                if (random.NextDouble() < 0.05) treasures[^1].Stack *= 2;
 
                                 break;
 

@@ -25,7 +25,7 @@ internal sealed class Game1PressActionButtonPatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void Game1PressActionButtonPostfix(ref bool __result, KeyboardState currentKBState, MouseState currentMouseState, GamePadState currentPadState)
     {
-        if (!__result || !ModEntry.Config.AllowSlingshotSpecialMove) return;
+        if (!__result || !ModEntry.Config.EnableSlingshotSpecialMove) return;
 
         var player = Game1.player;
         if (player.CurrentTool is not Slingshot slingshot || slingshot.get_IsOnSpecial() || player.usingSlingshot ||

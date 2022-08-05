@@ -5,6 +5,7 @@
 using Common;
 using Common.Events;
 using Common.Harmony;
+using Common.Integrations.JsonAssets;
 using Framework.Events;
 using StardewModdingAPI.Utilities;
 
@@ -13,6 +14,9 @@ using StardewModdingAPI.Utilities;
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
 {
+    public static int GarnetIndex { get; set; }
+    public static int GarnetRingIndex { get; set; }
+
     internal static ModEntry Instance { get; private set; } = null!;
     internal static ModConfig Config { get; set; } = null!;
     internal static EventManager Manager { get; private set; } = null!;
@@ -22,6 +26,7 @@ public class ModEntry : Mod
     internal static ITranslationHelper i18n => ModHelper.Translation;
 
     internal static PerScreen<int> SavageExcitedness { get; } = new(() => 0);
+    internal static IJsonAssetsAPI? JsonAssetsApi { get; set; }
     internal static bool IsBetterRingsLoaded { get; private set; }
     internal static bool IsImmersiveProfessionsLoaded { get; private set; }
 

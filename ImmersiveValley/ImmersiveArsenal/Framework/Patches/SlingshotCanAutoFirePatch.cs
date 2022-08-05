@@ -32,8 +32,7 @@ internal sealed class SlingshotCanAutoFirePatch : Common.Harmony.HarmonyPatch
     {
         try
         {
-            __result = __instance.hasEnchantmentOfType<GatlingEnchantment>() &&
-                       ModEntry.ProfessionsApi?.GetConfigs().ModKey.IsDown() != true;
+            __result = __instance.hasEnchantmentOfType<GatlingEnchantment>();
             return !__result;
         }
         catch (Exception ex)

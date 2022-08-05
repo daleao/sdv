@@ -16,27 +16,27 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
 {
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
-        if (ModEntry.EnergizeStacks.Value >= 100)
+        if (ModEntry.State.EnergizeStacks >= 100)
         {
             DoLightningStrike(monster, location, who, amount);
-            ModEntry.EnergizeStacks.Value = 0;
+            ModEntry.State.EnergizeStacks = 0;
         }
         else
         {
-            ModEntry.EnergizeStacks.Value += 6;
+            ModEntry.State.EnergizeStacks += 6;
         }
     }
 
     protected override void _OnEquip(Farmer who)
     {
-        ModEntry.EnergizeStacks.Value = 0;
-        ModEntry.Manager.Enable<EnergizedUpdateTickedEvent>();
+        ModEntry.State.EnergizeStacks = 0;
+        ModEntry.EventManager.Enable<EnergizedUpdateTickedEvent>();
     }
 
     protected override void _OnUnequip(Farmer who)
     {
-        ModEntry.EnergizeStacks.Value = -1;
-        ModEntry.Manager.Disable<EnergizedUpdateTickedEvent>();
+        ModEntry.State.EnergizeStacks = -1;
+        ModEntry.EventManager.Disable<EnergizedUpdateTickedEvent>();
     }
 
     public override string GetName() => ModEntry.i18n.Get("enchantments.energized");

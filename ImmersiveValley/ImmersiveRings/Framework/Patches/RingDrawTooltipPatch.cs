@@ -4,7 +4,6 @@
 
 using Common;
 using Common.Extensions.Reflection;
-using Common.Extensions.Stardew;
 using Common.Harmony;
 using Extensions;
 using HarmonyLib;
@@ -40,7 +39,7 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         if (__instance is not CombinedRing { ParentSheetIndex: Constants.IRIDIUM_BAND_INDEX_I } iridiumBand ||
             iridiumBand.combinedRings.Count == 0) return true; // run original logic
 
-        float addedDamage = 0f, addedCritChance = 0f, addedCritPower = 0f, addedSwingSpeed = 0f, addedKnockback = 0f, addedPrecision = 0f;
+        float addedDamage = 0f, addedCritChance = 0f, addedCritPower = 0f, addedSwingSpeed = 0f, addedKnockback = 0f, addedPrecision = 0f, cdr = 0f;
         var addedDefense = 0;
         foreach (var ring in iridiumBand.combinedRings)
             switch (ring.ParentSheetIndex)
@@ -64,10 +63,15 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
                     if (ModEntry.Config.RebalancedRings) addedDefense += 3;
                     else addedPrecision += 0.1f;
                     break;
+                default:
+                    if (ring.ParentSheetIndex != ModEntry.GarnetRingIndex) break;
+
+                    cdr += 0.1f;
+                    break;
             }
 
         var hasGems = addedDamage + addedCritChance + addedCritPower + addedPrecision + addedSwingSpeed +
-            addedKnockback + addedDefense > 0;
+            addedKnockback + addedDefense + cdr > 0;
         if (!hasGems) return false; // don't run original logic
 
         if (iridiumBand.IsResonant(out var resonance))
@@ -185,10 +189,9 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // write bonus cooldown reduction
-        var cdr = Game1.player.Read<float>("CooldownReduction");
         if (cdr > 0)
         {
-            var amount = $"+{cdr:p0}";
+            var amount = $"{cdr:p0}";
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(150, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);

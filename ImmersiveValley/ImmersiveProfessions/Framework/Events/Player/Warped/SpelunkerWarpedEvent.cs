@@ -22,8 +22,6 @@ internal sealed class SpelunkerWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (e.NewLocation.Equals(e.OldLocation)) return;
-
         if (e.NewLocation is MineShaft newShaft && e.OldLocation is MineShaft oldShaft &&
             newShaft.mineLevel > oldShaft.mineLevel)
         {

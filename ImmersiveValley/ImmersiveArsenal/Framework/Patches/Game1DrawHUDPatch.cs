@@ -27,7 +27,7 @@ internal sealed class Game1DrawHUDPatch : Common.Harmony.HarmonyPatch
 
     #region harmony patches
 
-    /// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>
+    /// <summary>Patch draw over-healed health.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)

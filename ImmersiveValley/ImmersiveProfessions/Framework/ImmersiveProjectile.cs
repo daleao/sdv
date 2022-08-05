@@ -16,7 +16,7 @@ using VirtualProperties;
 #endregion using directives
 
 /// <summary>A <see cref="BasicProjectile"/> that remembers where it came from and some other properties.</summary>
-internal class ImmersiveProjectile : BasicProjectile
+internal sealed class ImmersiveProjectile : BasicProjectile
 {
     private static readonly Lazy<Action<BasicProjectile, GameLocation>> _ExplosionAnimation = new(() =>
         typeof(BasicProjectile).RequireMethod("explosionAnimation")
@@ -28,6 +28,7 @@ internal class ImmersiveProjectile : BasicProjectile
     public bool DidBounce { get; set; }
     public bool DidPierce { get; set; }
     public bool IsBlossomPetal { get; set; }
+    public bool IsQuincy { get; set; }
 
     public ImmersiveProjectile(Slingshot whatFiredMe, float overcharge, bool isPetal, int damageToFarmer, int parentSheetIndex, int bouncesTillDestruct,
         int tailLength, float rotationVelocity, float xVelocity, float yVelocity, Vector2 startingPosition,
@@ -42,8 +43,15 @@ internal class ImmersiveProjectile : BasicProjectile
         WhatAmI = whatFiredMe.attachments[0]?.getOne();
         Overcharge = overcharge;
         IsBlossomPetal = isPetal;
-        if (ModEntry.ArsenalConfig?.Value<bool?>("RemoveSlingshotGracePeriod") == true)
-            ignoreTravelGracePeriod.Value = true;
+        switch (spriteFromObjectSheet)
+        {
+            case true when ModEntry.ArsenalConfig?.Value<bool?>("RemoveSlingshotGracePeriod") == true:
+                ignoreTravelGracePeriod.Value = true;
+                break;
+            case false:
+                IsQuincy = true;
+                break;
+        }
     }
 
     public override void behaviorOnCollisionWithMonster(NPC n, GameLocation location)
@@ -58,9 +66,10 @@ internal class ImmersiveProjectile : BasicProjectile
 
         var firer = theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
         var damage = damageToFarmer.Value;
-        var knockback = (1f + WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>()) * (1f + firer.knockbackModifier) *
-                        Overcharge;
-        var crate = ModEntry.ArsenalConfig?.Value<bool?>("AllowSlingshotCrit") == true
+        var knockback = IsQuincy
+            ? 0f
+            : (1f + WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>()) * (1f + firer.knockbackModifier) * Overcharge;
+        var crate = !IsQuincy && ModEntry.ArsenalConfig?.Value<bool?>("EnableSlingshotCrits") == true
             ? (0.05f + 0.046f * WhatFiredMe.GetEnchantmentLevel<AquamarineEnchantment>()) *
               (1f + firer.critChanceModifier)
             : 0;
@@ -116,7 +125,7 @@ internal class ImmersiveProjectile : BasicProjectile
     {
         var didCollide = base.update(time, location);
 
-        if (!damagesMonsters.Value || Overcharge <= 1f || travelDistance < maxTravelDistance.Value) return didCollide;
+        if (!damagesMonsters.Value || Overcharge <= 1f || travelDistance < maxTravelDistance.Value || IsQuincy) return didCollide;
 
         // check if already collided
         if (didCollide)
@@ -173,7 +182,7 @@ internal class ImmersiveProjectile : BasicProjectile
         var damage = (int)(damageToFarmer.Value * multiplier);
         var knockback = WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>() * (1f + firer.knockbackModifier) *
                         multiplier;
-        var crate = ModEntry.ArsenalConfig?.Value<bool?>("AllowSlingshotCrit") == true
+        var crate = ModEntry.ArsenalConfig?.Value<bool?>("EnableSlingshotCrits") == true
             ? (0.05f + 0.046f * WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>()) *
               (1f + firer.critChanceModifier)
             : 0;

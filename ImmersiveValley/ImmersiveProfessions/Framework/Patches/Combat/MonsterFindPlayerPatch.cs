@@ -50,7 +50,7 @@ internal sealed class MonsterFindPlayerPatch : DaLion.Common.Harmony.HarmonyPatc
             }
             else
             {
-                var taunter = __instance.get_Taunter();
+                var taunter = __instance.get_Taunter().Get(__instance.currentLocation);
                 if (taunter is not null)
                 {
                     var fakeFarmer = __instance.get_FakeFarmer();

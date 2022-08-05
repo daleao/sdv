@@ -3,6 +3,7 @@
 #region using directives
 
 using Common;
+using Common.Integrations.WalkOfLife;
 using Enchantments;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -18,30 +19,19 @@ internal sealed class SlingshotGetAutoFireRatePatch : Common.Harmony.HarmonyPatc
     internal SlingshotGetAutoFireRatePatch()
     {
         Target = RequireMethod<Slingshot>(nameof(Slingshot.GetAutoFireRate));
-        Prefix!.priority = Priority.High;
-        Prefix!.after = new[] { "DaLion.ImmersiveProfessions" };
     }
 
     #region harmony patches
 
     /// <summary>Implement <see cref="GatlingEnchantment"/> effect.</summary>
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.High)]
-    [HarmonyAfter("DaLion.ImmersiveProfessions")]
-    private static bool SlingshotCanAutoFirePrefix(Slingshot __instance, ref float __result)
+    [HarmonyPostfix]
+    private static void SlingshotGetAutoFireRatePostfix(Slingshot __instance, ref float __result)
     {
-        try
-        {
-            if (!__instance.hasEnchantmentOfType<GatlingEnchantment>()) return true; // run original logic
+        var ultimate = ModEntry.ProfessionsApi?.GetRegisteredUltimate();
+        if (ultimate is not null && ultimate.Index == IImmersiveProfessions.UltimateIndex.Blossom &&
+            ultimate.IsActive || !__instance.hasEnchantmentOfType<GatlingEnchantment>()) return;
 
-            __result = 0.45f;
-            return false; // don't run original logic
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
-            return true; // default to original logic
-        }
+        __result *= 1.5f;
     }
 
     #endregion harmony patches

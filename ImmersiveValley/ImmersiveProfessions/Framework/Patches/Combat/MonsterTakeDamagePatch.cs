@@ -30,7 +30,7 @@ internal sealed class MonsterTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatc
             slime.Health > 0) return;
 
         foreach (var monster in slime.currentLocation.characters.OfType<Monster>()
-                     .Where(m => !m.IsSlime() && m.get_Taunter() == slime))
+                     .Where(m => !m.IsSlime() && m.get_Taunter().Get(m.currentLocation) == slime))
             monster.set_Taunter(null);
     }
 

@@ -18,5 +18,13 @@
 		"CanTrash": true,
 		"HideFromShippingCollection": false,
 		"IsGiftable": true,
+		"DynamicFields": [
+		  {
+			"Conditions": {
+				"HasMod |DaLion.ImmersiveRings": true 
+			},
+			"Enabled": false
+		  }
+		]
     }
 ]

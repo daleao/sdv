@@ -44,8 +44,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
 
                 var sprite = (FarmerSprite)user.Sprite;
                 sprite.setCurrentFrame(frame, 0, 40, _animationFrames, user.FacingDirection == 3, true);
-                _animationFrames = sprite.CurrentAnimation.Count * 3;
-                Game1.playSound("swordswipe");
+                _animationFrames = sprite.CurrentAnimation.Count * 3 + 9;
             }
             else if (_currentFrame >= _animationFrames)
             {
@@ -69,9 +68,15 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
             }
             else
             {
-                var sprite = (FarmerSprite)user.Sprite;
-                if (_currentFrame % 3 == 0)
+                var sprite = user.FarmerSprite;
+                if (_currentFrame >= 6 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
                     sprite.CurrentFrame = sprite.CurrentAnimation[++sprite.currentAnimationIndex].frame;
+
+                if (_currentFrame == 6)
+                {
+                    Farmer.showToolSwipeEffect(Game1.player);
+                    Game1.playSound("swordswipe");
+                }
 
                 if (sprite.currentAnimationIndex >= 4)
                 {

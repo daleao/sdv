@@ -1,11 +1,19 @@
 ﻿{
-  "rings.jade": "Aumenta ataque crítico em 10%.",
-  "rings.topaz": "Aumenta a defensa em 5.",
-  "rings.iridium": "Um anel de irídio.",
+  "gems.garnet.name": "Granada",
+  "gems.garnet.description": "O homônimo de uma linda princesa de uma terra distante.",
   "resonance.ruby": "Resonância Rubi",
   "resonance.aquamarine": "Resonância Água-marinha",
   "resonance.jade": "Resonânce de Jade",
   "resonance.emerald": "Resonância Esmeralda",
   "resonance.amethyst": "Resonância de Ametista",
-  "resonance.topaz": "Resonância Topázio"
+  "resonance.topaz": "Resonância Topázio",
+  "resonance.garnet": "Resonância Granada",
+  "rings.jade.description": "Aumenta ataque crítico em 10%.",
+  "rings.topaz.description": "Aumenta a defensa em 5.",
+  "rings.garnet.name": "Garnet Ring",
+  "rings.garnet.description": "Decreases special move cooldown by 10%.",
+  "rings.iridium.description": "Um anel de irídio.",
+  "ui.itemhover.damage": "+{{amount}} Damage",
+  "ui.itemhover.precision": "+{{amount}} Precision",
+  "ui.itemhover.cdr": "+{{amount}} Cooldown Reduction"
 }

@@ -158,10 +158,13 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
             var index = ammo?.ParentSheetIndex ?? 14;
             var projectile = new ImmersiveProjectile(__instance, overcharge, false, (int)damage, index,
                 bounces, 0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition,
-                collisionSound, "", false, true, location, who, true, collisionBehavior)
+                collisionSound, ammo is null ? "debuffSpell" : "", false, true, location, who, ammo is not null, collisionBehavior)
             {
                 IgnoreLocationCollision = Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
             };
+
+            
+            if (ammo is null) projectile.startingScale.Value *= overcharge * overcharge;
 
             location.projectiles.Add(projectile);
 
@@ -174,14 +177,14 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
                 // do Death Blossom
                 for (var i = 0; i < 7; ++i)
                 {
-                    if (i == 4) continue;
+                    velocity = velocity.Rotate(45);
+                    if (i == 3) continue;
 
                     damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
-                    velocity = velocity.Rotate(45);
                     var blossom = new ImmersiveProjectile(__instance, 1f, true, (int)damage, index, 0,
                         0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
                         velocity.Y * speed, startingPosition, collisionSound, string.Empty, false, true, location, who,
-                        true, collisionBehavior)
+                        ammo is not null, collisionBehavior)
                     {
                         IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
                                                   Game1.currentMinigame is not null
@@ -190,40 +193,40 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
                     location.projectiles.Add(blossom);
                 }
             }
-            //else if (overcharge >= 1.5f && who.HasProfession(Profession.Desperado, true) &&
-            //         __instance.attachments[0].Stack >= 2)
-            //{
-            //    // do spreadshot
-            //    var angle = MathHelper.Lerp(1f, 0.5f, (overcharge - 1.5f) * 2f) * 15f;
+            else if (overcharge >= 1.5f && who.HasProfession(Profession.Desperado, true) &&
+                     __instance.attachments[0].Stack >= 2)
+            {
+                // do spreadshot
+                var angle = MathHelper.Lerp(1f, 0.5f, (overcharge - 1.5f) * 2f) * 15f;
 
-            //    damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
-            //    velocity = velocity.Rotate(angle);
-            //    var clockwise = new ImmersiveProjectile(__instance, 1f, true, (int)damage, index, 0, index == 14 ? 5 : 0,
-            //        (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed, velocity.Y * speed,
-            //        startingPosition, collisionSound, string.Empty, false, true, location, who, true, collisionBehavior)
-            //    {
-            //        IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
-            //                                  Game1.currentMinigame is not null
-            //    };
+                damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
+                velocity = velocity.Rotate(angle);
+                var clockwise = new ImmersiveProjectile(__instance, 1f, true, (int)damage, index, 0, index == 14 ? 5 : 0,
+                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed, velocity.Y * speed,
+                    startingPosition, collisionSound, string.Empty, false, true, location, who, ammo is not null, collisionBehavior)
+                {
+                    IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
+                                              Game1.currentMinigame is not null
+                };
 
-            //    location.projectiles.Add(clockwise);
+                location.projectiles.Add(clockwise);
 
-            //    damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
-            //    velocity = velocity.Rotate(-2 * angle);
-            //    var anticlockwise = new ImmersiveProjectile(__instance, 1f, true, (int)damage, index, 0, 0,
-            //        (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed, velocity.Y * speed,
-            //        startingPosition, collisionSound, string.Empty, false, true, location, who, true, collisionBehavior)
-            //    {
-            //        IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
-            //                                  Game1.currentMinigame is not null
-            //    };
+                damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
+                velocity = velocity.Rotate(-2 * angle);
+                var anticlockwise = new ImmersiveProjectile(__instance, 1f, true, (int)damage, index, 0, index == 14 ? 5 : 0,
+                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed, velocity.Y * speed,
+                    startingPosition, collisionSound, string.Empty, false, true, location, who, ammo is not null, collisionBehavior)
+                {
+                    IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
+                                              Game1.currentMinigame is not null
+                };
 
-            //    location.projectiles.Add(anticlockwise);
+                location.projectiles.Add(anticlockwise);
 
-            //    __instance.attachments[0].Stack -= 2;
-            //    if (__instance.attachments[0].Stack <= 0)
-            //        __instance.attachments[0] = null;
-            //}
+                __instance.attachments[0].Stack -= 2;
+                if (__instance.attachments[0].Stack <= 0)
+                    __instance.attachments[0] = null;
+            }
 
             ___canPlaySound = true;
             return false; // don't run original logic

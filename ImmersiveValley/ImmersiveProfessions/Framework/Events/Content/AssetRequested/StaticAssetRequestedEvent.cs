@@ -52,7 +52,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
         if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))
             e.Edit(editor.edit, editor.priority);
         else if (AssetProviders.TryGetValue(e.NameWithoutLocale.Name, out var provider))
-            e.LoadFromModFile<Texture2D>(provider.provide.Invoke(), provider.priority);
+            e.LoadFromModFile<Texture2D>(provider.provide(), provider.priority);
     }
 
     #region editor callback

@@ -1,11 +1,9 @@
-﻿
-namespace DaLion.Stardew.Arsenal;
+﻿namespace DaLion.Stardew.Arsenal;
 
 #region using directives
 
 using Common;
 using Common.Commands;
-using Common.Events;
 using Common.Harmony;
 using Common.Integrations.DynamicGameAssets;
 using Common.Integrations.WalkOfLife;
@@ -19,14 +17,18 @@ public class ModEntry : Mod
 {
     internal static ModEntry Instance { get; private set; } = null!;
     internal static ModConfig Config { get; set; } = null!;
-    internal static EventManager Manager { get; private set; } = null!;
+    internal static ArsenalEventManager EventManager { get; private set; } = null!;
+    internal static PerScreen<ModState> PerScreenState { get; private set; } = null!;
+    internal static ModState State
+    {
+        get => PerScreenState.Value;
+        set => PerScreenState.Value = value;
+    }
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
     internal static ITranslationHelper i18n => ModHelper.Translation;
 
-    internal static PerScreen<int> SlingshotCooldown { get; } = new(() => 0);
-    internal static PerScreen<int> EnergizeStacks { get; } = new(() => -1);
     internal static IDynamicGameAssetsAPI? DynamicGameAssetsApi { get; set; }
     internal static IImmersiveProfessionsAPI? ProfessionsApi { get; set; }
     internal static bool IsImmersiveRingsLoaded { get; private set; }
@@ -47,12 +49,14 @@ public class ModEntry : Mod
         Config = helper.ReadConfig<ModConfig>();
 
         // enable events
-        Manager = new(helper.Events);
-        Manager.EnableAll(typeof(EnergizedUpdateTickedEvent), typeof(SlingshotSpecialUpdateTickedEvent),
-            typeof(StabbySwordSpecialUpdateTickingEvent));
+        EventManager = new(helper.Events);
+        EventManager.EnableForLocalPlayer();
 
         // apply patches
         new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
+
+        // initialize mod state
+        PerScreenState = new(() => new());
 
         // register commands
         new CommandHandler(helper.ConsoleCommands).Register("ars", "Arsenal");

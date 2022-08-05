@@ -21,6 +21,10 @@ public class SpreadingEnchantment : BaseSlingshotEnchantment
         typeof(Projectile).RequireField("currentTileSheetIndex")
             .CompileUnboundFieldGetterDelegate<BasicProjectile, NetInt>());
 
+    private static readonly Lazy<Func<BasicProjectile, NetBool>> _GetSpriteFromObjectSheet = new(() =>
+        typeof(Projectile).RequireField("spriteFromObjectSheet")
+            .CompileUnboundFieldGetterDelegate<BasicProjectile, NetBool>());
+
     private static readonly Lazy<Func<BasicProjectile, NetFloat>> _GetXVelocity = new(() =>
         typeof(Projectile).RequireField("xVelocity").CompileUnboundFieldGetterDelegate<BasicProjectile, NetFloat>());
 
@@ -35,10 +39,8 @@ public class SpreadingEnchantment : BaseSlingshotEnchantment
         new(() => typeof(BasicProjectile).RequireField("collisionBehavior")
             .CompileUnboundFieldGetterDelegate<BasicProjectile, BasicProjectile.onCollisionBehavior?>());
 
-    protected override void _OnFire(Slingshot slingshot, BasicProjectile? projectile, GameLocation location, Farmer who)
+    protected override void _OnFire(Slingshot slingshot, BasicProjectile projectile, GameLocation location, Farmer who)
     {
-        if (projectile is not ImmersiveProjectile immersive) return;
-
         var velocity = new Vector2(_GetXVelocity.Value(projectile).Value, _GetYVelocity.Value(projectile).Value);
         var speed = velocity.Length();
         velocity.Normalize();
@@ -58,14 +60,15 @@ public class SpreadingEnchantment : BaseSlingshotEnchantment
         var shootOrigin = slingshot.GetShootOrigin(who);
         var startingPosition = shootOrigin - new Vector2(32f, 32f);
         var damage = (int)(projectile.damageToFarmer.Value * 0.4f);
-        var index = immersive.IsQuincy ? 14 : _GetCurrentTileSheetIndex.Value(projectile).Value;
+        var index = _GetCurrentTileSheetIndex.Value(projectile).Value;
+        var isObject = _GetSpriteFromObjectSheet.Value(projectile).Value;
 
         velocity = velocity.Rotate(angle);
         var rDamage = (int)(damage * (1d + Game1.random.Next(-2, 3) / 10d));
         var clockwise = new ImmersiveProjectile(slingshot, rDamage, index, 0, 0,
             (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed, velocity.Y * speed,
             startingPosition, _GetCollisionSound.Value(projectile).Value, string.Empty, false, true, location, who,
-            !immersive.IsQuincy, _GetCollisionBehavior.Value(projectile))
+            isObject, _GetCollisionBehavior.Value(projectile))
         {
             IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
                                       Game1.currentMinigame is not null
@@ -78,7 +81,7 @@ public class SpreadingEnchantment : BaseSlingshotEnchantment
         var anticlockwise = new ImmersiveProjectile(slingshot, rDamage, index, 0, 0,
             (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed, velocity.Y * speed,
             startingPosition, _GetCollisionSound.Value(projectile).Value, string.Empty, false, true, location, who,
-            !immersive.IsQuincy, _GetCollisionBehavior.Value(projectile))
+            isObject, _GetCollisionBehavior.Value(projectile))
         {
             IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
                                       Game1.currentMinigame is not null

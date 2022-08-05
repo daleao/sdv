@@ -37,7 +37,8 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
         {
             _BeginSpecialMove.Value(sword, user);
 
-            var trajectory = Common.Utility.VectorFromFacingDirection((FacingDirection)user.FacingDirection) * (25f + Game1.player.addedSpeed * 2.5f);
+            var trajectory = Common.Utility.VectorFromFacingDirection((FacingDirection) user.FacingDirection) *
+                             (25f + Game1.player.addedSpeed * 2.5f);
             user.setTrajectory(trajectory);
 
             _animationFrames = sword.hasEnchantmentOfType<InfinityEnchantment>() ? 24 : 15; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
@@ -51,7 +52,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
                     (FacingDirection)user.FacingDirection)
             };
 
-            ((FarmerSprite)user.Sprite).setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
+            user.FarmerSprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
             Game1.playSound("daggerswipe");
         }
         else if (_currentFrame > _animationFrames)
@@ -72,7 +73,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
         }
         else
         {
-            var sprite = (FarmerSprite)user.Sprite;
+            var sprite = user.FarmerSprite;
             if (_currentFrame == 1) ++sprite.currentAnimationIndex;
             else if (_currentFrame == _animationFrames - 1) --sprite.currentAnimationIndex;
 

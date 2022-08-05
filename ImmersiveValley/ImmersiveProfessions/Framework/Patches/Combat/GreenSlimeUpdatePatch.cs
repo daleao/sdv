@@ -71,7 +71,7 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
             monster.setInvincibleCountdown(IMMUNE_TO_DAMAGE_DURATION_I);
 
             // aggro monsters
-            if (monster.get_Taunter() is null) monster.set_Taunter(__instance);
+            if (monster.get_Taunter().Get(monster.currentLocation) is null) monster.set_Taunter(__instance);
 
             var fakeFarmer = monster.get_FakeFarmer();
             if (fakeFarmer is not null) fakeFarmer.Position = __instance.Position;

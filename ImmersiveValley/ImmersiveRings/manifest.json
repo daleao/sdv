@@ -9,6 +9,11 @@
   "UpdateKeys": [ "Nexus:11380" ],
   "Dependencies": [
     {
+      "UniqueID": "spacechase0.JsonAssets",
+      "MinimumVersion": "1.10.7",
+      "IsRequired": true
+    },
+    {
       "UniqueID": "spacechase0.GenericModConfigMenu",
       "MinimumVersion": "1.8.0",
       "IsRequired": false

@@ -12,10 +12,10 @@ using System;
 public static class Utility
 {
     /// <summary>A unit vector pointing up.</summary>
-    public static Vector2 UpVector() => Vector2.UnitY * -1f;
+    public static Vector2 UpVector() => Vector2.UnitY;
 
     /// <summary>A unit vector pointing down.</summary>
-    public static Vector2 DownVector() => Vector2.UnitY;
+    public static Vector2 DownVector() => Vector2.UnitY * -1f;
 
     /// <summary>A unit vector pointing right.</summary>
     public static Vector2 RightVector() => Vector2.UnitX;

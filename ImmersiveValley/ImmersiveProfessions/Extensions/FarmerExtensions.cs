@@ -502,4 +502,8 @@ public static class FarmerExtensions
     /// <summary>Whether this farmer is currently using the Poacher Ultimate.</summary>
     public static bool IsInAmbush(this Farmer farmer) =>
         farmer.get_UltimateIndex() == (int)UltimateIndex.PoacherAmbush && farmer.get_IsUltimateActive().Value;
+
+    /// <summary>Whether this farmer is a Desperado currently using the Slingshot.</summary>
+    public static bool IsDesperadoCharging(this Farmer farmer) =>
+        farmer.HasProfession(Profession.Desperado) && farmer.usingSlingshot;
 }

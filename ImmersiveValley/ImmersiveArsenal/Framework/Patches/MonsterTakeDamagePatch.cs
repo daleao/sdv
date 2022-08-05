@@ -35,42 +35,45 @@ internal sealed class MonsterTakeDamagePatch : Common.Harmony.HarmonyPatch
         var helper = new ILHelper(original, instructions);
 
         /// From: int actualDamage = Math.Max(1, damage - (int)resilience);
-        /// To: int actualDamage = this.get_GotCrit() ? damage : Math.Max(1, damage - (int)resilience * (int)resilience);
+        /// To: int actualDamage = this.get_GotCrit() && ModEntry.Config.CritsIgnoreDefense ? damage : damage * 10 / (10 + (int)resilience) ;
 
-        var didntGetCrit = generator.DefineLabel();
-        var dontSquareDefense = generator.DefineLabel();
+        var mitigateDamage = generator.DefineLabel();
         var resumeExecution = generator.DefineLabel();
         try
         {
             helper
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call, typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.CritsIgnoreDefense))),
-                    new CodeInstruction(OpCodes.Brfalse_S, didntGetCrit),
+                    new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
+                    new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.get_GotCrit))),
-                    new CodeInstruction(OpCodes.Brfalse_S, didntGetCrit),
+                    new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Stloc_0),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
-                .AddLabels(didntGetCrit)
+                .Remove()
+                .AddLabels(mitigateDamage)
+                .Advance()
+                .Insert(
+                    new CodeInstruction(OpCodes.Conv_R4),
+                    new CodeInstruction(OpCodes.Ldc_R4, 10f),
+                    new CodeInstruction(OpCodes.Ldc_R4, 10f)
+                )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Sub)
                 )
-                .AddLabels(dontSquareDefense)
                 .Insert(
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call, typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.ImprovedEnemyDefense))),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontSquareDefense),
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Mul)
+                    new CodeInstruction(OpCodes.Conv_R4),
+                    new CodeInstruction(OpCodes.Add),
+                    new CodeInstruction(OpCodes.Div)
                 )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldc_I4_0)
-                )
+                .ReplaceWith(new(OpCodes.Mul))
+                .Advance()
+                .ReplaceWith(new(OpCodes.Conv_I4))
+                .Advance(2)
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)

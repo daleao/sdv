@@ -1,11 +1,19 @@
 ﻿{
-  "rings.jade": "Augmente la puissance des coups critiques de 50 %.",
-  "rings.topaz": "Augmente la défense de 5.",
-  "rings.iridium": "Une bague en iridium.",
+  "gems.garnet.name": "Grenat",
+  "gems.garnet.description": "L'homonyme d'une belle princesse d'un pays lointain.",
   "resonance.ruby": "Résonance Rubis",
   "resonance.aquamarine": "Résonance Aigue-marine",
   "resonance.jade": "Résonance de Jade",
   "resonance.emerald": "Résonance Émeraude",
   "resonance.amethyst": "Résonance d'Améthyste",
-  "resonance.topaz": "Résonance de Topaze"
+  "resonance.topaz": "Résonance de Topaze",
+  "resonance.garnet": "Résonance de Grenat",
+  "rings.jade.description": "Augmente la puissance des coups critiques de 50 %.",
+  "rings.topaz.description": "Augmente la défense de 5.",
+  "rings.garnet.name": "Bague Grenat",
+  "rings.garnet.description": "Diminue le temps de recharge des coups spéciaux de 10 %.",
+  "rings.iridium.description": "Une bague en iridium.",
+  "ui.itemhover.damage": "+{{amount}} Damage",
+  "ui.itemhover.precision": "+{{amount}} Precision",
+  "ui.itemhover.cdr": "+{{amount}} Cooldown Reduction"
 }

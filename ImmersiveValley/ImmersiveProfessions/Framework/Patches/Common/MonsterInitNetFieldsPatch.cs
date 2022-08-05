@@ -23,10 +23,8 @@ internal sealed class MonsterInitNetFieldsPatch : DaLion.Common.Harmony.HarmonyP
     [HarmonyPostfix]
     private static void MonsterInitNetFieldsPostix(Monster __instance)
     {
-        __instance.NetFields.AddFields(__instance.get_SlowIntensity());
-        __instance.NetFields.AddFields(__instance.get_SlowTimer());
-        __instance.NetFields.AddFields(__instance.get_FearIntensity());
-        __instance.NetFields.AddFields(__instance.get_FearTimer());
+        __instance.NetFields.AddFields(__instance.get_SlowIntensity(), __instance.get_SlowTimer(),
+            __instance.get_FearIntensity(), __instance.get_FearTimer());
     }
 
     #endregion harmony patches

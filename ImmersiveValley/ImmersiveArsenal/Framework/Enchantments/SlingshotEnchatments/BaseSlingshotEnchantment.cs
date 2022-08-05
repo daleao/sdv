@@ -11,18 +11,18 @@ using System.Xml.Serialization;
 [XmlType("Mods_DaLion_BaseSlingshotEnchantment")]
 public class BaseSlingshotEnchantment : BaseEnchantment
 {
-    public override bool CanApplyTo(Item item) => item is Slingshot && ModEntry.Config.NewSlingshotEnchants;
+    public override bool CanApplyTo(Item item) => item is Slingshot && ModEntry.Config.EnableSlingshotEnchants;
 
-    public void OnFire(Slingshot slingshot, BasicProjectile? projectile, GameLocation location, Farmer farmer)
+    public void OnFire(Slingshot slingshot, BasicProjectile projectile, GameLocation location, Farmer farmer)
     {
         _OnFire(slingshot, projectile, location, farmer);
     }
 
-    protected virtual void _OnFire(Slingshot slingshot, BasicProjectile? projectile, GameLocation location, Farmer farmer)
+    protected virtual void _OnFire(Slingshot slingshot, BasicProjectile projectile, GameLocation location, Farmer farmer)
     {
     }
 
-    protected virtual void _OnCollisionWithMonster(Slingshot slingshot, BasicProjectile? projectile, GameLocation location, Farmer farmer)
+    protected virtual void _OnCollisionWithMonster(Slingshot slingshot, BasicProjectile projectile, GameLocation location, Farmer farmer)
     {
     }
 }

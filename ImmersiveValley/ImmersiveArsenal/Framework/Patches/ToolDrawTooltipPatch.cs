@@ -32,7 +32,7 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
     private static bool ToolDrawTooltipPrefix(Tool __instance, SpriteBatch spriteBatch, ref int x, ref int y,
         SpriteFont font, float alpha)
     {
-        if (__instance is not Slingshot slingshot || slingshot.GetTotalForgeLevels() <= 0)
+        if (__instance is not Slingshot slingshot || slingshot.enchantments.Count <= 0)
             return true; // run original logic
 
         // write description
@@ -43,7 +43,6 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
         y += (int)font.MeasureString(Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth)).Y;
 
         Color co;
-        var hasForge = false;
         // write bonus damage
         if (__instance.hasEnchantmentOfType<RubyEnchantment>())
         {
@@ -54,7 +53,6 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
             Utility.drawTextWithShadow(spriteBatch, ModEntry.i18n.Get("ui.itemhover.damage", new { amount }), font,
                 new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            hasForge = true;
         }
 
         // write bonus knockback
@@ -68,7 +66,6 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
             Utility.drawTextWithShadow(spriteBatch, Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount),
                 font, new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            hasForge = true;
         }
 
         // write bonus crit rate
@@ -82,7 +79,6 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
                 Game1.content.LoadString("Strings\\UI:ItemHover_CritChanceBonus", amount), font, new(x + 68, y + 28),
                 co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            hasForge = true;
         }
 
         // write crit power
@@ -97,7 +93,6 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
                 Game1.content.LoadString("Strings\\UI:ItemHover_CritPowerBonus", amount), font,
                 new(x + 16 + 44, y + 16 + 12), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            hasForge = true;
         }
 
         // write bonus charge speed
@@ -110,21 +105,19 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
             Utility.drawTextWithShadow(spriteBatch, Game1.content.LoadString("Strings\\UI:ItemHover_Speed", amount),
                 font, new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            hasForge = true;
         }
 
         // write bonus cooldown reduction
         if (__instance.hasEnchantmentOfType<GarnetEnchantment>())
         {
             var amount =
-                $"+{__instance.GetEnchantmentLevel<GarnetEnchantment>() * 0.1f:p0}";
+                $"{__instance.GetEnchantmentLevel<GarnetEnchantment>() * 0.1f:p0}";
             co = new(0, 120, 120);
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(150, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
             Utility.drawTextWithShadow(spriteBatch, ModEntry.i18n.Get("ui.itemhover.damage", new {amount}), font,
                 new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            hasForge = true;
         }
 
         // write bonus defense
@@ -139,7 +132,6 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
                 Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", amount), font, new(x + 68, y + 28),
                 co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            hasForge = true;
         }
 
         // write bonus random forge
@@ -152,7 +144,6 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
                 : Game1.content.LoadString("Strings\\UI:ItemHover_DiamondForge_Singular", randomForges);
             Utility.drawTextWithShadow(spriteBatch, randomForgeString, font, new(x + 16, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            hasForge = true;
         }
 
         // write other enchantments
@@ -168,7 +159,7 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // extra height to compensate `Forged` text
-        if (hasForge) y += (int)Math.Max(font.MeasureString("TT").Y, 48f) / 2;
+        if (__instance.enchantments.Count > 0) y += (int)Math.Max(font.MeasureString("TT").Y, 48f) / 4;
 
         return false; // don't run original logic
     }

@@ -20,8 +20,6 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (e.NewLocation.Equals(e.OldLocation)) return;
-
         if (ModEntry.State.ProspectorHunt.Value.IsActive) ModEntry.State.ProspectorHunt.Value.Fail();
         if (!Game1.eventUp && e.NewLocation is MineShaft shaft && !shaft.IsTreasureOrSafeRoom())
             ModEntry.State.ProspectorHunt.Value.TryStart(e.NewLocation);

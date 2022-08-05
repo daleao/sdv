@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Arsenal.Framework;
+﻿namespace DaLion.Stardew.Arsenal.Extensions;
 
 #region using directives
 
@@ -6,8 +6,10 @@ using StardewValley.Tools;
 
 #endregion using directives
 
-internal static class Utils
+/// <summary>Extensions for the <see cref="Farmer"/> class.</summary>
+public class FarmerExtensions
 {
+    /// <summary>Transform the currently held weapon into the Holy Blade.</summary>
     internal static void GetHolyBlade()
     {
         Game1.flashAlpha = 1f;

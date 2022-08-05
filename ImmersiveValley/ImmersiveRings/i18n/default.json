@@ -1,15 +1,19 @@
 ﻿{
-  "rings.jade": "Increases critical strike power by 30%.",
-  "rings.topaz.defense": "Increases defense by 3.",
-  "rings.topaz.cdr": "Decreases special move cooldown by 10%.",
-  "rings.iridium": "A band made of iridium.",
-  "ui.itemhover.damage": "+{{amount}} Damage",
-  "ui.itemhover.precision": "+{{amount}} Precision",
-  "ui.itemhover.cdr": "+{{amount}} Cooldown Reduction",
+  "gems.garnet.name": "Garnet",
+  "gems.garnet.description": "The namesake of a beautiful princess from a faraway land.",
   "resonance.ruby": "Ruby Resonance",
   "resonance.aquamarine": "Aquamarine Resonance",
   "resonance.jade": "Jade Resonance",
   "resonance.emerald": "Emerald Resonance",
   "resonance.amethyst": "Amethyst Resonance",
-  "resonance.topaz": "Topaz Resonance"
+  "resonance.topaz": "Topaz Resonance",
+  "resonance.garnet": "Garnet Resonance", 
+  "rings.jade.description": "Increases critical strike power by 30%.",
+  "rings.topaz.description": "Increases defense by 3.",
+  "rings.garnet.name": "Garnet Ring",
+  "rings.garnet.description": "Decreases special move cooldown by 10%.",
+  "rings.iridium.description": "A band made of iridium.",
+  "ui.itemhover.damage": "+{{amount}} Damage",
+  "ui.itemhover.precision": "+{{amount}} Precision",
+  "ui.itemhover.cdr": "-{{amount}} Cooldown"
 }

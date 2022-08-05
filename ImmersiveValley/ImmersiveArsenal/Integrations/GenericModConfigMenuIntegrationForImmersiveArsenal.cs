@@ -46,8 +46,8 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 (config, value) =>
                 {
                     config.FaceMouseCursor = value;
-                    if (value) ModEntry.Manager.Enable<ArsenalButtonPressedEvent>();
-                    else ModEntry.Manager.Disable<ArsenalButtonPressedEvent>();
+                    if (value) ModEntry.EventManager.Enable<ArsenalButtonPressedEvent>();
+                    else ModEntry.EventManager.Disable<ArsenalButtonPressedEvent>();
                 }
             )
 
@@ -112,32 +112,32 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
             .AddCheckbox(
                 () => "Allow Slingshot Crit",
                 () => "Allows Slingshot to deal critical damage and be affected by critical modifiers.",
-                config => config.AllowSlingshotCrit,
-                (config, value) => config.AllowSlingshotCrit = value
+                config => config.EnableSlingshotCrits,
+                (config, value) => config.EnableSlingshotCrits = value
             )
             .AddCheckbox(
                 () => "Allow Slingshot Enchants",
                 () => "Allow Slingshot to be enchanted with weapon enchantments (Prismatic Shard) at the Forge.",
-                config => config.NewSlingshotEnchants,
-                (config, value) => config.NewSlingshotEnchants = value
+                config => config.EnableSlingshotEnchants,
+                (config, value) => config.EnableSlingshotEnchants = value
             )
             .AddCheckbox(
                 () => "Allow Slingshot Forges",
                 () => "Allow Slingshot to be enchanted with weapon forges (gemstones) at the Forge.",
-                config => config.AllowSlingshotForges,
-                (config, value) => config.AllowSlingshotForges = value
+                config => config.EnableSlingshotForges,
+                (config, value) => config.EnableSlingshotForges = value
             )
             .AddCheckbox(
                 () => "Allow Slingshot Special Move",
                 () => "Add a new stunning smack special move for slingshots.",
-                config => config.AllowSlingshotSpecialMove,
-                (config, value) => config.AllowSlingshotSpecialMove = value
+                config => config.EnableSlingshotSpecialMove,
+                (config, value) => config.EnableSlingshotSpecialMove = value
             )
             .AddCheckbox(
                 () => "Remove Slingshot Grace Period",
                 () => "Projectiles should not be useless for the first 100ms.",
-                config => config.RemoveSlingshotGracePeriod,
-                (config, value) => config.RemoveSlingshotGracePeriod = value
+                config => config.DisableSlingshotGracePeriod,
+                (config, value) => config.DisableSlingshotGracePeriod = value
             )
 
             .AddSectionTitle(() => "Enchantment Settings")

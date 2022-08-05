@@ -1,23 +1,21 @@
-﻿namespace DaLion.Stardew.Professions.Framework;
+﻿namespace DaLion.Stardew.Professions.Framework.Events;
 
 #region using directives
 
 using Common;
 using Common.Events;
-using Events.Display;
-using Events.GameLoop;
-using Events.Input;
-using Events.Multiplayer;
-using Events.Player;
-using Events.TreasureHunt;
-using Events.Ultimate;
+using Display;
+using GameLoop;
+using Input;
+using Multiplayer;
+using Player;
 using Extensions;
 using StardewModdingAPI.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TreasureHunts;
-using Ultimates;
+using TreasureHunt;
+using Ultimate;
 
 #endregion using directives
 
@@ -44,28 +42,28 @@ internal class ProfessionEventManager : EventManager
         #region hookers
 
         foreach (var @event in ManagedEvents.OfType<UltimateActivatedEvent>())
-            Ultimate.Activated += @event.OnActivated;
+            Ultimates.Ultimate.Activated += @event.OnActivated;
 
         foreach (var @event in ManagedEvents.OfType<UltimateChargeIncreasedEvent>())
-            Ultimate.ChargeIncreased += @event.OnChargeIncreased;
+            Ultimates.Ultimate.ChargeIncreased += @event.OnChargeIncreased;
 
         foreach (var @event in ManagedEvents.OfType<UltimateChargeInitiatedEvent>())
-            Ultimate.ChargeInitiated += @event.OnChargeInitiated;
+            Ultimates.Ultimate.ChargeInitiated += @event.OnChargeInitiated;
 
         foreach (var @event in ManagedEvents.OfType<UltimateDeactivatedEvent>())
-            Ultimate.Deactivated += @event.OnDeactivated;
+            Ultimates.Ultimate.Deactivated += @event.OnDeactivated;
 
         foreach (var @event in ManagedEvents.OfType<UltimateEmptiedEvent>())
-            Ultimate.Emptied += @event.OnEmptied;
+            Ultimates.Ultimate.Emptied += @event.OnEmptied;
 
         foreach (var @event in ManagedEvents.OfType<UltimateFullyChargedEvent>())
-            Ultimate.FullyCharged += @event.OnFullyCharged;
+            Ultimates.Ultimate.FullyCharged += @event.OnFullyCharged;
 
         foreach (var @event in ManagedEvents.OfType<TreasureHuntEndedEvent>())
-            TreasureHunt.Ended += @event.OnEnded;
+            TreasureHunts.TreasureHunt.Ended += @event.OnEnded;
 
         foreach (var @event in ManagedEvents.OfType<TreasureHuntStartedEvent>())
-            TreasureHunt.Started += @event.OnStarted;
+            TreasureHunts.TreasureHunt.Started += @event.OnStarted;
 
         Log.D("[EventManager]: Initialization of Profession Mod events completed.");
 

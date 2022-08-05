@@ -299,15 +299,6 @@ public interface IImmersiveProfessions
         /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat.</remarks>
         float[] BaseSkillExpMultiplierPerSkill { get; set; }
 
-        /// <summary>Increases the health of all monsters.</summary>
-        float MonsterHealthMultiplier { get; set; }
-
-        /// <summary>Increases the damage dealt by all monsters.</summary>
-        float MonsterDamageMultiplier { get; set; }
-
-        /// <summary>Increases the resistance of all monsters.</summary>
-        float MonsterDefenseMultiplier { get; set; }
-
         /// <summary>Enable if using the Vintage Interface v2 mod. Accepted values: "Brown", "Pink", "Off", "Automatic".</summary>
         VintageInterfaceStyle VintageInterfaceSupport { get; set; }
 

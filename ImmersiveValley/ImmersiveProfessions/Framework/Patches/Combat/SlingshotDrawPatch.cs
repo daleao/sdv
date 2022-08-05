@@ -25,8 +25,6 @@ internal sealed class SlingshotDrawPatch : DaLion.Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     internal static void SlingshotDrawPostfix(Slingshot __instance, SpriteBatch b)
     {
-        if (__instance.attachments[0] is null) return;
-
         var lastUser = __instance.getLastFarmerToUse();
         if (!lastUser.usingSlingshot || !lastUser.IsLocalPlayer || !lastUser.HasProfession(Profession.Desperado) ||
             lastUser.get_Ultimate() is DeathBlossom { IsActive: true }) return;

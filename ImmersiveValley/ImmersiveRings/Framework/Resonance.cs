@@ -3,6 +3,8 @@
 #region using directives
 
 using Ardalis.SmartEnum;
+using Common.Extensions.Stardew;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
@@ -16,6 +18,7 @@ public class Resonance : SmartEnum<Resonance>
     public static readonly Resonance Emerald = new("Emerald", Constants.EMERALD_RING_INDEX_I);
     public static readonly Resonance Amethyst = new("Amethyst", Constants.AMETHYST_RING_INDEX_I);
     public static readonly Resonance Topaz = new("Topaz", Constants.TOPAZ_RING_INDEX_I);
+    public static readonly Resonance Garnet = new("Garnet", ModEntry.GarnetRingIndex);
 
     #endregion enum entries
 
@@ -29,6 +32,9 @@ public class Resonance : SmartEnum<Resonance>
 
     /// <summary>Get the localized name for this resonance.</summary>
     public string DisplayName { get; }
+
+    /// <summary>Get the corresponding gemstone color.</summary>
+    public Color Color => Utils.ColorByGemstone[Utils.GemstoneByRing[Value]];
 
     /// <summary>Apply resonance's effect to the farmer.</summary>
     /// <param name="who">The farmer.</param>
@@ -54,6 +60,11 @@ public class Resonance : SmartEnum<Resonance>
             case Constants.TOPAZ_RING_INDEX_I:
                 if (ModEntry.Config.RebalancedRings) who.resilience += 1;
                 else who.weaponPrecisionModifier += 0.04f;
+                break;
+            default:
+                if (Value == ModEntry.GarnetRingIndex)
+                    who.Increment("CooldownReduction", 0.04f);
+
                 break;
         }
     }
@@ -82,6 +93,11 @@ public class Resonance : SmartEnum<Resonance>
             case Constants.TOPAZ_RING_INDEX_I:
                 if (ModEntry.Config.RebalancedRings) who.resilience += 1;
                 else who.weaponPrecisionModifier -= 0.04f;
+                break;
+            default:
+                if (Value == ModEntry.GarnetRingIndex)
+                    who.Increment("CooldownReduction", -0.04f);
+
                 break;
         }
     }

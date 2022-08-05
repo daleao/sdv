@@ -11,6 +11,7 @@ using StardewValley.Locations;
 /// <summary>Extensions for the <see cref="GameLocation"/> class.</summary>
 public static class GameLocationExtensions
 {
+    /// <summary>Whether the specified tile is likely to contain a snowy texture.</summary>
     public static bool DoesTileHaveSnow(this GameLocation location, Vector2 tile)
     {
         if (location is IslandLocation || !location.IsOutdoors || location.GetSeasonForLocation() != "winter") return false;

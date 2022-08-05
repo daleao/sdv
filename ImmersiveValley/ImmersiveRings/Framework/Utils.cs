@@ -17,7 +17,8 @@ internal static class Utils
         { Constants.AQUAMARINE_RING_INDEX_I, Constants.AQUAMARINE_INDEX_I },
         { Constants.JADE_RING_INDEX_I, Constants.JADE_INDEX_I },
         { Constants.EMERALD_RING_INDEX_I, Constants.EMERALD_INDEX_I },
-        { Constants.RUBY_RING_INDEX_I, Constants.RUBY_INDEX_I }
+        { Constants.RUBY_RING_INDEX_I, Constants.RUBY_INDEX_I },
+        { ModEntry.GarnetRingIndex, ModEntry.GarnetIndex}
     };
 
     /// <summary>Get the color of the corresponding gemstone.</summary>
@@ -28,6 +29,7 @@ internal static class Utils
         { Constants.AQUAMARINE_RING_INDEX_I, new(35, 144, 170) },
         { Constants.JADE_RING_INDEX_I, new(117, 150, 99) },
         { Constants.EMERALD_RING_INDEX_I, new(4, 128, 54) },
-        { Constants.RUBY_RING_INDEX_I, new(225, 57, 57) }
+        { Constants.RUBY_RING_INDEX_I, new(225, 57, 57) },
+        { ModEntry.GarnetRingIndex, new(152, 29, 45) }
     };
 }

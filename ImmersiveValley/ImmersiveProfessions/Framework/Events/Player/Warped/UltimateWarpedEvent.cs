@@ -22,7 +22,7 @@ internal sealed class UltimateWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (e.NewLocation.Equals(e.OldLocation) || e.NewLocation.GetType() == e.OldLocation.GetType()) return;
+        if (e.NewLocation.GetType() == e.OldLocation.GetType()) return;
 
         if (e.NewLocation.IsDungeon())
         {

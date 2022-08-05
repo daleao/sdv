@@ -11,6 +11,7 @@ using Common.Integrations.SpaceCore;
 using Common.ModData;
 using Common.Multiplayer;
 using Framework;
+using Framework.Events;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI.Utilities;
 using System;
