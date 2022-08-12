@@ -168,10 +168,8 @@ public class ModConfig
     /// <summary>Determines the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons", "Gen4Ribbons".</summary>
     public ProgressionStyle PrestigeProgressionStyle { get; set; } = ProgressionStyle.StackedStars;
 
-#if DEBUG
     /// <summary>Key used to trigger debug events.</summary>
     public KeybindList DebugKey { get; set; } = KeybindList.Parse("LeftControl");
-#endif
 
     #region dropdown enums
 

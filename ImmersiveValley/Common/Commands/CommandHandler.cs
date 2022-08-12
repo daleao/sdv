@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Attributes;
 using Extensions.Collections;
 using HarmonyLib;
 using System;

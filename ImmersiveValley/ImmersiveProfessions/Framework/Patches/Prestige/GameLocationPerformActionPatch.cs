@@ -35,7 +35,7 @@ internal sealed class GameLocationPerformActionPatch : DaLion.Common.Harmony.Har
         {
             string message;
             if (!ModEntry.Config.AllowPrestigeMultiplePerDay &&
-                (ModEntry.EventManager.Get<PrestigeDayEndingEvent>()?.IsEnabled == true ||
+                (ModEntry.Events.Get<PrestigeDayEndingEvent>()?.IsEnabled == true ||
                  ModEntry.State.UsedDogStatueToday))
             {
                 message = ModEntry.i18n.Get("prestige.dogstatue.dismiss");

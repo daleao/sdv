@@ -18,6 +18,6 @@ internal sealed class ImmersiveProfessionsIntegration : BaseIntegration<IImmersi
     public void Register()
     {
         AssertLoaded();
-        ModEntry.ProfessionsAPI = ModApi;
+        ModEntry.ProfessionsApi = ModApi;
     }
 }

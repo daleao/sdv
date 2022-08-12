@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Tooth And Nail - Immersive Tools",
   "Author": "DaLion",
-  "Version": "4.0.3",
+  "Version": "4.1.0",
   "Description": "Charge your Axe and Pickaxe, customize your Hoe and Watering Can area of effect, enable new tool enchantments.",
   "UniqueID": "DaLion.ImmersiveTools",
   "EntryDll": "ImmersiveTools.dll",

@@ -94,9 +94,9 @@ internal sealed class TreeShakePatch : Common.Harmony.HarmonyPatch
             !Game1.player.professions.Contains(Farmer.botanist))
             return SObject.lowQuality;
 
-        return ModEntry.ProfessionsAPI is null
+        return ModEntry.ProfessionsApi is null
             ? SObject.bestQuality
-            : ModEntry.ProfessionsAPI.GetEcologistForageQuality(Game1.player);
+            : ModEntry.ProfessionsApi.GetEcologistForageQuality(Game1.player);
     }
 
     #endregion injected subroutines

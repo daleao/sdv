@@ -9,6 +9,9 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IGameLoopEvents.SaveCreating"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class SaveCreatingEvent : ManagedEvent
 {
+    /// <inheritdoc />
+    public override bool IsEnabled => Context.IsMainPlayer;
+
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected SaveCreatingEvent(EventManager manager)

@@ -32,16 +32,14 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
             return;
         }
 
-        if (args.Length <= 0)
+        switch (args.Length)
         {
-            ultimate.ChargeValue = ultimate.MaxValue;
-            return;
-        }
-
-        if (args.Length > 1)
-        {
-            Log.W("Too many arguments. Specify a single value between 0 and 100.");
-            return;
+            case <= 0:
+                ultimate.ChargeValue = ultimate.MaxValue;
+                return;
+            case > 1:
+                Log.W("Too many arguments. Specify a single value between 0 and 100.");
+                return;
         }
 
         if (!int.TryParse(args[0], out var value) || value is < 0 or > 100)

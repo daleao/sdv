@@ -30,13 +30,13 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
     protected override void _OnEquip(Farmer who)
     {
         ModEntry.State.EnergizeStacks = 0;
-        ModEntry.EventManager.Enable<EnergizedUpdateTickedEvent>();
+        ModEntry.Events.Enable<EnergizedUpdateTickedEvent>();
     }
 
     protected override void _OnUnequip(Farmer who)
     {
         ModEntry.State.EnergizeStacks = -1;
-        ModEntry.EventManager.Disable<EnergizedUpdateTickedEvent>();
+        ModEntry.Events.Disable<EnergizedUpdateTickedEvent>();
     }
 
     public override string GetName() => ModEntry.i18n.Get("enchantments.energized");

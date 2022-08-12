@@ -41,9 +41,9 @@ internal sealed class ProspectorHunt : TreasureHunt
         huntLocation = location;
         timeLimit = (uint)(location.Objects.Count() * ModEntry.Config.ProspectorHuntHandicap);
         elapsed = 0;
-        ModEntry.EventManager.Enable<PointerUpdateTickedEvent>();
-        ModEntry.EventManager.Enable<ProspectorHuntRenderedHudEvent>();
-        ModEntry.EventManager.Enable<ProspectorHuntUpdateTickedEvent>();
+        ModEntry.Events.Enable<PointerUpdateTickedEvent>();
+        ModEntry.Events.Enable<ProspectorHuntRenderedHudEvent>();
+        ModEntry.Events.Enable<ProspectorHuntUpdateTickedEvent>();
         Game1.addHUDMessage(new HuntNotification(huntStartedMessage, iconSourceRect));
         if (Context.IsMultiplayer)
         {
@@ -55,7 +55,7 @@ internal sealed class ProspectorHunt : TreasureHunt
                 if (!Context.IsMainPlayer)
                     ModEntry.Broadcaster.Message("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
                 else
-                    ModEntry.EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
+                    ModEntry.Events.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
             }
         }
 
@@ -72,9 +72,9 @@ internal sealed class ProspectorHunt : TreasureHunt
         huntLocation = location;
         timeLimit = (uint)(location.Objects.Count() * ModEntry.Config.ProspectorHuntHandicap);
         elapsed = 0;
-        ModEntry.EventManager.Enable<PointerUpdateTickedEvent>();
-        ModEntry.EventManager.Enable<ProspectorHuntRenderedHudEvent>();
-        ModEntry.EventManager.Enable<ProspectorHuntUpdateTickedEvent>();
+        ModEntry.Events.Enable<PointerUpdateTickedEvent>();
+        ModEntry.Events.Enable<ProspectorHuntRenderedHudEvent>();
+        ModEntry.Events.Enable<ProspectorHuntUpdateTickedEvent>();
         Game1.addHUDMessage(new HuntNotification(huntStartedMessage, iconSourceRect));
         if (Context.IsMultiplayer)
         {
@@ -86,7 +86,7 @@ internal sealed class ProspectorHunt : TreasureHunt
                 if (!Context.IsMainPlayer)
                     ModEntry.Broadcaster.Message("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
                 else
-                    ModEntry.EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
+                    ModEntry.Events.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
             }
         }
 
@@ -140,8 +140,8 @@ internal sealed class ProspectorHunt : TreasureHunt
     protected override void End(bool found)
     {
         Game1.player.get_IsHuntingTreasure().Value = false;
-        ModEntry.EventManager.Disable<ProspectorHuntRenderedHudEvent>();
-        ModEntry.EventManager.Disable<ProspectorHuntUpdateTickedEvent>();
+        ModEntry.Events.Disable<ProspectorHuntRenderedHudEvent>();
+        ModEntry.Events.Disable<ProspectorHuntUpdateTickedEvent>();
         TreasureTile = null;
         if (!Context.IsMultiplayer || Context.IsMainPlayer ||
             !Game1.player.HasProfession(Profession.Prospector, true)) return;

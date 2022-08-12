@@ -50,13 +50,13 @@ public sealed class Frenzy : Ultimate
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
                 GetType().Name,
-                ModEntry.i18n.Get("brute.ulti"))
+                ModEntry.i18n.Get("brute.ulti.name"))
             {
                 which = BuffId,
                 sheetIndex = 48,
                 glow = GlowColor,
                 millisecondsDuration = (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
-                description = ModEntry.i18n.Get("brute.ultidesc")
+                description = ModEntry.i18n.Get("brute.ulti.desc")
             }
         );
     }

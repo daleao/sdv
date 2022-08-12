@@ -27,12 +27,18 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
     }
 
     /// <inheritdoc />
+    public override bool Enable() => false;
+
+    /// <inheritdoc />
+    public override bool Disable() => false;
+
+    /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         var player = Game1.player;
 
         // enable events
-        Manager.EnableForLocalPlayer();
+        ModEntry.Events.EnableForLocalPlayer();
 
         // load and initialize Ultimate index
         Log.T("Initializing Ultimate...");

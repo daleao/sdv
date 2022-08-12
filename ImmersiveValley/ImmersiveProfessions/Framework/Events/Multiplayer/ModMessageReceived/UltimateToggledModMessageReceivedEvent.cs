@@ -14,10 +14,19 @@ using Ultimates;
 [UsedImplicitly]
 internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceivedEvent
 {
+    /// <inheritdoc />
+    public override bool IsEnabled => Context.IsMultiplayer;
+
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal UltimateToggledModMessageReceivedEvent(ProfessionEventManager manager)
         : base(manager) { }
+
+    /// <inheritdoc />
+    public override bool Enable() => false;
+
+    /// <inheritdoc />
+    public override bool Disable() => false;
 
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)

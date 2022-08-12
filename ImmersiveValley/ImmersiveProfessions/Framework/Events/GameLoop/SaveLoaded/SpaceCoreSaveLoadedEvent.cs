@@ -20,6 +20,9 @@ internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
     }
 
     /// <inheritdoc />
+    public override bool Enable() => false;
+
+    /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         // get custom luck skill

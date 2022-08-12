@@ -19,10 +19,16 @@ internal sealed class StaticReturnedToTitleEvent : ReturnedToTitleEvent
     }
 
     /// <inheritdoc />
+    public override bool Enable() => false;
+
+    /// <inheritdoc />
+    public override bool Disable() => false;
+
+    /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)
     {
         // disable events
-        Manager.DisableForLocalPlayer();
+        Manager.ResetAllScreens();
 
         // reset mod state
         ModEntry.State = new();

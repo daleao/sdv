@@ -1,10 +1,10 @@
-﻿namespace DaLion.Stardew.Professions.Commands;
+﻿namespace DaLion.Common.Commands;
 
 #region using directives
 
+using Attributes;
 using Common;
-using Common.Attributes;
-using Common.Commands;
+using Events;
 using System.Linq;
 
 #endregion using directives
@@ -12,6 +12,8 @@ using System.Linq;
 [UsedImplicitly, DebugOnly]
 internal sealed class PrintEnabledEventsCommand : ConsoleCommand
 {
+    internal static EventManager? Manager { get; set; }
+
     /// <summary>Construct an instance.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal PrintEnabledEventsCommand(CommandHandler handler)
@@ -26,8 +28,10 @@ internal sealed class PrintEnabledEventsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
+        if (Manager is null) return;
+
         var message = "Enabled events:";
-        message = ModEntry.EventManager.Enabled
+        message = Manager.Enabled
             .Aggregate(message, (current, next) => current + "\n\t- " + next.GetType().Name);
         Log.I(message);
     }

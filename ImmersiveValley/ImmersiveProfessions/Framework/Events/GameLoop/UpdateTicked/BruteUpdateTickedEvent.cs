@@ -43,14 +43,14 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
                 1,
                 "Brute",
                 ModEntry.i18n.Get("brute.name" + (Game1.player.IsMale ? ".male" : ".female")) + " " +
-                ModEntry.i18n.Get("brute.buff"))
+                ModEntry.i18n.Get("brute.buff.name"))
             {
                 which = _buffId,
                 sheetIndex = BUFF_SHEET_INDEX_I,
                 millisecondsDuration = 0,
                 description =
                     ModEntry.i18n.Get(
-                        "brute.buffdesc" + (Game1.player.HasProfession(Profession.Brute, true)
+                        "brute.buff.desc" + (Game1.player.HasProfession(Profession.Brute, true)
                             ? ".prestiged"
                             : string.Empty), new { magnitude })
             }

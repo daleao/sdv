@@ -2,7 +2,7 @@
 
 #region using directives
 
-using StardewModdingAPI.Events;
+using Extensions.Collections;
 using StardewModdingAPI.Utilities;
 using System;
 using System.Runtime.CompilerServices;
@@ -12,14 +12,10 @@ using System.Runtime.CompilerServices;
 /// <summary>Base implementation of an event wrapper allowing dynamic enabling / disabling.</summary>
 internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
 {
-    /// <summary>Whether this event is enabled on each screen.</summary>
-    private readonly PerScreen<bool> _Enabled = new();
+    private readonly PerScreen<bool> _Enabled = new(() => false);
 
     /// <summary>The <see cref="EventManager"/> instance that manages this event.</summary>
     protected EventManager Manager { get; init; }
-
-    /// <inheritdoc cref="EventPriority"/>
-    protected EventPriority Priority { get; init; }
 
     /// <summary>Allow this event to be raised even when disabled.</summary>
     protected bool AlwaysEnabled { get; init; } = false;
@@ -41,10 +37,11 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     public virtual bool IsEnabled => _Enabled.Value || AlwaysEnabled;
 
     /// <inheritdoc />
-    public bool IsEnabledForScreen(int screenID) => _Enabled.GetValueForScreen(screenID);
+    /// <remarks>Ignored the <see cref="AlwaysEnabled"/> flag.</remarks>
+    public bool IsEnabledForScreen(int screenId) => _Enabled.GetValueForScreen(screenId);
 
     /// <inheritdoc />
-    public bool Enable()
+    public virtual bool Enable()
     {
         if (_Enabled.Value || !(_Enabled.Value = true)) return false;
 
@@ -53,12 +50,56 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     }
 
     /// <inheritdoc />
-    public bool Disable()
+    /// <remarks>This will not invoke the <see cref="OnEnabled"/> callback.</remarks>
+    public bool EnableForScreen(int screenId)
+    {
+        if (!Context.IsMainPlayer || !Context.IsSplitScreen) return false;
+
+        if (_Enabled.GetValueForScreen(screenId)) return false;
+
+        _Enabled.SetValueForScreen(screenId, true);
+        return true;
+    }
+
+    /// <inheritdoc />
+    /// <remarks>This will not invoke the <see cref="OnEnabled"/> callback.</remarks>
+    public void EnableForAllScreens()
+    {
+        _Enabled.GetActiveValues().ForEach(pair => _Enabled.SetValueForScreen(pair.Key, true));
+    }
+
+    /// <inheritdoc />
+    public virtual bool Disable()
     {
         if (!_Enabled.Value || (_Enabled.Value = false)) return false;
         
         OnDisabled();
         return true;
+    }
+
+    /// <inheritdoc />
+    /// <remarks>This will not invoke the <see cref="OnDisabled"/> callback.</remarks>
+    public bool DisableForScreen(int screenId)
+    {
+        if (!Context.IsMainPlayer || !Context.IsSplitScreen) return false;
+
+        if (!_Enabled.GetValueForScreen(screenId)) return false;
+
+        _Enabled.SetValueForScreen(screenId, false);
+        return true;
+    }
+
+    /// <inheritdoc />
+    /// <remarks>This will not invoke the <see cref="OnDisabled"/> callback.</remarks>
+    public void DisableForAllScreens()
+    {
+        _Enabled.GetActiveValues().ForEach(pair => _Enabled.SetValueForScreen(pair.Key, false));
+    }
+
+    /// <inheritdoc />
+    public void Reset()
+    {
+        _Enabled.ResetAllScreens();
     }
 
     /// <inheritdoc />

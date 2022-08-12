@@ -34,15 +34,15 @@ public abstract class Ultimate : IUltimate
         Hud = new(this, meterColor);
         Overlay = new(overlayColor);
 
-        ModEntry.EventManager.Enable<UltimateWarpedEvent>();
+        ModEntry.Events.Enable<UltimateWarpedEvent>();
         if (Game1.currentLocation.IsDungeon())
-            ModEntry.EventManager.Enable<UltimateMeterRenderingHudEvent>();
+            ModEntry.Events.Enable<UltimateMeterRenderingHudEvent>();
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        ModEntry.EventManager.DisableWithAttribute<UltimateEventAttribute>();
+        ModEntry.Events.DisableWithAttribute<UltimateEventAttribute>();
     }
 
     #region public properties
@@ -63,13 +63,13 @@ public abstract class Ultimate : IUltimate
 
             if (value <= 0)
             {
-                ModEntry.EventManager.Disable<UltimateGaugeShakeUpdateTickedEvent>();
+                ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
                 Hud.ForceStopShake();
 
                 if (IsActive) Deactivate();
 
                 if (!Game1.currentLocation.IsDungeon())
-                    ModEntry.EventManager.Enable<UltimateGaugeFadeOutUpdateTickedEvent>();
+                    ModEntry.Events.Enable<UltimateGaugeFadeOutUpdateTickedEvent>();
 
                 OnEmptied();
                 _chargeValue = 0;
@@ -84,7 +84,7 @@ public abstract class Ultimate : IUltimate
 
                 if (_chargeValue == 0f)
                 {
-                    ModEntry.EventManager.Enable<UltimateMeterRenderingHudEvent>();
+                    ModEntry.Events.Enable<UltimateMeterRenderingHudEvent>();
                     OnChargeInitiated(value);
                 }
 
@@ -93,8 +93,8 @@ public abstract class Ultimate : IUltimate
                     OnChargeIncreased(_chargeValue, value);
                     if (value >= MaxValue)
                     {
-                        ModEntry.EventManager.Enable<UltimateButtonsChangedEvent>();
-                        ModEntry.EventManager.Enable<UltimateGaugeShakeUpdateTickedEvent>();
+                        ModEntry.Events.Enable<UltimateButtonsChangedEvent>();
+                        ModEntry.Events.Enable<UltimateGaugeShakeUpdateTickedEvent>();
                         OnFullyCharged();
                     }
                 }
@@ -147,17 +147,17 @@ public abstract class Ultimate : IUltimate
         Game1.player.get_IsUltimateActive().Value = true;
 
         // interrupt fade out if necessary
-        ModEntry.EventManager.Disable<UltimateOverlayFadeOutUpdateTickedEvent>();
+        ModEntry.Events.Disable<UltimateOverlayFadeOutUpdateTickedEvent>();
 
         // stop updating, awaiting activation and shaking the hud meter
-        ModEntry.EventManager.Disable<UltimateButtonsChangedEvent>();
-        ModEntry.EventManager.Disable<UltimateGaugeShakeUpdateTickedEvent>();
-        ModEntry.EventManager.Disable<UltimateInputUpdateTickedEvent>();
+        ModEntry.Events.Disable<UltimateButtonsChangedEvent>();
+        ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
+        ModEntry.Events.Disable<UltimateInputUpdateTickedEvent>();
 
         // fade in overlay and begin countdown
-        ModEntry.EventManager.Enable<UltimateActiveUpdateTickedEvent>();
-        ModEntry.EventManager.Enable<UltimateOverlayFadeInUpdateTickedEvent>();
-        ModEntry.EventManager.Enable<UltimateOverlayRenderedWorldEvent>();
+        ModEntry.Events.Enable<UltimateActiveUpdateTickedEvent>();
+        ModEntry.Events.Enable<UltimateOverlayFadeInUpdateTickedEvent>();
+        ModEntry.Events.Enable<UltimateOverlayRenderedWorldEvent>();
 
         // play sound effect
         ActivationSfx.Play();
@@ -177,10 +177,10 @@ public abstract class Ultimate : IUltimate
         ChargeValue = 0;
 
         // fade out overlay
-        ModEntry.EventManager.Enable<UltimateOverlayFadeOutUpdateTickedEvent>();
+        ModEntry.Events.Enable<UltimateOverlayFadeOutUpdateTickedEvent>();
 
         // stop countdown
-        ModEntry.EventManager.Disable<UltimateActiveUpdateTickedEvent>();
+        ModEntry.Events.Disable<UltimateActiveUpdateTickedEvent>();
 
         // stop glowing if necessary
         Game1.player.stopGlowing();
@@ -201,7 +201,7 @@ public abstract class Ultimate : IUltimate
                 if (ModEntry.Config.HoldKeyToActivateSpecial)
                 {
                     _activationTimer = _ActivationTimerMax;
-                    ModEntry.EventManager.Enable<UltimateInputUpdateTickedEvent>();
+                    ModEntry.Events.Enable<UltimateInputUpdateTickedEvent>();
                 }
                 else
                 {
@@ -213,7 +213,7 @@ public abstract class Ultimate : IUltimate
         else if (ModEntry.Config.SpecialActivationKey.GetState() == SButtonState.Released && _activationTimer > 0)
         {
             _activationTimer = -1;
-            ModEntry.EventManager.Disable<UltimateInputUpdateTickedEvent>();
+            ModEntry.Events.Disable<UltimateInputUpdateTickedEvent>();
         }
     }
 

@@ -1,9 +1,10 @@
-﻿namespace DaLion.Stardew.Tools.Framework.Effects;
+﻿namespace DaLion.Stardew.Tools.Framework;
 
 #region using directives
 
 using Common;
 using Common.Classes;
+using Effects;
 using Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;

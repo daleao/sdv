@@ -13,6 +13,8 @@ using System.Linq;
 [UsedImplicitly]
 internal sealed class PondDayStartedEvent : DayStartedEvent
 {
+    public override bool IsEnabled => Context.IsMainPlayer;
+
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal PondDayStartedEvent(EventManager manager)
@@ -21,8 +23,6 @@ internal sealed class PondDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        if (!Context.IsMainPlayer) return;
-
         foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
                      (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                      !p.isUnderConstruction()))

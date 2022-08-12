@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\PrintEnabledEventsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\FacingDirection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Quality.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ThrowHelperExtensions.cs" />

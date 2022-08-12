@@ -16,7 +16,7 @@ internal sealed class UltimateChargeInitiatedEvent : ManagedEvent
     /// <param name="callback">The delegate to run when the event is raised.</param>
     /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
     internal UltimateChargeInitiatedEvent(Action<object?, IUltimateChargeInitiatedEventArgs> callback, bool alwaysEnabled = false)
-        : base(ModEntry.EventManager)
+        : base(ModEntry.Events)
     {
         _OnChargeInitiatedImpl = callback;
         AlwaysEnabled = alwaysEnabled;

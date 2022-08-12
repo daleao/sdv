@@ -53,7 +53,7 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
                 which = _buffId,
                 sheetIndex = BUFF_SHEET_INDEX_I,
                 millisecondsDuration = 555,
-                description = ModEntry.i18n.Get("demolitionist.buffdesc")
+                description = ModEntry.i18n.Get("demolitionist.buff.desc")
             }
         );
 

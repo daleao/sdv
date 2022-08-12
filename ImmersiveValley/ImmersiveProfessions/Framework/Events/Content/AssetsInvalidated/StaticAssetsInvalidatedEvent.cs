@@ -22,6 +22,12 @@ internal sealed class StaticAssetsInvalidatedEvent : AssetsInvalidatedEvent
     }
 
     /// <inheritdoc />
+    public override bool Enable() => false;
+
+    /// <inheritdoc />
+    public override bool Disable() => false;
+
+    /// <inheritdoc />
     protected override void OnAssetsInvalidatedImpl(object? sender, AssetsInvalidatedEventArgs e)
     {
         if (e.NamesWithoutLocale.Any(name => name.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/SkillBars")))

@@ -86,17 +86,17 @@ public sealed class Ambush : Ultimate
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
                 GetType().Name,
-                ModEntry.i18n.Get("poacher.ulti"))
+                ModEntry.i18n.Get("poacher.ulti.name"))
             {
                 which = BuffId,
                 sheetIndex = 49,
                 glow = GlowColor,
                 millisecondsDuration = duration,
-                description = ModEntry.i18n.Get("poacher.ultidesc.hidden")
+                description = ModEntry.i18n.Get("poacher.ulti.desc.hidden")
             }
         );
 
-        ModEntry.EventManager.Enable<AmbushUpdateTickedEvent>();
+        ModEntry.Events.Enable<AmbushUpdateTickedEvent>();
     }
 
     /// <inheritdoc />
@@ -116,12 +116,12 @@ public sealed class Ambush : Ultimate
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
                 GetType().Name,
-                ModEntry.i18n.Get("poacher.ulti"))
+                ModEntry.i18n.Get("poacher.ulti.name"))
             {
                 which = buffId,
                 sheetIndex = 37,
                 millisecondsDuration = timeLeft * 2,
-                description = ModEntry.i18n.Get("poacher.ultidesc.revealed")
+                description = ModEntry.i18n.Get("poacher.ulti.desc.revealed")
             }
         );
     }

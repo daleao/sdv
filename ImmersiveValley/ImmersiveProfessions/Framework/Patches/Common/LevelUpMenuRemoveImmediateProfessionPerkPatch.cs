@@ -45,7 +45,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
             }
 
         // disable unnecessary events
-        ModEntry.EventManager.DisableForProfession(profession);
+        ModEntry.Events.DisableForProfession(profession);
 
         // unregister Ultimate
         if (Game1.player.get_Ultimate()?.Index != (UltimateIndex)whichProfession) return;

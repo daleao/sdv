@@ -27,7 +27,7 @@ internal sealed class RingOnMonsterSlayPatch : Common.Harmony.HarmonyPatch
         if (__instance.ParentSheetIndex != 523 || !ModEntry.Config.RebalancedRings) return true; // run original logic
 
         ModEntry.SavageExcitedness.Value = 9;
-        ModEntry.Manager.Enable<SavageUpdateTickedEvent>();
+        ModEntry.Events.Enable<SavageUpdateTickedEvent>();
 
         return false; // don't run original logic
     }

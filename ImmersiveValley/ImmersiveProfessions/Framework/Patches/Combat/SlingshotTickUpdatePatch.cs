@@ -1,6 +1,4 @@
-﻿using DaLion.Stardew.Professions.Framework.Events.Input;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Combat;
 
 #region using directives
 

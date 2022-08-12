@@ -52,7 +52,7 @@ internal sealed class ToolDoFunctionPatches : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertySetter(nameof(Farmer.Stamina)))
                 )
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.1f),
+                    new CodeInstruction(OpCodes.Ldc_R4, 1f),
                     new CodeInstruction(OpCodes.Call,
                         typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) }))
                 );

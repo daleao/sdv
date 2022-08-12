@@ -46,8 +46,8 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 (config, value) =>
                 {
                     config.FaceMouseCursor = value;
-                    if (value) ModEntry.EventManager.Enable<ArsenalButtonPressedEvent>();
-                    else ModEntry.EventManager.Disable<ArsenalButtonPressedEvent>();
+                    if (value) ModEntry.Events.Enable<ArsenalButtonPressedEvent>();
+                    else ModEntry.Events.Disable<ArsenalButtonPressedEvent>();
                 }
             )
 

@@ -111,7 +111,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                             Game1.player.get_Ultimate()!.Index.ToString().SplitCamelCase()[0].ToLowerInvariant();
                         var currentProfessionDisplayName =
                             ModEntry.i18n.Get(currentProfessionKey + ".name.male");
-                        var currentUlti = ModEntry.i18n.Get(currentProfessionKey + ".ulti");
+                        var currentUlti = ModEntry.i18n.Get(currentProfessionKey + ".ulti.name");
                         var pronoun = Localization.GetBuffPronoun();
                         var message = ModEntry.i18n.Get("prestige.dogstatue.replace",
                             new { pronoun, currentProfession = currentProfessionDisplayName, currentUlti });
@@ -119,10 +119,13 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                         var choices = (
                             from superModeIndex in Game1.player.GetUnchosenUltimates()
                             orderby superModeIndex
-                            let choiceProfessionKey = superModeIndex.ToString().ToLowerInvariant()
+                            let choiceProfessionKey = superModeIndex.ToString().SplitCamelCase()[0].ToLowerInvariant()
                             let choiceProfessionDisplayName =
                                 ModEntry.i18n.Get(choiceProfessionKey + ".name.male")
-                            let choiceUlti = ModEntry.i18n.Get(choiceProfessionKey + ".ulti")
+                            let choiceUlti = ModEntry.i18n.Get(choiceProfessionKey + ".ulti.name" +
+                                                               (superModeIndex == UltimateIndex.PiperConcerto
+                                                                   ? Game1.player.IsMale ? ".male" : ".female"
+                                                                   : string.Empty))
                             let choice =
                                 ModEntry.i18n.Get("prestige.dogstatue.choice",
                                     new { choiceProfession = choiceProfessionDisplayName, choiceBuff = choiceUlti })
@@ -159,7 +162,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                             DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
                             ModEntry.State.UsedDogStatueToday = true;
-                            ModEntry.EventManager.Enable<PrestigeDayStartedEvent>();
+                            ModEntry.Events.Enable<PrestigeDayStartedEvent>();
                         });
                         return false; // don't run original logic
                     }
@@ -190,7 +193,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
 
                                 // prepare to prestige at night
                                 ModEntry.State.SkillsToReset.Enqueue(skill);
-                                ModEntry.EventManager.Enable<PrestigeDayEndingEvent>();
+                                ModEntry.Events.Enable<PrestigeDayEndingEvent>();
 
                                 // play sound effect
                                 SFX.DogStatuePrestige.Play();
@@ -221,7 +224,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                                     Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
 
                                 ModEntry.State.UsedDogStatueToday = true;
-                                ModEntry.EventManager.Enable<PrestigeDayStartedEvent>();
+                                ModEntry.Events.Enable<PrestigeDayStartedEvent>();
                             }
                         }
                         else if (ModEntry.CustomSkills.TryGetValue(skillName, out var customSkill))
@@ -244,7 +247,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
 
                                 // prepare to prestige at night
                                 ModEntry.State.SkillsToReset.Enqueue(customSkill);
-                                ModEntry.EventManager.Enable<PrestigeDayEndingEvent>();
+                                ModEntry.Events.Enable<PrestigeDayEndingEvent>();
 
                                 // play sound effect
                                 SFX.DogStatuePrestige.Play();

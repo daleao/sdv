@@ -15,7 +15,10 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal TaxAssetRequestedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+        AlwaysEnabled = true;
+    }
 
     /// <inheritdoc />
     protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)

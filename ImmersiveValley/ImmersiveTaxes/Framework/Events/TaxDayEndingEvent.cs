@@ -28,16 +28,17 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         if (Game1.dayOfMonth == 0 && Game1.currentSeason == "spring" && Game1.year == 1)
             player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxIntro");
 
-        var dayIncome = Game1.getFarm().getShippingBin(player).Sum(item =>
+        var amountSold = Game1.getFarm().getShippingBin(player).Sum(item =>
             item is SObject @object ? @object.sellToStorePrice() * @object.Stack : item.salePrice() / 2);
-        if (dayIncome > 0 && !player.hasOrWillReceiveMail($"{ModEntry.Manifest.UniqueID}/TaxIntro"))
+        if (amountSold > 0 && !player.hasOrWillReceiveMail($"{ModEntry.Manifest.UniqueID}/TaxIntro"))
             player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxIntro");
 
+        var dayIncome = amountSold;
         switch (Game1.dayOfMonth)
         {
-            case 28 when ModEntry.ProfessionsAPI is not null && player.professions.Contains(Farmer.mariner):
+            case 28 when ModEntry.ProfessionsApi is not null && player.professions.Contains(Farmer.mariner):
                 {
-                    var deductible = ModEntry.ProfessionsAPI.GetConservationistEffectiveTaxBonus(player);
+                    var deductible = ModEntry.ProfessionsApi.GetConservationistEffectiveTaxBonus(player);
                     if (deductible <= 0f) break;
 
                     player.Write("DeductionPct",
@@ -90,32 +91,32 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     player.Write("SeasonIncome", "0");
                     break;
                 }
-            default:
-                {
-                    var debtOutstanding = player.Read<int>("DebtOutstanding");
-                    if (debtOutstanding <= 0) break;
+        }
 
-                    if (dayIncome >= debtOutstanding)
-                    {
-                        dayIncome -= debtOutstanding;
-                        debtOutstanding = 0;
-                        Log.I(
-                            $"{player.Name} has successfully paid off their outstanding debt and will resume earning income from Shipping Bin sales.");
-                    }
-                    else
-                    {
-                        debtOutstanding -= dayIncome;
-                        var interest = (int)Math.Round(debtOutstanding * ModEntry.Config.AnnualInterest / 112f);
-                        debtOutstanding += interest;
-                        Log.I(
-                            $"{player.Name}'s outstanding debt has accrued {interest}g interest and is now worth {debtOutstanding}g.");
-                        dayIncome = 0;
-                    }
+        var debtOutstanding = player.Read<int>("DebtOutstanding");
+        if (debtOutstanding > 0)
+        {
+            if (dayIncome >= debtOutstanding)
+            {
+                dayIncome -= debtOutstanding;
+                debtOutstanding = 0;
+                Log.I(
+                    $"{player.Name} has successfully paid off their outstanding debt and will resume earning income from Shipping Bin sales.");
+            }
+            else
+            {
+                debtOutstanding -= dayIncome;
+                var interest = (int)Math.Round(debtOutstanding * ModEntry.Config.AnnualInterest / 112f);
+                debtOutstanding += interest;
+                Log.I(
+                    $"{player.Name}'s outstanding debt has accrued {interest}g interest and is now worth {debtOutstanding}g.");
+                dayIncome = 0;
+            }
 
-                    player.Money = dayIncome;
-                    player.Write("DebtOutstanding", debtOutstanding.ToString());
-                    break;
-                }
+            var debit = amountSold - dayIncome;
+            player.Money -= debit;
+            ModEntry.LatestAmountDebited.Value = debit;
+            player.Write("DebtOutstanding", debtOutstanding.ToString());
         }
 
         player.Increment("SeasonIncome", dayIncome);

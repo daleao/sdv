@@ -27,7 +27,7 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatch : Common.Harmony.Harmon
             !ModEntry.Config.BringBackStabbySwords) return true; // run original logic
 
         ___lastUser = who;
-        ModEntry.EventManager.Enable<StabbySwordSpecialUpdateTickingEvent>();
+        ModEntry.Events.Enable<StabbySwordSpecialUpdateTickingEvent>();
         return false; // don't run original logic
     }
 

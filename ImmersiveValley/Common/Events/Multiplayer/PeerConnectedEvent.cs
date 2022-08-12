@@ -10,7 +10,7 @@ using StardewModdingAPI.Events;
 internal abstract class PeerConnectedEvent : ManagedEvent
 {
     /// <inheritdoc />
-    public override bool IsEnabled => Context.IsMultiplayer;
+    public override bool IsEnabled => Context.IsMultiplayer && base.IsEnabled;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>

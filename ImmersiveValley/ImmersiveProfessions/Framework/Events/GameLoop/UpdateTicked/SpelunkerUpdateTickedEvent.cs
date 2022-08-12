@@ -43,7 +43,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
                 sheetIndex = BUFF_SHEET_INDEX_I,
                 millisecondsDuration = 0,
                 description =
-                    ModEntry.i18n.Get("spelunker.buffdesc", new { bonusLadderChance, bonusSpeed })
+                    ModEntry.i18n.Get("spelunker.buff.desc", new { bonusLadderChance, bonusSpeed })
             }
         );
     }

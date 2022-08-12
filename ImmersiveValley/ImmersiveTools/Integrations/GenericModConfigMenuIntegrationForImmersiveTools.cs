@@ -91,8 +91,8 @@ internal class GenericModConfigMenuIntegrationForImmersiveTools
                 (config, value) =>
                 {
                     config.FaceMouseCursor = value;
-                    if (value) ModEntry.Manager.Enable<ToolButtonPressedEvent>();
-                    else ModEntry.Manager.Disable<ToolButtonPressedEvent>();
+                    if (value) ModEntry.Events.EnableForAllScreens<ToolButtonPressedEvent>();
+                    else ModEntry.Events.DisableForAllScreens<ToolButtonPressedEvent>();
                 }
             )
 

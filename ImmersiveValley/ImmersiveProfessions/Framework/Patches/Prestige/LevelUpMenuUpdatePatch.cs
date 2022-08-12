@@ -391,7 +391,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                                                (Game1.player.IsMale ? ".male" : ".female"));
         if (Game1.player.achievements.Contains(title.GetDeterministicHashCode())) return;
 
-        ModEntry.EventManager.Enable<AchievementUnlockedDayStartedEvent>();
+        ModEntry.Events.Enable<AchievementUnlockedDayStartedEvent>();
     }
 
     private static bool ShouldSuppressClick(int hovered, int currentLevel) =>

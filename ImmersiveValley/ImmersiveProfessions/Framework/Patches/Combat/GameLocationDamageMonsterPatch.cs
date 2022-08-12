@@ -375,7 +375,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                     )
                 });
 
-                ModEntry.EventManager.Enable<PiperDayEndingEvent>();
+                ModEntry.Events.Enable<PiperDayEndingEvent>();
             }
         }
 

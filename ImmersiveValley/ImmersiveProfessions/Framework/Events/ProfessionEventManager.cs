@@ -7,7 +7,6 @@ using Common.Events;
 using Display;
 using GameLoop;
 using Input;
-using Multiplayer;
 using Player;
 using Extensions;
 using StardewModdingAPI.Events;
@@ -23,7 +22,7 @@ using Ultimate;
 internal class ProfessionEventManager : EventManager
 {
     /// <summary>Look-up of event types required by each profession.</summary>
-    private readonly Dictionary<Profession, List<Type>> EventsByProfession = new()
+    private readonly Dictionary<Profession, List<Type>> _EventsByProfession = new()
     {
         { Profession.Brute, new() { typeof(BruteWarpedEvent) } },
         { Profession.Conservationist, new() { typeof(ConservationismDayEndingEvent) } },
@@ -70,8 +69,8 @@ internal class ProfessionEventManager : EventManager
         #endregion hookers
     }
 
-    /// <inheritdoc />
-    internal override void EnableForLocalPlayer()
+    /// <summary>Enable events for the local player's professions.</summary>
+    internal void EnableForLocalPlayer()
     {
         Log.D($"[EventManager]: Enabling profession events for {Game1.player.Name}...");
         foreach (var pid in Game1.player.professions)
@@ -85,17 +84,6 @@ internal class ProfessionEventManager : EventManager
                 Log.D($"[EventManager]: Unexpected profession index {pid} will be ignored.");
             }
 
-        if (Context.IsMultiplayer)
-        {
-            Log.D("[EventManager]: Enabling multiplayer events...");
-            Enable<UltimateToggledModMessageReceivedEvent>();
-            if (Context.IsMainPlayer)
-            {
-                Enable<HostPeerConnectedEvent>();
-                Enable<HostPeerDisconnectedEvent>();
-            }
-        }
-
         Log.D($"[EventManager]: Done enabling event for {Game1.player.Name}.");
     }
 
@@ -104,7 +92,7 @@ internal class ProfessionEventManager : EventManager
     internal void EnableForProfession(Profession profession)
     {
         if (profession == Profession.Conservationist && !Context.IsMainPlayer ||
-            !EventsByProfession.TryGetValue(profession, out var events)) return;
+            !_EventsByProfession.TryGetValue(profession, out var events)) return;
 
         Log.D($"[EventManager]: Enabling events for {profession}...");
         Enable(events.ToArray());
@@ -115,7 +103,7 @@ internal class ProfessionEventManager : EventManager
     internal void DisableForProfession(Profession profession)
     {
         if (profession == Profession.Conservationist && Game1.game1.DoesAnyPlayerHaveProfession(Profession.Conservationist, out _)
-            || !EventsByProfession.TryGetValue(profession, out var events)) return;
+            || !_EventsByProfession.TryGetValue(profession, out var events)) return;
 
         if (profession == Profession.Spelunker) events.Add(typeof(SpelunkerUpdateTickedEvent));
 

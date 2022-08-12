@@ -7,7 +7,7 @@ using Common.Commands;
 using Common.Events;
 using Common.Harmony;
 using Configs;
-using Framework.Effects;
+using Framework;
 using Framework.Events;
 using HarmonyLib;
 using StardewModdingAPI.Utilities;
@@ -20,12 +20,12 @@ public class ModEntry : Mod
 {
     internal static ModEntry Instance { get; private set; } = null!;
     internal static ToolConfig Config { get; set; } = null!;
-    internal static EventManager Manager { get; private set; } = null!;
+    internal static EventManager Events { get; private set; } = null!;
+    internal static PerScreen<Shockwave?> Shockwave { get; } = new(() => null);
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
 
-    internal static PerScreen<Shockwave?> Shockwave { get; } = new(() => null);
     internal static bool IsMoonMisadventuresLoaded { get; private set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
@@ -45,8 +45,8 @@ public class ModEntry : Mod
         VerifyConfigs();
 
         // enable events
-        Manager = new(helper.Events);
-        Manager.EnableAll(typeof(ToolButtonPressedEvent));
+        Events = new(helper.Events);
+        if (Config.FaceMouseCursor) Events.Enable<ToolButtonPressedEvent>();
 
         // apply patches
         new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();

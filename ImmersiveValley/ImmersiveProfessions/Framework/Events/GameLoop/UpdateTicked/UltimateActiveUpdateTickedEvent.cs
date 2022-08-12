@@ -24,6 +24,6 @@ internal sealed class UltimateActiveUpdateTickedEvent : UpdateTickedEvent
         Game1.player.startGlowing(ultimate!.GlowColor, false, 0.05f);
 
         if ((Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass())
-            ultimate!.Countdown(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds);
+            ultimate.Countdown(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds);
     }
 }

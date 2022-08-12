@@ -43,13 +43,13 @@ public sealed class DeathBlossom : Ultimate
             new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1,
                 GetType().Name,
-                ModEntry.i18n.Get("desperado.ulti"))
+                ModEntry.i18n.Get("desperado.ulti.name"))
             {
                 which = BuffId,
                 sheetIndex = 51,
                 glow = GlowColor,
                 millisecondsDuration = (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
-                description = ModEntry.i18n.Get("desperado.ultidesc")
+                description = ModEntry.i18n.Get("desperado.ulti.desc")
             }
         );
     }

@@ -34,7 +34,7 @@ public static class SlingshotExtensions
         if (user.isEmoteAnimating) user.EndEmoteAnimation();
 
         slingshot.BeginSpecialMove(user);
-        ModEntry.EventManager.Enable<SlingshotSpecialUpdateTickedEvent>();
+        ModEntry.Events.Enable<SlingshotSpecialUpdateTickedEvent>();
     }
 
     /// <summary>Analogous to <see cref="MeleeWeapon.beginSpecialMove"/>.</summary>

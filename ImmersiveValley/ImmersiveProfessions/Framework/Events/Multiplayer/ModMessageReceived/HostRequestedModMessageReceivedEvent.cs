@@ -12,15 +12,24 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class HostRequestedModMessageReceivedEvent : ModMessageReceivedEvent
 {
+    /// <inheritdoc />
+    public override bool IsEnabled => Context.IsMultiplayer && Context.IsMainPlayer;
+
     /// <summary>Construct an instance.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal HostRequestedModMessageReceivedEvent(ProfessionEventManager manager)
         : base(manager) { }
 
     /// <inheritdoc />
+    public override bool Enable() => false;
+
+    /// <inheritdoc />
+    public override bool Disable() => false;
+
+    /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != ModEntry.Manifest.UniqueID || e.Type != "RequestHost" || !Context.IsMainPlayer) return;
+        if (e.FromModID != ModEntry.Manifest.UniqueID || e.Type != "RequestHost") return;
 
         var split = e.ReadAs<string>().Split('/');
         var request = split[0];

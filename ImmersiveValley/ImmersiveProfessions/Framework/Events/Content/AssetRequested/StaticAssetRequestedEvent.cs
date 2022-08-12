@@ -47,6 +47,12 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
     }
 
     /// <inheritdoc />
+    public override bool Enable() => false;
+
+    /// <inheritdoc />
+    public override bool Disable() => false;
+
+    /// <inheritdoc />
     protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
     {
         if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))

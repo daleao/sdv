@@ -126,7 +126,7 @@ public class ModAPI
     public IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, ITreasureHuntStartedEventArgs> callback, bool alwaysEnabled = false)
     {
         var e = new TreasureHuntStartedEvent(callback, alwaysEnabled);
-        ModEntry.EventManager.Manage(e);
+        ModEntry.Events.Manage(e);
         return e;
     }
 
@@ -136,7 +136,7 @@ public class ModAPI
     public IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, ITreasureHuntEndedEventArgs> callback, bool alwaysEnabled = false)
     {
         var e = new TreasureHuntEndedEvent(callback, alwaysEnabled);
-        ModEntry.EventManager.Manage(e);
+        ModEntry.Events.Manage(e);
         return e;
     }
 
@@ -155,7 +155,7 @@ public class ModAPI
     public IManagedEvent RegisterUltimateActivatedEvent(Action<object?, IUltimateActivatedEventArgs> callback, bool alwaysEnabled = false)
     {
         var e = new UltimateActivatedEvent(callback, alwaysEnabled);
-        ModEntry.EventManager.Manage(e);
+        ModEntry.Events.Manage(e);
         return e;
     }
 
@@ -165,7 +165,7 @@ public class ModAPI
     public IManagedEvent RegisterUltimateDeactivatedEvent(Action<object?, IUltimateDeactivatedEventArgs> callback, bool alwaysEnabled = false)
     {
         var e = new UltimateDeactivatedEvent(callback, alwaysEnabled);
-        ModEntry.EventManager.Manage(e);
+        ModEntry.Events.Manage(e);
         return e;
     }
 
@@ -175,7 +175,7 @@ public class ModAPI
     public IManagedEvent RegisterUltimateChargeInitiatedEvent(Action<object?, IUltimateChargeInitiatedEventArgs> callback, bool alwaysEnabled = false)
     {
         var e = new UltimateChargeInitiatedEvent(callback, alwaysEnabled);
-        ModEntry.EventManager.Manage(e);
+        ModEntry.Events.Manage(e);
         return e;
     }
 
@@ -185,7 +185,7 @@ public class ModAPI
     public IManagedEvent RegisterUltimateChargeIncreasedEvent(Action<object?, IUltimateChargeIncreasedEventArgs> callback, bool alwaysEnabled = false)
     {
         var e = new UltimateChargeIncreasedEvent(callback, alwaysEnabled);
-        ModEntry.EventManager.Manage(e);
+        ModEntry.Events.Manage(e);
         return e;
     }
 
@@ -195,7 +195,7 @@ public class ModAPI
     public IManagedEvent RegisterUltimateFullyChargedEvent(Action<object?, IUltimateFullyChargedEventArgs> callback, bool alwaysEnabled = false)
     {
         var e = new UltimateFullyChargedEvent(callback, alwaysEnabled);
-        ModEntry.EventManager.Manage(e);
+        ModEntry.Events.Manage(e);
         return e;
     }
 
@@ -205,7 +205,7 @@ public class ModAPI
     public IManagedEvent RegisterUltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback, bool alwaysEnabled = false)
     {
         var e = new UltimateEmptiedEvent(callback, alwaysEnabled);
-        ModEntry.EventManager.Manage(e);
+        ModEntry.Events.Manage(e);
         return e;
     }
 

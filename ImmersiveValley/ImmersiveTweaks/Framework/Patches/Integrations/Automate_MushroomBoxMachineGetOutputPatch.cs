@@ -40,13 +40,13 @@ internal sealed class MushroomBoxMachineGetOutputPatch : Common.Harmony.HarmonyP
             var machine = _GetMachine(__instance);
             if (machine.heldObject.Value is not { } held) return;
 
-            var owner = ModEntry.ProfessionsAPI?.GetConfigs().LaxOwnershipRequirements == false
+            var owner = ModEntry.ProfessionsApi?.GetConfigs().LaxOwnershipRequirements == false
                 ? machine.GetOwner()
                 : Game1.player;
             if (!owner.professions.Contains(Farmer.botanist) && ModEntry.Config.AgeImprovesMushroomBoxes)
                 held.Quality = held.GetQualityFromAge();
-            else if (ModEntry.ProfessionsAPI is not null)
-                held.Quality = Math.Max(ModEntry.ProfessionsAPI.GetEcologistForageQuality(owner), held.Quality);
+            else if (ModEntry.ProfessionsApi is not null)
+                held.Quality = Math.Max(ModEntry.ProfessionsApi.GetEcologistForageQuality(owner), held.Quality);
             else
                 held.Quality = SObject.bestQuality;
 

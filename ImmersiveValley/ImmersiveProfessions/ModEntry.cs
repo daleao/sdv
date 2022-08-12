@@ -24,13 +24,14 @@ public class ModEntry : Mod
 {
     internal static ModEntry Instance { get; private set; } = null!;
     internal static ModConfig Config { get; set; } = null!;
-    internal static ProfessionEventManager EventManager { get; private set; } = null!;
+    internal static ProfessionEventManager Events { get; private set; } = null!;
     internal static PerScreen<ModState> PerScreenState { get; private set; } = null!;
     internal static ModState State
     {
         get => PerScreenState.Value;
         set => PerScreenState.Value = value;
     }
+
     internal static Broadcaster Broadcaster { get; private set; } = null!;
 
     internal static JObject? ArsenalConfig { get; set; }
@@ -52,10 +53,8 @@ public class ModEntry : Mod
     internal static IManifest Manifest => Instance.ModManifest;
     internal static ITranslationHelper i18n => ModHelper.Translation;
 
-#if DEBUG
     internal static FrameRateCounter? FpsCounter { get; private set; }
     internal static ICursorPosition? DebugCursorPosition { get; set; }
-#endif
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -73,16 +72,16 @@ public class ModEntry : Mod
         Config = helper.ReadConfig<ModConfig>();
 
         // initialize mod events
-        EventManager = new(Helper.Events);
-
-        // apply harmony patches
-        new Harmonizer(helper.ModRegistry, Manifest.UniqueID).ApplyAll();
+        Events = new(Helper.Events);
 
         // initialize mod state
         PerScreenState = new(() => new());
 
         // initialize multiplayer broadcaster
         Broadcaster = new(helper.Multiplayer, ModManifest.UniqueID);
+
+        // apply harmony patches
+        new Harmonizer(helper.ModRegistry, Manifest.UniqueID).ApplyAll();
 
         // register commands
         new CommandHandler(helper.ConsoleCommands).Register("wol", "Walk Of Life");
@@ -93,7 +92,7 @@ public class ModEntry : Mod
             var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID)!;
             var hostMod = host.GetMod(ModManifest.UniqueID);
             if (hostMod is null)
-                Log.W("[Entry] The session host does not have this mod installed. Some features will not work properly.");
+                Log.W("[Entry] The session host does not have this mod installed. Most features will not work properly.");
             else if (!hostMod.Version.Equals(ModManifest.Version))
                 Log.W(
                     $"[Entry] The session host has a different mod version. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {ModManifest.Version}");

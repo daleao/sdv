@@ -9,6 +9,7 @@ using System.IO;
 
 #endregion using directives
 
+/// <summary>A custom <see cref="SoundEffect"/> that can be played through the game's <see cref="SoundBank"/>.</summary>
 public sealed class SFX : SmartEnum<SFX>
 {
     #region enum entries
@@ -25,8 +26,8 @@ public sealed class SFX : SmartEnum<SFX>
     public static ICue? SinWave { get; internal set; } = Game1.soundBank?.GetCue("SinWave");
 
     /// <summary>Construct an instance.</summary>
-    /// <param name="name">The profession name.</param>
-    /// <param name="value">The profession index.</param>
+    /// <param name="name">The sound effect name.</param>
+    /// <param name="value">The sound effect enum index.</param>
     public SFX(string name, int value) : base(name, value)
     {
         var path = Path.Combine(ModEntry.ModHelper.DirectoryPath, "assets", "sfx", name + ".wav");

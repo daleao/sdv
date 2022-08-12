@@ -52,7 +52,7 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 "crusader" => new CrusaderEnchantment(),
                 "vampiric" => new VampiricEnchantment(),
                 "haymaker" => new HaymakerEnchantment(),
-                "magic" or "starburst" => new MagicEnchantment(),
+                "magic" or "sunburst" => new MagicEnchantment(),
                 "cleaving" => new CleavingEnchantment(),
                 "energized" => new EnergizedEnchantment(),
                 "tribute" or "gold" => new TributeEnchantment(),
@@ -68,12 +68,14 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
             if (enchantment is null)
             {
                 Log.W($"Ignoring unknown enchantment {args[0]}.");
+                args = args.Skip(1).ToArray();
                 continue;
             }
 
             if (!enchantment.CanApplyTo(tool))
             {
                 Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
+                args = args.Skip(1).ToArray();
                 continue;
             }
 

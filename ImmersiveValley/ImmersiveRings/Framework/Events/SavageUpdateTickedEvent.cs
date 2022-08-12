@@ -15,12 +15,13 @@ using System.Linq;
 internal sealed class SavageUpdateTickedEvent : UpdateTickedEvent
 {
     private const int RING_SHEET_INDEX_I = 523;
+ 
     private readonly int _buffId;
     private readonly string _buffSource;
     private readonly string _buffDescription;
 
     /// <summary>Construct an instance.</summary>
-    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal SavageUpdateTickedEvent(EventManager manager)
         : base(manager)
     {

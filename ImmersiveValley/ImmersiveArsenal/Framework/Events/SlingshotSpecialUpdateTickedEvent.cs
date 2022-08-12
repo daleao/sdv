@@ -5,6 +5,8 @@
 using Common.Enums;
 using Common.Events;
 using Common.Exceptions;
+using Common.Extensions.Stardew;
+using Enchantments;
 using Extensions;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
@@ -52,17 +54,15 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                 slingshot.set_IsOnSpecial(false);
                 user.forceCanMove();
 #if RELEASE
-            ModEntry.SlingshotCooldown.Value = Constants.SLINGSHOT_COOLDOWN_TIME_I;
-            if (!ModEntry.IsImmersiveProfessionsLoaded && lastUser.professions.Contains(Farmer.acrobat)) ModEntry.SlingshotCooldown.Value
+            ModEntry.State.SlingshotCooldown = Constants.SLINGSHOT_COOLDOWN_TIME_I;
+            if (ModEntry.ProfessionsApi is null && user.professions.Contains(Farmer.acrobat)) ModEntry.State.SlingshotCooldown
  /= 2;
-            if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>()) ModEntry.SlingshotCooldown.Value /= 2;
+            if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>()) ModEntry.State.SlingshotCooldown /= 2;
             if (slingshot.hasEnchantmentOfType<GarnetEnchantment>())
-                ModEntry.SlingshotCooldown.Value = (int)(ModEntry.SlingshotCooldown.Value *
+                ModEntry.State.SlingshotCooldown = (int)(ModEntry.State.SlingshotCooldown *
                                                          (1f - slingshot.GetEnchantmentLevel<TopazEnchantment>() * 0.1f));
             if (ModEntry.IsImmersiveRingsLoaded)
-                ModEntry.SlingshotCooldown.Value = (int) (ModEntry.SlingshotCooldown.Value *
-                                                          (1f - lastUser.modData.ReadAs<float>(
-                                                              "DaLion.ImmersiveRings/CooldownReduction")));
+                ModEntry.State.SlingshotCooldown = (int) (ModEntry.State.SlingshotCooldown * (1f - user.Read<float>("CooldownReduction", modId: "DaLion.ImmersiveRings")));
 #endif
                 _currentFrame = -1;
             }
@@ -91,8 +91,8 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
         else
         {
 #if RELEASE
-            ModEntry.SlingshotCooldown.Value -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-            if (ModEntry.SlingshotCooldown.Value > 0) return;
+            ModEntry.State.SlingshotCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
+            if (ModEntry.State.SlingshotCooldown > 0) return;
 
             Game1.playSound("objectiveComplete");
 #endif

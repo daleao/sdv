@@ -4,6 +4,7 @@
 
 using Common;
 using Common.Commands;
+using Common.Events;
 using Common.Harmony;
 using Common.Integrations.DynamicGameAssets;
 using Common.Integrations.WalkOfLife;
@@ -17,7 +18,7 @@ public class ModEntry : Mod
 {
     internal static ModEntry Instance { get; private set; } = null!;
     internal static ModConfig Config { get; set; } = null!;
-    internal static ArsenalEventManager EventManager { get; private set; } = null!;
+    internal static EventManager Events { get; private set; } = null!;
     internal static PerScreen<ModState> PerScreenState { get; private set; } = null!;
     internal static ModState State
     {
@@ -49,14 +50,15 @@ public class ModEntry : Mod
         Config = helper.ReadConfig<ModConfig>();
 
         // enable events
-        EventManager = new(helper.Events);
-        EventManager.EnableForLocalPlayer();
-
-        // apply patches
-        new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
+        Events = new(helper.Events);
+        Events.Enable(typeof(ArsenalAssetRequestedEvent), typeof(ArsenalGameLaunchedEvent), typeof(ArsenalSavedEvent), typeof(ArsenalSaveLoadedEvent), typeof(ArsenalSavingEvent));
+        if (Config.FaceMouseCursor) Events.Enable<ArsenalButtonPressedEvent>();
 
         // initialize mod state
         PerScreenState = new(() => new());
+
+        // apply patches
+        new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
 
         // register commands
         new CommandHandler(helper.ConsoleCommands).Register("ars", "Arsenal");

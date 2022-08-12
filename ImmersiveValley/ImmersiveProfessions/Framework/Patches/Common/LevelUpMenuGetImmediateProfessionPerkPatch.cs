@@ -44,7 +44,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
                 pond.UpdateMaximumOccupancy();
 
         // subscribe events
-        ModEntry.EventManager.EnableForProfession(profession);
+        ModEntry.Events.EnableForProfession(profession);
         if (!Context.IsMainPlayer)
         {
             // request the main player
@@ -55,7 +55,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
         }
         else if (profession == Profession.Conservationist)
         {
-            ModEntry.EventManager.Enable<ConservationismDayEndingEvent>();
+            ModEntry.Events.Enable<ConservationismDayEndingEvent>();
         }
 
         if (whichProfession is < 26 or >= 30 || Game1.player.get_Ultimate() is not null) return;

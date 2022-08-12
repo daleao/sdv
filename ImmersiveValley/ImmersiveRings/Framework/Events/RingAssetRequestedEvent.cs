@@ -24,6 +24,8 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
     internal RingAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
+        AlwaysEnabled = true;
+
         AssetEditors["Data/CraftingRecipes"] = (edit: EditCraftingRecipesData, priority: AssetEditPriority.Default);
         AssetEditors["Data/ObjectInformation"] = (edit: EditObjectInformationData, priority: AssetEditPriority.Default);
         AssetEditors["Maps/springobjects"] = (edit: EditSpringObjectsMaps, priority: AssetEditPriority.Late);

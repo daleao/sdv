@@ -13,7 +13,8 @@
   </PropertyGroup>
 	
   <PropertyGroup>
-	<IgnoreModFilePatterns>
+	  <BundleExtraAssemblies>System,ThirdParty</BundleExtraAssemblies>
+	  <IgnoreModFilePatterns>
 	  \.xcf$, <!-- GIMP files-->
 	  System.*.dll$, <!-- System would bundle these.-->
 	  ^Microsoft.(?!.*(Toolkit.Diagnostics.dll)), <!-- Everyone but MS.Toolkit.Diagnostics-->

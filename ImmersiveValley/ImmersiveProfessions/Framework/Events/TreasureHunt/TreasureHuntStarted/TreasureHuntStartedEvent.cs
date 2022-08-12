@@ -16,7 +16,7 @@ internal sealed class TreasureHuntStartedEvent : ManagedEvent
     /// <param name="callback">The delegate to run when the event is raised.</param>
     /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
     internal TreasureHuntStartedEvent(Action<object?, ITreasureHuntStartedEventArgs> callback, bool alwaysEnabled = false)
-        : base(ModEntry.EventManager)
+        : base(ModEntry.Events)
     {
         _OnStartedImpl = callback;
         AlwaysEnabled = alwaysEnabled;

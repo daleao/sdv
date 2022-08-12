@@ -77,7 +77,7 @@ public sealed class Concerto : Ultimate
             }
         }
 
-        ModEntry.EventManager.Enable<SlimeInflationUpdateTickedEvent>();
+        ModEntry.Events.Enable<SlimeInflationUpdateTickedEvent>();
         ActivationSfx.PlayAfterDelay(333);
     }
 
@@ -85,7 +85,7 @@ public sealed class Concerto : Ultimate
     internal override void Deactivate()
     {
         base.Deactivate();
-        ModEntry.EventManager.Enable<SlimeDeflationUpdateTickedEvent>();
+        ModEntry.Events.Enable<SlimeDeflationUpdateTickedEvent>();
     }
 
     /// <inheritdoc />

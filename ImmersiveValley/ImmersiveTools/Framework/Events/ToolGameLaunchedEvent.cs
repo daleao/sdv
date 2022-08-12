@@ -34,7 +34,5 @@ internal sealed class ToolGameLaunchedEvent : GameLaunchedEvent
                 modRegistry: registry,
                 manifest: ModEntry.Manifest
             ).Register();
-
-        if (ModEntry.Config.FaceMouseCursor) ModEntry.Manager.Enable<ToolButtonPressedEvent>();
     }
 }

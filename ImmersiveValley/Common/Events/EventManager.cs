@@ -1,8 +1,11 @@
-﻿namespace DaLion.Common.Events;
+﻿using DaLion.Common.Extensions.Collections;
+
+namespace DaLion.Common.Events;
 
 #region using directives
 
 using Attributes;
+using Commands;
 using Extensions.Reflection;
 using HarmonyLib;
 using StardewModdingAPI.Events;
@@ -231,13 +234,18 @@ internal class EventManager
         #endregion hookers
 
         Log.D("[EventManager]: Initialization of SMAPI events completed.");
+
+        PrintEnabledEventsCommand.Manager = this;
     }
 
     /// <summary>Enumerate all managed event instances.</summary>
-    internal IEnumerable<IManagedEvent> Events => ManagedEvents;
+    internal IEnumerable<IManagedEvent> Managed => ManagedEvents;
 
-    /// <summary>Enumerate all currently enabled events for the local player.</summary>
+    /// <summary>Enumerate all events currently enabled for the local player.</summary>
     internal IEnumerable<IManagedEvent> Enabled => ManagedEvents.Where(e => e.IsEnabled);
+
+    /// <summary>Enumerate all events currently enabled for the specified screen.</summary>
+    internal IEnumerable<IManagedEvent> EnabledForScreen(int screenId) => ManagedEvents.Where(e => e.IsEnabledForScreen(screenId));
 
     /// <summary>Enable a single <see cref="IManagedEvent"/>.</summary>
     /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to enable.</typeparam>
@@ -276,6 +284,84 @@ internal class EventManager
         }
     }
 
+    /// <summary>Enable a single <see cref="IManagedEvent"/> for the specified screen.</summary>
+    /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to enable.</typeparam>
+    /// <param name="screenId">A local peer's screen ID.</param>
+    internal void EnableForScreen<TEvent>(int screenId) where TEvent : IManagedEvent
+    {
+        var e = Get<TEvent>();
+        if (e is null)
+        {
+            Log.D($"[EventManager]: The type {typeof(TEvent).Name} was not found.");
+            return;
+        }
+
+        if (e.EnableForScreen(screenId)) Log.D($"[EventManager]: Enabled {typeof(TEvent).Name} for screen {screenId}.");
+    }
+
+    /// <summary>Enable the specified <see cref="IManagedEvent"/> types for the specified screen.</summary>
+    /// <param name="eventTypes">The <see cref="IManagedEvent"/> types to enable.</param>
+    /// <param name="screenId">A local peer's screen ID.</param>
+    internal void EnableForScreen(int screenId, params Type[] eventTypes)
+    {
+        foreach (var type in eventTypes)
+        {
+            if (!type.IsAssignableTo(typeof(IManagedEvent)) || type.IsAbstract)
+            {
+                Log.D($"[EventManager]: {type.Name} is not a valid event type.");
+                continue;
+            }
+
+            var e = ManagedEvents.FirstOrDefault(e => e.GetType() == type);
+            if (e is null)
+            {
+                Log.D($"[EventManager]: The type {type.Name} was not found.");
+                continue;
+            }
+
+            if (e.EnableForScreen(screenId)) Log.D($"[EventManager]: Enabled {type.Name} for screen {screenId}.");
+        }
+    }
+
+    /// <summary>Enable a single <see cref="IManagedEvent"/> for the specified screen.</summary>
+    /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to enable.</typeparam>
+    internal void EnableForAllScreens<TEvent>() where TEvent : IManagedEvent
+    {
+        var e = Get<TEvent>();
+        if (e is null)
+        {
+            Log.D($"[EventManager]: The type {typeof(TEvent).Name} was not found.");
+            return;
+        }
+
+        e.EnableForAllScreens();
+        Log.D($"[EventManager]: Enabled {typeof(TEvent).Name} for all screens.");
+    }
+
+    /// <summary>Enable the specified <see cref="IManagedEvent"/> types for the specified screen.</summary>
+    /// <param name="eventTypes">The <see cref="IManagedEvent"/> types to enable.</param>
+    internal void EnableForAllScreens(params Type[] eventTypes)
+    {
+        foreach (var type in eventTypes)
+        {
+            if (!type.IsAssignableTo(typeof(IManagedEvent)) || type.IsAbstract)
+            {
+                Log.D($"[EventManager]: {type.Name} is not a valid event type.");
+                continue;
+            }
+
+            var e = ManagedEvents.FirstOrDefault(e => e.GetType() == type);
+            if (e is null)
+            {
+                Log.D($"[EventManager]: The type {type.Name} was not found.");
+                continue;
+            }
+
+            e.EnableForAllScreens();
+            Log.D($"[EventManager]: Enabled {type.Name} for all screens.");
+        }
+    }
+
     /// <summary>Disable a single <see cref="IManagedEvent"/>.</summary>
     /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to disable.</typeparam>
     internal void Disable<TEvent>() where TEvent : IManagedEvent
@@ -290,7 +376,7 @@ internal class EventManager
         if (e.Disable()) Log.D($"[EventManager]: Disabled {typeof(TEvent).Name}.");
     }
 
-    /// <summary>Disable events from the event listener.</summary>
+    /// <summary>Disable the specified <see cref="IManagedEvent"/>s events.</summary>
     /// <param name="eventTypes">The <see cref="IManagedEvent"/> types to disable.</param>
     internal void Disable(params Type[] eventTypes)
     {
@@ -313,35 +399,103 @@ internal class EventManager
         }
     }
 
-    /// <summary>Enable all <see cref="IManagedEvent"/>s in the assembly.</summary>
-    /// <param name="except">Types to be excluded, if any.</param>
-    internal void EnableAll(params Type[] except)
+    /// <summary>Disable a single <see cref="IManagedEvent"/> for the specified screen.</summary>
+    /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to disable.</typeparam>
+    /// <param name="screenId">A local peer's screen ID.</param>
+    internal void DisableForScreen<TEvent>(int screenId) where TEvent : IManagedEvent
     {
-        var preamble = "[EventManager]: Enabling all ";
-        if (except.Length > 0) preamble += $"but {except.Length} ";
-        preamble += "events...";
-        Log.D(preamble);
+        var e = Get<TEvent>();
+        if (e is null)
+        {
+            Log.D($"[EventManager]: The type {typeof(TEvent).Name} was not found.");
+            return;
+        }
+
+        if (e.DisableForScreen(screenId)) Log.D($"[EventManager]: Disabled {typeof(TEvent).Name} for screen {screenId}.");
+    }
+
+    /// <summary>Disable the specified <see cref="IManagedEvent"/>s for the specified screen.</summary>
+    /// <param name="eventTypes">The <see cref="IManagedEvent"/> types to disable.</param>
+    /// <param name="screenId">A local peer's screen ID.</param>
+    internal void DisableForScreen(int screenId, params Type[] eventTypes)
+    {
+        foreach (var type in eventTypes)
+        {
+            if (!type.IsAssignableTo(typeof(IManagedEvent)) || type.IsAbstract)
+            {
+                Log.D($"[EventManager]: {type.Name} is not a valid event type.");
+                continue;
+            }
+
+            var e = ManagedEvents.FirstOrDefault(e => e.GetType() == type);
+            if (e is null)
+            {
+                Log.D($"[EventManager]: The type {type.Name} was not found.");
+                continue;
+            }
+
+            if (e.DisableForScreen(screenId)) Log.D($"[EventManager]: Disabled {type.Name} for screen {screenId}.");
+        }
+    }
+
+    /// <summary>Disable a single <see cref="IManagedEvent"/> for the specified screen.</summary>
+    /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to disable.</typeparam>
+    internal void DisableForAllScreens<TEvent>() where TEvent : IManagedEvent
+    {
+        var e = Get<TEvent>();
+        if (e is null)
+        {
+            Log.D($"[EventManager]: The type {typeof(TEvent).Name} was not found.");
+            return;
+        }
+
+        e.DisableForAllScreens();
+        Log.D($"[EventManager]: Disabled {typeof(TEvent).Name} for all screens.");
+    }
+
+    /// <summary>Disable the specified <see cref="IManagedEvent"/>s for the specified screen.</summary>
+    /// <param name="eventTypes">The <see cref="IManagedEvent"/> types to disable.</param>
+    internal void DisableForAllScreens(params Type[] eventTypes)
+    {
+        foreach (var type in eventTypes)
+        {
+            if (!type.IsAssignableTo(typeof(IManagedEvent)) || type.IsAbstract)
+            {
+                Log.D($"[EventManager]: {type.Name} is not a valid event type.");
+                continue;
+            }
+
+            var e = ManagedEvents.FirstOrDefault(e => e.GetType() == type);
+            if (e is null)
+            {
+                Log.D($"[EventManager]: The type {type.Name} was not found.");
+                continue;
+            }
+
+            e.DisableForAllScreens();
+            Log.D($"[EventManager]: Disabled {type.Name} for all screens.");
+        }
+    }
+
+    /// <summary>Enable all <see cref="IManagedEvent"/>s in the assembly.</summary>
+    internal void EnableAll()
+    {
+        Log.D("[EventManager]: Enabling all events...");
         var toEnable = ManagedEvents
             .Select(e => e.GetType())
-            .Except(except)
             .ToArray();
         Enable(toEnable);
         Log.D($"Enabled {toEnable.Length} events.");
     }
 
     /// <summary>Disable all <see cref="IManagedEvent"/>s in the assembly.</summary>
-    /// <param name="except">Types to be excluded, if any.</param>
-    internal void DisableAll(params Type[] except)
+    internal void DisableAll()
     {
-        var preamble = "[EventManager]: Disabling all ";
-        if (except.Length > 0) preamble += $"but {except.Length} ";
-        preamble += "events...";
-        Log.D(preamble);
+        Log.D("[EventManager]: Disabling all events...");
         var toDisable = ManagedEvents
             .Select(e => e.GetType())
-            .Except(except)
             .ToArray();
-        Enable(toDisable);
+        Disable(toDisable);
         Log.D($"Disabled {toDisable.Length} events.");
     }
 
@@ -373,22 +527,11 @@ internal class EventManager
         Log.D($"[EventManager]: Disabled {toDisable.Length} events.");
     }
 
-    /// <summary>Enable save-dependent events.</summary>
-    internal virtual void EnableForLocalPlayer()
+    /// <summary>Reset the enabled status of all <see cref="IManagedEvent"/>s in the assembly for all screens.</summary>
+    internal void ResetAllScreens()
     {
-    }
-
-    /// <summary>Disable save-dependent events.</summary>
-    internal virtual void DisableForLocalPlayer()
-    {
-        Log.D("[EventManager]: Disabling local player events...");
-        var toDisable = ManagedEvents
-            .Select(e => e.GetType())
-            .Where(t => !t.IsAssignableToAnyOf(typeof(SaveCreatedEvent), typeof(SaveCreatingEvent),
-                typeof(SaveLoadedEvent), typeof(ReturnedToTitleEvent)))
-            .ToArray();
-        Disable(toDisable);
-        Log.D($"[EventManager]: Disabled {toDisable.Length} events.");
+        ManagedEvents.ForEach(e => e.Reset());
+        Log.D("[EventManager]: All managed events were reset.");
     }
 
     /// <summary>Add a new event instance to the set of managed events.</summary>
@@ -397,7 +540,7 @@ internal class EventManager
         ManagedEvents.Add(@event);
 
     /// <summary>Add a new event instance to the set of managed events.</summary>
-    /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</param>
+    /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
     internal void Manage<TEvent>() where TEvent : IManagedEvent, new()
     {
         if (!TryGet<TEvent>(out _)) ManagedEvents.Add(new TEvent());
@@ -420,10 +563,10 @@ internal class EventManager
     /// <summary>Check if the specified event type is enabled.</summary>
     /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
     internal bool IsEnabled<TEvent>() where TEvent : IManagedEvent =>
-        TryGet<TEvent>(out var got) && got?.IsEnabled == true;
+        TryGet<TEvent>(out var got) && got.IsEnabled;
 
-    /// <summary>Enumerate all currently enabled event for the specified screen.</summary>
+    /// <summary>Check if the specified event type is enabled for a specific screen.</summary>
     /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
-    internal IEnumerable<IManagedEvent> GetEnabledForScreen(int screenID) =>
-        ManagedEvents.Where(e => e.IsEnabledForScreen(screenID));
+    internal bool IsEnabledForScreen<TEvent>(int screenId) where TEvent : IManagedEvent =>
+        TryGet<TEvent>(out var got) && got.IsEnabled;
 }

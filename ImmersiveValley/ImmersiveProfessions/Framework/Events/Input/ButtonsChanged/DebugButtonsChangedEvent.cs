@@ -24,12 +24,18 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
     }
 
     /// <inheritdoc />
+    public override bool Enable() => false;
+
+    /// <inheritdoc />
+    public override bool Disable() => false;
+
+    /// <inheritdoc />
     protected override async void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
         if (ModEntry.Config.DebugKey.JustPressed())
-            ModEntry.EventManager.EnableWithAttribute<DebugOnlyAttribute>();
+            ModEntry.Events.EnableWithAttribute<DebugOnlyAttribute>();
         else if (ModEntry.Config.DebugKey.GetState() == SButtonState.Released)
-            ModEntry.EventManager.DisableWithAttribute<DebugOnlyAttribute>();
+            ModEntry.Events.DisableWithAttribute<DebugOnlyAttribute>();
 
         if (!ModEntry.Config.DebugKey.IsDown() ||
             !e.Pressed.Any(b => b is SButton.MouseRight or SButton.MouseLeft)) return;
@@ -92,11 +98,10 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                         else if (Context.IsMultiplayer && who.isActive())
                         {
                             var peer = ModEntry.ModHelper.Multiplayer.GetConnectedPlayer(who.UniqueMultiplayerID);
-                            if (peer is { IsSplitScreen: true })
+                            if (peer is { IsSplitScreen: true, ScreenID: not null })
                             {
-                                if (peer.ScreenID.HasValue)
-                                    events = Manager.GetEnabledForScreen(peer.ScreenID.Value).Aggregate("",
-                                        (current, next) => current + "\n\t\t- " + next.GetType().Name);
+                                events = ModEntry.Events.EnabledForScreen(peer.ScreenID.Value).Aggregate("",
+                                    (current, next) => current + "\n\t\t- " + next.GetType().Name);
                             }
                             else
                             {
