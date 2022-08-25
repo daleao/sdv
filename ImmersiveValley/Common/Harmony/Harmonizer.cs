@@ -2,7 +2,8 @@
 
 #region using directives
 
-using Common.Attributes;
+using Attributes;
+using Extensions.Reflection;
 using HarmonyLib;
 using System;
 using System.Diagnostics;
@@ -55,19 +56,33 @@ internal class Harmonizer
                 if (deprecatedAttr is not null) continue;
 
                 var integrationAttr = (RequiresModAttribute?)p.GetCustomAttributes(typeof(RequiresModAttribute), false).FirstOrDefault();
-                if (integrationAttr is not null && !_ModRegistry.IsLoaded(integrationAttr.UniqueID))
+                if (integrationAttr is not null)
                 {
-                    Log.D($"[Harmonizer]: The target mod {integrationAttr.UniqueID} is not loaded. {p.Name} will be ignored.");
-                    continue;
+                    if (!_ModRegistry.IsLoaded(integrationAttr.UniqueID))
+                    {
+                        Log.D(
+                            $"[Harmonizer]: The target mod {integrationAttr.UniqueID} is not loaded. {p.Name} will be ignored.");
+                        continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(integrationAttr.Version) &&
+                        _ModRegistry.Get(integrationAttr.UniqueID)!.Manifest.Version.IsOlderThan(
+                            integrationAttr.Version))
+                    {
+                        Log.W(
+                            $"[Harmonizer]: The integration patch {p.Name} will be ignored because the installed version of {integrationAttr.UniqueID} is older than minimum supported version." +
+                            $" Please update {integrationAttr.UniqueID} in order to enable integrations with {_Harmony.Id}.");
+                        continue;
+                    }
                 }
 
                 var patch = (IHarmonyPatch?)p
                     .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, Type.EmptyTypes, null)
                     ?.Invoke(Array.Empty<object>());
-                if (patch is null) ThrowHelper.ThrowMissingMethodException("Didn't find internal parameterless constructor.");
+                if (patch is null) ThrowHelper.ThrowMissingMethodException("Didn't find internal parameter-less constructor.");
 
                 patch.Apply(_Harmony);
-                Log.D($"[Harmonizer]: Applied {p.Name} to {patch.Target!.DeclaringType}::{patch.Target.Name}.");
+                Log.D($"[Harmonizer]: Applied {p.Name} to {patch.Target!.GetFullName()}.");
             }
             catch (MissingMethodException ex)
             {

@@ -28,7 +28,7 @@ internal sealed class SlingshotGetRequiredChargeTimePatch : Common.Harmony.Harmo
     {
         var firer = __instance.getLastFarmerToUse();
         if (!firer.IsLocalPlayer) return;
-        
+
         __result *= 1f - firer.weaponSpeedModifier;
     }
 

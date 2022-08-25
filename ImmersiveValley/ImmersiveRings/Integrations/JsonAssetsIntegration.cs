@@ -29,7 +29,7 @@ internal sealed class JsonAssetsIntegration : BaseIntegration<IJsonAssetsAPI>
     private void OnIdsAssigned(object? sender, EventArgs e)
     {
         if (ModApi is null) return;
-        
+
         ModEntry.GarnetIndex = ModApi.GetObjectId("Garnet");
         ModEntry.GarnetRingIndex = ModApi.GetObjectId("Garnet Ring");
     }

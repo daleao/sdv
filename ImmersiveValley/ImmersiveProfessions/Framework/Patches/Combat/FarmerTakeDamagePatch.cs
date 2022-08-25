@@ -46,7 +46,7 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
                 )
                 .Advance()
                 .AddLabels(alreadyUndamageableOrNotAmbuscade)
-                .Insert(
+                .InsertInstructions(
                     // check if monsterDamageCapable is already false
                     new CodeInstruction(OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
@@ -101,7 +101,7 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
                 .GetOperand(out var resumeExecution1) // copy branch label to resume normal execution
                 .Advance()
                 .AddLabels(isNotUndyingButMayHaveDailyRevive)
-                .Insert(
+                .InsertInstructions(
                     // check if this is the local player
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Callvirt,
@@ -153,14 +153,14 @@ internal sealed class FarmerTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ret)
                 )
                 .AddLabels(resumeExecution2) // branch here to skip increments
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
                 .InsertProfessionCheck(Profession.Brute.Value, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
                     // check if damager null
                     new CodeInstruction(OpCodes.Ldarg_3), // arg 3 = Monster damager

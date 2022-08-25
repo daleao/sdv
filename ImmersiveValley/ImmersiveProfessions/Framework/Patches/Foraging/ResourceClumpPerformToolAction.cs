@@ -50,12 +50,12 @@ internal sealed class ResourceClumpPerformToolAction : DaLion.Common.Harmony.Har
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10)
                 )
                 .AddLabels(isNotPrestiged)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse)))
                 )
                 .InsertProfessionCheck(Profession.Lumberjack.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 11),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution1)
@@ -68,16 +68,16 @@ internal sealed class ResourceClumpPerformToolAction : DaLion.Common.Harmony.Har
                 )
                 .Advance()
                 .AddLabels(resumeExecution2)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse)))
                 )
                 .InsertProfessionCheck(Profession.Lumberjack.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2)
                 )
                 .InsertDiceRoll(0.5)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Bgt_S, resumeExecution2),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Add)

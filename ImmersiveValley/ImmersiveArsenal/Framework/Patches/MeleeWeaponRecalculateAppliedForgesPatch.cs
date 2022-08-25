@@ -45,7 +45,7 @@ internal sealed class MeleeWeaponRecalculateAppliedForgesPatch : Common.Harmony.
                     new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.type)))
                 )
                 .Retreat()
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetFieldBase<int, NetInt>).RequireMethod(nameof(NetFieldBase<int, NetInt>.Set)))
                 );

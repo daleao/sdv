@@ -4,6 +4,7 @@
 
 using Common;
 using Common.Commands;
+using Framework;
 using StardewValley.Tools;
 using System;
 using System.Linq;
@@ -22,39 +23,40 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
     public override string[] Triggers { get; } = { "upgrade_tools", "set_upgrade", "set", "upgrade" };
 
     /// <inheritdoc />
-    public override string Documentation =>
-        "Set the upgrade level of all upgradeable tools in the inventory." + GetUsage();
+    public override string Documentation => "Set the upgrade level of the currently held tool." + GetUsage();
 
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (Game1.player.CurrentTool is not MeleeWeapon weapon)
+        if (Game1.player.CurrentTool is not ({ } tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod)))
         {
-            Log.W("You must select a weapon first.");
+            Log.W("You must select a tool first.");
             return;
         }
 
         if (args.Length < 1)
         {
-            Log.W("You must specify a valid quality." + GetUsage());
+            Log.W("You must specify a valid upgrade level." + GetUsage());
             return;
         }
 
         if (!Enum.TryParse<Framework.UpgradeLevel>(args[0], true, out var upgradeLevel))
         {
-            Log.W($"Invalid quality {args[0]}. Please specify a valid quality." + GetUsage());
+            Log.W($"Invalid upgrade level {args[0]}. Please specify a valid quality." + GetUsage());
             return;
         }
 
-        if (upgradeLevel > Framework.UpgradeLevel.Iridium && !ModEntry.IsMoonMisadventuresLoaded)
+        switch (upgradeLevel)
         {
-            Log.W("You must have `Moon Misadventures` mod installed to set this upgrade level.");
-            return;
+            case UpgradeLevel.Enchanted:
+                Log.W("To add enchantments please use the `add_enchantment` command instead.");
+                return;
+            case > UpgradeLevel.Iridium when !ModEntry.IsMoonMisadventuresLoaded:
+                Log.W("You must have `Moon Misadventures` mod installed to set this upgrade level.");
+                return;
         }
 
-        foreach (var item in Game1.player.Items)
-            if (item is Axe or Hoe or Pickaxe or WateringCan)
-                (item as Tool)!.UpgradeLevel = (int)upgradeLevel;
+        tool.UpgradeLevel = (int)upgradeLevel;
     }
 
     /// <summary>Tell the dummies how to use the console command.</summary>

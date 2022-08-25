@@ -46,7 +46,7 @@ internal sealed class TreeTickUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
             helper
                 .FindProfessionCheck(Profession.Lumberjack.Value, true)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
                     new CodeInstruction(OpCodes.Callvirt,
@@ -58,7 +58,7 @@ internal sealed class TreeTickUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                 )
                 .Advance()
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .InsertWithLabels(
@@ -123,8 +123,8 @@ internal sealed class TreeTickUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Add)
                 )
                 .AddLabels(notPrestigedArborist1)
-                .Insert(checkForPrestigedArboristInstructions)
-                .Insert(
+                .InsertInstructions(checkForPrestigedArboristInstructions)
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, notPrestigedArborist1),
                     new CodeInstruction(OpCodes.Ldc_I4_2),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution1)
@@ -137,8 +137,8 @@ internal sealed class TreeTickUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Mul)
                 )
                 .AddLabels(notPrestigedArborist2)
-                .Insert(checkForPrestigedArboristInstructions)
-                .Insert(
+                .InsertInstructions(checkForPrestigedArboristInstructions)
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, notPrestigedArborist2),
                     new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution2)

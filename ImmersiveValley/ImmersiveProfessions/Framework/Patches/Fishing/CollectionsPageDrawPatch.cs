@@ -48,7 +48,7 @@ internal sealed class CollectionsPageDrawPatch : DaLion.Common.Harmony.HarmonyPa
                     new CodeInstruction(OpCodes.Ldfld, typeof(CollectionsPage).RequireField("hoverItem")),
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0), // this
                     new CodeInstruction(OpCodes.Ldarg_1), // SpriteBatch b
                     new CodeInstruction(OpCodes.Call,

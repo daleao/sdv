@@ -40,6 +40,7 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
             if (enchantment is null)
             {
                 Log.W($"The {tool.DisplayName} does not have a {args[0]} enchantment.");
+                args = args.Skip(1).ToArray();
                 continue;
             }
 

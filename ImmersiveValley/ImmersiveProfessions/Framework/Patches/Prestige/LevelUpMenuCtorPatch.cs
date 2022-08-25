@@ -45,11 +45,11 @@ internal sealed class LevelUpMenuCtorPatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Beq_S)
                 )
                 .Advance(3)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Rem_Un),
                     new CodeInstruction(OpCodes.Ldc_I4_0)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10)
                 );
         }

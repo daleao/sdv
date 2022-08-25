@@ -57,8 +57,8 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                 )
                 .GetOperand(out var shouldntSetCustomQuality) // copy failed check branch destination
                 .Advance()
-                .Insert(got) // insert objects[key]
-                .Insert( // check if is foraged mineral and branch if true
+                .InsertInstructions(got) // insert objects[key]
+                .InsertInstructions( // check if is foraged mineral and branch if true
                     new CodeInstruction(OpCodes.Call,
                         typeof(Extensions.SObjectExtensions).RequireMethod(nameof(Extensions.SObjectExtensions
                             .IsForagedMineral))),
@@ -67,12 +67,12 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_4) // end of objects[key].Quality = 4
                 )
-                .ReplaceWith( // replace with custom quality
+                .ReplaceInstructionWith( // replace with custom quality
                     new(OpCodes.Call,
                         typeof(Extensions.FarmerExtensions).RequireMethod(nameof(Extensions.FarmerExtensions
                             .GetEcologistForageQuality)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player)))
                 );
         }
@@ -126,12 +126,12 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldarg_0) // start of call to isForage()
                 )
-                .RemoveUntil( // right before call to IsForagedMineral()
+                .RemoveInstructionsUntil( // right before call to IsForagedMineral()
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(OverlaidDictionary).RequirePropertyGetter("Item"))
                 )
                 .Advance()
-                .ReplaceWith( // remove 'not' and set correct branch destination
+                .ReplaceInstructionWith( // remove 'not' and set correct branch destination
                     new(OpCodes.Brfalse_S, (Label)shouldntSetCustomQuality)
                 )
                 .AdvanceUntil(
@@ -161,12 +161,12 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                         typeof(Stats).RequirePropertySetter(nameof(Stats.ItemsForaged)))
                 )
                 .Advance()
-                .Insert(got.SubArray(5, 4)) // SObject objects[key]
-                .Insert(
+                .InsertInstructions(got.SubArray(5, 4)) // SObject objects[key]
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_3)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call,
                         typeof(GameLocationCheckActionPatch).RequireMethod(nameof(CheckActionSubroutine)))
                 );
@@ -194,7 +194,7 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                     new CodeInstruction(OpCodes.Ldc_R8, 0.2)
                 )
                 .AddLabels(isNotPrestiged)
-                .Insert(got)
+                .InsertInstructions(got)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Forager.Value)
                 )
@@ -204,7 +204,7 @@ internal sealed class GameLocationCheckActionPatch : DaLion.Common.Harmony.Harmo
                 )
                 .SetOperand(isNotPrestiged)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldc_R8, 0.4),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )

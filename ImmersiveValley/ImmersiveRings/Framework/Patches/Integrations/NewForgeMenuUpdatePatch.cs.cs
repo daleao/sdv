@@ -53,7 +53,7 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
                 .GetOperand(out var resumeExecution)
                 .Advance()
                 .AddLabels(vanillaUnforge)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.TheOneIridiumBand))),
@@ -72,7 +72,9 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
         }
         catch (Exception ex)
         {
-            Log.E($"Failed modifying unforge behavior of combined iridium band.\nHelper returned {ex}");
+            Log.E("Immersive Rings failed modifying unforge behavior of combined iridium band." +
+                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

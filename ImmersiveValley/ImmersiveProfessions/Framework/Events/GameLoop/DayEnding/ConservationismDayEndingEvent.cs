@@ -3,6 +3,7 @@
 #region using directives
 
 using Common.Events;
+using Common.Extensions.SMAPI;
 using Common.Extensions.Stardew;
 using Extensions;
 using StardewModdingAPI.Events;
@@ -39,7 +40,7 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
                 taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
             if (taxBonusForNextSeason > 0 && ModEntry.TaxesConfig is null)
             {
-                ModEntry.ModHelper.GameContent.InvalidateCache("Data/mail");
+                ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
                 farmer.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
             }
 

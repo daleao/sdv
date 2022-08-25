@@ -47,12 +47,12 @@ internal sealed class MeleeWeaponDoSwipePatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Bne_Un)
                 )
                 .GetOperand(out var caseClub)
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Beq_S, isSword)
                 )
                 .Advance()
                 .AddLabels(isSword)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Bne_Un, caseClub)

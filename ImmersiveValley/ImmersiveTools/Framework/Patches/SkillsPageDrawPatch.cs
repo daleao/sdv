@@ -43,12 +43,12 @@ internal sealed class SkillsPageDrawPatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Cgt),
                     new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6])
                 )
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Bgt_S, setTrue)
                 )
                 .Advance()
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
@@ -96,12 +96,12 @@ internal sealed class SkillsPageDrawPatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Cgt),
                     new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6])
                 )
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Bgt_S, setTrue)
                 )
                 .Advance()
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
@@ -140,12 +140,12 @@ internal sealed class SkillsPageDrawPatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Cgt),
                     new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6])
                 )
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Bgt_S, setTrue)
                 )
                 .Advance()
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),

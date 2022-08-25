@@ -19,10 +19,6 @@ internal sealed class SpaceCoreIntegration : BaseIntegration<ISpaceCoreAPI>
     public void Register()
     {
         AssertLoaded();
-        ModApi.RegisterSerializerType(typeof(BaseSlingshotEnchantment));
-        ModApi.RegisterSerializerType(typeof(GatlingEnchantment));
-        ModApi.RegisterSerializerType(typeof(QuincyEnchantment));
-        ModApi.RegisterSerializerType(typeof(SpreadingEnchantment));
         ModApi.RegisterSerializerType(typeof(CarvingEnchantment));
         ModApi.RegisterSerializerType(typeof(CleavingEnchantment));
         ModApi.RegisterSerializerType(typeof(EnergizedEnchantment));

@@ -96,6 +96,11 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
                     if (ModEntry.Config.RebalancedRings) addedDefense += 1;
                     else addedPrecision += 0.04f;
                     break;
+                default:
+                    if (resonance != ModEntry.GarnetRingIndex) break;
+
+                    cdr += 0.04f;
+                    break;
             }
 
         if (resonance is not null)
@@ -232,7 +237,7 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldc_I4_5)
                 )
                 .AddLabels(displayVanillaEffect)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,

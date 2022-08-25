@@ -5,10 +5,10 @@
 using Common;
 using Common.Events;
 using Display;
+using Extensions;
 using GameLoop;
 using Input;
 using Player;
-using Extensions;
 using StardewModdingAPI.Events;
 using System;
 using System.Collections.Generic;

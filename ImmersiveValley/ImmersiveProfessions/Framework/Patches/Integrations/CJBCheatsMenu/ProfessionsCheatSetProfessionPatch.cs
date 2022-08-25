@@ -45,7 +45,9 @@ internal sealed class ProfessionsCheatSetProfessionPatch : DaLion.Common.Harmony
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while moving CJB Profession Cheat health bonus from Defender to Brute.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while moving CJB Profession Cheat health bonus from Defender to Brute." +
+                  "\n—-- Do NOT report this to CJB Cheats Menu's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

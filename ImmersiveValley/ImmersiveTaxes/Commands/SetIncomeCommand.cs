@@ -2,9 +2,9 @@
 
 #region using directives
 
-using Common.Extensions.Stardew;
 using Common;
 using Common.Commands;
+using Common.Extensions.Stardew;
 using System;
 
 #endregion using directives

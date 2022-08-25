@@ -24,7 +24,7 @@ internal sealed class MonsterUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
     /// <summary>Patch to implement slow.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
-    private static bool MonsterUpdatePrefix(Monster __instance, ref int ___invincibleCountdown, GameTime time, GameLocation location)
+    private static bool MonsterUpdatePrefix(Monster __instance, GameTime time)
     {
         var slowTimer = __instance.get_SlowTimer();
         if (slowTimer.Value <= 0) return true; // run original logic

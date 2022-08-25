@@ -15,7 +15,7 @@ using System.Linq;
 internal sealed class SavageUpdateTickedEvent : UpdateTickedEvent
 {
     private const int RING_SHEET_INDEX_I = 523;
- 
+
     private readonly int _buffId;
     private readonly string _buffSource;
     private readonly string _buffDescription;

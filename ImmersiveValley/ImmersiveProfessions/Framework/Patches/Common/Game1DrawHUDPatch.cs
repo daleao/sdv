@@ -45,7 +45,7 @@ internal sealed class Game1DrawHUDPatch : DaLion.Common.Harmony.HarmonyPatch
                .GoTo(helper.LastIndex)
                .GetLabels(out var labels) // get the labels of the final return instruction
                .Return()
-               .RemoveUntil( // remove everything after the profession check
+               .RemoveInstructionsUntil( // remove everything after the profession check
                    new CodeInstruction(OpCodes.Ret)
                )
                .AddWithLabels( // add back a new return statement

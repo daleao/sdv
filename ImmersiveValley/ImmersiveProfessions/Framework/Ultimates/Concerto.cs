@@ -31,6 +31,14 @@ public sealed class Concerto : Ultimate
     #region internal properties
 
     /// <inheritdoc />
+    internal override int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.PiperConcerto + 4).GetHashCode();
+
+    /// <inheritdoc />
+    internal override int MillisecondsDuration =>
+        (int)(30000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor);
+
+
+    /// <inheritdoc />
     internal override SFX ActivationSfx => SFX.PiperConcerto;
 
     /// <inheritdoc />
@@ -89,9 +97,9 @@ public sealed class Concerto : Ultimate
     }
 
     /// <inheritdoc />
-    internal override void Countdown(double elapsed)
+    internal override void Countdown()
     {
-        ChargeValue -= elapsed * 0.01 / 3.0; // lasts 30s
+        ChargeValue -= MaxValue / 1800d; // lasts 30s * 60 ticks/s -> 1800 ticks
     }
 
     #endregion internal methods

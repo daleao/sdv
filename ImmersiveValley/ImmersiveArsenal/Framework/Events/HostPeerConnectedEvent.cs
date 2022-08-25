@@ -25,7 +25,7 @@ internal sealed class HostPeerConnectedEvent : PeerConnectedEvent
     protected override void OnPeerConnectedImpl(object? sender, PeerConnectedEventArgs e)
     {
         if (!e.Peer.IsSplitScreen || !e.Peer.ScreenID.HasValue) return;
-        
+
         ModEntry.Events.EnableForScreen<ArsenalSaveLoadedEvent>(e.Peer.ScreenID.Value);
         if (ModEntry.Config.FaceMouseCursor)
             ModEntry.Events.EnableForScreen<ArsenalButtonPressedEvent>(e.Peer.ScreenID.Value);

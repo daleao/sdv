@@ -29,7 +29,7 @@ internal sealed class BuffsDisplayDrawPatch : DaLion.Common.Harmony.HarmonyPatch
         var (clickableTextureComponent, buff) = ___buffs.FirstOrDefault(p => p.Value.which == _buffId);
         if ((clickableTextureComponent, buff) == default) return;
 
-        var counter = ModEntry.State.EnergizeStacks;
+        var counter = ModEntry.EnergizeStacks.Value;
         b.DrawString(Game1.tinyFont, counter.ToString(),
             new(clickableTextureComponent.bounds.Right - (counter >= 10 ? 16 : 8), clickableTextureComponent.bounds.Bottom - 24), Color.White);
     }

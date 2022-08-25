@@ -44,7 +44,7 @@ internal sealed class FishingRodPlayerCaughtFishEndFunctionPatch : DaLion.Common
                 .Advance()
                 .GetOperand(out var dontShowMessage)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(FishingRod).RequireMethod(nameof(FishingRod.getLastFarmerToUse))),

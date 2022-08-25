@@ -73,7 +73,7 @@ internal sealed class MeleeWeaponCtorPatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.type)))
                 )
                 .Retreat()
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetFieldBase<int, NetInt>).RequireMethod(nameof(NetFieldBase<int, NetInt>.Set)))
                 );

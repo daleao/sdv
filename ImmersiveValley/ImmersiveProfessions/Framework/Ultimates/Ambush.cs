@@ -19,14 +19,14 @@ public sealed class Ambush : Ultimate
     internal Ambush()
     : base(UltimateIndex.PoacherAmbush, Color.MediumPurple, Color.MidnightBlue) { }
 
-    #region public properties
-
-    /// <summary>The ID of the buff that displays while Ambush is active.</summary>
-    public static int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.PoacherAmbush + 4).GetHashCode();
-
-    #endregion public properties
-
     #region internal properties
+
+    /// <inheritdoc />
+    internal override int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.PoacherAmbush + 4).GetHashCode();
+
+    /// <inheritdoc />
+    internal override int MillisecondsDuration =>
+        (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor);
 
     /// <inheritdoc />
     internal override SFX ActivationSfx => SFX.PoacherAmbush;
@@ -38,7 +38,7 @@ public sealed class Ambush : Ultimate
     internal bool IsGrantingCritBuff =>
         IsActive || Game1.buffsDisplay.otherBuffs.Any(b => b.which == BuffId - 4);
 
-    internal double SecondsOutOfAmbush { get; set; }
+    internal double SecondsOutOfAmbush { get; set; } = double.MaxValue;
 
     #endregion internal properties
 
@@ -50,8 +50,9 @@ public sealed class Ambush : Ultimate
         base.Activate();
 
         SecondsOutOfAmbush = 0d;
+
         foreach (var monster in Game1.currentLocation.characters.OfType<Monster>()
-                     .Where(m => m.Player.IsLocalPlayer))
+                     .Where(m => m.Player?.IsLocalPlayer == true))
         {
             monster.focusedOnFarmers = false;
             switch (monster)
@@ -77,8 +78,8 @@ public sealed class Ambush : Ultimate
         }
 
         var critBuff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == BuffId - 4);
-        var duration = critBuff?.millisecondsDuration ??
-                       (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor);
+        var duration = critBuff?.millisecondsDuration ?? MillisecondsDuration;
+
         Game1.buffsDisplay.removeOtherBuff(BuffId - 4);
         Game1.buffsDisplay.removeOtherBuff(BuffId);
         Game1.player.addedSpeed -= 2;
@@ -108,7 +109,7 @@ public sealed class Ambush : Ultimate
         var timeLeft = buff?.millisecondsDuration ?? 0;
         Game1.buffsDisplay.removeOtherBuff(BuffId);
         Game1.player.addedSpeed += 2;
-        if (timeLeft <= 0) return;
+        if (timeLeft < 100) return;
 
         var buffId = BuffId - 4;
         Game1.buffsDisplay.removeOtherBuff(buffId);
@@ -127,18 +128,9 @@ public sealed class Ambush : Ultimate
     }
 
     /// <inheritdoc />
-    internal override void Countdown(double elapsed)
+    internal override void Countdown()
     {
-        ChargeValue -= elapsed * 0.02 / 3.0; // lasts 15s
-    }
-
-    /// <summary>Reset the Ambush timer with twice the remaining duration.</summary>
-    internal void Reset()
-    {
-        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == BuffId);
-        if (buff is null) return;
-
-        buff.millisecondsDuration *= 2;
+        ChargeValue -= MaxValue / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
     }
 
     #endregion internal methods

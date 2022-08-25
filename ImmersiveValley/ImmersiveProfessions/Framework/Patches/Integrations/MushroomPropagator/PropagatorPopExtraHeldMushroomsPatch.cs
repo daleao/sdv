@@ -53,7 +53,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
                 .SetOpCode(OpCodes.Ldc_I4_1)
                 .Advance()
                 .InsertProfessionCheck(Profession.Forager.Value + 100)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Cgt_Un),
                     new CodeInstruction(OpCodes.Not),
@@ -63,12 +63,14 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
                     new[] { isNotPrestiged },
                     new CodeInstruction(OpCodes.Clt_Un)
                 )
-                .Remove()
+                .RemoveInstructions()
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching Blueberry's Mushroom Propagator output quantity.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching Blueberry's Mushroom Propagator output quantity." +
+                  "\n—-- Do NOT report this to Mushroom Propagator's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 
@@ -82,7 +84,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
                 .FindProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
                 .Retreat()
                 .GetLabels(out var labels)
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_4)
                 )
                 .InsertWithLabels(

@@ -32,6 +32,7 @@ internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
     private static bool MeleeWeaponDrawTooltipPrefix(MeleeWeapon __instance, SpriteBatch spriteBatch, ref int x,
         ref int y, SpriteFont font, float alpha)
     {
+        return true;
         // write description
         var descriptionWidth = _GetDescriptionWidth.Value(__instance);
         Utility.drawTextWithShadow(spriteBatch,

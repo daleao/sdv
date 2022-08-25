@@ -37,7 +37,7 @@ public enum ItemType
     /// <summary>A <see cref="StardewValley.Objects.Hat"/> item.</summary>
     Hat,
 
-    /// <summary>Any object in <see cref="StardewValley.Game1.objectInformation"/> (except rings).</summary>
+    /// <summary>Any object in <see cref="Game1.objectInformation"/> (except rings).</summary>
     Object,
 
     /// <summary>A <see cref="StardewValley.Objects.Ring"/> item.</summary>

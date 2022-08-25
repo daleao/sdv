@@ -19,12 +19,7 @@ public class ModEntry : Mod
     internal static ModEntry Instance { get; private set; } = null!;
     internal static ModConfig Config { get; set; } = null!;
     internal static EventManager Events { get; private set; } = null!;
-    internal static PerScreen<ModState> PerScreenState { get; private set; } = null!;
-    internal static ModState State
-    {
-        get => PerScreenState.Value;
-        set => PerScreenState.Value = value;
-    }
+    internal static PerScreen<int> EnergizeStacks { get; } = new(() => -1);
 
     internal static IModHelper ModHelper => Instance.Helper;
     internal static IManifest Manifest => Instance.ModManifest;
@@ -53,9 +48,6 @@ public class ModEntry : Mod
         Events = new(helper.Events);
         Events.Enable(typeof(ArsenalAssetRequestedEvent), typeof(ArsenalGameLaunchedEvent), typeof(ArsenalSavedEvent), typeof(ArsenalSaveLoadedEvent), typeof(ArsenalSavingEvent));
         if (Config.FaceMouseCursor) Events.Enable<ArsenalButtonPressedEvent>();
-
-        // initialize mod state
-        PerScreenState = new(() => new());
 
         // apply patches
         new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();

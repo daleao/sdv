@@ -53,7 +53,7 @@ internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPa
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Conv_R8)
                 )
                 .AdvanceUntil(
@@ -64,11 +64,11 @@ internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPa
                 .SetOperand(typeof(NetFieldBase<byte, NetByte>)
                     .RequirePropertyGetter(nameof(NetFieldBase<byte, NetByte>.Value))) // was <string, NetString>
                 .Advance()
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new(OpCodes.Ldc_I4_S, 200) // was Ldstr "Sheep"
                 )
                 .Advance()
-                .Remove()
+                .RemoveInstructions()
                 .SetOpCode(OpCodes.Blt_S) // was Brfalse_S
                 .Advance()
                 .GetInstructionsUntil(out var got, false, true,
@@ -78,27 +78,27 @@ internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPa
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_0)
                 )
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new(OpCodes.Ldc_R8, 1.0),
                     true
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_1)
                 )
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new(OpCodes.Ldc_R8, 1.75),
                     true
                 )
                 .AddLabels(notPrestigedProducer)
-                .Insert(got)
+                .InsertInstructions(got)
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_3)
                 )
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new(OpCodes.Ldc_I4_S, Profession.Producer.Value + 100)
                 )
                 .Return()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, notPrestigedProducer),
                     new CodeInstruction(OpCodes.Ldc_R8, 3.0),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution1)
@@ -107,7 +107,7 @@ internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPa
                 .SetOpCode(OpCodes.Div) // was Sub
                 .AddLabels(resumeExecution1)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call,
                         typeof(Math).RequireMethod(nameof(Math.Round), new[] { typeof(double) })),
                     new CodeInstruction(OpCodes.Conv_U1)
@@ -134,7 +134,7 @@ internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPa
                 .GetOperand(out var resumeExecution2) // copy destination
                 .Return()
                 .Retreat()
-                .Insert( // insert unconditional branch to skip this whole section
+                .InsertInstructions( // insert unconditional branch to skip this whole section
                     new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution2)
                 );
         }

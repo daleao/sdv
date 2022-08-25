@@ -39,7 +39,7 @@ internal sealed class FishingRodStartMinigameEndFunctionPatch : DaLion.Common.Ha
             helper // find index of pirate check
                 .FindProfessionCheck(Farmer.pirate)
                 .Retreat(2)
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Add) // remove this check
                 );
         }

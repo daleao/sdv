@@ -31,7 +31,7 @@ internal sealed class Game1CreateObjectDebrisPatch : DaLion.Common.Harmony.Harmo
         try
         {
             var who = Game1.getFarmer(whichPlayer);
-            if (!who.HasProfession(Profession.Gemologist) || !new SObject(objectIndex, 1).IsGemOrMineral())
+            if (!who.HasProfession(Profession.Gemologist) || !new SObject(objectIndex, 1).IsPreciousRock())
                 return true; // run original logic
 
             location.debris.Add(new(objectIndex, new(xTile * 64 + 32, yTile * 64 + 32),

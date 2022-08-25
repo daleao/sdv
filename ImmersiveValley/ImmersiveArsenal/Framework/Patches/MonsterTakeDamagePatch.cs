@@ -42,7 +42,7 @@ internal sealed class MonsterTakeDamagePatch : Common.Harmony.HarmonyPatch
         try
         {
             helper
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call, typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.CritsIgnoreDefense))),
                     new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
@@ -54,10 +54,10 @@ internal sealed class MonsterTakeDamagePatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Stloc_0),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
-                .Remove()
+                .RemoveInstructions()
                 .AddLabels(mitigateDamage)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Conv_R4),
                     new CodeInstruction(OpCodes.Ldc_R4, 10f),
                     new CodeInstruction(OpCodes.Ldc_R4, 10f)
@@ -65,14 +65,14 @@ internal sealed class MonsterTakeDamagePatch : Common.Harmony.HarmonyPatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Sub)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Conv_R4),
                     new CodeInstruction(OpCodes.Add),
                     new CodeInstruction(OpCodes.Div)
                 )
-                .ReplaceWith(new(OpCodes.Mul))
+                .ReplaceInstructionWith(new(OpCodes.Mul))
                 .Advance()
-                .ReplaceWith(new(OpCodes.Conv_I4))
+                .ReplaceInstructionWith(new(OpCodes.Conv_I4))
                 .Advance(2)
                 .AddLabels(resumeExecution);
         }

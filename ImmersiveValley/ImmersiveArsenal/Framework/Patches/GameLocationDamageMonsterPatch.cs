@@ -50,12 +50,12 @@ internal sealed class GameLocationDamageMonsterPatch : Common.Harmony.HarmonyPat
                 )
                 .Advance()
                 .GetOperand(out var skip)
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution1)
                 )
                 .Advance()
                 .AddLabels(resumeExecution1)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
                     new CodeInstruction(OpCodes.Brfalse_S, skip),
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
@@ -92,12 +92,12 @@ internal sealed class GameLocationDamageMonsterPatch : Common.Harmony.HarmonyPat
                     new CodeInstruction(OpCodes.Bge_Un_S)
                 )
                 .GetOperand(out var notCrit)
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Blt_Un_S, doCrit)
                 )
                 .Advance()
                 .AddLabels(doCrit)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
                     new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
                     new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
@@ -119,7 +119,7 @@ internal sealed class GameLocationDamageMonsterPatch : Common.Harmony.HarmonyPat
 
         /// Injected: Monster.set_GotCrit(true);
         /// After: playSound("crit");
-        
+
         try
         {
             helper
@@ -127,7 +127,7 @@ internal sealed class GameLocationDamageMonsterPatch : Common.Harmony.HarmonyPat
                     new CodeInstruction(OpCodes.Ldstr, "crit")
                 )
                 .Advance(3)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldloc_2),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Call,
@@ -137,32 +137,6 @@ internal sealed class GameLocationDamageMonsterPatch : Common.Harmony.HarmonyPat
         catch (Exception ex)
         {
             Log.E($"Failed recording crit flag.\nHelper returned {ex}");
-            return null;
-        }
-
-        /// From: else if (damageAmount > 0) { ... }
-        /// To: else { DoSlingshotSpecial(monster, who); if (damageAmount > 0) { ... } }
-
-        try
-        {
-            helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[8]),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Ble)
-                )
-                .StripLabels(out var labels)
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldloc_2),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(GameLocationDamageMonsterPatch).RequireMethod(nameof(DoSlingshotSpecial)))
-                );
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed adding slingshot special stun.\nHelper returned {ex}");
             return null;
         }
 
@@ -176,12 +150,6 @@ internal sealed class GameLocationDamageMonsterPatch : Common.Harmony.HarmonyPat
     private static bool IsClubSmashHittingDuggy(MeleeWeapon weapon, Monster monster) =>
         ModEntry.Config.ImmersiveClubSmash && weapon.type.Value == MeleeWeapon.club && weapon.isOnSpecial &&
         monster is Duggy;
-
-    private static void DoSlingshotSpecial(Monster monster, Farmer who)
-    {
-        if (who.CurrentTool is Slingshot slingshot && slingshot.get_IsOnSpecial())
-            monster.stunTime = 2000;
-    }
 
     #endregion injected subroutines
 }

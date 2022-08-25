@@ -57,7 +57,7 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Stloc_0)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnablePrestige))),
@@ -81,7 +81,9 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed adjusing localized skill page content position.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed adjusing localized skill page content position." +
+                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 
@@ -116,7 +118,9 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching to draw SpaceCore skills page extended level bars.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching to draw SpaceCore skills page extended level bars." +
+                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 
@@ -130,7 +134,7 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                 .FindNext(
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.SandyBrown)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 20),
                     new CodeInstruction(OpCodes.Beq_S, isSkillLevel20)
@@ -146,7 +150,9 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching to draw max skill level with different color.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching to draw max skill level with different color." +
+                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 
@@ -172,7 +178,9 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching to draw skills page prestige ribbons.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching to draw skills page prestige ribbons." +
+                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

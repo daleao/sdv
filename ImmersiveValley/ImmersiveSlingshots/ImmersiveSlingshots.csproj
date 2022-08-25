@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<AssemblyName>ImmersiveSlingshots</AssemblyName>
+	<RootNamespace>DaLion.Stardew.Slingshots</RootNamespace>
+	<Version>1.0.0</Version>
+	<TargetFramework>net5.0</TargetFramework>
+	<EnableHarmony>true</EnableHarmony>
+	<LangVersion>latest</LangVersion>
+	<nullable>enable</nullable>
+	<WarningsAsErrors>Nullable</WarningsAsErrors>
+	<DefineConstants>NETESCAPADES_ENUMGENERATORS_EMBED_ATTRIBUTES</DefineConstants>
+  </PropertyGroup>
+	
+  <PropertyGroup>
+	  <BundleExtraAssemblies>System,ThirdParty</BundleExtraAssemblies>
+	  <IgnoreModFilePatterns>
+	  \.xcf$, <!-- GIMP files-->
+	  System.*.dll$, <!-- System would bundle these.-->
+	  ^Microsoft.(?!.*(Toolkit.Diagnostics.dll)), <!-- Everyone but MS.Toolkit.Diagnostics-->
+	  ^runtimes[/\\].*,
+	  .*[/\\]Microsoft.*, <!-- CodeDiagnostics in a bunch of languages?-->
+	  ^JetBrains,<!-- Should never be bundled.-->
+	  ^Skia <!-- Skiasharp is included with the game-->
+	</IgnoreModFilePatterns>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="FastExpressionCompiler.LightExpression" Version="3.3.3" />
+	<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+	<PackageReference Include="Microsoft.Toolkit.Diagnostics" Version="7.1.2" />
+	<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+	<PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" PrivateAssets="all" ExcludeAssets="compile;runtime" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<Using Include="JetBrains.Annotations" />
+	<Using Include="Microsoft.Toolkit.Diagnostics" />
+	<Using Include="StardewModdingAPI" />
+	<Using Include="StardewValley" />
+	<Using Alias="SObject" Include="StardewValley.Object" />
+  </ItemGroup>
+
+	<Import Project="..\Common\Common.projitems" Label="Shared" Condition="Exists('..\Common\Common.projitems')" />
+
+  <ItemGroup>
+	<Compile Remove="resources\**" />
+	<EmbeddedResource Remove="resources\**" />
+	<None Remove="resources\**" />
+  </ItemGroup>
+	
+  <ItemGroup>
+	<Reference Include="SpaceCore">
+	  <HintPath>$(GamePath)\Mods - Common\Shared Dependencies\SpaceCore\SpaceCore.dll</HintPath>
+	  <Private>false</Private>
+	</Reference>
+  </ItemGroup>
+
+</Project>

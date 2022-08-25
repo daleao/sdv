@@ -52,7 +52,7 @@ internal sealed class ObjectPerformDropDownActionPatch : DaLion.Common.Harmony.H
                             new[] { typeof(int), typeof(int) }))
                 )
                 .AddLabels(isNotProducer)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = Profession.Producer
                     new CodeInstruction(OpCodes.Ldc_I4_0), // false for not prestiged

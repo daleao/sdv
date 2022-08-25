@@ -14,13 +14,13 @@ using System.Reflection.Emit;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("Annosz.UiInfoSuite2")]
+[UsedImplicitly, RequiresMod("Annosz.UiInfoSuite2", "2.2.6")]
 internal sealed class ExperieneBarDrawExperienceBarPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
     internal ExperieneBarDrawExperienceBarPatch()
     {
-        Target = "UIInfoSuite.UIElements.ExperienceBar".ToType().RequireMethod("DrawExperienceBar");
+        Target = "UIInfoSuite2.UIElements.ExperienceBar".ToType().RequireMethod("DrawExperienceBar");
     }
 
     #region harmony patches
@@ -45,7 +45,9 @@ internal sealed class ExperieneBarDrawExperienceBarPatch : DaLion.Common.Harmony
         }
         catch (Exception ex)
         {
-            Log.E($"Failed to budge Ui Info Suite experience bar skill icon.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed to budge Ui Info Suite experience bar skill icon." +
+                  "\n—-- Do NOT report this to Ui Info Suite's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

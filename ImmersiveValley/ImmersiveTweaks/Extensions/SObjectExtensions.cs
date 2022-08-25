@@ -17,6 +17,10 @@ public static class SObjectExtensions
     public static bool IsMushroomBox(this SObject @object) =>
         @object.bigCraftable.Value && @object.ParentSheetIndex == 128;
 
+    /// <summary>Whether a given object is a gem or mineral.</summary>
+    public static bool IsPreciousRock(this SObject @object) =>
+        @object.Category is SObject.GemCategory or SObject.mineralsCategory;
+
     /// <summary>Get an object quality value based on this object's age.</summary>
     public static int GetQualityFromAge(this SObject @object)
     {

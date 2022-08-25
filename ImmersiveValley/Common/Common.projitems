@@ -15,9 +15,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Quality.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ThrowHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\UnexpectedEnumValueException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\GameContentHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\FarmerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\GameLocationExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ItemExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\LabelNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\PatternNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ConsoleCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandHandler.cs" />

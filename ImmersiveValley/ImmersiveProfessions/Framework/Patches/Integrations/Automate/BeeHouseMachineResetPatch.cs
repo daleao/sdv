@@ -54,7 +54,7 @@ internal sealed class BeeHouseMachineResetPatch : DaLion.Common.Harmony.HarmonyP
                             new[] { typeof(int), typeof(int) }))
                 )
                 .AddLabels(isNotProducer)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldloc_0), // local 0 = SObject machine
                     new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = Profession.Producer
                     new CodeInstruction(OpCodes.Ldc_I4_0), // false for not prestiged
@@ -80,7 +80,9 @@ internal sealed class BeeHouseMachineResetPatch : DaLion.Common.Harmony.HarmonyP
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching automated Bee House production speed for Producers.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching automated Bee House production speed for Producers." +
+                  "\n—-- Do NOT report this to Automate's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

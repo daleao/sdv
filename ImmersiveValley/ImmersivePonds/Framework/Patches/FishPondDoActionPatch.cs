@@ -65,11 +65,11 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
                 .Retreat()
                 .SetOpCode(OpCodes.Brfalse_S)
                 .Advance()
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Ret)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_2),
                     new CodeInstruction(OpCodes.Call,
@@ -103,9 +103,9 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
                 .GetInstructionsUntil(out var got, true, true,
                     new CodeInstruction(OpCodes.Beq)
                 )
-                .Insert(got)
+                .InsertInstructions(got)
                 .Retreat()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call,
                         typeof(Utils).RequireMethod(nameof(Utils.IsExtendedFamilyMember)))
                 )

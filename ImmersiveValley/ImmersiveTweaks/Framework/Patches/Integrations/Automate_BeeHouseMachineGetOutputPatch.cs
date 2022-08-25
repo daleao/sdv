@@ -45,7 +45,7 @@ internal sealed class BeeHouseMachineGetOutputPatch : Common.Harmony.HarmonyPatc
                     new CodeInstruction(OpCodes.Stloc_S, helper.Locals[4])
                 )
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,
@@ -64,7 +64,9 @@ internal sealed class BeeHouseMachineGetOutputPatch : Common.Harmony.HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed improving automated honey quality with age.\nHelper returned {ex}");
+            Log.E("Immersive Tweaks failed improving automated honey quality with age." +
+                  "\n—-- Do NOT report this to Automate's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

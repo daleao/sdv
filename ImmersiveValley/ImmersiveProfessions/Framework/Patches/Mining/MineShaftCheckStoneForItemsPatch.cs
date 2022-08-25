@@ -61,7 +61,7 @@ internal sealed class MineShaftCheckStoneForItemsPatch : DaLion.Common.Harmony.H
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Spelunker.Value, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
                     new CodeInstruction(OpCodes.Call,
@@ -120,7 +120,7 @@ internal sealed class MineShaftCheckStoneForItemsPatch : DaLion.Common.Harmony.H
             helper // find index of excavator check
                 .FindProfessionCheck(Farmer.excavator, i != 0)
                 .Retreat()
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Mul) // remove this check
                 );
         }
@@ -141,7 +141,7 @@ internal sealed class MineShaftCheckStoneForItemsPatch : DaLion.Common.Harmony.H
             helper
                 .FindProfessionCheck(Farmer.burrower, true) // find index of prospector check
                 .Retreat()
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Mul) // remove this check
                 );
         }

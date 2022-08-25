@@ -19,14 +19,14 @@ public sealed class Frenzy : Ultimate
     internal Frenzy()
     : base(UltimateIndex.BruteFrenzy, Color.OrangeRed, Color.OrangeRed) { }
 
-    #region public properties
-
-    /// <summary>The ID of the buff that displays while Frenzy is active.</summary>
-    public static int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.BruteFrenzy + 4).GetHashCode();
-
-    #endregion public properties
-
     #region internal properties
+
+    /// <inheritdoc />
+    internal override int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.BruteFrenzy + 4).GetHashCode();
+
+    /// <inheritdoc />
+    internal override int MillisecondsDuration =>
+        (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor);
 
     /// <inheritdoc />
     internal override SFX ActivationSfx => SFX.BruteRage;
@@ -55,7 +55,7 @@ public sealed class Frenzy : Ultimate
                 which = BuffId,
                 sheetIndex = 48,
                 glow = GlowColor,
-                millisecondsDuration = (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
+                millisecondsDuration = MillisecondsDuration,
                 description = ModEntry.i18n.Get("brute.ulti.desc")
             }
         );
@@ -76,9 +76,9 @@ public sealed class Frenzy : Ultimate
     }
 
     /// <inheritdoc />
-    internal override void Countdown(double elapsed)
+    internal override void Countdown()
     {
-        ChargeValue -= elapsed * 0.02 / 3.0; // lasts 15s
+        ChargeValue -= MaxValue / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
     }
 
     #endregion internal methods

@@ -61,7 +61,7 @@ public static class ILHelperExtensions
 
         if (labels is not null) toInsert[0].labels.AddRange(labels);
 
-        return helper.Insert(toInsert.ToArray());
+        return helper.InsertInstructions(toInsert.ToArray());
     }
 
     /// <summary>Insert a sequence of code instructions at the currently pointed index to roll a random double.</summary>
@@ -80,7 +80,7 @@ public static class ILHelperExtensions
 
         if (labels is not null) toInsert[0].labels.AddRange(labels);
 
-        return helper.Insert(toInsert.ToArray());
+        return helper.InsertInstructions(toInsert.ToArray());
     }
 
     /// <summary>Insert a sequence of code instructions at the currently pointed index to roll a random integer.</summary>
@@ -99,7 +99,7 @@ public static class ILHelperExtensions
 
         if (labels is not null) toInsert[0].labels.AddRange(labels);
 
-        return helper.Insert(toInsert.ToArray());
+        return helper.InsertInstructions(toInsert.ToArray());
     }
 
 

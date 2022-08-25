@@ -79,11 +79,11 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                     new CodeInstruction(OpCodes.Ldc_R4, 1.1f) // brute damage multiplier
                 )
                 .AddLabels(isNotPrestiged)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // arg 10 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Fighter.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R4, 1.2f),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
@@ -108,7 +108,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                     true) // find index of brute check
                 .Retreat(2)
                 .GetOperand(out var dontBuffDamage)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, dontBuffDamage),
                     // check for local player
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
@@ -120,7 +120,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                 )
                 .SetOperand(1f)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.State))),
                     new CodeInstruction(OpCodes.Callvirt,
@@ -153,23 +153,23 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldnull)
                 )
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow)
                 )
                 .Advance()
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)10) // was cgt ; arg 10 = Farmer who
                 )
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow)
                 )
                 .Advance()
-                .Remove() // was and
+                .RemoveInstructions() // was and
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     // check for ambush
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
                     new CodeInstruction(OpCodes.Call,
@@ -184,7 +184,7 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                         typeof(Ambush).RequirePropertyGetter(nameof(Ambush.IsGrantingCritBuff))),
                     new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 );
         }
@@ -308,17 +308,17 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
 
             if (ultimate is Ambush ambush2)
             {
-                switch (ambush2.IsActive)
+                var wasActive = false;
+                if (ambush2.IsActive)
                 {
-                    case true when monster.Health <= 0:
-                        ambush2.Reset();
-                        break;
-                    case true:
-                        ambush2.Deactivate();
-                        break;
-                    case false when monster.Health <= 0 && ambush2.SecondsOutOfAmbush <= 1.5d:
-                        ambush2.Activate();
-                        break;
+                    wasActive = true;
+                    ambush2.ChargeValue = 0;
+                }
+
+                if (monster.Health <= 0 && (wasActive || ambush2.SecondsOutOfAmbush <= 1.5d))
+                {
+                    ambush2.ChargeValue += ambush2.MaxValue / 2d;
+                    ambush2.SecondsOutOfAmbush = double.MaxValue;
                 }
             }
         }

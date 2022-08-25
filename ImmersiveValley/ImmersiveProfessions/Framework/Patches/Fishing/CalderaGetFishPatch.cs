@@ -45,7 +45,7 @@ internal sealed class CaderaGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
                 .Advance()
                 .AddLabels(isNotFisher)
                 .InsertProfessionCheck(Profession.Fisher.Value)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotFisher),
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0),
                     new CodeInstruction(OpCodes.Mul)

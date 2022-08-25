@@ -53,13 +53,13 @@ internal sealed class FarmAnimalPetPatch : DaLion.Common.Harmony.HarmonyPatch
                 .Return(2)
                 .SetOperand(isNotRancher) // replace false case branch with true case branch
                 .Advance()
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Brfalse_S)
                 )
                 .RemoveLabels();
@@ -85,11 +85,11 @@ internal sealed class FarmAnimalPetPatch : DaLion.Common.Harmony.HarmonyPatch
                 )
                 .Advance(2)
                 .AddLabels(isNotPrestiged)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Rancher.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 15),
                     new CodeInstruction(OpCodes.Add)

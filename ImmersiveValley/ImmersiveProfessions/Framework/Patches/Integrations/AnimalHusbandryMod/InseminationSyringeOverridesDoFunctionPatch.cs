@@ -55,14 +55,14 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatch : DaLion.Commo
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)5) // arg 5 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Breeder.Value, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder),
                     new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
                     new CodeInstruction(OpCodes.Conv_R8),
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)5)
                 )
                 .InsertProfessionCheck(Profession.Breeder.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R8, 3.0),
                     new CodeInstruction(OpCodes.Br_S, resumeDivision)
@@ -82,7 +82,9 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatch : DaLion.Commo
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching inseminated pregnancy time for Breeder.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching inseminated pregnancy time for Breeder." +
+                  "\n—-- Do NOT report this to Animal Husbandry's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

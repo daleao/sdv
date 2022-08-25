@@ -48,7 +48,7 @@ internal sealed class FruitTreeMachineGetOutputPatch : Common.Harmony.HarmonyPat
                     new CodeInstruction(OpCodes.Stloc_1)
                 )
                 .StripLabels(out var labels)
-                .ReplaceWith(new(OpCodes.Call,
+                .ReplaceInstructionWith(new(OpCodes.Call,
                     typeof(FruitTreeExtensions).RequireMethod(nameof(FruitTreeExtensions.GetQualityFromAge))))
                 .InsertWithLabels(
                     labels,
@@ -57,20 +57,22 @@ internal sealed class FruitTreeMachineGetOutputPatch : Common.Harmony.HarmonyPat
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldloc_0)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Stloc_1)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Stloc_1)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Stloc_1)
                 )
                 .RemoveLabels();
         }
         catch (Exception ex)
         {
-            Log.E($"Failed customizing automated fruit tree age quality factor.\nHelper returned {ex}");
+            Log.E("Immersive Tweaks failed customizing automated fruit tree age quality factor." +
+                  "\n—-- Do NOT report this to Automate's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

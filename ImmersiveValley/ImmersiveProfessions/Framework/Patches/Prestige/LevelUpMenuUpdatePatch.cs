@@ -72,7 +72,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Bne_Un_S)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Beq_S, isLevel5),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
@@ -105,10 +105,10 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                         typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
                 )
                 .GetLabels(out var labels)
-                .Remove(2) // remove loading the local player's professions
+                .RemoveInstructions(2) // remove loading the local player's professions
                 .AddLabels(labels)
                 .Advance(2)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call,
                         typeof(LevelUpMenuUpdatePatch).RequireMethod(nameof(GetCurrentBranchForSkill))),
                     new CodeInstruction(OpCodes.Ldarg_0),
@@ -118,7 +118,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                     new CodeInstruction(OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
                 )
-                .Remove() // remove Callvirt Nelist<int, NetInt>.Contains()
+                .RemoveInstructions() // remove Callvirt Nelist<int, NetInt>.Contains()
                 .SetOpCode(OpCodes.Bne_Un_S); // was Brfalse_S
         }
         catch (Exception ex)
@@ -151,19 +151,19 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                     new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).RequireMethod("Add"))
                 )
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     // duplicate chosen profession
                     new CodeInstruction(OpCodes.Dup),
                     // store it for later
                     new CodeInstruction(OpCodes.Stloc_S, chosenProfession)
                 )
-                .ReplaceWith( // replace Add() with AddOrReplace()
+                .ReplaceInstructionWith( // replace Add() with AddOrReplace()
                     new(OpCodes.Call,
                         typeof(CollectionExtensions).RequireMethod(nameof(CollectionExtensions.AddOrReplace))
                             .MakeGenericMethod(typeof(int)))
                 )
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     // skip adding perks if player already has them
                     new CodeInstruction(OpCodes.Brfalse_S, dontGetImmediatePerks)
                 )
@@ -231,7 +231,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
         {
             helper
                 .GoTo(0)
-                .Insert(
+                .InsertInstructions(
                     // initialize shouldProposeFinalQuestion local variable to false
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion),
@@ -288,7 +288,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("professionsToChoose")),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
@@ -302,7 +302,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("professionsToChoose")),
                     new CodeInstruction(OpCodes.Ldc_I4_1),

@@ -2,6 +2,7 @@ namespace DaLion.Stardew.Rings.Integrations;
 
 #region using directives
 
+using Common.Extensions.SMAPI;
 using Common.Integrations.GenericModConfigMenu;
 using System;
 
@@ -42,7 +43,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveRings
                 (config, value) =>
                 {
                     config.RebalancedRings = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/ObjectInformation");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                 }
             )
             .AddCheckbox(
@@ -52,8 +53,8 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveRings
                 (config, value) =>
                 {
                     config.CraftableGemRings = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/CraftingRecipes");
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Maps/springobjects");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
                 })
             .AddCheckbox(
                 () => "Craftable Glow and Magnet Rings",
@@ -62,7 +63,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveRings
                 (config, value) =>
                 {
                     config.CraftableGlowAndMagnetRings = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/CraftingRecipes");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                 })
             .AddCheckbox(
                 () => "Immersive Glowstone Recipe",
@@ -71,7 +72,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveRings
                 (config, value) =>
                 {
                     config.ImmersiveGlowstoneRecipe = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/CraftingRecipes");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                 })
             .AddCheckbox(
                 () => "The One Iridium Band",
@@ -80,9 +81,9 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveRings
                 (config, value) =>
                 {
                     config.TheOneIridiumBand = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/CraftingRecipes");
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/ObjectInformation");
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Maps/springobjects");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
                 });
     }
 }

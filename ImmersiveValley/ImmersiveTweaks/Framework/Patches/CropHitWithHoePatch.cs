@@ -40,7 +40,7 @@ internal sealed class CropHitWithHoePatch : Common.Harmony.HarmonyPatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Stloc_0)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call,
                         typeof(CropHitWithHoePatch).RequireMethod(nameof(AddGingerQuality)))
                 );

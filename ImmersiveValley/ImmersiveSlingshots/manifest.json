@@ -1,0 +1,27 @@
+﻿{
+  "Name": "Desperado - Immersive Slingshots",
+  "Author": "DaLion",
+  "Version": "1.0.0",
+  "Description": "Make Slingshots immersive and actually viable weapons.",
+  "UniqueID": "DaLion.ImmersiveSlingshots",
+  "EntryDll": "ImmersiveSlingshots.dll",
+  "MinimumApiVersion": "3.14.0",
+  "UpdateKeys": [ "Nexus:????" ],
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.8.1",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "MinimumVersion": "1.8.0",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "DaLion.ImmersiveProfessions",
+      "MinimumVersion": "5.0.0",
+      "IsRequired": false
+    }
+  ]
+}

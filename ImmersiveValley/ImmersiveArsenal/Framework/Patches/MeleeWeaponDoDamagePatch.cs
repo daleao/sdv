@@ -44,7 +44,7 @@ internal sealed class MeleeWeaponDoDamagePatch : Common.Harmony.HarmonyPatch
                         typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.isOnSpecial)))
                 )
                 .Retreat()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.type))),
                     new CodeInstruction(OpCodes.Call, typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
@@ -55,7 +55,7 @@ internal sealed class MeleeWeaponDoDamagePatch : Common.Harmony.HarmonyPatch
                         typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.isOnSpecial))),
                     new CodeInstruction(OpCodes.And)
                 )
-                .Remove();
+                .RemoveInstructions();
         }
         catch (Exception ex)
         {

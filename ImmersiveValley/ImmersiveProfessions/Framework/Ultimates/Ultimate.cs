@@ -113,9 +113,16 @@ public abstract class Ultimate : IUltimate
     /// <inheritdoc />
     public bool IsHudVisible => Hud.IsVisible;
 
+
     #endregion public properties
 
     #region internal properties
+
+    /// <summary>The ID of the buff that displays while the instance is active.</summary>
+    internal abstract int BuffId { get; }
+
+    /// <summary>The default duration of the buff.</summary>
+    internal abstract int MillisecondsDuration { get; }
 
     /// <inheritdoc cref="UltimateHUD"/>
     internal UltimateHUD Hud { get; }
@@ -229,7 +236,7 @@ public abstract class Ultimate : IUltimate
     }
 
     /// <summary>Countdown the charge value.</summary>
-    internal abstract void Countdown(double elapsed);
+    internal abstract void Countdown();
 
     #endregion internal methods
 

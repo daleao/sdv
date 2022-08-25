@@ -52,7 +52,7 @@ internal sealed class GameLocationGetFishPatch : DaLion.Common.Harmony.HarmonyPa
         try
         {
             helper
-                .Insert( // set hasRerolled to false
+                .InsertInstructions( // set hasRerolled to false
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Stloc_S, hasRerolled)
                 )
@@ -65,7 +65,7 @@ internal sealed class GameLocationGetFishPatch : DaLion.Common.Harmony.HarmonyPa
                     new CodeInstruction(OpCodes.Ldloc_1)
                 )
                 .AddLabels(shouldntReroll) // branch here if shouldn't reroll
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
                     new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
                     new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),

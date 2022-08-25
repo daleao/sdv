@@ -11,7 +11,6 @@ using Enchantments;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Menus;
-using StardewValley.Objects;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
@@ -33,7 +32,7 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
 
     #region harmony patches
 
-    /// <summary>Modify unforge behavior of Holy Blade + allow unforge Slingshot.</summary>
+    /// <summary>Modify unforge behavior of Holy Blade.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? ForgeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
@@ -63,7 +62,7 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldloc_S)
                 )
                 .AddLabels(vanillaUnforge)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.InfinityPlusOneWeapons))),
@@ -86,51 +85,6 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
             return null;
         }
 
-        /// Injected: else if (leftIngredientSpot.item is Slingshot slingshot && ModEntry.Config.EnableSlingshotForges)
-        ///             UnforgeSlingshot(leftIngredientSpot.item);
-        /// Between: MeleeWeapon and CombinedRing unforge behaviors...
-
-        var elseIfCombinedRing = generator.DefineLabel();
-        var slingshot = generator.DeclareLocal(typeof(Slingshot));
-        try
-        {
-            helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Isinst, typeof(CombinedRing)),
-                    new CodeInstruction(OpCodes.Brfalse)
-                )
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldarg_0)
-                )
-                .StripLabels(out var labels)
-                .AddLabels(elseIfCombinedRing)
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld,
-                        _NewForgeMenuType.RequireField("leftIngredientSpot")),
-                    new CodeInstruction(OpCodes.Ldfld,
-                        typeof(ClickableTextureComponent).RequireField(nameof(ClickableTextureComponent.item))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
-                    new CodeInstruction(OpCodes.Stloc_S, slingshot),
-                    new CodeInstruction(OpCodes.Ldloc_S, slingshot),
-                    new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing),
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnableSlingshotForges))),
-                    new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_S, slingshot),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(NewForgeMenuUpdatePatch).RequireMethod(nameof(UnforgeSlingshot)))
-                );
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed modifying unforge behavior of holy blade.\nHelper returned {ex}");
-            return null;
-        }
-
         return helper.Flush();
     }
 
@@ -145,27 +99,6 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
         StardewValley.Utility.CollectOrDrop(heroSoul);
         ExtendedSpaceCoreAPI.GetNewForgeMenuLeftIngredientSpot.Value(menu).item = null;
         Game1.playSound("coin");
-    }
-
-    internal static void UnforgeSlingshot(IClickableMenu menu, Slingshot slingshot)
-    {
-        var cost = 0;
-        var forgeLevels = slingshot.GetTotalForgeLevels(true);
-        for (var i = 0; i < forgeLevels; ++i)
-            cost += ExtendedSpaceCoreAPI.GetNewForgeMenuForgeCostAtLevel.Value(menu, i);
-
-        if (slingshot.hasEnchantmentOfType<DiamondEnchantment>())
-            cost += ExtendedSpaceCoreAPI.GetNewForgeMenuForgeCost.Value(menu,
-                ExtendedSpaceCoreAPI.GetNewForgeMenuLeftIngredientSpot.Value(menu).item, new SObject(72, 1));
-
-        for (var i = slingshot.enchantments.Count - 1; i >= 0; --i)
-            if (slingshot.enchantments[i].IsForge())
-                slingshot.RemoveEnchantment(slingshot.enchantments[i]);
-
-        ExtendedSpaceCoreAPI.GetNewForgeMenuLeftIngredientSpot.Value(menu).item = null;
-        Game1.playSound("coin");
-        ExtendedSpaceCoreAPI.SetNewForgeMenuHeldItem.Value(menu, slingshot);
-        StardewValley.Utility.CollectOrDrop(new SObject(848, cost / 2));
     }
 
     #endregion injected subroutines

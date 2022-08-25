@@ -50,7 +50,7 @@ internal sealed class ToolForgePatch : Common.Harmony.HarmonyPatch
                 )
                 .GetOperand(out var toRemove)
                 .Return()
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.RemoveEnchantment)))
                 )
                 .RemoveLabels((Label)toRemove)

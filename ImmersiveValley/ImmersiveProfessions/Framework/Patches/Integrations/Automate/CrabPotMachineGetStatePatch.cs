@@ -41,14 +41,16 @@ internal sealed class CrabPotMachineGetStatePatch : DaLion.Common.Harmony.Harmon
                 .FindFirst(
                     new CodeInstruction(OpCodes.Brtrue_S)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Call, "CrabPotMachine".ToType().RequireMethod("PlayerNeedsBait"))
                 )
                 .SetOpCode(OpCodes.Brfalse_S);
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching bait conditions for automated Crab Pots.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching bait conditions for automated Crab Pots." +
+                  "\n—-- Do NOT report this to Automate's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

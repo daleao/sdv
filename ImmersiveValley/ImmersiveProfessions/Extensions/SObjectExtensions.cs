@@ -39,9 +39,9 @@ public static class SObjectExtensions
     /// <summary>Whether a given object is a spring onion.</summary>
     public static bool IsSpringOnion(this SObject @object) => @object.ParentSheetIndex == 399;
 
-    /// <summary>Whether a given object is a gem or mineral.</summary>
-    public static bool IsGemOrMineral(this SObject @object) =>
-        @object.Category.IsIn(SObject.GemCategory, SObject.mineralsCategory);
+    /// <summary>Whether a given object is a geode, gem or mineral.</summary>
+    public static bool IsPreciousRock(this SObject @object) =>
+        @object.Category is SObject.GemCategory or SObject.mineralsCategory || @object.Name.Contains("Geode");
 
     /// <summary>Whether a given object is a foraged mineral.</summary>
     public static bool IsForagedMineral(this SObject @object) =>

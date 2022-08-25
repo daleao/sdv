@@ -21,12 +21,15 @@ internal sealed class AxeDoFunctionPatch : Common.Harmony.HarmonyPatch
 
     /// <summary>Charge shockwave stamina cost.</summary>
     [HarmonyPostfix]
-    private static void AxeDoFunctionPostfix(int power, Farmer who)
+    private static void AxeDoFunctionPostfix(Farmer who)
     {
-        if (power > 0)
-            who.Stamina -=
-                (int)Math.Round(Math.Sqrt(Math.Max(2 * power - who.ForagingLevel * 0.1f, 0.1f) *
-                                          (int)Math.Pow(2d * power, 2d))) * ModEntry.Config.StaminaCostMultiplier;
+        var power = who.toolPower;
+        if (power <= 0) return;
+
+        who.Stamina -=
+            (int)Math.Round(Math.Sqrt(Math.Max(2 * (power + 1) - who.ForagingLevel * 0.1f, 0.1f) *
+                                      (int)Math.Pow(2d * (power + 1), 2d))) *
+            (float)Math.Pow(ModEntry.Config.StaminaCostMultiplier, power);
     }
 
     #endregion harmony patches

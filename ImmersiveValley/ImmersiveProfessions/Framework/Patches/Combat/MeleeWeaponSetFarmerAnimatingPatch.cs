@@ -48,11 +48,11 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatch : DaLion.Common.Harmony
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
                 .AddLabels(skipRageBonus)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Brute.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, skipRageBonus),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_0),

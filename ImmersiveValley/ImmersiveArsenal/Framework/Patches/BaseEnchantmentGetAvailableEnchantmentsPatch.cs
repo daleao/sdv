@@ -47,18 +47,6 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harm
             new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
             new(OpCodes.Newobj, typeof(TributeEnchantment).RequireConstructor()),
             new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-            // add gatling enchant
-            new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-            new(OpCodes.Newobj, typeof(GatlingEnchantment).RequireConstructor()),
-            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-            // add quincy enchant
-            new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-            new(OpCodes.Newobj, typeof(QuincyEnchantment).RequireConstructor()),
-            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-            // add spreading enchant
-            new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-            new(OpCodes.Newobj, typeof(SpreadingEnchantment).RequireConstructor()),
-            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add)))
         });
 
         return l.AsEnumerable();

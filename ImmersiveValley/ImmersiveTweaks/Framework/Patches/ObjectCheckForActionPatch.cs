@@ -79,15 +79,15 @@ internal sealed class ObjectCheckForActionPatch : Common.Harmony.HarmonyPatch
                         typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation)))
                 )
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AgeImprovesBeeHouses))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution)
                 )
-                .Insert(got)
-                .Insert(
+                .InsertInstructions(got)
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.GetQualityFromAge))),

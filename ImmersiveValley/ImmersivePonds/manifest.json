@@ -15,7 +15,7 @@
     },
     {
       "UniqueID": "DaLion.ImmersiveProfessions",
-      "MinimumVersion": "5.0.2",
+      "MinimumVersion": "5.1.0",
       "IsRequired": false
     },
     {

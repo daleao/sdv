@@ -67,7 +67,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : Common.Harmony.Harm
                     new CodeInstruction(OpCodes.Ldc_I4_4)
                 )
                 .AddLabels(notInfinity)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(MeleeWeapon).RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))

@@ -56,7 +56,7 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Stloc_0)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnablePrestige))),
@@ -127,7 +127,7 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 .FindNext(
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.SandyBrown)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 20),
                     new CodeInstruction(OpCodes.Beq_S, isSkillLevel20)

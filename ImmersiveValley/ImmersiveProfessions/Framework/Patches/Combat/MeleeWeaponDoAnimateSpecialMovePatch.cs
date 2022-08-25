@@ -47,7 +47,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : DaLion.Common.Harmo
                 )
                 .GetOperand(out var isNotAcrobat) // copy destination
                 .Return()
-                .Insert( // insert unconditional branch to skip this check
+                .InsertInstructions( // insert unconditional branch to skip this check
                     new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)
                 )
                 .Retreat()

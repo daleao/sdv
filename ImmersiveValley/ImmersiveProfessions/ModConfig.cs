@@ -16,7 +16,7 @@ public class ModConfig
     public bool ShouldJunimosInheritProfessions { get; set; } = false;
 
     /// <summary>Add custom mod Artisan machines to this list to make them compatible with the profession.</summary>
-    public string[] CustomArtisanMachines { get; } = {
+    public string[] CustomArtisanMachines { get; set; } = {
         "Alembic", // artisan valley
         "Artisanal Soda Maker", // artisanal soda makers
         "Butter Churn", // artisan valley

@@ -1,12 +1,10 @@
-﻿using DaLion.Common.Extensions.Collections;
-
-namespace DaLion.Common.Events;
+﻿namespace DaLion.Common.Events;
 
 #region using directives
 
 using Attributes;
 using Commands;
-using Extensions.Reflection;
+using Extensions.Collections;
 using HarmonyLib;
 using StardewModdingAPI.Events;
 using System;
@@ -221,15 +219,15 @@ internal class EventManager
         foreach (var @event in ManagedEvents.OfType<TerrainFeatureListChangedEvent>())
             modEvents.World.TerrainFeatureListChanged += @event.OnTerrainFeatureListChanged;
 
-        // specialized
-        foreach (var @event in ManagedEvents.OfType<LoadStageChangedEvent>())
-            modEvents.Specialized.LoadStageChanged += @event.OnLoadStageChanged;
+        //// specialized
+        //foreach (var @event in ManagedEvents.OfType<LoadStageChangedEvent>())
+        //    modEvents.Specialized.LoadStageChanged += @event.OnLoadStageChanged;
 
-        foreach (var @event in ManagedEvents.OfType<UnvalidatedUpdateTickedEvent>())
-            modEvents.Specialized.UnvalidatedUpdateTicked += @event.OnUnvalidatedUpdateTicked;
+        //foreach (var @event in ManagedEvents.OfType<UnvalidatedUpdateTickedEvent>())
+        //    modEvents.Specialized.UnvalidatedUpdateTicked += @event.OnUnvalidatedUpdateTicked;
 
-        foreach (var @event in ManagedEvents.OfType<UnvalidatedUpdateTickingEvent>())
-            modEvents.Specialized.UnvalidatedUpdateTicking += @event.OnUnvalidatedUpdateTicking;
+        //foreach (var @event in ManagedEvents.OfType<UnvalidatedUpdateTickingEvent>())
+        //    modEvents.Specialized.UnvalidatedUpdateTicking += @event.OnUnvalidatedUpdateTicking;
 
         #endregion hookers
 
@@ -499,29 +497,25 @@ internal class EventManager
         Log.D($"Disabled {toDisable.Length} events.");
     }
 
-    /// <summary>Enable all <see cref="IManagedEvent"/> types starting with attribute <typeparamref name="T"/>.</summary>
-    /// <param name="except">Types to be excluded, if any.</param>
-    internal void EnableWithAttribute<T>(params Type[] except) where T : Attribute
+    /// <summary>Enable all <see cref="IManagedEvent"/> types starting with attribute <typeparamref name="TAttribute"/>.</summary>
+    internal void EnableWithAttribute<TAttribute>() where TAttribute : Attribute
     {
-        Log.D($"[EventManager]: Searching for events with {typeof(T).Name}...");
+        Log.D($"[EventManager]: Searching for events with {typeof(TAttribute).Name}...");
         var toEnable = ManagedEvents
             .Select(e => e.GetType())
-            .Where(t => t.GetCustomAttribute<T>() is not null)
-            .Except(except)
+            .Where(t => t.GetCustomAttribute<TAttribute>() is not null)
             .ToArray();
         Enable(toEnable);
         Log.D($"[EventManager]: Enabled {toEnable.Length} events.");
     }
 
-    /// <summary>Disable all <see cref="IManagedEvent"/> types starting with attribute <typeparamref name="T"/>.</summary>
-    /// <param name="except">Types to be excluded, if any.</param>
-    internal void DisableWithAttribute<T>(params Type[] except) where T : Attribute
+    /// <summary>Disable all <see cref="IManagedEvent"/> types starting with attribute <typeparamref name="TAttribute"/>.</summary>
+    internal void DisableWithAttribute<TAttribute>() where TAttribute : Attribute
     {
-        Log.D($"[EventManager]: Searching for events beginning with {typeof(T).Name}...");
+        Log.D($"[EventManager]: Searching for events beginning with {typeof(TAttribute).Name}...");
         var toDisable = ManagedEvents
             .Select(e => e.GetType())
-            .Where(t => t.GetCustomAttribute<T>() is not null)
-            .Except(except)
+            .Where(t => t.GetCustomAttribute<TAttribute>() is not null)
             .ToArray();
         Disable(toDisable);
         Log.D($"[EventManager]: Disabled {toDisable.Length} events.");

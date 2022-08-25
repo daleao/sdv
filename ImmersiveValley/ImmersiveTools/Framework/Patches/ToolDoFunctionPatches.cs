@@ -33,6 +33,15 @@ internal sealed class ToolDoFunctionPatches : Common.Harmony.HarmonyPatch
         }
     }
 
+    [HarmonyTargetMethods]
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        yield return typeof(Axe).RequireMethod(nameof(Axe.DoFunction));
+        yield return typeof(Hoe).RequireMethod(nameof(Hoe.DoFunction));
+        yield return typeof(Pickaxe).RequireMethod(nameof(Pickaxe.DoFunction));
+        yield return typeof(WateringCan).RequireMethod(nameof(WateringCan.DoFunction));
+    }
+
     #region harmony patches
 
     /// <summary>Add hard lower-bound to stamina cost.</summary>
@@ -51,7 +60,7 @@ internal sealed class ToolDoFunctionPatches : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Sub),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertySetter(nameof(Farmer.Stamina)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldc_R4, 1f),
                     new CodeInstruction(OpCodes.Call,
                         typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) }))
@@ -67,17 +76,4 @@ internal sealed class ToolDoFunctionPatches : Common.Harmony.HarmonyPatch
     }
 
     #endregion harmony patches
-
-    #region private methods
-
-    [HarmonyTargetMethods]
-    private static IEnumerable<MethodBase> TargetMethods()
-    {
-        yield return typeof(Axe).RequireMethod(nameof(Axe.DoFunction));
-        yield return typeof(Hoe).RequireMethod(nameof(Hoe.DoFunction));
-        yield return typeof(Pickaxe).RequireMethod(nameof(Pickaxe.DoFunction));
-        yield return typeof(WateringCan).RequireMethod(nameof(WateringCan.DoFunction));
-    }
-
-    #endregion private methods
 }

@@ -48,7 +48,7 @@ internal sealed class FishPondIsLegalFishForPondsPatch : DaLion.Common.Harmony.H
                 )
                 .GetOperand(out var resumeExecution)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(FishPondIsLegalFishForPondsPatch).RequireMethod(nameof(CanRaiseLegendaryFish))),

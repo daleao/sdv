@@ -8,7 +8,7 @@ using HarmonyLib;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("Annosz.UiInfoSuite2")]
+[UsedImplicitly, RequiresMod("Annosz.UiInfoSuite2", "2.2.6")]
 internal sealed class ExperienceBarGetExperienceRequiredToLevelPatch : DaLion.Common.Harmony.HarmonyPatch
 {
     private const int EXP_AT_LEVEL_TEN_I = 15000;
@@ -16,7 +16,7 @@ internal sealed class ExperienceBarGetExperienceRequiredToLevelPatch : DaLion.Co
     /// <summary>Construct an instance.</summary>
     internal ExperienceBarGetExperienceRequiredToLevelPatch()
     {
-        Target = "UIInfoSuite.UIElements.ExperienceBar".ToType().RequireMethod("GetExperienceRequiredToLevel");
+        Target = "UIInfoSuite2.UIElements.ExperienceBar".ToType().RequireMethod("GetExperienceRequiredToLevel");
     }
 
     #region harmony patches

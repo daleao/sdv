@@ -43,7 +43,7 @@ internal sealed class RingOnEquipPatch : Common.Harmony.HarmonyPatch
                 return false; // don't run original logic
             default:
                 if (__instance.ParentSheetIndex != ModEntry.GarnetRingIndex) return true; // run original logic
-                
+
                 // garnet ring to give +10% cdr
                 who.Increment("CooldownReduction", 0.1f);
                 return false; // don't run original logic

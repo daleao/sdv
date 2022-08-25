@@ -21,12 +21,15 @@ internal sealed class PickaxeDoFunctionPatch : Common.Harmony.HarmonyPatch
 
     /// <summary>Charge shockwave stamina cost.</summary>
     [HarmonyPostfix]
-    private static void PickaxeDoFunctionPostfix(int power, Farmer who)
+    private static void PickaxeDoFunctionPostfix(Farmer who)
     {
-        if (power > 0)
-            who.Stamina -=
-                (int)Math.Round(Math.Sqrt(Math.Max(2 * (power + 1) - who.MiningLevel * 0.1f, 0.1f) *
-                                          (int)Math.Pow(2d * (power + 1), 2d))) * ModEntry.Config.StaminaCostMultiplier;
+        var power = who.toolPower;
+        if (power <= 0) return;
+
+        who.Stamina -=
+            (int)Math.Round(Math.Sqrt(Math.Max(2 * (power + 1) - who.MiningLevel * 0.1f, 0.1f) *
+                                      (int)Math.Pow(2d * (power + 1), 2d))) *
+            (float)Math.Pow(ModEntry.Config.StaminaCostMultiplier, power);
     }
 
     #endregion harmony patches

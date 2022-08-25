@@ -707,20 +707,6 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                     fields[CRIT_POWER_I] = 2.ToString();
                     break;
 
-                // SLINGSHOTS
-                case 32: // regular
-                    fields[CRIT_CHANCE_I] = 0.ToString();
-                    fields[CRIT_POWER_I] = 1.ToString();
-                    break;
-                case 33: // master
-                    fields[CRIT_CHANCE_I] = 0.ToString();
-                    fields[CRIT_POWER_I] = 1.ToString();
-                    break;
-                case 34: // galaxy
-                    fields[CRIT_CHANCE_I] = 0.ToString();
-                    fields[CRIT_POWER_I] = 1.ToString();
-                    break;
-
                 // SCYTHES
                 case 47: // regular
                     fields[AOE_I] = 6.ToString();

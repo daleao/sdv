@@ -72,7 +72,7 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     public virtual bool Disable()
     {
         if (!_Enabled.Value || (_Enabled.Value = false)) return false;
-        
+
         OnDisabled();
         return true;
     }

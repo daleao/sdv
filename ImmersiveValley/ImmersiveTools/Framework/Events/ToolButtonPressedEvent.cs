@@ -20,6 +20,8 @@ internal sealed class ToolButtonPressedEvent : ButtonPressedEvent
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
+        if (!Context.IsWorldReady) return;
+
         var player = Game1.player;
         if (e.Button.IsUseToolButton() && !Game1.options.gamepadControls &&
             player.CurrentTool is Axe or Hoe or Pickaxe or WateringCan && !player.UsingTool && !player.isRidingHorse())

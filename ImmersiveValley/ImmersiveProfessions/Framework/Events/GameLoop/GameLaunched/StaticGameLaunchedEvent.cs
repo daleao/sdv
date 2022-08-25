@@ -64,11 +64,18 @@ internal sealed class StaticGameLaunchedEvent : GameLaunchedEvent
             new CustomOreNodesIntegration(registry).Register();
 
         // add Immersive Suite integration
-        ModEntry.ArsenalConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveArsenal");
-        ModEntry.PondsConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersivePonds");
-        ModEntry.RingsConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveRings");
-        ModEntry.TaxesConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveTaxes");
-        ModEntry.TweaksConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveTweaks");
+        if (registry.IsLoaded("DaLion.ImmersiveArsenal"))
+            ModEntry.ArsenalConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveArsenal");
+        if (registry.IsLoaded("DaLion.ImmersivePonds"))
+            ModEntry.PondsConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersivePonds");
+        if (registry.IsLoaded("DaLion.ImmersiveRings"))
+            ModEntry.RingsConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveRings");
+        if (registry.IsLoaded("DaLion.ImmersiveSlingshots"))
+            ModEntry.SlingshotsConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveSlingshots");
+        if (registry.IsLoaded("DaLion.ImmersiveTaxes"))
+            ModEntry.TaxesConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveTaxes");
+        if (registry.IsLoaded("DaLion.ImmersiveTweaks"))
+            ModEntry.TweaksConfig = ModEntry.ModHelper.ReadConfigExt("DaLion.ImmersiveTweaks");
 
         // add SVE integration
         ModEntry.SVEConfig = ModEntry.ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP");

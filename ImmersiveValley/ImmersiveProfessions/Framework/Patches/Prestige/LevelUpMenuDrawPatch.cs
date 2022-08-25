@@ -59,10 +59,10 @@ internal sealed class LevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldsfld)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Callvirt)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
                     new CodeInstruction(OpCodes.Call,
@@ -89,7 +89,7 @@ internal sealed class LevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 .GetOperand(out var isNotProfessionChooser)
                 .FindLabel((Label)isNotProfessionChooser)
                 .Retreat()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),

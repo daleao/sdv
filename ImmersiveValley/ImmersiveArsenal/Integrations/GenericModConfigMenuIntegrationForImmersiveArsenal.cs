@@ -2,6 +2,7 @@ namespace DaLion.Stardew.Arsenal.Integrations;
 
 #region using directives
 
+using Common.Extensions.SMAPI;
 using Common.Integrations.GenericModConfigMenu;
 using Framework.Events;
 using System;
@@ -59,7 +60,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 (config, value) =>
                 {
                     config.RebalancedWeapons = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/weapons");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                 }
             )
             .AddCheckbox(
@@ -94,9 +95,9 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 (config, value) =>
                 {
                     config.InfinityPlusOneWeapons = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/ObjectInformation");
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Strings/Locations");
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Strings/StringsFromCSFiles");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
                 }
             )
             .AddNumberField(
@@ -106,38 +107,6 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 (config, value) => config.RequiredKillCountToPurifyDarkSword = value,
                 0,
                 1000
-            )
-
-            .AddSectionTitle(() => "Slingshot Settings")
-            .AddCheckbox(
-                () => "Allow Slingshot Crit",
-                () => "Allows Slingshot to deal critical damage and be affected by critical modifiers.",
-                config => config.EnableSlingshotCrits,
-                (config, value) => config.EnableSlingshotCrits = value
-            )
-            .AddCheckbox(
-                () => "Allow Slingshot Enchants",
-                () => "Allow Slingshot to be enchanted with weapon enchantments (Prismatic Shard) at the Forge.",
-                config => config.EnableSlingshotEnchants,
-                (config, value) => config.EnableSlingshotEnchants = value
-            )
-            .AddCheckbox(
-                () => "Allow Slingshot Forges",
-                () => "Allow Slingshot to be enchanted with weapon forges (gemstones) at the Forge.",
-                config => config.EnableSlingshotForges,
-                (config, value) => config.EnableSlingshotForges = value
-            )
-            .AddCheckbox(
-                () => "Allow Slingshot Special Move",
-                () => "Add a new stunning smack special move for slingshots.",
-                config => config.EnableSlingshotSpecialMove,
-                (config, value) => config.EnableSlingshotSpecialMove = value
-            )
-            .AddCheckbox(
-                () => "Remove Slingshot Grace Period",
-                () => "Projectiles should not be useless for the first 100ms.",
-                config => config.DisableSlingshotGracePeriod,
-                (config, value) => config.DisableSlingshotGracePeriod = value
             )
 
             .AddSectionTitle(() => "Enchantment Settings")
@@ -155,7 +124,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 config => config.RemoveFarmerDefenseSoftCap,
                 (config, value) => config.RemoveFarmerDefenseSoftCap = value
             )
-            
+
 
             .AddSectionTitle(() => "Monster Settings")
             .AddNumberField(

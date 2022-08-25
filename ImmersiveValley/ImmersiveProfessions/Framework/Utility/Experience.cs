@@ -14,6 +14,7 @@ internal static class Experience
 
     internal static Dictionary<int, int> ExperienceByLevel = new()
     {
+        { 0, 0 },
         { 1, 100 },
         { 2, 380 },
         { 3, 770 },

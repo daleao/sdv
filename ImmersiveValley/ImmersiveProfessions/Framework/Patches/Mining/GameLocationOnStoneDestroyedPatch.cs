@@ -39,7 +39,7 @@ internal sealed class GameLocationOnStoneDestroyedPatch : DaLion.Common.Harmony.
             helper
                 .FindProfessionCheck(Farmer.burrower) // find index of prospector check
                 .Retreat()
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Mul) // remove this check
                 );
         }

@@ -48,15 +48,15 @@ internal sealed class BeachGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Brtrue_S)
                 )
                 .GetOperand(out var skipLegendary)
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new(OpCodes.Brfalse_S, checkSeason))
                 .Advance()
                 .AddLabels(checkSeason)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Angler.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, skipLegendary)
                 );
         }

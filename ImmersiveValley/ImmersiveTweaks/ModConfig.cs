@@ -39,6 +39,9 @@ public class ModConfig
     /// <summary>Mead should take after Honey type.</summary>
     public bool KegsRememberHoneyFlower { get; set; } = true;
 
+    /// <summary>The Mill's output should consider the quality of the ingredient.</summary>
+    public bool MillsPreserveQuality { get; set; } = true;
+
     /// <summary>Bombs within any explosion radius are immediately triggered.</summary>
     public bool ExplosionTriggeredBombs { get; set; } = true;
 }

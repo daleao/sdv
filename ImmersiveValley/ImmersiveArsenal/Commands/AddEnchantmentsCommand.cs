@@ -22,14 +22,14 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
     public override string[] Triggers { get; } = { "add_enchants", "add", "enchant" };
 
     /// <inheritdoc />
-    public override string Documentation => "Add the specified enchantments to the selected weapon or slingshot." + GetUsage();
+    public override string Documentation => "Add the specified enchantments to the selected weapon." + GetUsage();
 
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (Game1.player.CurrentTool is not ({ } tool and (MeleeWeapon or Slingshot)))
+        if (Game1.player.CurrentTool is not MeleeWeapon weapon)
         {
-            Log.W("You must select a weapon or slingshot first.");
+            Log.W("You must select a weapon first.");
             return;
         }
 
@@ -57,11 +57,6 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 "energized" => new EnergizedEnchantment(),
                 "tribute" or "gold" => new TributeEnchantment(),
 
-                // slingshot enchants
-                "gatling" => new GatlingEnchantment(),
-                "quincy" => new QuincyEnchantment(),
-                "spreading" => new SpreadingEnchantment(),
-
                 _ => null
             };
 
@@ -72,15 +67,15 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 continue;
             }
 
-            if (!enchantment.CanApplyTo(tool))
+            if (!enchantment.CanApplyTo(weapon))
             {
-                Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
+                Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {weapon.DisplayName}.");
                 args = args.Skip(1).ToArray();
                 continue;
             }
 
-            tool.enchantments.Add(enchantment);
-            Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
+            weapon.enchantments.Add(enchantment);
+            Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {weapon.DisplayName}.");
 
             args = args.Skip(1).ToArray();
         }

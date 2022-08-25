@@ -4,6 +4,7 @@
 
 using Common;
 using Common.Events;
+using Common.Extensions.SMAPI;
 using Common.Extensions.Stardew;
 using Extensions;
 using StardewModdingAPI.Events;
@@ -43,7 +44,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
                     player.Write("DeductionPct",
                         deductible.ToString(CultureInfo.InvariantCulture));
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/mail");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
                     player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxDeduction");
                     Log.I(
                         FormattableString.CurrentCulture(
@@ -68,7 +69,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                         player.Money -= amountDue;
                         amountPaid = amountDue;
                         amountDue = 0;
-                        ModEntry.ModHelper.GameContent.InvalidateCache("Data/mail");
+                        ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
                         player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxNotice");
                         Log.I("Amount due has been paid in full." +
                               " An FRS taxation notice has been posted for tomorrow.");
@@ -79,7 +80,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                         amountPaid = player.Money + dayIncome;
                         amountDue -= amountPaid;
                         player.Increment("DebtOutstanding", amountDue);
-                        ModEntry.ModHelper.GameContent.InvalidateCache("Data/mail");
+                        ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
                         player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxOutstanding");
                         Log.I(
                             $"{player.Name} did not carry enough funds to cover the amount due." +

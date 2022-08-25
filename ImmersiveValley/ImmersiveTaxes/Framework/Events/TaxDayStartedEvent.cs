@@ -21,6 +21,6 @@ internal sealed class TaxDayStartedEvent : DayStartedEvent
         if (ModEntry.LatestAmountDebited.Value > 0)
             Game1.addHUDMessage(
                 new(ModEntry.i18n.Get("debt.debit", new { amount = ModEntry.LatestAmountDebited }), HUDMessage.newQuest_type)
-                    { timeLeft = HUDMessage.defaultTime * 2 });
+                { timeLeft = HUDMessage.defaultTime * 2 });
     }
 }

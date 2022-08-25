@@ -29,6 +29,7 @@ internal sealed class GreenSlimeDrawPatch : DaLion.Common.Harmony.HarmonyPatch
     #region harmony patches
 
     /// <summary>Patch to fix Green Slime eye and antenna position when inflated.</summary>
+    [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? GreenSlimeDrawTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original)
     {
@@ -61,22 +62,22 @@ internal sealed class GreenSlimeDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 )
                 .Retreat()
                 .GetInstructions(out var got, advance: true) // copy vector addition instruction
-                .Insert( // insert custom offset
+                .InsertInstructions( // insert custom offset
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(GreenSlimeDrawPatch).RequireMethod(nameof(GetAntennaeOffset)))
                 )
-                .Insert(got) // insert addition
+                .InsertInstructions(got) // insert addition
                 .FindNext(drawInstructions) // find eyes draw call
                 .AdvanceUntil( // advance until end of position argument
                     new CodeInstruction(OpCodes.Ldc_I4_S, 32)
                 )
-                .Insert( // insert custom offset
+                .InsertInstructions( // insert custom offset
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(GreenSlimeDrawPatch).RequireMethod(nameof(GetEyesOffset)))
                 )
-                .Insert(got); // insert addition
+                .InsertInstructions(got); // insert addition
         }
         catch (Exception ex)
         {

@@ -23,7 +23,7 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
     {
         var player = Game1.player;
         if ((!e.Button.IsActionButton() && !e.Button.IsUseToolButton()) || Game1.options.gamepadControls ||
-            player.CurrentTool is not (MeleeWeapon or Slingshot) || player.UsingTool || player.isRidingHorse()) return;
+            player.CurrentTool is not MeleeWeapon || player.UsingTool || player.isRidingHorse()) return;
 
         var direction = player.FacingDirection;
         player.FaceTowardsTile(Game1.currentCursorTile);

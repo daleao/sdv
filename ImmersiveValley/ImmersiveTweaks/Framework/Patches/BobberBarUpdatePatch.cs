@@ -43,7 +43,7 @@ internal sealed class BobberBarUpdatePatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).RequireField("bobberBarPos")),
                     new CodeInstruction(OpCodes.Ldc_R4, 274f)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Br_S)
                 );
         }

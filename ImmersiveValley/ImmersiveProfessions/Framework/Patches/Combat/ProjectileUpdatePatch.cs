@@ -52,7 +52,7 @@ internal sealed class ProjectileUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                 )
                 .Advance()
                 .AddLabels(notTrickShot)
-                .Insert(
+                .InsertInstructions(
                     // check if this is BasicProjectile
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Isinst, typeof(ImmersiveProjectile)),

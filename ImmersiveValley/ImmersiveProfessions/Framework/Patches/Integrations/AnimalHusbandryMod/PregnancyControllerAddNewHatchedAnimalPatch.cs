@@ -48,7 +48,7 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : DaLion.Commo
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Nop)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldloc_1),
                     new CodeInstruction(OpCodes.Call,
                         typeof(PregnancyControllerAddNewHatchedAnimalPatch).RequireMethod(nameof(AddNewHatchedAnimalSubroutine)))
@@ -56,7 +56,9 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : DaLion.Commo
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching Rancher husbanded newborn friendship.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching Rancher husbanded newborn friendship." +
+                  "\n—-- Do NOT report this to Animal Husbandry's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

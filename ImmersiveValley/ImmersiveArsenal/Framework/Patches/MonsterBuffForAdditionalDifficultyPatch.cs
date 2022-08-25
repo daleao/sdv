@@ -26,11 +26,11 @@ internal sealed class MonsterBuffForAdditionalDifficultyPatch : Common.Harmony.H
         if (ModEntry.Config.VariedMonsterStats)
         {
             var r = new Random(Guid.NewGuid().GetHashCode());
-            
+
             var luckModifier = Game1.player.DailyLuck * 3d + 1d;
-            __instance.Health = (int) (__instance.Health * r.Next(80, 121) / 1000d * luckModifier);
-            __instance.DamageToFarmer = (int) (__instance.DamageToFarmer * r.Next(10, 41) / 10d * luckModifier);
-            __instance.resilience.Value = (int) (__instance.resilience.Value * r.Next(10, 21) / 10d * luckModifier);
+            __instance.Health = (int)(__instance.Health * r.Next(80, 121) / 1000d * luckModifier);
+            __instance.DamageToFarmer = (int)(__instance.DamageToFarmer * r.Next(10, 41) / 10d * luckModifier);
+            __instance.resilience.Value = (int)(__instance.resilience.Value * r.Next(10, 21) / 10d * luckModifier);
 
             var addedSpeed = r.NextDouble() > 0.5 + Game1.player.DailyLuck * 2d ? 1 :
                 r.NextDouble() < 0.5 - Game1.player.DailyLuck * 2d ? -1 : 0;

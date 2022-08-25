@@ -187,12 +187,12 @@ Note that only a single special ability can be registered at any time; if the Co
 
 - ![](resources/assets/sprites/loose/undyingrage.png) **Undying Frenzy (Brute / Amazon)** - Doubles rage accumulation for 15s. Immune to passing out. When the effect ends, recovers 5% health for every enemy slain while the buff was active.
     - Charged by taking damage or defeating enemies. Charges more quickly if wielding a blunt weapon.
-- ![](resources/assets/sprites/loose/cloaking.png) **Ambuscade (Bushwhacker)** - Become invisible and untargetable for 30s. Effect ends prematurely if the player attacks an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration.
+- ![](resources/assets/sprites/loose/cloaking.png) **Ambuscade (Bushwhacker)** - Become invisible and untargetable for 30s. Effect ends prematurely if the player attacks an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration. If an enemy is slain within 1.5s out of Ambush, immediately regain 50% special ability charge.
     - Charged by scoring critical hits. Consider wielding a dagger.
 - ![](resources/assets/sprites/loose/bullettime.png) **Death Blossom (Desperado)** - Enable auto-reload for 15s. Fire in eight directions at once.
   - Journey of the Prairie King, "IRL".
   - Charged by hitting monsters with projectiles. Charges more quickly when low on health.
-- ![](resources/assets/sprites/loose/superfluidity.png) **Enthrall (Slimed Piper / Slime Enchantress)** - Charm nearby Slimes for 30s. Charmed Slimes increase in size and power and will seek out other enemies. Enemies hit will aggro onto the Slime.
+- ![](resources/assets/sprites/loose/superfluidity.png) **Hamelin Concerto (Slimed Piper)** - Charm nearby Slimes for 30s. Charmed Slimes increase in size and power and will seek out other enemies. Enemies hit will aggro onto the Slime.
   - Slimes scale up factor is random, up to twice the original size. Slimes gain a proportional damage and health boost.
   - If defeated, engorged Slimes break up into smaller baby Slimes.
   - There is also a low chance to convert Slimes to a special variant. If "Prismatic Jelly" special order is active, low chance to convert the Slime to prismatic variant.

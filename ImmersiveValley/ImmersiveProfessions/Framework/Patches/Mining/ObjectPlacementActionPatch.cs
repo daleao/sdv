@@ -50,13 +50,13 @@ internal sealed class ObjectPlacementActionPatch : DaLion.Common.Harmony.Harmony
                         typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite.shakeIntensity)))
                 )
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)4)
                 )
                 .InsertProfessionCheck(Profession.Demolitionist.Value, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),

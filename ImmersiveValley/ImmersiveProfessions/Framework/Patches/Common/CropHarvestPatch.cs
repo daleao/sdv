@@ -48,11 +48,11 @@ internal sealed class CropHarvestPatch : DaLion.Common.Harmony.HarmonyPatch
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_4) // start of @object.Quality = 4
                 )
-                .ReplaceWith( // replace with custom quality
+                .ReplaceInstructionWith( // replace with custom quality
                     new(OpCodes.Call,
                         typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player)))
                 );
         }
@@ -83,7 +83,7 @@ internal sealed class CropHarvestPatch : DaLion.Common.Harmony.HarmonyPatch
                 .Advance()
                 .AddLabels(dontIncreaseEcologistCounter)
                 .InsertProfessionCheck(Profession.Ecologist.Value)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldc_I4_0), // DataField.EcologistItemsForaged
@@ -113,7 +113,7 @@ internal sealed class CropHarvestPatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Blt_S)
                 )
                 .InsertProfessionCheck(Profession.Agriculturist.Value)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brtrue_S, isAgriculturist)
                 )
                 .AdvanceUntil( // find start of dice roll
@@ -160,7 +160,7 @@ internal sealed class CropHarvestPatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Call, typeof(CropHarvestPatch).RequireMethod(nameof(ShouldIncreaseHarvestYield))),
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseNumToHarvest)
                 )
-                .Insert(got); // insert numToHarvest++
+                .InsertInstructions(got); // insert numToHarvest++
         }
         catch (Exception ex)
         {

@@ -5,11 +5,10 @@
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Xna;
+using Events.GameLoop;
 using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Sounds;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 using System;
@@ -31,7 +30,7 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
     {
         Target = RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
         Prefix!.priority = Priority.High;
-        Prefix!.after = new[] { "DaLion.ImmersiveArsenal" };
+        Prefix!.after = new[] { "DaLion.ImmersiveSlingshots" };
     }
 
     #region harmony patches
@@ -39,14 +38,14 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and Ultimate.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
-    [HarmonyAfter("DaLion.ImmersiveArsenal")]
+    [HarmonyAfter("DaLion.ImmersiveSlingshots")]
     private static bool SlingshotPerformFirePrefix(Slingshot __instance, ref bool ___canPlaySound,
         GameLocation location, Farmer who)
     {
         try
         {
             var hasQuincyEnchantment = __instance.enchantments.FirstOrDefault(e =>
-                e.GetType().FullName?.Contains("Arsenal") == true &&
+                e.GetType().FullName?.Contains("Slingshots") == true &&
                 e.GetType().FullName?.Contains("QuincyEnchantment") == true) is not null;
             if (__instance.attachments[0] is null && !hasQuincyEnchantment)
             {
@@ -133,8 +132,7 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
             {
                 x *= overcharge;
                 y *= overcharge;
-                who.stopJittering();
-                SFX.SinWave?.Stop(AudioStopOptions.Immediate);
+                ModEntry.Events.Disable<DesperadoUpdateTickedEvent>();
             }
 
             if (Game1.options.useLegacySlingshotFiring)
@@ -163,7 +161,7 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
                 IgnoreLocationCollision = Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
             };
 
-            
+
             if (ammo is null) projectile.startingScale.Value *= overcharge * overcharge;
 
             location.projectiles.Add(projectile);

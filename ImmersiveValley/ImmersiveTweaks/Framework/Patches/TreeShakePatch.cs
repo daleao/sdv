@@ -51,11 +51,11 @@ internal sealed class TreeShakePatch : Common.Harmony.HarmonyPatch
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_0)
                 )
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Call,
                         typeof(TreeShakePatch).RequireMethod(nameof(GetCoconutQuality)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldloc_2)
                 )
                 // the golden coconut
@@ -66,11 +66,11 @@ internal sealed class TreeShakePatch : Common.Harmony.HarmonyPatch
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_0)
                 )
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Call,
                         typeof(TreeShakePatch).RequireMethod(nameof(GetCoconutQuality)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldc_I4, 791)
                 );
         }

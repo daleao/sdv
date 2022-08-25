@@ -13,7 +13,7 @@ using StardewValley.Objects;
 public sealed class GarnetRing : Ring
 {
     public static int Index = (ModEntry.Manifest.UniqueID + "GarnetRing").GetDeterministicHashCode();
-    
+
     public static Texture2D Texture = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/Garnet");
 
     public GarnetRing()
@@ -24,7 +24,7 @@ public sealed class GarnetRing : Ring
         indexInTileSheet.Value = Index;
         ParentSheetIndex = Index;
         uniqueID.Value = Game1.year + Game1.dayOfMonth + Game1.timeOfDay + Index +
-                         Game1.player.getTileX() + (int) Game1.stats.MonstersKilled + (int) Game1.stats.itemsCrafted;
+                         Game1.player.getTileX() + (int)Game1.stats.MonstersKilled + (int)Game1.stats.itemsCrafted;
         loadDisplayFields();
     }
 

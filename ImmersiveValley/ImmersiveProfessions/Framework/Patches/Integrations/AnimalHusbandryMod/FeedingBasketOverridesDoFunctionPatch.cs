@@ -57,38 +57,40 @@ internal sealed class FeedingBasketOverridesDoFunctionPatch : DaLion.Common.Harm
                 )
                 .GetOperand(out var isNotRancher)
                 .Return(2)
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Nop)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)5) // arg 5 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Rancher.Value, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotRancher)
                 )
                 .GetInstructionsUntil(out var got,
                     pattern: new CodeInstruction(OpCodes.Stloc_S, $"{typeof(double)} (7)")
                 )
-                .Insert(got)
-                .Insert(
+                .InsertInstructions(got)
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)5)
                 )
                 .InsertProfessionCheck(Profession.Rancher.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged)
                 )
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Nop)
                 )
-                .Remove()
+                .RemoveInstructions()
                 .AddLabels(isNotPrestiged);
 
         }
         catch (Exception ex)
         {
             Log.E(
-                $"Failed while moving combined feeding basket Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}");
+                "Immersive Professions failed while moving combined feeding basket Coopmaster + Shepherd friendship bonuses to Rancher." +
+                "\n—-- Do NOT report this to Animal Husbandry's author. ---" +
+                $"\nHelper returned {ex}");
             return null;
         }
 

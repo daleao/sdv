@@ -50,65 +50,75 @@ internal static class ExtendedAutomateAPI
 
     /// <summary>Get the closest <see cref="Chest"/> to the given automated <see cref="Building"/> machine.</summary>
     /// <param name="machine">An automated <see cref="Building"/> machine.</param>
-    public static Chest GetClosestContainerTo(Building machine)
+    public static Chest? GetClosestContainerTo(Building machine)
     {
         if (_Mod is null) ThrowHelper.ThrowInvalidOperationException("The extended API was not initialized.");
 
-        var machineManager = GetMachineManager.Value(_Mod!);
+        var machineManager = GetMachineManager.Value(_Mod);
         var machineData = (IDictionary)GetMachineData.Value(machineManager);
         var locationKey = GetLocationKey(Game1.getFarm());
         var index = machineData.Keys.Cast<string>().ToList().FindIndex(s => s == locationKey);
         var machineDataForLocation = machineData.Values.Cast<object>().ElementAt(index)!;
         var activeTiles = (IDictionary)GetActiveTiles.Value(machineDataForLocation);
-        var index2 = activeTiles.Keys.Cast<Vector2>().ToList()
-            .FindIndex(v => v == new Vector2(machine.tileX.Value, machine.tileY.Value));
-        var machineGroup = activeTiles.Keys.Cast<object>().ElementAt(index2);
+        if (activeTiles.Count <= 0) return null;
 
+        var index2 = activeTiles.Keys.Cast<Vector2>().ToList()
+            .FindIndex(v => (int)v.X == machine.tileX.Value && (int)v.Y == machine.tileY.Value);
+        var machineGroup = activeTiles.Keys.Cast<object>().ElementAt(index2);
         var containers = (Array)GetContainers.Value(machineGroup);
         var chests = containers.Cast<object>().Select(c => GetChest.Value(c));
 
-        return machine.GetClosestObject(chests)!;
+        return machine.GetClosestObject(chests);
     }
 
-    /// <summary>Get the closest <see cref="Chest"/> to the given automated <see cref="Building"/> machine.</summary>
+    /// <summary>Get the closest <see cref="Chest"/> to the given automated <see cref="SObject"/> machine.</summary>
     /// <param name="machine">An automated <see cref="SObject"/> machine.</param>
     /// <param name="location">The machine's location.</param>
-    public static Chest GetClosestContainerTo(SObject machine, GameLocation location)
+    public static Chest? GetClosestContainerTo(SObject machine, GameLocation location)
     {
         if (_Mod is null) ThrowHelper.ThrowInvalidOperationException("The extended API was not initialized.");
 
-        var machineManager = GetMachineManager.Value(_Mod!);
+        var machineManager = GetMachineManager.Value(_Mod);
         var machineData = (IDictionary)GetMachineData.Value(machineManager);
         var locationKey = GetLocationKey(location);
         var index = machineData.Keys.Cast<string>().ToList().FindIndex(s => s == locationKey);
         var machineDataForLocation = machineData.Values.Cast<object>().ElementAt(index)!;
         var activeTiles = (IDictionary)GetActiveTiles.Value(machineDataForLocation);
-        var index2 = activeTiles.Keys.Cast<Vector2>().ToList().FindIndex(v => v == machine.TileLocation);
+        if (activeTiles.Count <= 0) return null;
+
+        var index2 = activeTiles.Keys.Cast<Vector2>().ToList().FindIndex(v =>
+            (int)v.X == (int)machine.TileLocation.X && (int)v.Y == (int)machine.TileLocation.Y);
         var machineGroup = activeTiles.Values.Cast<object>().ElementAt(index2);
         var containers = (Array)GetContainers.Value(machineGroup);
         var chests = containers.Cast<object>().Select(c => GetChest.Value(c));
 
-        return machine.GetClosestObject(location, chests)!;
+        return machine.GetClosestObject(location, chests);
     }
 
-    /// <summary>Get the closest <see cref="Chest"/> to the given automated <see cref="Building"/> machine.</summary>
+    /// <summary>Get the closest <see cref="Chest"/> to the given automated <see cref="TerrainFeature"/> machine.</summary>
     /// <param name="machine">An automated <see cref="TerrainFeature"/> machine.</param>
-    public static Chest GetClosestContainerTo(TerrainFeature machine)
+    public static Chest? GetClosestContainerTo(TerrainFeature machine)
     {
         if (_Mod is null) ThrowHelper.ThrowInvalidOperationException("The extended API was not initialized.");
 
-        var machineManager = GetMachineManager.Value(_Mod!);
+        var machineManager = GetMachineManager.Value(_Mod);
         var machineData = (IDictionary)GetMachineData.Value(machineManager);
         var locationKey = GetLocationKey(machine.currentLocation);
         var index = machineData.Keys.Cast<string>().ToList().FindIndex(s => s == locationKey);
         var machineDataForLocation = machineData.Values.Cast<object>().ElementAt(index)!;
         var activeTiles = (IDictionary)GetActiveTiles.Value(machineDataForLocation);
-        var index2 = activeTiles.Keys.Cast<Vector2>().ToList().FindIndex(v => v == machine.currentTileLocation);
-        var machineGroup = activeTiles.Keys.Cast<object>().ElementAt(index2);
+        if (activeTiles.Count <= 0) return null;
+
+        var tileLocation = machine is LargeTerrainFeature large
+            ? large.tilePosition.Value
+            : machine.currentTileLocation;
+        var index2 = activeTiles.Keys.Cast<Vector2>().ToList()
+            .FindIndex(v => (int)v.X == (int)tileLocation.X && (int)v.Y == (int)tileLocation.Y);
+        var machineGroup = activeTiles.Values.Cast<object>().ElementAt(index2);
         var containers = (Array)GetContainers.Value(machineGroup);
         var chests = containers.Cast<object>().Select(c => GetChest.Value(c));
 
-        return machine.GetClosestObject(chests)!;
+        return machine.GetClosestObject(chests);
     }
 
     #endregion public methods

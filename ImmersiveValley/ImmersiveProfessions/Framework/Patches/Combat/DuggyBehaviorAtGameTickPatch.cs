@@ -45,7 +45,7 @@ internal sealed class DuggyBehaviorAtGameTickPatch : DaLion.Common.Harmony.Harmo
                 .Advance()
                 .GetOperand(out var dontDoDamage)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call, typeof(Monster).RequirePropertyGetter(nameof(Monster.Player))),
                     new CodeInstruction(OpCodes.Call,
@@ -56,7 +56,6 @@ internal sealed class DuggyBehaviorAtGameTickPatch : DaLion.Common.Harmony.Harmo
         catch (Exception ex)
         {
             Log.E($"Failed while hiding ambushing Poacher from Duggies.\nHelper returned {ex}");
-
             return null;
         }
 

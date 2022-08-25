@@ -37,7 +37,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
         {
             _BeginSpecialMove.Value(sword, user);
 
-            var trajectory = Common.Utility.VectorFromFacingDirection((FacingDirection) user.FacingDirection) *
+            var trajectory = Common.Utility.VectorFromFacingDirection((FacingDirection)user.FacingDirection) *
                              (25f + Game1.player.addedSpeed * 2.5f);
             user.setTrajectory(trajectory);
 

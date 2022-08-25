@@ -45,7 +45,7 @@ internal sealed class BushShakePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldc_I4_4)
                 )
                 .GetLabels(out var labels) // backup branch labels
-                .ReplaceWith( // replace with custom quality
+                .ReplaceInstructionWith( // replace with custom quality
                     new(OpCodes.Call,
                         typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality)))
                 )
@@ -74,7 +74,7 @@ internal sealed class BushShakePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
                 .InsertProfessionCheck(Profession.Ecologist.Value)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(OpCodes.Ldstr, "EcologistItemsForaged"),

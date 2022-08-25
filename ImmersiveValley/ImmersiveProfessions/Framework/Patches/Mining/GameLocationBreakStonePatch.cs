@@ -43,11 +43,11 @@ internal sealed class GameLocationBreakStonePatch : DaLion.Common.Harmony.Harmon
                     new CodeInstruction(OpCodes.Stloc_1)
                 )
                 .AddLabels(isNotPrestiged)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Miner.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Add)
@@ -95,7 +95,7 @@ internal sealed class GameLocationBreakStonePatch : DaLion.Common.Harmony.Harmon
                 )
                 .GetOperand(out var isNotProspector) // copy destination
                 .Return()
-                .Insert( // insert uncoditional branch to skip this check
+                .InsertInstructions( // insert uncoditional branch to skip this check
                     new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector)
                 );
         }

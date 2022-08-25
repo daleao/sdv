@@ -44,7 +44,7 @@ internal sealed class CrabPotPerformObjectDropInActionPatch : DaLion.Common.Harm
                 .RetreatUntil(
                     new CodeInstruction(OpCodes.Ldloc_1)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Brtrue_S)
                 );
         }

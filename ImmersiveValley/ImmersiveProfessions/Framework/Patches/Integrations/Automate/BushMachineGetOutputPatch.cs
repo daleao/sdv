@@ -45,7 +45,7 @@ internal sealed class BushMachineGetOutputPatch : DaLion.Common.Harmony.HarmonyP
             helper
                 .FindProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
                 .Retreat()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         "Pathoschild.Stardew.Automate.Framework.BaseMachine`1".ToType().MakeGenericType(typeof(SObject))
@@ -53,14 +53,16 @@ internal sealed class BushMachineGetOutputPatch : DaLion.Common.Harmony.HarmonyP
                     new CodeInstruction(OpCodes.Call,
                         typeof(BushMachineGetOutputPatch).RequireMethod(nameof(GetOutputSubroutine)))
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_4)
                 )
                 .RemoveLabels();
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching automated Berry Bush quality.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching automated Berry Bush quality." +
+                  "\n—-- Do NOT report this to Automate's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 
@@ -74,7 +76,7 @@ internal sealed class BushMachineGetOutputPatch : DaLion.Common.Harmony.HarmonyP
     private static int GetOutputSubroutine(Bush machine)
     {
         var chest = ExtendedAutomateAPI.GetClosestContainerTo(machine);
-        var user = ModEntry.Config.LaxOwnershipRequirements ? Game1.player : chest.GetOwner();
+        var user = ModEntry.Config.LaxOwnershipRequirements ? Game1.player : chest?.GetOwner() ?? Game1.MasterPlayer;
         return user.HasProfession(Profession.Ecologist) ? user.GetEcologistForageQuality() : SObject.lowQuality;
     }
 

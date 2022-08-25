@@ -46,7 +46,7 @@ internal sealed class FruitTreePerformToolAction : DaLion.Common.Harmony.Harmony
             helper
                 .FindProfessionCheck(Profession.Lumberjack.Value, true)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
                     new CodeInstruction(OpCodes.Callvirt,
@@ -60,7 +60,7 @@ internal sealed class FruitTreePerformToolAction : DaLion.Common.Harmony.Harmony
                 )
                 .Advance()
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .InsertWithLabels(

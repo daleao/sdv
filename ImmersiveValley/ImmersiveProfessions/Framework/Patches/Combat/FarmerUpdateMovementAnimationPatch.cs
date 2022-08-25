@@ -46,7 +46,7 @@ internal sealed class FarmerUpdateMovementAnimationPatch : DaLion.Common.Harmony
                 .Advance()
                 .GetOperand(out var dontRet)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call, typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IsDesperadoCharging))),
                     new CodeInstruction(OpCodes.Brtrue_S, dontRet)

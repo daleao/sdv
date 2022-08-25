@@ -53,12 +53,14 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
             if (enchantment is null)
             {
                 Log.W($"Ignoring unknown enchantment {args[0]}.");
+                args = args.Skip(1).ToArray();
                 continue;
             }
 
             if (!enchantment.CanApplyTo(tool))
             {
                 Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
+                args = args.Skip(1).ToArray();
                 continue;
             }
 

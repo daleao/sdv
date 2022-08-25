@@ -26,13 +26,10 @@ internal sealed class NewForgeMenuIsValidUnforgePatch : Common.Harmony.HarmonyPa
     [HarmonyPostfix]
     private static void NewForgeMenuIsValidUnforgePostfix(IClickableMenu __instance, ref bool __result)
     {
+        if (__result) return;
+
         var item = ExtendedSpaceCoreAPI.GetNewForgeMenuLeftIngredientSpot.Value(__instance).item;
-        __result = item switch
-        {
-            Slingshot slingshot when slingshot.GetTotalForgeLevels() > 0 => true,
-            MeleeWeapon { InitialParentTileIndex: Constants.HOLY_BLADE_INDEX_I } => true,
-            _ => __result
-        };
+        __result = item is MeleeWeapon { InitialParentTileIndex: Constants.HOLY_BLADE_INDEX_I };
     }
 
     #endregion harmony patches

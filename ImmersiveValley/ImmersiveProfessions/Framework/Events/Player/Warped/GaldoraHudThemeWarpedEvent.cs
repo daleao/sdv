@@ -4,6 +4,7 @@
 
 using Common.Events;
 using Common.Extensions;
+using Common.Extensions.SMAPI;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -27,6 +28,6 @@ internal sealed class GaldoraHudThemeWarpedEvent : WarpedEvent
 
         if (e.NewLocation.NameOrUniqueName.IsIn("Custom_CastleVillageOutpost", "Custom_CrimsonBadlands",
                 "Custom_IridiumQuarry", "Custom_TreasureCave"))
-            ModEntry.ModHelper.GameContent.InvalidateCache($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
+            ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
     }
 }

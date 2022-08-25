@@ -21,8 +21,6 @@ using System.Reflection.Emit;
 [UsedImplicitly, RequiresMod("Pathoschild.Automate")]
 internal sealed class GenericObjectMachinePatches : DaLion.Common.Harmony.HarmonyPatch
 {
-    private static string? _target;
-
     /// <summary>Construct an instance.</summary>
     internal GenericObjectMachinePatches()
     {
@@ -35,9 +33,21 @@ internal sealed class GenericObjectMachinePatches : DaLion.Common.Harmony.Harmon
         foreach (var target in TargetMethods())
         {
             Target = target;
-            _target = target.Name;
             base.ApplyImpl(harmony);
         }
+    }
+
+    [HarmonyTargetMethods]
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        yield return "Pathoschild.Stardew.Automate.Framework.GenericObjectMachine`1".ToType()
+            .MakeGenericType(typeof(SObject))
+            .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
+            .First(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3);
+        yield return "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType()
+            .RequireMethod("SetInput");
+        yield return "Pathoschild.Stardew.Automate.Framework.Machines.Objects.LoomMachine".ToType()
+            .RequireMethod("SetInput");
     }
 
     #region harmony patches
@@ -45,7 +55,7 @@ internal sealed class GenericObjectMachinePatches : DaLion.Common.Harmony.Harmon
     /// <summary>Patch to apply Artisan effects to automated generic machines.</summary>
     [HarmonyTranspiler]
     [HarmonyAfter("DaLion.ImmersiveTweaks")]
-    private static IEnumerable<CodeInstruction>? GenericObjectMachineGenericPullRecipeTranspiler(
+    private static IEnumerable<CodeInstruction>? GenericObjectMachineTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -60,7 +70,7 @@ internal sealed class GenericObjectMachinePatches : DaLion.Common.Harmony.Harmon
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Ret)
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         "Pathoschild.Stardew.Automate.Framework.BaseMachine`1".ToType().MakeGenericType(typeof(SObject))
@@ -69,18 +79,18 @@ internal sealed class GenericObjectMachinePatches : DaLion.Common.Harmony.Harmon
                     new CodeInstruction(OpCodes.Call,
                         "Pathoschild.Stardew.Automate.Framework.BaseMachine".ToType()
                             .RequirePropertyGetter("Location")),
-                    new CodeInstruction(_target!.Contains("Loom") ? OpCodes.Ldloc_1 : OpCodes.Ldloc_0),
+                    new CodeInstruction(original.DeclaringType!.Name.Contains("Loom") ? OpCodes.Ldloc_1 : OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Callvirt,
                         "Pathoschild.Stardew.Automate.IConsumable".ToType().RequirePropertyGetter("Sample")),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(GenericObjectMachinePatches).RequireMethod(_target!.Contains("GeodeCrusher")
-                            ? nameof(ApplyGemologistPerks)
-                            : nameof(ApplyArtisanPerks)))
+                        typeof(GenericObjectMachinePatches).RequireMethod(nameof(ApplyArtisanPerks)))
                 );
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching modded Artisan behavior for generic Automate machines.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching modded Artisan behavior for generic Automate machines." +
+                  "\n—-- Do NOT report this to Automate's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 
@@ -89,22 +99,7 @@ internal sealed class GenericObjectMachinePatches : DaLion.Common.Harmony.Harmon
 
     #endregion harmony patches
 
-    #region private methods
-
-    [HarmonyTargetMethods]
-    private static IEnumerable<MethodBase> TargetMethods()
-    {
-        yield return "Pathoschild.Stardew.Automate.Framework.GenericObjectMachine`1".ToType()
-            .MakeGenericType(typeof(SObject))
-            .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
-            .First(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3);
-        yield return "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType()
-            .RequireMethod("SetInput");
-        yield return "Pathoschild.Stardew.Automate.Framework.Machines.Objects.LoomMachine".ToType()
-            .RequireMethod("SetInput");
-        yield return "Pathoschild.Stardew.Automate.Framework.Machines.Objects.GeodeCrusherMachine".ToType()
-            .RequireMethod("SetInput");
-    }
+    #region injected subroutines
 
     private static void ApplyArtisanPerks(SObject machine, GameLocation location, Item sample)
     {
@@ -113,7 +108,7 @@ internal sealed class GenericObjectMachinePatches : DaLion.Common.Harmony.Harmon
 
         var output = machine.heldObject.Value;
         var chest = ExtendedAutomateAPI.GetClosestContainerTo(machine, location);
-        var user = ModEntry.Config.LaxOwnershipRequirements ? Game1.player : chest.GetOwner();
+        var user = ModEntry.Config.LaxOwnershipRequirements ? Game1.player : chest?.GetOwner() ?? Game1.MasterPlayer;
         if (user.HasProfession(Profession.Artisan) || ModEntry.Config.LaxOwnershipRequirements &&
             Game1.game1.DoesAnyPlayerHaveProfession(Profession.Artisan, out _)) output.Quality = input.Quality;
 
@@ -133,17 +128,5 @@ internal sealed class GenericObjectMachinePatches : DaLion.Common.Harmony.Harmon
             output.Quality = SObject.bestQuality;
     }
 
-    private static void ApplyGemologistPerks(SObject machine, GameLocation location, Item sample)
-    {
-        var output = machine.heldObject.Value;
-        var chest = ExtendedAutomateAPI.GetClosestContainerTo(machine, location);
-        var user = ModEntry.Config.LaxOwnershipRequirements ? Game1.player : chest.GetOwner();
-        if (!(user.HasProfession(Profession.Gemologist) || ModEntry.Config.LaxOwnershipRequirements &&
-                Game1.game1.DoesAnyPlayerHaveProfession(Profession.Artisan, out _)) ||
-            !output.IsForagedMineral() && !output.IsGemOrMineral()) return;
-
-        output.Quality = user.GetGemologistMineralQuality();
-    }
-
-    #endregion private methods
+    #endregion injected subroutines
 }

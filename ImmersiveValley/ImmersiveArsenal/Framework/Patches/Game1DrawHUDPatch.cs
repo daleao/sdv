@@ -46,10 +46,10 @@ internal sealed class Game1DrawHUDPatch : Common.Harmony.HarmonyPatch
                    new CodeInstruction(OpCodes.Stsfld, typeof(Game1).RequireField(nameof(Game1.showingHealth)))
                 )
                .Advance(2)
-               .RemoveUntil(
+               .RemoveInstructionsUntil(
                    new CodeInstruction(OpCodes.Callvirt),
                    new CodeInstruction(OpCodes.Br_S))
-               .Insert(
+               .InsertInstructions(
                    new CodeInstruction(OpCodes.Ldloc_1),
                    new CodeInstruction(OpCodes.Call, typeof(Game1DrawHUDPatch).RequireMethod(nameof(DrawHealthBarSubroutine)))
                );

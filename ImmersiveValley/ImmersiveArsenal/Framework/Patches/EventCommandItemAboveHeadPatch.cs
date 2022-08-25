@@ -42,7 +42,7 @@ internal sealed class EventCommandItemAboveHeadPatch : Common.Harmony.HarmonyPat
                     new CodeInstruction(OpCodes.Newobj, typeof(MeleeWeapon).RequireConstructor(new[] { typeof(int) }))
                 )
                 .AddLabels(rusty)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,

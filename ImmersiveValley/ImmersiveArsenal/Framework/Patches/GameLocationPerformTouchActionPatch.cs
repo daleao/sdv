@@ -51,7 +51,7 @@ internal sealed class GameLocationPerformTouchActionPatch : Common.Harmony.Harmo
                 )
                 .GetOperand(out var didNotMeetConditions)
                 .Return()
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Brtrue)
                 )
                 .InsertWithLabels(

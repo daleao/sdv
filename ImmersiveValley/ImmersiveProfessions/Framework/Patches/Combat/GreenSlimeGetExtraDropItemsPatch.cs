@@ -5,6 +5,7 @@
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions;
 using Extensions;
+using HarmonyLib;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 using System;
@@ -25,6 +26,7 @@ internal sealed class GreenSlimeGetExtraDropItemsPatch : DaLion.Common.Harmony.H
     #region harmony patches
 
     /// <summary>Patch Slime drop table for Piper.</summary>
+    [HarmonyPostfix]
     private static void GreenSlimeGetExtraDropItemsPostfix(GreenSlime __instance, List<Item> __result)
     {
         if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession(Profession.Piper, out var pipers) ||

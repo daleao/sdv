@@ -32,22 +32,6 @@ public class ModConfig
     public int RequiredKillCountToPurifyDarkSword { get; set; } = 500;
 
 
-    /// <summary>Allows slingshots to deal critical damage and be affected by critical modifiers.</summary>
-    public bool EnableSlingshotCrits { get; set; } = true;
-
-    /// <summary>Enable new enchantments for slingshots, as well as some old ones..</summary>
-    public bool EnableSlingshotEnchants { get; set; } = true;
-
-    /// <summary>Allow slingshots to be enchanted with weapon forges (gemstones) at the Forge.</summary>
-    public bool EnableSlingshotForges { get; set; } = true;
-
-    /// <summary>Add new stunning smack special move for slingshots.</summary>
-    public bool EnableSlingshotSpecialMove { get; set; } = true;
-
-    /// <summary>Projectiles should not be useless for the first 100ms.</summary>
-    public bool DisableSlingshotGracePeriod { get; set; } = true;
-
-
     /// <summary>Improves certain underwhelming enchantments.</summary>
     public bool RebalancedForges { get; set; } = true;
 
@@ -57,7 +41,7 @@ public class ModConfig
 
     /// <summary>Monster defense is effectively squared.</summary>
     public bool ImprovedEnemyDefense { get; set; } = true;
-    
+
     /// <summary>Damage mitigation is skipped for critical hits.</summary>
     public bool CritsIgnoreDefense { get; set; } = true;
 

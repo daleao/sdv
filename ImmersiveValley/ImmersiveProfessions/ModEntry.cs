@@ -37,6 +37,7 @@ public class ModEntry : Mod
     internal static JObject? ArsenalConfig { get; set; }
     internal static JObject? PondsConfig { get; set; }
     internal static JObject? RingsConfig { get; set; }
+    internal static JObject? SlingshotsConfig { get; set; }
     internal static JObject? TaxesConfig { get; set; }
     internal static JObject? TweaksConfig { get; set; }
     internal static JObject? SVEConfig { get; set; }

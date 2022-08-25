@@ -64,11 +64,11 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
                 .FindFirst( // find index of initializing profPair to null
                     new CodeInstruction(OpCodes.Ldnull)
                 )
-                .ReplaceWith(
+                .ReplaceInstructionWith(
                     new CodeInstruction(OpCodes.Call,
                         typeof(SkillLevelUpMenuUpdatePatch).RequireMethod(nameof(ChooseProfessionPair)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldloc_1),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld,
@@ -78,13 +78,15 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
                         "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireField("currentLevel"))
                 )
                 .Advance(2)
-                .RemoveUntil( // remove the entire loop
+                .RemoveInstructionsUntil( // remove the entire loop
                     new CodeInstruction(OpCodes.Endfinally)
                 );
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession." +
+                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 
@@ -102,7 +104,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
                     new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).RequireMethod("Add"))
                 )
                 .Advance()
-                .ReplaceWith( // replace Add() with AddOrReplace()
+                .ReplaceInstructionWith( // replace Add() with AddOrReplace()
                     new(OpCodes.Call,
                         typeof(CollectionExtensions)
                             .RequireMethod(
@@ -110,7 +112,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
                             .MakeGenericMethod(typeof(int)))
                 )
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     // skip adding perks if player already has them
                     new CodeInstruction(OpCodes.Brfalse_S, dontGetImmediatePerks)
                 )
@@ -123,7 +125,9 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level up profession redundancy.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching level up profession redundancy." +
+                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 
@@ -141,7 +145,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu".ToType().RequireField("professionsToChoose")),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
@@ -155,7 +159,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green)))
                 )
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu".ToType().RequireField("professionsToChoose")),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
@@ -173,7 +177,9 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level up menu choice suppression.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching level up menu choice suppression." +
+                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

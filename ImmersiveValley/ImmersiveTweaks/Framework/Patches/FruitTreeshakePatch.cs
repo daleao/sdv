@@ -47,7 +47,7 @@ internal sealed class FruitTreeshakePatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Stloc_0)
                 )
                 .StripLabels(out var labels)
-                .ReplaceWith(new(OpCodes.Call,
+                .ReplaceInstructionWith(new(OpCodes.Call,
                     typeof(FruitTreeExtensions).RequireMethod(nameof(FruitTreeExtensions.GetQualityFromAge))))
                 .InsertWithLabels(
                     labels,
@@ -56,13 +56,13 @@ internal sealed class FruitTreeshakePatch : Common.Harmony.HarmonyPatch
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldarg_0)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Stloc_0)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Stloc_0)
                 )
-                .RemoveUntil(
+                .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Stloc_0)
                 )
                 .RemoveLabels();

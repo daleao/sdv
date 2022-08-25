@@ -134,7 +134,7 @@
   "poacher.desc": "Crit. chance +50%. Crit. strikes have a chance to poach items from enemies.",
   "poacher.desc.prestiged": "Refund special move cooldown on a successful poach.",
   "poacher.ulti.name": "Ambuscade",
-  "poacher.ulti.desc.hidden": "Invisible.",
+  "poacher.ulti.desc.hidden": "Hidden.",
   "poacher.ulti.desc.revealed": "Crit. power x2.",
 
   "rascal.name.male": "Rascal",

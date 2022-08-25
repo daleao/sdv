@@ -46,7 +46,7 @@ internal sealed class FruitTreeTickUpdatePatch : DaLion.Common.Harmony.HarmonyPa
             helper
                 .FindProfessionCheck(Profession.Lumberjack.Value, true)
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
                     new CodeInstruction(OpCodes.Callvirt,
@@ -58,7 +58,7 @@ internal sealed class FruitTreeTickUpdatePatch : DaLion.Common.Harmony.HarmonyPa
                 )
                 .Advance()
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 )
                 .InsertWithLabels(

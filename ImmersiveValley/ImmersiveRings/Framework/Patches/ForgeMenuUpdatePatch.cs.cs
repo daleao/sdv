@@ -52,7 +52,7 @@ internal sealed class ForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
                 .GetOperand(out var resumeExecution)
                 .Advance()
                 .AddLabels(vanillaUnforge)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.TheOneIridiumBand))),

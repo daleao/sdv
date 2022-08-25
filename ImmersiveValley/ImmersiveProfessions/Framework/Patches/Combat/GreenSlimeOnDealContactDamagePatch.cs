@@ -44,16 +44,16 @@ internal sealed class GreenSlimeOnDealContactDamagePatch : DaLion.Common.Harmony
                 .GetOperand(out var returnLabel) // get return label
                 .Return()
                 .AddLabels(resumeExecution)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Piper.Value, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
                 )
                 .InsertProfessionCheck(Profession.Piper.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, returnLabel)
                 );
         }

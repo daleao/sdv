@@ -23,11 +23,11 @@ internal sealed class ForgeMenuIsValidUnforgePatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void ForgeMenuIsValidUnforgePostfix(ForgeMenu __instance, ref bool __result)
     {
-        __result = __instance.leftIngredientSpot.item switch
+        if (__result) return;
+
+        __result = __instance.leftIngredientSpot.item is MeleeWeapon
         {
-            Slingshot slingshot when slingshot.GetTotalForgeLevels() > 0 => true,
-            MeleeWeapon { InitialParentTileIndex: Constants.HOLY_BLADE_INDEX_I } => true,
-            _ => __result
+            InitialParentTileIndex: Constants.HOLY_BLADE_INDEX_I
         };
     }
 

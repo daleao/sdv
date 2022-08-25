@@ -47,11 +47,11 @@ internal sealed class HoeDirtApplySpeedIncreases : DaLion.Common.Harmony.Harmony
                     new CodeInstruction(OpCodes.Ldc_R4, 0.1f)
                 )
                 .AddLabels(isNotPrestiged)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_1)
                 )
                 .InsertProfessionCheck(Profession.Agriculturist.Value + 100, forLocalPlayer: false)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R4, 0.2f),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)

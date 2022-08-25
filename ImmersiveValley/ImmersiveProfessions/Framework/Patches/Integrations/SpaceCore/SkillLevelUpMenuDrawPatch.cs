@@ -58,7 +58,7 @@ internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyP
                 .GetOperand(out var isNotProfessionChooser)
                 .FindLabel((Label)isNotProfessionChooser)
                 .Retreat()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
@@ -69,7 +69,9 @@ internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyP
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level up menu prestige tooltip draw.\nHelper returned {ex}");
+            Log.E("Immersive Professions failed while patching level up menu prestige tooltip draw." +
+                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

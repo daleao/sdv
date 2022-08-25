@@ -14,14 +14,14 @@ public sealed class DeathBlossom : Ultimate
     internal DeathBlossom()
     : base(UltimateIndex.DesperadoBlossom, Color.DarkGoldenrod, Color.SandyBrown) { }
 
-    #region public properties
-
-    /// <summary>The ID of the buff that displays while Death Blossom is active.</summary>
-    public static int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.DesperadoBlossom + 4).GetHashCode();
-
-    #endregion public properties
-
     #region internal properties
+
+    /// <inheritdoc />
+    internal override int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.DesperadoBlossom + 4).GetHashCode();
+
+    /// <inheritdoc />
+    internal override int MillisecondsDuration =>
+        (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor);
 
     /// <inheritdoc />
     internal override SFX ActivationSfx => SFX.DesperadoBlossom;
@@ -48,16 +48,16 @@ public sealed class DeathBlossom : Ultimate
                 which = BuffId,
                 sheetIndex = 51,
                 glow = GlowColor,
-                millisecondsDuration = (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor),
+                millisecondsDuration = MillisecondsDuration,
                 description = ModEntry.i18n.Get("desperado.ulti.desc")
             }
         );
     }
 
     /// <inheritdoc />
-    internal override void Countdown(double elapsed)
+    internal override void Countdown()
     {
-        ChargeValue -= elapsed * 0.02 / 3.0; // lasts 15s
+        ChargeValue -= MaxValue / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
     }
 
     #endregion internal methods

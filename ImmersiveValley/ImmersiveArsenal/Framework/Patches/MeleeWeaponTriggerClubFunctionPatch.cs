@@ -46,7 +46,7 @@ internal sealed class MeleeWeaponTriggerClubFunctionPatch : Common.Harmony.Harmo
                     new CodeInstruction(OpCodes.Newobj)
                 )
                 .Advance()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Stloc_S, aoe)
                 )
                 .InsertWithLabels(
@@ -54,7 +54,7 @@ internal sealed class MeleeWeaponTriggerClubFunctionPatch : Common.Harmony.Harmo
                     new CodeInstruction(OpCodes.Ldloc_S, aoe)
                 )
                 .Retreat()
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call,
                         typeof(MeleeWeapon).RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))

@@ -49,11 +49,11 @@ internal sealed class QuestionEventSetUpPatch : DaLion.Common.Harmony.HarmonyPat
                 .AddLabels(resumeExecution) // branch here to resume execution
                 .Retreat()
                 .InsertProfessionCheck(Profession.Breeder.Value)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder)
                 )
                 .InsertProfessionCheck(Profession.Breeder.Value + 100)
-                .Insert(
+                .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     // if player is breeder load adjusted pregnancy chance
                     new CodeInstruction(OpCodes.Ldc_R8, 0.0275), // x5 for prestiged
