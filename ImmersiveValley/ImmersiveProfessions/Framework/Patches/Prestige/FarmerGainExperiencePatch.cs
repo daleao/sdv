@@ -7,9 +7,7 @@ using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using System;
-using System.Linq;
 using System.Reflection;
-using Utility;
 
 #endregion using directives
 
@@ -42,16 +40,11 @@ internal sealed class FarmerGainExperiencePatch : DaLion.Common.Harmony.HarmonyP
                 return false; // don't run original logic
             }
 
+            howMuch = (int)(howMuch * __instance.GetExperienceMultiplier(skill));
             var canGainPrestigeLevels = ModEntry.Config.EnablePrestige && __instance.HasAllProfessionsInSkill(skill) && skill != Farmer.luckSkill;
-
-            howMuch = (int)(howMuch * ModEntry.Config.BaseSkillExpMultiplierPerSkill[which]);
-            if (ModEntry.Config.EnablePrestige)
-            {
-                howMuch = (int)(howMuch * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
-                    __instance.GetProfessionsForSkill(skill, true).Count()));
-            }
-
             var newLevel = Farmer.checkForLevelGain(skill.CurrentExp, skill.CurrentExp + howMuch);
+            if (newLevel > 10 && !canGainPrestigeLevels) newLevel = 10;
+            
             if (newLevel > skill.CurrentLevel)
             {
                 for (var level = skill.CurrentLevel + 1; level <= newLevel; ++level)
@@ -65,7 +58,7 @@ internal sealed class FarmerGainExperiencePatch : DaLion.Common.Harmony.HarmonyP
             }
 
             Game1.player.experiencePoints[skill] = Math.Min(skill.CurrentExp + howMuch,
-                canGainPrestigeLevels ? Experience.PrestigeCap : Experience.VANILLA_CAP_I);
+                canGainPrestigeLevels ? ISkill.ExperienceByLevel[20] : ISkill.VANILLA_EXP_CAP_I);
 
             return false; // don't run original logic
         }

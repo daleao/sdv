@@ -9,20 +9,15 @@
   "events.100162.nosword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...I was just peering down into this old mine shaft.#$b#It's been abandoned for decades.\"/pause 500/showFrame Marlon 4/speak Marlon \"Still, there's probably good ore down there.#$b#But a dark place, undisturbed for so long... I'm afraid ore isn't the only thing you'll find...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"You better know how to swing that weapon. You might need it.\"/pause 500/speak Marlon \"Name's Marlon, by the way. I run the adventurer's guild right outside.#$b#I'll keep my eye on you. Prove yourself and I might think about making you a member.\"/pause 500/end",
   "events.100162.sword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...I was just wondering how far down this mine shaft goes.#$b#I'm going to take care of some of the monsters in here before they start climbing out into the valley.$1#$b#You seem concerned. I may be old, but age hasn't robbed me of my skill with a sword, quite yet.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"As leader of the adventurer's guild I've met a lot of fighters in my time. I recognize that look in your eye.$2\"/pause 1500/speak MarlonFay \"Take this. It's a training weapon. It may not look like much, but you'll be able to battle the monsters here.\"/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak MarlonFay \"I'll keep my eye on you. Prove yourself and I might think about making you a member.\"/pause 750/end",
   "events.100162.nosword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...I was just wondering how far down this mine shaft goes.#$b#I'm going to take care of some of the monsters in here before they start climbing out into the valley.$1#$b#You seem concerned. I may be old, but age hasn't robbed me of my skill with a sword, quite yet.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"As leader of the adventurer's guild I've met a lot of fighters in my time. I recognize that look in your eye.$2\"/pause 300/showFrame MarlonFay 19/pause 1000/showFrame MarlonFat 0/pause 300/speak MarlonFay \"Prove to me that you can swing that weapon and I might think about making you a member.\"/pause 750/end",
-
   "locations.Town_DwarfGrave_Translated": "     You translate the dwarvish:     \n\n'twixt golden triplets lost in sand\nbring forth a rainbow forged from land\nbeseech the heavens! stake thy claim\nlet thunders bruit and roar thy name\nif heart be pure and conscious clear\nand faith hath neither doubt nor fear\nstars shall rain to break the seal\nand bestow thee with heaven steel",
-
   "fromcsfiles.MeleeWeapon.cs.14122": "The iridium in your backpack is reacting to the prismatic shard. It changes shape before your very eyes! You feel tremendous power from this blade.^^     You've found the =Galaxy Sword=  ^",
-
-  "ui.itemhover.damage": "{{amount}} Damage",
-  "ui.itemhover.chargespeed": "{{amount}} Firing Speed",
-  "ui.itemhover.cdr": "-{{amount}} Cooldown",
 
   "enchantments.energized": "Energized",
   "enchantments.carving": "Carving",
   "enchantments.cleaving": "Cleaving",
   "enchantments.tribute": "Tribute",
-  "enchantments.gatling": "Gatling",
-  "enchantments.spreading": "Spreading",
-  "enchantments.quincy": "Quincy"
+
+  "ui.itemhover.damage": "{{amount}} Damage",
+  "ui.itemhover.chargespeed": "{{amount}} Firing Speed",
+  "ui.itemhover.cdr": "-{{amount}} Cooldown"
 }

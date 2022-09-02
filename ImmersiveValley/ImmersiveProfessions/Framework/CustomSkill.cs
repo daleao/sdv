@@ -14,6 +14,9 @@ public sealed class CustomSkill : ISkill
 {
     private readonly ISpaceCoreAPI _api;
 
+    /// <remarks>Also includes <see cref="LuckSkill"/>, despite it being technically a vanilla skill.</remarks>
+    internal static Dictionary<string, ISkill> LoadedSkills { get; set; } = new();
+
     /// <inheritdoc />
     public string StringId { get; }
 
@@ -25,6 +28,9 @@ public sealed class CustomSkill : ISkill
 
     /// <inheritdoc />
     public int CurrentLevel => _api.GetLevelForCustomSkill(Game1.player, StringId);
+
+    /// <inheritdoc />
+    public float BaseExperienceMultiplier => ModEntry.Config.CustomSkillExpMultipliers.TryGetValue(StringId, out var multiplier) ? multiplier : 1f;
 
     /// <inheritdoc />
     public IEnumerable<int> NewLevels => ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.Value()

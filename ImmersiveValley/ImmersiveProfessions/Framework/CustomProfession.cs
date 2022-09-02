@@ -1,5 +1,11 @@
 ﻿namespace DaLion.Stardew.Professions.Framework;
 
+#region using directives
+
+using System.Collections.Generic;
+
+#endregion using directives
+
 /// <summary>Represents a custom profession tied to a mod-provided <see cref="ISkill"/>.</summary>
 /// <param name="StringId">The string that uniquely identifies this profession.</param>
 /// <param name="DisplayName">The localized in-game name of this profession.</param>
@@ -11,6 +17,8 @@
 public record CustomProfession(string StringId, string DisplayName, string Description, int Id, int Level,
     ISkill Skill) : IProfession
 {
+    internal static Dictionary<int, CustomProfession> LoadedProfessions { get; set; } = new();
+
     /// <inheritdoc />
     public string GetDisplayName(bool isMale = false) => DisplayName;
 

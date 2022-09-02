@@ -37,6 +37,9 @@ public class Skill : SmartEnum<Skill>, ISkill
     public int CurrentLevel => Game1.player.GetUnmodifiedSkillLevel(Value);
 
     /// <inheritdoc />
+    public float BaseExperienceMultiplier => ModEntry.Config.BaseSkillExpMultipliers[Value];
+
+    /// <inheritdoc />
     public IEnumerable<int> NewLevels => Game1.player.newLevels.Where(p => p.X == Value).Select(p => p.Y);
 
     /// <inheritdoc />

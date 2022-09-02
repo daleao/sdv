@@ -47,9 +47,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
     #region harmony patches
 
     /// <summary>Adjust fish pond query menu for algae.</summary>
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.High)]
-    [HarmonyBefore("DaLion.ImmersiveProfessions")]
+    [HarmonyPrefix, HarmonyPriority(Priority.High), HarmonyBefore("DaLion.ImmersiveProfessions")]
     private static bool PondQueryMenuDrawPrefix(PondQueryMenu __instance, float ____age,
         Rectangle ____confirmationBoxRectangle, string ____confirmationText, bool ___confirmingEmpty,
         string ___hoverText, SObject ____fishItem, FishPond ____pond, SpriteBatch b)

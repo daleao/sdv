@@ -48,6 +48,7 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
 
                 // slingshot enchants
                 "gatling" => new GatlingEnchantment(),
+                "preserving" => new PreservingEnchantment(),
                 "quincy" => new QuincyEnchantment(),
                 "spreading" => new SpreadingEnchantment(),
 

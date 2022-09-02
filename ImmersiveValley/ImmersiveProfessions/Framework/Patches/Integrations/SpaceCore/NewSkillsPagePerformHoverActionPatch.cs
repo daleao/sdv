@@ -87,7 +87,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmo
 
         if (ModEntry.SpaceCoreApi is null) return;
 
-        foreach (var skill in ModEntry.CustomSkills.Values)
+        foreach (var skill in CustomSkill.LoadedSkills.Values)
         {
             bounds.Y += 56;
             var professionsForThisSkill =

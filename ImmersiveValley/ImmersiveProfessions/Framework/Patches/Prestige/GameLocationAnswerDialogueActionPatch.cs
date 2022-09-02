@@ -47,7 +47,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                 case "dogStatue_Yes":
                     {
                         var skillResponses = (
-                            from skill in Skill.List.Except(Skill.Luck.Collect()).Concat(ModEntry.CustomSkills.Values)
+                            from skill in Skill.List.Except(Skill.Luck.Collect()).Concat(CustomSkill.LoadedSkills.Values)
                             where Game1.player.CanResetSkill(skill)
                             let costVal = Game1.player.GetResetCost(skill)
                             let costStr = costVal > 0
@@ -227,7 +227,7 @@ internal sealed class GameLocationAnswerDialogueActionPatch : DaLion.Common.Harm
                                 ModEntry.Events.Enable<PrestigeDayStartedEvent>();
                             }
                         }
-                        else if (ModEntry.CustomSkills.TryGetValue(skillName, out var customSkill))
+                        else if (CustomSkill.LoadedSkills.TryGetValue(skillName, out var customSkill))
                         {
                             if (questionAndAnswer.Contains("skillReset_"))
                             {

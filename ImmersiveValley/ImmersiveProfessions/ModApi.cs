@@ -12,6 +12,7 @@ using Framework.TreasureHunts;
 using Framework.Ultimates;
 using Framework.VirtualProperties;
 using Microsoft.Xna.Framework;
+using StardewValley.Tools;
 using System;
 
 #endregion using directives
@@ -35,6 +36,22 @@ public class ModAPI
         return farmer.HasProfession(Profession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
     }
 
+    /// <summary>The price bonus applied to animal produce sold by Producer.</summary>
+    /// <param name="farmer">The player.</param>
+    public float GetProducerProducePriceBonus(Farmer? farmer = null)
+    {
+        farmer ??= Game1.player;
+        return farmer.GetProducerPriceBonus();
+    }
+
+    /// <summary>The price bonus applied to fish sold by Angler.</summary>
+    /// <param name="farmer">The player.</param>
+    public float GetAnglerFishPriceBonus(Farmer? farmer = null)
+    {
+        farmer ??= Game1.player;
+        return farmer.GetAnglerPriceBonus();
+    }
+
     /// <summary>Get the value of the a Conservationist's projected tax deduction based on current season's trash collection.</summary>
     /// <param name="farmer">The player.</param>
     public float GetConservationistProjectedTaxBonus(Farmer? farmer = null)
@@ -51,6 +68,17 @@ public class ModAPI
     {
         farmer ??= Game1.player;
         return farmer.GetConservationistPriceMultiplier() - 1f;
+    }
+
+    /// <summary>Determines the extra power of Desperado shots.</summary>
+    /// <param name="farmer">The player.</param>
+    /// <returns>A percentage between 0 and 1.</returns>
+    public float GetDesperadoOvercharge(Farmer? farmer = null)
+    {
+        farmer ??= Game1.player;
+        if (farmer.CurrentTool is not Slingshot slingshot || !farmer.usingSlingshot) return 0f;
+
+        return slingshot.GetOvercharge(farmer);
     }
 
     #region tresure hunts

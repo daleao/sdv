@@ -48,7 +48,7 @@ public static class FarmerExtensions
     public static bool HasAllProfessions(this Farmer farmer, bool includeCustom = false)
     {
         var allProfessions = Enumerable.Range(0, 30);
-        if (includeCustom) allProfessions = allProfessions.Concat(ModEntry.CustomProfessions.Values.Select(p => p.Id));
+        if (includeCustom) allProfessions = allProfessions.Concat(CustomProfession.LoadedProfessions.Values.Select(p => p.Id));
         return allProfessions.All(farmer.professions.Contains);
     }
 
@@ -76,8 +76,8 @@ public static class FarmerExtensions
                 : skill.ProfessionIds
         );
 
-        return ModEntry.CustomSkills.ContainsKey(skill.StringId)
-            ? ids.Select(id => ModEntry.CustomProfessions[id])
+        return CustomSkill.LoadedSkills.ContainsKey(skill.StringId)
+            ? ids.Select(id => CustomProfession.LoadedProfessions[id])
             : ids.Select(Profession.FromValue);
     }
 
@@ -139,7 +139,7 @@ public static class FarmerExtensions
 
     /// <summary>Whether the farmer can reset any skill for prestige.</summary>
     public static bool CanResetAnySkill(this Farmer farmer) =>
-        Skill.List.Any(farmer.CanResetSkill) || ModEntry.CustomSkills.Values.Any(farmer.CanResetSkill);
+        Skill.List.Any(farmer.CanResetSkill) || CustomSkill.LoadedSkills.Values.Any(farmer.CanResetSkill);
 
     /// <summary>Get the cost of resetting the specified skill.</summary>
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
@@ -195,7 +195,7 @@ public static class FarmerExtensions
         // reset skill experience
         farmer.experiencePoints[skill] = 0;
 
-        if (ModEntry.Config.ForgetRecipesOnSkillReset && skill < Skill.Luck)
+        if (ModEntry.Config.ForgetRecipes && skill < Skill.Luck)
             farmer.ForgetRecipesForSkill(skill, true);
 
         // revalidate health
@@ -209,7 +209,7 @@ public static class FarmerExtensions
     public static void ResetCustomSkill(this Farmer farmer, CustomSkill skill)
     {
         ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(farmer, skill.StringId, -skill.CurrentExp);
-        if (ModEntry.Config.ForgetRecipesOnSkillReset && skill.StringId == "blueberry.LoveOfCooking.CookingSkill")
+        if (ModEntry.Config.ForgetRecipes && skill.StringId == "blueberry.LoveOfCooking.CookingSkill")
             farmer.ForgetRecipesForLoveOfCookingSkill(true);
 
         Log.D($"Farmer {farmer.Name}'s {skill.DisplayName} skill has been reset.");
@@ -218,7 +218,6 @@ public static class FarmerExtensions
     /// <summary>Set the level of the specified skill for this farmer.</summary>
     /// <param name="skill">The <see cref="Skill"/> whose level should be set.</param>
     /// <param name="newLevel">The new level.</param>
-    /// <param name="setExperience">Whether to set the skill's experience to the corresponding value.</param>
     /// <remarks>Will not change professions or recipes.</remarks>
     public static void SetSkillLevel(this Farmer farmer, Skill skill, int newLevel)
     {
@@ -252,7 +251,7 @@ public static class FarmerExtensions
     public static void SetCustomSkillLevel(this Farmer farmer, CustomSkill skill, int newLevel)
     {
         newLevel = Math.Min(newLevel, 10);
-        var diff = Experience.ExperienceByLevel[newLevel] - skill.CurrentExp;
+        var diff = ISkill.ExperienceByLevel[newLevel] - skill.CurrentExp;
         ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(farmer, skill.StringId, diff);
     }
 
@@ -275,25 +274,25 @@ public static class FarmerExtensions
                 case >= 10 when !canGainPrestigeLevels:
                     {
                         if (skill.CurrentLevel > 10) Game1.player.SetSkillLevel(skill, 10);
-                        if (skill.CurrentExp > Experience.VANILLA_CAP_I)
-                            Game1.player.experiencePoints[skill] = Experience.VANILLA_CAP_I;
+                        if (skill.CurrentExp > ISkill.VANILLA_EXP_CAP_I)
+                            Game1.player.experiencePoints[skill] = ISkill.VANILLA_EXP_CAP_I;
                         break;
                     }
                 case >= 20 when canGainPrestigeLevels:
                     {
                         if (skill.CurrentLevel > 20) Game1.player.SetSkillLevel(skill, 20);
-                        if (skill.CurrentExp > Experience.PrestigeCap)
-                            Game1.player.experiencePoints[skill] = Experience.PrestigeCap;
+                        if (skill.CurrentExp > ISkill.ExperienceByLevel[20])
+                            Game1.player.experiencePoints[skill] = ISkill.ExperienceByLevel[20];
                         break;
                     }
                 default:
                     {
                         var expectedLevel = 0;
                         var level = 1;
-                        while (level <= 10 && skill.CurrentExp >= Experience.ExperienceByLevel[level++]) ++expectedLevel;
+                        while (level <= 10 && skill.CurrentExp >= ISkill.ExperienceByLevel[level++]) ++expectedLevel;
 
-                        if (canGainPrestigeLevels && skill.CurrentExp - Experience.VANILLA_CAP_I > 0)
-                            while (level <= 20 && skill.CurrentExp >= Experience.ExperienceByLevel[level++])
+                        if (canGainPrestigeLevels && skill.CurrentExp - ISkill.VANILLA_EXP_CAP_I > 0)
+                            while (level <= 20 && skill.CurrentExp >= ISkill.ExperienceByLevel[level++])
                                 ++expectedLevel;
 
                         if (skill.CurrentLevel != expectedLevel)
@@ -311,8 +310,8 @@ public static class FarmerExtensions
 
                         farmer.experiencePoints[skill] = skill.CurrentLevel switch
                         {
-                            >= 10 when !canGainPrestigeLevels => Experience.VANILLA_CAP_I,
-                            >= 20 when canGainPrestigeLevels => Experience.PrestigeCap,
+                            >= 10 when !canGainPrestigeLevels => ISkill.VANILLA_EXP_CAP_I,
+                            >= 20 when canGainPrestigeLevels => ISkill.ExperienceByLevel[20],
                             _ => Game1.player.experiencePoints[skill]
                         };
 
@@ -323,7 +322,6 @@ public static class FarmerExtensions
     }
 
     /// <summary>Remove all recipes associated with the specified skill from the farmer.</summary>
-    /// <param name="skillType">The desired skill.</param>
     /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
     public static void ForgetRecipesForSkill(this Farmer farmer, Skill skill, bool addToRecoveryDict = false)
     {
@@ -367,7 +365,6 @@ public static class FarmerExtensions
     }
 
     /// <summary>Remove all recipes associated with the specified skill from the farmer.</summary>
-    /// <param name="skillType">The desired skill.</param>
     /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
     public static void ForgetRecipesForLoveOfCookingSkill(this Farmer farmer, bool addToRecoveryDict = false)
     {
@@ -393,6 +390,15 @@ public static class FarmerExtensions
 
         if (addToRecoveryDict)
             farmer.Write("ForgottenRecipesDict", forgottenRecipesDict.Stringify());
+    }
+
+    /// <summary>Get the total experience multiplier based on the player's configs and skill reset count.</summary>
+    /// <param name="skill">The corresponding skill.</param>
+    public static float GetExperienceMultiplier(this Farmer farmer, ISkill skill)
+    {
+        return skill.BaseExperienceMultiplier * (ModEntry.Config.EnablePrestige
+            ? (float)Math.Pow(1f + ModEntry.Config.PrestigeExpMultiplier, farmer.GetProfessionsForSkill(skill, true).Count())
+            : 1f);
     }
 
     /// <summary>Get all available Ultimate's not currently registered.</summary>
@@ -502,8 +508,4 @@ public static class FarmerExtensions
     /// <summary>Whether this farmer is currently using the Poacher Ultimate.</summary>
     public static bool IsInAmbush(this Farmer farmer) =>
         farmer.get_UltimateIndex() == (int)UltimateIndex.PoacherAmbush && farmer.get_IsUltimateActive().Value;
-
-    /// <summary>Whether this farmer is a Desperado currently using the Slingshot.</summary>
-    public static bool IsDesperadoCharging(this Farmer farmer) =>
-        farmer.HasProfession(Profession.Desperado) && farmer.usingSlingshot;
 }

@@ -27,6 +27,12 @@ internal sealed class MonsterTakeDamagePatch : Common.Harmony.HarmonyPatch
 
     #region harmony patches
 
+    [HarmonyPrefix]
+    private static void MonsterTakeDamagePrefix(Monster __instance, int damage)
+    {
+        __instance.set_Overkill(Math.Max(damage - __instance.Health, 0));
+    }
+
     /// <summary>Crits ignore defense, which, btw, actually does something.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? MonsterTakeDamageTranspiler(IEnumerable<CodeInstruction> instructions,

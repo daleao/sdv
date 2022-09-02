@@ -28,8 +28,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : Common.Harmony.Harm
     #region harmony patches
 
     /// <summary>Implement Topaz enchantment CDR.</summary>
-    [HarmonyPostfix]
-    [HarmonyBefore("DaLion.ImmersiveRings")]
+    [HarmonyPostfix, HarmonyBefore("DaLion.ImmersiveRings")]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
         var cdr = __instance.GetEnchantmentLevel<GarnetEnchantment>() * 0.1f;

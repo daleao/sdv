@@ -41,7 +41,7 @@ internal sealed class PrintSkillLevelsCommand : ConsoleCommand
             Log.I(
                 $"Luck level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Luck)} ({Game1.player.experiencePoints[Skill.Luck]} exp)");
 
-        foreach (var skill in ModEntry.CustomSkills.Values.OfType<CustomSkill>())
+        foreach (var skill in CustomSkill.LoadedSkills.Values.OfType<CustomSkill>())
             Log.I($"{skill.DisplayName} level: {skill.CurrentLevel} ({skill.CurrentExp} exp)");
     }
 }

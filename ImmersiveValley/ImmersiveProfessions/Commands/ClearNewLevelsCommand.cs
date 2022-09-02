@@ -40,7 +40,7 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
                 }
                 else
                 {
-                    var customSkill = ModEntry.CustomSkills.Values.FirstOrDefault(s =>
+                    var customSkill = CustomSkill.LoadedSkills.Values.FirstOrDefault(s =>
                         string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
                     if (customSkill is null)
                     {

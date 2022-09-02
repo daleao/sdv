@@ -7,8 +7,6 @@ using DaLion.Common.Extensions.Reflection;
 using Extensions;
 using HarmonyLib;
 using System;
-using System.Linq;
-using Utility;
 
 #endregion using directives
 
@@ -27,12 +25,10 @@ internal sealed class SkillsAddExperiencePatch : DaLion.Common.Harmony.HarmonyPa
     [HarmonyPrefix]
     private static void SkillsAddExperiencePrefix(Farmer farmer, string skillName, ref int amt)
     {
-        if (!ModEntry.Config.EnablePrestige || !ModEntry.CustomSkills.TryGetValue(skillName, out var skill) ||
+        if (!ModEntry.Config.EnablePrestige || !CustomSkill.LoadedSkills.TryGetValue(skillName, out var skill) ||
             amt < 0) return;
 
-        amt = Math.Min(
-            (int)(amt * Math.Pow(1f + ModEntry.Config.BonusSkillExpPerReset,
-                farmer.GetProfessionsForSkill(skill, true).Count())), Experience.VANILLA_CAP_I - skill.CurrentExp);
+        amt = Math.Min((int)(amt * farmer.GetExperienceMultiplier(skill)), ISkill.VANILLA_EXP_CAP_I - skill.CurrentExp);
     }
 
     #endregion harmony patches

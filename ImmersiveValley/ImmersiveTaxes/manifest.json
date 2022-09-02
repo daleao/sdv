@@ -1,12 +1,14 @@
-﻿{
+{
   "Name": "Serfdom - Immersive Taxes",
   "Author": "DaLion",
-  "Version": "2.1.0",
+  "Version": "2.1.0-Debug",
   "Description": "A simple taxation system to add some challenge and immersion.",
   "UniqueID": "DaLion.ImmersiveTaxes",
   "EntryDll": "ImmersiveTaxes.dll",
   "MinimumApiVersion": "3.14.0",
-  "UpdateKeys": [ "Nexus:12547" ],
+  "UpdateKeys": [
+    "Nexus:12547\""
+  ],
   "Dependencies": [
     {
       "UniqueID": "spacechase0.GenericModConfigMenu",

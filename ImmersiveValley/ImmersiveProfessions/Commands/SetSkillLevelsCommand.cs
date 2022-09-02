@@ -5,7 +5,6 @@
 using Common;
 using Common.Commands;
 using Framework;
-using Framework.Utility;
 using System;
 using System.Linq;
 
@@ -24,7 +23,7 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
 
     /// <inheritdoc />
     public override string Documentation =>
-        "Set the level of the specified skills. For debug only!! Will not grant recipes or other immediate perks. For a proper level-up use `debug experience` instead." +
+        "For debug only!! Set the level of the specified skills. Will not grant recipes or other immediate perks. For a proper level-up use `debug experience` instead." +
         GetUsage();
 
     /// <inheritdoc />
@@ -43,16 +42,22 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
                 Log.W("New level must be a valid integer." + GetUsage());
                 return;
             }
+            
+            if (newLevel < 0 || newLevel > ISkill.MaxLevel)
+            {
+                Log.W($"New level must be within the valid range of skills levels [0, {ISkill.MaxLevel}]." + GetUsage());
+                return;
+            }
 
             foreach (var skill in Skill.List)
             {
-                var diff = Experience.ExperienceByLevel[newLevel] - skill.CurrentExp;
+                var diff = ISkill.ExperienceByLevel[newLevel] - skill.CurrentExp;
                 Game1.player.gainExperience(skill, diff);
             }
 
-            foreach (var customSkill in ModEntry.CustomSkills.Values.OfType<CustomSkill>())
+            foreach (var customSkill in CustomSkill.LoadedSkills.Values.OfType<CustomSkill>())
             {
-                var diff = Experience.ExperienceByLevel[newLevel] - customSkill.CurrentExp;
+                var diff = ISkill.ExperienceByLevel[newLevel] - customSkill.CurrentExp;
                 ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, customSkill.StringId, diff);
             }
         }
@@ -66,10 +71,16 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
                 return;
             }
 
+            if (newLevel < 0 || newLevel > ISkill.MaxLevel)
+            {
+                Log.W($"New level must be within the valid range of skills levels [0, {ISkill.MaxLevel}]." + GetUsage());
+                return;
+            }
+
             var skillName = args[0];
             if (!Skill.TryFromName(skillName, true, out var skill))
             {
-                var found = ModEntry.CustomSkills.Values.FirstOrDefault(s =>
+                var found = CustomSkill.LoadedSkills.Values.FirstOrDefault(s =>
                     string.Equals(s.StringId, skillName, StringComparison.CurrentCultureIgnoreCase) ||
                     string.Equals(s.DisplayName, skillName, StringComparison.CurrentCultureIgnoreCase));
                 if (found is not CustomSkill customSkill)
@@ -78,12 +89,12 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
                     return;
                 }
 
-                var diff = Experience.ExperienceByLevel[newLevel] - customSkill.CurrentExp;
+                var diff = ISkill.ExperienceByLevel[newLevel] - customSkill.CurrentExp;
                 ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, customSkill.StringId, diff);
             }
             else
             {
-                var diff = Experience.ExperienceByLevel[newLevel] - skill.CurrentExp;
+                var diff = ISkill.ExperienceByLevel[newLevel] - skill.CurrentExp;
                 Game1.player.gainExperience(skill, diff);
             }
 

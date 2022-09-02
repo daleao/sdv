@@ -43,16 +43,16 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
             for (var i = 0; i <= 5; ++i)
             {
                 Game1.player.experiencePoints[i] = 0;
-                if (ModEntry.Config.ForgetRecipesOnSkillReset && i < 5)
+                if (ModEntry.Config.ForgetRecipes && i < 5)
                     Game1.player.ForgetRecipesForSkill(Skill.FromValue(i));
             }
 
             LevelUpMenu.RevalidateHealth(Game1.player);
 
-            foreach (var (_, skill) in ModEntry.CustomSkills)
+            foreach (var (_, skill) in CustomSkill.LoadedSkills)
             {
                 ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, skill.StringId, -skill.CurrentExp);
-                if (ModEntry.Config.ForgetRecipesOnSkillReset &&
+                if (ModEntry.Config.ForgetRecipes &&
                     skill.StringId == "blueberry.LoveOfCooking.CookingSkill")
                     Game1.player.ForgetRecipesForLoveOfCookingSkill();
             }
@@ -87,12 +87,12 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
 
                     Game1.player.experiencePoints[skill] = 0;
                     Game1.player.newLevels.Set(Game1.player.newLevels.Where(p => p.X != skill).ToList());
-                    if (ModEntry.Config.ForgetRecipesOnSkillReset && skill < Skill.Luck)
+                    if (ModEntry.Config.ForgetRecipes && skill < Skill.Luck)
                         Game1.player.ForgetRecipesForSkill(skill);
                 }
                 else
                 {
-                    var customSkill = ModEntry.CustomSkills.Values.FirstOrDefault(s =>
+                    var customSkill = CustomSkill.LoadedSkills.Values.FirstOrDefault(s =>
                         string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
                     if (customSkill is null)
                     {
@@ -107,7 +107,7 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
                     ExtendedSpaceCoreAPI.SetCustomSkillNewLevels.Value(newLevels
                         .Where(pair => pair.Key != customSkill.StringId).ToList());
 
-                    if (ModEntry.Config.ForgetRecipesOnSkillReset &&
+                    if (ModEntry.Config.ForgetRecipes &&
                         customSkill.StringId == "blueberry.LoveOfCooking.CookingSkill")
                         Game1.player.ForgetRecipesForLoveOfCookingSkill();
                 }

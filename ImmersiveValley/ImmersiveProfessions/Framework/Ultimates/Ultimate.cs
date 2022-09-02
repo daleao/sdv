@@ -108,7 +108,7 @@ public abstract class Ultimate : IUltimate
     public int MaxValue => BASE_MAX_VALUE_I + (Game1.player.CombatLevel > 10 ? Game1.player.CombatLevel * 5 : 0);
 
     /// <inheritdoc />
-    public virtual bool CanActivate => ModEntry.Config.EnableSpecials && !IsActive && ChargeValue >= MaxValue;
+    public virtual bool CanActivate => !IsActive && ChargeValue >= MaxValue;
 
     /// <inheritdoc />
     public bool IsHudVisible => Hud.IsVisible;
@@ -202,20 +202,23 @@ public abstract class Ultimate : IUltimate
     /// <summary>Detect and handle activation input.</summary>
     internal void CheckForActivation()
     {
+        if (!ModEntry.Config.EnableSpecials) return;
+
         if (ModEntry.Config.SpecialActivationKey.JustPressed())
         {
-            if (CanActivate)
-                if (ModEntry.Config.HoldKeyToActivateSpecial)
-                {
-                    _activationTimer = _ActivationTimerMax;
-                    ModEntry.Events.Enable<UltimateInputUpdateTickedEvent>();
-                }
-                else
-                {
-                    Activate();
-                }
+            if (ModEntry.Config.HoldKeyToActivateSpecial)
+            {
+                _activationTimer = _ActivationTimerMax;
+                ModEntry.Events.Enable<UltimateInputUpdateTickedEvent>();
+            }
+            else if (CanActivate)
+            {
+                Activate();
+            }
             else
+            {
                 Game1.playSound("cancel");
+            }
         }
         else if (ModEntry.Config.SpecialActivationKey.GetState() == SButtonState.Released && _activationTimer > 0)
         {
@@ -232,7 +235,8 @@ public abstract class Ultimate : IUltimate
         --_activationTimer;
         if (_activationTimer > 0) return;
 
-        Activate();
+        if (CanActivate) Activate();
+        else Game1.playSound("cancel");
     }
 
     /// <summary>Countdown the charge value.</summary>

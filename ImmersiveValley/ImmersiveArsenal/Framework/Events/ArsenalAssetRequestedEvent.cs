@@ -15,7 +15,8 @@ using System.Globalization;
 [UsedImplicitly]
 internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 {
-    private const int NAME_I = 0,
+    private const int
+        NAME_I = 0,
         DESCRIPTION_I = 1,
         MIN_DAMAGE_I = 2,
         MAX_DAMAGE_I = 3,

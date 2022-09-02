@@ -21,8 +21,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : Common.Harmony.Harm
     #region harmony patches
 
     /// <summary>Implement Topaz enchantment CDR.</summary>
-    [HarmonyPostfix]
-    [HarmonyAfter("DaLion.ImmersiveArsenal")]
+    [HarmonyPostfix, HarmonyAfter("DaLion.ImmersiveArsenal")]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
         var cdr = __instance.getLastFarmerToUse().Read<float>("CooldownReduction");

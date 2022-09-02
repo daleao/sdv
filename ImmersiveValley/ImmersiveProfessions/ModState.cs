@@ -20,6 +20,8 @@ internal class ModState
     internal int DemolitionistExcitedness { get; set; }
     internal int SpelunkerLadderStreak { get; set; }
     internal int SlimeContactTimer { get; set; }
+    internal bool UsingPrimaryAmmo { get; set; }
+    internal bool UsingSecondaryAmmo { get; set; }
     internal bool UsedDogStatueToday { get; set; }
     internal Queue<ISkill> SkillsToReset { get; } = new();
 }

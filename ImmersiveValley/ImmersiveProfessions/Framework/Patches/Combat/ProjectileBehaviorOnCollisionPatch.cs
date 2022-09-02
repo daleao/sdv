@@ -28,15 +28,17 @@ internal sealed class ProjectileBehaviorOnCollisionPatch : DaLion.Common.Harmony
     private static void ProjectileBehaviorOnCollisionPostfix(Projectile __instance, NetInt ___currentTileSheetIndex,
         NetPosition ___position, NetCharacterRef ___theOneWhoFiredMe, GameLocation location)
     {
-        if (__instance is not ImmersiveProjectile projectile || projectile.IsBlossomPetal) return;
+        if (__instance is not ImmersiveProjectile { CanBeRecovered: true } projectile) return;
 
-        var firer = ___theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
+        var firer = ___theOneWhoFiredMe.Get(location) as Farmer ?? Game1.player;
         if (projectile.IsSlimeAmmo() && firer.get_Ultimate() is Concerto { IsActive: false } concerto)
             concerto.ChargeValue += Game1.random.Next(5);
 
-        if (firer.HasProfession(Profession.Rascal) && (projectile.IsMineralAmmo() && Game1.random.NextDouble() < 0.6 ||
-            ___currentTileSheetIndex.Value == SObject.wood + 1 && Game1.random.NextDouble() < 0.25))
-            location.debris.Add(new(___currentTileSheetIndex.Value - 1, new((int)___position.X, (int)___position.Y),
+        if (firer.HasProfession(Profession.Rascal) && (
+                projectile.IsMineralAmmo() && Game1.random.NextDouble() < (firer.HasProfession(Profession.Rascal, true) ? 0.7 : 0.3) ||
+                projectile.IsWood() && Game1.random.NextDouble() < (firer.HasProfession(Profession.Rascal, true) ? 0.2 : 0.1))
+            )
+            location.debris.Add(new(projectile.WhatAmI!.ParentSheetIndex, new((int)___position.X, (int)___position.Y),
                 firer.getStandingPosition()));
     }
 

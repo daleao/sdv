@@ -3,6 +3,7 @@
 #region using directives
 
 using StardewModdingAPI.Utilities;
+using System.Collections.Generic;
 
 #endregion using directives
 
@@ -141,13 +142,13 @@ public class ModConfig
     public float SkillResetCostMultiplier { get; set; } = 1f;
 
     /// <summary>Whether resetting a skill also clears all corresponding recipes.</summary>
-    public bool ForgetRecipesOnSkillReset { get; set; } = true;
+    public bool ForgetRecipes { get; set; } = true;
 
     /// <summary>Whether the player can use the Statue of Prestige more than once per day.</summary>
-    public bool AllowPrestigeMultiplePerDay { get; set; } = false;
+    public bool AllowMultiplePrestige { get; set; } = false;
 
-    /// <summary>Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.</summary>
-    public float BonusSkillExpPerReset { get; set; } = 0.1f;
+    /// <summary>Cumulative multiplier to each skill's experience gain after a respective skill reset.</summary>
+    public float PrestigeExpMultiplier { get; set; } = 0.1f;
 
     /// <summary>How much skill experience is required for each level up beyond 10.</summary>
     public uint RequiredExpPerExtendedLevel { get; set; } = 5000;
@@ -160,7 +161,11 @@ public class ModConfig
 
     /// <summary>Multiplies all skill experience gained from the start of the game.</summary>
     /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat.</remarks>
-    public float[] BaseSkillExpMultiplierPerSkill { get; set; } = { 1f, 1f, 1f, 1f, 1f, 1f };
+    public float[] BaseSkillExpMultipliers { get; set; } = { 1f, 1f, 1f, 1f, 1f, 1f };
+
+    /// <summary>Multiplies all skill experience gained from the start of the game, for custom skills.</summary>
+    public Dictionary<string, float> CustomSkillExpMultipliers { get; set; } =
+        new() { { "DaLion.Alchemy", 1 }, { "blueberry.Cooking", 1 }, { "spacechase0.Cooking", 1 }, { "spacechase0.Luck", 1 }, { "spacechase0.Magic", 1 } };
 
     /// <summary>Enable if using the Vintage Interface v2 mod. Accepted values: "Brown", "Pink", "Off", "Automatic".</summary>
     public VintageInterfaceStyle VintageInterfaceSupport { get; set; } = VintageInterfaceStyle.Automatic;

@@ -27,10 +27,10 @@ internal sealed class ImmersiveProjectile : BasicProjectile
     public float Overcharge { get; set; }
     public bool DidBounce { get; set; }
     public bool DidPierce { get; set; }
-    public bool IsBlossomPetal { get; set; }
     public bool IsQuincy { get; set; }
+    public bool CanBeRecovered { get; set; }
 
-    public ImmersiveProjectile(Slingshot whatFiredMe, float overcharge, bool isPetal, int damageToFarmer, int parentSheetIndex, int bouncesTillDestruct,
+    public ImmersiveProjectile(Slingshot whatFiredMe, float overcharge, bool canBeRecovered, int damageToFarmer, int parentSheetIndex, int bouncesTillDestruct,
         int tailLength, float rotationVelocity, float xVelocity, float yVelocity, Vector2 startingPosition,
         string collisionSound, string firingSound, bool explode, bool damagesMonsters = false,
         GameLocation? location = null, Character? firer = null, bool spriteFromObjectSheet = false,
@@ -42,7 +42,6 @@ internal sealed class ImmersiveProjectile : BasicProjectile
         WhatFiredMe = whatFiredMe;
         WhatAmI = whatFiredMe.attachments[0]?.getOne();
         Overcharge = overcharge;
-        IsBlossomPetal = isPetal;
         switch (spriteFromObjectSheet)
         {
             case true when ModEntry.ArsenalConfig?.Value<bool?>("RemoveSlingshotGracePeriod") == true:
@@ -52,6 +51,8 @@ internal sealed class ImmersiveProjectile : BasicProjectile
                 IsQuincy = true;
                 break;
         }
+
+        CanBeRecovered = canBeRecovered;
     }
 
     public override void behaviorOnCollisionWithMonster(NPC n, GameLocation location)
@@ -202,6 +203,9 @@ internal sealed class ImmersiveProjectile : BasicProjectile
 
     /// <summary>Whether the projectile is explosive.</summary>
     public bool IsExplosiveAmmo() => WhatAmI?.ParentSheetIndex == 442;
+
+    /// <summary>Whether the projectile is a piece of wood.</summary>
+    public bool IsWood() => WhatAmI?.ParentSheetIndex == SObject.wood;
 
     /// <summary>Whether the ammo should make squishy noises upon collision.</summary>
     public bool IsSquishyAmmo() => WhatAmI?.IsSquishyAmmo() == true;

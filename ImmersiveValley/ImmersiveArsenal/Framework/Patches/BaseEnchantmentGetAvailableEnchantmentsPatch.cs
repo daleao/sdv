@@ -28,7 +28,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harm
         IEnumerable<CodeInstruction> instructions)
     {
         var l = instructions.ToList();
-        l.RemoveRange(4, 3); // remove artful enchant
+        l.RemoveRange(4, 12); // remove artful enchant
         l.InsertRange(l.Count - 2, new List<CodeInstruction>
         {
             // add magic / sunburst enchant
@@ -46,6 +46,10 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harm
             // add tribute enchant
             new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
             new(OpCodes.Newobj, typeof(TributeEnchantment).RequireConstructor()),
+            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+            // add reworked vampiric enchant
+            new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+            new(OpCodes.Newobj, typeof(VampiricEnchantment).RequireConstructor()),
             new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
         });
 

@@ -21,9 +21,7 @@ internal sealed class SlingshotGetRequiredChargeTimePatch : Common.Harmony.Harmo
     #region harmony patches
 
     /// <summary>Apply Emerald Enchantment to Slingshot.</summary>
-    [HarmonyPostfix]
-    [HarmonyAfter("DaLion.ImmersiveArsenal")]
-    [HarmonyBefore("DaLion.ImmersiveProfessions")]
+    [HarmonyPostfix, HarmonyAfter("DaLion.ImmersiveArsenal"), HarmonyBefore("DaLion.ImmersiveProfessions")]
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
         var firer = __instance.getLastFarmerToUse();

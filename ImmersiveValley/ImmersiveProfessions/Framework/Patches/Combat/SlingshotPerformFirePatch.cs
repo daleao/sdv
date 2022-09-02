@@ -36,18 +36,22 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
     #region harmony patches
 
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and Ultimate.</summary>
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.High)]
-    [HarmonyAfter("DaLion.ImmersiveSlingshots")]
+    [HarmonyPrefix, HarmonyPriority(Priority.High), HarmonyAfter("DaLion.ImmersiveSlingshots")]
     private static bool SlingshotPerformFirePrefix(Slingshot __instance, ref bool ___canPlaySound,
         GameLocation location, Farmer who)
     {
         try
         {
+            var usingPrimaryAmmo = ModEntry.State.UsingPrimaryAmmo;
+            var usingSecondaryAmmo = ModEntry.State.UsingSecondaryAmmo;
+            var ammoIndex = usingPrimaryAmmo ? 0 : 1;
             var hasQuincyEnchantment = __instance.enchantments.FirstOrDefault(e =>
-                e.GetType().FullName?.Contains("Slingshots") == true &&
+                e.GetType().FullName?.Contains("ImmersiveSlingshots") == true &&
                 e.GetType().FullName?.Contains("QuincyEnchantment") == true) is not null;
-            if (__instance.attachments[0] is null && !hasQuincyEnchantment)
+            var hasPreservingEnchantment = __instance.enchantments.FirstOrDefault(e =>
+                e.GetType().FullName?.Contains("ImmersiveSlingshots") == true &&
+                e.GetType().FullName?.Contains("PreservingEnchantment") == true) is not null;
+            if (__instance.attachments[ammoIndex] is null && !hasQuincyEnchantment)
             {
                 Game1.showRedMessage(Game1.content.LoadString("Strings\\StringsFromCSFiles:Slingshot.cs.14254"));
                 ___canPlaySound = true;
@@ -66,10 +70,11 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
             var (x, y) = StardewValley.Utility.getVelocityTowardPoint(shootOrigin, __instance.AdjustForHeight(new(mouseX, mouseY)),
                 (15 + Game1.random.Next(4, 6)) * (1f + who.weaponSpeedModifier));
 
-            // calculate base ammo strength and properties
-            var ammo = __instance.attachments[0]?.getOne();
-            if (ammo is not null && --__instance.attachments[0].Stack <= 0)
-                __instance.attachments[0] = null;
+            // get and spend ammo instance
+            var ammo = __instance.attachments[ammoIndex]?.getOne();
+            var didPreserve = hasPreservingEnchantment && Game1.random.NextDouble() < 0.5 + who.DailyLuck / 2 + who.LuckLevel * 0.01;
+            if (ammo is not null && !didPreserve && --__instance.attachments[ammoIndex].Stack <= 0)
+                __instance.attachments[ammoIndex] = null;
 
             var damageBase = ammo?.ParentSheetIndex switch
             {
@@ -82,36 +87,34 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
                 909 => 75, // radioactive ore
                 382 => 15, // coal
                 441 => 20, // explosive
-                766 => 5, // slime
+                766 => who.HasProfession(Profession.Piper, true) ? 10 : 5, // slime
                 null => 5, // quincy
                 _ => 1 // fish, fruit or vegetable
             };
 
-            BasicProjectile.onCollisionBehavior? collisionBehavior;
-            string collisionSound;
+            // set collision properties
+            BasicProjectile.onCollisionBehavior? primaryCollisionBehavior = null;
+            string primaryCollisionSound = string.Empty;
             switch (ammo?.ParentSheetIndex)
             {
                 case 441:
-                    collisionBehavior = BasicProjectile.explodeOnImpact;
-                    collisionSound = "explosion";
+                    primaryCollisionBehavior = BasicProjectile.explodeOnImpact;
+                    primaryCollisionSound = "explosion";
                     break;
                 case 909 or 766:
-                    collisionBehavior = null;
-                    collisionSound = ammo.ParentSheetIndex == 766 ? "slimedead" : "hammer";
+                    primaryCollisionSound = ammoIndex == 766 ? "slimedead" : "hammer";
                     break;
                 case null:
-                    collisionBehavior = null;
-                    collisionSound = "debuffHit";
+                    primaryCollisionSound = "debuffHit";
                     break;
                 default:
-                    collisionBehavior = null;
-                    collisionSound = ammo.IsSquishyAmmo() ? "slimedead" : "hammer";
-                    if (damageBase > 1) ++ammo.ParentSheetIndex;
+                    primaryCollisionSound = ammo.IsSquishyAmmo() ? "slimedead" : "hammer";
+                    if (damageBase > 1) ++ammoIndex;
 
                     break;
             }
 
-            // calculate bonus ammo strength
+            // apply slingshot damage modifiers
             var damageMod = __instance.InitialParentTileIndex switch
             {
                 33 => 2f,
@@ -119,13 +122,10 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
                 _ => 1f
             } * (1f + __instance.GetEnchantmentLevel<RubyEnchantment>() + who.attackIncreaseModifier);
 
-            if (who.HasProfession(Profession.Rascal))
-                damageMod *= who.HasProfession(Profession.Rascal, true) ? 1.5f : 1.25f;
-
             // calculate overcharge
             var overcharge = 1f;
             if (who.HasProfession(Profession.Desperado) && !__instance.CanAutoFire())
-                overcharge += __instance.GetDesperadoOvercharge(who);
+                overcharge += __instance.GetOvercharge(who);
 
             // adjust velocity
             if (overcharge > 1f)
@@ -153,14 +153,12 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
             // add main projectile
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod * overcharge;
-            var index = ammo?.ParentSheetIndex ?? 14;
-            var projectile = new ImmersiveProjectile(__instance, overcharge, false, (int)damage, index,
-                bounces, 0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition,
-                collisionSound, ammo is null ? "debuffSpell" : "", false, true, location, who, ammo is not null, collisionBehavior)
+            var projectile = new ImmersiveProjectile(__instance, overcharge, !didPreserve, (int)damage, ammo?.ParentSheetIndex ?? 14,
+                bounces, ammo is null ? 5 : 0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), x, y, startingPosition,
+                primaryCollisionSound, ammo is null ? "debuffSpell" : "", false, true, location, who, ammo is not null, primaryCollisionBehavior)
             {
                 IgnoreLocationCollision = Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null
             };
-
 
             if (ammo is null) projectile.startingScale.Value *= overcharge * overcharge;
 
@@ -179,51 +177,17 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
                     if (i == 3) continue;
 
                     damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
-                    var blossom = new ImmersiveProjectile(__instance, 1f, true, (int)damage, index, 0,
-                        0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
-                        velocity.Y * speed, startingPosition, collisionSound, string.Empty, false, true, location, who,
-                        ammo is not null, collisionBehavior)
+                    var petal = new ImmersiveProjectile(__instance, 1f, false, (int)damage, ammo?.ParentSheetIndex ?? 14, 0,
+                        ammo is null ? 5 : 0, (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed,
+                        velocity.Y * speed, startingPosition, primaryCollisionSound, string.Empty, false, true, location, who,
+                        ammo is not null, primaryCollisionBehavior)
                     {
                         IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
                                                   Game1.currentMinigame is not null
                     };
 
-                    location.projectiles.Add(blossom);
+                    location.projectiles.Add(petal);
                 }
-            }
-            else if (overcharge >= 1.5f && who.HasProfession(Profession.Desperado, true) &&
-                     __instance.attachments[0].Stack >= 2)
-            {
-                // do spreadshot
-                var angle = MathHelper.Lerp(1f, 0.5f, (overcharge - 1.5f) * 2f) * 15f;
-
-                damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
-                velocity = velocity.Rotate(angle);
-                var clockwise = new ImmersiveProjectile(__instance, 1f, true, (int)damage, index, 0, index == 14 ? 5 : 0,
-                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed, velocity.Y * speed,
-                    startingPosition, collisionSound, string.Empty, false, true, location, who, ammo is not null, collisionBehavior)
-                {
-                    IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
-                                              Game1.currentMinigame is not null
-                };
-
-                location.projectiles.Add(clockwise);
-
-                damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
-                velocity = velocity.Rotate(-2 * angle);
-                var anticlockwise = new ImmersiveProjectile(__instance, 1f, true, (int)damage, index, 0, index == 14 ? 5 : 0,
-                    (float)(Math.PI / (64f + Game1.random.Next(-63, 64))), velocity.X * speed, velocity.Y * speed,
-                    startingPosition, collisionSound, string.Empty, false, true, location, who, ammo is not null, collisionBehavior)
-                {
-                    IgnoreLocationCollision = Game1.currentLocation.currentEvent is not null ||
-                                              Game1.currentMinigame is not null
-                };
-
-                location.projectiles.Add(anticlockwise);
-
-                __instance.attachments[0].Stack -= 2;
-                if (__instance.attachments[0].Stack <= 0)
-                    __instance.attachments[0] = null;
             }
 
             ___canPlaySound = true;

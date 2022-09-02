@@ -1,10 +1,10 @@
 ﻿{
+  "enchantments.gatling": "Gatling",
+  "enchantments.preserving": "Preserving",
+  "enchantments.quincy": "Quincy",
+  "enchantments.spreading": "Spreading",
+
   "ui.itemhover.damage": "{{amount}} Damage",
   "ui.itemhover.chargespeed": "{{amount}} Firing Speed",
-  "ui.itemhover.cdr": "-{{amount}} Cooldown",
-
-  "enchantments.tribute": "Tribute",
-  "enchantments.gatling": "Gatling",
-  "enchantments.spreading": "Spreading",
-  "enchantments.quincy": "Quincy"
+  "ui.itemhover.cdr": "-{{amount}} Cooldown"
 }

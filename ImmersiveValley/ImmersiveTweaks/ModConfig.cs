@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Tweex;
+﻿using System.Collections.Generic;
+
+namespace DaLion.Stardew.Tweex;
 
 /// <summary>The mod user-defined settings.</summary>
 public class ModConfig
@@ -32,6 +34,14 @@ public class ModConfig
 
     /// <summary>Large input products should yield more processed output instead of higher quality.</summary>
     public bool LargeProducsYieldQuantityOverQuality { get; set; } = true;
+
+    /// <summary>Add custom mod Artisan machines to this list to make them compatible with LargeProducsYieldQuantityOverQuality.</summary>
+    public HashSet<string> DairyArtisanMachines { get; set; } = new() {
+        "Butter Churn", // artisan valley
+        "Ice Cream Machine", // artisan valley
+        "Keg", // vanilla
+        "Yogurt Jar" // artisan valley
+    };
 
     /// <summary>Extends the perks from Botanist/Ecologist profession to Ginger Island dug-up ginger and shaken-off coconuts.</summary>
     public bool ProfessionalForagingInGingerIsland { get; set; } = true;

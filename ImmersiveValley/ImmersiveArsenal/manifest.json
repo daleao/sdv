@@ -1,12 +1,14 @@
-﻿{
+{
   "Name": "Arsenal - Immersive Weapons",
   "Author": "DaLion",
-  "Version": "1.0.0",
+  "Version": "1.0.0-Debug",
   "Description": "An immersive rebalance of vanilla weapons.",
   "UniqueID": "DaLion.ImmersiveArsenal",
   "EntryDll": "ImmersiveArsenal.dll",
   "MinimumApiVersion": "3.14.0",
-  "UpdateKeys": [ "Nexus:11537" ],
+  "UpdateKeys": [
+    "Nexus:11537"
+  ],
   "Dependencies": [
     {
       "UniqueID": "spacechase0.SpaceCore",

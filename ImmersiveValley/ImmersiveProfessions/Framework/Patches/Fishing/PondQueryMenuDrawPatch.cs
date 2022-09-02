@@ -52,9 +52,7 @@ internal sealed class PondQueryMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatc
     #region harmony patches
 
     /// <summary>Patch to adjust fish pond query menu for Aquarist increased max capacity.</summary>
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.HigherThanNormal)]
-    [HarmonyAfter("DaLion.ImmersivePonds")]
+    [HarmonyPrefix, HarmonyPriority(Priority.HigherThanNormal), HarmonyAfter("DaLion.ImmersivePonds")]
     private static bool PondQueryMenuDrawPrefix(PondQueryMenu __instance, float ____age,
         Rectangle ____confirmationBoxRectangle, string ____confirmationText, bool ___confirmingEmpty,
         string ___hoverText, SObject ____fishItem, FishPond ____pond, SpriteBatch b)

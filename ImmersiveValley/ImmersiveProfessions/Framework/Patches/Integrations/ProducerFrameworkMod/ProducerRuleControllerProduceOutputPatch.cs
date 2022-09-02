@@ -17,12 +17,13 @@ internal sealed class ProducerRuleControllerProduceOutputPatch : DaLion.Common.H
     internal ProducerRuleControllerProduceOutputPatch()
     {
         Target = "ProducerFrameworkMod.Controllers.ProducerRuleController".ToType().RequireMethod("ProduceOutput");
+        Postfix!.after = new[] { "DaLion.ImmersiveTweaks" };
     }
 
     #region harmony patches
 
     /// <summary>Patch to apply modded Artisan perks to PFM artisan machines.</summary>
-    [HarmonyPostfix]
+    [HarmonyPostfix, HarmonyAfter("DaLion.ImmersiveTweaks")]
     private static void ProducerRuleControllerProduceOutputPostfix(SObject producer, Farmer who, SObject? input,
         bool probe)
     {

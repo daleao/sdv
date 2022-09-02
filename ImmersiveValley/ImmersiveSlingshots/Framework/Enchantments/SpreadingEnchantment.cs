@@ -45,11 +45,9 @@ public class SpreadingEnchantment : BaseSlingshotEnchantment
         var speed = velocity.Length();
         velocity.Normalize();
         float angle;
-        if (ModEntry.ProfessionsApi is not null && who.professions.Contains(Farmer.desperado + 100))
+        if (ModEntry.ProfessionsApi is not null && who.professions.Contains(Farmer.desperado))
         {
-            var overcharge = Math.Clamp(
-                (float)((Game1.currentGameTime.TotalGameTime.TotalSeconds - slingshot.pullStartTime) /
-                    slingshot.GetRequiredChargeTime() - 1f) / 6f, 0f, 1f);
+            var overcharge = ModEntry.ProfessionsApi.GetDesperadoOvercharge(who);
             angle = MathHelper.Lerp(1f, 0.5f, (overcharge - 1.5f) * 2f) * 15f;
         }
         else

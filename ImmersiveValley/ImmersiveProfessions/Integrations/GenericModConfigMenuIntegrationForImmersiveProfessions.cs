@@ -1,3 +1,5 @@
+using DaLion.Stardew.Professions.Framework;
+
 namespace DaLion.Stardew.Professions.Integrations;
 
 #region using directives
@@ -316,20 +318,20 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
             .AddCheckbox(
                 () => "Forget Recipes on Skill Reset",
                 () => "Disable this to keep all skill recipes upon skill reseting.",
-                config => config.ForgetRecipesOnSkillReset,
-                (config, value) => config.ForgetRecipesOnSkillReset = value
+                config => config.ForgetRecipes,
+                (config, value) => config.ForgetRecipes = value
             )
             .AddCheckbox(
                 () => "Allow Multiple Prestiges Per Day",
                 () => "Whether the player can use the Statue of Prestige more than once in a day.",
-                config => config.AllowPrestigeMultiplePerDay,
-                (config, value) => config.AllowPrestigeMultiplePerDay = value
+                config => config.AllowMultiplePrestige,
+                (config, value) => config.AllowMultiplePrestige = value
             )
             .AddNumberField(
                 () => "Bonus Skill Experience After Reset",
                 () => "Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.",
-                config => config.BonusSkillExpPerReset,
-                (config, value) => config.BonusSkillExpPerReset = value,
+                config => config.PrestigeExpMultiplier,
+                (config, value) => config.PrestigeExpMultiplier = value,
                 0f,
                 2f
             )
@@ -366,43 +368,59 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
             .AddSectionTitle(() => "Difficulty Settings")
             .AddNumberField(
                 () => "Base Farming Experience Multiplier",
-                () => "Multiplies all skill experience gained from the start of the game.",
-                config => config.BaseSkillExpMultiplierPerSkill[0],
-                (config, value) => config.BaseSkillExpMultiplierPerSkill[0] = value,
+                () => "Multiplies all skill experience gained for Farming from the start of the game.",
+                config => config.BaseSkillExpMultipliers[0],
+                (config, value) => config.BaseSkillExpMultipliers[0] = value,
                 0.2f,
                 2f
             )
             .AddNumberField(
                 () => "Base Fishing Experience Multiplier",
-                () => "Multiplies all skill experience gained from the start of the game.",
-                config => config.BaseSkillExpMultiplierPerSkill[1],
-                (config, value) => config.BaseSkillExpMultiplierPerSkill[1] = value,
+                () => "Multiplies all skill experience gained for Fishing from the start of the game.",
+                config => config.BaseSkillExpMultipliers[1],
+                (config, value) => config.BaseSkillExpMultipliers[1] = value,
                 0.2f,
                 2f
             )
             .AddNumberField(
                 () => "Base Foraging Experience Multiplier",
-                () => "Multiplies all skill experience gained from the start of the game.",
-                config => config.BaseSkillExpMultiplierPerSkill[2],
-                (config, value) => config.BaseSkillExpMultiplierPerSkill[2] = value,
+                () => "Multiplies all skill experience gained for Foraging from the start of the game.",
+                config => config.BaseSkillExpMultipliers[2],
+                (config, value) => config.BaseSkillExpMultipliers[2] = value,
                 0.2f,
                 2f
             )
             .AddNumberField(
                 () => "Base Mining Experience Multiplier",
-                () => "Multiplies all skill experience gained from the start of the game.",
-                config => config.BaseSkillExpMultiplierPerSkill[3],
-                (config, value) => config.BaseSkillExpMultiplierPerSkill[3] = value,
+                () => "Multiplies all skill experience gained for Mining the start of the game.",
+                config => config.BaseSkillExpMultipliers[3],
+                (config, value) => config.BaseSkillExpMultipliers[3] = value,
                 0.2f,
                 2f
             )
             .AddNumberField(
                 () => "Base Combat Experience Multiplier",
-                () => "Multiplies all skill experience gained from the start of the game.",
-                config => config.BaseSkillExpMultiplierPerSkill[4],
-                (config, value) => config.BaseSkillExpMultiplierPerSkill[4] = value,
+                () => "Multiplies all skill experience gained for Combat from the start of the game.",
+                config => config.BaseSkillExpMultipliers[4],
+                (config, value) => config.BaseSkillExpMultipliers[4] = value,
                 0.2f,
                 2f
             );
+
+        foreach (var (skillId, multiplier) in ModEntry.Config.CustomSkillExpMultipliers)
+        {
+            if (!CustomSkill.LoadedSkills.ContainsKey(skillId)) continue;
+
+            var skill = CustomSkill.LoadedSkills[skillId];
+            _configMenu
+                .AddNumberField(
+                    () => $"Base {skill.DisplayName} Experience Multiplier",
+                    () => $"Multiplies all skill experience gained for {skill.StringId} from the start of the game.",
+                    config => config.CustomSkillExpMultipliers[skillId],
+                    (config, value) => config.CustomSkillExpMultipliers[skillId] = value,
+                    0.2f,
+                    2f
+                );
+        }
     }
 }

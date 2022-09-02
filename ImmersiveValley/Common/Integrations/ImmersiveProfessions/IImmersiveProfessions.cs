@@ -4,6 +4,7 @@
 
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
+using System.Collections.Generic;
 
 #endregion using directives
 
@@ -274,13 +275,13 @@ public interface IImmersiveProfessions
         float SkillResetCostMultiplier { get; set; }
 
         /// <summary>Whether resetting a skill also clears all corresponding recipes.</summary>
-        bool ForgetRecipesOnSkillReset { get; set; }
+        bool ForgetRecipes { get; set; }
 
         /// <summary>Whether the player can use the Statue of Prestige more than once per day.</summary>
-        bool AllowPrestigeMultiplePerDay { get; set; }
+        bool AllowMultiplePrestige { get; set; }
 
-        /// <summary>Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.</summary>
-        float BonusSkillExpPerReset { get; set; }
+        /// <summary>Cumulative multiplier to each skill's experience gain after a respective skill reset.</summary>
+        float PrestigeExpMultiplier { get; set; }
 
         /// <summary>How much skill experience is required for each level up beyond 10.</summary>
         uint RequiredExpPerExtendedLevel { get; set; }
@@ -293,7 +294,10 @@ public interface IImmersiveProfessions
 
         /// <summary>Multiplies all skill experience gained from the start of the game.</summary>
         /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat.</remarks>
-        float[] BaseSkillExpMultiplierPerSkill { get; set; }
+        float[] BaseSkillExpMultipliers { get; set; }
+
+        /// <summary>Multiplies all skill experience gained from the start of the game, for custom skills.</summary>
+        public Dictionary<string, float> CustomSkillExpMultipliers { get; set; }
 
         /// <summary>Enable if using the Vintage Interface v2 mod. Accepted values: "Brown", "Pink", "Off", "Automatic".</summary>
         VintageInterfaceStyle VintageInterfaceSupport { get; set; }

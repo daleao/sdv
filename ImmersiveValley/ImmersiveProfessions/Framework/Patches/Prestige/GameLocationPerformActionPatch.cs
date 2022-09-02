@@ -34,7 +34,7 @@ internal sealed class GameLocationPerformActionPatch : DaLion.Common.Harmony.Har
         try
         {
             string message;
-            if (!ModEntry.Config.AllowPrestigeMultiplePerDay &&
+            if (!ModEntry.Config.AllowMultiplePrestige &&
                 (ModEntry.Events.Get<PrestigeDayEndingEvent>()?.IsEnabled == true ||
                  ModEntry.State.UsedDogStatueToday))
             {
@@ -46,7 +46,7 @@ internal sealed class GameLocationPerformActionPatch : DaLion.Common.Harmony.Har
             if (who.CanResetAnySkill())
             {
                 message = ModEntry.i18n.Get("prestige.dogstatue.first");
-                if (ModEntry.Config.ForgetRecipesOnSkillReset)
+                if (ModEntry.Config.ForgetRecipes)
                     message += ModEntry.i18n.Get("prestige.dogstatue.forget");
                 message += ModEntry.i18n.Get("prestige.dogstatue.offer");
 

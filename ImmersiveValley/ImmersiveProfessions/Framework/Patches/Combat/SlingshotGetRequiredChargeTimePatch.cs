@@ -23,8 +23,7 @@ internal sealed class SlingshotGetRequiredChargeTimePatch : DaLion.Common.Harmon
     #region harmony patches
 
     /// <summary>Patch to reduce Slingshot charge time for Desperado.</summary>
-    [HarmonyPostfix]
-    [HarmonyBefore("DaLion.ImmersiveRings", "DaLion.ImmersiveSlingshots")]
+    [HarmonyPostfix, HarmonyBefore("DaLion.ImmersiveRings", "DaLion.ImmersiveSlingshots")]
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
         var firer = __instance.getLastFarmerToUse();

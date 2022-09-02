@@ -249,7 +249,7 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
         if (ModEntry.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
             position.X += 2; // not sure why but custom skill ribbons render with a small offset
 
-        foreach (var skill in ModEntry.CustomSkills.Values)
+        foreach (var skill in CustomSkill.LoadedSkills.Values)
         {
             position.Y += 56;
             var count = Game1.player.GetProfessionsForSkill(skill, true).Count();

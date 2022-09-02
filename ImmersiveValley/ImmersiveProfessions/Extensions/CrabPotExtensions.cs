@@ -172,7 +172,7 @@ public static class CrabPotExtensions
     /// <param name="location">The game location of the crab pot.</param>
     public static int GetTrash(this CrabPot crabpot, GameLocation location, Random r)
     {
-        if (ModEntry.Config.SeaweedIsTrash && r.NextDouble() > 0.5) return r.Next(167, 173);
+        if (!ModEntry.Config.SeaweedIsTrash || r.NextDouble() > 0.5) return r.Next(167, 173);
 
         int trash;
         switch (location)

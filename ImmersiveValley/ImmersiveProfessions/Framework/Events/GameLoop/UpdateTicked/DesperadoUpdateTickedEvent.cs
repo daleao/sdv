@@ -55,7 +55,7 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var overcharge = slingshot.GetDesperadoOvercharge(firer);
+        var overcharge = slingshot.GetOvercharge(firer);
         if (overcharge <= 0f) return;
 
         firer.jitterStrength = Math.Max(0f, overcharge - 0.5f);

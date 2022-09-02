@@ -19,6 +19,14 @@ public interface IImmersiveProfessionsAPI
     /// <param name="farmer">The player.</param>
     int GetGemologistMineralQuality(Farmer? farmer = null);
 
+    /// <summary>The price bonus applied to animal produce sold by Producer.</summary>
+    /// <param name="farmer">The player.</param>
+    float GetProducerProducePriceBonus(Farmer? farmer = null);
+
+    /// <summary>The price bonus applied to fish sold by Angler.</summary>
+    /// <param name="farmer">The player.</param>
+    float GetAnglerFishPriceBonus(Farmer? farmer = null);
+
     /// <summary>Get the value of the a Conservationist's projected tax deduction based on current season's trash collection.</summary>
     /// <param name="farmer">The player.</param>
     float GetConservationistProjectedTaxBonus(Farmer? farmer = null);
@@ -26,6 +34,11 @@ public interface IImmersiveProfessionsAPI
     /// <summary>Get the value of the a Conservationist's effective tax deduction based on the preceding season's trash collection.</summary>
     /// <param name="farmer">The player.</param>
     float GetConservationistEffectiveTaxBonus(Farmer? farmer = null);
+
+    /// <summary>Determines the extra power of Desperado shots.</summary>
+    /// <param name="farmer">The player.</param>
+    /// <returns>A percentage between 0 and 1.</returns>
+    float GetDesperadoOvercharge(Farmer? farmer = null);
 
     #region tresure hunts
 

@@ -53,8 +53,7 @@ internal sealed class GenericObjectMachinePatches : DaLion.Common.Harmony.Harmon
     #region harmony patches
 
     /// <summary>Patch to apply Artisan effects to automated generic machines.</summary>
-    [HarmonyTranspiler]
-    [HarmonyAfter("DaLion.ImmersiveTweaks")]
+    [HarmonyTranspiler, HarmonyAfter("DaLion.ImmersiveTweaks")]
     private static IEnumerable<CodeInstruction>? GenericObjectMachineTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

@@ -15,7 +15,6 @@ using Framework.Events;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI.Utilities;
 using System;
-using System.Collections.Generic;
 
 #endregion using directives
 
@@ -45,9 +44,6 @@ public class ModEntry : Mod
     internal static ILuckSkillAPI? LuckSkillApi { get; set; }
     internal static ICookingSkillAPI? CookingSkillApi { get; set; }
 
-    /// <remarks><see cref="ISkill"/> is used instead of <see cref="CustomSkill"/> because the dictionary must also cache <see cref="LuckSkill"/> which does not use SpaceCore.</remarks>
-    internal static Dictionary<string, ISkill> CustomSkills { get; set; } = new();
-    internal static Dictionary<int, CustomProfession> CustomProfessions { get; set; } = new();
     internal static Lazy<HudPointer> Pointer { get; } = new(() => new());
 
     internal static IModHelper ModHelper => Instance.Helper;

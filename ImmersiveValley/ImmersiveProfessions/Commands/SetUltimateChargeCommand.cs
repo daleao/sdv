@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Professions.Commands;
+﻿using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+
+namespace DaLion.Stardew.Professions.Commands;
 
 #region using directives
 
@@ -17,7 +19,7 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
         : base(handler) { }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "ready_ult", "rdy" };
+    public override string[] Triggers { get; } = { "ready_ult", "rdy", "set_charge", "charge" };
 
     /// <inheritdoc />
     public override string Documentation => "Max-out the player's Special Ability charge, or set it to the specified percentage.";
@@ -38,15 +40,18 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
                 ultimate.ChargeValue = ultimate.MaxValue;
                 return;
             case > 1:
-                Log.W("Too many arguments. Specify a single value between 0 and 100.");
-                return;
+                Log.W("Additional arguments will be ignored.");
+                break;
         }
 
         if (!int.TryParse(args[0], out var value) || value is < 0 or > 100)
         {
-            Log.W("Bad arguments. Specify an integer value between 0 and 100.");
+            Log.W("Bad argument. Specify an integer value between 0 and 100.");
             return;
         }
+
+        if (ultimate.CanActivate && value < ultimate.MaxValue)
+            ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
 
         ultimate.ChargeValue = (double)value * ultimate.MaxValue / 100d;
     }

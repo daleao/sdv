@@ -4,7 +4,6 @@
 
 using Common.Events;
 using StardewModdingAPI.Events;
-using Utility;
 
 #endregion using directives
 
@@ -29,27 +28,27 @@ internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
         if (ModEntry.LuckSkillApi is not null)
         {
             var luckSkill = new LuckSkill(ModEntry.LuckSkillApi);
-            ModEntry.CustomSkills["spacechase0.LuckSkill"] = luckSkill;
+            CustomSkill.LoadedSkills["spacechase0.LuckSkill"] = luckSkill;
             foreach (var profession in luckSkill.Professions)
-                ModEntry.CustomProfessions[profession.Id] = (CustomProfession)profession;
+                CustomProfession.LoadedProfessions[profession.Id] = (CustomProfession)profession;
         }
 
         // get remaining SpaceCore skills
         foreach (var skillId in ModEntry.SpaceCoreApi!.GetCustomSkills())
         {
             var customSkill = new CustomSkill(skillId, ModEntry.SpaceCoreApi);
-            ModEntry.CustomSkills[skillId] = customSkill;
+            CustomSkill.LoadedSkills[skillId] = customSkill;
             foreach (var profession in customSkill.Professions)
-                ModEntry.CustomProfessions[profession.Id] = (CustomProfession)profession;
+                CustomProfession.LoadedProfessions[profession.Id] = (CustomProfession)profession;
         }
 
         // revalidate custom skill levels
-        foreach (var skill in ModEntry.CustomSkills.Values)
+        foreach (var skill in CustomSkill.LoadedSkills.Values)
         {
             var currentExp = skill.CurrentExp;
-            if (currentExp > Experience.VANILLA_CAP_I)
+            if (currentExp > ISkill.VANILLA_EXP_CAP_I)
                 ModEntry.SpaceCoreApi.AddExperienceForCustomSkill(Game1.player, skill.StringId,
-                    Experience.VANILLA_CAP_I - currentExp);
+                    ISkill.VANILLA_EXP_CAP_I - currentExp);
         }
     }
 }

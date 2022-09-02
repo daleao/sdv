@@ -1,6 +1,10 @@
-﻿using System;
+﻿namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
-namespace DaLion.Stardew.Professions.Framework.Ultimates;
+#region using directives
+
+using System;
+
+#endregion using directives
 
 /// <summary>Interface for Ultimate abilities.</summary>
 public interface IUltimate : IDisposable

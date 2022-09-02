@@ -192,7 +192,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
 
     private static object? ChooseProfessionPair(object skillInstance, string skillId, int currentLevel)
     {
-        if (currentLevel is not (5 or 10) || !ModEntry.CustomSkills.TryGetValue(skillId, out var skill)) return null;
+        if (currentLevel is not (5 or 10) || !CustomSkill.LoadedSkills.TryGetValue(skillId, out var skill)) return null;
 
         var professionPairs = ExtendedSpaceCoreAPI.GetProfessionsForLevels.Value(skillInstance).Cast<object>().ToList();
         var levelFivePair = professionPairs[0];
@@ -209,7 +209,7 @@ internal sealed class SkillLevelUpMenuUpdatePatch : DaLion.Common.Harmony.Harmon
     }
 
     private static bool ShouldSuppressClick(int hovered, int currentLevel) =>
-        ModEntry.CustomProfessions.TryGetValue(hovered, out var profession) &&
+        CustomProfession.LoadedProfessions.TryGetValue(hovered, out var profession) &&
                (currentLevel == 5 && Game1.player.HasAllProfessionsBranchingFrom(profession) ||
                currentLevel == 10 && Game1.player.HasProfession(profession));
 

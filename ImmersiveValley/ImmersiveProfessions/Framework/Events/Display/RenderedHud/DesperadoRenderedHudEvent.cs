@@ -28,7 +28,7 @@ internal sealed class DesperadoRenderedHudEvent : RenderedHudEvent
         if (lastUser.CurrentTool is not Slingshot slingshot || !lastUser.usingSlingshot ||
             lastUser.get_Ultimate() is DeathBlossom { IsActive: true }) return;
 
-        var overcharge = slingshot.GetDesperadoOvercharge(Game1.player);
+        var overcharge = slingshot.GetOvercharge(Game1.player);
         if (overcharge <= 0f) return;
 
         e.SpriteBatch.Draw(Game1.mouseCursors,

@@ -35,9 +35,7 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
     #region harmony patches
 
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and Ultimate.</summary>
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.High)]
-    [HarmonyBefore("DaLion.ImmersiveProfessions")]
+    [HarmonyPrefix, HarmonyPriority(Priority.High), HarmonyBefore("DaLion.ImmersiveProfessions")]
     private static bool SlingshotPerformFirePrefix(Slingshot __instance, ref int? __state, ref bool ___canPlaySound, GameLocation location, Farmer who)
     {
         try
@@ -45,10 +43,10 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
             __state = __instance.attachments[0]?.Stack;
             if (__instance.get_IsOnSpecial()) return false; // don't run original logic
 
-            var hasQuincyEnchantment = __instance.hasEnchantmentOfType<QuincyEnchantment>();
-            if (ModEntry.ProfessionsApi is not null && (__instance.attachments[0] is not null || hasQuincyEnchantment))
+            if (ModEntry.ProfessionsApi is not null && who.professions.Contains(Farmer.scout))
                 return true; // hand over to Immersive Professions
-
+            
+            var hasQuincyEnchantment = __instance.hasEnchantmentOfType<QuincyEnchantment>();
             if (__instance.attachments[0] is null && !hasQuincyEnchantment && !who.IsSteppingOnSnow())
             {
                 Game1.showRedMessage(Game1.content.LoadString("Strings\\StringsFromCSFiles:Slingshot.cs.14254"));
@@ -68,7 +66,9 @@ internal sealed class SlingshotPerformFirePatch : Common.Harmony.HarmonyPatch
                 (15 + Game1.random.Next(4, 6)) * (1f + who.weaponSpeedModifier));
 
             var ammo = __instance.attachments[0]?.getOne();
-            if (ammo is not null && --__instance.attachments[0].Stack <= 0)
+            if (ammo is not null &&
+                (!__instance.hasEnchantmentOfType<PreservingEnchantment>() || Game1.random.NextDouble() > 0.5 + who.DailyLuck / 2 + who.LuckLevel * 0.01) &&
+                --__instance.attachments[0].Stack <= 0)
                 __instance.attachments[0] = null;
 
             var damageBase = ammo?.ParentSheetIndex switch

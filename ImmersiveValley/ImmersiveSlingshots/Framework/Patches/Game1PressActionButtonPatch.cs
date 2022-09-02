@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Common.Attributes;
 using Extensions;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -9,7 +10,7 @@ using VirtualProperties;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, Deprecated]
 internal sealed class Game1PressActionButtonPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>

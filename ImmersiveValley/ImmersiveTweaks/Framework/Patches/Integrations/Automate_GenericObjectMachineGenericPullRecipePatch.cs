@@ -49,8 +49,7 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
     #region harmony patches
 
     /// <summary>Replaces large egg output quality with quantity + add flower memory to automated kegs.</summary>
-    [HarmonyTranspiler]
-    [HarmonyBefore("DaLion.ImmersiveProfessions")]
+    [HarmonyTranspiler, HarmonyBefore("DaLion.ImmersiveProfessions")]
     private static IEnumerable<CodeInstruction>? GenericObjectMachineTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
@@ -98,8 +97,7 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
 
     private static void GenericMachineSubroutine(SObject machine, Item sample)
     {
-        if (!machine.name.IsIn("Keg", "Cheese Press", "Mayonnaise Machine") || machine.heldObject.Value is null ||
-            sample is not SObject input) return;
+        if (machine.heldObject.Value is null || sample is not SObject input) return;
 
         var output = machine.heldObject.Value;
         switch (machine.name)
@@ -111,15 +109,15 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
                 output.preservedParentSheetIndex.Value = input.preservedParentSheetIndex.Value;
                 output.Price = input.Price * 2;
                 break;
-            case "Cheese Press" or "Mayonnaise Machine" when
-                ModEntry.Config.LargeProducsYieldQuantityOverQuality:
+            default:
+                if (ModEntry.Config.LargeProducsYieldQuantityOverQuality)
                 {
-                    if (input.Name.ContainsAnyOf("Large", "L."))
+                    if (input.Category is SObject.EggCategory or SObject.MilkCategory && input.Name.ContainsAnyOf("Large", "L."))
                     {
                         output.Stack = 2;
                         output.Quality = SObject.lowQuality;
                     }
-                    else if (machine.name == "Mayonnaise Machine")
+                    else if (input.ParentSheetIndex is 289 or 928 && machine.name == "Mayonnaise Machine")
                     {
                         switch (input.ParentSheetIndex)
                         {
@@ -136,8 +134,9 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
                         }
                     }
 
-                    break;
                 }
+
+                break;
         }
     }
 

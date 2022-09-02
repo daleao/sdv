@@ -38,8 +38,8 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
             string name;
             if (Profession.TryFromValue(pid > 100 ? pid - 100 : pid, out var profession))
                 name = profession.StringId + (pid > 100 ? " (P)" : Empty);
-            else if (ModEntry.CustomProfessions.ContainsKey(pid))
-                name = ModEntry.CustomProfessions[pid].StringId;
+            else if (CustomProfession.LoadedProfessions.ContainsKey(pid))
+                name = CustomProfession.LoadedProfessions[pid].StringId;
             else
                 name = $"Unknown profession {pid}";
 

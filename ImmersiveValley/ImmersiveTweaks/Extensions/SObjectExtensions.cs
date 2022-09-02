@@ -46,4 +46,8 @@ public static class SObjectExtensions
             _ => SObject.lowQuality
         };
     }
+
+    /// <summary>Whether a given object is an artisan good.</summary>
+    public static bool IsArtisanGood(this SObject @object) =>
+        @object.Category is SObject.artisanGoodsCategory or SObject.syrupCategory || @object.ParentSheetIndex == 395; // exception for coffee
 }

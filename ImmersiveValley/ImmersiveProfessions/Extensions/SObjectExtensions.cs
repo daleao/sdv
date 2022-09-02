@@ -20,7 +20,7 @@ public static class SObjectExtensions
     public static bool IsArtisanGood(this SObject @object) =>
         @object.Category is SObject.artisanGoodsCategory or SObject.syrupCategory || @object.ParentSheetIndex == 395; // exception for coffee
 
-    /// <summary>Whether a given object is an artisan good.</summary>
+    /// <summary>Whether a given object is an artisan machine.</summary>
     public static bool IsArtisanMachine(this SObject @object) => ObjectLookups.ArtisanMachines.Contains(@object.name);
 
     /// <summary>Whether a given object is an animal produce or derived artisan good.</summary>

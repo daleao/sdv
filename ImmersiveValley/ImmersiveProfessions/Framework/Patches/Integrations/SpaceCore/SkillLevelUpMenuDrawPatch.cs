@@ -88,8 +88,8 @@ internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyP
             currentLevel > 10) return;
 
         var professionsToChoose = _GetProfessionsToChoose.Value(menu);
-        if (!ModEntry.CustomProfessions.TryGetValue(professionsToChoose[0], out var leftProfession) ||
-            !ModEntry.CustomProfessions.TryGetValue(professionsToChoose[1], out var rightProfession)) return;
+        if (!CustomProfession.LoadedProfessions.TryGetValue(professionsToChoose[0], out var leftProfession) ||
+            !CustomProfession.LoadedProfessions.TryGetValue(professionsToChoose[1], out var rightProfession)) return;
 
         Rectangle selectionArea;
         if (Game1.player.HasProfession(leftProfession) &&

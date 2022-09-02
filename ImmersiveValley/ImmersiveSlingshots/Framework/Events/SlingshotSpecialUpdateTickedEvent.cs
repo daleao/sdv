@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Common.Attributes;
 using Common.Enums;
 using Common.Events;
 using Common.Exceptions;
@@ -12,7 +13,7 @@ using VirtualProperties;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, Deprecated]
 internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
 {
     private static int _currentFrame = -1, _animationFrames;
