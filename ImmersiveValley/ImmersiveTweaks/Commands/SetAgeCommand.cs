@@ -6,6 +6,7 @@ using Common;
 using Common.Commands;
 using Common.Extensions.Stardew;
 using Extensions;
+using LinqFasterer;
 using StardewValley.TerrainFeatures;
 using System.Linq;
 
@@ -35,8 +36,8 @@ internal sealed class SetAgeCommand : ConsoleCommand
             return;
         }
 
-        var all = args.Any(a => a is "-a" or "--all");
-        if (all) args = args.Except(new[] { "-a", "--all" }).ToArray();
+        var all = args.AnyF(a => a is "-a" or "--all");
+        if (all) args = args.ExceptF(new[] { "-a", "--all" }).ToArrayF();
 
         bool clear = false;
         if (args[1].ToLowerInvariant() is ("clear" or "null"))
@@ -134,15 +135,15 @@ internal sealed class SetAgeCommand : ConsoleCommand
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} [--all / -a] <target type> <age>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.FirstF()} [--all / -a] <target type> <age>";
         result += "\n\nParameters:";
         result += "\n\t- <target type>\t- one of 'tree', 'beehive' or 'mushroombox'";
         result += "\n\nOptional flags:";
         result +=
             "\n\t--all, -a\t- set the age of all instances of the specified type, instead of just the nearest one.";
         result += "\n\nExamples:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} hive 112";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} -a tree 224";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.FirstF()} hive 112";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.FirstF()} -a tree 224";
         return result;
     }
 }

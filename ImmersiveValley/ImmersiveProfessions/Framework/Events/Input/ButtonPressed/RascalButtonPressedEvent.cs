@@ -24,8 +24,8 @@ internal sealed class RascalButtonPressedEvent : ButtonPressedEvent
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
         var player = Game1.player;
-        if (player.CurrentTool is not Slingshot || !player.CanMove || player.canOnlyWalk ||
-            player.isRidingHorse() || player.onBridge.Value || player.usingSlingshot) return;
+        if (Game1.activeClickableMenu is not null || player.CurrentTool is not Slingshot || !player.CanMove ||
+            player.canOnlyWalk || player.isRidingHorse() || player.onBridge.Value || player.usingSlingshot) return;
 
         if (e.Button.IsActionButton())
         {

@@ -51,7 +51,7 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
                     addedCritChance += 0.1f;
                     break;
                 case Constants.JADE_RING_INDEX_I:
-                    addedCritPower += ModEntry.Config.RebalancedRings ? 0.3f : 0.1f;
+                    addedCritPower += ModEntry.Config.RebalancedRings ? 0.5f : 0.1f;
                     break;
                 case Constants.EMERALD_RING_INDEX_I:
                     addedSwingSpeed += 0.1f;
@@ -74,41 +74,34 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             addedKnockback + addedDefense + cdr > 0;
         if (!hasGems) return false; // don't run original logic
 
-        if (iridiumBand.IsResonant(out var resonance))
+        foreach (var resonance in iridiumBand.CheckResonances())
             switch (resonance)
             {
                 case Constants.RUBY_RING_INDEX_I:
-                    addedDamage += 0.04f;
+                    addedDamage += 0.01f * resonance.Magnitude;
                     break;
-                case Constants.AQUAMARINE_INDEX_I:
-                    addedCritChance += 0.04f;
+                case Constants.AQUAMARINE_RING_INDEX_I:
+                    addedCritChance += 0.01f * resonance.Magnitude;
                     break;
                 case Constants.JADE_RING_INDEX_I:
-                    addedCritPower += 0.12f;
+                    addedCritPower += 0.05f * resonance.Magnitude;
                     break;
                 case Constants.EMERALD_RING_INDEX_I:
-                    addedSwingSpeed += 0.04f;
+                    addedSwingSpeed += 0.01f * resonance.Magnitude;
                     break;
                 case Constants.AMETHYST_RING_INDEX_I:
-                    addedKnockback += 0.04f;
+                    addedKnockback += 0.01f * resonance.Magnitude;
                     break;
                 case Constants.TOPAZ_RING_INDEX_I:
-                    if (ModEntry.Config.RebalancedRings) addedDefense += 1;
-                    else addedPrecision += 0.04f;
+                    if (ModEntry.Config.RebalancedRings) addedDefense += (int)(0.5 * resonance.Magnitude);
+                    else addedPrecision += 0.01f * resonance.Magnitude;
                     break;
                 default:
                     if (resonance != ModEntry.GarnetRingIndex) break;
 
-                    cdr += 0.04f;
+                    cdr += 0.01f * resonance.Magnitude;
                     break;
             }
-
-        if (resonance is not null)
-        {
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, resonance.DisplayName, font, new(x + 16, y + 16 + 4), Color.DarkRed,
-                1f, -1f, 2, 2);
-            y += (int)font.MeasureString("T").Y;
-        }
 
         // write description
         var descriptionWidth = _GetDescriptionWidth.Value(__instance);
@@ -118,6 +111,7 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         y += (int)font.MeasureString(Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth)).Y;
 
         Color co;
+        var maxWidth = 0;
 
         // write bonus damage
         if (addedDamage > 0)
@@ -126,8 +120,11 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(120, 428, 10, 10), Color.White,
                 0f, Vector2.Zero, 4f, false, 1f);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, ModEntry.i18n.Get("ui.itemhover.damage", new { amount }), font,
-                new(x + 68, y + 28), co * 0.9f * alpha);
+
+            var text = ModEntry.i18n.Get("ui.itemhover.damage", new { amount });
+            var width = font.MeasureString(text).X;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -138,8 +135,11 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount),
-                font, new(x + 68, y + 28), co * 0.9f * alpha);
+
+            var text = Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount);
+            var width = font.MeasureString(text).X;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -150,9 +150,11 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(40, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch,
-                Game1.content.LoadString("Strings\\UI:ItemHover_CritChanceBonus", amount), font, new(x + 68, y + 28),
-                co * 0.9f * alpha);
+
+            var text = Game1.content.LoadString("Strings\\UI:ItemHover_CritChanceBonus", amount);
+            var width = font.MeasureString(text).X;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -162,10 +164,12 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             var amount = $"{addedCritPower:p0}";
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 16, y + 16 + 4),
-                new Rectangle(160, 428, 10, 10), Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch,
-                Game1.content.LoadString("Strings\\UI:ItemHover_CritPowerBonus", amount), font,
-                new(x + 16 + 44, y + 16 + 12), co * 0.9f * alpha);
+                new(160, 428, 10, 10), Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+
+            var text = Game1.content.LoadString("Strings\\UI:ItemHover_CritPowerBonus", amount);
+            var width = font.MeasureString(text).X;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 16 + 44, y + 16 + 12), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -176,8 +180,11 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(110, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, ModEntry.i18n.Get("ui.itemhover.precision", new { amount }), font,
-                new(x + 68, y + 28), co * 0.9f * alpha);
+
+            var text = ModEntry.i18n.Get("ui.itemhover.precision", new { amount });
+            var width = font.MeasureString(text).X;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -188,8 +195,11 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(130, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, Game1.content.LoadString("Strings\\UI:ItemHover_Speed", amount),
-                font, new(x + 68, y + 28), co * 0.9f * alpha);
+
+            var text = Game1.content.LoadString("Strings\\UI:ItemHover_Speed", amount);
+            var width = font.MeasureString(text).X;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -200,9 +210,11 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(150, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, ModEntry.i18n.Get("ui.itemhover.cdr", new { amount }), font,
-                new(x + 68, y + 28),
-                co * 0.9f * alpha);
+
+            var text = ModEntry.i18n.Get("ui.itemhover.cdr", new { amount });
+            var width = font.MeasureString(text).X;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -212,12 +224,15 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(110, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch,
-                Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", addedDefense.ToString()), font, new(x + 68, y + 28),
-                co * 0.9f * alpha);
+
+            var text = Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", addedDefense);
+            var width = font.MeasureString(text).X;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
+        RingGetExtraSpaceNeededForTooltipSpecialIconsPatch.MaxWidth = maxWidth;
         return false; // don't run original logic
     }
 

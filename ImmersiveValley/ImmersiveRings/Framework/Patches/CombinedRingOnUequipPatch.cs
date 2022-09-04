@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Common.Extensions.Collections;
 using Extensions;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -23,7 +24,7 @@ internal sealed class CombinedRingOnUnequipPatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void CombinedRingOnUnequipPostfix(CombinedRing __instance, Farmer who)
     {
-        if (__instance.IsResonant(out var resonance)) resonance.OnUnequip(who);
+        __instance.CheckResonances().ForEach(r => r.OnUnequip(who));
     }
 
     #endregion harmony patches

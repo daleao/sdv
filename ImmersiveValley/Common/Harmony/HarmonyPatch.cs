@@ -4,8 +4,8 @@
 
 using Extensions.Reflection;
 using HarmonyLib;
+using LinqFasterer;
 using System;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -74,18 +74,18 @@ internal abstract class HarmonyPatch : IHarmonyPatch
         var methods = GetType().GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
 
         // identify patch methods by custom Harmony annotations and create Harmony Method instances
-        var prefix = methods.FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyPrefix), false).Length > 0)
+        var prefix = methods.FirstOrDefaultF(m => m.GetCustomAttributes(typeof(HarmonyPrefix), false).Length > 0)
             .ToHarmonyMethod();
-        var postfix = methods.FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyPostfix), false).Length > 0)
+        var postfix = methods.FirstOrDefaultF(m => m.GetCustomAttributes(typeof(HarmonyPostfix), false).Length > 0)
             .ToHarmonyMethod();
         var transpiler = methods
-            .FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyTranspiler), false).Length > 0)
+            .FirstOrDefaultF(m => m.GetCustomAttributes(typeof(HarmonyTranspiler), false).Length > 0)
             .ToHarmonyMethod();
         var finalizer = methods
-            .FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyFinalizer), false).Length > 0)
+            .FirstOrDefaultF(m => m.GetCustomAttributes(typeof(HarmonyFinalizer), false).Length > 0)
             .ToHarmonyMethod();
         var reverse = methods
-            .FirstOrDefault(m => m.GetCustomAttributes(typeof(HarmonyReversePatch), false).Length > 0)
+            .FirstOrDefaultF(m => m.GetCustomAttributes(typeof(HarmonyReversePatch), false).Length > 0)
             .ToHarmonyMethod();
 
         return (prefix, postfix, transpiler, finalizer, reverse);

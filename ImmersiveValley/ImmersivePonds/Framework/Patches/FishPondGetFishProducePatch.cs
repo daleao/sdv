@@ -8,6 +8,7 @@ using Common.Extensions.Collections;
 using Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
 using StardewValley.Menus;
@@ -66,7 +67,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                     if (random.NextDouble() < chance)
                         ++algaeStacks[2];
 
-                if (algaeStacks.Sum() > 0)
+                if (algaeStacks.SumF() > 0)
                 {
                     if (algaeStacks[0] > 0)
                         held.Add(new SObject(Constants.GREEN_ALGAE_INDEX_I, algaeStacks[0]));
@@ -90,7 +91,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
 
                     if (__result is null)
                     {
-                        var max = algaeStacks.ToList().IndexOfMax();
+                        var max = algaeStacks.ToListF().IndexOfMax();
                         __result = max switch
                         {
                             0 => new(Constants.GREEN_ALGAE_INDEX_I, algaeStacks[0]),
@@ -102,7 +103,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                 }
 
                 if (__result is not null) held.Remove(__result);
-                var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},0");
+                var serialized = held.TakeF(36).SelectF(p => $"{p.ParentSheetIndex},{p.Stack},0");
                 __instance.Write("ItemsHeld", string.Join(';', serialized));
                 return false; // don't run original logic
             }
@@ -111,7 +112,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
             var fishPondData = __instance.GetFishPondData();
             if (fishPondData is not null)
             {
-                held.AddRange(from item in fishPondData.ProducedItems.Where(item =>
+                held.AddRange(from item in fishPondData.ProducedItems.WhereF(item =>
                         item.ItemID is not Constants.ROE_INDEX_I or Constants.SQUID_INK_INDEX_I &&
                         __instance.currentOccupants.Value >= item.RequiredPopulation &&
                         random.NextDouble() < StardewValley.Utility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f) &&
@@ -162,8 +163,8 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                 if (familyQualities.Count != 4)
                     ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
 
-                var totalQualities = fishQualities.Zip(familyQualities, (first, second) => first + second).ToList();
-                if (totalQualities.Sum() != __instance.FishCount)
+                var totalQualities = fishQualities.ZipF(familyQualities, (first, second) => first + second).ToListF();
+                if (totalQualities.SumF() != __instance.FishCount)
                     ThrowHelper.ThrowInvalidDataException("Quality data had incorrect number of values.");
 
                 var productionChancePerFish = Utils.GetRoeChance(fish.Price, __instance.FishCount - 1);
@@ -177,7 +178,7 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
                     for (var i = 0; i < 4; ++i)
                         producedRoes[i] += random.Next(producedRoes[i]);
 
-                if (producedRoes.Sum() > 0)
+                if (producedRoes.SumF() > 0)
                 {
                     var roeIndex = fish.Name.Contains("Squid") ? Constants.SQUID_INK_INDEX_I : Constants.ROE_INDEX_I;
                     for (var i = 0; i < 4; ++i)
@@ -213,11 +214,11 @@ internal sealed class FishPondGetFishProducePatch : Common.Harmony.HarmonyPatch
 
             // choose output
             StardewValley.Utility.consolidateStacks(held);
-            __result = held.OrderByDescending(h => h.salePrice()).First() as SObject;
+            __result = held.OrderByDescendingF(h => h.salePrice()).FirstF() as SObject;
             held.Remove(__result!);
             if (held.Count > 0)
             {
-                var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},{((SObject)p).Quality}");
+                var serialized = held.TakeF(36).SelectF(p => $"{p.ParentSheetIndex},{p.Stack},{((SObject)p).Quality}");
                 __instance.Write("ItemsHeld", string.Join(';', serialized));
             }
             else

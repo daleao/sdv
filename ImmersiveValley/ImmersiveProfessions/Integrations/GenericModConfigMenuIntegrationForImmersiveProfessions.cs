@@ -1,5 +1,3 @@
-using DaLion.Stardew.Professions.Framework;
-
 namespace DaLion.Stardew.Professions.Integrations;
 
 #region using directives
@@ -7,6 +5,7 @@ namespace DaLion.Stardew.Professions.Integrations;
 using Common.Extensions.Collections;
 using Common.Extensions.SMAPI;
 using Common.Integrations.GenericModConfigMenu;
+using Framework;
 using StardewValley.Buildings;
 using System;
 using System.Linq;

@@ -5,9 +5,9 @@
 using Common;
 using Common.Commands;
 using Framework;
+using LinqFasterer;
 using StardewValley.Tools;
 using System;
-using System.Linq;
 
 #endregion using directives
 
@@ -62,14 +62,14 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
     /// <summary>Tell the dummies how to use the console command.</summary>
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} <level>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.FirstOrDefaultF()} <level>";
         result += "\n\nParameters:";
         result += "\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'";
         if (ModEntry.IsMoonMisadventuresLoaded)
             result += ", 'radioactive', 'mythicite'";
 
         result += "\n\nExample:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} iridium";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.FirstF()} iridium";
         return result;
     }
 }

@@ -3,10 +3,10 @@
 #region using directives
 
 using Common.Events;
+using LinqFasterer;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
 using System;
-using System.Linq;
 
 #endregion using directives
 
@@ -27,7 +27,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
     {
         if (Game1.currentLocation is not MineShaft) return;
 
-        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == _buffId);
+        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefaultF(p => p.which == _buffId);
         if (buff is not null) return;
 
         var bonusLadderChance = (ModEntry.State.SpelunkerLadderStreak * 0.5f).ToString("0.0");

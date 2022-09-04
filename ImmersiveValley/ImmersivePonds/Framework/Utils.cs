@@ -10,7 +10,7 @@ using System.Collections.Generic;
 internal static class Utils
 {
     /// <summary>Dictionary of extended family pair by legendary fish id.</summary>
-    internal static readonly Dictionary<int, int> ExtendedFamilyPairs = new()
+    internal static readonly IReadOnlyDictionary<int, int> ExtendedFamilyPairs = new Dictionary<int, int>()
     {
         { Constants.CRIMSONFISH_INDEX_I, Constants.SON_OF_CRIMSONFISH_INDEX_I },
         { Constants.ANGLER_INDEX_I, Constants.MS_ANGLER_INDEX_I },

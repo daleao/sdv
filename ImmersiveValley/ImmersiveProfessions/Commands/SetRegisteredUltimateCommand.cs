@@ -8,8 +8,8 @@ using Extensions;
 using Framework;
 using Framework.Ultimates;
 using Framework.VirtualProperties;
+using LinqFasterer;
 using System;
-using System.Linq;
 
 #endregion using directives
 
@@ -36,7 +36,7 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
             return;
         }
 
-        if (!Game1.player.professions.Any(p => p is >= 26 and < 30))
+        if (!Game1.player.professions.AnyF(p => p is >= 26 and < 30))
         {
             Log.W("You don't have any 2nd-tier combat professions.");
             return;

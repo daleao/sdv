@@ -2,32 +2,25 @@
 
 #region using directives
 
+using LinqFasterer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 #endregion using directives
 
 /// <summary>Extensions for generic lists of objects.</summary>
 public static class ListExtensions
 {
-    /// <inheritdoc cref="List{T}.AddRange"/>
-    /// <param name="items">The elements to be added.</param>
-    public static void AddRange<T>(this List<T> list, params T[] items)
-    {
-        list.AddRange(items);
-    }
-
     /// <summary>Find the index of the highest-valued item in the list.</summary>
     public static int IndexOfMax<T>(this IList<T> list) where T : IComparable
     {
-        return list.IndexOf(list.Max()!);
+        return list.IndexOf(list.MaxF()!);
     }
 
     /// <summary>Find the index of the lowest-valued item in the list.</summary>
     public static int IndexOfMin<T>(this IList<T> list) where T : IComparable
     {
-        return list.IndexOf(list.Min()!);
+        return list.IndexOf(list.MinF()!);
     }
 
     /// <summary>Move the item at position <paramref name="oldIndex"/> to position <paramref name="newIndex"/>.</summary>
@@ -65,7 +58,7 @@ public static class ListExtensions
     /// <returns><see langword="true"/> if a matching item was moved, otherwise <see langword="false"/>.</returns>
     public static bool Move<T>(this IList<T> list, Func<T, bool> predicate, int newIndex)
     {
-        var toBeMoved = list.FirstOrDefault(predicate);
+        var toBeMoved = list.FirstOrDefaultF(predicate);
         return toBeMoved is not null && list.Move(toBeMoved, newIndex);
     }
 

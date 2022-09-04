@@ -2,8 +2,8 @@
 
 #region using directives
 
+using LinqFasterer;
 using System;
-using System.Linq;
 
 #endregion using directives
 
@@ -42,7 +42,7 @@ public static class FarmerExtensions
     {
         var animationId = ModEntry.ModHelper.Reflection.GetField<int>(who.FarmerSprite, "currentSingleAnimation")
             .GetValue();
-        if (animationIds.Any(id => id == animationId))
+        if (animationIds.AnyF(id => id == animationId))
         {
             who.completelyStopAnimatingOrDoingAction();
             who.forceCanMove();

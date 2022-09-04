@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿namespace DaLion.Stardew.Tweex;
 
-namespace DaLion.Stardew.Tweex;
+#region using directives
+
+using System.Collections.Generic;
+
+#endregion using directives
 
 /// <summary>The mod user-defined settings.</summary>
 public class ModConfig

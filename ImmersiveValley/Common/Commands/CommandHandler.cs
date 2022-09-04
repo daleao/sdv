@@ -4,6 +4,7 @@
 
 using Extensions.Collections;
 using HarmonyLib;
+using LinqFasterer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,8 +36,8 @@ internal class CommandHandler
         Log.D("[CommandHandler]: Gathering commands...");
         var commandTypes = AccessTools
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IConsoleCommand)))
-            .Where(t => t.IsAssignableTo(typeof(IConsoleCommand)) && !t.IsAbstract)
-            .ToArray();
+            .WhereF(t => t.IsAssignableTo(typeof(IConsoleCommand)) && !t.IsAbstract)
+            .ToArrayF();
 
         Log.D($"[CommandHandler]: Found {commandTypes.Length} command classes. Initializing commands...");
         foreach (var c in commandTypes)
@@ -113,7 +114,7 @@ internal class CommandHandler
                                 string.Equals(args[1], "doc", StringComparison.InvariantCultureIgnoreCase)))
         {
             Log.I(
-                $"{handled.Documentation}\n\nAliases: {string.Join(',', handled.Triggers.Skip(1).Select(t => "`" + t + "`"))}");
+                $"{handled.Documentation}\n\nAliases: {string.Join(',', handled.Triggers.SkipF(1).SelectF(t => "`" + t + "`"))}");
             return;
         }
 
@@ -123,6 +124,6 @@ internal class CommandHandler
             return;
         }
 
-        handled.Callback(args.Skip(1).ToArray());
+        handled.Callback(args.SkipF(1).ToArrayF());
     }
 }

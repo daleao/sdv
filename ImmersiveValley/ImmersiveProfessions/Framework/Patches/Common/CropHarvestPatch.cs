@@ -8,10 +8,10 @@ using DaLion.Common.Harmony;
 using DaLion.Common.ModData;
 using Extensions;
 using HarmonyLib;
+using LinqFasterer;
 using StardewValley.Characters;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -69,7 +69,7 @@ internal sealed class CropHarvestPatch : DaLion.Common.Harmony.HarmonyPatch
         // this particular method is too edgy for Harmony's AccessTools, so we use some old-fashioned reflection trickery to find this particular overload of FarmerExtensions.IncrementData<T>
         var mi = typeof(ModDataIO)
                      .GetMethods()
-                     .FirstOrDefault(mi => mi.Name.Contains(nameof(ModDataIO.Increment)) && mi.GetParameters().Length == 3)?
+                     .FirstOrDefaultF(mi => mi.Name.Contains(nameof(ModDataIO.Increment)) && mi.GetParameters().Length == 3)?
                      .MakeGenericMethod(typeof(uint)) ?? ThrowHelper.ThrowMissingMethodException<MethodInfo>("Increment method not found.");
 
         var dontIncreaseEcologistCounter = generator.DefineLabel();

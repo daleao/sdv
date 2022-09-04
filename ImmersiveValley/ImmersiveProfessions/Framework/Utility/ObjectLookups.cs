@@ -10,7 +10,7 @@ using System.Linq;
 internal static class ObjectLookups
 {
     /// <summary>Look-up table for what resource should spawn from a given stone.</summary>
-    internal static Dictionary<int, int> ResourceFromStoneId { get; } = new()
+    internal static readonly IReadOnlyDictionary<int, int> ResourceFromStoneId = new Dictionary<int, int>()
     {
         // stone
         { 668, 390 },
@@ -53,7 +53,7 @@ internal static class ObjectLookups
     };
 
     /// <summary>Look-up table for trappable treasure items using magnet.</summary>
-    internal static Dictionary<int, string[]> TrapperPirateTreasureTable { get; } = new()
+    internal static readonly IReadOnlyDictionary<int, string[]> TrapperPirateTreasureTable = new Dictionary<int, string[]>()
     {
         { 14, new[] { "0.003", "1", "1" } }, // neptune's glaive
         { 51, new[] { "0.003", "1", "1" } }, // broken trident
@@ -161,7 +161,7 @@ internal static class ObjectLookups
     };
 
     /// <summary>Dictionary of extended family pair by legendary fish id.</summary>
-    internal static readonly Dictionary<int, int> ExtendedFamilyPairs = new()
+    internal static readonly IReadOnlyDictionary<int, int> ExtendedFamilyPairs = new Dictionary<int, int>()
     {
         { 898, 159 },
         { 899, 160 },

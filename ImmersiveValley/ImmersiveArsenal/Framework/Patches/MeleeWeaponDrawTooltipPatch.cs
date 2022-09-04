@@ -5,11 +5,11 @@
 using Common.Extensions.Reflection;
 using Enchantments;
 using HarmonyLib;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Tools;
 using System;
-using System.Linq;
 
 #endregion using directives
 
@@ -33,6 +33,7 @@ internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
         ref int y, SpriteFont font, float alpha)
     {
         return true;
+
         // write description
         var descriptionWidth = _GetDescriptionWidth.Value(__instance);
         Utility.drawTextWithShadow(spriteBatch,
@@ -170,7 +171,7 @@ internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
 
         co = new(120, 0, 210);
         // write other enchantments
-        foreach (var enchantment in __instance.enchantments.Where(enchantment => enchantment.ShouldBeDisplayed()))
+        foreach (var enchantment in __instance.enchantments.WhereF(enchantment => enchantment.ShouldBeDisplayed()))
         {
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors2, new(x + 20, y + 20), new(127, 35, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);

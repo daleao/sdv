@@ -5,6 +5,7 @@
 using Ardalis.SmartEnum;
 using Common.Extensions.Stardew;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 #endregion using directives
 
@@ -12,15 +13,44 @@ public class Resonance : SmartEnum<Resonance>
 {
     #region enum entries
 
-    public static readonly Resonance Ruby = new("Ruby", Constants.RUBY_RING_INDEX_I);
+    public static readonly Resonance Amethyst = new("Amethyst", Constants.AMETHYST_RING_INDEX_I);
+    public static readonly Resonance Topaz = new("Topaz", Constants.TOPAZ_RING_INDEX_I);
     public static readonly Resonance Aquamarine = new("Aquamarine", Constants.AQUAMARINE_RING_INDEX_I);
     public static readonly Resonance Jade = new("Jade", Constants.JADE_RING_INDEX_I);
     public static readonly Resonance Emerald = new("Emerald", Constants.EMERALD_RING_INDEX_I);
-    public static readonly Resonance Amethyst = new("Amethyst", Constants.AMETHYST_RING_INDEX_I);
-    public static readonly Resonance Topaz = new("Topaz", Constants.TOPAZ_RING_INDEX_I);
+    public static readonly Resonance Ruby = new("Ruby", Constants.RUBY_RING_INDEX_I);
     public static readonly Resonance Garnet = new("Garnet", ModEntry.GarnetRingIndex);
 
     #endregion enum entries
+
+    #region look-up tables
+
+    /// <summary>Gemstone pairs that produce a constructive resonance.</summary>
+    private static readonly IReadOnlyDictionary<Resonance, Resonance> _pairs = new Dictionary<Resonance, Resonance>()
+    {
+        { Amethyst, Topaz },
+        { Topaz, Amethyst },
+        { Aquamarine, Jade },
+        { Jade, Aquamarine },
+        { Emerald, Ruby },
+        { Ruby, Emerald },
+        { Garnet, Garnet }
+    };
+
+    /// <summary>Gemstone pairs that produce a dampening effect.</summary>
+    private static readonly IReadOnlyDictionary<Resonance, Resonance> _antipairs = new Dictionary<Resonance, Resonance>()
+    {
+        { Amethyst, Jade },
+        { Topaz, Emerald },
+        { Aquamarine, Ruby },
+        { Jade, Amethyst },
+        { Emerald, Topaz },
+        { Ruby, Aquamarine }
+    };
+
+    #endregion look-up tables
+
+    private int? _lightSourceId;
 
     /// <summary>Construct an instance.</summary>
     /// <param name="name">The gemstone name.</param>
@@ -33,6 +63,9 @@ public class Resonance : SmartEnum<Resonance>
     /// <summary>Get the localized name for this resonance.</summary>
     public string DisplayName { get; }
 
+    /// <summary>Get the resonance intensity.</summary>
+    public int Magnitude { get; set; }
+
     /// <summary>Get the corresponding gemstone color.</summary>
     public Color Color => Utils.ColorByGemstone[Utils.GemstoneByRing[Value]];
 
@@ -40,30 +73,50 @@ public class Resonance : SmartEnum<Resonance>
     /// <param name="who">The farmer.</param>
     public void OnEquip(Farmer who)
     {
+        var location = who.currentLocation;
+        if (_lightSourceId.HasValue)
+        {
+            location.removeLightSource(_lightSourceId.Value);
+            _lightSourceId = null;
+        }
+
+        _lightSourceId = ModEntry.Manifest.UniqueID.GetHashCode() + (int)who.UniqueMultiplayerID + Value;
+        while (location.sharedLights.ContainsKey(_lightSourceId!.Value)) ++_lightSourceId;
+
+        location.sharedLights[_lightSourceId.Value] = new(1, new(who.Position.X + 21f, who.Position.Y + 64f),
+            2.5f * Magnitude, Color, _lightSourceId.Value, LightSource.LightContext.None, who.UniqueMultiplayerID);
+
         switch (Value)
         {
             case Constants.RUBY_RING_INDEX_I:
-                who.attackIncreaseModifier += 0.04f;
+                who.attackIncreaseModifier += 0.01f * Magnitude;
                 break;
-            case Constants.AQUAMARINE_INDEX_I:
-                who.critChanceModifier += 0.04f;
+            case Constants.AQUAMARINE_RING_INDEX_I:
+                who.critChanceModifier += 0.01f * Magnitude;
                 break;
             case Constants.JADE_RING_INDEX_I:
-                who.critPowerModifier += 0.12f;
+                who.critPowerModifier += 0.05f * Magnitude;
                 break;
             case Constants.EMERALD_RING_INDEX_I:
-                who.weaponSpeedModifier += 0.04f;
+                who.weaponSpeedModifier += 0.01f * Magnitude;
                 break;
             case Constants.AMETHYST_RING_INDEX_I:
-                who.knockbackModifier += 0.04f;
+                who.knockbackModifier += 0.01f * Magnitude;
                 break;
             case Constants.TOPAZ_RING_INDEX_I:
-                if (ModEntry.Config.RebalancedRings) who.resilience += 1;
-                else who.weaponPrecisionModifier += 0.04f;
+                if (ModEntry.Config.RebalancedRings)
+                {
+                    who.resilience += (int)(0.5 * Magnitude);
+                    who.immunity += Magnitude;
+                }
+                else
+                {
+                    who.weaponPrecisionModifier += 0.01f * Magnitude;
+                }
                 break;
             default:
                 if (Value == ModEntry.GarnetRingIndex)
-                    who.Increment("CooldownReduction", 0.04f);
+                    who.Increment("CooldownReduction", 0.01f * Magnitude);
 
                 break;
         }
@@ -76,29 +129,66 @@ public class Resonance : SmartEnum<Resonance>
         switch (Value)
         {
             case Constants.RUBY_RING_INDEX_I:
-                who.attackIncreaseModifier -= 0.04f;
+                who.attackIncreaseModifier -= 0.01f * Magnitude;
                 break;
-            case Constants.AQUAMARINE_INDEX_I:
-                who.critChanceModifier -= 0.04f;
+            case Constants.AQUAMARINE_RING_INDEX_I:
+                who.critChanceModifier -= 0.01f * Magnitude;
                 break;
             case Constants.JADE_RING_INDEX_I:
-                who.critPowerModifier -= 0.12f;
+                who.critPowerModifier -= 0.05f * Magnitude;
                 break;
             case Constants.EMERALD_RING_INDEX_I:
-                who.weaponSpeedModifier -= 0.04f;
+                who.weaponSpeedModifier -= 0.01f * Magnitude;
                 break;
             case Constants.AMETHYST_RING_INDEX_I:
-                who.knockbackModifier -= 0.04f;
+                who.knockbackModifier -= 0.01f;
                 break;
             case Constants.TOPAZ_RING_INDEX_I:
-                if (ModEntry.Config.RebalancedRings) who.resilience += 1;
-                else who.weaponPrecisionModifier -= 0.04f;
+                if (ModEntry.Config.RebalancedRings)
+                {
+                    who.resilience -= (int)(0.5 * Magnitude);
+                    who.immunity -= Magnitude;
+                }
+                else
+                {
+                    who.weaponPrecisionModifier -= 0.01f * Magnitude;
+                }
                 break;
             default:
                 if (Value == ModEntry.GarnetRingIndex)
-                    who.Increment("CooldownReduction", -0.04f);
+                    who.Increment("CooldownReduction", -0.01f * Magnitude);
 
                 break;
         }
+    }
+
+    /// <summary>Get the corresponding resonant pair.</summary>
+    public Resonance GetPair() => _pairs[this];
+
+    /// <summary>Get the corresponding dampening pair.</summary>
+    public Resonance? GetAntipair() => _antipairs.TryGetValue(this, out var anti) ? anti : null;
+
+    public static Resonance operator +(Resonance resonance, int magnitude)
+    {
+        resonance.Magnitude += magnitude;
+        return resonance;
+    }
+
+    public static Resonance operator ++(Resonance resonance)
+    {
+        ++resonance.Magnitude;
+        return resonance;
+    }
+
+    public static Resonance operator -(Resonance resonance, int magnitude)
+    {
+        resonance.Magnitude -= magnitude;
+        return resonance;
+    }
+
+    public static Resonance operator --(Resonance resonance)
+    {
+        --resonance.Magnitude;
+        return resonance;
     }
 }

@@ -4,6 +4,7 @@
 
 using Common.Classes;
 using HarmonyLib;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
@@ -28,7 +29,7 @@ internal sealed class GameLocationExplodePatch : Common.Harmony.HarmonyPatch
         if (!ModEntry.Config.ExplosionTriggeredBombs) return;
 
         var circle = new CircleTileGrid(tileLocation, radius * 2);
-        foreach (var sprite in __instance.TemporarySprites.Where(sprite =>
+        foreach (var sprite in __instance.TemporarySprites.WhereF(sprite =>
                      sprite.bombRadius > 0 && circle.Tiles.Contains(sprite.Position / 64f)))
             sprite.currentNumberOfLoops = Math.Max(sprite.totalNumberOfLoops - 1, sprite.currentNumberOfLoops);
     }

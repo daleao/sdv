@@ -3,16 +3,17 @@
 #region using directives
 
 using DaLion.Common;
+using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Xna;
 using Events.GameLoop;
 using Extensions;
 using HarmonyLib;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 using System;
-using System.Linq;
 using System.Reflection;
 using Ultimates;
 using VirtualProperties;
@@ -45,12 +46,10 @@ internal sealed class SlingshotPerformFirePatch : DaLion.Common.Harmony.HarmonyP
             var usingPrimaryAmmo = ModEntry.State.UsingPrimaryAmmo;
             var usingSecondaryAmmo = ModEntry.State.UsingSecondaryAmmo;
             var ammoIndex = usingPrimaryAmmo ? 0 : 1;
-            var hasQuincyEnchantment = __instance.enchantments.FirstOrDefault(e =>
-                e.GetType().FullName?.Contains("ImmersiveSlingshots") == true &&
-                e.GetType().FullName?.Contains("QuincyEnchantment") == true) is not null;
-            var hasPreservingEnchantment = __instance.enchantments.FirstOrDefault(e =>
-                e.GetType().FullName?.Contains("ImmersiveSlingshots") == true &&
-                e.GetType().FullName?.Contains("PreservingEnchantment") == true) is not null;
+            var hasQuincyEnchantment = __instance.enchantments.FirstOrDefaultF(e =>
+                e.GetType().FullName?.ContainsAllOf("ImmersiveSlingshots", "QuincyEnchantment") == true) is not null;
+            var hasPreservingEnchantment = __instance.enchantments.FirstOrDefaultF(e =>
+                e.GetType().FullName?.ContainsAllOf("ImmersiveSlingshots", "PreservingEnchantment") == true) is not null;
             if (__instance.attachments[ammoIndex] is null && !hasQuincyEnchantment)
             {
                 Game1.showRedMessage(Game1.content.LoadString("Strings\\StringsFromCSFiles:Slingshot.cs.14254"));

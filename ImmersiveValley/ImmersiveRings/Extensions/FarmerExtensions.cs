@@ -2,9 +2,9 @@
 
 #region using directives
 
+using LinqFasterer;
 using StardewValley.Objects;
 using System.Collections.Generic;
-using System.Linq;
 
 #endregion using directives
 
@@ -17,7 +17,7 @@ public static class FarmerExtensions
     public static int GetRingItemCount(this Farmer farmer, int index, IList<Item>? list = null)
     {
         list ??= farmer.Items;
-        return list.Count(item => item is Ring && item.ParentSheetIndex == index);
+        return list.CountF(item => item is Ring && item.ParentSheetIndex == index);
     }
 
     /// <summary>Remove a specified ring from the farmer's inventory.</summary>

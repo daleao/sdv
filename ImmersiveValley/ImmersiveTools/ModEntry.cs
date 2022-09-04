@@ -10,8 +10,8 @@ using Configs;
 using Framework;
 using Framework.Events;
 using HarmonyLib;
+using LinqFasterer;
 using StardewModdingAPI.Utilities;
-using System.Linq;
 
 #endregion using directives
 
@@ -68,12 +68,12 @@ public class ModEntry : Mod
             Config.AxeConfig.RadiusAtEachPowerLevel = new[] { 1, 2, 3, 4, 5 };
             if (IsMoonMisadventuresLoaded) Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
         }
-        else if (Config.AxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
+        else if (Config.AxeConfig.RadiusAtEachPowerLevel.AnyF(i => i < 0))
         {
             Log.W(
                 "Illegal negative value for shockwave radius in AxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with ones.");
             Config.AxeConfig.RadiusAtEachPowerLevel =
-                Config.AxeConfig.RadiusAtEachPowerLevel.Select(i => i < 0 ? 0 : i).ToArray();
+                Config.AxeConfig.RadiusAtEachPowerLevel.SelectF(i => i < 0 ? 0 : i).ToArrayF();
         }
 
         if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Length < 5)
@@ -82,15 +82,15 @@ public class ModEntry : Mod
             Config.PickaxeConfig.RadiusAtEachPowerLevel = new[] { 1, 2, 3, 4, 5 };
             if (IsMoonMisadventuresLoaded) Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
         }
-        else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
+        else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.AnyF(i => i < 0))
         {
             Log.W(
                 "Illegal negative value for shockwave radius in PickaxeConfig.RadiusAtEachPowerLevel. Those values will be replaced with zero.");
             Config.PickaxeConfig.RadiusAtEachPowerLevel =
-                Config.PickaxeConfig.RadiusAtEachPowerLevel.Select(i => i < 0 ? 0 : i).ToArray();
+                Config.PickaxeConfig.RadiusAtEachPowerLevel.SelectF(i => i < 0 ? 0 : i).ToArrayF();
         }
 
-        if (Config.HoeConfig.AffectedTiles.Length < 5 || Config.HoeConfig.AffectedTiles.Any(row => row.Length != 2))
+        if (Config.HoeConfig.AffectedTiles.Length < 5 || Config.HoeConfig.AffectedTiles.AnyF(row => row.Length != 2))
         {
             Log.W("Incorrect or missing values in HoeConfig.AffectedTiles. The default values will be restored.");
             Config.HoeConfig.AffectedTiles = new[]
@@ -108,7 +108,7 @@ public class ModEntry : Mod
                     new[] {9, 4}
                 });
         }
-        else if (Config.HoeConfig.AffectedTiles.Any(row => row.Any(i => i < 0)))
+        else if (Config.HoeConfig.AffectedTiles.AnyF(row => row.AnyF(i => i < 0)))
         {
             Log.W(
                 "Illegal negative value for affected tile radius or length in HoeConfig.AffectedTiles. Those values will be replaced with zero.");
@@ -117,7 +117,7 @@ public class ModEntry : Mod
                     if (row[i] < 0) row[i] = 0;
         }
 
-        if (Config.WateringCanConfig.AffectedTiles.Length < 5 || Config.WateringCanConfig.AffectedTiles.Any(row => row.Length != 2))
+        if (Config.WateringCanConfig.AffectedTiles.Length < 5 || Config.WateringCanConfig.AffectedTiles.AnyF(row => row.Length != 2))
         {
             Log.W("Incorrect or missing values in WateringCanConfig.AffectedTiles. The default values will be restored.");
             Config.WateringCanConfig.AffectedTiles = new[]
@@ -135,7 +135,7 @@ public class ModEntry : Mod
                     new[] {9, 4}
                 });
         }
-        else if (Config.WateringCanConfig.AffectedTiles.Any(row => row.Any(i => i < 0)))
+        else if (Config.WateringCanConfig.AffectedTiles.AnyF(row => row.AnyF(i => i < 0)))
         {
             Log.W(
                 "Illegal negative value for affected tile radius or length in WateringCanConfig.AffectedTiles. Those values will be replaced with zero.");
@@ -175,7 +175,7 @@ public class ModEntry : Mod
 
                 case > 7:
                     Log.W("Too many values in AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.");
-                    Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(7).ToArray();
+                    Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.TakeF(7).ToArrayF();
                     break;
             }
 
@@ -190,7 +190,7 @@ public class ModEntry : Mod
                 case > 7:
                     Log.W("Too many values in PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.");
                     Config.PickaxeConfig.RadiusAtEachPowerLevel =
-                        Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(7).ToArray();
+                        Config.PickaxeConfig.RadiusAtEachPowerLevel.TakeF(7).ToArrayF();
                     break;
             }
 
@@ -208,7 +208,7 @@ public class ModEntry : Mod
                 case > 7:
                     Log.W("Too many values in HoeConfig.AffectedTiles. Additional values will be removed.");
                     Config.HoeConfig.AffectedTiles =
-                        Config.HoeConfig.AffectedTiles.Take(7).ToArray();
+                        Config.HoeConfig.AffectedTiles.TakeF(7).ToArrayF();
                     break;
             }
 
@@ -227,7 +227,7 @@ public class ModEntry : Mod
                 case > 7:
                     Log.W("Too many values in WateringCanConfig.AffectedTiles. Additional values will be removed.");
                     Config.WateringCanConfig.AffectedTiles =
-                        Config.WateringCanConfig.AffectedTiles.Take(7).ToArray();
+                        Config.WateringCanConfig.AffectedTiles.TakeF(7).ToArrayF();
                     break;
             }
         }
@@ -236,28 +236,28 @@ public class ModEntry : Mod
             if (Config.AxeConfig.RadiusAtEachPowerLevel.Length > 5)
             {
                 Log.W("Too many values in AxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.");
-                Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.Take(5).ToArray();
+                Config.AxeConfig.RadiusAtEachPowerLevel = Config.AxeConfig.RadiusAtEachPowerLevel.TakeF(5).ToArrayF();
             }
 
             if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Length > 5)
             {
                 Log.W("Too many values in PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.");
                 Config.PickaxeConfig.RadiusAtEachPowerLevel =
-                    Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(5).ToArray();
+                    Config.PickaxeConfig.RadiusAtEachPowerLevel.TakeF(5).ToArrayF();
             }
 
             if (Config.HoeConfig.AffectedTiles.Length > 5)
             {
                 Log.W("Too many values in HoeConfig.AffectedTiles. Additional values will be removed.");
                 Config.HoeConfig.AffectedTiles =
-                    Config.HoeConfig.AffectedTiles.Take(7).ToArray();
+                    Config.HoeConfig.AffectedTiles.TakeF(7).ToArrayF();
             }
 
             if (Config.WateringCanConfig.AffectedTiles.Length > 5)
             {
                 Log.W("Too many values in WateringCanConfig.AffectedTiles. Additional values will be removed.");
                 Config.WateringCanConfig.AffectedTiles =
-                    Config.WateringCanConfig.AffectedTiles.Take(7).ToArray();
+                    Config.WateringCanConfig.AffectedTiles.TakeF(7).ToArrayF();
             }
         }
 

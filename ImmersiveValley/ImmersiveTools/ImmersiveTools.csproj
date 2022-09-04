@@ -6,7 +6,7 @@
 		<AssemblyName>ImmersiveTools</AssemblyName>
 		<RootNamespace>DaLion.Stardew.Tools</RootNamespace>
 		<UpdateKeys>Nexus:7965"</UpdateKeys>
-		<Version>4.1.1</Version>
+		<Version>4.1.2</Version>
 	</PropertyGroup>
 
 	<PropertyGroup>

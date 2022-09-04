@@ -9,6 +9,7 @@ using Common.Extensions.Reflection;
 using Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
 using System;
@@ -61,7 +62,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPa
 
             var fishQualities = pond.Read("FishQualities",
                 $"{pond.FishCount - pond.Read<int>("FamilyLivingHere") + 1},0,0,0").ParseList<int>(); // already reduced at this point, so consider + 1
-            if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > pond.FishCount + 1))
+            if (fishQualities.Count != 4 || fishQualities.AnyF(q => 0 > q || q > pond.FishCount + 1))
                 ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
 
             var lowestFish = fishQualities.FindIndex(i => i > 0);
@@ -70,13 +71,13 @@ internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPa
             if (pond.HasLegendaryFish())
             {
                 var familyCount = pond.Read<int>("FamilyLivingHere");
-                if (fishQualities.Sum() + familyCount != pond.FishCount + 1)
+                if (fishQualities.SumF() + familyCount != pond.FishCount + 1)
                     ThrowHelper.ThrowInvalidDataException("FamilyLivingHere data is invalid.");
 
                 if (familyCount > 0)
                 {
                     var familyQualities = pond.Read("FamilyQualities", $"{familyCount},0,0,0").ParseList<int>();
-                    if (familyQualities.Count != 4 || familyQualities.Sum() != familyCount)
+                    if (familyQualities.Count != 4 || familyQualities.SumF() != familyCount)
                         ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
 
                     var lowestFamily = familyQualities.FindIndex(i => i > 0);
@@ -109,7 +110,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : Common.Harmony.HarmonyPa
             }
             else
             {
-                if (fishQualities.Sum() != pond.FishCount + 1)
+                if (fishQualities.SumF() != pond.FishCount + 1)
                     ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
 
                 _SetFishItem(info, new SObject(pond.fishType.Value, 1, quality: lowestFish == 3 ? 4 : lowestFish));

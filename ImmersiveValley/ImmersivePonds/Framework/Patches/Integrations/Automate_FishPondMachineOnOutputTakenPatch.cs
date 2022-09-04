@@ -8,12 +8,12 @@ using Common.Extensions;
 using Common.Extensions.Reflection;
 using Common.Extensions.Stardew;
 using HarmonyLib;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using System;
-using System.Linq;
 using System.Reflection;
 
 #endregion using directives
@@ -50,7 +50,7 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
             }
             else
             {
-                var next = produce.First()!;
+                var next = produce.FirstF()!;
                 var (index, stack, quality) = next.ParseTuple<int, int, int>()!.Value;
                 StardewValley.Object o;
                 if (index == 812) // roe

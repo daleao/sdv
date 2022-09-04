@@ -6,9 +6,9 @@ using DaLion.Common;
 using DaLion.Common.Harmony;
 using Extensions;
 using HarmonyLib;
+using LinqFasterer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -49,7 +49,7 @@ internal sealed class Game1DrawHUDPatch : DaLion.Common.Harmony.HarmonyPatch
                    new CodeInstruction(OpCodes.Ret)
                )
                .AddWithLabels( // add back a new return statement
-                   labels.Take(2).Concat(leave).ToArray(), // exclude the labels defined after the profession check
+                   labels.TakeF(2).ConcatF(leave).ToArrayF(), // exclude the labels defined after the profession check
                    new CodeInstruction(OpCodes.Ret)
                );
         }

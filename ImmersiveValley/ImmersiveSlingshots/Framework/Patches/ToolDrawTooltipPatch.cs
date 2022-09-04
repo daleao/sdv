@@ -4,11 +4,12 @@
 
 using Common.Extensions.Reflection;
 using HarmonyLib;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Tools;
 using System;
-using System.Linq;
+using System.Text;
 
 #endregion using directives
 
@@ -29,17 +30,13 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
     /// <summary>Draw Slingshot enchantment effects in tooltip.</summary>
     [HarmonyPrefix]
     private static bool ToolDrawTooltipPrefix(Tool __instance, SpriteBatch spriteBatch, ref int x, ref int y,
-        SpriteFont font, float alpha)
+        SpriteFont font, float alpha, StringBuilder? overrideText)
     {
         if (__instance is not Slingshot slingshot || slingshot.enchantments.Count <= 0)
             return true; // run original logic
 
         // write description
-        var descriptionWidth = _GetDescriptionWidth.Value(__instance);
-        Utility.drawTextWithShadow(spriteBatch,
-            Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth), font, new(x + 16, y + 20),
-            Game1.textColor);
-        y += (int)font.MeasureString(Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth)).Y;
+        ItemDrawItemtipPatch.ItemDrawTooltipReverse(__instance, spriteBatch, ref x, ref y, font, alpha, overrideText);
 
         Color co;
         // write bonus damage
@@ -107,10 +104,10 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // write bonus cooldown reduction
-        var garnetEnchantments = __instance.enchantments.Where(e => e.GetType().Name.Contains("GarnetEnchantment")).ToArray();
+        var garnetEnchantments = __instance.enchantments.WhereF(e => e.GetType().Name.Contains("GarnetEnchantment")).ToArrayF();
         if (garnetEnchantments.Length > 0)
         {
-            var amount = $"{garnetEnchantments.Sum(e => e.GetLevel()) * 0.1f:p0}";
+            var amount = $"{garnetEnchantments.SumF(e => e.GetLevel()) * 0.1f:p0}";
             co = new(0, 120, 120);
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(150, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
@@ -147,7 +144,7 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
 
         // write other enchantments
         co = new(120, 0, 210);
-        foreach (var enchantment in __instance.enchantments.Where(enchantment => enchantment.ShouldBeDisplayed()))
+        foreach (var enchantment in __instance.enchantments.WhereF(enchantment => enchantment.ShouldBeDisplayed()))
         {
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors2, new(x + 20, y + 20), new(127, 35, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);

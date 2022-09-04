@@ -7,6 +7,7 @@ using Common.Multiplayer;
 using Events.Display;
 using Events.GameLoop;
 using Extensions;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley.Locations;
@@ -274,10 +275,10 @@ internal sealed class ScavengerHunt : TreasureHunt
                         if (possibles.Count == 0 || random.NextDouble() < 0.4) possibles.Add(390); // stone
 
                         possibles.Add(382); // coal
-                        treasures.Add(new SObject(possibles.ElementAt(random.Next(possibles.Count)),
+                        treasures.Add(new SObject(possibles.ElementAtF(random.Next(possibles.Count)),
                             random.Next(2, 7) *
                             (!(random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.015) ? 1 : 2)));
-                        if (random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03) treasures.Last().Stack *= 2;
+                        if (random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03) treasures.LastF().Stack *= 2;
 
                         break;
                     }

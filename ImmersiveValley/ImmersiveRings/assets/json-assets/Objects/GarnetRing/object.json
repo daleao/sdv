@@ -7,12 +7,12 @@
         "ResultCount": 1,
         "Ingredients": [
             {
-                "Object": 336,
-                "Count": 5
-            },
-            {
                 "Object": "Garnet",
                 "Count": 1
+            },
+			{
+                "Object": 336,
+                "Count": 5
             }
         ],
         "CanPurchase": false,

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using LinqFasterer;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,7 +41,7 @@ public interface ISkill
     IDictionary<int, ProfessionPair> ProfessionPairs { get; }
 
     /// <summary>Integer ids used in-game to track professions acquired by the player.</summary>
-    IEnumerable<int> ProfessionIds => Professions.Select(p => p.Id);
+    IEnumerable<int> ProfessionIds => Professions.SelectF(p => p.Id);
 
     /// <summary>Subset of <see cref="ProfessionIds"/> containing only the level five profession ids.</summary>
     /// <remarks>Should always contain exactly 2 elements.</remarks>

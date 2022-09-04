@@ -3,14 +3,15 @@
 #region using directives
 
 using Common.Events;
+using Common.Extensions;
 using Display;
 using Extensions;
+using LinqFasterer;
 using Microsoft.Xna.Framework.Audio;
 using Sounds;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 using System;
-using System.Linq;
 
 #endregion using directives
 
@@ -25,10 +26,15 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnEnabled()
     {
-        var hasQuincyEnchantment = Game1.player.CurrentTool.enchantments.FirstOrDefault(e =>
-            e.GetType().FullName?.Contains("Slingshots") == true &&
-            e.GetType().FullName?.Contains("QuincyEnchantment") == true) is not null;
-        if (Game1.player.CurrentTool.attachments[0] is null && !hasQuincyEnchantment)
+        if (Game1.player.CurrentTool is not Slingshot slinghsot)
+        {
+            Disable();
+            return;
+        }
+
+        var hasQuincyEnchantment = slinghsot.enchantments.FirstOrDefaultF(e =>
+            e.GetType().FullName?.ContainsAllOf("ImmersiveSlingshots", "QuincyEnchantment") == true) is not null;
+        if ((slinghsot.attachments.Count == 0 || slinghsot.attachments[0] is null) && !hasQuincyEnchantment)
         {
             Disable();
             return;

@@ -6,6 +6,7 @@ using Common;
 using Common.Events;
 using Extensions;
 using GameLoop;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
@@ -121,7 +122,7 @@ internal sealed class PiperWarpedEvent : WarpedEvent
 
         Log.D($"Spawned {pipedCount} Slimes after {raisedSlimes.Length} attempts.");
 
-        if (pipedCount > 0 || e.NewLocation.characters.Any(npc => npc is GreenSlime))
+        if (pipedCount > 0 || e.NewLocation.characters.AnyF(npc => npc is GreenSlime))
             Manager.Enable<PiperUpdateTickedEvent>();
     }
 }

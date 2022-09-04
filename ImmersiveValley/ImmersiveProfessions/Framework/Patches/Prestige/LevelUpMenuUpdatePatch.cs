@@ -1,6 +1,4 @@
-﻿using DaLion.Stardew.Professions.Framework.VirtualProperties;
-
-namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches.Prestige;
 
 #region using directives
 
@@ -11,15 +9,16 @@ using DaLion.Common.Harmony;
 using Events.GameLoop;
 using Extensions;
 using HarmonyLib;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using Ultimates;
+using VirtualProperties;
 using CollectionExtensions = DaLion.Common.Extensions.Collections.CollectionExtensions;
 using Localization = Utility.Localization;
 
@@ -349,8 +348,8 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
             : $" does not yet have all professions in the {skill} skill."));
         if (hasAllProfessions) return true;
 
-        var missingProfessions = Game1.player.GetMissingProfessionsInSkill(skill);
-        var missingProfessionNames = string.Join(',', missingProfessions.Select(p => p.GetDisplayName()));
+        var missingProfessionNames = string.Join(',',
+            Game1.player.GetMissingProfessionsInSkill(skill).SelectF(p => p.GetDisplayName()));
         Log.D($"Missing professions: {missingProfessionNames}");
         return false;
     }

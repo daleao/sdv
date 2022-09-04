@@ -7,6 +7,7 @@ using Common.Commands;
 using Common.Extensions;
 using Extensions;
 using Framework;
+using LinqFasterer;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
@@ -38,8 +39,8 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
             return;
         }
 
-        var prestige = args.Any(a => a is "-p" or "-prestiged");
-        if (prestige) args = args.Except(new[] { "-p", "-prestiged" }).ToArray();
+        var prestige = args.AnyF(a => a is "-p" or "-prestiged");
+        if (prestige) args = args.ExceptF(new[] { "-p", "-prestiged" }).ToArrayF();
 
         List<int> professionsToAdd = new();
         foreach (var arg in args)
@@ -98,7 +99,7 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
         }
 
         LevelUpMenu levelUpMenu = new();
-        foreach (var pid in professionsToAdd.Distinct().Except(Game1.player.professions))
+        foreach (var pid in professionsToAdd.DistinctF().ExceptF(Game1.player.professions))
         {
             Game1.player.professions.Add(pid);
             levelUpMenu.getImmediateProfessionPerk(pid);
@@ -109,15 +110,15 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} [--prestige / -p] <profession1> <profession2> ... <professionN>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.FirstF()} [--prestige / -p] <profession1> <profession2> ... <professionN>";
         result += "\n\nParameters:";
         result += "\n\t- <profession>\t- a valid profession name, or `all`";
         result += "\n\nOptional flags:";
         result +=
             "\n\t-prestige, -p\t- add the prestiged versions of the specified professions (base versions will be added automatically if needed)";
         result += "\n\nExamples:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} artisan brute";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} -p all";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.FirstF()} artisan brute";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.FirstF()} -p all";
         return result;
     }
 }

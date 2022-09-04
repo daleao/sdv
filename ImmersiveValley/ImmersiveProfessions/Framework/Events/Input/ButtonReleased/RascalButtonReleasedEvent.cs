@@ -22,7 +22,8 @@ internal sealed class RascalButtonReleasedEvent : ButtonReleasedEvent
     protected override void OnButtonReleasedImpl(object? sender, ButtonReleasedEventArgs e)
     {
         var player = Game1.player;
-        if (player.CurrentTool is not Slingshot slingshot || !player.usingSlingshot) return;
+        if (Game1.activeClickableMenu is not null || player.CurrentTool is not Slingshot slingshot ||
+            !player.usingSlingshot) return;
 
         if (e.Button.IsActionButton())
         {

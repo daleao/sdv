@@ -2,6 +2,7 @@
 
 #region using directives
 
+using LinqFasterer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,25 @@ public static class CollectionExtensions
     /// <summary>Determine if a collection contains any of the objects in a sequence.</summary>
     /// <param name="candidates">The objects to search for.</param>
     public static bool ContainsAnyOf<T>(this ICollection<T> collection, params T[] candidates) =>
-        candidates.Any(collection.Contains);
+        candidates.AnyF(collection.Contains);
 
     /// <summary>Determine if a collection contains any of the objects in a sequence.</summary>
     /// <param name="candidates">The objects to search for.</param>
     public static bool ContainsAnyOf<T>(this ICollection<T> collection, IEnumerable<T> candidates) =>
         candidates.Any(collection.Contains);
 
-    /// <summary>Determine if a collection contains any instance of the given types.</summary>
-    /// <param name="types">The types to search for.</param>
+    /// <summary>Determine if a collection contains all of the objects in a sequence.</summary>
+    /// <param name="candidates">The objects to search for.</param>
+    public static bool ContainsAllOf<T>(this ICollection<T> collection, params T[] candidates) =>
+        candidates.AllF(collection.Contains);
+
+    /// <summary>Determine if a collection contains all of the objects in a sequence.</summary>
+    /// <param name="candidates">The objects to search for.</param>
+    public static bool ContainsAllOf<T>(this ICollection<T> collection, IEnumerable<T> candidates) =>
+        candidates.All(collection.Contains);
+
+    /// <summary>Determine if a collection contains any instance of the given type.</summary>
+    /// <param name="type">The type to search for.</param>
     public static bool ContainsType<T>(this ICollection<T> collection, Type type) =>
         collection.Any(item => item is not null && item.GetType() == type);
 

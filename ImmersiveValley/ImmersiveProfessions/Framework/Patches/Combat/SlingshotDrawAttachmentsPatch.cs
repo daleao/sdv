@@ -2,7 +2,6 @@
 
 #region using directives
 
-using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

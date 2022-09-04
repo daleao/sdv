@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Common;
-using Extensions;
 using HarmonyLib;
 using StardewValley.Tools;
 using System;

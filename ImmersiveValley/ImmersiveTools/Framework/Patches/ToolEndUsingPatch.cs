@@ -3,8 +3,8 @@
 #region using directives
 
 using HarmonyLib;
+using LinqFasterer;
 using StardewValley.Tools;
-using System.Linq;
 
 #endregion using directives
 
@@ -31,8 +31,8 @@ internal sealed class ToolEndUsingPatch : Common.Harmony.HarmonyPatch
         var radius = tool switch
 #pragma warning restore CS8509
         {
-            Axe => ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
-            Pickaxe => ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
+            Axe => ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefaultF(power - 1),
+            Pickaxe => ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefaultF(power - 1),
             _ => 1
         };
 

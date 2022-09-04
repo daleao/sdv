@@ -2,9 +2,11 @@
 
 #region using directives
 
+using Common.Extensions;
 using Framework;
 using StardewValley.Objects;
-using System.Diagnostics.CodeAnalysis;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 #endregion using directives
@@ -12,16 +14,76 @@ using System.Linq;
 /// <summary>Extensions for the <see cref="CombinedRing"/> class.</summary>
 public static class CombinedRingExtensions
 {
-    /// <summary>Whether the combined ring is a resonant Iridium Band.</summary>
-    /// <param name="resonance">The resonant gemstone, if any.</param>
-    public static bool IsResonant(this CombinedRing combined, [NotNullWhen(true)] out Resonance? resonance)
+    /// <summary>Check the combined ring for any resonances.</summary>
+    public static IEnumerable<Resonance> CheckResonances(this CombinedRing combined)
     {
-        resonance = null;
-        if (combined.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I || combined.combinedRings.Count != 4 ||
-            combined.combinedRings.Any(r =>
-                r.ParentSheetIndex != combined.combinedRings.First().ParentSheetIndex))
-            return false;
+        var resonances = new Dictionary<int, Resonance>
+        {
+            {Resonance.Amethyst, Resonance.Amethyst},
+            {Resonance.Topaz, Resonance.Topaz},
+            {Resonance.Aquamarine, Resonance.Aquamarine},
+            {Resonance.Jade, Resonance.Jade},
+            {Resonance.Emerald, Resonance.Emerald},
+            {Resonance.Ruby, Resonance.Ruby},
+            {Resonance.Garnet, Resonance.Garnet}
+        };
 
-        return Resonance.TryFromValue(combined.combinedRings.First().ParentSheetIndex, out resonance);
+        if (combined.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I || combined.combinedRings.Count < 2)
+            return Enumerable.Empty<Resonance>();
+
+        var first = combined.combinedRings[0].ParentSheetIndex;
+        var second = combined.combinedRings[1].ParentSheetIndex;
+        if (Resonance.TryFromValue(first, out var r1))
+        {
+            if (first == second)
+            {
+                resonances[r1] += 2;
+            }
+            else if (Resonance.TryFromValue(second, out var r2))
+            {
+                if (r2 == r1.GetPair())
+                {
+                    ++resonances[r1];
+                    ++resonances[r2];
+                }
+                else if (r2 == r1.GetAntipair())
+                {
+                    --resonances[r1];
+                    --resonances[r2];
+                }
+            }
+        }
+
+        if (combined.combinedRings.Count >= 4)
+        {
+            var third = combined.combinedRings[0].ParentSheetIndex;
+            var fourth = combined.combinedRings[1].ParentSheetIndex;
+            if (Resonance.TryFromValue(third, out var r3))
+            {
+                if (third == fourth)
+                {
+                    resonances[r3] += 2;
+                }
+                else if (Resonance.TryFromValue(fourth, out var r4))
+                {
+                    if (r4 == r3.GetPair())
+                    {
+                        ++resonances[r3];
+                        ++resonances[r4];
+                    }
+                    else if (r4 == r3.GetAntipair())
+                    {
+                        --resonances[r3];
+                        --resonances[r4];
+                    }
+                }
+            }
+
+            if (first.Collect(second, third, fourth).Distinct().Count() == 1)
+                resonances[first] += 2;
+
+        }
+
+        return resonances.Values;
     }
 }

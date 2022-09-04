@@ -2,7 +2,6 @@
 
 #region using directives
 
-using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,6 +14,8 @@ using System.Linq;
 [UsedImplicitly]
 internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatch : Common.Harmony.HarmonyPatch
 {
+    internal static int MaxWidth { private get; set; }
+
     /// <summary>Construct an instance.</summary>
     internal RingGetExtraSpaceNeededForTooltipSpecialIconsPatch()
     {
@@ -30,9 +31,9 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatch : Commo
         if (__instance is not CombinedRing { ParentSheetIndex: Constants.IRIDIUM_BAND_INDEX_I } iridiumBand ||
             iridiumBand.combinedRings.Count == 0) return;
 
+        __result.X = Math.Max(__result.X, MaxWidth);
         __result.Y += (int)(Math.Max(font.MeasureString("TT").Y, 48f) *
                              iridiumBand.combinedRings.Select(r => r.ParentSheetIndex).Distinct().Count());
-        if (iridiumBand.IsResonant(out _)) __result.Y += (int)Math.Min(font.MeasureString("TT").Y, 48f);
     }
 
     #endregion harmony patches

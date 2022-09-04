@@ -220,7 +220,7 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 3 => Skill.Fishing,
                 _ => Skill.FromValue(i)
             };
-            var count = Game1.player.GetProfessionsForSkill(skill, true).Count();
+            var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
             if (count == 0) continue;
 
             Rectangle srcRect;
@@ -252,7 +252,7 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
         foreach (var skill in CustomSkill.LoadedSkills.Values)
         {
             position.Y += 56;
-            var count = Game1.player.GetProfessionsForSkill(skill, true).Count();
+            var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
             if (count == 0) continue;
 
             var srcRect = ModEntry.Config.PrestigeProgressionStyle switch

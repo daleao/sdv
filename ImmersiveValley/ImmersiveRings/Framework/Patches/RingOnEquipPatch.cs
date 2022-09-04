@@ -35,8 +35,8 @@ internal sealed class RingOnEquipPatch : Common.Harmony.HarmonyPatch
             case Constants.TOPAZ_RING_INDEX_I: // topaz to give defense
                 who.resilience += 3;
                 return false; // don't run original logic
-            case Constants.JADE_RING_INDEX_I: // jade ring to give +30% crit. power
-                who.critPowerModifier += 0.3f;
+            case Constants.JADE_RING_INDEX_I: // jade ring to give +50% crit. power
+                who.critPowerModifier += 0.5f;
                 return false; // don't run original logic
             case Constants.CRAB_RING_INDEX_I: // crab ring to give +10 defense
                 who.resilience += 10;

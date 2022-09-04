@@ -1,7 +1,10 @@
-﻿namespace DaLion.Common.Extensions;
+﻿using System;
+
+namespace DaLion.Common.Extensions;
 
 #region using directives
 
+using LinqFasterer;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,13 +13,18 @@ using System.Linq;
 /// <summary>Extensions for generic objects.</summary>
 public static class GenericExtensions
 {
-    /// <summary>Determine if the instance is contained by the collection.</summary>
-    /// <param name="items"><typeparamref name="T" /> objects to check.</param>
-    public static bool IsIn<T>(this T item, params T[] items) =>
-        items.Contains(item);
+    /// <summary>Determine if the object is equal to another of the same type.</summary>
+    /// <param name="other">Some other <typeparamref name="T"/> object.</param>
+    public static bool Compare<T>(this T @this, T other) where T : IEquatable<T> =>
+        EqualityComparer<T>.Default.Equals(@this, other);
 
     /// <summary>Determine if the instance is contained by the collection.</summary>
-    /// <param name="collection">A sequence of <typeparamref name="T" /> objects to check.</param>
+    /// <param name="items">A sequence of <typeparamref name="T"/> objects to check.</param>
+    public static bool IsIn<T>(this T item, params T[] items) =>
+        items.ContainsF(item);
+
+    /// <summary>Determine if the instance is contained by the collection.</summary>
+    /// <param name="collection">A sequence of <typeparamref name="T"/> objects to check.</param>
     public static bool IsIn<T>(this T item, IEnumerable<T> collection) =>
         collection.Contains(item);
 

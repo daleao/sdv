@@ -10,7 +10,7 @@ using System.Collections.Generic;
 internal static class Utils
 {
     /// <summary>Get the gemstone of the corresponding ring.</summary>
-    public static readonly Dictionary<int, int> GemstoneByRing = new()
+    public static readonly IReadOnlyDictionary<int, int> GemstoneByRing = new Dictionary<int, int>()
     {
         { Constants.AMETHYST_RING_INDEX_I, Constants.AMETHYST_INDEX_I },
         { Constants.TOPAZ_RING_INDEX_I, Constants.TOPAZ_INDEX_I },
@@ -22,7 +22,7 @@ internal static class Utils
     };
 
     /// <summary>Get the color of the corresponding gemstone.</summary>
-    public static readonly Dictionary<int, Color> ColorByGemstone = new()
+    public static readonly IReadOnlyDictionary<int, Color> ColorByGemstone = new Dictionary<int, Color>()
     {
         { Constants.AMETHYST_RING_INDEX_I, new(111, 60, 196) },
         { Constants.TOPAZ_RING_INDEX_I, new(220, 143, 8) },

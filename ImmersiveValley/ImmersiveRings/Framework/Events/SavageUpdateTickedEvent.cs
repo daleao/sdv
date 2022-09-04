@@ -3,11 +3,11 @@
 #region using directives
 
 using Common.Events;
+using LinqFasterer;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 #endregion using directives
 
@@ -39,7 +39,7 @@ internal sealed class SavageUpdateTickedEvent : UpdateTickedEvent
         var savageness = ModEntry.SavageExcitedness.Value;
         if (savageness <= 0) Disable();
 
-        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == _buffId);
+        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefaultF(p => p.which == _buffId);
         if (buff is not null) return;
 
         Game1.buffsDisplay.addOtherBuff(

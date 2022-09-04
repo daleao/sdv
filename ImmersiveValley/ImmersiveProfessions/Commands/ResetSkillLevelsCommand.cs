@@ -7,6 +7,7 @@ using Common.Commands;
 using Common.Integrations.SpaceCore;
 using Extensions;
 using Framework;
+using LinqFasterer;
 using StardewValley.Menus;
 using System;
 using System.Linq;
@@ -86,7 +87,7 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
                     }
 
                     Game1.player.experiencePoints[skill] = 0;
-                    Game1.player.newLevels.Set(Game1.player.newLevels.Where(p => p.X != skill).ToList());
+                    Game1.player.newLevels.Set(Game1.player.newLevels.WhereF(p => p.X != skill).ToListF());
                     if (ModEntry.Config.ForgetRecipes && skill < Skill.Luck)
                         Game1.player.ForgetRecipesForSkill(skill);
                 }
@@ -105,7 +106,7 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
 
                     var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.Value();
                     ExtendedSpaceCoreAPI.SetCustomSkillNewLevels.Value(newLevels
-                        .Where(pair => pair.Key != customSkill.StringId).ToList());
+                        .WhereF(pair => pair.Key != customSkill.StringId).ToListF());
 
                     if (ModEntry.Config.ForgetRecipes &&
                         customSkill.StringId == "blueberry.LoveOfCooking.CookingSkill")

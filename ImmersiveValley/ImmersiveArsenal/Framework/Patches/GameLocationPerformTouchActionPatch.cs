@@ -6,9 +6,9 @@ using Common;
 using Common.Extensions.Reflection;
 using Common.Harmony;
 using HarmonyLib;
+using LinqFasterer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -89,7 +89,7 @@ internal sealed class GameLocationPerformTouchActionPatch : Common.Harmony.Harmo
 
         if (ModEntry.Config.InfinityPlusOneWeapons)
         {
-            return Game1.player.Items.Any(item =>
+            return Game1.player.Items.AnyF(item =>
                        item?.ParentSheetIndex == Constants.IRIDIUM_BAR_INDEX_I && item.Stack >= 10) &&
                    StardewValley.Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject,
                        Constants.PRISMATIC_SHARD_INDEX_I);

@@ -8,6 +8,7 @@ using Events.GameLoop;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,14 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
                          (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                          !p.isUnderConstruction()))
                 pond.UpdateMaximumOccupancy();
+        else if (profession == Profession.Rascal)
+            StardewValley.Utility.iterateAllItems(item =>
+            {
+                if (item is not Slingshot slingshot || !slingshot.getLastFarmerToUse().IsLocalPlayer) return;
+
+                slingshot.numAttachmentSlots.Value = 2;
+                slingshot.attachments.SetCount(2);
+            });
 
         // subscribe events
         ModEntry.Events.EnableForProfession(profession);
